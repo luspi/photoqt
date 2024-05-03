@@ -48,6 +48,9 @@ PQCPhotoSphere {
         behavior_fov.duration = 50
         behavior_az.duration = 50
         behavior_ele.duration = 50
+
+        if(!PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+            panOnCompleted.start()
     }
 
     source: loader_top.imageSource
@@ -434,5 +437,43 @@ PQCPhotoSphere {
 
     }
 
+
+    // This is a short animation to the right and back
+    // This is used when a photo sphere has been entered to inform the user that there is more to the image than what they can see
+    // The timer below is called from Component.onCompleted above
+
+    SequentialAnimation {
+
+        id: leftrightani
+
+        loops: 1
+
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 180
+            to: 190
+            duration: 500
+            easing.type: Easing.OutCirc
+        }
+
+        NumberAnimation {
+            target: thesphere
+            property: "azimuth"
+            from: 190
+            to: 180
+            duration: 500
+            easing.type: Easing.OutBack
+        }
+
+    }
+
+    Timer {
+        id: panOnCompleted
+        interval: PQCSettings.imageviewAnimationDuration*100
+        onTriggered: {
+            leftrightani.start()
+        }
+    }
 
 }

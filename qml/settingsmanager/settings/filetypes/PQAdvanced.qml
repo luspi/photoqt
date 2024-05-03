@@ -177,6 +177,13 @@ Flickable {
                     enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "use arrow keys for moving around photo spheres")
                     onCheckedChanged: checkDefault()
+                },
+
+                PQCheckBox {
+                    id: ps_pan
+                    enforceMaxWidth: set_sph.rightcol
+                    text: qsTranslate("settingsmanager", "perform short panning animation after loading photo spheres")
+                    onCheckedChanged: checkDefault()
                 }
             ]
 
@@ -196,7 +203,7 @@ Flickable {
         }
 
         settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() ||
-                          ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged())
+                          ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged() || ps_pan.hasChanged())
 
     }
 
@@ -209,6 +216,7 @@ Flickable {
         ps_entering.loadAndSetDefault(PQCSettings.filetypesPhotoSphereAutoLoad ? 0 : (PQCSettings.filetypesPhotoSphereBigButton ? 1 : 2))
         ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
         ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
+        ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
 
         settingChanged = false
         settingsLoaded = true
@@ -225,6 +233,7 @@ Flickable {
         PQCSettings.filetypesPhotoSphereBigButton = ps_entering.currentIndex===1
         PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
         PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
+        PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
@@ -233,6 +242,7 @@ Flickable {
         ps_entering.saveDefault()
         ps_controls.saveDefault()
         ps_arrows.saveDefault()
+        ps_pan.saveDefault()
 
         settingChanged = false
 
