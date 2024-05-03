@@ -76,6 +76,7 @@ PQMenu {
     PQMenuItem {
         iconSource: "image://svg/:/white/convert.svg"
         text: qsTranslate("contextmenu", "Export to different format")
+        enabled: !PQCNotify.showingPhotoSphere
         onTriggered:
             PQCNotify.executeInternalCommand("__export")
     }
@@ -83,6 +84,7 @@ PQMenu {
     PQMenuItem {
         iconSource: "image://svg/:/white/scale.svg"
         text: qsTranslate("contextmenu", "Scale image")
+        enabled: !PQCNotify.showingPhotoSphere
         onTriggered:
             PQCNotify.executeInternalCommand("__scale")
     }
@@ -90,6 +92,7 @@ PQMenu {
     PQMenuItem {
         iconSource: "image://svg/:/white/faces.svg"
         text: qsTranslate("contextmenu", "Tag faces")
+        enabled: !PQCNotify.showingPhotoSphere
         onTriggered:
             PQCNotify.executeInternalCommand("__tagFaces")
     }
@@ -97,6 +100,7 @@ PQMenu {
     PQMenuItem {
         iconSource: "image://svg/:/white/wallpaper.svg"
         text: qsTranslate("contextmenu", "Set as wallpaper")
+        enabled: !PQCNotify.showingPhotoSphere
         onTriggered:
             PQCNotify.executeInternalCommand("__wallpaper")
     }
@@ -113,6 +117,7 @@ PQMenu {
         PQMenuItem {
             text: "Default color profile"
             font.bold: true
+            enabled: !PQCNotify.showingPhotoSphere
             onTriggered: {
                 PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, -1)
                 image.reloadImage()
@@ -127,6 +132,7 @@ PQMenu {
             PQMenuItem {
                 text: iccmenu.availableColorProfiles[index]
                 visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsImages.getColorProfileID(index))>-1
+                enabled: !PQCNotify.showingPhotoSphere
                 onTriggered: {
                     PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, index)
                     image.reloadImage()

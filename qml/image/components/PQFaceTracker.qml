@@ -36,7 +36,7 @@ Item {
 
     anchors.fill: parent
 
-    visible: deleg.itemIndex===PQCFileFolderModel.currentIndex && !PQCNotify.slideshowRunning
+    visible: deleg.itemIndex===PQCFileFolderModel.currentIndex && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere
 
     Repeater {
 
@@ -189,7 +189,7 @@ Item {
     function loadData() {
         repeatermodel.clear()
 
-        if(!PQCSettings.metadataFaceTagsEnabled)
+        if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere)
             return
 
         faceTags = PQCScriptsMetaData.getFaceTags(PQCFileFolderModel.currentFile)
