@@ -139,18 +139,6 @@ Item {
                 }
 
                 PQButtonIcon {
-                    id: remember
-                    checkable: true
-                    checked: PQCSettings.filedialogKeepLastLocation
-                    source: "image://svg/:/white/remember.svg"
-                    tooltip: qsTranslate("filedialog", "Remember last location between sessions")
-                    onClicked:
-                        fd_breadcrumbs.disableAddressEdit()
-                    onCheckedChanged:
-                        PQCSettings.filedialogKeepLastLocation = checked
-                }
-
-                PQButtonIcon {
                     id: settings
                     checkable: true
                     source: "image://svg/:/white/settings.svg"

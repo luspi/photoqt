@@ -144,6 +144,13 @@ PQMenu {
             onCheckedChanged:
                 PQCSettings.filedialogDetailsTooltip = checked
         }
+        PQMenuItem {
+            text: qsTranslate("filedialog", "Remember last location")
+            checkable: true
+            checked: PQCSettings.filedialogKeepLastLocation
+            onCheckedChanged:
+                PQCSettings.filedialogKeepLastLocation = checked
+        }
     }
     PQMenu {
         //: file manager settings popdown: menu title
