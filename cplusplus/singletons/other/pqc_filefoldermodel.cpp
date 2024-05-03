@@ -1011,7 +1011,7 @@ void PQCFileFolderModel::loadDataFileDialog() {
 
 }
 
-QStringList PQCFileFolderModel::getAllFolders(QString folder) {
+QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidden) {
 
     qDebug() << "args: folder =" << folder;
 
@@ -1019,7 +1019,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder) {
 
     const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
     const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
-    const bool showHidden = PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool();
+    const bool showHidden = (PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool() || forceShowHidden);
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(sortReversed)
@@ -1359,7 +1359,7 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
     QString typed = info.fileName();
     QString parent = partial.chopped(typed.length());
 
-    QStringList folders = getAllFolders(parent);
+    QStringList folders = getAllFolders(parent, true);
 
     for(const auto &f : std::as_const(folders)) {
         if(f.sliced(parent.length()).startsWith(typed))

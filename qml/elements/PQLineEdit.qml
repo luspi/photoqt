@@ -60,8 +60,8 @@ Rectangle {
     PQText {
         id: placeholder
         anchors.fill: parent
-        color: PQCLook.textColorDisabled
-        opacity: highlightBG ? 0.5 : 1
+        color: PQCLook.textColor
+        opacity: highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
         font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
         anchors.leftMargin: control.leftPadding
