@@ -32,6 +32,13 @@ MenuItem {
     property bool checkableLikeRadioButton: false
     property bool moveToRightABit: false
 
+    // NOTE
+    // When entry is checkable then by default clicking on an entry WILL NOT call the triggered() signal
+    // Instead the checkedChanged() signal will be emitted and the menu will remain open
+    // If the property below is set to false then both signals will be emitted and the menu will close.
+
+    property bool keepOpenWhenCheckedChanges: true
+
     contentItem:
         Text {
             id: controltxt
@@ -113,7 +120,8 @@ MenuItem {
         onClicked: function(mouse) {
             if(menuItem.checkable) {
                 menuItem.checked = (checkableLikeRadioButton || !menuItem.checked)
-                return
+                if(keepOpenWhenCheckedChanges)
+                    return
             }
             menuItem.triggered()
         }
