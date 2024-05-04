@@ -318,10 +318,7 @@ Rectangle {
                 text: (savetimer.running ? (genericStringSave+" (" + savetimer.countdown + ")") : genericStringSave)
                 font.weight: (savetimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
                 onClicked: {
-                    canceltimer.stop()
-                    savetimer.stop()
-                    newshortcut_top.opacity = 0
-                    settingsmanager_top.passShortcutsToDetector = false
+                    newshortcut_top.hide()
 
                     var combo = ""
                     if(keyComboKey != "") {
@@ -347,10 +344,7 @@ Rectangle {
                 text: (canceltimer.running ? genericStringCancel+" (" + canceltimer.countdown + ")" : genericStringCancel)
                 font.weight: (canceltimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
                 onClicked: {
-                    canceltimer.stop()
-                    savetimer.stop()
-                    newshortcut_top.opacity = 0
-                    settingsmanager_top.passShortcutsToDetector = false
+                    newshortcut_top.hide()
                 }
             }
         }
@@ -378,7 +372,13 @@ Rectangle {
 
     }
 
+    property string backupVisibleItem: ""
     function show(index, subindex) {
+
+        if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) {
+            backupVisibleItem = loader.visibleItem
+            loader.visibleItem = "shortcuts"
+        }
 
         mouseComboMods = []
         mouseComboButton = ""
@@ -396,6 +396,17 @@ Rectangle {
 
         newshortcut_top.currentIndex = index
         newshortcut_top.currentSubIndex = subindex
+
+    }
+
+    function hide() {
+        canceltimer.stop()
+        savetimer.stop()
+        newshortcut_top.opacity = 0
+        settingsmanager_top.passShortcutsToDetector = false
+
+        if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
+            loader.visibleItem = backupVisibleItem
 
     }
 
