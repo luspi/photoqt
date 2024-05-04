@@ -206,10 +206,11 @@ Flickable {
                     text: qsTranslate("settingsmanager", "import configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked: {
-                        PQCScriptsConfig.importConfigFrom("")
-                        PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
-                                                qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
-                        toplevel.quitPhotoQt()
+                        if(PQCScriptsConfig.importConfigFrom("")) {
+                            PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
+                                                    qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
+                            toplevel.quitPhotoQt()
+                        }
                     }
                 }
 

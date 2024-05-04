@@ -826,6 +826,8 @@ void PQCImageFormats::restoreDefaults() {
 
 void PQCImageFormats::closeDatabase() {
 
+    qDebug() << "";
+
     db.close();
 
 }

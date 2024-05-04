@@ -367,6 +367,8 @@ void PQCShortcuts::saveAllCurrentShortcuts(QVariantList list) {
 
 void PQCShortcuts::closeDatabase() {
 
+    qDebug() << "";
+
     if(dbIsTransaction) {
         db.commit();
         dbIsTransaction = false;

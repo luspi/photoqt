@@ -224,8 +224,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
     // handler to the file
     struct archive *a = archive_write_new();
 
-    // Write a zip file with gzip compression
-    archive_write_add_filter_gzip(a);
+    // Write a zip file
     archive_write_set_format_zip(a);
 
     // open archive for writing
@@ -280,7 +279,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
 }
 
-bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
+bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     qDebug() << "args: path =" << path;
 
@@ -312,8 +311,7 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
     // Create new archive handler
     struct archive *a = archive_read_new();
 
-    // We allow any type of compression and format
-    archive_read_support_filter_all(a);
+    // Read config file
     archive_read_support_format_zip(a);
 
     // Read file
@@ -336,25 +334,29 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
         if(allfiles.contains(filenameinside)) {
 
             // Find out the size of the data
-            size_t size = archive_entry_size(entry);
+            int64_t size = archive_entry_size(entry);
 
-            // Create a uchar buffer of that size to hold the data
-            uchar *buff = new uchar[size+1];
+            // Create a uchar buffer of that size to hold the image data
+            uchar *buff = new uchar[size];
 
-            // And finally read the file into the buffer
-            int r = archive_read_data(a, (void*)buff, size);
-            if(r != (int)size) {
+// And finally read the file into the buffer
+#ifdef WIN32
+            size_t r = archive_read_data(a, (void*)buff, size);
+#else
+            ssize_t r = archive_read_data(a, (void*)buff, size);
+#endif
+
+            if(r != size || r == 0) {
                 qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << "- Skipping file!";
                 continue;
             }
-            // libarchive does not add a null terminating character, but Qt expects it, so we need to add it on
-            buff[size] = '\0';
 
             // The output file...
             QFile file(allfiles[filenameinside]);
             // Overwrite old content
             if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-                file.write(reinterpret_cast<const char*>(buff), size+1);
+                QDataStream out(&file);   // we will serialize the data into the file
+                out.writeRawData((const char*) buff,size);
                 file.close();
             } else
                 qWarning() << QString("ERROR: Unable to write new config file '%1'... Skipping file!").arg(allfiles[filenameinside]);
@@ -369,20 +371,6 @@ bool PQCScriptsConfig::importConfigFrom(QString path, bool reloadData) {
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
         qWarning() << "ERROR: archive_read_free() returned code of" << r;
-
-    // reload settings, shortcuts, and imageformats
-    // we only reload when config was exported to default folders
-    // we don't need to reload the contextmenu, the filewatcher takes care of that
-    if(reloadData) {
-
-        PQCSettings::get().readDB();
-        PQCShortcuts::get().readDB();
-        PQCImageFormats::get().readDatabase();
-
-        PQCValidate validate;
-        validate.validate();
-
-    }
 
     return true;
 
