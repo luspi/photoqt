@@ -264,7 +264,6 @@ Item {
 
         }
 
-        switcher.restart()
         switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
     }
@@ -293,7 +292,6 @@ Item {
 
         }
 
-        switcher.restart()
         switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
 
     }

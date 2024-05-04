@@ -381,6 +381,11 @@ Window {
     }
 
     onClosing: (close) => {
+
+        // We stop a running slideshow to make sure all settings are restored to their normal state
+        if(PQCNotify.slideshowRunning)
+            loader_slideshowhandler.item.hide()
+
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false
             toplevel.visibility = Window.Hidden

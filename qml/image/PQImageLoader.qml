@@ -474,7 +474,7 @@ Item {
                             loader_top.listenToClicksOnImage = true
                         } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
                             source = "imageitems/PQSVG.qml"
-                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad || PQCNotify.slideshowRunning)) {
+                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
                             loader_top.thisIsAPhotoSphere = true
                             source = "imageitems/PQPhotoSphere.qml"
                         } else {
@@ -663,6 +663,9 @@ Item {
                         // this function might be called more than once
                         // this check makes sure that we only do this once
                         if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
+                            return
+
+                        if(PQCNotify.showingPhotoSphere)
                             return
 
                         scaleAnimation.stop()
@@ -1260,11 +1263,11 @@ Item {
         image_top.currentRotation = loader_top.imageRotation
         image_top.currentResolution = loader_top.imageResolution
 
+        if(PQCSettings.imageviewAnimationType === "random")
+            selectNewRandomAnimation.restart()
+
         // these are only done if we are not in a slideshow with the ken burns effect
         if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
-
-            if(PQCSettings.imageviewAnimationType === "random")
-                selectNewRandomAnimation.restart()
 
             if(PQCSettings.imageviewAlwaysActualSize)
                 image_top.zoomActual()

@@ -200,7 +200,7 @@ Image {
     // a big button in middle of screen to enter photo sphere
     Loader {
 
-        active: loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton
+        active: loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCNotify.slideshowRunning
 
         sourceComponent:
             Rectangle {

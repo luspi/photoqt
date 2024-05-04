@@ -432,7 +432,7 @@ PQCPhotoSphere {
 
     Loader {
 
-        active: !PQCSettings.filetypesPhotoSphereAutoLoad
+        active: !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCNotify.slideshowRunning
 
         sourceComponent:
             Rectangle {
