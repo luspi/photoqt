@@ -57,8 +57,10 @@ GridView {
             currentIndex = -1
         }
     }
-    Component.onCompleted:
+    Component.onCompleted: {
         model = PQCFileFolderModel.countAllFileDialog
+        updateThumbnailSize()
+    }
 
     Connections {
         target: PQCImageFormats
@@ -87,6 +89,28 @@ GridView {
 
     signal refreshThumbnails()
     signal refreshCurrentThumbnail()
+
+    // The following Connection and Timer makes sure that changed to the zoom update the thumbnails with a delay
+    Connections {
+        target: PQCSettings
+        function onFiledialogZoomChanged() {
+            updateThumbnailSizeTimer.restart()
+        }
+    }
+    Timer {
+        id: updateThumbnailSizeTimer
+        interval: 200
+        onTriggered:
+            updateThumbnailSize()
+    }
+
+    // This is the current thumbnail size. This is updated with a delay to allow for smoother zoom
+    property int currentThumbnailWidth
+    property int currentThumbnailHeight
+    function updateThumbnailSize() {
+        currentThumbnailWidth = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : width)
+        currentThumbnailHeight = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom)
+    }
 
     cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
     cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
@@ -350,7 +374,7 @@ GridView {
                 mipmap: false
                 asynchronous: true
                 cache: false
-                sourceSize: Qt.size(width,height)
+                sourceSize: Qt.size(currentThumbnailWidth-2*deleg.padding,currentThumbnailHeight-2*deleg.padding)
 
                 fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
