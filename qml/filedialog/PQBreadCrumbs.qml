@@ -299,10 +299,10 @@ Item {
 
                                     Instantiator {
                                         id: inst
-                                        model: 0
+                                        property string currentParentFolder: ""
                                         delegate: PQMenuItem {
                                             id: menuItem
-                                            text: folderlist.subfolders[modelData]
+                                            text: modelData
                                             onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
                                         }
 
@@ -311,9 +311,11 @@ Item {
 
                                     }
                                     onAboutToShow: {
-                                        subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
-                                        inst.model = 0
-                                        inst.model = subfolders.length
+                                        if(inst.model === 0 || inst.currentParentFolder != deleg.subdir) {
+                                            subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
+                                            inst.model = subfolders
+                                            inst.currentParentFolder = deleg.subdir
+                                        }
                                         folderListMenuOpen = true
                                     }
                                     onAboutToHide:
