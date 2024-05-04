@@ -25,9 +25,13 @@
 
 import QtQuick
 
-Item {
+Rectangle {
 
     id: blur_top
+    anchors.fill: parent
+
+    color: PQCLook.transColor
+
     property string thisis: ""
 
 }
