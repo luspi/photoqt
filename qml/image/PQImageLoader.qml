@@ -255,6 +255,21 @@ Item {
         contentWidth: flickable_content.width
         contentHeight: flickable_content.height
 
+        // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
+        // This is causing, e.g., the minimap to not update with the actual position of the view
+        // This check here makes sure that we force an update to the position, but only if the image was dragged out of bounds
+        // (See the onRunningChanged signal in the rebound animation)
+        property bool needToRecheckPosition: false
+        onMovementEnded: {
+            if(needToRecheckPosition) {
+                flickable.contentX += 1
+                flickable.contentY += 1
+                flickable.contentX -= 1
+                flickable.contentY -= 1
+                needToRecheckPosition = false
+            }
+        }
+
         rebound: Transition {
             NumberAnimation {
                 properties: "x,y"
@@ -262,6 +277,9 @@ Item {
                 duration: PQCNotify.slideshowRunning ? 0 : 250
                 easing.type: Easing.OutQuad
             }
+            // Signal that the view was dragged out of bounds
+            onRunningChanged:
+                flickable.needToRecheckPosition = true
         }
 
         interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
