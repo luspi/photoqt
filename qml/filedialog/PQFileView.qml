@@ -1293,15 +1293,17 @@ GridView {
             checkable: true
             checked: PQCSettings.filedialogShowHiddenFilesFolders
             text: qsTranslate("filedialog", "Show hidden files")
+            keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogShowHiddenFilesFolders = !PQCSettings.filedialogShowHiddenFilesFolders
+                PQCSettings.filedialogShowHiddenFilesFolders = checked
         }
         PQMenuItem {
             checkable: true
             checked: PQCSettings.filedialogDetailsTooltip
             text: qsTranslate("filedialog", "Show tooltip with image details")
+            keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogDetailsTooltip = !PQCSettings.filedialogDetailsTooltip
+                PQCSettings.filedialogDetailsTooltip = checked
         }
 
 
