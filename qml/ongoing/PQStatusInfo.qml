@@ -336,7 +336,7 @@ Item {
             color: PQCLook.baseColor
             radius: 5
 
-            opacity: (currentIsPDF||currentIsARC) ? 1 : 0
+            opacity: (!PQCNotify.slideshowRunning && (currentIsPDF||currentIsARC)) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 

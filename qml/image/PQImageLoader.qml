@@ -83,17 +83,24 @@ Item {
     signal imageClicked()
 
     onVideoPlayingChanged: {
-        if(PQCFileFolderModel.currentIndex===index)
-            image_top.currentlyShowingVideo = loader_top.videoPlaying
+        if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
+            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
     }
     onVideoHasAudioChanged: {
-        if(PQCFileFolderModel.currentIndex===index)
+        if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
             image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+    }
+    onVideoLoadedChanged: {
+        if(PQCFileFolderModel.currentIndex===deleg.itemIndex)
+            image_top.currentlyShowingVideo = loader_top.videoLoaded
     }
 
     Component.onCompleted: {
-        image_top.currentlyShowingVideo = loader_top.videoPlaying
-        image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+        if(PQCFileFolderModel.currentIndex===deleg.itemIndex) {
+            image_top.currentlyShowingVideo = loader_top.videoLoaded
+            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+        }
     }
 
     Connections {
@@ -455,7 +462,6 @@ Item {
                         loader_top.videoDuration = 0
                         loader_top.videoPosition = 0
                         loader_top.videoHasAudio = false
-                        image_top.currentlyShowingVideo = false
                         if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
                             source = "imageitems/PQDocument.qml"
                         else if(PQCScriptsImages.isArchive(loader_top.imageSource))
@@ -463,7 +469,6 @@ Item {
                         else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
                             source = "imageitems/PQVideoMpv.qml"
                             loader_top.listenToClicksOnImage = true
-                            loader_top.videoPlaying = true
                             loader_top.videoLoaded = true
                         } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
                             source = "imageitems/PQVideoQt.qml"
@@ -573,10 +578,17 @@ Item {
                     target: image_top
 
                     function onPlayPauseAnimationVideo() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
+
                         loader_top.videoTogglePlay()
                     }
 
                     function onMoveView(direction) {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
 
                         if(PQCNotify.showingPhotoSphere)
                             return
@@ -621,6 +633,10 @@ Item {
                     target: loader_top
 
                     function onImageScaleChanged() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
+
                         if(image_wrapper.startupScale) {
                             image_wrapper.startupScale = false
                             image_wrapper.scale = loader_top.imageScale
@@ -632,6 +648,9 @@ Item {
                     }
 
                     function onRotationZoomResetWithoutAnimation() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
 
                         if(PQCNotify.showingPhotoSphere)
                             return
@@ -648,6 +667,9 @@ Item {
 
                     function onZoomActualWithoutAnimation() {
 
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
+
                         if(PQCNotify.showingPhotoSphere)
                             return
 
@@ -659,6 +681,9 @@ Item {
                     }
 
                     function onZoomInForKenBurns() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
 
                         // this function might be called more than once
                         // this check makes sure that we only do this once
@@ -693,6 +718,9 @@ Item {
                     }
 
                     function onLoadScaleRotation() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
 
                         if(PQCNotify.showingPhotoSphere)
                             return
@@ -760,6 +788,9 @@ Item {
                     }
 
                     function onMoveViewToCenter() {
+
+                        if(PQCFileFolderModel.currentIndex !== index)
+                            return
 
                         if(PQCNotify.showingPhotoSphere)
                             return
@@ -1159,13 +1190,15 @@ Item {
         image_top.currentlyVisibleIndex = deleg.itemIndex
         image_top.imageFinishedLoading(deleg.itemIndex)
 
+        image_top.currentlyShowingVideo = loader_top.videoLoaded
+
         PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (deleg.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 
         // if a slideshow is running with the ken burns effect
         // then we need to do some special handling
         if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-            if(!PQCNotify.showingPhotoSphere)
+            if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded)
                 zoomInForKenBurns()
             flickable.returnToBounds()
 

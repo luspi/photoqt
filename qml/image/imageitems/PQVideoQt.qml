@@ -94,6 +94,12 @@ Item {
     onVisibleChanged: {
         if(!visible && loader_top.videoPlaying) {
             video.pause()
+        } else if(visible) {
+            loader_top.videoLoaded = true
+            loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
+            loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
+            loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
+            loader_top.videoHasAudio = Qt.binding(function() { return video.hasAudio })
         }
     }
 

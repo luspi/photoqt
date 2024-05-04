@@ -326,7 +326,8 @@ Item {
 
             if(PQCNotify.slideshowRunning) {
 
-                zoomInForKenBurns()
+                if(!image_top.currentlyShowingVideo && !PQCNotify.showingPhotoSphere)
+                    zoomInForKenBurns()
                 flickable.returnToBounds()
                 aniDeleg.manageAni()
 

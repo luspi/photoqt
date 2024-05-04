@@ -46,20 +46,9 @@ Item {
         id: audioplayer
         audioOutput: AudioOutput {
             id: audiooutput
-            property real reduceVolume: PQCSettings.slideshowMusicVolumeVideos === 0 ?
-                                            0 :
-                                            (PQCSettings.slideshowMusicVolumeVideos === 1 ?
-                                                0.1 :
-                                                1)
+            property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
 
             property bool videoWithVolume: image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio
-
-            onVolumeChanged: {
-                if(volume < 1e-4)
-                    audioplayer.pause()
-                else
-                    audioplayer.play()
-            }
 
             volume: slideshowhandler_top.volume*(videoWithVolume ? reduceVolume : 1)
             Behavior on volume { NumberAnimation { duration: 200 } }
@@ -67,7 +56,7 @@ Item {
         }
 
         onPlaybackStateChanged: {
-            if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running) {
+            if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCNotify.slideshowRunning) {
                 if(PQCSettings.slideshowMusic) {
                     currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
@@ -76,9 +65,42 @@ Item {
                         currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
                     audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
-                    audioplayer.play()
                 }
             }
+        }
+
+        onSourceChanged:
+            play()
+
+        function checkPlayPause() {
+            if(slideshowhandler_top.running)
+                audioplayer.play()
+            else
+                audioplayer.pause()
+        }
+
+    }
+
+    Timer {
+        id: checkAudio
+        interval: 500
+        running: audioplayer.playbackState===MediaPlayer.PausedState
+        onTriggered:
+            audioplayer.checkPlayPause()
+    }
+
+    function onRunningChanged() {
+        audioplayer.checkPlayPause()
+    }
+
+    Connections {
+        target: image
+        function onCurrentlyShowingVideoPlayingChanged() {
+            audioplayer.checkPlayPause()
+            if(slideshowhandler_top.running && !image.currentlyShowingVideoPlaying) {
+                switcher.triggered()
+            }
+            audioplayer.checkPlayPause()
         }
     }
 
@@ -86,43 +108,11 @@ Item {
         id: switcher
         interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
         repeat: true
-        running: false
+        running: slideshowhandler_top.running&&!image.currentlyShowingVideo
         onTriggered: {
-            ignoreVideoSwitcher = false
             loadNextImage()
+            audioplayer.checkPlayPause()
         }
-    }
-
-    // this is needed for one specific use case:
-    // when manually switching away from a playing video during a slidehow
-    // then the special switcher below would get activated for the next image
-    // this bool prevents that from happening
-    property bool ignoreVideoSwitcher: false
-
-    Timer {
-        id: switcherAfterVideo
-        interval: 500
-        onTriggered: {
-            if(!ignoreVideoSwitcher)
-                loadNextImage()
-            ignoreVideoSwitcher = false
-        }
-    }
-
-    Connections {
-
-        target: image
-        function onCurrentlyShowingVideoChanged() {
-            if(!slideshowhandler_top.running)
-                return
-            if(image.currentlyShowingVideo) {
-                switcherAfterVideo.stop()
-                switcher.stop()
-            } else {
-                switcherAfterVideo.restart()
-            }
-        }
-
     }
 
     Connections {
@@ -202,9 +192,6 @@ Item {
         slideshowhandler_top.running = true
         PQCNotify.slideshowRunning = true
 
-        if(!image.currentlyShowingVideo)
-            switcher.restart()
-
         if(PQCSettings.slideshowMusic) {
             currentMusicIndex = 0
             musicFileOrder = PQCSettings.slideshowMusicFiles
@@ -213,7 +200,6 @@ Item {
             while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
                 currentMusicIndex += 1
             audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
-            audioplayer.play()
         } else
             audioplayer.source = ""
 
@@ -225,7 +211,7 @@ Item {
 
         PQCNotify.slideshowRunning = false
         slideshowhandler_top.running = false
-        audioplayer.stop()
+        audioplayer.checkPlayPause()
         loader.elementClosed("slideshowhandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
@@ -239,11 +225,6 @@ Item {
     }
 
     function loadPrevImage(switchedManually = false) {
-
-        if(switchedManually)
-            ignoreVideoSwitcher = true
-
-        switcher.stop()
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex > 0)
@@ -264,14 +245,9 @@ Item {
 
         }
 
-        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
-
     }
 
     function loadNextImage(switchedManually = false) {
-
-        if(switchedManually)
-            ignoreVideoSwitcher = true
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex < PQCFileFolderModel.countMainView-1)
@@ -292,20 +268,14 @@ Item {
 
         }
 
-        switcher.running = Qt.binding(function() { return slideshowhandler_top.running; })
-
     }
 
     function toggle() {
+        if(!PQCNotify.slideshowRunning) return
+        // The following two lines HAVE to be in this order!!
+        slideshowhandler_top.running = !slideshowhandler_top.running
+        audioplayer.checkPlayPause()
         image.playPauseAnimationVideo()
-        if(slideshowhandler_top.running) {
-            slideshowhandler_top.running = false
-            audioplayer.pause()
-        } else {
-            slideshowhandler_top.running = true
-            if(PQCSettings.slideshowMusic)
-                audioplayer.play()
-        }
     }
 
     /***************************************/

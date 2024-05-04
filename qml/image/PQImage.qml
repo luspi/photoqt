@@ -83,6 +83,7 @@ Item {
     property point extraControlsLocation: Qt.point(-1,-1)
 
     property bool currentlyShowingVideo: false
+    property bool currentlyShowingVideoPlaying: false
     property bool currentlyShowingVideoHasAudio: false
 
     signal zoomIn(var wheelDelta)
