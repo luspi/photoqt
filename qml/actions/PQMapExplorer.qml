@@ -237,7 +237,7 @@ Item {
 
                 if(what === "keyEvent") {
 
-                    if(PQCSettings.interfacePopoutMapExplorerNonModal)
+                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal)
                         return
 
                     if(param[0] === Qt.Key_Escape)

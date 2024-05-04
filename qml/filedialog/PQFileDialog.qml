@@ -168,7 +168,7 @@ Rectangle {
 
                 if(what === "keyEvent") {
 
-                    if(PQCSettings.interfacePopoutFileDialogNonModal)
+                    if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal)
                         return
 
                     // close something

@@ -765,7 +765,7 @@ PQTemplateFullscreen {
                         return
                     }
 
-                    if(PQCSettings.interfacePopoutSettingsManagerNonModal)
+                    if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
                         return
 
                     if(param[0] === Qt.Key_Escape) {
