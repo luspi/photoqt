@@ -133,7 +133,11 @@ PQTemplateFullscreen {
 
                     id: filenameedit
 
-                    enabled: filenamecheck.checked
+                    enabled: filenamecheck.checked&&filter_top.opacity>0
+                    onEnabledChanged: {
+                        if(!enabled)
+                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                    }
 
                     onControlActiveFocusChanged:
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
@@ -442,6 +446,8 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             filter_popout.visible = false
         loader.elementClosed(thisis)
+        PQCNotify.ignoreKeysExceptEnterEsc = false
+        fullscreenitem.forceActiveFocus()
     }
 
     function setFilter() {
