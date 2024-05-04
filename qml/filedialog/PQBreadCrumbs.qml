@@ -562,11 +562,12 @@ Item {
         if(path.endsWith("/"))
             path = path.substring(0, path.length-1)
 
+        if(PQCScriptsFilesPaths.getFilename(path) === path)
+            path = PQCFileFolderModel.folderFileDialog + "/" + path
+
         if(PQCScriptsFilesPaths.isFolder(path))
             filedialog_top.loadNewPath(path)
         else {
-            if(PQCScriptsFilesPaths.getFilename(path) === path)
-                path = PQCFileFolderModel.folderFileDialog + "/" + path
             filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(path))
             PQCFileFolderModel.fileInFolderMainView = path
             filedialog_top.hideFileDialog()
