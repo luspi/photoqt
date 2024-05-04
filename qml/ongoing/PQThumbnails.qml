@@ -458,6 +458,7 @@ Item {
                     opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                     visible: PQCSettings.thumbnailsFilename
+                    x: (img.x+img.width-width)
                     y: (img.y+img.height-height)
                     width: deleg.width
                     height: Math.min(200, Math.max(30, deleg.height*0.3))
