@@ -468,17 +468,13 @@ void PQCFileFolderModel::advancedSortMainView() {
 
             } else if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "exifdate") {
 
-                QVariantList order = PQCSettings::get()["imageviewAdvancedSortDateCriteria"].toList();
+                QStringList order = PQCSettings::get()["imageviewAdvancedSortDateCriteria"].toStringList();
 
                 bool foundvalue = false;
 
-                for(int j = 0; j < order.length()/2; ++j) {
+                for(int j = 0; j < order.length(); ++j) {
 
-                    QString item = order.at(2*j).toString();
-                    int use = order.at(2*j+1).toInt();
-
-                    if(use == 0)
-                        continue;
+                    QString item = order.at(j);
 
                     if(item == "exiforiginal" || item == "exifdigital") {
 
@@ -531,8 +527,10 @@ void PQCFileFolderModel::advancedSortMainView() {
                                 iter = exifData.findKey(Exiv2::ExifKey("Exif.Photo.DateTimeDigitized"));
 
                             if(iter != exifData.end()) {
-                                key = QDateTime::fromString(QString::fromStdString(Exiv2::toString(iter->value()))).toMSecsSinceEpoch();//, "yyyy:MM:dd hhmm:ss");
-                                foundvalue = true;
+                                key = QDateTime::fromString(QString::fromStdString(Exiv2::toString(iter->value())), "yyyy:MM:dd hh:mm:ss").toMSecsSinceEpoch();
+                                // If key is 0 then the conversion failed
+                                if(key > 0)
+                                    foundvalue = true;
                             }
 
                         } catch(Exiv2::Error &) {
@@ -549,7 +547,9 @@ void PQCFileFolderModel::advancedSortMainView() {
                         QDateTime bd = info.birthTime();
                         if(bd.isValid()) {
                             key = info.birthTime().toMSecsSinceEpoch();
-                            foundvalue = true;
+                            // If key is 0 then the birthTime is unavailable
+                            if(key > 0)
+                                foundvalue = true;
                         }
 #endif
 
@@ -1179,7 +1179,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                             if(greater && ((origSize.width() < width && width > 0) || (origSize.height() < height && height > 0)))
                                 continue;
 
-                            if(!greater && ((origSize.width() > -width && width > 0) || (origSize.height() > -height && width > 0)))
+                            if(!greater && ((origSize.width() > -width && width < 0) || (origSize.height() > -height && width < 0)))
                                 continue;
 
                         }

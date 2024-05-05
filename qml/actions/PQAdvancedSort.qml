@@ -659,7 +659,7 @@ PQTemplateFullscreen {
 
                                 var save = []
                                 for(var i = 0; i < exifsort.ordering.length; ++i)
-                                    save.push(exifsort.ordering[j][1])
+                                    save.push(exifsort.ordering[i][1])
                                 PQCSettings.imageviewAdvancedSortDateCriteria = save
                             }
                         }
