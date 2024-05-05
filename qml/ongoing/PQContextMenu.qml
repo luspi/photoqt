@@ -117,7 +117,6 @@ PQMenu {
         PQMenuItem {
             text: "Default color profile"
             font.bold: true
-            enabled: !PQCNotify.showingPhotoSphere
             onTriggered: {
                 PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, -1)
                 image.reloadImage()
@@ -132,7 +131,7 @@ PQMenu {
             PQMenuItem {
                 text: iccmenu.availableColorProfiles[index]
                 visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsImages.getColorProfileID(index))>-1
-                enabled: !PQCNotify.showingPhotoSphere
+                height: visible ? 40 : 0
                 onTriggered: {
                     PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, index)
                     image.reloadImage()
@@ -156,7 +155,8 @@ PQMenu {
                     iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" &&
                                        !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
                                        !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
-                                       !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile))
+                                       !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) &&
+                                       !PQCNotify.showingPhotoSphere)
             }
         }
 
