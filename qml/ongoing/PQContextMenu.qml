@@ -115,7 +115,7 @@ PQMenu {
             availableColorProfiles = PQCScriptsImages.getColorProfileDescriptions()
         }
         PQMenuItem {
-            text: "Default color profile"
+            text: qsTranslate("contextmenu", "Default color profile")
             font.bold: true
             onTriggered: {
                 PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, -1)
