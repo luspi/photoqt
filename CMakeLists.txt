@@ -80,15 +80,6 @@ if(TESTING)
     find_package(Qt6 6.2 REQUIRED COMPONENTS Test)
 endif()
 
-if(Qt6_VERSION VERSION_GREATER_EQUAL 6.7)
-    if(VIDEO_MPV)
-        message("** MPV SUPPORT FOR QT 6.7+ IS CURRENTLY NOT AVAILABLE")
-        message("** QT'S NATIVE VIDEO SUPPORT WILL BE ENABLED INSTEAD")
-        set(VIDEO_MPV OFF)
-        set(VIDEO_QT ON)
-    endif()
-endif()
-
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake")
 
 find_package(ECM REQUIRED NO_MODULE)

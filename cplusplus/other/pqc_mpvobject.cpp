@@ -67,6 +67,7 @@ class PQCMPVRenderer : public QQuickFramebufferObject::Renderer {
 public:
     PQCMPVRenderer(PQCMPVObject *new_obj) : obj{new_obj} {
         mpv_set_wakeup_callback(obj->mpv, on_mpv_events, nullptr);
+        mpv_set_option_string(obj->mpv, "vo", "libmpv");
     }
 
     virtual ~PQCMPVRenderer() {}
