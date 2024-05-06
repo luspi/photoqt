@@ -877,6 +877,11 @@ Flickable {
                                 font.pointSize: PQCLook.fontSizeS
                                 checked: deleg.cycle
                                 ButtonGroup.group: radioGroup
+                                onCheckedChanged: {
+                                    setting_top.entries[index][2] = (checked ? 1 : 0)
+                                    setting_top.entries[index][4] = (checked ? 0 : 1)
+                                    setting_top.entriesChanged()
+                                }
                             }
 
                             Item {
@@ -890,6 +895,9 @@ Flickable {
                                     //: The cycle here is the act of cycling through shortcut actions one by one
                                     text: qsTranslate("settingsmanager", "timeout for resetting cycle:")
                                     font.pointSize: PQCLook.fontSizeS
+                                    onCheckedChanged: {
+                                        cycletimeout_slider.value = 0
+                                    }
                                 }
                             }
 
@@ -903,6 +911,10 @@ Flickable {
                                     to: 10
                                     value: deleg.cycletimeout
                                     enabled: timeout_check.checked&&radio_cycle.checked
+                                    onValueChanged: {
+                                        setting_top.entries[index][3] = cycletimeout_slider.value
+                                        setting_top.entriesChanged()
+                                    }
                                 }
 
                                 PQText {
@@ -932,6 +944,11 @@ Flickable {
                                 font.pointSize: PQCLook.fontSizeS
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
+                                onCheckedChanged: {
+                                    setting_top.entries[index][2] = (checked ? 0 : 1)
+                                    setting_top.entries[index][4] = (checked ? 1 : 0)
+                                    setting_top.entriesChanged()
+                                }
                             }
 
                         }
@@ -1146,7 +1163,12 @@ Flickable {
                 return false
 
             for(var j = 0; j < l1[i].length; ++j) {
-                if(l1[i][j] !== l2[i][j])
+                // check sublist if any
+                if(l1[i][j].constructor === Array) {
+                    var ret = areTwoListsEqual(l1[i][j], l2[i][j])
+                    if(!ret)
+                        return false;
+                } else if(l1[i][j] !== l2[i][j])
                     return false
             }
         }
@@ -1195,10 +1217,12 @@ Flickable {
 
         settingChanged = false
         settingsLoaded = true
+
     }
 
     function applyChanges() {
         PQCShortcuts.saveAllCurrentShortcuts(setting_top.entries)
+        setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
         settingChanged = false
     }
 
