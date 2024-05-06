@@ -249,6 +249,9 @@ Item {
             PQCNotify.isMotionPhoto = false
             if(!deleg.visible && Math.abs(PQCFileFolderModel.currentIndex-index) > 2)
                 deleg.hasBeenSetup = false
+            image_top.currentlyShowingVideo = loader_top.videoLoaded
+            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
         }
     }
 

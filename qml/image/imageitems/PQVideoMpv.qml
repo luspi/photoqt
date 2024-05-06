@@ -55,6 +55,10 @@ Item {
         if(!visible) {
             loader_top.videoPlaying = false
             video.command(["seek", 0, "absolute"])
+        } else {
+            loader_top.videoLoaded = true
+            loader_top.videoHasAudio = true
+            loader_top.videoHasAudioChanged()
         }
     }
 
@@ -73,7 +77,7 @@ Item {
         running: true
         onTriggered: {
             video.command(["loadfile", loader_top.imageSource])
-            if(!PQCSettings.filetypesVideoAutoplay) {
+            if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
                 loader_top.videoPlaying = false
                 video.command(["set", "pause", "yes"])
             }
@@ -227,13 +231,13 @@ Item {
 
             if(loader_top.videoPlaying) {
 
-                if(!PQCSettings.filetypesVideoAutoplay) {
+                if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
                     loader_top.videoPlaying = false
                 } else
                     video.command(["seek", 0, "absolute"])
 
             } else {
-                if(PQCSettings.filetypesVideoAutoplay) {
+                if(PQCSettings.filetypesVideoAutoplay || PQCNotify.slideshowRunning) {
                     video.command(["seek", 0, "absolute"])
                     loader_top.videoPlaying = true
                 }
