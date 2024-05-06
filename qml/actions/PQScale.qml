@@ -400,8 +400,8 @@ PQTemplateFullscreen {
             return
         }
 
-        spin_w.value = image.currentResolution.width
-        spin_h.value = image.currentResolution.height
+        spin_w.loadAndSetDefault(image.currentResolution.width)
+        spin_h.loadAndSetDefault(image.currentResolution.height)
         aspectRatio = image.currentResolution.width/image.currentResolution.height
 
         scalebusy.hide()

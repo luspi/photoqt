@@ -405,18 +405,18 @@ PQTemplateFullscreen {
         if(w > 0 || h > 0) {
             resgreaterless.greater = true
             rescheck.checked = true
-            reswidth.value = w
-            resheight.value = h
+            reswidth.loadAndSetDefault(w)
+            resheight.loadAndSetDefault(h)
         } else if(w < 0 || h < 0) {
             resgreaterless.greater = false
             rescheck.checked = true
-            reswidth.value = -1*w
-            resheight.value = -1*h
+            reswidth.loadAndSetDefault(-1*w)
+            resheight.loadAndSetDefault(-1*h)
         } else {
             resgreaterless.greater = true
             rescheck.checked = false
-            reswidth.value = 0
-            resheight.value = 0
+            reswidth.loadAndSetDefault(0)
+            resheight.loadAndSetDefault(0)
         }
 
         // load file size filter data
@@ -431,10 +431,10 @@ PQTemplateFullscreen {
             var kb = Math.round(s/1024)
             if(mb*1024*1024 === s) {
                 filesizemb.checked = true
-                filesize.value = mb
+                filesize.loadAndSetDefault(mb)
             } else {
                 filesizekb.checked = true
-                filesize.value = kb
+                filesize.loadAndSetDefault(kb)
             }
 
         }

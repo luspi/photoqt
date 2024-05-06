@@ -629,18 +629,18 @@ PQTemplateFullscreen {
         animtype_combo.currentIndex = animArray.indexOf(PQCSettings.slideshowTypeAnimation)
         if(animtype_combo.currentIndex === -1) animtype_combo.currentIndex = 0
 
-        interval_slider.value = PQCSettings.slideshowTime
-        transition_slider.value = PQCSettings.slideshowImageTransition
-        loop_check.checked = PQCSettings.slideshowLoop
-        shuffle_check.checked = PQCSettings.slideshowShuffle
-        winbut_check.checked = PQCSettings.slideshowHideWindowButtons
-        quick_check.checked = PQCSettings.slideshowHideLabels
-        music_check.checked = (PQCSettings.slideshowMusicFile!=="")
-        subfolders_check.checked = PQCSettings.slideshowIncludeSubFolders
+        interval_slider.loadAndSetDefault(PQCSettings.slideshowTime)
+        transition_slider.loadAndSetDefault(PQCSettings.slideshowImageTransition)
+        loop_check.loadAndSetDefault(PQCSettings.slideshowLoop)
+        shuffle_check.loadAndSetDefault(PQCSettings.slideshowShuffle)
+        winbut_check.loadAndSetDefault(PQCSettings.slideshowHideWindowButtons)
+        quick_check.loadAndSetDefault(PQCSettings.slideshowHideLabels)
+        music_check.loadAndSetDefault((PQCSettings.slideshowMusicFile!==""))
+        subfolders_check.loadAndSetDefault(PQCSettings.slideshowIncludeSubFolders)
 
-        music_check.checked = PQCSettings.slideshowMusic
-        music_volumevideos.currentIndex = PQCSettings.slideshowMusicVolumeVideos
-        music_shuffle.checked = PQCSettings.slideshowMusicShuffle
+        music_check.loadAndSetDefault(PQCSettings.slideshowMusic)
+        music_volumevideos.loadAndSetDefault(PQCSettings.slideshowMusicVolumeVideos)
+        music_shuffle.loadAndSetDefault(PQCSettings.slideshowMusicShuffle)
 
         var tmp = []
         for(var i in PQCSettings.slideshowMusicFiles) {
