@@ -338,22 +338,25 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
             size_t size;
             la_int64_t offset;
 
-            // read data
-            int r = archive_read_data_block(a, &buff, &size, &offset);
-            if(r != ARCHIVE_OK || size == 0) {
-                qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
-                continue;
-            }
-
             // The output file...
             QFile file(allfiles[filenameinside]);
             // Overwrite old content
-            if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-                QDataStream out(&file);   // we will serialize the data into the file
-                out.writeRawData((const char*) buff,size);
-                file.close();
-            } else
+            if(!file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
                 qWarning() << QString("ERROR: Unable to write new config file '%1'... Skipping file!").arg(allfiles[filenameinside]);
+                continue;
+            }
+            QDataStream out(&file);   // we will serialize the data into the file
+
+            // read data
+            while((r = archive_read_data_block(a, &buff, &size, &offset)) == ARCHIVE_OK) {
+                if(r != ARCHIVE_OK || size == 0) {
+                    qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
+                    break;
+                }
+                out.writeRawData((const char*) buff, size);
+            }
+
+            file.close();
 
         }
 
