@@ -225,6 +225,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
     struct archive *a = archive_write_new();
 
     // Write a zip file
+    archive_write_add_filter_gzip(a);
     archive_write_set_format_zip(a);
 
     // open archive for writing
@@ -312,12 +313,11 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
     struct archive *a = archive_read_new();
 
     // Read config file
-    archive_read_support_format_zip(a);
+    archive_read_support_format_all(a);
+    archive_read_support_filter_all(a);
 
-    // Read file
+    // Read file - if something went wrong, output error message and stop here
     int r = archive_read_open_filename(a, archiveFile.toLocal8Bit().data(), 10240);
-
-    // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {
         qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
         return false;
@@ -333,21 +333,15 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
         if(allfiles.contains(filenameinside)) {
 
-            // Find out the size of the data
-            int64_t size = archive_entry_size(entry);
+            // store read data in here
+            const void *buff;
+            size_t size;
+            la_int64_t offset;
 
-            // Create a uchar buffer of that size to hold the image data
-            uchar *buff = new uchar[size];
-
-// And finally read the file into the buffer
-#ifdef WIN32
-            size_t r = archive_read_data(a, (void*)buff, size);
-#else
-            ssize_t r = archive_read_data(a, (void*)buff, size);
-#endif
-
-            if(r != size || r == 0) {
-                qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << "- Skipping file!";
+            // read data
+            int r = archive_read_data_block(a, &buff, &size, &offset);
+            if(r != ARCHIVE_OK || size == 0) {
+                qWarning() << QString("ERROR: Unable to extract file '%1':").arg(allfiles[filenameinside]) << archive_error_string(a) << " " << QString("(%1)").arg(r) << " - Skipping file!";
                 continue;
             }
 
@@ -361,13 +355,14 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
             } else
                 qWarning() << QString("ERROR: Unable to write new config file '%1'... Skipping file!").arg(allfiles[filenameinside]);
 
-            delete[] buff;
-
         }
 
     }
 
     // Close archive
+    r = archive_read_close(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_close() returned code of" << r;
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
         qWarning() << "ERROR: archive_read_free() returned code of" << r;

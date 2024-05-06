@@ -210,6 +210,9 @@ Flickable {
                             PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                                     qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
                             toplevel.quitPhotoQt()
+                        } else {
+                            PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Import failed"),
+                                                    qsTranslate("settingsmanager", "The configuration could not be imported."))
                         }
                     }
                 }
