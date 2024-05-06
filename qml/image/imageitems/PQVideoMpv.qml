@@ -52,9 +52,9 @@ Item {
     }
 
     onVisibleChanged: {
-        if(!visible && loader_top.videoPlaying) {
+        if(!visible) {
             loader_top.videoPlaying = false
-            video.command(["cycle", "pause"])
+            video.command(["seek", 0, "absolute"])
         }
     }
 
@@ -68,10 +68,15 @@ Item {
     }
 
     Timer {
+        id: starttimer
         interval: 100
         running: true
         onTriggered: {
             video.command(["loadfile", loader_top.imageSource])
+            if(!PQCSettings.filetypesVideoAutoplay) {
+                loader_top.videoPlaying = false
+                video.command(["set", "pause", "yes"])
+            }
             getProps.restart()
         }
     }
@@ -157,6 +162,11 @@ Item {
 
     Connections {
         target: loader_top
+
+        function onVideoPlayingChanged() {
+            video.command(["set", "pause", (loader_top.videoPlaying ? "no" : "yes")])
+        }
+
         function onVideoTogglePlay() {
             if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
                 return
@@ -165,7 +175,6 @@ Item {
                 loader_top.videoPlaying = true
             } else {
                 loader_top.videoPlaying = !loader_top.videoPlaying
-                video.command(["cycle", "pause"])
             }
         }
         function onVideoToPos(pos) {
@@ -173,7 +182,6 @@ Item {
                 return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", loader_top.imageSource])
-                video.command(["cycle", "pause"])
                 loader_top.videoPlaying = false
                 setPosTimeout.pos = pos
                 setPosTimeout.restart()
@@ -188,7 +196,6 @@ Item {
                 loader_top.videoPlaying = true
             } else {
                 loader_top.videoPlaying = !loader_top.videoPlaying
-                video.command(["cycle", "pause"])
             }
         }
     }
@@ -210,7 +217,6 @@ Item {
                 return
             if(loader_top.videoPlaying) {
                 loader_top.videoPlaying = false
-                video.command(["cycle", "pause"])
                 video.command(["seek", 0, "absolute"])
             }
         }
@@ -223,7 +229,6 @@ Item {
 
                 if(!PQCSettings.filetypesVideoAutoplay) {
                     loader_top.videoPlaying = false
-                    video.command(["cycle", "pause"])
                 } else
                     video.command(["seek", 0, "absolute"])
 
@@ -231,7 +236,6 @@ Item {
                 if(PQCSettings.filetypesVideoAutoplay) {
                     video.command(["seek", 0, "absolute"])
                     loader_top.videoPlaying = true
-                    video.command(["cycle", "pause"])
                 }
             }
 
@@ -249,10 +253,7 @@ Item {
 
             if(PQCNotify.slideshowRunning) {
                 video.command(["seek", 0, "absolute"])
-                if(!loader_top.videoPlaying) {
-                    loader_top.videoPlaying = true
-                    video.command(["cycle", "pause"])
-                }
+                loader_top.videoPlaying = true
             }
         }
 
