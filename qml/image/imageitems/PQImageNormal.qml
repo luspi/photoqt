@@ -272,7 +272,11 @@ Image {
 
                         PQCNotify.isMotionPhoto = true
 
-                        if(PQCSettings.metadataAutoRotation) {
+                        // HEIF/HEIC images are a little trickier with their orientation handling
+                        // We need to ignore this value as the Exif orientation might not be correct
+                        // See also: https://github.com/Exiv2/exiv2/issues/2958
+                        var suf = PQCScriptsFilesPaths.getSuffix(loader_top.imageSource).toLowerCase()
+                        if(PQCSettings.metadataAutoRotation && suf !== "heic" && suf !== "heif") {
 
                             var orientation = PQCScriptsMetaData.getExifOrientation(loader_top.imageSource)
                             switch(orientation) {
