@@ -103,12 +103,9 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
             uchar *buff = new uchar[size];
 
             // And finally read the file into the buffer
-#ifdef WIN32
-            size_t r = archive_read_data(a, (void*)buff, size);
-#else
-            ssize_t r = archive_read_data(a, (void*)buff, size);
-#endif
-            if(r != size) {
+            la_ssize_t r = archive_read_data(a, (void*)buff, size);
+
+            if(r != size || size == 0) {
                 qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
                 return QSize();
             }
@@ -278,12 +275,9 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
             uchar *buff = new uchar[size];
 
             // And finally read the file into the buffer
-#ifdef WIN32
-            size_t r = archive_read_data(a, (void*)buff, size);
-#else
-            ssize_t r = archive_read_data(a, (void*)buff, size);
-#endif
-            if(r != size) {
+            la_ssize_t r = archive_read_data(a, (void*)buff, size);
+
+            if(r != size || size == 0) {
                 errormsg = QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
                 qWarning() << errormsg;
                 return errormsg;
@@ -328,9 +322,12 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     }
 
     // Close archive
+    r = archive_read_close(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_close() returned code of" << r;
     r = archive_read_free(a);
     if(r != ARCHIVE_OK)
-        qWarning() << "PQLoadImage::Archive::load(): ERROR: archive_read_free() returned code of" << r;
+        qWarning() << "ERROR: archive_read_free() returned code of" << r;
 
     // cache image before potentially scaling it
     if(!img.isNull()) {
