@@ -199,6 +199,7 @@ Item {
                 shuffle(musicFileOrder)
             while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
                 currentMusicIndex += 1
+            audioplayer.position = 0
             audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
         } else
             audioplayer.source = ""
