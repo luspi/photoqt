@@ -54,7 +54,7 @@ Image {
     smooth: interpThreshold
     mipmap: interpThreshold
 
-    property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+    property bool fitImage: false
 
     width: fitImage ? deleg.width : undefined
     height: fitImage ? deleg.height : undefined
@@ -153,6 +153,8 @@ Image {
         image_wrapper.status = status
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
+        else if(status == Image.Ready)
+            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
     }
 
     onSourceSizeChanged: {

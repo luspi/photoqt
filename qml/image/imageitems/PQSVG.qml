@@ -63,7 +63,7 @@ Item {
 
         z: parent.z
 
-        property bool fitImage: (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+        property bool fitImage: false
 
         width: fitImage ? deleg.width : undefined
         height: fitImage ? deleg.height : undefined
@@ -80,6 +80,7 @@ Item {
         onStatusChanged: {
             image_wrapper.status = status
             if(status == Image.Ready) {
+                fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
                 hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
