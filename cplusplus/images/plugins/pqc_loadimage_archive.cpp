@@ -186,8 +186,9 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     }
 
     QFileInfo info(archivefile);
+    const QString suffix = info.suffix().toLower();
 
-    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "cbr" || suffix == "rar")) {
 
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());
