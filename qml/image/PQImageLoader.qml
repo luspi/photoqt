@@ -1305,8 +1305,10 @@ Item {
         // these are only done if we are not in a slideshow with the ken burns effect
         if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-            if(PQCSettings.imageviewAlwaysActualSize)
-                image_top.zoomActual()
+            if(PQCSettings.imageviewAlwaysActualSize) {
+                loader_top.zoomActualWithoutAnimation()
+                adjustXY.restart()
+            }
 
             loader_top.loadScaleRotation()
 
@@ -1315,6 +1317,19 @@ Item {
         loader_top.imageFullyShown = true
         image_top.initialLoadingFinished = true
 
+    }
+
+    // This is done with a slight delay IF the image is to be loaded at full scale
+    // If done without delay then contentX/Y will be reset to 0
+    Timer {
+        id: adjustXY
+        interval: 10
+        onTriggered: {
+            if(flickable.contentWidth > flickable.width)
+                flickable.contentX = (flickable.contentWidth-flickable.width)/2
+            if(flickable.contentHeight > flickable.height)
+                flickable.contentY = (flickable.contentHeight-flickable.height)/2
+        }
     }
 
     // hide the image
