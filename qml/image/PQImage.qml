@@ -151,13 +151,6 @@ Item {
                 }
 
                 Connections {
-                    target: PQCSettings
-                    function onImageviewAlwaysActualSizeChanged() {
-                        deleg.reloadImage()
-                    }
-                }
-
-                Connections {
                     target: image_top
                     function onReloadImage() {
                         deleg.reloadImage()
