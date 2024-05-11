@@ -322,6 +322,14 @@ Rectangle {
 
     function showFileDialog() {
         isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
+
+        // check that the correct folder is loaded
+        if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "") {
+            var mv_folder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+            if(PQCFileFolderModel.folderFileDialog !== mv_folder)
+                loadNewPath(mv_folder)
+        }
+
         opacity = 1
         if(popoutWindowUsed)
             filedialog_window.visible = true
