@@ -208,13 +208,19 @@ Window {
         target: PQCNotify
 
         function onCmdOpen() {
+            console.log("")
             loader.show("filedialog")
         }
 
         function onCmdShow() {
 
-            if(toplevel.visible)
+            console.log("")
+
+            if(toplevel.visible) {
+                toplevel.raise()
+                toplevel.requestActivate()
                 return
+            }
 
             toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
@@ -225,15 +231,19 @@ Window {
         }
 
         function onCmdHide() {
+            console.log("")
             PQCSettings.interfaceTrayIcon = 1
             toplevel.close()
         }
 
         function onCmdQuit() {
+            console.log("")
             quitPhotoQt()
         }
 
         function onCmdToggle() {
+
+            console.log("")
 
             if(toplevel.visible) {
                 PQCSettings.interfaceTrayIcon = 1
@@ -249,6 +259,8 @@ Window {
         }
 
         function onCmdTray(enabled) {
+
+            console.log("args: enabled =", enabled)
 
             if(enabled && PQCSettings.interfaceTrayIcon === 0)
                 PQCSettings.interfaceTrayIcon = 2
@@ -267,6 +279,8 @@ Window {
 
         function onStartInTrayChanged() {
 
+            console.log("")
+
             if(PQCNotify.startInTray)
                 PQCSettings.interfaceTrayIcon = 1
             else if(!PQCNotify.startInTray && PQCSettings.interfaceTrayIcon === 1)
@@ -275,6 +289,7 @@ Window {
         }
 
         function onFilePathChanged() {
+            console.log("")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
             if(!toplevel.visible)
                 toplevel.visible = true
