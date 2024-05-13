@@ -1574,7 +1574,7 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
 
 
     // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
-    cmsHTRANSFORM transform = cmsCreateTransform(cmsCreate_sRGBProfile(), lcms2SourceFormat, targetProfile, lcms2targetFormat, INTENT_PERCEPTUAL, 0);
+    cmsHTRANSFORM transform = cmsCreateTransform(targetProfile, lcms2SourceFormat, cmsCreate_sRGBProfile(), lcms2targetFormat, INTENT_PERCEPTUAL, 0);
     if (!transform) {
         // Handle error, maybe close profile and return original image or null image
         cmsCloseProfile(targetProfile);
