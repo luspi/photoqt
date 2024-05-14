@@ -1,6 +1,49 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.5 - 2024-05-13
+----------------------------
+- add: context menu entry to force reload any thumbnail
+- add: space key can be forced to play/pause motion photo videos
+- add: autoplay option for motion photo videos
+- add: allow settings manager to be non-modal
+- add: shortcut to trash file with confirmation
+- improve: faster startup performance
+- improve: initial image to be loaded is shown without animation
+- improve: slideshow: Ken Burns slideshow effect
+- improve: slideshow: proper handling of all file types
+- improve: slideshow: better music support
+- improve: slideshow: proper video handling
+- improve: slideshow: don't show 'busy' indicator during slideshows
+- improve: slideshow: left/right arrow keys move to next/previous image
+- improve: photo spheres are loaded as spheres by default
+- improve: photo spheres show a short panning animation when loaded
+- improve: photo spheres integrate better into interface
+- improve: non-modal behavior of file dialog and map explorer
+- improve: backspace key in file dialog goes back in history
+- improve: smoother zoom in file dialog
+- improve: cache subfolder for breadcrumbs
+- improve: handling of popout windows
+- improve: faking background blur on older versions of Qt6 uses a proper color now
+- fix: direction for applying color profiles using LittleCMS
+- fix: loading images with embedded color profiles that report as ARGB32 format
+- fix: listing files in archives with non-lower case suffix
+- fix: upper/lower cases of suffixes in archives handled properly
+- fix: all entries in context menu in file dialog trigger their action
+- fix: use application icon in Wayland
+- fix: properly pause video when switching away
+- fix: 'busy' indicator fills full window
+- fix: folder suggestions for path edit in file dialog
+- fix: thumbnail label follows thumbnail when shown along left edge of window
+- fix: import of backup of configuration
+- fix: filter by image resolution
+- fix: advanced sort of folder by dates
+- fix: heic/heif images might not report proper orientation in exif tags -> ignore
+- fix: advanced spinboxes properly propagate their value
+- fix: using PhotoQt with MPV 0.38+
+- fix: loading images at full scale
+- fix: fitting image to window size setting for large images
+
 
 Release 4.4 - 2024-04-04
 ----------------------------
