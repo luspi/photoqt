@@ -42,41 +42,49 @@ Item {
     property var musicFileOrder: []
     property int currentMusicIndex: 0
 
-    MediaPlayer {
-        id: audioplayer
-        audioOutput: AudioOutput {
-            id: audiooutput
-            property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
+    Loader {
 
-            property bool videoWithVolume: image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio
+        id: loader_audioplayer
+        active: PQCSettings.slideshowMusic
 
-            volume: slideshowhandler_top.volume*(videoWithVolume ? reduceVolume : 1)
-            Behavior on volume { NumberAnimation { duration: 200 } }
+        sourceComponent:
+        MediaPlayer {
+            id: audioplayer
+            audioOutput: AudioOutput {
+                id: audiooutput
+                property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
 
-        }
+                property bool videoWithVolume: image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio
 
-        onPlaybackStateChanged: {
-            if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCNotify.slideshowRunning) {
-                if(PQCSettings.slideshowMusic) {
-                    currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+                volume: slideshowhandler_top.volume*(videoWithVolume ? reduceVolume : 1)
+                Behavior on volume { NumberAnimation { duration: 200 } }
 
-                    var startingIndex = currentMusicIndex
-                    while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex != startingIndex)
-                        currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+            }
 
-                    audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
+            onPlaybackStateChanged: {
+                if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCNotify.slideshowRunning) {
+                    if(PQCSettings.slideshowMusic) {
+                        currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+
+                        var startingIndex = currentMusicIndex
+                        while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex != startingIndex)
+                            currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
+
+                        audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
+                    }
                 }
             }
-        }
 
-        onSourceChanged:
-            play()
+            onSourceChanged:
+                play()
 
-        function checkPlayPause() {
-            if(slideshowhandler_top.running)
-                audioplayer.play()
-            else
-                audioplayer.pause()
+            function checkPlayPause() {
+                if(slideshowhandler_top.running)
+                    audioplayer.play()
+                else
+                    audioplayer.pause()
+            }
+
         }
 
     }
@@ -84,23 +92,34 @@ Item {
     Timer {
         id: checkAudio
         interval: 500
-        running: audioplayer.playbackState===MediaPlayer.PausedState
+        running: PQCSettings.slideshowMusic && loader_audioplayer.item.playbackState===MediaPlayer.PausedState
         onTriggered:
-            audioplayer.checkPlayPause()
-    }
-
-    function onRunningChanged() {
-        audioplayer.checkPlayPause()
+            loader_audioplayer.item.checkPlayPause()
     }
 
     Connections {
+
+        target: slideshowhandler_top
+
+        function onRunningChanged() {
+            if(PQCSettings.slideshowMusic)
+                loader_audioplayer.item.checkPlayPause()
+        }
+
+    }
+
+    Connections {
+
         target: image
+
         function onCurrentlyShowingVideoPlayingChanged() {
-            audioplayer.checkPlayPause()
+            if(PQCSettings.slideshowMusic)
+                loader_audioplayer.item.checkPlayPause()
             if(slideshowhandler_top.running && !image.currentlyShowingVideoPlaying) {
                 switcher.triggered()
             }
-            audioplayer.checkPlayPause()
+            if(PQCSettings.slideshowMusic)
+                loader_audioplayer.item.checkPlayPause()
         }
     }
 
@@ -111,7 +130,8 @@ Item {
         running: slideshowhandler_top.running&&!image.currentlyShowingVideo
         onTriggered: {
             loadNextImage()
-            audioplayer.checkPlayPause()
+            if(PQCSettings.slideshowMusic)
+                loader_audioplayer.item.checkPlayPause()
         }
     }
 
@@ -199,10 +219,9 @@ Item {
                 shuffle(musicFileOrder)
             while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
                 currentMusicIndex += 1
-            audioplayer.position = 0
-            audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
-        } else
-            audioplayer.source = ""
+            loader_audioplayer.item.position = 0
+            loader_audioplayer.item.source = "file://" + musicFileOrder[currentMusicIndex]
+        }
 
     }
 
@@ -212,7 +231,8 @@ Item {
 
         PQCNotify.slideshowRunning = false
         slideshowhandler_top.running = false
-        audioplayer.checkPlayPause()
+        if(PQCSettings.slideshowMusic)
+            loader_audioplayer.item.checkPlayPause()
         loader.elementClosed("slideshowhandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
@@ -275,7 +295,8 @@ Item {
         if(!PQCNotify.slideshowRunning) return
         // The following two lines HAVE to be in this order!!
         slideshowhandler_top.running = !slideshowhandler_top.running
-        audioplayer.checkPlayPause()
+        if(PQCSettings.slideshowMusic)
+            loader_audioplayer.item.checkPlayPause()
         image.playPauseAnimationVideo()
     }
 
