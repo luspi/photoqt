@@ -42,6 +42,14 @@ PQTemplateFullscreen {
     onPopoutChanged:
         PQCSettings.interfacePopoutSettingsManager = popout
 
+    onPopoutClosed: {
+        if(confirmUnsaved.visible)
+            confirmCancel.clicked()
+        if(settinginfomessage.visible)
+            settinginfomessage.hide()
+        button3.clicked()
+    }
+
     button1.text: qsTranslate("settingsmanager", "Apply changes")
     button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false
     button1.onClicked: settingsloader.item.applyChanges()

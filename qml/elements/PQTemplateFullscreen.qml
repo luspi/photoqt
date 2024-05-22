@@ -98,6 +98,22 @@ Rectangle {
 
     signal close()
 
+    // this signal is only ever emitted IF this element is popped out AND if the window was closed through the window manager
+    signal popoutClosed()
+
+    Loader {
+        active: popoutWindowUsed
+        sourceComponent:
+        Item {
+            Connections {
+                target: ele_window
+                function onPopoutClosed() {
+                    ele_top.popoutClosed()
+                }
+            }
+        }
+    }
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true

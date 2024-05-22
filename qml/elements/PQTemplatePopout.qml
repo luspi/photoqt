@@ -57,6 +57,9 @@ Window {
         ele_window.setHeight(geometry.height)
     }
 
+    onClosing:
+        ele_window.popoutClosed()
+
     minimumWidth: 600
     minimumHeight: 400
 
