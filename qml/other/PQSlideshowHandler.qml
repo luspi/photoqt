@@ -53,11 +53,13 @@ Item {
             audioOutput: AudioOutput {
                 id: audiooutput
                 property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
-
-                property bool videoWithVolume: image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio
-
-                volume: slideshowhandler_top.volume*(videoWithVolume ? reduceVolume : 1)
+                volume: slideshowhandler_top.volume*(slideshowhandler_top.videoWithVolume ? reduceVolume : 1)
                 Behavior on volume { NumberAnimation { duration: 200 } }
+
+                // this is needed to ensure we don't play music if the very first file is a video file with sound
+                Component.onCompleted: {
+                    videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio)
+                }
 
             }
 
@@ -87,6 +89,36 @@ Item {
 
         }
 
+    }
+
+
+    // check whether a video contains audio and re-enable it with a short delay
+    // this avoids the music from shortly pop up with back-to-back video files
+    property bool videoWithVolume: false
+    Connections {
+        target: image
+        function onCurrentlyShowingVideoChanged() {
+            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) {
+                resetVolumeWithDelay.stop()
+                videoWithVolume = true
+            } else
+                resetVolumeWithDelay.restart()
+        }
+        function onCurrentlyShowingVideoHasAudioChanged() {
+            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) {
+                resetVolumeWithDelay.stop()
+                videoWithVolume = true
+            } else
+                resetVolumeWithDelay.restart()
+        }
+    }
+
+    Timer {
+        id: resetVolumeWithDelay
+        interval: 250
+        onTriggered: {
+            videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio)
+        }
     }
 
     Timer {
