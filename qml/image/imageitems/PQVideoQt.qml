@@ -55,7 +55,7 @@ Item {
 
         onPositionChanged: {
             if(position >= duration-100) {
-                if(PQCSettings.filetypesVideoLoop)
+                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning)
                     video.seek(0)
                 else
                     video.pause()
@@ -71,7 +71,7 @@ Item {
                 else
                     video.source = "file://" + loader_top.imageSource
 
-                if(PQCSettings.filetypesVideoLoop) {
+                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) {
                     video.play()
                 } else {
                     video.pause()

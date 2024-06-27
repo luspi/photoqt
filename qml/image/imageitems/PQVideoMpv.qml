@@ -124,7 +124,7 @@ Item {
             PQCSettings.filetypesVideoVolume = video.getProperty("volume")
             loader_top.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
-                if(PQCSettings.filetypesVideoLoop && !restarting) {
+                if(PQCSettings.filetypesVideoLoop && !restarting && !PQCNotify.slideshowRunning) {
                     video.command(["loadfile", loader_top.imageSource])
                     restarting = true
                 }
