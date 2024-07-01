@@ -185,14 +185,14 @@ Image {
     /**********************************************************************************/
     // the code below takes care of loading special photo actions
 
-    Connections {
-        target: image_top
-        function onCurrentlyVisibleIndexChanged() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
-                videoloader.active = false
-            }
-        }
-    }
+    // Connections {
+    //     target: image_top
+    //     function onCurrentlyVisibleIndexChanged() {
+    //         if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
+    //             videoloader.active = false
+    //         }
+    //     }
+    // }
 
     /******************************************************************************************/
     // The next block is for photo spheres and motion photos
@@ -253,8 +253,8 @@ Image {
             if(PQCNotify.slideshowRunning)
                 return
 
-            if(PQCFileFolderModel.currentIndex !== index)
-                return
+            // if(PQCFileFolderModel.currentIndex !== index)
+                // return
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
 

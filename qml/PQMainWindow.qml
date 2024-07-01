@@ -95,7 +95,7 @@ Window {
     }
 
     // very cheap to set up, many properties needed everywhere -> no loader
-    PQImage { id: image}
+    PQImageNew { id: image}
 
     /*************************************************/
     // load assynchronously at startup

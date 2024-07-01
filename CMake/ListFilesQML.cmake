@@ -31,7 +31,7 @@ SET(d "qml/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQTemplateFullscreen.qml ${d}/PQSlideshowHandler.qml)
 
 SET(d "qml/image")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageLoader.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageLoader.qml ${d}/PQImageNew.qml ${d}/PQImageDisplayNew.qml)
 SET(d "qml/image/imageitems")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQVideoMpv.qml ${d}/PQVideoQt.qml ${d}/PQArchive.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphere.qml ${d}/PQDocument.qml ${d}/PQSVG.qml)
