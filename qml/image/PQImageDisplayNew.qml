@@ -29,1405 +29,1419 @@ import PQCScriptsImages
 import "components"
 import "../elements"
 
-Item {
-
-    id: loader_top
-
-    width: image_top.width
-    height: image_top.height
-
-    visible: false
-
-    // some image properties
-    property int imageRotation: 0
-    property bool rotatedUpright: (Math.abs(imageRotation%180)!=90)
-    property real imageScale: defaultScale
-    property real defaultWidth
-    property real defaultHeight
-    property real defaultScale: 1
-    property size imageResolution: Qt.size(0,0)
-
-    onImageResolutionChanged: {
-        if(isMainImage)
-            image_top.currentResolution = imageResolution
-    }
-
-    property int imagePosX: 0
-    property int imagePosY: 0
-    property bool imageMirrorH: false
-    property bool imageMirrorV: false
-
-    property bool listenToClicksOnImage: false
-    property bool thisIsAPhotoSphere: false
-
-    property bool videoLoaded: false
-    property bool videoPlaying: false
-    property real videoDuration: 0.0
-    property real videoPosition: 0.0
-    property bool videoHasAudio: false
-
-    // this is set to the duplicate from the loader
-    property int mainItemIndex: -1
+Loader {
+    id: imageloaderitem
     property int componentIndex: -1
-    property bool isMainImage: (PQCFileFolderModel.currentIndex===mainItemIndex)
-
-    property Item parentItem: (componentIndex == 1 ? image1 :
-                                                     (componentIndex == 2 ? image2 :
-                                                                            (componentIndex == 3 ? image3 :
-                                                                                                   (componentIndex == 4 ? image4 : null))))
-
-    property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
-
-    property bool photoSphereManuallyEntered: false
-
-    // some signals
-    signal zoomInForKenBurns()
-    signal zoomActualWithoutAnimation()
-    signal zoomResetWithoutAnimation()
-    signal rotationResetWithoutAnimation()
-    signal rotationZoomResetWithoutAnimation()
-    signal loadScaleRotation()
-    signal stopVideoAndReset()
-    signal restartVideoIfAutoplay()
-    signal moveViewToCenter()
-    signal resetToDefaults()
-
-    signal videoTogglePlay()
-    signal videoToPos(var s)
-    signal imageClicked()
-
-    signal finishSetup()
-
-    onVideoPlayingChanged: {
-        if(isMainImage)
-            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+    property int mainItemIndex: -1
+    property bool imageLoadedAndReady: false
+    onMainItemIndexChanged: {
+        imageLoadedAndReady = false
+        active = false
+        active = (mainItemIndex!=-1)
+        if(active) {
+            item.componentIndex = componentIndex
+            item.mainItemIndex = imageloaderitem.mainItemIndex
+            item.finishSetup()
+        }
     }
-    onVideoHasAudioChanged: {
-        if(isMainImage)
-            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
-    }
-    onVideoLoadedChanged: {
-        if(isMainImage)
-            image_top.currentlyShowingVideo = loader_top.videoLoaded
-    }
+    active: false
+    sourceComponent:
+    Item {
 
-    // react to user commands
-    Connections {
+        id: loader_top
 
-        target: image_top
+        width: image_top.width
+        height: image_top.height
 
-        function onZoomIn(wheelDelta) {
-            if(isMainImage) {
+        visible: false
+
+        // some image properties
+        property int imageRotation: 0
+        property bool rotatedUpright: (Math.abs(imageRotation%180)!=90)
+        property real imageScale: defaultScale
+        property real defaultWidth
+        property real defaultHeight
+        property real defaultScale: 1
+        property size imageResolution: Qt.size(0,0)
+
+        onImageResolutionChanged: {
+            if(loader_top.isMainImage)
+                image_top.currentResolution = imageResolution
+        }
+
+        property int imagePosX: 0
+        property int imagePosY: 0
+        property bool imageMirrorH: false
+        property bool imageMirrorV: false
+
+        property bool listenToClicksOnImage: false
+        property bool thisIsAPhotoSphere: false
+
+        property bool videoLoaded: false
+        property bool videoPlaying: false
+        property real videoDuration: 0.0
+        property real videoPosition: 0.0
+        property bool videoHasAudio: false
+
+        // this is set to the duplicate from the loader
+        property int mainItemIndex: -1
+        property int componentIndex: -1
+        property bool isMainImage: (PQCFileFolderModel.currentIndex===mainItemIndex)
+
+        property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
+
+        property bool photoSphereManuallyEntered: false
+
+        // some signals
+        signal zoomInForKenBurns()
+        signal zoomActualWithoutAnimation()
+        signal zoomResetWithoutAnimation()
+        signal rotationResetWithoutAnimation()
+        signal rotationZoomResetWithoutAnimation()
+        signal loadScaleRotation()
+        signal stopVideoAndReset()
+        signal restartVideoIfAutoplay()
+        signal moveViewToCenter()
+        signal resetToDefaults()
+
+        signal videoTogglePlay()
+        signal videoToPos(var s)
+        signal imageClicked()
+
+        signal finishSetup()
+
+        onVideoPlayingChanged: {
+            if(loader_top.isMainImage)
+                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+        }
+        onVideoHasAudioChanged: {
+            if(loader_top.isMainImage)
+                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+        }
+        onVideoLoadedChanged: {
+            if(loader_top.isMainImage)
+                image_top.currentlyShowingVideo = loader_top.videoLoaded
+        }
+
+        // react to user commands
+        Connections {
+
+            target: image_top
+
+            function onZoomIn(wheelDelta) {
+                if(loader_top.isMainImage) {
+
+                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+
+                    // compute zoom factor based on wheel movement (if done by mouse)
+                    var zoomfactor
+                    if(wheelDelta !== undefined)
+                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
+                    else
+                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+
+                    if(PQCSettings.imageviewZoomMaxEnabled)
+                        loader_top.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, loader_top.imageScale*zoomfactor)
+                    else
+                        loader_top.imageScale = Math.min(25, loader_top.imageScale*zoomfactor)
+                }
+            }
+            function onZoomOut(wheelDelta) {
+                if(loader_top.isMainImage) {
+
+                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+
+                    // compute zoom factor based on wheel movement (if done by mouse)
+                    var zoomfactor
+                    if(wheelDelta !== undefined)
+                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
+                    else
+                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+
+                    if(PQCSettings.imageviewZoomMinEnabled)
+                        loader_top.imageScale = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100), loader_top.imageScale/zoomfactor)
+                    else
+                        loader_top.imageScale = Math.max(0.01, loader_top.imageScale/zoomfactor)
+                }
+            }
+            function onZoomReset() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
-                // compute zoom factor based on wheel movement (if done by mouse)
-                var zoomfactor
-                if(wheelDelta !== undefined)
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
-                else
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
-
-                if(PQCSettings.imageviewZoomMaxEnabled)
-                    loader_top.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, loader_top.imageScale*zoomfactor)
-                else
-                    loader_top.imageScale = Math.min(25, loader_top.imageScale*zoomfactor)
+                if(loader_top.isMainImage)
+                    loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
             }
-        }
-        function onZoomOut(wheelDelta) {
-            if(isMainImage) {
+            function onZoomActual() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
-                // compute zoom factor based on wheel movement (if done by mouse)
-                var zoomfactor
-                if(wheelDelta !== undefined)
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
-                else
-                    zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
-
-                if(PQCSettings.imageviewZoomMinEnabled)
-                    loader_top.imageScale = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100), loader_top.imageScale/zoomfactor)
-                else
-                    loader_top.imageScale = Math.max(0.01, loader_top.imageScale/zoomfactor)
+                if(loader_top.isMainImage)
+                    loader_top.imageScale = 1
             }
-        }
-        function onZoomReset() {
+            function onRotateClock() {
 
-            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
-            if(isMainImage)
-                loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
-        }
-        function onZoomActual() {
-
-            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
-
-            if(isMainImage)
-                loader_top.imageScale = 1
-        }
-        function onRotateClock() {
-
-            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
-
-            if(isMainImage)
-                loader_top.imageRotation += 90
-        }
-        function onRotateAntiClock() {
-
-            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
-
-            if(isMainImage)
-                loader_top.imageRotation -= 90
-        }
-        function onRotateReset() {
-
-            if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
-
-            if(isMainImage) {
-                // rotate to the nearest (rotation%360==0) degrees
-                var offset = loader_top.imageRotation%360
-                if(offset == 180 || offset == 270)
-                    loader_top.imageRotation += (360-offset)
-                else if(offset == 90)
-                    loader_top.imageRotation -= 90
-                else if(offset == -90)
+                if(loader_top.isMainImage)
                     loader_top.imageRotation += 90
-                else if(offset == -180 || offset == -270)
-                    loader_top.imageRotation -= (360+offset)
             }
-        }
+            function onRotateAntiClock() {
 
-        function onReloadImage() {
-            if(isMainImage)
-                reloadTheImage()
-        }
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
 
-    }
-
-    Connections {
-
-        target: PQCSettings
-
-        function onImageviewColorSpaceDefaultChanged() {
-            if(isMainImage)
-                reloadTheImage()
-        }
-
-    }
-
-    function reloadTheImage() {
-        image_loader.active = false
-        image_loader.active = true
-        minimap_loader.active = false
-        minimap_loader.active = true
-    }
-
-    Flickable {
-
-        id: flickable
-
-        width: parent.width
-        height: parent.height
-
-        contentWidth: flickable_content.width
-        contentHeight: flickable_content.height
-
-        // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
-        // This is causing, e.g., the minimap to not update with the actual position of the view
-        // This check here makes sure that we force an update to the position, but only if the image was dragged out of bounds
-        // (See the onRunningChanged signal in the rebound animation)
-        property bool needToRecheckPosition: false
-        onMovementEnded: {
-            if(needToRecheckPosition) {
-                flickable.contentX += 1
-                flickable.contentY += 1
-                flickable.contentX -= 1
-                flickable.contentY -= 1
-                needToRecheckPosition = false
+                if(loader_top.isMainImage)
+                    loader_top.imageRotation -= 90
             }
-        }
+            function onRotateReset() {
 
-        rebound: Transition {
-            NumberAnimation {
-                properties: "x,y"
-                // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
-                duration: PQCNotify.slideshowRunning ? 0 : 250
-                easing.type: Easing.OutQuad
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+
+                if(loader_top.isMainImage) {
+                    // rotate to the nearest (rotation%360==0) degrees
+                    var offset = loader_top.imageRotation%360
+                    if(offset == 180 || offset == 270)
+                        loader_top.imageRotation += (360-offset)
+                    else if(offset == 90)
+                        loader_top.imageRotation -= 90
+                    else if(offset == -90)
+                        loader_top.imageRotation += 90
+                    else if(offset == -180 || offset == -270)
+                        loader_top.imageRotation -= (360+offset)
+                }
             }
-            // Signal that the view was dragged out of bounds
-            onRunningChanged:
-                flickable.needToRecheckPosition = true
-        }
 
-        interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+            function onReloadImage() {
+                if(loader_top.isMainImage)
+                    loader_top.reloadTheImage()
+            }
 
-        contentX: loader_top.imagePosX
-        onContentXChanged: {
-            if(loader_top.imagePosX !== contentX)
-                loader_top.imagePosX = contentX
-        }
-        contentY: loader_top.imagePosY
-        onContentYChanged: {
-            if(loader_top.imagePosY !== contentY)
-                loader_top.imagePosY = contentY
         }
 
         Connections {
 
-            target: PQCNotify
+            target: PQCSettings
 
-            function onMouseWheel(angleDelta, modifiers) {
-                if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere)
-                    return
-                flickable.interactive = false
-                reEnableInteractive.restart()
+            function onImageviewColorSpaceDefaultChanged() {
+                if(loader_top.isMainImage)
+                    loader_top.reloadTheImage()
             }
 
-            function onMousePressed(mods, button, pos) {
+        }
 
-                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
-                    reEnableInteractive.stop()
+        function reloadTheImage() {
+            image_loader.active = false
+            image_loader.active = true
+            minimap_loader.active = false
+            minimap_loader.active = true
+        }
+
+        Flickable {
+
+            id: flickable
+
+            width: parent.width
+            height: parent.height
+
+            contentWidth: flickable_content.width
+            contentHeight: flickable_content.height
+
+            // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
+            // This is causing, e.g., the minimap to not update with the actual position of the view
+            // This check here makes sure that we force an update to the position, but only if the image was dragged out of bounds
+            // (See the onRunningChanged signal in the rebound animation)
+            property bool needToRecheckPosition: false
+            onMovementEnded: {
+                if(needToRecheckPosition) {
+                    flickable.contentX += 1
+                    flickable.contentY += 1
+                    flickable.contentX -= 1
+                    flickable.contentY -= 1
+                    needToRecheckPosition = false
+                }
+            }
+
+            rebound: Transition {
+                NumberAnimation {
+                    properties: "x,y"
+                    // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
+                    duration: PQCNotify.slideshowRunning ? 0 : 250
+                    easing.type: Easing.OutQuad
+                }
+                // Signal that the view was dragged out of bounds
+                onRunningChanged:
+                    flickable.needToRecheckPosition = true
+            }
+
+            interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+
+            contentX: loader_top.imagePosX
+            onContentXChanged: {
+                if(loader_top.imagePosX !== contentX)
+                    loader_top.imagePosX = contentX
+            }
+            contentY: loader_top.imagePosY
+            onContentYChanged: {
+                if(loader_top.imagePosY !== contentY)
+                    loader_top.imagePosY = contentY
+            }
+
+            Connections {
+
+                target: PQCNotify
+
+                function onMouseWheel(angleDelta, modifiers) {
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere)
+                        return
                     flickable.interactive = false
-                }
-
-                if(!isMainImage)
-                    return
-
-                var locpos = flickable_content.mapFromItem(fullscreenitem, pos.x, pos.y)
-
-                if(PQCSettings.interfaceCloseOnEmptyBackground) {
-                    if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
-                        toplevel.close()
-                    return
-                }
-
-                if(PQCSettings.interfaceNavigateOnEmptyBackground) {
-                    if(locpos.x < 0 || (locpos.x < flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
-                        image.showPrev()
-                    else if(locpos.x > flickable_content.width || (locpos.x > flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
-                        image.showNext()
-                    return
-                }
-
-                if(PQCSettings.interfaceWindowDecorationOnEmptyBackground) {
-                    if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
-                        PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
-                    return
-                }
-
-            }
-
-            function onMouseReleased() {
-                if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
                     reEnableInteractive.restart()
                 }
+
+                function onMousePressed(mods, button, pos) {
+
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
+                        reEnableInteractive.stop()
+                        flickable.interactive = false
+                    }
+
+                    if(!loader_top.isMainImage)
+                        return
+
+                    var locpos = flickable_content.mapFromItem(fullscreenitem, pos.x, pos.y)
+
+                    if(PQCSettings.interfaceCloseOnEmptyBackground) {
+                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                            toplevel.close()
+                        return
+                    }
+
+                    if(PQCSettings.interfaceNavigateOnEmptyBackground) {
+                        if(locpos.x < 0 || (locpos.x < flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                            image.showPrev()
+                        else if(locpos.x > flickable_content.width || (locpos.x > flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
+                            image.showNext()
+                        return
+                    }
+
+                    if(PQCSettings.interfaceWindowDecorationOnEmptyBackground) {
+                        if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
+                            PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
+                        return
+                    }
+
+                }
+
+                function onMouseReleased() {
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
+                        reEnableInteractive.restart()
+                    }
+                }
+
             }
 
-        }
+            Timer {
+                id: reEnableInteractive
+                interval: 100
+                repeat: false
+                onTriggered:
+                    flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
+            }
 
-        Timer {
-            id: reEnableInteractive
-            interval: 100
-            repeat: false
-            onTriggered:
-                flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
-        }
-
-        // the container for the content
-        Item {
-            id: flickable_content
-
-            x: Math.max(0, (flickable.width-width)/2)
-            y: Math.max(0, (flickable.height-height)/2)
-            width: (loader_top.rotatedUpright ? image_wrapper.width : image_wrapper.height)*image_wrapper.scale
-            height: (loader_top.rotatedUpright ? image_wrapper.height : image_wrapper.width)*image_wrapper.scale
-
-            // wrapper for the image
-            // we need both this and the container to be able to properly hadle
-            // all scaling and rotations while having the flickable properly flick the image
+            // the container for the content
             Item {
+                id: flickable_content
 
-                id: image_wrapper
+                x: Math.max(0, (flickable.width-width)/2)
+                y: Math.max(0, (flickable.height-height)/2)
+                width: (loader_top.rotatedUpright ? image_wrapper.width : image_wrapper.height)*image_wrapper.scale
+                height: (loader_top.rotatedUpright ? image_wrapper.height : image_wrapper.width)*image_wrapper.scale
 
-                y: (loader_top.rotatedUpright ?
-                        (height*scale-height)/2 :
-                        (-(image_wrapper.height - image_wrapper.width)/2 + (width*scale-width)/2))
-                x: (loader_top.rotatedUpright ?
-                        (width*scale-width)/2 :
-                        (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
+                // wrapper for the image
+                // we need both this and the container to be able to properly hadle
+                // all scaling and rotations while having the flickable properly flick the image
+                Item {
 
-                // some properties
-                property real prevW: loader_top.defaultWidth
-                property real prevH: loader_top.defaultHeight
-                property real prevScale: scale
-                property bool startupScale: false
+                    id: image_wrapper
 
-                property real kenBurnsZoomFactor: loader_top.defaultScale
+                    y: (loader_top.rotatedUpright ?
+                            (height*scale-height)/2 :
+                            (-(image_wrapper.height - image_wrapper.width)/2 + (width*scale-width)/2))
+                    x: (loader_top.rotatedUpright ?
+                            (width*scale-width)/2 :
+                            (-(image_wrapper.width - image_wrapper.height)/2 + (height*scale-height)/2))
 
-                rotation: 0
-                scale: loader_top.defaultScale
+                    // some properties
+                    property real prevW: loader_top.defaultWidth
+                    property real prevH: loader_top.defaultHeight
+                    property real prevScale: scale
+                    property bool startupScale: false
 
-                // update content position
-                onScaleChanged: {
+                    property real kenBurnsZoomFactor: loader_top.defaultScale
 
-                    var updContentX = 0
-                    var updContentY = 0
+                    rotation: 0
+                    scale: loader_top.defaultScale
 
-                    // if the width is larger than the visible width
-                    if(width*scale > flickable.width) {
-                        updContentX = flickable.contentX+(width*scale - prevW)/2
-                    }
-                    // if the height is larger than the visible height
-                    if(height*scale > flickable.height) {
-                        updContentY = flickable.contentY+(height*scale - prevH)/2
-                    }
+                    // update content position
+                    onScaleChanged: {
 
-                    flickable.contentX = updContentX
-                    flickable.contentY = updContentY
+                        var updContentX = 0
+                        var updContentY = 0
 
-                    prevW = width*scale
-                    prevH = height*scale
-                    prevScale = scale
-
-                    if(isMainImage)
-                        image_top.currentScale = scale
-
-                }
-
-                onRotationChanged: {
-                    if(isMainImage)
-                        image_top.currentRotation = rotation
-                }
-
-                // react to status changes
-                property int status: Image.Null
-                onStatusChanged: {
-                    if(status == Image.Ready) {
-                        if(isMainImage) {
-                            parentItem.imageLoadedAndReady = true
-                            timer_busyloading.stop()
-                            busyloading.hide()
-                            var tmp = image_wrapper.computeDefaultScale()
-                            if(Math.abs(tmp-1) > 1e-6)
-                                image_wrapper.startupScale = true
-                            loader_top.defaultWidth = width*loader_top.defaultScale
-                            loader_top.defaultHeight = height*loader_top.defaultScale
-                            loader_top.defaultScale = 0.99999999*tmp
-                            image_top.defaultScale = loader_top.defaultScale
-                            image_top.newMainImageReady(loader_top.componentIndex)
-
-                            setUpImageWhenReady()
+                        // if the width is larger than the visible width
+                        if(width*scale > flickable.width) {
+                            updContentX = flickable.contentX+(width*scale - prevW)/2
                         }
-                    } else if(isMainImage)
-                        timer_busyloading.restart()
-                }
+                        // if the height is larger than the visible height
+                        if(height*scale > flickable.height) {
+                            updContentY = flickable.contentY+(height*scale - prevH)/2
+                        }
 
-                onWidthChanged: {
-                    if(parentItem.imageLoadedAndReady) {
-                        resetDefaults.triggered()
+                        flickable.contentX = updContentX
+                        flickable.contentY = updContentY
+
+                        prevW = width*scale
+                        prevH = height*scale
+                        prevScale = scale
+
+                        if(loader_top.isMainImage)
+                            image_top.currentScale = scale
+
                     }
-                }
-                onHeightChanged: {
-                    if(parentItem.imageLoadedAndReady) {
-                        resetDefaults.triggered()
+
+                    onRotationChanged: {
+                        if(loader_top.isMainImage)
+                            image_top.currentRotation = rotation
                     }
-                }
 
-                // the actual image
-                Loader {
+                    // react to status changes
+                    property int status: Image.Null
+                    onStatusChanged: {
+                        if(status == Image.Ready) {
+                            if(loader_top.isMainImage) {
+                                imageloaderitem.imageLoadedAndReady = true
+                                timer_busyloading.stop()
+                                busyloading.hide()
+                                var tmp = image_wrapper.computeDefaultScale()
+                                if(Math.abs(tmp-1) > 1e-6)
+                                    image_wrapper.startupScale = true
+                                loader_top.defaultWidth = width*loader_top.defaultScale
+                                loader_top.defaultHeight = height*loader_top.defaultScale
+                                loader_top.defaultScale = 0.99999999*tmp
+                                image_top.defaultScale = loader_top.defaultScale
+                                image_top.newMainImageReady(loader_top.componentIndex)
 
-                    id: image_loader
-                    asynchronous: true
+                                loader_top.setUpImageWhenReady()
+                            }
+                        } else if(loader_top.isMainImage)
+                            timer_busyloading.restart()
+                    }
+
+                    onWidthChanged: {
+                        if(imageloaderitem.imageLoadedAndReady) {
+                            resetDefaults.triggered()
+                        }
+                    }
+                    onHeightChanged: {
+                        if(imageloaderitem.imageLoadedAndReady) {
+                            resetDefaults.triggered()
+                        }
+                    }
+
+                    // the actual image
+                    Loader {
+
+                        id: image_loader
+                        asynchronous: true
+
+                        Connections {
+                            target: loader_top
+
+                            function onFinishSetup() {
+
+                                image_top.currentFileInside = 0
+                                loader_top.listenToClicksOnImage = false
+                                loader_top.videoPlaying = false
+                                loader_top.videoLoaded = false
+                                loader_top.videoDuration = 0
+                                loader_top.videoPosition = 0
+                                loader_top.videoHasAudio = false
+                                if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
+                                    image_loader.source = "imageitems/PQDocument.qml"
+                                else if(PQCScriptsImages.isArchive(loader_top.imageSource))
+                                    image_loader.source = "imageitems/PQArchive.qml"
+                                else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
+                                    image_loader.source = "imageitems/PQVideoMpv.qml"
+                                    loader_top.listenToClicksOnImage = true
+                                    loader_top.videoLoaded = true
+                                } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
+                                    image_loader.source = "imageitems/PQVideoQt.qml"
+                                    loader_top.listenToClicksOnImage = true
+                                    loader_top.videoLoaded = true
+                                } else if(PQCScriptsImages.isItAnimated(loader_top.imageSource)) {
+                                    image_loader.source = "imageitems/PQImageAnimated.qml"
+                                    loader_top.listenToClicksOnImage = true
+                                } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
+                                    image_loader.source = "imageitems/PQSVG.qml"
+                                } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                                    loader_top.thisIsAPhotoSphere = true
+                                    image_loader.source = "imageitems/PQPhotoSphere.qml"
+                                } else {
+                                    loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
+                                    image_loader.source = "imageitems/PQImageNormal.qml"
+                                }
+
+                                image_top.currentlyShowingVideo = loader_top.videoLoaded
+                                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+
+                            }
+                        }
+
+                    }
+
+                    // PQBarCodes {
+                    //     id: barcodes
+                    // }
+
+                    // PQFaceTracker {
+                    //     id: facetracker
+                    // }
+
+                    // PQFaceTagger {
+                    //     id: facetagger
+                    // }
+
+                    Loader {
+                        id: minimap_loader
+                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap
+                        asynchronous: true
+                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
+                    }
+
+                    // scaling animation
+                    PropertyAnimation {
+                        id: scaleAnimation
+                        target: image_wrapper
+                        property: "scale"
+                        from: image_wrapper.scale
+                        to: loader_top.imageScale
+                        duration: 200
+                    }
+
+                    // rotation animation
+                    PropertyAnimation {
+                        id: rotationAnimation
+                        target: image_wrapper
+                        duration: 200
+                        property: "rotation"
+                    }
+
+                    // reset default properties when window size changed
+                    Timer {
+                        id: resetDefaults
+                        interval: 100
+                        onTriggered: {
+                            var tmp = image_wrapper.computeDefaultScale()
+                            if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
+
+                                loader_top.defaultScale = 0.99999999*tmp
+                                loader_top.rotationZoomResetWithoutAnimation()
+
+                            } else {
+
+                                loader_top.defaultScale = 0.99999999*tmp
+
+                            }
+
+                            if(loader_top.isMainImage) {
+                                image.defaultScale = loader_top.defaultScale
+                            }
+                        }
+                    }
+
+                    PropertyAnimation {
+                        id: animateX
+                        target: flickable
+                        property: "contentX"
+                        duration: 200
+                    }
+
+                    PropertyAnimation {
+                        id: animateY
+                        target: flickable
+                        property: "contentY"
+                        duration: 200
+                    }
 
                     Connections {
+                        target: fullscreenitem
+
+                        function onWidthChanged() {
+                            resetDefaults.restart()
+                        }
+
+                        function onHeightChanged() {
+                            resetDefaults.restart()
+                        }
+                    }
+
+                    Connections {
+
+                        target: image_top
+
+                        function onPlayPauseAnimationVideo() {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            loader_top.videoTogglePlay()
+                        }
+
+                        function onMoveView(direction) {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere)
+                                return
+
+                            if(direction === "left")
+                                flickable.flick(1000,0)
+                            else if(direction === "right")
+                                flickable.flick(-1000,0)
+                            else if(direction === "up")
+                                flickable.flick(0,1000)
+                            else if(direction === "down")
+                                flickable.flick(0,-1000)
+                            else if(direction === "leftedge") {
+                                animateX.stop()
+                                animateX.from = flickable.contentX
+                                animateX.to = 0
+                                animateX.start()
+                            } else if(direction === "rightedge") {
+                                animateX.stop()
+                                animateX.from = flickable.contentX
+                                animateX.to = flickable.contentWidth-flickable.width
+                                animateX.start()
+                            } else if(direction === "topedge") {
+                                animateY.stop()
+                                animateY.from = flickable.contentY
+                                animateY.to = 0
+                                animateY.start()
+                            } else if(direction === "bottomedge") {
+                                animateY.stop()
+                                animateY.from = flickable.contentY
+                                animateY.to = flickable.contentHeight-flickable.height
+                                animateY.start()
+                            }
+
+                        }
+
+                    }
+
+                    // connect image wrapper to some of its properties
+                    Connections {
+
                         target: loader_top
 
-                        function onFinishSetup() {
+                        function onImageScaleChanged() {
 
-                            image_top.currentFileInside = 0
-                            loader_top.listenToClicksOnImage = false
-                            loader_top.videoPlaying = false
-                            loader_top.videoLoaded = false
-                            loader_top.videoDuration = 0
-                            loader_top.videoPosition = 0
-                            loader_top.videoHasAudio = false
-                            if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
-                                image_loader.source = "imageitems/PQDocument.qml"
-                            else if(PQCScriptsImages.isArchive(loader_top.imageSource))
-                                image_loader.source = "imageitems/PQArchive.qml"
-                            else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
-                                image_loader.source = "imageitems/PQVideoMpv.qml"
-                                loader_top.listenToClicksOnImage = true
-                                loader_top.videoLoaded = true
-                            } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
-                                image_loader.source = "imageitems/PQVideoQt.qml"
-                                loader_top.listenToClicksOnImage = true
-                                loader_top.videoLoaded = true
-                            } else if(PQCScriptsImages.isItAnimated(loader_top.imageSource)) {
-                                image_loader.source = "imageitems/PQImageAnimated.qml"
-                                loader_top.listenToClicksOnImage = true
-                            } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
-                                image_loader.source = "imageitems/PQSVG.qml"
-                            } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
-                                loader_top.thisIsAPhotoSphere = true
-                                image_loader.source = "imageitems/PQPhotoSphere.qml"
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(image_wrapper.startupScale) {
+                                image_wrapper.startupScale = false
+                                image_wrapper.scale = loader_top.imageScale
                             } else {
-                                loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
-                                image_loader.source = "imageitems/PQImageNormal.qml"
+                                scaleAnimation.from = image_wrapper.scale
+                                scaleAnimation.to = loader_top.imageScale
+                                scaleAnimation.restart()
                             }
-
-                            image_top.currentlyShowingVideo = loader_top.videoLoaded
-                            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-                            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
-
-                        }
-                    }
-
-                }
-
-                // PQBarCodes {
-                //     id: barcodes
-                // }
-
-                // PQFaceTracker {
-                //     id: facetracker
-                // }
-
-                // PQFaceTagger {
-                //     id: facetagger
-                // }
-
-                Loader {
-                    id: minimap_loader
-                    active: isMainImage && PQCSettings.imageviewShowMinimap
-                    asynchronous: true
-                    source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
-                }
-
-                // scaling animation
-                PropertyAnimation {
-                    id: scaleAnimation
-                    target: image_wrapper
-                    property: "scale"
-                    from: image_wrapper.scale
-                    to: loader_top.imageScale
-                    duration: 200
-                }
-
-                // rotation animation
-                PropertyAnimation {
-                    id: rotationAnimation
-                    target: image_wrapper
-                    duration: 200
-                    property: "rotation"
-                }
-
-                // reset default properties when window size changed
-                Timer {
-                    id: resetDefaults
-                    interval: 100
-                    onTriggered: {
-                        var tmp = image_wrapper.computeDefaultScale()
-                        if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
-
-                            loader_top.defaultScale = 0.99999999*tmp
-                            loader_top.rotationZoomResetWithoutAnimation()
-
-                        } else {
-
-                            loader_top.defaultScale = 0.99999999*tmp
-
                         }
 
-                        if(isMainImage) {
-                            image.defaultScale = loader_top.defaultScale
-                        }
-                    }
-                }
+                        function onRotationZoomResetWithoutAnimation() {
 
-                PropertyAnimation {
-                    id: animateX
-                    target: flickable
-                    property: "contentX"
-                    duration: 200
-                }
+                            if(!loader_top.isMainImage)
+                                return
 
-                PropertyAnimation {
-                    id: animateY
-                    target: flickable
-                    property: "contentY"
-                    duration: 200
-                }
-
-                Connections {
-                    target: fullscreenitem
-
-                    function onWidthChanged() {
-                        resetDefaults.restart()
-                    }
-
-                    function onHeightChanged() {
-                        resetDefaults.restart()
-                    }
-                }
-
-                Connections {
-
-                    target: image_top
-
-                    function onPlayPauseAnimationVideo() {
-
-                        if(!loader_top.isMainImage)
-                            return
-
-                        loader_top.videoTogglePlay()
-                    }
-
-                    function onMoveView(direction) {
-
-                        if(!loader_top.isMainImage)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        if(direction === "left")
-                            flickable.flick(1000,0)
-                        else if(direction === "right")
-                            flickable.flick(-1000,0)
-                        else if(direction === "up")
-                            flickable.flick(0,1000)
-                        else if(direction === "down")
-                            flickable.flick(0,-1000)
-                        else if(direction === "leftedge") {
-                            animateX.stop()
-                            animateX.from = flickable.contentX
-                            animateX.to = 0
-                            animateX.start()
-                        } else if(direction === "rightedge") {
-                            animateX.stop()
-                            animateX.from = flickable.contentX
-                            animateX.to = flickable.contentWidth-flickable.width
-                            animateX.start()
-                        } else if(direction === "topedge") {
-                            animateY.stop()
-                            animateY.from = flickable.contentY
-                            animateY.to = 0
-                            animateY.start()
-                        } else if(direction === "bottomedge") {
-                            animateY.stop()
-                            animateY.from = flickable.contentY
-                            animateY.to = flickable.contentHeight-flickable.height
-                            animateY.start()
-                        }
-
-                    }
-
-                }
-
-                // connect image wrapper to some of its properties
-                Connections {
-
-                    target: loader_top
-
-                    function onImageScaleChanged() {
-
-                        if(!isMainImage)
-                            return
-
-                        if(image_wrapper.startupScale) {
-                            image_wrapper.startupScale = false
-                            image_wrapper.scale = loader_top.imageScale
-                        } else {
-                            scaleAnimation.from = image_wrapper.scale
-                            scaleAnimation.to = loader_top.imageScale
-                            scaleAnimation.restart()
-                        }
-                    }
-
-                    function onRotationZoomResetWithoutAnimation() {
-
-                        if(!isMainImage)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        scaleAnimation.stop()
-                        rotationAnimation.stop()
-
-                        image_wrapper.rotation = 0
-                        loader_top.imageRotation = 0
-                        image_wrapper.scale = loader_top.defaultScale
-                        loader_top.imageScale = image_wrapper.scale
-
-                    }
-
-                    function onZoomActualWithoutAnimation() {
-
-                        if(!isMainImage)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        scaleAnimation.stop()
-
-                        image_wrapper.scale = 1
-                        loader_top.imageScale = image_wrapper.scale
-
-                    }
-
-                    function onZoomInForKenBurns() {
-
-                        if(!isMainImage)
-                            return
-
-                        // this function might be called more than once
-                        // this check makes sure that we only do this once
-                        if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        scaleAnimation.stop()
-
-                        // figure out whether the image is much wider or much higher than the other dimension
-
-                        var facW = 1
-                        var facH = 1
-
-                        if(flickable.contentWidth > 0)
-                            facW = image_top.width/flickable.contentWidth
-                        if(flickable.contentHeight > 0)
-                            facH = image_top.height/flickable.contentHeight
-
-                        // small images are not scaled as much as larger ones
-                        if(loader_top.defaultScale > 0.99)
-                            image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.05
-                        else
-                            image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.2
-
-                        // set scale factors
-                        image_wrapper.scale = image_wrapper.kenBurnsZoomFactor
-                        loader_top.imageScale = image_wrapper.scale
-
-                    }
-
-                    function onLoadScaleRotation() {
-
-                        if(!isMainImage)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        if((PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges)) ||
-                                ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
-                                  PQCSettings.imageviewPreserveMirror) && image_top.reuseChanges.length > 1)) {
-
-                            var vals;
-                            if(PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges))
-                                vals = image_top.rememberChanges[loader_top.imageSource]
-                            else
-                                vals = image_top.reuseChanges
-
-                            if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom) {
-                                image_wrapper.scale = vals[2]
-                                loader_top.imageScale = vals[2]
-                            }
-
-                            if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveRotation) {
-                                image_wrapper.rotation = vals[3]
-                                loader_top.imageRotation = vals[3]
-                            } else {
-                                image_wrapper.rotation = 0
-                                loader_top.imageRotation = 0
-                            }
-
-                            if(image_loader.item != null && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
-                                image_loader.item.setMirrorHV(vals[4], vals[5])
-                            else
-                                image_loader.item.setMirrorHV(false, false)
-
-                            flickable.contentX = vals[0]
-                            flickable.contentY = vals[1]
-                            flickable.returnToBounds()
-
-                        } else if(!PQCSettings.imageviewAlwaysActualSize) {
+                            if(PQCNotify.showingPhotoSphere)
+                                return
 
                             scaleAnimation.stop()
                             rotationAnimation.stop()
 
                             image_wrapper.rotation = 0
                             loader_top.imageRotation = 0
-                            if(image_loader.item)
-                                image_loader.item.setMirrorHV(false, false)
                             image_wrapper.scale = loader_top.defaultScale
                             loader_top.imageScale = image_wrapper.scale
 
                         }
 
+                        function onZoomActualWithoutAnimation() {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere)
+                                return
+
+                            scaleAnimation.stop()
+
+                            image_wrapper.scale = 1
+                            loader_top.imageScale = image_wrapper.scale
+
+                        }
+
+                        function onZoomInForKenBurns() {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            // this function might be called more than once
+                            // this check makes sure that we only do this once
+                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere)
+                                return
+
+                            scaleAnimation.stop()
+
+                            // figure out whether the image is much wider or much higher than the other dimension
+
+                            var facW = 1
+                            var facH = 1
+
+                            if(flickable.contentWidth > 0)
+                                facW = image_top.width/flickable.contentWidth
+                            if(flickable.contentHeight > 0)
+                                facH = image_top.height/flickable.contentHeight
+
+                            // small images are not scaled as much as larger ones
+                            if(loader_top.defaultScale > 0.99)
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.05
+                            else
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.2
+
+                            // set scale factors
+                            image_wrapper.scale = image_wrapper.kenBurnsZoomFactor
+                            loader_top.imageScale = image_wrapper.scale
+
+                        }
+
+                        function onLoadScaleRotation() {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere)
+                                return
+
+                            if((PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges)) ||
+                                    ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
+                                      PQCSettings.imageviewPreserveMirror) && image_top.reuseChanges.length > 1)) {
+
+                                var vals;
+                                if(PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges))
+                                    vals = image_top.rememberChanges[loader_top.imageSource]
+                                else
+                                    vals = image_top.reuseChanges
+
+                                if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom) {
+                                    image_wrapper.scale = vals[2]
+                                    loader_top.imageScale = vals[2]
+                                }
+
+                                if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveRotation) {
+                                    image_wrapper.rotation = vals[3]
+                                    loader_top.imageRotation = vals[3]
+                                } else {
+                                    image_wrapper.rotation = 0
+                                    loader_top.imageRotation = 0
+                                }
+
+                                if(image_loader.item != null && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
+                                    image_loader.item.setMirrorHV(vals[4], vals[5])
+                                else
+                                    image_loader.item.setMirrorHV(false, false)
+
+                                flickable.contentX = vals[0]
+                                flickable.contentY = vals[1]
+                                flickable.returnToBounds()
+
+                            } else if(!PQCSettings.imageviewAlwaysActualSize) {
+
+                                scaleAnimation.stop()
+                                rotationAnimation.stop()
+
+                                image_wrapper.rotation = 0
+                                loader_top.imageRotation = 0
+                                if(image_loader.item)
+                                    image_loader.item.setMirrorHV(false, false)
+                                image_wrapper.scale = loader_top.defaultScale
+                                loader_top.imageScale = image_wrapper.scale
+
+                            }
+
+                        }
+
+                        function onImageRotationChanged() {
+                            if(loader_top.isMainImage) {
+                                rotationAnimation.stop()
+                                rotationAnimation.from = image_wrapper.rotation
+                                rotationAnimation.to = loader_top.imageRotation
+                                rotationAnimation.restart()
+                                var oldDefault = loader_top.defaultScale
+                                loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
+                                    loader_top.imageScale = loader_top.defaultScale
+                                image.defaultScale = loader_top.defaultScale
+                            }
+                        }
+
+                        function onMoveViewToCenter() {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere)
+                                return
+
+                            if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                    PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
+                                return
+                            if(flickable.width < flickable.contentWidth)
+                                flickable.contentX = (flickable.contentWidth-flickable.width)/2
+                            if(flickable.height < flickable.contentHeight)
+                                flickable.contentY = (flickable.contentHeight-flickable.height)/2
+                        }
+
+                        function onResetToDefaults() {
+                            resetDefaults.triggered()
+                        }
+
                     }
 
-                    function onImageRotationChanged() {
-                        if(isMainImage) {
-                            rotationAnimation.stop()
-                            rotationAnimation.from = image_wrapper.rotation
-                            rotationAnimation.to = loader_top.imageRotation
-                            rotationAnimation.restart()
-                            var oldDefault = loader_top.defaultScale
-                            loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
-                            if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
-                                loader_top.imageScale = loader_top.defaultScale
-                            image.defaultScale = loader_top.defaultScale
+                    Connections {
+                        target: PQCSettings
+
+                        function onThumbnailsVisibilityChanged() {
+                            resetDefaults.restart()
+                        }
+
+                    }
+
+                    // calculate the default scale based on the current rotation
+                    function computeDefaultScale() {
+                        if(loader_top.rotatedUpright)
+                            return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
+                        return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
+                    }
+
+                    Timer {
+                        id: hidecursor
+                        interval: PQCSettings.imageviewHideCursorTimeout*1000
+                        repeat: false
+                        running: true
+                        onTriggered: {
+                            if(PQCSettings.imageviewHideCursorTimeout === 0)
+                                return
+                            if(contextmenu.visible)
+                                hidecursor.restart()
+                            else
+                                imagemouse.cursorShape = Qt.BlankCursor
                         }
                     }
 
-                    function onMoveViewToCenter() {
-
-                        if(!isMainImage)
-                            return
-
-                        if(PQCNotify.showingPhotoSphere)
-                            return
-
-                        if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
-                                PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                            return
-                        if(flickable.width < flickable.contentWidth)
-                            flickable.contentX = (flickable.contentWidth-flickable.width)/2
-                        if(flickable.height < flickable.contentHeight)
-                            flickable.contentY = (flickable.contentHeight-flickable.height)/2
-                    }
-
-                    function onResetToDefaults() {
-                        resetDefaults.triggered()
-                    }
-
-                }
-
-                Connections {
-                    target: PQCSettings
-
-                    function onThumbnailsVisibilityChanged() {
-                        resetDefaults.restart()
-                    }
-
-                }
-
-                // calculate the default scale based on the current rotation
-                function computeDefaultScale() {
-                    if(loader_top.rotatedUpright)
-                        return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
-                    return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
-                }
-
-                Timer {
-                    id: hidecursor
-                    interval: PQCSettings.imageviewHideCursorTimeout*1000
-                    repeat: false
-                    running: true
-                    onTriggered: {
-                        if(PQCSettings.imageviewHideCursorTimeout === 0)
-                            return
-                        if(contextmenu.visible)
-                            hidecursor.restart()
-                        else
-                            imagemouse.cursorShape = Qt.BlankCursor
-                    }
                 }
 
             }
 
         }
 
-    }
-
-    PQMouseArea {
-        id: imagemouse
-        anchors.fill: parent
-        anchors.leftMargin: -flickable_content.x
-        anchors.rightMargin: -flickable_content.x
-        anchors.topMargin: -flickable_content.y
-        anchors.bottomMargin: -flickable_content.y
-        hoverEnabled: true
-        propagateComposedEvents: true
-        acceptedButtons: Qt.AllButtons
-        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
-        onPositionChanged: (mouse) => {
-            cursorShape = Qt.ArrowCursor
-            hidecursor.restart()
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-            PQCNotify.mouseMove(pos.x, pos.y)
-        }
-        onWheel: (wheel) => {
-            wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
-            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
-        }
-        onPressed: (mouse) => {
-
-            var locpos = flickable_content.mapFromItem(fullscreenitem, mouse.x, mouse.y)
-
-            if(PQCSettings.interfaceCloseOnEmptyBackground &&
-                  (locpos.x < flickable_content.x ||
-                   locpos.y < flickable_content.y ||
-                   locpos.x > flickable_content.x+flickable_content.width ||
-                   locpos.y > flickable_content.y+flickable_content.height)) {
-
-                toplevel.close()
-                return
-
-            }
-
-            if(PQCSettings.interfaceNavigateOnEmptyBackground) {
-                if(locpos.x < flickable_content.x || (locpos.x < flickable_content.x+flickable_content.width/2 &&
-                   (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
-
-                    image.showPrev()
-                    return
-
-                } else if(locpos.x > flickable_content.x+flickable_content.width || (locpos.x > flickable_content.x+flickable_content.width/2 &&
-                          (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
-
-                    image.showNext()
-                    return
-
-                }
-            }
-
-            if(PQCSettings.interfaceWindowDecorationOnEmptyBackground &&
-               (locpos.x < flickable_content.x ||
-                locpos.y < flickable_content.y ||
-                locpos.x > flickable_content.x+flickable_content.width ||
-                locpos.y > flickable_content.y+flickable_content.height)) {
-
-                PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
-                return
-
-            }
-
-            if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
-                image.barcodeClick()
-            if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
-                mouse.accepted = false
-                return
-            }
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
-        }
-        onMouseDoubleClicked: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
-        }
-
-        onReleased: (mouse) => {
-            if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)
-                loader_top.imageClicked()
-            else {
+        PQMouseArea {
+            id: imagemouse
+            anchors.fill: parent
+            anchors.leftMargin: -flickable_content.x
+            anchors.rightMargin: -flickable_content.x
+            anchors.topMargin: -flickable_content.y
+            anchors.bottomMargin: -flickable_content.y
+            hoverEnabled: true
+            propagateComposedEvents: true
+            acceptedButtons: Qt.AllButtons
+            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+            onPositionChanged: (mouse) => {
+                cursorShape = Qt.ArrowCursor
+                hidecursor.restart()
                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                PQCNotify.mouseMove(pos.x, pos.y)
+            }
+            onWheel: (wheel) => {
+                wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
+                PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+            }
+            onPressed: (mouse) => {
+
+                var locpos = flickable_content.mapFromItem(fullscreenitem, mouse.x, mouse.y)
+
+                if(PQCSettings.interfaceCloseOnEmptyBackground &&
+                      (locpos.x < flickable_content.x ||
+                       locpos.y < flickable_content.y ||
+                       locpos.x > flickable_content.x+flickable_content.width ||
+                       locpos.y > flickable_content.y+flickable_content.height)) {
+
+                    toplevel.close()
+                    return
+
+                }
+
+                if(PQCSettings.interfaceNavigateOnEmptyBackground) {
+                    if(locpos.x < flickable_content.x || (locpos.x < flickable_content.x+flickable_content.width/2 &&
+                       (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
+
+                        image.showPrev()
+                        return
+
+                    } else if(locpos.x > flickable_content.x+flickable_content.width || (locpos.x > flickable_content.x+flickable_content.width/2 &&
+                              (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
+
+                        image.showNext()
+                        return
+
+                    }
+                }
+
+                if(PQCSettings.interfaceWindowDecorationOnEmptyBackground &&
+                   (locpos.x < flickable_content.x ||
+                    locpos.y < flickable_content.y ||
+                    locpos.x > flickable_content.x+flickable_content.width ||
+                    locpos.y > flickable_content.y+flickable_content.height)) {
+
+                    PQCSettings.interfaceWindowDecoration = !PQCSettings.interfaceWindowDecoration
+                    return
+
+                }
+
+                if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
+                    image.barcodeClick()
+                if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
+                    mouse.accepted = false
+                    return
+                }
+                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+            }
+            onMouseDoubleClicked: (mouse) => {
+                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+            }
+
+            onReleased: (mouse) => {
+                if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)
+                    loader_top.imageClicked()
+                else {
+                    var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                }
             }
         }
-    }
 
-    // we don't use a pinch area as we want to pass through flick events, something a pincharea cannot do
-    MultiPointTouchArea {
+        // we don't use a pinch area as we want to pass through flick events, something a pincharea cannot do
+        MultiPointTouchArea {
 
-        anchors.fill: parent
+            anchors.fill: parent
 
-        mouseEnabled: false
+            mouseEnabled: false
 
-        enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+            enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
 
-        property var initialPts: []
-        property real initialScale
+            property var initialPts: []
+            property real initialScale
 
-        onPressed: (points) => {
+            onPressed: (points) => {
 
-            pressAndHoldTimeout.touchPos = points[0]
+                pressAndHoldTimeout.touchPos = points[0]
 
-            if(points.length === 2)
-                initialPts = [Qt.point(points[0].x, points[0].y), Qt.point(points[1].x, points[1].y)]
-            else {
-                initialPts.push(Qt.point(points[0].x, points[0].y))
-                if(points.length === 1)
-                    pressAndHoldTimeout.restart()
+                if(points.length === 2)
+                    initialPts = [Qt.point(points[0].x, points[0].y), Qt.point(points[1].x, points[1].y)]
+                else {
+                    initialPts.push(Qt.point(points[0].x, points[0].y))
+                    if(points.length === 1)
+                        pressAndHoldTimeout.restart()
+                }
+
+                initialScale = image_wrapper.scale
+
             }
+            onUpdated: (points) => {
 
-            initialScale = image_wrapper.scale
+                if(points.length === 1) {
 
-        }
-        onUpdated: (points) => {
+                    if(Math.abs(points[0].x - pressAndHoldTimeout.touchPos.x) > 20 || Math.abs(points[0].y - pressAndHoldTimeout.touchPos.y) > 20)
+                        pressAndHoldTimeout.stop()
 
-            if(points.length === 1) {
+                    flickable.flick(points[0].velocity.x*1.5, points[0].velocity.y*1.5)
 
-                if(Math.abs(points[0].x - pressAndHoldTimeout.touchPos.x) > 20 || Math.abs(points[0].y - pressAndHoldTimeout.touchPos.y) > 20)
+                } else if(points.length === 2 && initialPts.length == 2) {
+
                     pressAndHoldTimeout.stop()
 
-                flickable.flick(points[0].velocity.x*1.5, points[0].velocity.y*1.5)
+                    // compute the rate of change initiated by this pinch
+                    var startLength = Math.sqrt(Math.pow(initialPts[0].x-initialPts[1].x, 2) + Math.pow(initialPts[0].y-initialPts[1].y, 2))
+                    var curLength = Math.sqrt(Math.pow(points[0].x-points[1].x, 2) + Math.pow(points[0].y-points[1].y, 2))
 
-            } else if(points.length === 2 && initialPts.length == 2) {
+                    if(startLength > 0 && curLength > 0) {
 
+                        var val = initialScale * (curLength / startLength)
+
+                        if(PQCSettings.imageviewZoomMaxEnabled) {
+                            var max = PQCSettings.imageviewZoomMax/100
+                            if(val > max)
+                                val = max
+                            else if(val > 25)
+                                val = 25
+                        }
+
+                        if(PQCSettings.imageviewZoomMinEnabled) {
+                            var min = loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100)
+                            if(val < min)
+                                val = min
+                            else if(val < 0.01)
+                                val = 0.01
+                        }
+
+                        image_wrapper.scale = val
+                        loader_top.imageScale = val
+
+                    }
+
+                } else
+                    pressAndHoldTimeout.stop()
+
+            }
+
+            onReleased: (points) => {
                 pressAndHoldTimeout.stop()
+                initialPts = []
+            }
 
-                // compute the rate of change initiated by this pinch
-                var startLength = Math.sqrt(Math.pow(initialPts[0].x-initialPts[1].x, 2) + Math.pow(initialPts[0].y-initialPts[1].y, 2))
-                var curLength = Math.sqrt(Math.pow(points[0].x-points[1].x, 2) + Math.pow(points[0].y-points[1].y, 2))
-
-                if(startLength > 0 && curLength > 0) {
-
-                    var val = initialScale * (curLength / startLength)
-
-                    if(PQCSettings.imageviewZoomMaxEnabled) {
-                        var max = PQCSettings.imageviewZoomMax/100
-                        if(val > max)
-                            val = max
-                        else if(val > 25)
-                            val = 25
-                    }
-
-                    if(PQCSettings.imageviewZoomMinEnabled) {
-                        var min = loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100)
-                        if(val < min)
-                            val = min
-                        else if(val < 0.01)
-                            val = 0.01
-                    }
-
-                    image_wrapper.scale = val
-                    loader_top.imageScale = val
-
+            Timer {
+                id: pressAndHoldTimeout
+                interval: 1000
+                property point touchPos
+                onTriggered: {
+                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
                 }
-
-            } else
-                pressAndHoldTimeout.stop()
-
-        }
-
-        onReleased: (points) => {
-            pressAndHoldTimeout.stop()
-            initialPts = []
-        }
-
-        Timer {
-            id: pressAndHoldTimeout
-            interval: 1000
-            property point touchPos
-            onTriggered: {
-                shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
             }
+
         }
 
-    }
-
-    // animation to show the image
-    PropertyAnimation {
-        id: opacityAnimation
-        target: loader_top
-        property: "opacity"
-        from: 0
-        to: 1
-        duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
-        onFinished: {
-            if(loader_top.opacity < 1e-6) {
-
-                // stop any possibly running video
-                loader_top.stopVideoAndReset()
-
-                // stop any ken burns animations if running
-                if(loader_kenburns.item != null)
-                    loader_kenburns.item.stopAni()
-
-                loader_top.visible = false
-
-            }
-        }
-    }
-
-    // animation to show the image
-    PropertyAnimation {
-        id: xAnimation
-        target: loader_top
-        property: "x"
-        from: -width
-        to: 0
-        duration: PQCSettings.imageviewAnimationDuration*100
-        onFinished: {
-            if(Math.abs(loader_top.x) > 10) {
-
-                // stop any possibly running video
-                loader_top.stopVideoAndReset()
-
-                loader_top.visible = false
-
-            }
-        }
-    }
-
-    // animation to show the image
-    PropertyAnimation {
-        id: yAnimation
-        target: loader_top
-        property: "y"
-        from: -height
-        to: 0
-        duration: PQCSettings.imageviewAnimationDuration*100
-        onFinished: {
-            if(Math.abs(loader_top.y) > 10) {
-
-                // stop any possibly running video
-                loader_top.stopVideoAndReset()
-
-                loader_top.visible = false
-
-            }
-        }
-    }
-
-    // animation to show the image
-    ParallelAnimation {
-        id: rotAnimation
+        // animation to show the image
         PropertyAnimation {
-            id: rotAnimation_rotation
-            target: loader_top
-            property: "rotation"
-            from: 0
-            to: 180
-            duration: PQCSettings.imageviewAnimationDuration*100
-        }
-        PropertyAnimation {
-            id: rotAnimation_opacity
+            id: opacityAnimation
             target: loader_top
             property: "opacity"
             from: 0
             to: 1
-            duration: PQCSettings.imageviewAnimationDuration*100
-        }
-        onStarted: {
-            loader_top.z = image_top.curZ+1
-        }
-        onFinished: {
-            if(Math.abs(loader_top.rotation%360) > 1e-6) {
+            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
+            onFinished: {
+                if(loader_top.opacity < 1e-6) {
 
-                // stop any possibly running video
-                loader_top.stopVideoAndReset()
+                    // stop any possibly running video
+                    loader_top.stopVideoAndReset()
 
-                loader_top.visible = false
-                loader_top.rotation = 0
-                loader_top.z = image_top.curZ-5
+                    // stop any ken burns animations if running
+                    if(loader_kenburns.item != null)
+                        loader_kenburns.item.stopAni()
 
+                    loader_top.visible = false
+
+                }
             }
         }
-    }
 
-    // animation to show the image
-    ParallelAnimation {
-        id: explosionAnimation
+        // animation to show the image
         PropertyAnimation {
-            id: explosionAnimation_scale
+            id: xAnimation
             target: loader_top
-            property: "scale"
-            from: 1
-            to: 2
-            duration: PQCSettings.imageviewAnimationDuration*100
-        }
-        PropertyAnimation {
-            id: explosionAnimation_opacity
-            target: loader_top
-            property: "opacity"
-            from: 1
+            property: "x"
+            from: -width
             to: 0
-            duration: PQCSettings.imageviewAnimationDuration*90
-        }
-        onStarted: {
-            loader_top.z = image_top.curZ+1
-        }
-        onFinished: {
-            if(Math.abs(loader_top.scale-1) > 1e-6) {
+            duration: PQCSettings.imageviewAnimationDuration*100
+            onFinished: {
+                if(Math.abs(loader_top.x) > 10) {
 
-                // stop any possibly running video
-                loader_top.stopVideoAndReset()
+                    // stop any possibly running video
+                    loader_top.stopVideoAndReset()
 
-                loader_top.visible = false
-                loader_top.scale = 1
+                    loader_top.visible = false
 
-                loader_top.z = image_top.curZ-5
-
+                }
             }
         }
-    }
 
-    Loader {
-        id: loader_kenburns
-        active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
-        sourceComponent:
-            PQKenBurnsSlideshowEffect { }
-    }
+        // animation to show the image
+        PropertyAnimation {
+            id: yAnimation
+            target: loader_top
+            property: "y"
+            from: -height
+            to: 0
+            duration: PQCSettings.imageviewAnimationDuration*100
+            onFinished: {
+                if(Math.abs(loader_top.y) > 10) {
 
-    Timer {
-        id: selectNewRandomAnimation
-        interval: 50
-        onTriggered: {
-            var animValues = ["opacity","x","y","explosion","implosion","rotation"]
-            image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
+                    // stop any possibly running video
+                    loader_top.stopVideoAndReset()
+
+                    loader_top.visible = false
+
+                }
+            }
         }
-    }
 
-    function showImage() {
+        // animation to show the image
+        ParallelAnimation {
+            id: rotAnimation
+            PropertyAnimation {
+                id: rotAnimation_rotation
+                target: loader_top
+                property: "rotation"
+                from: 0
+                to: 180
+                duration: PQCSettings.imageviewAnimationDuration*100
+            }
+            PropertyAnimation {
+                id: rotAnimation_opacity
+                target: loader_top
+                property: "opacity"
+                from: 0
+                to: 1
+                duration: PQCSettings.imageviewAnimationDuration*100
+            }
+            onStarted: {
+                loader_top.z = image_top.curZ+1
+            }
+            onFinished: {
+                if(Math.abs(loader_top.rotation%360) > 1e-6) {
 
-        if(parentItem.imageLoadedAndReady)
-            setUpImageWhenReady()
+                    // stop any possibly running video
+                    loader_top.stopVideoAndReset()
 
-    }
+                    loader_top.visible = false
+                    loader_top.rotation = 0
+                    loader_top.z = image_top.curZ-5
 
-    function setUpImageWhenReady() {
+                }
+            }
+        }
 
-        // this needs to be checked for early as we set currentlyVisibleIndex in a few lines
-        var noPreviousImage = (image_top.currentlyVisibleIndex===-1)
+        // animation to show the image
+        ParallelAnimation {
+            id: explosionAnimation
+            PropertyAnimation {
+                id: explosionAnimation_scale
+                target: loader_top
+                property: "scale"
+                from: 1
+                to: 2
+                duration: PQCSettings.imageviewAnimationDuration*100
+            }
+            PropertyAnimation {
+                id: explosionAnimation_opacity
+                target: loader_top
+                property: "opacity"
+                from: 1
+                to: 0
+                duration: PQCSettings.imageviewAnimationDuration*90
+            }
+            onStarted: {
+                loader_top.z = image_top.curZ+1
+            }
+            onFinished: {
+                if(Math.abs(loader_top.scale-1) > 1e-6) {
 
-        PQCNotify.barcodeDisplayed = false
+                    // stop any possibly running video
+                    loader_top.stopVideoAndReset()
 
-        image_top.currentlyVisibleIndex = mainItemIndex
-        image_top.imageFinishedLoading(mainItemIndex)
+                    loader_top.visible = false
+                    loader_top.scale = 1
 
-        image_top.currentlyShowingVideo = loader_top.videoLoaded
+                    loader_top.z = image_top.curZ-5
 
-        PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
+                }
+            }
+        }
 
-        // if a slideshow is running with the ken burns effect
-        // then we need to do some special handling
-        if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
+        Loader {
+            id: loader_kenburns
+            active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
+            sourceComponent:
+                PQKenBurnsSlideshowEffect { }
+        }
 
-            if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded)
-                zoomInForKenBurns()
-            flickable.returnToBounds()
+        Timer {
+            id: selectNewRandomAnimation
+            interval: 50
+            onTriggered: {
+                var animValues = ["opacity","x","y","explosion","implosion","rotation"]
+                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
+            }
+        }
 
-            opacityAnimation.stop()
+        function showImage() {
 
-            loader_top.opacity = 0
-            opacityAnimation.from = 0
-            opacityAnimation.to = 1
+            if(imageloaderitem.imageLoadedAndReady)
+                setUpImageWhenReady()
 
-            opacityAnimation.restart()
+        }
 
-        } else {
+        function setUpImageWhenReady() {
 
-            // don't pipe showing animation through the property animators
-            // when no animation is set or no previous image has been shown
-            if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
+            // this needs to be checked for early as we set currentlyVisibleIndex in a few lines
+            var noPreviousImage = (image_top.currentlyVisibleIndex===-1)
 
-                loader_top.opacity = 1
+            PQCNotify.barcodeDisplayed = false
+
+            image_top.currentlyVisibleIndex = mainItemIndex
+            image_top.imageFinishedLoading(mainItemIndex)
+
+            image_top.currentlyShowingVideo = loader_top.videoLoaded
+
+            PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
+
+            // if a slideshow is running with the ken burns effect
+            // then we need to do some special handling
+            if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
+
+                if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded)
+                    zoomInForKenBurns()
+                flickable.returnToBounds()
+
+                opacityAnimation.stop()
+
+                loader_top.opacity = 0
+                opacityAnimation.from = 0
+                opacityAnimation.to = 1
+
+                opacityAnimation.restart()
 
             } else {
 
-                var anim = PQCSettings.imageviewAnimationType
-                if(anim === "random")
-                    anim = image_top.randomAnimation
+                // don't pipe showing animation through the property animators
+                // when no animation is set or no previous image has been shown
+                if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
 
-                if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
+                    loader_top.opacity = 1
 
-                    opacityAnimation.stop()
+                } else {
 
-                    loader_top.opacity = 0
-                    opacityAnimation.from = 0
-                    opacityAnimation.to = 1
+                    var anim = PQCSettings.imageviewAnimationType
+                    if(anim === "random")
+                        anim = image_top.randomAnimation
 
-                    opacityAnimation.restart()
+                    if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
-                } else if(anim === "x") {
+                        opacityAnimation.stop()
 
-                    xAnimation.stop()
+                        loader_top.opacity = 0
+                        opacityAnimation.from = 0
+                        opacityAnimation.to = 1
 
-                    // the from value depends on whether we go forwards or backwards in the folder
-                    xAnimation.from = -width
-                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                        xAnimation.from = width
+                        opacityAnimation.restart()
 
-                    xAnimation.to = 0
+                    } else if(anim === "x") {
 
-                    xAnimation.restart()
+                        xAnimation.stop()
 
-                } else if(anim === "y") {
+                        // the from value depends on whether we go forwards or backwards in the folder
+                        xAnimation.from = -width
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            xAnimation.from = width
 
-                    yAnimation.stop()
+                        xAnimation.to = 0
 
-                    // the from value depends on whether we go forwards or backwards in the folder
-                    yAnimation.from = -height
-                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                        yAnimation.from = height
+                        xAnimation.restart()
 
-                    yAnimation.to = 0
+                    } else if(anim === "y") {
 
-                    yAnimation.restart()
+                        yAnimation.stop()
 
-                } else if(anim === "rotation") {
+                        // the from value depends on whether we go forwards or backwards in the folder
+                        yAnimation.from = -height
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                            yAnimation.from = height
 
-                    rotAnimation.stop()
+                        yAnimation.to = 0
 
-                    rotAnimation_rotation.from = -180
-                    rotAnimation_rotation.to = 0
+                        yAnimation.restart()
 
-                    if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
-                        rotAnimation_rotation.from = 180
+                    } else if(anim === "rotation") {
+
+                        rotAnimation.stop()
+
+                        rotAnimation_rotation.from = -180
                         rotAnimation_rotation.to = 0
+
+                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                            rotAnimation_rotation.from = 180
+                            rotAnimation_rotation.to = 0
+                        }
+
+                        rotAnimation_opacity.from = 0
+                        rotAnimation_opacity.to = 1
+
+                        rotAnimation.restart()
+
                     }
-
-                    rotAnimation_opacity.from = 0
-                    rotAnimation_opacity.to = 1
-
-                    rotAnimation.restart()
 
                 }
 
             }
 
-        }
+            z = image_top.curZ
+            loader_top.visible = true
 
-        z = image_top.curZ
-        loader_top.visible = true
+            // (re-)start any video
+            loader_top.restartVideoIfAutoplay()
 
-        // (re-)start any video
-        loader_top.restartVideoIfAutoplay()
+            image_top.curZ += 1
 
-        image_top.curZ += 1
+            image_top.currentScale = loader_top.imageScale
+            image_top.currentRotation = loader_top.imageRotation
+            image_top.currentResolution = loader_top.imageResolution
 
-        image_top.currentScale = loader_top.imageScale
-        image_top.currentRotation = loader_top.imageRotation
-        image_top.currentResolution = loader_top.imageResolution
+            if(PQCSettings.imageviewAnimationType === "random")
+                selectNewRandomAnimation.restart()
 
-        if(PQCSettings.imageviewAnimationType === "random")
-            selectNewRandomAnimation.restart()
+            // these are only done if we are not in a slideshow with the ken burns effect
+            if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-        // these are only done if we are not in a slideshow with the ken burns effect
-        if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
+                if(PQCSettings.imageviewAlwaysActualSize) {
+                    loader_top.zoomActualWithoutAnimation()
+                    adjustXY.restart()
+                }
 
-            if(PQCSettings.imageviewAlwaysActualSize) {
-                loader_top.zoomActualWithoutAnimation()
-                adjustXY.restart()
+                loader_top.loadScaleRotation()
+
             }
 
-            loader_top.loadScaleRotation()
+            image_top.initialLoadingFinished = true
+
+            resetToDefaults()
+            moveViewToCenter()
 
         }
 
-        image_top.initialLoadingFinished = true
-
-        resetToDefaults()
-        moveViewToCenter()
-
-    }
-
-    // This is done with a slight delay IF the image is to be loaded at full scale
-    // If done without delay then contentX/Y will be reset to 0
-    Timer {
-        id: adjustXY
-        interval: 10
-        onTriggered: {
-            if(flickable.contentWidth > flickable.width)
-                flickable.contentX = (flickable.contentWidth-flickable.width)/2
-            if(flickable.contentHeight > flickable.height)
-                flickable.contentY = (flickable.contentHeight-flickable.height)/2
-        }
-    }
-
-    // hide the image
-    function hideImage() {
-
-        // ignore anything that happened during a slideshow
-        if(!PQCNotify.slideshowRunning) {
-
-            if((PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
-                                         PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
-                var vals = [loader_top.imagePosX,
-                            loader_top.imagePosY,
-                            loader_top.imageScale,
-                            loader_top.imageRotation,
-                            loader_top.imageMirrorH,
-                            loader_top.imageMirrorV]
-                if(PQCSettings.imageviewRememberZoomRotationMirror)
-                    image_top.rememberChanges[loader_top.imageSource] = vals
-                if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                    image_top.reuseChanges = vals
-            } else
-                // don't delete reuseChanges here, we want to keep those
-                delete image_top.rememberChanges[loader_top.imageSource]
-
+        // This is done with a slight delay IF the image is to be loaded at full scale
+        // If done without delay then contentX/Y will be reset to 0
+        Timer {
+            id: adjustXY
+            interval: 10
+            onTriggered: {
+                if(flickable.contentWidth > flickable.width)
+                    flickable.contentX = (flickable.contentWidth-flickable.width)/2
+                if(flickable.contentHeight > flickable.height)
+                    flickable.contentY = (flickable.contentHeight-flickable.height)/2
+            }
         }
 
-        var anim = PQCSettings.imageviewAnimationType
-        if(anim === "random")
-            anim = image_top.randomAnimation
+        // hide the image
+        function hideImage() {
 
-        if(anim === "opacity") {
+            // ignore anything that happened during a slideshow
+            if(!PQCNotify.slideshowRunning) {
 
-            opacityAnimation.stop()
+                if((PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                             PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
+                    var vals = [loader_top.imagePosX,
+                                loader_top.imagePosY,
+                                loader_top.imageScale,
+                                loader_top.imageRotation,
+                                loader_top.imageMirrorH,
+                                loader_top.imageMirrorV]
+                    if(PQCSettings.imageviewRememberZoomRotationMirror)
+                        image_top.rememberChanges[loader_top.imageSource] = vals
+                    if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
+                        image_top.reuseChanges = vals
+                } else
+                    // don't delete reuseChanges here, we want to keep those
+                    delete image_top.rememberChanges[loader_top.imageSource]
 
-            opacityAnimation.from = opacity
-            opacityAnimation.to = 0
+            }
 
-            opacityAnimation.restart()
+            var anim = PQCSettings.imageviewAnimationType
+            if(anim === "random")
+                anim = image_top.randomAnimation
 
-        } else if(anim === "x") {
+            if(anim === "opacity") {
 
-            xAnimation.stop()
+                opacityAnimation.stop()
 
-            xAnimation.from = 0
-            // the to value depends on whether we go forwards or backwards in the folder
-            xAnimation.to = width*(loader_top.imageScale/loader_top.defaultScale)
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                xAnimation.to *= -1
+                opacityAnimation.from = opacity
+                opacityAnimation.to = 0
 
-            xAnimation.restart()
+                opacityAnimation.restart()
 
-        } else if(anim === "y") {
+            } else if(anim === "x") {
 
-            yAnimation.stop()
+                xAnimation.stop()
 
-            yAnimation.from = 0
-            // the to value depends on whether we go forwards or backwards in the folder
-            yAnimation.to = height*(loader_top.imageScale/loader_top.defaultScale)
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
-                yAnimation.to *= -1
+                xAnimation.from = 0
+                // the to value depends on whether we go forwards or backwards in the folder
+                xAnimation.to = width*(loader_top.imageScale/loader_top.defaultScale)
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                    xAnimation.to *= -1
 
-            yAnimation.restart()
+                xAnimation.restart()
 
-        } else if(anim === "explosion") {
+            } else if(anim === "y") {
 
-            explosionAnimation.stop()
+                yAnimation.stop()
 
-            explosionAnimation_scale.from = 1
-            explosionAnimation_scale.to = 2
+                yAnimation.from = 0
+                // the to value depends on whether we go forwards or backwards in the folder
+                yAnimation.to = height*(loader_top.imageScale/loader_top.defaultScale)
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                    yAnimation.to *= -1
 
-            explosionAnimation.restart()
+                yAnimation.restart()
 
-        } else if(anim === "implosion") {
+            } else if(anim === "explosion") {
 
-            explosionAnimation.stop()
+                explosionAnimation.stop()
 
-            explosionAnimation_scale.from = 1
-            explosionAnimation_scale.to = 0
+                explosionAnimation_scale.from = 1
+                explosionAnimation_scale.to = 2
 
-            explosionAnimation.restart()
+                explosionAnimation.restart()
 
-        } else if(anim === "rotation") {
+            } else if(anim === "implosion") {
 
-            rotAnimation.stop()
+                explosionAnimation.stop()
 
-            rotAnimation_rotation.from = 0
-            rotAnimation_rotation.to = 180
+                explosionAnimation_scale.from = 1
+                explosionAnimation_scale.to = 0
 
-            if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                explosionAnimation.restart()
+
+            } else if(anim === "rotation") {
+
+                rotAnimation.stop()
+
                 rotAnimation_rotation.from = 0
-                rotAnimation_rotation.to = -180
+                rotAnimation_rotation.to = 180
+
+                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                    rotAnimation_rotation.from = 0
+                    rotAnimation_rotation.to = -180
+                }
+
+                rotAnimation_opacity.from = 1
+                rotAnimation_opacity.to = 0
+
+                rotAnimation.restart()
+
             }
-
-            rotAnimation_opacity.from = 1
-            rotAnimation_opacity.to = 0
-
-            rotAnimation.restart()
 
         }
 

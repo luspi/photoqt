@@ -119,84 +119,21 @@ Item {
     property var _loadBg: [-1,-1]
     property int _spareItem: -1
 
-    Loader {
+    PQImageDisplayNew {
         id: image1
-        property int componentIndex: 1
-        property int mainItemIndex: -1
-        property bool imageLoadedAndReady: false
-        onMainItemIndexChanged: {
-            imageLoadedAndReady = false
-            active = false
-            active = (mainItemIndex!=-1)
-            if(active) {
-                item.componentIndex = componentIndex
-                item.mainItemIndex = image1.mainItemIndex
-                item.finishSetup()
-            }
-        }
-        active: false
-        sourceComponent:
-            PQImageDisplayNew {}
+        componentIndex: 1
     }
-
-    Loader {
+    PQImageDisplayNew {
         id: image2
-        property int componentIndex: 2
-        property int mainItemIndex: -1
-        property bool imageLoadedAndReady: false
-        onMainItemIndexChanged: {
-            imageLoadedAndReady = false
-            active = false
-            active = (mainItemIndex!=-1)
-            if(active) {
-                item.componentIndex = componentIndex
-                item.mainItemIndex = image2.mainItemIndex
-                item.finishSetup()
-            }
-        }
-        active: false
-        sourceComponent:
-            PQImageDisplayNew {}
+        componentIndex: 2
     }
-
-    Loader {
+    PQImageDisplayNew {
         id: image3
-        property int componentIndex: 3
-        property int mainItemIndex: -1
-        property bool imageLoadedAndReady: false
-        onMainItemIndexChanged: {
-            imageLoadedAndReady = false
-            active = false
-            active = (mainItemIndex!=-1)
-            if(active) {
-                item.componentIndex = componentIndex
-                item.mainItemIndex = image3.mainItemIndex
-                item.finishSetup()
-            }
-        }
-        active: false
-        sourceComponent:
-            PQImageDisplayNew {}
+        componentIndex: 3
     }
-
-    Loader {
+    PQImageDisplayNew {
         id: image4
-        property int componentIndex: 4
-        property int mainItemIndex: -1
-        property bool imageLoadedAndReady: false
-        onMainItemIndexChanged: {
-            imageLoadedAndReady = false
-            active = false
-            active = (mainItemIndex!=-1)
-            if(active) {
-                item.componentIndex = componentIndex
-                item.mainItemIndex = image4.mainItemIndex
-                item.finishSetup()
-            }
-        }
-        active: false
-        sourceComponent:
-            PQImageDisplayNew {}
+        componentIndex: 4
     }
 
     Connections {
