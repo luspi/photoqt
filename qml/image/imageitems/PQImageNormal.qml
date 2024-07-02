@@ -139,7 +139,7 @@ Image {
         id: loadScaledDown
         interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
         onTriggered: {
-            if(loader_top.shouldBeShown) {
+            if(loader_top.isMainImage) {
                 screenW = image_top.width
                 screenH = image_top.height
                 ldl.active = true
