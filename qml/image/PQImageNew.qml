@@ -131,6 +131,7 @@ Item {
             if(active) {
                 item.componentIndex = componentIndex
                 item.mainItemIndex = image1.mainItemIndex
+                item.finishSetup()
             }
         }
         active: false
@@ -150,6 +151,7 @@ Item {
             if(active) {
                 item.componentIndex = componentIndex
                 item.mainItemIndex = image2.mainItemIndex
+                item.finishSetup()
             }
         }
         active: false
@@ -169,6 +171,7 @@ Item {
             if(active) {
                 item.componentIndex = componentIndex
                 item.mainItemIndex = image3.mainItemIndex
+                item.finishSetup()
             }
         }
         active: false
@@ -188,6 +191,7 @@ Item {
             if(active) {
                 item.componentIndex = componentIndex
                 item.mainItemIndex = image4.mainItemIndex
+                item.finishSetup()
             }
         }
         active: false
@@ -202,6 +206,7 @@ Item {
         function onCurrentIndexChanged() {
 
             var showItem = -1
+            var showItemIsAlreadyReady = false
 
             // TODO: also add check to whether folder changed
             //       otherwise loading the same index in a different folder will fail
@@ -209,15 +214,17 @@ Item {
             // if the current image is already loaded we only need to show it
             if(image1.mainItemIndex === PQCFileFolderModel.currentIndex) {
                 showItem = 1
+                if(image1.imageLoadedAndReady) showItemIsAlreadyReady = true
             } else if(image2.mainItemIndex === PQCFileFolderModel.currentIndex) {
                 showItem = 2
+                if(image2.imageLoadedAndReady) showItemIsAlreadyReady = true
             } else if(image3.mainItemIndex === PQCFileFolderModel.currentIndex) {
                 showItem = 3
+                if(image3.imageLoadedAndReady) showItemIsAlreadyReady = true
             } else if(image4.mainItemIndex === PQCFileFolderModel.currentIndex) {
                 showItem = 4
+                if(image4.imageLoadedAndReady) showItemIsAlreadyReady = true
             }
-
-            var alreadySetup = (showItem!=-1)
 
             // these need to be loaded
             _showing = PQCFileFolderModel.currentIndex
@@ -244,21 +251,23 @@ Item {
                 }
             }
 
+            timer_busyloading.restart()
+
             if(showItem == 1) {
                 image1.item.showImage()
-                if(alreadySetup && image1.imageLoadedAndReady)
+                if(showItemIsAlreadyReady)
                     newMainImageReady(1)
             } else if(showItem == 2) {
                 image2.item.showImage()
-                if(alreadySetup && image2.imageLoadedAndReady)
+                if(showItemIsAlreadyReady)
                     newMainImageReady(2)
             } else if(showItem == 3) {
                 image3.item.showImage()
-                if(alreadySetup && image3.imageLoadedAndReady)
+                if(showItemIsAlreadyReady)
                     newMainImageReady(3)
             } else if(showItem == 4) {
                 image4.item.showImage()
-                if(alreadySetup && image4.imageLoadedAndReady)
+                if(showItemIsAlreadyReady)
                     newMainImageReady(4)
             }
 

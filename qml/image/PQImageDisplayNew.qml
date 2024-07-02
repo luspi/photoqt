@@ -74,7 +74,7 @@ Item {
     property Item parentItem: (componentIndex == 1 ? image1 :
                                                      (componentIndex == 2 ? image2 :
                                                                             (componentIndex == 3 ? image3 :
-                                                                                                   (componentIndex == 4 ? image4 : undefined))))
+                                                                                                   (componentIndex == 4 ? image4 : null))))
 
     property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
 
@@ -96,6 +96,8 @@ Item {
     signal videoToPos(var s)
     signal imageClicked()
 
+    signal finishSetup()
+
     onVideoPlayingChanged: {
         if(isMainImage)
             image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
@@ -107,14 +109,6 @@ Item {
     onVideoLoadedChanged: {
         if(isMainImage)
             image_top.currentlyShowingVideo = loader_top.videoLoaded
-    }
-
-    Component.onCompleted: {
-        if(isMainImage) {
-            image_top.currentlyShowingVideo = loader_top.videoLoaded
-            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
-        }
     }
 
     // react to user commands
@@ -429,42 +423,64 @@ Item {
                         timer_busyloading.restart()
                 }
 
+                onWidthChanged: {
+                    if(parentItem.imageLoadedAndReady) {
+                        resetDefaults.triggered()
+                    }
+                }
+                onHeightChanged: {
+                    if(parentItem.imageLoadedAndReady) {
+                        resetDefaults.triggered()
+                    }
+                }
+
                 // the actual image
                 Loader {
 
                     id: image_loader
+                    asynchronous: true
 
-                    Component.onCompleted: {
-                        image_top.currentFileInside = 0
-                        loader_top.listenToClicksOnImage = false
-                        loader_top.videoPlaying = false
-                        loader_top.videoLoaded = false
-                        loader_top.videoDuration = 0
-                        loader_top.videoPosition = 0
-                        loader_top.videoHasAudio = false
-                        if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
-                            source = "imageitems/PQDocument.qml"
-                        else if(PQCScriptsImages.isArchive(loader_top.imageSource))
-                            source = "imageitems/PQArchive.qml"
-                        else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
-                            source = "imageitems/PQVideoMpv.qml"
-                            loader_top.listenToClicksOnImage = true
-                            loader_top.videoLoaded = true
-                        } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
-                            source = "imageitems/PQVideoQt.qml"
-                            loader_top.listenToClicksOnImage = true
-                            loader_top.videoLoaded = true
-                        } else if(PQCScriptsImages.isItAnimated(loader_top.imageSource)) {
-                            source = "imageitems/PQImageAnimated.qml"
-                            loader_top.listenToClicksOnImage = true
-                        } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
-                            source = "imageitems/PQSVG.qml"
-                        } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
-                            loader_top.thisIsAPhotoSphere = true
-                            source = "imageitems/PQPhotoSphere.qml"
-                        } else {
-                            loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
-                            source = "imageitems/PQImageNormal.qml"
+                    Connections {
+                        target: loader_top
+
+                        function onFinishSetup() {
+
+                            image_top.currentFileInside = 0
+                            loader_top.listenToClicksOnImage = false
+                            loader_top.videoPlaying = false
+                            loader_top.videoLoaded = false
+                            loader_top.videoDuration = 0
+                            loader_top.videoPosition = 0
+                            loader_top.videoHasAudio = false
+                            if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
+                                image_loader.source = "imageitems/PQDocument.qml"
+                            else if(PQCScriptsImages.isArchive(loader_top.imageSource))
+                                image_loader.source = "imageitems/PQArchive.qml"
+                            else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
+                                image_loader.source = "imageitems/PQVideoMpv.qml"
+                                loader_top.listenToClicksOnImage = true
+                                loader_top.videoLoaded = true
+                            } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
+                                image_loader.source = "imageitems/PQVideoQt.qml"
+                                loader_top.listenToClicksOnImage = true
+                                loader_top.videoLoaded = true
+                            } else if(PQCScriptsImages.isItAnimated(loader_top.imageSource)) {
+                                image_loader.source = "imageitems/PQImageAnimated.qml"
+                                loader_top.listenToClicksOnImage = true
+                            } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
+                                image_loader.source = "imageitems/PQSVG.qml"
+                            } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                                loader_top.thisIsAPhotoSphere = true
+                                image_loader.source = "imageitems/PQPhotoSphere.qml"
+                            } else {
+                                loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
+                                image_loader.source = "imageitems/PQImageNormal.qml"
+                            }
+
+                            image_top.currentlyShowingVideo = loader_top.videoLoaded
+                            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+
                         }
                     }
 
@@ -513,23 +529,19 @@ Item {
                     interval: 100
                     onTriggered: {
                         var tmp = image_wrapper.computeDefaultScale()
-                        console.warn("##?#?#?#?#?")
                         if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
 
                             loader_top.defaultScale = 0.99999999*tmp
                             loader_top.rotationZoomResetWithoutAnimation()
-                            console.warn(">>>>>>>>1>", loader_top.defaultScale)
 
                         } else {
 
                             loader_top.defaultScale = 0.99999999*tmp
-                            console.warn(">>>>>>>>2>", loader_top.defaultScale)
 
                         }
 
                         if(isMainImage) {
                             image.defaultScale = loader_top.defaultScale
-                            console.warn(">>>>>>>>3>", loader_top.defaultScale)
                         }
                     }
                 }
@@ -566,7 +578,7 @@ Item {
 
                     function onPlayPauseAnimationVideo() {
 
-                        if(PQCFileFolderModel.currentIndex !== index)
+                        if(!loader_top.isMainImage)
                             return
 
                         loader_top.videoTogglePlay()
@@ -574,7 +586,7 @@ Item {
 
                     function onMoveView(direction) {
 
-                        if(PQCFileFolderModel.currentIndex !== index)
+                        if(!loader_top.isMainImage)
                             return
 
                         if(PQCNotify.showingPhotoSphere)
@@ -808,7 +820,6 @@ Item {
 
                 // calculate the default scale based on the current rotation
                 function computeDefaultScale() {
-                    console.warn("|||||||||||||||", flickable.width, flickable.height, width, height)
                     if(loader_top.rotatedUpright)
                         return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
                     return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
@@ -1307,8 +1318,6 @@ Item {
         resetToDefaults()
         moveViewToCenter()
 
-        console.warn("### SHOW:", mainItemIndex, isMainImage)
-
     }
 
     // This is done with a slight delay IF the image is to be loaded at full scale
@@ -1421,8 +1430,6 @@ Item {
             rotAnimation.restart()
 
         }
-
-        console.warn("### HIDE:", mainItemIndex, isMainImage)
 
     }
 
