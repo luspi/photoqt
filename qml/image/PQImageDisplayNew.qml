@@ -529,17 +529,17 @@ Loader {
 
                     }
 
-                    // PQBarCodes {
-                    //     id: barcodes
-                    // }
+                    PQBarCodes {
+                        id: barcodes
+                    }
 
-                    // PQFaceTracker {
-                    //     id: facetracker
-                    // }
+                    PQFaceTracker {
+                        id: facetracker
+                    }
 
-                    // PQFaceTagger {
-                    //     id: facetagger
-                    // }
+                    PQFaceTagger {
+                        id: facetagger
+                    }
 
                     Loader {
                         id: minimap_loader

@@ -40,13 +40,13 @@ Item {
     Connections {
         target: image_top
         function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex) {
-            if(currentlyVisibleIndex !== deleg.itemIndex) {
+            if(!loader_top.isMainImage) {
                 // videoloader.active = false
                 barcodes = []
             }
         }
         function onDetectBarCodes() {
-            if(image_top.currentlyVisibleIndex === deleg.itemIndex) {
+            if(loader_top.isMainImage) {
                 if(!PQCNotify.barcodeDisplayed) {
                     barcodes = PQCScriptsImages.getZXingData(loader_top.imageSource)
                     if(barcodes.length === 0) {
@@ -179,7 +179,7 @@ Item {
                             Connections {
 
                                 target: PQCNotify
-                                enabled: image_top.currentlyVisibleIndex === deleg.itemIndex
+                                enabled: loader_top.isMainImage
 
                                 function onMouseMove(x, y) {
 
