@@ -56,8 +56,8 @@ Image {
 
     property bool fitImage: false
 
-    width: fitImage ? deleg.width : undefined
-    height: fitImage ? deleg.height : undefined
+    width: fitImage ? image_top.width : undefined
+    height: fitImage ? image_top.height : undefined
 
     onVisibleChanged: {
         if(!image.visible)
@@ -154,7 +154,7 @@ Image {
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready)
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
     }
 
     onSourceSizeChanged: {

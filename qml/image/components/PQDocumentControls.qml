@@ -43,7 +43,7 @@ Item {
 
             id: controlitem
 
-            parent: deleg
+            parent: loader_top
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
