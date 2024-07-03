@@ -76,6 +76,8 @@ Loader {
 
         property bool listenToClicksOnImage: false
         property bool thisIsAPhotoSphere: false
+        property bool photoSphereManuallyEntered: false
+        property real photoSphereDefaultScaleBackup: 1.0
 
         property bool videoLoaded: false
         property bool videoPlaying: false
@@ -89,8 +91,6 @@ Loader {
         property bool isMainImage: (PQCFileFolderModel.currentIndex===mainItemIndex)
 
         property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
-
-        property bool photoSphereManuallyEntered: false
 
         // some signals
         signal zoomInForKenBurns()
@@ -215,6 +215,34 @@ Loader {
                     loader_top.reloadTheImage()
             }
 
+            function onEnterPhotoSphere() {
+                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad)
+                    return
+                loader_top.doEnterPhotoSphere()
+            }
+
+            function onExitPhotoSphere() {
+                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad)
+                    return
+                loader_top.doExitPhotoSphere()
+            }
+
+        }
+
+        function doEnterPhotoSphere() {
+            loader_top.photoSphereDefaultScaleBackup = loader_top.defaultScale
+            loader_top.photoSphereManuallyEntered = true
+            loader_top.finishSetup()
+            image_wrapper.scale = 1
+            loader_top.imageScale = image_wrapper.scale
+        }
+
+        function doExitPhotoSphere() {
+            loader_top.photoSphereManuallyEntered = false
+            loader_top.finishSetup()
+            image_wrapper.scale = loader_top.photoSphereDefaultScaleBackup
+            loader_top.defaultScale = image_wrapper.scale
+            loader_top.imageScale = image_wrapper.scale
         }
 
         Connections {
@@ -464,6 +492,8 @@ Loader {
                                 loader_top.videoDuration = 0
                                 loader_top.videoPosition = 0
                                 loader_top.videoHasAudio = false
+                                loader_top.thisIsAPhotoSphere = false
+                                PQCNotify.showingPhotoSphere = false
                                 if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
                                     image_loader.source = "imageitems/PQDocument.qml"
                                 else if(PQCScriptsImages.isArchive(loader_top.imageSource))
@@ -481,8 +511,9 @@ Loader {
                                     loader_top.listenToClicksOnImage = true
                                 } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
                                     image_loader.source = "imageitems/PQSVG.qml"
-                                } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                                } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
                                     loader_top.thisIsAPhotoSphere = true
+                                    PQCNotify.showingPhotoSphere = true
                                     image_loader.source = "imageitems/PQPhotoSphere.qml"
                                 } else {
                                     loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
@@ -1055,6 +1086,8 @@ Loader {
 
                     loader_top.visible = false
 
+                    loader_top.handleWhenCompletelyHidden()
+
                 }
             }
         }
@@ -1075,6 +1108,8 @@ Loader {
 
                     loader_top.visible = false
 
+                    loader_top.handleWhenCompletelyHidden()
+
                 }
             }
         }
@@ -1094,6 +1129,8 @@ Loader {
                     loader_top.stopVideoAndReset()
 
                     loader_top.visible = false
+
+                    loader_top.handleWhenCompletelyHidden()
 
                 }
             }
@@ -1131,6 +1168,8 @@ Loader {
                     loader_top.rotation = 0
                     loader_top.z = image_top.curZ-5
 
+                    loader_top.handleWhenCompletelyHidden()
+
                 }
             }
         }
@@ -1167,6 +1206,8 @@ Loader {
                     loader_top.scale = 1
 
                     loader_top.z = image_top.curZ-5
+
+                    loader_top.handleWhenCompletelyHidden()
 
                 }
             }
@@ -1442,6 +1483,15 @@ Loader {
                 rotAnimation.restart()
 
             }
+
+        }
+
+        // if anything needs to be handled after image is hidden
+        function handleWhenCompletelyHidden() {
+
+            // exit photo sphere when manually entered
+            if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered && !PQCSettings.filetypesPhotoSphereAutoLoad)
+                loader_top.doExitPhotoSphere()
 
         }
 

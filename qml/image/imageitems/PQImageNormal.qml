@@ -231,8 +231,9 @@ Image {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Click here to enter photo sphere")
-                    onClicked:
-                        image_top.photoSphereManuallyEntered = true
+                    onClicked: {
+                        image_top.enterPhotoSphere()
+                    }
                 }
 
             }
@@ -253,8 +254,8 @@ Image {
             if(PQCNotify.slideshowRunning)
                 return
 
-            // if(PQCFileFolderModel.currentIndex !== index)
-                // return
+            if(!loader_top.isMainImage)
+                return
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
 
