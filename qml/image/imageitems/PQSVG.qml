@@ -65,8 +65,8 @@ Item {
 
         property bool fitImage: false
 
-        width: fitImage ? deleg.width : undefined
-        height: fitImage ? deleg.height : undefined
+        width: fitImage ? image_top.width : undefined
+        height: fitImage ? image_top.height : undefined
 
         fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
 
@@ -80,7 +80,7 @@ Item {
         onStatusChanged: {
             image_wrapper.status = status
             if(status == Image.Ready) {
-                fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+                fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
                 hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
@@ -137,7 +137,7 @@ Item {
         z: parent.z-1
         fillMode: Image.Tile
         visible: image.status == Image.Ready && scaledimage.status == Image.Ready
-        opacity: deleg.opacity
+        opacity: loader_top.opacity
         source: PQCSettings.imageviewTransparencyMarker&&hasAlpha ? "/other/checkerboard.png" : ""
 
     }
