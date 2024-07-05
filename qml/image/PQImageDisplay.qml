@@ -31,7 +31,10 @@ import "../elements"
 
 Loader {
     id: imageloaderitem
+
     property int mainItemIndex: -1
+    property string containingFolder: ""
+    property string lastModified: ""
     property bool imageLoadedAndReady: false
 
     signal iAmReady()
@@ -88,7 +91,8 @@ Loader {
 
         // this is set to the duplicate from the loader
         property int mainItemIndex: -1
-        property bool isMainImage: (PQCFileFolderModel.currentIndex===mainItemIndex)
+        // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
+        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex)
 
         property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
 
@@ -444,8 +448,8 @@ Loader {
                     property int status: Image.Null
                     onStatusChanged: {
                         if(status == Image.Ready) {
+                            imageloaderitem.imageLoadedAndReady = true
                             if(loader_top.isMainImage) {
-                                imageloaderitem.imageLoadedAndReady = true
                                 timer_busyloading.stop()
                                 busyloading.hide()
                                 var tmp = image_wrapper.computeDefaultScale()
@@ -574,7 +578,17 @@ Loader {
                             if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
 
                                 loader_top.defaultScale = 0.99999999*tmp
-                                loader_top.rotationZoomResetWithoutAnimation()
+
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(loader_top.imageSource in image_top.rememberChanges)) {
+                                    if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
+                                        loader_top.rotationZoomResetWithoutAnimation()
+                                    else {
+                                        if(!PQCSettings.imageviewPreserveZoom)
+                                            loader_top.zoomResetWithoutAnimation()
+                                        if(!PQCSettings.imageviewPreserveRotation)
+                                            loader_top.rotationResetWithoutAnimation()
+                                    }
+                                }
 
                             } else {
 
@@ -1230,8 +1244,12 @@ Loader {
 
         function showImage() {
 
-            if(imageloaderitem.imageLoadedAndReady)
+            if(imageloaderitem.imageLoadedAndReady) {
+
+                iAmReady()
                 setUpImageWhenReady()
+
+            }
 
         }
 
@@ -1246,6 +1264,8 @@ Loader {
             image_top.imageFinishedLoading(mainItemIndex)
 
             image_top.currentlyShowingVideo = loader_top.videoLoaded
+            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
             PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 
@@ -1391,21 +1411,25 @@ Loader {
             // ignore anything that happened during a slideshow
             if(!PQCNotify.slideshowRunning) {
 
-                if((PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
-                                             PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
-                    var vals = [loader_top.imagePosX,
-                                loader_top.imagePosY,
-                                loader_top.imageScale,
-                                loader_top.imageRotation,
-                                loader_top.imageMirrorH,
-                                loader_top.imageMirrorV]
-                    if(PQCSettings.imageviewRememberZoomRotationMirror)
-                        image_top.rememberChanges[loader_top.imageSource] = vals
-                    if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
-                        image_top.reuseChanges = vals
-                } else
-                    // don't delete reuseChanges here, we want to keep those
-                    delete image_top.rememberChanges[loader_top.imageSource]
+                if(loader_top.isMainImage) {
+
+                    if((PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
+                                                 PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)) {
+                        var vals = [loader_top.imagePosX,
+                                    loader_top.imagePosY,
+                                    loader_top.imageScale,
+                                    loader_top.imageRotation,
+                                    loader_top.imageMirrorH,
+                                    loader_top.imageMirrorV]
+                        if(PQCSettings.imageviewRememberZoomRotationMirror)
+                            image_top.rememberChanges[loader_top.imageSource] = vals
+                        if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
+                            image_top.reuseChanges = vals
+                    } else
+                        // don't delete reuseChanges here, we want to keep those
+                        delete image_top.rememberChanges[loader_top.imageSource]
+
+                }
 
             }
 
