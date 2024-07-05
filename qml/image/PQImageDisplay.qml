@@ -31,15 +31,16 @@ import "../elements"
 
 Loader {
     id: imageloaderitem
-    property int componentIndex: -1
     property int mainItemIndex: -1
     property bool imageLoadedAndReady: false
+
+    signal iAmReady()
+
     onMainItemIndexChanged: {
         imageLoadedAndReady = false
         active = false
         active = (mainItemIndex!=-1)
         if(active) {
-            item.componentIndex = componentIndex
             item.mainItemIndex = imageloaderitem.mainItemIndex
             item.finishSetup()
         }
@@ -87,7 +88,6 @@ Loader {
 
         // this is set to the duplicate from the loader
         property int mainItemIndex: -1
-        property int componentIndex: -1
         property bool isMainImage: (PQCFileFolderModel.currentIndex===mainItemIndex)
 
         property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
@@ -455,8 +455,7 @@ Loader {
                                 loader_top.defaultHeight = height*loader_top.defaultScale
                                 loader_top.defaultScale = 0.99999999*tmp
                                 image_top.defaultScale = loader_top.defaultScale
-                                image_top.newMainImageReady(loader_top.componentIndex)
-
+                                imageloaderitem.iAmReady()
                                 loader_top.setUpImageWhenReady()
                             }
                         } else if(loader_top.isMainImage)

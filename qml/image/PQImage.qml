@@ -115,74 +115,114 @@ Item {
     property var rememberChanges: ({})
     property var reuseChanges: []
 
-    Repeater {
+    property int _showing: -1
+    property var _loadBg: [-1,-1]
+    property int _spareItem: -1
 
-        id: repeater
+    PQImageDisplay {
+        id: image1
+        onIAmReady:
+            newMainImageReady(1)
+    }
+    PQImageDisplay {
+        id: image2
+        onIAmReady:
+            newMainImageReady(2)
+    }
+    PQImageDisplay {
+        id: image3
+        onIAmReady:
+            newMainImageReady(3)
+    }
+    PQImageDisplay {
+        id: image4
+        onIAmReady:
+            newMainImageReady(4)
+    }
 
-        model: PQCFileFolderModel.countMainView
+    Connections {
 
-        // If the model changed then all images are hidden initially
-        // This information is used, e.g., to disable animation on show
-        onModelChanged:
-            image_top.currentlyVisibleIndex = -1
+        target: PQCFileFolderModel
 
-        delegate:
-            // the item is a loader that is only loaded when needed
-            // there should be as little as possible in the loader outside of the source item
-            // otherwise it will take very long to load large folders
-            Loader {
+        function onCurrentIndexChanged() {
 
-                id: deleg
+            var showItem = -1
+            var showItemIsAlreadyReady = false
 
-                width: image_top.width
-                height: image_top.height
-                visible: false
+            // TODO: also add check to whether folder changed
+            //       otherwise loading the same index in a different folder will fail
 
-                asynchronous: true
-
-                active: shouldBeShown || hasBeenSetup
-
-                property bool shouldBeShown: PQCFileFolderModel.currentIndex===index || (image_top.currentlyVisibleIndex === index)
-                property bool hasBeenSetup: false
-
-                property bool photoSphereManuallyEntered: false
-                onPhotoSphereManuallyEnteredChanged: {
-                    deleg.reloadImage()
-                }
-
-                Connections {
-                    target: image_top
-                    function onReloadImage() {
-                        deleg.reloadImage()
-                    }
-                    function onExitPhotoSphere() {
-                        if(deleg.itemIndex === PQCFileFolderModel.currentIndex) {
-                            deleg.photoSphereManuallyEntered = false
-                            deleg.reloadImage()
-                        }
-                    }
-                    function onEnterPhotoSphere() {
-                        if(deleg.itemIndex === PQCFileFolderModel.currentIndex) {
-                            deleg.photoSphereManuallyEntered = true
-                            deleg.reloadImage()
-                        }
-                    }
-                }
-
-                function reloadImage() {
-                    deleg.active = false
-                    deleg.hasBeenSetup = false
-                    deleg.active = true
-                }
-
-                // the current index
-                property int itemIndex: index
-
-                // the loader loads a flickable once active
-                source: "PQImageLoader.qml"
-
+            // if the current image is already loaded we only need to show it
+            if(image1.mainItemIndex === PQCFileFolderModel.currentIndex) {
+                showItem = 1
+                if(image1.imageLoadedAndReady) showItemIsAlreadyReady = true
+            } else if(image2.mainItemIndex === PQCFileFolderModel.currentIndex) {
+                showItem = 2
+                if(image2.imageLoadedAndReady) showItemIsAlreadyReady = true
+            } else if(image3.mainItemIndex === PQCFileFolderModel.currentIndex) {
+                showItem = 3
+                if(image3.imageLoadedAndReady) showItemIsAlreadyReady = true
+            } else if(image4.mainItemIndex === PQCFileFolderModel.currentIndex) {
+                showItem = 4
+                if(image4.imageLoadedAndReady) showItemIsAlreadyReady = true
             }
 
+            // these need to be loaded
+            _showing = PQCFileFolderModel.currentIndex
+            _loadBg = [(_showing-1+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView, (_showing+1)%PQCFileFolderModel.countMainView]
+
+            // image not already loaded
+            if(showItem == -1) {
+                // image1 is a spare item
+                if(_loadBg.indexOf(image1.mainItemIndex) == -1 && (!image1.active || !image1.item.visible)) {
+                    image1.mainItemIndex = PQCFileFolderModel.currentIndex
+                    showItem = 1
+                // image2 is a spare item
+                } else if(_loadBg.indexOf(image2.mainItemIndex) == -1 && (!image2.active || !image2.item.visible)) {
+                    image2.mainItemIndex = PQCFileFolderModel.currentIndex
+                    showItem = 2
+                // image3 is a spare item
+                } else if(_loadBg.indexOf(image3.mainItemIndex) == -1 && (!image3.active || !image3.item.visible)) {
+                    image3.mainItemIndex = PQCFileFolderModel.currentIndex
+                    showItem = 3
+                // image4 is a spare item
+                } else if(_loadBg.indexOf(image4.mainItemIndex) == -1 && (!image4.active || !image4.item.visible)) {
+                    image4.mainItemIndex = PQCFileFolderModel.currentIndex
+                    showItem = 4
+                }
+            }
+
+            timer_busyloading.restart()
+
+            if(showItem == 1) {
+                image1.item.showImage()
+                if(showItemIsAlreadyReady)
+                    newMainImageReady(1)
+            } else if(showItem == 2) {
+                image2.item.showImage()
+                if(showItemIsAlreadyReady)
+                    newMainImageReady(2)
+            } else if(showItem == 3) {
+                image3.item.showImage()
+                if(showItemIsAlreadyReady)
+                    newMainImageReady(3)
+            } else if(showItem == 4) {
+                image4.item.showImage()
+                if(showItemIsAlreadyReady)
+                    newMainImageReady(4)
+            }
+
+        }
+
+    }
+
+    function newMainImageReady(curIndex) {
+        timer_busyloading.stop()
+        busyloading.hide()
+        if(curIndex !== 1 && image1.active) image1.item.hideImage()
+        if(curIndex !== 2 && image2.active) image2.item.hideImage()
+        if(curIndex !== 3 && image3.active) image3.item.hideImage()
+        if(curIndex !== 4 && image4.active) image4.item.hideImage()
     }
 
     Timer {
