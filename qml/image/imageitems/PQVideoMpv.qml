@@ -158,7 +158,7 @@ Item {
             videotop.myMirrorV = false
         }
         function onVideoJump(seconds) {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
             video.command(["seek", seconds])
         }
@@ -172,7 +172,7 @@ Item {
         }
 
         function onVideoTogglePlay() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", loader_top.imageSource])
@@ -182,7 +182,7 @@ Item {
             }
         }
         function onVideoToPos(pos) {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", loader_top.imageSource])
@@ -193,7 +193,7 @@ Item {
                 video.command(["seek", pos, "absolute"])
         }
         function onImageClicked() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", loader_top.imageSource])
@@ -217,7 +217,7 @@ Item {
         target: loader_top
 
         function onStopVideoAndReset() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
             if(loader_top.videoPlaying) {
                 loader_top.videoPlaying = false
@@ -226,7 +226,7 @@ Item {
         }
         function onRestartVideoIfAutoplay() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(loader_top.videoPlaying) {
@@ -252,7 +252,7 @@ Item {
 
         function onSlideshowRunningChanged() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(PQCNotify.slideshowRunning) {

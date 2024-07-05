@@ -45,10 +45,10 @@ AnimatedImage {
     mipmap: interpThreshold
 
     property bool fitImage: false
-    property bool imageLarger: (image.sourceSize.width > deleg.width || image.sourceSize.height > deleg.height)
+    property bool imageLarger: (image.sourceSize.width > image_top.width || image.sourceSize.height > image_top.height)
 
-    width: (fitImage||imageLarger) ? deleg.width : undefined
-    height: (fitImage||imageLarger) ? deleg.height : undefined
+    width: (fitImage||imageLarger) ? image_top.width : undefined
+    height: (fitImage||imageLarger) ? image_top.height : undefined
 
     fillMode: Image.PreserveAspectFit
 
@@ -60,7 +60,7 @@ AnimatedImage {
     onStatusChanged: {
         image_wrapper.status = status
         if(status == Image.Ready) {
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
@@ -147,7 +147,7 @@ AnimatedImage {
         target: image_top
 
         function onCurrentlyVisibleIndexChanged() {
-            image.playing = (image_top.currentlyVisibleIndex === deleg.itemIndex)
+            image.playing = loader_top.isMainImage
         }
 
         function onAnimImageJump(leftright) {

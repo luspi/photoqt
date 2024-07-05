@@ -52,8 +52,8 @@ Image {
 
     property bool fitImage: false
 
-    width: fitImage ? deleg.width : undefined
-    height: fitImage ? deleg.height : undefined
+    width: fitImage ? image_top.width : undefined
+    height: fitImage ? image_top.height : undefined
 
     fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
 
@@ -66,7 +66,7 @@ Image {
         image_wrapper.status = status
         if(status == Image.Ready) {
             hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < deleg.width && image.sourceSize.height < deleg.height)
+            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)
@@ -139,7 +139,7 @@ Image {
         id: loadScaledDown
         interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
         onTriggered: {
-            if(loader_top.shouldBeShown) {
+            if(loader_top.isMainImage) {
                 screenW = image_top.width
                 screenH = image_top.height
                 ldl.active = true
@@ -188,7 +188,7 @@ Image {
     Connections {
         target: image_top
         function onCurrentlyVisibleIndexChanged() {
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
+            if(!loader_top.isMainImage) {
                 videoloader.active = false
             }
         }
@@ -231,8 +231,9 @@ Image {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Click here to enter photo sphere")
-                    onClicked:
-                        deleg.photoSphereManuallyEntered = true
+                    onClicked: {
+                        image_top.enterPhotoSphere()
+                    }
                 }
 
             }
@@ -253,7 +254,7 @@ Image {
             if(PQCNotify.slideshowRunning)
                 return
 
-            if(PQCFileFolderModel.currentIndex !== index)
+            if(!loader_top.isMainImage)
                 return
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
@@ -392,7 +393,7 @@ Image {
                 Connections {
                     target: loader_top
                     function onVideoTogglePlay() {
-                        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+                        if(!image_top.isMainImage)
                             return
                         if(mediaplayer.playbackState == MediaPlayer.PausedState)
                             mediaplayer.play()

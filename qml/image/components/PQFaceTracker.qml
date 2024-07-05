@@ -36,7 +36,7 @@ Item {
 
     anchors.fill: parent
 
-    visible: deleg.itemIndex===PQCFileFolderModel.currentIndex && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere
+    visible: loader_top.isMainImage && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere
 
     Repeater {
 
@@ -192,7 +192,7 @@ Item {
         if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere)
             return
 
-        faceTags = PQCScriptsMetaData.getFaceTags(PQCFileFolderModel.currentFile)
+        faceTags = PQCScriptsMetaData.getFaceTags(loader_top.imageSource)
         for(var i = 0; i < faceTags.length/6; ++i)
             repeatermodel.append({"index" : i})
     }

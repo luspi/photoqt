@@ -41,10 +41,10 @@ Item {
 
             id: controlitem
 
-            parent: deleg
+            parent: loader_top
 
-            x: (deleg.width-width)/2
-            y: 0.9*deleg.height
+            x: (parent.width-width)/2
+            y: 0.9*parent.height
             z: image_top.curZ
             width: leftrightlock.width
             height: 30

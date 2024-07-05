@@ -327,7 +327,7 @@ Item {
 
         function onPassOn(what, param) {
 
-            if(deleg.itemIndex === PQCFileFolderModel.currentIndex) {
+            if(loader_top.isMainImage) {
 
                 if(what === "tagFaces") {
 
@@ -357,8 +357,10 @@ Item {
                         else
                             hide()
 
-                    } else if(param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter)
+                    } else if(param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         whoisthis.save()
+                        whoisthis.hide()
+                    }
 
                 }
 

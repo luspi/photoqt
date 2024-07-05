@@ -267,10 +267,10 @@ Item {
     }
 
     Connections {
-        target: deleg
+        target: loader_top
 
         // if we become the current image, make sure an animation is running
-        function onItemIndexChanged() {
+        function onIsMainImageChanged() {
             aniDeleg.manageAni()
         }
     }
@@ -342,7 +342,7 @@ Item {
     function figureOutAniIndex() {
 
         if(PQCNotify.showingPhotoSphere) {
-            image_top.animatePhotoSpheres(deleg.itemIndex%2)
+            image_top.animatePhotoSpheres(loader_top.mainItemIndex%2)
             return
         }
 
@@ -352,15 +352,15 @@ Item {
 
         // image is much higher than wide
         if(fac < 0.5)
-            aniDeleg.aniIndex = 3 + deleg.itemIndex%3
+            aniDeleg.aniIndex = 3 + loader_top.mainItemIndex%3
 
         // image is much wider than high
         else if(fac > 2)
-            aniDeleg.aniIndex = deleg.itemIndex%3
+            aniDeleg.aniIndex = loader_top.mainItemIndex%3
 
         // more "normal" image
         else
-            aniDeleg.aniIndex = deleg.itemIndex%6
+            aniDeleg.aniIndex = loader_top.mainItemIndex%6
     }
 
     // after switched away from this image we repeatedly check whether the image is still visible
@@ -369,7 +369,7 @@ Item {
         id: stopAfterFadeOut
         interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
-            if(deleg.opacity > 1e-6)
+            if(loader_top.opacity > 1e-6)
                 stopAfterFadeOut.restart()
             else
                 aniDeleg.stopAni()
@@ -400,7 +400,7 @@ Item {
     function manageAni() {
 
         // no animation should be running -> stop!
-        if(PQCFileFolderModel.currentIndex !== deleg.itemIndex || !PQCNotify.slideshowRunning ||
+        if(!loader_top.isMainImage || !PQCNotify.slideshowRunning ||
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
                 loader_top.defaultScale >= 1) {
             stopAfterFadeOut.restart()

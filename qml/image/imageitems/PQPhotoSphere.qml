@@ -32,8 +32,8 @@ PQCPhotoSphere {
 
     id: thesphere
 
-    width: deleg.width
-    height: deleg.height
+    width: image_top.width
+    height: image_top.height
 
     // these need to have a small duration as otherwise touchpad handling is awkward
     // key events are handled with their own animations below
@@ -70,7 +70,7 @@ PQCPhotoSphere {
             moveView("reset")
         }
 
-        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+        if(!loader_top.isMainImage)
             return
 
         if(!panOnCompleted.running && !PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
@@ -170,15 +170,15 @@ PQCPhotoSphere {
         target: image_top
 
         function onZoomIn(wheelDelta) {
-            if(image_top.currentlyVisibleIndex === deleg.itemIndex)
+            if(loader_top.isMainImage)
                 zoom("in")
         }
         function onZoomOut(wheelDelta) {
-            if(image_top.currentlyVisibleIndex === deleg.itemIndex)
+            if(loader_top.isMainImage)
                 zoom("out")
         }
         function onZoomReset() {
-            if(image_top.currentlyVisibleIndex === deleg.itemIndex) {
+            if(loader_top.isMainImage) {
                 zoom("reset")
                 moveView("reset")
             }
@@ -186,7 +186,7 @@ PQCPhotoSphere {
 
         function onMoveView(direction) {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(direction === "left")
@@ -277,7 +277,7 @@ PQCPhotoSphere {
 
         function onAnimatePhotoSpheres(direction) {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             aniDirection = direction
@@ -310,7 +310,7 @@ PQCPhotoSphere {
 
         function onCurrentlyVisibleIndexChanged() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex) {
+            if(!loader_top.isMainImage) {
                 if(kb_left.running)
                     kb_left.pause()
                 if(kb_right.running)
@@ -465,7 +465,9 @@ PQCPhotoSphere {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("facetagging", "Click to exit photo sphere")
-                        onClicked: image_top.exitPhotoSphere()
+                        onClicked: {
+                            image_top.exitPhotoSphere()
+                        }
                         onEntered: parent.hovered = true
                         onExited: parent.hovered = false
                     }

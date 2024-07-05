@@ -46,10 +46,13 @@ Item {
         // earlier versions of Qt6 seem to struggle if only one slash is used
         source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + loader_top.imageSource
 
+        onSourceChanged:
+            console.warn(">>>>>", source)
+
         volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100
 
-        width: PQCSettings.imageviewFitInWindow ? deleg.width : undefined
-        height: PQCSettings.imageviewFitInWindow ? deleg.height : undefined
+        width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined
+        height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined
 
         fillMode: VideoOutput.PreserveAspectFit
 
@@ -117,7 +120,7 @@ Item {
         target: image_top
         function onVideoJump(seconds) {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(video.seekable)
@@ -131,21 +134,21 @@ Item {
 
         function onVideoTogglePlay() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             toggle()
         }
         function onVideoToPos(pos) {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             video.seek(pos*1000)
         }
         function onImageClicked() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             toggle()
@@ -153,7 +156,7 @@ Item {
 
         function onStopVideoAndReset() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(loader_top.videoPlaying) {
@@ -163,7 +166,7 @@ Item {
         }
         function onRestartVideoIfAutoplay() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(loader_top.videoPlaying) {
@@ -189,7 +192,7 @@ Item {
 
         function onSlideshowRunningChanged() {
 
-            if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+            if(!loader_top.isMainImage)
                 return
 
             if(PQCNotify.slideshowRunning) {
@@ -202,7 +205,7 @@ Item {
 
     function toggle() {
 
-        if(image_top.currentlyVisibleIndex !== deleg.itemIndex)
+        if(!loader_top.isMainImage)
             return
 
         if(loader_top.videoPlaying)

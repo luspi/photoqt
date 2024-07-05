@@ -490,8 +490,10 @@ Item {
                 if(val !== "") {
                     csptxt.text = val
                     csptxt.color = PQCLook.textColor
-                } else
+                } else {
+                    csptxt.text = "---"
                     csptxt.color = PQCLook.textColorDisabled
+                }
             }
 
             Connections {
@@ -501,8 +503,10 @@ Item {
                     if(val !== "") {
                         csptxt.text = val
                         csptxt.color = PQCLook.textColor
-                    } else
+                    } else {
+                        csptxt.text = "---"
                         csptxt.color = PQCLook.textColorDisabled
+                    }
                 }
             }
             Connections {
@@ -519,8 +523,10 @@ Item {
                         if(val !== "") {
                             csptxt.color = PQCLook.textColor
                             csptxt.text = val
-                        } else
+                        } else {
+                            csptxt.text = "---"
                             csptxt.color = PQCLook.textColorDisabled
+                        }
                     }
                 }
             }
