@@ -235,6 +235,54 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            id: set_preload
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Preloading")
+
+            helptext: qsTranslate("settingsmanager", "The number of images in both directions (previous and next) that should be preloaded in the background. Images are not preloaded until the main image has been displayed. This improves navigating through all images in the folder, but the tradeoff is an increased memory consumption. It is recommended to keep this at a low number.")
+
+            content: [
+
+                Column {
+
+                    id: preloadcol
+
+                    spacing: 5
+
+                    PQSliderSpinBox {
+                        id: preload
+                        width: set_preload.rightcol
+                        minval: 0
+                        maxval: 5
+                        title: ""
+                        suffix: ""
+                        onValueChanged:
+                            checkDefault()
+                    }
+
+                    PQText {
+                        width: set_preload.rightcol
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: preload.value == 0 ?
+                                  qsTranslate("settingsmanager", "only current image will be loaded") :
+                                  (preload.value == 1 ?
+                                       qsTranslate("settingsmanager", "preload 1 image in both directions") :
+                                       qsTranslate("settingsmanager", "preload %1 images in both directions").arg(preload.value))
+
+                    }
+
+                }
+            ]
+
+        }
+
     }
 
     Component.onCompleted:
@@ -266,6 +314,11 @@ Flickable {
             return
         }
 
+        if(preload.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
         settingChanged = false
 
     }
@@ -291,6 +344,8 @@ Flickable {
             anicombo.currentIndex = 0
         anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
 
+        preload.loadAndSetDefault(PQCSettings.imageviewPreloadInBackground)
+
         settingChanged = false
         settingsLoaded = true
 
@@ -313,11 +368,14 @@ Flickable {
             PQCSettings.imageviewAnimationDuration = anispeed.value
         }
 
+        PQCSettings.imageviewPreloadInBackground = preload.value
+
         loop.saveDefault()
         sortasc.saveDefault()
         sortdesc.saveDefault()
         anispeed_check.saveDefault()
         anispeed.saveDefault()
+        preload.saveDefault()
 
         settingChanged = false
 
