@@ -1247,7 +1247,9 @@ Loader {
             if(imageloaderitem.imageLoadedAndReady) {
 
                 iAmReady()
-                setUpImageWhenReady()
+
+                if(!loader_top.visible)
+                    setUpImageWhenReady()
 
             }
 
