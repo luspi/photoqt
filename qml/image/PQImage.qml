@@ -115,7 +115,7 @@ Item {
     property var rememberChanges: ({})
     property var reuseChanges: []
 
-    property int howManyLoaders: PQCSettings.imageviewPreloadInBackground+3
+    property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2
     property int bgOffset: 0
     property var bgIndices: []
 
@@ -123,7 +123,8 @@ Item {
 
         id: repeaterimage
 
-        model: howManyLoaders
+        // we set this to the max number so that the delegates don't get reloaded when the number of images to be preloaded is changed
+        model: 12
 
         PQImageDisplay {
             onIAmReady: {
