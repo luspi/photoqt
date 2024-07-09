@@ -138,18 +138,27 @@ Rectangle {
 
         PQTextS {
             id: tit
-            width: 300
+            visible: text!=""
+            width: Math.min(300, contentWidth)
             font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
+            onTextChanged: {
+                width = undefined
+                width = Math.min(300, contentWidth)
+            }
         }
 
         PQText {
             id: txt
-            width: 300
+            width: Math.min(300, contentWidth)
             font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
+            onTextChanged: {
+                width = undefined
+                width = Math.min(300, contentWidth)
+            }
         }
 
     }
@@ -165,8 +174,13 @@ Rectangle {
                     // use external tool if set, otherwise show integrated notification
                     if(!PQCSettings.interfaceNotificationTryNative || !PQCScriptsOther.showDesktopNotification(param[1][0], param[1][1])) {
                         show()
-                        titletext = param[1][0]
-                        statustext = param[1][1]
+                        if(param[1][1] === "") {
+                            titletext = ""
+                            statustext = param[1][0]
+                        } else {
+                            titletext = param[1][0]
+                            statustext = param[1][1]
+                        }
                     }
                 }
             }
