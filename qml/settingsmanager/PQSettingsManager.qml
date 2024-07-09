@@ -116,7 +116,8 @@ PQTemplateFullscreen {
                                                 [qsTranslate("settingsmanager", "Language"),
                                                  qsTranslate("settingsmanager", "Fullscreen or window mode"),
                                                  qsTranslate("settingsmanager", "Window buttons"),
-                                                 qsTranslate("settingsmanager", "Accent color")],
+                                                 qsTranslate("settingsmanager", "Accent color"),
+                                                 qsTranslate("settingsmanager", "Notification")],
                                                  // the settings for filtering
                                                 ["Language",
                                                  "WindowMode",
@@ -130,7 +131,10 @@ PQTemplateFullscreen {
                                                  "WindowButtonsAutoHide",
                                                  "WindowButtonsAutoHideTopEdge",
                                                  "WindowButtonsAutoHideTimeout",
-                                                 "AccentColor"]],
+                                                 "AccentColor",
+                                                 "NotificationLocation",
+                                                 "NotificationTryNative",
+                                                 "NotificationDistanceFromEdge"]],
 
                                                 //: A settings subcategory
                             "if_background"  : [qsTranslate("settingsmanager", "Background"),   "PQBackground",
@@ -261,12 +265,14 @@ PQTemplateFullscreen {
                             "iv_folder"      : [qsTranslate("settingsmanager", "Folder"),       "PQFolder",
                                                 [qsTranslate("settingsmanager", "Looping"),
                                                  qsTranslate("settingsmanager", "Sort images"),
-                                                 qsTranslate("settingsmanager", "Animation")],
+                                                 qsTranslate("settingsmanager", "Animation"),
+                                                 qsTranslate("settingsmanager", "Preloading")],
                                                 ["LoopThroughFolder",
                                                  "SortImagesBy",
                                                  "SortImagesAscending",
                                                  "AnimationDuration",
-                                                 "AnimationType"]],
+                                                 "AnimationType",
+                                                 "PreloadInBackground"]],
 
                                                 //: A settings subcategory
                             "iv_online"      : [qsTranslate("settingsmanager", "Share online"), "PQShareOnline",

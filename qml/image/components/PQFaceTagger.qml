@@ -332,13 +332,13 @@ Item {
                 if(what === "tagFaces") {
 
                     if(!PQCScriptsMetaData.areFaceTagsSupported(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", qsTranslate("unavailable", "This file type does not support face tags."))
+                        loader.show("notification", [qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags.")])
                         return
                     } else if(PQCNotify.showingPhotoSphere) {
-                        loader.show("notification", qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere."))
+                        loader.show("notification", [qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere.")])
                         return
                     } else
-                        loader.show("notification", qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
+                        loader.show("notification", [qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces.")])
 
                     image.zoomReset()
                     image.rotateReset()

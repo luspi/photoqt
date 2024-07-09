@@ -50,6 +50,7 @@ public:
     Q_INVOKABLE QVariantList selectColor(QVariantList def);
     Q_INVOKABLE void setPointingHandCursor();
     Q_INVOKABLE void restoreOverrideCursor();
+    Q_INVOKABLE bool showDesktopNotification(QString summary, QString txt);
 
 private:
     PQCScriptsOther();

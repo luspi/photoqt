@@ -353,6 +353,308 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            id: set_notif
+
+            helptext: qsTranslate("settingsmanager", "For certain actions a notification is shown. On Linux this notification can be shown as native notification. Alternatively it can also be shown integrated into the main interface.")
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Notification")
+
+            content: [
+
+                Column {
+
+                    id: notif_grid
+
+                    property string loc: "center"
+                    property string default_loc: "center"
+
+                    spacing: 20
+
+                    Row {
+                        spacing: 5
+
+                        Column {
+                            spacing: 5
+
+                            PQText {
+                                text: " "
+                            }
+
+                            PQText {
+                                x: (parent.width-width)
+                                height: 50
+                                verticalAlignment: Text.AlignVCenter
+                                //: Vertical position of the integrated notification popup. Please keep short!
+                                text: qsTranslate("settingsmanager", "top")
+                            }
+
+                            PQText {
+                                x: (parent.width-width)
+                                height: 50
+                                verticalAlignment: Text.AlignVCenter
+                                //: Vertical position of the integrated notification popup. Please keep short!
+                                text: qsTranslate("settingsmanager", "center")
+                            }
+
+                            PQText {
+                                x: (parent.width-width)
+                                height: 50
+                                verticalAlignment: Text.AlignVCenter
+                                //: Vertical position of the integrated notification popup. Please keep short!
+                                text: qsTranslate("settingsmanager", "bottom")
+                            }
+                        }
+
+                        Column {
+                            spacing: 5
+                            Row {
+                                spacing: 5
+                                PQText {
+                                    width: 100
+                                    horizontalAlignment: Text.AlignHCenter
+                                    //: Horizontal position of the integrated notification popup. Please keep short!
+                                    text: qsTranslate("settingsmanager", "left")
+                                }
+                                PQText {
+                                    width: 100
+                                    horizontalAlignment: Text.AlignHCenter
+                                    //: Horizontal position of the integrated notification popup. Please keep short!
+                                    text: qsTranslate("settingsmanager", "center")
+                                }
+                                PQText {
+                                    width: 100
+                                    horizontalAlignment: Text.AlignHCenter
+                                    //: Horizontal position of the integrated notification popup. Please keep short!
+                                    text: qsTranslate("settingsmanager", "right")
+                                }
+                            }
+
+                            Row {
+                                spacing: 5
+                                Rectangle {
+                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive
+                                                                     : mouse_tl.containsMouse ? PQCLook.baseColorHighlight
+                                                                                              : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_tl
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "topleft"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive
+                                                                 : mouse_t.containsMouse ? PQCLook.baseColorHighlight
+                                                                                         : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_t
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "top"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive
+                                                                      : mouse_tr.containsMouse ? PQCLook.baseColorHighlight
+                                                                                               : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_tr
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "topright"
+                                        }
+                                    }
+                                }
+                            }
+                            Row {
+                                spacing: 5
+                                Rectangle {
+                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive
+                                                                        : mouse_ml.containsMouse ? PQCLook.baseColorHighlight
+                                                                                                 : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_ml
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "centerleft"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive
+                                                                    : mouse_m.containsMouse ? PQCLook.baseColorHighlight
+                                                                                            : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_m
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "center"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive
+                                                                         : mouse_mr.containsMouse ? PQCLook.baseColorHighlight
+                                                                                                  : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_mr
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "centerright"
+                                        }
+                                    }
+                                }
+                            }
+                            Row {
+                                spacing: 5
+                                Rectangle {
+                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive
+                                                                        : mouse_bl.containsMouse ? PQCLook.baseColorHighlight
+                                                                                                 : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_bl
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "bottomleft"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive
+                                                                    : mouse_b.containsMouse ? PQCLook.baseColorHighlight
+                                                                                            : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_b
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "bottom"
+                                        }
+                                    }
+                                }
+                                Rectangle {
+                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive
+                                                                         : mouse_br.containsMouse ? PQCLook.baseColorHighlight
+                                                                                                  : PQCLook.baseColor
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    width: 100
+                                    height: 50
+                                    border.width: 1
+                                    border.color: PQCLook.baseColorHighlight
+                                    PQMouseArea {
+                                        id: mouse_br
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        text: qsTranslate("settingsmanager", "Show notification at this position")
+                                        onClicked: {
+                                            notif_grid.loc = "bottomright"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+
+                PQSliderSpinBox {
+                    id: notif_dist
+                    width: set_notif.rightcol
+                    minval: 0
+                    maxval: 200
+                    title: qsTranslate("settingsmanager", "Distance from edge:")
+                    suffix: " px"
+                    onValueChanged:
+                        checkDefault()
+                },
+
+                PQCheckBox {
+                    id: notif_external
+                    visible: !PQCScriptsConfig.amIOnWindows()
+                    text: qsTranslate("settingsmanager", "try to show native notification")
+                },
+
+                Item {
+                    width: 10
+                    height: 50
+                }
+
+            ]
+
+        }
+
     }
 
     Component.onCompleted:
@@ -383,6 +685,11 @@ Flickable {
 
         if(autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() || autohide_timeout.hasChanged()) {
             settingChanged = true
+            return
+        }
+
+        if(notif_grid.default_loc !== notif_grid.loc || notif_external.hasChanged() || notif_dist.hasChanged()) {
+            settingChanged = true;
             return
         }
 
@@ -436,6 +743,11 @@ Flickable {
         if(index === -1) index = 0
         accentcolor.loadAndSetDefault(index)
 
+        notif_grid.loc = PQCSettings.interfaceNotificationLocation
+        notif_grid.default_loc = PQCSettings.interfaceNotificationLocation
+        notif_external.loadAndSetDefault(PQCSettings.interfaceNotificationTryNative)
+        notif_dist.loadAndSetDefault(PQCSettings.interfaceNotificationDistanceFromEdge)
+
         settingChanged = false
         settingsLoaded = true
 
@@ -468,6 +780,10 @@ Flickable {
 
         PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
 
+        PQCSettings.interfaceNotificationLocation = notif_grid.loc
+        PQCSettings.interfaceNotificationTryNative = notif_external.checked
+        PQCSettings.interfaceNotificationDistanceFromEdge = notif_dist.value
+
         fsmode.saveDefault()
         wmmode.saveDefault()
 
@@ -487,6 +803,10 @@ Flickable {
         autohide_timeout.saveDefault()
 
         accentcolor.saveDefault()
+
+        notif_grid.default_loc = notif_grid.loc
+        notif_external.saveDefault()
+        notif_dist.saveDefault()
 
         setting_top.settingChanged = false
 

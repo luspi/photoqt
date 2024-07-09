@@ -50,11 +50,11 @@ Item {
                 if(!PQCNotify.barcodeDisplayed) {
                     barcodes = PQCScriptsImages.getZXingData(loader_top.imageSource)
                     if(barcodes.length === 0) {
-                        loader.show("notification", qsTranslate("image", "No bar/QR codes found."))
+                        loader.show("notification", [qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found.")])
                     } else if(barcodes.length/3 == 1) {
-                        loader.show("notification", qsTranslate("image", "1 bar/QR code found."))
+                        loader.show("notification", [qsTranslate("image", "Success"),  qsTranslate("image", "1 bar/QR code found.")])
                     } else if(barcodes.length/3 > 1) {
-                        loader.show("notification", qsTranslate("image", "%1 bar/QR codes found.").arg(barcodes.length/3))
+                        loader.show("notification", [qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(barcodes.length/3)])
                     }
                     PQCNotify.barcodeDisplayed = barcodes.length>0
                 } else {

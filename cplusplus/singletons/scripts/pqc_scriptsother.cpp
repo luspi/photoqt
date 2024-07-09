@@ -25,6 +25,7 @@
 #include <pqc_printtabimageoptions.h>
 #include <pqc_printtabimagepositiontile.h>
 #include <pqc_loadimage.h>
+#include <pqc_settings.h>
 
 #include <sstream>
 #include <QMessageBox>
@@ -278,5 +279,56 @@ void PQCScriptsOther::setPointingHandCursor() {
 void PQCScriptsOther::restoreOverrideCursor() {
 
     qApp->restoreOverrideCursor();
+
+}
+
+bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
+
+    qDebug() << "args: summary =" << summary;
+    qDebug() << "args: txt =" << txt;
+
+#ifndef Q_OS_WIN
+
+    QProcess proc_notifysend;
+    proc_notifysend.start("notify-send", {"-t", "2500",
+                               "-a", "PhotoQt",
+                               "-i", "org.photoqt.PhotoQt",
+                               summary,
+                               txt});
+
+    proc_notifysend.waitForFinished(1000);
+    // success!
+    if(proc_notifysend.exitCode() == 0)
+        return true;
+
+    /*********************************************************/
+    // if notify-send didn't work, try gdbus
+
+    QProcess proc_gdbus;
+    proc_gdbus.start("gdbus", {"call",
+                               "--session",
+                               "--dest=org.freedesktop.Notifications",
+                               "--object-path=/org/freedesktop/Notifications",
+                               "--method=org.freedesktop.Notifications.Notify",
+                               "PhotoQt",
+                               "0",
+                               "org.photoqt.PhotoQt",
+                               summary,
+                               txt,
+                               "[]",
+                               "{'urgency': <1>}",
+                               "2500"});
+
+    proc_gdbus.waitForFinished(1000);
+    // success!
+    if(proc_gdbus.exitCode() == 0)
+        return true;
+
+    /*********************************************************/
+    // if neither worked (or if we're on windows) return false
+
+#endif
+
+    return false;
 
 }

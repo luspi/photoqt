@@ -73,10 +73,10 @@ Item {
         }
 
         if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
-            loader.show("notification", qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt."))
+            loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
             return
         } else if((ele === "mapcurrent" || ele === "mapexplorer") && !PQCScriptsConfig.isLocationSupportEnabled()) {
-            loader.show("notification", qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt."))
+            loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
             return
         }
 

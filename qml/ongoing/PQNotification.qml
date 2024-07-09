@@ -21,16 +21,100 @@
  **************************************************************************/
 
 import QtQuick
+import PQCScriptsOther
 
 import "../elements"
 
 Rectangle {
+    id: notification_top
 
-    x: (toplevel.width-width)/2
-    y: (toplevel.height-height)/2
+    // we fall back to top right location if state is invalid
+    x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
+    y: PQCSettings.interfaceNotificationDistanceFromEdge
 
-    width: txt.width+100
-    height: txt.height+30
+    width: contcol.width+30
+    height: contcol.height+30
+
+    state: PQCSettings.interfaceNotificationLocation
+
+    states: [
+
+        State {
+            name: "bottomleft"
+            PropertyChanges {
+                target: notification_top
+                x: PQCSettings.interfaceNotificationDistanceFromEdge
+                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        },
+        State {
+            name: "bottom"
+            PropertyChanges {
+                target: notification_top
+                x: (toplevel.width-width)/2
+                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        },
+        State {
+            name: "bottomright"
+            PropertyChanges {
+                target: notification_top
+                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
+                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        },
+
+        State {
+            name: "centerleft"
+            PropertyChanges {
+                target: notification_top
+                x: PQCSettings.interfaceNotificationDistanceFromEdge
+                y: (toplevel.height-height)/2
+            }
+        },
+        State {
+            name: "center"
+            PropertyChanges {
+                target: notification_top
+                x: (toplevel.width-width)/2
+                y: (toplevel.height-height)/2
+            }
+        },
+        State {
+            name: "centerright"
+            PropertyChanges {
+                target: notification_top
+                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
+                y: (toplevel.height-height)/2
+            }
+        },
+
+        State {
+            name: "topleft"
+            PropertyChanges {
+                target: notification_top
+                x: PQCSettings.interfaceNotificationDistanceFromEdge
+                y: PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        },
+        State {
+            name: "top"
+            PropertyChanges {
+                target: notification_top
+                x: (toplevel.width-width)/2
+                y: PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        },
+        State {
+            name: "topright"
+            PropertyChanges {
+                target: notification_top
+                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
+                y: PQCSettings.interfaceNotificationDistanceFromEdge
+            }
+        }
+
+    ]
 
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -38,16 +122,36 @@ Rectangle {
 
     color: PQCLook.transColor
 
+    property alias titletext: tit.text
     property alias statustext: txt.text
 
     radius: 15
 
-    PQTextL {
-        id: txt
-        x: 50
+    Column {
+
+        id: contcol
+
+        x: 15
         y: 15
-        font.weight: PQCLook.fontWeightBold
-        text: ""
+
+        spacing: 5
+
+        PQTextS {
+            id: tit
+            width: 300
+            font.weight: PQCLook.fontWeightBold
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: ""
+        }
+
+        PQText {
+            id: txt
+            width: 300
+            font.weight: PQCLook.fontWeightBold
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: ""
+        }
+
     }
 
     Connections {
@@ -57,8 +161,13 @@ Rectangle {
 
             if(what === "show") {
                 if(param.length === 2 && param[0] === "notification") {
-                    show()
-                    statustext = param[1]
+
+                    // use external tool if set, otherwise show integrated notification
+                    if(!PQCSettings.interfaceNotificationTryNative || !PQCScriptsOther.showDesktopNotification(param[1][0], param[1][1])) {
+                        show()
+                        titletext = param[1][0]
+                        statustext = param[1][1]
+                    }
                 }
             }
 
@@ -68,7 +177,7 @@ Rectangle {
 
     Timer {
         id: hideNotification
-        interval: 2000
+        interval: 2500
         onTriggered:
             hide()
     }

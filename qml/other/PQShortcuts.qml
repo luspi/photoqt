@@ -525,7 +525,7 @@ Item {
                 loader.show("slideshowsetup")
                 break
             case "__slideshowQuick":
-                loader.show("notification", qsTranslate("slideshow", "Slideshow started."))
+                loader.show("notification", [qsTranslate("slideshow", "Slideshow started."), ""])
                 loader.show("slideshowhandler")
                 loader.show("slideshowcontrols")
                 break
@@ -642,7 +642,7 @@ Item {
                 if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
                     image.enterPhotoSphere()
                 else
-                    loader.show("notification", qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
+                    loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt.")])
                 break
 
             /**********************/
@@ -748,30 +748,30 @@ Item {
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", qsTranslate("filemanagement", "File successfully deleted"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted")])
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", qsTranslate("filemanagement", "Could not delete file"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file")])
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", qsTranslate("filemanagement", "File successfully moved to trash"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash")])
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", qsTranslate("filemanagement", "Could not move file to trash"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash")])
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", qsTranslate("filemanagement", "File successfully moved to trash"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash")])
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", qsTranslate("filemanagement", "Could not move file to trash"))
+                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash")])
                     }
                 }
                 break
