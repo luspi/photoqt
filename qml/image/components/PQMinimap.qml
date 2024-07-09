@@ -289,7 +289,7 @@ Rectangle {
             property bool hasBeenTriggered: false
             onTriggered: {
                 hasBeenTriggered = true
-                var cl = PQCScriptsFilesPaths.cleanPath(loader_top.imageSource)
+                var cl = PQCScriptsFilesPaths.cleanPath(imageloaderitem.imageSource)
                 if(cl !== "")
                     img.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(cl)
             }

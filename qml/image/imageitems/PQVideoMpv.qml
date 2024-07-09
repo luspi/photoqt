@@ -76,7 +76,7 @@ Item {
         interval: 100
         running: true
         onTriggered: {
-            video.command(["loadfile", loader_top.imageSource])
+            video.command(["loadfile", imageloaderitem.imageSource])
             if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
                 loader_top.videoPlaying = false
                 video.command(["set", "pause", "yes"])
@@ -125,7 +125,7 @@ Item {
             loader_top.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
                 if(PQCSettings.filetypesVideoLoop && !restarting && !PQCNotify.slideshowRunning) {
-                    video.command(["loadfile", loader_top.imageSource])
+                    video.command(["loadfile", imageloaderitem.imageSource])
                     restarting = true
                 }
             } else {
@@ -175,7 +175,7 @@ Item {
             if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", loader_top.imageSource])
+                video.command(["loadfile", imageloaderitem.imageSource])
                 loader_top.videoPlaying = true
             } else {
                 loader_top.videoPlaying = !loader_top.videoPlaying
@@ -185,7 +185,7 @@ Item {
             if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", loader_top.imageSource])
+                video.command(["loadfile", imageloaderitem.imageSource])
                 loader_top.videoPlaying = false
                 setPosTimeout.pos = pos
                 setPosTimeout.restart()
@@ -196,7 +196,7 @@ Item {
             if(!loader_top.isMainImage)
                 return
             if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", loader_top.imageSource])
+                video.command(["loadfile", imageloaderitem.imageSource])
                 loader_top.videoPlaying = true
             } else {
                 loader_top.videoPlaying = !loader_top.videoPlaying

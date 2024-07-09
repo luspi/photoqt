@@ -58,7 +58,7 @@ PQCPhotoSphere {
     onHeightChanged:
         image_wrapper.height = height
 
-    source: loader_top.imageSource
+    source: imageloaderitem.imageSource
     azimuth: 180
     elevation: 0
     fieldOfView: 90

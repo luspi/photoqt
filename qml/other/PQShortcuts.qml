@@ -34,6 +34,7 @@ import PQCScriptsShortcuts
 import PQCScriptsImages
 import PQCImageFormats
 import PQCScriptsConfig
+import PQCScriptsUndo
 
 Item {
 
@@ -789,6 +790,17 @@ Item {
             case "__print":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
                     PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
+                break
+            case "__undo":
+                var ret =PQCScriptsUndo.undoLastAction()
+                if(ret === "")
+                    loader.show("notification", [qsTranslate("filemanagement", "Nothing to undo"), ""])
+                else if(ret.startsWith("-"))
+                    loader.show("notification", [qsTranslate("filemanagement", "Error"), ret.substring(1)])
+                else
+                    loader.show("notification", [qsTranslate("filemanagement", "Success"), ret])
+
+
                 break
 
             /**********************/

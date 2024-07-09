@@ -48,7 +48,7 @@ Item {
         function onDetectBarCodes() {
             if(loader_top.isMainImage) {
                 if(!PQCNotify.barcodeDisplayed) {
-                    barcodes = PQCScriptsImages.getZXingData(loader_top.imageSource)
+                    barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
                     if(barcodes.length === 0) {
                         loader.show("notification", [qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found.")])
                     } else if(barcodes.length/3 == 1) {

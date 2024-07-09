@@ -44,7 +44,7 @@ Item {
         id: video
 
         // earlier versions of Qt6 seem to struggle if only one slash is used
-        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + loader_top.imageSource
+        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + imageloaderitem.imageSource
 
         onSourceChanged:
             console.warn(">>>>>", source)
@@ -70,9 +70,9 @@ Item {
 
                 // earlier versions of Qt6 seem to struggle if only one slash is used
                 if(PQCScriptsConfig.isQtAtLeast6_5())
-                    video.source = "file:/" + loader_top.imageSource
+                    video.source = "file:/" + imageloaderitem.imageSource
                 else
-                    video.source = "file://" + loader_top.imageSource
+                    video.source = "file://" + imageloaderitem.imageSource
 
                 if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) {
                     video.play()

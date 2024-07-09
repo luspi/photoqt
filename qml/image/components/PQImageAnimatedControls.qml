@@ -214,7 +214,7 @@ Item {
                             //: The frame here refers to one of the images making up an animation of a gif or other animated image
                             text: qsTranslate("image", "Save current frame to new file")
                             onClicked: {
-                                PQCScriptsImages.extractFrameAndSave(loader_top.imageSource, image.currentFrame)
+                                PQCScriptsImages.extractFrameAndSave(imageloaderitem.imageSource, image.currentFrame)
                             }
                         }
                     }

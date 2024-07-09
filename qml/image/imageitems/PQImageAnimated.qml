@@ -35,7 +35,7 @@ AnimatedImage {
 
     id: image
 
-    source: (loader_top.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)))
+    source: (imageloaderitem.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)))
 
     asynchronous: true
 
@@ -61,7 +61,7 @@ AnimatedImage {
         image_wrapper.status = status
         if(status == Image.Ready) {
             fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
-            hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
+            hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)

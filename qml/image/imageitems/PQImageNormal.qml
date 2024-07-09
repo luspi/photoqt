@@ -39,7 +39,7 @@ Image {
 
     id: image
 
-    source: loader_top.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource))
+    source: imageloaderitem.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource))
 
     asynchronous: true
 
@@ -65,7 +65,7 @@ Image {
     onStatusChanged: {
         image_wrapper.status = status
         if(status == Image.Ready) {
-            hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
+            hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
             fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
@@ -259,16 +259,16 @@ Image {
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
 
-                var what = PQCScriptsImages.isMotionPhoto(loader_top.imageSource)
+                var what = PQCScriptsImages.isMotionPhoto(imageloaderitem.imageSource)
 
                 if(what > 0) {
 
                     var src = ""
 
                     if(what === 1)
-                        src = PQCScriptsFilesPaths.getDir(loader_top.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(loader_top.imageSource) + ".mov"
+                        src = PQCScriptsFilesPaths.getDir(imageloaderitem.imageSource) + "/" + PQCScriptsFilesPaths.getBasename(imageloaderitem.imageSource) + ".mov"
                     else if(what === 2 || what === 3)
-                        src = PQCScriptsImages.extractMotionPhoto(loader_top.imageSource)
+                        src = PQCScriptsImages.extractMotionPhoto(imageloaderitem.imageSource)
 
                     if(src != "") {
 
@@ -277,10 +277,10 @@ Image {
                         // HEIF/HEIC images are a little trickier with their orientation handling
                         // We need to ignore this value as the Exif orientation might not be correct
                         // See also: https://github.com/Exiv2/exiv2/issues/2958
-                        var suf = PQCScriptsFilesPaths.getSuffix(loader_top.imageSource).toLowerCase()
+                        var suf = PQCScriptsFilesPaths.getSuffix(imageloaderitem.imageSource).toLowerCase()
                         if(PQCSettings.metadataAutoRotation && suf !== "heic" && suf !== "heif") {
 
-                            var orientation = PQCScriptsMetaData.getExifOrientation(loader_top.imageSource)
+                            var orientation = PQCScriptsMetaData.getExifOrientation(imageloaderitem.imageSource)
                             switch(orientation) {
 
                             case 1:

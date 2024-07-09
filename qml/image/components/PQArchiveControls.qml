@@ -51,7 +51,7 @@ Item {
             radius: 5
             color: PQCLook.transColor
 
-            property bool isComicBook: PQCScriptsImages.isComicBook(loader_top.imageSource)
+            property bool isComicBook: PQCScriptsImages.isComicBook(imageloaderitem.imageSource)
 
             Connections {
                 target: image_top

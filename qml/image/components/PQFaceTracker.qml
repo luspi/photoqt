@@ -192,7 +192,7 @@ Item {
         if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere)
             return
 
-        faceTags = PQCScriptsMetaData.getFaceTags(loader_top.imageSource)
+        faceTags = PQCScriptsMetaData.getFaceTags(imageloaderitem.imageSource)
         for(var i = 0; i < faceTags.length/6; ++i)
             repeatermodel.append({"index" : i})
     }

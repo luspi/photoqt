@@ -51,7 +51,7 @@ Item {
 
         id: image
 
-        source: (loader_top.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)))
+        source: (imageloaderitem.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)))
 
         asynchronous: true
         cache: false
@@ -81,7 +81,7 @@ Item {
             image_wrapper.status = status
             if(status == Image.Ready) {
                 fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
-                hasAlpha = PQCScriptsImages.supportsTransparency(loader_top.imageSource)
+                hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
         }

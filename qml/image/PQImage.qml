@@ -149,15 +149,16 @@ Item {
 
             var showItem = -1
 
-            var newFolder = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
-            var newModified = PQCScriptsFilesPaths.getFileModified(PQCFileFolderModel.currentFile).toLocaleString()
+            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+            var newFolder = PQCScriptsFilesPaths.getDir(newFile)
+            var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
 
             // if the current image is already loaded we only need to show it
             for(var i = 0; i < howManyLoaders; ++i) {
 
                 var img = repeaterimage.itemAt(i)
 
-                if(img.mainItemIndex === PQCFileFolderModel.currentIndex && img.containingFolder === newFolder && img.lastModified === newModified) {
+                if(img.mainItemIndex === PQCFileFolderModel.currentIndex && img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
                     showItem = i
                     break;
                 }
@@ -181,10 +182,11 @@ Item {
                     var spare = repeaterimage.itemAt(j)
 
                     // this is a spare item
-                    if((bgIndices.indexOf(spare.mainItemIndex) == -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified) && (!spare.active || !spare.item.visible)) {
-                        spare.mainItemIndex = PQCFileFolderModel.currentIndex
+                    if((bgIndices.indexOf(spare.mainItemIndex) == -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
                         spare.containingFolder = newFolder
                         spare.lastModified = newModified
+                        spare.imageSource = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+                        spare.mainItemIndex = PQCFileFolderModel.currentIndex
                         showItem = j
                         break;
                     }
@@ -280,9 +282,10 @@ Item {
                     // k not the current main image and not the next image
                     if(curprevimg.mainItemIndex !== PQCFileFolderModel.currentIndex && (curprevimg.mainItemIndex !== foundNext || foundNext == -1)) {
                         foundPrev = k
-                        curprevimg.mainItemIndex = nexttwo[0]
                         curprevimg.containingFolder = curFolder
                         curprevimg.lastModified = prevModified
+                        curprevimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[0]]
+                        curprevimg.mainItemIndex = nexttwo[0]
                         break;
                     }
 
@@ -299,9 +302,10 @@ Item {
 
                     // l not the current main image and not the next image
                     if(curnextimg.mainItemIndex !== PQCFileFolderModel.currentIndex && foundPrev != l) {
-                        curnextimg.mainItemIndex = nexttwo[1]
                         curnextimg.containingFolder = curFolder
                         curnextimg.lastModified = nextModified
+                        curnextimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[1]]
+                        curnextimg.mainItemIndex = nexttwo[1]
                         break;
                     }
 

@@ -34,10 +34,10 @@ Image {
     source: ""
 
     Component.onCompleted: {
-        if(loader_top.imageSource.includes("::PDF::"))
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)
+        if(imageloaderitem.imageSource.includes("::PDF::"))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)
         else
-            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource))
+            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource))
     }
 
     asynchronous: true
@@ -154,7 +154,7 @@ Image {
     }
 
     property int currentPage: 0
-    property int pageCount: PQCScriptsImages.getDocumentPageCount(loader_top.imageSource)
+    property int pageCount: PQCScriptsImages.getDocumentPageCount(imageloaderitem.imageSource)
 
     onCurrentPageChanged: {
         image_top.currentFileInside = currentPage
@@ -170,10 +170,10 @@ Image {
                 loadNewPage.restart()
             } else {
                 image.asynchronous = false
-                if(loader_top.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource.split("::PDF::")[1]))
+                if(imageloaderitem.imageSource.includes("::PDF::")) {
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource.split("::PDF::")[1]))
                 } else {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource))
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource))
                 }
                 image.asynchronous = true
             }
@@ -221,15 +221,15 @@ Image {
 
     Connections {
 
-        target: loader_top
+        target: imageloaderitem
 
         function onImageSourceChanged() {
-            if(loader_top.imageSource === "") {
+            if(imageloaderitem.imageSource === "") {
                 image.source = ""
-            } else if(loader_top.imageSource.includes("::PDF::")) {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource.split("::PDF::")[1]))
+            } else if(imageloaderitem.imageSource.includes("::PDF::")) {
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource.split("::PDF::")[1]))
             } else {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(loader_top.imageSource))
+                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource))
             }
         }
 

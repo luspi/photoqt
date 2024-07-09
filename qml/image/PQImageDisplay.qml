@@ -25,6 +25,7 @@ import QtQuick
 import PQCFileFolderModel
 import PQCNotify
 import PQCScriptsImages
+import PQCScriptsFilesPaths
 
 import "components"
 import "../elements"
@@ -36,6 +37,7 @@ Loader {
     property string containingFolder: ""
     property string lastModified: ""
     property bool imageLoadedAndReady: false
+    property string imageSource: ""
 
     signal iAmReady()
 
@@ -94,7 +96,6 @@ Loader {
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
         property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex)
 
-        property string imageSource: mainItemIndex==-1 ? "" : PQCFileFolderModel.entriesMainView[mainItemIndex]
 
         // some signals
         signal zoomInForKenBurns()
@@ -497,29 +498,29 @@ Loader {
                                 loader_top.videoHasAudio = false
                                 loader_top.thisIsAPhotoSphere = false
                                 PQCNotify.showingPhotoSphere = false
-                                if(PQCScriptsImages.isPDFDocument(loader_top.imageSource))
+                                if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource))
                                     image_loader.source = "imageitems/PQDocument.qml"
-                                else if(PQCScriptsImages.isArchive(loader_top.imageSource))
+                                else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource))
                                     image_loader.source = "imageitems/PQArchive.qml"
-                                else if(PQCScriptsImages.isMpvVideo(loader_top.imageSource)) {
+                                else if(PQCScriptsImages.isMpvVideo(imageloaderitem.imageSource)) {
                                     image_loader.source = "imageitems/PQVideoMpv.qml"
                                     loader_top.listenToClicksOnImage = true
                                     loader_top.videoLoaded = true
-                                } else if(PQCScriptsImages.isQtVideo(loader_top.imageSource)) {
+                                } else if(PQCScriptsImages.isQtVideo(imageloaderitem.imageSource)) {
                                     image_loader.source = "imageitems/PQVideoQt.qml"
                                     loader_top.listenToClicksOnImage = true
                                     loader_top.videoLoaded = true
-                                } else if(PQCScriptsImages.isItAnimated(loader_top.imageSource)) {
+                                } else if(PQCScriptsImages.isItAnimated(imageloaderitem.imageSource)) {
                                     image_loader.source = "imageitems/PQImageAnimated.qml"
                                     loader_top.listenToClicksOnImage = true
-                                } else if(PQCScriptsImages.isSVG(loader_top.imageSource)) {
+                                } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
                                     image_loader.source = "imageitems/PQSVG.qml"
-                                } else if(PQCScriptsImages.isPhotoSphere(loader_top.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                                } else if(PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
                                     loader_top.thisIsAPhotoSphere = true
                                     PQCNotify.showingPhotoSphere = true
                                     image_loader.source = "imageitems/PQPhotoSphere.qml"
                                 } else {
-                                    loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(loader_top.imageSource)
+                                    loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource)
                                     image_loader.source = "imageitems/PQImageNormal.qml"
                                 }
 
@@ -579,7 +580,7 @@ Loader {
 
                                 loader_top.defaultScale = 0.99999999*tmp
 
-                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(loader_top.imageSource in image_top.rememberChanges)) {
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
                                         loader_top.rotationZoomResetWithoutAnimation()
                                     else {
@@ -780,13 +781,13 @@ Loader {
                             if(PQCNotify.showingPhotoSphere)
                                 return
 
-                            if((PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges)) ||
+                            if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges)) ||
                                     ((PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation ||
                                       PQCSettings.imageviewPreserveMirror) && image_top.reuseChanges.length > 1)) {
 
                                 var vals;
-                                if(PQCSettings.imageviewRememberZoomRotationMirror && (loader_top.imageSource in image_top.rememberChanges))
-                                    vals = image_top.rememberChanges[loader_top.imageSource]
+                                if(PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges))
+                                    vals = image_top.rememberChanges[imageloaderitem.imageSource]
                                 else
                                     vals = image_top.reuseChanges
 
@@ -1424,12 +1425,12 @@ Loader {
                                     loader_top.imageMirrorH,
                                     loader_top.imageMirrorV]
                         if(PQCSettings.imageviewRememberZoomRotationMirror)
-                            image_top.rememberChanges[loader_top.imageSource] = vals
+                            image_top.rememberChanges[imageloaderitem.imageSource] = vals
                         if(PQCSettings.imageviewPreserveZoom || PQCSettings.imageviewPreserveRotation || PQCSettings.imageviewPreserveMirror)
                             image_top.reuseChanges = vals
                     } else
                         // don't delete reuseChanges here, we want to keep those
-                        delete image_top.rememberChanges[loader_top.imageSource]
+                        delete image_top.rememberChanges[imageloaderitem.imageSource]
 
                 }
 
@@ -1517,6 +1518,14 @@ Loader {
             // exit photo sphere when manually entered
             if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered && !PQCSettings.filetypesPhotoSphereAutoLoad)
                 loader_top.doExitPhotoSphere()
+
+            // check if this file has been deleted. If so, then we deactivate this loader
+            if(!PQCScriptsFilesPaths.doesItExist(imageloaderitem.imageSource)) {
+                imageloaderitem.lastModified = ""
+                imageloaderitem.containingFolder = ""
+                imageloaderitem.imageLoadedAndReady = false
+                imageloaderitem.mainItemIndex = -1
+            }
 
         }
 

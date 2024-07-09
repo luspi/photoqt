@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <scripts/pqc_scriptsfilemanagement.h>
+#include <scripts/pqc_scriptsundo.h>
 #include <pqc_configfiles.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
@@ -104,7 +105,9 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
 
     qDebug() << "args: filename = " << filename;
 
+
 #ifdef Q_OS_WIN
+    QString deletedFilename = "";
     QFile file(filename);
     // we need to call moveToTrash on a different QFile object, otherwise the exists() check will return false
     // even while the file isn't deleted as it is seen as opened by PhotoQt
@@ -114,16 +117,23 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
     while(file.exists() && count < 20) {
         QFile f(filename);
         ret = f.moveToTrash();
+        if(ret && deletedFilename == "")
+            deletedFilename = f.filename();
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
         ++count;
     }
+    PQCScriptsUndo::get().recordAction({"trash", filename, deletedFilename});
     return ret;
 #else
 
 #ifndef PQMFLATPAKBUILD
 
     // this does not work with Flatpak, checked 2024-04-03
-    return QFile::moveToTrash(filename);
+    QString trashFile = "";
+    bool rettrash = QFile::moveToTrash(filename, &trashFile);
+    if(rettrash)
+        PQCScriptsUndo::get().recordAction({"trash", filename, trashFile});
+    return rettrash;
 
 #else
 

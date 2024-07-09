@@ -35,11 +35,11 @@ Image {
 
     Component.onCompleted: {
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(loader_top.imageSource, true)
-        if(loader_top.imageSource.includes("::ARC::") || currentFile > fileCount-1)
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(loader_top.imageSource)
+            fileList = PQCScriptsImages.listArchiveContent(imageloaderitem.imageSource, true)
+        if(imageloaderitem.imageSource.includes("::ARC::") || currentFile > fileCount-1)
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)
         else
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(loader_top.imageSource))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(imageloaderitem.imageSource))
     }
 
     asynchronous: true
@@ -117,7 +117,7 @@ Image {
     }
 
     function setSource() {
-        var src = loader_top.imageSource
+        var src = imageloaderitem.imageSource
         if(src === "") {
             image.source = ""
             return
@@ -128,7 +128,7 @@ Image {
         image.asynchronous = false
 
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(loader_top.imageSource, true)
+            fileList = PQCScriptsImages.listArchiveContent(imageloaderitem.imageSource, true)
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
@@ -176,7 +176,7 @@ Image {
 
     Connections {
 
-        target: loader_top
+        target: imageloaderitem
 
         function onImageSourceChanged() {
             setSource()
