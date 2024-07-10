@@ -425,7 +425,7 @@ bool PQCShortcuts::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -563,9 +563,63 @@ bool PQCShortcuts::migrate(QString oldversion) {
 
             query.clear();
 
+        } else if(curVer == "4.6") {
+
+            // Ctrl+Z is to be added for __undoTrash. If Ctrl+Z is already used, we need to fix this
+
+            QSqlQuery query(db);
+
+            query.exec("SELECT `combo` FROM `shortcuts` WHERE `combo` LIKE '%Ctrl%Z' AND `commands` NOT LIKE '%__undoTrash%'");
+            if(query.lastError().text().trimmed().length()) {
+                qWarning() << "Unable to query for shortcuts with Ctrl+Z:" << query.lastError().text();
+                continue;
+            }
+
+            bool CtrlZ = true;
+            bool CtrlShiftZ = true;
+            bool CtrlAltShiftZ = true;
+
+            while(query.next()) {
+
+                QString combo = query.value(0).toString();
+
+                if(combo == "Ctrl+Z")
+                    CtrlZ = false;
+                else if(combo == "Ctrl+Shift+Z")
+                    CtrlShiftZ = false;
+                else if(combo == "Ctrl+Alt+Shift+Z")
+                    CtrlAltShiftZ = false;
+
+            }
+
+            query.clear();
+
+            QString newcombo = "";
+            if(CtrlZ)
+                newcombo = "Ctrl+Z";
+            else if(CtrlShiftZ)
+                newcombo = "Ctrl+Shift+Z";
+            else if(CtrlAltShiftZ)
+                newcombo = "Ctrl+Alt+Shift+Z";
+
+            if(newcombo != "") {
+
+                QSqlQuery queryNew(db);
+
+                queryNew.prepare("INSERT INTO shortcuts (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES(:com,'__undoTrash',1,0,0)");
+                queryNew.bindValue(":com", newcombo);
+                if(!queryNew.exec())
+                    qWarning() << "Unable to insert __undoTrash shortcut";
+
+                queryNew.clear();
+
+            }
+
         }
 
     }
+
+    readDB();
 
     return true;
 
