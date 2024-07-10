@@ -39,8 +39,8 @@ public:
     PQCScriptsUndo(PQCScriptsUndo const&)     = delete;
     void operator=(PQCScriptsUndo const&) = delete;
 
-    Q_INVOKABLE void recordAction(QVariantList args);
-    Q_INVOKABLE QString undoLastAction();
+    Q_INVOKABLE void recordAction(QString actions, QVariantList args);
+    Q_INVOKABLE QString undoLastAction(QString action);
 
 private Q_SLOTS:
     void clearActions();
@@ -49,7 +49,7 @@ private:
     PQCScriptsUndo();
 
     QString curFolder;
-    QList<QVariantList> actions;
+    QList<QVariantList> trash;
 
 };
 

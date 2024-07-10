@@ -791,10 +791,10 @@ Item {
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
                     PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
                 break
-            case "__undo":
-                var ret =PQCScriptsUndo.undoLastAction()
+            case "__undoTrash":
+                var ret = PQCScriptsUndo.undoLastAction("trash")
                 if(ret === "")
-                    loader.show("notification", [qsTranslate("filemanagement", "Nothing to undo"), ""])
+                    loader.show("notification", [qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore")])
                 else if(ret.startsWith("-"))
                     loader.show("notification", [qsTranslate("filemanagement", "Error"), ret.substring(1)])
                 else

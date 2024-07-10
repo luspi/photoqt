@@ -125,6 +125,8 @@ Flickable {
                                  //: Name of shortcut action
         "__deleteTrash":        [qsTranslate("settingsmanager", "Move file to trash (without confirmation)"), "currentimage"],
                                  //: Name of shortcut action
+        "__undoTrash":          [qsTranslate("settingsmanager", "Restore file from trash"), "currentimage"],
+                                 //: Name of shortcut action
         "__copy":               [qsTranslate("settingsmanager", "Copy File to a New Location"), "currentimage"],
                                  //: Name of shortcut action
         "__move":               [qsTranslate("settingsmanager", "Move File to a New Location"), "currentimage"],
@@ -152,8 +154,6 @@ Flickable {
         "__enterPhotoSphere":   [qsTranslate("settingsmanager", "Enter photo sphere"), "currentimage"],
                                  //: Name of shortcut action
         "__detectBarCodes":     [qsTranslate("settingsmanager", "Detect QR and barcodes"), "currentimage"],
-                                 //: Name of shortcut action
-        "__undo":               [qsTranslate("settingsmanager", "Undo last change"), "currentimage"],
 
 
         // ACTION WITH CURRENT FOLDER

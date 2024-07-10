@@ -122,7 +122,7 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
         ++count;
     }
-    PQCScriptsUndo::get().recordAction({"trash", filename, deletedFilename});
+    PQCScriptsUndo::get().recordAction("trash", {filename, deletedFilename});
     return ret;
 #else
 
@@ -132,7 +132,7 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
     QString trashFile = "";
     bool rettrash = QFile::moveToTrash(filename, &trashFile);
     if(rettrash)
-        PQCScriptsUndo::get().recordAction({"trash", filename, trashFile});
+        PQCScriptsUndo::get().recordAction("trash", {filename, trashFile});
     return rettrash;
 
 #else

@@ -30,7 +30,7 @@
 PQCScriptsUndo::PQCScriptsUndo() {
 
     curFolder = "";
-    actions.clear();
+    trash.clear();
 
     connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentFileChanged, this, [=]() {
         QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModel::get().getCurrentFile());
@@ -45,31 +45,36 @@ PQCScriptsUndo::PQCScriptsUndo() {
 PQCScriptsUndo::~PQCScriptsUndo() {}
 
 void PQCScriptsUndo::clearActions() {
-    actions.clear();
+    trash.clear();
 }
 
-void PQCScriptsUndo::recordAction(QVariantList args) {
-    actions.push_back(args);
+void PQCScriptsUndo::recordAction(QString action, QVariantList args) {
+
+    if(action == "trash")
+        trash.push_back(args);
+    else
+        qWarning() << "Unknown action:" << action;
+
 }
 
-QString PQCScriptsUndo::undoLastAction() {
+QString PQCScriptsUndo::undoLastAction(QString action) {
 
-    qDebug() << "";
+    qDebug() << "args: action =" << action;
 
-    if(actions.isEmpty())
-        return "";
+    if(action == "trash") {
 
-    QVariantList act = actions.takeLast();
+        if(trash.isEmpty())
+            return "";
 
-    if(act.at(0).toString() == "trash") {
+        QVariantList act = trash.takeLast();
 
-        QFile origFile(act.at(1).toString());
-        QFile delFile(act.at(2).toString());
-        
+        QFile origFile(act.at(0).toString());
+        QFile delFile(act.at(1).toString());
+
         if(origFile.exists()) {
 
             // re-add action to list
-            actions.push_back(act);
+            trash.push_back(act);
 
             return QString("-%1").arg(tr("File with original filename already exists", "filemanagement"));
 
@@ -77,17 +82,19 @@ QString PQCScriptsUndo::undoLastAction() {
 
         if(delFile.rename(origFile.fileName())) {
 
-            PQCFileFolderModel::get().setFileInFolderMainView(act.at(1).toString());
+            PQCFileFolderModel::get().setFileInFolderMainView(act.at(0).toString());
 
             return tr("File restored from Trash", "filemanagement");
 
         }
 
+        // re-add action to list
+        trash.push_back(act);
+
+        return QString("-%1: %2").arg(tr("Failed to recover file"), act.at(0).toString());
+
     }
 
-    // re-add action to list
-    actions.push_back(act);
-
-    return QString("-%1: %2").arg(tr("Unknown last action"), act.at(0).toString());
+    return QString("-%1: %2").arg(tr("Unknown action"), action);
 
 }
