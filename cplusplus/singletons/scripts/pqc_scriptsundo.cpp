@@ -71,18 +71,27 @@ QString PQCScriptsUndo::undoLastAction(QString action) {
         QFile origFile(act.at(0).toString());
         QFile delFile(act.at(1).toString());
 
+        QFileInfo info(act.at(1).toString());
+        QFile infoFile(QDir::cleanPath(info.absolutePath() + "/../info/" + info.fileName() + ".trashinfo"));
+
         if(origFile.exists()) {
 
             // re-add action to list
             trash.push_back(act);
 
-            return QString("-%1").arg(tr("File with original filename already exists", "filemanagement"));
+            return QString("-%1").arg(tr("File with original filename exists already", "filemanagement"));
 
         }
 
         if(delFile.rename(origFile.fileName())) {
 
+            qDebug() << QString("Successfully restored file '%1' to '%2'").arg(act.at(1).toString(),act.at(0).toString());
+
             PQCFileFolderModel::get().setFileInFolderMainView(act.at(0).toString());
+
+            if(!infoFile.remove()) {
+                qWarning() << "Failed to remove .trashinfo file";
+            }
 
             return tr("File restored from Trash", "filemanagement");
 
