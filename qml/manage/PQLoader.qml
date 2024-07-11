@@ -59,6 +59,7 @@ Item {
         "chromecast"          : ["ongoing","PQChromeCast", loader_chromecast, 0, false, false],
         "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
         "settingsmanager"     : ["settingsmanager","PQSettingsManager", loader_settingsmanager, 1, PQCSettings.interfacePopoutSettingsManager, PQCWindowGeometry.settingsmanagerForcePopout],
+        "crop"                : ["actions","PQCrop", loader_crop, 1, PQCSettings.interfacePopoutCrop, PQCWindowGeometry.cropForcePopout],
     }
 
     property string visibleItem: ""

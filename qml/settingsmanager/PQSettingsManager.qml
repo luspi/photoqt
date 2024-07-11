@@ -185,6 +185,7 @@ PQTemplateFullscreen {
                                                  "PopoutFilter",
                                                  "PopoutAdvancedSort",
                                                  "PopoutChromecast",
+                                                 "PopoutCrop",
                                                  "MinimapPopout"]],
 
                                                 //: A settings subcategory

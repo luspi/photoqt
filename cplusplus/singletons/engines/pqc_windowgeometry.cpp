@@ -116,6 +116,10 @@ PQCWindowGeometry::PQCWindowGeometry() {
                                                << 1000 << 800    // default size
                                                << 1100 << 800)); // popout threshold;
 
+    allElements.append(QVariant(QVariantList() << "crop"         // name
+                                               << 800 << 600     // default size
+                                               << 650 << 450));  // popout threshold;
+
     // save values with delay
     saveDelay = new QTimer;
     saveDelay->setInterval(200);

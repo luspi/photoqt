@@ -69,6 +69,7 @@ Rectangle {
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: ele_top.height-toprowHeight-bottomrowHeight-(noGapsAnywhere ? 0 : 20)
+    property int contentWidth: flickable.width
 
     property alias botLeft: bottomleftelement
 

@@ -730,6 +730,9 @@ Item {
             case "__videoJumpBackwards":
                 image.videoJump(-5)
                 break
+            case "__crop":
+                loader.show("crop")
+                break
 
             /**********************/
             // file actions

@@ -154,6 +154,8 @@ Flickable {
         "__enterPhotoSphere":   [qsTranslate("settingsmanager", "Enter photo sphere"), "currentimage"],
                                  //: Name of shortcut action
         "__detectBarCodes":     [qsTranslate("settingsmanager", "Detect QR and barcodes"), "currentimage"],
+                                 //: Name of shortcut action
+        "__crop":               [qsTranslate("settingsmanager", "Crop image"), "currentimage"],
 
 
         // ACTION WITH CURRENT FOLDER

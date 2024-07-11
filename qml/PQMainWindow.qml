@@ -157,6 +157,7 @@ Window {
     Loader { id: loader_slideshowsetup }
     Loader { id: loader_wallpaper }
     Loader { id: loader_chromecastmanager }
+    Loader { id: loader_crop }
 
     /*************************************************/
 
