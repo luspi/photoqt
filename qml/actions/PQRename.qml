@@ -40,7 +40,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.filerenameForcePopout
     shortcut: "__rename"
 
-    title: qsTranslate("filemanagement", "Rename file") + " | PhotoQt"
+    title: qsTranslate("filemanagement", "Rename file")
 
     button1.enabled: filenameedit.text!==""&&!error_exists.visible
     button1.text: qsTranslate("filemanagement", "Rename file")

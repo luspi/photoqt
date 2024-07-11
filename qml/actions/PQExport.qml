@@ -43,7 +43,7 @@ PQTemplateFullscreen {
     shortcut: "__export"
 
     //: title of action element
-    title: qsTranslate("export", "Export image") + " | PhotoQt"
+    title: qsTranslate("export", "Export image")
 
     //: written on button
     button1.text: qsTranslate("export", "Export")

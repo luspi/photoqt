@@ -56,7 +56,7 @@ Item {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "Map Explorer") + " | PhotoQt"
+            toplevel.titleOverride = qsTranslate("actions", "Map Explorer")
         else if(opacity == 0)
             toplevel.titleOverride = ""
     }

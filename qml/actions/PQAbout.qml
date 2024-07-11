@@ -38,7 +38,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.aboutForcePopout
     shortcut: "__about"
 
-    title: qsTranslate("about", "About") + " | PhotoQt"
+    title: qsTranslate("about", "About")
 
     onPopoutChanged:
         PQCSettings.interfacePopoutAbout = popout

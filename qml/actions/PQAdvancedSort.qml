@@ -39,7 +39,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutAdvancedSort
     forcePopout: PQCWindowGeometry.advancedsortForcePopout
     shortcut: "__advancedSort"
-    title: qsTranslate("advancedsort", "Advanced image sort") + " | PhotoQt"
+    title: qsTranslate("advancedsort", "Advanced image sort")
 
     button1.text: qsTranslate("advancedsort", "Sort images")
 

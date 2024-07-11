@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutFilter
     forcePopout: PQCWindowGeometry.filterForcePopout
     shortcut: "__filterImages"
-    title: qsTranslate("filter", "Filter images in current directory") + " | PhotoQt"
+    title: qsTranslate("filter", "Filter images in current directory")
 
     //: Written on a clickable button - please keep short
     button1.text: qsTranslate("filter", "Filter")

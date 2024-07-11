@@ -40,7 +40,7 @@ PQTemplateFullscreen {
     shortcut: "__imgurAnonym"
     title: (accountname=="" ?
                qsTranslate("imgur", "Upload to imgur.com") :
-               qsTranslate("imgur", "Upload to imgur.com") + ": " + accountname) + " | PhotoQt"
+               qsTranslate("imgur", "Upload to imgur.com") + ": " + accountname)
     showPopinPopout: false
 
     property string accountname: ""

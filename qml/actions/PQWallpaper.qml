@@ -40,7 +40,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.wallpaperForcePopout
     shortcut: "__wallpaper"
 
-    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
+    title: qsTranslate("wallpaper", "Wallpaper")
 
     onPopoutChanged:
         PQCSettings.interfacePopoutWallpaper = popout

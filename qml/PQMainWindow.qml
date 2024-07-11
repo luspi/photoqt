@@ -48,7 +48,7 @@ Window {
 
     property string titleOverride: ""
     title: titleOverride!="" ?
-               titleOverride :
+               (titleOverride + " | PhotoQt") :
                ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt")
 
     minimumWidth: 300

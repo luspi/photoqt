@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     popout: PQCSettings.interfacePopoutSlideshowSetup
     forcePopout: PQCWindowGeometry.slideshowsetupForcePopout
     shortcut: "__slideshow"
-    title: qsTranslate("slideshow", "Slideshow setup") + " | PhotoQt"
+    title: qsTranslate("slideshow", "Slideshow setup")
 
     //: Written on a clickable button
     button1.text: qsTranslate("slideshow", "Start slideshow")

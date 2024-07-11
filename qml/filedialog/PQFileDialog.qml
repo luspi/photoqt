@@ -84,7 +84,7 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "File Dialog") + " | PhotoQt"
+            toplevel.titleOverride = qsTranslate("actions", "File Dialog")
         else if(opacity == 0)
             toplevel.titleOverride = ""
     }

@@ -37,7 +37,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.chromecastmanagerForcePopout
     shortcut: "__chromecast"
 
-    title: qsTranslate("streaming", "Streaming (Chromecast)") + " | PhotoQt"
+    title: qsTranslate("streaming", "Streaming (Chromecast)")
 
     onPopoutChanged:
         PQCSettings.interfacePopoutChromecast = popout

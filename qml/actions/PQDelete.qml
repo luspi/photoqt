@@ -41,7 +41,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.filedeleteForcePopout
     shortcut: "__delete"
 
-    title: qsTranslate("filemanagement", "Delete file?") + " | PhotoQt"
+    title: qsTranslate("filemanagement", "Delete file?")
 
     button1.text: qsTranslate("filemanagement", "Move to trash")
 

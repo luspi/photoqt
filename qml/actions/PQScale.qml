@@ -41,7 +41,7 @@ PQTemplateFullscreen {
     forcePopout: PQCWindowGeometry.scaleForcePopout
     shortcut: "__scale"
 
-    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
+    title: qsTranslate("scale", "Scale image")
 
     button1.text: qsTranslate("scale", "Scale")
     button1.enabled: (spin_w.value>0 && spin_h.value>0 && !unsupportedlabel.visible)
