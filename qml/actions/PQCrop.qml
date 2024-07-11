@@ -78,322 +78,62 @@ PQTemplateFullscreen {
 
                 source: "image://full/" + PQCFileFolderModel.currentFile
 
-                property int actX: (theimage.width-theimage.paintedWidth)/2
-                property int actY: (theimage.height-theimage.paintedHeight)/2
-                property int actW: theimage.paintedWidth
-                property int actH: theimage.paintedHeight
-
-                property point startPos: Qt.point(200,200)
-                property point endPos: Qt.point(400,400)
-
                 /******************************************/
                 // shaded region that will be cropped out
 
                 // left region
                 Rectangle {
                     color: "#88000000"
-                    x: parent.actX
-                    y: parent.actY
-                    width: parent.startPos.x
-                    height: parent.actH
+                    x: resizerect.effectiveX
+                    y: resizerect.effectiveY
+                    width: resizerect.startPos.x
+                    height: resizerect.effectiveHeight
                 }
 
                 // right region
                 Rectangle {
                     color: "#88000000"
-                    x: parent.actX+parent.endPos.x
-                    y: parent.actY
-                    width: parent.actW-parent.endPos.x
-                    height: parent.actH
+                    x: resizerect.effectiveX+resizerect.endPos.x
+                    y: resizerect.effectiveY
+                    width: resizerect.effectiveWidth-resizerect.endPos.x
+                    height: resizerect.effectiveHeight
                 }
 
                 // // top region
                 Rectangle {
                     color: "#88000000"
-                    x: parent.actX+parent.startPos.x
-                    y: parent.actY
-                    width: parent.endPos.x-parent.startPos.x
-                    height: parent.startPos.y
+                    x: resizerect.effectiveX+resizerect.startPos.x
+                    y: resizerect.effectiveY
+                    width: resizerect.endPos.x-resizerect.startPos.x
+                    height: resizerect.startPos.y
                 }
 
                 // // bottom region
                 Rectangle {
                     color: "#88000000"
-                    x: parent.actX+parent.startPos.x
-                    y: parent.actY+parent.endPos.y
-                    width: parent.endPos.x-parent.startPos.x
-                    height: parent.actH-parent.endPos.y
+                    x: resizerect.effectiveX+resizerect.startPos.x
+                    y: resizerect.effectiveY+resizerect.endPos.y
+                    width: resizerect.endPos.x-resizerect.startPos.x
+                    height: resizerect.effectiveHeight-resizerect.endPos.y
                 }
 
                 /******************************************/
-                // region that is desired
 
-                Rectangle {
-                    x: parent.actX+parent.startPos.x
-                    y: parent.actY+parent.startPos.y
-                    width: parent.endPos.x-parent.startPos.x
-                    height: parent.endPos.y-parent.startPos.y
-                    color: "transparent"
-                    border.width: 2
-                    border.color: "#bb000000"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeAllCursor
-                        property bool pressedDown: false
-                        property int startX
-                        property int startY
-                        onPressed: (mouse) => {
-                            startX = mouse.x
-                            startY = mouse.y
-                            pressedDown = true
-                        }
-                        onReleased:
-                            pressedDown = false
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                var w = parent.parent.endPos.x - parent.parent.startPos.x
-                                parent.parent.startPos.x = Math.max(0, Math.min(parent.parent.actW-w, parent.parent.startPos.x+(mouse.x-startX)))
-                                parent.parent.endPos.x = parent.parent.startPos.x+w
-                            }
-                        }
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                var h = parent.parent.endPos.y - parent.parent.startPos.y
-                                parent.parent.startPos.y = Math.max(0, Math.min(parent.parent.actH-h, parent.parent.startPos.y+(mouse.y-startY)))
-                                parent.parent.endPos.y = parent.parent.startPos.y+h
-                            }
-                        }
-                    }
+                PQResizeRect {
+
+                    id: resizerect
+
+                    effectiveX: (theimage.width-theimage.paintedWidth)/2
+                    effectiveY: (theimage.height-theimage.paintedHeight)/2
+                    effectiveWidth: theimage.paintedWidth
+                    effectiveHeight: theimage.paintedHeight
+
+                    startPos: Qt.point(200,200)
+                    endPos: Qt.point(400,400)
+
+                    masterObject: theimage
+
                 }
-
-                /******************************************/
-                // markers for resizing highlighted region
-
-                property int markerSize: (endPos.x-startPos.x < 100 || endPos.y-startPos.y < 100 ? 10 : 20)
-                Behavior on markerSize { NumberAnimation { duration: 200 } }
-
-                // top
-                Rectangle {
-                    x: parent.actX + parent.startPos.x +(parent.endPos.x-parent.startPos.x)/2 -parent.markerSize/2
-                    y: parent.actY + parent.startPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeVerCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.y = Math.max(0, Math.min(theimage.endPos.y-25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                    }
-                }
-
-                // left
-                Rectangle {
-                    x: parent.actX + parent.startPos.x-parent.markerSize/2
-                    y: parent.actY + parent.startPos.y + (parent.endPos.y-parent.startPos.y)/2 -parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeHorCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.x = Math.max(0, Math.min(theimage.endPos.x-25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                // right
-                Rectangle {
-                    x: parent.actX + parent.endPos.x-parent.markerSize/2
-                    y: parent.actY + parent.startPos.y + (parent.endPos.y-parent.startPos.y)/2 -parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeHorCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.x = Math.min(parent.parent.actW, Math.max(theimage.startPos.x+25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                // bottom
-                Rectangle {
-                    x: parent.actX + parent.startPos.x +(parent.endPos.x-parent.startPos.x)/2 -parent.markerSize/2
-                    y: parent.actY + parent.endPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeVerCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.y = Math.min(parent.parent.actH, Math.max(theimage.startPos.y+25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                    }
-                }
-
-                // top left
-                Rectangle {
-                    x: parent.actX + parent.startPos.x-parent.markerSize/2
-                    y: parent.actY + parent.startPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeFDiagCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.y = Math.max(0, Math.min(theimage.endPos.y-25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.x = Math.max(0, Math.min(theimage.endPos.x-25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                // top right
-                Rectangle {
-                    x: parent.actX + parent.endPos.x-parent.markerSize/2
-                    y: parent.actY + parent.startPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeBDiagCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.y = Math.max(0, Math.min(theimage.endPos.y-25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.x = Math.min(parent.parent.actW, Math.max(theimage.startPos.x+25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                // bottom left
-                Rectangle {
-                    x: parent.actX + parent.startPos.x-parent.markerSize/2
-                    y: parent.actY + parent.endPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeBDiagCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.y = Math.min(parent.parent.actH, Math.max(theimage.startPos.y+25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.startPos.x = Math.max(0, Math.min(theimage.endPos.x-25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                // bottom right
-                Rectangle {
-                    x: parent.actX + parent.endPos.x-parent.markerSize/2
-                    y: parent.actY + parent.endPos.y-parent.markerSize/2
-                    width: parent.markerSize
-                    height: parent.markerSize
-                    radius: parent.markerSize/2
-                    color: "red"
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.SizeFDiagCursor
-                        property bool pressedDown: false
-                        onPressed:
-                            pressedDown = true
-                        onReleased:
-                            pressedDown = false
-                        onMouseYChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.y = Math.min(parent.parent.actH, Math.max(theimage.startPos.y+25, mapToItem(theimage, mouse.x, mouse.y).y-parent.parent.actY))
-                            }
-                        }
-                        onMouseXChanged: (mouse) => {
-                            if(pressedDown) {
-                                theimage.endPos.x = Math.min(parent.parent.actW, Math.max(theimage.startPos.x+25, mapToItem(theimage, mouse.x, mouse.y).x-parent.parent.actX))
-                            }
-                        }
-                    }
-                }
-
-                /******************************************/
 
             }
 
