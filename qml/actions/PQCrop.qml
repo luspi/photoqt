@@ -82,12 +82,28 @@ PQTemplateFullscreen {
 
                 source: "image://full/" + PQCFileFolderModel.currentFile
 
+                onStatusChanged: (status) => {
+                    if(status === Image.Ready) {
+                        updateStartEndPosBackupAndStart.restart()
+                    }
+                }
+                // we add a slight delay to make sure the bindings are all properly updated before starting
+                Timer {
+                    id: updateStartEndPosBackupAndStart
+                    interval: 500
+                    onTriggered: {
+                        animateCropping.startPosBackup = resizerect.startPos
+                        animateCropping.endPosBackup = resizerect.endPos
+                        animateCropping.restart()
+                    }
+                }
+
                 /******************************************/
                 // shaded region that will be cropped out
 
                 // left region
                 Rectangle {
-                    color: "#88000000"
+                    color: "#aa000000"
                     x: resizerect.effectiveX
                     y: resizerect.effectiveY
                     width: resizerect.startPos.x
@@ -96,7 +112,7 @@ PQTemplateFullscreen {
 
                 // right region
                 Rectangle {
-                    color: "#88000000"
+                    color: "#aa000000"
                     x: resizerect.effectiveX+resizerect.endPos.x
                     y: resizerect.effectiveY
                     width: resizerect.effectiveWidth-resizerect.endPos.x
@@ -105,7 +121,7 @@ PQTemplateFullscreen {
 
                 // // top region
                 Rectangle {
-                    color: "#88000000"
+                    color: "#aa000000"
                     x: resizerect.effectiveX+resizerect.startPos.x
                     y: resizerect.effectiveY
                     width: resizerect.endPos.x-resizerect.startPos.x
@@ -114,7 +130,7 @@ PQTemplateFullscreen {
 
                 // // bottom region
                 Rectangle {
-                    color: "#88000000"
+                    color: "#aa000000"
                     x: resizerect.effectiveX+resizerect.startPos.x
                     y: resizerect.effectiveY+resizerect.endPos.y
                     width: resizerect.endPos.x-resizerect.startPos.x
@@ -237,6 +253,89 @@ PQTemplateFullscreen {
         id: cropbusy
     }
 
+    ParallelAnimation {
+        id: animateCropping
+
+        property point startPosBackup
+        property point endPosBackup
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: resizerect
+                property: "startPos.x"
+                duration: 400
+                from: animateCropping.startPosBackup.x
+                to: animateCropping.startPosBackup.x+50
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: resizerect
+                property: "startPos.x"
+                duration: 400
+                from: animateCropping.startPosBackup.x+50
+                to: animateCropping.startPosBackup.x
+                easing.type: Easing.OutBounce
+            }
+        }
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: resizerect
+                property: "startPos.y"
+                duration: 400
+                from: animateCropping.startPosBackup.y
+                to: animateCropping.startPosBackup.y+50
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: resizerect
+                property: "startPos.y"
+                duration: 400
+                from: animateCropping.startPosBackup.y+50
+                to: animateCropping.startPosBackup.y
+                easing.type: Easing.OutBounce
+            }
+        }
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: resizerect
+                property: "endPos.x"
+                duration: 400
+                from: animateCropping.endPosBackup.x
+                to: animateCropping.endPosBackup.x-50
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: resizerect
+                property: "endPos.x"
+                duration: 400
+                from: animateCropping.endPosBackup.x-50
+                to: animateCropping.endPosBackup.x
+                easing.type: Easing.OutBounce
+            }
+        }
+
+        SequentialAnimation {
+            NumberAnimation {
+                target: resizerect
+                property: "endPos.y"
+                duration: 400
+                from: animateCropping.endPosBackup.y
+                to: animateCropping.endPosBackup.y-50
+                easing.type: Easing.OutCubic
+            }
+            NumberAnimation {
+                target: resizerect
+                property: "endPos.y"
+                duration: 400
+                from: animateCropping.endPosBackup.y-50
+                to: animateCropping.endPosBackup.y
+                easing.type: Easing.OutBounce
+            }
+        }
+    }
+
     Connections {
         target: PQCScriptsFileManagement
         function onCropCompleted(success) {
@@ -320,6 +419,19 @@ PQTemplateFullscreen {
         cropbusy.hide()
         errorlabel.hide()
         unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
+
+        // we use bindings here to make sure they are the proper values once the image has been fully loaded
+        resizerect.startPos = Qt.binding(function() {
+            return Qt.point(theimage.paintedWidth*image.currentFlickableVisibleAreaX,
+                            theimage.paintedHeight*image.currentFlickableVisibleAreaY)
+        })
+        resizerect.endPos = Qt.binding(function() {
+            return Qt.point(resizerect.startPos.x + theimage.paintedWidth*image.currentFlickableVisibleAreaWidthRatio,
+                            resizerect.startPos.y + theimage.paintedHeight*image.currentFlickableVisibleAreaHeightRatio)
+        })
+
+        if(theimage.status === Image.Ready && !updateStartEndPosBackupAndStart.running)
+            updateStartEndPosBackupAndStart.restart()
 
         opacity = 1
         if(popoutWindowUsed)

@@ -69,6 +69,11 @@ Item {
     property real currentRotation: 0
     property size currentResolution: Qt.size(0,0)
 
+    property real currentFlickableVisibleAreaX: 0.0
+    property real currentFlickableVisibleAreaY: 0.0
+    property real currentFlickableVisibleAreaWidthRatio: 1.0
+    property real currentFlickableVisibleAreaHeightRatio: 1.0
+
     property bool imageIsAtDefaultScale: Math.abs(currentScale-defaultScale) < 1e-6
 
     onCurrentResolutionChanged: {

@@ -278,6 +278,23 @@ Loader {
             contentWidth: flickable_content.width
             contentHeight: flickable_content.height
 
+            visibleArea.onXPositionChanged: {
+                if(loader_top.isMainImage)
+                    image_top.currentFlickableVisibleAreaX = visibleArea.xPosition
+            }
+            visibleArea.onYPositionChanged: {
+                if(loader_top.isMainImage)
+                    image_top.currentFlickableVisibleAreaY = visibleArea.yPosition
+            }
+            visibleArea.onWidthRatioChanged: {
+                if(loader_top.isMainImage)
+                    image_top.currentFlickableVisibleAreaWidthRatio = visibleArea.widthRatio
+            }
+            visibleArea.onHeightRatioChanged: {
+                if(loader_top.isMainImage)
+                    image_top.currentFlickableVisibleAreaHeightRatio = visibleArea.heightRatio
+            }
+
             // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
             // This is causing, e.g., the minimap to not update with the actual position of the view
             // This check here makes sure that we force an update to the position, but only if the image was dragged out of bounds
