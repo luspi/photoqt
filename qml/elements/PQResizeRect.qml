@@ -306,4 +306,68 @@ Item {
 
     /******************************************/
 
+    property int prevWidth
+    property int prevHeight
+
+    function setup() {
+        prevWidth = masterObject.paintedWidth
+        prevHeight = masterObject.paintedHeight
+        isSetup = false
+        setupTimer.restart()
+    }
+    property bool isSetup: false
+    Timer {
+        id: setupTimer
+        interval: 200
+        onTriggered:
+            isSetup = true
+    }
+
+    Connections {
+
+        target: masterObject
+
+        function onPaintedWidthChanged() {
+            if(!isSetup) return
+            updatePos.restart()
+        }
+        function onPaintedHeightChanged() {
+            if(!isSetup) return
+            updatePos.restart()
+        }
+
+    }
+
+    Timer {
+        id: updatePos
+        interval: 10
+        onTriggered: {
+
+            var w = masterObject.paintedWidth / prevWidth
+            var h = masterObject.paintedHeight / prevHeight
+
+            startPos.x *= w
+            endPos.x *= w
+
+            startPos.y *= h
+            endPos.y *= h
+
+            prevWidth = masterObject.paintedWidth
+            prevHeight = masterObject.paintedHeight
+
+        }
+    }
+
+    function getTopLeftBottomRight() {
+
+        var tlX = startPos.x/masterObject.paintedWidth
+        var tlY = startPos.y/masterObject.paintedHeight
+
+        var brX = endPos.x/masterObject.paintedWidth
+        var brY = endPos.y/masterObject.paintedHeight
+
+        return [Qt.point(tlX, tlY), Qt.point(brX, brY)]
+
+    }
+
 }

@@ -375,7 +375,7 @@ PQTemplateFullscreen {
         if(spin_w.value === 0 || spin_h.value === 0 || unsupportedlabel.visible)
             return
 
-        errorlabel.opacity = 0
+        errorlabel.visible = false
         scalebusy.showBusy()
 
         var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)

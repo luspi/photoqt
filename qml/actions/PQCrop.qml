@@ -25,6 +25,9 @@ import QtQuick.Controls
 
 import PQCWindowGeometry
 import PQCFileFolderModel
+import PQCScriptsFilesPaths
+import PQCImageFormats
+import PQCScriptsFileManagement
 
 import "../elements"
 
@@ -40,6 +43,7 @@ PQTemplateFullscreen {
     title: qsTranslate("crop", "Crop image")
 
     button1.text: qsTranslate("crop", "Crop")
+    button1.enabled: !unsupportedlabel.visible
 
     button2.visible: true
     button2.text: genericStringCancel
@@ -123,6 +127,8 @@ PQTemplateFullscreen {
 
                     id: resizerect
 
+                    visible: !unsupportedlabel.visible
+
                     effectiveX: (theimage.width-theimage.paintedWidth)/2
                     effectiveY: (theimage.height-theimage.paintedHeight)/2
                     effectiveWidth: theimage.paintedWidth
@@ -137,9 +143,119 @@ PQTemplateFullscreen {
 
             }
 
+            Rectangle {
+
+                id: errorlabel
+
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+
+                width: errorlabel_txt.width+30
+                height: errorlabel_txt.height+30
+
+                opacity: 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
+
+                color: "#88ff0000"
+                radius: 10
+
+                border.width: 1
+                border.color: "white"
+
+                PQTextL {
+
+                    id: errorlabel_txt
+
+                    x: 15
+                    y: 15
+
+                    width: 300
+
+                    horizontalAlignment: Qt.AlignHCenter
+                    font.weight: PQCLook.fontWeightBold
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: qsTranslate("scale", "An error occured, file could not be scaled")
+                }
+
+                Timer {
+                    interval: 2500
+                    running: parent.visible
+                    onTriggered:
+                        parent.hide()
+                }
+
+                function show() {
+                    opacity = 1
+                }
+                function hide() {
+                    opacity = 0
+                }
+
+            }
+
+            Rectangle {
+
+                id: unsupportedlabel
+
+                x: (parent.width-width)/2
+                y: (parent.height-height)/2
+
+                width: unsupportedlabel_txt.width+30
+                height: unsupportedlabel_txt.height+30
+
+                visible: false
+
+                color: "#88ff0000"
+                radius: 10
+
+                border.width: 1
+                border.color: "white"
+
+                PQTextL {
+
+                    id: unsupportedlabel_txt
+
+                    x: 15
+                    y: 15
+
+                    width: 300
+
+                    horizontalAlignment: Qt.AlignHCenter
+                    font.weight: PQCLook.fontWeightBold
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: qsTranslate("scale", "Cropping this file format is not yet supported")
+                }
+
+            }
+
         }
 
     ]
+
+    PQWorking {
+        id: cropbusy
+    }
+
+    Connections {
+        target: PQCScriptsFileManagement
+        function onCropCompleted(success) {
+            if(success) {
+                errorlabel.hide()
+                cropbusy.showSuccess()
+            } else {
+                cropbusy.hide()
+                errorlabel.show()
+            }
+        }
+    }
+
+    Connections {
+        target: cropbusy
+        function onSuccessHidden() {
+            crop_top.hide()
+       }
+    }
 
     Connections {
 
@@ -176,6 +292,22 @@ PQTemplateFullscreen {
 
     function cropImage() {
 
+        if(unsupportedlabel.visible)
+            return
+
+        errorlabel.hide()
+        cropbusy.showBusy()
+
+        var extent = resizerect.getTopLeftBottomRight()
+        var topleft = extent[0]
+        var botright = extent[1]
+
+        var uniqueId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
+        var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("crop", "Crop"), PQCFileFolderModel.currentFile, uniqueId, true);
+        if(file !== "") {
+            PQCScriptsFileManagement.cropImage(PQCFileFolderModel.currentFile, file, uniqueId, topleft, botright)
+        }
+
     }
 
     function show() {
@@ -184,9 +316,16 @@ PQTemplateFullscreen {
             hide()
             return
         }
+
+        cropbusy.hide()
+        errorlabel.hide()
+        unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
+
         opacity = 1
         if(popoutWindowUsed)
             crop_popout.visible = true
+
+        resizerect.setup()
     }
 
     function hide() {

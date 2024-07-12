@@ -275,6 +275,10 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
 
 }
 
+bool PQCScriptsFileManagement::canThisBeCropped(QString filename) {
+    return canThisBeScaled(filename);
+}
+
 bool PQCScriptsFileManagement::canThisBeScaled(QString filename) {
 
     qDebug() << "args: filename = " << filename;
@@ -551,5 +555,123 @@ bool PQCScriptsFileManagement::moveFile(QString filename, QString targetFilename
     }
 
     return true;
+
+}
+
+void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight) {
+
+    qDebug() << "args: sourceFilename =" << sourceFilename;
+    qDebug() << "args: targetFilename =" << targetFilename;
+    qDebug() << "args: uniqueid =" << uniqueid;
+    qDebug() << "args: topLeft =" << topLeft;
+    qDebug() << "args: botRight =" << botRight;
+
+    QFuture<void> f = QtConcurrent::run([=]() {
+
+        int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
+        qWarning() << "<<<<<<" << writeStatus;
+        QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
+
+        if(writeStatus == 0) {
+            qWarning() << "ERROR: file not supported for cropping:" << sourceFilename;
+            Q_EMIT cropCompleted(false);
+            return;
+        }
+
+        bool success = false;
+
+        // create cropped QImage
+        QImage img;
+        QSize origSize;
+        PQCLoadImage::get().load(sourceFilename, QSize(), origSize, img);
+
+        QRect rect(img.width()*topLeft.x(), img.height()*topLeft.y(),
+                   img.width()*(botRight.x()-topLeft.x()), img.height()*(botRight.y()-topLeft.y()));
+        QImage croppedImg = img.copy(rect);
+
+        if(writeStatus == 1 || writeStatus == 2) {
+
+            // we don't stop if this fails as we might be able to try again with Magick
+            if(croppedImg.save(targetFilename, databaseinfo.value("qt_formatname").toString().toStdString().c_str(), -1))
+                success = true;
+            else
+                qWarning() << "Cropping image with Qt failed";
+
+        }
+
+        if(!success) {// && (writeStatus == 1 || writeStatus == 3)) {
+
+            // imagemagick/graphicsmagick might support it
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
+#ifdef PQMIMAGEMAGICK
+            if(databaseinfo.value("imagemagick").toInt() == 1) {
+#else
+            if(databaseinfo.value("graphicsmagick").toInt() == 1) {
+#endif
+
+                // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+                bool canproceed = false;
+                try {
+                    QString magick = databaseinfo.value("im_gm_magick").toString();
+                    Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                    if(magickCoderInfo.isWritable())
+                        canproceed = true;
+                } catch(...) {
+                    // do nothing here
+                }
+
+                // yes, it's supported
+                if(canproceed) {
+
+                    // we scale the image to this tmeporary file and then copy it to the right location
+                    // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+                    QString tmpImagePath = PQCConfigFiles::CACHE_DIR() + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                    if(QFile::exists(tmpImagePath))
+                        QFile::remove(tmpImagePath);
+
+                    try {
+
+                        // first we write the QImage to a temporary file
+                        // then we load it into magick and write it to the target file
+
+                        // find unique temporary path
+                        QString tmppath = PQCConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                        if(QFile::exists(tmppath))
+                            QFile::remove(tmppath);
+
+                        croppedImg.save(tmppath);
+
+                        // load image and write to target file
+                        Magick::Image image;
+                        image.magick("PPM");
+                        image.read(tmppath.toStdString());
+
+                        image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
+                        image.write(tmpImagePath.toStdString());
+
+                        // remove temporary file
+                        QFile::remove(tmppath);
+
+                        // copy result to target destination
+                        QFile::copy(tmpImagePath, targetFilename);
+                        QFile::remove(tmpImagePath);
+
+                        // success!
+                        success = true;
+
+                    } catch(Magick::Exception &) { }
+
+                } else
+                    qDebug() << "Writing format not supported by Magick";
+
+            }
+
+#endif
+
+        }
+
+        Q_EMIT cropCompleted(success);
+
+    });
 
 }

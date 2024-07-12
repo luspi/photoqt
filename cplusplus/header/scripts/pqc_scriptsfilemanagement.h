@@ -51,12 +51,16 @@ public:
     Q_INVOKABLE bool copyFile(QString filename, QString targetFilename);
     Q_INVOKABLE bool moveFile(QString filename, QString targetFilename);
 
+    Q_INVOKABLE void cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight);
+    Q_INVOKABLE bool canThisBeCropped(QString filename);
+
 private:
     PQCScriptsFileManagement();
 
 Q_SIGNALS:
     void exportCompleted(bool success);
     void scaleCompleted(bool success);
+    void cropCompleted(bool success);
 
 };
 
