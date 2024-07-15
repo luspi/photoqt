@@ -59,6 +59,9 @@ PQTemplateFullscreen {
         hide()
     }
 
+    // this is needed to not show the animation again when the window is resized
+    property bool animShowed: false
+
     content: [
 
         Item {
@@ -92,9 +95,11 @@ PQTemplateFullscreen {
                     id: updateStartEndPosBackupAndStart
                     interval: 500
                     onTriggered: {
-                        animateCropping.startPosBackup = resizerect.startPos
-                        animateCropping.endPosBackup = resizerect.endPos
-                        animateCropping.restart()
+                        if(!animShowed) {
+                            animateCropping.startPosBackup = resizerect.startPos
+                            animateCropping.endPosBackup = resizerect.endPos
+                            animateCropping.restart()
+                        }
                     }
                 }
 
@@ -106,35 +111,35 @@ PQTemplateFullscreen {
                     color: "#aa000000"
                     x: resizerect.effectiveX
                     y: resizerect.effectiveY
-                    width: resizerect.startPos.x
+                    width: resizerect.startPos.x*theimage.paintedWidth
                     height: resizerect.effectiveHeight
                 }
 
                 // right region
                 Rectangle {
                     color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.endPos.x
+                    x: resizerect.effectiveX+resizerect.endPos.x*theimage.paintedWidth
                     y: resizerect.effectiveY
-                    width: resizerect.effectiveWidth-resizerect.endPos.x
+                    width: resizerect.effectiveWidth-resizerect.endPos.x*theimage.paintedWidth
                     height: resizerect.effectiveHeight
                 }
 
-                // // top region
+                // top region
                 Rectangle {
                     color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.startPos.x
+                    x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
                     y: resizerect.effectiveY
-                    width: resizerect.endPos.x-resizerect.startPos.x
-                    height: resizerect.startPos.y
+                    width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
+                    height: resizerect.startPos.y*theimage.paintedHeight
                 }
 
-                // // bottom region
+                // bottom region
                 Rectangle {
                     color: "#aa000000"
-                    x: resizerect.effectiveX+resizerect.startPos.x
-                    y: resizerect.effectiveY+resizerect.endPos.y
-                    width: resizerect.endPos.x-resizerect.startPos.x
-                    height: resizerect.effectiveHeight-resizerect.endPos.y
+                    x: resizerect.effectiveX+resizerect.startPos.x*theimage.paintedWidth
+                    y: resizerect.effectiveY+resizerect.endPos.y*theimage.paintedHeight
+                    width: (resizerect.endPos.x-resizerect.startPos.x)*theimage.paintedWidth
+                    height: resizerect.effectiveHeight-resizerect.endPos.y*theimage.paintedHeight
                 }
 
                 /******************************************/
@@ -150,8 +155,8 @@ PQTemplateFullscreen {
                     effectiveWidth: theimage.paintedWidth
                     effectiveHeight: theimage.paintedHeight
 
-                    startPos: Qt.point(200,200)
-                    endPos: Qt.point(400,400)
+                    startPos: Qt.point(0.2,0.2)
+                    endPos: Qt.point(0.4,0.4)
 
                     masterObject: theimage
 
@@ -259,20 +264,28 @@ PQTemplateFullscreen {
         property point startPosBackup
         property point endPosBackup
 
+        property real maxW: (endPosBackup.x-startPosBackup.x)/2
+        property real maxH: (endPosBackup.y-startPosBackup.y)/2
+        property real animExtentW: Math.min(0.02, maxW)
+        property real animExtentH: Math.min(0.02, maxH)
+
+        onStarted:
+            animShowed = true
+
         SequentialAnimation {
             NumberAnimation {
                 target: resizerect
                 property: "startPos.x"
                 duration: 400
                 from: animateCropping.startPosBackup.x
-                to: animateCropping.startPosBackup.x+50
+                to: animateCropping.startPosBackup.x + animateCropping.animExtentW
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: resizerect
                 property: "startPos.x"
                 duration: 400
-                from: animateCropping.startPosBackup.x+50
+                from: animateCropping.startPosBackup.x + animateCropping.animExtentW
                 to: animateCropping.startPosBackup.x
                 easing.type: Easing.OutBounce
             }
@@ -284,14 +297,14 @@ PQTemplateFullscreen {
                 property: "startPos.y"
                 duration: 400
                 from: animateCropping.startPosBackup.y
-                to: animateCropping.startPosBackup.y+50
+                to: animateCropping.startPosBackup.y + animateCropping.animExtentH
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: resizerect
                 property: "startPos.y"
                 duration: 400
-                from: animateCropping.startPosBackup.y+50
+                from: animateCropping.startPosBackup.y + animateCropping.animExtentH
                 to: animateCropping.startPosBackup.y
                 easing.type: Easing.OutBounce
             }
@@ -303,14 +316,14 @@ PQTemplateFullscreen {
                 property: "endPos.x"
                 duration: 400
                 from: animateCropping.endPosBackup.x
-                to: animateCropping.endPosBackup.x-50
+                to: animateCropping.endPosBackup.x - animateCropping.animExtentW
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: resizerect
                 property: "endPos.x"
                 duration: 400
-                from: animateCropping.endPosBackup.x-50
+                from: animateCropping.endPosBackup.x - animateCropping.animExtentW
                 to: animateCropping.endPosBackup.x
                 easing.type: Easing.OutBounce
             }
@@ -322,14 +335,14 @@ PQTemplateFullscreen {
                 property: "endPos.y"
                 duration: 400
                 from: animateCropping.endPosBackup.y
-                to: animateCropping.endPosBackup.y-50
+                to: animateCropping.endPosBackup.y - animateCropping.animExtentH
                 easing.type: Easing.OutCubic
             }
             NumberAnimation {
                 target: resizerect
                 property: "endPos.y"
                 duration: 400
-                from: animateCropping.endPosBackup.y-50
+                from: animateCropping.endPosBackup.y - animateCropping.animExtentH
                 to: animateCropping.endPosBackup.y
                 easing.type: Easing.OutBounce
             }
@@ -397,9 +410,8 @@ PQTemplateFullscreen {
         errorlabel.hide()
         cropbusy.showBusy()
 
-        var extent = resizerect.getTopLeftBottomRight()
-        var topleft = extent[0]
-        var botright = extent[1]
+        var topleft = resizerect.startPos
+        var botright = resizerect.endPos
 
         var uniqueId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("crop", "Crop"), PQCFileFolderModel.currentFile, uniqueId, true);
@@ -420,15 +432,12 @@ PQTemplateFullscreen {
         errorlabel.hide()
         unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
 
-        // we use bindings here to make sure they are the proper values once the image has been fully loaded
-        resizerect.startPos = Qt.binding(function() {
-            return Qt.point(theimage.paintedWidth*image.currentFlickableVisibleAreaX,
-                            theimage.paintedHeight*image.currentFlickableVisibleAreaY)
-        })
-        resizerect.endPos = Qt.binding(function() {
-            return Qt.point(resizerect.startPos.x + theimage.paintedWidth*image.currentFlickableVisibleAreaWidthRatio,
-                            resizerect.startPos.y + theimage.paintedHeight*image.currentFlickableVisibleAreaHeightRatio)
-        })
+        resizerect.startPos = Qt.point(image.currentFlickableVisibleAreaX,
+                                       image.currentFlickableVisibleAreaY)
+        resizerect.endPos = Qt.point(resizerect.startPos.x + image.currentFlickableVisibleAreaWidthRatio,
+                                     resizerect.startPos.y + image.currentFlickableVisibleAreaHeightRatio)
+
+        animShowed = false
 
         if(theimage.status === Image.Ready && !updateStartEndPosBackupAndStart.running)
             updateStartEndPosBackupAndStart.restart()
@@ -437,7 +446,6 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             crop_popout.visible = true
 
-        resizerect.setup()
     }
 
     function hide() {

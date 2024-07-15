@@ -1287,6 +1287,11 @@ Loader {
             image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
             image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
+            image_top.currentFlickableVisibleAreaX = flickable.visibleArea.xPosition
+            image_top.currentFlickableVisibleAreaY = flickable.visibleArea.yPosition
+            image_top.currentFlickableVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
+            image_top.currentFlickableVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
+
             PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 
             // if a slideshow is running with the ken burns effect

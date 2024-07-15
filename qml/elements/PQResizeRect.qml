@@ -40,10 +40,10 @@ Item {
     // region that is desired
 
     Rectangle {
-        x: effectiveX+startPos.x
-        y: effectiveY+startPos.y
-        width: endPos.x-startPos.x
-        height: endPos.y-startPos.y
+        x: effectiveX+startPos.x*effectiveWidth
+        y: effectiveY+startPos.y*effectiveHeight
+        width: (endPos.x-startPos.x)*effectiveWidth
+        height: (endPos.y-startPos.y)*effectiveHeight
         color: "transparent"
         border.width: 2
         border.color: "#bb000000"
@@ -64,14 +64,14 @@ Item {
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
                     var w = endPos.x - startPos.x
-                    startPos.x = Math.max(0, Math.min(effectiveWidth-w, startPos.x+(mouse.x-startX)))
+                    startPos.x = Math.max(0, Math.min(1-w, startPos.x+(mouse.x-startX)/effectiveWidth))
                     endPos.x = startPos.x+w
                 }
             }
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
                     var h = endPos.y - startPos.y
-                    startPos.y = Math.max(0, Math.min(effectiveHeight-h, startPos.y+(mouse.y-startY)))
+                    startPos.y = Math.max(0, Math.min(1-h, startPos.y+(mouse.y-startY)/effectiveHeight))
                     endPos.y = startPos.y+h
                 }
             }
@@ -81,13 +81,13 @@ Item {
     /******************************************/
     // markers for resizing highlighted region
 
-    property int markerSize: (endPos.x-startPos.x < 100 || endPos.y-startPos.y < 100 ? 10 : 20)
+    property int markerSize: ((endPos.x-startPos.x)*effectiveWidth < 50 || (endPos.y-startPos.y)*effectiveHeight < 50 ? 10 : 20)
     Behavior on markerSize { NumberAnimation { duration: 200 } }
 
     // top
     Rectangle {
-        x: effectiveX + startPos.x +(endPos.x-startPos.x)/2 -markerSize/2
-        y: effectiveY + startPos.y-markerSize/2
+        x: effectiveX + (startPos.x +(endPos.x-startPos.x)/2)*effectiveWidth -markerSize/2
+        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -103,7 +103,7 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
         }
@@ -111,8 +111,8 @@ Item {
 
     // left
     Rectangle {
-        x: effectiveX + startPos.x-markerSize/2
-        y: effectiveY + startPos.y + (endPos.y-startPos.y)/2 -markerSize/2
+        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + (startPos.y + (endPos.y-startPos.y)/2)*effectiveHeight -markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -128,7 +128,7 @@ Item {
                 pressedDown = false
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
@@ -136,8 +136,8 @@ Item {
 
     // right
     Rectangle {
-        x: effectiveX + endPos.x-markerSize/2
-        y: effectiveY + startPos.y + (endPos.y-startPos.y)/2 -markerSize/2
+        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + (startPos.y + (endPos.y-startPos.y)/2)*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -153,7 +153,7 @@ Item {
                 pressedDown = false
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(effectiveWidth, Math.max(startPos.x+25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
@@ -161,8 +161,8 @@ Item {
 
     // bottom
     Rectangle {
-        x: effectiveX + startPos.x +(endPos.x-startPos.x)/2 -markerSize/2
-        y: effectiveY + endPos.y-markerSize/2
+        x: effectiveX + (startPos.x +(endPos.x-startPos.x)/2)*effectiveWidth -markerSize/2
+        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -178,7 +178,7 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(effectiveHeight, Math.max(startPos.y+25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
         }
@@ -186,8 +186,8 @@ Item {
 
     // top left
     Rectangle {
-        x: effectiveX + startPos.x-markerSize/2
-        y: effectiveY + startPos.y-markerSize/2
+        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -203,12 +203,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
@@ -216,8 +216,8 @@ Item {
 
     // top right
     Rectangle {
-        x: effectiveX + endPos.x-markerSize/2
-        y: effectiveY + startPos.y-markerSize/2
+        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -233,12 +233,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(effectiveWidth, Math.max(startPos.x+25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
@@ -246,8 +246,8 @@ Item {
 
     // bottom left
     Rectangle {
-        x: effectiveX + startPos.x-markerSize/2
-        y: effectiveY + endPos.y-markerSize/2
+        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -263,12 +263,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(effectiveHeight, Math.max(startPos.y+25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
@@ -276,8 +276,8 @@ Item {
 
     // bottom right
     Rectangle {
-        x: effectiveX + endPos.x-markerSize/2
-        y: effectiveY + endPos.y-markerSize/2
+        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
+        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
         width: markerSize
         height: markerSize
         radius: markerSize/2
@@ -293,81 +293,15 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(effectiveHeight, Math.max(startPos.y+25, mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY))
+                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(effectiveWidth, Math.max(startPos.x+25, mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX))
+                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
                 }
             }
         }
-    }
-
-    /******************************************/
-
-    property int prevWidth
-    property int prevHeight
-
-    function setup() {
-        prevWidth = masterObject.paintedWidth
-        prevHeight = masterObject.paintedHeight
-        isSetup = false
-        setupTimer.restart()
-    }
-    property bool isSetup: false
-    Timer {
-        id: setupTimer
-        interval: 200
-        onTriggered:
-            isSetup = true
-    }
-
-    Connections {
-
-        target: masterObject
-
-        function onPaintedWidthChanged() {
-            if(!isSetup) return
-            updatePos.restart()
-        }
-        function onPaintedHeightChanged() {
-            if(!isSetup) return
-            updatePos.restart()
-        }
-
-    }
-
-    Timer {
-        id: updatePos
-        interval: 10
-        onTriggered: {
-
-            var w = masterObject.paintedWidth / prevWidth
-            var h = masterObject.paintedHeight / prevHeight
-
-            startPos.x *= w
-            endPos.x *= w
-
-            startPos.y *= h
-            endPos.y *= h
-
-            prevWidth = masterObject.paintedWidth
-            prevHeight = masterObject.paintedHeight
-
-        }
-    }
-
-    function getTopLeftBottomRight() {
-
-        var tlX = startPos.x/masterObject.paintedWidth
-        var tlY = startPos.y/masterObject.paintedHeight
-
-        var brX = endPos.x/masterObject.paintedWidth
-        var brY = endPos.y/masterObject.paintedHeight
-
-        return [Qt.point(tlX, tlY), Qt.point(brX, brY)]
-
     }
 
 }
