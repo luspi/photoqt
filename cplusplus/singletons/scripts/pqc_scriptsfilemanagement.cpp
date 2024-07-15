@@ -569,7 +569,7 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
     QFuture<void> f = QtConcurrent::run([=]() {
 
         int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
-        qWarning() << "<<<<<<" << writeStatus;
+
         QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
 
         if(writeStatus == 0) {

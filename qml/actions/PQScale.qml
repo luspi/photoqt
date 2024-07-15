@@ -44,7 +44,7 @@ PQTemplateFullscreen {
     title: qsTranslate("scale", "Scale image")
 
     button1.text: qsTranslate("scale", "Scale")
-    button1.enabled: (spin_w.value>0 && spin_h.value>0 && !unsupportedlabel.visible)
+    button1.enabled: (spin_w.value>0 && spin_h.value>0)
 
     button2.visible: true
     button2.text: genericStringCancel
@@ -71,16 +71,6 @@ PQTemplateFullscreen {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             visible: false
             text: qsTranslate("scale", "An error occured, file could not be scaled")
-        },
-
-        PQTextL {
-            id: unsupportedlabel
-            width: parent.width
-            horizontalAlignment: Qt.AlignHCenter
-            font.weight: PQCLook.fontWeightBold
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            visible: false
-            text: qsTranslate("scale", "Scaling of this file format is not yet supported")
         },
 
         Item {
@@ -372,7 +362,7 @@ PQTemplateFullscreen {
 
     function scaleImage() {
 
-        if(spin_w.value === 0 || spin_h.value === 0 || unsupportedlabel.visible)
+        if(spin_w.value === 0 || spin_h.value === 0)
             return
 
         errorlabel.visible = false
@@ -380,6 +370,11 @@ PQTemplateFullscreen {
 
         var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
         var targetFilename = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scale", "Scale"), PQCFileFolderModel.currentFile, uniqueid, true);
+
+        if(targetFilename === "") {
+            scalebusy.hide()
+            return
+        }
 
         var success = PQCScriptsFileManagement.scaleImage(PQCFileFolderModel.currentFile, targetFilename, uniqueid, Qt.size(spin_w.value, spin_h.value), quality.value)
         if(!success) {
@@ -400,13 +395,20 @@ PQTemplateFullscreen {
             return
         }
 
+        var canBeCropped = PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
+
+        if(!canBeCropped) {
+            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This file format can not be scaled.")])
+            hide()
+            return
+        }
+
         spin_w.loadAndSetDefault(image.currentResolution.width)
         spin_h.loadAndSetDefault(image.currentResolution.height)
         aspectRatio = image.currentResolution.width/image.currentResolution.height
 
         scalebusy.hide()
         errorlabel.visible = false
-        unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
 
         // the opacity should be set at the end of this function
         opacity = 1

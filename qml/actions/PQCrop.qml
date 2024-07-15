@@ -43,7 +43,6 @@ PQTemplateFullscreen {
     title: qsTranslate("crop", "Crop image")
 
     button1.text: qsTranslate("crop", "Crop")
-    button1.enabled: !unsupportedlabel.visible
 
     button2.visible: true
     button2.text: genericStringCancel
@@ -148,8 +147,6 @@ PQTemplateFullscreen {
 
                     id: resizerect
 
-                    visible: !unsupportedlabel.visible
-
                     effectiveX: (theimage.width-theimage.paintedWidth)/2
                     effectiveY: (theimage.height-theimage.paintedHeight)/2
                     effectiveWidth: theimage.paintedWidth
@@ -211,41 +208,6 @@ PQTemplateFullscreen {
                 }
                 function hide() {
                     opacity = 0
-                }
-
-            }
-
-            Rectangle {
-
-                id: unsupportedlabel
-
-                x: (parent.width-width)/2
-                y: (parent.height-height)/2
-
-                width: unsupportedlabel_txt.width+30
-                height: unsupportedlabel_txt.height+30
-
-                visible: false
-
-                color: "#88ff0000"
-                radius: 10
-
-                border.width: 1
-                border.color: "white"
-
-                PQTextL {
-
-                    id: unsupportedlabel_txt
-
-                    x: 15
-                    y: 15
-
-                    width: 300
-
-                    horizontalAlignment: Qt.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    text: qsTranslate("scale", "Cropping this file format is not yet supported")
                 }
 
             }
@@ -404,9 +366,6 @@ PQTemplateFullscreen {
 
     function cropImage() {
 
-        if(unsupportedlabel.visible)
-            return
-
         errorlabel.hide()
         cropbusy.showBusy()
 
@@ -415,9 +374,10 @@ PQTemplateFullscreen {
 
         var uniqueId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("crop", "Crop"), PQCFileFolderModel.currentFile, uniqueId, true);
-        if(file !== "") {
+        if(file !== "")
             PQCScriptsFileManagement.cropImage(PQCFileFolderModel.currentFile, file, uniqueId, topleft, botright)
-        }
+        else
+            cropbusy.hide()
 
     }
 
@@ -428,9 +388,16 @@ PQTemplateFullscreen {
             return
         }
 
+        var canBeCropped = PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
+
+        if(!canBeCropped) {
+            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This file format can not be cropped.")])
+            hide()
+            return
+        }
+
         cropbusy.hide()
         errorlabel.hide()
-        unsupportedlabel.visible = !PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
 
         resizerect.startPos = Qt.point(image.currentFlickableVisibleAreaX,
                                        image.currentFlickableVisibleAreaY)
