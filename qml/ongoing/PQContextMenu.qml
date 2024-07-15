@@ -65,6 +65,36 @@ PQMenu {
 
     PQMenuSeparator {}
 
+    PQMenu {
+
+        title: qsTranslate("contextmenu", "Manipulate image")
+
+        PQMenuItem {
+            iconSource: "image://svg/:/white/scale.svg"
+            text: qsTranslate("contextmenu", "Scale image")
+            enabled: !PQCNotify.showingPhotoSphere
+            onTriggered:
+                PQCNotify.executeInternalCommand("__scale")
+        }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/white/crop.svg"
+            text: qsTranslate("contextmenu", "Crop image")
+            enabled: !PQCNotify.showingPhotoSphere
+            onTriggered:
+                PQCNotify.executeInternalCommand("__crop")
+        }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/white/faces.svg"
+            text: qsTranslate("contextmenu", "Tag faces")
+            enabled: !PQCNotify.showingPhotoSphere
+            onTriggered:
+                PQCNotify.executeInternalCommand("__tagFaces")
+        }
+
+    }
+
     PQMenuItem {
         iconSource: "image://svg/:/white/clipboard.svg"
         text: qsTranslate("contextmenu", "Copy to clipboard")
@@ -79,22 +109,6 @@ PQMenu {
         enabled: !PQCNotify.showingPhotoSphere
         onTriggered:
             PQCNotify.executeInternalCommand("__export")
-    }
-
-    PQMenuItem {
-        iconSource: "image://svg/:/white/scale.svg"
-        text: qsTranslate("contextmenu", "Scale image")
-        enabled: !PQCNotify.showingPhotoSphere
-        onTriggered:
-            PQCNotify.executeInternalCommand("__scale")
-    }
-
-    PQMenuItem {
-        iconSource: "image://svg/:/white/faces.svg"
-        text: qsTranslate("contextmenu", "Tag faces")
-        enabled: !PQCNotify.showingPhotoSphere
-        onTriggered:
-            PQCNotify.executeInternalCommand("__tagFaces")
     }
 
     PQMenuItem {

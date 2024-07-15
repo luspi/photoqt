@@ -104,5 +104,7 @@
         <file>white/autoplay.svg</file>
         <file>white/autoplay_off.svg</file>
         <file>white/volume_noaudio.svg</file>
+        <file>white/crop.svg</file>
+        <file>white/manipulate.svg</file>
     </qresource>
 </RCC>
