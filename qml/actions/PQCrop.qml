@@ -81,7 +81,7 @@ PQTemplateFullscreen {
                 sourceSize.width: width
                 sourceSize.height: height
 
-                fillMode: Image.Pad
+                fillMode: Image.PreserveAspectFit
 
                 source: PQCFileFolderModel.currentFile==="" ? "" : ("image://full/" + PQCFileFolderModel.currentFile)
 
