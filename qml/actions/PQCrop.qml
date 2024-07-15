@@ -83,7 +83,7 @@ PQTemplateFullscreen {
 
                 fillMode: Image.Pad
 
-                source: "image://full/" + PQCFileFolderModel.currentFile
+                source: PQCFileFolderModel.currentFile==="" ? "" : ("image://full/" + PQCFileFolderModel.currentFile)
 
                 onStatusChanged: (status) => {
                     if(status === Image.Ready) {
