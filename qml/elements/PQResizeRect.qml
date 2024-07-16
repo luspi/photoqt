@@ -46,7 +46,7 @@ Item {
         height: (endPos.y-startPos.y)*effectiveHeight
         color: "transparent"
         border.width: 2
-        border.color: "#bb000000"
+        border.color: "red"
         PQMouseArea {
             anchors.fill: parent
             hoverEnabled: true
