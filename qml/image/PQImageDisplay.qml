@@ -1298,8 +1298,10 @@ Loader {
             // then we need to do some special handling
             if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-                if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded)
+                if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded) {
+                    resetToDefaults()
                     zoomInForKenBurns()
+                }
                 flickable.returnToBounds()
 
                 opacityAnimation.stop()
@@ -1412,8 +1414,12 @@ Loader {
 
             image_top.initialLoadingFinished = true
 
-            resetToDefaults()
-            moveViewToCenter()
+            if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
+
+                resetToDefaults()
+                moveViewToCenter()
+
+            }
 
         }
 
