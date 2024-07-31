@@ -788,11 +788,20 @@ Loader {
                             if(flickable.contentHeight > 0)
                                 facH = image_top.height/flickable.contentHeight
 
+                            // we zoom images in to fill the full screen
+                            // UNLESS the image dimensions are rather different AND differ from the window dimensions
+                            var fac = Math.max(facW, facH)
+                            var rel = image_wrapper.width/image_wrapper.height
+                            if(((image_wrapper.width > image_wrapper.height && image_top.height > image_top.width) ||
+                                (image_wrapper.height > image_wrapper.width && image_top.width > image_top.height)) &&
+                                    (rel < 0.75 || rel > 1.25))
+                                fac = Math.min(facW, facH)
+
                             // small images are not scaled as much as larger ones
                             if(loader_top.defaultScale > 0.99)
-                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.min(facW, facH)*1.05
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * fac*1.05
                             else
-                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.min(facW, facH)*1.2
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * fac*1.2
 
                             // set scale factors
                             image_wrapper.scale = image_wrapper.kenBurnsZoomFactor
