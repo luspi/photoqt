@@ -395,10 +395,10 @@ PQTemplateFullscreen {
             return
         }
 
-        var canBeCropped = PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
+        var canBeScaled = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
 
-        if(!canBeCropped) {
-            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This file format can not be scaled.")])
+        if(!canBeScaled) {
+            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be scaled.")])
             hide()
             return
         }

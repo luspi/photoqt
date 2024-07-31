@@ -28,6 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsFileManagement
+import PQCNotify
 
 import "../elements"
 
@@ -388,10 +389,10 @@ PQTemplateFullscreen {
             return
         }
 
-        var canBeCropped = PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
+        var canBeCropped = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
 
         if(!canBeCropped) {
-            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This file format can not be cropped.")])
+            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be cropped.")])
             hide()
             return
         }
