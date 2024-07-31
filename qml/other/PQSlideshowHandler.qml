@@ -140,6 +140,8 @@ Item {
 
     }
 
+    property bool ignoreVideoChanges: false
+
     Connections {
 
         target: image
@@ -147,6 +149,10 @@ Item {
         function onCurrentlyShowingVideoPlayingChanged() {
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()
+            if(slideshowhandler_top.running && !image.currentlyShowingVideoPlaying && !ignoreVideoChanges) {
+                switcher.triggered()
+                ignoreVideoChanges = false
+            }
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()
         }
@@ -276,6 +282,8 @@ Item {
 
     function loadPrevImage(switchedManually = false) {
 
+        ignoreVideoChanges = image.currentlyShowingVideoPlaying
+
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex > 0)
                 --PQCFileFolderModel.currentIndex
@@ -298,6 +306,8 @@ Item {
     }
 
     function loadNextImage(switchedManually = false) {
+
+        ignoreVideoChanges = image.currentlyShowingVideoPlaying
 
         if(!PQCSettings.slideshowShuffle) {
             if(PQCFileFolderModel.currentIndex < PQCFileFolderModel.countMainView-1)

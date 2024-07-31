@@ -38,7 +38,7 @@ Loader {
 
     NumberAnimation {
         id: kenburnsBG_ani
-        running: performAni && loader_top.visible && loader_slideshowhandler.item.running
+        running: performAni && loader_top.visible && loader_slideshowhandler.item.running && !image_top.currentlyShowingVideo
         target: kenburnsBG.item
         property: "scale"
         from: kenburnsBG.useScale
@@ -53,8 +53,10 @@ Loader {
         onTriggered: {
             if(kenburnsBG.item === null)
                 waitForItem.restart()
-            else
+            else {
+                kenburnsBG.item.scale = kenburnsBG.useScale
                 performAni = true
+            }
         }
     }
 
