@@ -1570,8 +1570,23 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
     // removing the alpha channel seems to fix this
     if(img.format() == QImage::Format_ARGB32)
         targetFormat = QImage::Format_RGB32;
-    int lcms2targetFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
 
+    int lcms2targetFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
+    if(lcms2SourceFormat == 0 || lcms2targetFormat == 0) {
+        qWarning() << "Unknown image format. Attempting to convert image to format known to LCMS2.";
+        img.convertTo(QImage::Format_ARGB32);
+        targetFormat = QImage::Format_RGB32;
+        lcms2SourceFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
+        lcms2targetFormat = lcms2SourceFormat;
+        if(img.isNull()) {
+            qWarning() << "Error converting image to ARGB32. Not applying color profile.";
+            return false;
+        }
+        if(lcms2targetFormat == 0) {
+            qWarning() << "Unable to 'fix' image format. Not applying color profile.";
+            return false;
+        }
+    }
 
     // Create a transformation from source (sRGB) to destination (provided ICC profile) color space
     cmsHTRANSFORM transform = cmsCreateTransform(targetProfile, lcms2SourceFormat, cmsCreate_sRGBProfile(), lcms2targetFormat, INTENT_PERCEPTUAL, 0);
