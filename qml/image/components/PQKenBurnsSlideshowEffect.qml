@@ -402,7 +402,7 @@ Item {
         // no animation should be running -> stop!
         if(!loader_top.isMainImage || !PQCNotify.slideshowRunning ||
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
-                loader_top.defaultScale >= 1) {
+                loader_top.defaultScale >= 1 || !loader_slideshowhandler.item.running) {
             stopAfterFadeOut.restart()
             return
         }
