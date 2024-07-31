@@ -147,9 +147,6 @@ Item {
         function onCurrentlyShowingVideoPlayingChanged() {
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()
-            if(slideshowhandler_top.running && !image.currentlyShowingVideoPlaying) {
-                switcher.triggered()
-            }
             if(PQCSettings.slideshowMusic)
                 loader_audioplayer.item.checkPlayPause()
         }
