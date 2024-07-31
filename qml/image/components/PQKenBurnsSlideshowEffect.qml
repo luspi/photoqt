@@ -351,7 +351,7 @@ Item {
         var fac = image_wrapper.width/image_wrapper.height
 
         // image is much higher than wide
-        if(fac < 0.5)
+        if(fac < 0.75)
             aniDeleg.aniIndex = 3 + loader_top.mainItemIndex%3
 
         // image is much wider than high
