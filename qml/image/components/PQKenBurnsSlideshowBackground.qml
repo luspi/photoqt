@@ -77,6 +77,9 @@ Loader {
         // compute the starting scale factor
         var sc = 1.1 * 1.0/(image_wrapper.scale * Math.max(flickable.contentWidth/flickable.width, flickable.contentHeight/flickable.height))
 
+        if(loader_top.videoLoaded)
+            sc = Math.max(flickable.width/image_wrapper.width, flickable.height/image_wrapper.height)
+
         // If scale factor is invalid or not needed -> stop
         if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns" || sc < loader_top.defaultScale*1.1 || sc === Number.POSITIVE_INFINITY) {
             kenburnsBG.active = false
