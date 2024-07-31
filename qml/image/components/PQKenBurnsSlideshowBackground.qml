@@ -38,11 +38,7 @@ Loader {
 
     NumberAnimation {
         id: kenburnsBG_ani
-        running: performAni && loader_top.visible
-        onRunningChanged: {
-            if(!running)
-                kenburnsBG_ani.stop()
-        }
+        running: performAni && loader_top.visible && loader_slideshowhandler.item.running
         target: kenburnsBG.item
         property: "scale"
         from: kenburnsBG.useScale
