@@ -495,11 +495,21 @@ Loader {
                         }
                     }
 
+                    /**********************************************************/
+                    // This loader animates a faded out image in the background for the Ken Burns slideshow effect
+                    // when there are empty bars left/right or above/below the image being animated
+                    PQKenBurnsSlideshowBackground {
+                        id: kenburnsBG
+                    }
+                    /**********************************************************/
+
                     // the actual image
                     Loader {
 
                         id: image_loader
                         asynchronous: true
+
+                        property bool ignoreSignals: false
 
                         Connections {
                             target: loader_top
@@ -780,9 +790,9 @@ Loader {
 
                             // small images are not scaled as much as larger ones
                             if(loader_top.defaultScale > 0.99)
-                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.05
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.min(facW, facH)*1.05
                             else
-                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.max(facW, facH)*1.2
+                                image_wrapper.kenBurnsZoomFactor = loader_top.defaultScale * Math.min(facW, facH)*1.2
 
                             // set scale factors
                             image_wrapper.scale = image_wrapper.kenBurnsZoomFactor

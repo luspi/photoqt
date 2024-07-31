@@ -57,12 +57,20 @@ Image {
 
     fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
 
-    onWidthChanged:
-        image_wrapper.width = width
-    onHeightChanged:
-        image_wrapper.height = height
+    onWidthChanged: {
+        if(!parent.ignoreSignals)
+            image_wrapper.width = width
+    }
+    onHeightChanged: {
+        if(!parent.ignoreSignals)
+            image_wrapper.height = height
+    }
 
     onStatusChanged: {
+
+        if(parent.ignoreSignals)
+            return
+
         image_wrapper.status = status
         if(status == Image.Ready) {
             hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
@@ -77,15 +85,21 @@ Image {
     property bool myMirrorH: false
     property bool myMirrorV: false
 
-    onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH
-    onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV
+    onMyMirrorHChanged: {
+        if(!parent.ignoreSignals)
+            loader_top.imageMirrorH = myMirrorH
+    }
+    onMyMirrorVChanged: {
+        if(!parent.ignoreSignals)
+            loader_top.imageMirrorV = myMirrorV
+    }
 
     property bool hasAlpha: false
 
-    onSourceSizeChanged:
-        loader_top.imageResolution = sourceSize
+    onSourceSizeChanged: {
+        if(!parent.ignoreSignals)
+            loader_top.imageResolution = sourceSize
+    }
 
     Connections {
         target: image_top
@@ -177,6 +191,19 @@ Image {
         }
     }
 
+    // This is a black overlay that is shown when this instance is used as background for the ken burns effect
+    Loader {
+        active: image.parent.ignoreSignals
+        asynchronous: true
+        sourceComponent:
+            Rectangle {
+            width: image.width
+            height: image.height
+            color: "black"
+            opacity: 0.75
+        }
+    }
+
     function setMirrorHV(mH, mV) {
         image.myMirrorH = mH
         image.myMirrorV = mV
@@ -188,7 +215,7 @@ Image {
     Connections {
         target: image_top
         function onCurrentlyVisibleIndexChanged() {
-            if(!loader_top.isMainImage) {
+            if(!loader_top.isMainImage && !image.parent.ignoreSignals) {
                 videoloader.active = false
             }
         }
@@ -201,7 +228,7 @@ Image {
     // a big button in middle of screen to enter photo sphere
     Loader {
 
-        active: loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCNotify.slideshowRunning
+        active: !image.parent.ignoreSignals && loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCNotify.slideshowRunning
 
         sourceComponent:
             Rectangle {
@@ -248,7 +275,7 @@ Image {
         interval: PQCSettings.imageviewAnimationDuration*100
 
         // we use this trimmed down version whenever we don't use the motion photo stuff below (the photo sphere checks are part of it)
-        running: visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
+        running: !image.parent.ignoreSignals && visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
         onTriggered: {
 
             if(PQCNotify.slideshowRunning)
