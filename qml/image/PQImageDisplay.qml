@@ -37,6 +37,7 @@ Loader {
     property string containingFolder: ""
     property string lastModified: ""
     property bool imageLoadedAndReady: false
+    property bool imageFullyShown: false
     property string imageSource: ""
 
     signal iAmReady()
@@ -1124,6 +1125,12 @@ Loader {
             from: 0
             to: 1
             duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
+
+            onStarted: {
+                if(loader_top.opacity > 0.9)
+                    imageFullyShown = false
+            }
+
             onFinished: {
                 if(loader_top.opacity < 1e-6) {
 
@@ -1138,7 +1145,9 @@ Loader {
 
                     loader_top.handleWhenCompletelyHidden()
 
-                }
+                } else
+                    imageFullyShown = true
+
             }
         }
 
@@ -1150,6 +1159,11 @@ Loader {
             from: -width
             to: 0
             duration: PQCSettings.imageviewAnimationDuration*100
+            onStarted: {
+                if(Math.abs(loader_top.x) < 10)
+                    imageFullyShown = false
+            }
+
             onFinished: {
                 if(Math.abs(loader_top.x) > 10) {
 
@@ -1160,7 +1174,9 @@ Loader {
 
                     loader_top.handleWhenCompletelyHidden()
 
-                }
+                } else
+                    imageFullyShown = true
+
             }
         }
 
@@ -1172,6 +1188,11 @@ Loader {
             from: -height
             to: 0
             duration: PQCSettings.imageviewAnimationDuration*100
+            onStarted: {
+                if(Math.abs(loader_top.y) < 10)
+                    imageFullyShown = false
+            }
+
             onFinished: {
                 if(Math.abs(loader_top.y) > 10) {
 
@@ -1182,7 +1203,9 @@ Loader {
 
                     loader_top.handleWhenCompletelyHidden()
 
-                }
+                } else
+                    imageFullyShown = true
+
             }
         }
 
@@ -1207,6 +1230,8 @@ Loader {
             }
             onStarted: {
                 loader_top.z = image_top.curZ+1
+                if(loader_top.opacity > 0.9)
+                    imageFullyShown = false
             }
             onFinished: {
                 if(Math.abs(loader_top.rotation%360) > 1e-6) {
@@ -1220,7 +1245,9 @@ Loader {
 
                     loader_top.handleWhenCompletelyHidden()
 
-                }
+                } else
+                    imageFullyShown = true
+
             }
         }
 
@@ -1245,6 +1272,8 @@ Loader {
             }
             onStarted: {
                 loader_top.z = image_top.curZ+1
+                if(loader_top.opacity > 0.9)
+                    imageFullyShown = false
             }
             onFinished: {
                 if(Math.abs(loader_top.scale-1) > 1e-6) {
@@ -1259,7 +1288,9 @@ Loader {
 
                     loader_top.handleWhenCompletelyHidden()
 
-                }
+                } else
+                    imageFullyShown = true
+
             }
         }
 
@@ -1282,12 +1313,10 @@ Loader {
         function showImage() {
 
             if(imageloaderitem.imageLoadedAndReady) {
-
                 iAmReady()
 
-                if(!loader_top.visible)
+                if(!imageFullyShown)
                     setUpImageWhenReady()
-
             }
 
         }
@@ -1338,6 +1367,7 @@ Loader {
                 if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
 
                     loader_top.opacity = 1
+                    imageFullyShown = true
 
                 } else {
 
