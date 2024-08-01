@@ -175,8 +175,10 @@ Item {
 
             bgIndices = []
             for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
-                bgIndices.push((cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView)
-                bgIndices.push((cur_showing+(b+1))%PQCFileFolderModel.countMainView)
+                var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
+                var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
+                bgIndices.push(newp)
+                bgIndices.push(newn)
             }
 
             // image not already loaded
@@ -260,25 +262,29 @@ Item {
             var foundNext = -1
 
             // look for previous image
-            for(var i = 0; i < howManyLoaders; ++i) {
-                var previmg = repeaterimage.itemAt(i)
-                if(previmg.mainItemIndex === nexttwo[0] && previmg.containingFolder === curFolder && previmg.lastModified === prevModified) {
-                    foundPrev = i
-                    break;
+            if(!PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
+                for(var i = 0; i < howManyLoaders; ++i) {
+                    var previmg = repeaterimage.itemAt(i)
+                    if(previmg.mainItemIndex === nexttwo[0] && previmg.containingFolder === curFolder && previmg.lastModified === prevModified) {
+                        foundPrev = i
+                        break;
+                    }
                 }
             }
 
             // look for next image
-            for(var j = 0; j < howManyLoaders; ++j) {
-                var nextimg = repeaterimage.itemAt(j)
-                if(nextimg.mainItemIndex === nexttwo[1] && nextimg.containingFolder === curFolder && nextimg.lastModified === nextModified) {
-                    foundNext = j
-                    break;
+            if(!PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
+                for(var j = 0; j < howManyLoaders; ++j) {
+                    var nextimg = repeaterimage.itemAt(j)
+                    if(nextimg.mainItemIndex === nexttwo[1] && nextimg.containingFolder === curFolder && nextimg.lastModified === nextModified) {
+                        foundNext = j
+                        break;
+                    }
                 }
             }
 
             // previous image not yet setup
-            if(foundPrev == -1) {
+            if(foundPrev == -1 && !PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
 
                 for(var k = 0; k < howManyLoaders; ++k) {
 
@@ -299,7 +305,7 @@ Item {
             }
 
             // next image not yet setup
-            if(foundNext == -1) {
+            if(foundNext == -1 && !PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
 
                 for(var l = 0; l < howManyLoaders; ++l) {
 
