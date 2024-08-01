@@ -118,7 +118,7 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
         QFile f(filename);
         ret = f.moveToTrash();
         if(ret && deletedFilename == "")
-            deletedFilename = f.filename();
+            deletedFilename = f.fileName();
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
         ++count;
     }
