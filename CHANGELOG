@@ -1,6 +1,24 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.6 - 2024-08-01
+----------------------------
+- add: new image display engine, faster and more reliable
+- add: preloading of images in background
+- add: cropping images
+- add: undo feature with support for undoing moving files to trash
+- add: support for native notifications
+- improve: custom positioning of integrated notifications
+- improve: during ken burns slideshow effect, images with odd dimensions are shown with image faded out along the sides
+- fix: closing popped out settings manager no longer blocks main interface
+- fix: videos no longer loop infinitely during slideshows
+- fix: music does not pop up shortly between two consecutive video files in a slideshow
+- fix: always hide color space information when no color profile applied
+- fix: applying embedded color profiles to images in RGBA64 format
+- fix: applying embedded color profiles to images in formats unknown to LCMS2
+- fix: switching images during slideshows
+
+
 Release 4.5 - 2024-05-13
 ----------------------------
 - add: context menu entry to force reload any thumbnail
