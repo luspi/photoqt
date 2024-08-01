@@ -1572,6 +1572,15 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
         targetFormat = QImage::Format_RGB32;
 
     int lcms2targetFormat = PQCScriptsImages::get().toLcmsFormat(img.format());
+
+    // Outputting an RGBA64 image with LCMS2 results in a blank rectangle.
+    // Reading it seems to work just fine, however.
+    // Thus we make sure to output the image in a working format here.
+    if(img.format() == QImage::Format_RGBA64) {
+        targetFormat = QImage::Format_RGB32;
+        lcms2targetFormat = PQCScriptsImages::get().toLcmsFormat(QImage::Format_RGB32);
+    }
+
     if(lcms2SourceFormat == 0 || lcms2targetFormat == 0) {
         qWarning() << "Unknown image format. Attempting to convert image to format known to LCMS2.";
         img.convertTo(QImage::Format_ARGB32);
