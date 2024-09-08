@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -266,6 +267,14 @@ Flickable {
                     id: sect_devices
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show devices")
+                    onCheckedChanged: checkDefault()
+                },
+                PQCheckBox {
+                    id: sect_devicestmpfs
+                    visible: !PQCScriptsConfig.amIOnWindows()
+                    enabled: sect_devices.checked
+                    enforceMaxWidth: set_sort.rightcol-22
+                    text: qsTranslate("settingsmanager", "Include temporary devices")
                     onCheckedChanged: checkDefault()
                 }
 
@@ -571,6 +580,7 @@ Flickable {
         settingChanged = (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged() ||
                           layout_icon.hasChanged() || layout_list.hasChanged() || hiddencheck.hasChanged() || tooltipcheck.hasChanged() ||
                           remembercheck.hasChanged() || singlecheck.hasChanged() || sect_bookmarks.hasChanged() || sect_devices.hasChanged() ||
+                          sect_devicestmpfs.hasChanged() ||
                           drag_icon.hasChanged() || drag_list.hasChanged() || drag_bookmarks.hasChanged() || singleexec.hasChanged() ||
                           thumb_show.hasChanged() || thumb_scalecrop.hasChanged() || padding.hasChanged() || folderthumb_check.hasChanged() ||
                           folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() || folderthumb_autoload.hasChanged() ||
@@ -595,6 +605,7 @@ Flickable {
         singlecheck.loadAndSetDefault(PQCSettings.filedialogSingleClickSelect)
         sect_bookmarks.loadAndSetDefault(PQCSettings.filedialogPlaces)
         sect_devices.loadAndSetDefault(PQCSettings.filedialogDevices)
+        sect_devicestmpfs.loadAndSetDefault(PQCSettings.filedialogDevicesShowTmpfs)
         drag_icon.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewGrid)
         drag_list.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewList)
         drag_bookmarks.loadAndSetDefault(PQCSettings.filedialogDragDropPlaces)
@@ -632,6 +643,7 @@ Flickable {
         PQCSettings.filedialogSingleClickSelect = singlecheck.checked
         PQCSettings.filedialogPlaces = sect_bookmarks.checked
         PQCSettings.filedialogDevices = sect_devices.checked
+        PQCSettings.filedialogDevicesShowTmpfs = sect_devicestmpfs.checked
         PQCSettings.filedialogDragDropFileviewGrid = drag_icon.checked
         PQCSettings.filedialogDragDropFileviewList = drag_list.checked
         PQCSettings.filedialogDragDropPlaces = drag_bookmarks.checked
@@ -664,6 +676,7 @@ Flickable {
         singlecheck.saveDefault()
         sect_bookmarks.saveDefault()
         sect_devices.saveDefault()
+        sect_devicestmpfs.saveDefault()
         drag_icon.saveDefault()
         drag_list.saveDefault()
         drag_bookmarks.saveDefault()

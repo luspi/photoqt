@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCScriptsConfig
 
 import "../elements"
 
@@ -271,6 +272,15 @@ PQMenu {
             checked: PQCSettings.filedialogDevices
             onCheckedChanged:
                 PQCSettings.filedialogDevices = checked
+        }
+        PQMenuItem {
+            //: file manager settings popdown: the devices here are the storage devices
+            text: qsTranslate("filedialog", "show temporary devices")
+            checkable: true
+            visible: !PQCScriptsConfig.amIOnWindows()
+            checked: PQCSettings.filedialogDevicesShowTmpfs
+            onCheckedChanged:
+                PQCSettings.filedialogDevicesShowTmpfs = checked
         }
     }
     PQMenu {

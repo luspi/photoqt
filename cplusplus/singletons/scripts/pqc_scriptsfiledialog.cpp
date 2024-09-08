@@ -30,6 +30,7 @@
 #include <QJSValue>
 #include <QJSEngine>
 #include <QtConcurrent>
+#include <pqc_settings.h>
 
 #ifdef PQMPUGIXML
 #include <pugixml.hpp>
@@ -53,6 +54,11 @@ QVariantList PQCScriptsFileDialog::getDevices() {
     for(const QStorageInfo &s : info) {
         if(s.isValid()) {
 
+            const QString tpe = QString(s.fileSystemType());
+
+            if(tpe.toLower() == "tmpfs" && !PQCSettings::get()["filedialogDevicesShowTmpfs"].toBool())
+                continue;
+
             QString name = s.name();
             if(name == "")
                 name = QDir::toNativeSeparators(s.rootPath());
@@ -62,7 +68,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
             QVariantList vol;
             vol << name
                 << s.bytesTotal()
-                << QString(s.fileSystemType())
+                << tpe
                 << p;
 
             ret.append(vol);

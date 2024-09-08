@@ -330,7 +330,7 @@ Item {
                 cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
                 tooltipReference: fd_splitview
-                text: index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + entry[4] + ")") : ""))
+                text: (index===0 || entry === undefined) ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + entry[4] + ")") : ""))
 
                 onPressed: {
                     fd_breadcrumbs.disableAddressEdit()
@@ -505,6 +505,13 @@ Item {
             text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
             onTriggered:
                 PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
+        }
+    }
+
+    Connections {
+        target: PQCSettings
+        function onFiledialogDevicesShowTmpfsChanged() {
+            loadDevices()
         }
     }
 
