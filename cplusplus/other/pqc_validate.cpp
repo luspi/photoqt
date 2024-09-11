@@ -108,7 +108,7 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
     // make sure necessary folder exist
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
-    dir.mkpath(PQCConfigFiles::get().USER_PLACES_XBEL());
+    dir.mkpath(QDir(PQCConfigFiles::get().USER_PLACES_XBEL()).absolutePath());
     if(thumb_cache_basedir != "") {
         dir.mkpath(thumb_cache_basedir);
         dir.mkpath(QString("%1/normal/").arg(thumb_cache_basedir));
@@ -122,6 +122,19 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
         dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
         dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
     }
+
+#ifdef Q_OS_WIN
+    // if the user-places.xbel does not exist, we check if it exists in the old location and, if so, move it over
+    // on Windows this file is moved to the app specific folder starting with version 4.7 as likely no other application
+    // makes use of this file other than PhotoQt. This prevents littering global user folders.
+    if(QString(PQMVERSION) == "4.7") {
+        const QString newfile = PQCConfigFiles::get().USER_PLACES_XBEL();
+        const QString oldfile = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        if(!QFile::exists(newfile) && QFile::exists(oldfile)) {
+            QFile::copy(oldfile, newfile);
+        }
+    }
+#endif
 
     return true;
 
