@@ -48,6 +48,10 @@ PQCAsyncImageResponseThumb::PQCAsyncImageResponseThumb(const QString &url, const
     m_url = url;
     setAutoDelete(false);
     providerIcon = new PQCProviderIcon;
+
+    if(!PQCSettings::get()["thumbnailsCacheBaseDirDefault"].toBool())
+        PQCConfigFiles::get().setThumbnailCacheBaseDir(PQCSettings::get()["thumbnailsCacheBaseDirLocation"].toString());
+
 }
 
 PQCAsyncImageResponseThumb::~PQCAsyncImageResponseThumb() {
@@ -168,7 +172,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
     }
 
 
-    const QString thumbcachepath = PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/" + cachedir + "/" + md5 + ".png";
+    const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() + "/" + cachedir + "/" + md5 + ".png";
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
     if(PQCSettings::get()["thumbnailsCache"].toBool()) {
@@ -248,7 +252,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
     if(PQCSettings::get()["thumbnailsCache"].toBool()) {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
-        if(!filename.startsWith(QString(PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails").toUtf8()) && !filename.startsWith(QDir::tempPath().toUtf8())) {
+        if(!filename.startsWith(QString(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()).toUtf8()) && !filename.startsWith(QDir::tempPath().toUtf8())) {
 
             // make sure cache directory exists
             QDir dir;

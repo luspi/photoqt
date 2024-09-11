@@ -150,7 +150,7 @@ int main(int argc, char *argv[]) {
     qInstallMessageHandler(pqcMessageHandler);
 
     // needs to be set before Q*Application is created
-    QFile opengl(PQCConfigFiles::CONFIG_DIR()+"/OpenGL");
+    QFile opengl(PQCConfigFiles::get().CONFIG_DIR()+"/OpenGL");
     if(opengl.exists()) {
         if(opengl.open(QIODevice::ReadOnly)) {
             QTextStream in (&opengl);

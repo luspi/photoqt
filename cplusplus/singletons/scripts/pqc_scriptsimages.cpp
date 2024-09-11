@@ -73,7 +73,7 @@
 
 PQCScriptsImages::PQCScriptsImages() {
     importedICCLastMod = 0;
-    colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::CACHE_DIR(), "colorlastlocation"));
+    colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     // if the formats changed then we can't rely on the archive cache anymore
     connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
@@ -678,7 +678,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     if(!info.exists())
         return "";
 
-    const QString videofilename = QString("%1/motionphotos/%2.mp4").arg(PQCConfigFiles::CACHE_DIR(), info.baseName());
+    const QString videofilename = QString("%1/motionphotos/%2.mp4").arg(PQCConfigFiles::get().CACHE_DIR(), info.baseName());
     if(QFileInfo::exists(videofilename)) {
         return videofilename;
     }
@@ -977,7 +977,7 @@ void PQCScriptsImages::loadColorProfileInfo() {
 
 #ifdef PQMLCMS2
 
-    QFileInfo info(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+    QFileInfo info(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
     if(info.lastModified().toMSecsSinceEpoch() != importedICCLastMod) {
 
         // we always check for imported profile changes
@@ -986,12 +986,12 @@ void PQCScriptsImages::loadColorProfileInfo() {
 
         importedICCLastMod = info.lastModified().toMSecsSinceEpoch();
 
-        QDir dir(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+        QDir dir(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
         dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
         QStringList lst = dir.entryList();
         for(auto &f : std::as_const(lst)) {
 
-            QString fullpath = QString("%1/%2").arg(PQCConfigFiles::ICC_COLOR_PROFILE_DIR(), f);
+            QString fullpath = QString("%1/%2").arg(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR(), f);
 
             QFile file(fullpath);
 
@@ -1330,15 +1330,15 @@ bool PQCScriptsImages::importColorProfile() {
                 colorlastlocation->close();
             }
 
-            QDir dir(PQCConfigFiles::ICC_COLOR_PROFILE_DIR());
+            QDir dir(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
             if(!dir.exists()) {
-                if(!dir.mkpath(PQCConfigFiles::ICC_COLOR_PROFILE_DIR())) {
+                if(!dir.mkpath(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR())) {
                     qWarning() << "Unable to create internal ICC directory";
                     return false;
                 }
             }
 
-            if(!QFile::copy(fn,QString("%1/%2").arg(PQCConfigFiles::ICC_COLOR_PROFILE_DIR(), info.fileName()))) {
+            if(!QFile::copy(fn,QString("%1/%2").arg(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR(), info.fileName()))) {
                 qWarning() << "Unable to import file";
                 return false;
             }
@@ -1718,7 +1718,7 @@ void PQCScriptsImages::removeThumbnailFor(QString path) {
 
     for(auto &c : cachedirs) {
         const QByteArray md5 = QCryptographicHash::hash(p,QCryptographicHash::Md5).toHex();
-        const QString thumbcachepath = PQCConfigFiles::GENERIC_CACHE_DIR() + "/thumbnails/" + c + "/" + md5 + ".png";
+        const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() + "/" + c + "/" + md5 + ".png";
         if(QFileInfo::exists(thumbcachepath))
             QFile::remove(thumbcachepath);
     }

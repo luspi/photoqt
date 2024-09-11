@@ -332,3 +332,16 @@ bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
     return false;
 
 }
+
+QStringList PQCScriptsOther::convertJSArrayToStringList(QVariant val) {
+
+    QStringList ret;
+
+    QJSValue v = val.value<QJSValue>();
+    const int length = v.property("length").toInt();
+    for(int i = 0; i < length; ++i)
+        ret << v.property(i).toString();
+
+    return ret;
+
+}

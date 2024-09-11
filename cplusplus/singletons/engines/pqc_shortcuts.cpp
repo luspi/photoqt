@@ -36,11 +36,11 @@ PQCShortcuts::PQCShortcuts() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
-    db.setDatabaseName(PQCConfigFiles::SHORTCUTS_DB());
+    db.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
 
     readonly = false;
 
-    QFileInfo infodb(PQCConfigFiles::SHORTCUTS_DB());
+    QFileInfo infodb(PQCConfigFiles::get().SHORTCUTS_DB());
 
     if(!infodb.exists() || !db.open()) {
 
@@ -113,10 +113,10 @@ bool PQCShortcuts::backupDatabase() {
     }
 
     // backup file
-    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::SHORTCUTS_DB())))
-        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::SHORTCUTS_DB()));
-    QFile file(PQCConfigFiles::SHORTCUTS_DB());
-    return file.copy(QString("%1.bak").arg(PQCConfigFiles::SHORTCUTS_DB()));
+    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::get().SHORTCUTS_DB())))
+        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().SHORTCUTS_DB()));
+    QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+    return file.copy(QString("%1.bak").arg(PQCConfigFiles::get().SHORTCUTS_DB()));
 
 }
 
@@ -152,12 +152,12 @@ void PQCShortcuts::setDefault() {
         return;
     }
 
-    QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::copy(":/shortcuts.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::setPermissions(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+    QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/shortcuts.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db",
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
                           QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    dbdefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open()) {
         qWarning() << "SQL error:" << dbdefault.lastError().text();
         dbdefault.close();
@@ -479,16 +479,16 @@ bool PQCShortcuts::migrate(QString oldversion) {
                 queryCreate.exec("CREATE TABLE 'shortcuts' ('combo' TEXT UNIQUE, 'commands' TEXT, 'cycle' INTEGER, 'cycletimeout' INTEGER, 'simultaneous' INTEGER)");
                 queryCreate.clear();
 
-                if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db")) {
+                if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().CACHE_DIR() + "/shortcutstmp.db")) {
                     qWarning() << "Unable to create shortcuts database";
                     continue;
                 }
 
-                QFile file(PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db");
+                QFile file(PQCConfigFiles::get().CACHE_DIR() + "/shortcutstmp.db");
                 file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
                 QSqlQuery queryAttach(db);
-                queryAttach.exec(QString("ATTACH DATABASE '%1' AS defaultdb").arg(PQCConfigFiles::CACHE_DIR() + "/shortcutstmp.db"));
+                queryAttach.exec(QString("ATTACH DATABASE '%1' AS defaultdb").arg(PQCConfigFiles::get().CACHE_DIR() + "/shortcutstmp.db"));
                 if(queryAttach.lastError().text().trimmed().length()) {
                     qWarning() << "Unable to attach default database:" << queryAttach.lastError().text();
                     continue;

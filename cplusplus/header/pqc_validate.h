@@ -39,7 +39,7 @@ public:
     bool validateSettingsDatabase();
     bool validateShortcutsDatabase();
     bool validateSettingsValues();
-    bool validateDirectories();
+    bool validateDirectories(QString thumb_cache_basedir);
     bool validateLocationDatabase();
     bool validateImgurHistoryDatabase();
 

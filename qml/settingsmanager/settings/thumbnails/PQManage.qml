@@ -25,6 +25,7 @@ import QtQuick.Controls
 
 import PQCNotify
 import PQCScriptsFilesPaths
+import PQCScriptsOther
 
 import "../../../elements"
 
@@ -87,7 +88,50 @@ Flickable {
                     enforceMaxWidth: set_cache.rightcol
                     text: qsTranslate("settingsmanager", "enable cache")
                     onCheckedChanged: checkDefault()
+                },
+
+                Column {
+
+                    spacing: 0
+
+                    height: cache_enable.checked ? (cache_dir_default.height+cache_dir_custom_container.height) : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    clip: true
+
+                    PQCheckBox {
+                        id: cache_dir_default
+                        enforceMaxWidth: set_cache.rightcol
+                        text: qsTranslate("settingsmanager", "use default cache directory")
+                        onCheckedChanged: checkDefault()
+                    }
+
+                    Item {
+                        id: cache_dir_custom_container
+                        width: cache_dir_custom.width
+                        height: (cache_dir_default.checked || !cache_enable.checked) ? 0 : (cache_dir_custom.height+10)
+                        Behavior on height { NumberAnimation { duration: 200 } }
+                        clip: true
+                        PQButton {
+                            id: cache_dir_custom
+                            y: 10
+                            smallerVersion: true
+                            property string customdir: ""
+                            text: customdir == "" ? "..." : customdir
+                            tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
+
+                            onClicked: {
+                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
+                                if(path !== "") {
+                                    cache_dir_custom.customdir = path
+                                    checkDefault()
+                                }
+                            }
+
+                        }
+                    }
+
                 }
+
             ]
 
         }
@@ -233,13 +277,16 @@ Flickable {
         }
 
         settingChanged = (cache_enable.hasChanged() || nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||
-                          exclude_folders.text !== PQCSettings.thumbnailsExcludeFolders.join("\n") || threads.hasChanged())
+                          exclude_folders.text !== PQCSettings.thumbnailsExcludeFolders.join("\n") || threads.hasChanged() ||
+                          cache_dir_default.hasChanged() || cache_dir_custom.customdir !== PQCSettings.thumbnailsCacheBaseDirLocation)
 
     }
 
     function load() {
 
         cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache)
+        cache_dir_default.loadAndSetDefault(PQCSettings.thumbnailsCacheBaseDirDefault)
+        cache_dir_custom.customdir = PQCSettings.thumbnailsCacheBaseDirLocation
 
         if(PQCSettings.thumbnailsExcludeNextcloud !== "") {
             nextcloud.folder = PQCSettings.thumbnailsExcludeNextcloud
@@ -280,6 +327,10 @@ Flickable {
     function applyChanges() {
 
         PQCSettings.thumbnailsCache = cache_enable.checked
+        PQCSettings.thumbnailsCacheBaseDirDefault = cache_dir_default.checked
+        PQCSettings.thumbnailsCacheBaseDirLocation = cache_dir_custom.customdir
+
+        PQCScriptsFilesPaths.setThumbnailBaseCacheDir(cache_dir_default.checked ? "" : cache_dir_custom.customdir)
 
         PQCSettings.thumbnailsExcludeNextcloud = (nextcloud.checked ? nextcloud.folder : "")
         PQCSettings.thumbnailsExcludeOwnCloud = (owncloud.checked ? owncloud.folder : "")
@@ -293,11 +344,13 @@ Flickable {
             if(parts[p].endsWith("/"))
                 parts[p] = parts[p].slice(0,parts[p].length-1)
         }
-        PQCSettings.thumbnailsExcludeFolders = parts
+        // without this conversion crashes are possible
+        PQCSettings.thumbnailsExcludeFolders = PQCScriptsOther.convertJSArrayToStringList(parts)
 
         PQCSettings.thumbnailsMaxNumberThreads = threads.value
 
         cache_enable.saveDefault()
+        cache_dir_default.saveDefault()
         nextcloud.saveDefault()
         owncloud.saveDefault()
         dropbox.saveDefault()

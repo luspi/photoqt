@@ -44,9 +44,9 @@ PQCImageFormats::PQCImageFormats() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
-    db.setDatabaseName(PQCConfigFiles::IMAGEFORMATS_DB());
+    db.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
 
-    QFileInfo infodb(PQCConfigFiles::IMAGEFORMATS_DB());
+    QFileInfo infodb(PQCConfigFiles::get().IMAGEFORMATS_DB());
 
     if(!infodb.exists() || !db.open()) {
 
@@ -759,12 +759,12 @@ void PQCImageFormats::restoreDefaults() {
         return;
     }
 
-    QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::copy(":/imageformats.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
-    QFile::setPermissions(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+    QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::copy(":/imageformats.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
+    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db",
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
                               QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    dbdefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open()) {
         qWarning() << "SQL error:" << dbdefault.lastError().text();
         dbdefault.close();

@@ -25,74 +25,150 @@
 
 #include <QObject>
 #include <QStandardPaths>
+#include <QDir>
 
 class PQCConfigFiles {
 
 public:
+    static PQCConfigFiles& get() {
+        static PQCConfigFiles instance;
+        return instance;
+    }
+    ~PQCConfigFiles() {}
 
-    static const QString CONFIG_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    PQCConfigFiles(PQCConfigFiles const&)     = delete;
+    void operator=(PQCConfigFiles const&) = delete;
+
+    const QString CONFIG_DIR() {
+        return m_CONFIG_DIR;
     }
 
-    static const QString DATA_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    const QString DATA_DIR() {
+        return m_DATA_DIR;
     }
 
-    static const QString CACHE_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+    const QString CACHE_DIR() {
+        return m_CACHE_DIR;
     }
 
-    static const QString GENERIC_DATA_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    const QString USER_TRASH_FILES() {
+        return m_USER_TRASH_FILES;
     }
 
-    static const QString GENERIC_CACHE_DIR() {
-        return QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation);
+    const QString USER_PLACES_XBEL() {
+        return m_USER_PLACES_XBEL;
     }
 
-    static const QString CONTEXTMENU_DB() {
-        return QString("%1/contextmenu.db").arg(CONFIG_DIR());
+    const QString THUMBNAIL_CACHE_DIR() {
+        return m_THUMBNAIL_CACHE_DIR;
     }
 
-    static const QString IMAGEFORMATS_DB() {
-        return QString("%1/imageformats.db").arg(CONFIG_DIR());
+    const QString CONTEXTMENU_DB() {
+        return m_CONTEXTMENU_DB;
     }
 
-    static const QString SETTINGS_DB() {
-        return QString("%1/settings.db").arg(CONFIG_DIR());
+    const QString IMAGEFORMATS_DB() {
+        return m_IMAGEFORMATS_DB;
     }
 
-    static const QString SHORTCUTS_DB() {
-        return QString("%1/shortcuts.db").arg(CONFIG_DIR());
+    const QString SETTINGS_DB() {
+        return m_SETTINGS_DB;
     }
 
-    static const QString LOCATION_DB() {
-        return QString("%1/location.db").arg(CONFIG_DIR());
+    const QString SHORTCUTS_DB() {
+        return m_SHORTCUTS_DB;
     }
 
-    static const QString WINDOW_GEOMETRY_FILE() {
-        return QString("%1/geometry").arg(CONFIG_DIR());
+    const QString LOCATION_DB() {
+        return m_LOCATION_DB;
     }
 
-    static const QString FILEDIALOG_LAST_LOCATION() {
-        return QString("%1/filedialoglastlocation").arg(CACHE_DIR());
+    const QString WINDOW_GEOMETRY_FILE() {
+        return m_WINDOW_GEOMETRY_FILE;
     }
 
-    static const QString LASTOPENEDIMAGE_FILE() {
-        return QString("%1/lastimageloaded").arg(CONFIG_DIR());
+    const QString FILEDIALOG_LAST_LOCATION() {
+        return m_FILEDIALOG_LAST_LOCATION;
     }
 
-    static const QString SHAREONLINE_IMGUR_FILE() {
-        return QString("%1/imgurconfig").arg(CONFIG_DIR());
+    const QString LASTOPENEDIMAGE_FILE() {
+        return m_LASTOPENEDIMAGE_FILE;
     }
 
-    static const QString SHAREONLINE_IMGUR_HISTORY_DB() {
-        return QString("%1/imgurhistory.db").arg(CONFIG_DIR());
+    const QString SHAREONLINE_IMGUR_FILE() {
+        return m_SHAREONLINE_IMGUR_FILE;
     }
 
-    static const QString ICC_COLOR_PROFILE_DIR() {
-        return QString("%1/icc").arg(CACHE_DIR());
+    const QString SHAREONLINE_IMGUR_HISTORY_DB() {
+        return m_SHAREONLINE_IMGUR_HISTORY_DB;
     }
+
+    const QString ICC_COLOR_PROFILE_DIR() {
+        return m_ICC_COLOR_PROFILE_DIR;
+    }
+
+    void setThumbnailCacheBaseDir(QString basedir) {
+
+        if(basedir == "")
+            basedir = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+
+        qDebug() << "Setting thumbnail cache base dir to:" << basedir;
+
+        m_THUMBNAIL_CACHE_DIR = basedir;
+
+        QDir dir(basedir);
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
+        dir.mkpath(QString("%1/normal/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+
+    }
+
+private:
+
+    PQCConfigFiles() {
+
+        m_CONFIG_DIR = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+        m_DATA_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+        m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+
+        m_USER_TRASH_FILES = QString("%1/Trash/files").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        m_THUMBNAIL_CACHE_DIR = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+
+        m_CONTEXTMENU_DB = QString("%1/contextmenu.db").arg(CONFIG_DIR());
+        m_IMAGEFORMATS_DB = QString("%1/imageformats.db").arg(CONFIG_DIR());
+        m_SETTINGS_DB = QString("%1/settings.db").arg(CONFIG_DIR());
+        m_SHORTCUTS_DB = QString("%1/shortcuts.db").arg(CONFIG_DIR());
+        m_LOCATION_DB = QString("%1/location.db").arg(CONFIG_DIR());
+
+        m_WINDOW_GEOMETRY_FILE = QString("%1/geometry").arg(CONFIG_DIR());
+        m_FILEDIALOG_LAST_LOCATION = QString("%1/filedialoglastlocation").arg(CACHE_DIR());
+        m_LASTOPENEDIMAGE_FILE = QString("%1/lastimageloaded").arg(CONFIG_DIR());
+        m_SHAREONLINE_IMGUR_FILE = QString("%1/imgurconfig").arg(CONFIG_DIR());
+        m_SHAREONLINE_IMGUR_HISTORY_DB = QString("%1/imgurhistory.db").arg(CONFIG_DIR());
+        m_ICC_COLOR_PROFILE_DIR = QString("%1/icc").arg(CACHE_DIR());
+
+    }
+
+    QString m_CONFIG_DIR;
+    QString m_DATA_DIR;
+    QString m_CACHE_DIR;
+    QString m_USER_TRASH_FILES;
+    QString m_USER_PLACES_XBEL;
+    QString m_THUMBNAIL_CACHE_DIR;
+    QString m_CONTEXTMENU_DB;
+    QString m_IMAGEFORMATS_DB;
+    QString m_SETTINGS_DB;
+    QString m_SHORTCUTS_DB;
+    QString m_LOCATION_DB;
+    QString m_WINDOW_GEOMETRY_FILE;
+    QString m_FILEDIALOG_LAST_LOCATION;
+    QString m_LASTOPENEDIMAGE_FILE;
+    QString m_SHAREONLINE_IMGUR_FILE;
+    QString m_SHAREONLINE_IMGUR_HISTORY_DB;
+    QString m_ICC_COLOR_PROFILE_DIR;
 
 };
 

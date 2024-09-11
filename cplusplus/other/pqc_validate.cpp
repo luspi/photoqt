@@ -38,12 +38,16 @@ bool PQCValidate::validate() {
               << "PhotoQt v" << PQMVERSION << std::endl
               << " > Validating configuration... " << std::endl;
 
+    QString thumbnails_cache_basedir = "";
+    if(!PQCSettings::get()["thumbnailsCacheBaseDirDefault"].toBool())
+        thumbnails_cache_basedir = PQCSettings::get()["thumbnailsCacheBaseDirLocation"].toString();
+
     PQCSettings::get().closeDatabase();
     PQCShortcuts::get().closeDatabase();
 
     bool success = true;
 
-    bool ret = validateDirectories();
+    bool ret = validateDirectories(thumbnails_cache_basedir);
     if(!ret) {
         std::cout << " >> Failed: directories" << std::endl;
         success = false;
@@ -99,14 +103,25 @@ bool PQCValidate::validate() {
 
 }
 
-bool PQCValidate::validateDirectories() {
+bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
 
     // make sure necessary folder exist
     QDir dir;
-    dir.mkpath(PQCConfigFiles::CONFIG_DIR());
-    dir.mkpath(PQCConfigFiles::GENERIC_DATA_DIR());
-    dir.mkpath(PQCConfigFiles::GENERIC_CACHE_DIR());
-    dir.mkpath(QString("%1/thumbnails/large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
+    dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
+    dir.mkpath(PQCConfigFiles::get().USER_PLACES_XBEL());
+    if(thumb_cache_basedir != "") {
+        dir.mkpath(thumb_cache_basedir);
+        dir.mkpath(QString("%1/normal/").arg(thumb_cache_basedir));
+        dir.mkpath(QString("%1/large/").arg(thumb_cache_basedir));
+        dir.mkpath(QString("%1/x-large/").arg(thumb_cache_basedir));
+        dir.mkpath(QString("%1/xx-large/").arg(thumb_cache_basedir));
+    } else {
+        dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
+        dir.mkpath(QString("%1/normal/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+        dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+    }
 
     return true;
 
@@ -115,11 +130,11 @@ bool PQCValidate::validateDirectories() {
 bool PQCValidate::validateContextMenuDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::CONTEXTMENU_DB())) {
-        if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::CONTEXTMENU_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().CONTEXTMENU_DB())) {
+        if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB()))
             qWarning() << "Unable to (re-)create default contextmenu database";
         else {
-            QFile file(PQCConfigFiles::CONTEXTMENU_DB());
+            QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
         return true;
@@ -130,7 +145,7 @@ bool PQCValidate::validateContextMenuDatabase() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatecontextmenu");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatecontextmenu");
-    dbinstalled.setDatabaseName(PQCConfigFiles::CONTEXTMENU_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -243,11 +258,11 @@ bool PQCValidate::validateContextMenuDatabase() {
 bool PQCValidate::validateImageFormatsDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::IMAGEFORMATS_DB())) {
-        if(!QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().IMAGEFORMATS_DB())) {
+        if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB()))
             qWarning() << "Unable to (re-)create default imageformats database";
         else {
-            QFile file(PQCConfigFiles::IMAGEFORMATS_DB());
+            QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
         return true;
@@ -261,7 +276,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validateimageformats");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validateimageformats");
-    dbinstalled.setDatabaseName(PQCConfigFiles::IMAGEFORMATS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -279,15 +294,15 @@ bool PQCValidate::validateImageFormatsDatabase() {
     }
 
     // open database
-    QString tmpfile = PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db";
+    QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
     if(QFileInfo::exists(tmpfile) && !QFile::remove(tmpfile))
         qWarning() << "Error removing old tmp file";
-    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db"))
+    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
         qWarning() << "Error copying default db to tmp file";
     QFile::setPermissions(tmpfile,
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
                               QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    dbdefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open())
         qWarning() << "Error opening default database:" << dbdefault.lastError().text();
 
@@ -299,7 +314,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
         qWarning() << "Error getting default columns:" << query.lastError().text();
         query.clear();
         dbdefault.close();
-        QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -315,7 +330,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
             qWarning() << "Error checking column existence:" << query2.lastError().text();
             query2.clear();
             dbdefault.close();
-            QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+            QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
             return false;
         }
         query2.next();
@@ -329,7 +344,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
                 qCritical() << "Error adding new column:" << query3.lastError().text();
                 query3.clear();
                 dbdefault.close();
-                QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+                QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
                 return false;
             }
             query3.clear();
@@ -346,7 +361,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
         qWarning() << "Error getting default data:" << query.lastError().text();
         query.clear();
         dbdefault.close();
-        QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -495,7 +510,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
         qWarning() << "Error getting default data (endings):" << queryInst.lastError().text();
         queryInst.clear();
         dbdefault.close();
-        QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -535,7 +550,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
 
     dbdefault.close();
 
-    QFile file(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!file.remove())
         qWarning() << "ERROR: Unable to remove ref db:" << file.errorString();
 
@@ -546,11 +561,11 @@ bool PQCValidate::validateImageFormatsDatabase() {
 bool PQCValidate::validateSettingsDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::SETTINGS_DB())) {
-        if(!QFile::copy(":/settings.db", PQCConfigFiles::SETTINGS_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().SETTINGS_DB())) {
+        if(!QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB()))
             qWarning() << "Unable to (re-)create default settings database";
         else {
-            QFile file(PQCConfigFiles::SETTINGS_DB());
+            QFile file(PQCConfigFiles::get().SETTINGS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
         return true;
@@ -564,7 +579,7 @@ bool PQCValidate::validateSettingsDatabase() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettings");
-    dbinstalled.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -582,15 +597,15 @@ bool PQCValidate::validateSettingsDatabase() {
     }
 
     // open database
-    QString tmpfile = PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db";
+    QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
     if(QFileInfo::exists(tmpfile) && !QFile::remove(tmpfile))
         qWarning() << "Error removing old tmp file";
-    if(!QFile::copy(":/settings.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db"))
+    if(!QFile::copy(":/settings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
         qWarning() << "Error copying default db to tmp file";
-    QFile::setPermissions(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db",
+    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db",
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
                           QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    dbdefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!dbdefault.open())
         qWarning() << "Error opening default database:" << dbdefault.lastError().text();
 
@@ -601,7 +616,7 @@ bool PQCValidate::validateSettingsDatabase() {
     if(!queryTables.exec()) {
         qWarning() << "Error getting list of tables:" << queryTables.lastError().text();
         queryTables.clear();
-        QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
         return false;
     }
 
@@ -653,7 +668,7 @@ bool PQCValidate::validateSettingsDatabase() {
         if(!query.exec()) {
             qWarning() << QString("Error getting default data for table '%1':").arg(table) << query.lastError().text();
             query.clear();
-            QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+            QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
             return false;
         }
 
@@ -764,7 +779,7 @@ bool PQCValidate::validateSettingsDatabase() {
 
     dbdefault.close();
 
-    QFile file(PQCConfigFiles::CACHE_DIR()+"/photoqt_tmp.db");
+    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
     if(!file.remove())
         qWarning() << "ERROR: Unable to remove ref db:" << file.errorString();
 
@@ -778,11 +793,11 @@ bool PQCValidate::validateShortcutsDatabase() {
     // and PQHandlingExternal::importConfigFrom()
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::SHORTCUTS_DB())) {
-        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::SHORTCUTS_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
             qWarning() << "Unable to (re-)create default shortcuts database";
         else {
-            QFile file(PQCConfigFiles::SHORTCUTS_DB());
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
         return true;
@@ -793,7 +808,7 @@ bool PQCValidate::validateShortcutsDatabase() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validateshortcuts");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validateshortcuts");
-    dbinstalled.setDatabaseName(PQCConfigFiles::SHORTCUTS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -826,7 +841,7 @@ bool PQCValidate::validateSettingsValues() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettingsvalues");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettingsvalues");
-    dbinstalled.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -843,12 +858,12 @@ bool PQCValidate::validateSettingsValues() {
         return false;
     }
 
-    QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db");
-    QFile::copy(":/checksettings.db", PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db");
-    QFile::setPermissions(PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db",
+    QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
+    QFile::copy(":/checksettings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
+    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db",
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
                           QFileDevice::ReadGroup);
-    dbcheck.setDatabaseName(PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+    dbcheck.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
 
     if(!dbcheck.open())
         qWarning() << "Error opening default database:" << dbcheck.lastError().text();
@@ -859,7 +874,7 @@ bool PQCValidate::validateSettingsValues() {
     if(!queryCheck.exec()) {
         qWarning() << "Error getting default data:" << queryCheck.lastError().text();
         queryCheck.clear();
-        QFile::remove(PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
         return false;
     }
 
@@ -924,7 +939,7 @@ bool PQCValidate::validateSettingsValues() {
 
     dbcheck.close();
 
-    QFile file(PQCConfigFiles::CACHE_DIR()+"/photoqt_check.db");
+    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
     if(!file.remove())
         qWarning() << "ERROR: Unable to remove check db:" << file.errorString();
 
@@ -935,11 +950,11 @@ bool PQCValidate::validateSettingsValues() {
 bool PQCValidate::validateLocationDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::LOCATION_DB())) {
-        if(!QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().LOCATION_DB())) {
+        if(!QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB()))
             qWarning() << "Unable to (re-)create default location database";
         else {
-            QFile file(PQCConfigFiles::LOCATION_DB());
+            QFile file(PQCConfigFiles::get().LOCATION_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }
@@ -951,11 +966,11 @@ bool PQCValidate::validateLocationDatabase() {
 bool PQCValidate::validateImgurHistoryDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB())) {
-        if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB())) {
+        if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
             qWarning() << "Unable to (re-)create default imgurhistory database";
         else {
-            QFile file(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
+            QFile file(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }

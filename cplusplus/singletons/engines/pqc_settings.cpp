@@ -34,7 +34,7 @@ PQCSettings::PQCSettings() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-    db.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+    db.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
 
     dbtables = QStringList() << "general"
                              << "interface"
@@ -51,7 +51,7 @@ PQCSettings::PQCSettings() {
 
     readonly = false;
 
-    QFileInfo infodb(PQCConfigFiles::SETTINGS_DB());
+    QFileInfo infodb(PQCConfigFiles::get().SETTINGS_DB());
 
     if(!infodb.exists() || !db.open()) {
 
@@ -208,10 +208,10 @@ bool PQCSettings::backupDatabase() {
     }
 
     // backup file
-    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::SETTINGS_DB())))
-        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::SETTINGS_DB()));
-    QFile file(PQCConfigFiles::SETTINGS_DB());
-    return file.copy(QString("%1.bak").arg(PQCConfigFiles::SETTINGS_DB()));
+    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB())))
+        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB()));
+    QFile file(PQCConfigFiles::get().SETTINGS_DB());
+    return file.copy(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB()));
 
 }
 

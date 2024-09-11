@@ -89,13 +89,13 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 #ifdef PQMPUGIXML
 
     // if file does not exist yet then we create a sceleton file
-    if(!QFile(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel")).exists()) {
+    if(!QFile(PQCConfigFiles::get().USER_PLACES_XBEL()).exists()) {
 
         QString cont = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         cont += "<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n";
         cont += "</xbel>";
 
-        QFile file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel"));
+        QFile file(PQCConfigFiles::get().USER_PLACES_XBEL());
         if(file.open(QIODevice::WriteOnly)) {
             QTextStream out(&file);
             out << cont;
@@ -104,7 +104,7 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
     }
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return ret;
@@ -135,7 +135,7 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
         else if(path.startsWith("file:///"))
             path = path.remove(0,7);
         else if(path == "trash:/")
-            path = PQCConfigFiles::GENERIC_DATA_DIR() + "/Trash/files";
+            path = PQCConfigFiles::get().USER_TRASH_FILES();
 #endif
         else
             continue;
@@ -196,7 +196,7 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
     }
 
     if(docUpdated)
-        doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+        doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
 #endif
 
@@ -240,7 +240,7 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
 #ifdef PQMPUGIXML
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return "";
@@ -275,7 +275,7 @@ bool PQCScriptsFileDialog::setLastLocation(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    QFile file(PQCConfigFiles::FILEDIALOG_LAST_LOCATION());
+    QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
     if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
         QTextStream out(&file);
         out << path;
@@ -337,7 +337,7 @@ QString PQCScriptsFileDialog::getLastLocation() {
     qDebug() << "";
 
     QString ret = QDir::currentPath();
-    QFile file(PQCConfigFiles::FILEDIALOG_LAST_LOCATION());
+    QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
     if(file.exists() && file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         ret = in.readAll().trimmed();
@@ -359,7 +359,7 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
 #ifdef PQMPUGIXML
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return;
@@ -418,7 +418,7 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
 
     }
 
-    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+    doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
 #endif
 
@@ -435,7 +435,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 #ifdef PQMPUGIXML
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return;
@@ -570,7 +570,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
     }
 
-    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+    doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
 #endif
 
@@ -584,7 +584,7 @@ void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
 #ifdef PQMPUGIXML
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return;
@@ -609,7 +609,7 @@ void PQCScriptsFileDialog::hidePlacesEntry(QString id, bool hidden) {
         }
     }
 
-    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+    doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
 #endif
 
@@ -622,7 +622,7 @@ void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
 #ifdef PQMPUGIXML
 
     pugi::xml_document doc;
-    pugi::xml_parse_result result = doc.load_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8());
+    pugi::xml_parse_result result = doc.load_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8());
     if(!result) {
         qWarning() << "ERROR: Unable to read user places. Either file doesn't exist (yet) or cannot be read...";
         return;
@@ -642,7 +642,7 @@ void PQCScriptsFileDialog::deletePlacesEntry(QString id) {
         }
     }
 
-    doc.save_file(QString(PQCConfigFiles::GENERIC_DATA_DIR() + "/user-places.xbel").toUtf8(), " ");
+    doc.save_file(PQCConfigFiles::get().USER_PLACES_XBEL().toUtf8(), " ");
 
 #endif
 

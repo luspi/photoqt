@@ -52,19 +52,19 @@ int PQCStartup::check() {
     }
 
     // if no ettings db exist, then it is a fresh install
-    if(!QFile::exists(PQCConfigFiles::SETTINGS_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().SETTINGS_DB()))
         return 2;
 
     // last time a dev version was run
     // we need to figure this out WITHOUT using the PQCSettings class
-    if(QFile::exists(PQCConfigFiles::SETTINGS_DB())) {
+    if(QFile::exists(PQCConfigFiles::get().SETTINGS_DB())) {
         QSqlDatabase dbtmp;
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
             dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsversion");
         else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
             dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsversion");
         dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-        dbtmp.setDatabaseName(PQCConfigFiles::SETTINGS_DB());
+        dbtmp.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
         if(!dbtmp.open()) {
             qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
             qWarning() << "Assuming only a single instance is to be used";
@@ -132,44 +132,44 @@ void PQCStartup::setupFresh() {
     /**************************************************************/
     // make sure necessary folder exist
     QDir dir;
-    dir.mkpath(PQCConfigFiles::CONFIG_DIR());
-    dir.mkpath(PQCConfigFiles::GENERIC_DATA_DIR());
-    dir.mkpath(PQCConfigFiles::GENERIC_CACHE_DIR());
-    dir.mkpath(QString("%1/thumbnails/normal/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
-    dir.mkpath(QString("%1/thumbnails/large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
-    dir.mkpath(QString("%1/thumbnails/x-large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
-    dir.mkpath(QString("%1/thumbnails/xx-large/").arg(PQCConfigFiles::GENERIC_CACHE_DIR()));
+    dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
+    dir.mkpath(PQCConfigFiles::get().USER_PLACES_XBEL());
+    dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
+    dir.mkpath(QString("%1/normal/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+    dir.mkpath(QString("%1/large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+    dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+    dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
 
     /**************************************************************/
     // create default imageformats database
-    if(QFile::exists(PQCConfigFiles::IMAGEFORMATS_DB()))
-        QFile::remove(PQCConfigFiles::IMAGEFORMATS_DB());
-    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB()))
+    if(QFile::exists(PQCConfigFiles::get().IMAGEFORMATS_DB()))
+        QFile::remove(PQCConfigFiles::get().IMAGEFORMATS_DB());
+    if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB()))
         qWarning() << "Unable to create default imageformats database";
     else {
-        QFile file(PQCConfigFiles::IMAGEFORMATS_DB());
+        QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     /**************************************************************/
     // create default settings database
-    if(QFile::exists(PQCConfigFiles::SETTINGS_DB()))
-        QFile::remove(PQCConfigFiles::SETTINGS_DB());
-    if(!QFile::copy(":/settings.db", PQCConfigFiles::SETTINGS_DB()))
+    if(QFile::exists(PQCConfigFiles::get().SETTINGS_DB()))
+        QFile::remove(PQCConfigFiles::get().SETTINGS_DB());
+    if(!QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB()))
         qWarning() << "Unable to create settings database";
     else {
-        QFile file(PQCConfigFiles::SETTINGS_DB());
+        QFile file(PQCConfigFiles::get().SETTINGS_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     /**************************************************************/
     // create default location database
-    if(QFile::exists(PQCConfigFiles::LOCATION_DB()))
-        QFile::remove(PQCConfigFiles::LOCATION_DB());
-    if(!QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB()))
+    if(QFile::exists(PQCConfigFiles::get().LOCATION_DB()))
+        QFile::remove(PQCConfigFiles::get().LOCATION_DB());
+    if(!QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB()))
         qWarning() << "Unable to create location database";
     else {
-        QFile file(PQCConfigFiles::LOCATION_DB());
+        QFile file(PQCConfigFiles::get().LOCATION_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
@@ -180,34 +180,34 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default shortcuts database
-    if(QFile::exists(PQCConfigFiles::SHORTCUTS_DB()))
-        QFile::remove(PQCConfigFiles::SHORTCUTS_DB());
-    if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::SHORTCUTS_DB()))
+    if(QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB()))
+        QFile::remove(PQCConfigFiles::get().SHORTCUTS_DB());
+    if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
         qWarning() << "Unable to create shortcuts database";
     else {
-        QFile file(PQCConfigFiles::SHORTCUTS_DB());
+        QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     /**************************************************************/
     // create default contextmenu database
-    if(QFile::exists(PQCConfigFiles::CONTEXTMENU_DB()))
-        QFile::remove(PQCConfigFiles::CONTEXTMENU_DB());
-    if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::CONTEXTMENU_DB()))
+    if(QFile::exists(PQCConfigFiles::get().CONTEXTMENU_DB()))
+        QFile::remove(PQCConfigFiles::get().CONTEXTMENU_DB());
+    if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB()))
         qWarning() << "Unable to create default contextmenu database";
     else {
-        QFile file(PQCConfigFiles::CONTEXTMENU_DB());
+        QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
     /**************************************************************/
     // create default imgurhistory database
-    if(QFile::exists(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
-        QFile::remove(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
-    if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB()))
+    if(QFile::exists(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
+        QFile::remove(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
+    if(!QFile::copy(":/imgurhistory.db", PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB()))
         qWarning() << "Unable to create default imgurhistory database";
     else {
-        QFile file(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
+        QFile file(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 

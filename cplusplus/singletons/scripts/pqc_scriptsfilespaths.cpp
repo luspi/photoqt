@@ -262,7 +262,7 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
     const QStringList str = PQCSettings::get()["thumbnailsExcludeFolders"].toStringList();
     for(const QString &dir: str) {
-        if(filename.indexOf(dir) == 0)
+        if(dir != "" && filename.indexOf(dir) == 0)
             return true;
     }
 
@@ -370,6 +370,36 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
             if(newinfo.suffix() == "")
                 return fn+"."+endings[0];
             return fn;
+        }
+    }
+
+    PQCNotify::get().setModalFileDialogOpen(false);
+    return "";
+
+}
+
+QString PQCScriptsFilesPaths::selectFolderFromDialog(QString buttonlabel, QString preselectFolder) {
+
+    qDebug() << "args: buttonlabel" << buttonlabel;
+    qDebug() << "args: preselectFolder" << preselectFolder;
+
+    QFileInfo info(preselectFolder);
+
+    PQCNotify::get().setModalFileDialogOpen(true);
+
+    QFileDialog diag;
+    diag.setLabelText(QFileDialog::Accept, buttonlabel);
+    diag.setFileMode(QFileDialog::Directory);
+    diag.setModal(true);
+    diag.setOption(QFileDialog::DontUseNativeDialog, false);
+    diag.setDirectory(preselectFolder);
+    diag.selectFile(info.baseName());
+
+    if(diag.exec()) {
+        QStringList fileNames = diag.selectedFiles();
+        if(fileNames.length() > 0) {
+            PQCNotify::get().setModalFileDialogOpen(false);
+            return fileNames[0];
         }
     }
 
@@ -624,12 +654,12 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
     if(info.size() > 1024*1024*256)
         return toPercentEncoding(path);
 
-    const QString tempdir = QString("%1/animatedfiles").arg(PQCConfigFiles::CACHE_DIR());
+    const QString tempdir = QString("%1/animatedfiles").arg(PQCConfigFiles::get().CACHE_DIR());
     QDir dir(tempdir);
     if(!dir.exists())
         dir.mkdir(tempdir);
 
-    QString targetFilename = QString("%1/animatedfiles/temp%3.%4").arg(PQCConfigFiles::CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
+    QString targetFilename = QString("%1/animatedfiles/temp%3.%4").arg(PQCConfigFiles::get().CACHE_DIR()).arg(animatedImageTemporaryCounter).arg(info.suffix());
     QFileInfo targetinfo(targetFilename);
 
     animatedImageTemporaryCounter = (animatedImageTemporaryCounter+1)%5;
@@ -655,15 +685,15 @@ QString PQCScriptsFilesPaths::handleAnimatedImagePathAndEncode(QString path) {
 
 void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
 
-    QDir dir(QString("%1/animatedfiles").arg(PQCConfigFiles::CACHE_DIR()));
+    QDir dir(QString("%1/animatedfiles").arg(PQCConfigFiles::get().CACHE_DIR()));
     if(dir.exists())
         dir.removeRecursively();
 
-    dir.setPath(PQCConfigFiles::CACHE_DIR() + "/archive/");
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/archive/");
     if(dir.exists())
         dir.removeRecursively();
 
-    dir.setPath(PQCConfigFiles::CACHE_DIR() + "/motionphotos/");
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/motionphotos/");
     if(dir.exists())
         dir.removeRecursively();
 
@@ -672,5 +702,13 @@ void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
 bool PQCScriptsFilesPaths::isUrl(QString path) {
 
     return (path.startsWith("http://") || path.startsWith("https://") || path.startsWith("ftp://") || path.startsWith("ftps://"));
+
+}
+
+void PQCScriptsFilesPaths::setThumbnailBaseCacheDir(QString dir) {
+
+    qDebug() << "args dir =" << dir;
+
+    PQCConfigFiles::get().setThumbnailCacheBaseDir(dir);
 
 }

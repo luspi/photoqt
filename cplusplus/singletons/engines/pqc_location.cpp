@@ -42,15 +42,15 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
         db = QSqlDatabase::addDatabase("QSQLITE3", "location");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "location");
-    db.setDatabaseName(PQCConfigFiles::LOCATION_DB());
+    db.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
 
     dbOpened = false;
 
-    QFileInfo infodb(PQCConfigFiles::LOCATION_DB());
+    QFileInfo infodb(PQCConfigFiles::get().LOCATION_DB());
 
     if(!infodb.exists()) {
         qWarning() << "ERROR: database file does not exist, attempting to create";
-        if(!QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB())) {
+        if(!QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB())) {
             qWarning() << "Unable to create new location database, location caching will be unavailable";
             return;
         }

@@ -216,10 +216,10 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
     // All the config files
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
-    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
-    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
-    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
+    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().SETTINGS_DB();
+    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();
+    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
+    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
 
     // handler to the file
     struct archive *a = archive_write_new();
@@ -304,10 +304,10 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::SETTINGS_DB();
-    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::CONTEXTMENU_DB();
-    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::SHORTCUTS_DB();
-    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::IMAGEFORMATS_DB();
+    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().SETTINGS_DB();
+    allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
+    allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
+    allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();
 
     // Create new archive handler
     struct archive *a = archive_read_new();
@@ -426,7 +426,7 @@ QString PQCScriptsConfig::getLastLoadedImage() {
 
     QString ret = "";
 
-    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    QFile file(PQCConfigFiles::get().LASTOPENEDIMAGE_FILE());
     if(file.open(QIODevice::ReadOnly)) {
         QTextStream in(&file);
         ret = in.readAll();
@@ -441,7 +441,7 @@ void PQCScriptsConfig::setLastLoadedImage(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    QFile file(PQCConfigFiles::get().LASTOPENEDIMAGE_FILE());
     if(file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
         QTextStream out(&file);
         out << path;
@@ -457,7 +457,7 @@ void PQCScriptsConfig::deleteLastLoadedImage() {
 
     // attempts to remove stored last loaded image
     // not a big deal if this fails thus no need to error check
-    QFile file(PQCConfigFiles::LASTOPENEDIMAGE_FILE());
+    QFile file(PQCConfigFiles::get().LASTOPENEDIMAGE_FILE());
     if(file.exists())
         file.remove();
 

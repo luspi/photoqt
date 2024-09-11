@@ -24,6 +24,7 @@
 #define PQCSCRIPTSOTHER_H
 
 #include <QObject>
+#include <QJSValue>
 
 class PQCScriptsOther : public QObject {
 
@@ -51,6 +52,7 @@ public:
     Q_INVOKABLE void setPointingHandCursor();
     Q_INVOKABLE void restoreOverrideCursor();
     Q_INVOKABLE bool showDesktopNotification(QString summary, QString txt);
+    Q_INVOKABLE QStringList convertJSArrayToStringList(QVariant val);
 
 private:
     PQCScriptsOther();

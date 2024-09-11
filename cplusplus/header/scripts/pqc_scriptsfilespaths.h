@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
+    Q_INVOKABLE QString selectFolderFromDialog(QString buttonlabel, QString preselectFolder);
     Q_INVOKABLE void saveLogToFile(QString txt);
     Q_INVOKABLE QString openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
     Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
@@ -73,6 +74,7 @@ public:
     Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
     Q_INVOKABLE void cleanupTemporaryFiles();
     Q_INVOKABLE bool isUrl(QString path);
+    Q_INVOKABLE void setThumbnailBaseCacheDir(QString dir);
 
 private:
     PQCScriptsFilesPaths();

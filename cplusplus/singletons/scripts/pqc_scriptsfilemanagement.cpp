@@ -176,7 +176,7 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
 
         // we convert the image to this tmeporary file and then copy it to the right location
         // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-        QString tmpImagePath = PQCConfigFiles::CACHE_DIR() + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
+        QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
         if(QFile::exists(tmpImagePath))
             QFile::remove(tmpImagePath);
 
@@ -235,7 +235,7 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
                     // then we load it into magick and write it to the target file
 
                     // find unique temporary path
-                    QString tmppath = PQCConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
                     if(QFile::exists(tmppath))
                         QFile::remove(tmppath);
 
@@ -402,7 +402,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
 
                     // we scale the image to this tmeporary file and then copy it to the right location
                     // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                    QString tmpImagePath = PQCConfigFiles::CACHE_DIR() + "/temporaryfileforscale" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                    QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforscale" + "." + databaseinfo.value("endings").toString().split(",")[0];
                     if(QFile::exists(tmpImagePath))
                         QFile::remove(tmpImagePath);
 
@@ -412,7 +412,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
                         // then we load it into magick and write it to the target file
 
                         // find unique temporary path
-                        QString tmppath = PQCConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                        QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
                         if(QFile::exists(tmppath))
                             QFile::remove(tmppath);
 
@@ -625,7 +625,7 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
 
                     // we scale the image to this tmeporary file and then copy it to the right location
                     // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                    QString tmpImagePath = PQCConfigFiles::CACHE_DIR() + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
+                    QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
                     if(QFile::exists(tmpImagePath))
                         QFile::remove(tmpImagePath);
 
@@ -635,7 +635,7 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
                         // then we load it into magick and write it to the target file
 
                         // find unique temporary path
-                        QString tmppath = PQCConfigFiles::CACHE_DIR() + "/converttmp.ppm";
+                        QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
                         if(QFile::exists(tmppath))
                             QFile::remove(tmppath);
 

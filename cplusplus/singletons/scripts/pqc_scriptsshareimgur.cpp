@@ -62,7 +62,7 @@ void PQCScriptsShareImgur::setup() {
     refresh_token = "";
 
     // Location of local file containing acces_/refresh_token
-    imgurLocalConfigFilename = PQCConfigFiles::SHAREONLINE_IMGUR_FILE();
+    imgurLocalConfigFilename = PQCConfigFiles::get().SHAREONLINE_IMGUR_FILE();
 
     // This ensures the path actually exists
     QFileInfo info(imgurLocalConfigFilename);
@@ -73,7 +73,7 @@ void PQCScriptsShareImgur::setup() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "imgurhistory");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "imgurhistory");
-    db.setDatabaseName(PQCConfigFiles::SHAREONLINE_IMGUR_HISTORY_DB());
+    db.setDatabaseName(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
 
     if(!db.open()) {
         qWarning() << "ERROR opening database:" << db.lastError().text();
@@ -579,7 +579,7 @@ QString PQCScriptsShareImgur::getAuthDateTime() {
 
     if(!isSetup) setup();
 
-    QFileInfo info(PQCConfigFiles::SHAREONLINE_IMGUR_FILE());
+    QFileInfo info(PQCConfigFiles::get().SHAREONLINE_IMGUR_FILE());
     if(info.exists())
         return info.lastModified().toString("yyyy-MM-dd, hh:mm:ss");
     else

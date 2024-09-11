@@ -31,7 +31,7 @@
 
 PQCWindowGeometry::PQCWindowGeometry() {
 
-    settings = new QSettings(PQCConfigFiles::WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
+    settings = new QSettings(PQCConfigFiles::get().WINDOW_GEOMETRY_FILE(), QSettings::IniFormat);
 
     /*********************************************************/
     // list all elements and default and threshold sizes
