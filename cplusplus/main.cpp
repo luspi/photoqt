@@ -179,8 +179,13 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef PQMEXIV2
-    #ifdef PQMEXIV2_ENABLE_BMFF
-        Exiv2::enableBMFF(true);
+    #if EXIV2_TEST_VERSION(0, 28, 0)
+        // In this case Exiv2::enableBMFF() defaults to true
+        // and the call to it is deprecated
+    #else
+        #ifdef PQMEXIV2_ENABLE_BMFF
+            Exiv2::enableBMFF(true);
+        #endif
     #endif
 #endif
 
