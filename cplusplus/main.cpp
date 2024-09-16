@@ -144,7 +144,7 @@ int main(int argc, char *argv[]) {
     QApplication::setQuitOnLastWindowClosed(true);
 
     // Set the desktop filename. On Wayland this is necessary to set the icon in the window title and panel
-    QGuiApplication::setDesktopFileName("org.photoqt.PhotoQt.desktop");
+    QGuiApplication::setDesktopFileName("org.photoqt.PhotoQt");
 
     // custom message handler for qDebug/qLog/qInfo/etc.
     qInstallMessageHandler(pqcMessageHandler);
