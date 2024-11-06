@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -112,9 +113,9 @@ Flickable {
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
-                                font.weight: current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
+                                font.weight: setting_top.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
                                 color: PQCLook.textColor
-                                text: labels[current["top"]]
+                                text: setting_top.labels[setting_top.current["top"]]
                             }
 
                             PQMouseArea {
@@ -124,7 +125,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 //: The action here is a screen edge action
                                 text: qsTranslate("settingsmanager", "Click to change action")
-                                onClicked: changeEdge("top")
+                                onClicked: setting_top.changeEdge("top")
                             }
                         }
 
@@ -146,9 +147,9 @@ Flickable {
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: -90
-                                font.weight: current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
+                                font.weight: setting_top.current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
                                 color: PQCLook.textColor
-                                text: labels[current["left"]]
+                                text: setting_top.labels[setting_top.current["left"]]
                             }
                             PQMouseArea {
                                 id: leftmouse
@@ -157,7 +158,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 //: The action here is a screen edge action
                                 text: qsTranslate("settingsmanager", "Click to change action")
-                                onClicked: changeEdge("left")
+                                onClicked: setting_top.changeEdge("left")
                             }
                         }
 
@@ -176,9 +177,9 @@ Flickable {
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
-                                font.weight: current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
+                                font.weight: setting_top.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
                                 color: PQCLook.textColorDisabled
-                                text: labels[current["right"]]
+                                text: setting_top.labels[setting_top.current["right"]]
                             }
                             PQMouseArea {
                                 id: rightmouse
@@ -207,9 +208,9 @@ Flickable {
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
-                                font.weight: current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
+                                font.weight: setting_top.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
                                 color: PQCLook.textColor
-                                text: labels[current["bottom"]]
+                                text: setting_top.labels[setting_top.current["bottom"]]
                             }
                             PQMouseArea {
                                 id: botmouse
@@ -218,7 +219,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 //: The action here is a screen edge action
                                 text: qsTranslate("settingsmanager", "Click to change action")
-                                onClicked: changeEdge("bottom")
+                                onClicked: setting_top.changeEdge("bottom")
                             }
                         }
 
@@ -257,7 +258,7 @@ Flickable {
                     maxval: 100
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -271,18 +272,19 @@ Flickable {
         property string edge: "top"
         Repeater {
             id: menurep
-            model: actions[menu.edge].length
+            model: setting_top.actions[menu.edge].length
             PQMenuItem {
+                required property int modelData
                 checkable: true
                 checkableLikeRadioButton: true
-                property string act: actions[menu.edge][index]
-                text: labels[act]
-                checked: current[menu.edge] === act
+                property string act: setting_top.actions[menu.edge][modelData]
+                text: setting_top.labels[act]
+                checked: setting_top.current[menu.edge] === act
                 onCheckedChanged: {
-                    if(checked && current[menu.edge] !== act) {
-                        current[menu.edge] = act
-                        makeSureUnique(menu.edge, act)
-                        currentChanged()
+                    if(checked && setting_top.current[menu.edge] !== act) {
+                        setting_top.current[menu.edge] = act
+                        setting_top.makeSureUnique(menu.edge, act)
+                        setting_top.currentChanged()
                     }
                     checked = Qt.binding(function() { return current[menu.edge] === act; })
                 }
@@ -290,7 +292,7 @@ Flickable {
         }
     }
 
-    function makeSureUnique(edge, act) {
+    function makeSureUnique(edge: string, act: string) {
 
         var ed = ["top", "left", "right", "bottom"]
         for(var i in ed) {
@@ -302,7 +304,7 @@ Flickable {
 
     }
 
-    function changeEdge(edge) {
+    function changeEdge(edge: string) {
 
         menu.edge = edge
         menu.popup()

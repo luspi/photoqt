@@ -71,14 +71,14 @@ Flickable {
                     id: sing
                     enforceMaxWidth: set_single.rightcol
                     text: qsTranslate("settingsmanager", "run a single instance only")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: mult
                     enforceMaxWidth: set_single.rightcol
                     text: qsTranslate("settingsmanager", "allow multiple instances")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -104,14 +104,14 @@ Flickable {
                     id: blanksession
                     enforceMaxWidth: set_reopen.rightcol
                     text: qsTranslate("settingsmanager", "start with blank session")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: reopenlast
                     enforceMaxWidth: set_reopen.rightcol
                     text: qsTranslate("settingsmanager", "reopen last used image")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -139,7 +139,7 @@ Flickable {
                     id: forget
                     enforceMaxWidth: set_rem.rightcol
                     text: qsTranslate("settingsmanager", "forget changes when other image loaded")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                     ButtonGroup.group: changedgroup
                 },
 
@@ -147,7 +147,7 @@ Flickable {
                     id: remember
                     enforceMaxWidth: set_rem.rightcol
                     text: qsTranslate("settingsmanager", "remember changes per session")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                     ButtonGroup.group: changedgroup
                 },
 
@@ -158,25 +158,25 @@ Flickable {
                         //: this refers to preserving any selection of zoom/rotation/mirror across different images
                         text: qsTranslate("settingsmanager", "preserve across images:")
                         ButtonGroup.group: changedgroup
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQCheckBox {
                         id: reuse_zoom
                         text: qsTranslate("settingsmanager", "Zoom")
                         enabled: reuse.checked
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQCheckBox {
                         id: reuse_rotation
                         text: qsTranslate("settingsmanager", "Rotation")
                         enabled: reuse.checked
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQCheckBox {
                         id: reuse_mirror
                         text: qsTranslate("settingsmanager", "Mirror")
                         enabled: reuse.checked
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 }
 
@@ -203,12 +203,12 @@ Flickable {
                     id: trayicon_show
                     enforceMaxWidth: set_tray.rightcol
                     text: qsTranslate("settingsmanager", "Show tray icon")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
 
-                    spacing: parent.spacing
+                    spacing: set_tray.spacing
                     clip: true
 
                     enabled: trayicon_show.checked
@@ -222,7 +222,7 @@ Flickable {
                         enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "monochrome icon")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQCheckBox {
@@ -231,7 +231,7 @@ Flickable {
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
                         checked: (PQCSettings.interfaceTrayIcon===1)
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -258,7 +258,7 @@ Flickable {
                     id: trayicon_reset
                     enforceMaxWidth: set_reset.rightcol
                     text: qsTranslate("settingsmanager", "reset session when hiding")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 

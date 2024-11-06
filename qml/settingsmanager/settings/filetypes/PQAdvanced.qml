@@ -81,14 +81,14 @@ Flickable {
                     id: applelive
                     enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Look for Apple Live Photos")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: motionmicro
                     enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Look for Google Motion Photos")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -100,14 +100,14 @@ Flickable {
                     id: motionplaypause
                     enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Show small play/pause/autoplay button in bottom right corner of window")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: motionspace
                     enforceMaxWidth: set_motion.rightcol
                     text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -161,7 +161,7 @@ Flickable {
                                 //: Used as in: Enter photo spheres never
                                 qsTranslate("settingsmanager", "never")]
                         onCurrentIndexChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
                 },
 
@@ -169,21 +169,21 @@ Flickable {
                     id: ps_controls
                     enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for photo spheres")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: ps_arrows
                     enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "use arrow keys for moving around photo spheres")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: ps_pan
                     enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "perform short panning animation after loading photo spheres")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 

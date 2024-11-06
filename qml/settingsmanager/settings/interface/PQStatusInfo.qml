@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -79,12 +80,11 @@ Flickable {
                     id: status_show
                     enforceMaxWidth: set_status.rightcol
                     text: qsTranslate("settingsmanager", "show status information")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Rectangle {
                     enabled: status_show.checked
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
                     width: parent.width-5
                     radius: 5
                     clip: true
@@ -113,7 +113,7 @@ Flickable {
 
                         property int dragItemIndex: -1
 
-                        property var widths: []
+                        property list<int> widths: []
 
                         property var disp: {
                             //: Please keep short! The counter shows where we are in the folder.
@@ -143,6 +143,9 @@ Flickable {
                             width: Math.max.apply(Math, avail.widths)
                             height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
 
+                            required property string name
+                            required property int index
+
                             Rectangle {
                                 id: dragRect
                                 width: deleg.width
@@ -155,7 +158,7 @@ Flickable {
                                     id: txt
                                     x: (parent.width-width)/2
                                     y: (parent.height-height)/2
-                                    text: avail.disp[name]
+                                    text: avail.disp[deleg.name]
                                     font.weight: PQCLook.fontWeightBold
                                     color: PQCLook.textColor
                                     onWidthChanged: {
@@ -170,7 +173,7 @@ Flickable {
                                     drag.axis: Drag.XAxis
                                     drag.onActiveChanged: {
                                         if (mouseArea.drag.active) {
-                                            avail.dragItemIndex = index;
+                                            avail.dragItemIndex = deleg.index;
                                         }
                                         dragRect.Drag.drop();
                                     }
@@ -219,8 +222,8 @@ Flickable {
                                         cursorShape: Qt.PointingHandCursor
                                         hoverEnabled: true
                                         onClicked: {
-                                            avail.model.remove(index, 1)
-                                            checkDefault()
+                                            avail.model.remove(deleg.index, 1)
+                                            setting_top.checkDefault()
                                         }
                                     }
 
@@ -239,7 +242,7 @@ Flickable {
                             if(newindex !== -1 && newindex !== avail.dragItemIndex) {
                                 avail.model.move(avail.dragItemIndex, newindex, 1)
                                 avail.dragItemIndex = newindex
-                                checkDefault()
+                                setting_top.checkDefault()
                             }
                         }
                     }
@@ -275,7 +278,7 @@ Flickable {
                             //: Please keep short! This is the color profile used for the current image
                             ["colorprofile", qsTranslate("settingsmanager", "color profile")]
                         ]
-                        property var modeldata: []
+                        property list<string> modeldata: []
                         model: modeldata
                         Component.onCompleted: {
                             var tmp = []
@@ -290,8 +293,8 @@ Flickable {
                         text: qsTranslate("settingsmanager", "add")
                         smallerVersion: true
                         onClicked: {
-                            model.append({name: combo_add.data[combo_add.currentIndex][0]})
-                            checkDefault()
+                            model.append({name: combo_add.data[combo_add.currentIndex][0], index: model.count})
+                            setting_top.checkDefault()
                         }
                     }
                 },
@@ -306,7 +309,7 @@ Flickable {
                     enabled: status_show.checked
                     animateHeight: true
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -332,7 +335,7 @@ Flickable {
                     enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "keep always visible")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
@@ -340,7 +343,7 @@ Flickable {
                     enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "only show with any cursor move")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
@@ -348,7 +351,7 @@ Flickable {
                     enforceMaxWidth: set_hide.rightcol
                     //: visibility status of the status information
                     text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQSliderSpinBox {
@@ -361,7 +364,7 @@ Flickable {
                     enabled: !autohide_always.checked
                     animateHeight: true
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 Item {
@@ -379,7 +382,7 @@ Flickable {
                         enforceMaxWidth: set_hide.rightcol
                         //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
                         text: qsTranslate("settingsmanager", "also show when image changes")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -404,7 +407,7 @@ Flickable {
                     id: managewindow
                     enforceMaxWidth: set_hide.rightcol
                     text: qsTranslate("settingsmanager",  "manage window through status info")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -423,7 +426,7 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function areTwoListsEqual(l1, l2) {
+    function areTwoListsEqual(l1: var, l2: var) : bool {
 
         if(l1.length !== l2.length)
             return false
@@ -485,7 +488,7 @@ Flickable {
         model.clear()
         var setprops = PQCSettings.interfaceStatusInfoList
         for(var j = 0; j < setprops.length; ++j)
-            model.append({name: setprops[j]})
+            model.append({name: setprops[j], index: j})
 
         fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
 

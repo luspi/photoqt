@@ -81,7 +81,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "quality:")
                     suffix: " dpi"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -108,7 +108,7 @@ Flickable {
                     id: arc_extunrar
                     enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "use external tool: unrar")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -130,14 +130,14 @@ Flickable {
                     id: archivecontrols
                     enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for archives")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: archiveleftright
                     enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -163,14 +163,14 @@ Flickable {
                     id: vid_autoplay
                     enforceMaxWidth: set_vid.rightcol
                     text: qsTranslate("settingsmanager", "Autoplay")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: vid_loop
                     enforceMaxWidth: set_vid.rightcol
                     text: qsTranslate("settingsmanager", "Loop")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Flow {
@@ -178,12 +178,12 @@ Flickable {
                     PQRadioButton {
                         id: vid_qtmult
                         text: qsTranslate("settingsmanager", "prefer Qt Multimedia")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: vid_libmpv
                         text: qsTranslate("settingsmanager", "prefer Libmpv")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -205,7 +205,7 @@ Flickable {
                         model: ["------",
                                 "ffmpegthumbnailer"]
                         currentIndex: (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
-                        onCurrentIndexChanged: checkDefault()
+                        onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -214,7 +214,7 @@ Flickable {
                     enforceMaxWidth: set_vid.rightcol
                     spacing: 10
                     text: qsTranslate("settingsmanager", "Always use left/right arrow keys to jump back/ahead in videos")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -222,7 +222,7 @@ Flickable {
                     enforceMaxWidth: set_vid.rightcol
                     spacing: 10
                     text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -248,21 +248,21 @@ Flickable {
                     id: animatedcontrol
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for animated images")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: animatedleftright
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next frame")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: animspace
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "Always use space key to play/pause animation")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -287,7 +287,7 @@ Flickable {
                     id: rawembed
                     enforceMaxWidth: set_raw.rightcol
                     text: qsTranslate("settingsmanager", "use embedded image if available")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -312,14 +312,14 @@ Flickable {
                     id: documentcontrols
                     enforceMaxWidth: set_doc.rightcol
                     text: qsTranslate("settingsmanager", "show floating controls for documents")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: documentleftright
                     enforceMaxWidth: set_doc.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]

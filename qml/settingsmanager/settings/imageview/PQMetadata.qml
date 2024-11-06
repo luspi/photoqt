@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -92,10 +93,10 @@ Flickable {
         //: Part of the meta information about the current image.
         ["Time", qsTranslate("settingsmanager", "time photo was taken")]]
 
-    property var currentCheckBoxStates: ["0","0","0","0","0",
-                       "0","0","0","0","0",
-                       "0","0","0","0","0",
-                       "0","0","0","0"]
+    property list<string> currentCheckBoxStates: ["0","0","0","0","0",
+                                                  "0","0","0","0","0",
+                                                  "0","0","0","0","0",
+                                                  "0","0","0","0"]
     property string _defaultCurrentCheckBoxStates: ""
     onCurrentCheckBoxStatesChanged:
     checkDefault()
@@ -177,13 +178,15 @@ Flickable {
 
                             Repeater {
 
-                                model: labels.length
+                                model: setting_top.labels.length
 
                                 Rectangle {
 
                                     id: deleg
 
-                                    property bool matchesFilter: (labels_filter.text===""||labels[index][1].toLowerCase().indexOf(labels_filter.text.toLowerCase()) > -1)
+                                    required property int modelData
+
+                                    property bool matchesFilter: (labels_filter.text===""||setting_top.labels[deleg.modelData][1].toLowerCase().indexOf(labels_filter.text.toLowerCase()) > -1)
 
                                     width: (labels_flickable.width - (labels_scroll.visible ? labels_scroll.width : 0))/3 - labels_col.spacing
                                     height: matchesFilter ? 30 : 0
@@ -199,7 +202,7 @@ Flickable {
                                     property bool delegSetup: false
                                     Timer {
                                         interval: 500
-                                        running: settingsLoaded
+                                        running: setting_top.settingsLoaded
                                         onTriggered:
                                             deleg.delegSetup = true
                                     }
@@ -210,15 +213,15 @@ Flickable {
                                         y: (parent.height-height)/2
                                         width: parent.width-20
                                         elide: Text.ElideRight
-                                        text: labels[index][1]
+                                        text: setting_top.labels[deleg.modelData][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
                                         color: PQCLook.textColor
                                         extraHovered: tilemouse.containsMouse
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
-                                            currentCheckBoxStates[index] = (checked ? "1" : "0")
-                                            currentCheckBoxStatesChanged()
+                                            setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
+                                            setting_top.currentCheckBoxStatesChanged()
                                         }
 
                                         Connections {
@@ -250,11 +253,11 @@ Flickable {
                                         target: setting_top
 
                                         function onLabelsLoadDefault() {
-                                            check.checked = PQCSettings["metadata"+labels[index][0]]
+                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]]
                                         }
 
                                         function onLabelsSaveChanges() {
-                                            PQCSettings["metadata"+labels[index][0]] = check.checked
+                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked
                                         }
                                     }
 
@@ -338,7 +341,7 @@ Flickable {
                     id: autorot
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "Apply default rotation automatically")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -361,19 +364,19 @@ Flickable {
                     id: osm
                     enforceMaxWidth: set_labels.rightcol
                     text: "openstreetmap.org"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQRadioButton {
                     id: google
                     enforceMaxWidth: set_labels.rightcol
                     text: "maps.google.com"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQRadioButton {
                     id: bing
                     enforceMaxWidth: set_labels.rightcol
                     text: "bing.com/maps"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -397,7 +400,7 @@ Flickable {
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "hide behind screen edge")
                     checked: !PQCSettings.metadataElementFloating
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
@@ -405,7 +408,7 @@ Flickable {
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "use floating element")
                     checked: PQCSettings.metadataElementFloating
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -429,7 +432,7 @@ Flickable {
                     id: facetags_show
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "show face tags")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
@@ -449,7 +452,7 @@ Flickable {
                         enforceMaxWidth: set_labels.rightcol
                         //: used as in: always show all face tags
                         text: qsTranslate("settingsmanager", "always show all")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQRadioButton {
@@ -457,7 +460,7 @@ Flickable {
                         enforceMaxWidth: set_labels.rightcol
                         //: used as in: show one face tag on hover
                         text: qsTranslate("settingsmanager", "show one on hover")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQRadioButton {
@@ -465,7 +468,7 @@ Flickable {
                         enforceMaxWidth: set_labels.rightcol
                         //: used as in: show one face tag on hover
                         text: qsTranslate("settingsmanager", "show all on hover")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -494,14 +497,14 @@ Flickable {
                     title: qsTranslate("settingsmanager", "font size:")
                     suffix: " pt"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: border_show
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "show border around face tags")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
@@ -526,7 +529,7 @@ Flickable {
                         title: qsTranslate("settingsmanager", "border width:")
                         suffix: " px"
                         onValueChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                     Row {
@@ -542,8 +545,8 @@ Flickable {
                             id: border_color
                             width: 100
                             height: border_show.height
-                            property var rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
-                            onRgbaChanged: checkDefault()
+                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+                            onRgbaChanged: setting_top.checkDefault()
                             color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
 
                             PQMouseArea {
@@ -552,11 +555,11 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
                                     PQCNotify.modalFileDialogOpen = true
-                                    var newcol = PQCScriptsOther.selectColor(parent.rgba)
+                                    var newcol = PQCScriptsOther.selectColor(border_color.rgba)
                                     PQCNotify.modalFileDialogOpen = false
                                     fullscreenitem.forceActiveFocus()
                                     if(newcol.length !== 0) {
-                                        parent.rgba = newcol
+                                        border_color.rgba = newcol
                                     }
                                 }
                             }
@@ -615,8 +618,8 @@ Flickable {
 
             saveDefaultCheckTimer.restart()
 
-            settingChanged = false
-            settingsLoaded = true
+            setting_top.settingChanged = false
+            setting_top.settingsLoaded = true
         }
     }
 
@@ -624,7 +627,7 @@ Flickable {
         interval: 100
         id: saveDefaultCheckTimer
         onTriggered: {
-            _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+            setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
         }
     }
 

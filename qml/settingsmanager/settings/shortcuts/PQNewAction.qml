@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -45,7 +46,7 @@ Rectangle {
     signal addAction(var idx, var act)
     signal updateAction(var idx, var subidx, var act)
 
-    property var categories: [
+    property list<string> categories: [
         "viewingimages",
         "currentimage",
         "currentfolder",
@@ -78,7 +79,7 @@ Rectangle {
         "external"      : qsTranslate("settingsmanager", "External")
     }
 
-    property var descriptions: [
+    property list<string> descriptions: [
         qsTranslate("settingsmanager", "These actions affect the behavior of PhotoQt when viewing images. They include actions for navigating between images and manipulating the current image (zoom, flip, rotation) amongst others."),
         qsTranslate("settingsmanager", "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images."),
         qsTranslate("settingsmanager", "These actions affect the currently loaded folder as a whole and not just single images."),
@@ -99,7 +100,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         onClicked:
-            hide()
+            newaction_top.hide()
     }
 
     PQTextXL {
@@ -144,6 +145,11 @@ Rectangle {
 
             delegate:
                 Rectangle {
+
+                    id: deleg
+
+                    required property int modelData
+
                     width: parent.width
                     height: insidecont.height/6
 
@@ -152,7 +158,7 @@ Rectangle {
                         color: PQCLook.baseColorHighlight
                     }
 
-                    color: selectedCategory===index
+                    color: newaction_top.selectedCategory===modelData
                                 ? PQCLook.baseColorActive
                                 : (mouse.containsPress||mouse.containsMouse)
                                    ? PQCLook.baseColorHighlight
@@ -164,7 +170,7 @@ Rectangle {
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
                         font.weight: PQCLook.fontWeightBold
-                        text: categoryTitles[categories[index]]
+                        text: newaction_top.categoryTitles[newaction_top.categories[deleg.modelData]]
                         color: PQCLook.textColor
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
@@ -174,7 +180,7 @@ Rectangle {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            newaction_top.selectedCategory = index
+                            newaction_top.selectedCategory = deleg.modelData
                         }
                     }
                 }
@@ -196,7 +202,7 @@ Rectangle {
                 y: 10
                 width: parent.width-20
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: descriptions[selectedCategory]
+                text: newaction_top.descriptions[newaction_top.selectedCategory]
             }
 
             // these are categories 1-5, all except external shortcuts
@@ -205,19 +211,24 @@ Rectangle {
                 y: desclabel.height+20
                 width: parent.width
                 height: parent.height-desclabel.height-25
-                visible: selectedCategory<5
+                visible: newaction_top.selectedCategory<5
                 orientation: ListView.Vertical
-                model: actionsByCategory[selectedCategory].length
+                model: newaction_top.actionsByCategory[newaction_top.selectedCategory].length
                 spacing: 4
                 clip: true
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
                 delegate:
                     Rectangle {
+
+                        id: actionsdeleg
+
+                        required property int modelData
+
                         x: 5
                         width: actionsview.width-10-(scroll.visible ? scroll.width : 0)
                         height: dsclabel.height+10
                         radius: 5
-                        opacity: (actionmouse.containsMouse||newaction_top.currentShortcutAction===actionsByCategory[selectedCategory][index][0]) ? 1 : 0.5
+                        opacity: (actionmouse.containsMouse||newaction_top.currentShortcutAction===newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][0]) ? 1 : 0.5
                         color: actionmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
                         Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
@@ -225,7 +236,7 @@ Rectangle {
                             x: 5
                             y: 5
                             width: parent.width-10
-                            text: actionsByCategory[selectedCategory][index][1]
+                            text: newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][1]
                             color: PQCLook.textColor
                         }
                         PQMouseArea {
@@ -235,10 +246,10 @@ Rectangle {
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
                                 if(newaction_top.currentShortcutSubIndex == -1)
-                                    addAction(newaction_top.currentShortcutIndex, actionsByCategory[selectedCategory][index][0])
+                                    newaction_top.addAction(newaction_top.currentShortcutIndex, newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][0])
                                 else
-                                    updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, actionsByCategory[selectedCategory][index][0])
-                                hide()
+                                    newaction_top.updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][0])
+                                newaction_top.hide()
                             }
                         }
                     }
@@ -253,7 +264,7 @@ Rectangle {
                 height: parent.height-desclabel.height-20
                 contentHeight: extcol.height
                 clip: true
-                visible: selectedCategory==5
+                visible: newaction_top.selectedCategory==5
                 ScrollBar.vertical: PQVerticalScrollBar { id: extscroll }
 
                 Column {
@@ -368,10 +379,10 @@ Rectangle {
                         onClicked: {
                             var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
                             if(newaction_top.currentShortcutSubIndex == -1)
-                                addAction(newaction_top.currentShortcutIndex, act)
+                                newaction_top.addAction(newaction_top.currentShortcutIndex, act)
                             else
-                                updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, act)
-                            hide()
+                                newaction_top.updateAction(newaction_top.currentShortcutIndex, newaction_top.currentShortcutSubIndex, act)
+                            newaction_top.hide()
                         }
                     }
 
@@ -399,7 +410,7 @@ Rectangle {
                 id: savebut
                 text: genericStringCancel
                 onClicked: {
-                    hide()
+                    newaction_top.hide()
                 }
             }
         }
@@ -410,19 +421,19 @@ Rectangle {
 
         target: settingsmanager_top
 
-        function onPassOnShortcuts(mods, keys) {
+        function onPassOnShortcuts(mods: string, keys: int) {
 
-            if(!visible) return
+            if(!newaction_top.visible) return
 
             if(keys === Qt.Key_Escape)
-                hide()
+                newaction_top.hide()
 
         }
 
     }
 
     Component.onCompleted: {
-        //: A shortcuts category: actions with current folder
+        // A shortcuts category: actions with current folder
 
         for(var cmd in setting_top.actions) {
 
@@ -438,7 +449,7 @@ Rectangle {
 
     }
 
-    function change(index, subindex) {
+    function change(index: int, subindex: int) {
 
         var cur = setting_top.entries[index][1][subindex]
 
@@ -469,7 +480,7 @@ Rectangle {
 
     }
 
-    function show(index) {
+    function show(index: int) {
 
         PQCNotify.ignoreKeysExceptEnterEsc = true
 

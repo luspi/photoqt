@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -114,11 +115,11 @@ Flickable {
                          //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutCrop", qsTranslate("settingsmanager", "Crop")]]
 
-    property var currentCheckBoxStates: ["0","0","0","0","0",
-                                         "0","0","0","0","0",
-                                         "0","0","0","0","0",
-                                         "0","0","0","0","0",
-                                         "0"]
+    property list<string> currentCheckBoxStates: ["0","0","0","0","0",
+                                                  "0","0","0","0","0",
+                                                  "0","0","0","0","0",
+                                                  "0","0","0","0","0",
+                                                  "0"]
     property string _defaultCurrentCheckBoxStates: ""
     onCurrentCheckBoxStatesChanged:
         checkDefault()
@@ -198,13 +199,15 @@ Flickable {
 
                             Repeater {
 
-                                model: pops.length
+                                model: setting_top.pops.length
 
                                 Rectangle {
 
                                     id: deleg
 
-                                    property bool matchesFilter: (popout_filter.text===""||pops[index][1].toLowerCase().indexOf(popout_filter.text.toLowerCase()) > -1)
+                                    required property int modelData
+
+                                    property bool matchesFilter: (popout_filter.text===""||setting_top.pops[modelData][1].toLowerCase().indexOf(popout_filter.text.toLowerCase()) > -1)
 
                                     width: (popout_flickable.width - (popout_scroll.visible ? popout_scroll.width : 0))/3 - popout_col.spacing
                                     height: matchesFilter ? 30 : 0
@@ -223,7 +226,7 @@ Flickable {
                                         delay: 500
                                         timeout: 5000
                                         visible: deleg.hovered
-                                        text: pops[index][1]
+                                        text: setting_top.pops[deleg.modelData][1]
                                     }
 
                                     PQCheckBox {
@@ -231,14 +234,14 @@ Flickable {
                                         x: 10
                                         width: deleg.width-20
                                         y: (parent.height-height)/2
-                                        text: pops[index][1]
+                                        text: setting_top.pops[deleg.modelData][1]
                                         font.weight: PQCLook.fontWeightNormal
                                         font.pointSize: PQCLook.fontSizeS
                                         elide: Text.ElideRight
                                         color: PQCLook.textColor
                                         onCheckedChanged: {
-                                            currentCheckBoxStates[index] = (checked ? "1" : "0")
-                                            currentCheckBoxStatesChanged()
+                                            setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
+                                            setting_top.currentCheckBoxStatesChanged()
                                         }
 
                                         Connections {
@@ -273,11 +276,11 @@ Flickable {
                                         target: setting_top
 
                                         function onPopoutLoadDefault() {
-                                            check.checked = PQCSettings[pops[index][0]]
+                                            check.checked = PQCSettings[setting_top.pops[deleg.modelData][0]]
                                         }
 
                                         function onPopoutSaveChanges() {
-                                            PQCSettings[pops[index][0]] = check.checked
+                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked
                                         }
                                     }
 
@@ -365,7 +368,7 @@ Flickable {
                     enforceMaxWidth: set_keep.rightcol
                     text: qsTranslate("settingsmanager", "make file dialog non-modal")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -373,7 +376,7 @@ Flickable {
                     enforceMaxWidth: set_keep.rightcol
                     text: qsTranslate("settingsmanager", "make map explorer non-modal")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -381,7 +384,7 @@ Flickable {
                     enforceMaxWidth: set_keep.rightcol
                     text: qsTranslate("settingsmanager", "make settings manager non-modal")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -408,7 +411,7 @@ Flickable {
                     enforceMaxWidth: set_small.rightcol
                     text: qsTranslate("settingsmanager",  "pop out when application window is small")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]

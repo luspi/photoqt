@@ -40,11 +40,11 @@ Rectangle {
 
     property bool dontResetKeys: false
 
-    property var mouseComboMods: []
+    property list<string> mouseComboMods: []
     property string mouseComboButton: ""
-    property var mouseComboDirection: []
+    property list<string> mouseComboDirection: []
 
-    property var keyComboMods: []
+    property list<string> keyComboMods: []
     property string keyComboKey: ""
 
     property int currentIndex: -1
@@ -214,40 +214,40 @@ Rectangle {
                 pressedEventInProgress = true
                 pressedPosLast = Qt.point(mouse.x, mouse.y)
 
-                mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
-                mouseComboButton = PQCScriptsShortcuts.analyzeMouseButton(mouse.button)
-                mouseComboDirection = []
-                keyComboKey = ""
-                keyComboMods = []
+                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
+                newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseButton(mouse.button)
+                newshortcut_top.mouseComboDirection = []
+                newshortcut_top.keyComboKey = ""
+                newshortcut_top.keyComboMods = []
 
-                assembleMouseCombo()
+                newshortcut_top.assembleMouseCombo()
 
             }
 
             onMouseDoubleClicked: (mouse) => {
                 ignoreSingleBecauseDouble = true
                 pressedEventInProgress = false
-                keyComboMods = []
-                keyComboKey = ""
+                newshortcut_top.keyComboMods = []
+                newshortcut_top.keyComboKey = ""
 
-                mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
-                mouseComboButton = "Double Click"
-                mouseComboDirection = []
+                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
+                newshortcut_top.mouseComboButton = "Double Click"
+                newshortcut_top.mouseComboDirection = []
 
-                assembleMouseCombo()
+                newshortcut_top.assembleMouseCombo()
             }
 
             onPositionChanged: (mouse) => {
                 if(pressedEventInProgress) {
                     var mov = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(mouse.x, mouse.y), pressedPosLast)
                     if(mov !== "") {
-                        mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
-                        if(mouseComboDirection[mouseComboDirection.length-1] !== mov) {
-                            mouseComboDirection.push(mov)
+                        newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
+                        if(newshortcut_top.mouseComboDirection[newshortcut_top.mouseComboDirection.length-1] !== mov) {
+                            newshortcut_top.mouseComboDirection.push(mov)
                         }
                         pressedPosLast = Qt.point(mouse.x, mouse.y)
                     }
-                    assembleMouseCombo()
+                    newshortcut_top.assembleMouseCombo()
                 }
             }
 
@@ -257,14 +257,14 @@ Rectangle {
 
            onWheel: (wheel) => {
 
-               keyComboMods = []
-               keyComboKey = ""
+               newshortcut_top.keyComboMods = []
+               newshortcut_top.keyComboKey = ""
 
-               mouseComboMods = PQCScriptsShortcuts.analyzeModifier(wheel.modifiers)
-               mouseComboButton = PQCScriptsShortcuts.analyzeMouseWheel(wheel.angleDelta)
-               mouseComboDirection = []
+               newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(wheel.modifiers)
+               newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseWheel(wheel.angleDelta)
+               newshortcut_top.mouseComboDirection = []
 
-               assembleMouseCombo()
+               newshortcut_top.assembleMouseCombo()
 
            }
 
@@ -321,22 +321,22 @@ Rectangle {
                     newshortcut_top.hide()
 
                     var combo = ""
-                    if(keyComboKey != "") {
-                        if(keyComboMods.length > 0) {
-                            combo += keyComboMods.join("+")
+                    if(newshortcut_top.keyComboKey != "") {
+                        if(newshortcut_top.keyComboMods.length > 0) {
+                            combo += newshortcut_top.keyComboMods.join("+")
                             combo += "+"
                         }
-                        combo += keyComboKey
+                        combo += newshortcut_top.keyComboKey
                     } else {
-                        if(mouseComboMods.length > 0)
-                            combo += mouseComboMods.join("+") + "+"
-                        combo += mouseComboButton
-                        if(mouseComboDirection.length > 0) {
+                        if(newshortcut_top.mouseComboMods.length > 0)
+                            combo += newshortcut_top.mouseComboMods.join("+") + "+"
+                        combo += newshortcut_top.mouseComboButton
+                        if(newshortcut_top.mouseComboDirection.length > 0) {
                             combo += "+"
-                            combo += mouseComboDirection.join("")
+                            combo += newshortcut_top.mouseComboDirection.join("")
                         }
                     }
-                    newCombo(currentIndex, currentSubIndex, combo)
+                    newshortcut_top.newCombo(newshortcut_top.currentIndex, newshortcut_top.currentSubIndex, combo)
                 }
             }
             PQButton {
@@ -355,25 +355,25 @@ Rectangle {
 
         target: settingsmanager_top
 
-        function onPassOnShortcuts(mods, keys) {
+        function onPassOnShortcuts(mods: string, keys: string) {
 
-            if(!visible) return
+            if(!newshortcut_top.visible) return
 
-            mouseComboMods = []
-            mouseComboButton = ""
-            mouseComboDirection = []
+            newshortcut_top.mouseComboMods = []
+            newshortcut_top.mouseComboButton = ""
+            newshortcut_top.mouseComboDirection = []
 
-            keyComboMods = PQCScriptsShortcuts.analyzeModifier(mods)
-            keyComboKey = PQCScriptsShortcuts.analyzeKeyPress(keys)
+            newshortcut_top.keyComboMods = PQCScriptsShortcuts.analyzeModifier(mods)
+            newshortcut_top.keyComboKey = PQCScriptsShortcuts.analyzeKeyPress(keys)
 
-            assembleKeyCombo()
+            newshortcut_top.assembleKeyCombo()
 
         }
 
     }
 
     property string backupVisibleItem: ""
-    function show(index, subindex) {
+    function show(index: int, subindex: int) {
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) {
             backupVisibleItem = loader.visibleItem

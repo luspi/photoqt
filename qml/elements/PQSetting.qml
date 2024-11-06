@@ -30,6 +30,7 @@ Row {
     property string helptext: ""
     property string title: ""
     property alias content: contcol.children
+    property int contentSpacing: contcol.spacing
 
     property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings
 

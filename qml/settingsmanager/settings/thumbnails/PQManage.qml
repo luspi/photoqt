@@ -87,7 +87,7 @@ Flickable {
                     id: cache_enable
                     enforceMaxWidth: set_cache.rightcol
                     text: qsTranslate("settingsmanager", "enable cache")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
@@ -102,7 +102,7 @@ Flickable {
                         id: cache_dir_default
                         enforceMaxWidth: set_cache.rightcol
                         text: qsTranslate("settingsmanager", "use default cache directory")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     Item {
@@ -123,7 +123,7 @@ Flickable {
                                 var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
                                 if(path !== "") {
                                     cache_dir_custom.customdir = path
-                                    checkDefault()
+                                    setting_top.checkDefault()
                                 }
                             }
 
@@ -165,7 +165,7 @@ Flickable {
                     property string folder: PQCSettings.thumbnailsExcludeNextcloud
                     visible: folder!=""
                     text: "Nextcloud: " + folder
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -174,7 +174,7 @@ Flickable {
                     property string folder: PQCSettings.thumbnailsExcludeOwnCloud
                     visible: folder!=""
                     text: "ownCloud: " + folder
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -183,7 +183,7 @@ Flickable {
                     property string folder: PQCSettings.thumbnailsExcludeDropBox
                     visible: folder!=""
                     text: "DropBox: " + folder
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -203,7 +203,7 @@ Flickable {
                     onControlActiveFocusChanged: {
                         PQCNotify.ignoreKeysExceptEsc = controlActiveFocus
                     }
-                    onTextChanged: checkDefault()
+                    onTextChanged: setting_top.checkDefault()
                 },
 
                 PQButton {
@@ -253,7 +253,7 @@ Flickable {
                     title: ""
                     suffix: " threads"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]

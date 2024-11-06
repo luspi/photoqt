@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -265,7 +266,7 @@ Flickable {
                 repeat: false
                 running: false
                 onTriggered: {
-                    ensureVisible(0)
+                    setting_top.ensureVisible(0)
                 }
             }
 
@@ -334,14 +335,15 @@ Flickable {
 
                 id: deleg
 
+                required property int modelData
+
                 width: setting_top.width
 
-                property var combos: setting_top.entries[index][0]
-                property var commands: setting_top.entries[index][1]
-                property int cycle: setting_top.entries[index][2]
-                property int cycletimeout: setting_top.entries[index][3]
-                property int simultaneous: setting_top.entries[index][4]
-                property int currentShortcutIndex: index
+                property list<string> combos: setting_top.entries[modelData][0]
+                property list<string> commands: setting_top.entries[modelData][1]
+                property int cycle: setting_top.entries[modelData][2]
+                property int cycletimeout: setting_top.entries[modelData][3]
+                property int simultaneous: setting_top.entries[modelData][4]
 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -357,11 +359,11 @@ Flickable {
                 }
 
                 onHeightChanged: {
-                    setting_top.entriesHeights[index] = height
+                    setting_top.entriesHeights[modelData] = height
 
                     if(!deleteMe || height > 0)
                         return
-                    setting_top.entries.splice(deleg.currentShortcutIndex,1)
+                    setting_top.entries.splice(deleg.modelData,1)
                     setting_top.entriesChanged()
                 }
 
@@ -421,7 +423,9 @@ Flickable {
 
                                     id: combodeleg
 
-                                    x: (parent.width-width)/2
+                                    required property int modelData
+
+                                    x: (ontheleft.width-width)/2
                                     height: 60
                                     width: comborect.width+10
 
@@ -439,7 +443,7 @@ Flickable {
                                         if(!deleteMe || width>0)
                                             return
 
-                                        setting_top.entries[deleg.currentShortcutIndex][0].splice(index,1)
+                                        setting_top.entries[deleg.modelData][0].splice(modelData,1)
                                         setting_top.entriesChanged()
 
                                     }
@@ -481,7 +485,7 @@ Flickable {
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
                                             font.weight: PQCLook.fontWeightBold
-                                            text: shortcuts.item.translateShortcut(deleg.combos[index])
+                                            text: shortcuts.item.translateShortcut(deleg.combos[combodeleg.modelData])
                                             color: PQCLook.textColor
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
@@ -496,7 +500,7 @@ Flickable {
                                             text: qsTranslate("settingsmanager", "Click to change key combination")
 
                                             onClicked:
-                                                newshortcut.show(deleg.currentShortcutIndex, index)
+                                                newshortcut.show(deleg.modelData, combodeleg.modelData)
 
                                         }
 
@@ -553,7 +557,7 @@ Flickable {
                                     text: qsTranslate("settingsmanager", "Click to add new key combination")
 
                                     onClicked: {
-                                        newshortcut.show(deleg.currentShortcutIndex, -1)
+                                        newshortcut.show(deleg.modelData, -1)
                                     }
 
                                 }
@@ -584,8 +588,8 @@ Flickable {
 
                         Connections {
                             target: setting_top
-                            function onHighlightExisting(entryindex, entryid) {
-                                if(entryindex === index) {
+                            function onHighlightExisting(entryindex: int, entryid: string) {
+                                if(entryindex === deleg.modelData) {
                                     countdwn.s = 5
                                     undobut.entryid = entryid
                                     exstre.opacity = 1
@@ -637,8 +641,8 @@ Flickable {
                                         running: exstre.opacity>0.99
                                         repeat: true
                                         onTriggered: {
-                                            parent.s -= 1
-                                            if(parent.s == 0)
+                                            countdwn.s -= 1
+                                            if(countdwn.s == 0)
                                                 exstre.opacity = 0
                                         }
                                     }
@@ -706,7 +710,9 @@ Flickable {
 
                             id: cmddeleg
 
-                            property string cmd: deleg.commands[index]
+                            required property int modelData
+
+                            property string cmd: deleg.commands[modelData]
 
                             width: ontheright.width
                             height: c2.height+10
@@ -727,7 +733,7 @@ Flickable {
                             onHeightChanged: {
                                 if(!deleteMe || height > 0)
                                     return
-                                setting_top.entries[deleg.currentShortcutIndex][1].splice(index,1)
+                                setting_top.entries[deleg.modelData][1].splice(modelData,1)
                                 setting_top.entriesChanged()
                             }
 
@@ -736,16 +742,16 @@ Flickable {
                                 id: c2
                                 x: 30
                                 y: (parent.height-height)/2
-                                text: cmd.startsWith("__")
-                                            ? (cmd in setting_top.actions
-                                               ? setting_top.actions[cmd][0]
+                                text: cmddeleg.cmd.startsWith("__")
+                                            ? (cmddeleg.cmd in setting_top.actions
+                                               ? setting_top.actions[cmddeleg.cmd][0]
                                                  //: The unknown here refers to an unknown internal action that was set as shortcut
-                                               : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmd))
+                                               : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmddeleg.cmd))
                                               //: This is an identifier in the shortcuts settings used to identify an external shortcut.
                                             : ("<i>" + qsTranslate("settingsmanager", "external") + "</i>: " +
-                                               cmd.split(":/:/:")[0] + " " + cmd.split(":/:/:")[1] +
+                                               cmddeleg.cmd.split(":/:/:")[0] + " " + cmddeleg.cmd.split(":/:/:")[1] +
                                                //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
-                                               (cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
+                                               (cmddeleg.cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
                                 color: PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
@@ -757,7 +763,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 text: qsTranslate("settingsmanager", "Click to change shortcut action")
                                 onClicked: {
-                                    newaction.change(deleg.currentShortcutIndex, index)
+                                    newaction.change(deleg.modelData, cmddeleg.modelData)
                                 }
                             }
 
@@ -830,7 +836,7 @@ Flickable {
                                 //: The action here is a shortcut action
                                 text: qsTranslate("settingsmanager", "Click to add new action")
                                 onClicked: {
-                                    newaction.show(deleg.currentShortcutIndex)
+                                    newaction.show(deleg.modelData)
                                 }
 
                             }
@@ -882,8 +888,8 @@ Flickable {
                                 checked: deleg.cycle
                                 ButtonGroup.group: radioGroup
                                 onCheckedChanged: {
-                                    setting_top.entries[index][2] = (checked ? 1 : 0)
-                                    setting_top.entries[index][4] = (checked ? 0 : 1)
+                                    setting_top.entries[deleg.modelData][2] = (checked ? 1 : 0)
+                                    setting_top.entries[deleg.modelData][4] = (checked ? 0 : 1)
                                     setting_top.entriesChanged()
                                 }
                             }
@@ -916,7 +922,7 @@ Flickable {
                                     value: deleg.cycletimeout
                                     enabled: timeout_check.checked&&radio_cycle.checked
                                     onValueChanged: {
-                                        setting_top.entries[index][3] = cycletimeout_slider.value
+                                        setting_top.entries[deleg.modelData][3] = cycletimeout_slider.value
                                         setting_top.entriesChanged()
                                     }
                                 }
@@ -949,8 +955,8 @@ Flickable {
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
                                 onCheckedChanged: {
-                                    setting_top.entries[index][2] = (checked ? 0 : 1)
-                                    setting_top.entries[index][4] = (checked ? 1 : 0)
+                                    setting_top.entries[deleg.modelData][2] = (checked ? 0 : 1)
+                                    setting_top.entries[deleg.modelData][4] = (checked ? 1 : 0)
                                     setting_top.entriesChanged()
                                 }
                             }
@@ -971,33 +977,33 @@ Flickable {
                 Connections {
                     target: filter_combo
                     function onTextChanged() {
-                        performFilter()
+                        deleg.performFilter()
                     }
                 }
                 Connections {
                     target: filter_action
                     function onTextChanged() {
-                        performFilter()
+                        deleg.performFilter()
                     }
                 }
                 Connections {
                     target: filter_category
                     function onCurrentIndexChanged() {
-                        performFilter()
+                        deleg.performFilter()
                     }
                 }
 
                 Connections {
                     target: setting_top
-                    function onHighlightEntry(idx) {
-                        if(idx === deleg.currentShortcutIndex) {
+                    function onHighlightEntry(idx: int) {
+                        if(idx === deleg.modelData) {
                             deleg.color = PQCLook.baseColorHighlight
                         }
                     }
                 }
 
                 Component.onCompleted: {
-                    setting_top.entriesHeights[index] = height
+                    setting_top.entriesHeights[deleg.modelData] = height
                     performFilter()
                 }
 
@@ -1114,7 +1120,7 @@ Flickable {
             // reassign shortcut, save reassignment data, and show undo button
             if(usedIndex != -1) {
                 var newid = PQCScriptsOther.getUniqueId()
-                handleExisting[newid] = [usedIndex, index, combo]
+                setting_top.handleExisting[newid] = [usedIndex, index, combo]
                 setting_top.entries[usedIndex][0].splice(setting_top.entries[usedIndex][0].indexOf(combo), 1)
                 setting_top.entriesChanged()
                 setting_top.highlightExisting(index, newid)
@@ -1156,7 +1162,7 @@ Flickable {
     Component.onDestruction:
         PQCNotify.ignoreKeysExceptEnterEsc = false
 
-    function areTwoListsEqual(l1, l2) {
+    function areTwoListsEqual(l1: var, l2: var) : bool {
 
         if(l1.length !== l2.length)
             return false
@@ -1191,7 +1197,7 @@ Flickable {
         settingChanged = !areTwoListsEqual(entries, defaultEntries)
     }
 
-    function ensureVisible(index) {
+    function ensureVisible(index: int) {
 
         if(listview.contentHeight > listview.height) {
 

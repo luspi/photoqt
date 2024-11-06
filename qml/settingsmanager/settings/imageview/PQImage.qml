@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -57,10 +58,10 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
-    property var colorprofiles: []
-    property var colorprofiledescs: []
-    property var colorprofiles_contextmenu: []
-    property var colorprofiles_contextmenu_default: []
+    property list<string> colorprofiles: []
+    property list<string> colorprofiledescs: []
+    property list<string> colorprofiles_contextmenu: []
+    property list<string> colorprofiles_contextmenu_default: []
 
     signal selectAllColorProfiles()
     signal selectNoColorProfiles()
@@ -92,7 +93,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "margin:")
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -133,7 +134,7 @@ Flickable {
                         id: large_full
                         text: qsTranslate("settingsmanager", "load at full scale")
                         checked: PQCSettings.imageviewAlwaysActualSize
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -152,7 +153,7 @@ Flickable {
                         id: small_fit
                         text: qsTranslate("settingsmanager", "fit to view")
                         checked: PQCSettings.imageviewFitInWindow
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: small_asis
@@ -183,7 +184,7 @@ Flickable {
                     enforceMaxWidth: set_trans.rightcol
                     text: qsTranslate("settingsmanager", "show checkerboard pattern")
                     checked: PQCSettings.imageviewTransparencyMarker
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
         }
@@ -207,7 +208,7 @@ Flickable {
                     id: interp_check
                     enforceMaxWidth: set_interp.rightcol
                     text: qsTranslate("settingsmanager", "disable interpolation for small images")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQSliderSpinBox {
@@ -220,7 +221,7 @@ Flickable {
                     enabled: interp_check.checked
                     animateHeight: true
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -250,7 +251,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "cache size:")
                     suffix: " MB"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -277,7 +278,7 @@ Flickable {
                     enforceMaxWidth: set_col.rightcol
                     text: qsTranslate("settingsmanager", "Enable color profile management")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 Item {
@@ -299,7 +300,7 @@ Flickable {
                             enforceMaxWidth: set_col.rightcol
                             text: qsTranslate("settingsmanager", "Look for and load embedded color profiles")
                             onCheckedChanged:
-                                checkDefault()
+                                setting_top.checkDefault()
                         }
 
                         Flow {
@@ -309,10 +310,9 @@ Flickable {
 
                             PQCheckBox {
                                 id: color_default
-                                y: (parent.height-height)/2
                                 text: qsTranslate("settingsmanager", "Change default color profile") + (checked ? ":" : " ")
                                 onCheckedChanged:
-                                    checkDefault()
+                                    setting_top.checkDefault()
                             }
 
                             Item {
@@ -325,9 +325,9 @@ Flickable {
                                 PQComboBox {
                                     id: color_defaultcombo
                                     extrawide: true
-                                    model: [qsTranslate("settingsmanager", "(no default color profile)")].concat(colorprofiledescs)
+                                    model: [qsTranslate("settingsmanager", "(no default color profile)")].concat(setting_top.colorprofiledescs)
                                     onCurrentIndexChanged:
-                                        checkDefault()
+                                        setting_top.checkDefault()
                                 }
                             }
 
@@ -395,13 +395,15 @@ Flickable {
 
                                         Repeater {
 
-                                            model: colorprofiledescs.length
+                                            model: setting_top.colorprofiledescs.length
 
                                             Rectangle {
 
                                                 id: deleg
 
-                                                property bool matchesFilter: (color_filter.text===""||colorprofiledescs[index].toLowerCase().indexOf(color_filter.text.toLowerCase()) > -1)
+                                                required property int modelData
+
+                                                property bool matchesFilter: (color_filter.text===""||setting_top.colorprofiledescs[deleg.modelData].toLowerCase().indexOf(color_filter.text.toLowerCase()) > -1)
 
                                                 width: (color_flickable.width - (color_scroll.visible ? color_scroll.width : 0))/2 - color_grid.spacing
                                                 height: matchesFilter ? 30 : 0
@@ -417,7 +419,7 @@ Flickable {
                                                 property bool delegSetup: false
                                                 Timer {
                                                     interval: 1000
-                                                    running: settingsLoaded
+                                                    running: setting_top.settingsLoaded
                                                     onTriggered:
                                                         deleg.delegSetup = true
                                                 }
@@ -428,20 +430,20 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     width: parent.width-20  - (delImported.visible ? delImported.width : 0)
                                                     elide: Text.ElideMiddle
-                                                    text: colorprofiledescs[index]
+                                                    text: setting_top.colorprofiledescs[deleg.modelData]
                                                     font.weight: PQCLook.fontWeightNormal
                                                     font.pointSize: PQCLook.fontSizeS
                                                     color: PQCLook.textColor
                                                     extraHovered: tilemouse.containsMouse
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
-                                                        var curid = PQCScriptsImages.getColorProfileID(index)
+                                                        var curid = PQCScriptsImages.getColorProfileID(deleg.modelData)
                                                         var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
                                                         if(checked && arrayIndex == -1)
-                                                            colorprofiles_contextmenu.push(curid)
+                                                            setting_top.colorprofiles_contextmenu.push(curid)
                                                         else if(!checked && arrayIndex != -1)
-                                                            colorprofiles_contextmenu.splice(arrayIndex,1)
-                                                        checkDefault()
+                                                            setting_top.colorprofiles_contextmenu.splice(arrayIndex,1)
+                                                        setting_top.checkDefault()
                                                     }
 
                                                     Connections {
@@ -474,22 +476,22 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     opacity: delmouse.containsMouse ? 1 : 0.2
                                                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                                                    visible: index < PQCScriptsImages.getImportedColorProfiles().length
+                                                    visible: deleg.modelData < PQCScriptsImages.getImportedColorProfiles().length
                                                     text: "x"
                                                     color: "red"
                                                     font.weight: PQCLook.fontWeightBold
 
                                                     PQMouseArea {
                                                         id: delmouse
-                                                        enabled: parent.visible
-                                                        anchors.fill: parent
+                                                        enabled: delImported.visible
+                                                        anchors.fill: delImported
                                                         hoverEnabled: true
                                                         cursorShape: Qt.PointingHandCursor
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
                                                             check.checked = false
-                                                            if(PQCScriptsImages.removeImportedColorProfile(index)) {
-                                                                colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                                            if(PQCScriptsImages.removeImportedColorProfile(deleg.modelData)) {
+                                                                setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                                             }
                                                         }
                                                     }
@@ -510,7 +512,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(index))>-1)
+                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(deleg.modelData))>-1)
                                                 }
 
                                             }
@@ -580,7 +582,7 @@ Flickable {
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
                                 if(PQCScriptsImages.importColorProfile()) {
-                                    colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                    setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                 }
                             }
                         }

@@ -91,7 +91,7 @@ Flickable {
                                 qsTranslate("settingsmanager", "size"),
                                 //: A criteria for sorting images
                                 qsTranslate("settingsmanager", "type")]
-                        onCurrentIndexChanged: checkDefault()
+                        onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -102,13 +102,13 @@ Flickable {
                         id: sortasc
                         //: Sort images in ascending order
                         text: qsTranslate("settingsmanager", "ascending order")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: sortdesc
                         //: Sort images in descending order
                         text: qsTranslate("settingsmanager", "descending order")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 }
             ]
@@ -132,14 +132,14 @@ Flickable {
                     id: layout_icon
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "icon view")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: layout_list
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "list view")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -162,7 +162,7 @@ Flickable {
                     id: hiddencheck
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show hidden files/folders")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -185,7 +185,7 @@ Flickable {
                     id: tooltipcheck
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show tooltip with details")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -208,7 +208,7 @@ Flickable {
                     id: remembercheck
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Remember")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -231,14 +231,14 @@ Flickable {
                     id: singleexec
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Open with single click")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: singlecheck
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Select with single click, open with double click")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -261,13 +261,13 @@ Flickable {
                     id: sect_bookmarks
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show bookmarks")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: sect_devices
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show devices")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: sect_devicestmpfs
@@ -275,7 +275,7 @@ Flickable {
                     enabled: sect_devices.checked
                     enforceMaxWidth: set_sort.rightcol-22
                     text: qsTranslate("settingsmanager", "Include temporary devices")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -298,19 +298,19 @@ Flickable {
                     id: drag_icon
                     enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for icon view"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_list
                     enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for list view"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_bookmarks
                     enforceMaxWidth: set_sort.rightcol
                     text: "Enable drag-and-drop for bookmarks"
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -333,7 +333,7 @@ Flickable {
                     id: thumb_show
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show thumbnails")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 Item {
 
@@ -351,7 +351,7 @@ Flickable {
                         id: thumb_scalecrop
                         enforceMaxWidth: set_sort.rightcol
                         text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 }
 
@@ -379,7 +379,7 @@ Flickable {
                     title: ""
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -402,7 +402,7 @@ Flickable {
                     id: folderthumb_check
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Enable folder thumbnails")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -424,7 +424,7 @@ Flickable {
                             id: folderthumb_loop
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Loop through content")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         Flow {
@@ -446,7 +446,7 @@ Flickable {
                                 model: ["2 s",
                                         "1 s",
                                         "0.5 s"]
-                                onCurrentIndexChanged: checkDefault()
+                                onCurrentIndexChanged: setting_top.checkDefault()
                             }
                         }
 
@@ -454,14 +454,14 @@ Flickable {
                             id: folderthumb_autoload
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Auto-load first thumbnail")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQCheckBox {
                             id: folderthumb_scalecrop
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Scale and crop thumbnails")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                     }
@@ -488,7 +488,7 @@ Flickable {
                     id: preview_check
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "Show preview")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -522,7 +522,7 @@ Flickable {
                                 minval: 10
                                 maxval: 100
                                 suffix: " %"
-                                onValueChanged: checkDefault()
+                                onValueChanged: setting_top.checkDefault()
                             }
                         }
 
@@ -530,28 +530,28 @@ Flickable {
                             id: preview_blur
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Blur the preview")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQCheckBox {
                             id: preview_mute
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Mute its colors")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQCheckBox {
                             id: preview_resolution
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Higher resolution")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQCheckBox {
                             id: preview_scalecrop
                             enforceMaxWidth: set_sort.rightcol
                             text: qsTranslate("settingsmanager", "Scale and crop")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                     }

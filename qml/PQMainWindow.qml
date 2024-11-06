@@ -259,7 +259,7 @@ Window {
 
         }
 
-        function onCmdTray(enabled) {
+        function onCmdTray(enabled : bool) {
 
             console.log("args: enabled =", enabled)
 

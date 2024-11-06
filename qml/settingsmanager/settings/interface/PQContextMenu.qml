@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -88,7 +89,7 @@ Flickable {
             content: [
 
                 PQTextL {
-                    visible: entries.length==0
+                    visible: setting_top.entries.length==0
                     height: 50
                     verticalAlignment: Text.AlignVCenter
                     color: PQCLook.textColorDisabled
@@ -99,11 +100,13 @@ Flickable {
 
                 Repeater {
 
-                    model: entries.length
+                    model: setting_top.entries.length
 
                     Rectangle {
 
                         id: deleg
+
+                        required property int modelData
 
                         width: Math.min(800, set_con.rightcol-delicn.width-10)
                         height: 50
@@ -118,17 +121,17 @@ Flickable {
 
                             PQButtonIcon {
                                 id: appicon
-                                source: (entries[index][0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + entries[index][0]))
+                                source: (setting_top.entries[deleg.modelData][0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0]))
                                 onSourceChanged:
-                                    checkDefault()
+                                    setting_top.checkDefault()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog
                                     var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
                                     if(newicn !== "")
-                                        entries[index][0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
+                                        setting_top.entries[deleg.modelData][0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                                     else
-                                        entries[index][0] = ""
-                                    entriesChanged()
+                                        setting_top.entries[deleg.modelData][0] = ""
+                                    setting_top.entriesChanged()
 
                                 }
                             }
@@ -137,12 +140,12 @@ Flickable {
                                 width: (deleg.width-appicon.width-quitcheck.width-30)/3
                                 //: The entry here refers to the text that is shown in the context menu for a custom entry
                                 placeholderText: qsTranslate("settingsmanager", "entry name")
-                                text: entries[index][2]
+                                text: setting_top.entries[deleg.modelData][2]
                                 onTextChanged: {
-                                    if(entries[index][2] !== text) {
-                                        entries[index][2] = text
-                                        entriesChanged()
-                                        checkDefault()
+                                    if(setting_top.entries[deleg.modelData][2] !== text) {
+                                        setting_top.entries[deleg.modelData][2] = text
+                                        setting_top.entriesChanged()
+                                        setting_top.checkDefault()
                                     }
                                 }
                                 onControlActiveFocusChanged: {
@@ -154,12 +157,12 @@ Flickable {
                                     id: executable
                                     width: entryname.width
                                     placeholderText: qsTranslate("settingsmanager", "executable")
-                                    text: entries[index][1]
+                                    text: setting_top.entries[deleg.modelData][1]
                                     onTextChanged: {
-                                        if(entries[index][1] !== text) {
-                                            entries[index][1] = text
-                                            entriesChanged()
-                                            checkDefault()
+                                        if(setting_top.entries[deleg.modelData][1] !== text) {
+                                            setting_top.entries[deleg.modelData][1] = text
+                                            setting_top.entriesChanged()
+                                            setting_top.checkDefault()
                                         }
                                     }
                                     onControlActiveFocusChanged:
@@ -181,15 +184,15 @@ Flickable {
                                         var icn = PQCScriptsImages.getIconPathFromTheme(fname)
 
                                         if(PQCScriptsFilesPaths.cleanPath(StandardPaths.findExecutable(fname)) === newexe)
-                                            entries[index][1] = fname
+                                            setting_top.entries[deleg.modelData][1] = fname
                                         else
-                                            entries[index][1] = PQCScriptsFilesPaths.cleanPath(newexe)
+                                            setting_top.entries[deleg.modelData][1] = PQCScriptsFilesPaths.cleanPath(newexe)
 
-                                        if(icn !== "" && entries[index][0] === "") {
-                                            entries[index][0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
+                                        if(icn !== "" && setting_top.entries[deleg.modelData][0] === "") {
+                                            setting_top.entries[deleg.modelData][0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
                                         }
 
-                                        entriesChanged()
+                                        setting_top.entriesChanged()
 
                                     }
                                 }
@@ -199,12 +202,12 @@ Flickable {
                                 width: entryname.width-selectexe.width
                                 //: The flags here are additional parameters that can be passed on to an executable
                                 placeholderText: qsTranslate("settingsmanager", "additional flags")
-                                text: entries[index][4]
+                                text: setting_top.entries[deleg.modelData][4]
                                 onTextChanged: {
-                                    if(entries[index][4] !== text) {
-                                        entries[index][4] = text
-                                        entriesChanged()
-                                        checkDefault()
+                                    if(setting_top.entries[deleg.modelData][4] !== text) {
+                                        setting_top.entries[deleg.modelData][4] = text
+                                        setting_top.entriesChanged()
+                                        setting_top.checkDefault()
                                     }
                                 }
                                 onControlActiveFocusChanged:
@@ -215,13 +218,13 @@ Flickable {
                                 id: quitcheck
                                 //: Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!
                                 text: qsTranslate("settingsmanager", "quit")
-                                checked: (entries[index][3]==="1")
+                                checked: (setting_top.entries[deleg.modelData][3]==="1")
                                 onCheckedChanged: {
                                     var val = (checked ? "1" : "0")
-                                    if(entries[index][3] !== val) {
-                                        entries[index][3] = val
-                                        entriesChanged()
-                                        checkDefault()
+                                    if(setting_top.entries[deleg.modelData][3] !== val) {
+                                        setting_top.entries[deleg.modelData][3] = val
+                                        setting_top.entriesChanged()
+                                        setting_top.checkDefault()
                                     }
                                 }
                             }
@@ -247,9 +250,9 @@ Flickable {
                                     //: The entry here is a custom entry in the context menu
                                     text: qsTranslate("settingsmanager", "Delete entry")
                                     cursorShape: Qt.PointingHandCursor
-                                    onClicked: deleteEntry(index)
-                                    onEntered: parent.hovered = true
-                                    onExited: parent.hovered = false
+                                    onClicked: setting_top.deleteEntry(deleg.modelData)
+                                    onEntered: delicn.hovered = true
+                                    onExited: delicn.hovered = false
                                 }
                             }
                         }
@@ -263,7 +266,7 @@ Flickable {
                     text: qsTranslate("settingsmanager", "Add new entry")
                     forceWidth: Math.min(parent.width, 500)
                     font.weight: PQCLook.fontWeightNormal
-                    onClicked: addNewEntry()
+                    onClicked: setting_top.addNewEntry()
                 },
                 PQButton {
                     forceWidth: Math.min(parent.width, 500)
@@ -278,18 +281,18 @@ Flickable {
                             var cur = newentries[i]
 
                             var found = false
-                            for(var j = 0; j < entries.length; ++j) {
-                                if(entries[j][1] === cur[1]) {
+                            for(var j = 0; j < setting_top.entries.length; ++j) {
+                                if(setting_top.entries[j][1] === cur[1]) {
                                     found = true
                                     break
                                 }
                             }
 
                             if(!found)
-                                entries.push(cur)
+                                setting_top.entries.push(cur)
 
                         }
-                        entriesChanged()
+                        setting_top.entriesChanged()
                     }
                 }
 
@@ -315,7 +318,7 @@ Flickable {
                     //: Refers to duplicating the custom context menu entries in the main menu
                     text: qsTranslate("settingsmanager", "Duplicate in main menu")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -329,7 +332,7 @@ Flickable {
 
     }
 
-    function areTwoListsEqual(l1, l2) {
+    function areTwoListsEqual(l1: var, l2: var) : bool {
 
         if(l1.length !== l2.length)
             return false
@@ -366,7 +369,7 @@ Flickable {
         checkDefault()
     }
 
-    function deleteEntry(index) {
+    function deleteEntry(index: int) {
         entries.splice(index,1)
         entriesChanged()
         checkDefault()
@@ -378,11 +381,11 @@ Flickable {
         interval: 100
         onTriggered: {
             // these need to be completely disconnected otherwise the changed check doesn't work
-            entries = PQCScriptsContextMenu.getEntries()
-            defaultentries = PQCScriptsContextMenu.getEntries()
+            setting_top.entries = PQCScriptsContextMenu.getEntries()
+            setting_top.defaultentries = PQCScriptsContextMenu.getEntries()
             check_dupl.loadAndSetDefault(PQCSettings.mainmenuShowExternal)
-            settingChanged = false
-            settingsLoaded = true
+            setting_top.settingChanged = false
+            setting_top.settingsLoaded = true
         }
     }
 

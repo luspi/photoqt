@@ -77,9 +77,9 @@ Flickable {
 
     property int origIndex
 
-    property var langkeys: Object.keys(languages)
+    property list<string> langkeys: Object.keys(languages)
 
-    function getLanguageName(code) {
+    function getLanguageName(code: string) : string {
 
         if(langkeys.indexOf(code) != -1) {
 
@@ -100,7 +100,7 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
-    property var availableLanguages: PQCScriptsConfig.getAvailableTranslations()
+    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
 
     Column {
 
@@ -129,7 +129,7 @@ Flickable {
 
                     font.weight: PQCLook.fontWeightBold
 
-                    onCurrentIndexChanged: checkDefault()
+                    onCurrentIndexChanged: setting_top.checkDefault()
 
                 },
 
@@ -164,13 +164,13 @@ Flickable {
                     PQRadioButton {
                         id: fsmode
                         text: qsTranslate("settingsmanager", "fullscreen mode")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQRadioButton {
                         id: wmmode
                         text: qsTranslate("settingsmanager", "window mode")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -191,20 +191,20 @@ Flickable {
                         id: keeptop
                         enforceMaxWidth: set_windowmode.rightcol
                         text: qsTranslate("settingsmanager", "keep above other windows")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQCheckBox {
                         id: rememgeo
                         enforceMaxWidth: set_windowmode.rightcol
                         //: remember the geometry of PhotoQts window between sessions
                         text: qsTranslate("settingsmanager", "remember its geometry ")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQCheckBox {
                         id: wmdeco_show
                         enforceMaxWidth: set_windowmode.rightcol
                         text: qsTranslate("settingsmanager", "enable window decoration")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -232,7 +232,7 @@ Flickable {
                     id: integbut_show
                     enforceMaxWidth: set_winbut.rightcol
                     text: qsTranslate("settingsmanager", "show integrated window buttons")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -251,20 +251,20 @@ Flickable {
                         id: winbutcol
 
                         width: parent.width
-                        spacing: parent.parent.spacing
+                        spacing: set_winbut.contentSpacing
 
                         PQCheckBox {
                             id: integbut_dup
                             enforceMaxWidth: set_winbut.rightcol
                             text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQCheckBox {
                             id: integbut_nav
                             enforceMaxWidth: set_winbut.rightcol
                             text: qsTranslate("settingsmanager", "add navigation buttons")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQSliderSpinBox {
@@ -275,7 +275,7 @@ Flickable {
                             title: qsTranslate("settingsmanager", "Size:")
                             suffix: " px"
                             onValueChanged:
-                                checkDefault()
+                                setting_top.checkDefault()
                         }
 
                         Item {
@@ -288,7 +288,7 @@ Flickable {
                             enforceMaxWidth: set_winbut.rightcol
                             //: visibility status of the window buttons
                             text: qsTranslate("settingsmanager", "keep always visible")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQRadioButton {
@@ -296,7 +296,7 @@ Flickable {
                             enforceMaxWidth: set_winbut.rightcol
                             //: visibility status of the window buttons
                             text: qsTranslate("settingsmanager", "only show with any cursor move")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQRadioButton {
@@ -304,7 +304,7 @@ Flickable {
                             enforceMaxWidth: set_winbut.rightcol
                             //: visibility status of the window buttons
                             text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
 
                         PQSliderSpinBox {
@@ -317,7 +317,7 @@ Flickable {
                             enabled: !autohide_always.checked
                             animateHeight: true
                             onValueChanged:
-                                checkDefault()
+                                setting_top.checkDefault()
                         }
 
                     }
@@ -343,10 +343,10 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
-                    property var options: PQCLook.getColorNames()
+                    property list<string> options: PQCLook.getColorNames()
                     model: options
                     onCurrentIndexChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -637,7 +637,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "Distance from edge:")
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 PQCheckBox {

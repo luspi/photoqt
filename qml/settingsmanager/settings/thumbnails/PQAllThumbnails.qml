@@ -78,7 +78,7 @@ Flickable {
                     title: ""
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -105,7 +105,7 @@ Flickable {
                     enforceMaxWidth: set_high.rightcol
                     //: effect for highlighting active thumbnail
                     text: qsTranslate("settingsmanager", "invert background color")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -113,7 +113,7 @@ Flickable {
                     enforceMaxWidth: set_high.rightcol
                     //: effect for highlighting active thumbnail
                     text: qsTranslate("settingsmanager", "invert label color")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -121,7 +121,7 @@ Flickable {
                     enforceMaxWidth: set_high.rightcol
                     //: effect for highlighting active thumbnail
                     text: qsTranslate("settingsmanager", "line below")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
@@ -129,7 +129,7 @@ Flickable {
                     enforceMaxWidth: set_high.rightcol
                     //: effect for highlighting active thumbnail
                     text: qsTranslate("settingsmanager", "magnify")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Flow {
@@ -142,14 +142,13 @@ Flickable {
                             //: effect for highlighting active thumbnail
                             text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
                             checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
-                            onCheckedChanged: checkDefault()
+                            onCheckedChanged: setting_top.checkDefault()
                         }
                     }
 
                     PQSliderSpinBox {
                         id: highlight_liftup_slider
                         width: set_high.rightcol - highlight_liftup_check.width
-                        y: (parent.height-height)/2
                         minval: 0
                         maxval: 100
                         title: ""
@@ -157,7 +156,7 @@ Flickable {
                         enabled: highlight_liftup_check.checked
                         animateWidth: true
                         onValueChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                 }
@@ -184,7 +183,7 @@ Flickable {
                     id: thumb_center
                     enforceMaxWidth: set_cent.rightcol
                     text: qsTranslate("settingsmanager", "keep active thumbnail in center")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -210,7 +209,7 @@ Flickable {
                     enforceMaxWidth: set_vis.rightcol
                     //: used as in: hide thumbnail bar when not needed
                     text: qsTranslate("settingsmanager", "hide when not needed")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
@@ -218,7 +217,7 @@ Flickable {
                     enforceMaxWidth: set_vis.rightcol
                     //: used as in: always keep thumbnail bar visible
                     text: qsTranslate("settingsmanager", "always keep visible")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
@@ -226,7 +225,7 @@ Flickable {
                     enforceMaxWidth: set_vis.rightcol
                     //: used as in: hide thumbnail bar when zoomed in
                     text: qsTranslate("settingsmanager", "hide when zoomed in")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]

@@ -80,7 +80,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "zoom speed:")
                     suffix: " %"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 Flow {
@@ -88,7 +88,7 @@ Flickable {
                     PQCheckBox {
                         id: minzoom_check
                         text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQSliderSpinBox {
@@ -101,7 +101,7 @@ Flickable {
                         title: ""
                         suffix: " %"
                         onValueChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                 },
@@ -113,7 +113,7 @@ Flickable {
                     PQCheckBox {
                         id: maxzoom_check
                         text: qsTranslate("settingsmanager", "maximum zoom") + (checked ? ": " : "  ")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                     PQSliderSpinBox {
@@ -126,7 +126,7 @@ Flickable {
                         title: ""
                         suffix: " %"
                         onValueChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                 }
@@ -153,7 +153,7 @@ Flickable {
                     id: minimap
                     enforceMaxWidth: set_mini.rightcol
                     text: qsTranslate("settingsmanager", "Show minimap")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
                 Item {
                     enabled: minimap.checked
@@ -170,7 +170,7 @@ Flickable {
                                 qsTranslate("settingsmanager", "large minimap"),
                                 qsTranslate("settingsmanager", "very large minimap")]
                         onCurrentIndexChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
                 }
 
@@ -196,7 +196,7 @@ Flickable {
                     id: mirroranim
                     enforceMaxWidth: set_mirflp.rightcol
                     text: qsTranslate("settingsmanager", "Animate mirror/flip")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -220,7 +220,7 @@ Flickable {
                     id: floatingnav
                     enforceMaxWidth: set_float.rightcol
                     text: qsTranslate("settingsmanager", "show floating navigation buttons")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 

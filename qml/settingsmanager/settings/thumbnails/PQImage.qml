@@ -81,7 +81,7 @@ Flickable {
                     title: ""
                     suffix: " px"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -107,14 +107,14 @@ Flickable {
                     id: thumb_fit
                     enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "fit thumbnail")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: thumb_crop
                     enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "scale and crop thumbnail")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Item {
@@ -126,7 +126,7 @@ Flickable {
                     id: thumb_small
                     enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "keep small thumbnails small")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -153,14 +153,14 @@ Flickable {
                     enforceMaxWidth: set_icn.rightcol
                     //: The word actual is used with the same meaning as: real
                     text: qsTranslate("settingsmanager", "use actual thumbnail images")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQRadioButton {
                     id: thumb_icon
                     enforceMaxWidth: set_icn.rightcol
                     text: qsTranslate("settingsmanager", "use filetype icons")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -186,7 +186,7 @@ Flickable {
                     id: label_enable
                     enforceMaxWidth: set_label.rightcol
                     text: qsTranslate("settingsmanager", "show filename label")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
@@ -218,7 +218,7 @@ Flickable {
                             title: qsTranslate("settingsmanager", "Font size:")
                             suffix: " pt"
                             onValueChanged:
-                                checkDefault()
+                                setting_top.checkDefault()
                         }
 
                     }
@@ -227,7 +227,7 @@ Flickable {
                         id: thumb_opaque
                         enforceMaxWidth: set_label.rightcol
                         text: qsTranslate("settingsmanager", "decrease opacity for inactive thumbnails")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -254,7 +254,7 @@ Flickable {
                     id: tooltips_show
                     enforceMaxWidth: set_ttip.rightcol
                     text: qsTranslate("settingsmanager", "show tooltips")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 

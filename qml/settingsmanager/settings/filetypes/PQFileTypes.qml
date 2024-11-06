@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -67,7 +68,6 @@ Item {
 
                 PQComboBox {
                     id: catCombo
-                    y: (enableBut.height-height)/2
                             //: This is a category of files PhotoQt can recognize: any image format
                     model: [qsTranslate("settingsmanager", "images"),
                             //: This is a category of files PhotoQt can recognize: compressed files like zip, tar, cbr, 7z, etc.
@@ -83,13 +83,13 @@ Item {
                     //: As in: "Enable all formats in the seleted category of file types"
                     text: qsTranslate("settingsmanager", "Enable")
                     onClicked:
-                        parent.checkUncheck(1)
+                        butrow.checkUncheck(1)
                 }
                 PQButton {
                     //: As in: "Disable all formats in the seleted category of file types"
                     text: qsTranslate("settingsmanager", "Disable")
                     onClicked:
-                        parent.checkUncheck(0)
+                        butrow.checkUncheck(0)
                 }
 
                 function checkUncheck(checked) {
@@ -200,7 +200,7 @@ Item {
 
             property var ft: []
             onFtChanged:
-                checkDefault()
+                setting_top.checkDefault()
 
             clip: true
 
@@ -213,6 +213,8 @@ Item {
 
                     id: entry_rect
 
+                    required property int modelData
+
                     width: setting_top.width
 
                     clip: true
@@ -221,7 +223,7 @@ Item {
                     height: filterPass ? 50 : 0
                     Behavior on height { NumberAnimation { duration: 50 } }
 
-                    color: index%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor
+                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor
                     visible: height > 0
 
                     PQCheckBox {
@@ -232,9 +234,9 @@ Item {
                             top: parent.top
                             bottom: parent.bottom
                         }
-                        checked: listview.ft[index][1]
+                        checked: listview.ft[entry_rect.modelData][1]
                         onClicked: {
-                            listview.ft[index][1] = (listview.ft[index][1]+1)%2
+                            listview.ft[entry_rect.modelData][1] = (listview.ft[entry_rect.modelData][1]+1)%2
                             listview.ftChanged()
                         }
                     }
@@ -250,7 +252,7 @@ Item {
                         elide: Text.ElideRight
                         width: entry_rect.width/2 - checkenable.width-10
                         verticalAlignment: Text.AlignVCenter
-                        text: "<b>" + listview.ft[index][2] + "</b> &nbsp;&nbsp; *." + listview.ft[index][0].split(",").join(", *.")
+                        text: "<b>" + listview.ft[entry_rect.modelData][2] + "</b> &nbsp;&nbsp; *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
                         opacity: checkenable.checked ? 1 : 0.3
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         textFormat: Text.StyledText
@@ -266,7 +268,7 @@ Item {
                         }
                         width: entry_rect.width/2-10
                         verticalAlignment: Text.AlignVCenter
-                        text: listview.ft[index].slice(4).join(", ")
+                        text: listview.ft[entry_rect.modelData].slice(4).join(", ")
                         opacity: checkenable.checked ? 1 : 0.3
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                     }
@@ -276,10 +278,10 @@ Item {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            listview.ft[index][1] = (listview.ft[index][1]+1)%2
+                            listview.ft[entry_rect.modelData][1] = (listview.ft[entry_rect.modelData][1]+1)%2
                             listview.ftChanged()
                         }
-                        text: "<b>" + qsTranslate("settingsmanager", "File endings:") + "</b> *." + listview.ft[index][0].split(",").join(", *.")
+                        text: "<b>" + qsTranslate("settingsmanager", "File endings:") + "</b> *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
                     }
 
                     function filterItem() {
@@ -287,7 +289,7 @@ Item {
                         var desc_pass = false
                         if(filter_desc.text === "" ||
                                 entry_desc.text.toLowerCase().indexOf(filter_desc.text.toLowerCase()) !== -1 ||
-                                listview.ft[index][0].toLowerCase().indexOf(filter_desc.text.toLowerCase()) !== -1) {
+                                listview.ft[entry_rect.modelData][0].toLowerCase().indexOf(filter_desc.text.toLowerCase()) !== -1) {
                             desc_pass = true
                         }
 
@@ -340,7 +342,7 @@ Item {
         checkVid(true)
     }
 
-    function checkImg(checked) {
+    function checkImg(checked: bool) {
         var val = (checked ? 1 : 0)
         for(var i in listview.ft) {
             if(listview.ft[i][3] === "img" && listview.ft[i][1] !== val) {
@@ -350,7 +352,7 @@ Item {
         listview.ftChanged()
     }
 
-    function checkPac(checked) {
+    function checkPac(checked: bool) {
         var val = (checked ? 1 : 0)
         for(var i in listview.ft) {
             if(listview.ft[i][3] === "pac" && listview.ft[i][1] !== val) {
@@ -360,7 +362,7 @@ Item {
         listview.ftChanged()
     }
 
-    function checkDoc(checked) {
+    function checkDoc(checked: bool) {
         var val = (checked ? 1 : 0)
         for(var i in listview.ft) {
             if(listview.ft[i][3] === "doc" && listview.ft[i][1] !== val) {
@@ -370,7 +372,7 @@ Item {
         listview.ftChanged()
     }
 
-    function checkVid(checked) {
+    function checkVid(checked: bool) {
         var val = (checked ? 1 : 0)
         for(var i in listview.ft) {
             if(listview.ft[i][3] === "vid" && listview.ft[i][1] !== val) {

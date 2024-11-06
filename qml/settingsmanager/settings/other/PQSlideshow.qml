@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -83,7 +84,7 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "Enable animations")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 Column {
@@ -126,7 +127,7 @@ Flickable {
                                     //: This is referring to an in/out animation of images
                                     qsTranslate("settingsmanager", "choose one at random")]
                             lineBelowItem: [0,6]
-                            onCurrentIndexChanged: checkDefault()
+                            onCurrentIndexChanged: setting_top.checkDefault()
                         }
                     }
 
@@ -206,7 +207,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "interval:")
                     suffix: " s"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -230,7 +231,7 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "loop")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
             ]
 
@@ -253,7 +254,7 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "shuffle")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
             ]
 
@@ -276,14 +277,14 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "hide status info")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: hidewindowbuttons
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "hide window buttons")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
             ]
 
@@ -306,7 +307,7 @@ Flickable {
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "include subfolders")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
             ]
 
@@ -325,9 +326,9 @@ Flickable {
 
             helptext: qsTranslate("settingsmanager", "PhotoQt can play some background music while a slideshow is running. You can select an individual file or multiple files. PhotoQt will restart from the beginning once the end is reached. During videos the volume of the music can optionally be reduced.")
 
-            property var musicfiles: []
+            property list<string> musicfiles: []
             onMusicfilesChanged:
-                checkDefault()
+                setting_top.checkDefault()
 
             content: [
 
@@ -337,7 +338,7 @@ Flickable {
                     //: Enable music to be played during slideshows
                     text: qsTranslate("settingsmanager", "enable music")
                     onCheckedChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 },
 
                 Column {
@@ -381,7 +382,7 @@ Flickable {
                                         //: one option as to what will happen with the slideshow music volume while videos are playing
                                         qsTranslate("settingsmanager", "leave unchanged")]
                                 onCurrentIndexChanged:
-                                    checkDefault()
+                                    setting_top.checkDefault()
                             }
                         }
                     }
@@ -431,8 +432,10 @@ Flickable {
 
                                     id: musicdeleg
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[index])
-                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[index])
+                                    required property int modelData
+
+                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData])
+                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData])
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
@@ -466,12 +469,12 @@ Flickable {
                                             height: 40
                                             iconScale: 0.5
                                             radius: 0
-                                            enabled: index>0
+                                            enabled: musicdeleg.modelData>0
                                             source: "image://svg/:/white/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
-                                                set_music.musicfiles.splice(index-1, 0, set_music.musicfiles.splice(index, 1)[0])
+                                                set_music.musicfiles.splice(musicdeleg.modelData-1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
                                             }
                                         }
@@ -481,12 +484,12 @@ Flickable {
                                             rotation: 180
                                             iconScale: 0.5
                                             radius: 0
-                                            enabled: index < music_view.model-1
+                                            enabled: musicdeleg.modelData < music_view.model-1
                                             source: "image://svg/:/white/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
-                                                set_music.musicfiles.splice(index+1, 0, set_music.musicfiles.splice(index, 1)[0])
+                                                set_music.musicfiles.splice(musicdeleg.modelData+1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
                                             }
                                         }
@@ -499,7 +502,7 @@ Flickable {
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {
-                                                set_music.musicfiles.splice(index, 1)
+                                                set_music.musicfiles.splice(musicdeleg.modelData, 1)
                                                 set_music.musicfilesChanged()
                                             }
                                         }
@@ -531,7 +534,7 @@ Flickable {
                         id: music_shuffle
                         text: qsTranslate("settingsmanager", "shuffle order")
                         onCheckedChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                 }
@@ -545,7 +548,7 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function areTwoListsEqual(l1, l2) {
+    function areTwoListsEqual(l1: var, l2: var) : bool {
 
         if(l1.length !== l2.length)
             return false

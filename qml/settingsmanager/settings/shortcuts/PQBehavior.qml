@@ -75,14 +75,14 @@ Flickable {
                     id: movebut
                     enforceMaxWidth: set_move.rightcol
                     text: qsTranslate("settingsmanager", "move image with left button")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 PQCheckBox {
                     id: movewhl
                     enforceMaxWidth: set_move.rightcol
                     text: qsTranslate("settingsmanager", "move image with mouse wheel")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -111,7 +111,7 @@ Flickable {
                     title: qsTranslate("settingsmanager", "threshold:")
                     suffix: " ms"
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]
@@ -143,7 +143,7 @@ Flickable {
                         id: whl_sens
                         from: 0
                         to: 10
-                        onValueChanged: checkDefault()
+                        onValueChanged: setting_top.checkDefault()
                     }
                     PQText {
                         //: used as in: not at all sensitive mouse wheel
@@ -186,7 +186,7 @@ Flickable {
                     enabled: hidetimeout_check.checked
                     animateWidth: true
                     onValueChanged:
-                        checkDefault()
+                        setting_top.checkDefault()
                 }
 
             ]

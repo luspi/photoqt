@@ -74,7 +74,7 @@ Flickable {
                     enforceMaxWidth: set_loop.rightcol
                     //: When reaching the end of the images in the folder whether to loop back around to the beginning or not
                     text: qsTranslate("settingsmanager", "Loop around")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 }
             ]
 
@@ -115,7 +115,7 @@ Flickable {
                                 qsTranslate("settingsmanager", "size"),
                                 //: A criteria for sorting images
                                 qsTranslate("settingsmanager", "type")]
-                        onCurrentIndexChanged: checkDefault()
+                        onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
 
@@ -126,13 +126,13 @@ Flickable {
                         id: sortasc
                         //: Sort images in ascending order
                         text: qsTranslate("settingsmanager", "ascending order")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: sortdesc
                         //: Sort images in descending order
                         text: qsTranslate("settingsmanager", "descending order")
-                        onCheckedChanged: checkDefault()
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 }
             ]
@@ -158,7 +158,7 @@ Flickable {
                     id: anispeed_check
                     enforceMaxWidth: set_ani.rightcol
                     text: qsTranslate("settingsmanager", "animate switching between images")
-                    onCheckedChanged: checkDefault()
+                    onCheckedChanged: setting_top.checkDefault()
                 },
 
                 Column {
@@ -199,7 +199,7 @@ Flickable {
                                     //: This is referring to an in/out animation of images
                                     qsTranslate("settingsmanager", "choose one at random")]
                             lineBelowItem: [5]
-                            onCurrentIndexChanged: checkDefault()
+                            onCurrentIndexChanged: setting_top.checkDefault()
                         }
                     }
 
@@ -217,7 +217,7 @@ Flickable {
                             title: qsTranslate("settingsmanager", "speed:")
                             suffix: ""
                             onValueChanged:
-                                checkDefault()
+                                setting_top.checkDefault()
                         }
 
                         PQText {
@@ -264,7 +264,7 @@ Flickable {
                         title: ""
                         suffix: ""
                         onValueChanged:
-                            checkDefault()
+                            setting_top.checkDefault()
                     }
 
                     PQText {
