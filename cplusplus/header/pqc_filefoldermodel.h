@@ -28,6 +28,7 @@
 #include <QTimer>
 #include <QMimeDatabase>
 #include <QSize>
+#include <QtQmlIntegration>
 
 class QSize;
 class QFileSystemWatcher;
@@ -35,6 +36,7 @@ class QFileSystemWatcher;
 class PQCFileFolderModel : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCFileFolderModel& get();

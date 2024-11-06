@@ -25,12 +25,14 @@
 
 #include <QObject>
 #include <QHash>
+#include <QtQmlIntegration>
 
 class QJSValue;
 
 class PQCScriptsFileDialog : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsFileDialog& get() {

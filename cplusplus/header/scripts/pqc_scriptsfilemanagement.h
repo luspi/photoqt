@@ -24,10 +24,12 @@
 #define PQCSCRIPTSFILEMANAGEMENT_H
 
 #include <QObject>
+#include <QtQmlIntegration>
 
 class PQCScriptsFileManagement : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsFileManagement& get() {

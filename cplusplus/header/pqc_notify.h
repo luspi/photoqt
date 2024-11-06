@@ -26,10 +26,12 @@
 #include <QObject>
 #include <QMutex>
 #include <QMap>
+#include <QtQmlIntegration>
 
 class PQCNotify : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCNotify& get();

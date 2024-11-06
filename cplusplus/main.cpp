@@ -274,7 +274,7 @@ int main(int argc, char *argv[]) {
 
     // create the qml engine
     QQmlApplicationEngine engine;
-    const QUrl url(u"qrc:/src/qml/PQMainWindow.qml"_qs);
+    const QUrl url("qrc:/src/qml/PQMainWindow.qml");
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject *obj, const QUrl &objUrl) {
             if(!obj && url == objUrl)

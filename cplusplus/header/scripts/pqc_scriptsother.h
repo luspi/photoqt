@@ -25,10 +25,12 @@
 
 #include <QObject>
 #include <QJSValue>
+#include <QtQmlIntegration>
 
 class PQCScriptsOther : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsOther& get() {

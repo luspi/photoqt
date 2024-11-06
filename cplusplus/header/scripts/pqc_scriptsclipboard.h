@@ -24,12 +24,14 @@
 #define PQCSCRIPTSCLIPBOARD_H
 
 #include <QObject>
+#include <QtQmlIntegration>
 
 class QClipboard;
 
 class PQCScriptsClipboard : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsClipboard& get() {

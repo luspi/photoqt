@@ -25,12 +25,14 @@
 
 #include <QObject>
 #include <QtDebug>
+#include <QtQmlIntegration>
 
 class QTimer;
 
 class PQCMetaData : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCMetaData& get();

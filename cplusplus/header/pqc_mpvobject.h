@@ -37,6 +37,7 @@ class PQCMPVRenderer;
 class PQCMPVObject : public QQuickFramebufferObject {
 
     Q_OBJECT
+    QML_ELEMENT
 
     mpv_handle *mpv;
     mpv_render_context *mpv_gl;

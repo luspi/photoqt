@@ -25,10 +25,12 @@
 
 #include <QObject>
 #include <QMap>
+#include <QtQmlIntegration>
 
 class PQCScriptsShortcuts : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsShortcuts& get() {

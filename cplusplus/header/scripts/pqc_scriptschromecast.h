@@ -24,6 +24,7 @@
 #define PQCSCRIPTSCHROMECAST_H
 
 #include <QObject>
+#include <QtQmlIntegration>
 
 class PQCLocalHttpServer;
 class QProcess;
@@ -31,6 +32,7 @@ class QProcess;
 class PQCScriptsChromeCast : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsChromeCast& get() {

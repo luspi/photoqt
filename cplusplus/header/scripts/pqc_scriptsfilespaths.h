@@ -25,10 +25,12 @@
 
 #include <QObject>
 #include <QDir>
+#include <QtQmlIntegration>
 
 class PQCScriptsFilesPaths : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsFilesPaths& get() {

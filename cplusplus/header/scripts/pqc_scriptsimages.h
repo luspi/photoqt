@@ -27,6 +27,7 @@
 #include <QMap>
 #include <QImage>
 #include <QColorSpace>
+#include <QtQmlIntegration>
 #ifdef PQMLCMS2
 #include <lcms2.h>
 #endif
@@ -36,6 +37,7 @@ class QFile;
 class PQCScriptsImages : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsImages& get() {

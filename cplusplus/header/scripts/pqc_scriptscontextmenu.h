@@ -25,10 +25,12 @@
 
 #include <QSqlDatabase>
 #include <QObject>
+#include <QtQmlIntegration>
 
 class PQCScriptsContextMenu : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsContextMenu& get() {

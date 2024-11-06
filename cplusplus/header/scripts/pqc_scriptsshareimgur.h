@@ -26,12 +26,14 @@
 #include <QObject>
 #include <QNetworkReply>
 #include <QSqlDatabase>
+#include <QtQmlIntegration>
 
 class QNetworkAccessManager;
 
 class PQCScriptsShareImgur : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
 

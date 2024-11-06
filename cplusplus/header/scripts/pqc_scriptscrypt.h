@@ -28,10 +28,12 @@
 
 #include <QObject>
 #include <QRandomGenerator>
+#include <QtQmlIntegration>
 
 class PQCScriptsCrypt : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsCrypt& get() {

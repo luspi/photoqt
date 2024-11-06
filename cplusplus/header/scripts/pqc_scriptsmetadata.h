@@ -24,10 +24,12 @@
 #define PQCSCRIPTSMETADATA_H
 
 #include <QObject>
+#include <QtQmlIntegration>
 
 class PQCScriptsMetaData : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsMetaData& get() {

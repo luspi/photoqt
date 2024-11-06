@@ -26,10 +26,12 @@
 #include <QObject>
 #include <QTranslator>
 #include <QQmlEngine>
+#include <QtQmlIntegration>
 
 class PQCScriptsConfig : public QObject {
 
     Q_OBJECT
+    QML_SINGLETON
 
 public:
     static PQCScriptsConfig& get() {
