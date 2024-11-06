@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -30,13 +31,25 @@ Item {
 
     id: categories_top
 
-    height: settingsmanager_top.contentHeight
+    property list<int> currentMainIndex: [0,0]
+    property list<int> currentSubIndex: [0,0]
 
-    property var currentMainIndex: [0,0]
-    property var currentSubIndex: [0,0]
+    property var categories: ({})
 
-    property var filterCategories: []
-    property var filterSubCategories: []
+    property list<string> filterCategories: []
+    property list<string> filterSubCategories: []
+
+    property var selectedCategories: []
+
+    property list<string> categoryKeys: Object.keys(categories)
+    property var subCategoryKeys: ({})
+    Component.onCompleted: {
+        var tmp = {}
+        for(var i in categoryKeys) {
+            tmp[categoryKeys[i]] = Object.keys(categories[categoryKeys[i]][1])
+        }
+        subCategoryKeys = tmp
+    }
 
     Flickable {
 
@@ -55,7 +68,7 @@ Item {
             spacing: 0
 
             Repeater {
-                model: categoryKeys.length
+                model: categories_top.categoryKeys.length
 
                 delegate:
                     Item {
@@ -70,12 +83,13 @@ Item {
                         visible: height>0
                         clip: true
 
-                        property int catindex: index
-                        property string cat: categoryKeys[index]
-                        property var catitems: categories[cat][1]
-                        property var catitemskeys: subCategoryKeys[cat]
+                        required property int modelData
 
-                        property bool isSelected: categories_top.currentMainIndex[0]===deleg.catindex
+                        property string cat: categories_top.categoryKeys[modelData]
+                        property var catitems: categories_top.categories[cat][1]
+                        property list<string> catitemskeys: categories_top.subCategoryKeys[cat]
+
+                        property bool isSelected: categories_top.currentMainIndex[0]===deleg.modelData
                         property bool passingFilter: true
 
                         Connections {
@@ -83,7 +97,7 @@ Item {
                             target: categories_top
 
                             function onFilterCategoriesChanged() {
-                                deleg.passingFilter = (filterCategories.length===0 || filterCategories.indexOf(deleg.cat) > -1)
+                                deleg.passingFilter = (categories_top.filterCategories.length===0 || categories_top.filterCategories.indexOf(deleg.cat) > -1)
                             }
 
                         }
@@ -109,7 +123,7 @@ Item {
                                 width: parent.width
                                 height: 1
                                 color: PQCLook.baseColorActive
-                                visible: index>0
+                                visible: deleg.modelData>0
                             }
 
                             PQText {
@@ -120,7 +134,7 @@ Item {
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideRight
                                 font.weight: PQCLook.fontWeightBold
-                                text: categories[deleg.cat][0]
+                                text: categories_top.categories[deleg.cat][0]
                                 color: PQCLook.textColor
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
@@ -154,7 +168,7 @@ Item {
                                     heading.hovered = true
                                     if(!tooltipSetup) {
                                         tooltipSetup = true
-                                        var txt = "<h2>" + categories[deleg.cat][0] + "</h2>"
+                                        var txt = "<h2>" + categories_top.categories[deleg.cat][0] + "</h2>"
                                         for(var i = 0; i < deleg.catitemskeys.length; ++i) {
                                             txt += "<div>&gt; " + deleg.catitems[deleg.catitemskeys[i]][0] + "</div>"
                                         }
@@ -165,20 +179,20 @@ Item {
                                     heading.hovered = false
                                 onClicked: {
 
-                                    if(!confirmIfUnsavedChanged("main", deleg.catindex))
+                                    if(!categories_top.callConfirmIfUnsavedChanged("main", deleg.modelData))
                                         return
 
-                                    if(currentMainIndex[0] !== deleg.catindex)
-                                        currentMainIndex = [deleg.catindex, currentMainIndex[0]]
+                                    if(currentMainIndex[0] !== deleg.modelData)
+                                        currentMainIndex = [deleg.modelData, currentMainIndex[0]]
 
                                     var tmp = 0
                                     if(filterSubCategories.length > 0) {
                                         while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)
                                             tmp += 1
                                     }
-                                    currentSubIndex = [tmp, currentSubIndex[0]]
+                                    categories_top.currentSubIndex = [tmp, categories_top.currentSubIndex[0]]
 
-                                    settingsmanager_top.selectedCategories = [deleg.cat, deleg.catitemskeys[currentSubIndex[0]]]
+                                    categories_top.selectedCategories = [deleg.cat, deleg.catitemskeys[categories_top.currentSubIndex[0]]]
                                 }
                             }
 
@@ -200,11 +214,13 @@ Item {
 
                                     id: subdeleg
 
-                                    property string curcat: deleg.catitems[deleg.catitemskeys[index]][0]
-                                    property var sets: deleg.catitems[deleg.catitemskeys[index]][2]
+                                    required property int modelData
+
+                                    property string curcat: deleg.catitems[deleg.catitemskeys[modelData]][0]
+                                    property list<string> sets: deleg.catitems[deleg.catitemskeys[modelData]][2]
 
                                     property bool hovered: false
-                                    property bool isSelected: (currentSubIndex[0] === index && deleg.isSelected)
+                                    property bool isSelected: (categories_top.currentSubIndex[0] === modelData && deleg.isSelected)
                                     property bool passingFilter: true
 
                                     width: categories_top.width
@@ -223,7 +239,7 @@ Item {
 
                                         function onFilterSubCategoriesChanged() {
 
-                                            subdeleg.passingFilter = (filterSubCategories.length===0 || filterSubCategories.indexOf(deleg.catitemskeys[index]) > -1)
+                                            subdeleg.passingFilter = (filterSubCategories.length===0 || filterSubCategories.indexOf(deleg.catitemskeys[subdeleg.modelData]) > -1)
 
                                         }
 
@@ -260,14 +276,14 @@ Item {
                                             parent.hovered = false
                                         onClicked: {
 
-                                            if(!confirmIfUnsavedChanged("sub", index))
+                                            if(!categories_top.callConfirmIfUnsavedChanged("sub", subdeleg.modelData))
                                                 return
 
-                                            if(currentMainIndex[0] !== deleg.catindex)
-                                                currentMainIndex = [deleg.catindex, currentMainIndex[0]]
-                                            if(currentSubIndex[0] !== index)
-                                                currentSubIndex = [index, currentSubIndex[0]]
-                                            settingsmanager_top.selectedCategories = [deleg.cat, deleg.catitemskeys[index]]
+                                            if(currentMainIndex[0] !== deleg.modelData)
+                                                currentMainIndex = [deleg.modelData, currentMainIndex[0]]
+                                            if(currentSubIndex[0] !== subdeleg.modelData)
+                                                currentSubIndex = [subdeleg.modelData, currentSubIndex[0]]
+                                            categories_top.selectedCategories = [deleg.cat, deleg.catitemskeys[subdeleg.modelData]]
                                         }
                                     }
 
@@ -297,12 +313,12 @@ Item {
             onControlActiveFocusChanged:
                 PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
             onTextChanged:
-                filterSettings(filtertxt.text.toLowerCase())
+                categories_top.filterSettings(filtertxt.text.toLowerCase())
         }
 
     }
 
-    function laodFromUnsavedActions(cat, ind) {
+    function laodFromUnsavedActions(cat: string, ind: int) {
 
         if(cat === "main") {
 
@@ -321,11 +337,11 @@ Item {
         var _main = categoryKeys[currentMainIndex[0]]
         var _sub = subCategoryKeys[_main][currentSubIndex[0]]
 
-        settingsmanager_top.selectedCategories = [_main, _sub]
+        categories_top.selectedCategories = [_main, _sub]
 
     }
 
-    function filterSettings(str) {
+    function filterSettings(str: string) {
 
         if(str === "") {
             filterCategories = []
@@ -411,7 +427,7 @@ Item {
         filtertxt.setFocus()
     }
 
-    function gotoNextIndex(section) {
+    function gotoNextIndex(section: string) {
 
         if(section === "main") {
 
@@ -429,7 +445,7 @@ Item {
             if(newmain === currentMainIndex[0] || newmain == categoryKeys.length)
                 return
 
-            if(!confirmIfUnsavedChanged("main", newmain))
+            if(!categories_top.callConfirmIfUnsavedChanged("main", newmain))
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -437,7 +453,7 @@ Item {
 
             var sub_k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
 
-            settingsmanager_top.selectedCategories = [categoryKeys[currentMainIndex[0]], sub_k[0]]
+            categories_top.selectedCategories = [categoryKeys[currentMainIndex[0]], sub_k[0]]
 
         } else if(section === "sub") {
 
@@ -454,17 +470,17 @@ Item {
                 }
             }
 
-            if(!confirmIfUnsavedChanged("sub", newsub))
+            if(!categories_top.callConfirmIfUnsavedChanged("sub", newsub))
                 return
 
             currentSubIndex = [newsub, currentSubIndex[0]]
-            settingsmanager_top.selectedCategories = [settingsmanager_top.selectedCategories[0], k[currentSubIndex[0]]]
+            categories_top.selectedCategories = [categories_top.selectedCategories[0], k[currentSubIndex[0]]]
 
         }
 
     }
 
-    function gotoPreviousIndex(section) {
+    function gotoPreviousIndex(section: string) {
 
         if(section === "main") {
 
@@ -479,7 +495,7 @@ Item {
                 }
             }
 
-            if(!confirmIfUnsavedChanged("main", newmain))
+            if(!categories_top.callConfirmIfUnsavedChanged("main", newmain))
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -487,7 +503,7 @@ Item {
 
             var sub_k = Object.keys(categories[categoryKeys[currentMainIndex[0]]][1])
 
-            settingsmanager_top.selectedCategories = [categoryKeys[currentMainIndex[0]], sub_k[0]]
+            categories_top.selectedCategories = [categoryKeys[currentMainIndex[0]], sub_k[0]]
 
         } else if(section === "sub") {
 
@@ -506,11 +522,11 @@ Item {
             }
 
 
-            if(!confirmIfUnsavedChanged("sub", newsub))
+            if(!categories_top.callConfirmIfUnsavedChanged("sub", newsub))
                 return
 
             currentSubIndex = [newsub, currentSubIndex[0]]
-            settingsmanager_top.selectedCategories = [settingsmanager_top.selectedCategories[0], k[currentSubIndex[0]]]
+            categories_top.selectedCategories = [categories_top.selectedCategories[0], k[currentSubIndex[0]]]
 
         }
 

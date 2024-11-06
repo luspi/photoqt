@@ -97,11 +97,6 @@ PQTemplateFullscreen {
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
 
-    property var selectedCategories: ["interface", "if_interface"]
-    onSelectedCategoriesChanged: {
-        fullscreenitem.forceActiveFocus()
-    }
-
     property var filterCategories: []
     property var filterSubCategories: []
 
@@ -527,16 +522,6 @@ PQTemplateFullscreen {
 
     }
 
-    property var categoryKeys: Object.keys(categories)
-    property var subCategoryKeys
-    Component.onCompleted: {
-        var tmp = {}
-        for(var i in categoryKeys) {
-            tmp[categoryKeys[i]] = Object.keys(categories[categoryKeys[i]][1])
-        }
-        subCategoryKeys = tmp
-    }
-
     content: [
 
         SplitView {
@@ -560,9 +545,25 @@ PQTemplateFullscreen {
             }
 
             PQCategory {
+
                 id: sm_category
+
                 SplitView.minimumWidth: 100
                 SplitView.preferredWidth: 250
+
+                categories: settingsmanager_top.categories
+
+                height: settingsmanager_top.contentHeight
+
+                selectedCategories: ["interface", "if_interface"]
+                onSelectedCategoriesChanged: {
+                    fullscreenitem.forceActiveFocus()
+                }
+
+                function callConfirmIfUnsavedChanged(cat: string, index: int) : bool {
+                    return settingsmanager_top.confirmIfUnsavedChanged(cat, index)
+                }
+
             }
 
             Item {
@@ -580,7 +581,7 @@ PQTemplateFullscreen {
                     anchors.bottomMargin: 30
                     clip: true
                     asynchronous: true
-                    source: "settings/" + selectedCategories[0] + "/" + categories[selectedCategories[0]][1][selectedCategories[1]][1] + ".qml"
+                    source: "settings/" + sm_category.selectedCategories[0] + "/" + settingsmanager_top.categories[sm_category.selectedCategories[0]][1][sm_category.selectedCategories[1]][1] + ".qml"
                 }
 
                 Rectangle {
@@ -656,7 +657,7 @@ PQTemplateFullscreen {
             }
         }
 
-        function show(txt) {
+        function show(txt: string) {
             settinginfomessage_txt.text = txt
             opacity = 1
         }
@@ -716,7 +717,7 @@ PQTemplateFullscreen {
                         settingsloader.item.applyChanges()
 
                         if(confirmUnsaved.cat == "-") {
-                            hide()
+                            settingsmanager_top.hide()
                         } else {
                             sm_category.laodFromUnsavedActions(confirmUnsaved.cat, confirmUnsaved.ind)
                         }
@@ -732,7 +733,7 @@ PQTemplateFullscreen {
                     text: qsTranslate("settingsmanager", "Discard")
                     onClicked: {
                         if(confirmUnsaved.cat == "-") {
-                            hide()
+                            settingsmanager_top.hide()
                         } else {
                             sm_category.laodFromUnsavedActions(confirmUnsaved.cat, confirmUnsaved.ind)
                         }
@@ -757,26 +758,27 @@ PQTemplateFullscreen {
     }
 
     Connections {
+
         target: loader
 
-        function onPassOn(what, param) {
+        function onPassOn(what: string, param: var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === settingsmanager_top.thisis)
+                    settingsmanager_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === settingsmanager_top.thisis)
+                    settingsmanager_top.hide()
 
             } else if(settingsmanager_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
-                    if(passShortcutsToDetector) {
-                        passOnShortcuts(param[1], param[0])
+                    if(settingsmanager_top.passShortcutsToDetector) {
+                        settingsmanager_top.passOnShortcuts(param[1], param[0])
                         return
                     }
 
@@ -790,7 +792,7 @@ PQTemplateFullscreen {
                         else if(settinginfomessage.visible)
                             settinginfomessage.hide()
                         else {
-                            button3.clicked()
+                            settingsmanager_top.button3.clicked()
                         }
 
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
@@ -841,7 +843,7 @@ PQTemplateFullscreen {
 
     }
 
-    function confirmIfUnsavedChanged(cat, index) {
+    function confirmIfUnsavedChanged(cat: string, index: int) : bool {
 
         if(confirmUnsaved.cat != "")
             return true
