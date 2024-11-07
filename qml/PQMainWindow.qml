@@ -378,14 +378,12 @@ Window {
         else
             loader.ensureItIsReady("navigationfloating", loader.loadermapping["navigationfloating"])
 
-        var fp = ""
         if(PQCNotify.filePath !== "")
-            fp = PQCNotify.filePath
+            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
         else if(PQCSettings.interfaceRememberLastImage)
-            fp = PQCScriptsConfig.getLastLoadedImage()
+            PQCFileFolderModel.fileInFolderMainView = PQCScriptsConfig.getLastLoadedImage()
 
-        if(fp != "")
-            PQCFileFolderModel.fileInFolderMainView = fp
+        PQCFileFolderModel.fileInFolderMainView = "/home/lspies/Desktop/sample2.jpg"
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
