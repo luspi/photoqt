@@ -201,9 +201,10 @@ ADD_DEFINITIONS(-DQT_NO_KEYWORDS)
 add_definitions(-DQT_MESSAGELOGCONTEXT)
 
 #####################################
-#### Handle Qt<6.4 specific stuff ####
+#### Handle Qt<6.4/5 specific stuff ####
 #####################################
 
+# MultiEffect is only available since Qt 6.5
 if(Qt6_VERSION VERSION_LESS 6.5)
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
@@ -214,6 +215,16 @@ else()
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
+endif()
+
+# pragma ComponentBehavior is only available since Qt 6.4
+if(Qt6_VERSION VERSION_LESS 6.4)
+    foreach(QMLFILE ${photoqt_QML})
+        message(">> ${QMLFILE}")
+        file(READ ${QMLFILE} FILE_CONTENTS)
+        string(REPLACE "pragma ComponentBehavior: Bound" "" FILE_CONTENTS "${FILE_CONTENTS}")
+        file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+    endforeach()
 endif()
 
 #############################
