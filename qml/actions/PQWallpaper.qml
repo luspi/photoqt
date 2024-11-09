@@ -36,14 +36,14 @@ PQTemplateFullscreen {
     id: wallpaper_top
 
     thisis: "wallpaper"
-    popout: PQCSettings.interfacePopoutWallpaper
-    forcePopout: PQCWindowGeometry.wallpaperForcePopout
+    popout: PQCSettings.interfacePopoutWallpaper // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
     shortcut: "__wallpaper"
 
     title: qsTranslate("wallpaper", "Wallpaper")
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutWallpaper = popout
+        PQCSettings.interfacePopoutWallpaper = popout // qmllint disable unqualified
 
     button1.text: qsTranslate("wallpaper", "Set as Wallpaper")
 
@@ -56,9 +56,9 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
-    property bool onWindows: PQCScriptsConfig.amIOnWindows()
+    property bool onWindows: PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
 
-    property var categories: ["plasma", "gnome", "xfce", "enlightenment", "other"]
+    property list<string> categories: ["plasma", "gnome", "xfce", "enlightenment", "other"]
     property int curCat: onWindows ? categories.length : 0
     property int numDesktops: 0
 
@@ -77,7 +77,7 @@ PQTemplateFullscreen {
                 width: visible ? parent.width*0.375 : 0
                 height: parent.height
 
-                visible: !onWindows
+                visible: !wallpaper_top.onWindows
 
                 Item {
                     width: parent.width
@@ -88,8 +88,8 @@ PQTemplateFullscreen {
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==0 ? PQCLook.textColor : PQCLook.textColorDisabled
-                            font.weight: PQCLook.fontWeightBold
+                            color: wallpaper_top.curCat==0 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: "Plasma 5"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -98,14 +98,14 @@ PQTemplateFullscreen {
                                 //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 text: qsTranslate("wallpaper", "Click to choose %1").arg("Plasma 5")
                                 onClicked:
-                                    curCat = 0
+                                    wallpaper_top.curCat = 0
                             }
                         }
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==1 ? PQCLook.textColor : PQCLook.textColorDisabled
-                            font.weight: PQCLook.fontWeightBold
+                            color: wallpaper_top.curCat==1 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: "Gnome<br>Unity<br>Cinnamon"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -114,14 +114,14 @@ PQTemplateFullscreen {
                                 //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 text: qsTranslate("wallpaper", "Click to choose %1").arg("Gnome/Unity/Cinnamon")
                                 onClicked:
-                                    curCat = 1
+                                    wallpaper_top.curCat = 1
                             }
                         }
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==2 ? PQCLook.textColor : PQCLook.textColorDisabled
-                            font.weight: PQCLook.fontWeightBold
+                            color: wallpaper_top.curCat==2 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: "XFCE4"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -130,14 +130,14 @@ PQTemplateFullscreen {
                                 //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 text: qsTranslate("wallpaper", "Click to choose %1").arg("XFCE4")
                                 onClicked:
-                                    curCat = 2
+                                    wallpaper_top.curCat = 2
                             }
                         }
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==3 ? PQCLook.textColor : PQCLook.textColorDisabled
-                            font.weight: PQCLook.fontWeightBold
+                            color: wallpaper_top.curCat==3 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: "Enlightenment"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -146,14 +146,14 @@ PQTemplateFullscreen {
                                 //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
                                 text: qsTranslate("wallpaper", "Click to choose %1").arg("Enlightenment")
                                 onClicked:
-                                    curCat = 3
+                                    wallpaper_top.curCat = 3
                             }
                         }
                         PQTextL {
                             width: category.width
                             horizontalAlignment: Text.AlignHCenter
-                            color: curCat==4 ? PQCLook.textColor : PQCLook.textColorDisabled
-                            font.weight: PQCLook.fontWeightBold
+                            color: wallpaper_top.curCat==4 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: "Other"
                             PQMouseArea {
                                 anchors.fill: parent
@@ -164,7 +164,7 @@ PQTemplateFullscreen {
                                         //: Used as in: Other Desktop Environment
                                         .arg(qsTranslate("wallpaper", "Other"))
                                 onClicked:
-                                    curCat = 4
+                                    wallpaper_top.curCat = 4
                             }
                         }
                     }
@@ -185,21 +185,21 @@ PQTemplateFullscreen {
             Flickable {
 
                 x: category.width
-                y: (onWindows ? -20 : 0)
+                y: (wallpaper_top.onWindows ? -20 : 0)
                 width: parent.width-category.width-10
-                height: (parent.height + (onWindows ? 10 : -10))
+                height: (parent.height + (wallpaper_top.onWindows ? 10 : -10))
 
                 ScrollBar.vertical: PQVerticalScrollBar { }
 
-                contentHeight: (curCat==0 ?
+                contentHeight: (wallpaper_top.curCat==0 ?
                                     plasma.height :
-                                    (curCat==1 ?
+                                    (wallpaper_top.curCat==1 ?
                                          gnome.height :
-                                         (curCat==2 ?
+                                         (wallpaper_top.curCat==2 ?
                                               xfce.height :
-                                              (curCat==3 ?
+                                              (wallpaper_top.curCat==3 ?
                                                    enlightenment.height :
-                                                   (curCat==4 ?
+                                                   (wallpaper_top.curCat==4 ?
                                                         other.height :
                                                         windows.height)))))
 
@@ -207,32 +207,32 @@ PQTemplateFullscreen {
 
                 PQPlasma {
                     id: plasma
-                    visible: curCat==0
+                    visible: wallpaper_top.curCat==0
                 }
 
                 PQGnome {
                     id: gnome
-                    visible: curCat==1
+                    visible: wallpaper_top.curCat==1
                 }
 
                 PQXfce {
                     id: xfce
-                    visible: curCat==2
+                    visible: wallpaper_top.curCat==2
                 }
 
                 PQEnlightenment {
                     id: enlightenment
-                    visible: curCat==3
+                    visible: wallpaper_top.curCat==3
                 }
 
                 PQOther {
                     id: other
-                    visible: curCat==4
+                    visible: wallpaper_top.curCat==4
                 }
 
                 PQWindows {
                     id: windows
-                    visible: curCat==5
+                    visible: wallpaper_top.curCat==5
                 }
 
             }
@@ -242,39 +242,39 @@ PQTemplateFullscreen {
     ]
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === wallpaper_top.thisis)
+                    wallpaper_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === wallpaper_top.thisis)
+                    wallpaper_top.hide()
 
             } else if(wallpaper_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        wallpaper_top.hide()
 
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        setWallpaper()
+                        wallpaper_top.setWallpaper()
 
                     else if(param[0] === Qt.Key_Tab) {
 
-                        if(onWindows) return
+                        if(wallpaper_top.onWindows) return
 
-                        curCat = (curCat+1)%categories.length
+                        wallpaper_top.curCat = (wallpaper_top.curCat+1)%wallpaper_top.categories.length
 
                     } else if(param[0] === Qt.Key_Right || param[0] === Qt.Key_Left) {
 
-                        if(categories[curCat] === "other")
+                        if(wallpaper_top.categories[wallpaper_top.curCat] === "other")
                             other.changeTool()
 
                     }
@@ -290,13 +290,13 @@ PQTemplateFullscreen {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            wallpaper_popout.visible = true
+            wallpaper_popout.visible = true // qmllint disable unqualified
     }
 
     function hide() {
         wallpaper_top.opacity = 0
         if(popoutWindowUsed)
-            wallpaper_popout.visible = false
+            wallpaper_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
     }
 
@@ -342,7 +342,7 @@ PQTemplateFullscreen {
 
         }
 
-        PQCScriptsWallpaper.setWallpaper(categories[curCat], PQCFileFolderModel.currentFile, args)
+        PQCScriptsWallpaper.setWallpaper(categories[curCat], PQCFileFolderModel.currentFile, args) // qmllint disable unqualified
 
         hide()
     }

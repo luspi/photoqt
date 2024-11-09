@@ -65,19 +65,19 @@ Slider {
     }
 
     background: Rectangle {
-        x: _horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
-        y: _horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : control.topPadding
-        implicitWidth: _horizontal ? 200 : 6
-        implicitHeight: _horizontal ? 6 : 200
-        width: _horizontal ? control.availableWidth : implicitWidth
-        height: _horizontal ? implicitHeight : control.availableHeight
+        x: control._horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
+        y: control._horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : control.topPadding
+        implicitWidth: control._horizontal ? 200 : 6
+        implicitHeight: control._horizontal ? 6 : 200
+        width: control._horizontal ? control.availableWidth : implicitWidth
+        height: control._horizontal ? implicitHeight : control.availableHeight
         radius: 2
-        color: PQCLook.baseColorHighlight
+        color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
         Rectangle {
-            width: _horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
-            height: _horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
-            color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
+            width: control._horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
+            height: control._horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
+            color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight // qmllint disable unqualified
             radius: 2
         }
 
@@ -86,19 +86,19 @@ Slider {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             propagateComposedEvents: true
-            onClicked: mouse.accepted = false
-            onDoubleClicked: mouse.accepted = false
-            onPressAndHold: mouse.accepted = false
-            onPressed: mouse.accepted = false
+            function onClicked(mouse) { mouse.accepted = false }
+            function onDoubleClicked(mouse) { mouse.accepted = false }
+            function onPressAndHold(mouse) { mouse.accepted = false }
+            function onPressed(mouse) { mouse.accepted = false }
             onEntered: {
                 control.sliderContainsMouse = true
             }
             onExited: {
-                sliderContainsMouse = false
+                control.sliderContainsMouse = false
             }
             onWheel: (wheel) => {
-                if(!control.wheelEnabled) return
-                if(reverseWheelChange) {
+                // if(!control.wheelEnabled) return
+                if(control.reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
                         control.value += control.wheelStepSize
                     else
@@ -115,13 +115,13 @@ Slider {
     }
 
     handle: Rectangle {
-        x: _horizontal ? (control.leftPadding + control.visualPosition * (control.availableWidth - width)) : (control.leftPadding + control.availableWidth / 2 - width / 2)
-        y: _horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : (control.topPadding + control.visualPosition * (control.availableHeight - height))
-        implicitWidth: _horizontal ? control.implicitHeight : control.implicitWidth
-        implicitHeight: _horizontal ? control.implicitHeight : control.implicitWidth
+        x: control._horizontal ? (control.leftPadding + control.visualPosition * (control.availableWidth - width)) : (control.leftPadding + control.availableWidth / 2 - width / 2)
+        y: control._horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : (control.topPadding + control.visualPosition * (control.availableHeight - height))
+        implicitWidth: control._horizontal ? control.implicitHeight : control.implicitWidth
+        implicitHeight: control._horizontal ? control.implicitHeight : control.implicitWidth
         radius: control.implicitHeight/2
-        color: PQCLook.inverseColor
-        border.color: PQCLook.baseColorHighlight
+        color: PQCLook.inverseColor // qmllint disable unqualified
+        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
@@ -135,7 +135,7 @@ Slider {
             onExited: control.handleContainsMouse = false
             onWheel: (wheel) => {
                 if(!control.wheelEnabled) return
-                if(reverseWheelChange) {
+                if(control.reverseWheelChange) {
                     if(wheel.angleDelta.y > 0)
                         control.value += control.wheelStepSize
                     else

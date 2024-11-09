@@ -30,61 +30,61 @@ import PQCScriptsImages
 
 Item {
 
-    id: top
+    id: arctop
 
     Loader {
 
-        active: PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning
+        active: PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
 
             id: controlitem
 
-            parent: loader_top
+            parent: loader_top // qmllint disable unqualified
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            z: image_top.curZ
+            z: image_top.curZ // qmllint disable unqualified
             width: controlrow.width+20
             height: 50
             radius: 5
-            color: PQCLook.transColor
+            color: PQCLook.transColor // qmllint disable unqualified
 
-            property bool isComicBook: PQCScriptsImages.isComicBook(imageloaderitem.imageSource)
+            property bool isComicBook: PQCScriptsImages.isComicBook(imageloaderitem.imageSource) // qmllint disable unqualified
 
             Connections {
-                target: image_top
+                target: image_top // qmllint disable unqualified
                 function onWidthChanged() {
-                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5)
+                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
                 }
                 function onHeightChanged() {
-                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5)
+                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5) // qmllint disable unqualified
                 }
             }
 
             onXChanged: {
                 if(x !== (parent.width-width)/2) {
-                    image_top.extraControlsLocation.x = x
+                    image_top.extraControlsLocation.x = x // qmllint disable unqualified
                     x = x
                 }
             }
             onYChanged: {
                 if(y !== 0.9*parent.height) {
-                    image_top.extraControlsLocation.y = y
+                    image_top.extraControlsLocation.y = y // qmllint disable unqualified
                     y = y
                 }
             }
 
             Component.onCompleted: {
-                if(image_top.extraControlsLocation.x !== -1) {
+                if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
                     controlitem.x = image_top.extraControlsLocation.x
                     controlitem.y = image_top.extraControlsLocation.y
                 }
             }
 
             // only show when needed
-            opacity: (image.fileCount>1 && image.visible && PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.fileCount>1 && image.visible && PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC) ? (hovered ? 1 : 0.3) : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
@@ -102,8 +102,8 @@ Item {
                 drag.target: parent
                 drag.minimumX: 5
                 drag.minimumY: 5
-                drag.maximumX: image_top.width-controlitem.width-5
-                drag.maximumY: image_top.height-controlitem.height-5
+                drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
+                drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
                 hoverEnabled: true
                 cursorShape: Qt.SizeAllCursor
                 propagateComposedEvents: true
@@ -129,16 +129,16 @@ Item {
 
                     visible: !controlitem.isComicBook
 
-                    currentIndex: image.currentFile
+                    currentIndex: image.currentFile // qmllint disable unqualified
 
                     onCurrentIndexChanged: {
-                        if(currentIndex !== image.currentFile) {
+                        if(currentIndex !== image.currentFile) { // qmllint disable unqualified
                             image.currentFile = currentIndex
                             image.setSource()
                         }
                     }
 
-                    model: image.fileList
+                    model: image.fileList // qmllint disable unqualified
 
                 }
 
@@ -151,7 +151,7 @@ Item {
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mousefirst.containsPress ? PQCLook.baseColorActive : (mousefirst.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                        color: mousefirst.containsPress ? PQCLook.baseColorActive : (mousefirst.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
                         height: controlitem.height/2.5 + 10
@@ -170,13 +170,13 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Go to first page")
-                            onClicked: image_top.archiveJump(-image.currentFile)
+                            onClicked: image_top.archiveJump(-image.currentFile) // qmllint disable unqualified
                         }
                     }
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mouseprev.containsPress ? PQCLook.baseColorActive : (mouseprev.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                        color: mouseprev.containsPress ? PQCLook.baseColorActive : (mouseprev.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height-6
                         height: controlitem.height/1.5 + 6
@@ -194,13 +194,13 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Go to previous page")
-                            onClicked: image_top.archiveJump(-1)
+                            onClicked: image_top.archiveJump(-1) // qmllint disable unqualified
                         }
                     }
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mousenext.containsPress ? PQCLook.baseColorActive : (mousenext.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                        color: mousenext.containsPress ? PQCLook.baseColorActive : (mousenext.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height-6
                         height: controlitem.height/1.5 + 6
@@ -218,13 +218,13 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Go to next page")
-                            onClicked: image_top.archiveJump(1)
+                            onClicked: image_top.archiveJump(1) // qmllint disable unqualified
                         }
                     }
 
                     Rectangle {
                         y: (parent.height-height)/2
-                        color: mouselast.containsPress ? PQCLook.baseColorActive : (mouselast.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                        color: mouselast.containsPress ? PQCLook.baseColorActive : (mouselast.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                         Behavior on color { ColorAnimation { duration: 200 } }
                         width: height
                         height: controlitem.height/2.5 + 10
@@ -243,7 +243,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Go to last page")
-                            onClicked: image_top.archiveJump(image.fileCount-image.currentFile-1)
+                            onClicked: image_top.archiveJump(image.fileCount-image.currentFile-1) // qmllint disable unqualified
                         }
                     }
 
@@ -259,7 +259,7 @@ Item {
                     y: (parent.height-height)/2
                     height: controlitem.height*0.75
                     width: 1
-                    color: PQCLook.textColor
+                    color: PQCLook.textColor // qmllint disable unqualified
                     visible: controlitem.isComicBook
                 }
 
@@ -272,7 +272,7 @@ Item {
                 PQText {
                     y: (parent.height-height)/2
                     visible: controlitem.isComicBook
-                    text: visible ? qsTranslate("image", "Page %1/%2").arg(image.currentFile+1).arg(image.fileCount) : ""
+                    text: visible ? qsTranslate("image", "Page %1/%2").arg(image.currentFile+1).arg(image.fileCount) : "" // qmllint disable unqualified
                 }
 
                 Item {
@@ -284,7 +284,7 @@ Item {
                     y: (parent.height-height)/2
                     width: 1
                     height: controlitem.height*0.75
-                    color: PQCLook.textColor
+                    color: PQCLook.textColor // qmllint disable unqualified
                 }
 
                 Item {
@@ -294,7 +294,7 @@ Item {
 
                 Rectangle {
                     y: (parent.height-height)/2
-                    color: viewermodemouse.containsPress ? PQCLook.baseColorActive : (viewermodemouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                    color: viewermodemouse.containsPress ? PQCLook.baseColorActive : (viewermodemouse.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
                     height: width
                     width: controlitem.height/2.5 + 10
@@ -312,7 +312,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: PQCFileFolderModel.enableViewerMode(image.currentFile)
+                            onClicked: PQCFileFolderModel.enableViewerMode(image.currentFile) // qmllint disable unqualified
                         }
                     }
                 }
@@ -326,10 +326,10 @@ Item {
                     height: lockrow.height+6
                     radius: 5
 
-                    opacity: PQCSettings.filetypesArchiveLeftRight ? 1 : 0.3
+                    opacity: PQCSettings.filetypesArchiveLeftRight ? 1 : 0.3 // qmllint disable unqualified
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                    color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
 
                     Row {
@@ -357,7 +357,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
                         onClicked:
-                            PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight
+                            PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight // qmllint disable unqualified
                     }
 
                 }
@@ -381,21 +381,21 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
                     onClicked: {
-                        PQCSettings.filetypesArchiveControls = false
+                        PQCSettings.filetypesArchiveControls = false // qmllint disable unqualified
                     }
                 }
             }
 
             Connections {
 
-                target: PQCNotify
+                target: PQCNotify // qmllint disable unqualified
 
                 enabled: controlitem.enabled
 
-                function onMouseMove(x, y) {
+                function onMouseMove(x : int, y : int) {
 
                     // check if the control item is hovered anywhere not caught by the elements above
-                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y))
+                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
                     controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
 
                 }

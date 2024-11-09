@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -110,13 +111,15 @@ Item {
             anchors.fill: explorerMapLoader
 
             center: QtPositioning.coordinate(49.01, 8.40)
-            zoomLevel: mapexplorer_top.mapZoomLevel
+            zoomLevel: mapexplorer_top.mapZoomLevel // qmllint disable unqualified
 
             property int curZ: 0
 
             plugin: osmPlugin
 
             activeMapType: supportedMapTypes[5]
+
+            property geoCoordinate startCentroid
 
             WheelHandler {
                 id: wheel
@@ -150,8 +153,8 @@ Item {
             }
 
             onZoomLevelChanged: (zoomLevel) => {
-                if(!finishShow) return
-                computeDetailLevel()
+                if(!mapexplorer_top.finishShow) return // qmllint disable unqualified
+                map_top.computeDetailLevel()
                 if(zoomLevel !== mapexplorer_top.mapZoomLevel)
                     mapexplorer_top.mapZoomLevel = zoomLevel
             }
@@ -160,7 +163,7 @@ Item {
                 id: updateVisibleRegion
                 interval: 500
                 repeat: true
-                running: mapexplorer_top.visible
+                running: mapexplorer_top.visible // qmllint disable unqualified
                 onTriggered: {
                     execute()
                 }
@@ -172,7 +175,7 @@ Item {
                 }
             }
 
-            property var steps: [
+            property list<var> steps: [
                 [0.001, 16.5],
                 [0.005, 14],
                 [0.01, 13],
@@ -217,7 +220,7 @@ Item {
                         source: "/white/maplocation.png"
                     }
 
-                function showAt(lat, lon) {
+                function showAt(lat : real, lon : real) {
                     highlightMarker.latitude = lat
                     highlightMarker.longitude = lon
                     highlightMarker.opacity = 1
@@ -240,7 +243,15 @@ Item {
 
                     id: deleg
 
-                    property var keys: Object.keys(labels)
+                    required property string latitude
+                    required property string longitude
+                    required property string filename
+                    required property string levels
+                    required property var labels
+                    required property string display_latitude
+                    required property string display_longitude
+
+                    property list<string> keys: Object.keys(labels)
 
                     anchorPoint.x: container.width/2
                     anchorPoint.y: container.height/2
@@ -271,25 +282,27 @@ Item {
                                 mipmap: true
                                 cache: true
                                 asynchronous: true
-                                source: (!visible && source=="") ? "" : ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(filename))
+                                source: (!visible && source=="") ? "" : ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.filename)) // qmllint disable unqualified
                             }
                             Repeater {
                                 model: deleg.keys.length
                                 Rectangle {
+                                    id: lbldeleg
+                                    required property int modelData
                                     x: parent.width-width*0.8
                                     y: -height*0.2
                                     width: numlabel.width+20
                                     height: numlabel.height+4
                                     color: "#0088ff"
                                     radius: height/4
-                                    visible: mdl.count>0 && labels[deleg.keys[index]]>1 && map_top.detaillevel===deleg.keys[index]
+                                    visible: mdl.count>0 && deleg.labels[deleg.keys[modelData]]>1 && map_top.detaillevel===deleg.keys[modelData]
                                     PQText {
                                         id: numlabel
                                         x: 10
                                         y: 2
-                                        font.weight: PQCLook.fontWeightBold
+                                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                                         anchors.centerIn: parent
-                                        text: labels[deleg.keys[index]]
+                                        text: deleg.labels[deleg.keys[lbldeleg.modelData]]
                                     }
                                 }
                             }
@@ -302,8 +315,8 @@ Item {
                                 onEntered: {
                                     if(!tooltipSetup) {
                                         text = (image.source=="" ? "" : ("<img src='" + image.source + "'>")) + "<br><br>" +
-                                                                            " <b>" + PQCScriptsFilesPaths.getFilename(filename) + "</b>" +
-                                                                            ((labels[map_top.detaillevel]>1) ? (" + " + (labels[map_top.detaillevel]-1) + "") : "")
+                                                                            " <b>" + PQCScriptsFilesPaths.getFilename(deleg.filename) + "</b>" + // qmllint disable unqualified
+                                                                            ((deleg.labels[map_top.detaillevel]>1) ? (" + " + (deleg.labels[map_top.detaillevel]-1) + "") : "")
                                         tooltipSetup = true
                                     }
 
@@ -313,10 +326,10 @@ Item {
                                 onClicked: {
 
                                     smoothCenterLat.from = map.center.latitude
-                                    smoothCenterLat.to = latitude
+                                    smoothCenterLat.to = deleg.latitude
 
                                     smoothCenterLon.from = map.center.longitude
-                                    smoothCenterLon.to = longitude
+                                    smoothCenterLon.to = deleg.longitude
 
                                     smoothZoom.from = map.zoomLevel
                                     smoothZoom.to = Math.min(map.zoomLevel+1, map.maximumZoomLevel)
@@ -329,7 +342,7 @@ Item {
                             }
 
                             Component.onCompleted: {
-                                lvls = levels.split("_")
+                                deleg.lvls = deleg.levels.split("_")
                             }
 
                         }
@@ -341,7 +354,7 @@ Item {
             NumberAnimation {
                 id: smoothZoom
                 duration: 200
-                target: mapexplorer_top
+                target: mapexplorer_top // qmllint disable unqualified
                 property: "mapZoomLevel"
             }
 
@@ -374,7 +387,7 @@ Item {
             }
 
             Component.onCompleted:  {
-                maptweaks.minZoomLevel = minimumZoomLevel
+                maptweaks.minZoomLevel = minimumZoomLevel // qmllint disable unqualified
                 maptweaks.maxZoomLevel = maximumZoomLevel
             }
 
@@ -383,8 +396,8 @@ Item {
                 target: map_top
 
                 function onComputeDetailLevel() {
-                    for(var i = 0; i < steps.length; ++i) {
-                        if(map.zoomLevel > steps[i][1]) {
+                    for(var i = 0; i < map.steps.length; ++i) {
+                        if(map.zoomLevel > map.steps[i][1]) {
                             map_top.detaillevel = i
                             break
                         }
@@ -401,7 +414,7 @@ Item {
 
                 function onResetMap() {
                     smoothCenterLat.from = map.center.latitude
-                    smoothCenterLat.to = (PQCLocation.minimumLocation.x+PQCLocation.maximumLocation.x)/2
+                    smoothCenterLat.to = (PQCLocation.minimumLocation.x+PQCLocation.maximumLocation.x)/2 // qmllint disable unqualified
 
                     smoothCenterLon.from = map.center.longitude
                     smoothCenterLon.to = (PQCLocation.minimumLocation.y+PQCLocation.maximumLocation.y)/2
@@ -436,12 +449,12 @@ Item {
 
                 }
 
-                function onSetMapCenter(lat, lon) {
+                function onSetMapCenter(lat : real, lon : real) {
                     map.center.latitude = lat
                     map.center.longitude = lon
                 }
 
-                function onSetMapCenterSmooth(lat, lon) {
+                function onSetMapCenterSmooth(lat : real, lon : real) {
 
                     smoothCenterLat.from = map.center.latitude
                     smoothCenterLat.to = lat
@@ -453,7 +466,7 @@ Item {
                     smoothCenterLon.start()
                 }
 
-                function onSetMapZoomLevelSmooth(lvl) {
+                function onSetMapZoomLevelSmooth(lvl : int) {
 
                     smoothZoom.from = map.zoomLevel
                     smoothZoom.to = lvl
@@ -465,7 +478,7 @@ Item {
                     updateVisibleRegion.execute()
                 }
 
-                function onShowHighlightMarkerAt(lat, lon) {
+                function onShowHighlightMarkerAt(lat : real, lon : real) {
                     highlightMarker.showAt(lat, lon)
                 }
 

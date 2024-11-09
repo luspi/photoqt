@@ -98,7 +98,7 @@ Flickable {
                 PQRadioButton {
                     id: radio_fake
                     enforceMaxWidth: set_bg.rightcol
-                    visible: PQCNotify.haveScreenshots
+                    visible: PQCNotify.haveScreenshots // qmllint disable unqualified
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "fake transparency")
                     ButtonGroup.group: bggrp
@@ -137,7 +137,7 @@ Flickable {
                             x: radio_nobg.leftPadding
                             width: set_bg.rightcol-radio_nobg.leftPadding
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             text: qsTranslate("settingsmanager", "Warning: This will make the background fully transparent. This is only recommended if there is a different way to mask the area behind the window.")
                         }
                     }
@@ -172,8 +172,8 @@ Flickable {
 
                         width: custombg_optcol.height
                         height: custombg_optcol.height
-                        color: PQCLook.baseColorHighlight
-                        border.color: PQCLook.baseColorActive
+                        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                        border.color: PQCLook.baseColorActive // qmllint disable unqualified
                         border.width: 1
 
                         opacity: radio_custom.checked ? 1 : 0.3
@@ -201,7 +201,7 @@ Flickable {
                             //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
                             text: qsTranslate("settingsmanager", "Click to select an image")
                             onClicked: {
-                                var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats())
+                                var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats()) // qmllint disable unqualified
                                 if(path !== "")
                                     previewimage.source = "file:/" + path
                             }
@@ -231,35 +231,35 @@ Flickable {
                             id: radio_bg_scaletofit
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "scale to fit")
-                            checked: PQCSettings.interfaceBackgroundImageScale
+                            checked: PQCSettings.interfaceBackgroundImageScale // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_scaleandcrop
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "scale and crop to fit")
-                            checked: PQCSettings.interfaceBackgroundImageScaleCrop
+                            checked: PQCSettings.interfaceBackgroundImageScaleCrop // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_stretch
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "stretch to fit")
-                            checked: PQCSettings.interfaceBackgroundImageStretch
+                            checked: PQCSettings.interfaceBackgroundImageStretch // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_center
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "center image")
-                            checked: PQCSettings.interfaceBackgroundImageCenter
+                            checked: PQCSettings.interfaceBackgroundImageCenter // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_tile
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "tile image")
-                            checked: PQCSettings.interfaceBackgroundImageTile
+                            checked: PQCSettings.interfaceBackgroundImageTile // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                     }
@@ -320,14 +320,14 @@ Flickable {
         }
 
         /**********************************************************************/
-        PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_5() }
+        PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_5() } // qmllint disable unqualified
         /**********************************************************************/
 
         PQSetting {
 
             id: set_blur
 
-            visible: PQCScriptsConfig.isQtAtLeast6_5()
+            visible: PQCScriptsConfig.isQtAtLeast6_5() // qmllint disable unqualified
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Blurring elements behind other elements")
@@ -336,7 +336,7 @@ Flickable {
             content: [
 
                 PQCheckBox {
-                    visible: PQCScriptsConfig.isQtAtLeast6_5()
+                    visible: PQCScriptsConfig.isQtAtLeast6_5() // qmllint disable unqualified
                     id: check_blurbg
                     enforceMaxWidth: set_blur.rightcol
                     text: qsTranslate("settingsmanager", "Blur elements in the back")
@@ -360,7 +360,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -393,7 +393,7 @@ Flickable {
 
     function load() {
 
-        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent)
+        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent) // qmllint disable unqualified
         radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
         radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
         radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
@@ -429,7 +429,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked
+        PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked // qmllint disable unqualified
         PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
         PQCSettings.interfaceBackgroundSolid = radio_solid.checked
         PQCSettings.interfaceBackgroundFullyTransparent = radio_nobg.checked

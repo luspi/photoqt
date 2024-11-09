@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -35,8 +36,8 @@ PQTemplateFullscreen {
     id: imgur_top
 
     thisis: "imgur"
-    popout: PQCSettings.interfacePopoutFilter
-    forcePopout: PQCWindowGeometry.imgurForcePopout
+    popout: PQCSettings.interfacePopoutFilter // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
     shortcut: "__imgurAnonym"
     title: (accountname=="" ?
                qsTranslate("imgur", "Upload to imgur.com") :
@@ -49,7 +50,7 @@ PQTemplateFullscreen {
 
     button2.text: qsTranslate("imgur", "Show past uploads")
     button2.visible: true
-    button2.font.weight: PQCLook.fontWeightNormal
+    button2.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     button1.onClicked: {
         hide()
@@ -69,106 +70,86 @@ PQTemplateFullscreen {
         State {
             name: "uploading"
             PropertyChanges {
-                target: statusmessage
-                opacity: 0
-                text: progresspercentage+"%"
+                statusmessage.opacity: 0
+                statusmessage.text: imgur_top.progresspercentage+"%"
             }
             PropertyChanges {
-                target: button1
-                text: genericStringCancel
+                imgur_top.button1.text: imgur_top.genericStringCancel
             }
         },
         State {
             name: "busy"
             PropertyChanges {
-                target: statusmessage
-                opacity: 0
+                statusmessage.opacity: 0
             }
             PropertyChanges {
-                target: progressbar
-                text: "..."
+                progressbar.text: "..."
             }
             PropertyChanges {
-                target: button1
-                text: genericStringCancel
+                imgur_top.button1.text: imgur_top.genericStringCancel
             }
         },
         State {
             name: "longtime"
             PropertyChanges {
-                target: statusmessage
-                opacity: 1
-                text: qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
-                      qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
+                statusmessage.opacity: 1
+                statusmessage.text: qsTranslate("imgur", "This seems to take a long time...") + "<br>" +
+                                    qsTranslate("imgur", "There might be a problem with your internet connection or the imgur.com servers.")
             }
             PropertyChanges {
-                target: progressbar
-                text: "..."
+                progressbar.text: "..."
             }
             PropertyChanges {
-                target: button1
-                text: genericStringCancel
+                imgur_top.button1.text: imgur_top.genericStringCancel
             }
         },
         State {
             name: "error"
             PropertyChanges {
-                target: statusmessage
-                opacity: 1
-                text: qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
-                      qsTranslate("imgur", "Error code:") + " " + errorCode
+                statusmessage.opacity: 1
+                statusmessage.text: qsTranslate("imgur", "An Error occurred while uploading image!") + "<br>" +
+                                    qsTranslate("imgur", "Error code:") + " " + imgur_top.errorCode
             }
             PropertyChanges {
-                target: progressbar
-                text: "..."
+                progressbar.text: "..."
             }
             PropertyChanges {
-                target: working
-                animationRunning: false
+                working.animationRunning: false
             }
             PropertyChanges {
-                target: button1
-                text: genericStringClose
+                imgur_top.button1.text: imgur_top.genericStringClose
             }
         },
         State {
             name: "nointernet"
             PropertyChanges {
-                target: statusmessage
-                opacity: 1
-                text: qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
-                      qsTranslate("imgur", "Unable to upload!")
+                statusmessage.opacity: 1
+                statusmessage.text: qsTranslate("imgur", "You do not seem to be connected to the internet...") + "<br>" +
+                                    qsTranslate("imgur", "Unable to upload!")
             }
             PropertyChanges {
-                target: progressbar
-                text: "..."
+                progressbar.text: "..."
             }
             PropertyChanges {
-                target: working
-                animationRunning: false
+                working.animationRunning: false
             }
             PropertyChanges {
-                target: button1
-                text: genericStringClose
+                imgur_top.button1.text: imgur_top.genericStringClose
             }
         },
         State {
             name: "result"
             PropertyChanges {
-                target: statusmessage
-                opacity: 0
+                statusmessage.opacity: 0
             }
             PropertyChanges {
-                target: working
-                opacity: 0
+                working.opacity: 0
             }
             PropertyChanges {
-                target: resultscol
-                opacity: 1
+                resultscol.opacity: 1
             }
             PropertyChanges {
-                target: button1
-                text: genericStringClose
+                imgur_top.button1.text: imgur_top.genericStringClose
             }
         }
 
@@ -191,7 +172,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 text: qsTranslate("imgur", "Access Image")
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
 
             Row {
@@ -207,7 +188,7 @@ PQTemplateFullscreen {
                         hoverEnabled: true
                         text: qsTranslate("imgur", "Click to open in browser")
                         onClicked:
-                            Qt.openUrlExternally(parent.text)
+                            Qt.openUrlExternally(imgur_top.imageURL)
                     }
                 }
 
@@ -216,7 +197,7 @@ PQTemplateFullscreen {
                     height: width
                     source: "image://svg/:/white/copy.svg"
                     onClicked:
-                        PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL)
+                        PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL) // qmllint disable unqualified
                 }
 
             }
@@ -228,7 +209,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 text: qsTranslate("imgur", "Delete Image")
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
 
             Row {
@@ -253,7 +234,7 @@ PQTemplateFullscreen {
                     height: width
                     source: "image://svg/:/white/copy.svg"
                     onClicked:
-                        PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash)
+                        PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash) // qmllint disable unqualified
                 }
 
             }
@@ -272,8 +253,8 @@ PQTemplateFullscreen {
         PQTextL {
             id: progressbar
             anchors.centerIn: parent
-            font.weight: PQCLook.fontWeightBold
-            text: progresspercentage + "%"
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            text: imgur_top.progresspercentage + "%"
         }
 
     }
@@ -284,7 +265,7 @@ PQTemplateFullscreen {
         x: (parent.width-width)/2
         y: (parent.height-height)/2 + working.circleHeight*0.8
         horizontalAlignment: Text.AlignHCenter
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     // a fullscreen overlay to show past (cached) uploads
@@ -293,7 +274,7 @@ PQTemplateFullscreen {
         id: imgurpast
 
         anchors.fill: parent
-        color: PQCLook.transColorAccent
+        color: PQCLook.transColorAccent // qmllint disable unqualified
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -305,7 +286,7 @@ PQTemplateFullscreen {
             anchors.centerIn: parent
             //: The uploads are uploads to imgur.com
             text: qsTranslate("imgur", "No past uploads found")
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         }
 
         Column {
@@ -317,7 +298,7 @@ PQTemplateFullscreen {
 
                 id: pastview
 
-                property var dat: []
+                property list<var> dat: []
                 model: dat.length
                 spacing: 10
 
@@ -333,12 +314,14 @@ PQTemplateFullscreen {
 
                         id: deleg
 
-                        property var curdata: pastview.dat[index]
+                        required property int modelData
+
+                        property list<var> curdata: pastview.dat[modelData]
 
                         x: 5
                         width: pastview.width-10
                         height: delegcol.height+10
-                        color: PQCLook.baseColor
+                        color: PQCLook.baseColor // qmllint disable unqualified
                         radius: 5
 
                         // A small button to remove this entry from the cache
@@ -358,7 +341,7 @@ PQTemplateFullscreen {
                                 onEntered: parent.opacity = 1
                                 onExited: parent.opacity = 0.5
                                 onClicked: {
-                                    if(PQCScriptsShareImgur.deletePastEntry(curdata[0]))
+                                    if(PQCScriptsShareImgur.deletePastEntry(deleg.curdata[0])) // qmllint disable unqualified
                                         imgurpast.show()
                                 }
                             }
@@ -373,8 +356,8 @@ PQTemplateFullscreen {
 
                             // the date of the upload
                             PQTextS {
-                                text: curdata[1]
-                                font.weight: PQCLook.fontWeightBold
+                                text: deleg.curdata[1]
+                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             }
 
                             Row {
@@ -385,7 +368,7 @@ PQTemplateFullscreen {
                                     width: 75
                                     height: 75
                                     fillMode: Image.PreserveAspectFit
-                                    source: "image://imgurhistory/" + curdata[0]
+                                    source: "image://imgurhistory/" + deleg.curdata[0]
                                 }
 
                                 Column {
@@ -401,15 +384,15 @@ PQTemplateFullscreen {
                                             text: qsTranslate("imgur", "Access:") + " "
                                         }
                                         PQText {
-                                            font.weight: PQCLook.fontWeightBold
-                                            text: curdata[2]
+                                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                            text: deleg.curdata[2]
                                             PQMouseArea {
                                                 anchors.fill: parent
                                                 cursorShape: Qt.PointingHandCursor
                                                 hoverEnabled: true
                                                 text: qsTranslate("imgur", "Click to open in browser")
                                                 onClicked:
-                                                    Qt.openUrlExternally(curdata[2])
+                                                    Qt.openUrlExternally(deleg.curdata[2])
                                             }
                                         }
                                         Item {
@@ -421,7 +404,7 @@ PQTemplateFullscreen {
                                             height: width
                                             source: "image://svg/:/white/copy.svg"
                                             onClicked:
-                                                PQCScriptsClipboard.copyTextToClipboard(curdata[2])
+                                                PQCScriptsClipboard.copyTextToClipboard(deleg.curdata[2]) // qmllint disable unqualified
                                         }
                                     }
 
@@ -433,15 +416,15 @@ PQTemplateFullscreen {
                                             text: qsTranslate("imgur", "Delete:") + " "
                                         }
                                         PQText {
-                                            font.weight: PQCLook.fontWeightBold
-                                            text: "https://imgur.com/delete/" + curdata[3]
+                                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                            text: "https://imgur.com/delete/" + deleg.curdata[3]
                                             PQMouseArea {
                                                 anchors.fill: parent
                                                 cursorShape: Qt.PointingHandCursor
                                                 hoverEnabled: true
                                                 text: qsTranslate("imgur", "Click to open in browser")
                                                 onClicked:
-                                                    Qt.openUrlExternally("https://imgur.com/delete/" + curdata[3])
+                                                    Qt.openUrlExternally("https://imgur.com/delete/" + deleg.curdata[3])
                                             }
                                         }
                                         Item {
@@ -453,7 +436,7 @@ PQTemplateFullscreen {
                                             height: width
                                             source: "image://svg/:/white/copy.svg"
                                             onClicked:
-                                                PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + curdata[3])
+                                                PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + deleg.curdata[3]) // qmllint disable unqualified
                                         }
                                     }
 
@@ -480,7 +463,7 @@ PQTemplateFullscreen {
                     //: Written on button, please keep short. Used as in: clear all entries
                     text: qsTranslate("imgur", "Clear all")
                     onClicked: {
-                        if(PQCScriptsShareImgur.deletePastEntry("xxx"))
+                        if(PQCScriptsShareImgur.deletePastEntry("xxx")) // qmllint disable unqualified
                             imgurpast.show()
                     }
                 }
@@ -490,7 +473,7 @@ PQTemplateFullscreen {
 
         function show() {
             opacity = 1
-            pastview.dat = PQCScriptsShareImgur.getPastUploads()
+            pastview.dat = PQCScriptsShareImgur.getPastUploads() // qmllint disable unqualified
         }
 
         function hide() {
@@ -508,25 +491,26 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
                 if(param === "imgur")
-                    show()
+                    imgur_top.show()
 
             } else if(what === "hide") {
 
                 if(param === "imgur")
-                    hide()
+                    imgur_top.hide()
 
             } else if(imgur_top.opacity > 0) {
 
                 if(what === "keyEvent") {
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        imgur_top.hide()
                 }
 
             }
@@ -537,44 +521,45 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCScriptsShareImgur
-        function onImgurUploadProgress(perc) {
+        target: PQCScriptsShareImgur // qmllint disable unqualified
+
+        function onImgurUploadProgress(perc : real) {
 
             showLongTimeMessage.restart()
 
             imgur_top.state = "uploading"
 
             var p = Math.round(perc*100)
-            progresspercentage = p
+            imgur_top.progresspercentage = p
 
             if(p == 100)
-                state = "busy"
+                imgur_top.state = "busy"
 
         }
 
-        function onImgurImageUrl(url) {
-            console.log("imgur.com image url:", url)
-            imgur_top.imageURL = url
+        function onImgurImageUrl(theurl : string) {
+            console.log("imgur.com image url:", theurl)
+            imgur_top.imageURL = url // qmllint disable unqualified
         }
 
-        function onImgurDeleteHash(url) {
-            console.log("imgur.com delete hash:", url)
-            imgur_top.imageDeleteHash = url
+        function onImgurDeleteHash(theurl : string) {
+            console.log("imgur.com delete hash:", theurl)
+            imgur_top.imageDeleteHash = theurl
         }
 
-        function onImgurUploadError(err) {
+        function onImgurUploadError(err : string) {
             working.showFailure(true)
             showLongTimeMessage.stop()
-            errorCode = err
+            imgur_top.errorCode = err
             imgur_top.state = "error"
         }
 
         function onFinished() {
             showLongTimeMessage.stop()
-            if(errorCode == -1) {
+            if(imgur_top.errorCode == -1) {
                 working.hide()
                 imgur_top.state = "result"
-                PQCScriptsShareImgur.storeNewUpload(PQCFileFolderModel.currentFile, imgur_top.imageURL, imgur_top.imageDeleteHash)
+                PQCScriptsShareImgur.storeNewUpload(PQCFileFolderModel.currentFile, imgur_top.imageURL, imgur_top.imageDeleteHash) // qmllint disable unqualified
             }
         }
 
@@ -586,7 +571,7 @@ PQTemplateFullscreen {
         interval: 0
         onTriggered: {
 
-            if(!PQCScriptsShareImgur.checkIfConnectedToInternet()) {
+            if(!PQCScriptsShareImgur.checkIfConnectedToInternet()) { // qmllint disable unqualified
                 working.showFailure(true)
                 imgur_top.state = "nointernet"
                 return
@@ -602,7 +587,7 @@ PQTemplateFullscreen {
         interval: 0
         onTriggered: {
 
-            if(!PQCScriptsShareImgur.checkIfConnectedToInternet()) {
+            if(!PQCScriptsShareImgur.checkIfConnectedToInternet()) { // qmllint disable unqualified
                 working.showFailure(true)
                 imgur_top.state = "nointernet"
                 return
@@ -617,7 +602,7 @@ PQTemplateFullscreen {
                 PQCScriptsShareImgur.imgurUploadError(-2)
                 return
             }
-            accountname = PQCScriptsShareImgur.getAccountUsername()
+            imgur_top.accountname = PQCScriptsShareImgur.getAccountUsername()
             PQCScriptsShareImgur.upload(PQCFileFolderModel.currentFile)
         }
     }
@@ -634,7 +619,7 @@ PQTemplateFullscreen {
 
         opacity = 1
         if(popoutWindowUsed)
-            imgur_popout.visible = true
+            imgur_popout.visible = true // qmllint disable unqualified
 
     }
 
@@ -645,7 +630,7 @@ PQTemplateFullscreen {
             return
         }
 
-        PQCScriptsShareImgur.abort()
+        PQCScriptsShareImgur.abort() // qmllint disable unqualified
         opacity = 0
         if(popoutWindowUsed)
             imgur_popout.visible = false

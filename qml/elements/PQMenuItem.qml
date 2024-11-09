@@ -42,47 +42,47 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
-            leftPadding: menuItem.checkable||iconSource!=""||moveToRightABit ? 30 : 0
+            leftPadding: menuItem.checkable||menuItem.iconSource!=""||menuItem.moveToRightABit ? 30 : 0
             height: 40
             text: menuItem.text
             font: menuItem.font
-            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled
+            styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
         }
 
     indicator: Item {
         implicitWidth: 30
         implicitHeight: 40
-        visible: menuItem.checkable||iconSource!=""
+        visible: menuItem.checkable||menuItem.iconSource!=""
         Image {
-            visible: iconSource!=""
+            visible: menuItem.iconSource!=""
             x: 5
             y: 10
             width: 20
             height: 20
             fillMode: Image.Pad
-            source: iconSource
+            source: menuItem.iconSource
             sourceSize: Qt.size(width, height)
         }
         Rectangle {
-            visible: iconSource==""
+            visible: menuItem.iconSource==""
             width: 20
             height: 20
             anchors.centerIn: parent
-            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
-            color: PQCLook.baseColorHighlight
-            radius: checkableLikeRadioButton ? 10 : 2
+            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorHighlight // qmllint disable unqualified
+            radius: menuItem.checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: 10
                 height: 10
                 anchors.centerIn: parent
                 visible: menuItem.checked
-                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
-                radius: checkableLikeRadioButton ? 5 : 2
+                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive // qmllint disable unqualified
+                radius: menuItem.checkableLikeRadioButton ? 5 : 2
             }
         }
     }
@@ -94,7 +94,7 @@ MenuItem {
         visible: menuItem.subMenu
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = PQCLook.baseColorActive
+            ctx.fillStyle = PQCLook.baseColorActive // qmllint disable unqualified
             ctx.moveTo(15, 15)
             ctx.lineTo(width - 15, height / 2)
             ctx.lineTo(15, height - 15)
@@ -106,8 +106,8 @@ MenuItem {
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
-        color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
-        border.color: PQCLook.baseColorAccent
+        color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor // qmllint disable unqualified
+        border.color: PQCLook.baseColorAccent // qmllint disable unqualified
         border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }
@@ -119,8 +119,8 @@ MenuItem {
 
         onClicked: function(mouse) {
             if(menuItem.checkable) {
-                menuItem.checked = (checkableLikeRadioButton || !menuItem.checked)
-                if(keepOpenWhenCheckedChanges)
+                menuItem.checked = (menuItem.checkableLikeRadioButton || !menuItem.checked)
+                if(menuItem.keepOpenWhenCheckedChanges)
                     return
             }
             menuItem.triggered()

@@ -44,12 +44,12 @@ Column {
             check()
     }
 
-    property var checkedScreens: []
+    property list<int> checkedScreens: []
 
     PQTextXL {
         x: (parent.width-width)/2
         text: "Plasma 5"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -67,7 +67,7 @@ Column {
 
     function check() {
 
-        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount()
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
         checkedScreens = []
         for(var i = 0; i < wallpaper_top.numDesktops; ++i)
             checkedScreens.push(i+1)

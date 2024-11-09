@@ -268,7 +268,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -281,7 +281,7 @@ Flickable {
 
     function load() {
 
-        thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize)
+        thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) // qmllint disable unqualified
 
         thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit)
         thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
@@ -303,7 +303,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSize = thumb_size .value
+        PQCSettings.thumbnailsSize = thumb_size.value // qmllint disable unqualified
 
         PQCSettings.thumbnailsCropToFit = thumb_crop.checked
         PQCSettings.thumbnailsSmallThumbnailsKeepSmall = thumb_small .checked

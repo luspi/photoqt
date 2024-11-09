@@ -105,16 +105,17 @@ Flickable {
                     }
                     PQComboBox {
                         id: sortcriteria
-                                //: A criteria for sorting images
-                        model: [qsTranslate("settingsmanager", "natural name"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "name"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "time"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "size"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "type")]
+                                                          //: A criteria for sorting images
+                        property list<string> modeldata: [qsTranslate("settingsmanager", "natural name"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "name"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "time"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "size"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "type")]
+                        model: modeldata
                         onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
@@ -184,21 +185,23 @@ Flickable {
                         }
                         PQComboBox {
                             id: anicombo
-                                    //: This is referring to an in/out animation of images
-                            model: [qsTranslate("settingsmanager", "opacity"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "along x-axis"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "along y-axis"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "rotation"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "explosion"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "implosion"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "choose one at random")]
-                            lineBelowItem: [5]
+                                                              //: This is referring to an in/out animation of images
+                            property list<string> modeldata: [qsTranslate("settingsmanager", "opacity"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "along x-axis"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "along y-axis"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "rotation"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "explosion"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "implosion"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "choose one at random")]
+                            model: modeldata
+                            property list<int> linedata: [5]
+                            lineBelowItem: linedata
                             onCurrentIndexChanged: setting_top.checkDefault()
                         }
                     }
@@ -291,7 +294,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -325,7 +328,7 @@ Flickable {
 
     function load() {
 
-        loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder)
+        loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) // qmllint disable unqualified
 
         var l = ["naturalname", "name", "time", "size", "type"]
         if(l.indexOf(PQCSettings.imageviewSortImagesBy) > -1)
@@ -353,7 +356,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewLoopThroughFolder = loop.checked
+        PQCSettings.imageviewLoopThroughFolder = loop.checked // qmllint disable unqualified
 
         var l = ["naturalname", "name", "time", "size", "type"]
         PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]

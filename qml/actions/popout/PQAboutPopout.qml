@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "About") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.aboutGeometry
-    isMax: PQCWindowGeometry.aboutMaximized
-    popout: PQCSettings.interfacePopoutAbout
-    sizepopout: PQCWindowGeometry.aboutForcePopout
+    geometry: PQCWindowGeometry.aboutGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.aboutMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutAbout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.aboutForcePopout // qmllint disable unqualified
     source: "actions/PQAbout.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "about")
+        if(loader.visibleItem === "about") // qmllint disable unqualified
             loader.elementClosed("about")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutAbout)
+        if(popout !== PQCSettings.interfacePopoutAbout) // qmllint disable unqualified
             PQCSettings.interfacePopoutAbout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.aboutGeometry)
+        if(geometry !== PQCWindowGeometry.aboutGeometry) // qmllint disable unqualified
             PQCWindowGeometry.aboutGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.aboutMaximized)
+        if(isMax !== PQCWindowGeometry.aboutMaximized) // qmllint disable unqualified
             PQCWindowGeometry.aboutMaximized = isMax
     }
 

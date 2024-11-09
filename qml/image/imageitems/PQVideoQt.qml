@@ -33,6 +33,8 @@ Item {
 
     id: videotop
 
+    property string imageSource: ""
+
     width: video.width
     height: video.height
 
@@ -44,21 +46,18 @@ Item {
         id: video
 
         // earlier versions of Qt6 seem to struggle if only one slash is used
-        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + imageloaderitem.imageSource
+        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + videotop.imageSource // qmllint disable unqualified
 
-        onSourceChanged:
-            console.warn(">>>>>", source)
+        volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
 
-        volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100
-
-        width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined
-        height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined
+        width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined // qmllint disable unqualified
+        height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined // qmllint disable unqualified
 
         fillMode: VideoOutput.PreserveAspectFit
 
         onPositionChanged: {
             if(position >= duration-100) {
-                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning)
+                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) // qmllint disable unqualified
                     video.seek(0)
                 else
                     video.pause()
@@ -69,10 +68,10 @@ Item {
             if(playbackState === MediaPlayer.StoppedState) {
 
                 // earlier versions of Qt6 seem to struggle if only one slash is used
-                if(PQCScriptsConfig.isQtAtLeast6_5())
-                    video.source = "file:/" + imageloaderitem.imageSource
+                if(PQCScriptsConfig.isQtAtLeast6_5()) // qmllint disable unqualified
+                    video.source = "file:/" + videotop.imageSource
                 else
-                    video.source = "file://" + imageloaderitem.imageSource
+                    video.source = "file://" + videotop.imageSource
 
                 if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) {
                     video.play()
@@ -85,21 +84,12 @@ Item {
 
     }
 
-    onWidthChanged: {
-        image_wrapper.width = width
-        loader_top.imageResolution.width = width
-    }
-    onHeightChanged: {
-        loader_top.imageResolution.height = height
-        image_wrapper.height = height
-    }
-
     onVisibleChanged: {
         if(!visible) {
             video.pause()
             video.seek(0)
         } else {
-            loader_top.videoLoaded = true
+            loader_top.videoLoaded = true // qmllint disable unqualified
             loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
             loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
             loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
@@ -109,7 +99,7 @@ Item {
     }
 
     Component.onCompleted: {
-        loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
+        loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); }) // qmllint disable unqualified
         loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
         loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
         loader_top.videoHasAudio = Qt.binding(function() { return video.hasAudio })
@@ -117,10 +107,10 @@ Item {
     }
 
     Connections {
-        target: image_top
-        function onVideoJump(seconds) {
+        target: image_top // qmllint disable unqualified
+        function onVideoJump(seconds : int) {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             if(video.seekable)
@@ -130,25 +120,25 @@ Item {
 
     Connections {
 
-        target: loader_top
+        target: loader_top // qmllint disable unqualified
 
         function onVideoTogglePlay() {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             toggle()
         }
-        function onVideoToPos(pos) {
+        function onVideoToPos(pos : int) {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             video.seek(pos*1000)
         }
         function onImageClicked() {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             toggle()
@@ -156,7 +146,7 @@ Item {
 
         function onStopVideoAndReset() {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             if(loader_top.videoPlaying) {
@@ -166,7 +156,7 @@ Item {
         }
         function onRestartVideoIfAutoplay() {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             if(loader_top.videoPlaying) {
@@ -188,11 +178,11 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             if(PQCNotify.slideshowRunning) {
@@ -205,7 +195,7 @@ Item {
 
     function toggle() {
 
-        if(!loader_top.isMainImage)
+        if(!loader_top.isMainImage) // qmllint disable unqualified
             return
 
         if(loader_top.videoPlaying)
@@ -222,12 +212,12 @@ Item {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
         function onMirrorH() {
             videotop.myMirrorH = !videotop.myMirrorH
         }
@@ -240,25 +230,32 @@ Item {
         }
     }
 
-    function setMirrorHV(mH, mV) {
+    Connections {
+        target: image_wrapper // qmllint disable unqualified
+        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+            videotop.setMirrorHV(mirH, mirV)
+        }
+    }
+
+    function setMirrorHV(mH : bool, mV : bool) {
         videotop.myMirrorH = mH
         videotop.myMirrorV = mV
     }
 
     transform: [
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: videotop.width / 2
+            origin.y: videotop.height / 2
             axis { x: 0; y: 1; z: 0 }
-            angle: myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: videotop.myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         },
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: videotop.width / 2
+            origin.y: videotop.height / 2
             axis { x: 1; y: 0; z: 0 }
-            angle: myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: videotop.myMirrorV ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         }
     ]
 

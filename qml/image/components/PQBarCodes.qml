@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -32,34 +33,36 @@ import "../../elements"
 
 Item {
 
+    id: bartop
+
     anchors.fill: parent
 
-    property var barcodes: []
+    property list<var> barcodes: []
     property int barcode_z: 0
 
     Connections {
-        target: image_top
-        function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex) {
-            if(!loader_top.isMainImage) {
+        target: image_top // qmllint disable unqualified
+        function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex : int) {
+            if(!loader_top.isMainImage) { // qmllint disable unqualified
                 // videoloader.active = false
-                barcodes = []
+                bartop.barcodes = []
             }
         }
         function onDetectBarCodes() {
-            if(loader_top.isMainImage) {
+            if(loader_top.isMainImage) { // qmllint disable unqualified
                 if(!PQCNotify.barcodeDisplayed) {
-                    barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
-                    if(barcodes.length === 0) {
+                    bartop.barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
+                    if(bartop.barcodes.length === 0) {
                         loader.show("notification", [qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found.")])
-                    } else if(barcodes.length/3 == 1) {
+                    } else if(bartop.barcodes.length/3 == 1) {
                         loader.show("notification", [qsTranslate("image", "Success"),  qsTranslate("image", "1 bar/QR code found.")])
-                    } else if(barcodes.length/3 > 1) {
-                        loader.show("notification", [qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(barcodes.length/3)])
+                    } else if(bartop.barcodes.length/3 > 1) {
+                        loader.show("notification", [qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(bartop.barcodes.length/3)])
                     }
-                    PQCNotify.barcodeDisplayed = barcodes.length>0
+                    PQCNotify.barcodeDisplayed = bartop.barcodes.length>0
                 } else {
                     PQCNotify.barcodeDisplayed = false
-                    barcodes = []
+                    bartop.barcodes = []
                 }
             }
         }
@@ -67,21 +70,24 @@ Item {
 
     Loader {
 
-        active: barcodes.length>0
+        active: bartop.barcodes.length>0
 
         Item {
             // id: barcodes
             anchors.fill: parent
-            property var list_barcodes: []
+
             Repeater {
-                model: barcodes.length/3
+                model: bartop.barcodes.length/3
 
                 Rectangle {
 
                     id: bardeleg
-                    property var val: barcodes[3*index]
-                    property var loc: barcodes[3*index+1]
-                    property var sze: barcodes[3*index+2]
+
+                    required property int modelData
+
+                    property string val: bartop.barcodes[3*modelData]
+                    property point loc: bartop.barcodes[3*modelData+1]
+                    property size sze: bartop.barcodes[3*modelData+2]
                     x: loc.x
                     y: loc.y
                     width: sze.width
@@ -99,7 +105,7 @@ Item {
 
                         spacing: 1
 
-                        scale: 1/loader_top.imageScale
+                        scale: 1/loader_top.imageScale // qmllint disable unqualified
                         Behavior on scale { NumberAnimation { duration: 200 } }
 
                         Rectangle {
@@ -152,7 +158,7 @@ Item {
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                                visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
+                                visible: PQCScriptsFilesPaths.isUrl(bardeleg.val) // qmllint disable unqualified
                                 enabled: visible
                                 Image {
                                     anchors.fill: parent
@@ -165,11 +171,11 @@ Item {
 
                             Connections {
 
-                                target: image_top
+                                target: image_top // qmllint disable unqualified
 
                                 function onBarcodeClick() {
                                     if(copycont.hovered)
-                                        PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
+                                        PQCScriptsClipboard.copyTextToClipboard(bardeleg.val) // qmllint disable unqualified
                                     else if(linkcont.hovered)
                                         Qt.openUrlExternally(bardeleg.val)
                                 }
@@ -178,20 +184,20 @@ Item {
 
                             Connections {
 
-                                target: PQCNotify
-                                enabled: loader_top.isMainImage
+                                target: PQCNotify // qmllint disable unqualified
+                                enabled: loader_top.isMainImage // qmllint disable unqualified
 
-                                function onMouseMove(x, y) {
+                                function onMouseMove(x : int, y : int) {
 
-                                    var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                    var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
                                     copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
 
                                     local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
                                     linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
                                     if(copycont.hovered || linkcont.hovered) {
-                                        barcode_z += 1
-                                        bardeleg.z = barcode_z
+                                        bartop.barcode_z += 1
+                                        bardeleg.z = bartop.barcode_z
                                         bardeleg.overrideCursorSet = true
                                         PQCScriptsOther.setPointingHandCursor()
                                     } else if(bardeleg.overrideCursorSet) {

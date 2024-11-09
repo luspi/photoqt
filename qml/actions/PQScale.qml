@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCNotify
 import PQCFileFolderModel
@@ -37,8 +36,8 @@ PQTemplateFullscreen {
     id: scale_top
 
     thisis: "scale"
-    popout: PQCSettings.interfacePopoutScale
-    forcePopout: PQCWindowGeometry.scaleForcePopout
+    popout: PQCSettings.interfacePopoutScale // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
     shortcut: "__scale"
 
     title: qsTranslate("scale", "Scale image")
@@ -50,7 +49,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutScale = popout
+        PQCSettings.interfacePopoutScale = popout // qmllint disable unqualified
 
     button1.onClicked:
         scaleImage()
@@ -67,7 +66,7 @@ PQTemplateFullscreen {
             id: errorlabel
             width: parent.width
             horizontalAlignment: Qt.AlignHCenter
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             visible: false
             text: qsTranslate("scale", "An error occured, file could not be scaled")
@@ -112,14 +111,14 @@ PQTemplateFullscreen {
                     showSlider: false
                     onEditModeChanged: {
                         if(!editMode && spin_h.editMode) {
-                            PQCNotify.spinBoxPassKeyEvents = true
+                            PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
                         }
                     }
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
-                        if(keepAspectRatio && reactToValueChanged) {
-                            var h = value/aspectRatio
+                        if(scale_top.keepAspectRatio && reactToValueChanged) {
+                            var h = value/scale_top.aspectRatio
                             if(h !== spin_h.value) {
                                 spin_h.reactToValueChanged = false
                                 spin_h.value = Math.round(h)
@@ -136,14 +135,14 @@ PQTemplateFullscreen {
                     showSlider: false
                     onEditModeChanged: {
                         if(!editMode && spin_w.editMode) {
-                            PQCNotify.spinBoxPassKeyEvents = true
+                            PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
                         }
                     }
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
-                        if(keepAspectRatio && reactToValueChanged) {
-                            var w = value*aspectRatio
+                        if(scale_top.keepAspectRatio && reactToValueChanged) {
+                            var w = value*scale_top.aspectRatio
                             if(w !== spin_w.value) {
                                 spin_w.reactToValueChanged = false
                                 spin_w.value = Math.round(w)
@@ -156,21 +155,21 @@ PQTemplateFullscreen {
             }
 
             Image {
-                source: keepAspectRatio ? "image://svg/:/white/aspectratiokeep.svg" : "image://svg/:/white/aspectratioignore.svg"
+                source: scale_top.keepAspectRatio ? "image://svg/:/white/aspectratiokeep.svg" : "image://svg/:/white/aspectratioignore.svg"
                 y: (spincol.height-height)/2
                 width: height/3
                 height: spincol.height*0.8
                 sourceSize: Qt.size(width, height)
                 smooth: false
                 mipmap: false
-                opacity: keepAspectRatio ? 1 : 0.5
+                opacity: scale_top.keepAspectRatio ? 1 : 0.5
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 PQMouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        keepAspectRatio = !keepAspectRatio
+                        scale_top.keepAspectRatio = !scale_top.keepAspectRatio
                     }
                 }
             }
@@ -180,7 +179,7 @@ PQTemplateFullscreen {
         PQTextS {
 
             x: (parent.width-width)/2
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             text: qsTranslate("scale", "New size:") + " " +
                   spin_w.value + " x " + spin_h.value + " " +
                   //: This is used as in: 100x100 pixels
@@ -200,55 +199,55 @@ PQTemplateFullscreen {
 
             PQButton {
                 text: "0.25x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.25
-                    spin_h.value = image.currentResolution.height*0.25
+                    spin_w.value = image.currentResolution.width*0.25 // qmllint disable unqualified
+                    spin_h.value = image.currentResolution.height*0.25 // qmllint disable unqualified
                 }
             }
 
             PQButton {
                 text: "0.5x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.5
+                    spin_w.value = image.currentResolution.width*0.5 // qmllint disable unqualified
                     spin_h.value = image.currentResolution.height*0.5
                 }
             }
 
             PQButton {
                 text: "0.75x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.75
+                    spin_w.value = image.currentResolution.width*0.75 // qmllint disable unqualified
                     spin_h.value = image.currentResolution.height*0.75
                 }
             }
 
             PQButton {
                 text: "1x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width
+                    spin_w.value = image.currentResolution.width // qmllint disable unqualified
                     spin_h.value = image.currentResolution.height
                 }
             }
 
             PQButton {
                 text: "1.5x"
-                font.pointSize: PQCLook.fontSize
-                font.weight: PQCLook.fontWeightNormal
+                font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*1.5
+                    spin_w.value = image.currentResolution.width*1.5 // qmllint disable unqualified
                     spin_h.value = image.currentResolution.height*1.5
                 }
             }
@@ -290,8 +289,8 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: PQCScriptsFileManagement
-        function onScaleCompleted(success) {
+        target: PQCScriptsFileManagement // qmllint disable unqualified
+        function onScaleCompleted(success : bool) {
             if(success) {
                 errorlabel.visible = false
                 scalebusy.showSuccess()
@@ -310,26 +309,27 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === scale_top.thisis)
+                    scale_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === scale_top.thisis)
+                    scale_top.hide()
 
             } else if(scale_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        scale_top.hide()
 
                     else if(param[0] === Qt.Key_Plus) {
 
@@ -347,8 +347,8 @@ PQTemplateFullscreen {
 
                     } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
-                        if(button1.enabled)
-                            scaleImage()
+                        if(scale_top.button1.enabled)
+                            scale_top.scaleImage()
 
                     }
 
@@ -368,7 +368,7 @@ PQTemplateFullscreen {
         errorlabel.visible = false
         scalebusy.showBusy()
 
-        var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
+        var uniqueid = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile) // qmllint disable unqualified
         var targetFilename = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("scale", "Scale"), PQCFileFolderModel.currentFile, uniqueid, true);
 
         if(targetFilename === "") {
@@ -390,7 +390,7 @@ PQTemplateFullscreen {
     }
 
     function show() {
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -419,7 +419,7 @@ PQTemplateFullscreen {
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            scale_popout.visible = false
+            scale_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
 
     }

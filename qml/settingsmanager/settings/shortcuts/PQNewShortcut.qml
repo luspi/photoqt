@@ -32,7 +32,7 @@ Rectangle {
 
     anchors.fill: parent
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     opacity: 0
     visible: opacity > 0
@@ -60,7 +60,7 @@ Rectangle {
         var txt = ""
 
         if(keyComboMods.length > 0) {
-            txt += "<b>" + shortcuts.item.translateShortcut(keyComboMods.join("+")) + "</b>"
+            txt += "<b>" + shortcuts.item.translateShortcut(keyComboMods.join("+")) + "</b>" // qmllint disable unqualified
             txt += "<br>+<br>"
         }
 
@@ -83,7 +83,7 @@ Rectangle {
         var txt = ""
 
         if(mouseComboMods.length > 0) {
-            txt += "<b>" + shortcuts.item.translateShortcut(mouseComboMods.join("+")) + "</b>"
+            txt += "<b>" + shortcuts.item.translateShortcut(mouseComboMods.join("+")) + "</b>" // qmllint disable unqualified
             txt += "<br>+<br>"
         }
 
@@ -120,7 +120,7 @@ Rectangle {
         id: titletxt
         y: insidecont.y-2*height
         width: parent.width
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         horizontalAlignment: Text.AlignHCenter
         text: (newshortcut_top.currentSubIndex==-1 ? qsTranslate("settingsmanager", "Add New Shortcut") : qsTranslate("settingsmanager", "Set new shortcut"))
     }
@@ -134,16 +134,16 @@ Rectangle {
         width: Math.min(800, parent.width)
         height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
         border.width: 1
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
         PQText {
             id: instr_txt
             width: parent.width
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WordWrap
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             text: qsTranslate("settingsmanager", "Perform a mouse gesture here or press any key combo")
         }
 
@@ -161,7 +161,7 @@ Rectangle {
             y: parent.height-height
             width: parent.width
             height: leftbutmessagetxt.height+20
-            color: PQCLook.baseColorActive
+            color: PQCLook.baseColorActive // qmllint disable unqualified
             opacity: 0
             // this needs to be done this way to avoid a binding loop warning
             onOpacityChanged: {
@@ -175,7 +175,7 @@ Rectangle {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: PQCLook.textColor
+                color: PQCLook.textColor // qmllint disable unqualified
                 text: qsTranslate("settingsmanager", "The left button is used for moving the main image around.") + "<br>\n" +
                       qsTranslate("settingsmanager", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
             }
@@ -202,7 +202,7 @@ Rectangle {
 
             property bool ignoreSingleBecauseDouble: false
 
-            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold // qmllint disable unqualified
 
             onPressed: (mouse) => {
 
@@ -214,8 +214,8 @@ Rectangle {
                 pressedEventInProgress = true
                 pressedPosLast = Qt.point(mouse.x, mouse.y)
 
-                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
-                newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseButton(mouse.button)
+                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers) // qmllint disable unqualified
+                newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseButton(mouse.button) // qmllint disable unqualified
                 newshortcut_top.mouseComboDirection = []
                 newshortcut_top.keyComboKey = ""
                 newshortcut_top.keyComboMods = []
@@ -230,7 +230,7 @@ Rectangle {
                 newshortcut_top.keyComboMods = []
                 newshortcut_top.keyComboKey = ""
 
-                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
+                newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers) // qmllint disable unqualified
                 newshortcut_top.mouseComboButton = "Double Click"
                 newshortcut_top.mouseComboDirection = []
 
@@ -239,7 +239,7 @@ Rectangle {
 
             onPositionChanged: (mouse) => {
                 if(pressedEventInProgress) {
-                    var mov = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(mouse.x, mouse.y), pressedPosLast)
+                    var mov = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(mouse.x, mouse.y), pressedPosLast) // qmllint disable unqualified
                     if(mov !== "") {
                         newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(mouse.modifiers)
                         if(newshortcut_top.mouseComboDirection[newshortcut_top.mouseComboDirection.length-1] !== mov) {
@@ -260,8 +260,8 @@ Rectangle {
                newshortcut_top.keyComboMods = []
                newshortcut_top.keyComboKey = ""
 
-               newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(wheel.modifiers)
-               newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseWheel(wheel.angleDelta)
+               newshortcut_top.mouseComboMods = PQCScriptsShortcuts.analyzeModifier(wheel.modifiers) // qmllint disable unqualified
+               newshortcut_top.mouseComboButton = PQCScriptsShortcuts.analyzeMouseWheel(wheel.angleDelta) // qmllint disable unqualified
                newshortcut_top.mouseComboDirection = []
 
                newshortcut_top.assembleMouseCombo()
@@ -316,7 +316,7 @@ Rectangle {
             PQButton {
                 id: savebut
                 text: (savetimer.running ? (genericStringSave+" (" + savetimer.countdown + ")") : genericStringSave)
-                font.weight: (savetimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
+                font.weight: (savetimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal) // qmllint disable unqualified
                 onClicked: {
                     newshortcut_top.hide()
 
@@ -342,7 +342,7 @@ Rectangle {
             PQButton {
                 id: cancelbut
                 text: (canceltimer.running ? genericStringCancel+" (" + canceltimer.countdown + ")" : genericStringCancel)
-                font.weight: (canceltimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal)
+                font.weight: (canceltimer.running ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal) // qmllint disable unqualified
                 onClicked: {
                     newshortcut_top.hide()
                 }
@@ -353,7 +353,7 @@ Rectangle {
 
     Connections {
 
-        target: settingsmanager_top
+        target: settingsmanager_top // qmllint disable unqualified
 
         function onPassOnShortcuts(mods: string, keys: string) {
 
@@ -363,8 +363,8 @@ Rectangle {
             newshortcut_top.mouseComboButton = ""
             newshortcut_top.mouseComboDirection = []
 
-            newshortcut_top.keyComboMods = PQCScriptsShortcuts.analyzeModifier(mods)
-            newshortcut_top.keyComboKey = PQCScriptsShortcuts.analyzeKeyPress(keys)
+            newshortcut_top.keyComboMods = PQCScriptsShortcuts.analyzeModifier(mods) // qmllint disable unqualified
+            newshortcut_top.keyComboKey = PQCScriptsShortcuts.analyzeKeyPress(keys) // qmllint disable unqualified
 
             newshortcut_top.assembleKeyCombo()
 
@@ -375,7 +375,7 @@ Rectangle {
     property string backupVisibleItem: ""
     function show(index: int, subindex: int) {
 
-        if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) {
+        if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) { // qmllint disable unqualified
             backupVisibleItem = loader.visibleItem
             loader.visibleItem = "shortcuts"
         }
@@ -403,7 +403,7 @@ Rectangle {
         canceltimer.stop()
         savetimer.stop()
         newshortcut_top.opacity = 0
-        settingsmanager_top.passShortcutsToDetector = false
+        settingsmanager_top.passShortcutsToDetector = false // qmllint disable unqualified
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
             loader.visibleItem = backupVisibleItem

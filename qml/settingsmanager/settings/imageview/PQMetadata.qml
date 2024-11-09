@@ -54,7 +54,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
         //: Part of the meta information about the current image.
-    property var labels: [["Filename", qsTranslate("settingsmanager", "file name")],
+    property list<var> labels: [["Filename", qsTranslate("settingsmanager", "file name")],
         //: Part of the meta information about the current image.
         ["FileType", qsTranslate("settingsmanager", "file type")],
         //: Part of the meta information about the current image.
@@ -133,7 +133,7 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight
+                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                     PQLineEdit {
                         id: labels_filter
@@ -142,14 +142,14 @@ Flickable {
                         placeholderText: qsTranslate("settingsmanager", "Filter labels")
                         onControlActiveFocusChanged: {
                             if(labels_filter.controlActiveFocus) {
-                                PQCNotify.ignoreKeysExceptEnterEsc = true
+                                PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
                             } else {
                                 PQCNotify.ignoreKeysExceptEnterEsc = false
                                 fullscreenitem.forceActiveFocus()
                             }
                         }
                         Component.onDestruction: {
-                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
                             fullscreenitem.forceActiveFocus()
                         }
                     }
@@ -196,7 +196,7 @@ Flickable {
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     property bool delegSetup: false
@@ -214,9 +214,9 @@ Flickable {
                                         width: parent.width-20
                                         elide: Text.ElideRight
                                         text: setting_top.labels[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal
-                                        font.pointSize: PQCLook.fontSizeS
-                                        color: PQCLook.textColor
+                                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                                        font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                        color: PQCLook.textColor // qmllint disable unqualified
                                         extraHovered: tilemouse.containsMouse
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
@@ -253,11 +253,11 @@ Flickable {
                                         target: setting_top
 
                                         function onLabelsLoadDefault() {
-                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]]
+                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] // qmllint disable unqualified
                                         }
 
                                         function onLabelsSaveChanges() {
-                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked
+                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked // qmllint disable unqualified
                                         }
                                     }
 
@@ -284,7 +284,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight
+                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
                         }
 
                         Row {
@@ -399,7 +399,7 @@ Flickable {
                     id: screenegde
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "hide behind screen edge")
-                    checked: !PQCSettings.metadataElementFloating
+                    checked: !PQCSettings.metadataElementFloating // qmllint disable unqualified
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -407,7 +407,7 @@ Flickable {
                     id: floating
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "use floating element")
-                    checked: PQCSettings.metadataElementFloating
+                    checked: PQCSettings.metadataElementFloating // qmllint disable unqualified
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -545,7 +545,7 @@ Flickable {
                             id: border_color
                             width: 100
                             height: border_show.height
-                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor) // qmllint disable unqualified
                             onRgbaChanged: setting_top.checkDefault()
                             color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
 
@@ -554,7 +554,7 @@ Flickable {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    PQCNotify.modalFileDialogOpen = true
+                                    PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                                     var newcol = PQCScriptsOther.selectColor(border_color.rgba)
                                     PQCNotify.modalFileDialogOpen = false
                                     fullscreenitem.forceActiveFocus()
@@ -582,7 +582,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -635,7 +635,7 @@ Flickable {
 
         loadtimer.restart()
 
-        autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
+        autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) // qmllint disable unqualified
 
         osm.loadAndSetDefault(PQCSettings.metadataGpsMap==="openstreetmap.org")
         google.loadAndSetDefault(PQCSettings.metadataGpsMap==="maps.google.com")
@@ -660,7 +660,7 @@ Flickable {
         setting_top.labelsSaveChanges()
         _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
 
-        PQCSettings.metadataAutoRotation = autorot.checked
+        PQCSettings.metadataAutoRotation = autorot.checked // qmllint disable unqualified
 
         if(osm.checked)
             PQCSettings.metadataGpsMap = "openstreetmap.org"

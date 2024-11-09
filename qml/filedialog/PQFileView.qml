@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -42,31 +43,31 @@ GridView {
     id: view
 
     y: 1
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2 // qmllint disable unqualified
 
     model: 0
     // we need to do all the below as otherwise loading a folder with the same number of items as the previous one would not reload the model
     Connections {
-        target: PQCFileFolderModel
+        target: PQCFileFolderModel // qmllint disable unqualified
         function onNewDataLoadedFileDialog() {
             view.model = 0
-            currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
+            view.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
             view.model = PQCFileFolderModel.countAllFileDialog
             // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
             // (re-)setting the model will always reset the currentIndex to 0
-            currentIndex = -1
+            view.currentIndex = -1
         }
     }
     Component.onCompleted: {
-        model = PQCFileFolderModel.countAllFileDialog
+        model = PQCFileFolderModel.countAllFileDialog // qmllint disable unqualified
         updateThumbnailSize()
     }
 
     Connections {
-        target: PQCImageFormats
+        target: PQCImageFormats // qmllint disable unqualified
         function onFormatsUpdated() {
             view.model = 0
-            PQCFileFolderModel.forceReloadFileDialog()
+            PQCFileFolderModel.forceReloadFileDialog() // qmllint disable unqualified
             view.model = PQCFileFolderModel.countAllFileDialog
         }
     }
@@ -76,14 +77,14 @@ GridView {
 
     // select/cut
     property int shiftClickIndexStart: -1
-    property var currentSelection: []
-    property var currentCuts: []
+    property list<int> currentSelection: []
+    property list<string> currentCuts: []
     property bool currentFileSelected: (currentSelection.indexOf(currentIndex)!==-1)
     property bool ignoreMouseEvents: false
-    property var navigateToFileStartingWith: []
+    property list<string> navigateToFileStartingWith: []
 
     // properties
-    property bool showGrid: PQCSettings.filedialogLayout==="icons"
+    property bool showGrid: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
     property bool currentFolderExcluded: false
     property int currentFolderThumbnailIndex: -1
 
@@ -92,7 +93,7 @@ GridView {
 
     // The following Connection and Timer makes sure that changed to the zoom update the thumbnails with a delay
     Connections {
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
         function onFiledialogZoomChanged() {
             updateThumbnailSizeTimer.restart()
         }
@@ -101,19 +102,19 @@ GridView {
         id: updateThumbnailSizeTimer
         interval: 200
         onTriggered:
-            updateThumbnailSize()
+            view.updateThumbnailSize()
     }
 
     // This is the current thumbnail size. This is updated with a delay to allow for smoother zoom
     property int currentThumbnailWidth
     property int currentThumbnailHeight
     function updateThumbnailSize() {
-        currentThumbnailWidth = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : width)
+        currentThumbnailWidth = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : width) // qmllint disable unqualified
         currentThumbnailHeight = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom)
     }
 
-    cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width
-    cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom
+    cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width // qmllint disable unqualified
+    cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom // qmllint disable unqualified
     clip: true
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
@@ -138,7 +139,7 @@ GridView {
         id: resetIgnoreMouseEvents
         interval: 200
         onTriggered:
-            ignoreMouseEvents = false
+            view.ignoreMouseEvents = false
     }
 
     Timer {
@@ -161,7 +162,7 @@ GridView {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         enabled: false
-        visible: PQCFileFolderModel.countAllFileDialog===0
+        visible: PQCFileFolderModel.countAllFileDialog===0 // qmllint disable unqualified
         text: qsTranslate("filedialog", "no supported files/folders found")
     }
 
@@ -183,10 +184,10 @@ GridView {
         onClicked: (mouse) => {
 
             if(mouse.button === Qt.BackButton) {
-                goBackInHistory()
+                filedialog_top.goBackInHistory() // qmllint disable unqualified
                 return
             } else if(mouse.button === Qt.ForwardButton) {
-                goForwardsInHistory()
+                filedialog_top.goForwardsInHistory() // qmllint disable unqualified
                 return
             }
 
@@ -196,7 +197,7 @@ GridView {
                 view.currentIndex = ind
                 enableAnyways = false
                 if(!PQCSettings.filedialogSingleClickSelect && mouse.button === Qt.LeftButton)
-                    loadOnClick(ind)
+                    view.loadOnClick(ind)
                 return
             }
 
@@ -208,7 +209,7 @@ GridView {
             enableAnyways = false
         }
         onPositionChanged: {
-            if(fd_breadcrumbs.topSettingsMenu.visible)
+            if(fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
                 return
             var ind = view.indexAt(mouseX, view.contentY+mouseY)
             if(contextmenu.visible)
@@ -228,7 +229,7 @@ GridView {
         width: floatingStringLabel.width+20
         height: floatingStringLabel.height+10
 
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
         radius: 5
 
         opacity: 0
@@ -263,7 +264,7 @@ GridView {
             y: 5
 
             verticalAlignment: Text.AlignVCenter
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
 
             text: ""
 
@@ -273,7 +274,7 @@ GridView {
 
                 function onNavigateToFileStartingWithChanged() {
 
-                    if(navigateToFileStartingWith.length === 0) {
+                    if(view.navigateToFileStartingWith.length === 0) {
                         floatingString.opacity = 0
                         return
                     }
@@ -281,8 +282,8 @@ GridView {
                     floatingString.opacity = 0.8
 
                     var s = ""
-                    for(var i = 0; i < navigateToFileStartingWith.length; ++i) {
-                        s += navigateToFileStartingWith[i]
+                    for(var i = 0; i < view.navigateToFileStartingWith.length; ++i) {
+                        s += view.navigateToFileStartingWith[i]
                     }
                     floatingStringLabel.text = s
                 }
@@ -296,24 +297,26 @@ GridView {
 
         id: deleg
 
+        required property int modelData
+
         width: view.cellWidth
         height: view.cellHeight
 
         color: "transparent"
         border.width: 1
-        border.color: PQCLook.baseColorAccent
+        border.color: PQCLook.baseColorAccent // qmllint disable unqualified
 
         Rectangle {
             anchors.fill: parent
-            color: PQCLook.transColor
+            color: PQCLook.transColor // qmllint disable unqualified
             opacity: 0.5
         }
 
-        property string currentPath: PQCFileFolderModel.entriesFileDialog[index]
-        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
+        property string currentPath: PQCFileFolderModel.entriesFileDialog[modelData] // qmllint disable unqualified
+        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
         property int numberFilesInsideFolder: 0
         property bool currentFileCut: false
-        property int padding: PQCSettings.filedialogElementPadding
+        property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
 
         Item {
 
@@ -347,7 +350,7 @@ GridView {
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                property string sourceString: ("image://icon/"+(index < PQCFileFolderModel.countFoldersFileDialog
+                property string sourceString: ("image://icon/"+(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
                                                     ? (view.showGrid ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon")))
                                                     : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
@@ -365,7 +368,7 @@ GridView {
                 width: view.cellHeight-2*deleg.padding
                 height: view.cellHeight-2*deleg.padding
 
-                visible: index >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails && !currentFolderExcluded
+                visible: deleg.modelData >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails && !view.currentFolderExcluded // qmllint disable unqualified
 
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -374,11 +377,11 @@ GridView {
                 mipmap: false
                 asynchronous: true
                 cache: false
-                sourceSize: Qt.size(currentThumbnailWidth-2*deleg.padding,currentThumbnailHeight-2*deleg.padding)
+                sourceSize: Qt.size(view.currentThumbnailWidth-2*deleg.padding,view.currentThumbnailHeight-2*deleg.padding)
 
-                fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
 
-                source: visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""
+                source: visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : "" // qmllint disable unqualified
                 onSourceChanged: {
                     if(!visible)
                         fileicon.source = fileicon.sourceString
@@ -397,7 +400,7 @@ GridView {
                         filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
                     }
                     function onRefreshCurrentThumbnail() {
-                        if(index === view.currentIndex) {
+                        if(deleg.modelData === view.currentIndex) {
                             filethumb.source = ""
                             filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
                         }
@@ -416,12 +419,12 @@ GridView {
                 width: view.cellHeight-2*deleg.padding
                 height: view.cellHeight-2*deleg.padding
 
-                visible: PQCSettings.filedialogFolderContentThumbnails
+                visible: PQCSettings.filedialogFolderContentThumbnails // qmllint disable unqualified
 
                 property int curnum: 0
                 onCurnumChanged: {
-                    if(index === view.currentIndex)
-                        currentFolderThumbnailIndex = folderthumb.curnum
+                    if(deleg.modelData === view.currentIndex)
+                        view.currentFolderThumbnailIndex = folderthumb.curnum
                 }
 
                 signal hideExcept(var n)
@@ -430,14 +433,17 @@ GridView {
                     model: ListModel { id: folderthumb_model }
                     delegate: Image {
                         id: folderdeleg
+                        required property string folder
+                        required property int num
+                        required property int curindex
                         anchors.fill: folderthumb
                         source: "image://folderthumb/" + folder + ":://::" + num
                         smooth: true
                         mipmap: false
-                        fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                        fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
                         onStatusChanged: {
                             if(status == Image.Ready) {
-                                if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active)
+                                if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active) // qmllint disable unqualified
                                     folderthumb_next.restart()
                                 folderthumb.hideExcept(num)
                                 fileicon.source = ""
@@ -445,8 +451,8 @@ GridView {
                         }
                         Connections {
                             target: folderthumb
-                            function onHideExcept(n) {
-                                if(n !== num) {
+                            function onHideExcept(n : int) {
+                                if(n !== folderdeleg.num) {
                                     folderdeleg.source = ""
                                 }
                             }
@@ -456,29 +462,29 @@ GridView {
 
                 Timer {
                     id: folderthumb_next
-                    interval: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
+                    interval: PQCSettings.filedialogFolderContentThumbnailsSpeed===1 // qmllint disable unqualified
                                     ? 2000
                                     : (PQCSettings.filedialogFolderContentThumbnailsSpeed===2
                                             ? 1000
                                             : 500)
-                    running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload
+                    running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
                     onTriggered: {
-                        if(!PQCSettings.filedialogFolderContentThumbnails)
+                        if(!PQCSettings.filedialogFolderContentThumbnails) // qmllint disable unqualified
                             return
-                        if(index >= PQCFileFolderModel.countFoldersFileDialog)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+                        if(deleg.modelData >= PQCFileFolderModel.countFoldersFileDialog)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
                             return
                         if(deleg.numberFilesInsideFolder == 0)
                             return
-                        if((view.currentIndex===index || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
+                        if((view.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                             folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
-                            folderthumb_model.append({"folder": PQCFileFolderModel.entriesFileDialog[index], "num": folderthumb.curnum, "curindex": index})
+                            folderthumb_model.append({"folder": PQCFileFolderModel.entriesFileDialog[deleg.modelData], "num": folderthumb.curnum, "curindex": deleg.modelData})
                         }
                     }
                 }
                 Connections {
                     target: view
                     function onCurrentIndexChanged() {
-                        if(view.currentIndex===index && !PQCSettings.filedialogFolderContentThumbnailsAutoload)
+                        if(view.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload) // qmllint disable unqualified
                             folderthumb_next.restart()
                     }
                 }
@@ -504,7 +510,7 @@ GridView {
                     id: numberOfFilesInsideFolder
                     x: 10
                     y: (parent.height-height)/2-2
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     elide: Text.ElideMiddle
                     text: deleg.numberFilesInsideFolder
                 }
@@ -526,7 +532,7 @@ GridView {
                     id: numberThumbInsideFolder
                     x: 5
                     y: (parent.height-height)/2-2
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     elide: Text.ElideMiddle
                     text: "#"+folderthumb.curnum
                 }
@@ -534,19 +540,19 @@ GridView {
 
             // load async for files
             Timer {
-                running: index>=PQCFileFolderModel.countFoldersFileDialog
+                running: deleg.modelData>=PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
                 interval: 1
                 onTriggered: {
-                    fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath)
+                    fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
                 }
             }
 
             // load async for folders
             Timer {
-                running: index < PQCFileFolderModel.countFoldersFileDialog
+                running: deleg.modelData < PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
                 interval: 1
                 onTriggered: {
-                    PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) {
+                    PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
                         if(count > 0) {
                             deleg.numberFilesInsideFolder = count
                             fileinfo.text = count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count)
@@ -591,7 +597,7 @@ GridView {
                     mipmap: true
                     width: height
                     opacity: 0.3
-                    visible: index < PQCFileFolderModel.countFoldersFileDialog && folderthumb.curnum>0
+                    visible: deleg.modelData < PQCFileFolderModel.countFoldersFileDialog && folderthumb.curnum>0 // qmllint disable unqualified
                 }
 
             }
@@ -641,7 +647,7 @@ GridView {
 
                 anchors.fill: parent
                 color: "#44ffffff"
-                opacity: view.currentIndex===index ? 1 : 0
+                opacity: view.currentIndex===deleg.modelData ? 1 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
@@ -652,7 +658,7 @@ GridView {
 
                 anchors.fill: parent
                 color: "#88ffffff"
-                opacity: view.currentSelection.indexOf(index)==-1 ? 0 : 1
+                opacity: view.currentSelection.indexOf(deleg.modelData)==-1 ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
@@ -671,16 +677,16 @@ GridView {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltipReference: fd_splitview
+                tooltipReference: fd_splitview // qmllint disable unqualified
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-                drag.target: (view.showGrid && PQCSettings.filedialogDragDropFileviewGrid) ? dragHandler : undefined
+                drag.target: (view.showGrid && PQCSettings.filedialogDragDropFileviewGrid) ? dragHandler : undefined // qmllint disable unqualified
 
                 drag.onActiveChanged: {
                     if(mousearea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        fd_places.dragItemIndex = index
+                        fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
                         fd_places.dragReordering = false
                         fd_places.dragItemId = deleg.currentPath
                     }
@@ -695,24 +701,24 @@ GridView {
                 onPressed: {
 
                     if(!contextmenu.visible)
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                     else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
-                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (currentFileSelected ? currentSelection.length : 1)
+                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view.currentFileSelected ? view.currentSelection.length : 1)
                 }
 
                 onEntered: {
-                    if(ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
+                    if(view.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
                         return
 
                     if(!contextmenu.visible) {
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                         resetCurrentIndex.stop()
                     } else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     // we reset the tooltip everytime it is requested as some info/thumbnails might have changed/updated since last time
 
@@ -723,9 +729,9 @@ GridView {
 
                         var str = ""
 
-                        if(index < PQCFileFolderModel.countFoldersFileDialog) {
+                        if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog) {
 
-                            if(!currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
+                            if(!view.currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
                                 // when a folder is hovered before a thumbnail inside is loaded, this will result in an empty image
                                 var n = folderthumb.curnum
                                 if(n == 0 && deleg.numberFilesInsideFolder > 0)
@@ -745,7 +751,7 @@ GridView {
                             str = "<table><tr>"
 
                             // if we do not cache this directory, we do not show a thumbnail image
-                            if(!currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
+                            if(!view.currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
                                 str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
                                 str += "<td>&nbsp;</td>"
                             }
@@ -788,8 +794,8 @@ GridView {
                 }
 
                 onExited: {
-                    if(!ignoreMouseEvents) {
-                        resetCurrentIndex.oldIndex = index
+                    if(!view.ignoreMouseEvents) {
+                        resetCurrentIndex.oldIndex = deleg.modelData
                         resetCurrentIndex.restart()
                     }
                 }
@@ -798,12 +804,12 @@ GridView {
 
                 onClicked: (mouse) => {
 
-                    fd_breadcrumbs.disableAddressEdit()
+                    fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
 
                     if(!contextmenu.visible)
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                     else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     if(mouse.button === Qt.BackButton) {
                         goBackInHistory()
@@ -815,29 +821,29 @@ GridView {
 
                     if(mouse.button === Qt.RightButton) {
                         contextmenu.path = deleg.currentPath;
-                        contextmenu.setCurrentIndexToThisAfterClose = index;
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData;
                         contextmenu.popup();
                         return;
                     }
 
                     if(mouse.modifiers & Qt.ShiftModifier) {
 
-                        if(shiftClickIndexStart === index) {
-                            if(!currentFileSelected) {
-                                view.currentSelection.push(index)
+                        if(view.shiftClickIndexStart === deleg.modelData) {
+                            if(!view.currentFileSelected) {
+                                view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
-                                shiftClickIndexStart = index
+                                view.shiftClickIndexStart = deleg.modelData
                             } else {
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
-                                shiftClickIndexStart = -1
+                                view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
+                                view.shiftClickIndexStart = -1
                             }
-                        } else if(shiftClickIndexStart !== -1) {
+                        } else if(view.shiftClickIndexStart !== -1) {
 
-                            if(shiftClickIndexStart < index) {
-                                for(var i = shiftClickIndexStart; i < index+1; ++i)
+                            if(view.shiftClickIndexStart < deleg.modelData) {
+                                for(var i = view.shiftClickIndexStart; i < deleg.modelData+1; ++i)
                                     view.currentSelection.push(i)
                             } else {
-                                for(var l = index; l < shiftClickIndexStart+1; ++l)
+                                for(var l = deleg.modelData; l < view.shiftClickIndexStart+1; ++l)
                                     view.currentSelection.push(l)
                             }
 
@@ -845,46 +851,46 @@ GridView {
 
                         } else {
 
-                            if(!currentFileSelected) {
-                                shiftClickIndexStart = index
-                                view.currentSelection.push(index)
+                            if(!view.currentFileSelected) {
+                                view.shiftClickIndexStart = deleg.modelData
+                                view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
                             } else {
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
-                                shiftClickIndexStart = -1
+                                view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
+                                view.shiftClickIndexStart = -1
 
                             }
                         }
 
                     } else if(mouse.modifiers & Qt.ControlModifier) {
 
-                        shiftClickIndexStart = -1
+                        view.shiftClickIndexStart = -1
 
-                        if(currentFileSelected) {
-                            view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        if(view.currentFileSelected) {
+                            view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
                         } else {
-                            view.currentSelection.push(index)
+                            view.currentSelection.push(deleg.modelData)
                             view.currentSelectionChanged()
                         }
 
                     } else {
 
-                        shiftClickIndexStart = -1
+                        view.shiftClickIndexStart = -1
 
                         if(PQCSettings.filedialogSingleClickSelect) {
 
-                            if(!currentFileSelected) {
+                            if(!view.currentFileSelected) {
 
-                                view.currentSelection = [index]
-                                storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
+                                view.currentSelection = [deleg.modelData]
+                                mousearea.storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
 
                             } else {
 
                                 var t = PQCScriptsOther.getTimestamp()
-                                var o = storeClicks[deleg.currentPath]
+                                var o = mousearea.storeClicks[deleg.currentPath]
 
                                 if(t-o < 300) {
-                                    if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                    if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
                                         PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
@@ -893,13 +899,13 @@ GridView {
 
                                     view.currentSelection = []
                                 } else {
-                                    view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                    view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
                                 }
                             }
 
                         } else {
 
-                            loadOnClick(index)
+                            view.loadOnClick(deleg.modelData)
 
                         }
                     }
@@ -919,12 +925,12 @@ GridView {
                 hoverEnabled: true
                 cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 
-                drag.target: (!view.showGrid && PQCSettings.filedialogDragDropFileviewList) ? dragHandler : undefined
+                drag.target: (!view.showGrid && PQCSettings.filedialogDragDropFileviewList) ? dragHandler : undefined // qmllint disable unqualified
 
                 drag.onActiveChanged: {
                     if(listthumbmousearea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        fd_places.dragItemIndex = index
+                        fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
                         fd_places.dragReordering = false
                         fd_places.dragItemId = deleg.currentPath
                     }
@@ -939,30 +945,30 @@ GridView {
                 onPressed: {
 
                     if(!contextmenu.visible)
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                     else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
-                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (currentFileSelected ? currentSelection.length : 1)
+                    parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view.currentFileSelected ? view.currentSelection.length : 1)
                 }
 
                 onEntered: {
-                    if(ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
+                    if(view.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
                         return
 
                     if(!contextmenu.visible) {
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                         resetCurrentIndex.stop()
                     } else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                 }
 
                 onExited: {
-                    if(!ignoreMouseEvents) {
-                        resetCurrentIndex.oldIndex = index
+                    if(!view.ignoreMouseEvents) {
+                        resetCurrentIndex.oldIndex = deleg.modelData
                         resetCurrentIndex.restart()
                     }
                 }
@@ -972,43 +978,43 @@ GridView {
                 onClicked: (mouse) => {
 
                     if(!contextmenu.visible)
-                        view.currentIndex = index
+                        view.currentIndex = deleg.modelData
                     else
-                        contextmenu.setCurrentIndexToThisAfterClose = index
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     if(mouse.button === Qt.BackButton) {
-                        goBackInHistory()
+                        filedialog_top.goBackInHistory() // qmllint disable unqualified
                         return
                     } else if(mouse.button === Qt.ForwardButton) {
-                        goForwardsInHistory()
+                        filedialog_top.goForwardsInHistory() // qmllint disable unqualified
                         return
                     }
 
                     if(mouse.button === Qt.RightButton) {
                         contextmenu.path = deleg.currentPath;
-                        contextmenu.setCurrentIndexToThisAfterClose = index;
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData;
                         contextmenu.popup();
                         return;
                     }
 
                     if(mouse.modifiers & Qt.ShiftModifier) {
 
-                        if(shiftClickIndexStart === index) {
-                            if(!currentFileSelected) {
-                                view.currentSelection.push(index)
+                        if(view.shiftClickIndexStart === deleg.modelData) {
+                            if(!view.currentFileSelected) {
+                                view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
-                                shiftClickIndexStart = index
+                                view.shiftClickIndexStart = deleg.modelData
                             } else {
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
-                                shiftClickIndexStart = -1
+                                view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
+                                view.shiftClickIndexStart = -1
                             }
-                        } else if(shiftClickIndexStart !== -1) {
+                        } else if(view.shiftClickIndexStart !== -1) {
 
-                            if(shiftClickIndexStart < index) {
-                                for(var i = shiftClickIndexStart; i < index+1; ++i)
+                            if(view.shiftClickIndexStart < deleg.modelData) {
+                                for(var i = view.shiftClickIndexStart; i < deleg.modelData+1; ++i)
                                     view.currentSelection.push(i)
                             } else {
-                                for(var l = index; l < shiftClickIndexStart+1; ++l)
+                                for(var l = deleg.modelData; l < view.shiftClickIndexStart+1; ++l)
                                     view.currentSelection.push(l)
                             }
 
@@ -1016,46 +1022,46 @@ GridView {
 
                         } else {
 
-                            if(!currentFileSelected) {
-                                shiftClickIndexStart = index
-                                view.currentSelection.push(index)
+                            if(!view.currentFileSelected) {
+                                view.shiftClickIndexStart = deleg.modelData
+                                view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
                             } else {
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
-                                shiftClickIndexStart = -1
+                                view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
+                                view.shiftClickIndexStart = -1
 
                             }
                         }
 
                     } else if(mouse.modifiers & Qt.ControlModifier) {
 
-                        shiftClickIndexStart = -1
+                        view.shiftClickIndexStart = -1
 
-                        if(currentFileSelected) {
-                            view.currentSelection = view.currentSelection.filter(item => item!==index)
+                        if(view.currentFileSelected) {
+                            view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
                         } else {
-                            view.currentSelection.push(index)
+                            view.currentSelection.push(deleg.modelData)
                             view.currentSelectionChanged()
                         }
 
                     } else {
 
-                        shiftClickIndexStart = -1
+                        view.shiftClickIndexStart = -1
 
                         if(PQCSettings.filedialogSingleClickSelect) {
 
-                            if(!currentFileSelected) {
+                            if(!view.currentFileSelected) {
 
-                                view.currentSelection = [index]
-                                storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
+                                view.currentSelection = [deleg.modelData]
+                                mousearea.storeClicks[deleg.currentPath] = PQCScriptsOther.getTimestamp()
 
                             } else {
 
                                 var t = PQCScriptsOther.getTimestamp()
-                                var o = storeClicks[deleg.currentPath]
+                                var o = mousearea.storeClicks[deleg.currentPath]
 
                                 if(t-o < 300) {
-                                    if(index < PQCFileFolderModel.countFoldersFileDialog)
+                                    if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
                                         PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
@@ -1064,13 +1070,13 @@ GridView {
 
                                     view.currentSelection = []
                                 } else {
-                                    view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                    view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
                                 }
                             }
 
                         } else {
 
-                            loadOnClick(index)
+                            view.loadOnClick(deleg.modelData)
 
                         }
                     }
@@ -1085,17 +1091,17 @@ GridView {
 
             Rectangle {
                 id: selectedornot
-                x: PQCSettings.filedialogLayout==="list" ? (fileicon.x + (fileicon.width-width)/2) : 5
-                y: PQCSettings.filedialogLayout==="list" ? (fileicon.y + (fileicon.height-height)/2) : 5
+                x: PQCSettings.filedialogLayout==="list" ? (fileicon.x + (fileicon.width-width)/2) : 5 // qmllint disable unqualified
+                y: PQCSettings.filedialogLayout==="list" ? (fileicon.y + (fileicon.height-height)/2) : 5 // qmllint disable unqualified
                 width: 30
                 height: 30
                 radius: 5
 
                 color: "#bbbbbb"
-                opacity: (selectmouse.containsMouse||view.currentSelection.indexOf(index)!=-1)
+                opacity: (selectmouse.containsMouse||view.currentSelection.indexOf(deleg.modelData)!=-1)
                                 ? 0.8
-                                : (view.currentIndex===index
-                                        ? (PQCSettings.filedialogLayout==="list"
+                                : (view.currentIndex===deleg.modelData
+                                        ? (PQCSettings.filedialogLayout==="list" // qmllint disable unqualified
                                                 ? 0.4
                                                 : 0.8)
                                         : 0)
@@ -1103,7 +1109,7 @@ GridView {
 
                 Image {
                     anchors.fill: parent
-                    source: (view.currentSelection.indexOf(index)!=-1 ? "image://svg/:/white/deselectfile.svg" : "image://svg/:/white/selectfile.svg")
+                    source: (view.currentSelection.indexOf(deleg.modelData)!=-1 ? "image://svg/:/white/deselectfile.svg" : "image://svg/:/white/selectfile.svg")
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -1113,14 +1119,14 @@ GridView {
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
-                            if(!currentFileSelected) {
-                                view.currentSelection.push(index)
+                            if(!view.currentFileSelected) {
+                                view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
                             } else
-                                view.currentSelection = view.currentSelection.filter(item => item!==index)
+                                view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
                         }
                         onEntered: {
-                            view.currentIndex = index
+                            view.currentIndex = deleg.modelData
                         }
                     }
                 }
@@ -1129,12 +1135,12 @@ GridView {
 
             Drag.active: mousearea.drag.active || listthumbmousearea.drag.active
             Drag.mimeData: {
-                if(!currentFileSelected) {
+                if(!view.currentFileSelected) {
                     return ({"text/uri-list": "file://"+deleg.currentPath})
                 } else {
                     var uris = []
-                    for(var i in currentSelection)
-                        uris.push("file://" + PQCFileFolderModel.entriesFileDialog[currentSelection[i]])
+                    for(var i in view.currentSelection)
+                        uris.push("file://" + PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]]) // qmllint disable unqualified
                     return ({"text/uri-list": uris})
                 }
             }
@@ -1169,7 +1175,7 @@ GridView {
                 isFolder = false
                 isFile = false
             } else {
-                isFolder = PQCScriptsFilesPaths.isFolder(path)
+                isFolder = PQCScriptsFilesPaths.isFolder(path) // qmllint disable unqualified
                 isFile = !isFolder
             }
         }
@@ -1183,9 +1189,9 @@ GridView {
         }
 
         Connections {
-            target: filedialog_top
+            target: filedialog_top // qmllint disable unqualified
             function onOpacityChanged() {
-                if(filedialog_top.opacity<1)
+                if(filedialog_top.opacity<1) // qmllint disable unqualified
                     contextmenu.close()
             }
         }
@@ -1194,7 +1200,7 @@ GridView {
             visible: contextmenu.isFile
             text: qsTranslate("thumbnails","Reload thumbnail")
             onTriggered: {
-                PQCScriptsImages.removeThumbnailFor(contextmenu.path)
+                PQCScriptsImages.removeThumbnailFor(contextmenu.path) // qmllint disable unqualified
                 view.refreshCurrentThumbnail()
             }
         }
@@ -1205,7 +1211,7 @@ GridView {
             text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
                 if(contextmenu.isFolder)
-                    filedialog_top.loadNewPath(contextmenu.path)
+                    filedialog_top.loadNewPath(contextmenu.path) // qmllint disable unqualified
                 else {
                     PQCFileFolderModel.fileInFolderMainView = contextmenu.path
                     filedialog_top.hideFileDialog()
@@ -1213,19 +1219,19 @@ GridView {
             }
         }
         PQMenuItem {
-            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled()
+            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled() // qmllint disable unqualified
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
-                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length)
+                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length) // qmllint disable unqualified
                 fd_places.loadPlaces()
             }
         }
         PQMenuSeparator { visible: contextmenu.isFile || contextmenu.isFolder }
         PQMenuItem {
             enabled: contextmenu.isFile || contextmenu.isFolder
-            text: currentFileSelected ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
+            text: view.currentFileSelected ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
             onTriggered: {
-                if(currentFileSelected) {
+                if(view.currentFileSelected) {
                     view.currentSelection = view.currentSelection.filter(item => item!==view.currentIndex)
                 } else {
                     view.currentSelection.push(view.currentIndex)
@@ -1234,55 +1240,55 @@ GridView {
             }
         }
         PQMenuItem {
-            text: currentFileSelected ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
+            text: view.currentFileSelected ? qsTranslate("filedialog", "Remove all file selection") : qsTranslate("filedialog", "Select all files")
             onTriggered: {
-                selectAll(!currentFileSelected)
+                view.selectAll(!view.currentFileSelected)
             }
         }
         PQMenuSeparator { }
         PQMenuItem {
-            enabled: !PQCScriptsConfig.amIOnWindows() && (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
-            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+            enabled: !PQCScriptsConfig.amIOnWindows() && (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length) // qmllint disable unqualified
+            text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
                         ? qsTranslate("filedialog", "Delete selection")
                         : (contextmenu.isFile ? qsTranslate("filedialog", "Delete file")
                                               : (contextmenu.isFolder ? qsTranslate("filedialog", "Delete folder")
                                                                       : qsTranslate("filedialog", "Delete file/folder")))
             onTriggered:
-                deleteFiles()
+                view.deleteFiles()
         }
         PQMenuItem {
-            enabled: (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
-            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+            enabled: (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length)
+            text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
                         ? qsTranslate("filedialog", "Cut selection")
                         : (contextmenu.isFile ? qsTranslate("filedialog", "Cut file")
                                               : (contextmenu.isFolder ? qsTranslate("filedialog", "Cut folder")
                                                                       : qsTranslate("filedialog", "Cut file/folder")))
             onTriggered:
-                cutFiles()
+                view.cutFiles()
         }
         PQMenuItem {
-            enabled: (contextmenu.isFile || contextmenu.isFolder || currentSelection.length)
-            text: (currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && currentSelection.length))
+            enabled: (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length)
+            text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
                         ? qsTranslate("filedialog", "Copy selection")
                         : (contextmenu.isFile ? qsTranslate("filedialog", "Copy file")
                                               : (contextmenu.isFolder ? qsTranslate("filedialog", "Copy folder")
                                                                       : qsTranslate("filedialog", "Copy file/folder")))
             onTriggered:
-                copyFiles()
+                view.copyFiles()
         }
         PQMenuItem {
             id: menuitem_paste
             text: qsTranslate("filedialog", "Paste files from clipboard")
             onTriggered:
-                pasteFiles()
+                view.pasteFiles()
 
             Component.onCompleted: {
-                enabled = PQCScriptsClipboard.areFilesInClipboard()
+                enabled = PQCScriptsClipboard.areFilesInClipboard() // qmllint disable unqualified
             }
             Connections {
-                target: PQCScriptsClipboard
+                target: PQCScriptsClipboard // qmllint disable unqualified
                 function onClipboardUpdated() {
-                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard()
+                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard() // qmllint disable unqualified
                 }
             }
         }
@@ -1291,28 +1297,28 @@ GridView {
 
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders
+            checked: PQCSettings.filedialogShowHiddenFilesFolders // qmllint disable unqualified
             text: qsTranslate("filedialog", "Show hidden files")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogShowHiddenFilesFolders = checked
+                PQCSettings.filedialogShowHiddenFilesFolders = checked // qmllint disable unqualified
         }
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogDetailsTooltip
+            checked: PQCSettings.filedialogDetailsTooltip // qmllint disable unqualified
             text: qsTranslate("filedialog", "Show tooltip with image details")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogDetailsTooltip = checked
+                PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
         }
 
 
     }
 
     // this has been pulled out of the delegate to allow clicks at startup without moving the mouse to be handled
-    function loadOnClick(index) {
+    function loadOnClick(index : int) {
 
-        if(index < PQCFileFolderModel.countFoldersFileDialog)
+        if(index < PQCFileFolderModel.countFoldersFileDialog) // qmllint disable unqualified
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
@@ -1324,7 +1330,7 @@ GridView {
 
     }
 
-    function selectAll(select) {
+    function selectAll(select : bool) {
         if(!select) {
             currentSelection = []
             return
@@ -1368,7 +1374,7 @@ GridView {
 
         currentSelection = []
 
-        var lst = PQCScriptsClipboard.getListOfFilesInClipboard()
+        var lst = PQCScriptsClipboard.getListOfFilesInClipboard() // qmllint disable unqualified
 
         var nonexisting = []
         var existing = []
@@ -1387,12 +1393,12 @@ GridView {
             for(var f in nonexisting) {
                 var fln = nonexisting[f]
                 if(PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)) {
-                    if(cutFiles.indexOf(fln) !== -1)
+                    if(currentCuts.indexOf(fln) !== -1)
                         PQCScriptsFileManagement.deletePermanent(fln)
                 }
             }
             if(existing.length == 0)
-                cutFiles = []
+                currentCuts = []
         }
 
         if(existing.length == 0 && nonexisting.length == 0) {
@@ -1404,7 +1410,7 @@ GridView {
 
     function deleteFiles() {
 
-        modal.button2.visible = true
+        modal.button2.visible = true // qmllint disable unqualified
 
         if(currentFileSelected || (currentIndex===-1 && currentSelection.length))
             modal.show("Move to Trash?",
@@ -1420,7 +1426,7 @@ GridView {
 
     }
 
-    function handleKeyEvent(key, modifiers) {
+    function handleKeyEvent(key : int, modifiers : int) {
 
         ignoreMouseEvents = true
         bgMousearea.enableAnyways = true
@@ -1429,7 +1435,7 @@ GridView {
 
             if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
 
-                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
+                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
 
             } else {
 

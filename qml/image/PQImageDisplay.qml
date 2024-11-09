@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -28,6 +29,7 @@ import PQCScriptsImages
 import PQCScriptsFilesPaths
 
 import "components"
+import "imageitems"
 import "../elements"
 
 Loader {
@@ -40,7 +42,12 @@ Loader {
     property bool imageFullyShown: false
     property string imageSource: ""
 
+    property Item access_fullscreen: fullscreenitem // qmllint disable unqualified
+
     signal iAmReady()
+
+    signal busyTimerStopAndHide()
+    signal busyTimerRestart()
 
     onMainItemIndexChanged: {
         imageLoadedAndReady = false
@@ -57,8 +64,8 @@ Loader {
 
         id: loader_top
 
-        width: image_top.width
-        height: image_top.height
+        width: image_top.width // qmllint disable unqualified
+        height: image_top.height // qmllint disable unqualified
 
         visible: false
 
@@ -73,7 +80,7 @@ Loader {
 
         onImageResolutionChanged: {
             if(loader_top.isMainImage)
-                image_top.currentResolution = imageResolution
+                image_top.currentResolution = imageResolution // qmllint disable unqualified
         }
 
         property int imagePosX: 0
@@ -95,7 +102,7 @@ Loader {
         // this is set to the duplicate from the loader
         property int mainItemIndex: -1
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex)
+        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex) // qmllint disable unqualified
 
 
         // some signals
@@ -118,26 +125,26 @@ Loader {
 
         onVideoPlayingChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying // qmllint disable unqualified
         }
         onVideoHasAudioChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio // qmllint disable unqualified
         }
         onVideoLoadedChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideo = loader_top.videoLoaded
+                image_top.currentlyShowingVideo = loader_top.videoLoaded // qmllint disable unqualified
         }
 
         // react to user commands
         Connections {
 
-            target: image_top
+            target: image_top // qmllint disable unqualified
 
-            function onZoomIn(wheelDelta) {
+            function onZoomIn(wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                     // compute zoom factor based on wheel movement (if done by mouse)
                     var zoomfactor
@@ -152,10 +159,10 @@ Loader {
                         loader_top.imageScale = Math.min(25, loader_top.imageScale*zoomfactor)
                 }
             }
-            function onZoomOut(wheelDelta) {
+            function onZoomOut(wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                     // compute zoom factor based on wheel movement (if done by mouse)
                     var zoomfactor
@@ -172,35 +179,35 @@ Loader {
             }
             function onZoomReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
             }
             function onZoomActual() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = 1
             }
             function onRotateClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation += 90
             }
             function onRotateAntiClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation -= 90
             }
             function onRotateReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return
+                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage) {
                     // rotate to the nearest (rotation%360==0) degrees
@@ -222,13 +229,13 @@ Loader {
             }
 
             function onEnterPhotoSphere() {
-                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad)
+                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
                     return
                 loader_top.doEnterPhotoSphere()
             }
 
             function onExitPhotoSphere() {
-                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad)
+                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
                     return
                 loader_top.doExitPhotoSphere()
             }
@@ -253,7 +260,7 @@ Loader {
 
         Connections {
 
-            target: PQCSettings
+            target: PQCSettings // qmllint disable unqualified
 
             function onImageviewColorSpaceDefaultChanged() {
                 if(loader_top.isMainImage)
@@ -263,8 +270,33 @@ Loader {
         }
 
         function reloadTheImage() {
-            image_loader.active = false
-            image_loader.active = true
+
+            if(image_loader_pdf.active) {
+                image_loader_pdf.active = false
+                image_loader_pdf.active = true
+            } else if(image_loader_arc.active) {
+                image_loader_arc.active = false
+                image_loader_arc.active = true
+            } else if(image_loader_mpv.active) {
+                image_loader_mpv.active = false
+                image_loader_mpv.active = true
+            } else if(image_loader_vidqt.active) {
+                image_loader_vidqt.active = false
+                image_loader_vidqt.active = true
+            } else if(image_loader_ani.active) {
+                image_loader_ani.active = false
+                image_loader_ani.active = true
+            } else if(image_loader_svg.active) {
+                image_loader_svg.active = false
+                image_loader_svg.active = true
+            } else if(image_loader_sph.active) {
+                image_loader_sph.active = false
+                image_loader_sph.active = true
+            } else if(image_loader_img.active) {
+                image_loader_img.active = false
+                image_loader_img.active = true
+            }
+
             minimap_loader.active = false
             minimap_loader.active = true
         }
@@ -281,19 +313,19 @@ Loader {
 
             visibleArea.onXPositionChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaX = visibleArea.xPosition
+                    image_top.currentFlickableVisibleAreaX = visibleArea.xPosition // qmllint disable unqualified
             }
             visibleArea.onYPositionChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaY = visibleArea.yPosition
+                    image_top.currentFlickableVisibleAreaY = visibleArea.yPosition // qmllint disable unqualified
             }
             visibleArea.onWidthRatioChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaWidthRatio = visibleArea.widthRatio
+                    image_top.currentFlickableVisibleAreaWidthRatio = visibleArea.widthRatio // qmllint disable unqualified
             }
             visibleArea.onHeightRatioChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaHeightRatio = visibleArea.heightRatio
+                    image_top.currentFlickableVisibleAreaHeightRatio = visibleArea.heightRatio // qmllint disable unqualified
             }
 
             // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
@@ -315,7 +347,7 @@ Loader {
                 NumberAnimation {
                     properties: "x,y"
                     // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
-                    duration: PQCNotify.slideshowRunning ? 0 : 250
+                    duration: PQCNotify.slideshowRunning ? 0 : 250 // qmllint disable unqualified
                     easing.type: Easing.OutQuad
                 }
                 // Signal that the view was dragged out of bounds
@@ -323,7 +355,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+            interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -338,18 +370,18 @@ Loader {
 
             Connections {
 
-                target: PQCNotify
+                target: PQCNotify // qmllint disable unqualified
 
-                function onMouseWheel(angleDelta, modifiers) {
-                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere)
+                function onMouseWheel(angleDelta : point, modifiers : int) {
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                         return
                     flickable.interactive = false
                     reEnableInteractive.restart()
                 }
 
-                function onMousePressed(mods, button, pos) {
+                function onMousePressed(mods : int, button : string, pos : point) {
 
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.stop()
                         flickable.interactive = false
                     }
@@ -357,7 +389,7 @@ Loader {
                     if(!loader_top.isMainImage)
                         return
 
-                    var locpos = flickable_content.mapFromItem(fullscreenitem, pos.x, pos.y)
+                    var locpos = flickable_content.mapFromItem(imageloaderitem.access_fullscreen, pos.x, pos.y)
 
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
                         if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
@@ -367,9 +399,9 @@ Loader {
 
                     if(PQCSettings.interfaceNavigateOnEmptyBackground) {
                         if(locpos.x < 0 || (locpos.x < flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
-                            image.showPrev()
+                            image_top.showPrev()
                         else if(locpos.x > flickable_content.width || (locpos.x > flickable_content.width/2 && (locpos.y < 0 || locpos.y > flickable_content.height)))
-                            image.showNext()
+                            image_top.showNext()
                         return
                     }
 
@@ -382,7 +414,7 @@ Loader {
                 }
 
                 function onMouseReleased() {
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) {
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.restart()
                     }
                 }
@@ -431,6 +463,8 @@ Loader {
                     rotation: 0
                     scale: loader_top.defaultScale
 
+                    signal setMirrorHVToImage(var mirH, var mirV)
+
                     // update content position
                     onScaleChanged: {
 
@@ -454,13 +488,13 @@ Loader {
                         prevScale = scale
 
                         if(loader_top.isMainImage)
-                            image_top.currentScale = scale
+                            image_top.currentScale = scale // qmllint disable unqualified
 
                     }
 
                     onRotationChanged: {
                         if(loader_top.isMainImage)
-                            image_top.currentRotation = rotation
+                            image_top.currentRotation = rotation // qmllint disable unqualified
                     }
 
                     // react to status changes
@@ -469,20 +503,19 @@ Loader {
                         if(status == Image.Ready) {
                             imageloaderitem.imageLoadedAndReady = true
                             if(loader_top.isMainImage) {
-                                timer_busyloading.stop()
-                                busyloading.hide()
+                                imageloaderitem.busyTimerStopAndHide()
                                 var tmp = image_wrapper.computeDefaultScale()
                                 if(Math.abs(tmp-1) > 1e-6)
                                     image_wrapper.startupScale = true
                                 loader_top.defaultWidth = width*loader_top.defaultScale
                                 loader_top.defaultHeight = height*loader_top.defaultScale
                                 loader_top.defaultScale = 0.99999999*tmp
-                                image_top.defaultScale = loader_top.defaultScale
+                                image_top.defaultScale = loader_top.defaultScale // qmllint disable unqualified
                                 imageloaderitem.iAmReady()
                                 loader_top.setUpImageWhenReady()
                             }
                         } else if(loader_top.isMainImage)
-                            timer_busyloading.restart()
+                            imageloaderitem.busyTimerRestart()
                     }
 
                     onWidthChanged: {
@@ -505,58 +538,213 @@ Loader {
                     /**********************************************************/
 
                     // the actual image
+
                     Loader {
-
-                        id: image_loader
+                        id: image_loader_pdf
                         asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQDocument {
+                                imageSource: imageloaderitem.imageSource
 
-                        property bool ignoreSignals: false
-
-                        Connections {
-                            target: loader_top
-
-                            function onFinishSetup() {
-
-                                image_top.currentFileInside = 0
-                                loader_top.listenToClicksOnImage = false
-                                loader_top.videoPlaying = false
-                                loader_top.videoLoaded = false
-                                loader_top.videoDuration = 0
-                                loader_top.videoPosition = 0
-                                loader_top.videoHasAudio = false
-                                loader_top.thisIsAPhotoSphere = false
-                                PQCNotify.showingPhotoSphere = false
-                                if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource))
-                                    image_loader.source = "imageitems/PQDocument.qml"
-                                else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource))
-                                    image_loader.source = "imageitems/PQArchive.qml"
-                                else if(PQCScriptsImages.isMpvVideo(imageloaderitem.imageSource)) {
-                                    image_loader.source = "imageitems/PQVideoMpv.qml"
-                                    loader_top.listenToClicksOnImage = true
-                                    loader_top.videoLoaded = true
-                                } else if(PQCScriptsImages.isQtVideo(imageloaderitem.imageSource)) {
-                                    image_loader.source = "imageitems/PQVideoQt.qml"
-                                    loader_top.listenToClicksOnImage = true
-                                    loader_top.videoLoaded = true
-                                } else if(PQCScriptsImages.isItAnimated(imageloaderitem.imageSource)) {
-                                    image_loader.source = "imageitems/PQImageAnimated.qml"
-                                    loader_top.listenToClicksOnImage = true
-                                } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
-                                    image_loader.source = "imageitems/PQSVG.qml"
-                                } else if(PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
-                                    loader_top.thisIsAPhotoSphere = true
-                                    PQCNotify.showingPhotoSphere = true
-                                    image_loader.source = "imageitems/PQPhotoSphere.qml"
-                                } else {
-                                    loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource)
-                                    image_loader.source = "imageitems/PQImageNormal.qml"
+                                onWidthChanged: {
+                                    image_wrapper.width = width
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
+                                }
+                                onHeightChanged: {
+                                    image_wrapper.height = height
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
                                 }
 
-                                image_top.currentlyShowingVideo = loader_top.videoLoaded
-                                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-                                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_arc
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQArchive {
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged: {
+                                    image_wrapper.width = width
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
+                                }
+                                onHeightChanged: {
+                                    image_wrapper.height = height
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
+                                }
 
                             }
+                    }
+
+                    Loader {
+                        id: image_loader_mpv
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQVideoMpv {
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged: {
+                                    image_wrapper.width = width
+                                    loader_top.imageResolution.width = width
+                                }
+                                onHeightChanged: {
+                                    loader_top.imageResolution.height = height
+                                    image_wrapper.height = height
+                                }
+
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_vidqt
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQVideoQt {
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged: {
+                                    image_wrapper.width = width
+                                    loader_top.imageResolution.width = width
+                                }
+                                onHeightChanged: {
+                                    loader_top.imageResolution.height = height
+                                    image_wrapper.height = height
+                                }
+
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_ani
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQImageAnimated {
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged:
+                                    image_wrapper.width = width
+                                onHeightChanged:
+                                    image_wrapper.height = height
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_svg
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQSVG {
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged:
+                                    image_wrapper.width = width
+                                onHeightChanged:
+                                    image_wrapper.height = height
+
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_sph
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQPhotoSphere { // qmllint disable
+
+                                id: sphitem
+
+                                imageSource: imageloaderitem.imageSource
+
+                                onWidthChanged:
+                                    image_wrapper.width = sphitem.width
+                                onHeightChanged:
+                                    image_wrapper.height = sphitem.height
+
+                            }
+                    }
+
+                    Loader {
+                        id: image_loader_img
+                        asynchronous: true
+                        active: false
+                        sourceComponent:
+                            PQImageNormal {
+                                imageSource: imageloaderitem.imageSource
+                                onWidthChanged: {
+                                    if(!ignoreSignals)
+                                        image_wrapper.width = width
+                                }
+                                onHeightChanged: {
+                                    if(!ignoreSignals)
+                                        image_wrapper.height = height
+                                }
+                            }
+                    }
+
+                    Connections {
+
+                        target: loader_top
+
+                        function onFinishSetup() {
+                            image_top.currentFileInside = 0 // qmllint disable unqualified
+                            loader_top.listenToClicksOnImage = false
+                            loader_top.videoPlaying = false
+                            loader_top.videoLoaded = false
+                            loader_top.videoDuration = 0
+                            loader_top.videoPosition = 0
+                            loader_top.videoHasAudio = false
+                            loader_top.thisIsAPhotoSphere = false
+                            PQCNotify.showingPhotoSphere = false
+
+                            image_loader_pdf.active = false
+                            image_loader_arc.active = false
+                            image_loader_mpv.active = false
+                            image_loader_vidqt.active = false
+                            image_loader_ani.active = false
+                            image_loader_svg.active = false
+                            image_loader_sph.active = false
+                            image_loader_img.active = false
+
+                            if(PQCScriptsImages.isPDFDocument(imageloaderitem.imageSource))
+                                image_loader_pdf.active = true
+                            else if(PQCScriptsImages.isArchive(imageloaderitem.imageSource))
+                                image_loader_arc.active = true
+                            else if(PQCScriptsImages.isMpvVideo(imageloaderitem.imageSource)) {
+                                image_loader_mpv.active = true
+                                loader_top.listenToClicksOnImage = true
+                                loader_top.videoLoaded = true
+                            } else if(PQCScriptsImages.isQtVideo(imageloaderitem.imageSource)) {
+                                image_loader_vidqt.active = true
+                                loader_top.listenToClicksOnImage = true
+                                loader_top.videoLoaded = true
+                            } else if(PQCScriptsImages.isItAnimated(imageloaderitem.imageSource)) {
+                                image_loader_ani.active = true
+                                loader_top.listenToClicksOnImage = true
+                            } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
+                                image_loader_svg.active = true
+                            } else if(PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                                loader_top.thisIsAPhotoSphere = true
+                                PQCNotify.showingPhotoSphere = true
+                                image_loader_sph.active = true
+                            } else {
+                                loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource)
+                                image_loader_img.active = true
+                            }
+
+                            image_top.currentlyShowingVideo = loader_top.videoLoaded
+                            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+
                         }
 
                     }
@@ -575,9 +763,9 @@ Loader {
 
                     Loader {
                         id: minimap_loader
-                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap
+                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap // qmllint disable unqualified
                         asynchronous: true
-                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
+                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml") // qmllint disable unqualified
                     }
 
                     // scaling animation
@@ -608,7 +796,7 @@ Loader {
 
                                 loader_top.defaultScale = 0.99999999*tmp
 
-                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) { // qmllint disable unqualified
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
                                         loader_top.rotationZoomResetWithoutAnimation()
                                     else {
@@ -626,7 +814,7 @@ Loader {
                             }
 
                             if(loader_top.isMainImage) {
-                                image.defaultScale = loader_top.defaultScale
+                                image_top.defaultScale = loader_top.defaultScale
                             }
                         }
                     }
@@ -646,7 +834,7 @@ Loader {
                     }
 
                     Connections {
-                        target: fullscreenitem
+                        target: imageloaderitem.access_fullscreen // qmllint disable unqualified
 
                         function onWidthChanged() {
                             resetDefaults.restart()
@@ -659,7 +847,7 @@ Loader {
 
                     Connections {
 
-                        target: image_top
+                        target: image_top // qmllint disable unqualified
 
                         function onPlayPauseAnimationVideo() {
 
@@ -669,12 +857,12 @@ Loader {
                             loader_top.videoTogglePlay()
                         }
 
-                        function onMoveView(direction) {
+                        function onMoveView(direction : string) {
 
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if(direction === "left")
@@ -736,7 +924,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             scaleAnimation.stop()
@@ -754,7 +942,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             scaleAnimation.stop()
@@ -771,7 +959,7 @@ Loader {
 
                             // this function might be called more than once
                             // this check makes sure that we only do this once
-                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
+                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight) // qmllint disable unqualified
                                 return
 
                             if(PQCNotify.showingPhotoSphere)
@@ -815,7 +1003,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges)) ||
@@ -841,10 +1029,10 @@ Loader {
                                     loader_top.imageRotation = 0
                                 }
 
-                                if(image_loader.item != null && (PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror))
-                                    image_loader.item.setMirrorHV(vals[4], vals[5])
+                                if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveMirror)
+                                    image_wrapper.setMirrorHVToImage(vals[4], vals[5])
                                 else
-                                    image_loader.item.setMirrorHV(false, false)
+                                    image_wrapper.setMirrorHVToImage(false, false)
 
                                 flickable.contentX = vals[0]
                                 flickable.contentY = vals[1]
@@ -857,8 +1045,7 @@ Loader {
 
                                 image_wrapper.rotation = 0
                                 loader_top.imageRotation = 0
-                                if(image_loader.item)
-                                    image_loader.item.setMirrorHV(false, false)
+                                image_wrapper.setMirrorHVToImage(false, false)
                                 image_wrapper.scale = loader_top.defaultScale
                                 loader_top.imageScale = image_wrapper.scale
 
@@ -876,7 +1063,7 @@ Loader {
                                 loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                 if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
                                     loader_top.imageScale = loader_top.defaultScale
-                                image.defaultScale = loader_top.defaultScale
+                                image_top.defaultScale = loader_top.defaultScale // qmllint disable unqualified
                             }
                         }
 
@@ -885,7 +1072,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
@@ -904,7 +1091,7 @@ Loader {
                     }
 
                     Connections {
-                        target: PQCSettings
+                        target: PQCSettings // qmllint disable unqualified
 
                         function onThumbnailsVisibilityChanged() {
                             resetDefaults.restart()
@@ -913,7 +1100,7 @@ Loader {
                     }
 
                     // calculate the default scale based on the current rotation
-                    function computeDefaultScale() {
+                    function computeDefaultScale() : real {
                         if(loader_top.rotatedUpright)
                             return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
                         return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
@@ -921,11 +1108,11 @@ Loader {
 
                     Timer {
                         id: hidecursor
-                        interval: PQCSettings.imageviewHideCursorTimeout*1000
+                        interval: PQCSettings.imageviewHideCursorTimeout*1000 // qmllint disable unqualified
                         repeat: false
                         running: true
                         onTriggered: {
-                            if(PQCSettings.imageviewHideCursorTimeout === 0)
+                            if(PQCSettings.imageviewHideCursorTimeout === 0) // qmllint disable unqualified
                                 return
                             if(contextmenu.visible)
                                 hidecursor.restart()
@@ -950,22 +1137,22 @@ Loader {
             hoverEnabled: true
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
-            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold // qmllint disable unqualified
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()
-                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                PQCNotify.mouseMove(pos.x, pos.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                PQCNotify.mouseMove(pos.x, pos.y) // qmllint disable unqualified
             }
             onWheel: (wheel) => {
-                wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
+                wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove // qmllint disable unqualified
                 PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
             }
             onPressed: (mouse) => {
 
-                var locpos = flickable_content.mapFromItem(fullscreenitem, mouse.x, mouse.y)
+                var locpos = flickable_content.mapFromItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
 
-                if(PQCSettings.interfaceCloseOnEmptyBackground &&
+                if(PQCSettings.interfaceCloseOnEmptyBackground && // qmllint disable unqualified
                       (locpos.x < flickable_content.x ||
                        locpos.y < flickable_content.y ||
                        locpos.x > flickable_content.x+flickable_content.width ||
@@ -980,13 +1167,13 @@ Loader {
                     if(locpos.x < flickable_content.x || (locpos.x < flickable_content.x+flickable_content.width/2 &&
                        (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
 
-                        image.showPrev()
+                        image_top.showPrev()
                         return
 
                     } else if(locpos.x > flickable_content.x+flickable_content.width || (locpos.x > flickable_content.x+flickable_content.width/2 &&
                               (locpos.y < flickable_content.y || locpos.y > flickable_content.y+flickable_content.height))) {
 
-                        image.showNext()
+                        image_top.showNext()
                         return
 
                     }
@@ -1004,16 +1191,16 @@ Loader {
                 }
 
                 if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
-                    image.barcodeClick()
+                    image_top.barcodeClick()
                 if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
                     mouse.accepted = false
                     return
                 }
-                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
                 PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
             }
             onMouseDoubleClicked: (mouse) => {
-                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
                 PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
             }
 
@@ -1021,8 +1208,8 @@ Loader {
                 if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)
                     loader_top.imageClicked()
                 else {
-                    var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                    var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
                 }
             }
         }
@@ -1034,9 +1221,9 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning
+            enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
-            property var initialPts: []
+            property list<point> initialPts: []
             property real initialScale
 
             onPressed: (points) => {
@@ -1109,9 +1296,9 @@ Loader {
             Timer {
                 id: pressAndHoldTimeout
                 interval: 1000
-                property point touchPos
+                property point touchPos: Qt.point(-1,-1)
                 onTriggered: {
-                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
+                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos) // qmllint disable unqualified
                 }
             }
 
@@ -1124,11 +1311,11 @@ Loader {
             property: "opacity"
             from: 0
             to: 1
-            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
+            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0) // qmllint disable unqualified
 
             onStarted: {
                 if(loader_top.opacity > 0.9)
-                    imageFullyShown = false
+                    imageloaderitem.imageFullyShown = false
             }
 
             onFinished: {
@@ -1139,7 +1326,7 @@ Loader {
 
                     // stop any ken burns animations if running
                     if(loader_kenburns.item != null)
-                        loader_kenburns.item.stopAni()
+                        loader_kenburns.item.stopAni() // qmllint disable missing-property
 
                     loader_top.visible = false
 
@@ -1156,12 +1343,12 @@ Loader {
             id: xAnimation
             target: loader_top
             property: "x"
-            from: -width
+            from: -loader_top.width
             to: 0
-            duration: PQCSettings.imageviewAnimationDuration*100
+            duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
             onStarted: {
                 if(Math.abs(loader_top.x) < 10)
-                    imageFullyShown = false
+                    imageloaderitem.imageFullyShown = false
             }
 
             onFinished: {
@@ -1175,7 +1362,7 @@ Loader {
                     loader_top.handleWhenCompletelyHidden()
 
                 } else
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
             }
         }
@@ -1185,12 +1372,12 @@ Loader {
             id: yAnimation
             target: loader_top
             property: "y"
-            from: -height
+            from: -loader_top.height
             to: 0
-            duration: PQCSettings.imageviewAnimationDuration*100
+            duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
             onStarted: {
                 if(Math.abs(loader_top.y) < 10)
-                    imageFullyShown = false
+                    imageloaderitem.imageFullyShown = false
             }
 
             onFinished: {
@@ -1204,7 +1391,7 @@ Loader {
                     loader_top.handleWhenCompletelyHidden()
 
                 } else
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
             }
         }
@@ -1218,7 +1405,7 @@ Loader {
                 property: "rotation"
                 from: 0
                 to: 180
-                duration: PQCSettings.imageviewAnimationDuration*100
+                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
             }
             PropertyAnimation {
                 id: rotAnimation_opacity
@@ -1226,10 +1413,10 @@ Loader {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: PQCSettings.imageviewAnimationDuration*100
+                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
             }
             onStarted: {
-                loader_top.z = image_top.curZ+1
+                loader_top.z = image_top.curZ+1 // qmllint disable unqualified
                 if(loader_top.opacity > 0.9)
                     imageFullyShown = false
             }
@@ -1241,7 +1428,7 @@ Loader {
 
                     loader_top.visible = false
                     loader_top.rotation = 0
-                    loader_top.z = image_top.curZ-5
+                    loader_top.z = image_top.curZ-5 // qmllint disable unqualified
 
                     loader_top.handleWhenCompletelyHidden()
 
@@ -1260,7 +1447,7 @@ Loader {
                 property: "scale"
                 from: 1
                 to: 2
-                duration: PQCSettings.imageviewAnimationDuration*100
+                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
             }
             PropertyAnimation {
                 id: explosionAnimation_opacity
@@ -1268,12 +1455,12 @@ Loader {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: PQCSettings.imageviewAnimationDuration*90
+                duration: PQCSettings.imageviewAnimationDuration*90 // qmllint disable unqualified
             }
             onStarted: {
-                loader_top.z = image_top.curZ+1
+                loader_top.z = image_top.curZ+1 // qmllint disable unqualified
                 if(loader_top.opacity > 0.9)
-                    imageFullyShown = false
+                    imageloaderitem.imageFullyShown = false
             }
             onFinished: {
                 if(Math.abs(loader_top.scale-1) > 1e-6) {
@@ -1284,19 +1471,19 @@ Loader {
                     loader_top.visible = false
                     loader_top.scale = 1
 
-                    loader_top.z = image_top.curZ-5
+                    loader_top.z = image_top.curZ-5 // qmllint disable unqualified
 
                     loader_top.handleWhenCompletelyHidden()
 
                 } else
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
             }
         }
 
         Loader {
             id: loader_kenburns
-            active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
+            active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns" // qmllint disable unqualified
             sourceComponent:
                 PQKenBurnsSlideshowEffect { }
         }
@@ -1306,16 +1493,16 @@ Loader {
             interval: 50
             onTriggered: {
                 var animValues = ["opacity","x","y","explosion","implosion","rotation"]
-                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
+                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)] // qmllint disable unqualified
             }
         }
 
         function showImage() {
 
             if(imageloaderitem.imageLoadedAndReady) {
-                iAmReady()
+                imageloaderitem.iAmReady()
 
-                if(!imageFullyShown)
+                if(!imageloaderitem.imageFullyShown)
                     setUpImageWhenReady()
             }
 
@@ -1324,12 +1511,12 @@ Loader {
         function setUpImageWhenReady() {
 
             // this needs to be checked for early as we set currentlyVisibleIndex in a few lines
-            var noPreviousImage = (image_top.currentlyVisibleIndex===-1)
+            var noPreviousImage = (image_top.currentlyVisibleIndex===-1) // qmllint disable unqualified
 
             PQCNotify.barcodeDisplayed = false
 
-            image_top.currentlyVisibleIndex = mainItemIndex
-            image_top.imageFinishedLoading(mainItemIndex)
+            image_top.currentlyVisibleIndex = loader_top.mainItemIndex
+            image_top.imageFinishedLoading(loader_top.mainItemIndex)
 
             image_top.currentlyShowingVideo = loader_top.videoLoaded
             image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
@@ -1347,8 +1534,8 @@ Loader {
             if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
                 if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded) {
-                    resetToDefaults()
-                    zoomInForKenBurns()
+                    loader_top.resetToDefaults()
+                    loader_top.zoomInForKenBurns()
                 }
                 flickable.returnToBounds()
 
@@ -1367,7 +1554,7 @@ Loader {
                 if(PQCSettings.imageviewAnimationDuration === 0 || noPreviousImage) {
 
                     loader_top.opacity = 1
-                    imageFullyShown = true
+                    imageloaderitem.imageFullyShown = true
 
                 } else {
 
@@ -1465,8 +1652,8 @@ Loader {
 
             if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-                resetToDefaults()
-                moveViewToCenter()
+                loader_top.resetToDefaults()
+                loader_top.moveViewToCenter()
 
             }
 
@@ -1489,7 +1676,7 @@ Loader {
         function hideImage() {
 
             // ignore anything that happened during a slideshow
-            if(!PQCNotify.slideshowRunning) {
+            if(!PQCNotify.slideshowRunning) { // qmllint disable unqualified
 
                 if(loader_top.isMainImage) {
 
@@ -1593,7 +1780,7 @@ Loader {
         function handleWhenCompletelyHidden() {
 
             // exit photo sphere when manually entered
-            if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered && !PQCSettings.filetypesPhotoSphereAutoLoad)
+            if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered && !PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
                 loader_top.doExitPhotoSphere()
 
             // check if this file has been deleted. If so, then we deactivate this loader

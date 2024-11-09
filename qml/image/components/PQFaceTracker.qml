@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -32,11 +33,11 @@ Item {
 
     id: facetracker_top
 
-    property var faceTags: []
+    property list<var> faceTags: []
 
     anchors.fill: parent
 
-    visible: loader_top.isMainImage && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere
+    visible: loader_top.isMainImage && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
 
     Repeater {
 
@@ -47,7 +48,10 @@ Item {
         delegate: Item {
 
             id: facedeleg
-            property var curdata: faceTags.slice(6*index, 6*(index+1))
+
+            required property int index
+
+            property list<var> curdata: facetracker_top.faceTags.slice(6*index, 6*(index+1))
 
             property bool hovered: false
 
@@ -61,15 +65,13 @@ Item {
                 State {
                     name: "showentry"
                     PropertyChanges {
-                        target: facedeleg
-                        opacity: 1
+                        facedeleg.opacity: 1
                     }
                 },
                 State {
                     name: "hideentry"
                     PropertyChanges {
-                        target: facedeleg
-                        opacity: 0
+                        facedeleg.opacity: 0
                     }
                 }
 
@@ -82,12 +84,12 @@ Item {
 
             Rectangle {
 
-                visible: PQCSettings.metadataFaceTagsBorder
+                visible: PQCSettings.metadataFaceTagsBorder // qmllint disable unqualified
                 anchors.fill: parent
                 color: "transparent"
                 radius: Math.min(width/2, 10)
-                border.width: PQCSettings.metadataFaceTagsBorderWidth/image_top.currentScale
-                border.color: PQCSettings.metadataFaceTagsBorderColor
+                border.width: PQCSettings.metadataFaceTagsBorderWidth/image_top.currentScale // qmllint disable unqualified
+                border.color: PQCSettings.metadataFaceTagsBorderColor // qmllint disable unqualified
             }
 
             // This is the background of the text (semi-transparent black rectangle)
@@ -98,15 +100,15 @@ Item {
                 width: faceLabel.width+14
                 height: faceLabel.height+10
                 radius: 10
-                color: PQCLook.transColor
-                rotation: -loader_top.imageRotation
+                color: PQCLook.transColor // qmllint disable unqualified
+                rotation: -loader_top.imageRotation // qmllint disable unqualified
 
                 // This holds the person's name
                 PQText {
                     id: faceLabel
                     x: 7
                     y: 5
-                    font.pointSize: PQCLook.fontSize/image_top.currentScale
+                    font.pointSize: PQCLook.fontSize/image_top.currentScale // qmllint disable unqualified
                     text: " "+facedeleg.curdata[5]+" "
                 }
 
@@ -114,19 +116,19 @@ Item {
 
             Connections {
 
-                target: PQCNotify
+                target: PQCNotify // qmllint disable unqualified
 
-                function onMouseMove(x, y) {
+                function onMouseMove(x : int, y : int) {
 
-                    var pos = image_wrapper.mapFromItem(fullscreenitem, Qt.point(x,y))
+                    var pos = image_wrapper.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
 
-                    hovered = false
+                    facedeleg.hovered = false
 
                     if(pos.x >= facedeleg.x && pos.x <= facedeleg.x+facedeleg.width &&
                        pos.y >= facedeleg.y && pos.y <= facedeleg.y+facedeleg.height)
-                        hovered = true
+                        facedeleg.hovered = true
 
-                    updateVisibility()
+                    facedeleg.updateVisibility()
 
                 }
 
@@ -140,14 +142,14 @@ Item {
                 id: triggerTimeout
                 interval: 2000
                 onTriggered: {
-                    if(PQCSettings.metadataFaceTagsVisibility === 3)
+                    if(PQCSettings.metadataFaceTagsVisibility === 3) // qmllint disable unqualified
                         facedeleg.state = "hideentry"
                 }
             }
 
             function updateVisibility() {
 
-                if(PQCNotify.faceTagging) {
+                if(PQCNotify.faceTagging) { // qmllint disable unqualified
                     facedeleg.state = "hideentry"
                     return
                 }
@@ -180,16 +182,16 @@ Item {
     }
 
     Timer {
-        interval: PQCSettings.imageviewAnimationDuration*100
+        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
         running: true
         onTriggered:
-            loadData()
+            facetracker_top.loadData()
     }
 
     function loadData() {
         repeatermodel.clear()
 
-        if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere)
+        if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
             return
 
         faceTags = PQCScriptsMetaData.getFaceTags(imageloaderitem.imageSource)

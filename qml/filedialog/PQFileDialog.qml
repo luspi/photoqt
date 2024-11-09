@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -39,8 +40,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    property int parentWidth: toplevel.width // qmllint disable unqualified
+    property int parentHeight: toplevel.height // qmllint disable unqualified
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -58,9 +59,9 @@ Rectangle {
 
     property bool splitDividerHovered: false
 
-    property bool isPopout: PQCSettings.interfacePopoutFileDialog
+    property bool isPopout: PQCSettings.interfacePopoutFileDialog // qmllint disable unqualified
 
-    color: PQCLook.baseColor
+    color: PQCLook.baseColor // qmllint disable unqualified
 
     state: isPopout ?
                "popout" :
@@ -70,10 +71,9 @@ Rectangle {
         State {
             name: "popout"
             PropertyChanges {
-                target: filedialog_top
-                width: parentWidth
-                height: parentHeight
-                opacity: 0
+                filedialog_top.width: filedialog_top.parentWidth
+                filedialog_top.height: filedialog_top.parentHeight
+                filedialog_top.opacity: 0
             }
         }
     ]
@@ -84,7 +84,7 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "File Dialog")
+            toplevel.titleOverride = qsTranslate("actions", "File Dialog") // qmllint disable unqualified
         else if(opacity == 0)
             toplevel.titleOverride = ""
     }
@@ -112,10 +112,10 @@ Rectangle {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
             onColorChanged:
-                splitDividerHovered = SplitHandle.hovered
+                filedialog_top.splitDividerHovered = SplitHandle.hovered
 
             Image {
                 y: (parent.height-height)/2
@@ -129,10 +129,10 @@ Rectangle {
 
         PQPlaces {
             id: fd_places
-            SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
-            SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
+            SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5 // qmllint disable unqualified
+            SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth // qmllint disable unqualified
             onWidthChanged: {
-                PQCSettings.filedialogPlacesWidth = Math.round(width)
+                PQCSettings.filedialogPlacesWidth = Math.round(width) // qmllint disable unqualified
             }
 
         }
@@ -157,18 +157,18 @@ Rectangle {
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
         function onPassOn(what, param) {
             if(what === "show") {
 
-                if(param === thisis)
-                    showFileDialog()
+                if(param === filedialog_top.thisis)
+                    filedialog_top.showFileDialog()
 
             } else if(filedialog_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
-                    if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal)
+                    if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
                         return
 
                     // close something
@@ -207,7 +207,7 @@ Rectangle {
 
                         // file dialog
                         else
-                            hideFileDialog()
+                            filedialog_top.hideFileDialog()
 
                     } else {
 
@@ -229,7 +229,7 @@ Rectangle {
                 } else if(what === "forceClose") {
                     pasteExisting.hide()
                     modal.hide()
-                    hideFileDialog()
+                    filedialog_top.hideFileDialog()
                 }
 
             }
@@ -241,7 +241,7 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        visible: !PQCWindowGeometry.filedialogForcePopout
+        visible: !PQCWindowGeometry.filedialogForcePopout // qmllint disable unqualified
         enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
@@ -252,15 +252,15 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutFileDialog ?
+            text: PQCSettings.interfacePopoutFileDialog ? // qmllint disable unqualified
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
                 filedialog_top.hideFileDialog()
-                if(PQCSettings.interfacePopoutFileDialog)
-                    close()
+                if(PQCSettings.interfacePopoutFileDialog) // qmllint disable unqualified
+                    filedialog_window.close() // qmllint disable unqualified
                 PQCSettings.interfacePopoutFileDialog = !PQCSettings.interfacePopoutFileDialog
                 filedialog_top.opacityChanged()
                 PQCNotify.executeInternalCommand("__open")
@@ -278,7 +278,7 @@ Rectangle {
         onAccepted: {
             if(action == "trash") {
                 for(var key in payload)
-                    PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key]])
+                    PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key]]) // qmllint disable unqualified
                 fd_fileview.currentSelection = []
                 fd_fileview.currentCuts = []
             }
@@ -288,7 +288,7 @@ Rectangle {
 
     Component.onCompleted: {
 
-        if(PQCSettings.filedialogKeepLastLocation)
+        if(PQCSettings.filedialogKeepLastLocation) // qmllint disable unqualified
             PQCFileFolderModel.folderFileDialog = PQCScriptsFileDialog.getLastLocation()
         else
             PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getHomeDir()
@@ -300,7 +300,7 @@ Rectangle {
 
     function loadNewPath(path) {
         fd_breadcrumbs.disableAddressEdit()
-        PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)
+        PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path) // qmllint disable unqualified
         if(historyIndex < history.length-1)
             history.splice(historyIndex+1)
         if(history[history.length-1] !== path)
@@ -311,7 +311,7 @@ Rectangle {
     function goBackInHistory() {
         fd_breadcrumbs.disableAddressEdit()
         historyIndex = Math.max(0, historyIndex-1)
-        PQCFileFolderModel.folderFileDialog = history[historyIndex]
+        PQCFileFolderModel.folderFileDialog = history[historyIndex] // qmllint disable unqualified
     }
 
     function goForwardsInHistory() {
@@ -321,7 +321,7 @@ Rectangle {
     }
 
     function showFileDialog() {
-        isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
+        isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout // qmllint disable unqualified
 
         // check that the correct folder is loaded
         if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "") {
@@ -349,7 +349,7 @@ Rectangle {
         fd_breadcrumbs.disableAddressEdit()
         opacity = 0
         if(popoutWindowUsed)
-            filedialog_window.visible = false
+            filedialog_window.visible = false // qmllint disable unqualified
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 

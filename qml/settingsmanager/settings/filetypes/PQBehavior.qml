@@ -99,7 +99,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Archive")
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt allows the browsing of all images contained in an archive file (ZIP, RAR, etc.) as if they all are located in a folder. By default, PhotoQt uses Libarchive for this purpose, but for RAR archives in particular PhotoQt can call the external tool unrar to load and display the archive and its contents. Note that this requires unrar to be installed and located in your path.") + (PQCSettings.generalCompactSettings ? ("<br><br>"+secondhelptext) : "")
+            helptext: qsTranslate("settingsmanager",  "PhotoQt allows the browsing of all images contained in an archive file (ZIP, RAR, etc.) as if they all are located in a folder. By default, PhotoQt uses Libarchive for this purpose, but for RAR archives in particular PhotoQt can call the external tool unrar to load and display the archive and its contents. Note that this requires unrar to be installed and located in your path.") + (PQCSettings.generalCompactSettings ? ("<br><br>"+secondhelptext) : "") // qmllint disable unqualified
 
             property string secondhelptext: qsTranslate("settingsmanager",  "When an archive is loaded it is possible to browse through the contents of such a file either through floating controls that show up when the archive contains more than one file, or by entering the viewer mode. When the viewer mode is activated all files in the archive are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating controls.")
 
@@ -113,9 +113,9 @@ Flickable {
 
                 Item {
                     width: set_arc.rightcol
-                    height: PQCSettings.generalCompactSettings ? 0 : help2txt.height
+                    height: PQCSettings.generalCompactSettings ? 0 : help2txt.height // qmllint disable unqualified
                     Behavior on height { NumberAnimation { duration: 200 } }
-                    opacity: PQCSettings.generalCompactSettings ? 0 : 1
+                    opacity: PQCSettings.generalCompactSettings ? 0 : 1 // qmllint disable unqualified
                     Behavior on opacity { NumberAnimation { duration: 150 } }
                     clip: true
                     PQText {
@@ -204,7 +204,7 @@ Flickable {
                         id: videothumb
                         model: ["------",
                                 "ffmpegthumbnailer"]
-                        currentIndex: (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
+                        currentIndex: (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1) // qmllint disable unqualified
                         onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
@@ -339,7 +339,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -373,7 +373,7 @@ Flickable {
 
     function load() {
 
-        pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality)
+        pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality) // qmllint disable unqualified
 
         arc_extunrar.loadAndSetDefault(PQCSettings.filetypesExternalUnrar)
         archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
@@ -403,7 +403,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.filetypesPDFQuality = pdf_quality.value
+        PQCSettings.filetypesPDFQuality = pdf_quality.value // qmllint disable unqualified
 
         PQCSettings.filetypesExternalUnrar = arc_extunrar.checked
         PQCSettings.filetypesArchiveControls = archivecontrols.checked

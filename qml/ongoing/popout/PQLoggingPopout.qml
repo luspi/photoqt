@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Window
-import QtQuick.Controls
 
 import PQCScriptsConfig
 import PQCScriptsClipboard
@@ -61,7 +60,7 @@ Window {
 
     visible: false
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     PQTextL {
         id: title
@@ -78,7 +77,7 @@ Window {
         width: parent.width
         height: logging_top.height-title.height-bottomrow.height-15
 
-        text: PQCNotify.debugLogMessages
+        text: PQCNotify.debugLogMessages // qmllint disable unqualified
 
     }
 
@@ -90,14 +89,14 @@ Window {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: PQCLook.baseColorActive // qmllint disable unqualified
         }
 
         PQCheckBox {
@@ -107,7 +106,7 @@ Window {
             //: Used as in: enable debug message
             text: qsTranslate("logging", "enable")
             onClicked:
-                PQCNotify.debug = checked
+                PQCNotify.debug = checked // qmllint disable unqualified
         }
 
         PQButtonElement {
@@ -116,7 +115,7 @@ Window {
             y: 1
             height: parent.height-1
             text: genericStringClose
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             onClicked:
                 logging_top.close()
         }
@@ -128,7 +127,7 @@ Window {
             width: height
             height: parent.height-1
             text: "..."
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             onClicked:
                 actionsmenu.popup(parent.width-width, -actionsmenu.height)
         }
@@ -139,13 +138,13 @@ Window {
                 //: the thing being copied here are the debug messages
                 text: qsTranslate("logging", "copy to clipboard")
                 onTriggered:
-                    PQCScriptsClipboard.copyTextToClipboard(PQCNotify.debugLogMessages)
+                    PQCScriptsClipboard.copyTextToClipboard(PQCNotify.debugLogMessages) // qmllint disable unqualified
             }
             PQMenuItem {
                 //: the thing saved to files here are the debug messages
                 text: qsTranslate("logging", "save to file")
                 onTriggered:
-                    PQCScriptsFilesPaths.saveLogToFile(PQCNotify.debugLogMessages)
+                    PQCScriptsFilesPaths.saveLogToFile(PQCNotify.debugLogMessages) // qmllint disable unqualified
             }
         }
 
@@ -153,7 +152,7 @@ Window {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
         function onPassOn(what, param) {
 
@@ -161,10 +160,10 @@ Window {
 
                 if(param === "logging") {
 
-                    if(PQCScriptsConfig.amIOnWindows())
+                    if(PQCScriptsConfig.amIOnWindows()) // qmllint disable unqualified
                         logging_top.opacity = 0
 
-                    showNormal()
+                    logging_top.showNormal()
 
                     if(PQCScriptsConfig.amIOnWindows())
                         showOpacity.restart()

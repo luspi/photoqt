@@ -52,10 +52,10 @@ SpinBox {
             control.value = value
         }
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
         Behavior on color { ColorAnimation { duration: 200 } }
-        selectionColor: PQCLook.baseColorActive
-        selectedTextColor: PQCLook.textColor
+        selectionColor: PQCLook.baseColorActive // qmllint disable unqualified
+        selectedTextColor: PQCLook.textColor // qmllint disable unqualified
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
@@ -69,15 +69,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent // qmllint disable unqualified
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
         border.width: 1
 
         Text {
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -91,15 +91,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent // qmllint disable unqualified
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
         border.width: 1
 
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -110,7 +110,7 @@ SpinBox {
 
     background: Rectangle {
         implicitWidth: 140
-        color: PQCLook.baseColorHighlight
+        color: PQCLook.baseColorHighlight // qmllint disable unqualified
     }
 
     PQToolTip {
@@ -130,17 +130,17 @@ SpinBox {
         _defaultValue = value
     }
 
-    function setDefault(val) {
+    function setDefault(val : int) {
         _defaultValue = val
     }
 
-    function loadAndSetDefault(val) {
+    function loadAndSetDefault(val : int) {
         value = val
         liveValue = val
         _defaultValue = val
     }
 
-    function hasChanged() {
+    function hasChanged() : bool {
         return _defaultValue!==liveValue
     }
 

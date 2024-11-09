@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -30,25 +31,28 @@ import PQCWindowGeometry
 import PQCNotify
 
 import "../elements"
+import "../"
 
 PQTemplateFloating {
 
     id: histogram_top
 
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
+
     onXChanged: {
-        if(!toplevel.startup && dragActive)
+        if(!access_toplevel.startup && dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(!toplevel.startup && dragActive)
+        if(!access_toplevel.startup && dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(!toplevel.startup && resizeActive)
+        if(!access_toplevel.startup && resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(!toplevel.startup && resizeActive)
+        if(!access_toplevel.startup && resizeActive)
             storeSize.restart()
     }
 
@@ -56,7 +60,7 @@ PQTemplateFloating {
         id: storeSize
         interval: 200
         onTriggered: {
-            PQCSettings.histogramPosition.x = histogram_top.x
+            PQCSettings.histogramPosition.x = histogram_top.x // qmllint disable unqualified
             PQCSettings.histogramPosition.y = histogram_top.y
             PQCSettings.histogramSize.width = histogram_top.width
             PQCSettings.histogramSize.height = histogram_top.height
@@ -67,11 +71,10 @@ PQTemplateFloating {
         State {
             name: "popout"
             PropertyChanges {
-                target: histogram_top
-                x: 0
-                y: 0
-                width: histogram_top.parentWidth
-                height: histogram_top.parentHeight
+                histogram_top.x: 0
+                histogram_top.y: 0
+                histogram_top.width: histogram_top.parentWidth
+                histogram_top.height: histogram_top.parentHeight
             }
         }
 
@@ -79,14 +82,14 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: histogram_top }
 
-    popout: PQCSettings.interfacePopoutHistogram
-    forcePopout: PQCWindowGeometry.histogramForcePopout
+    popout: PQCSettings.interfacePopoutHistogram // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.histogramForcePopout // qmllint disable unqualified
     shortcut: "__histogram"
     tooltip: qsTranslate("histogram", "Click-and-drag to move.")
     blur_thisis: "histogram"
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutHistogram)
+        if(popout !== PQCSettings.interfacePopoutHistogram) // qmllint disable unqualified
             PQCSettings.interfacePopoutHistogram = popout
     }
 
@@ -133,7 +136,7 @@ PQTemplateFloating {
                 color: "#88ff0000"
                 borderWidth: 1
                 borderColor: "#ff0000"
-                visible: PQCSettings.histogramVersion==="color"
+                visible: PQCSettings.histogramVersion==="color" // qmllint disable unqualified
                 upperSeries: LineSeries {
                     id: histogramred
                 }
@@ -146,7 +149,7 @@ PQTemplateFloating {
                 color: "#8800ff00"
                 borderWidth: 1
                 borderColor: "#00ff00"
-                visible: PQCSettings.histogramVersion==="color"
+                visible: PQCSettings.histogramVersion==="color" // qmllint disable unqualified
                 upperSeries: LineSeries {
                     id: histogramgreen
                 }
@@ -159,7 +162,7 @@ PQTemplateFloating {
                 color: "#880000ff"
                 borderWidth: 1
                 borderColor: "#0000ff"
-                visible: PQCSettings.histogramVersion==="color"
+                visible: PQCSettings.histogramVersion==="color" // qmllint disable unqualified
                 upperSeries: LineSeries {
                     id: histogramblue
                 }
@@ -172,7 +175,7 @@ PQTemplateFloating {
                 color: "#88cccccc"
                 borderWidth: 1
                 borderColor: "#cccccc"
-                visible: PQCSettings.histogramVersion==="grey"
+                visible: PQCSettings.histogramVersion==="grey" // qmllint disable unqualified
                 upperSeries: LineSeries {
                     id: histogramgrey
                 }
@@ -184,7 +187,7 @@ PQTemplateFloating {
                 id: busy
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
+                color: PQCLook.transColor // qmllint disable unqualified
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -198,7 +201,7 @@ PQTemplateFloating {
                 id: failed
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
+                color: PQCLook.transColor // qmllint disable unqualified
                 opacity: 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -212,8 +215,8 @@ PQTemplateFloating {
                 id: nofileloaded
                 radius: histogram_top.radius
                 anchors.fill: parent
-                color: PQCLook.transColor
-                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
+                color: PQCLook.transColor // qmllint disable unqualified
+                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
@@ -231,7 +234,7 @@ PQTemplateFloating {
             histogram_top.state = "popout"
         } else {
             histogram_top.state = ""
-            x = PQCSettings.histogramPosition.x
+            x = PQCSettings.histogramPosition.x // qmllint disable unqualified
             y = PQCSettings.histogramPosition.y
             width = PQCSettings.histogramSize.width
             height = PQCSettings.histogramSize.height
@@ -242,7 +245,7 @@ PQTemplateFloating {
     }
 
     onRightClicked: (mouse) => {
-        menu.item.popup()
+        menu.item.popup() // qmllint disable missing-property
     }
 
     Timer {
@@ -251,7 +254,7 @@ PQTemplateFloating {
         repeat: false
         property int indexTriggered
         onTriggered: {
-            if(PQCFileFolderModel.currentIndex === indexTriggered)
+            if(PQCFileFolderModel.currentIndex === indexTriggered) // qmllint disable unqualified
                 PQCScriptsImages.loadHistogramData(PQCFileFolderModel.currentFile, PQCFileFolderModel.currentIndex)
         }
     }
@@ -269,9 +272,9 @@ PQTemplateFloating {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("histogram", "show histogram")
-                checked: PQCSettings.histogramVisible
+                checked: PQCSettings.histogramVisible // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.histogramVisible = checked
+                    PQCSettings.histogramVisible = checked // qmllint disable unqualified
                     if(!checked)
                         themenu.dismiss()
                 }
@@ -283,10 +286,10 @@ PQTemplateFloating {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "RGB colors")
                 ButtonGroup.group: grp
-                checked: PQCSettings.histogramVersion==="color"
+                checked: PQCSettings.histogramVersion==="color" // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.histogramVersion = "color"
+                        PQCSettings.histogramVersion = "color" // qmllint disable unqualified
                 }
             }
             PQMenuItem {
@@ -295,32 +298,32 @@ PQTemplateFloating {
                 //: used in context menu for histogram
                 text: qsTranslate("histogram", "gray scale")
                 ButtonGroup.group: grp
-                checked: PQCSettings.histogramVersion==="grey"
+                checked: PQCSettings.histogramVersion==="grey" // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.histogramVersion = "grey"
+                        PQCSettings.histogramVersion = "grey" // qmllint disable unqualified
                 }
             }
 
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:
-                PQCNotify.addToWhichContextMenusOpen("histogram")
+                PQCNotify.addToWhichContextMenusOpen("histogram") // qmllint disable unqualified
 
             Timer {
                 id: recordAsClosed
                 interval: 200
                 onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("histogram")
+                    PQCNotify.removeFromWhichContextMenusOpen("histogram") // qmllint disable unqualified
             }
         }
 
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : string) {
 
             if(what === "show") {
                 if(param === "histogram") {
@@ -328,7 +331,7 @@ PQTemplateFloating {
                         histogram_top.hide()
                     } else {
                         histogram_top.show()
-                        if(PQCFileFolderModel.countMainView === 0) {
+                        if(PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
                             nofileloaded.opacity = 1
                             busy.opacity = 0
                             failed.opacity = 0
@@ -349,9 +352,9 @@ PQTemplateFloating {
 
     Connections {
 
-        target: image
+        target: image // qmllint disable unqualified
 
-        function onImageFinishedLoading(index) {
+        function onImageFinishedLoading(index : int) {
             updateHistogram.indexTriggered = index
             updateHistogram.restart()
             failed.opacity = 0
@@ -363,10 +366,10 @@ PQTemplateFloating {
 
     Connections {
 
-        target: PQCScriptsImages
+        target: PQCScriptsImages // qmllint disable unqualified
 
-        function onHistogramDataLoadedFailed(index) {
-            if(index === PQCFileFolderModel.currentIndex) {
+        function onHistogramDataLoadedFailed(index : int) {
+            if(index === PQCFileFolderModel.currentIndex) { // qmllint disable unqualified
                 histogramred.clear()
                 histogramgreen.clear()
                 histogramblue.clear()
@@ -378,9 +381,9 @@ PQTemplateFloating {
             }
         }
 
-        function onHistogramDataLoaded(data, index) {
+        function onHistogramDataLoaded(data : var, index : int) {
 
-            if(index !== PQCFileFolderModel.currentIndex)
+            if(index !== PQCFileFolderModel.currentIndex) // qmllint disable unqualified
                 return
 
             nofileloaded.opacity = 0
@@ -429,29 +432,29 @@ PQTemplateFloating {
 
     Connections {
 
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
 
         function onHistogramVisibleChanged() {
-            if(PQCSettings.histogramVisible)
-                show()
+            if(PQCSettings.histogramVisible) // qmllint disable unqualified
+                histogram_top.show()
             else
-                hide()
+                histogram_top.hide()
         }
 
     }
 
     Connections {
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            menu.item.dismiss() // qmllint disable missing-property
         }
 
     }
 
     function show() {
         opacity = 1
-        PQCSettings.histogramVisible = true
+        PQCSettings.histogramVisible = true // qmllint disable unqualified
         if(popoutWindowUsed)
             histogram_popout.visible = true
     }
@@ -459,7 +462,7 @@ PQTemplateFloating {
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            histogram_popout.visible = false
+            histogram_popout.visible = false // qmllint disable unqualified
         PQCSettings.histogramVisible = false
     }
 

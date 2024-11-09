@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 MouseArea {
 
@@ -62,7 +61,7 @@ MouseArea {
     }
     Timer {
         id: doubleClickTimer
-        interval: doubleClickThreshold
+        interval: tooltip_top.doubleClickThreshold
         repeat: false
         running: false
         property var mouse: undefined
@@ -96,9 +95,9 @@ MouseArea {
 
         id: control
 
-        property point globalPos: tooltipReference!==undefined ? mapToItem(tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : Qt.point(0,0)
+        property point globalPos: tooltip_top.tooltipReference!==undefined ? tooltip_top.mapToItem(tooltip_top.tooltipReference, tooltip_top.mouseX, tooltip_top.mouseY) : Qt.point(0,0)
 
-        x: tooltipReference != undefined ? (globalPos.x>tooltipReference.width-width-10 ? tooltipReference.width-5 : tooltip_top.mouseX) : (parent != null ? (parent.width-width)/2 : 0)
+        x: tooltip_top.tooltipReference != undefined ? (globalPos.x>tooltip_top.tooltipReference.width-width-10 ? tooltip_top.tooltipReference.width-5 : tooltip_top.mouseX) : (parent != null ? (parent.width-width)/2 : 0)
         y: -height-5
 
     }

@@ -26,6 +26,8 @@ import PQCNotify
 
 Item {
 
+    id: menuicon
+
     width: image.width+10
     height: image.height+4
 
@@ -36,11 +38,13 @@ Item {
 
     property bool hovered: false
 
+    property int normalEntryHeight
+
     Rectangle {
         anchors.fill: parent
-        color: PQCLook.baseColorHighlight
+        color: PQCLook.baseColorHighlight // qmllint disable unqualified
         radius: 5
-        opacity: hovered ? 0.4 : 0
+        opacity: menuicon.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
     }
 
@@ -53,8 +57,8 @@ Item {
 
         opacity: parent.active ? 1 : 0.4
 
-        sourceSize: Qt.size(normalEntryHeight*scaleFactor, normalEntryHeight*scaleFactor)
-        source: "image://svg/:/white/" + img
+        sourceSize: Qt.size(menuicon.normalEntryHeight*menuicon.scaleFactor, menuicon.normalEntryHeight*menuicon.scaleFactor)
+        source: "image://svg/:/white/" + menuicon.img
 
     }
     MouseArea {
@@ -62,9 +66,9 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-        onEntered: hovered = true
-        onExited: hovered = false
-        onClicked: PQCNotify.executeInternalCommand(cmd)
+        onEntered: menuicon.hovered = true
+        onExited: menuicon.hovered = false
+        onClicked: PQCNotify.executeInternalCommand(cmd) // qmllint disable unqualified
     }
 
 }

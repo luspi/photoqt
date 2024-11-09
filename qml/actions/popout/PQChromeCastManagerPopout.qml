@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("streaming", "Streaming (Chromecast)") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.chromecastmanagerGeometry
-    isMax: PQCWindowGeometry.chromecastmanagerMaximized
-    popout: PQCSettings.interfacePopoutChromecast
-    sizepopout: PQCWindowGeometry.chromecastmanagerForcePopout
+    geometry: PQCWindowGeometry.chromecastmanagerGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.chromecastmanagerMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutChromecast // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.chromecastmanagerForcePopout // qmllint disable unqualified
     source: "actions/PQChromeCastManager.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "chromecastmanager")
+        if(loader.visibleItem === "chromecastmanager") // qmllint disable unqualified
             loader.elementClosed("chromecastmanager")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutChromecast)
+        if(popout !== PQCSettings.interfacePopoutChromecast) // qmllint disable unqualified
             PQCSettings.interfacePopoutChromecast = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.chromecastmanagerGeometry)
+        if(geometry !== PQCWindowGeometry.chromecastmanagerGeometry) // qmllint disable unqualified
             PQCWindowGeometry.chromecastmanagerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.chromecastmanagerMaximized)
+        if(isMax !== PQCWindowGeometry.chromecastmanagerMaximized) // qmllint disable unqualified
             PQCWindowGeometry.chromecastmanagerMaximized = isMax
     }
 

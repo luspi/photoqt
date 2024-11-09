@@ -133,7 +133,7 @@ Flickable {
                     PQRadioButton {
                         id: large_full
                         text: qsTranslate("settingsmanager", "load at full scale")
-                        checked: PQCSettings.imageviewAlwaysActualSize
+                        checked: PQCSettings.imageviewAlwaysActualSize // qmllint disable unqualified
                         onCheckedChanged: setting_top.checkDefault()
                     }
                 },
@@ -152,7 +152,7 @@ Flickable {
                     PQRadioButton {
                         id: small_fit
                         text: qsTranslate("settingsmanager", "fit to view")
-                        checked: PQCSettings.imageviewFitInWindow
+                        checked: PQCSettings.imageviewFitInWindow // qmllint disable unqualified
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
@@ -183,7 +183,7 @@ Flickable {
                     id: checkerboard
                     enforceMaxWidth: set_trans.rightcol
                     text: qsTranslate("settingsmanager", "show checkerboard pattern")
-                    checked: PQCSettings.imageviewTransparencyMarker
+                    checked: PQCSettings.imageviewTransparencyMarker // qmllint disable unqualified
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
@@ -350,7 +350,7 @@ Flickable {
                                 clip: true
                                 color: "transparent"
                                 border.width: 1
-                                border.color: PQCLook.baseColorHighlight
+                                border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                                 PQLineEdit {
                                     id: color_filter
@@ -359,14 +359,14 @@ Flickable {
                                     placeholderText: qsTranslate("settingsmanager", "Filter color profiles")
                                     onControlActiveFocusChanged: {
                                         if(color_filter.controlActiveFocus) {
-                                            PQCNotify.ignoreKeysExceptEnterEsc = true
+                                            PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
                                         } else {
                                             PQCNotify.ignoreKeysExceptEnterEsc = false
                                             fullscreenitem.forceActiveFocus()
                                         }
                                     }
                                     Component.onDestruction: {
-                                        PQCNotify.ignoreKeysExceptEnterEsc = false
+                                        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
                                         fullscreenitem.forceActiveFocus()
                                     }
                                 }
@@ -413,7 +413,7 @@ Flickable {
                                                 Behavior on height { NumberAnimation { duration: 200 } }
                                                 Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                                color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                                color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                                                 Behavior on color { ColorAnimation { duration: 200 } }
 
                                                 property bool delegSetup: false
@@ -431,13 +431,13 @@ Flickable {
                                                     width: parent.width-20  - (delImported.visible ? delImported.width : 0)
                                                     elide: Text.ElideMiddle
                                                     text: setting_top.colorprofiledescs[deleg.modelData]
-                                                    font.weight: PQCLook.fontWeightNormal
-                                                    font.pointSize: PQCLook.fontSizeS
-                                                    color: PQCLook.textColor
+                                                    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                                                    font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                                    color: PQCLook.textColor // qmllint disable unqualified
                                                     extraHovered: tilemouse.containsMouse
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
-                                                        var curid = PQCScriptsImages.getColorProfileID(deleg.modelData)
+                                                        var curid = PQCScriptsImages.getColorProfileID(deleg.modelData) // qmllint disable unqualified
                                                         var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
                                                         if(checked && arrayIndex == -1)
                                                             setting_top.colorprofiles_contextmenu.push(curid)
@@ -476,10 +476,10 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     opacity: delmouse.containsMouse ? 1 : 0.2
                                                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                                                    visible: deleg.modelData < PQCScriptsImages.getImportedColorProfiles().length
+                                                    visible: deleg.modelData < PQCScriptsImages.getImportedColorProfiles().length // qmllint disable unqualified
                                                     text: "x"
                                                     color: "red"
-                                                    font.weight: PQCLook.fontWeightBold
+                                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
 
                                                     PQMouseArea {
                                                         id: delmouse
@@ -490,7 +490,7 @@ Flickable {
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
                                                             check.checked = false
-                                                            if(PQCScriptsImages.removeImportedColorProfile(deleg.modelData)) {
+                                                            if(PQCScriptsImages.removeImportedColorProfile(deleg.modelData)) { // qmllint disable unqualified
                                                                 setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                                             }
                                                         }
@@ -512,7 +512,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(deleg.modelData))>-1)
+                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(deleg.modelData))>-1) // qmllint disable unqualified
                                                 }
 
                                             }
@@ -538,7 +538,7 @@ Flickable {
                                     Rectangle {
                                         width: parent.width
                                         height: 1
-                                        color: PQCLook.baseColorHighlight
+                                        color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     }
 
                                     Row {
@@ -578,10 +578,10 @@ Flickable {
                         }
 
                         PQButton {
-                            visible: PQCScriptsConfig.isLCMS2SupportEnabled()
+                            visible: PQCScriptsConfig.isLCMS2SupportEnabled() // qmllint disable unqualified
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
-                                if(PQCScriptsImages.importColorProfile()) {
+                                if(PQCScriptsImages.importColorProfile()) { // qmllint disable unqualified
                                     setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
                                 }
                             }
@@ -603,7 +603,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -640,7 +640,7 @@ Flickable {
 
     function load() {
 
-        marginslider.loadAndSetDefault(PQCSettings.imageviewMargin)
+        marginslider.loadAndSetDefault(PQCSettings.imageviewMargin) // qmllint disable unqualified
 
         large_fit.loadAndSetDefault(!PQCSettings.imageviewAlwaysActualSize)
         large_full.loadAndSetDefault(PQCSettings.imageviewAlwaysActualSize)
@@ -679,7 +679,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewMargin = marginslider.value
+        PQCSettings.imageviewMargin = marginslider.value // qmllint disable unqualified
 
         PQCSettings.imageviewAlwaysActualSize = large_full.checked
         PQCSettings.imageviewFitInWindow = small_fit.checked

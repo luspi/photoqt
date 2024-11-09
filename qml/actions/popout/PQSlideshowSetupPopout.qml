@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("slideshow", "Slideshow setup") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.slideshowsetupGeometry
-    isMax: PQCWindowGeometry.slideshowsetupMaximized
-    popout: PQCSettings.interfacePopoutSlideshowSetup
-    sizepopout: PQCWindowGeometry.slideshowsetupForcePopout
+    geometry: PQCWindowGeometry.slideshowsetupGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.slideshowsetupMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutSlideshowSetup // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.slideshowsetupForcePopout // qmllint disable unqualified
     source: "actions/PQSlideshowSetup.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "slideshowsetup")
+        if(loader.visibleItem === "slideshowsetup") // qmllint disable unqualified
             loader.elementClosed("slideshowsetup")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutSlideshowSetup)
+        if(popout !== PQCSettings.interfacePopoutSlideshowSetup) // qmllint disable unqualified
             PQCSettings.interfacePopoutSlideshowSetup = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.slideshowsetupGeometry)
+        if(geometry !== PQCWindowGeometry.slideshowsetupGeometry) // qmllint disable unqualified
             PQCWindowGeometry.slideshowsetupGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.slideshowsetupMaximized)
+        if(isMax !== PQCWindowGeometry.slideshowsetupMaximized) // qmllint disable unqualified
             PQCWindowGeometry.slideshowsetupMaximized = isMax
     }
 

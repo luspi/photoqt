@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -21,7 +22,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtCore
 import QtQuick.Controls
 
 import PQCFileFolderModel
@@ -34,38 +34,38 @@ Item {
 
     id: places_top
 
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height // qmllint disable unqualified
 
     clip: true
 
-    property var entries_favorites: []
-    property var entries_devices: []
+    property list<var> entries_favorites: []
+    property list<var> entries_devices: []
 
-    property var entries: [[], entries_favorites, entries_devices]
+    property list<var> entries: [[], entries_favorites, entries_devices]
 
     property int dragItemIndex: -1
     property string dragItemId: ""
     property bool dragReordering: false
 
-    property var hoverIndex: [-1,-1,-1]
-    property var pressedIndex: [-1,-1,-1]
+    property list<int> hoverIndex: [-1,-1,-1]
+    property list<int> pressedIndex: [-1,-1,-1]
 
-    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
+    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight // qmllint disable unqualified
 
     property bool showHiddenPlaces: false
 
     Timer {
         id: resetHoverIndex
         interval: 50
-        property var oldIndex: [-1,-1,-1]
+        property list<int> oldIndex: [-1,-1,-1]
         onTriggered: {
-            if(hoverIndex[0] === oldIndex[0])
-                hoverIndex[0] = -1
-            if(hoverIndex[1] === oldIndex[1])
-                hoverIndex[1] = -1
-            if(hoverIndex[2] === oldIndex[2])
-                hoverIndex[2] = -1
-            hoverIndexChanged()
+            if(places_top.hoverIndex[0] === oldIndex[0])
+                places_top.hoverIndex[0] = -1
+            if(places_top.hoverIndex[1] === oldIndex[1])
+                places_top.hoverIndex[1] = -1
+            if(places_top.hoverIndex[2] === oldIndex[2])
+                places_top.hoverIndex[2] = -1
+            places_top.hoverIndexChanged()
         }
     }
 
@@ -73,7 +73,7 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: (mouse) => {
-            fd_breadcrumbs.disableAddressEdit()
+            fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
             if(mouse.button === Qt.LeftButton)
                 return
             contextmenu.currentEntryId = ""
@@ -87,7 +87,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        color: PQCLook.textColorDisabled
+        color: PQCLook.textColorDisabled // qmllint disable unqualified
         font.italic: true
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter
@@ -100,7 +100,7 @@ Item {
         anchors.fill: parent
         anchors.topMargin: 5
         anchors.leftMargin: 5
-        anchors.bottomMargin: fd_tweaks.zoomMoveUpHeight
+        anchors.bottomMargin: fd_tweaks.zoomMoveUpHeight // qmllint disable unqualified
 
         contentHeight: col.height
 
@@ -117,9 +117,9 @@ Item {
                 width: parent.width-5
                 height: contentHeight
                 clip: true
-                visible: PQCSettings.filedialogPlaces
+                visible: PQCSettings.filedialogPlaces // qmllint disable unqualified
                 orientation: ListView.Vertical
-                model: entries_favorites.length
+                model: places_top.entries_favorites.length
                 property int part: 1
                 delegate: viewcomponent
                 boundsBehavior: Flickable.StopAtBounds
@@ -132,7 +132,7 @@ Item {
 
                     onDropped: {
 
-                        if(!PQCScriptsFilesPaths.isFolder(dragItemId) && !dragReordering)
+                        if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) // qmllint disable unqualified
                             return
 
                         // find the index on which it was dropped
@@ -146,13 +146,13 @@ Item {
                             newindex = 1
 
                         // if drag/drop originated from folders panel
-                        if(!dragReordering) {
+                        if(!places_top.dragReordering) {
 
                             // add item at right position
-                            PQCScriptsFileDialog.addPlacesEntry(dragItemId, newindex)
+                            PQCScriptsFileDialog.addPlacesEntry(places_top.dragItemId, newindex)
 
                             // and reload places
-                            loadPlaces()
+                            places_top.loadPlaces()
 
                         // if drag/drop originated from userplaces (reordering)
                         } else {
@@ -161,10 +161,10 @@ Item {
                             if(places_top.dragItemIndex !== newindex) {
 
                                 // save the changes to file
-                                PQCScriptsFileDialog.movePlacesEntry(dragItemId, dragItemIndex<newindex, Math.abs(dragItemIndex-newindex))
+                                PQCScriptsFileDialog.movePlacesEntry(places_top.dragItemId, places_top.dragItemIndex<newindex, Math.abs(places_top.dragItemIndex-newindex))
 
                                 // and reload places
-                                loadPlaces()
+                                places_top.loadPlaces()
 
                             }
 
@@ -174,15 +174,15 @@ Item {
 
                     onPositionChanged: {
 
-                        if(!PQCScriptsFilesPaths.isFolder(dragItemId) && !dragReordering)
+                        if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) // qmllint disable unqualified
                             return
 
                         var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
                         // the first entry is the heading -> ignore
                         if(ind === 0)
                             ind = 1
-                        hoverIndex[1] = ind
-                        hoverIndexChanged()
+                        places_top.hoverIndex[1] = ind
+                        places_top.hoverIndexChanged()
                     }
 
                 }
@@ -197,7 +197,7 @@ Item {
                     y: 19
                     width: parent.width
                     height: 1
-                    color: PQCLook.baseColorActive
+                    color: PQCLook.baseColorActive // qmllint disable unqualified
                 }
             }
 
@@ -205,10 +205,10 @@ Item {
                 id: view_devices
                 width: parent.width-5
                 height: contentHeight
-                visible: PQCSettings.filedialogDevices
+                visible: PQCSettings.filedialogDevices // qmllint disable unqualified
                 clip: true
                 orientation: ListView.Vertical
-                model: entries_devices.length
+                model: places_top.entries_devices.length
                 property int part: 2
                 delegate: viewcomponent
                 boundsBehavior: Flickable.StopAtBounds
@@ -226,17 +226,19 @@ Item {
 
             id: deleg
 
+            required property int modelData
+
             width: parent.width
-            height: (hidden==="false"||showHiddenPlaces) ? 35 : 0
+            height: (hidden==="false"||places_top.showHiddenPlaces) ? 35 : 0
             opacity: (hidden==="false") ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
-            property int part: mouseArea.drag.active ? 1 : parent.parent.part
-            property var entry: entries[part][index]
+            property int part: mouseArea.drag.active ? 1 : parent.parent.part // qmllint disable missing-property
+            property var entry: places_top.entries[part][modelData]
             property string hidden: entry===undefined||entry[4]===undefined||part==2 ? "false" : entry[4]
 
-            color: hoverIndex[part]===index
-                        ? (pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight)
+            color: places_top.hoverIndex[part]===modelData
+                        ? (places_top.pressedIndex[part]===modelData ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) // qmllint disable unqualified
                         : (entry!==undefined && entry[1]===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
             Behavior on color { ColorAnimation { duration: 200 } }
 
@@ -255,7 +257,7 @@ Item {
                     height: width
 
                     // not shown for first entry (first entry is category title)
-                    visible: index>0
+                    visible: deleg.modelData>0
 
                     // the icon image
                     Image {
@@ -267,7 +269,7 @@ Item {
                         sourceSize: Qt.size(width, height)
 
                         // the image icon is taken from image loader (i.e., from system theme if available)
-                        source: ((entry!==undefined&&index>0) ? ("image://theme/" + entry[2]) : "")
+                        source: ((deleg.entry!==undefined&&deleg.modelData>0) ? ("image://theme/" + deleg.entry[2]) : "")
 
                     }
 
@@ -288,13 +290,13 @@ Item {
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        enabled: index>0
+                        enabled: deleg.modelData>0
 
                         // some styling
                         elide: Text.ElideRight
-                        font.weight: index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+                        font.weight: deleg.modelData===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
 
-                        text: entry===undefined ? "" : PQCScriptsFilesPaths.pathWithNativeSeparators(entry[0])
+                        text: deleg.entry===undefined ? "" : PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.entry[0]) // qmllint disable unqualified
 
                     }
 
@@ -302,13 +304,13 @@ Item {
 
                         id: entrysize
 
-                        visible: deleg.part==2 && index>0
+                        visible: deleg.part==2 && deleg.modelData>0
                         height: deleg.height
 
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: entry===undefined ? "" : (entry[3] + " GB")
+                        text: deleg.entry===undefined ? "" : (deleg.entry[3] + " GB") // qmllint disable unqualified
 
                     }
 
@@ -327,33 +329,33 @@ Item {
                 // some properties
                 hoverEnabled: true
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
-                cursorShape: index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
+                cursorShape: deleg.modelData > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltipReference: fd_splitview
-                text: (index===0 || entry === undefined) ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + entry[4] + ")") : ""))
+                tooltipReference: fd_splitview // qmllint disable unqualified
+                text: (deleg.modelData===0 || deleg.entry === undefined) ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.entry[1]) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.entry[4] + ")") : "")) // qmllint disable unqualified
 
                 onPressed: {
-                    fd_breadcrumbs.disableAddressEdit()
-                    pressedIndex[deleg.part] = index
-                    pressedIndexChanged()
+                    fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                    places_top.pressedIndex[deleg.part] = deleg.modelData
+                    places_top.pressedIndexChanged()
                 }
                 onReleased: {
-                    pressedIndex[deleg.part] = -1
-                    pressedIndexChanged()
+                    places_top.pressedIndex[deleg.part] = -1
+                    places_top.pressedIndexChanged()
                 }
 
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
 
-                    fd_breadcrumbs.disableAddressEdit()
+                    fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
 
-                    if(index == 0)
+                    if(deleg.modelData == 0)
                         return
 
                     if(mouse.button === Qt.LeftButton)
                         filedialog_top.loadNewPath(deleg.entry[1])
                     else {
-                        if(deleg.part == 1 && index!==0) {
+                        if(deleg.part == 1 && deleg.modelData!==0) {
                             contextmenu.currentEntryId = deleg.entry[3]
                             contextmenu.currentEntryHidden = deleg.entry[4]
                         } else {
@@ -366,23 +368,23 @@ Item {
                 }
 
                 onEntered: {
-                    hoverIndex[deleg.part] = (index>0 ? index : -1)
-                    hoverIndexChanged()
+                    places_top.hoverIndex[deleg.part] = (deleg.modelData>0 ? deleg.modelData : -1)
+                    places_top.hoverIndexChanged()
                 }
                 onExited: {
-                    resetHoverIndex.oldIndex[deleg.part] = index
+                    resetHoverIndex.oldIndex[deleg.part] = deleg.modelData
                     resetHoverIndex.start()
                 }
 
 
-                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&index>0) ? deleg : undefined
+                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.modelData>0) ? deleg : undefined // qmllint disable unqualified
                 drag.axis: Drag.YAxis
 
                 // if drag is started
                 drag.onActiveChanged: {
                     if(mouseArea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        places_top.dragItemIndex = index
+                        places_top.dragItemIndex = deleg.modelData
                         places_top.dragItemId = deleg.entry[3]
                         places_top.dragReordering = true
                     }
@@ -435,14 +437,13 @@ Item {
                 State {
                     when: contextmenu.currentEntryId==""
                     PropertyChanges {
-                        target: entry1
-                        height: 0
+                        entry1.height: 0
                     }
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false")
-                loadPlaces()
+                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false") // qmllint disable unqualified
+                places_top.loadPlaces()
             }
         }
 
@@ -454,32 +455,30 @@ Item {
                 State {
                     when: contextmenu.currentEntryId==""
                     PropertyChanges {
-                        target: entry2
-                        height: 0
+                        entry2.height: 0
                     }
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId)
-                loadPlaces()
+                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId) // qmllint disable unqualified
+                places_top.loadPlaces()
             }
         }
 
         PQMenuItem {
             id: entry3
             visible: contextmenu.currentEntryId!==""
-            text: (showHiddenPlaces ? (qsTranslate("filedialog", "Hide hidden entries")) : (qsTranslate("filedialog", "Show hidden entries")))
+            text: (places_top.showHiddenPlaces ? (qsTranslate("filedialog", "Hide hidden entries")) : (qsTranslate("filedialog", "Show hidden entries")))
             states: [
                 State {
                     when: contextmenu.currentEntryId==""
                     PropertyChanges {
-                        target: entry3
-                        height: 0
+                        entry3.height: 0
                     }
                 }
             ]
             onTriggered:
-                showHiddenPlaces = !showHiddenPlaces
+                places_top.showHiddenPlaces = !places_top.showHiddenPlaces
         }
 
         PQMenuSeparator {
@@ -488,30 +487,29 @@ Item {
                 State {
                     when: contextmenu.currentEntryId==""
                     PropertyChanges {
-                        target: sep1
-                        height: 0
+                        sep1.height: 0
                     }
                 }
             ]
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places")))
+            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places"))) // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces
+                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces // qmllint disable unqualified
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
+            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices"))) // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
+                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices // qmllint disable unqualified
         }
     }
 
     Connections {
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
         function onFiledialogDevicesShowTmpfsChanged() {
-            loadDevices()
+            places_top.loadDevices()
         }
     }
 
@@ -520,19 +518,19 @@ Item {
         interval: 10
         running: true
         onTriggered: {
-            loadPlaces()
-            loadDevices()
+            places_top.loadPlaces()
+            places_top.loadDevices()
         }
     }
 
     function loadDevices() {
 
-        var s = PQCScriptsFileDialog.getDevices()
+        var s = PQCScriptsFileDialog.getDevices() // qmllint disable unqualified
 
         var tmp = []
 
         // for the heading
-        tmp.push([qsTranslate("filedialog", "Storage Devices"), "", "", ""])
+        tmp.push([qsTranslate("filedialog", "Storage Devices"), "", "", "", "2"])
 
         for(var i = 0; i < s.length; i+=4) {
 
@@ -550,12 +548,12 @@ Item {
 
     function loadPlaces() {
 
-        var upl = PQCScriptsFileDialog.getPlaces()
+        var upl = PQCScriptsFileDialog.getPlaces() // qmllint disable unqualified
 
         var tmp = []
 
         // for the heading
-        tmp.push([qsTranslate("filedialog", "Bookmarks"), "", "", ""])
+        tmp.push([qsTranslate("filedialog", "Bookmarks"), "", "", "", "1"])
 
         for(var i = 0; i < upl.length; i+=5)
             tmp.push([upl[i],       // folder

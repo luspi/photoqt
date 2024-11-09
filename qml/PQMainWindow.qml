@@ -30,8 +30,6 @@ import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
 
-import "elements"
-import "other"
 import "manage"
 import "image"
 import "ongoing"
@@ -40,7 +38,7 @@ Window {
 
     id: toplevel
 
-    flags: PQCSettings.interfaceWindowDecoration ?
+    flags: PQCSettings.interfaceWindowDecoration ? // qmllint disable unqualified
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint) : Qt.Window) :
                (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window|Qt.WindowMinMaxButtonsHint) : (Qt.FramelessWindowHint|Qt.Window|Qt.WindowMinMaxButtonsHint))
 
@@ -49,7 +47,7 @@ Window {
     property string titleOverride: ""
     title: titleOverride!="" ?
                (titleOverride + " | PhotoQt") :
-               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt")
+               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt") // qmllint disable unqualified
 
     minimumWidth: 300
     minimumHeight: 200
@@ -61,7 +59,7 @@ Window {
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
         if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
-            PQCWindowGeometry.mainWindowGeometry = geometry
+            PQCWindowGeometry.mainWindowGeometry = geometry // qmllint disable unqualified
             PQCWindowGeometry.mainWindowMaximized = (toplevel.visibility == Window.Maximized)
         }
     }
@@ -87,10 +85,10 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         onPositionChanged: (mouse) => {
-            PQCNotify.mouseMove(mouse.x, mouse.y)
+            PQCNotify.mouseMove(mouse.x, mouse.y) // qmllint disable unqualified
         }
         onWheel: (wheel) => {
-            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
         }
     }
 
@@ -168,7 +166,7 @@ Window {
 
     Loader {
         asynchronous: true
-        active: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
+        active: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration // qmllint disable unqualified
         source: "ongoing/PQWindowHandles.qml"
     }
 
@@ -196,24 +194,37 @@ Window {
     }
 
     Connections {
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen)
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen) // qmllint disable unqualified
+        }
+
+        function onInterfacePopoutMetadataChanged() {
+            // this needs to be done with a delay otherwise the metadata wont be shown
+            metadatadelay.restart()
         }
 
     }
 
+    Timer {
+        // this needs to be done with a delay otherwise the metadata wont be shown
+        id: metadatadelay
+        interval: 250
+        onTriggered:
+            loader.show("metadata")
+    }
+
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
-        function onCmdOpen() {
+        function onCmdOpen() : void {
             console.log("")
             loader.show("filedialog")
         }
 
-        function onCmdShow() {
+        function onCmdShow() : void {
 
             console.log("")
 
@@ -231,23 +242,23 @@ Window {
 
         }
 
-        function onCmdHide() {
+        function onCmdHide() : void {
             console.log("")
-            PQCSettings.interfaceTrayIcon = 1
+            PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
             toplevel.close()
         }
 
-        function onCmdQuit() {
+        function onCmdQuit() : void {
             console.log("")
-            quitPhotoQt()
+            toplevel.quitPhotoQt()
         }
 
-        function onCmdToggle() {
+        function onCmdToggle() : void {
 
             console.log("")
 
             if(toplevel.visible) {
-                PQCSettings.interfaceTrayIcon = 1
+                PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
                 toplevel.close()
             } else {
                 toplevel.visible = true
@@ -259,11 +270,11 @@ Window {
 
         }
 
-        function onCmdTray(enabled : bool) {
+        function onCmdTray(enabled : bool) : void {
 
             console.log("args: enabled =", enabled)
 
-            if(enabled && PQCSettings.interfaceTrayIcon === 0)
+            if(enabled && PQCSettings.interfaceTrayIcon === 0) // qmllint disable unqualified
                 PQCSettings.interfaceTrayIcon = 2
             else if(!enabled) {
                 PQCSettings.interfaceTrayIcon = 0
@@ -278,20 +289,20 @@ Window {
 
         }
 
-        function onStartInTrayChanged() {
+        function onStartInTrayChanged() : void {
 
             console.log("")
 
-            if(PQCNotify.startInTray)
+            if(PQCNotify.startInTray) // qmllint disable unqualified
                 PQCSettings.interfaceTrayIcon = 1
             else if(!PQCNotify.startInTray && PQCSettings.interfaceTrayIcon === 1)
                 PQCSettings.interfaceTrayIcon = 0
 
         }
 
-        function onFilePathChanged() {
+        function onFilePathChanged() : void {
             console.log("")
-            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
+            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath // qmllint disable unqualified
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
@@ -310,14 +321,14 @@ Window {
         running: true
         interval: 500
         onTriggered:
-            PQCScriptsFilesPaths.cleanupTemporaryFiles()
+            PQCScriptsFilesPaths.cleanupTemporaryFiles() // qmllint disable unqualified
     }
 
     Component.onCompleted: {
 
         fullscreenitem.setBackground()
 
-        PQCScriptsConfig.updateTranslation()
+        PQCScriptsConfig.updateTranslation() // qmllint disable unqualified
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             toplevel.opacity = 0
@@ -383,7 +394,7 @@ Window {
 
     function handleBeforeClosing() {
 
-        PQCFileFolderModel.advancedSortMainViewCANCEL()
+        PQCFileFolderModel.advancedSortMainViewCANCEL() // qmllint disable unqualified
 
         if(PQCFileFolderModel.currentIndex > -1 && PQCSettings.interfaceRememberLastImage)
             PQCScriptsConfig.setLastLoadedImage(PQCFileFolderModel.currentFile)
@@ -399,7 +410,7 @@ Window {
     onClosing: (close) => {
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
-        if(PQCNotify.slideshowRunning)
+        if(PQCNotify.slideshowRunning) // qmllint disable unqualified
             loader_slideshowhandler.item.hide()
 
         if(PQCSettings.interfaceTrayIcon === 1) {

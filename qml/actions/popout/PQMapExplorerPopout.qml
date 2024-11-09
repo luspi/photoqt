@@ -31,35 +31,35 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Map Explorer") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mapexplorerGeometry
-    isMax: PQCWindowGeometry.mapexplorerMaximized
-    popout: PQCSettings.interfacePopoutMapExplorer
-    sizepopout: PQCWindowGeometry.mapexplorerForcePopout
+    geometry: PQCWindowGeometry.mapexplorerGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.mapexplorerMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutMapExplorer // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.mapexplorerForcePopout // qmllint disable unqualified
     source: "actions/PQMapExplorer.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
-    modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal
+    modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "mapexplorer")
+        if(loader.visibleItem === "mapexplorer") // qmllint disable unqualified
             loader.elementClosed("mapexplorer")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapExplorer)
+        if(popout !== PQCSettings.interfacePopoutMapExplorer) // qmllint disable unqualified
             PQCSettings.interfacePopoutMapExplorer = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mapexplorerGeometry)
+        if(geometry !== PQCWindowGeometry.mapexplorerGeometry) // qmllint disable unqualified
             PQCWindowGeometry.mapexplorerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mapexplorerMaximized)
+        if(isMax !== PQCWindowGeometry.mapexplorerMaximized) // qmllint disable unqualified
             PQCWindowGeometry.mapexplorerMaximized = isMax
     }
 

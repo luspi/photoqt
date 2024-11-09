@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCWindowGeometry
 import PQCFileFolderModel
@@ -37,8 +36,8 @@ PQTemplateFullscreen {
     id: crop_top
 
     thisis: "crop"
-    popout: PQCSettings.interfacePopoutCrop
-    forcePopout: PQCWindowGeometry.cropForcePopout
+    popout: PQCSettings.interfacePopoutCrop // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
     shortcut: "__crop"
 
     title: qsTranslate("crop", "Crop image")
@@ -49,7 +48,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutCrop = popout
+        PQCSettings.interfacePopoutCrop = popout // qmllint disable unqualified
 
     button1.onClicked: {
         cropImage()
@@ -83,7 +82,7 @@ PQTemplateFullscreen {
 
                 fillMode: Image.PreserveAspectFit
 
-                source: PQCFileFolderModel.currentFile==="" ? "" : ("image://full/" + PQCFileFolderModel.currentFile)
+                source: PQCFileFolderModel.currentFile==="" ? "" : ("image://full/" + PQCFileFolderModel.currentFile) // qmllint disable unqualified
 
                 onStatusChanged: (status) => {
                     if(status === Image.Ready) {
@@ -95,7 +94,7 @@ PQTemplateFullscreen {
                     id: updateStartEndPosBackupAndStart
                     interval: 500
                     onTriggered: {
-                        if(!animShowed) {
+                        if(!crop_top.animShowed) {
                             animateCropping.startPosBackup = resizerect.startPos
                             animateCropping.endPosBackup = resizerect.endPos
                             animateCropping.restart()
@@ -192,16 +191,16 @@ PQTemplateFullscreen {
                     width: 300
 
                     horizontalAlignment: Qt.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     text: qsTranslate("scale", "An error occured, file could not be scaled")
                 }
 
                 Timer {
                     interval: 2500
-                    running: parent.visible
+                    running: errorlabel.visible
                     onTriggered:
-                        parent.hide()
+                        errorlabel.hide()
                 }
 
                 function show() {
@@ -224,8 +223,8 @@ PQTemplateFullscreen {
     ParallelAnimation {
         id: animateCropping
 
-        property point startPosBackup
-        property point endPosBackup
+        property point startPosBackup: Qt.point(-1,-1)
+        property point endPosBackup: Qt.point(-1,-1)
 
         property real maxW: (endPosBackup.x-startPosBackup.x)/2
         property real maxH: (endPosBackup.y-startPosBackup.y)/2
@@ -233,7 +232,7 @@ PQTemplateFullscreen {
         property real animExtentH: Math.min(0.02, maxH)
 
         onStarted:
-            animShowed = true
+            crop_top.animShowed = true
 
         SequentialAnimation {
             NumberAnimation {
@@ -313,7 +312,7 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: PQCScriptsFileManagement
+        target: PQCScriptsFileManagement // qmllint disable unqualified
         function onCropCompleted(success) {
             if(success) {
                 errorlabel.hide()
@@ -334,30 +333,30 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === crop_top.thisis)
+                    crop_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === crop_top.thisis)
+                    crop_top.hide()
 
             } else if(crop_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        crop_top.hide()
 
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
-                        cropImage()
+                        crop_top.cropImage()
 
                     }
                 }
@@ -373,7 +372,7 @@ PQTemplateFullscreen {
         var topleft = resizerect.startPos
         var botright = resizerect.endPos
 
-        var uniqueId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile)
+        var uniqueId = PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile) // qmllint disable unqualified
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("crop", "Crop"), PQCFileFolderModel.currentFile, uniqueId, true);
         if(file !== "")
             PQCScriptsFileManagement.cropImage(PQCFileFolderModel.currentFile, file, uniqueId, topleft, botright)
@@ -384,7 +383,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -419,7 +418,7 @@ PQTemplateFullscreen {
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            crop_popout.visible = false
+            crop_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
     }
 

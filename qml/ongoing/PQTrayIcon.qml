@@ -24,27 +24,31 @@ import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
 
+import "../"
+
 SystemTrayIcon {
 
     id: trayicon
 
-    visible: PQCSettings.interfaceTrayIcon>0
+    visible: PQCSettings.interfaceTrayIcon>0 // qmllint disable unqualified
 
-    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg"
+    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg" // qmllint disable unqualified
+
+    property PQMainWindow acces_toplevel: toplevel // qmllint disable unqualified
 
     menu: Menu {
         id: mn
 
         MenuItem {
-            text: (toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt")
+            text: (trayicon.acces_toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt")
             onTriggered: {
-                PQCSettings.interfaceTrayIcon = 1
-                toplevel.visible = !toplevel.visible
-                if(toplevel.visible) {
-                    if(toplevel.visibility === Window.Minimized)
-                        toplevel.visibility = Window.Maximized
-                    toplevel.raise()
-                    toplevel.requestActivate()
+                PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
+                trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
+                if(trayicon.acces_toplevel.visible) {
+                    if(trayicon.acces_toplevel.visibility === Window.Minimized)
+                        trayicon.acces_toplevel.visibility = Window.Maximized
+                    trayicon.acces_toplevel.raise()
+                    trayicon.acces_toplevel.requestActivate()
                 }
             }
         }
@@ -52,7 +56,7 @@ SystemTrayIcon {
         MenuItem {
             text: "Quit PhotoQt"
             onTriggered:
-                toplevel.quitPhotoQt()
+                trayicon.acces_toplevel.quitPhotoQt()
         }
 
         Component.onCompleted:
@@ -61,13 +65,13 @@ SystemTrayIcon {
     }
 
     onActivated: {
-        PQCSettings.interfaceTrayIcon = 1
-        toplevel.visible = !toplevel.visible
-        if(toplevel.visible) {
-            if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = Window.Maximized
-            toplevel.raise()
-            toplevel.requestActivate()
+        PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
+        trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
+        if(trayicon.acces_toplevel.visible) {
+            if(trayicon.acces_toplevel.visibility === Window.Minimized)
+                trayicon.acces_toplevel.visibility = Window.Maximized
+            trayicon.acces_toplevel.raise()
+            trayicon.acces_toplevel.requestActivate()
         }
     }
 

@@ -110,23 +110,25 @@ Flickable {
                         }
                         PQComboBox {
                             id: anicombo
-                                    //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
-                            model: [qsTranslate("slideshow", "Ken Burns effect"),
-                                    //: This is referring to the in/out animation of images during slideshows
-                                    qsTranslate("slideshow", "opacity"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "along x-axis"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "along y-axis"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "rotation"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "explosion"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "implosion"),
-                                    //: This is referring to an in/out animation of images
-                                    qsTranslate("settingsmanager", "choose one at random")]
-                            lineBelowItem: [0,6]
+                                                              //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
+                            property list<string> modeldata: [qsTranslate("slideshow", "Ken Burns effect"),
+                                                              //: This is referring to the in/out animation of images during slideshows
+                                                              qsTranslate("slideshow", "opacity"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "along x-axis"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "along y-axis"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "rotation"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "explosion"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "implosion"),
+                                                              //: This is referring to an in/out animation of images
+                                                              qsTranslate("settingsmanager", "choose one at random")]
+                            model: modeldata
+                            property list<int> linedata: [0,6]
+                            lineBelowItem: linedata
                             onCurrentIndexChanged: setting_top.checkDefault()
                         }
                     }
@@ -375,12 +377,13 @@ Flickable {
 
                             PQComboBox {
                                 id: music_volumevideos
-                                        //: one option as to what will happen with the slideshow music volume while videos are playing
-                                model: [qsTranslate("settingsmanager", "mute"),
-                                        //: one option as to what will happen with the slideshow music volume while videos are playing
-                                        qsTranslate("settingsmanager", "lower"),
-                                        //: one option as to what will happen with the slideshow music volume while videos are playing
-                                        qsTranslate("settingsmanager", "leave unchanged")]
+                                                                  //: one option as to what will happen with the slideshow music volume while videos are playing
+                                property list<string> modeldata: [qsTranslate("settingsmanager", "mute"),
+                                                                  //: one option as to what will happen with the slideshow music volume while videos are playing
+                                                                  qsTranslate("settingsmanager", "lower"),
+                                                                  //: one option as to what will happen with the slideshow music volume while videos are playing
+                                                                  qsTranslate("settingsmanager", "leave unchanged")]
+                                model: modeldata
                                 onCurrentIndexChanged:
                                     setting_top.checkDefault()
                             }
@@ -393,7 +396,7 @@ Flickable {
 
                         color: "transparent"
                         border.width: 1
-                        border.color: PQCLook.baseColorHighlight
+                        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                         width: Math.min(500, set_ani.rightcol)
                         height: 300
@@ -404,7 +407,7 @@ Flickable {
                             width: parent.width-20
                             opacity: set_music.musicfiles.length===0 ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             enabled: false
@@ -434,12 +437,12 @@ Flickable {
 
                                     required property int modelData
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData])
-                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData])
+                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData]) // qmllint disable unqualified
+                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData]) // qmllint disable unqualified
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight
+                                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                                     Column {
                                         x: 5
@@ -518,7 +521,7 @@ Flickable {
                         id: filesbut
                         text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",                             // qmllint disable unqualified
                                                                                   (set_music.musicfiles.length===0 ?
                                                                                        PQCScriptsFilesPaths.getHomeDir() :
                                                                                        PQCScriptsFilesPaths.getDir(set_music.musicfiles[set_music.musicfiles.length-1])),
@@ -548,7 +551,8 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function areTwoListsEqual(l1: var, l2: var) : bool {
+    // do not make this function typed, it will break
+    function areTwoListsEqual(l1, l2) {
 
         if(l1.length !== l2.length)
             return false
@@ -570,7 +574,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -584,7 +588,7 @@ Flickable {
 
     function load() {
 
-        anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15)
+        anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) // qmllint disable unqualified
 
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
         anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
@@ -617,7 +621,7 @@ Flickable {
     function applyChanges() {
 
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex]
+        PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] // qmllint disable unqualified
 
         PQCSettings.slideshowTime = interval.value
         PQCSettings.slideshowImageTransition = anispeed.value

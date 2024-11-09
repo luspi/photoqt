@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -31,13 +32,15 @@ import "../../elements"
 
 Column {
 
+    id: enlightenment_top
+
     x: 0
     y: 0
 
     width: parent.width
     height: childrenRect.height
 
-    property var numWorkspaces: [1, 1]
+    property list<int> numWorkspaces: [1, 1]
     property bool msgbusError: true
     property bool enlightenmentRemoteError: true
 
@@ -46,15 +49,15 @@ Column {
             check()
     }
 
-    property var checkedScreens: []
-    property var checkedWorkspaces: []
+    property list<int> checkedScreens: []
+    property list<int> checkedWorkspaces: []
 
     spacing: 10
 
     PQTextXL {
         x: (parent.width-width)/2
         text: "Enlightenment"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -64,22 +67,22 @@ Column {
 
     PQText {
         x: (parent.width-width)/2
-        visible: msgbusError
+        visible: enlightenment_top.msgbusError
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 module not activated").arg("<i>msgbus (DBUS)</i>")
     }
 
     PQText {
         x: (parent.width-width)/2
-        visible: enlightenmentRemoteError
+        visible: enlightenment_top.enlightenmentRemoteError
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>enlightenment_remote</i>")
     }
 
     Item {
-        visible: enlightenmentRemoteError || msgbusError
+        visible: enlightenment_top.enlightenmentRemoteError || enlightenment_top.msgbusError
         width: 1
         height: 10
     }
@@ -105,19 +108,21 @@ Column {
             id: desk_col
             spacing: 10
             Repeater {
-                model: numDesktops
+                model: wallpaper_top.numDesktops // qmllint disable unqualified
                 PQCheckBox {
+                    id: deleg
+                    required property int modelData
                     //: Used in wallpaper element
-                    text: qsTranslate("wallpaper", "Screen") + " #" + (index+1)
+                    text: qsTranslate("wallpaper", "Screen") + " #" + (deleg.modelData+1)
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
-                            checkedScreens.splice(checkedScreens.indexOf(index+1), 1)
+                            enlightenment_top.checkedScreens.splice(enlightenment_top.checkedScreens.indexOf(deleg.modelData+1), 1)
                         else
-                            checkedScreens.push(index+1)
+                            enlightenment_top.checkedScreens.push(deleg.modelData+1)
                     }
                     Component.onCompleted: {
-                        checkedScreens.push(index+1)
+                        enlightenment_top.checkedScreens.push(deleg.modelData+1)
                     }
                 }
             }
@@ -141,20 +146,22 @@ Column {
             id: ws_col
             spacing: 10
             Repeater {
-                model: numWorkspaces[0]*numWorkspaces[1]
+                model: enlightenment_top.numWorkspaces[0]*enlightenment_top.numWorkspaces[1]
                 PQCheckBox {
-                    property string num: ((index%numWorkspaces[1] +1) + " - " + (Math.floor(index/numWorkspaces[1]) +1))
+                    id: deleg2
+                    required property int modelData
+                    property string num: ((deleg2.modelData%enlightenment_top.numWorkspaces[1] +1) + " - " + (Math.floor(deleg2.modelData/enlightenment_top.numWorkspaces[1]) +1))
                     //: Enlightenment desktop environment handles wallpapers per workspace (different from screen)
                     text: qsTranslate("wallpaper", "Workspace:") + " " + num
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
-                            checkedWorkspaces.splice(checkedWorkspaces.indexOf(num), 1)
+                            enlightenment_top.checkedWorkspaces.splice(enlightenment_top.checkedWorkspaces.indexOf(num), 1)
                         else
-                            checkedWorkspaces.push(num)
+                            enlightenment_top.checkedWorkspaces.push(num)
                     }
                     Component.onCompleted: {
-                        checkedWorkspaces.push(num)
+                        enlightenment_top.checkedWorkspaces.push(num)
                     }
                 }
             }
@@ -164,7 +171,7 @@ Column {
 
     function check() {
 
-        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount()
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
         numWorkspaces = PQCScriptsWallpaper.getEnlightenmentWorkspaceCount()
         enlightenmentRemoteError = PQCScriptsWallpaper.checkEnlightenmentRemote()
         msgbusError = PQCScriptsWallpaper.checkEnlightenmentMsgbus();

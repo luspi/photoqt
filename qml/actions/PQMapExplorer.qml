@@ -21,10 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import QtLocation
-import QtPositioning
 import QtQuick.Controls
-import QtQuick.Layouts
 
 import PQCNotify
 import PQCLocation
@@ -42,8 +39,8 @@ Item {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    property int parentWidth: toplevel.width // qmllint disable unqualified
+    property int parentHeight: toplevel.height // qmllint disable unqualified
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -56,20 +53,22 @@ Item {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "Map Explorer")
+            toplevel.titleOverride = qsTranslate("actions", "Map Explorer") // qmllint disable unqualified
         else if(opacity == 0)
             toplevel.titleOverride = ""
     }
 
     property bool finishShow: false
 
-    property var imagesWithLocation: []
+    property list<var> imagesWithLocation: []
 
-    property var folderLoaded: []
+    property list<var> folderLoaded: []
 
     property real mapZoomLevel: 10
 
-    property bool isPopout: PQCSettings.interfacePopoutMapExplorer
+    property bool isPopout: PQCSettings.interfacePopoutMapExplorer // qmllint disable unqualified
+
+    property int closebuttonWidth: closebutton.width
 
     state: isPopout ?
                "popout" :
@@ -79,10 +78,9 @@ Item {
         State {
             name: "popout"
             PropertyChanges {
-                target: mapexplorer_top
-                width: parentWidth
-                height: parentHeight
-                opacity: 0
+                mapexplorer_top.width: mapexplorer_top.parentWidth
+                mapexplorer_top.height: mapexplorer_top.parentHeight
+                mapexplorer_top.opacity: 0
             }
         }
     ]
@@ -96,7 +94,7 @@ Item {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Image {
@@ -139,10 +137,10 @@ Item {
                 width: 25
                 height: 25
 
-                visible: !PQCWindowGeometry.mapexplorerForcePopout
+                visible: !PQCWindowGeometry.mapexplorerForcePopout // qmllint disable unqualified
                 enabled: visible
 
-                color: PQCLook.transColor
+                color: PQCLook.transColor // qmllint disable unqualified
 
                 opacity: popinmouse.containsMouse ? 1 : 0.2
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -159,14 +157,14 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: PQCSettings.interfacePopoutMapExplorer ?
+                    text: PQCSettings.interfacePopoutMapExplorer ? // qmllint disable unqualified
                                  //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                                  qsTranslate("popinpopout", "Merge into main interface") :
                                  //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                                  qsTranslate("popinpopout", "Move to its own window")
                     onClicked: {
-                        hideExplorer()
-                        PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer
+                        mapexplorer_top.hideExplorer()
+                        PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer // qmllint disable unqualified
                         PQCNotify.executeInternalCommand("__showMapExplorer")
                     }
                 }
@@ -215,33 +213,34 @@ Item {
         height: 49
         text: genericStringClose
         onClicked:
-            hideExplorer()
+            mapexplorer_top.hideExplorer()
     }
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
                 if(param === "mapexplorer")
-                    showExplorer()
+                    mapexplorer_top.showExplorer()
 
             } else if(what === "hide") {
 
                 if(param === "mapexplorer")
-                    hideExplorer()
+                    mapexplorer_top.hideExplorer()
 
             } else if(mapexplorer_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
-                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal)
+                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal) // qmllint disable unqualified
                         return
 
                     if(param[0] === Qt.Key_Escape)
-                        hideExplorer()
+                        mapexplorer_top.hideExplorer()
                 }
 
             }
@@ -257,13 +256,17 @@ Item {
         duration: 200
     }
 
+    function resetMap() {
+        map.resetMap();
+    }
+
     function resetWidth() {
         smoothWidth.from = mapcont.width
         smoothWidth.to = mapexplorer_top.width/2
         smoothWidth.start()
     }
 
-    function clickOnImage(lat, lon) {
+    function clickOnImage(lat : real, lon : real) {
 
         map.setMapCenterSmooth(lat, lon)
         map.setMapZoomLevelSmooth(maptweaks.maxZoomLevel/2)
@@ -272,7 +275,7 @@ Item {
 
     function loadImages() {
 
-        var items = PQCLocation.imageList
+        var items = PQCLocation.imageList // qmllint disable unqualified
         var labels = PQCLocation.labelList
 
         map.clearModel()
@@ -312,7 +315,7 @@ Item {
 
     function showExplorer() {
 
-        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
+        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout // qmllint disable unqualified
 
         opacity = 1
         if(popoutWindowUsed)
@@ -352,7 +355,7 @@ Item {
 
     function hideExplorer() {
 
-        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal)
+        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal) // qmllint disable unqualified
             return
 
         opacity = 0

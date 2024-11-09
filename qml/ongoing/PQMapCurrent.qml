@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtCharts
 import QtLocation
 import QtPositioning
 
@@ -33,25 +32,28 @@ import PQCNotify
 import PQCWindowGeometry
 
 import "../elements"
+import "../"
 
 PQTemplateFloating {
 
     id: mapcurrent_top
 
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
+
     onXChanged: {
-        if(!toplevel.startup && dragActive)
+        if(!access_toplevel.startup && dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(!toplevel.startup && dragActive)
+        if(!access_toplevel.startup && dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(!toplevel.startup && resizeActive)
+        if(!access_toplevel.startup && resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(!toplevel.startup && resizeActive)
+        if(!access_toplevel.startup && resizeActive)
             storeSize.restart()
     }
 
@@ -59,7 +61,7 @@ PQTemplateFloating {
         id: storeSize
         interval: 200
         onTriggered: {
-            PQCSettings.mapviewCurrentPosition.x = mapcurrent_top.x
+            PQCSettings.mapviewCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
             PQCSettings.mapviewCurrentPosition.y = mapcurrent_top.y
             PQCSettings.mapviewCurrentSize.width = mapcurrent_top.width
             PQCSettings.mapviewCurrentSize.height = mapcurrent_top.height
@@ -70,11 +72,10 @@ PQTemplateFloating {
         State {
             name: "popout"
             PropertyChanges {
-                target: mapcurrent_top
-                x: 0
-                y: 0
-                width: mapcurrent_top.parentWidth
-                height: mapcurrent_top.parentHeight
+                mapcurrent_top.x: 0
+                mapcurrent_top.y: 0
+                mapcurrent_top.width: mapcurrent_top.parentWidth
+                mapcurrent_top.height: mapcurrent_top.parentHeight
             }
         }
 
@@ -82,10 +83,10 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: mapcurrent_top }
 
-    popout: PQCSettings.interfacePopoutMapCurrent
-    forcePopout: PQCWindowGeometry.mapcurrentForcePopout
+    popout: PQCSettings.interfacePopoutMapCurrent // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.mapcurrentForcePopout // qmllint disable unqualified
     shortcut: "__showMapCurrent"
-    tooltip: PQCSettings.interfacePopoutMapCurrent||PQCWindowGeometry.mapcurrentForcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.")
+    tooltip: PQCSettings.interfacePopoutMapCurrent||PQCWindowGeometry.mapcurrentForcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
 
     blur_thisis: "mapcurrent"
 
@@ -98,7 +99,7 @@ PQTemplateFloating {
     property real longitude: 8.40444
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapCurrent)
+        if(popout !== PQCSettings.interfacePopoutMapCurrent) // qmllint disable unqualified
             PQCSettings.interfacePopoutMapCurrent = popout
     }
 
@@ -165,7 +166,7 @@ PQTemplateFloating {
 
                 visible: true
 
-                coordinate: QtPositioning.coordinate(latitude, longitude)
+                coordinate: QtPositioning.coordinate(mapcurrent_top.latitude, mapcurrent_top.longitude)
 
                 sourceItem:
                     Image {
@@ -182,12 +183,12 @@ PQTemplateFloating {
             Rectangle {
                 id: noloc
                 anchors.fill: parent
-                color: PQCLook.transColor
-                opacity: (noLocation&&PQCFileFolderModel.countMainView>0) ? 1 : 0
+                color: PQCLook.transColor // qmllint disable unqualified
+                opacity: (mapcurrent_top.noLocation&&PQCFileFolderModel.countMainView>0) ? 1 : 0 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     anchors.centerIn: parent
                     text: qsTranslate("mapcurrent", "No location data")
                 }
@@ -202,12 +203,12 @@ PQTemplateFloating {
             Rectangle {
                 id: nofileloaded
                 anchors.fill: parent
-                color: PQCLook.transColor
-                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0
+                color: PQCLook.transColor // qmllint disable unqualified
+                opacity: PQCFileFolderModel.countMainView===0 ? 1 : 0 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 PQText {
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     anchors.centerIn: parent
                     text: qsTranslate("mapcurrent", "Current location")
                 }
@@ -245,15 +246,15 @@ PQTemplateFloating {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 onClicked:
-                    PQCNotify.executeInternalCommand("__showMapExplorer")
+                    PQCNotify.executeInternalCommand("__showMapExplorer") // qmllint disable unqualified
             }
 
             Rectangle {
                 anchors.fill: explorerimage
                 radius: width/2
                 z: -1
-                visible: darkBackgroundManageIcons
-                color: PQCLook.transColor
+                visible: mapcurrent_top.darkBackgroundManageIcons
+                color: PQCLook.transColor // qmllint disable unqualified
                 opacity: explorerimage.opacity
             }
 
@@ -266,7 +267,7 @@ PQTemplateFloating {
             mapcurrent_top.state = "popout"
         } else {
             mapcurrent_top.state = ""
-            x = PQCSettings.mapviewCurrentPosition.x
+            x = PQCSettings.mapviewCurrentPosition.x // qmllint disable unqualified
             y = PQCSettings.mapviewCurrentPosition.y
             width = PQCSettings.mapviewCurrentSize.width
             height = PQCSettings.mapviewCurrentSize.height
@@ -278,18 +279,18 @@ PQTemplateFloating {
 
     Connections {
 
-        target: PQCMetaData
+        target: PQCMetaData // qmllint disable unqualified
 
         function onExifGPSChanged() {
-            updateMap()
+            mapcurrent_top.updateMap()
         }
 
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : string) {
 
             if(what === "show") {
                 if(param === "mapcurrent") {
@@ -297,7 +298,7 @@ PQTemplateFloating {
                         mapcurrent_top.hide()
                     } else {
                         mapcurrent_top.show()
-                        updateMap()
+                        mapcurrent_top.updateMap()
                     }
                 }
             }
@@ -308,20 +309,20 @@ PQTemplateFloating {
 
     Connections {
 
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
 
         function onMapviewCurrentVisibleChanged() {
-            if(PQCSettings.mapviewCurrentVisible)
-                show()
+            if(PQCSettings.mapviewCurrentVisible) // qmllint disable unqualified
+                mapcurrent_top.show()
             else
-                hide()
+                mapcurrent_top.hide()
         }
 
     }
 
     function updateMap() {
 
-        var pos = PQCScriptsMetaData.convertGPSToPoint(PQCMetaData.exifGPS)
+        var pos = PQCScriptsMetaData.convertGPSToPoint(PQCMetaData.exifGPS) // qmllint disable unqualified
 
         // this value means: no gps data
         if(pos.x === 9999 || pos.y === 9999) {
@@ -345,7 +346,7 @@ PQTemplateFloating {
 
     function show() {
         opacity = 1
-        PQCSettings.mapviewCurrentVisible = true
+        PQCSettings.mapviewCurrentVisible = true // qmllint disable unqualified
         if(popoutWindowUsed)
             mapcurrent_popout.visible = true
     }
@@ -353,7 +354,7 @@ PQTemplateFloating {
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            mapcurrent_popout.visible = false
+            mapcurrent_popout.visible = false // qmllint disable unqualified
         PQCSettings.mapviewCurrentVisible = false
     }
 

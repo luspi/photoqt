@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import "../../elements"
 import "../components"
 
 import PQCScriptsFilesPaths
@@ -35,33 +34,30 @@ AnimatedImage {
 
     id: image
 
-    source: (imageloaderitem.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)))
+    property string imageSource: ""
+
+    source: (image.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))) // qmllint disable unqualified
 
     asynchronous: true
 
-    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
+    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold) // qmllint disable unqualified
 
-    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold
+    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold // qmllint disable unqualified
     mipmap: interpThreshold
 
     property bool fitImage: false
-    property bool imageLarger: (image.sourceSize.width > image_top.width || image.sourceSize.height > image_top.height)
+    property bool imageLarger: (image.sourceSize.width > image_top.width || image.sourceSize.height > image_top.height) // qmllint disable unqualified
 
-    width: (fitImage||imageLarger) ? image_top.width : undefined
-    height: (fitImage||imageLarger) ? image_top.height : undefined
+    width: (fitImage||imageLarger) ? image_top.width : undefined // qmllint disable unqualified
+    height: (fitImage||imageLarger) ? image_top.height : undefined // qmllint disable unqualified
 
     fillMode: Image.PreserveAspectFit
 
-    onWidthChanged:
-        image_wrapper.width = width
-    onHeightChanged:
-        image_wrapper.height = height
-
     onStatusChanged: {
-        image_wrapper.status = status
+        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Ready) {
             fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
-            hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
+            hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)
@@ -73,17 +69,17 @@ AnimatedImage {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
     property bool hasAlpha: false
 
     onSourceSizeChanged:
-        loader_top.imageResolution = sourceSize
+        loader_top.imageResolution = sourceSize // qmllint disable unqualified
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
         function onMirrorH() {
             image.myMirrorH = !image.myMirrorH
         }
@@ -99,18 +95,18 @@ AnimatedImage {
 
     transform: [
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
-            angle: myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         },
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
-            angle: myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorV ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         }
     ]
 
@@ -119,17 +115,25 @@ AnimatedImage {
         z: parent.z-1
         fillMode: Image.Tile
 
-        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
+        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : "" // qmllint disable unqualified
 
     }
-    function setMirrorHV(mH, mV) {
+
+    Connections {
+        target: image_wrapper // qmllint disable unqualified
+        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+            image.setMirrorHV(mirH, mirV)
+        }
+    }
+
+    function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
     }
 
     Connections {
 
-        target: loader_top
+        target: loader_top // qmllint disable unqualified
         function onVideoTogglePlay() {
             if(!image.playing) {
                 // without explicitely storing/loading the frame it will restart playing at the start
@@ -144,13 +148,13 @@ AnimatedImage {
 
     Connections {
 
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
         function onCurrentlyVisibleIndexChanged() {
-            image.playing = loader_top.isMainImage
+            image.playing = loader_top.isMainImage // qmllint disable unqualified
         }
 
-        function onAnimImageJump(leftright) {
+        function onAnimImageJump(leftright : int) {
             image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
         }
 

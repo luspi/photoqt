@@ -24,9 +24,9 @@ import QtQuick
 
 Text {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 200 } }
-    font.pointSize: PQCLook.fontSizeS
-    font.weight: PQCLook.fontWeightNormal
+    font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
 }

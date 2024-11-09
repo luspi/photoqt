@@ -22,34 +22,38 @@
 
 import QtQuick
 
-import "../elements"
+import "../"
 
 Item {
 
-    width: toplevel.width
-    height: toplevel.height
+    id: handles_top
+
+    width: acces_toplevel.width
+    height: acces_toplevel.height
 
     property int thickness: 10
 
+    property PQMainWindow acces_toplevel: toplevel // qmllint disable unqualified
+
     // MOVE with TOP edge
     MouseArea {
-        x: statusinfo.item.width
+        x: statusinfo.item.width // qmllint disable unqualified
         y: 0
-        enabled: loader.visibleItem===""
+        enabled: loader.visibleItem==="" // qmllint disable unqualified
         visible: enabled
-        width: parent.width - statusinfo.item.width-20 - windowbuttons.item.width-10
-        height: 3*thickness
+        width: parent.width - statusinfo.item.width-20 - windowbuttons.item.width-10 // qmllint disable unqualified
+        height: 3*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeAllCursor
         acceptedButtons: Qt.AllButtons
         onWheel: (wheel) => { wheel.accepted = true }
         onPressed:
-            toplevel.startSystemMove()
+            handles_top.acces_toplevel.startSystemMove()
         onDoubleClicked: {
-            if(toplevel.visibility === Window.Maximized)
-                toplevel.visibility = Window.Windowed
-            else if(toplevel.visibility === Window.Windowed)
-                toplevel.visibility = Window.Maximized
+            if(handles_top.acces_toplevel.visibility === Window.Maximized)
+                handles_top.acces_toplevel.visibility = Window.Windowed
+            else if(handles_top.acces_toplevel.visibility === Window.Windowed)
+                handles_top.acces_toplevel.visibility = Window.Maximized
         }
 
     }
@@ -58,24 +62,24 @@ Item {
     MouseArea {
         x: 0
         y: 0
-        width: thickness
+        width: handles_top.thickness
         height: parent.height
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            toplevel.startSystemResize(Qt.LeftEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge)
     }
 
     // RIGHT edge
     MouseArea {
         x: parent.width-width
         y: 0
-        width: thickness
+        width: handles_top.thickness
         height: parent.height
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            toplevel.startSystemResize(Qt.RightEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge)
     }
 
     // TOP edge
@@ -83,11 +87,11 @@ Item {
         x: 0
         y: 0
         width: parent.width
-        height: thickness
+        height: handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            toplevel.startSystemResize(Qt.TopEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.TopEdge)
     }
 
     // BOTTOM edge
@@ -95,59 +99,59 @@ Item {
         x: 0
         y: parent.height-height
         width: parent.width
-        height: thickness
+        height: handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            toplevel.startSystemResize(Qt.BottomEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.BottomEdge)
     }
 
     // TOP LEFT corner
     MouseArea {
         x: 0
         y: 0
-        width: 2*thickness
-        height: 2*thickness
+        width: 2*handles_top.thickness
+        height: 2*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            toplevel.startSystemResize(Qt.LeftEdge|Qt.TopEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge|Qt.TopEdge)
     }
 
     // TOP RIGHT corner
     MouseArea {
         x: parent.width-width
         y: 0
-        width: 2*thickness
-        height: 2*thickness
+        width: 2*handles_top.thickness
+        height: 2*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            toplevel.startSystemResize(Qt.RightEdge|Qt.TopEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge|Qt.TopEdge)
     }
 
     // BOTTOM LEFT corner
     MouseArea {
         x: 0
         y: parent.height-height
-        width: 2*thickness
-        height: 2*thickness
+        width: 2*handles_top.thickness
+        height: 2*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            toplevel.startSystemResize(Qt.LeftEdge|Qt.BottomEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge|Qt.BottomEdge)
     }
 
     // BOTTOM RIGHT corner
     MouseArea {
         x: parent.width-width
         y: parent.height-height
-        width: 2*thickness
-        height: 2*thickness
+        width: 2*handles_top.thickness
+        height: 2*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            toplevel.startSystemResize(Qt.RightEdge|Qt.BottomEdge)
+            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge|Qt.BottomEdge)
     }
 
 }

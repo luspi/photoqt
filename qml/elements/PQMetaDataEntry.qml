@@ -50,9 +50,9 @@ Column {
 
     PQText {
         id: which
-        font.weight: PQCLook.fontWeightBold
-        opacity: fadeout ? 0.4 : 1
-        visible: PQCFileFolderModel.countMainView>0
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+        opacity: entry.fadeout ? 0.4 : 1
+        visible: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
     }
 
     Row {
@@ -61,21 +61,21 @@ Column {
 
         PQText {
             id: val
-            text: "  " + (valtxt=="" ? "--" : valtxt)
-            opacity: fadeout ? 0.4 : 1
-            visible: PQCFileFolderModel.countMainView>0
+            text: "  " + (entry.valtxt=="" ? "--" : entry.valtxt)
+            opacity: entry.fadeout ? 0.4 : 1
+            visible: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
 
             PQMouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                enabled: !fadeout
-                text: enabled ? tooltip : ""
+                enabled: !entry.fadeout
+                text: enabled ? entry.tooltip : ""
                 cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                 onClicked: (mouse) => {
-                    if(signalClicks)
+                    if(entry.signalClicks)
                         entry.clicked(mouse)
                     else
-                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt) // qmllint disable unqualified
                 }
             }
         }

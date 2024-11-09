@@ -135,13 +135,13 @@ Flickable {
                 Flow {
                     Item {
                         width: highlight_liftup_check.width
-                        height: highlight_liftup_slider.spinboxItem.height
+                        height: highlight_liftup_slider.spinboxItemHeight
                         PQCheckBox {
                             id: highlight_liftup_check
                             y: (parent.height-height)/2
                             //: effect for highlighting active thumbnail
                             text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
-                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
+                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") // qmllint disable unqualified
                             onCheckedChanged: setting_top.checkDefault()
                         }
                     }
@@ -240,7 +240,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -254,7 +254,7 @@ Flickable {
 
     function load() {
 
-        spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing)
+        spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) // qmllint disable unqualified
 
         highlight_invertbg.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertbg"))
         highlight_invertlabel.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel"))
@@ -276,7 +276,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSpacing = spacing_slider.value
+        PQCSettings.thumbnailsSpacing = spacing_slider.value // qmllint disable unqualified
 
         var opt = []
         if(highlight_liftup_check.checked)

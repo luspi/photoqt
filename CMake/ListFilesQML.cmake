@@ -29,7 +29,7 @@ SET(d "qml/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml)
 
 SET(d "qml/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQTemplateFullscreen.qml ${d}/PQSlideshowHandler.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQSlideshowHandler.qml)
 
 SET(d "qml/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)
@@ -78,17 +78,17 @@ SET(d "qml/settingsmanager/settings/filetypes")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
 
 SET(d "qml/settingsmanager/settings/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImage.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImageSetIm.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
 
 SET(d "qml/settingsmanager/settings/interface")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenu.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfo.qml ${d}/PQEdges.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenuSet.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfoSet.qml ${d}/PQEdges.qml)
 
 SET(d "qml/settingsmanager/settings/shortcuts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
 
 SET(d "qml/settingsmanager/settings/thumbnails")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImageSetThumb.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
 
 SET(d "qml/settingsmanager/settings/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)

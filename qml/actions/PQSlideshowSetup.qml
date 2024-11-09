@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -34,8 +35,8 @@ PQTemplateFullscreen {
     id: slideshowsettings_top
 
     thisis: "slideshowsetup"
-    popout: PQCSettings.interfacePopoutSlideshowSetup
-    forcePopout: PQCWindowGeometry.slideshowsetupForcePopout
+    popout: PQCSettings.interfacePopoutSlideshowSetup // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.slideshowsetupForcePopout // qmllint disable unqualified
     shortcut: "__slideshow"
     title: qsTranslate("slideshow", "Slideshow setup")
 
@@ -46,7 +47,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutSlideshowSetup = popout
+        PQCSettings.interfacePopoutSlideshowSetup = popout // qmllint disable unqualified
 
     button1.onClicked:
         startSlideshow()
@@ -56,7 +57,7 @@ PQTemplateFullscreen {
 
     property int leftcolwidth: 100
 
-    property var musicfiles: []
+    property list<string> musicfiles: []
 
     content: [
 
@@ -66,19 +67,19 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: interval_txt
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: The interval between images in a slideshow
                 text: qsTranslate("slideshow", "interval") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -96,42 +97,44 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: animtype_txt
                 y: (animtype_combo.height-height)/2
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: This is referring to the in/out animation of images during a slideshow
                 text: qsTranslate("slideshow", "animation") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
             PQComboBox {
                 id: animtype_combo
-                        //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
-                model: [qsTranslate("slideshow", "Ken Burns effect"),
-                        //: This is referring to the in/out animation of images during slideshows
-                        qsTranslate("slideshow", "opacity"),
-                        //: This is referring to the in/out animation of images during slideshows
-                        qsTranslate("slideshow", "along x-axis"),
-                        //: This is referring to the in/out animation of images during slideshows
-                        qsTranslate("slideshow", "along y-axis"),
-                        //: This is referring to the in/out animation of images
-                        qsTranslate("slideshow", "rotation"),
-                        //: This is referring to the in/out animation of images
-                        qsTranslate("slideshow", "explosion"),
-                        //: This is referring to the in/out animation of images
-                        qsTranslate("slideshow", "implosion"),
-                        //: This is referring to the in/out animation of images
-                        qsTranslate("slideshow", "choose one at random")]
-                lineBelowItem: [0,6]
+                                                  //: A special slideshow effect: https://en.wikipedia.org/wiki/Ken_Burns_effect
+                property list<string> modeldata: [qsTranslate("slideshow", "Ken Burns effect"),
+                                                  //: This is referring to the in/out animation of images during slideshows
+                                                  qsTranslate("slideshow", "opacity"),
+                                                  //: This is referring to the in/out animation of images during slideshows
+                                                  qsTranslate("slideshow", "along x-axis"),
+                                                  //: This is referring to the in/out animation of images during slideshows
+                                                  qsTranslate("slideshow", "along y-axis"),
+                                                  //: This is referring to the in/out animation of images
+                                                  qsTranslate("slideshow", "rotation"),
+                                                  //: This is referring to the in/out animation of images
+                                                  qsTranslate("slideshow", "explosion"),
+                                                  //: This is referring to the in/out animation of images
+                                                  qsTranslate("slideshow", "implosion"),
+                                                  //: This is referring to the in/out animation of images
+                                                  qsTranslate("slideshow", "choose one at random")]
+                model: modeldata
+                property list<int> linedata: [0,6]
+                lineBelowItem: linedata
             }
 
         },
@@ -141,20 +144,20 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: trans_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: The speed of transitioning from one image to another during slideshows
                 text: qsTranslate("slideshow", "animation speed") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -216,18 +219,18 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: loop_txt
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 text: qsTranslate("slideshow", "looping") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -244,19 +247,19 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: shuffle_txt
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: during slideshows shuffle the order of all images
                 text: qsTranslate("slideshow", "shuffle") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -273,19 +276,19 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: subfolders_txt
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: also include images in subfolders during slideshows
                 text: qsTranslate("slideshow", "subfolders") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -302,20 +305,20 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: quick_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: What to do with the file details during slideshows
                 text: qsTranslate("slideshow", "status info") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -332,20 +335,20 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: winbut_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: What to do with the window buttons during slideshows
                 text: qsTranslate("slideshow", "window buttons") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -362,20 +365,20 @@ PQTemplateFullscreen {
 
             spacing: 15
 
-            x: parent.width/2 - 1.5*leftcolwidth
+            x: parent.width/2 - 1.5*slideshowsettings_top.leftcolwidth
             height: childrenRect.height
 
             PQTextL {
                 id: music_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: The music that is to be played during slideshows
                 text: qsTranslate("slideshow", "music") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
-                    if(width > leftcolwidth)
-                        leftcolwidth = width
-                    width = Qt.binding(function() { return leftcolwidth; })
+                    if(width > slideshowsettings_top.leftcolwidth)
+                        slideshowsettings_top.leftcolwidth = width
+                    width = Qt.binding(function() { return slideshowsettings_top.leftcolwidth; })
                 }
             }
 
@@ -413,7 +416,7 @@ PQTemplateFullscreen {
 
                         Flow {
 
-                            width: slideshowsettings_top.width-leftcolwidth - contentrow.x - contentrow.spacing-10
+                            width: slideshowsettings_top.width-slideshowsettings_top.leftcolwidth - contentrow.x - contentrow.spacing-10
                             spacing: 5
 
                             PQText {
@@ -425,9 +428,10 @@ PQTemplateFullscreen {
 
                             PQComboBox {
                                 id: music_volumevideos
-                                model: [qsTranslate("settingsmanager", "mute"),
-                                        qsTranslate("settingsmanager", "lower"),
-                                        qsTranslate("settingsmanager", "leave unchanged")]
+                                property list<string> modeldata: [qsTranslate("settingsmanager", "mute"),
+                                                                  qsTranslate("settingsmanager", "lower"),
+                                                                  qsTranslate("settingsmanager", "leave unchanged")]
+                                model: modeldata
                             }
                         }
                     }
@@ -438,9 +442,9 @@ PQTemplateFullscreen {
 
                         color: "transparent"
                         border.width: 2
-                        border.color: PQCLook.baseColorHighlight
+                        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
-                        width: Math.min(500, slideshowsettings_top.width-leftcolwidth - contentrow.x - contentrow.spacing-10)
+                        width: Math.min(500, slideshowsettings_top.width-slideshowsettings_top.leftcolwidth - contentrow.x - contentrow.spacing-10)
                         height: 200
 
                         PQTextL {
@@ -449,7 +453,7 @@ PQTemplateFullscreen {
                             width: parent.width-20
                             opacity: slideshowsettings_top.musicfiles.length===0 ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             enabled: false
@@ -477,12 +481,14 @@ PQTemplateFullscreen {
 
                                     id: musicdeleg
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[index])
-                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[index])
+                                    required property int modelData
+
+                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
+                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight
+                                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                                     Column {
                                         x: 5
@@ -504,7 +510,7 @@ PQTemplateFullscreen {
                                         id: musicbutrow
                                         x: parent.width-width
                                         visible: width>0
-                                        width: slideshowsettings_top.width-1.5*leftcolwidth > 300 ? 120 : 0
+                                        width: slideshowsettings_top.width-1.5*slideshowsettings_top.leftcolwidth > 300 ? 120 : 0
                                         Behavior on width { NumberAnimation { duration: 200 } }
                                         height: 40
                                         PQButtonIcon {
@@ -512,12 +518,12 @@ PQTemplateFullscreen {
                                             height: 40
                                             iconScale: 0.5
                                             radius: 0
-                                            enabled: index>0
+                                            enabled: musicdeleg.modelData>0
                                             source: "image://svg/:/white/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
-                                                slideshowsettings_top.musicfiles.splice(index-1, 0, slideshowsettings_top.musicfiles.splice(index, 1)[0])
+                                                slideshowsettings_top.musicfiles.splice(musicdeleg.modelData-1, 0, slideshowsettings_top.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 slideshowsettings_top.musicfilesChanged()
                                             }
                                         }
@@ -527,12 +533,12 @@ PQTemplateFullscreen {
                                             rotation: 180
                                             iconScale: 0.5
                                             radius: 0
-                                            enabled: index < music_view.model-1
+                                            enabled: musicdeleg.modelData < music_view.model-1
                                             source: "image://svg/:/white/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
-                                                slideshowsettings_top.musicfiles.splice(index+1, 0, slideshowsettings_top.musicfiles.splice(index, 1)[0])
+                                                slideshowsettings_top.musicfiles.splice(musicdeleg.modelData+1, 0, slideshowsettings_top.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 slideshowsettings_top.musicfilesChanged()
                                             }
                                         }
@@ -545,7 +551,7 @@ PQTemplateFullscreen {
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {
-                                                slideshowsettings_top.musicfiles.splice(index, 1)
+                                                slideshowsettings_top.musicfiles.splice(musicdeleg.modelData, 1)
                                                 slideshowsettings_top.musicfilesChanged()
                                             }
                                         }
@@ -561,7 +567,7 @@ PQTemplateFullscreen {
                         id: filesbut
                         text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select", // qmllint disable unqualified
                                                                                   (slideshowsettings_top.musicfiles.length===0 ?
                                                                                        PQCScriptsFilesPaths.getHomeDir() :
                                                                                        PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[slideshowsettings_top.musicfiles.length-1])),
@@ -587,27 +593,27 @@ PQTemplateFullscreen {
     ]
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === slideshowsettings_top.thisis)
+                    slideshowsettings_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === slideshowsettings_top.thisis)
+                    slideshowsettings_top.hide()
 
             } else if(slideshowsettings_top.visible) {
 
                 if(what === "keyEvent") {
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        slideshowsettings_top.hide()
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        startSlideshow()
+                        slideshowsettings_top.startSlideshow()
                 }
 
             }
@@ -616,7 +622,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -654,14 +660,14 @@ PQTemplateFullscreen {
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            slideshowsetup_popout.visible = false
+            slideshowsetup_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
     }
 
     function startSlideshow() {
 
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex]
+        PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex] // qmllint disable unqualified
 
         PQCSettings.slideshowTime = interval_slider.value
         PQCSettings.slideshowImageTransition = transition_slider.value

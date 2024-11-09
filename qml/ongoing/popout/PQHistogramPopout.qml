@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.histogramGeometry
-    isMax: PQCWindowGeometry.histogramMaximized
-    popout: PQCSettings.interfacePopoutHistogram
-    sizepopout: PQCWindowGeometry.histogramForcePopout
+    geometry: PQCWindowGeometry.histogramGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.histogramMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutHistogram // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.histogramForcePopout // qmllint disable unqualified
     source: "ongoing/PQHistogram.qml"
 
     modality: Qt.NonModal
@@ -44,23 +44,23 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutHistogram = false
+        PQCSettings.interfacePopoutHistogram = false // qmllint disable unqualified
         close()
         PQCNotify.executeInternalCommand("__histogram")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutHistogram)
+        if(popout !== PQCSettings.interfacePopoutHistogram) // qmllint disable unqualified
             PQCSettings.interfacePopoutHistogram = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.histogramGeometry)
+        if(geometry !== PQCWindowGeometry.histogramGeometry) // qmllint disable unqualified
             PQCWindowGeometry.histogramGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.histogramMaximized)
+        if(isMax !== PQCWindowGeometry.histogramMaximized) // qmllint disable unqualified
             PQCWindowGeometry.histogramMaximized = isMax
     }
 

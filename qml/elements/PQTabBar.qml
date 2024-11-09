@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -37,23 +38,28 @@ Item {
         Repeater {
 
             id: repeater
-            model: control_top.model
+            model: control_top.model.length
 
             Rectangle {
-                property bool active: index === control_top.currentIndex
+
+                id: deleg
+
+                required property int modelData
+
+                property bool active: modelData === control_top.currentIndex
                 property bool hovered: false
                 width: control_top.width
                 height: 48
-                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
                 Behavior on color { ColorAnimation { duration: 200 } }
                 border.width: 1
-                border.color: PQCLook.baseColorActive
+                border.color: PQCLook.baseColorActive // qmllint disable unqualified
 
                 PQText {
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
-                    text: control_top.model[index]
+                    text: control_top.model[deleg.modelData]
                 }
 
                 PQMouseArea {
@@ -61,7 +67,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked:
-                        control_top.currentIndex = index
+                        control_top.currentIndex = deleg.modelData
                     onEntered:
                         parent.hovered = true
                     onExited:

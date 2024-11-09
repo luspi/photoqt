@@ -100,7 +100,7 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
-    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
+    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() // qmllint disable unqualified
 
     Column {
 
@@ -127,7 +127,7 @@ Flickable {
 
                     model: []
 
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
 
                     onCurrentIndexChanged: setting_top.checkDefault()
 
@@ -136,7 +136,7 @@ Flickable {
                 PQText {
                     width: set_lang.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    visible: PQCSettings.generalCompactSettings
+                    visible: PQCSettings.generalCompactSettings // qmllint disable unqualified
                     // font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
                 }
@@ -343,7 +343,7 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
-                    property list<string> options: PQCLook.getColorNames()
+                    property list<string> options: PQCLook.getColorNames() // qmllint disable unqualified
                     model: options
                     onCurrentIndexChanged:
                         setting_top.checkDefault()
@@ -439,14 +439,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive                     // qmllint disable unqualified
                                                                      : mouse_tl.containsMouse ? PQCLook.baseColorHighlight
                                                                                               : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_tl
                                         anchors.fill: parent
@@ -459,14 +459,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive                     // qmllint disable unqualified
                                                                  : mouse_t.containsMouse ? PQCLook.baseColorHighlight
                                                                                          : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_t
                                         anchors.fill: parent
@@ -479,14 +479,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive                    // qmllint disable unqualified
                                                                       : mouse_tr.containsMouse ? PQCLook.baseColorHighlight
                                                                                                : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_tr
                                         anchors.fill: parent
@@ -502,14 +502,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive                      // qmllint disable unqualified
                                                                         : mouse_ml.containsMouse ? PQCLook.baseColorHighlight
                                                                                                  : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_ml
                                         anchors.fill: parent
@@ -522,14 +522,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive                      // qmllint disable unqualified
                                                                     : mouse_m.containsMouse ? PQCLook.baseColorHighlight
                                                                                             : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_m
                                         anchors.fill: parent
@@ -542,14 +542,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive                     // qmllint disable unqualified
                                                                          : mouse_mr.containsMouse ? PQCLook.baseColorHighlight
                                                                                                   : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_mr
                                         anchors.fill: parent
@@ -565,14 +565,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive                      // qmllint disable unqualified
                                                                         : mouse_bl.containsMouse ? PQCLook.baseColorHighlight
                                                                                                  : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_bl
                                         anchors.fill: parent
@@ -585,14 +585,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive                      // qmllint disable unqualified
                                                                     : mouse_b.containsMouse ? PQCLook.baseColorHighlight
                                                                                             : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_b
                                         anchors.fill: parent
@@ -605,14 +605,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive
+                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive                         // qmllint disable unqualified
                                                                          : mouse_br.containsMouse ? PQCLook.baseColorHighlight
                                                                                                   : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight
+                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
                                     PQMouseArea {
                                         id: mouse_br
                                         anchors.fill: parent
@@ -642,7 +642,7 @@ Flickable {
 
                 PQCheckBox {
                     id: notif_external
-                    visible: !PQCScriptsConfig.amIOnWindows()
+                    visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
                     text: qsTranslate("settingsmanager", "try to show native notification")
                 },
 
@@ -663,7 +663,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -705,7 +705,7 @@ Flickable {
         }
         langcombo.model = m
 
-        var code = PQCSettings.interfaceLanguage
+        var code = PQCSettings.interfaceLanguage // qmllint disable unqualified
 
         var setindex = availableLanguages.indexOf("en")
 
@@ -755,7 +755,7 @@ Flickable {
 
     function applyChanges() {
         if(langcombo.currentIndex == -1 || langcombo.currentIndex >= availableLanguages.length)
-            PQCSettings.interfaceLanguage = "en"
+            PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
         else
             PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
         origIndex = langcombo.currentIndex

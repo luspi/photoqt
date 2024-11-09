@@ -30,7 +30,7 @@ Rectangle {
     id: blur_top
     anchors.fill: parent
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     property string thisis: ""
 

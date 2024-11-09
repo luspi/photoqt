@@ -81,16 +81,17 @@ Flickable {
                     }
                     PQComboBox {
                         id: sortcriteria
-                                //: A criteria for sorting images
-                        model: [qsTranslate("settingsmanager", "natural name"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "name"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "time"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "size"),
-                                //: A criteria for sorting images
-                                qsTranslate("settingsmanager", "type")]
+                                                          //: A criteria for sorting images
+                        property list<string> modeldata: [qsTranslate("settingsmanager", "natural name"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "name"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "time"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "size"),
+                                                          //: A criteria for sorting images
+                                                          qsTranslate("settingsmanager", "type")]
+                        model: modeldata
                         onCurrentIndexChanged: setting_top.checkDefault()
                     }
                 },
@@ -271,7 +272,7 @@ Flickable {
                 },
                 PQCheckBox {
                     id: sect_devicestmpfs
-                    visible: !PQCScriptsConfig.amIOnWindows()
+                    visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
                     enabled: sect_devices.checked
                     enforceMaxWidth: set_sort.rightcol-22
                     text: qsTranslate("settingsmanager", "Include temporary devices")
@@ -443,9 +444,10 @@ Flickable {
                             PQComboBox {
                                 id: folderthumb_timeout
                                 extrasmall: true
-                                model: ["2 s",
-                                        "1 s",
-                                        "0.5 s"]
+                                property list<string> modeldata: ["2 s",
+                                                                  "1 s",
+                                                                  "0.5 s"]
+                                model: modeldata
                                 onCurrentIndexChanged: setting_top.checkDefault()
                             }
                         }
@@ -518,7 +520,7 @@ Flickable {
                                 id: preview_colintspin
                                 width: set_sort.rightcol - 30
                                 title: qsTranslate("settingsmanager", "color intensity:")
-                                titleWeight: PQCLook.fontWeightNormal
+                                titleWeight: PQCLook.fontWeightNormal // qmllint disable unqualified
                                 minval: 10
                                 maxval: 100
                                 suffix: " %"
@@ -570,7 +572,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -592,7 +594,7 @@ Flickable {
     function load() {
 
         var l = ["naturalname", "name", "time", "size", "type"]
-        sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy)))
+        sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) // qmllint disable unqualified
         sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
         sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
 
@@ -633,7 +635,7 @@ Flickable {
     function applyChanges() {
 
         var l = ["naturalname", "name", "time", "size", "type"]
-        PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]
+        PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] // qmllint disable unqualified
         PQCSettings.imageviewSortImagesAscending = sortasc.checked
 
         PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")

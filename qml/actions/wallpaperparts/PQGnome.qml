@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCScriptsWallpaper
 
@@ -31,6 +30,8 @@ import "../../elements"
 // GNOME/UNITY
 
 Column {
+
+    id: gnome_top
 
     x: 0
     y: 0
@@ -52,7 +53,7 @@ Column {
     PQTextXL {
         x: (parent.width-width)/2
         text: "Gnome/Unity/Cinnamon"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -62,14 +63,14 @@ Column {
 
     PQText {
         x: (parent.width-width)/2
-        visible: gsettingsError
+        visible: gnome_top.gsettingsError
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
     }
 
     Item {
-        visible: gsettingsError
+        visible: gnome_top.gsettingsError
         width: 1
         height: 10
     }
@@ -90,44 +91,44 @@ Column {
             text: "wallpaper"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = text
+                    gnome_top.checkedOption = text
         }
         PQRadioButton {
             id: opt_centered
             text: "centered"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = text
+                    gnome_top.checkedOption = text
         }
         PQRadioButton {
             id: opt_scaled
             text: "scaled"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = text
+                    gnome_top.checkedOption = text
         }
         PQRadioButton {
             id: opt_zoom
             text: "zoom"
             checked: true
             Component.onCompleted:
-                checkedOption = text
+                gnome_top.checkedOption = text
             onCheckedChanged:
                 if(checked)
-                    checkedOption = text
+                    gnome_top.checkedOption = text
         }
         PQRadioButton {
             id: opt_spanned
             text: "spanned"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = text
+                    gnome_top.checkedOption = text
         }
     }
 
     function check() {
 
-        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount()
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
         gsettingsError = PQCScriptsWallpaper.checkGSettings()
 
     }

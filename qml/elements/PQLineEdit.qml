@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PQCScriptsClipboard
 
 Rectangle {
@@ -30,10 +29,10 @@ Rectangle {
 
     width: 300
     height: 40
-    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight)
+    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight) // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 200 } }
     border.width: 1
-    border.color: PQCLook.baseColorHighlight
+    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
     z: -1
 
     property bool highlightBG: false
@@ -60,13 +59,13 @@ Rectangle {
     PQText {
         id: placeholder
         anchors.fill: parent
-        color: PQCLook.textColor
-        opacity: highlightBG ? 0.3 : 0.6
+        color: PQCLook.textColor // qmllint disable unqualified
+        opacity: edit_top.highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
-        font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter
-        visible: control.text===""||keepPlaceholderTextVisible
+        visible: control.text===""||edit_top.keepPlaceholderTextVisible
     }
 
     TextInput {
@@ -81,12 +80,12 @@ Rectangle {
         leftPadding: 5
         rightPadding: 5
 
-        color: PQCLook.textColor
-        selectedTextColor: PQCLook.textColor
-        selectionColor: highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive
+        color: PQCLook.textColor // qmllint disable unqualified
+        selectedTextColor: PQCLook.textColor // qmllint disable unqualified
+        selectionColor: edit_top.highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive // qmllint disable unqualified
 
-        font.pointSize: PQCLook.fontSize
-        font.weight: fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
 
         verticalAlignment: TextInput.AlignVCenter
 
@@ -143,7 +142,7 @@ Rectangle {
         control.remove(control.cursorPosition, pos)
     }
 
-    function moveToLeftSeperatorList(alsoselect=false) {
+    function moveToLeftSeperatorList(alsoselect = false) {
         var txt = control.text
         var pos = 0
         for(var i = Math.max(0, control.cursorPosition-1); i >= 0; --i) {
@@ -166,7 +165,7 @@ Rectangle {
             control.cursorPosition = pos
     }
 
-    function moveToRightSeperatorList(alsoselect=false) {
+    function moveToRightSeperatorList(alsoselect = false) {
         var txt = control.text
         var pos = control.text.length
         for(var i = control.cursorPosition+1; i < control.text.length; ++i) {
@@ -195,11 +194,11 @@ Rectangle {
         control.selectAll()
     }
 
-    function getSelectedText() {
+    function getSelectedText() : string {
         return control.selectedText
     }
 
-    function handleKeyEvents(key, mod) {
+    function handleKeyEvents(key : int, mod : int) {
 
         if(key === Qt.Key_Backspace && mod === Qt.ControlModifier)
             removeToLeftSeperatorList()
@@ -250,7 +249,7 @@ Rectangle {
         var cuttxt = getSelectedText()
         if(cuttxt === "")
             return
-        PQCScriptsClipboard.copyTextToClipboard(cuttxt)
+        PQCScriptsClipboard.copyTextToClipboard(cuttxt) // qmllint disable unqualified
         control.remove(control.selectionStart, control.selectionEnd)
 
     }
@@ -260,13 +259,13 @@ Rectangle {
         var copytxt = getSelectedText()
         if(copytxt === "")
             copytxt = control.text
-        PQCScriptsClipboard.copyTextToClipboard(copytxt)
+        PQCScriptsClipboard.copyTextToClipboard(copytxt) // qmllint disable unqualified
 
     }
 
     function actionPaste() {
 
-        var pastetxt = PQCScriptsClipboard.getTextFromClipboard()
+        var pastetxt = PQCScriptsClipboard.getTextFromClipboard() // qmllint disable unqualified
         if(pastetxt === "")
             return
 
@@ -280,7 +279,7 @@ Rectangle {
         control.remove(control.selectionStart, control.selectionEnd)
     }
 
-    function isCursorAtEnd() {
+    function isCursorAtEnd() : bool {
         return (control.cursorPosition===control.text.length)
     }
 

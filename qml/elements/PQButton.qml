@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls.Basic
 
 Rectangle {
 
@@ -33,10 +32,10 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     radius: 5
 
-    border.color: PQCLook.baseColorHighlight
+    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
     border.width: 1
 
-    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 150 } }
 
     property alias text: txt.text
@@ -75,13 +74,13 @@ Rectangle {
         width: control.forceWidth ? control.forceWidth-20 : undefined
         elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
         text: ""
-        font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
-        font.weight: smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
+        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL // qmllint disable unqualified
+        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold // qmllint disable unqualified
         opacity: enabled ? 1.0 : 0.6
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: PQCLook.textColor
+        color: PQCLook.textColor // qmllint disable unqualified
     }
 
     PQMouseArea {

@@ -31,33 +31,38 @@ Image {
 
     id: image
 
+    property string imageSource: ""
+    onImageSourceChanged: {
+        setSource()
+    }
+
     source: ""
 
     Component.onCompleted: {
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(imageloaderitem.imageSource, true)
-        if(imageloaderitem.imageSource.includes("::ARC::") || currentFile > fileCount-1)
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)
+            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true) // qmllint disable unqualified
+        if(image.imageSource.includes("::ARC::") || currentFile > fileCount-1)
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
         else
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(imageloaderitem.imageSource))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::ARC::%2".arg(fileList[currentFile]).arg(image.imageSource))
     }
 
     asynchronous: true
     cache: false
 
     property int currentFile: 0
-    property var fileList: []
+    property list<string> fileList: []
     property int fileCount: fileList.length
 
-    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
+    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold) // qmllint disable unqualified
 
     smooth: interpThreshold
     mipmap: interpThreshold
 
     property bool fitImage: false
 
-    width: fitImage ? image_top.width : undefined
-    height: fitImage ? image_top.height : undefined
+    width: fitImage ? image_top.width : undefined // qmllint disable unqualified
+    height: fitImage ? image_top.height : undefined // qmllint disable unqualified
 
     onVisibleChanged: {
         if(!image.visible)
@@ -71,17 +76,24 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
-    function setMirrorHV(mH, mV) {
+    Connections {
+        target: image_wrapper // qmllint disable unqualified
+        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+            image.setMirrorHV(mirH, mirV)
+        }
+    }
+
+    function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
     }
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
         function onMirrorH() {
             image.myMirrorH = !image.myMirrorH
         }
@@ -97,27 +109,27 @@ Image {
 
     transform: [
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
-            angle: myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         },
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
-            angle: myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorV ? -180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         }
     ]
 
     onCurrentFileChanged: {
-        image_top.currentFileInside = currentFile
+        image_top.currentFileInside = currentFile // qmllint disable unqualified
     }
 
     function setSource() {
-        var src = imageloaderitem.imageSource
+        var src = image.imageSource
         if(src === "") {
             image.source = ""
             return
@@ -128,7 +140,7 @@ Image {
         image.asynchronous = false
 
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(imageloaderitem.imageSource, true)
+            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true) // qmllint disable unqualified
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
@@ -138,19 +150,8 @@ Image {
         image.asynchronous = true
     }
 
-    onWidthChanged: {
-        image_wrapper.width = width
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
-    }
-    onHeightChanged: {
-        image_wrapper.height = height
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
-    }
-
     onStatusChanged: {
-        image_wrapper.status = status
+        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready)
@@ -158,28 +159,18 @@ Image {
     }
 
     onSourceSizeChanged: {
-        loader_top.imageResolution = sourceSize
+        loader_top.imageResolution = sourceSize // qmllint disable unqualified
         loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
     Connections {
 
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
-        function onArchiveJump(leftright) {
+        function onArchiveJump(leftright : int) {
             image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
-            setSource()
-        }
-
-    }
-
-    Connections {
-
-        target: imageloaderitem
-
-        function onImageSourceChanged() {
-            setSource()
+            image.setSource()
         }
 
     }

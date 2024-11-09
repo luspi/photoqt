@@ -68,14 +68,15 @@ Item {
 
                 PQComboBox {
                     id: catCombo
-                            //: This is a category of files PhotoQt can recognize: any image format
-                    model: [qsTranslate("settingsmanager", "images"),
-                            //: This is a category of files PhotoQt can recognize: compressed files like zip, tar, cbr, 7z, etc.
-                            qsTranslate("settingsmanager", "compressed files")+" (zip, cbr, ...)",
-                            //: This is a category of files PhotoQt can recognize: documents like pdf, txt, etc.
-                            qsTranslate("settingsmanager", "documents")+" (pdf, txt, ...)",
-                            //: This is a type of category of files PhotoQt can recognize: videos like mp4, avi, etc.
-                            qsTranslate("settingsmanager", "videos")]
+                                                      //: This is a category of files PhotoQt can recognize: any image format
+                    property list<string> modeldata: [qsTranslate("settingsmanager", "images"),
+                                                      //: This is a category of files PhotoQt can recognize: compressed files like zip, tar, cbr, 7z, etc.
+                                                      qsTranslate("settingsmanager", "compressed files")+" (zip, cbr, ...)",
+                                                      //: This is a category of files PhotoQt can recognize: documents like pdf, txt, etc.
+                                                      qsTranslate("settingsmanager", "documents")+" (pdf, txt, ...)",
+                                                      //: This is a type of category of files PhotoQt can recognize: videos like mp4, avi, etc.
+                                                      qsTranslate("settingsmanager", "videos")]
+                    model: modeldata
                 }
 
                 PQButton {
@@ -92,7 +93,7 @@ Item {
                         butrow.checkUncheck(0)
                 }
 
-                function checkUncheck(checked) {
+                function checkUncheck(checked : bool) {
                     if(catCombo.currentIndex === 0)
                         setting_top.checkImg(checked)
                     else if(catCombo.currentIndex === 1)
@@ -155,14 +156,14 @@ Item {
                     width: setting_top.width/2
                     placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
                     onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                     Keys.onTabPressed: (event) => {
-                        loader.passOn("keyEvent", [event.key, event.modifiers])
+                        loader.passOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
                     }
                     onPressed: (key, modifiers) => {
                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            loader.passOn("keyEvent", [key, modifiers])
+                            loader.passOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
                             loader.passOn("keyEvent", [key, modifiers])
                     }
@@ -173,14 +174,14 @@ Item {
                     width: setting_top.width/2 -20
                     placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
                     onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                     Keys.onTabPressed: (event) => {
-                        loader.passOn("keyEvent", [event.key, event.modifiers])
+                        loader.passOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
                     }
                     onPressed: (key, modifiers) => {
                         if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            loader.passOn("keyEvent", [key, modifiers])
+                            loader.passOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
                             loader.passOn("keyEvent", [key, modifiers])
                     }
@@ -198,7 +199,7 @@ Item {
             width: setting_top.width
             height: setting_top.height-topcol.height
 
-            property var ft: []
+            property list<var> ft: []
             onFtChanged:
                 setting_top.checkDefault()
 
@@ -223,7 +224,7 @@ Item {
                     height: filterPass ? 50 : 0
                     Behavior on height { NumberAnimation { duration: 50 } }
 
-                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor
+                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor // qmllint disable unqualified
                     visible: height > 0
 
                     PQCheckBox {
@@ -284,7 +285,7 @@ Item {
                         text: "<b>" + qsTranslate("settingsmanager", "File endings:") + "</b> *." + listview.ft[entry_rect.modelData][0].split(",").join(", *.")
                     }
 
-                    function filterItem() {
+                    function filterItem() : void {
 
                         var desc_pass = false
                         if(filter_desc.text === "" ||
@@ -332,7 +333,7 @@ Item {
         load()
 
     Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false
+        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
 
     function checkAll() {
@@ -393,7 +394,7 @@ Item {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -403,14 +404,14 @@ Item {
     }
 
     function load() {
-        listview.ft = PQCImageFormats.getAllFormats()
+        listview.ft = PQCImageFormats.getAllFormats() // qmllint disable unqualified
         defaultSettings = composeChecker()
         settingChanged = false
         settingsLoaded = true
     }
 
     function applyChanges() {
-        PQCImageFormats.setAllFormats(listview.ft)
+        PQCImageFormats.setAllFormats(listview.ft) // qmllint disable unqualified
         defaultSettings = composeChecker()
         settingChanged = false
     }

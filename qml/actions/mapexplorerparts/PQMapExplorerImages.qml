@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -32,7 +33,7 @@ Rectangle {
 
     id: visibleimages
 
-    color: PQCLook.baseColor
+    color: PQCLook.baseColor // qmllint disable unqualified
 
     clip: true
 
@@ -65,23 +66,25 @@ Rectangle {
 
             Repeater {
 
-                model: imagesWithLocation.length
+                model: mapexplorer_top.imagesWithLocation.length // qmllint disable unqualified
 
                 delegate: Item {
 
                     id: maindeleg
 
-                    width: opacity!=0 ? PQCSettings.mapviewExplorerThumbnailsZoomLevel*6 : 0
-                    height: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6
+                    required property int modelData
+
+                    width: opacity!=0 ? PQCSettings.mapviewExplorerThumbnailsZoomLevel*6 : 0 // qmllint disable unqualified
+                    height: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6 // qmllint disable unqualified
 
                     Behavior on width { NumberAnimation { duration: 200 } }
 
-                    readonly property string fpath: imagesWithLocation[index][0]
-                    readonly property real latitude: imagesWithLocation[index][1]
-                    readonly property real longitude: imagesWithLocation[index][2]
-                    readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath)
+                    readonly property string fpath: mapexplorer_top.imagesWithLocation[modelData][0] // qmllint disable unqualified
+                    readonly property real latitude: mapexplorer_top.imagesWithLocation[modelData][1] // qmllint disable unqualified
+                    readonly property real longitude: mapexplorer_top.imagesWithLocation[modelData][2] // qmllint disable unqualified
+                    readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath) // qmllint disable unqualified
 
-                    opacity: (latitude>=(map.visibleLatitudeRight-0.001) &&
+                    opacity: (latitude>=(map.visibleLatitudeRight-0.001) && // qmllint disable unqualified
                              latitude<=(map.visibleLatitudeLeft+0.001) &&
                              longitude>=(map.visibleLongitudeLeft-0.001) &&
                              longitude<=(map.visibleLongitudeRight+0.001)) ? 1 : 0
@@ -91,7 +94,7 @@ Rectangle {
                     visible: opacity>0
 
                     onVisibleChanged:
-                        countVisible += (visible ? 1 : -1)
+                        visibleimages.countVisible += (visible ? 1 : -1)
 
                     Rectangle {
 
@@ -114,8 +117,8 @@ Rectangle {
 
                             x: (parent.width-width)/2
                             y: (parent.height-height)/2
-                            width: parent.width-2*PQCSettings.filedialogElementPadding
-                            height: parent.height-2*PQCSettings.filedialogElementPadding
+                            width: parent.width-2*PQCSettings.filedialogElementPadding // qmllint disable unqualified
+                            height: parent.height-2*PQCSettings.filedialogElementPadding // qmllint disable unqualified
 
                             asynchronous: true
 
@@ -128,7 +131,7 @@ Rectangle {
                             Behavior on opacity { NumberAnimation { duration: 200 } }
 
                             // if we do not cache this image, then we keep the generic icon here
-                            source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname)
+                            source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname) // qmllint disable unqualified
 
                             Image {
 
@@ -139,7 +142,7 @@ Rectangle {
 
                                 sourceSize: Qt.size(256, 256)
 
-                                fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                                fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
 
                                 // mipmap does not look good, use only smooth
                                 smooth: true
@@ -157,12 +160,12 @@ Rectangle {
                             id: icn
 
                             width: parent.width
-                            height: files_grid.currentIndex === index ? parent.height/2 : parent.height/3.5
+                            height: files_grid.currentIndex === maindeleg.modelData ? parent.height/2 : parent.height/3.5
                             y: parent.height-height
 
                             Behavior on height { NumberAnimation { duration: 100 } }
 
-                            color: fpath===PQCFileFolderModel.currentFile ? PQCLook.transColor : PQCLook.transColorAccent
+                            color: maindeleg.fpath===PQCFileFolderModel.currentFile ? PQCLook.transColor : PQCLook.transColorAccent // qmllint disable unqualified
 
                             PQTextS {
 
@@ -173,7 +176,7 @@ Rectangle {
                                 verticalAlignment: Text.AlignVCenter
                                 text: decodeURIComponent(maindeleg.fname)
                                 elide: Text.ElideMiddle
-                                font.weight: PQCLook.fontWeightBold
+                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
 
                             }
 
@@ -191,9 +194,9 @@ Rectangle {
                         onEntered: {
 
                             resetCurrentIndex.stop()
-                            files_grid.currentIndex = index
+                            files_grid.currentIndex = maindeleg.modelData
 
-                            map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude)
+                            map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
 
                             if(!tooltipSetup) {
 
@@ -226,18 +229,18 @@ Rectangle {
 
                         }
                         onExited: {
-                            map.hideHightlightMarker()
-                            resetCurrentIndex.oldIndex = index
+                            map.hideHightlightMarker() // qmllint disable unqualified
+                            resetCurrentIndex.oldIndex = maindeleg.modelData
                             resetCurrentIndex.restart()
                         }
 
                         onClicked: {
-                            clickOnImage(maindeleg.latitude, maindeleg.longitude)
+                            mapexplorer_top.clickOnImage(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
                         }
 
                         doubleClickThreshold: 200
                         onMouseDoubleClicked: {
-                            PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath
+                            PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath // qmllint disable unqualified
                             if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
                                 mapexplorer_top.hideExplorer()
                             }
@@ -258,7 +261,7 @@ Rectangle {
         y: (parent.height-height)/2
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        opacity: (countVisible==-imagesWithLocation.length&&!nolocation.visible) ? 0.75 : 0
+        opacity: (visibleimages.countVisible==-mapexplorer_top.imagesWithLocation.length&&!nolocation.visible) ? 0.75 : 0 // qmllint disable unqualified
         visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
@@ -271,7 +274,7 @@ Rectangle {
         y: (parent.height-height)/2
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        opacity: imagesWithLocation.length==0 ? 0.75 : 0
+        opacity: mapexplorer_top.imagesWithLocation.length==0 ? 0.75 : 0 // qmllint disable unqualified
         visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true

@@ -109,12 +109,12 @@ Flickable {
                             id: topedge
                             width: 200
                             height: 50
-                            color: topmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                            color: topmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 text: setting_top.labels[setting_top.current["top"]]
                             }
 
@@ -142,13 +142,13 @@ Flickable {
                             id: leftedge
                             width: 50
                             height: 200
-                            color: leftmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                            color: leftmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: -90
                                 font.weight: setting_top.current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 text: setting_top.labels[setting_top.current["left"]]
                             }
                             PQMouseArea {
@@ -171,14 +171,14 @@ Flickable {
                             id: rightedge
                             width: 50
                             height: 200
-                            color: PQCLook.baseColorHighlight
+                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                             enabled: false
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
                                 font.weight: setting_top.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColorDisabled
+                                color: PQCLook.textColorDisabled // qmllint disable unqualified
                                 text: setting_top.labels[setting_top.current["right"]]
                             }
                             PQMouseArea {
@@ -204,12 +204,12 @@ Flickable {
                             id: botedge
                             width: 200
                             height: 50
-                            color: botmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                            color: botmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 text: setting_top.labels[setting_top.current["bottom"]]
                             }
                             PQMouseArea {
@@ -267,26 +267,27 @@ Flickable {
 
     }
 
+    property string menuedge: "top"
+
     PQMenu {
-        id: menu
-        property string edge: "top"
+        id: themenu
         Repeater {
             id: menurep
-            model: setting_top.actions[menu.edge].length
+            model: setting_top.actions[setting_top.menuedge].length
             PQMenuItem {
                 required property int modelData
                 checkable: true
                 checkableLikeRadioButton: true
-                property string act: setting_top.actions[menu.edge][modelData]
+                property string act: setting_top.actions[setting_top.menuedge][modelData]
                 text: setting_top.labels[act]
-                checked: setting_top.current[menu.edge] === act
+                checked: setting_top.current[setting_top.menuedge] === act
                 onCheckedChanged: {
-                    if(checked && setting_top.current[menu.edge] !== act) {
-                        setting_top.current[menu.edge] = act
-                        setting_top.makeSureUnique(menu.edge, act)
+                    if(checked && setting_top.current[setting_top.menuedge] !== act) {
+                        setting_top.current[setting_top.menuedge] = act
+                        setting_top.makeSureUnique(setting_top.menuedge, act)
                         setting_top.currentChanged()
                     }
-                    checked = Qt.binding(function() { return current[menu.edge] === act; })
+                    checked = Qt.binding(function() { return current[setting_top.menuedge] === act; })
                 }
             }
         }
@@ -306,8 +307,8 @@ Flickable {
 
     function changeEdge(edge: string) {
 
-        menu.edge = edge
-        menu.popup()
+        setting_top.menuedge = edge
+        themenu.popup()
 
     }
 
@@ -317,7 +318,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -337,7 +338,7 @@ Flickable {
 
     function load() {
 
-        current["top"] = PQCSettings.interfaceEdgeTopAction
+        current["top"] = PQCSettings.interfaceEdgeTopAction // qmllint disable unqualified
         current["left"] = PQCSettings.interfaceEdgeLeftAction
         current["right"] = PQCSettings.interfaceEdgeRightAction
         current["bottom"] = PQCSettings.interfaceEdgeBottomAction
@@ -354,7 +355,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceEdgeTopAction = current["top"]
+        PQCSettings.interfaceEdgeTopAction = current["top"] // qmllint disable unqualified
         PQCSettings.interfaceEdgeLeftAction = current["left"]
         PQCSettings.interfaceEdgeRightAction = "mainmenu"
         PQCSettings.interfaceEdgeBottomAction = current["bottom"]

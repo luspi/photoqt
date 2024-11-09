@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("slideshow", "Slideshow") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.slideshowcontrolsGeometry
-    isMax: PQCWindowGeometry.slideshowcontrolsMaximized
-    popout: PQCSettings.interfacePopoutSlideshowControls
-    sizepopout: PQCWindowGeometry.slideshowcontrolsForcePopout
+    geometry: PQCWindowGeometry.slideshowcontrolsGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.slideshowcontrolsMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutSlideshowControls // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.slideshowcontrolsForcePopout // qmllint disable unqualified
     source: "ongoing/PQSlideshowControls.qml"
 
     modality: Qt.NonModal
@@ -45,21 +45,21 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         close()
-        loader_slideshowhandler.item.hide()
+        loader_slideshowhandler.item.hide() // qmllint disable unqualified
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutSlideshowControls)
+        if(popout !== PQCSettings.interfacePopoutSlideshowControls) // qmllint disable unqualified
             PQCSettings.interfacePopoutSlideshowControls = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.slideshowcontrolsGeometry)
+        if(geometry !== PQCWindowGeometry.slideshowcontrolsGeometry) // qmllint disable unqualified
             PQCWindowGeometry.slideshowcontrolsGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.slideshowcontrolsMaximized)
+        if(isMax !== PQCWindowGeometry.slideshowcontrolsMaximized) // qmllint disable unqualified
             PQCWindowGeometry.slideshowcontrolsMaximized = isMax
     }
 

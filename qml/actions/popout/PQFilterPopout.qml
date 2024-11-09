@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filter", "Filter images in current directory") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filterGeometry
-    isMax: PQCWindowGeometry.filterMaximized
-    popout: PQCSettings.interfacePopoutFilter
-    sizepopout: PQCWindowGeometry.filterForcePopout
+    geometry: PQCWindowGeometry.filterGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.filterMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutFilter // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.filterForcePopout // qmllint disable unqualified
     source: "actions/PQFilter.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "filter")
+        if(loader.visibleItem === "filter") // qmllint disable unqualified
             loader.elementClosed("filter")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutFilter)
+        if(popout !== PQCSettings.interfacePopoutFilter) // qmllint disable unqualified
             PQCSettings.interfacePopoutFilter = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filterGeometry)
+        if(geometry !== PQCWindowGeometry.filterGeometry) // qmllint disable unqualified
             PQCWindowGeometry.filterGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filterMaximized)
+        if(isMax !== PQCWindowGeometry.filterMaximized) // qmllint disable unqualified
             PQCWindowGeometry.filterMaximized = isMax
     }
 

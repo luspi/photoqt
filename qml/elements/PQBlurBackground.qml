@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -24,7 +25,6 @@
 // when running CMake, this file is copied to the real filename if Qt >= 6.4
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Effects
 
 Item {
@@ -34,7 +34,7 @@ Item {
 
     property var itemkeys: ["image", "statusinfo", "histogram", "mapcurrent", "thumbnails", "metadata", "mainmenu"]
     property var items: {
-        "image" : image,
+        "image" : image, // qmllint disable unqualified
         "thumbnails" : loader_thumbnails,
         "statusinfo" : statusinfo,
         "histogram" : loader_histogram,
@@ -49,17 +49,21 @@ Item {
 
     Repeater {
 
-        model: PQCSettings.interfaceBlurElementsInBackground ? bluruntil : 0
+        model: PQCSettings.interfaceBlurElementsInBackground ? blur_top.bluruntil : 0 // qmllint disable unqualified
 
         Item {
+
+            id: deleg
+
+            required property int modelData
 
             anchors.fill: parent
 
             ShaderEffectSource{
                 id: shader
-                sourceItem: items[itemkeys[index]]
+                sourceItem: blur_top.items[blur_top.itemkeys[deleg.modelData]]
                 anchors.fill: parent
-                property int adjust: index == 0 ? PQCSettings.imageviewMargin : 0
+                property int adjust: deleg.modelData == 0 ? PQCSettings.imageviewMargin : 0 // qmllint disable unqualified
                 sourceRect: Qt.rect(blur_top.parent.x-adjust, blur_top.parent.y-adjust, blur_top.width, blur_top.height)
             }
 
@@ -79,10 +83,10 @@ Item {
     }
 
     Rectangle {
-        visible: PQCSettings.interfaceBlurElementsInBackground
+        visible: PQCSettings.interfaceBlurElementsInBackground // qmllint disable unqualified
         anchors.fill: parent
-        color: PQCLook.transColor
-        radius: blur_top.parent.radius
+        color: PQCLook.transColor // qmllint disable unqualified
+        radius: blur_top.parent.radius // qmllint disable missing-property
     }
 
 }

@@ -27,7 +27,7 @@ Rectangle {
     id: modal_top
 
     anchors.fill: parent
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     property string action: ""
     property var payload: []
@@ -62,10 +62,10 @@ Rectangle {
         width: col.width+100
         height: col.height+100
 
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
 
         border.width: 2
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
         radius: 5
 
@@ -83,7 +83,7 @@ Rectangle {
                 text: "Are you sure?"
                 width: Math.min(modal_top.width-200, 600)
                 horizontalAlignment: Text.AlignHCenter
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
 
             PQTextL {
@@ -103,7 +103,7 @@ Rectangle {
                     id: acceptButton
                     text: "Yes"
                     onClicked: {
-                        hide()
+                        modal_top.hide()
                         modal_top.accepted()
                     }
                 }
@@ -112,7 +112,7 @@ Rectangle {
                     id: rejectButton
                     text: "No"
                     onClicked: {
-                        hide()
+                        modal_top.hide()
                         modal_top.rejected()
                     }
                 }
@@ -123,7 +123,7 @@ Rectangle {
 
     }
 
-    function show(headertext, desctext, action, payload) {
+    function show(headertext : string, desctext : string, action : string, payload : var) {
         modal_top.action = action
         modal_top.payload = payload
         header.text = headertext

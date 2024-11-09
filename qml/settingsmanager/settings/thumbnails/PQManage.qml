@@ -120,7 +120,7 @@ Flickable {
                             tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
 
                             onClicked: {
-                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
+                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir)) // qmllint disable unqualified
                                 if(path !== "") {
                                     cache_dir_custom.customdir = path
                                     setting_top.checkDefault()
@@ -162,7 +162,7 @@ Flickable {
                 PQCheckBox {
                     id: nextcloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeNextcloud
+                    property string folder: PQCSettings.thumbnailsExcludeNextcloud // qmllint disable unqualified
                     visible: folder!=""
                     text: "Nextcloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -171,7 +171,7 @@ Flickable {
                 PQCheckBox {
                     id: owncloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud
+                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud // qmllint disable unqualified
                     visible: folder!=""
                     text: "ownCloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -180,7 +180,7 @@ Flickable {
                 PQCheckBox {
                     id: dropbox
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeDropBox
+                    property string folder: PQCSettings.thumbnailsExcludeDropBox // qmllint disable unqualified
                     visible: folder!=""
                     text: "DropBox: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -201,7 +201,7 @@ Flickable {
                     implicitHeight: 100
                     placeholderText: qsTranslate("settingsmanager", "One folder per line")
                     onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEsc = controlActiveFocus // qmllint disable unqualified
                     }
                     onTextChanged: setting_top.checkDefault()
                 },
@@ -211,7 +211,7 @@ Flickable {
                     //: Written on a button
                     text: qsTranslate("settingsmanager", "Add folder")
                     onClicked: {
-                        var newdir = PQCScriptsFilesPaths.getExistingDirectory()
+                        var newdir = PQCScriptsFilesPaths.getExistingDirectory() // qmllint disable unqualified
                         if(newdir !== "") {
                             if(exclude_folders.text === "")
                                 exclude_folders.text = newdir+"\n"
@@ -266,12 +266,12 @@ Flickable {
         load()
 
     Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEsc = false
+        PQCNotify.ignoreKeysExceptEsc = false // qmllint disable unqualified
 
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -284,7 +284,7 @@ Flickable {
 
     function load() {
 
-        cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache)
+        cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache) // qmllint disable unqualified
         cache_dir_default.loadAndSetDefault(PQCSettings.thumbnailsCacheBaseDirDefault)
         cache_dir_custom.customdir = PQCSettings.thumbnailsCacheBaseDirLocation
 
@@ -326,7 +326,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsCache = cache_enable.checked
+        PQCSettings.thumbnailsCache = cache_enable.checked // qmllint disable unqualified
         PQCSettings.thumbnailsCacheBaseDirDefault = cache_dir_default.checked
         PQCSettings.thumbnailsCacheBaseDirLocation = cache_dir_custom.customdir
 

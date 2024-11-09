@@ -39,7 +39,7 @@ Item {
     property list<string> filterCategories: []
     property list<string> filterSubCategories: []
 
-    property var selectedCategories: []
+    property list<string> selectedCategories: []
 
     property list<string> categoryKeys: Object.keys(categories)
     property var subCategoryKeys: ({})
@@ -109,7 +109,11 @@ Item {
                             height: 60
                             width: categories_top.width
 
-                            color: deleg.isSelected ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                            color: deleg.isSelected ?
+                                       PQCLook.baseColorActive :    // qmllint disable unqualified
+                                       (hovered ?
+                                            PQCLook.baseColorHighlight :
+                                            PQCLook.baseColorAccent)
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             opacity: deleg.passingFilter ? 1 : 0.4
@@ -122,7 +126,7 @@ Item {
                                 y: 0
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive
+                                color: PQCLook.baseColorActive  // qmllint disable unqualified
                                 visible: deleg.modelData>0
                             }
 
@@ -133,9 +137,9 @@ Item {
                                 height: parent.height-10
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideRight
-                                font.weight: PQCLook.fontWeightBold
+                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                                 text: categories_top.categories[deleg.cat][0]
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
 
@@ -156,7 +160,7 @@ Item {
                                 y: parent.height-height
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive
+                                color: PQCLook.baseColorActive // qmllint disable unqualified
                             }
 
                             PQMouseArea {
@@ -179,7 +183,7 @@ Item {
                                     heading.hovered = false
                                 onClicked: {
 
-                                    if(!categories_top.callConfirmIfUnsavedChanged("main", deleg.modelData))
+                                    if(!settingsmanager_top.confirmIfUnsavedChanged("main", deleg.modelData))   // qmllint disable unqualified
                                         return
 
                                     if(currentMainIndex[0] !== deleg.modelData)
@@ -228,7 +232,11 @@ Item {
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     visible: height>0
 
-                                    color: isSelected ? PQCLook.baseColorHighlight : (hovered ? PQCLook.transColorHighlight : PQCLook.baseColorAccent)
+                                    color: isSelected ?
+                                               PQCLook.baseColorHighlight : // qmllint disable unqualified
+                                               (hovered ?
+                                                    PQCLook.transColorHighlight :
+                                                    PQCLook.baseColorAccent)
 
                                     opacity: subdeleg.passingFilter ? 1 : 0.4
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -239,7 +247,7 @@ Item {
 
                                         function onFilterSubCategoriesChanged() {
 
-                                            subdeleg.passingFilter = (filterSubCategories.length===0 || filterSubCategories.indexOf(deleg.catitemskeys[subdeleg.modelData]) > -1)
+                                            subdeleg.passingFilter = (categories_top.filterSubCategories.length===0 || categories_top.filterSubCategories.indexOf(deleg.catitemskeys[subdeleg.modelData]) > -1)
 
                                         }
 
@@ -251,8 +259,8 @@ Item {
                                         width: parent.width-30
                                         elide: Text.ElideRight
                                         text: subdeleg.curcat
-                                        font.weight: PQCLook.fontWeightBold
-                                        color: PQCLook.textColor
+                                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                        color: PQCLook.textColor // qmllint disable unqualified
                                         Behavior on color { ColorAnimation { duration: 100 } }
                                     }
 
@@ -262,7 +270,7 @@ Item {
                                         cursorShape: Qt.PointingHandCursor
                                         property bool tooltipSetup: false
                                         onEntered: {
-                                            parent.hovered = true
+                                            subdeleg.hovered = true
                                             if(!tooltipSetup) {
                                                 tooltipSetup = true
                                                 var txt = "<h2>" + subdeleg.curcat + "</h2>"
@@ -273,10 +281,10 @@ Item {
                                             }
                                         }
                                         onExited:
-                                            parent.hovered = false
+                                            subdeleg.hovered = false
                                         onClicked: {
 
-                                            if(!categories_top.callConfirmIfUnsavedChanged("sub", subdeleg.modelData))
+                                            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", subdeleg.modelData)) // qmllint disable unqualified
                                                 return
 
                                             if(currentMainIndex[0] !== deleg.modelData)
@@ -311,7 +319,7 @@ Item {
             width: filtercont.width
             placeholderText: qsTranslate("settingsmanager", "Filter")
             onControlActiveFocusChanged:
-                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
             onTextChanged:
                 categories_top.filterSettings(filtertxt.text.toLowerCase())
         }
@@ -325,7 +333,7 @@ Item {
             currentMainIndex = [ind, currentMainIndex[0]]
             var tmp = 0
             if(filterSubCategories.length > 0) {
-                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)
+                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)   // qmllint disable unqualified
                     tmp += 1
             }
             currentSubIndex = [tmp, currentSubIndex[0]]
@@ -445,7 +453,7 @@ Item {
             if(newmain === currentMainIndex[0] || newmain == categoryKeys.length)
                 return
 
-            if(!categories_top.callConfirmIfUnsavedChanged("main", newmain))
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) // qmllint disable unqualified
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -470,7 +478,7 @@ Item {
                 }
             }
 
-            if(!categories_top.callConfirmIfUnsavedChanged("sub", newsub))
+            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", newsub))
                 return
 
             currentSubIndex = [newsub, currentSubIndex[0]]
@@ -495,7 +503,7 @@ Item {
                 }
             }
 
-            if(!categories_top.callConfirmIfUnsavedChanged("main", newmain))
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) // qmllint disable unqualified
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -521,8 +529,7 @@ Item {
                 }
             }
 
-
-            if(!categories_top.callConfirmIfUnsavedChanged("sub", newsub))
+            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", newsub))
                 return
 
             currentSubIndex = [newsub, currentSubIndex[0]]

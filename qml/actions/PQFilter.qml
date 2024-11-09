@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCFileFolderModel
 import PQCNotify
@@ -34,8 +33,8 @@ PQTemplateFullscreen {
     id: filter_top
 
     thisis: "filter"
-    popout: PQCSettings.interfacePopoutFilter
-    forcePopout: PQCWindowGeometry.filterForcePopout
+    popout: PQCSettings.interfacePopoutFilter // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.filterForcePopout // qmllint disable unqualified
     shortcut: "__filterImages"
     title: qsTranslate("filter", "Filter images in current directory")
 
@@ -48,10 +47,10 @@ PQTemplateFullscreen {
     button3.visible: true
     //: Written on a clickable button - please keep short
     button3.text: qsTranslate("filter", "Remove filter")
-    button3.font.weight: PQCLook.fontWeightNormal
+    button3.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutFilter = popout
+        PQCSettings.interfacePopoutFilter = popout // qmllint disable unqualified
 
     button1.onClicked: {
         if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked)
@@ -76,10 +75,10 @@ PQTemplateFullscreen {
         id: resetSpinProperty
         interval: 500
         repeat: true
-        running: countOpenSpin>0
+        running: filter_top.countOpenSpin>0
         onTriggered: {
-            if(countOpenSpin > 0)
-                PQCNotify.spinBoxPassKeyEvents = true
+            if(filter_top.countOpenSpin > 0)
+                PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
         }
     }
 
@@ -136,11 +135,11 @@ PQTemplateFullscreen {
                     enabled: filenamecheck.checked&&filter_top.opacity>0
                     onEnabledChanged: {
                         if(!enabled)
-                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
                     }
 
                     onControlActiveFocusChanged:
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
 
                     width: 300
                     height: 40
@@ -173,8 +172,8 @@ PQTemplateFullscreen {
                     enabled: rescheck.checked
                     property bool greater: true
                     text: greater ? ">" : "<"
-                    font.weight: PQCLook.fontWeightBold
-                    font.pointSize: PQCLook.fontSizeL
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
                     tooltip: greater ?
                                  //: used as tooltip in the sense of 'image resolution GREATER THAN 123x123'
                                  qsTranslate("filter", "greater than") :
@@ -194,14 +193,14 @@ PQTemplateFullscreen {
                     showSlider: false
                     onEditModeChanged: {
                         if(editMode) {
-                            countOpenSpin += 1
+                            filter_top.countOpenSpin += 1
                             filter_top.closeAllSpinExcept("reswidth")
                         } else
-                            countOpenSpin -= 1
+                            filter_top.countOpenSpin -= 1
                     }
                     Connections {
                         target: filter_top
-                        function onCloseAllSpinExcept(senderid) {
+                        function onCloseAllSpinExcept(senderid : string) {
                             if(senderid !== "reswidth")
                                 reswidth.acceptValue()
                         }
@@ -210,7 +209,7 @@ PQTemplateFullscreen {
                 PQText {
                     y: (resheight.height-height)/2
                     enabled: rescheck.checked
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     text: "x"
                 }
                 PQSliderSpinBox {
@@ -221,14 +220,14 @@ PQTemplateFullscreen {
                     showSlider: false
                     onEditModeChanged: {
                         if(editMode) {
-                            countOpenSpin += 1
+                            filter_top.countOpenSpin += 1
                             filter_top.closeAllSpinExcept("resheight")
                         } else
-                            countOpenSpin -= 1
+                            filter_top.countOpenSpin -= 1
                     }
                     Connections {
                         target: filter_top
-                        function onCloseAllSpinExcept(senderid) {
+                        function onCloseAllSpinExcept(senderid : string) {
                             if(senderid !== "resheight")
                                 resheight.acceptValue()
                         }
@@ -260,8 +259,8 @@ PQTemplateFullscreen {
                     enabled: filesizecheck.checked
                     property bool greater: true
                     text: greater ? ">" : "<"
-                    font.weight: PQCLook.fontWeightBold
-                    font.pointSize: PQCLook.fontSizeL
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
                     tooltip: greater ?
                                  //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'
                                  qsTranslate("filter", "greater than") :
@@ -281,14 +280,14 @@ PQTemplateFullscreen {
                     showSlider: false
                     onEditModeChanged: {
                         if(editMode) {
-                            countOpenSpin += 1
+                            filter_top.countOpenSpin += 1
                             filter_top.closeAllSpinExcept("filesize")
                         } else
-                            countOpenSpin -= 1
+                            filter_top.countOpenSpin -= 1
                     }
                     Connections {
                         target: filter_top
-                        function onCloseAllSpinExcept(senderid) {
+                        function onCloseAllSpinExcept(senderid : string) {
                             if(senderid !== "filesize")
                                 filesize.acceptValue()
                         }
@@ -337,32 +336,33 @@ PQTemplateFullscreen {
     ]
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === filter_top.thisis)
+                    filter_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === filter_top.thisis)
+                    filter_top.hide()
 
             } else if(filter_top.visible) {
 
                 if(what === "removeFilter") {
 
-                    button3.clicked()
+                    filter_top.button3.clicked()
 
                 } else if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        button2.clicked()
+                        filter_top.button2.clicked()
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        button1.clicked()
+                        filter_top.button1.clicked()
                     else if(param[0] === Qt.Key_Tab) {
                         if(reswidth.activeFocus)
                             resheight.forceActiveFocus()
@@ -376,7 +376,7 @@ PQTemplateFullscreen {
     }
 
     function show() {
-        if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) {
+        if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) { // qmllint disable unqualified
             hide()
             return
         }
@@ -444,7 +444,7 @@ PQTemplateFullscreen {
     function hide() {
         filter_top.opacity = 0
         if(popoutWindowUsed)
-            filter_popout.visible = false
+            filter_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         fullscreenitem.forceActiveFocus()
@@ -466,7 +466,7 @@ PQTemplateFullscreen {
                 }
             }
         }
-        PQCFileFolderModel.nameFilters = fileEndingFilter
+        PQCFileFolderModel.nameFilters = fileEndingFilter // qmllint disable unqualified
         PQCFileFolderModel.filenameFilters = fileNameFilter
 
         if(rescheck.checked)
@@ -487,7 +487,7 @@ PQTemplateFullscreen {
         rescheck.checked = false
         filesizecheck.checked = false
 
-        PQCFileFolderModel.removeAllUserFilter()
+        PQCFileFolderModel.removeAllUserFilter() // qmllint disable unqualified
 
     }
 

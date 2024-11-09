@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Export image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.exportGeometry
-    isMax: PQCWindowGeometry.exportMaximized
-    popout: PQCSettings.interfacePopoutExport
-    sizepopout: PQCWindowGeometry.exportForcePopout
+    geometry: PQCWindowGeometry.exportGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.exportMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutExport // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
     source: "actions/PQExport.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "export")
+        if(loader.visibleItem === "export") // qmllint disable unqualified
             loader.elementClosed("export")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutExport)
+        if(popout !== PQCSettings.interfacePopoutExport) // qmllint disable unqualified
             PQCSettings.interfacePopoutExport = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.exportGeometry)
+        if(geometry !== PQCWindowGeometry.exportGeometry) // qmllint disable unqualified
             PQCWindowGeometry.exportGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.exportMaximized)
+        if(isMax !== PQCWindowGeometry.exportMaximized) // qmllint disable unqualified
             PQCWindowGeometry.exportMaximized = isMax
     }
 

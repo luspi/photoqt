@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -30,6 +31,7 @@ import PQCScriptsContextMenu
 import PQCWindowGeometry
 
 import "../elements"
+import "../"
 
 Rectangle {
 
@@ -39,9 +41,11 @@ Rectangle {
     y: setVisible ? visiblePos[1] : invisiblePos[1]
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
-    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
+    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
+
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
@@ -50,25 +54,25 @@ Rectangle {
 
     property int parentWidth
     property int parentHeight
-    width: Math.max(400, PQCSettings.mainmenuElementWidth)
-    height: toplevel.height-2*gap
+    width: Math.max(400, PQCSettings.mainmenuElementWidth) // qmllint disable unqualified
+    height: access_toplevel.height-2*gap
 
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
-    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
-    property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
+    property rect hotArea: Qt.rect(0, access_toplevel.height-hotAreaSize, access_toplevel.width, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
     property bool popoutWindowUsed: false
 
-    property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout
+    property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout // qmllint disable unqualified
 
     state: isPopout
            ? "popout"
-           : (PQCSettings.interfaceEdgeLeftAction==="mainmenu"
+           : (PQCSettings.interfaceEdgeLeftAction==="mainmenu" // qmllint disable unqualified
               ? "left"
               : (PQCSettings.interfaceEdgeRightAction==="mainmenu"
                  ? "right"
@@ -84,40 +88,36 @@ Rectangle {
         State {
             name: "left"
             PropertyChanges {
-                target: mainmenu_top
-                visiblePos: [gap, gap]
-                invisiblePos: [-width, gap]
-                hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
-                windowSizeOkay: toplevel.width>500 && toplevel.height>500
+                mainmenu_top.visiblePos: [mainmenu_top.gap, mainmenu_top.gap]
+                mainmenu_top.invisiblePos: [-mainmenu_top.width, mainmenu_top.gap]
+                mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
+                mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                target: mainmenu_top
-                visiblePos: [toplevel.width-width-gap, gap]
-                invisiblePos: [toplevel.width, gap]
-                hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
-                windowSizeOkay: toplevel.width>500 && toplevel.height>500
+                mainmenu_top.visiblePos: [mainmenu_top.access_toplevel.width-mainmenu_top.width-mainmenu_top.gap, mainmenu_top.gap]
+                mainmenu_top.invisiblePos: [mainmenu_top.access_toplevel.width, mainmenu_top.gap]
+                mainmenu_top.hotArea: Qt.rect(mainmenu_top.access_toplevel.width-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
+                mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
             }
         },
         State {
             name: "popout"
             PropertyChanges {
-                target: mainmenu_top
-                setVisible: true
-                hotArea: Qt.rect(0,0,0,0)
-                width: mainmenu_top.parentWidth
-                height: mainmenu_top.parentHeight
-                windowSizeOkay: true
+                mainmenu_top.setVisible: true
+                mainmenu_top.hotArea: Qt.rect(0,0,0,0)
+                mainmenu_top.width: mainmenu_top.parentWidth
+                mainmenu_top.height: mainmenu_top.parentHeight
+                mainmenu_top.windowSizeOkay: true
             }
         },
         State {
             name: "disabled"
             PropertyChanges {
-                target: mainmenu_top
-                setVisible: false
-                hotArea: Qt.rect(0,0,0,0)
+                mainmenu_top.setVisible: false
+                mainmenu_top.hotArea: Qt.rect(0,0,0,0)
             }
         }
     ]
@@ -136,7 +136,7 @@ Rectangle {
         }
     }
 
-    property bool anythingLoaded: PQCFileFolderModel.countMainView>0
+    property bool anythingLoaded: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
 
     property int colwidth: width-2*flickable.anchors.margins
 
@@ -174,7 +174,7 @@ Rectangle {
 
                 width: flickable.width
                 height: nav_txt.height+10
-                color: PQCLook.transColorHighlight
+                color: PQCLook.transColorHighlight // qmllint disable unqualified
                 radius: 5
 
                 PQTextXL {
@@ -183,7 +183,7 @@ Rectangle {
                     y: 5
                     //: This is a category in the main menu.
                     text: qsTranslate("MainMenu", "navigation")
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     opacity: 0.8
                 }
 
@@ -203,10 +203,11 @@ Rectangle {
                         //: as in: PREVIOUS image. Please keep short.
                         txt: qsTranslate("MainMenu", "previous")
                         cmd: "__prev"
-                        smallestWidth: colwidth/2
-                        font.pointSize: PQCLook.fontSizeL
-                        font.weight: PQCLook.fontWeightBold
+                        smallestWidth: mainmenu_top.colwidth/2
+                        font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         alignCenter: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -215,10 +216,11 @@ Rectangle {
                         //: as in: NEXT image. Please keep short.
                         txt: qsTranslate("MainMenu", "next")
                         cmd: "__next"
-                        smallestWidth: colwidth/2
-                        font.pointSize: PQCLook.fontSizeL
-                        font.weight: PQCLook.fontWeightBold
+                        smallestWidth: mainmenu_top.colwidth/2
+                        font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         alignCenter: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -232,6 +234,7 @@ Rectangle {
                         cmd: "__goToFirst"
                         smallestWidth: prevarrow.width
                         alignCenter: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -241,6 +244,7 @@ Rectangle {
                         cmd: "__goToLast"
                         smallestWidth: nextarrow.width
                         alignCenter: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -250,8 +254,9 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Browse images")
                     cmd: "__open"
                     closeMenu: true
+                    menuColWidth: mainmenu_top.colwidth
                     onHeightChanged:
-                        normalEntryHeight = height
+                        mainmenu_top.normalEntryHeight = height
                 }
 
                 PQMainMenuEntry {
@@ -259,7 +264,8 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Map Explorer")
                     cmd: "__showMapExplorer"
                     closeMenu: true
-                    visible: PQCScriptsConfig.isLocationSupportEnabled()
+                    menuColWidth: mainmenu_top.colwidth
+                    visible: PQCScriptsConfig.isLocationSupportEnabled() // qmllint disable unqualified
                 }
 
             }
@@ -271,7 +277,7 @@ Rectangle {
 
                 width: flickable.width
                 height: view_txt.height+10
-                color: PQCLook.transColorHighlight
+                color: PQCLook.transColorHighlight // qmllint disable unqualified
                 radius: 5
 
                 PQTextXL {
@@ -280,7 +286,7 @@ Rectangle {
                     y: 5
                     //: This is a category in the main menu.
                     text: qsTranslate("MainMenu", "current image")
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     opacity: 0.8
                 }
 
@@ -308,7 +314,7 @@ Rectangle {
                             //: Entry in main menu. Please keep short.
                             text: qsTranslate("MainMenu", "Zoom") + ":"
                             opacity: 0.6
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
                     }
 
@@ -317,7 +323,8 @@ Rectangle {
                         img: "zoomin.svg"
                         cmd: "__zoomIn"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuIcon {
@@ -325,7 +332,8 @@ Rectangle {
                         img: "zoomout.svg"
                         cmd: "__zoomOut"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuEntry {
@@ -334,7 +342,8 @@ Rectangle {
                         txt: "100%"
                         cmd: "__zoomActual"
                         smallestWidth: 10
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -344,17 +353,19 @@ Rectangle {
                         txt: qsTranslate("MainMenu", "reset")
                         cmd: "__zoomReset"
                         smallestWidth: 10
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
                         y: (zoomin_icn.height-height)/2
                         img: "padlock.svg"
                         smallestWidth: 10
-                        opacity: PQCSettings.imageviewPreserveZoom ? 1 : 0.1
+                        menuColWidth: mainmenu_top.colwidth
+                        opacity: PQCSettings.imageviewPreserveZoom ? 1 : 0.1 // qmllint disable unqualified
                         tooltip: qsTranslate("MainMenu", "Enable to preserve zoom levels across images")
                         Behavior on opacity { NumberAnimation { duration: 200 } }
-                        onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom
+                        onClicked: PQCSettings.imageviewPreserveZoom = !PQCSettings.imageviewPreserveZoom // qmllint disable unqualified
                     }
 
                 }
@@ -375,7 +386,7 @@ Rectangle {
                             //: Entry in main menu. Please keep short.
                             text: qsTranslate("MainMenu", "Rotation")
                             opacity: 0.6
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
                     }
 
@@ -384,7 +395,8 @@ Rectangle {
                         img: "rotateleft.svg"
                         cmd: "__rotateL"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuIcon {
@@ -392,7 +404,8 @@ Rectangle {
                         img: "rotateright.svg"
                         cmd: "__rotateR"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuEntry {
@@ -402,17 +415,19 @@ Rectangle {
                         txt: qsTranslate("MainMenu", "reset")
                         cmd: "__rotate0"
                         smallestWidth: 10
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
                         y: (zoomin_icn.height-height)/2
                         img: "padlock.svg"
                         smallestWidth: 10
-                        opacity: PQCSettings.imageviewPreserveRotation ? 1 : 0.1
+                        menuColWidth: mainmenu_top.colwidth
+                        opacity: PQCSettings.imageviewPreserveRotation ? 1 : 0.1 // qmllint disable unqualified
                         tooltip: qsTranslate("MainMenu", "Enable to preserve rotation angle across images")
                         Behavior on opacity { NumberAnimation { duration: 200 } }
-                        onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation
+                        onClicked: PQCSettings.imageviewPreserveRotation = !PQCSettings.imageviewPreserveRotation // qmllint disable unqualified
                     }
 
                 }
@@ -433,7 +448,7 @@ Rectangle {
                             //: Mirroring (or flipping) an image. Please keep short.
                             text: qsTranslate("MainMenu", "Mirror")
                             opacity: 0.6
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
                     }
 
@@ -442,7 +457,8 @@ Rectangle {
                         img: "leftrightarrow.svg"
                         cmd: "__flipH"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuIcon {
@@ -450,7 +466,8 @@ Rectangle {
                         img: "updownarrow.svg"
                         cmd: "__flipV"
                         scaleFactor: 1
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        normalEntryHeight: mainmenu_top.normalEntryHeight
                     }
 
                     PQMainMenuEntry {
@@ -460,17 +477,19 @@ Rectangle {
                         txt: qsTranslate("MainMenu", "reset")
                         cmd: "__flipReset"
                         smallestWidth: 10
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
                         y: (zoomin_icn.height-height)/2
                         img: "padlock.svg"
                         smallestWidth: 10
-                        opacity: PQCSettings.imageviewPreserveMirror ? 1 : 0.1
+                        menuColWidth: mainmenu_top.colwidth
+                        opacity: PQCSettings.imageviewPreserveMirror ? 1 : 0.1 // qmllint disable unqualified
                         tooltip: qsTranslate("MainMenu", "Enable to preserve mirror across images")
                         Behavior on opacity { NumberAnimation { duration: 200 } }
-                        onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror
+                        onClicked: PQCSettings.imageviewPreserveMirror = !PQCSettings.imageviewPreserveMirror // qmllint disable unqualified
                     }
 
                 }
@@ -479,14 +498,16 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "histogram.svg"
-                    txt: PQCSettings.histogramVisible ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram")
+                    txt: PQCSettings.histogramVisible ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
                     cmd: "__histogram"
+                    menuColWidth: mainmenu_top.colwidth
                 }
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: PQCSettings.mapviewCurrentVisible ? qsTranslate("MainMenu", "Hide current location") : qsTranslate("MainMenu", "Show current location")
+                    txt: PQCSettings.mapviewCurrentVisible ? qsTranslate("MainMenu", "Hide current location") : qsTranslate("MainMenu", "Show current location") // qmllint disable unqualified
                     cmd: "__showMapCurrent"
+                    menuColWidth: mainmenu_top.colwidth
                 }
 
             }
@@ -500,7 +521,7 @@ Rectangle {
 
                 width: flickable.width
                 height: folder_txt.height+10
-                color: PQCLook.transColorHighlight
+                color: PQCLook.transColorHighlight // qmllint disable unqualified
                 radius: 5
 
                 PQTextXL {
@@ -509,7 +530,7 @@ Rectangle {
                     y: 5
                     //: This is a category in the main menu.
                     text: qsTranslate("MainMenu", "all images")
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     opacity: 0.8
                 }
 
@@ -537,7 +558,7 @@ Rectangle {
                             //: Entry in main menu. Please keep short.
                             text: qsTranslate("MainMenu", "Slideshow") + ":"
                             opacity: 0.6
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
                     }
 
@@ -547,9 +568,10 @@ Rectangle {
                         //: Used as in START slideshow. Please keep short
                         txt: qsTranslate("MainMenu", "Start")
                         cmd: "__slideshowQuick"
-                        smallestWidth: (colwidth-slideshow_txt.parent.width-20)/2
+                        smallestWidth: (mainmenu_top.colwidth-slideshow_txt.parent.width-20)/2
                         closeMenu: true
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -559,7 +581,8 @@ Rectangle {
                         cmd: "__slideshow"
                         smallestWidth: slideshow_start.width
                         closeMenu: true
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -580,7 +603,7 @@ Rectangle {
                             //: Entry in main menu. Please keep short.
                             text: qsTranslate("MainMenu", "Sort") + ":"
                             opacity: 0.6
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
                     }
 
@@ -590,9 +613,10 @@ Rectangle {
                         //: Used as in START advanced sort. Please keep short
                         txt: qsTranslate("MainMenu", "Start")
                         cmd: "__advancedSortQuick"
-                        smallestWidth: (colwidth-advanced_txt.parent.width-20)/2
+                        smallestWidth: (mainmenu_top.colwidth-advanced_txt.parent.width-20)/2
                         closeMenu: true
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -602,7 +626,8 @@ Rectangle {
                         cmd: "__advancedSort"
                         smallestWidth: advanced_start.width
                         closeMenu: true
-                        active: anythingLoaded
+                        active: mainmenu_top.anythingLoaded
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -614,16 +639,18 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Filter images")
                     cmd: "__filterImages"
                     closeMenu: true
-                    active: anythingLoaded
+                    active: mainmenu_top.anythingLoaded
+                    menuColWidth: mainmenu_top.colwidth
                 }
 
                 PQMainMenuEntry {
-                    visible: PQCScriptsConfig.isChromecastEnabled()
+                    visible: PQCScriptsConfig.isChromecastEnabled() // qmllint disable unqualified
                     img: "streaming.svg"
                     txt: qsTranslate("MainMenu", "Streaming (Chromecast)")
                     cmd: "__chromecast"
                     closeMenu: true
-                    active: anythingLoaded
+                    active: mainmenu_top.anythingLoaded
+                    menuColWidth: mainmenu_top.colwidth
                 }
 
                 PQMainMenuEntry {
@@ -631,7 +658,8 @@ Rectangle {
                     txt: qsTranslate("MainMenu", "Open in default file manager")
                     cmd: "__defaultFileManager"
                     closeMenu: true
-                    active: anythingLoaded
+                    active: mainmenu_top.anythingLoaded
+                    menuColWidth: mainmenu_top.colwidth
                 }
 
             }
@@ -643,7 +671,7 @@ Rectangle {
 
                 width: flickable.width
                 height: photoqt_txt.height+10
-                color: PQCLook.transColorHighlight
+                color: PQCLook.transColorHighlight // qmllint disable unqualified
                 radius: 5
 
                 PQTextXL {
@@ -652,7 +680,7 @@ Rectangle {
                     y: 5
                     //: This is a category in the main menu.
                     text: qsTranslate("MainMenu", "general")
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     opacity: 0.8
                 }
 
@@ -672,6 +700,7 @@ Rectangle {
                         cmd: "__settings"
                         smallestWidth: flickable.width/2
                         closeMenu: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -680,6 +709,7 @@ Rectangle {
                         cmd: "__about"
                         smallestWidth: flickable.width/2
                         closeMenu: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -692,6 +722,7 @@ Rectangle {
                         cmd: "__onlineHelp"
                         smallestWidth: flickable.width/2
                         closeMenu: true
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                     PQMainMenuEntry {
@@ -699,6 +730,7 @@ Rectangle {
                         txt: qsTranslate("MainMenu", "Quit")
                         cmd: "__quit"
                         smallestWidth: flickable.width/2
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
@@ -712,10 +744,10 @@ Rectangle {
 
                 width: flickable.width
                 height: custom_txt.height+10
-                color: PQCLook.transColorHighlight
+                color: PQCLook.transColorHighlight // qmllint disable unqualified
                 radius: 5
 
-                visible: PQCSettings.mainmenuShowExternal
+                visible: PQCSettings.mainmenuShowExternal // qmllint disable unqualified
 
                 PQTextXL {
                     id: custom_txt
@@ -723,7 +755,7 @@ Rectangle {
                     y: 5
                     //: This is a category in the main menu.
                     text: qsTranslate("MainMenu", "custom")
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     opacity: 0.8
                 }
 
@@ -733,11 +765,11 @@ Rectangle {
 
                 id: custom_col
 
-                visible: PQCSettings.mainmenuShowExternal
+                visible: PQCSettings.mainmenuShowExternal // qmllint disable unqualified
 
                 spacing: 5
 
-                property var entries: []
+                property list<var> entries: []
 
                 Repeater {
 
@@ -747,7 +779,9 @@ Rectangle {
 
                         id: deleg
 
-                        property var cur: custom_col.entries[index]
+                        required property int modelData
+
+                        property var cur: custom_col.entries[modelData]
 
                         customEntry: true
 
@@ -759,19 +793,21 @@ Rectangle {
 
                         smallestWidth: flickable.width
                         closeMenu: true
+
+                        menuColWidth: mainmenu_top.colwidth
                     }
 
                 }
 
                 Component.onCompleted: {
-                    if(PQCSettings.mainmenuShowExternal)
+                    if(PQCSettings.mainmenuShowExternal) // qmllint disable unqualified
                         custom_col.entries = PQCScriptsContextMenu.getEntries()
                 }
 
                 Connections {
-                    target: PQCSettings
+                    target: PQCSettings // qmllint disable unqualified
                     function onMainmenuShowExternalChanged() {
-                        if(PQCSettings.mainmenuShowExternal)
+                        if(PQCSettings.mainmenuShowExternal) // qmllint disable unqualified
                             custom_col.entries = PQCScriptsContextMenu.getEntries()
                         else
                             custom_col.entries = []
@@ -779,9 +815,9 @@ Rectangle {
                 }
 
                 Connections {
-                    target: PQCScriptsContextMenu
+                    target: PQCScriptsContextMenu // qmllint disable unqualified
                     function onCustomEntriesChanged() {
-                        if(PQCSettings.mainmenuShowExternal)
+                        if(PQCSettings.mainmenuShowExternal) // qmllint disable unqualified
                             custom_col.entries = PQCScriptsContextMenu.getEntries()
                         else
                             custom_col.entries = []
@@ -802,7 +838,7 @@ Rectangle {
         enabled: parent.state==="left"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementWidth
+        property int origWidth: PQCSettings.mainmenuElementWidth // qmllint disable unqualified
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -813,7 +849,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.mainmenuElementWidth = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
+            PQCSettings.mainmenuElementWidth = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
@@ -828,7 +864,7 @@ Rectangle {
         enabled: parent.state==="right"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementWidth
+        property int origWidth: PQCSettings.mainmenuElementWidth // qmllint disable unqualified
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -839,7 +875,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.mainmenuElementWidth = Math.round(Math.min(toplevel.width/2, Math.max(200, origWidth+diff)))
+            PQCSettings.mainmenuElementWidth = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
@@ -850,7 +886,7 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        visible: !PQCWindowGeometry.mainmenuForcePopout
+        visible: !PQCWindowGeometry.mainmenuForcePopout // qmllint disable unqualified
         enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
@@ -861,61 +897,61 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutMainMenu ?
+            text: PQCSettings.interfacePopoutMainMenu ? // qmllint disable unqualified
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                hideMainMenu()
-                if(!PQCSettings.interfacePopoutMainMenu)
+                mainmenu_top.hideMainMenu()
+                if(!PQCSettings.interfacePopoutMainMenu) // qmllint disable unqualified
                     PQCSettings.interfacePopoutMainMenu = true
                 else
-                    close()
+                    mainmenu_popout.close()
                 PQCNotify.executeInternalCommand("__showMainMenu")
             }
         }
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the main menu
-    property int ignoreBottomMotion: PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0
+    property int ignoreBottomMotion: PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0 // qmllint disable unqualified
 
     Connections {
-        target: PQCNotify
-        function onMouseMove(posx, posy) {
+        target: PQCNotify // qmllint disable unqualified
+        function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) {
-                setVisible = false
+            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+                mainmenu_top.setVisible = false
                 return
             }
 
-            if(!windowSizeOkay && !isPopout) {
-                setVisible = false
+            if(!mainmenu_top.windowSizeOkay && !mainmenu_top.isPopout) {
+                mainmenu_top.setVisible = false
                 return
             }
 
-            if(setVisible) {
+            if(mainmenu_top.setVisible) {
                 if(posx < mainmenu_top.x-50 || posx > mainmenu_top.x+mainmenu_top.width+50 || posy < mainmenu_top.y-50 || posy > mainmenu_top.y+mainmenu_top.height+50)
-                    setVisible = false
+                    mainmenu_top.setVisible = false
             } else {
-                if(hotArea.x < posx && hotArea.x+hotArea.width > posx && hotArea.y < posy && hotArea.height+hotArea.y-ignoreBottomMotion > posy)
-                    setVisible = true
+                if(mainmenu_top.hotArea.x < posx && mainmenu_top.hotArea.x+mainmenu_top.hotArea.width > posx && mainmenu_top.hotArea.y < posy && mainmenu_top.hotArea.height+mainmenu_top.hotArea.y-mainmenu_top.ignoreBottomMotion > posy)
+                    mainmenu_top.setVisible = true
             }
         }
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : string) {
 
             if(what === "show") {
                 if(param === "mainmenu") {
-                    showMainMenu()
+                    mainmenu_top.showMainMenu()
                 }
             } else if(what === "toggle") {
                 if(param === "mainmenu") {
-                    toggle()
+                    mainmenu_top.toggle()
                 }
             }
 
@@ -930,13 +966,13 @@ Rectangle {
     function hideMainMenu() {
         mainmenu_top.setVisible = false
         if(popoutWindowUsed)
-            mainmenu_popout.visible = false
+            mainmenu_popout.visible = false // qmllint disable unqualified
     }
 
     function showMainMenu() {
         mainmenu_top.setVisible = true
         if(popoutWindowUsed)
-            mainmenu_popout.visible = true
+            mainmenu_popout.visible = true // qmllint disable unqualified
     }
 
 }

@@ -21,23 +21,28 @@
  **************************************************************************/
 
 import QtQuick
+
 import PQCFileFolderModel
 import PQCNotify
+
 import "../elements"
+import "../"
 
 Item {
 
     id: nav_top
+
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     x: ((parentWidth-width)/2)
     y: parentHeight*0.8
     width: row.width
     height: 80
 
-    property int parentWidth: toplevel.width
-    property int parentHeight: toplevel.height
+    property int parentWidth: access_toplevel.width
+    property int parentHeight: access_toplevel.height
 
-    opacity: (!PQCSettings.interfaceNavigationFloating || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground)
+    opacity: (!PQCSettings.interfaceNavigationFloating || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity > 0)
     enabled: visible
@@ -70,11 +75,11 @@ Item {
         anchors.fill: parent
         drag.target: parent
         drag.minimumX: 0
-        drag.maximumX: toplevel.width-nav_top.width
+        drag.maximumX: nav_top.access_toplevel.width-nav_top.width
         drag.minimumY: 0
-        drag.maximumY: toplevel.height-nav_top.height
+        drag.maximumY: nav_top.access_toplevel.height-nav_top.height
         property bool dragActive: drag.active
-        onDragActiveChanged: disconnectPos()
+        onDragActiveChanged: nav_top.disconnectPos()
         hoverEnabled: true
         text: qsTranslate("navigate", "Click and drag to move")
         onEntered: {
@@ -100,7 +105,7 @@ Item {
             height: width
             source: "image://svg/:/white/leftarrow.svg"
             sourceSize: Qt.size(width, height)
-            enabled: PQCFileFolderModel.countMainView>0
+            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {
@@ -109,14 +114,14 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: toplevel.width-nav_top.width
+                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: toplevel.height-nav_top.height
+                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
                 property bool dragActive: drag.active
-                onDragActiveChanged: disconnectPos()
+                onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__prev")
+                    PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
                 onEntered: {
                     resetMouseOver.stop()
                     nav_top.mouseOverId = 1
@@ -134,7 +139,7 @@ Item {
             height: width
             source: "image://svg/:/white/rightarrow.svg"
             sourceSize: Qt.size(width, height)
-            enabled: PQCFileFolderModel.countMainView>0
+            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: enabled ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
             PQMouseArea {
@@ -143,14 +148,14 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: toplevel.width-nav_top.width
+                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: toplevel.height-nav_top.height
+                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
                 property bool dragActive: drag.active
-                onDragActiveChanged: disconnectPos()
+                onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Navigate to next image in folder")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__next")
+                    PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
                 onEntered: {
                     resetMouseOver.stop()
                     nav_top.mouseOverId = 2
@@ -174,14 +179,14 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: toplevel.width-nav_top.width
+                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: toplevel.height-nav_top.height
+                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
                 property bool dragActive: drag.active
-                onDragActiveChanged: disconnectPos()
+                onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Show main menu")
                 onClicked:
-                    PQCNotify.executeInternalCommand("__toggleMainMenu")
+                    PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
                 onEntered: {
                     resetMouseOver.stop()
                     nav_top.mouseOverId = 3

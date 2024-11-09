@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -29,70 +30,72 @@ import PQCScriptsImages
 
 Item {
 
+    id: anictrl
+
     // we use this workaround to avoid a binding loop below
     property int setFrame: 0
 
     Connections {
 
-        target: image
+        target: image // qmllint disable unqualified
 
         function onCurrentFrameChanged() {
-            if(setFrame !== image.currentFrame)
-                setFrame = image.currentFrame
+            if(anictrl.setFrame !== image.currentFrame) // qmllint disable unqualified
+                anictrl.setFrame = image.currentFrame // qmllint disable unqualified
         }
     }
 
     Loader {
 
-        active: PQCSettings.filetypesAnimatedControls && !PQCNotify.slideshowRunning
+        active: PQCSettings.filetypesAnimatedControls && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
 
             id: controlitem
 
-            parent: loader_top
+            parent: loader_top // qmllint disable unqualified
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            z: image_top.curZ
+            z: image_top.curZ // qmllint disable unqualified
             width: controlrow.width+20
             height: 50
             radius: 5
-            color: PQCLook.transColor
+            color: PQCLook.transColor // qmllint disable unqualified
 
             Connections {
-                target: image_top
+                target: image_top // qmllint disable unqualified
                 function onWidthChanged() {
-                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5)
+                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
                 }
                 function onHeightChanged() {
-                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5)
+                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5) // qmllint disable unqualified
                 }
             }
 
             onXChanged: {
                 if(x !== (parent.width-width)/2) {
-                    image_top.extraControlsLocation.x = x
+                    image_top.extraControlsLocation.x = x // qmllint disable unqualified
                     x = x
                 }
             }
             onYChanged: {
                 if(y !== 0.9*parent.height) {
-                    image_top.extraControlsLocation.y = y
+                    image_top.extraControlsLocation.y = y // qmllint disable unqualified
                     y = y
                 }
             }
 
             Component.onCompleted: {
-                if(image_top.extraControlsLocation.x !== -1) {
+                if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
                     controlitem.x = image_top.extraControlsLocation.x
                     controlitem.y = image_top.extraControlsLocation.y
                 }
             }
 
             // only show when needed
-            opacity: (image.frameCount>1 && image.visible && PQCSettings.filetypesAnimatedControls) ? (hovered ? 1 : 0.3) : 0
+            opacity: (image.frameCount>1 && image.visible && PQCSettings.filetypesAnimatedControls) ? (hovered ? 1 : 0.3) : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
             enabled: visible
@@ -111,8 +114,8 @@ Item {
                 drag.target: parent
                 drag.minimumX: 5
                 drag.minimumY: 5
-                drag.maximumX: image_top.width-controlitem.width-5
-                drag.maximumY: image_top.height-controlitem.height-5
+                drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
+                drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
                 hoverEnabled: true
                 cursorShape: Qt.SizeAllCursor
                 propagateComposedEvents: true
@@ -131,7 +134,7 @@ Item {
                 // play/pause button
                 Rectangle {
                     y: (parent.height-height)/2
-                    color: playpausecontrol.containsPress ? PQCLook.transColorActive : (playpausecontrol.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    color: playpausecontrol.containsPress ? PQCLook.transColorActive : (playpausecontrol.containsMouse ? PQCLook.transColorAccent : "transparent") // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
                     height: width
                     width: controlitem.height/2.5 + 6
@@ -141,7 +144,7 @@ Item {
                         y: 3
                         width: parent.width-6
                         height: width
-                        source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
+                        source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg") // qmllint disable unqualified
                         sourceSize: Qt.size(width, height)
                         MouseArea {
                             id: playpausecontrol
@@ -149,7 +152,7 @@ Item {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onClicked: {
-                                if(!image.playing) {
+                                if(!image.playing) { // qmllint disable unqualified
                                     // without explicitely storing/loading the frame it will restart playing at the start
                                     var fr = image.currentFrame
                                     image.playing = true
@@ -165,12 +168,12 @@ Item {
                     id: slidercontrol
                     y: (parent.height-height)/2
                     from: 0
-                    to: image.frameCount-1
-                    value: setFrame
+                    to: image.frameCount-1 // qmllint disable unqualified
+                    value: anictrl.setFrame
                     wheelEnabled: false
 
                     onValueChanged: {
-                        if(value !== image.currentFrame)
+                        if(value !== image.currentFrame) // qmllint disable unqualified
                             image.currentFrame = value
                     }
 
@@ -180,7 +183,7 @@ Item {
                     y: (parent.height-height)/2
                     height: controlitem.height*0.75
                     width: 1
-                    color: PQCLook.textColor
+                    color: PQCLook.textColor // qmllint disable unqualified
                 }
 
                 Item {
@@ -191,7 +194,7 @@ Item {
                 // save frame button
                 Rectangle {
                     y: (parent.height-height)/2
-                    color: saveframemouse.containsPress ? PQCLook.transColorActive : (saveframemouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    color: saveframemouse.containsPress ? PQCLook.transColorActive : (saveframemouse.containsMouse ? PQCLook.transColorAccent : "transparent") // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
                     height: width
                     width: controlitem.height/2.5 + 6
@@ -205,7 +208,7 @@ Item {
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         source: "image://svg/:/white/remember.svg"
                         sourceSize: Qt.size(width, height)
-                        enabled: !image.playing
+                        enabled: !image.playing // qmllint disable unqualified
                         PQMouseArea {
                             id: saveframemouse
                             anchors.fill: parent
@@ -214,7 +217,7 @@ Item {
                             //: The frame here refers to one of the images making up an animation of a gif or other animated image
                             text: qsTranslate("image", "Save current frame to new file")
                             onClicked: {
-                                PQCScriptsImages.extractFrameAndSave(imageloaderitem.imageSource, image.currentFrame)
+                                PQCScriptsImages.extractFrameAndSave(imageloaderitem.imageSource, image.currentFrame) // qmllint disable unqualified
                             }
                         }
                     }
@@ -229,10 +232,10 @@ Item {
                     height: lockrow.height+6
                     radius: 5
 
-                    color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
+                    color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent") // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
 
-                    opacity: PQCSettings.filetypesAnimatedLeftRight ? 1 : 0.3
+                    opacity: PQCSettings.filetypesAnimatedLeftRight ? 1 : 0.3 // qmllint disable unqualified
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     Row {
@@ -260,7 +263,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
                         onClicked:
-                            PQCSettings.filetypesAnimatedLeftRight = !PQCSettings.filetypesAnimatedLeftRight
+                            PQCSettings.filetypesAnimatedLeftRight = !PQCSettings.filetypesAnimatedLeftRight // qmllint disable unqualified
                     }
 
                 }
@@ -283,20 +286,20 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
-                    onClicked: PQCSettings.filetypesAnimatedControls = false
+                    onClicked: PQCSettings.filetypesAnimatedControls = false // qmllint disable unqualified
                 }
             }
 
             Connections {
 
-                target: PQCNotify
+                target: PQCNotify // qmllint disable unqualified
 
                 enabled: controlitem.enabled
 
-                function onMouseMove(x, y) {
+                function onMouseMove(x : int, y : int) {
 
                     // check if the control item is hovered anywhere not caught by the elements above
-                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y))
+                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
                     controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
 
                 }

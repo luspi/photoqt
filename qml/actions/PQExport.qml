@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -22,7 +23,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Dialogs
 
 import PQCNotify
 import PQCImageFormats
@@ -38,8 +38,8 @@ PQTemplateFullscreen {
     id: convert_top
 
     thisis: "export"
-    popout: PQCSettings.interfacePopoutExport
-    forcePopout: PQCWindowGeometry.exportForcePopout
+    popout: PQCSettings.interfacePopoutExport // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
     shortcut: "__export"
 
     //: title of action element
@@ -52,7 +52,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     button1.onClicked: {
-        PQCSettings.exportLastUsed = targetFormat
+        PQCSettings.exportLastUsed = targetFormat // qmllint disable unqualified
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
         if(file !== "") {
             errormessage.opacity = 0
@@ -66,15 +66,15 @@ PQTemplateFullscreen {
         hide()
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutExport = popout
+        PQCSettings.interfacePopoutExport = popout // qmllint disable unqualified
 
     /***************************************************************/
 
     // the favs are shown on a label and are used to identify the respective entry in the listview
-    property var favs: PQCSettings.exportFavorites
+    property list<string> favs: PQCSettings.exportFavorites // qmllint disable unqualified
 
     // this is the selected format, both the first ending (for identification) and all endings for a format
-    property string targetFormat: PQCSettings.exportLastUsed
+    property string targetFormat: PQCSettings.exportLastUsed // qmllint disable unqualified
 
     content: [
 
@@ -89,7 +89,7 @@ PQTemplateFullscreen {
             horizontalAlignment: Qt.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: qsTranslate("export", "Something went wrong during export to the selected format...")
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         },
 
         Item {
@@ -126,14 +126,14 @@ PQTemplateFullscreen {
                 PQText {
                     width: favcol.width
                     height: 30
-                    color: PQCLook.textColorDisabled
-                    font.weight: PQCLook.fontWeightBold
+                    color: PQCLook.textColorDisabled // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     font.italic: true
                     verticalAlignment: Qt.AlignVCenter
                     horizontalAlignment: Qt.AlignHCenter
                     //: the favorites are image formats for exporting images to
                     text: " " + qsTranslate("export", "no favorites set")
-                    visible: favs.length===0
+                    visible: convert_top.favs.length===0
                 }
 
                 // all favorites
@@ -162,22 +162,24 @@ PQTemplateFullscreen {
 
                     Repeater {
 
-                        model: favs.length
+                        model: convert_top.favs.length
 
                         Rectangle {
 
                             id: favdeleg
 
-                            property string myid: favs[index]
+                            required property int modelData
+
+                            property string myid: convert_top.favs[modelData]
 
                             width: favcol.width
                             height: favsrow.height+10
                             radius: 5
 
-                            property bool hovered: favcol.currentHover===index
-                            property bool isActive: targetFormat===favdeleg.myid
+                            property bool hovered: favcol.currentHover===modelData
+                            property bool isActive: convert_top.targetFormat===favdeleg.myid
 
-                            color: isActive ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                            color: isActive ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             Row {
@@ -186,15 +188,15 @@ PQTemplateFullscreen {
                                 y: 5
                                 spacing: 10
                                 PQText {
-                                    text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.")
-                                    color: PQCLook.textColor
+                                    text: "*." + PQCImageFormats.getFormatEndings(favdeleg.myid).join(", *.") // qmllint disable unqualified
+                                    color: PQCLook.textColor // qmllint disable unqualified
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                                 PQTextS {
                                     y: (parent.height-height)/2
                                     font.italic: true
-                                    text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")"
-                                    color: PQCLook.textColor
+                                    text: "(" + PQCImageFormats.getFormatName(favdeleg.myid) + ")" // qmllint disable unqualified
+                                    color: PQCLook.textColor // qmllint disable unqualified
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                             }
@@ -218,15 +220,15 @@ PQTemplateFullscreen {
                                 text: qsTranslate("export", "Click to select this image format")
                                 onEntered: {
                                     resetFavsHighlightIndex.stop()
-                                    favcol.currentHover = index
+                                    favcol.currentHover = favdeleg.modelData
                                 }
                                 onExited: {
-                                    resetFavsHighlightIndex.oldIndex = index
+                                    resetFavsHighlightIndex.oldIndex = favdeleg.modelData
                                     resetFavsHighlightIndex.restart()
                                 }
                                 onClicked: {
-                                    targetFormat = favs[index]
-                                    favcol.currentIndex = index
+                                    convert_top.targetFormat = convert_top.favs[favdeleg.modelData]
+                                    favcol.currentIndex = favdeleg.modelData
                                     formatsview.currentIndex = -1
                                 }
                             }
@@ -239,8 +241,8 @@ PQTemplateFullscreen {
                                 onExited: rem.hovered = false
                                 text: qsTranslate("export", "Click to remove this image format from your favorites")
                                 onClicked: {
-                                    var tmp = PQCSettings.exportFavorites
-                                    tmp.splice(index, 1)
+                                    var tmp = PQCSettings.exportFavorites // qmllint disable unqualified
+                                    tmp.splice(favdeleg.modelData, 1)
                                     PQCSettings.exportFavorites = tmp
                                 }
                             }
@@ -264,11 +266,11 @@ PQTemplateFullscreen {
 
             x: (parent.width-width)/2
             width: Math.min(600, convert_top.width-100)
-            height: Math.min(400, convert_top.height-bottomrowHeight-toprowHeight-targettxt1.height-targettxt2.height-favs_item.height-120)
+            height: Math.min(400, convert_top.height-convert_top.bottomrowHeight-convert_top.toprowHeight-targettxt1.height-targettxt2.height-favs_item.height-120)
 
-            color: PQCLook.baseColor
+            color: PQCLook.baseColor // qmllint disable unqualified
             border.width: 1
-            border.color: PQCLook.baseColorHighlight
+            border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
             ListView {
 
@@ -281,8 +283,8 @@ PQTemplateFullscreen {
 
                 ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
-                property var data: PQCImageFormats.getWriteableFormats()
-                model: data.length
+                property list<var> thedata: PQCImageFormats.getWriteableFormats() // qmllint disable unqualified
+                model: thedata.length
 
                 clip: true
 
@@ -309,17 +311,19 @@ PQTemplateFullscreen {
 
                     id: deleg
 
-                    property var curData: formatsview.data[index]
-                    property string curUniqueid: curData[1]
-                    property var curEndings: curData[2].split(",")
-                    property bool isFav: favs.indexOf(curUniqueid)!==-1
+                    required property int modelData
 
-                    property bool isActive: curUniqueid===targetFormat
-                    property bool isHover: formatsview.currentHover===index
+                    property list<var> curData: formatsview.thedata[modelData]
+                    property string curUniqueid: curData[1]
+                    property list<string> curEndings: curData[2].split(",")
+                    property bool isFav: convert_top.favs.indexOf(curUniqueid)!==-1
+
+                    property bool isActive: curUniqueid===convert_top.targetFormat
+                    property bool isHover: formatsview.currentHover===modelData
 
                     width: formatsview.width
                     height: visible ? (formatsname.height+10) : 0
-                    color: isActive ? PQCLook.baseColorActive : (isHover ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                    color: isActive ? PQCLook.baseColorActive : (isHover ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
                     border.width: 1
                     border.color: "black"
                     radius: 5
@@ -331,14 +335,14 @@ PQTemplateFullscreen {
                         spacing: 10
                         PQText {
                             text: "*." + deleg.curEndings.join(", *.")
-                            color: PQCLook.textColor
+                            color: PQCLook.textColor // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
                         PQTextS {
                             y: (parent.height-height)/2
                             font.italic: true
-                            text: "(" + curData[3] + ")"
-                            color: PQCLook.textColor
+                            text: "(" + deleg.curData[3] + ")"
+                            color: PQCLook.textColor // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                         }
                     }
@@ -352,27 +356,27 @@ PQTemplateFullscreen {
                         opacity: favmousearea.containsMouse ? 1 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         sourceSize: Qt.size(width, height)
-                        source: isFav ? "image://svg/:/white/star.svg" : "image://svg/:/white/star_empty.svg"
+                        source: deleg.isFav ? "image://svg/:/white/star.svg" : "image://svg/:/white/star_empty.svg"
                     }
 
                     PQMouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: "<b>" + curData[3] + "</b><br>*." + deleg.curEndings.join(", *.") + "<br><br>" + qsTranslate("export", "Click to select this image format")
+                        text: "<b>" + deleg.curData[3] + "</b><br>*." + deleg.curEndings.join(", *.") + "<br><br>" + qsTranslate("export", "Click to select this image format")
                         onEntered: {
                             resetCurrentHover.stop()
-                            formatsview.currentHover = index
+                            formatsview.currentHover = deleg.modelData
                         }
                         onExited: {
-                            resetCurrentHover.oldIndex = index
+                            resetCurrentHover.oldIndex = deleg.modelData
                             resetCurrentHover.restart()
                         }
 
                         onClicked: {
-                            formatsview.currentIndex = index
-                            if(index !== -1)
-                                targetFormat = deleg.curUniqueid
+                            formatsview.currentIndex = deleg.modelData
+                            if(deleg.modelData !== -1)
+                                convert_top.targetFormat = deleg.curUniqueid
                         }
                     }
 
@@ -381,10 +385,10 @@ PQTemplateFullscreen {
                         anchors.fill: favs_icon
                         anchors.margins: -5
                         cursorShape: Qt.PointingHandCursor
-                        text: isFav ? qsTranslate("export", "Click to remove this image format from your favorites")
-                                    : qsTranslate("export", "Click to add this image format to your favorites")
+                        text: deleg.isFav ? qsTranslate("export", "Click to remove this image format from your favorites")
+                                          : qsTranslate("export", "Click to add this image format to your favorites")
                         onClicked: {
-                            var tmp = PQCSettings.exportFavorites
+                            var tmp = PQCSettings.exportFavorites // qmllint disable unqualified
                             if(isFav)
                                 tmp.splice(tmp.indexOf(deleg.curUniqueid), 1)
                             else
@@ -414,8 +418,8 @@ PQTemplateFullscreen {
         PQText {
             id: targettxt2
             x: (parent.width-width)/2
-            text: (targetFormat==="" ? "---" : PQCImageFormats.getFormatName(targetFormat))
-            font.weight: PQCLook.fontWeightBold
+            text: (convert_top.targetFormat==="" ? "---" : PQCImageFormats.getFormatName(convert_top.targetFormat)) // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         }
 
     ]
@@ -425,8 +429,8 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: PQCScriptsFileManagement
-        function onExportCompleted(success) {
+        target: PQCScriptsFileManagement // qmllint disable unqualified
+        function onExportCompleted(success : bool) {
             if(success) {
                 errormessage.visible = false
                 exportbusy.showSuccess()
@@ -445,13 +449,14 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
-                if(param === thisis)
-                    show()
+                if(param === convert_top.thisis)
+                    convert_top.show()
             } else if(convert_top.opacity > 0) {
 
                 if(what === "keyEvent") {
@@ -459,20 +464,20 @@ PQTemplateFullscreen {
                     // close something
                     if(param[0] === Qt.Key_Escape)
 
-                        hide()
+                        convert_top.hide()
 
                     // perform action
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
-                        if(button1.enabled)
-                            button1.clicked()
+                        if(convert_top.button1.enabled)
+                            convert_top.button1.clicked()
 
                     // go up in the list
                     } else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left) {
 
                         if(formatsview.currentHover === 0) {
 
-                            favcol.currentHover = favs.length-1
+                            favcol.currentHover = convert_top.favs.length-1
 
                         } else if(formatsview.currentHover > 0)
 
@@ -495,11 +500,11 @@ PQTemplateFullscreen {
 
                             favcol.currentHover = 0
 
-                        else if(favcol.currentHover > -1 && favcol.currentHover < favs.length-1)
+                        else if(favcol.currentHover > -1 && favcol.currentHover < convert_top.favs.length-1)
 
                             favcol.currentHover += 1
 
-                        else if(favcol.currentHover == favs.length-1)
+                        else if(favcol.currentHover == convert_top.favs.length-1)
 
                             formatsview.currentHover = 0
 
@@ -526,10 +531,10 @@ PQTemplateFullscreen {
 
                         else {
 
-                            if(favcol.currentHover+5 < favs.length)
+                            if(favcol.currentHover+5 < convert_top.favs.length)
                                 favcol.currentHover += 5
                             else
-                                formatsview.currentHover = (favcol.currentHover+5) - favs.length
+                                formatsview.currentHover = (favcol.currentHover+5) - convert_top.favs.length
 
                         }
 
@@ -542,7 +547,7 @@ PQTemplateFullscreen {
                         else if(formatsview.currentHover > -1) {
 
                             if(formatsview.currentHover-5 < 0)
-                                favcol.currentHover = Math.max(0, favs.length-(5-formatsview.currentHover))
+                                favcol.currentHover = Math.max(0, convert_top.favs.length-(5-formatsview.currentHover))
                             else
                                 formatsview.currentHover -= 5
 
@@ -553,11 +558,11 @@ PQTemplateFullscreen {
                     } else if(param[0] === Qt.Key_Space) {
 
                         if(favcol.currentHover > -1) {
-                            targetFormat = favs[favcol.currentHover]
+                            convert_top.targetFormat = convert_top.favs[favcol.currentHover]
                             favcol.currentIndex = favcol.currentHover
                             formatsview.currentIndex = -1
                         } else if(formatsview.currentHover > -1) {
-                            targetFormat = formatsview.data[formatsview.currentHover][1]
+                            convert_top.targetFormat = formatsview.thedata[formatsview.currentHover][1]
                             formatsview.currentIndex = formatsview.currentHover
                             favcol.currentIndex = -1
                         }
@@ -572,7 +577,7 @@ PQTemplateFullscreen {
     }
 
     function show() {
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -585,7 +590,7 @@ PQTemplateFullscreen {
     function hide() {
         convert_top.opacity = 0
         if(popoutWindowUsed)
-            export_popout.visible = false
+            export_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
     }
 

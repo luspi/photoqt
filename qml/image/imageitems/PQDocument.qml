@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -31,27 +32,38 @@ Image {
 
     id: image
 
+    property string imageSource: ""
+    onImageSourceChanged: {
+        if(imageSource === "") {
+            image.source = ""
+        } else if(imageSource.includes("::PDF::")) {
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageSource.split("::PDF::")[1])) // qmllint disable unqualified
+        } else {
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageSource))
+        }
+    }
+
     source: ""
 
     Component.onCompleted: {
-        if(imageloaderitem.imageSource.includes("::PDF::"))
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)
+        if(image.imageSource.includes("::PDF::"))
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource) // qmllint disable unqualified
         else
-            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource))
+            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
     }
 
     asynchronous: true
     cache: false
 
-    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
+    property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold) // qmllint disable unqualified
 
     smooth: interpThreshold
     mipmap: interpThreshold
 
     property bool fitImage: false
 
-    width: fitImage ? image_top.width : undefined
-    height: fitImage ? image_top.height : undefined
+    width: fitImage ? image_top.width : undefined // qmllint disable unqualified
+    height: fitImage ? image_top.height : undefined // qmllint disable unqualified
 
     onVisibleChanged: {
         if(!image.visible)
@@ -65,17 +77,24 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH
+        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV
+        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
-    function setMirrorHV(mH, mV) {
+    Connections {
+        target: image_wrapper // qmllint disable unqualified
+        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+            image.setMirrorHV(mirH, mirV)
+        }
+    }
+
+    function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
     }
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
         function onMirrorH() {
             image.myMirrorH = !image.myMirrorH
         }
@@ -96,29 +115,30 @@ Image {
 
     transform: [
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
-            angle: myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorH ? 180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         },
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: image.width / 2
+            origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
-            angle: myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            angle: image.myMirrorV ? -180 : 0
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         }
     ]
 
     // with a short delay we load a version of the image scaled to screen dimensions
     Timer {
         id: loadScaledDown
-        interval: (PQCSettings.imageviewAnimationDuration+1)*100    // this ensures it happens after the animation has stopped
+        // this ensures it happens after the animation has stopped
+        interval: (PQCSettings.imageviewAnimationDuration+1)*100 // qmllint disable unqualified
         onTriggered: {
-            if(loader_top.isMainImage) {
-                screenW = image_top.width
-                screenH = image_top.height
+            if(loader_top.isMainImage) { // qmllint disable unqualified
+                image.screenW = image_top.width
+                image.screenH = image_top.height
                 ldl.active = true
             }
         }
@@ -131,8 +151,8 @@ Image {
         interval: 500
         repeat: false
         onTriggered: {
-            screenW = image_top.width
-            screenH = image_top.height
+            image.screenW = image_top.width // qmllint disable unqualified
+            image.screenH = image_top.height
         }
     }
 
@@ -146,18 +166,18 @@ Image {
             width: image.width
             height: image.height
             source: image.source
-            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale
+            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale // qmllint disable unqualified
             mipmap: smooth
-            visible: loader_top.defaultScale >= image_wrapper.scale
-            sourceSize: Qt.size(screenW, screenH)
+            visible: loader_top.defaultScale >= image_wrapper.scale // qmllint disable unqualified
+            sourceSize: Qt.size(image.screenW, image.screenH)
         }
     }
 
     property int currentPage: 0
-    property int pageCount: PQCScriptsImages.getDocumentPageCount(imageloaderitem.imageSource)
+    property int pageCount: PQCScriptsImages.getDocumentPageCount(image.imageSource) // qmllint disable unqualified
 
     onCurrentPageChanged: {
-        image_top.currentFileInside = currentPage
+        image_top.currentFileInside = currentPage // qmllint disable unqualified
         loadNewPage.restart()
     }
 
@@ -170,29 +190,18 @@ Image {
                 loadNewPage.restart()
             } else {
                 image.asynchronous = false
-                if(imageloaderitem.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource.split("::PDF::")[1]))
+                if(image.imageSource.includes("::PDF::")) {
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(image.imageSource.split("::PDF::")[1])) // qmllint disable unqualified
                 } else {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource))
+                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(image.imageSource))
                 }
                 image.asynchronous = true
             }
         }
     }
 
-    onWidthChanged: {
-        image_wrapper.width = width
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
-    }
-    onHeightChanged: {
-        image_wrapper.height = height
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
-    }
-
     onStatusChanged: {
-        image_wrapper.status = status
+        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready) {
@@ -203,34 +212,18 @@ Image {
     }
 
     onSourceSizeChanged: {
-        loader_top.imageResolution = sourceSize
+        loader_top.imageResolution = sourceSize // qmllint disable unqualified
         loader_top.resetToDefaults()
         image_wrapper.startupScale = false
     }
 
     Connections {
 
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
-        function onDocumentJump(leftright) {
+        function onDocumentJump(leftright : int) {
             loadNewPage.interval = 0
             image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
-        }
-
-    }
-
-    Connections {
-
-        target: imageloaderitem
-
-        function onImageSourceChanged() {
-            if(imageloaderitem.imageSource === "") {
-                image.source = ""
-            } else if(imageloaderitem.imageSource.includes("::PDF::")) {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource.split("::PDF::")[1]))
-            } else {
-                image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageloaderitem.imageSource))
-            }
         }
 
     }

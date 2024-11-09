@@ -34,48 +34,48 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesPhotoSphereControls && PQCNotify.showingPhotoSphere
+        active: PQCSettings.filetypesPhotoSphereControls && PQCNotify.showingPhotoSphere // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
 
             id: controlitem
 
-            parent: loader_top
+            parent: loader_top // qmllint disable unqualified
 
             x: (parent.width-width)/2
             y: 0.9*parent.height
-            z: image_top.curZ
+            z: image_top.curZ // qmllint disable unqualified
             width: leftrightlock.width
             height: 30
             radius: 5
-            color: PQCLook.transColor
+            color: PQCLook.transColor // qmllint disable unqualified
 
             Connections {
-                target: image_top
+                target: image_top // qmllint disable unqualified
                 function onWidthChanged() {
-                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5)
+                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
                 }
                 function onHeightChanged() {
-                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5)
+                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5) // qmllint disable unqualified
                 }
             }
 
             onXChanged: {
                 if(x !== (parent.width-width)/2) {
-                    image_top.extraControlsLocation.x = x
+                    image_top.extraControlsLocation.x = x // qmllint disable unqualified
                     x = x
                 }
             }
             onYChanged: {
                 if(y !== 0.9*parent.height) {
-                    image_top.extraControlsLocation.y = y
+                    image_top.extraControlsLocation.y = y // qmllint disable unqualified
                     y = y
                 }
             }
 
             Component.onCompleted: {
-                if(image_top.extraControlsLocation.x !== -1) {
+                if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
                     controlitem.x = image_top.extraControlsLocation.x
                     controlitem.y = image_top.extraControlsLocation.y
                 }
@@ -97,8 +97,8 @@ Item {
                 drag.target: parent
                 drag.minimumX: 5
                 drag.minimumY: 5
-                drag.maximumX: image_top.width-controlitem.width-5
-                drag.maximumY: image_top.height-controlitem.height-5
+                drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
+                drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
                 hoverEnabled: true
                 cursorShape: Qt.SizeAllCursor
                 propagateComposedEvents: true
@@ -115,10 +115,10 @@ Item {
                 height: lockrow.height+10
                 radius: 5
 
-                opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3
+                opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
+                color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
                 Behavior on color { ColorAnimation { duration: 200 } }
 
                 Row {
@@ -149,7 +149,7 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Lock arrow keys to moving photo sphere")
                     onClicked:
-                        PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
+                        PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys // qmllint disable unqualified
                 }
 
             }
@@ -171,21 +171,21 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
                     onClicked: {
-                        PQCSettings.filetypesPhotoSphereControls = false
+                        PQCSettings.filetypesPhotoSphereControls = false // qmllint disable unqualified
                     }
                 }
             }
 
             Connections {
 
-                target: PQCNotify
+                target: PQCNotify // qmllint disable unqualified
 
                 enabled: controlitem.enabled
 
-                function onMouseMove(x, y) {
+                function onMouseMove(x : int, y : int) {
 
                     // check if the control item is hovered anywhere not caught by the elements above
-                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y))
+                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
                     controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
 
                 }

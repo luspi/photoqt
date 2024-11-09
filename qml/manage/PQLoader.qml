@@ -32,7 +32,7 @@ Item {
 
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
-        "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCWindowGeometry.exportForcePopout],
+        "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCWindowGeometry.exportForcePopout], // qmllint disable unqualified
         "about"               : ["actions","PQAbout", loader_about, 1, PQCSettings.interfacePopoutAbout, PQCWindowGeometry.aboutForcePopout],
         "mainmenu"            : ["ongoing","PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCWindowGeometry.mainmenuForcePopout],
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],
@@ -66,7 +66,7 @@ Item {
 
     signal passOn(var what, var param)
 
-    function show(ele, additional = undefined) {
+    function show(ele : string, additional = undefined) : void {
 
         if(ele === "chromecast" && visibleItem === "chromecastmanager") {
             ensureItIsReady(ele, loadermapping[ele])
@@ -105,7 +105,7 @@ Item {
 
     }
 
-    function elementClosed(ele) {
+    function elementClosed(ele : string) {
         if(ele in loadermapping && loadermapping[ele][3] === 1) {
             if(visibleItem === ele)
                 visibleItem = ""
@@ -114,7 +114,7 @@ Item {
         }
     }
 
-    function ensureItIsReady(ele, config) {
+    function ensureItIsReady(ele : string, config : var) {
 
         var src
         if(config[4] || config[5])
@@ -128,15 +128,14 @@ Item {
     }
 
     function resetAll() {
-        for(var e in ele)
-            console.log(e)
+        console.warn("## TODO: implement PQLoader::resetAll()")
     }
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
         function onShowNotificationMessage(msg) {
-            show("notification", msg)
+            loader_top.show("notification", msg)
         }
 
     }

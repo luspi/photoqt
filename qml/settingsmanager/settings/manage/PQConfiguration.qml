@@ -147,7 +147,7 @@ Flickable {
                                 performingAction = true
 
                                 if(cancel.action === "settings")
-                                    PQCNotify.resetSettingsToDefault()
+                                    PQCNotify.resetSettingsToDefault() // qmllint disable unqualified
                                 else if(cancel.action === "shortcuts")
                                     PQCNotify.resetShortcutsToDefault()
                                 else if(cancel.action === "formats")
@@ -199,14 +199,14 @@ Flickable {
                     text: qsTranslate("settingsmanager", "export configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked:
-                        PQCScriptsConfig.exportConfigTo("")
+                        PQCScriptsConfig.exportConfigTo("") // qmllint disable unqualified
                 },
 
                 PQButton {
                     text: qsTranslate("settingsmanager", "import configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked: {
-                        if(PQCScriptsConfig.importConfigFrom("")) {
+                        if(PQCScriptsConfig.importConfigFrom("")) { // qmllint disable unqualified
                             PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                                     qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
                             toplevel.quitPhotoQt()

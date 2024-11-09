@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -26,7 +27,6 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 
-import "../other"
 import "../elements"
 
 PQTemplateFullscreen {
@@ -35,7 +35,7 @@ PQTemplateFullscreen {
 
     title: "Existing files"
 
-    property var files: []
+    property list<string> files: []
 
     button1.text: "Continue"
 
@@ -48,13 +48,13 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
-    property var checkedFiles: []
+    property list<string> checkedFiles: []
 
     content: [
 
         PQTextXL {
             x: (parent.width-width)/2
-            text: qsTranslate("filedialog", "%1 files already exist in the target directory.").arg(files.length)
+            text: qsTranslate("filedialog", "%1 files already exist in the target directory.").arg(exist_top.files.length)
         },
 
         PQText {
@@ -69,8 +69,8 @@ PQTemplateFullscreen {
             width: 400
             height: 300
 
-            color: PQCLook.baseColorAccent
-            border.color: PQCLook.baseColorActive
+            color: PQCLook.baseColorAccent // qmllint disable unqualified
+            border.color: PQCLook.baseColorActive // qmllint disable unqualified
             border.width: 1
 
             ListView {
@@ -80,7 +80,7 @@ PQTemplateFullscreen {
                 anchors.fill: parent
                 anchors.margins: 1
 
-                model: files.length
+                model: exist_top.files.length
 
                 orientation: ListView.Vertical
                 clip: true
@@ -99,13 +99,15 @@ PQTemplateFullscreen {
 
                         id: deleg
 
-                        property string filepath: files[index]
-                        property string filename: PQCScriptsFilesPaths.getFilename(filepath)
+                        required property int modelData
+
+                        property string filepath: exist_top.files[modelData]
+                        property string filename: PQCScriptsFilesPaths.getFilename(filepath) // qmllint disable unqualified
 
                         width: view.width
                         height: 40
-                        color: check.checked ? PQCLook.baseColorActive : (view.currentIndex===index ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
-                        border.color: PQCLook.baseColor
+                        color: check.checked ? PQCLook.baseColorActive : (view.currentIndex===modelData ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
+                        border.color: PQCLook.baseColor // qmllint disable unqualified
                         border.width: 1
 
                         opacity: check.checked ? 1 : 0.6
@@ -119,15 +121,15 @@ PQTemplateFullscreen {
                             PQCheckBox {
                                 id: check
                                 y: (parent.height-height)/2
-                                checked: exist_top.checkedFiles.indexOf(index)!==-1
-                                font.pointSize: PQCLook.fontSizeL
+                                checked: exist_top.checkedFiles.indexOf(deleg.modelData)!==-1
+                                font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
                             }
 
                             PQTextL {
                                 y: (parent.height-height)/2
                                 width: deleg.width-check.width-icon.width-20
                                 elide: Text.ElideMiddle
-                                text: PQCScriptsFilesPaths.getFilename(files[index])
+                                text: PQCScriptsFilesPaths.getFilename(exist_top.files[deleg.modelData]) // qmllint disable unqualified
                             }
 
                             Item {
@@ -138,7 +140,7 @@ PQTemplateFullscreen {
                                 Image {
                                     anchors.fill: parent
                                     anchors.margins: 5
-                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder"
+                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder" // qmllint disable unqualified
                                                                                           : "image://thumb/" + deleg.filepath
                                 }
                             }
@@ -150,22 +152,22 @@ PQTemplateFullscreen {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onEntered:
-                                view.currentIndex = index
+                                view.currentIndex = deleg.modelData
                             onExited: {
-                                resetCurrentIndex.oldIndex = index
+                                resetCurrentIndex.oldIndex = deleg.modelData
                                 resetCurrentIndex.restart()
                             }
                             onClicked: {
-                                if(checkedFiles && exist_top.checkedFiles.indexOf(index)===-1) {
-                                    exist_top.checkedFiles.push(index)
+                                if(exist_top.checkedFiles && exist_top.checkedFiles.indexOf(deleg.modelData)===-1) {
+                                    exist_top.checkedFiles.push(deleg.modelData)
                                     exist_top.checkedFilesChanged()
                                 } else
-                                    exist_top.checkedFiles = exist_top.checkedFiles.filter(item => item!==index)
+                                    exist_top.checkedFiles = exist_top.checkedFiles.filter(item => item!==deleg.modelData)
                             }
                         }
 
                         Component.onCompleted: {
-                            exist_top.checkedFiles.push(index)
+                            exist_top.checkedFiles.push(deleg.modelData)
                             exist_top.checkedFilesChanged()
                         }
 
@@ -197,7 +199,7 @@ PQTemplateFullscreen {
 
     ]
 
-    function pasteExistingFiles(filelist) {
+    function pasteExistingFiles(filelist : list<string>) {
         files = []
         files = filelist
         show()
@@ -208,7 +210,7 @@ PQTemplateFullscreen {
         for(var i in exist_top.checkedFiles) {
             var ind = exist_top.checkedFiles[i]
             var fln = files[ind]
-            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)
+            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
             if(fd_fileview.cutFiles.indexOf(fln) !== -1)
                     PQCScriptsFileManagement.deletePermanent(fln)
         }

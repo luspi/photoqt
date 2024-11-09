@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.wallpaperGeometry
-    isMax: PQCWindowGeometry.wallpaperMaximized
-    popout: PQCSettings.interfacePopoutWallpaper
-    sizepopout: PQCWindowGeometry.wallpaperForcePopout
+    geometry: PQCWindowGeometry.wallpaperGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.wallpaperMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutWallpaper // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
     source: "actions/PQWallpaper.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "wallpaper")
+        if(loader.visibleItem === "wallpaper") // qmllint disable unqualified
             loader.elementClosed("wallpaper")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutWallpaper)
+        if(popout !== PQCSettings.interfacePopoutWallpaper) // qmllint disable unqualified
             PQCSettings.interfacePopoutWallpaper = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.wallpaperGeometry)
+        if(geometry !== PQCWindowGeometry.wallpaperGeometry) // qmllint disable unqualified
             PQCWindowGeometry.wallpaperGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.wallpaperMaximized)
+        if(isMax !== PQCWindowGeometry.wallpaperMaximized) // qmllint disable unqualified
             PQCWindowGeometry.wallpaperMaximized = isMax
     }
 

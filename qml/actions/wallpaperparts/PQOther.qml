@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCScriptsWallpaper
 
@@ -31,6 +30,8 @@ import "../../elements"
 // GNOME/UNITY
 
 Column {
+
+    id: other_top
 
     x: 0
     y: 0
@@ -55,7 +56,7 @@ Column {
         x: (parent.width-width)/2
         //: Used as in: Other Desktop Environment
         text: qsTranslate("wallpaper", "Other")
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -65,22 +66,22 @@ Column {
 
     PQText {
         x: (parent.width-width)/2
-        visible: fehError && feh.checked
+        visible: other_top.fehError && feh.checked
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>feh</i>")
     }
 
     PQText {
         x: (parent.width-width)/2
-        visible: nitrogenError && nitrogen.checked
+        visible: other_top.nitrogenError && nitrogen.checked
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>nitrogen</i>")
     }
 
     Item {
-        visible: (nitrogenError && nitrogen.checked) || (fehError && feh.checked)
+        visible: (other_top.nitrogenError && nitrogen.checked) || (other_top.fehError && feh.checked)
         width: 1
         height: 10
     }
@@ -103,9 +104,9 @@ Column {
             text: "feh"
             onCheckedChanged:
                 if(checked)
-                    checkedTool = text
+                    other_top.checkedTool = text
             Component.onCompleted:
-                checkedTool = text
+                other_top.checkedTool = text
         }
 
         PQRadioButton {
@@ -113,7 +114,7 @@ Column {
             text: "nitrogen"
             onCheckedChanged:
                 if(checked)
-                    checkedTool = text
+                    other_top.checkedTool = text
         }
 
     }
@@ -137,14 +138,14 @@ Column {
                 checked: true
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Component.onCompleted:
-                    checkedOption = text
+                    other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_one.checked)
-                            checkedOption = opt_one.text
+                            other_top.checkedOption = opt_one.text
                     }
                 }
             }
@@ -153,12 +154,12 @@ Column {
                 text: feh.checked ? "--bg-fill" : "--set-centered"
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_two.checked)
-                            checkedOption = opt_two.text
+                            other_top.checkedOption = opt_two.text
                     }
                 }
             }
@@ -167,12 +168,12 @@ Column {
                 text: feh.checked ? "--bg-max" : "--set-scaled"
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_three.checked)
-                            checkedOption = opt_three.text
+                            other_top.checkedOption = opt_three.text
                     }
                 }
             }
@@ -181,12 +182,12 @@ Column {
                 text: feh.checked ? "--bg-scale" : "--set-tiled"
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_four.checked)
-                            checkedOption = opt_four.text
+                            other_top.checkedOption = opt_four.text
                     }
                 }
             }
@@ -195,12 +196,12 @@ Column {
                 text: feh.checked ? "--bg-tile" : "--set-zoom"
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_five.checked)
-                            checkedOption = opt_five.text
+                            other_top.checkedOption = opt_five.text
                     }
                 }
             }
@@ -210,12 +211,12 @@ Column {
                 text: "--set-zoom-fill"
                 onCheckedChanged:
                     if(checked)
-                        checkedOption = text
+                        other_top.checkedOption = text
                 Connections {
                     target: feh
-                    function onCheckedChanged(checked) {
+                    function onCheckedChanged(checked : bool) {
                         if(opt_six.checked)
-                            checkedOption = opt_six.text
+                            other_top.checkedOption = opt_six.text
                     }
                 }
             }
@@ -224,7 +225,7 @@ Column {
 
     function check() {
 
-        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount()
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
         fehError = PQCScriptsWallpaper.checkFeh()
         nitrogenError = PQCScriptsWallpaper.checkNitrogen()
 

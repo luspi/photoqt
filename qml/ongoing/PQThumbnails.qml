@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -29,6 +30,8 @@ import PQCFileFolderModel
 import PQCScriptsImages
 
 import "../elements"
+import "../image"
+import "../"
 
 Item {
 
@@ -41,14 +44,17 @@ Item {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: ((setVisible||holdVisible) && windowSizeOkay && PQCFileFolderModel.countMainView>0) ? 1 : 0
+    opacity: ((setVisible||holdVisible) && windowSizeOkay && PQCFileFolderModel.countMainView>0) ? 1 : 0 // qmllint disable unqualified
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     property int radius:0
 
+    property PQImage access_image: image // qmllint disable unqualified
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
+
     // which edge the bar should be shown at
-    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ?
+    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ? // qmllint disable unqualified
                "bottom" :
                (PQCSettings.interfaceEdgeLeftAction==="thumbnails" ?
                     "left" :
@@ -58,16 +64,16 @@ Item {
                               "top" : "disabled" )))
 
     // visibility handlers
-    property bool holdVisible: image.thumbnailsHoldVisible
+    property bool holdVisible: access_image.thumbnailsHoldVisible
     property bool setVisible: false
-    property var visiblePos: [0,0]
-    property var invisiblePos: [0, 0]
+    property var visiblePos: [0,0]      // changing these from var to list<int>
+    property var invisiblePos: [0, 0]   // causes a crash for some reason
 
     // which area triggers the bar to be shown
-    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
-    property rect hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
+    property rect hotArea: Qt.rect(0, access_toplevel.height-hotAreaSize, access_toplevel.width, hotAreaSize)
 
-    property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0
+    property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0 // qmllint disable unqualified
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
@@ -79,64 +85,59 @@ Item {
         State {
             name: "bottom"
             PropertyChanges {
-                target: thumbnails_top
-                visiblePos: [0,toplevel.height-height]
-                invisiblePos: [0, toplevel.height]
-                hotArea: Qt.rect(0, toplevel.height-hotAreaSize, toplevel.width, hotAreaSize)
-                width: toplevel.width
-                height: PQCSettings.thumbnailsSize+extraSpacing
-                windowSizeOkay: toplevel.height>500
+                thumbnails_top.visiblePos: [0,thumbnails_top.access_toplevel.height-thumbnails_top.height]
+                thumbnails_top.invisiblePos: [0, thumbnails_top.access_toplevel.height]
+                thumbnails_top.hotArea: Qt.rect(0, thumbnails_top.access_toplevel.height-thumbnails_top.hotAreaSize, thumbnails_top.access_toplevel.width, thumbnails_top.hotAreaSize)
+                thumbnails_top.width: thumbnails_top.access_toplevel.width
+                thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.height>500
             }
         },
         State {
             name: "left"
             PropertyChanges {
-                target: thumbnails_top
-                visiblePos: [0,0]
-                invisiblePos: [-width,0]
-                hotArea: Qt.rect(0,0,hotAreaSize,toplevel.height)
-                width: PQCSettings.thumbnailsSize+extraSpacing
-                height: toplevel.height
-                windowSizeOkay: toplevel.width>500
+                thumbnails_top.visiblePos: [0,0]
+                thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,thumbnails_top.access_toplevel.height)
+                thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.height: thumbnails_top.access_toplevel.height
+                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.width>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                target: thumbnails_top
-                visiblePos: [toplevel.width-width,0]
-                invisiblePos: [toplevel.width,0]
-                hotArea: Qt.rect(toplevel.width-hotAreaSize,0,hotAreaSize,toplevel.height)
-                width: PQCSettings.thumbnailsSize+extraSpacing
-                height: toplevel.height
-                windowSizeOkay: toplevel.width>500
+                thumbnails_top.visiblePos: [thumbnails_top.access_toplevel.width-thumbnails_top.width,0]
+                thumbnails_top.invisiblePos: [thumbnails_top.access_toplevel.width,0]
+                thumbnails_top.hotArea: Qt.rect(thumbnails_top.access_toplevel.width-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,thumbnails_top.access_toplevel.height)
+                thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.height: thumbnails_top.access_toplevel.height
+                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.width>500
             }
         },
         State {
             name: "top"
             PropertyChanges {
-                target: thumbnails_top
-                visiblePos: [0,0]
-                invisiblePos: [0,-height]
-                hotArea: Qt.rect(0,0,toplevel.width,hotAreaSize)
-                width: toplevel.width
-                height: PQCSettings.thumbnailsSize+extraSpacing
-                windowSizeOkay: toplevel.height>500
+                thumbnails_top.visiblePos: [0,0]
+                thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.access_toplevel.width,thumbnails_top.hotAreaSize)
+                thumbnails_top.width: thumbnails_top.access_toplevel.width
+                thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
+                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.height>500
             }
         },
         State {
             name: "disabled"
             PropertyChanges {
-                target: thumbnails_top
-                setVisible: false
-                hotArea: Qt.rect(0,0,0,0)
+                thumbnails_top.setVisible: false
+                thumbnails_top.hotArea: Qt.rect(0,0,0,0)
             }
         }
     ]
 
     onSetVisibleChanged: {
         if(!setVisible)
-            menu.item.dismiss()
+            menu.item.dismiss() // qmllint disable missing-property
     }
 
     MouseArea {
@@ -144,11 +145,11 @@ Item {
         hoverEnabled: true
         acceptedButtons: Qt.AllButtons
         onWheel: (wheel) => {
-            flickView(wheel.angleDelta)
+            thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+                menu.item.popup() // qmllint disable missing-property
         }
     }
 
@@ -158,13 +159,13 @@ Item {
         id: view
 
         // the model is the total image count
-        model: thumbnails_top.state==="disabled"||!image.initialLoadingFinished ? 0 : PQCFileFolderModel.countMainView
+        model: thumbnails_top.state==="disabled"||!thumbnails_top.access_image.initialLoadingFinished ? 0 : PQCFileFolderModel.countMainView // qmllint disable unqualified
         onModelChanged: {
             delegZ = 0
         }
 
         // some visual settings
-        spacing: PQCSettings.thumbnailsSpacing
+        spacing: PQCSettings.thumbnailsSpacing // qmllint disable unqualified
         boundsBehavior: smallerThanSize ? Flickable.StopAtBounds : Flickable.DragAndOvershootBounds
 
         // whether the view is smaller than screen edge
@@ -177,15 +178,15 @@ Item {
         state: thumbnails_top.state
 
         // highlight animations
-        property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
-        property bool hlMagnify: PQCSettings.thumbnailsHighlightAnimation.includes("magnify")
-        property bool hlLine: PQCSettings.thumbnailsHighlightAnimation.includes("line")
-        property bool hlInvertLabel: PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel")
-        property bool hlInvertBg: PQCSettings.thumbnailsHighlightAnimation.includes("invertbg")
+        property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") // qmllint disable unqualified
+        property bool hlMagnify: PQCSettings.thumbnailsHighlightAnimation.includes("magnify") // qmllint disable unqualified
+        property bool hlLine: PQCSettings.thumbnailsHighlightAnimation.includes("line") // qmllint disable unqualified
+        property bool hlInvertLabel: PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel") // qmllint disable unqualified
+        property bool hlInvertBg: PQCSettings.thumbnailsHighlightAnimation.includes("invertbg") // qmllint disable unqualified
 
         // the current index follows the model
-        currentIndex: PQCFileFolderModel.currentIndex
-        property var previousIndices: [currentIndex, currentIndex]
+        currentIndex: PQCFileFolderModel.currentIndex // qmllint disable unqualified
+        property list<int> previousIndices: [currentIndex, currentIndex]
         onCurrentIndexChanged: {
             previousIndices[1] = previousIndices[0]
             previousIndices[0] = currentIndex
@@ -207,7 +208,7 @@ Item {
             }
         }
 
-        property var previousItem: view.model>0 ? view.itemAtIndex(view.previousIndices[1]) : null
+        property Item previousItem: view.model>0 ? view.itemAtIndex(view.previousIndices[1]) : null
 
         // used for converting vertical into horizontal flick
         property int flickCounter: 0
@@ -216,19 +217,19 @@ Item {
         // these follow the currentIndex property
         highlightFollowsCurrentItem: true
         highlightMoveDuration: previousIndexWithinView ? 200 : 0
-        preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive
+        preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive // qmllint disable unqualified
                                  ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2
                                  : PQCSettings.thumbnailsSize/2
-        preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive
+        preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive // qmllint disable unqualified
                                ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2+PQCSettings.thumbnailsSize
-                               : ((orientation==Qt.Horizontal ? width : height)-PQCSettings.thumbnailsSize/2)
+                               : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
         highlightRangeMode: ListView.ApplyRange
 
         // bottom scroll bar
         PQHorizontalScrollBar {
             id: scrollbar_bottom
             visible: thumbnails_top.state==="bottom"
-            anchors.bottomMargin: (effectiveThumbnailLiftup-scrollbar_bottom.height)/2
+            anchors.bottomMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_bottom.height)/2
         }
 
         // top scroll bar
@@ -239,7 +240,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.topMargin: (effectiveThumbnailLiftup-scrollbar_top.height)/2
+            anchors.topMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_top.height)/2
         }
 
         // set bottom or top scroll bar
@@ -253,7 +254,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.left: parent.left
-            anchors.leftMargin: (effectiveThumbnailLiftup-scrollbar_left.width)/2
+            anchors.leftMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_left.width)/2
         }
 
         // right scroll bar
@@ -264,7 +265,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             anchors.right: parent.right
-            anchors.rightMargin: (effectiveThumbnailLiftup-scrollbar_right.width)/2
+            anchors.rightMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_right.width)/2
         }
 
         // set left or right scrollbar
@@ -275,53 +276,49 @@ Item {
             State {
                 name: "bottom"
                 PropertyChanges {
-                    target: view
-                    x: (parent.width-width)/2
-                    y: Math.max(10,effectiveThumbnailLiftup)
-                    implicitWidth: Math.min(parent.width, contentWidth)
-                    implicitHeight: parent.height-y
-                    orientation: Qt.Horizontal
-                    smallerThanSize: contentHeight<parent.height
-                    previousIndexWithinView: (previousItem!==null && previousItem.x >= contentX && previousItem.x+previousItem.width <= contentX+width)
+                    view.x: (thumbnails_top.width-view.width)/2
+                    view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
+                    view.implicitWidth: Math.min(thumbnails_top.width, view.contentWidth)
+                    view.implicitHeight: thumbnails_top.height-view.y
+                    view.orientation: Qt.Horizontal
+                    view.smallerThanSize: view.contentHeight<thumbnails_top.height
+                    view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.x >= view.contentX && view.previousItem.x+view.previousItem.width <= view.contentX+view.width)
                 }
             },
             State {
                 name: "left"
                 PropertyChanges {
-                    target: view
-                    x: Math.max(10,effectiveThumbnailLiftup)
-                    y: (parent.height-height)/2
-                    implicitWidth: parent.width
-                    implicitHeight: Math.min(parent.height, contentHeight)
-                    orientation: Qt.Vertical
-                    smallerThanSize: contentHeight<parent.height
-                    previousIndexWithinView: (previousItem!==null && previousItem.y >= contentY && previousItem.y+previousItem.height <= contentY+height)
+                    view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
+                    view.y: (thumbnails_top.height-view.height)/2
+                    view.implicitWidth: thumbnails_top.width
+                    view.implicitHeight: Math.min(thumbnails_top.height, view.contentHeight)
+                    view.orientation: Qt.Vertical
+                    view.smallerThanSize: view.contentHeight<thumbnails_top.height
+                    view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
                 }
             },
             State {
                 name: "right"
                 PropertyChanges {
-                    target: view
-                    x: Math.max(10,effectiveThumbnailLiftup)
-                    y: (parent.height-height)/2
-                    implicitWidth: parent.width
-                    implicitHeight: Math.min(parent.height, contentHeight)
-                    orientation: Qt.Vertical
-                    smallerThanSize: contentHeight<parent.height
-                    previousIndexWithinView: (previousItem!==null && previousItem.y >= contentY && previousItem.y+previousItem.height <= contentY+height)
+                    view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
+                    view.y: (thumbnails_top.height-view.height)/2
+                    view.implicitWidth: thumbnails_top.width
+                    view.implicitHeight: Math.min(thumbnails_top.height, view.contentHeight)
+                    view.orientation: Qt.Vertical
+                    view.smallerThanSize: view.contentHeight<thumbnails_top.height
+                    view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
                 }
             },
             State {
                 name: "top"
                 PropertyChanges {
-                    target: view
-                    x: (parent.width-width)/2
-                    y: Math.max(10,effectiveThumbnailLiftup)
-                    implicitWidth: toplevel.width
-                    implicitHeight: 100
-                    orientation: Qt.Horizontal
-                    smallerThanSize: contentWidth<parent.width
-                    previousIndexWithinView: (previousItem!==null && previousItem.x >= contentX && previousItem.x+previousItem.width <= contentX+width)
+                    view.x: (thumbnails_top.width-view.width)/2
+                    view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
+                    view.implicitWidth: thumbnails_top.access_toplevel.width
+                    view.implicitHeight: 100
+                    view.orientation: Qt.Horizontal
+                    view.smallerThanSize: view.contentWidth<thumbnails_top.width
+                    view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.x >= view.contentX && view.previousItem.x+view.previousItem.width <= view.contentX+view.width)
                 }
             }
         ]
@@ -331,9 +328,11 @@ Item {
 
             id: deleg
 
+            required property int modelData
+
             // the active property is set when either the current thumbnail corresponds to the main image
             // or when the mouse is hovering the current thumbnail
-            property bool active: index===PQCFileFolderModel.currentIndex || index===view.highlightIndex
+            property bool active: modelData===PQCFileFolderModel.currentIndex || modelData===view.highlightIndex // qmllint disable unqualified
             onActiveChanged: {
                 if(active) {
                     view.delegZ += 1
@@ -341,16 +340,16 @@ Item {
                 }
             }
 
-            property string filepath: PQCFileFolderModel.entriesMainView[index]
-            property string filename: PQCScriptsFilesPaths.getFilename(filepath)
+            property string filepath: PQCFileFolderModel.entriesMainView[modelData] // qmllint disable unqualified
+            property string filename: PQCScriptsFilesPaths.getFilename(filepath) // qmllint disable unqualified
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent"
+            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent" // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
 
             // size the thumbnail image
-            width: PQCSettings.thumbnailsSize
-            height: PQCSettings.thumbnailsSize
+            width: PQCSettings.thumbnailsSize // qmllint disable unqualified
+            height: PQCSettings.thumbnailsSize // qmllint disable unqualified
 
             // the image
             Image {
@@ -369,12 +368,12 @@ Item {
 
                 // the image position can change depending on the highlight animation
                 x: (deleg.active&&view.hlLiftUp)
-                        ? (view.state==="left" ? effectiveThumbnailLiftup
-                                               : (view.state==="right" ? -effectiveThumbnailLiftup : 0))
+                        ? (view.state==="left" ? thumbnails_top.effectiveThumbnailLiftup
+                                               : (view.state==="right" ? -thumbnails_top.effectiveThumbnailLiftup : 0))
                         : 0
                 y: (deleg.active&&view.hlLiftUp)
-                        ? (view.state==="top" ? effectiveThumbnailLiftup
-                                              : (view.state==="bottom" ? -effectiveThumbnailLiftup : 0))
+                        ? (view.state==="top" ? thumbnails_top.effectiveThumbnailLiftup
+                                              : (view.state==="bottom" ? -thumbnails_top.effectiveThumbnailLiftup : 0))
                         : 0
 
                 Behavior on x { NumberAnimation { duration: 200 } }
@@ -385,11 +384,11 @@ Item {
                 Behavior on scale { NumberAnimation { duration: 200 } }
 
                 // some general properties
-                width: PQCSettings.thumbnailsSize
-                height: PQCSettings.thumbnailsSize
+                width: PQCSettings.thumbnailsSize // qmllint disable unqualified
+                height: PQCSettings.thumbnailsSize // qmllint disable unqualified
                 asynchronous: true
                 cache: false
-                fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+                fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
                 source: "image://thumb/" + deleg.filepath
 
             }
@@ -400,8 +399,8 @@ Item {
                 id: delegmouse
 
                 anchors.fill: parent
-                anchors.bottomMargin: -extraSpacing/2
-                anchors.topMargin: -extraSpacing/2
+                anchors.bottomMargin: -thumbnails_top.extraSpacing/2
+                anchors.topMargin: -thumbnails_top.extraSpacing/2
 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -410,9 +409,9 @@ Item {
 
                 onEntered: {
 
-                    view.highlightIndex = index
+                    view.highlightIndex = deleg.modelData
 
-                    if(!tooltipSetup && PQCSettings.thumbnailsTooltip) {
+                    if(!tooltipSetup && PQCSettings.thumbnailsTooltip) { // qmllint disable unqualified
 
                         tooltipSetup = true
 
@@ -434,30 +433,30 @@ Item {
 
                 onExited: {
                     resetHighlightIndex.stop()
-                    resetHighlightIndex.oldIndex = index
+                    resetHighlightIndex.oldIndex = deleg.modelData
                     resetHighlightIndex.restart()
                 }
 
                 onClicked: {
-                    if(PQCNotify.whichContextMenusOpen.length === 0)
-                        PQCFileFolderModel.currentIndex = index
+                    if(PQCNotify.whichContextMenusOpen.length === 0) // qmllint disable unqualified
+                        PQCFileFolderModel.currentIndex = deleg.modelData
                 }
                 onWheel: (wheel) => {
-                    if(PQCNotify.whichContextMenusOpen.length === 0)
-                        flickView(wheel.angleDelta)
+                    if(PQCNotify.whichContextMenusOpen.length === 0) // qmllint disable unqualified
+                        thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
                 }
 
             }
 
             Loader {
                 asynchronous: true
-                active: PQCSettings.thumbnailsFilename
+                active: PQCSettings.thumbnailsFilename // qmllint disable unqualified
                 Rectangle {
-                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor
+                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor // qmllint disable unqualified
                     Behavior on color { ColorAnimation { duration: 200 } }
-                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
+                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1 // qmllint disable unqualified
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    visible: PQCSettings.thumbnailsFilename
+                    visible: PQCSettings.thumbnailsFilename // qmllint disable unqualified
                     x: (img.x+img.width-width)
                     y: (img.y+img.height-height)
                     width: deleg.width
@@ -467,11 +466,11 @@ Item {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: PQCSettings.thumbnailsFontSize
-                        font.weight: PQCLook.fontWeightBold
+                        font.pointSize: PQCSettings.thumbnailsFontSize // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         elide: Text.ElideMiddle
                         text: deleg.filename
-                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor
+                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor // qmllint disable unqualified
                     }
                 }
             }
@@ -485,7 +484,7 @@ Item {
                 visible: opacity>0
 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                color: PQCLook.baseColorActive
+                color: PQCLook.baseColorActive // qmllint disable unqualified
 
                 // the state follows the global thumbnails state
                 state: view.state
@@ -493,41 +492,37 @@ Item {
                     State {
                         name: "bottom"
                         PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: parent.height-height
-                            width: parent.width
-                            height: 5
+                            linebelow.x: 0
+                            linebelow.y: deleg.height-linebelow.height
+                            linebelow.width: deleg.width
+                            linebelow.height: 5
                         }
                     },
                     State {
                         name: "left"
                         PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: 0
-                            width: 5
-                            height: parent.height
+                            linebelow.x: 0
+                            linebelow.y: 0
+                            linebelow.width: 5
+                            linebelow.height: deleg.height
                         }
                     },
                     State {
                         name: "right"
                         PropertyChanges {
-                            target: linebelow
-                            x: parent.width-width
-                            y: 0
-                            width: 5
-                            height: parent.height
+                            linebelow.x: deleg.width-linebelow.width
+                            linebelow.y: 0
+                            linebelow.width: 5
+                            linebelow.height: deleg.height
                         }
                     },
                     State {
                         name: "top"
                         PropertyChanges {
-                            target: linebelow
-                            x: 0
-                            y: 0
-                            width: parent.width
-                            height: 5
+                            linebelow.x: 0
+                            linebelow.y: 0
+                            linebelow.width: deleg.width
+                            linebelow.height: 5
                         }
                     }
 
@@ -536,8 +531,8 @@ Item {
 
             Connections {
                 target: view
-                function onReloadThumbnail(ind) {
-                    if(index === ind) {
+                function onReloadThumbnail(ind : int) {
+                    if(deleg.modelData === ind) {
                         img.source = ""
                         img.source = "image://thumb/" + deleg.filepath
                     }
@@ -556,33 +551,34 @@ Item {
         id: menu
         asynchronous: true
 
+        property int reloadIndex: -1
+        property bool reloadIndexVisible: reloadIndex>-1
+
         sourceComponent:
         PQMenu {
 
             id: menudeleg
 
-            property int reloadIndex: -1
-
             PQMenuItem {
-                visible: menudeleg.reloadIndex>-1
+                visible: menu.reloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
                 iconSource: "image://svg/:/white/convert.svg"
                 onTriggered: {
-                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[menudeleg.reloadIndex])
-                    view.reloadThumbnail(menudeleg.reloadIndex)
+                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[menu.reloadIndex]) // qmllint disable unqualified
+                    view.reloadThumbnail(menu.reloadIndex)
                 }
             }
 
-            PQMenuSeparator { visible: (menudeleg.reloadIndex>-1) }
+            PQMenuSeparator { visible: (menu.reloadIndexVisible) }
 
             PQMenuItem {
                 checkable: true
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "fit thumbnails")
                 ButtonGroup.group: grp1
-                checked: !PQCSettings.thumbnailsCropToFit
+                checked: !PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
                 onCheckedChanged:
-                    PQCSettings.thumbnailsCropToFit = !checked
+                    PQCSettings.thumbnailsCropToFit = !checked // qmllint disable unqualified
             }
 
             PQMenuItem {
@@ -590,17 +586,17 @@ Item {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "scale and crop thumbnails")
                 ButtonGroup.group: grp1
-                checked: PQCSettings.thumbnailsCropToFit
+                checked: PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
                 onCheckedChanged:
-                    PQCSettings.thumbnailsCropToFit = checked
+                    PQCSettings.thumbnailsCropToFit = checked // qmllint disable unqualified
             }
 
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("settingsmanager", "keep small thumbnails small")
-                checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall
+                checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall // qmllint disable unqualified
                 onCheckedChanged:
-                    PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked
+                    PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked // qmllint disable unqualified
             }
 
             PQMenuSeparator {}
@@ -608,17 +604,17 @@ Item {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("settingsmanager", "show filename labels")
-                checked: PQCSettings.thumbnailsFilename
+                checked: PQCSettings.thumbnailsFilename // qmllint disable unqualified
                 onCheckedChanged:
-                    PQCSettings.thumbnailsFilename = checked
+                    PQCSettings.thumbnailsFilename = checked // qmllint disable unqualified
             }
 
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("settingsmanager", "show tooltips")
-                checked: PQCSettings.thumbnailsTooltip
+                checked: PQCSettings.thumbnailsTooltip // qmllint disable unqualified
                 onCheckedChanged:
-                    PQCSettings.thumbnailsTooltip = checked
+                    PQCSettings.thumbnailsTooltip = checked // qmllint disable unqualified
             }
 
             PQMenuSeparator {}
@@ -628,10 +624,10 @@ Item {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "hide when not needed")
                 ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===0
+                checked: PQCSettings.thumbnailsVisibility===0 // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.thumbnailsVisibility = 0
+                        PQCSettings.thumbnailsVisibility = 0 // qmllint disable unqualified
                 }
             }
 
@@ -640,10 +636,10 @@ Item {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "always keep visible")
                 ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===1
+                checked: PQCSettings.thumbnailsVisibility===1 // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.thumbnailsVisibility = 1
+                        PQCSettings.thumbnailsVisibility = 1 // qmllint disable unqualified
                 }
             }
 
@@ -652,10 +648,10 @@ Item {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "hide when zoomed in")
                 ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===2
+                checked: PQCSettings.thumbnailsVisibility===2 // qmllint disable unqualified
                 onCheckedChanged: {
                     if(checked)
-                        PQCSettings.thumbnailsVisibility = 2
+                        PQCSettings.thumbnailsVisibility = 2 // qmllint disable unqualified
                 }
             }
 
@@ -663,15 +659,15 @@ Item {
                 recordAsClosed.restart()
 
             onAboutToShow: {
-                PQCNotify.addToWhichContextMenusOpen("thumbnails")
-                menudeleg.reloadIndex = view.highlightIndex
+                PQCNotify.addToWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
+                menu.reloadIndex = view.highlightIndex
             }
 
             Connections {
                 target: view
                 function onHighlightIndexChanged() {
                     if(!menudeleg.visible)
-                        menudeleg.reloadIndex = view.highlightIndex
+                        menu.reloadIndex = view.highlightIndex
                 }
             }
 
@@ -679,62 +675,62 @@ Item {
                 id: recordAsClosed
                 interval: 200
                 onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("thumbnails")
+                    PQCNotify.removeFromWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
             }
 
         }
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
-    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0
+    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0 // qmllint disable unqualified
 
     Connections {
-        target: PQCNotify
-        function onMouseMove(posx, posy) {
+        target: PQCNotify // qmllint disable unqualified
+        function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) {
-                setVisible = false
+            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+                thumbnails_top.setVisible = false
                 return
             }
 
             if(menu.item != null && menu.item.opened) {
-                setVisible = true
+                thumbnails_top.setVisible = true
                 return
             }
 
-            if(setVisible) {
+            if(thumbnails_top.setVisible) {
                 if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
-                    setVisible = false
+                    thumbnails_top.setVisible = false
             } else {
-                if(hotArea.x < posx && hotArea.x+hotArea.width-ignoreRightMotion > posx && hotArea.y < posy && hotArea.height+hotArea.y > posy)
-                    setVisible = true
+                if(thumbnails_top.hotArea.x < posx && thumbnails_top.hotArea.x+thumbnails_top.hotArea.width-thumbnails_top.ignoreRightMotion > posx && thumbnails_top.hotArea.y < posy && thumbnails_top.hotArea.height+thumbnails_top.hotArea.y > posy)
+                    thumbnails_top.setVisible = true
             }
         }
         function onCloseAllContextMenus() {
-            menu.item.dismiss()
+            menu.item.dismiss() // qmllint disable missing-property
         }
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : string) {
 
             if(what === "show") {
                 if(param === "thumbnails")
-                    setVisible = !setVisible
+                    thumbnails_top.setVisible = !thumbnails_top.setVisible
             }
 
         }
 
     }
 
-    function flickView(angleDelta) {
+    function flickView(angleDeltaX : int, angleDeltaY : int) {
 
         // only scroll horizontally
-        var val = angleDelta.y
-        if(Math.abs(angleDelta.x) > Math.abs(angleDelta.y))
-            val = angleDelta.x
+        var val = angleDeltaY
+        if(Math.abs(angleDeltaX) > Math.abs(angleDeltaY))
+            val = angleDeltaX
 
         // continuing scroll makes the scroll go faster
         if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))

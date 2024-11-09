@@ -73,7 +73,7 @@ Flickable {
     ScrollBar.vertical: PQVerticalScrollBar {}
 
     //: Used as identifying name for one of the elements in the interface
-    property var pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager", "File dialog")],
+    property list<var> pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager", "File dialog")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutMapExplorer", qsTranslate("settingsmanager", "Map explorer")],
                         //: Used as identifying name for one of the elements in the interface
@@ -154,7 +154,7 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight
+                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                     PQLineEdit {
                         id: popout_filter
@@ -163,14 +163,14 @@ Flickable {
                         placeholderText: qsTranslate("settingsmanager", "Filter popouts")
                         onControlActiveFocusChanged: {
                             if(popout_filter.controlActiveFocus) {
-                                PQCNotify.ignoreKeysExceptEnterEsc = true
+                                PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
                             } else {
                                 PQCNotify.ignoreKeysExceptEnterEsc = false
                                 fullscreenitem.forceActiveFocus()
                             }
                         }
                         Component.onDestruction: {
-                            PQCNotify.ignoreKeysExceptEnterEsc = false
+                            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
                             fullscreenitem.forceActiveFocus()
                         }
                     }
@@ -219,7 +219,7 @@ Flickable {
 
                                     property bool hovered: false
 
-                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     ToolTip {
@@ -235,10 +235,10 @@ Flickable {
                                         width: deleg.width-20
                                         y: (parent.height-height)/2
                                         text: setting_top.pops[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal
-                                        font.pointSize: PQCLook.fontSizeS
+                                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                                        font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
                                         elide: Text.ElideRight
-                                        color: PQCLook.textColor
+                                        color: PQCLook.textColor // qmllint disable unqualified
                                         onCheckedChanged: {
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
                                             setting_top.currentCheckBoxStatesChanged()
@@ -276,11 +276,11 @@ Flickable {
                                         target: setting_top
 
                                         function onPopoutLoadDefault() {
-                                            check.checked = PQCSettings[setting_top.pops[deleg.modelData][0]]
+                                            check.checked = PQCSettings[setting_top.pops[deleg.modelData][0]] // qmllint disable unqualified
                                         }
 
                                         function onPopoutSaveChanges() {
-                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked
+                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked // qmllint disable unqualified
                                         }
                                     }
 
@@ -307,7 +307,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight
+                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
                         }
 
                         Row {
@@ -431,7 +431,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -457,7 +457,7 @@ Flickable {
 
             setting_top.popoutLoadDefault()
 
-            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal)
+            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
             keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
             keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
             checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
@@ -473,7 +473,7 @@ Flickable {
         interval: 100
         id: saveDefaultCheckTimer
         onTriggered: {
-            _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+            setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
         }
     }
 
@@ -484,7 +484,7 @@ Flickable {
     function applyChanges() {
 
         setting_top.popoutSaveChanges()
-        PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked
+        PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked // qmllint disable unqualified
         PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
         PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
         PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked

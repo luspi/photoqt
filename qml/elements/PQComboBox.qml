@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -31,8 +32,8 @@ ComboBox {
     property bool firstItemEmphasized: false
     property var lineBelowItem: []
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
@@ -44,19 +45,23 @@ ComboBox {
     property bool transparentBackground: false
 
     delegate: ItemDelegate {
+        id: deleg
         width: control.width
         height: 40
+        required property var model
+        required property int index
         contentItem: Text {
-            text: prefix+(firstItemEmphasized&&index===0 ? modelData.toUpperCase() : modelData)
-            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            id: contitem
+            text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
+            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
-            style: highlighted ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled
+            style: deleg.highlighted ? Text.Sunken : Text.Normal
+            styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
             PQToolTip {
-                visible: highlighted
-                text: parent.text
+                visible: deleg.highlighted
+                text: contitem.text
                 timeout: 3000
             }
         }
@@ -64,19 +69,19 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: (highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight))
+            color: (deleg.highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)) // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
                 width: parent.width
                 height: 1
                 y: parent.height-1
-                color: PQCLook.inverseColorHighlight
-                visible: lineBelowItem.indexOf(index)!==-1
+                color: PQCLook.inverseColorHighlight // qmllint disable unqualified
+                visible: control.lineBelowItem.indexOf(deleg.index)!==-1
             }
         }
 
-        highlighted: control.highlightedIndex === index
+        highlighted: control.highlightedIndex === deleg.index
     }
 
     indicator: Canvas {
@@ -98,7 +103,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = PQCLook.inverseColor
+            context.fillStyle = PQCLook.inverseColor // qmllint disable unqualified
             context.fill();
         }
     }
@@ -107,11 +112,11 @@ ComboBox {
         leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
-        text: prefix+control.displayText
+        text: control.prefix+control.displayText
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
-        style: highlighted ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorDisabled
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+        style: control.highlighted ? Text.Sunken : Text.Normal
+        styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
@@ -119,9 +124,9 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor)
-        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
-        border.width: transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
+        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor) // qmllint disable unqualified
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+        border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 2
     }
 
@@ -131,7 +136,7 @@ ComboBox {
 
         y: control.height - 1
         width: control.width
-        implicitHeight: contentItem.implicitHeight+lineBelowItem.length*2
+        implicitHeight: contentItem.implicitHeight+control.lineBelowItem.length*2
         padding: 1
 
         contentItem: ListView {
@@ -144,8 +149,8 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: PQCLook.baseColor
-            border.color: PQCLook.inverseColorHighlight
+            color: PQCLook.baseColor // qmllint disable unqualified
+            border.color: PQCLook.inverseColorHighlight // qmllint disable unqualified
             border.width: 1
             radius: 2
         }
@@ -160,16 +165,16 @@ ComboBox {
         _defaultValue = currentIndex
     }
 
-    function setDefault(val) {
+    function setDefault(val : int) {
         _defaultValue = val
     }
 
-    function loadAndSetDefault(val) {
+    function loadAndSetDefault(val : int) {
         currentIndex = val
         _defaultValue = val
     }
 
-    function hasChanged() {
+    function hasChanged() : bool {
         return _defaultValue!==currentIndex
     }
 

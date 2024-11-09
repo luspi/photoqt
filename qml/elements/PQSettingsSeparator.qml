@@ -23,15 +23,16 @@
 import QtQuick
 
 Column {
+    id: control
     spacing: 10
     Item { width: 1; height: 10; }
     property int howManyLines: 1
     Repeater {
-        model: howManyLines
+        model: control.howManyLines
         Rectangle {
-            width: setting_top.width
+            width: setting_top.width // qmllint disable unqualified
             height: 1
-            color: PQCLook.baseColorHighlight
+            color: PQCLook.baseColorHighlight // qmllint disable unqualified
         }
     }
     Item { width: 1; height: 10; }

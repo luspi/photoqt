@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -33,38 +34,38 @@ Item {
 
     property string backupAnimType: ""
     property int backupAnimSpeed: 0
-    property var shuffledIndices: []
+    property list<int> shuffledIndices: []
     property int shuffledCurrentIndex: -1
     property bool running: false
 
     property real volume: 1.0
 
-    property var musicFileOrder: []
+    property list<string> musicFileOrder: []
     property int currentMusicIndex: 0
 
     Loader {
 
         id: loader_audioplayer
-        active: PQCSettings.slideshowMusic
+        active: PQCSettings.slideshowMusic // qmllint disable unqualified
 
         sourceComponent:
         MediaPlayer {
             id: audioplayer
             audioOutput: AudioOutput {
                 id: audiooutput
-                property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1))
+                property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1)) // qmllint disable unqualified
                 volume: slideshowhandler_top.volume*(slideshowhandler_top.videoWithVolume ? reduceVolume : 1)
                 Behavior on volume { NumberAnimation { duration: 200 } }
 
                 // this is needed to ensure we don't play music if the very first file is a video file with sound
                 Component.onCompleted: {
-                    videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio)
+                    slideshowhandler_top.videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) // qmllint disable unqualified
                 }
 
             }
 
             onPlaybackStateChanged: {
-                if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCNotify.slideshowRunning) {
+                if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCNotify.slideshowRunning) { // qmllint disable unqualified
                     if(PQCSettings.slideshowMusic) {
                         currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
@@ -96,16 +97,16 @@ Item {
     // this avoids the music from shortly pop up with back-to-back video files
     property bool videoWithVolume: false
     Connections {
-        target: image
-        function onCurrentlyShowingVideoChanged() {
-            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) {
+        target: image // qmllint disable unqualified
+        function onCurrentlyShowingVideoChanged() : void {
+            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) { // qmllint disable unqualified
                 resetVolumeWithDelay.stop()
                 videoWithVolume = true
             } else
                 resetVolumeWithDelay.restart()
         }
-        function onCurrentlyShowingVideoHasAudioChanged() {
-            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) {
+        function onCurrentlyShowingVideoHasAudioChanged() : void {
+            if(image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) { // qmllint disable unqualified
                 resetVolumeWithDelay.stop()
                 videoWithVolume = true
             } else
@@ -117,16 +118,16 @@ Item {
         id: resetVolumeWithDelay
         interval: 250
         onTriggered: {
-            videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio)
+            videoWithVolume = (image.currentlyShowingVideo && image.currentlyShowingVideoHasAudio) // qmllint disable unqualified
         }
     }
 
     Timer {
         id: checkAudio
         interval: 500
-        running: PQCSettings.slideshowMusic && loader_audioplayer.item.playbackState===MediaPlayer.PausedState
+        running: PQCSettings.slideshowMusic && loader_audioplayer.item.playbackState===MediaPlayer.PausedState // qmllint disable unqualified
         onTriggered:
-            loader_audioplayer.item.checkPlayPause()
+            loader_audioplayer.item.checkPlayPause() // qmllint disable missing-property
     }
 
     Connections {
@@ -134,7 +135,7 @@ Item {
         target: slideshowhandler_top
 
         function onRunningChanged() {
-            if(PQCSettings.slideshowMusic)
+            if(PQCSettings.slideshowMusic) // qmllint disable unqualified
                 loader_audioplayer.item.checkPlayPause()
         }
 
@@ -144,10 +145,10 @@ Item {
 
     Connections {
 
-        target: image
+        target: image // qmllint disable unqualified
 
         function onCurrentlyShowingVideoPlayingChanged() {
-            if(PQCSettings.slideshowMusic)
+            if(PQCSettings.slideshowMusic) // qmllint disable unqualified
                 loader_audioplayer.item.checkPlayPause()
             if(slideshowhandler_top.running && !image.currentlyShowingVideoPlaying && !ignoreVideoChanges) {
                 switcher.triggered()
@@ -160,41 +161,41 @@ Item {
 
     Timer {
         id: switcher
-        interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
+        interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000)) // qmllint disable unqualified
         repeat: true
-        running: slideshowhandler_top.running&&!image.currentlyShowingVideo
+        running: slideshowhandler_top.running&&!image.currentlyShowingVideo // qmllint disable unqualified
         onTriggered: {
-            loadNextImage()
-            if(PQCSettings.slideshowMusic)
+            slideshowhandler_top.loadNextImage()
+            if(PQCSettings.slideshowMusic) // qmllint disable unqualified
                 loader_audioplayer.item.checkPlayPause()
         }
     }
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
                 if(param === "slideshowhandler")
-                    show()
+                    slideshowhandler_top.show()
 
             } else if(what === "hide") {
 
                 if(param === "slideshowhandler")
-                    hide()
+                    slideshowhandler_top.hide()
 
-            } else if(PQCNotify.slideshowRunning) {
+            } else if(PQCNotify.slideshowRunning) { // qmllint disable unqualified
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        slideshowhandler_top.hide()
 
                     else if(param[0] === Qt.Key_Space)
-                        toggle()
+                        slideshowhandler_top.toggle()
 
                 }
 
@@ -206,7 +207,7 @@ Item {
 
     function show() {
 
-        backupAnimType = PQCSettings.imageviewAnimationType
+        backupAnimType = PQCSettings.imageviewAnimationType // qmllint disable unqualified
         backupAnimSpeed = PQCSettings.imageviewAnimationDuration
 
         PQCSettings.imageviewAnimationType = PQCSettings.slideshowTypeAnimation
@@ -264,7 +265,7 @@ Item {
 
         var tmp = slideshowhandler_top.running
 
-        PQCNotify.slideshowRunning = false
+        PQCNotify.slideshowRunning = false // qmllint disable unqualified
         slideshowhandler_top.running = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
@@ -331,7 +332,7 @@ Item {
     }
 
     function toggle() {
-        if(!PQCNotify.slideshowRunning) return
+        if(!PQCNotify.slideshowRunning) return // qmllint disable unqualified
         // The following two lines HAVE to be in this order!!
         slideshowhandler_top.running = !slideshowhandler_top.running
         if(PQCSettings.slideshowMusic)

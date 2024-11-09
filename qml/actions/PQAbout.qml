@@ -34,14 +34,14 @@ PQTemplateFullscreen {
     id: about_top
 
     thisis: "about"
-    popout: PQCSettings.interfacePopoutAbout
-    forcePopout: PQCWindowGeometry.aboutForcePopout
+    popout: PQCSettings.interfacePopoutAbout // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.aboutForcePopout // qmllint disable unqualified
     shortcut: "__about"
 
     title: qsTranslate("about", "About")
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutAbout = popout
+        PQCSettings.interfacePopoutAbout = popout // qmllint disable unqualified
 
     button1.onClicked:
         hide()
@@ -65,7 +65,7 @@ PQTemplateFullscreen {
 
         PQButton {
             x: (parent.width-width)/2
-            text: "PhotoQt v" + PQCScriptsConfig.getVersion()
+            text: "PhotoQt v" + PQCScriptsConfig.getVersion() // qmllint disable unqualified
             //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
             tooltip: qsTranslate("about", "Show configuration overview")
             onClicked:
@@ -122,7 +122,7 @@ PQTemplateFullscreen {
         id: configinfo
 
         anchors.fill: parent
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -159,12 +159,12 @@ PQTemplateFullscreen {
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     text: qsTranslate("about", "Configuration")
                     lineHeight: 1.2
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 }
 
                 PQText {
                     id: configinfo_txt
-                    text: PQCScriptsConfig.getConfigInfo(true)
+                    text: PQCScriptsConfig.getConfigInfo(true) // qmllint disable unqualified
                     lineHeight: 1.2
                 }
 
@@ -174,7 +174,7 @@ PQTemplateFullscreen {
                     PQButton {
                         text: qsTranslate("about", "Copy to clipboard")
                         onClicked:
-                            PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true)
+                            PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true) // qmllint disable unqualified
                     }
                     PQButton {
                         text: genericStringClose
@@ -190,25 +190,26 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: loader
 
-        function onPassOn(what, param) {
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === about_top.thisis)
+                    about_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === about_top.thisis)
+                    about_top.hide()
 
             } else if(about_top.opacity > 0) {
 
                 if(what === "keyEvent") {
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        about_top.hide()
                 }
 
             }
@@ -220,7 +221,7 @@ PQTemplateFullscreen {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            about_popout.visible = true
+            about_popout.visible = true // qmllint disable unqualified
     }
 
     function hide() {
@@ -229,7 +230,7 @@ PQTemplateFullscreen {
         else {
             about_top.opacity = 0
             if(popoutWindowUsed)
-                about_popout.visible = false
+                about_popout.visible = false // qmllint disable unqualified
             loader.elementClosed(thisis)
         }
     }

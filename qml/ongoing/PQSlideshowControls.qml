@@ -27,24 +27,27 @@ import PQCScriptsOther
 import PQCWindowGeometry
 
 import "../elements"
+import "../image"
 
 Item {
 
     id: slideshowcontrols_top
 
-    x: (toplevel.width-width)/2
-    y: toplevel.height-height-50
+    x: (toplevel.width-width)/2  // qmllint disable unqualified
+    y: toplevel.height-height-50 // qmllint disable unqualified
     width: controlsrow.width
     height: 80
 
     property int parentWidth: 300
     property int parentHeight: 200
 
-    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout
+    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout // qmllint disable unqualified
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
     property bool popoutWindowUsed: false
+
+    property PQImage access_image: image // qmllint disable unqualified
 
     state: "hidden"
 
@@ -52,46 +55,41 @@ Item {
         State {
             name: "popout"
             PropertyChanges {
-                target: slideshowcontrols_top
-                x: 0
-                y: 0
-                width: slideshowcontrols_top.parentWidth
-                height: slideshowcontrols_top.parentHeight
+                slideshowcontrols_top.x: 0
+                slideshowcontrols_top.y: 0
+                slideshowcontrols_top.width: slideshowcontrols_top.parentWidth
+                slideshowcontrols_top.height: slideshowcontrols_top.parentHeight
             }
         },
         State {
             name: "hidden"
             PropertyChanges {
-                target: slideshowcontrols_top
-                opacity: 0
+                slideshowcontrols_top.opacity: 0
             }
         },
         State {
             name: "foreground"
             PropertyChanges {
-                target: slideshowcontrols_top
-                opacity: 0.5
+                slideshowcontrols_top.opacity: 0.5
             }
         },
         State {
             name: "background"
             PropertyChanges {
-                target: slideshowcontrols_top
-                opacity: 0.1
+                slideshowcontrols_top.opacity: 0.1
             }
         },
         State {
             name: "mouseover"
             PropertyChanges {
-                target: slideshowcontrols_top
-                opacity: 0.75
+                slideshowcontrols_top.opacity: 0.75
             }
         }
 
     ]
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: isPopout ? 0 : 200 } }
+    Behavior on opacity { NumberAnimation { duration: slideshowcontrols_top.isPopout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -104,8 +102,8 @@ Item {
         interval: 100
         property string oldId
         onTriggered: {
-            if(oldId === mouseOverId)
-                mouseOverId = ""
+            if(oldId === slideshowcontrols_top.mouseOverId)
+                slideshowcontrols_top.mouseOverId = ""
         }
     }
 
@@ -113,11 +111,11 @@ Item {
         id: controlsbgmousearea
         anchors.fill: parent
         hoverEnabled: true
-        drag.target: isPopout ? undefined : slideshowcontrols_top
+        drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
         property string myId: "123"
         onEntered: {
             resetMouseOver.stop()
-            mouseOverId = myId
+            slideshowcontrols_top.mouseOverId = myId
         }
         onExited: {
             resetMouseOver.oldId = myId
@@ -137,9 +135,9 @@ Item {
 
             id: prev
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
-            width: isPopout ? 80 : 40
-            height: isPopout ? 80 : 40
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: slideshowcontrols_top.isPopout ? 80 : 40
+            height: slideshowcontrols_top.isPopout ? 80 : 40
 
             source: "image://svg/:/white/slideshowprev.svg"
 
@@ -151,12 +149,12 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
-                    loader_slideshowhandler.item.loadPrevImage(true)
-                drag.target: isPopout ? undefined : slideshowcontrols_top
+                    loader_slideshowhandler.item.loadPrevImage(true) // qmllint disable unqualified
+                drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
                     resetMouseOver.stop()
-                    mouseOverId = myId
+                    slideshowcontrols_top.mouseOverId = myId
                 }
                 onExited: {
                     resetMouseOver.oldId = myId
@@ -170,11 +168,11 @@ Item {
 
             id: playpause
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
-            width: isPopout ? 80 : 40
-            height: isPopout ? 80 : 40
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: slideshowcontrols_top.isPopout ? 80 : 40
+            height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: (loader_slideshowhandler.item.running ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg")
+            source: (loader_slideshowhandler.item.running ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg") // qmllint disable unqualified
 
             sourceSize: Qt.size(width, height)
 
@@ -182,18 +180,18 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                text: (loader_slideshowhandler.item.running ?
+                text: (loader_slideshowhandler.item.running ? // qmllint disable unqualified
                            qsTranslate("slideshow", "Click to pause slideshow") :
                            qsTranslate("slideshow", "Click to play slideshow"))
                 onClicked: {
-                    loader_slideshowhandler.item.toggle()
-                    updateState()
+                    loader_slideshowhandler.item.toggle() // qmllint disable unqualified
+                    slideshowcontrols_top.updateState()
                 }
-                drag.target: isPopout ? undefined : slideshowcontrols_top
+                drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "222"
                 onEntered: {
                     resetMouseOver.stop()
-                    mouseOverId = myId
+                    slideshowcontrols_top.mouseOverId = myId
                 }
                 onExited: {
                     resetMouseOver.oldId = myId
@@ -207,9 +205,9 @@ Item {
 
             id: next
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
-            width: isPopout ? 80 : 40
-            height: isPopout ? 80 : 40
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: slideshowcontrols_top.isPopout ? 80 : 40
+            height: slideshowcontrols_top.isPopout ? 80 : 40
 
             source: "image://svg/:/white/slideshownext.svg"
 
@@ -221,12 +219,12 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the next image")
                 onClicked:
-                    loader_slideshowhandler.item.loadNextImage(true)
-                drag.target: isPopout ? undefined : slideshowcontrols_top
+                    loader_slideshowhandler.item.loadNextImage(true) // qmllint disable unqualified
+                drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "333"
                 onEntered: {
                     resetMouseOver.stop()
-                    mouseOverId = myId
+                    slideshowcontrols_top.mouseOverId = myId
                 }
                 onExited: {
                     resetMouseOver.oldId = myId
@@ -240,9 +238,9 @@ Item {
 
             id: exit
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
-            width: isPopout ? 80 : 40
-            height: isPopout ? 80 : 40
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: slideshowcontrols_top.isPopout ? 80 : 40
+            height: slideshowcontrols_top.isPopout ? 80 : 40
 
             source: "image://svg/:/white/exit.svg"
             sourceSize: Qt.size(width, height)
@@ -253,13 +251,13 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to exit slideshow")
                 onClicked: {
-                    loader_slideshowhandler.item.hide()
+                    loader_slideshowhandler.item.hide() // qmllint disable unqualified
                 }
-                drag.target: isPopout ? undefined : slideshowcontrols_top
+                drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "444"
                 onEntered: {
                     resetMouseOver.stop()
-                    mouseOverId = myId
+                    slideshowcontrols_top.mouseOverId = myId
                 }
                 onExited: {
                     resetMouseOver.oldId = myId
@@ -278,11 +276,11 @@ Item {
 
             id: volumeicon
 
-            visible: PQCSettings.slideshowMusic || (image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio)
+            visible: PQCSettings.slideshowMusic || (slideshowcontrols_top.access_image.currentlyShowingVideo&&slideshowcontrols_top.access_image.currentlyShowingVideoHasAudio) // qmllint disable unqualified
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 20
-            width: visible ? (isPopout ? 80 : 40) : 0
-            height: isPopout ? 80 : 40
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 20
+            width: visible ? (slideshowcontrols_top.isPopout ? 80 : 40) : 0
+            height: slideshowcontrols_top.isPopout ? 80 : 40
 
             sourceSize: Qt.size(width, height)
 
@@ -300,9 +298,9 @@ Item {
 
             id: volumeslider
 
-            visible: PQCSettings.slideshowMusic || (image.currentlyShowingVideo&&image.currentlyShowingVideoHasAudio)
+            visible: PQCSettings.slideshowMusic || (slideshowcontrols_top.access_image.currentlyShowingVideo&&slideshowcontrols_top.access_image.currentlyShowingVideoHasAudio) // qmllint disable unqualified
 
-            y: isPopout ? (slideshowcontrols_top.height-height)/2 : 30
+            y: slideshowcontrols_top.isPopout ? (slideshowcontrols_top.height-height)/2 : 30
             width: visible? 200 : 0
             height: 20
 
@@ -312,10 +310,10 @@ Item {
             to: 100
 
             onHoveredChanged:
-                mouseOverId = "555"
+                slideshowcontrols_top.mouseOverId = "555"
 
             onValueChanged: {
-                loader_slideshowhandler.item.volume = value/100
+                loader_slideshowhandler.item.volume = value/100 // qmllint disable unqualified
             }
 
         }
@@ -332,7 +330,7 @@ Item {
         y: 4
         width: 15
         height: 15
-        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
+        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout // qmllint disable unqualified
         enabled: visible
         source: "image://svg/:/white/popinpopout.svg"
         sourceSize: Qt.size(width, height)
@@ -343,13 +341,13 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutSlideshowControls ?
+            text: PQCSettings.interfacePopoutSlideshowControls ? // qmllint disable unqualified
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls
+                PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls // qmllint disable unqualified
                 slideshowcontrols_top.hide()
                 loader.show("slideshowcontrols")
             }
@@ -363,7 +361,7 @@ Item {
             return
         }
 
-        if(!PQCNotify.slideshowRunning) {
+        if(!PQCNotify.slideshowRunning) { // qmllint disable unqualified
             state = "hidden"
             return
         }
@@ -381,24 +379,24 @@ Item {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
                 if(param === "slideshowcontrols")
-                    show()
+                    slideshowcontrols_top.show()
 
             } else if(what === "hide") {
 
                 if(param === "slideshowcontrols")
-                    hide()
+                    slideshowcontrols_top.hide()
 
             } else if(what === "keyEvent") {
 
                 if(param[0] === Qt.Key_Left)
-                    loader_slideshowhandler.item.loadPrevImage(true)
+                    loader_slideshowhandler.item.loadPrevImage(true) // qmllint disable unqualified
 
                 else if(param[0] === Qt.Key_Right)
                     loader_slideshowhandler.item.loadNextImage(true)
@@ -410,24 +408,24 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
-            updateState()
-            if(PQCNotify.slideshowRunning)
-                show()
+            slideshowcontrols_top.updateState()
+            if(PQCNotify.slideshowRunning) // qmllint disable unqualified
+                slideshowcontrols_top.show()
             else
-                hide()
+                slideshowcontrols_top.hide()
         }
 
     }
 
     Connections {
 
-        target: loader_slideshowhandler.item
+        target: loader_slideshowhandler.item // qmllint disable unqualified
 
         function onRunningChanged() {
-            updateState()
+            slideshowcontrols_top.updateState()
         }
 
     }
@@ -435,19 +433,19 @@ Item {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = true
+            slideshowcontrols_popout.visible = true // qmllint disable unqualified
     }
 
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = false
+            slideshowcontrols_popout.visible = false // qmllint disable unqualified
         loader.elementClosed("slideshowcontrols")
     }
 
     Component.onCompleted: {
-        if(isPopout)
-            updateState()
+        if(slideshowcontrols_top.isPopout)
+            slideshowcontrols_top.updateState()
         else
             removeHighlightTimeout.restart()
     }
@@ -458,7 +456,7 @@ Item {
         interval: 3000
         repeat: false
         onTriggered: {
-            updateState()
+            slideshowcontrols_top.updateState()
         }
     }
 

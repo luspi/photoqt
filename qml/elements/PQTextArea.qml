@@ -57,16 +57,16 @@ ScrollView {
 
         id: textarea
 
-        color: PQCLook.textColor
+        color: PQCLook.textColor // qmllint disable unqualified
 
-        font.pointSize: PQCLook.fontSize
-        font.weight: PQCLook.fontWeightNormal
+        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
         background: Rectangle {
             implicitWidth: control.implicitWidth - scrollver.width
             implicitHeight: control.implicitHeight - scrollhor.height
-            color: PQCLook.baseColor
-            border.color: PQCLook.baseColorHighlight
+            color: PQCLook.baseColor // qmllint disable unqualified
+            border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
         }
     }
 

@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -33,16 +34,17 @@ PQTemplateFullscreen {
     id: settingsmanager_top
 
     thisis: "settingsmanager"
-    popout: PQCSettings.interfacePopoutSettingsManager
+    popout: PQCSettings.interfacePopoutSettingsManager      // qmllint disable unqualified
     shortcut: "__settings"
     noGapsAnywhere: true
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 
-    onPopoutChanged:
-        PQCSettings.interfacePopoutSettingsManager = popout
+    function onPopoutChanged() {
+        PQCSettings.interfacePopoutSettingsManager = popout // qmllint disable unqualified
+    }
 
-    onPopoutClosed: {
+    function onPopoutClosed() {
         if(confirmUnsaved.visible)
             confirmCancel.clicked()
         if(settinginfomessage.visible)
@@ -51,17 +53,17 @@ PQTemplateFullscreen {
     }
 
     button1.text: qsTranslate("settingsmanager", "Apply changes")
-    button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false
-    button1.onClicked: settingsloader.item.applyChanges()
+    button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false  // qmllint disable missing-property
+    button1.onClicked: settingsloader.item.applyChanges()   // qmllint disable missing-property
 
     button2.text: qsTranslate("settingsmanager", "Revert changes")
     button2.visible: true
     button2.enabled: button1.enabled
-    button2.onClicked: settingsloader.item.revertChanges()
+    button2.onClicked: settingsloader.item.revertChanges()  // qmllint disable missing-property
 
     button3.visible: true
     button3.text: genericStringClose
-    button3.font.weight: PQCLook.fontWeightNormal
+    button3.font.weight: PQCLook.fontWeightNormal   // qmllint disable unqualified
     button3.onClicked: {
         if(button1.enabled) {
             confirmUnsaved.cat = "-"
@@ -70,35 +72,35 @@ PQTemplateFullscreen {
             hide()
     }
 
-    botLeft.children: [
+    botLeftContent: [
         Row {
             y: (parent.height-height)/2
             PQCheckBox {
                 text: qsTranslate("settingsmanager", "auto-save")
-                font.pointSize: PQCLook.fontSizeS
-                checked: PQCSettings.generalAutoSaveSettings
+                font.pointSize: PQCLook.fontSizeS                   // qmllint disable unqualified
+                checked: PQCSettings.generalAutoSaveSettings        // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.generalAutoSaveSettings = checked
+                    PQCSettings.generalAutoSaveSettings = checked   // qmllint disable unqualified
                 }
             }
             PQCheckBox {
                 text: qsTranslate("settingsmanager", "compact")
-                font.pointSize: PQCLook.fontSizeS
-                checked: PQCSettings.generalCompactSettings
+                font.pointSize: PQCLook.fontSizeS                   // qmllint disable unqualified
+                checked: PQCSettings.generalCompactSettings         // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.generalCompactSettings = checked
+                    PQCSettings.generalCompactSettings = checked    // qmllint disable unqualified
                 }
             }
         }
     ]
 
-    showPopinPopout: !popout || !PQCWindowGeometry.settingsmanagerForcePopout
+    showPopinPopout: !popout || !PQCWindowGeometry.settingsmanagerForcePopout   // qmllint disable unqualified
 
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
 
-    property var filterCategories: []
-    property var filterSubCategories: []
+    property list<string> filterCategories: []
+    property list<string> filterSubCategories: []
 
     property var categories: {
 
@@ -194,13 +196,13 @@ PQTemplateFullscreen {
                                                  "HotEdgeSize"]],
 
                                                 //: A settings subcategory
-                            "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu",
+                            "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenuSet",
                                                 [qsTranslate("settingsmanager", "Context menu"),
                                                  qsTranslate("settingsmanager", "Duplicate entries in main menu")],
                                                 ["ShowExternal"]],
 
                                                 //: A settings subcategory
-                            "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo",
+                            "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfoSet",
                                                 [qsTranslate("settingsmanager", "Status info"),
                                                  qsTranslate("settingsmanager", "Font size"),
                                                  qsTranslate("settingsmanager", "Hide automatically"),
@@ -222,7 +224,7 @@ PQTemplateFullscreen {
         "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
                                                 //: A settings subcategory
-                            "iv_image"       : [qsTranslate("settingsmanager", "Image"),        "PQImage",
+                            "iv_image"       : [qsTranslate("settingsmanager", "Image"),        "PQImageSetIm",
                                                 [qsTranslate("settingsmanager", "Margin"),
                                                  qsTranslate("settingsmanager", "Image size"),
                                                  qsTranslate("settingsmanager", "Transparency marker"),
@@ -320,7 +322,7 @@ PQTemplateFullscreen {
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
                                            //: A settings subcategory
-                            "tb_image"  : [qsTranslate("settingsmanager", "Image"),          "PQImage",
+                            "tb_image"  : [qsTranslate("settingsmanager", "Image"),          "PQImageSetThumb",
                                            [qsTranslate("settingsmanager", "Size"),
                                             qsTranslate("settingsmanager", "Scale and crop"),
                                             qsTranslate("settingsmanager", "Icons only"),
@@ -533,7 +535,7 @@ PQTemplateFullscreen {
             handle: Rectangle {
                 implicitWidth: 5
                 implicitHeight: 5
-                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight   // qmllint disable unqualified
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Image {
                     y: (parent.height-height)/2
@@ -557,7 +559,7 @@ PQTemplateFullscreen {
 
                 selectedCategories: ["interface", "if_interface"]
                 onSelectedCategoriesChanged: {
-                    fullscreenitem.forceActiveFocus()
+                    fullscreenitem.forceActiveFocus()   // qmllint disable unqualified
                 }
 
                 function callConfirmIfUnsavedChanged(cat: string, index: int) : bool {
@@ -588,7 +590,7 @@ PQTemplateFullscreen {
                     width: parent.width
                     height: 1
                     y: parent.height-29
-                    color: PQCLook.baseColorHighlight
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
                 }
 
                 PQTextS {
@@ -596,7 +598,7 @@ PQTemplateFullscreen {
                     y: parent.height-29
                     height: 29
                     verticalAlignment: Text.AlignVCenter
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     text: qsTranslate("settingsmanager", "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close")
                 }
 
@@ -609,7 +611,7 @@ PQTemplateFullscreen {
     Rectangle {
         id: settinginfomessage
         anchors.fill: parent
-        color: PQCLook.transColor
+        color: PQCLook.transColor // qmllint disable unqualified
         visible: opacity>0
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -626,7 +628,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width)
             height: settinginfomessage_col.height+30
             radius: 10
-            color: PQCLook.baseColor
+            color: PQCLook.baseColor // qmllint disable unqualified
 
             MouseArea {
                 anchors.fill: parent
@@ -673,7 +675,7 @@ PQTemplateFullscreen {
         id: confirmUnsaved
 
         anchors.fill: parent
-        color: PQCLook.transColor
+        color: PQCLook.transColor // qmllint disable unqualified
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -691,7 +693,7 @@ PQTemplateFullscreen {
 
             PQTextXL {
                 x: (parent.width-width)/2
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 text: qsTranslate("settingsmanager", "Unsaved changes")
             }
 
@@ -714,7 +716,7 @@ PQTemplateFullscreen {
                     //: written on button, used as in: apply changes
                     text: qsTranslate("settingsmanager", "Apply")
                     onClicked: {
-                        settingsloader.item.applyChanges()
+                        settingsloader.item.applyChanges() // qmllint disable missing-property
 
                         if(confirmUnsaved.cat == "-") {
                             settingsmanager_top.hide()
@@ -759,7 +761,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
         function onPassOn(what: string, param: var) {
 
@@ -782,7 +784,7 @@ PQTemplateFullscreen {
                         return
                     }
 
-                    if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
+                    if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) // qmllint disable unqualified
                         return
 
                     if(param[0] === Qt.Key_Escape) {
@@ -851,7 +853,7 @@ PQTemplateFullscreen {
         if(settingsloader.status !== Loader.Ready)
             return true
 
-        if(!settingsloader.item.settingChanged)
+        if(!settingsloader.item.settingChanged) // qmllint disable missing-property
             return true
 
         if(PQCSettings.generalAutoSaveSettings) {
@@ -870,7 +872,7 @@ PQTemplateFullscreen {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            settingsmanager_window.visible = true
+            settingsmanager_window.visible = true // qmllint disable unqualified
 
         if(settingsloader.status === Loader.Ready)
             settingsloader.item.revertChanges()
@@ -881,7 +883,7 @@ PQTemplateFullscreen {
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)
-            settingsmanager_window.visible = false
+            settingsmanager_window.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false

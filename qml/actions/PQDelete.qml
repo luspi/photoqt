@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
@@ -37,8 +36,8 @@ PQTemplateFullscreen {
     id: delete_top
 
     thisis: "filedelete"
-    popout: PQCSettings.interfacePopoutFileDelete
-    forcePopout: PQCWindowGeometry.filedeleteForcePopout
+    popout: PQCSettings.interfacePopoutFileDelete // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.filedeleteForcePopout // qmllint disable unqualified
     shortcut: "__delete"
 
     title: qsTranslate("filemanagement", "Delete file?")
@@ -46,18 +45,18 @@ PQTemplateFullscreen {
     button1.text: qsTranslate("filemanagement", "Move to trash")
 
     button2.visible: true
-    button2.font.pointSize: PQCLook.fontSize
+    button2.font.pointSize: PQCLook.fontSize // qmllint disable unqualified
     button2.text: qsTranslate("filemanagement", "Delete permanently")
-    button2.font.weight: PQCLook.fontWeightNormal
+    button2.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     button3.visible: true
-    button3.font.pointSize: PQCLook.fontSize
+    button3.font.pointSize: PQCLook.fontSize // qmllint disable unqualified
     button3.text: genericStringCancel
-    button3.font.weight: PQCLook.fontWeightNormal
+    button3.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutFileDelete = popout
+        PQCSettings.interfacePopoutFileDelete = popout // qmllint disable unqualified
 
     button1.onClicked:
         moveToTrash()
@@ -76,7 +75,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             text: qsTranslate("filemanagement", "Are you sure you want to delete this file?")
         },
 
@@ -86,7 +85,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            color: PQCLook.textColorDisabled
+            color: PQCLook.textColorDisabled // qmllint disable unqualified
             text: "this_is_the_filename.jpg"
         },
 
@@ -96,7 +95,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             visible: false
             text: qsTranslate("filemanagement", "An error occured, file could not be deleted!")
         },
@@ -108,9 +107,9 @@ PQTemplateFullscreen {
 
         PQText {
             x: (parent.width-width)/2
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             textFormat: Text.RichText
-            text: "<table><tr><td align=right>" + shortcuts.item.translateShortcut("Enter") +
+            text: "<table><tr><td align=right>" + shortcuts.item.translateShortcut("Enter") + // qmllint disable unqualified
                   "</td><td>=</td><td>" + qsTranslate("filemanagement", "Move to trash") +
                   "</td</tr><tr><td align=right>" + shortcuts.item.translateShortcut("Shift+Enter") +
                   "</td><td>=</td><td>" + qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
@@ -120,33 +119,33 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === delete_top.thisis)
+                    delete_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === delete_top.thisis)
+                    delete_top.hide()
 
             } else if(delete_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        delete_top.hide()
 
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
                         if(param[1] & Qt.ShiftModifier)
-                            deletePermanently()
+                            delete_top.deletePermanently()
                         else
-                            moveToTrash()
+                            delete_top.moveToTrash()
 
                     }
                 }
@@ -156,7 +155,7 @@ PQTemplateFullscreen {
 
     function moveToTrash() {
 
-        if(!PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
+        if(!PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) { // qmllint disable unqualified
             error.visible = true
             return
         }
@@ -169,7 +168,7 @@ PQTemplateFullscreen {
 
     function deletePermanently() {
 
-        if(!PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
+        if(!PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) { // qmllint disable unqualified
             error.visible = true
             return
         }
@@ -182,7 +181,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -197,7 +196,7 @@ PQTemplateFullscreen {
     function hide() {
         delete_top.opacity = 0
         if(popoutWindowUsed)
-            filedelete_popout.visible = false
+            filedelete_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
     }
 

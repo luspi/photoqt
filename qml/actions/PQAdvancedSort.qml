@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -21,7 +22,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import QtQuick.Layouts
 
 import PQCFileFolderModel
@@ -36,8 +36,8 @@ PQTemplateFullscreen {
     spacing: 20
 
     thisis: "advancedsort"
-    popout: PQCSettings.interfacePopoutAdvancedSort
-    forcePopout: PQCWindowGeometry.advancedsortForcePopout
+    popout: PQCSettings.interfacePopoutAdvancedSort // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.advancedsortForcePopout // qmllint disable unqualified
     shortcut: "__advancedSort"
     title: qsTranslate("advancedsort", "Advanced image sort")
 
@@ -47,7 +47,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutAdvancedSort = popout
+        PQCSettings.interfacePopoutAdvancedSort = popout // qmllint disable unqualified
 
     button1.onClicked:
         doSorting()
@@ -83,15 +83,16 @@ PQTemplateFullscreen {
                 PQTabBar {
                     id: bar
                     width: 200
-                    //: The image resolution (width/height in pixels)
-                    model: [qsTranslate("advancedsort", "Resolution"),
-                            //: The color that is most common in the image
-                            qsTranslate("advancedsort", "Dominant color"),
-                            //: the average color of the image
-                            qsTranslate("advancedsort", "Average color"),
-                            //: the average color of the image
-                            qsTranslate("advancedsort", "Luminosity"),
-                            qsTranslate("advancedsort", "Exif date")]
+                                                      //: The image resolution (width/height in pixels)
+                    property list<string> modeldata: [qsTranslate("advancedsort", "Resolution"),
+                                                      //: The color that is most common in the image
+                                                      qsTranslate("advancedsort", "Dominant color"),
+                                                      //: the average color of the image
+                                                      qsTranslate("advancedsort", "Average color"),
+                                                      //: the average color of the image
+                                                      qsTranslate("advancedsort", "Luminosity"),
+                                                      qsTranslate("advancedsort", "Exif date")]
+                    model: modeldata
                 }
 
                 Connections {
@@ -102,7 +103,7 @@ PQTemplateFullscreen {
                         var order = ["resolution", "dominantcolor", "averagecolor", "luminosity", "exifdate"]
                         var curindex = 0
                         for(var i = 0; i < order.length; ++i) {
-                            if(order[i] === PQCSettings.imageviewAdvancedSortCriteria) {
+                            if(order[i] === PQCSettings.imageviewAdvancedSortCriteria) { // qmllint disable unqualified
                                 curindex = i
                                 break;
                             }
@@ -112,7 +113,7 @@ PQTemplateFullscreen {
 
                     function onSaveData() {
                         var order = ["resolution", "dominantcolor", "averagecolor", "luminosity", "exifdate"]
-                        PQCSettings.imageviewAdvancedSortCriteria = order[bar.currentIndex]
+                        PQCSettings.imageviewAdvancedSortCriteria = order[bar.currentIndex] // qmllint disable unqualified
                     }
                 }
 
@@ -132,9 +133,8 @@ PQTemplateFullscreen {
 
                 Item {
 
-                    y: (parent.height-height)/2
-                    width: 400
-                    height: Math.max(parent.height, col1.height)
+                    implicitWidth: 400
+                    implicitHeight: Math.max(parent.height, col1.height)
 
                     Column {
 
@@ -149,7 +149,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by image resolution")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         Item {
@@ -181,13 +181,13 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc1.checked = (PQCSettings.imageviewAdvancedSortAscending)
+                            asc1.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
                             desc1.checked = (!PQCSettings.imageviewAdvancedSortAscending)
                         }
 
                         function onSaveData() {
                             if(bar.currentIndex === 0) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc1.checked
+                                PQCSettings.imageviewAdvancedSortAscending = asc1.checked // qmllint disable unqualified
                             }
                         }
 
@@ -200,9 +200,8 @@ PQTemplateFullscreen {
 
                 Item {
 
-                    y: (parent.height-height)/2
-                    width: 400
-                    height: Math.max(parent.height, col2.height)
+                    implicitWidth: 400
+                    implicitHeight: Math.max(parent.height, col2.height)
 
                     Column {
 
@@ -217,7 +216,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by dominant color")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         Item {
@@ -252,13 +251,13 @@ PQTemplateFullscreen {
 
                             x: (parent.width-width)/2
 
-                                    //: quality and speed of advanced sorting of images
-                            model: [qsTranslate("advancedsort", "low quality (fast)"),
-                                    //: quality and speed of advanced sorting of images
-                                    qsTranslate("advancedsort", "medium quality"),
-                                    //: quality and speed of advanced sorting of images
-                                    qsTranslate("advancedsort", "high quality (slow)")]
-
+                                                              //: quality and speed of advanced sorting of images
+                            property list<string> modeldata: [qsTranslate("advancedsort", "low quality (fast)"),
+                                                              //: quality and speed of advanced sorting of images
+                                                              qsTranslate("advancedsort", "medium quality"),
+                                                              //: quality and speed of advanced sorting of images
+                                                              qsTranslate("advancedsort", "high quality (slow)")]
+                            model: modeldata
                         }
 
                     }
@@ -267,7 +266,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc2.checked = (PQCSettings.imageviewAdvancedSortAscending)
+                            asc2.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
                             desc2.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual2.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -279,7 +278,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 1) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc2.checked
+                                PQCSettings.imageviewAdvancedSortAscending = asc2.checked // qmllint disable unqualified
                                 PQCSettings.imageviewAdvancedSortQuality = (qual2.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual2.currentIndex===1 ?
@@ -297,9 +296,8 @@ PQTemplateFullscreen {
 
                 Item {
 
-                    y: (parent.height-height)/2
-                    width: 400
-                    height: Math.max(parent.height, col3.height)
+                    implicitWidth: 400
+                    implicitHeight: Math.max(parent.height, col3.height)
 
                     Column {
 
@@ -314,7 +312,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by average color")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         Item {
@@ -349,10 +347,10 @@ PQTemplateFullscreen {
 
                             x: (parent.width-width)/2
 
-                            model: [qsTranslate("advancedsort", "low quality (fast)"),
-                                    qsTranslate("advancedsort", "medium quality"),
-                                    qsTranslate("advancedsort", "high quality (slow)")]
-
+                            property list<string> modeldata: [qsTranslate("advancedsort", "low quality (fast)"),
+                                                              qsTranslate("advancedsort", "medium quality"),
+                                                              qsTranslate("advancedsort", "high quality (slow)")]
+                            model: modeldata
                         }
 
                     }
@@ -362,7 +360,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc3.checked = (PQCSettings.imageviewAdvancedSortAscending)
+                            asc3.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
                             desc3.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual3.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -374,7 +372,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 2) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc3.checked
+                                PQCSettings.imageviewAdvancedSortAscending = asc3.checked // qmllint disable unqualified
                                 PQCSettings.imageviewAdvancedSortQuality = (qual3.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual3.currentIndex===1 ?
@@ -391,9 +389,8 @@ PQTemplateFullscreen {
 
                 Item {
 
-                    y: (parent.height-height)/2
-                    width: 400
-                    height: Math.max(parent.height, col4.height)
+                    implicitWidth: 400
+                    implicitHeight: Math.max(parent.height, col4.height)
 
                     Column {
 
@@ -408,7 +405,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by luminosity")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         Item {
@@ -443,10 +440,10 @@ PQTemplateFullscreen {
 
                             x: (parent.width-width)/2
 
-                            model: [qsTranslate("advancedsort", "low quality (fast)"),
-                                    qsTranslate("advancedsort", "medium quality"),
-                                    qsTranslate("advancedsort", "high quality (slow)")]
-
+                            property list<string> modeldata: [qsTranslate("advancedsort", "low quality (fast)"),
+                                                              qsTranslate("advancedsort", "medium quality"),
+                                                              qsTranslate("advancedsort", "high quality (slow)")]
+                            model: modeldata
                         }
 
                     }
@@ -456,7 +453,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc4.checked = (PQCSettings.imageviewAdvancedSortAscending)
+                            asc4.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
                             desc4.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual4.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -468,7 +465,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 3) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc4.checked
+                                PQCSettings.imageviewAdvancedSortAscending = asc4.checked // qmllint disable unqualified
                                 PQCSettings.imageviewAdvancedSortQuality = (qual4.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual4.currentIndex===1 ?
@@ -486,9 +483,8 @@ PQTemplateFullscreen {
 
                 Item {
 
-                    y: (parent.height-height)/2
-                    width: 400
-                    height: 300//Math.min(parent.height, Math.max(parent.height, col5.height))
+                    implicitWidth: 400
+                    implicitHeight: 300//Math.min(parent.height, Math.max(parent.height, col5.height))
 
                     Column {
 
@@ -503,7 +499,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by date")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         Item {
@@ -536,7 +532,7 @@ PQTemplateFullscreen {
                             width: 400
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             text: qsTranslate("advancedsort", "Order of priority:")
-                            font.weight: PQCLook.fontWeightBold
+                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                         }
 
                         ListView {
@@ -547,7 +543,7 @@ PQTemplateFullscreen {
                             height: 4*45
                             interactive: false
 
-                            property var ordering: [
+                            property list<var> ordering: [
                                 [qsTranslate("advancedsort", "Exif tag: Original date/time"), "exiforiginal"],
                                 [qsTranslate("advancedsort", "Exif tag: Digitized date/time"), "exifdigital"],
                                 [qsTranslate("advancedsort", "File creation date"), "filecreation"],
@@ -559,16 +555,21 @@ PQTemplateFullscreen {
                             spacing: 5
 
                             delegate: Rectangle {
+
+                                id: deleg
+
+                                required property int modelData
+
                                 width: 400
                                 height: 40
-                                color: PQCLook.baseColorHighlight
+                                color: PQCLook.baseColorHighlight // qmllint disable unqualified
 
                                 PQText {
                                     x: 10
                                     height: parent.height
                                     width: parent.width-2*height-30
                                     verticalAlignment: Text.AlignVCenter
-                                    text: (index+1) + ". " + exifsort.ordering[index][0]
+                                    text: (deleg.modelData+1) + ". " + exifsort.ordering[deleg.modelData][0]
                                 }
 
                                 Image {
@@ -578,15 +579,15 @@ PQTemplateFullscreen {
                                     height: width
                                     source: "image://svg/:/white/upwards.svg"
                                     sourceSize: Qt.size(width, height)
-                                    enabled: index>0
+                                    enabled: deleg.modelData>0
                                     opacity: enabled ? 1 : 0.5
                                     MouseArea {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                                         onClicked: {
-                                            if(index > 0) {
-                                                exifsort.ordering[index-1] = exifsort.ordering.splice(index, 1, exifsort.ordering[index-1])[0]
+                                            if(deleg.modelData > 0) {
+                                                exifsort.ordering[deleg.modelData-1] = exifsort.ordering.splice(deleg.modelData, 1, exifsort.ordering[deleg.modelData-1])[0]
                                                 exifsort.orderingChanged()
                                             }
                                         }
@@ -601,15 +602,15 @@ PQTemplateFullscreen {
                                     rotation: 180
                                     source: "image://svg/:/white/upwards.svg"
                                     sourceSize: Qt.size(width, height)
-                                    enabled: index<3
+                                    enabled: deleg.modelData<3
                                     opacity: enabled ? 1 : 0.5
                                     MouseArea {
                                         anchors.fill: parent
                                         hoverEnabled: true
                                         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
                                         onClicked: {
-                                            if(index < 3) {
-                                                exifsort.ordering[index+1] = exifsort.ordering.splice(index, 1, exifsort.ordering[index+1])[0]
+                                            if(deleg.modelData < 3) {
+                                                exifsort.ordering[deleg.modelData+1] = exifsort.ordering.splice(deleg.modelData, 1, exifsort.ordering[deleg.modelData+1])[0]
                                                 exifsort.orderingChanged()
                                             }
                                         }
@@ -634,7 +635,7 @@ PQTemplateFullscreen {
 
                         function onLoadData() {
 
-                            asc5.checked = (PQCSettings.imageviewAdvancedSortAscending)
+                            asc5.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
                             desc5.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             var neworder = []
@@ -655,7 +656,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 4) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc5.checked
+                                PQCSettings.imageviewAdvancedSortAscending = asc5.checked // qmllint disable unqualified
 
                                 var save = []
                                 for(var i = 0; i < exifsort.ordering.length; ++i)
@@ -680,12 +681,12 @@ PQTemplateFullscreen {
         PQText {
             id: progress
             anchors.centerIn: parent
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
 
             property int current: 0
             property int total: 0
 
-            text: PQCFileFolderModel.advancedSortDone+"/" + PQCFileFolderModel.countMainView
+            text: PQCFileFolderModel.advancedSortDone+"/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
         }
 
         PQButton {
@@ -694,7 +695,7 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             y: (parent.height-height)/2 + 200
             onClicked: {
-                PQCFileFolderModel.advancedSortMainViewCANCEL()
+                PQCFileFolderModel.advancedSortMainViewCANCEL() // qmllint disable unqualified
                 working.hide()
             }
         }
@@ -702,18 +703,20 @@ PQTemplateFullscreen {
     }
 
     Connections {
-        target: loader
-        function onPassOn(what, param) {
+
+        target: loader // qmllint disable unqualified
+
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === advancedsort_top.thisis)
+                    advancedsort_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === advancedsort_top.thisis)
+                    advancedsort_top.hide()
 
             } else if(advancedsort_top.visible) {
 
@@ -727,10 +730,10 @@ PQTemplateFullscreen {
                     if(what === "keyEvent") {
 
                         if(param[0] === Qt.Key_Escape)
-                            hide()
+                            advancedsort_top.hide()
 
                         else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                            doSorting()
+                            advancedsort_top.doSorting()
 
                         else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
                             bar.currentIndex = (bar.currentIndex+bar.model.length-1)%bar.model.length
@@ -748,11 +751,11 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCFileFolderModel
+        target: PQCFileFolderModel // qmllint disable unqualified
 
         function onAdvancedSortingComplete() {
             working.hide()
-            hide()
+            advancedsort_top.hide()
         }
 
     }
@@ -761,14 +764,14 @@ PQTemplateFullscreen {
 
         advancedsort_top.saveData()
 
-        PQCFileFolderModel.advancedSortMainView()
+        PQCFileFolderModel.advancedSortMainView() // qmllint disable unqualified
         working.showBusy()
 
     }
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -784,7 +787,7 @@ PQTemplateFullscreen {
 
         opacity = 0
         if(popoutWindowUsed)
-            advancedsort_popout.visible = false
+            advancedsort_popout.visible = false // qmllint disable unqualified
         loader.elementClosed(thisis)
 
     }

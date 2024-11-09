@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Delete file?") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filedeleteGeometry
-    isMax: PQCWindowGeometry.filedeleteMaximized
-    popout: PQCSettings.interfacePopoutFileDelete
-    sizepopout: PQCWindowGeometry.filedeleteForcePopout
+    geometry: PQCWindowGeometry.filedeleteGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.filedeleteMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutFileDelete // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.filedeleteForcePopout // qmllint disable unqualified
     source: "actions/PQDelete.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "filedelete")
+        if(loader.visibleItem === "filedelete") // qmllint disable unqualified
             loader.elementClosed("filedelete")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutFileDelete)
+        if(popout !== PQCSettings.interfacePopoutFileDelete) // qmllint disable unqualified
             PQCSettings.interfacePopoutFileDelete = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filedeleteGeometry)
+        if(geometry !== PQCWindowGeometry.filedeleteGeometry) // qmllint disable unqualified
             PQCWindowGeometry.filedeleteGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filedeleteMaximized)
+        if(isMax !== PQCWindowGeometry.filedeleteMaximized) // qmllint disable unqualified
             PQCWindowGeometry.filedeleteMaximized = isMax
     }
 

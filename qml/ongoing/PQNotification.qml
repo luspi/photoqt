@@ -24,93 +24,87 @@ import QtQuick
 import PQCScriptsOther
 
 import "../elements"
+import "../"
 
 Rectangle {
     id: notification_top
 
+    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
+
     // we fall back to top right location if state is invalid
-    x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
-    y: PQCSettings.interfaceNotificationDistanceFromEdge
+    x: access_toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
+    y: PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
 
     width: contcol.width+30
     height: contcol.height+30
 
-    state: PQCSettings.interfaceNotificationLocation
+    state: PQCSettings.interfaceNotificationLocation // qmllint disable unqualified
 
     states: [
 
         State {
             name: "bottomleft"
             PropertyChanges {
-                target: notification_top
-                x: PQCSettings.interfaceNotificationDistanceFromEdge
-                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottom"
             PropertyChanges {
-                target: notification_top
-                x: (toplevel.width-width)/2
-                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
+                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottomright"
             PropertyChanges {
-                target: notification_top
-                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
-                y: toplevel.height-height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
 
         State {
             name: "centerleft"
             PropertyChanges {
-                target: notification_top
-                x: PQCSettings.interfaceNotificationDistanceFromEdge
-                y: (toplevel.height-height)/2
+                notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
             }
         },
         State {
             name: "center"
             PropertyChanges {
-                target: notification_top
-                x: (toplevel.width-width)/2
-                y: (toplevel.height-height)/2
+                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
+                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
             }
         },
         State {
             name: "centerright"
             PropertyChanges {
-                target: notification_top
-                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
-                y: (toplevel.height-height)/2
+                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
             }
         },
 
         State {
             name: "topleft"
             PropertyChanges {
-                target: notification_top
-                x: PQCSettings.interfaceNotificationDistanceFromEdge
-                y: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "top"
             PropertyChanges {
-                target: notification_top
-                x: (toplevel.width-width)/2
-                y: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
+                notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "topright"
             PropertyChanges {
-                target: notification_top
-                x: toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge
-                y: PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         }
 
@@ -120,7 +114,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     property alias titletext: tit.text
     property alias statustext: txt.text
@@ -140,7 +134,7 @@ Rectangle {
             id: tit
             visible: text!=""
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {
@@ -152,7 +146,7 @@ Rectangle {
         PQText {
             id: txt
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {
@@ -164,9 +158,9 @@ Rectangle {
     }
 
     Connections {
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
                 if(param.length === 2 && param[0] === "notification") {
@@ -193,7 +187,7 @@ Rectangle {
         id: hideNotification
         interval: 2500
         onTriggered:
-            hide()
+            notification_top.hide()
     }
 
     function show() {

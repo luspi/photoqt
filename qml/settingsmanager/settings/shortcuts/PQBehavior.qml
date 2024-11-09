@@ -173,7 +173,7 @@ Flickable {
                     id: hidetimeout_check
                     enforceMaxWidth: set_hidemouse.rightcol
                     text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
-                    checked: PQCSettings.imageviewHideCursorTimeout===0
+                    checked: PQCSettings.imageviewHideCursorTimeout===0 // qmllint disable unqualified
                 },
 
                 PQSliderSpinBox {
@@ -206,7 +206,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -222,7 +222,7 @@ Flickable {
 
     function load() {
 
-        movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove)
+        movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) // qmllint disable unqualified
         movebut.loadAndSetDefault(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
         dblclk.loadAndSetDefault(PQCSettings.interfaceDoubleClickThreshold)
         whl_sens.loadAndSetDefault(PQCSettings.interfaceMouseWheelSensitivity)
@@ -237,7 +237,7 @@ Flickable {
     function applyChanges() {
 
 
-        PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked
+        PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked // qmllint disable unqualified
         PQCSettings.imageviewUseMouseLeftButtonForImageMove = movebut.checked
         PQCSettings.interfaceDoubleClickThreshold = dblclk.value
         PQCSettings.interfaceMouseWheelSensitivity = whl_sens.value

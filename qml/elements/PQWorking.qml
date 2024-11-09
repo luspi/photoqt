@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -33,7 +34,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     anchors.fill: parent
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     property int circleHeight: 206
     property bool animationRunning: true
@@ -64,10 +65,11 @@ Rectangle {
 
             delegate: Canvas {
                 id: load
+                required property int modelData
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
-                width: (206 - index*25)*customScaling
-                height: (206 - index*25)*customScaling
+                width: (206 - modelData*25)*exportRunning.customScaling
+                height: (206 - modelData*25)*exportRunning.customScaling
                 onPaint: {
                     var ctx = getContext("2d");
                     ctx.strokeStyle = "#ffffff";
@@ -78,10 +80,10 @@ Rectangle {
                 }
                 RotationAnimator {
                     target: load
-                    from: index%2 ? 360 : 0
-                    to: index%2 ? 0 : 360
-                    duration: 2000 - index*200
-                    running: (exportRunning.visible&&animationRunning)
+                    from: load.modelData%2 ? 360 : 0
+                    to: load.modelData%2 ? 0 : 360
+                    duration: 2000 - load.modelData*200
+                    running: (exportRunning.visible&&exportRunning.animationRunning)
                     loops: Animation.Infinite
                 }
             }
@@ -94,8 +96,8 @@ Rectangle {
         id: exportsuccess
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: 200*customScaling
-        height: 200*customScaling
+        width: 200*exportRunning.customScaling
+        height: 200*exportRunning.customScaling
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -108,7 +110,7 @@ Rectangle {
                 exportfailure.opacity = 0
                 exportsuccess.opacity = 0
                 exportRunning.opacity = 0
-                hide()
+                exportRunning.hide()
                 exportRunning.successHidden()
             }
         }
@@ -118,8 +120,8 @@ Rectangle {
         id: exportfailure
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: 125*customScaling
-        height: 125*customScaling
+        width: 125*exportRunning.customScaling
+        height: 125*exportRunning.customScaling
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -132,7 +134,7 @@ Rectangle {
                 exportfailure.opacity = 0
                 exportsuccess.opacity = 0
                 exportRunning.opacity = 0
-                hide()
+                exportRunning.hide()
                 exportRunning.successHidden()
             }
         }
@@ -152,7 +154,7 @@ Rectangle {
         opacity = 1
     }
 
-    function showFailure(keep) {
+    function showFailure(keep : bool) {
         exportbusy.opacity = 0
         exportfailure.opacity = 1
         exportsuccess.opacity = 0

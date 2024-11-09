@@ -31,10 +31,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("imgur", "Upload to imgur.com") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.imgurGeometry
-    isMax: PQCWindowGeometry.imgurMaximized
-    popout: PQCSettings.interfacePopoutImgur
-    sizepopout: PQCWindowGeometry.imgurForcePopout
+    geometry: PQCWindowGeometry.imgurGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.imgurMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutImgur // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
     source: "actions/PQImgur.qml"
 
     minimumWidth: 800
@@ -42,31 +42,31 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "imgur")
+        if(loader.visibleItem === "imgur") // qmllint disable unqualified
             loader.elementClosed("imgur")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutImgur)
+        if(popout !== PQCSettings.interfacePopoutImgur) // qmllint disable unqualified
             PQCSettings.interfacePopoutImgur = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.imgurGeometry)
+        if(geometry !== PQCWindowGeometry.imgurGeometry) // qmllint disable unqualified
             PQCWindowGeometry.imgurGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.imgurMaximized)
+        if(isMax !== PQCWindowGeometry.imgurMaximized) // qmllint disable unqualified
             PQCWindowGeometry.imgurMaximized = isMax
     }
 
     function uploadAnonymously() {
-        loaderitem.uploadAnonymously()
+        loaderitem.uploadAnonymously() // qmllint disable missing-property
     }
 
     function uploadToAccount() {
-        loaderitem.uploadToAccount()
+        loaderitem.uploadToAccount() // qmllint disable missing-property
     }
 
 }

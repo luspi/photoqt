@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import PQCFileFolderModel
 import PQCNotify
@@ -36,8 +35,8 @@ PQTemplateFullscreen {
     id: rename_top
 
     thisis: "filerename"
-    popout: PQCSettings.interfacePopoutFileRename
-    forcePopout: PQCWindowGeometry.filerenameForcePopout
+    popout: PQCSettings.interfacePopoutFileRename // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.filerenameForcePopout // qmllint disable unqualified
     shortcut: "__rename"
 
     title: qsTranslate("filemanagement", "Rename file")
@@ -49,7 +48,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutFileRename = popout
+        PQCSettings.interfacePopoutFileRename = popout // qmllint disable unqualified
 
     button1.onClicked:
         renameFile()
@@ -69,7 +68,6 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
-//            font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: "this_is_the_old_filename.jpg"
         },
@@ -111,7 +109,7 @@ PQTemplateFullscreen {
                 id: checkExistence
                 interval: 200
                 onTriggered: {
-                    error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text))
+                    error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text)) // qmllint disable unqualified
                 }
             }
 
@@ -120,7 +118,7 @@ PQTemplateFullscreen {
                 id: filesuffix
 
                 y: (filenameedit.height-height)/2
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 text: ".jpg"
             }
         },
@@ -136,8 +134,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor
-            font.weight: PQCLook.fontWeightBold
+            color: PQCLook.textColor // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             visible: false
             text: qsTranslate("filemanagement", "An error occured, file could not be renamed")
         },
@@ -148,8 +146,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor
-            font.weight: PQCLook.fontWeightBold
+            color: PQCLook.textColor // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             visible: false
             text: qsTranslate("filemanagement", "A file with this filename already exists")
         }
@@ -158,29 +156,29 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
-                if(param === thisis)
-                    show()
+                if(param === rename_top.thisis)
+                    rename_top.show()
 
             } else if(what === "hide") {
 
-                if(param === thisis)
-                    hide()
+                if(param === rename_top.thisis)
+                    rename_top.hide()
 
             } else if(rename_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
                     if(param[0] === Qt.Key_Escape)
-                        hide()
+                        rename_top.hide()
 
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        renameFile()
+                        rename_top.renameFile()
 
                     else
                         filenameedit.handleKeyEvents(param[0], param[1])
@@ -195,7 +193,7 @@ PQTemplateFullscreen {
         if(filenameedit.text === "" || error_exists.visible)
             return
 
-        var dir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
+        var dir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) // qmllint disable unqualified
         if(!PQCScriptsFileManagement.renameFile(dir, filename.text, filenameedit.text+filesuffix.text)) {
             error.visible = true
             return
@@ -212,7 +210,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
             return
         }
@@ -231,7 +229,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
-        PQCNotify.ignoreKeysExceptEnterEsc = false
+        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
         rename_top.opacity = 0
         if(popoutWindowUsed)
             filerename_popout.visible = false

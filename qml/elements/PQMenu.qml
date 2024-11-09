@@ -34,8 +34,8 @@ Menu {
     background: Rectangle {
         implicitWidth: 250
         implicitHeight: 40
-        color: PQCLook.baseColor
-        border.color: PQCLook.inverseColorHighlight
+        color: PQCLook.baseColor // qmllint disable unqualified
+        border.color: PQCLook.inverseColorHighlight // qmllint disable unqualified
         border.width: 1
         radius: 2
     }

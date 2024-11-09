@@ -94,7 +94,7 @@ Flickable {
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    color: PQCLook.baseColorHighlight
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
                     ListView {
 
                         id: avail
@@ -152,15 +152,15 @@ Flickable {
                                 height: deleg.height
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                color: PQCLook.baseColorActive
+                                color: PQCLook.baseColorActive // qmllint disable unqualified
                                 radius: 5
                                 PQText {
                                     id: txt
                                     x: (parent.width-width)/2
                                     y: (parent.height-height)/2
                                     text: avail.disp[deleg.name]
-                                    font.weight: PQCLook.fontWeightBold
-                                    color: PQCLook.textColor
+                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                    color: PQCLook.textColor // qmllint disable unqualified
                                     onWidthChanged: {
                                         avail.widths.push(width+20)
                                         avail.widthsChanged()
@@ -260,7 +260,7 @@ Flickable {
                     PQComboBox {
                         id: combo_add
                         y: (but_add.height-height)/2
-                        property var data: [
+                        property list<var> data: [
                             //: Please keep short! The counter shows where we are in the folder.
                             ["counter", qsTranslate("settingsmanager", "counter")],
                             //: Please keep short!
@@ -293,7 +293,7 @@ Flickable {
                         text: qsTranslate("settingsmanager", "add")
                         smallerVersion: true
                         onClicked: {
-                            model.append({name: combo_add.data[combo_add.currentIndex][0], index: model.count})
+                            model.append({"name": combo_add.data[combo_add.currentIndex][0], "index": model.count})
                             setting_top.checkDefault()
                         }
                     }
@@ -426,7 +426,8 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function areTwoListsEqual(l1: var, l2: var) : bool {
+    // do not make this function typed, it will break
+    function areTwoListsEqual(l1, l2) {
 
         if(l1.length !== l2.length)
             return false
@@ -448,7 +449,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -483,12 +484,12 @@ Flickable {
 
     function load() {
 
-        status_show.checked = PQCSettings.interfaceStatusInfoShow
+        status_show.checked = PQCSettings.interfaceStatusInfoShow // qmllint disable unqualified
 
         model.clear()
         var setprops = PQCSettings.interfaceStatusInfoList
         for(var j = 0; j < setprops.length; ++j)
-            model.append({name: setprops[j], index: j})
+            model.append({"name": setprops[j], "index": j})
 
         fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
 
@@ -507,7 +508,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceStatusInfoShow = status_show.checked
+        PQCSettings.interfaceStatusInfoShow = status_show.checked // qmllint disable unqualified
 
         var opts = []
         for(var i = 0; i < model.count; ++i)

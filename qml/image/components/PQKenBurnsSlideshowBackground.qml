@@ -22,28 +22,31 @@
 
 import QtQuick
 import PQCNotify
+import "../imageitems"
 
 Loader {
     id: kenburnsBG
     asynchronous: false
 
     active: false
-    source: "imageitems/PQImageNormal.qml"
+    sourceComponent:
+        PQImageNormal {
+            ignoreSignals: true
+        }
 
-    // this makes sure that all the common properties are ignored
-    property bool ignoreSignals: true
+    source: "imageitems/PQImageNormal.qml"
 
     property bool performAni: false
     property real useScale: 1.0
 
     NumberAnimation {
         id: kenburnsBG_ani
-        running: performAni && loader_top.visible && loader_slideshowhandler.item.running && !image_top.currentlyShowingVideo
+        running: kenburnsBG.performAni && loader_top.visible && loader_slideshowhandler.item.running && !image_top.currentlyShowingVideo // qmllint disable unqualified
         target: kenburnsBG.item
         property: "scale"
         from: kenburnsBG.useScale
         to: kenburnsBG.useScale + duration/(1000*10)
-        duration: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
+        duration: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000)) // qmllint disable unqualified
     }
 
     Timer {
@@ -55,20 +58,20 @@ Loader {
                 waitForItem.restart()
             else {
                 kenburnsBG.item.scale = kenburnsBG.useScale
-                performAni = true
+                kenburnsBG.performAni = true
             }
         }
     }
 
     Connections {
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
         function onSlideshowRunningChanged() {
             kenburnsBG.checkForBG()
         }
     }
 
     Connections {
-        target: loader_top
+        target: loader_top // qmllint disable unqualified
         function onVisibleChanged() {
             kenburnsBG.checkForBG()
         }
@@ -77,7 +80,7 @@ Loader {
     function checkForBG() {
 
         // compute the starting scale factor
-        var sc = 1.1 * 1.0/(image_wrapper.scale * Math.max(flickable.contentWidth/flickable.width, flickable.contentHeight/flickable.height))
+        var sc = 1.1 * 1.0/(image_wrapper.scale * Math.max(flickable.contentWidth/flickable.width, flickable.contentHeight/flickable.height)) // qmllint disable unqualified
 
         if(loader_top.videoLoaded)
             sc = Math.max(flickable.width/image_wrapper.width, flickable.height/image_wrapper.height)

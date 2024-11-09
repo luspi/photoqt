@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -31,27 +32,25 @@ import PQCNotify
 import PQCResolutionCache
 
 import "../elements"
-import "./components"
-import "./imageitems"
 
 Item {
 
     id: image_top
 
-    x: extraX + PQCSettings.imageviewMargin
-    y: extraY + PQCSettings.imageviewMargin
-    width: toplevel.width-2*PQCSettings.imageviewMargin - lessW
-    height: toplevel.height-2*PQCSettings.imageviewMargin - lessH
+    x: extraX + PQCSettings.imageviewMargin // qmllint disable unqualified
+    y: extraY + PQCSettings.imageviewMargin // qmllint disable unqualified
+    width: toplevel.width-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
+    height: toplevel.height-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
 
-    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || currentScale < defaultScale)))
+    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || currentScale < defaultScale))) // qmllint disable unqualified
 
-    property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0
-    property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0
-    property int lessW: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0
-    property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0
+    property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0 // qmllint disable unqualified
+    property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0 // qmllint disable unqualified
+    property int lessW: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0 // qmllint disable unqualified
+    property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0 // qmllint disable unqualified
 
     property int currentlyVisibleIndex: -1
-    property var visibleIndexPrevCur: [-1,-1]
+    property list<int> visibleIndexPrevCur: [-1,-1]
     onCurrentlyVisibleIndexChanged: {
         visibleIndexPrevCur[1] = visibleIndexPrevCur[0]
         visibleIndexPrevCur[0] = currentlyVisibleIndex
@@ -78,7 +77,7 @@ Item {
 
     onCurrentResolutionChanged: {
         if(currentResolution.height > 0 && currentResolution.width > 0)
-            PQCResolutionCache.saveResolution(PQCFileFolderModel.currentFile, currentResolution)
+            PQCResolutionCache.saveResolution(PQCFileFolderModel.currentFile, currentResolution) // qmllint disable unqualified
     }
 
     property int currentFileInside: 0
@@ -118,35 +117,52 @@ Item {
     signal exitPhotoSphere()
 
     property var rememberChanges: ({})
-    property var reuseChanges: []
+    property list<var> reuseChanges: []
 
-    property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2
+    property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2 // qmllint disable unqualified
     property int bgOffset: 0
-    property var bgIndices: []
+    property list<int> bgIndices: []
 
     Repeater {
 
         id: repeaterimage
 
+        property list<bool> allactive: [false,false,false,false,
+                                        false,false,false,false,
+                                        false,false,false,false]
+
         // we set this to the max number so that the delegates don't get reloaded when the number of images to be preloaded is changed
         model: 12
 
         PQImageDisplay {
+
+            required property int modelData
+
+            onActiveChanged:
+                repeaterimage.allactive[modelData] = active
+
             onIAmReady: {
-                newMainImageReady(index)
+                image_top.newMainImageReady(modelData)
             }
             onImageLoadedAndReadyChanged: {
-                if(image_top.currentlyVisibleIndex !== mainItemIndex && PQCFileFolderModel.currentIndex !== mainItemIndex) {
-                    if(bgOffset < bgIndices.length)
+                if(image_top.currentlyVisibleIndex !== mainItemIndex && PQCFileFolderModel.currentIndex !== mainItemIndex) { // qmllint disable unqualified
+                    if(image_top.bgOffset < image_top.bgIndices.length)
                         timer_loadbg.restart()
                 }
+            }
+            function onBusyTimerStopAndHide() {
+                timer_busyloading.stop()
+                busyloading.hide()
+            }
+            function onBusyTimerRestart() {
+                timer_busyloading.restart()
             }
         }
     }
 
     Connections {
 
-        target: PQCFileFolderModel
+        target: PQCFileFolderModel // qmllint disable unqualified
 
         function onCurrentIndexChanged() {
 
@@ -154,12 +170,12 @@ Item {
 
             var showItem = -1
 
-            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex] // qmllint disable unqualified
             var newFolder = PQCScriptsFilesPaths.getDir(newFile)
             var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
 
             // if the current image is already loaded we only need to show it
-            for(var i = 0; i < howManyLoaders; ++i) {
+            for(var i = 0; i < image_top.howManyLoaders; ++i) {
 
                 var img = repeaterimage.itemAt(i)
 
@@ -173,23 +189,23 @@ Item {
             // these need to be loaded
             var cur_showing = PQCFileFolderModel.currentIndex
 
-            bgIndices = []
+            image_top.bgIndices = []
             for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
                 var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
                 var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
-                bgIndices.push(newp)
-                bgIndices.push(newn)
+                image_top.bgIndices.push(newp)
+                image_top.bgIndices.push(newn)
             }
 
             // image not already loaded
             if(showItem == -1) {
 
-                for(var j = 0; j < howManyLoaders; ++j) {
+                for(var j = 0; j < image_top.howManyLoaders; ++j) {
 
                     var spare = repeaterimage.itemAt(j)
 
                     // this is a spare item
-                    if((bgIndices.indexOf(spare.mainItemIndex) == -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
+                    if((image_top.bgIndices.indexOf(spare.mainItemIndex) == -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
                         spare.containingFolder = newFolder
                         spare.lastModified = newModified
                         spare.imageSource = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
@@ -205,7 +221,7 @@ Item {
             timer_busyloading.restart()
 
             // show item
-            for(var k = 0; k < howManyLoaders; ++k) {
+            for(var k = 0; k < image_top.howManyLoaders; ++k) {
                 if(showItem == k) {
                     var newimg = repeaterimage.itemAt(k)
                     newimg.item.showImage()
@@ -217,7 +233,7 @@ Item {
 
     }
 
-    function newMainImageReady(curIndex) {
+    function newMainImageReady(curIndex : int) {
 
         // stop busy timer and hide indicator
         timer_busyloading.stop()
@@ -226,8 +242,8 @@ Item {
         // hide images that should not be visible
         for(var i = 0; i < howManyLoaders; ++i) {
             var curimg = repeaterimage.itemAt(i)
-            if(curIndex !== i && curimg.active)
-                curimg.item.hideImage()
+            if(curIndex !== i && repeaterimage.allactive[i])
+                curimg.item.hideImage() // qmllint disable missing-property
         }
 
         // start the timer to load images in background
@@ -241,15 +257,15 @@ Item {
     // we make sure this doesn't start until the main image is fully shown
     Timer {
         id: timer_loadbg
-        interval: PQCSettings.imageviewAnimationDuration*100
-        property var prevnext: []
+        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+        property list<int> prevnext: []
         onTriggered: {
 
-            var nexttwo = [bgIndices[bgOffset], bgIndices[bgOffset+1]]
-            bgOffset += 2
+            var nexttwo = [image_top.bgIndices[image_top.bgOffset], image_top.bgIndices[image_top.bgOffset+1]]
+            image_top.bgOffset += 2
 
             // get the filepath of the previous/next files
-            var prevFile = PQCFileFolderModel.entriesMainView[nexttwo[0]]
+            var prevFile = PQCFileFolderModel.entriesMainView[nexttwo[0]] // qmllint disable unqualified
             var nextFile = PQCFileFolderModel.entriesMainView[nexttwo[1]]
 
             // the current folder and the modified timestamps
@@ -263,7 +279,7 @@ Item {
 
             // look for previous image
             if(!PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
-                for(var i = 0; i < howManyLoaders; ++i) {
+                for(var i = 0; i < image_top.howManyLoaders; ++i) {
                     var previmg = repeaterimage.itemAt(i)
                     if(previmg.mainItemIndex === nexttwo[0] && previmg.containingFolder === curFolder && previmg.lastModified === prevModified) {
                         foundPrev = i
@@ -274,7 +290,7 @@ Item {
 
             // look for next image
             if(!PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
-                for(var j = 0; j < howManyLoaders; ++j) {
+                for(var j = 0; j < image_top.howManyLoaders; ++j) {
                     var nextimg = repeaterimage.itemAt(j)
                     if(nextimg.mainItemIndex === nexttwo[1] && nextimg.containingFolder === curFolder && nextimg.lastModified === nextModified) {
                         foundNext = j
@@ -286,7 +302,7 @@ Item {
             // previous image not yet setup
             if(foundPrev == -1 && !PQCScriptsImages.isMpvVideo(prevFile) && !PQCScriptsImages.isQtVideo(prevFile)) {
 
-                for(var k = 0; k < howManyLoaders; ++k) {
+                for(var k = 0; k < image_top.howManyLoaders; ++k) {
 
                     var curprevimg = repeaterimage.itemAt(k)
 
@@ -307,7 +323,7 @@ Item {
             // next image not yet setup
             if(foundNext == -1 && !PQCScriptsImages.isMpvVideo(nextFile) && !PQCScriptsImages.isQtVideo(nextFile)) {
 
-                for(var l = 0; l < howManyLoaders; ++l) {
+                for(var l = 0; l < image_top.howManyLoaders; ++l) {
 
                     var curnextimg = repeaterimage.itemAt(l)
 
@@ -334,19 +350,19 @@ Item {
         id: timer_busyloading
         interval: 500
         onTriggered: {
-            if(!PQCNotify.slideshowRunning)
+            if(!PQCNotify.slideshowRunning) // qmllint disable unqualified
                 busyloading.showBusy()
         }
     }
     PQWorking {
         id: busyloading
-        anchors.margins: -PQCSettings.imageviewMargin
+        anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
         z: image_top.curZ+1
     }
 
     // some global handlers
     function showNext() {
-        if(PQCFileFolderModel.countMainView !== 0) {
+        if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
                 PQCFileFolderModel.currentIndex = 0
             else
@@ -355,7 +371,7 @@ Item {
     }
 
     function showPrev() {
-        if(PQCFileFolderModel.countMainView !== 0) {
+        if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
                 PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
             else
@@ -364,18 +380,18 @@ Item {
     }
 
     function showFirst() {
-        if(PQCFileFolderModel.countMainView !== 0)
+        if(PQCFileFolderModel.countMainView !== 0) // qmllint disable unqualified
             PQCFileFolderModel.currentIndex = 0
     }
 
     function showLast() {
-        if(PQCFileFolderModel.countMainView !== 0)
+        if(PQCFileFolderModel.countMainView !== 0) // qmllint disable unqualified
             PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
     }
 
     function showRandom() {
 
-        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1)
+        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1) // qmllint disable unqualified
             return
 
         // special case: load other image

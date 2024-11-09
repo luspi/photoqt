@@ -29,8 +29,8 @@ ToolTip {
     text: ""
     delay: 500
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
+    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     property bool partialTransparency: true
     property bool enforceWidthLimit: true
@@ -45,7 +45,7 @@ ToolTip {
         Timer {
             id: calcWidth
             interval: 200
-            running: enforceWidthLimit
+            running: control.enforceWidthLimit
             repeat: true
             onTriggered: {
                 if(control.pw === 0)
@@ -59,8 +59,8 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: partialTransparency ? PQCLook.transColor : PQCLook.baseColor
-        border.color: PQCLook.inverseColorHighlight
+        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor // qmllint disable unqualified
+        border.color: PQCLook.inverseColorHighlight // qmllint disable unqualified
     }
 
 }

@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mapcurrentGeometry
-    isMax: PQCWindowGeometry.mapcurrentMaximized
-    popout: PQCSettings.interfacePopoutMapCurrent
-    sizepopout: PQCWindowGeometry.mapcurrentForcePopout
+    geometry: PQCWindowGeometry.mapcurrentGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.mapcurrentMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutMapCurrent // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.mapcurrentForcePopout // qmllint disable unqualified
     source: "ongoing/PQMapCurrent.qml"
 
     modality: Qt.NonModal
@@ -44,23 +44,23 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutMapCurrent = false
+        PQCSettings.interfacePopoutMapCurrent = false // qmllint disable unqualified
         close()
         PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapCurrent)
+        if(popout !== PQCSettings.interfacePopoutMapCurrent) // qmllint disable unqualified
             PQCSettings.interfacePopoutMapCurrent = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mapcurrentGeometry)
+        if(geometry !== PQCWindowGeometry.mapcurrentGeometry) // qmllint disable unqualified
             PQCWindowGeometry.mapcurrentGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mapcurrentMaximized)
+        if(isMax !== PQCWindowGeometry.mapcurrentMaximized) // qmllint disable unqualified
             PQCWindowGeometry.mapcurrentMaximized = isMax
     }
 

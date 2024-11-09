@@ -32,10 +32,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Main Menu") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mainmenuGeometry
-    isMax: PQCWindowGeometry.mainmenuMaximized
-    popout: PQCSettings.interfacePopoutMainMenu
-    sizepopout: PQCWindowGeometry.mainmenuForcePopout
+    geometry: PQCWindowGeometry.mainmenuGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.mainmenuMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutMainMenu // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.mainmenuForcePopout // qmllint disable unqualified
     source: "ongoing/PQMainMenu.qml"
 
     modality: Qt.NonModal
@@ -44,23 +44,23 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutMainMenu = false
+        PQCSettings.interfacePopoutMainMenu = false // qmllint disable unqualified
         close()
         PQCNotify.executeInternalCommand("__showMainMenu")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMainMenu)
+        if(popout !== PQCSettings.interfacePopoutMainMenu) // qmllint disable unqualified
             PQCSettings.interfacePopoutMainMenu = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mainmenuGeometry)
+        if(geometry !== PQCWindowGeometry.mainmenuGeometry) // qmllint disable unqualified
             PQCWindowGeometry.mainmenuGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mainmenuMaximized)
+        if(isMax !== PQCWindowGeometry.mainmenuMaximized) // qmllint disable unqualified
             PQCWindowGeometry.mainmenuMaximized = isMax
     }
 

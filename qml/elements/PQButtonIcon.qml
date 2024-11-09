@@ -41,7 +41,7 @@ Rectangle {
     property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
     property real iconScale: 0.75
 
-    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
+    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)
@@ -53,7 +53,7 @@ Rectangle {
         source: control.source
         smooth: false
 
-        sourceSize: Qt.size(control.height*iconScale,control.height*iconScale)
+        sourceSize: Qt.size(control.height*control.iconScale,control.height*control.iconScale)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2
@@ -67,13 +67,13 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         text: control.tooltip
         onPressed: {
-            if(checkable)
-                checked = !checked
+            if(control.checkable)
+                control.checked = !control.checked
             else
                 control.down = true
         }
         onReleased: {
-            if(!checkable)
+            if(!control.checkable)
                 control.down = false
         }
         onClicked:

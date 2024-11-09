@@ -32,21 +32,21 @@ import "../elements"
 
 Item {
 
-    width: toplevel.width
-    height: toplevel.height
+    width: toplevel.width // qmllint disable unqualified
+    height: toplevel.height // qmllint disable unqualified
 
     Connections {
 
-        target: loader
+        target: loader // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onPassOn(what : string, param : var) {
 
             if(what === "show") {
 
                 if(param === "filecopy") {
 
                     error.opacity = 0
-                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
                         loader.elementClosed("filecopy")
                         return
                     }
@@ -78,7 +78,7 @@ Item {
     Rectangle {
         id: error
         anchors.fill: parent
-        color: PQCLook.baseColor
+        color: PQCLook.baseColor // qmllint disable unqualified
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
@@ -89,19 +89,19 @@ Item {
             PQTextXXL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "An error occured")
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
             PQTextL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "File could not be copied")
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
             PQButton {
                 x: (parent.width-width)/2
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    loader.elementClosed("filecopy")
+                    loader.elementClosed("filecopy") // qmllint disable unqualified
                 }
             }
         }

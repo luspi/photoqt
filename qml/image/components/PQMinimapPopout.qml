@@ -33,7 +33,7 @@ Window {
 
     title: qsTranslate("image", "Minimap")
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     PQMinimap {
         id: minimap
@@ -43,7 +43,7 @@ Window {
         show()
 
     onClosing: {
-        PQCSettings.interfaceMinimapPopout = false
+        PQCSettings.interfaceMinimapPopout = false // qmllint disable unqualified
     }
 
 }

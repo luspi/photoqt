@@ -24,7 +24,9 @@ import QtQuick
 
 Row {
 
-    property int leftcol: Math.max(200, Math.min(300, setting_top.width/3))
+    id: setctrl
+
+    property int leftcol: Math.max(200, Math.min(300, setting_top.width/3)) // qmllint disable unqualified
     property int rightcol: parent.width-leftcol-30
 
     property string helptext: ""
@@ -32,37 +34,37 @@ Row {
     property alias content: contcol.children
     property int contentSpacing: contcol.spacing
 
-    property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings
+    property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings // qmllint disable unqualified
 
     Row {
 
-        width: leftcol
+        width: setctrl.leftcol
         spacing: 10
 
         PQButtonIcon {
             id: helpicon
             y: (parent.height/ttl.lineCount -height)/2
-            width: makeHelpTextVisible ? 0 : 30
+            width: setctrl.makeHelpTextVisible ? 0 : 30
             Behavior on width { NumberAnimation { duration: 200 } }
             height: 30
-            opacity: makeHelpTextVisible ? 0 : 1
+            opacity: setctrl.makeHelpTextVisible ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 150 } }
             clip: true
             source: "image://svg/:/white/help.svg"
-            tooltip: helptext
+            tooltip: setctrl.helptext
             tooltipPartialTransparency: false
             visible: width>0
             onClicked: {
-                settinginfomessage.show(helptext)
+                settinginfomessage.show(setctrl.helptext) // qmllint disable unqualified
             }
         }
 
         PQTextXL {
             id: ttl
-            font.weight: PQCLook.fontWeightBold
-            text: title
+            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            text: setctrl.title
             font.capitalization: Font.SmallCaps
-            width: leftcol - (makeHelpTextVisible ? 0 : 40)
+            width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40)
             Behavior on width { NumberAnimation { duration: 200 } }
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         }
@@ -76,20 +78,20 @@ Row {
 
     Column {
 
-        width: rightcol
+        width: setctrl.rightcol
 
         Item {
             width: 1
-            height: makeHelpTextVisible ? 5 : 2
+            height: setctrl.makeHelpTextVisible ? 5 : 2
             Behavior on height { NumberAnimation { duration: 200 } }
         }
 
         Item {
 
             width: parent.width
-            height: makeHelpTextVisible ? helptext_verbose.height+10 : 0
+            height: setctrl.makeHelpTextVisible ? helptext_verbose.height+10 : 0
             Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: makeHelpTextVisible ? 1 : 0
+            opacity: setctrl.makeHelpTextVisible ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 150 } }
             visible: height>0
 
@@ -100,14 +102,14 @@ Row {
                 width: parent.width
 
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: helptext
+                text: setctrl.helptext
             }
 
         }
 
         Item {
             width: 1
-            height: makeHelpTextVisible ? 10 : 0
+            height: setctrl.makeHelpTextVisible ? 10 : 0
             Behavior on height { NumberAnimation { duration: 200 } }
         }
 
@@ -117,7 +119,7 @@ Row {
 
             spacing: 10
 
-            width: rightcol
+            width: setctrl.rightcol
 
         }
 

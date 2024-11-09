@@ -32,24 +32,24 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("settingsmanager", "Settings Manager") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.settingsmanagerGeometry
-    isMax: PQCWindowGeometry.settingsmanagerMaximized
-    popout: PQCSettings.interfacePopoutSettingsManager
-    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
+    geometry: PQCWindowGeometry.settingsmanagerGeometry      // qmllint disable unqualified
+    isMax: PQCWindowGeometry.settingsmanagerMaximized        // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutSettingsManager       // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout // qmllint disable unqualified
     source: "settingsmanager/PQSettingsManager.qml"
 
-    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal
+    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
 
     minimumWidth: 1000
     minimumHeight: 800
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.settingsmanagerGeometry)
+        if(geometry !== PQCWindowGeometry.settingsmanagerGeometry) // qmllint disable unqualified
             PQCWindowGeometry.settingsmanagerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized)
+        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized) // qmllint disable unqualified
             PQCWindowGeometry.settingsmanagerMaximized = isMax
     }
 

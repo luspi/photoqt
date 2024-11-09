@@ -27,6 +27,6 @@ MenuSeparator {
     contentItem: Rectangle {
         implicitWidth: 200
         implicitHeight: 1
-        color: PQCLook.inverseColorHighlight
+        color: PQCLook.inverseColorHighlight // qmllint disable unqualified
     }
 }

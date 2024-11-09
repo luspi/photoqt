@@ -230,7 +230,7 @@ Flickable {
                         enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
-                        checked: (PQCSettings.interfaceTrayIcon===1)
+                        checked: (PQCSettings.interfaceTrayIcon===1) // qmllint disable unqualified
                         onCheckedChanged: setting_top.checkDefault()
                     }
 
@@ -272,7 +272,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -286,7 +286,7 @@ Flickable {
 
     function load() {
 
-        sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances)
+        sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) // qmllint disable unqualified
         mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
 
         blanksession.loadAndSetDefault(!PQCSettings.interfaceRememberLastImage)
@@ -313,7 +313,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceAllowMultipleInstances = mult.checked
+        PQCSettings.interfaceAllowMultipleInstances = mult.checked // qmllint disable unqualified
         PQCSettings.interfaceRememberLastImage = reopenlast.checked
         PQCSettings.imageviewRememberZoomRotationMirror = remember.checked
         PQCSettings.imageviewPreserveZoom = (reuse.checked && reuse_zoom.checked)

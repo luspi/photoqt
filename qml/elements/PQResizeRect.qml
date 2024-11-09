@@ -24,6 +24,8 @@ import QtQuick
 
 Item {
 
+    id: control
+
     width: parent.width
     height: parent.height
 
@@ -34,16 +36,16 @@ Item {
 
     property Item masterObject
 
-    property point startPos
-    property point endPos
+    property point startPos: Qt.point(-1,-1)
+    property point endPos: Qt.point(-1,-1)
 
     // region that is desired
 
     Rectangle {
-        x: effectiveX+startPos.x*effectiveWidth
-        y: effectiveY+startPos.y*effectiveHeight
-        width: (endPos.x-startPos.x)*effectiveWidth
-        height: (endPos.y-startPos.y)*effectiveHeight
+        x: control.effectiveX+control.startPos.x*control.effectiveWidth
+        y: control.effectiveY+control.startPos.y*control.effectiveHeight
+        width: (control.endPos.x-control.startPos.x)*control.effectiveWidth
+        height: (control.endPos.y-control.startPos.y)*control.effectiveHeight
         color: "transparent"
         border.width: 2
         border.color: "red"
@@ -63,16 +65,16 @@ Item {
                 pressedDown = false
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    var w = endPos.x - startPos.x
-                    startPos.x = Math.max(0, Math.min(1-w, startPos.x+(mouse.x-startX)/effectiveWidth))
-                    endPos.x = startPos.x+w
+                    var w = control.endPos.x - control.startPos.x
+                    control.startPos.x = Math.max(0, Math.min(1-w, control.startPos.x+(mouse.x-startX)/control.effectiveWidth))
+                    control.endPos.x = startPos.x+w
                 }
             }
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    var h = endPos.y - startPos.y
-                    startPos.y = Math.max(0, Math.min(1-h, startPos.y+(mouse.y-startY)/effectiveHeight))
-                    endPos.y = startPos.y+h
+                    var h = control.endPos.y - control.startPos.y
+                    control.startPos.y = Math.max(0, Math.min(1-h, control.startPos.y+(mouse.y-startY)/control.effectiveHeight))
+                    control.endPos.y = control.startPos.y+h
                 }
             }
         }
@@ -86,11 +88,11 @@ Item {
 
     // top
     Rectangle {
-        x: effectiveX + (startPos.x +(endPos.x-startPos.x)/2)*effectiveWidth -markerSize/2
-        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + (control.startPos.x +(control.endPos.x-control.startPos.x)/2)*control.effectiveWidth -control.markerSize/2
+        y: control.effectiveY + control.startPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -103,7 +105,7 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.startPos.y = Math.max(0, Math.min(control.endPos.y-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
         }
@@ -111,11 +113,11 @@ Item {
 
     // left
     Rectangle {
-        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + (startPos.y + (endPos.y-startPos.y)/2)*effectiveHeight -markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.startPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + (control.startPos.y + (control.endPos.y-control.startPos.y)/2)*control.effectiveHeight -control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -128,7 +130,7 @@ Item {
                 pressedDown = false
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.startPos.x = Math.max(0, Math.min(control.endPos.x-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }
@@ -136,11 +138,11 @@ Item {
 
     // right
     Rectangle {
-        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + (startPos.y + (endPos.y-startPos.y)/2)*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.endPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + (control.startPos.y + (control.endPos.y-control.startPos.y)/2)*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -153,7 +155,7 @@ Item {
                 pressedDown = false
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.endPos.x = Math.min(1, Math.max(control.startPos.x+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }
@@ -161,11 +163,11 @@ Item {
 
     // bottom
     Rectangle {
-        x: effectiveX + (startPos.x +(endPos.x-startPos.x)/2)*effectiveWidth -markerSize/2
-        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + (control.startPos.x +(control.endPos.x-control.startPos.x)/2)*control.effectiveWidth -control.markerSize/2
+        y: control.effectiveY + control.endPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -178,7 +180,7 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.endPos.y = Math.min(1, Math.max(control.startPos.y+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
         }
@@ -186,11 +188,11 @@ Item {
 
     // top left
     Rectangle {
-        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.startPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + control.startPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -203,12 +205,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.startPos.y = Math.max(0, Math.min(control.endPos.y-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.startPos.x = Math.max(0, Math.min(control.endPos.x-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }
@@ -216,11 +218,11 @@ Item {
 
     // top right
     Rectangle {
-        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + startPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.endPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + control.startPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -233,12 +235,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.y = Math.max(0, Math.min(endPos.y-0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.startPos.y = Math.max(0, Math.min(control.endPos.y-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.endPos.x = Math.min(1, Math.max(control.startPos.x+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }
@@ -246,11 +248,11 @@ Item {
 
     // bottom left
     Rectangle {
-        x: effectiveX + startPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.startPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + control.endPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -263,12 +265,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.endPos.y = Math.min(1, Math.max(control.startPos.y+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    startPos.x = Math.max(0, Math.min(endPos.x-0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.startPos.x = Math.max(0, Math.min(control.endPos.x-0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }
@@ -276,11 +278,11 @@ Item {
 
     // bottom right
     Rectangle {
-        x: effectiveX + endPos.x*effectiveWidth - markerSize/2
-        y: effectiveY + endPos.y*effectiveHeight - markerSize/2
-        width: markerSize
-        height: markerSize
-        radius: markerSize/2
+        x: control.effectiveX + control.endPos.x*control.effectiveWidth - control.markerSize/2
+        y: control.effectiveY + control.endPos.y*control.effectiveHeight - control.markerSize/2
+        width: control.markerSize
+        height: control.markerSize
+        radius: control.markerSize/2
         color: "red"
         PQMouseArea {
             anchors.fill: parent
@@ -293,12 +295,12 @@ Item {
                 pressedDown = false
             onMouseYChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.y = Math.min(1, Math.max(startPos.y+0.01, (mapToItem(masterObject, mouse.x, mouse.y).y-effectiveY)/effectiveHeight))
+                    control.endPos.y = Math.min(1, Math.max(control.startPos.y+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).y-control.effectiveY)/control.effectiveHeight))
                 }
             }
             onMouseXChanged: (mouse) => {
                 if(pressedDown) {
-                    endPos.x = Math.min(1, Math.max(startPos.x+0.01, (mapToItem(masterObject, mouse.x, mouse.y).x-effectiveX)/effectiveWidth))
+                    control.endPos.x = Math.min(1, Math.max(control.startPos.x+0.01, (mapToItem(control.masterObject, mouse.x, mouse.y).x-control.effectiveX)/control.effectiveWidth))
                 }
             }
         }

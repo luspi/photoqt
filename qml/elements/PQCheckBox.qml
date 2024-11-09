@@ -29,9 +29,9 @@ CheckBox {
     text: ""
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
-    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+    font.pointSize: PQCLook.fontSize      // qmllint disable unqualified
+    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
 
     property string tooltip: text
 
@@ -48,15 +48,15 @@ CheckBox {
         opacity: enabled ? 1.0 : 0.3
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        border.color: PQCLook.inverseColor
-        color: PQCLook.baseColorHighlight
+        border.color: PQCLook.inverseColor // qmllint disable unqualified
+        color: PQCLook.baseColorHighlight  // qmllint disable unqualified
         radius: 2
         Rectangle {
             width: 10
             height: 10
             anchors.centerIn: parent
             visible: control.checked
-            color: PQCLook.inverseColor
+            color: PQCLook.inverseColor // qmllint disable unqualified
             radius: 2
         }
     }
@@ -90,16 +90,16 @@ CheckBox {
         _defaultChecked = checked
     }
 
-    function setDefault(chk) {
+    function setDefault(chk : bool) {
         _defaultChecked = chk
     }
 
-    function loadAndSetDefault(chk) {
+    function loadAndSetDefault(chk : bool) {
         checked = chk
         _defaultChecked = chk
     }
 
-    function hasChanged() {
+    function hasChanged() : bool {
         return _defaultChecked!==checked
     }
 

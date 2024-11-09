@@ -165,10 +165,11 @@ Flickable {
                     Behavior on opacity{ NumberAnimation { duration: 150 } }
                     PQComboBox {
                         id: minimapsizelevel
-                        model: [qsTranslate("settingsmanager", "small minimap"),
-                                qsTranslate("settingsmanager", "normal minimap"),
-                                qsTranslate("settingsmanager", "large minimap"),
-                                qsTranslate("settingsmanager", "very large minimap")]
+                        property list<string> modeldata: [qsTranslate("settingsmanager", "small minimap"),
+                                                          qsTranslate("settingsmanager", "normal minimap"),
+                                                          qsTranslate("settingsmanager", "large minimap"),
+                                                          qsTranslate("settingsmanager", "very large minimap")]
+                        model: modeldata
                         onCurrentIndexChanged:
                             setting_top.checkDefault()
                     }
@@ -234,7 +235,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -252,7 +253,7 @@ Flickable {
 
     function load() {
 
-        zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed)
+        zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) // qmllint disable unqualified
         minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
         minzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMin)
         maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
@@ -272,7 +273,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewZoomSpeed = zoomspeed.value
+        PQCSettings.imageviewZoomSpeed = zoomspeed.value // qmllint disable unqualified
         PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
         PQCSettings.imageviewZoomMin = minzoom_slider.value
         PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked

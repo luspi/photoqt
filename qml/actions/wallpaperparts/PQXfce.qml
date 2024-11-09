@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -31,6 +32,8 @@ import "../../elements"
 
 Column {
 
+    id: xfce_top
+
     x: 0
     y: 0
 
@@ -46,13 +49,13 @@ Column {
             check()
     }
 
-    property var checkedScreens: []
+    property list<int> checkedScreens: []
     property string checkedOption: ""
 
     PQTextXL {
         x: (parent.width-width)/2
         text: "XFCE 4"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -62,14 +65,14 @@ Column {
 
     PQText {
         x: (parent.width-width)/2
-        visible: xfconfQueryError
+        visible: xfce_top.xfconfQueryError
         color: "red"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
         text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>xfconf-query</i>")
     }
 
     Item {
-        visible: xfconfQueryError
+        visible: xfce_top.xfconfQueryError
         width: 1
         height: 10
     }
@@ -95,18 +98,20 @@ Column {
             id: desk_col
             spacing: 10
             Repeater {
-                model: numDesktops
+                model: wallpaper_top.numDesktops // qmllint disable unqualified
                 PQCheckBox {
-                    text: qsTranslate("wallpaper", "Screen") + " #" + (index+1)
+                    id: deleg
+                    required property int modelData
+                    text: qsTranslate("wallpaper", "Screen") + " #" + (modelData+1)
                     checked: true
                     onCheckedChanged: {
                         if(!checked)
-                            checkedScreens.splice(checkedScreens.indexOf(index+1), 1)
+                            xfce_top.checkedScreens.splice(xfce_top.checkedScreens.indexOf(modelData+1), 1)
                         else
-                            checkedScreens.push(index+1)
+                            xfce_top.checkedScreens.push(modelData+1)
                     }
                     Component.onCompleted: {
-                        checkedScreens.push(index+1)
+                        xfce_top.checkedScreens.push(modelData+1)
                     }
                 }
             }
@@ -135,7 +140,7 @@ Column {
                 ListElement { text: "Zoomed" }
             }
             onCurrentIndexChanged: {
-                checkedOption = currentText
+                xfce_top.checkedOption = currentText
             }
         }
 
@@ -143,7 +148,7 @@ Column {
 
     function check() {
 
-        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount()
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
         xfconfQueryError = PQCScriptsWallpaper.checkXfce()
 
     }

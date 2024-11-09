@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2024 Lukas Spies                                  **
@@ -30,9 +31,9 @@ PQMenu {
     id: settingsmenu
 
     Connections {
-        target: filedialog_top
+        target: filedialog_top // qmllint disable unqualified
         function onOpacityChanged() {
-            if(filedialog_top.opacity<1)
+            if(filedialog_top.opacity<1) // qmllint disable unqualified
                 settingsmenu.close()
         }
     }
@@ -52,17 +53,17 @@ PQMenu {
             text: qsTranslate("filedialog", "list view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="list"
+            checked: PQCSettings.filedialogLayout==="list" // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogLayout = "list"
+                PQCSettings.filedialogLayout = "list" // qmllint disable unqualified
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "icon view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="icons"
+            checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogLayout = "icons"
+                PQCSettings.filedialogLayout = "icons" // qmllint disable unqualified
         }
 
         PQMenuSeparator {}
@@ -77,25 +78,25 @@ PQMenu {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for list view")
             checkable: true
-            checked: PQCSettings.filedialogDragDropFileviewList
+            checked: PQCSettings.filedialogDragDropFileviewList // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDragDropFileviewList = checked
+                PQCSettings.filedialogDragDropFileviewList = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for grid view")
             checkable: true
-            checked: PQCSettings.filedialogDragDropFileviewGrid
+            checked: PQCSettings.filedialogDragDropFileviewGrid // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDragDropFileviewGrid = checked
+                PQCSettings.filedialogDragDropFileviewGrid = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for bookmarks")
             checkable: true
-            checked: PQCSettings.filedialogDragDropPlaces
+            checked: PQCSettings.filedialogDragDropPlaces // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDragDropPlaces = checked
+                PQCSettings.filedialogDragDropPlaces = checked // qmllint disable unqualified
         }
 
         PQMenuSeparator {}
@@ -107,16 +108,17 @@ PQMenu {
             Instantiator {
                 model: 11
                 delegate: PQMenuItem {
+                    required property int modelData
                     text: modelData + " px"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: PQCSettings.filedialogElementPadding===modelData
+                    checked: PQCSettings.filedialogElementPadding===modelData // qmllint disable unqualified
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.filedialogElementPadding = modelData
+                            PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
                     }
                     onTriggered:
-                        PQCSettings.filedialogElementPadding = modelData
+                        PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
                 }
                 onObjectAdded: (index, object) => paddingsubmenu.insertItem(index, object)
                 onObjectRemoved: (index, object) => paddingsubmenu.removeItem(object)
@@ -127,30 +129,30 @@ PQMenu {
             //: file manager settings popdown: how to select files
             text: qsTranslate("filedialog", "select with single click")
             checkable: true
-            checked: PQCSettings.filedialogSingleClickSelect
+            checked: PQCSettings.filedialogSingleClickSelect // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogSingleClickSelect = checked
+                PQCSettings.filedialogSingleClickSelect = checked // qmllint disable unqualified
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "hidden files")
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders
+            checked: PQCSettings.filedialogShowHiddenFilesFolders // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogShowHiddenFilesFolders = checked
+                PQCSettings.filedialogShowHiddenFilesFolders = checked // qmllint disable unqualified
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "tooltips")
             checkable: true
-            checked: PQCSettings.filedialogDetailsTooltip
+            checked: PQCSettings.filedialogDetailsTooltip // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDetailsTooltip = checked
+                PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "Remember last location")
             checkable: true
-            checked: PQCSettings.filedialogKeepLastLocation
+            checked: PQCSettings.filedialogKeepLastLocation // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogKeepLastLocation = checked
+                PQCSettings.filedialogKeepLastLocation = checked // qmllint disable unqualified
         }
     }
     PQMenu {
@@ -161,18 +163,18 @@ PQMenu {
             //: file manager settings popdown: show thumbnails
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogThumbnails
+            checked: PQCSettings.filedialogThumbnails // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogThumbnails = checked
+                PQCSettings.filedialogThumbnails = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: scale and crop the thumbnails
             text: qsTranslate("filedialog", "scale and crop")
             enabled: thumbnailsshow.checked
             checkable: true
-            checked: PQCSettings.filedialogThumbnailsScaleCrop
+            checked: PQCSettings.filedialogThumbnailsScaleCrop // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogThumbnailsScaleCrop = checked
+                PQCSettings.filedialogThumbnailsScaleCrop = checked // qmllint disable unqualified
         }
 
         PQMenuSeparator {}
@@ -187,36 +189,36 @@ PQMenu {
             //: file manager settings popdown: show folder thumbnails
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnails
+            checked: PQCSettings.filedialogFolderContentThumbnails // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogFolderContentThumbnails = checked
+                PQCSettings.filedialogFolderContentThumbnails = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: scale and crop the folder thumbnails
             text: qsTranslate("filedialog", "scale and crop")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop
+            checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogFolderContentThumbnailsScaleCrop = checked
+                PQCSettings.filedialogFolderContentThumbnailsScaleCrop = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: automatically load the folder thumbnails
             text: qsTranslate("filedialog", "autoload")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsAutoload
+            checked: PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogFolderContentThumbnailsAutoload = checked
+                PQCSettings.filedialogFolderContentThumbnailsAutoload = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: loop through the folder thumbnails
             text: qsTranslate("filedialog", "loop")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsLoop
+            checked: PQCSettings.filedialogFolderContentThumbnailsLoop // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogFolderContentThumbnailsLoop = checked
+                PQCSettings.filedialogFolderContentThumbnailsLoop = checked // qmllint disable unqualified
         }
 
         PQMenuSeparator {}
@@ -232,27 +234,27 @@ PQMenu {
             text: "2 seconds"
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1 // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogFolderContentThumbnailsSpeed = 1
+                PQCSettings.filedialogFolderContentThumbnailsSpeed = 1 // qmllint disable unqualified
         }
         PQMenuItem {
             enabled: folderthumbshow.checked
             text: qsTranslate("filedialog", "1 second")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2 // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogFolderContentThumbnailsSpeed = 2
+                PQCSettings.filedialogFolderContentThumbnailsSpeed = 2 // qmllint disable unqualified
         }
         PQMenuItem {
             enabled: folderthumbshow.checked
             text: qsTranslate("filedialog", "half a second")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3 // qmllint disable unqualified
             onTriggered:
-                PQCSettings.filedialogFolderContentThumbnailsSpeed = 3
+                PQCSettings.filedialogFolderContentThumbnailsSpeed = 3 // qmllint disable unqualified
         }
     }
     PQMenu {
@@ -261,26 +263,26 @@ PQMenu {
         PQMenuItem {
             text: qsTranslate("filedialog", "show bookmarks")
             checkable: true
-            checked: PQCSettings.filedialogPlaces
+            checked: PQCSettings.filedialogPlaces // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPlaces = checked
+                PQCSettings.filedialogPlaces = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: the devices here are the storage devices
             text: qsTranslate("filedialog", "show devices")
             checkable: true
-            checked: PQCSettings.filedialogDevices
+            checked: PQCSettings.filedialogDevices // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDevices = checked
+                PQCSettings.filedialogDevices = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: the devices here are the storage devices
             text: qsTranslate("filedialog", "show temporary devices")
             checkable: true
-            visible: !PQCScriptsConfig.amIOnWindows()
-            checked: PQCSettings.filedialogDevicesShowTmpfs
+            visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+            checked: PQCSettings.filedialogDevicesShowTmpfs // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogDevicesShowTmpfs = checked
+                PQCSettings.filedialogDevicesShowTmpfs = checked // qmllint disable unqualified
         }
     }
     PQMenu {
@@ -291,45 +293,45 @@ PQMenu {
             //: file manager settings popdown: show image previews
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogPreview
+            checked: PQCSettings.filedialogPreview // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPreview = checked
+                PQCSettings.filedialogPreview = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: use higher resolution for image previews
             text: qsTranslate("filedialog", "higher resolution")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewHigherResolution
+            checked: PQCSettings.filedialogPreviewHigherResolution // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPreviewHigherResolution = checked
+                PQCSettings.filedialogPreviewHigherResolution = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: blur image previews
             text: qsTranslate("filedialog", "blur")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewBlur
+            checked: PQCSettings.filedialogPreviewBlur // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPreviewBlur = checked
+                PQCSettings.filedialogPreviewBlur = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: mute the colors in image previews
             text: qsTranslate("filedialog", "mute colors")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewMuted
+            checked: PQCSettings.filedialogPreviewMuted // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPreviewMuted = checked
+                PQCSettings.filedialogPreviewMuted = checked // qmllint disable unqualified
         }
         PQMenuItem {
             //: file manager settings popdown: scale and crop image previews
             text: qsTranslate("filedialog", "scale and crop")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewCropToFit
+            checked: PQCSettings.filedialogPreviewCropToFit // qmllint disable unqualified
             onCheckedChanged:
-                PQCSettings.filedialogPreviewCropToFit = checked
+                PQCSettings.filedialogPreviewCropToFit = checked // qmllint disable unqualified
         }
         PQMenu {
             id: coloritensitysubmenu
@@ -341,13 +343,14 @@ PQMenu {
             Instantiator {
                 model: 10
                 delegate: PQMenuItem {
-                    text: (10-index)*10 + "%"
+                    required property int modelData
+                    text: (10-modelData)*10 + "%"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-index)
+                    checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-modelData) // qmllint disable unqualified
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.filedialogPreviewColorIntensity = 10*(10-index)
+                            PQCSettings.filedialogPreviewColorIntensity = 10*(10-modelData) // qmllint disable unqualified
                     }
                     ButtonGroup.group: colgrp
                 }
@@ -362,6 +365,6 @@ PQMenu {
         id: resetChecked
         interval: 100
         onTriggered:
-            settings.checked = false
+            settings.checked = false // qmllint disable unqualified
     }
 }

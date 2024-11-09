@@ -213,6 +213,7 @@ Flickable {
 
     }
 
+    property int numEntries: 0
     property var entries: []
     property var defaultEntries: []
 
@@ -239,7 +240,7 @@ Flickable {
             spacing: 10
 
             PQTextXL {
-                font.weight: PQCLook.fontWeightBold
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 //: Settings title
                 text: qsTranslate("settingsmanager", "Shortcuts")
                 font.capitalization: Font.SmallCaps
@@ -286,7 +287,7 @@ Flickable {
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
                     placeholderText: qsTranslate("settingsmanager", "Filter key combinations")
                     onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                 }
 
@@ -296,7 +297,7 @@ Flickable {
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
                     placeholderText: qsTranslate("settingsmanager", "Filter shortcut actions")
                     onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus
+                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                 }
 
@@ -304,14 +305,14 @@ Flickable {
                     id: filter_category
                     width: (setting_top.width-filter_combo.width)/2-20
                     height: filter_action.height
-                    model: [qsTranslate("settingsmanager", "Show all categories"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Viewing images"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current image"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current folder"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Interface"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Other"),
-                            qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "External")]
-                }
+                    property list<string> modeldata: [qsTranslate("settingsmanager", "Show all categories"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Viewing images"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current image"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current folder"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Interface"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Other"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "External")]
+                    model: modeldata                }
 
             }
 
@@ -327,7 +328,7 @@ Flickable {
             orientation: ListView.Vertical
             clip: true
 
-            model: setting_top.entries.length
+            model: setting_top.numEntries
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -369,12 +370,12 @@ Flickable {
 
                 clip: true
 
-                color: PQCLook.baseColorAccent
+                color: PQCLook.baseColorAccent // qmllint disable unqualified
                 Behavior on color {
                     SequentialAnimation {
                         loops: 4
-                        ColorAnimation { from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 }
-                        ColorAnimation { from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 }
+                        ColorAnimation { from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } // qmllint disable unqualified
+                        ColorAnimation { from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } // qmllint disable unqualified
                     }
                 }
 
@@ -458,7 +459,7 @@ Flickable {
                                         width: delrect.width+combolabel.width+35
                                         radius: 10
 
-                                        color: combomouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                        color: combomouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                                         Behavior on color { ColorAnimation { duration: 200 } }
 
                                         // deletion 'x' for shortcut
@@ -474,7 +475,7 @@ Flickable {
                                             Behavior on opacity { NumberAnimation { duration: 200 } }
                                             Text {
                                                 anchors.centerIn: parent
-                                                font.weight: PQCLook.fontWeightBold
+                                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                                                 color: "white"
                                                 text: "x"
                                             }
@@ -484,9 +485,9 @@ Flickable {
                                             id: combolabel
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
-                                            font.weight: PQCLook.fontWeightBold
-                                            text: shortcuts.item.translateShortcut(deleg.combos[combodeleg.modelData])
-                                            color: PQCLook.textColor
+                                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                            text: shortcuts.item.translateShortcut(deleg.combos[combodeleg.modelData]) // qmllint disable unqualified
+                                            color: PQCLook.textColor // qmllint disable unqualified
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
 
@@ -534,7 +535,7 @@ Flickable {
                                 y: (parent.height-height)/2
                                 width: addcombo.width+6
                                 height: addcombo.height+6
-                                color: addmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                                color: addmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 radius: 5
                                 PQTextS {
@@ -543,7 +544,7 @@ Flickable {
                                     y: 3
                                     //: Written on small button, used as in: add new key combination. Please keep short!
                                     text: qsTranslate("settingsmanager", "ADD")
-                                    color: PQCLook.textColor
+                                    color: PQCLook.textColor // qmllint disable unqualified
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
 
@@ -573,7 +574,7 @@ Flickable {
 
                         width: parent.width
                         height: exstre_col.height+20
-                        color: PQCLook.baseColorAccent
+                        color: PQCLook.baseColorAccent // qmllint disable unqualified
 
                         opacity: 0
                         visible: opacity>0
@@ -582,8 +583,8 @@ Flickable {
                         SequentialAnimation {
                             loops: Animation.Infinite
                             running: exstre.visible
-                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 }
-                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 }
+                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } // qmllint disable unqualified
+                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } // qmllint disable unqualified
                         }
 
                         Connections {
@@ -608,7 +609,7 @@ Flickable {
 
                             PQText {
                                 width: parent.width
-                                font.weight: PQCLook.fontWeightBold
+                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 text: qsTranslate("settingsmanager", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
                             }
@@ -662,7 +663,7 @@ Flickable {
                     x: ontheleft.width
                     width: 1
                     height: Math.max(ontheleft.height, ontheright.height)
-                    color: PQCLook.baseColorHighlight
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
                 }
 
                 /************************/
@@ -718,7 +719,7 @@ Flickable {
                             height: c2.height+10
                             radius: 5
 
-                            color: actmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                            color: actmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -752,7 +753,7 @@ Flickable {
                                                cmddeleg.cmd.split(":/:/:")[0] + " " + cmddeleg.cmd.split(":/:/:")[1] +
                                                //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
                                                (cmddeleg.cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 
@@ -779,7 +780,7 @@ Flickable {
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
                                 Text {
                                     anchors.centerIn: parent
-                                    font.weight: PQCLook.fontWeightBold
+                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                                     color: "white"
                                     text: "x"
                                 }
@@ -814,7 +815,7 @@ Flickable {
                             y: 3
                             width: addaction.width+6
                             height: addaction.height+6
-                            color: addactmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+                            color: addactmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
                             radius: 5
                             PQTextS {
@@ -823,7 +824,7 @@ Flickable {
                                 y: 3
                                 //: Written on small button, used as in: add new shortcut action. Please keep short!
                                 text: qsTranslate("settingsmanager", "ADD")
-                                color: PQCLook.textColor
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 
@@ -884,7 +885,7 @@ Flickable {
                                 id: radio_cycle
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "cycle through actions one by one")
-                                font.pointSize: PQCLook.fontSizeS
+                                font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
                                 checked: deleg.cycle
                                 ButtonGroup.group: radioGroup
                                 onCheckedChanged: {
@@ -904,7 +905,7 @@ Flickable {
                                     checked: deleg.cycletimeout>0
                                     //: The cycle here is the act of cycling through shortcut actions one by one
                                     text: qsTranslate("settingsmanager", "timeout for resetting cycle:")
-                                    font.pointSize: PQCLook.fontSizeS
+                                    font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
                                     onCheckedChanged: {
                                         cycletimeout_slider.value = 0
                                     }
@@ -951,7 +952,7 @@ Flickable {
                                 x: 40
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "run all actions at once")
-                                font.pointSize: PQCLook.fontSizeS
+                                font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
                                 onCheckedChanged: {
@@ -971,7 +972,7 @@ Flickable {
                     y: parent.height-1
                     width: parent.width
                     height: 1
-                    color: PQCLook.baseColorHighlight
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
                 }
 
                 Connections {
@@ -997,7 +998,7 @@ Flickable {
                     target: setting_top
                     function onHighlightEntry(idx: int) {
                         if(idx === deleg.modelData) {
-                            deleg.color = PQCLook.baseColorHighlight
+                            deleg.color = PQCLook.baseColorHighlight // qmllint disable unqualified
                         }
                     }
                 }
@@ -1007,7 +1008,7 @@ Flickable {
                     performFilter()
                 }
 
-                function performFilter() {
+                function performFilter() : void {
 
                     if((filter_combo.text === "" || filter_combo.text === "$") && (filter_action.text === "" || filter_action.text === "$") && filter_category.currentIndex===0) {
                         deleg.opacity = 1
@@ -1119,7 +1120,7 @@ Flickable {
 
             // reassign shortcut, save reassignment data, and show undo button
             if(usedIndex != -1) {
-                var newid = PQCScriptsOther.getUniqueId()
+                var newid = PQCScriptsOther.getUniqueId() // qmllint disable unqualified
                 setting_top.handleExisting[newid] = [usedIndex, index, combo]
                 setting_top.entries[usedIndex][0].splice(setting_top.entries[usedIndex][0].indexOf(combo), 1)
                 setting_top.entriesChanged()
@@ -1139,6 +1140,8 @@ Flickable {
     PQNewAction {
 
         id: newaction
+
+        actions: setting_top.actions
 
         onAddAction: (idx, act) => {
 
@@ -1160,9 +1163,10 @@ Flickable {
         load()
 
     Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false
+        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
-    function areTwoListsEqual(l1: var, l2: var) : bool {
+    // do not make this function typed, it will break
+    function areTwoListsEqual(l1, l2) {
 
         if(l1.length !== l2.length)
             return false
@@ -1189,7 +1193,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) {
+        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
             applyChanges()
             return
         }
@@ -1222,8 +1226,9 @@ Flickable {
         filter_action.text = ""
         filter_combo.text = ""
         filter_category.currentIndex = 0
-        setting_top.entries = PQCShortcuts.getAllCurrentShortcuts()
+        setting_top.entries = PQCShortcuts.getAllCurrentShortcuts() // qmllint disable unqualified
         setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
+        setting_top.numEntries = setting_top.entries.length
 
         settingChanged = false
         settingsLoaded = true
@@ -1231,7 +1236,7 @@ Flickable {
     }
 
     function applyChanges() {
-        PQCShortcuts.saveAllCurrentShortcuts(setting_top.entries)
+        PQCShortcuts.saveAllCurrentShortcuts(setting_top.entries) // qmllint disable unqualified
         setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
         settingChanged = false
     }

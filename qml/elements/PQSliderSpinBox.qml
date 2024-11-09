@@ -37,13 +37,14 @@ Item {
     height: (enabled||!animateHeight) ? controlrow.height : 0
     opacity: (enabled||(!animateWidth&&!animateHeight)) ? 1 : 0
 
-    Behavior on width { NumberAnimation { duration: animateWidth ? 200 : 0 } }
-    Behavior on height { NumberAnimation { duration: animateHeight ? 200 : 0 } }
-    Behavior on opacity { NumberAnimation { duration: animateWidth||animateHeight ? 150 : 0 } }
+    Behavior on width { NumberAnimation { duration: control.animateWidth ? 200 : 0 } }
+    Behavior on height { NumberAnimation { duration: control.animateHeight ? 200 : 0 } }
+    Behavior on opacity { NumberAnimation { duration: control.animateWidth||control.animateHeight ? 150 : 0 } }
 
     visible: width>0&&height>0
 
     property alias spinboxItem: spinbox
+    property int spinboxItemHeight: spinbox.height
 
     property int minval: 1
     property int maxval: 10
@@ -55,13 +56,13 @@ Item {
     property bool showSlider: true
     property bool sliderExtraSmall: true
 
-    property int titleWeight: PQCLook.fontWeightNormal
+    property int titleWeight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
     property bool editMode: !txt.visible
 
     onVisibleChanged: {
         if(!visible) {
-            PQCNotify.spinBoxPassKeyEvents = false
+            PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
             txt.visible = true
         }
     }
@@ -85,10 +86,10 @@ Item {
         Row {
             id: sliderrow
             height: spinbox.height
-            visible: showSlider
+            visible: control.showSlider
             PQText {
                 y: (parent.height-height)/2
-                text: control.minval+suffix
+                text: control.minval+control.suffix
             }
 
             PQSlider {
@@ -107,7 +108,7 @@ Item {
 
             PQText {
                 y: (parent.height-height)/2
-                text: control.maxval+suffix
+                text: control.maxval+control.suffix
             }
 
         }
@@ -119,19 +120,19 @@ Item {
 
             PQSpinBox {
                 id: spinbox
-                from: minval
-                to: maxval
+                from: control.minval
+                to: control.maxval
                 width: 120
                 tooltipSuffix: control.suffix
                 visible: !txt.visible
                 Component.onDestruction:
-                    PQCNotify.spinBoxPassKeyEvents = false
+                    PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 Keys.onEnterPressed:
                     acceptbut.clicked()
                 Keys.onReturnPressed:
                     acceptbut.clicked()
                 onLiveValueChanged: {
-                    if(showSlider && liveValue !== slidervalue.value)
+                    if(control.showSlider && liveValue !== slidervalue.value)
                         slidervalue.value = liveValue
                 }
             }
@@ -140,11 +141,11 @@ Item {
                 id: txt
                 anchors.fill: parent
                 smallerVersion: true
-                text: spinbox.liveValue + suffix
+                text: spinbox.liveValue + control.suffix
                 //: Tooltip, used as in: Click to edit this value
                 tooltip: qsTranslate("settingsmanager", "Click to edit")
                 onClicked: {
-                    PQCNotify.spinBoxPassKeyEvents = true
+                    PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
                     txt.visible = false
                 }
             }
@@ -158,7 +159,7 @@ Item {
             height: spinbox.height
             visible: !txt.visible
             onClicked: {
-                PQCNotify.spinBoxPassKeyEvents = false
+                PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 txt.visible = true
             }
         }
@@ -170,22 +171,29 @@ Item {
         spinbox.saveDefault()
     }
 
-    function setDefault(val) {
+    function setDefault(val : int) {
         spinbox.setDefault(val)
     }
 
-    function loadAndSetDefault(val) {
+    function loadAndSetDefault(val : int) {
         acceptValue()
         spinbox.loadAndSetDefault(val)
     }
 
-    function hasChanged() {
+    function hasChanged() : bool {
         return spinbox.hasChanged()
     }
 
     function acceptValue() {
-        PQCNotify.spinBoxPassKeyEvents = false
+        PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
         txt.visible = true
+    }
+
+    function increase() {
+        slidervalue.value += 1
+    }
+    function decrease() {
+        slidervalue.value -= 1
     }
 
 }

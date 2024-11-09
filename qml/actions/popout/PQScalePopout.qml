@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("scale", "Scale image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.scaleGeometry
-    isMax: PQCWindowGeometry.scaleMaximized
-    popout: PQCSettings.interfacePopoutScale
-    sizepopout: PQCWindowGeometry.scaleForcePopout
+    geometry: PQCWindowGeometry.scaleGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutScale // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
     source: "actions/PQScale.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "scale")
+        if(loader.visibleItem === "scale") // qmllint disable unqualified
             loader.elementClosed("scale")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutScale)
+        if(popout !== PQCSettings.interfacePopoutScale) // qmllint disable unqualified
             PQCSettings.interfacePopoutScale = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.scaleGeometry)
+        if(geometry !== PQCWindowGeometry.scaleGeometry) // qmllint disable unqualified
             PQCWindowGeometry.scaleGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.scaleMaximized)
+        if(isMax !== PQCWindowGeometry.scaleMaximized) // qmllint disable unqualified
             PQCWindowGeometry.scaleMaximized = isMax
     }
 

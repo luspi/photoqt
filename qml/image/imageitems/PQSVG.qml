@@ -22,8 +22,6 @@
 
 import QtQuick
 
-import "../../elements"
-
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCNotify
@@ -33,11 +31,11 @@ import PQCScriptsOther
 import PQCScriptsClipboard
 import PQCScriptsMetaData
 
-import QtMultimedia
-
 Item {
 
-    id: top
+    id: svgtop
+
+    property string imageSource: ""
 
     property alias source: image.source
     property alias sourceSize: image.sourceSize
@@ -51,12 +49,12 @@ Item {
 
         id: image
 
-        source: (imageloaderitem.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageloaderitem.imageSource)))
+        source: (svgtop.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(svgtop.imageSource))) // qmllint disable unqualified
 
         asynchronous: true
         cache: false
 
-        property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold)
+        property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold) // qmllint disable unqualified
 
         smooth: interpThreshold
         mipmap: interpThreshold
@@ -65,23 +63,18 @@ Item {
 
         property bool fitImage: false
 
-        width: fitImage ? image_top.width : undefined
-        height: fitImage ? image_top.height : undefined
+        width: fitImage ? image_top.width : undefined // qmllint disable unqualified
+        height: fitImage ? image_top.height : undefined // qmllint disable unqualified
 
         fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
 
         visible: !scaledimage.visible
 
-        onWidthChanged:
-            image_wrapper.width = width
-        onHeightChanged:
-            image_wrapper.height = height
-
         onStatusChanged: {
-            image_wrapper.status = status
+            image_wrapper.status = status // qmllint disable unqualified
             if(status == Image.Ready) {
                 fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
-                hasAlpha = PQCScriptsImages.supportsTransparency(imageloaderitem.imageSource)
+                svgtop.hasAlpha = PQCScriptsImages.supportsTransparency(svgtop.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"
         }
@@ -91,17 +84,17 @@ Item {
         property bool myMirrorV: false
 
         onMyMirrorHChanged:
-            loader_top.imageMirrorH = myMirrorH
+            loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
         onMyMirrorVChanged:
-            loader_top.imageMirrorV = myMirrorV
+            loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
         onSourceSizeChanged:
-            loader_top.imageResolution = sourceSize
+            loader_top.imageResolution = sourceSize // qmllint disable unqualified
 
     }
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
         function onMirrorH() {
             image.myMirrorH = !image.myMirrorH
         }
@@ -117,18 +110,18 @@ Item {
 
     transform: [
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: svgtop.width / 2
+            origin.y: svgtop.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         },
         Rotation {
-            origin.x: width / 2
-            origin.y: height / 2
+            origin.x: svgtop.width / 2
+            origin.y: svgtop.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
         }
     ]
 
@@ -137,14 +130,14 @@ Item {
         z: parent.z-1
         fillMode: Image.Tile
         visible: image.status == Image.Ready && scaledimage.status == Image.Ready
-        opacity: loader_top.opacity
-        source: PQCSettings.imageviewTransparencyMarker&&hasAlpha ? "/other/checkerboard.png" : ""
+        opacity: loader_top.opacity // qmllint disable unqualified
+        source: PQCSettings.imageviewTransparencyMarker&&hasAlpha ? "/other/checkerboard.png" : "" // qmllint disable unqualified
 
     }
 
     property real currentScale: 1
     Connections {
-        target: loader_top
+        target: loader_top // qmllint disable unqualified
         function onImageScaleChanged() {
             resetCurrentScale.restart()
         }
@@ -155,23 +148,30 @@ Item {
         interval: 500
         repeat: false
         onTriggered: {
-            currentScale = loader_top.imageScale
+            svgtop.currentScale = loader_top.imageScale // qmllint disable unqualified
         }
     }
 
     Image {
         id: scaledimage
         anchors.fill: parent
-        source: Math.abs(1-currentScale) > 0.01 ? parent.source : ""
-        visible: source !== "" && status == Image.Ready
+        source: Math.abs(1-svgtop.currentScale) > 0.01 ? svgtop.source : ""
+        visible: source.toString() !== "" && status == Image.Ready
         cache: false
         smooth: false
         mipmap: false
         z: parent.z+1
-        sourceSize: Qt.size(parent.sourceSize.width*currentScale, parent.sourceSize.height*currentScale)
+        sourceSize: Qt.size(svgtop.sourceSize.width*svgtop.currentScale, svgtop.sourceSize.height*svgtop.currentScale)
     }
 
-    function setMirrorHV(mH, mV) {
+    Connections {
+        target: image_wrapper // qmllint disable unqualified
+        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+            svgtop.setMirrorHV(mirH, mirV)
+        }
+    }
+
+    function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
     }

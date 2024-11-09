@@ -28,6 +28,8 @@ import PQCScriptsFilesPaths
 
 Item {
 
+    id: mwbg
+
     anchors.fill: parent
 
     Image {
@@ -41,7 +43,7 @@ Item {
     }
 
     function setBackground() {
-        if(PQCSettings.interfaceBackgroundSolid) {
+        if(PQCSettings.interfaceBackgroundSolid) { // qmllint disable unqualified
             bgimage.source = ""
             overlay.color = PQCLook.baseColor
         } else if(PQCSettings.interfaceBackgroundImageUse) {
@@ -79,11 +81,11 @@ Item {
         id: resetBG
         interval: 500
         onTriggered:
-            setBackground()
+            mwbg.setBackground()
     }
 
     Connections {
-        target: PQCSettings
+        target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceAccentColorChanged() {
             resetBG.restart()

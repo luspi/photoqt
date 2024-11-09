@@ -145,19 +145,19 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
-        function onCmdShortcutSequence(seq) {
-            checkComboForShortcut(seq)
+        function onCmdShortcutSequence(seq : string) {
+            keyshortcuts_top.checkComboForShortcut(seq)
         }
 
-        function onExecuteInternalCommand(cmd) {
-            executeInternalFunction(cmd)
+        function onExecuteInternalCommand(cmd : string) {
+            keyshortcuts_top.executeInternalFunction(cmd)
         }
 
-        function onKeyPress(key, modifiers) {
+        function onKeyPress(key : int, modifiers : int) {
 
-            if(loader.visibleItem !== "") {
+            if(loader.visibleItem !== "") { // qmllint disable unqualified
 
                 // make sure contextmenu is closed on key press
                 contextmenu.dismiss()
@@ -174,15 +174,15 @@ Item {
                 if(key !== 16777249)
                     combo += PQCScriptsShortcuts.analyzeKeyPress(key)
 
-                checkComboForShortcut(combo)
+                keyshortcuts_top.checkComboForShortcut(combo)
 
             }
 
         }
 
-        function onMouseWheel(angleDelta, modifiers) {
+        function onMouseWheel(angleDelta : point, modifiers : int) {
 
-            if(loader.visibleItem !== "")
+            if(loader.visibleItem !== "") // qmllint disable unqualified
 
                 loader.passOn("mouseWheel", [angleDelta, modifiers])
 
@@ -197,15 +197,15 @@ Item {
 
                 combo += PQCScriptsShortcuts.analyzeMouseWheel(angleDelta)
 
-                checkComboForShortcut(combo, angleDelta)
+                keyshortcuts_top.checkComboForShortcut(combo, angleDelta)
 
             }
 
         }
 
-        function onMousePressed(modifiers, button, pos) {
+        function onMousePressed(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem !== "")
+            if(loader.visibleItem !== "") // qmllint disable unqualified
 
                 loader.passOn("mousePressed", [modifiers, button, pos])
 
@@ -215,39 +215,39 @@ Item {
                 if(combo !== "") combo += "+"
                 combo += PQCScriptsShortcuts.analyzeMouseButton(button)
 
-                mouseButton = combo
-                mousePath = []
-                mouseGesture = false
-                mousePreviousPos = pos
+                keyshortcuts_top.mouseButton = combo
+                keyshortcuts_top.mousePath = []
+                keyshortcuts_top.mouseGesture = false
+                keyshortcuts_top.mousePreviousPos = pos
 
             }
 
         }
 
-        function onMouseReleased(modifiers, button, pos) {
+        function onMouseReleased(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem !== "")
+            if(loader.visibleItem !== "") // qmllint disable unqualified
 
                 loader.passOn("mouseReleased", [modifiers, button, pos])
 
             else {
 
                 if(!keyshortcuts_top.mouseGesture)
-                    checkComboForShortcut(keyshortcuts_top.mouseButton)
+                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton)
                 else
-                    checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
+                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
 
-                mousePath = []
-                mouseButton = ""
-                mouseGesture = false
+                keyshortcuts_top.mousePath = []
+                keyshortcuts_top.mouseButton = ""
+                keyshortcuts_top.mouseGesture = false
 
             }
 
         }
 
-        function onMouseMove(x, y) {
+        function onMouseMove(x : int, y : int) {
 
-            if(loader.visibleItem !== "")
+            if(loader.visibleItem !== "") // qmllint disable unqualified
 
                 loader.passOn("mouseMove", [x, y])
 
@@ -257,25 +257,25 @@ Item {
 
                 if(dir !== "") {
                     keyshortcuts_top.mouseGesture = true
-                    mousePreviousPos = Qt.point(x,y)
+                    keyshortcuts_top.mousePreviousPos = Qt.point(x,y)
                     if(mousePath[mousePath.length-1] !== dir) {
-                        mousePath.push(dir)
-                        mousePathChanged()
+                        keyshortcuts_top.mousePath.push(dir)
+                        keyshortcuts_top.mousePathChanged()
                     }
                 }
 
             }
         }
 
-        function onMouseDoubleClicked(modifiers, button, pos) {
+        function onMouseDoubleClicked(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem === "") {
+            if(loader.visibleItem === "") { // qmllint disable unqualified
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "") combo += "+"
                 combo += "Double Click"
 
-                checkComboForShortcut(combo)
+                keyshortcuts_top.checkComboForShortcut(combo)
 
             }
 
@@ -283,13 +283,13 @@ Item {
 
     }
 
-    function checkComboForShortcut(combo, wheelDelta) {
+    function checkComboForShortcut(combo : string, wheelDelta : point) {
 
         console.log("args: combo =", combo)
         console.log("args: wheelDelta =", wheelDelta)
 
         // a context menu is open -> don't continue
-        if(PQCNotify.whichContextMenusOpen.length > 0) {
+        if(PQCNotify.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
             if(combo === "Esc")
                 PQCNotify.closeAllContextMenus()
             return
@@ -466,7 +466,7 @@ Item {
             for(var c in commands) {
                 var cmd = commands[c]
                 if(cmd[0] === "_" && cmd[1] === "_")
-                    executeInternalFunction(cmd, wheelDelta)
+                    keyshortcuts_top.executeInternalFunction(cmd, wheelDelta)
                 else {
                     if(PQCFileFolderModel.countMainView === 0)
                         return
@@ -484,7 +484,7 @@ Item {
             var index = PQCShortcuts.getNextCommandInCycle(combo, cycletimeout, commands.length)
             var curcmd = commands[index]
             if(curcmd[0] === "_" && curcmd[1] === "_")
-                executeInternalFunction(curcmd, wheelDelta)
+                keyshortcuts_top.executeInternalFunction(curcmd, wheelDelta)
             else {
                 if(PQCFileFolderModel.countMainView === 0)
                     return
@@ -500,7 +500,7 @@ Item {
 
     }
 
-    function executeInternalFunction(cmd, wheelDelta) {
+    function executeInternalFunction(cmd : string, wheelDelta : point) {
 
         console.debug("args: cmd =", cmd)
         console.debug("args: wheelDelta =", wheelDelta)
@@ -511,7 +511,7 @@ Item {
             // elements
 
             case "__open":
-                loader.show("filedialog")
+                loader.show("filedialog") // qmllint disable unqualified
                 break
             case "__showMapExplorer":
                 loader.show("mapexplorer")
@@ -829,7 +829,7 @@ Item {
 
     }
 
-    function translateShortcut(combo) {
+    function translateShortcut(combo : string) : string {
 
         if(combo === "")
             return "";
@@ -886,7 +886,7 @@ Item {
 
     }
 
-    function translateMouseDirection(parts) {
+    function translateMouseDirection(parts : list<string>) : string {
 
         var ret = ""
 

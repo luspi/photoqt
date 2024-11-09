@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+
 import PQCNotify
 import PQCPhotoSphere
 import PQCFileFolderModel
@@ -28,12 +29,14 @@ import PQCFileFolderModel
 import "../../elements"
 import "../components"
 
-PQCPhotoSphere {
+PQCPhotoSphere { // qmllint disable
 
     id: thesphere
 
-    width: image_top.width
-    height: image_top.height
+    property string imageSource: ""
+
+    width: image_top.width   // qmllint disable
+    height: image_top.height // qmllint disable
 
     // these need to have a small duration as otherwise touchpad handling is awkward
     // key events are handled with their own animations below
@@ -42,7 +45,7 @@ PQCPhotoSphere {
     Behavior on elevation { NumberAnimation { id: behavior_ele; duration: 0 } }
 
     Component.onCompleted: {
-        image_wrapper.status = Image.Ready
+        image_wrapper.status = Image.Ready // qmllint disable unqualified
         image_wrapper.width = width
         image_wrapper.height = height
         behavior_fov.duration = 50
@@ -53,19 +56,14 @@ PQCPhotoSphere {
             panOnCompleted.start()
     }
 
-    onWidthChanged:
-        image_wrapper.width = width
-    onHeightChanged:
-        image_wrapper.height = height
-
-    source: imageloaderitem.imageSource
-    azimuth: 180
-    elevation: 0
-    fieldOfView: 90
+    source: thesphere.imageSource // qmllint disable missing-property
+    azimuth: 180 // qmllint disable missing-property
+    elevation: 0 // qmllint disable missing-property
+    fieldOfView: 90 // qmllint disable missing-property
 
     onVisibleChanged: {
 
-        if(!visible) {
+        if(!thesphere.visible) {
             zoom("reset")
             moveView("reset")
         }
@@ -78,13 +76,13 @@ PQCPhotoSphere {
 
     }
 
-    PinchArea {
+    PinchArea { // qmllint disable missing-property
 
         id: pincharea
 
         anchors.fill: parent
 
-        z: image_top.curZ+1
+        z: image_top.curZ+1 // qmllint disable unqualified
 
         property real storeFieldOfView
 
@@ -167,43 +165,43 @@ PQCPhotoSphere {
 
     Connections {
 
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
-        function onZoomIn(wheelDelta) {
-            if(loader_top.isMainImage)
-                zoom("in")
+        function onZoomIn(wheelDelta : point) {
+            if(loader_top.isMainImage) // qmllint disable unqualified
+                thesphere.zoom("in")
         }
-        function onZoomOut(wheelDelta) {
-            if(loader_top.isMainImage)
-                zoom("out")
+        function onZoomOut(wheelDelta : point) {
+            if(loader_top.isMainImage) // qmllint disable unqualified
+                thesphere.zoom("out")
         }
         function onZoomReset() {
-            if(loader_top.isMainImage) {
-                zoom("reset")
-                moveView("reset")
+            if(loader_top.isMainImage) { // qmllint disable unqualified
+                thesphere.zoom("reset")
+                thesphere.moveView("reset")
             }
         }
 
-        function onMoveView(direction) {
+        function onMoveView(direction : string) {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
             if(direction === "left")
-                moveView("left")
+                thesphere.moveView("left")
             else if(direction === "right")
-                moveView("right")
+                thesphere.moveView("right")
             else if(direction === "up")
-                moveView("up")
+                thesphere.moveView("up")
             else if(direction === "down")
-                moveView("down")
+                thesphere.moveView("down")
 
         }
 
     }
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
-    function zoom(dir) {
+    function zoom(dir : string) {
 
         leftrightani.stop()
 
@@ -225,7 +223,7 @@ PQCPhotoSphere {
     }
 
     // these are not handled with the behavior above because key events are handled smoother than mouse events
-    function moveView(dir) {
+    function moveView(dir : string) {
 
         leftrightani.stop()
 
@@ -268,19 +266,19 @@ PQCPhotoSphere {
         id: controls
     }
 
-    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
+    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30 // qmllint disable unqualified
     property bool animationRunning: false
     property int aniDirection: -1
 
     Connections {
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
-        function onAnimatePhotoSpheres(direction) {
+        function onAnimatePhotoSpheres(direction : int) {
 
-            if(!loader_top.isMainImage)
+            if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
-            aniDirection = direction
+            thesphere.aniDirection = direction
 
             if(direction === 0) {
                 kb_right.stop()
@@ -306,11 +304,11 @@ PQCPhotoSphere {
 
     Connections {
 
-        target: image_top
+        target: image_top // qmllint disable unqualified
 
         function onCurrentlyVisibleIndexChanged() {
 
-            if(!loader_top.isMainImage) {
+            if(!loader_top.isMainImage) { // qmllint disable unqualified
                 if(kb_left.running)
                     kb_left.pause()
                 if(kb_right.running)
@@ -324,10 +322,10 @@ PQCPhotoSphere {
     // slideshow paused/resumed
     Connections {
 
-        target: loader_slideshowhandler.item
+        target: loader_slideshowhandler.item // qmllint disable unqualified
 
         function onRunningChanged() {
-            if(loader_slideshowhandler.item.running) {
+            if(loader_slideshowhandler.item.running) { // qmllint disable unqualified
                 if(aniDirection === 0) {
                     kb_right.stop()
                     if(kb_left.paused)
@@ -362,7 +360,7 @@ PQCPhotoSphere {
         id: kb_left
 
         loops: Animation.Infinite
-        running: animationRunning
+        running: thesphere.animationRunning
 
         // animate from middle to the left
         NumberAnimation {
@@ -370,7 +368,7 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 180
             to: 0
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
         // animate to the right
@@ -379,7 +377,7 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 0
             to: 360
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
         // animate to the middle
@@ -388,7 +386,7 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 360
             to: 180
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
     }
@@ -407,7 +405,7 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 180
             to: 360
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
         // animate to the left
@@ -416,7 +414,7 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 360
             to: 0
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
         // animate to the middle
@@ -425,21 +423,23 @@ PQCPhotoSphere {
             property: "azimuth"
             from: 0
             to: 180
-            duration: Math.abs(from-to)*aniSpeed
+            duration: Math.abs(from-to)*thesphere.aniSpeed
         }
 
     }
 
     Loader {
 
-        active: !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCNotify.slideshowRunning
+        active: !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
             Rectangle {
 
-                    parent: fullscreenitem_foreground
-                    x: statusinfo.item.visible ? statusinfo.item.x : 20
-                    y: statusinfo.item.visible ? statusinfo.item.y+statusinfo.item.height+20 : 20
+                    id: srccomp
+
+                    parent: fullscreenitem_foreground // qmllint disable unqualified
+                    x: statusinfo.item.visible ? statusinfo.item.x : 20 // qmllint disable unqualified
+                    y: statusinfo.item.visible ? statusinfo.item.y+statusinfo.item.height+20 : 20 // qmllint disable unqualified
                     width: 42
                     height: 42
                     radius: 21
@@ -447,7 +447,7 @@ PQCPhotoSphere {
                     opacity: hovered ? 0.8 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    color: PQCLook.transColor
+                    color: PQCLook.transColor // qmllint disable unqualified
 
                     property bool hovered: false
 
@@ -466,10 +466,10 @@ PQCPhotoSphere {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("facetagging", "Click to exit photo sphere")
                         onClicked: {
-                            image_top.exitPhotoSphere()
+                            image_top.exitPhotoSphere() // qmllint disable unqualified
                         }
-                        onEntered: parent.hovered = true
-                        onExited: parent.hovered = false
+                        onEntered: srccomp.hovered = true
+                        onExited: srccomp.hovered = false
                     }
 
                 }
@@ -509,7 +509,7 @@ PQCPhotoSphere {
 
     Timer {
         id: panOnCompleted
-        interval: PQCSettings.imageviewAnimationDuration*100
+        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
         onTriggered: {
             if(!mousearea.pressed)
                 leftrightani.start()

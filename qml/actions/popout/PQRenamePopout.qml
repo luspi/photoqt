@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
 import PQCWindowGeometry
 import "../../elements"
 
@@ -31,10 +30,10 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Rename file") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filerenameGeometry
-    isMax: PQCWindowGeometry.filerenameMaximized
-    popout: PQCSettings.interfacePopoutFileRename
-    sizepopout: PQCWindowGeometry.filerenameForcePopout
+    geometry: PQCWindowGeometry.filerenameGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.filerenameMaximized // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutFileRename // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.filerenameForcePopout // qmllint disable unqualified
     source: "actions/PQRename.qml"
 
     minimumWidth: 800
@@ -42,22 +41,22 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "filerename")
+        if(loader.visibleItem === "filerename") // qmllint disable unqualified
             loader.elementClosed("filerename")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutFileRename)
+        if(popout !== PQCSettings.interfacePopoutFileRename) // qmllint disable unqualified
             PQCSettings.interfacePopoutFileRename = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filerenameGeometry)
+        if(geometry !== PQCWindowGeometry.filerenameGeometry) // qmllint disable unqualified
             PQCWindowGeometry.filerenameGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filerenameMaximized)
+        if(isMax !== PQCWindowGeometry.filerenameMaximized) // qmllint disable unqualified
             PQCWindowGeometry.filerenameMaximized = isMax
     }
 

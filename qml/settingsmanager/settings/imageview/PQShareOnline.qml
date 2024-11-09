@@ -102,7 +102,7 @@ Flickable {
                               qsTranslate("settingsmanager", "Forget account")
                     onClicked: {
                         if(account.acc == "") {
-                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin())
+                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin()) // qmllint disable unqualified
                             authcol.authshow = true
                             error.err = ""
                         } else {
@@ -129,7 +129,7 @@ Flickable {
                     property bool authshow: false
 
                     onAuthshowChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = authshow
+                        PQCNotify.ignoreKeysExceptEnterEsc = authshow // qmllint disable unqualified
                     }
 
                     Item {
@@ -154,7 +154,7 @@ Flickable {
                             placeholderText: "PIN"
                             onActiveFocusChanged: {
                                 if(activeFocus)
-                                    PQCNotify.ignoreKeysExceptEnterEsc = true
+                                    PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
                             }
                         }
                         PQButton {
@@ -162,7 +162,7 @@ Flickable {
                             cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                             onClicked: {
                                 authpinrow.enabled = false
-                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text)
+                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text) // qmllint disable unqualified
                                 if(ret !== 0) {
                                     authpinrow.enabled = true
                                     error.err = ret
@@ -183,7 +183,7 @@ Flickable {
                     width: set_imgur.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     horizontalAlignment: Text.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     color: "red"
                     property string err: ""
                     visible: err!=""
@@ -205,7 +205,7 @@ Flickable {
         id: loadBG
         interval: 200
         onTriggered: {
-            PQCScriptsShareImgur.authAccount()
+            PQCScriptsShareImgur.authAccount() // qmllint disable unqualified
             if(PQCScriptsShareImgur.isAuthenticated()) {
                 account.acc = PQCScriptsShareImgur.getAccountUsername()
             } else {
@@ -219,7 +219,7 @@ Flickable {
         load()
 
     Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false
+        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function load() {
         busy.showBusy()

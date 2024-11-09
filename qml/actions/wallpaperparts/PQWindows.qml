@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 
 import "../../elements"
 
@@ -29,6 +28,8 @@ import "../../elements"
 // WINDOWS
 
 Column {
+
+    id: windows_top
 
     x: 0
     y: 0
@@ -48,7 +49,7 @@ Column {
     PQTextXL {
         x: (parent.width-width)/2
         text: "Microsoft Windows"
-        font.weight: PQCLook.fontWeightBold
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
     Item {
@@ -72,28 +73,28 @@ Column {
             text: "Center"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 0
+                    windows_top.checkedOption = 0
         }
         PQRadioButton {
             id: opt_tile
             text: "Tile"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 1
+                    windows_top.checkedOption = 1
         }
         PQRadioButton {
             id: opt_stretch
             text: "Stretch"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 2
+                    windows_top.checkedOption = 2
         }
         PQRadioButton {
             id: opt_fit
             text: "Fit"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 3
+                    windows_top.checkedOption = 3
         }
         PQRadioButton {
             id: opt_fill
@@ -101,14 +102,14 @@ Column {
             checked: true
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 4
+                    windows_top.checkedOption = 4
         }
         PQRadioButton {
             id: opt_span
             text: "Span"
             onCheckedChanged:
                 if(checked)
-                    checkedOption = 5
+                    windows_top.checkedOption = 5
         }
     }
 

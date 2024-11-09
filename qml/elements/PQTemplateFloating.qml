@@ -73,11 +73,11 @@ Rectangle {
     /////////
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: popout ? 0 : 200 } }
+    Behavior on opacity { NumberAnimation { duration: ele_top.popout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
-    color: PQCLook.transColor
+    color: PQCLook.transColor // qmllint disable unqualified
 
     PQBlurBackground { id: blurbg }
 
@@ -98,16 +98,16 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
-        drag.target: popout ? undefined : parent
-        text: tooltip
+        drag.target: ele_top.popout ? undefined : parent
+        text: ele_top.tooltip
         onWheel: (wheel) => {
-            wheel.accepted = !allowWheel
+            wheel.accepted = !ele_top.allowWheel
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                rightClicked(mouse)
+                ele_top.rightClicked(mouse)
             else
-                leftClicked(mouse)
+                ele_top.leftClicked(mouse)
             mouse.accepted = true
         }
     }
@@ -116,7 +116,7 @@ Rectangle {
 
         id: resizearea
 
-        enabled: !popout
+        enabled: !ele_top.popout
 
         anchors {
             right: parent.right
@@ -144,7 +144,7 @@ Rectangle {
         y: 4
         width: 15
         height: 15
-        visible: showPopinPopout && !forcePopout
+        visible: ele_top.showPopinPopout && !ele_top.forcePopout
         enabled: visible
         z: 1
         source: "image://svg/:/white/popinpopout.svg"
@@ -162,13 +162,13 @@ Rectangle {
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(!showPopinPopout)
+                if(!ele_top.showPopinPopout)
                     return
                 ele_top.hide()
                 if(!ele_top.popout)
                     ele_top.popout = true
                 else
-                    close()
+                    ele_window.close() // qmllint disable unqualified
                 PQCNotify.executeInternalCommand(ele_top.shortcut)
             }
         }
@@ -178,8 +178,8 @@ Rectangle {
             anchors.margins: -2
             radius: 2
             z: -1
-            visible: darkBackgroundManageIcons
-            color: PQCLook.transColor
+            visible: ele_top.darkBackgroundManageIcons
+            color: PQCLook.transColor // qmllint disable unqualified
             opacity: parent.opacity
         }
     }
@@ -201,7 +201,7 @@ Rectangle {
             width: 25
             height: 25
 
-            visible: !popout
+            visible: !ele_top.popout
 
             source: "image://svg/:/white/close.svg"
             sourceSize: Qt.size(width, height)
@@ -222,13 +222,16 @@ Rectangle {
                 anchors.fill: closeimage
                 radius: width/2
                 z: -1
-                visible: darkBackgroundManageIcons
-                color: PQCLook.transColor
+                visible: ele_top.darkBackgroundManageIcons
+                color: PQCLook.transColor // qmllint disable unqualified
                 opacity: closeimage.opacity
             }
 
         }
 
     }
+
+    // will be overwritten
+    function hide() {}
 
 }
