@@ -546,13 +546,13 @@ Item {
     ButtonGroup { id: grp1 }
     ButtonGroup { id: grp2 }
 
+    property int menuReloadIndex: -1
+    property bool menuReloadIndexVisible: menuReloadIndex>-1
+
     Loader {
 
         id: menu
         asynchronous: true
-
-        property int reloadIndex: -1
-        property bool reloadIndexVisible: reloadIndex>-1
 
         sourceComponent:
         PQMenu {
@@ -560,16 +560,16 @@ Item {
             id: menudeleg
 
             PQMenuItem {
-                visible: menu.reloadIndexVisible
+                visible: thumbnails_top.menuReloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
                 iconSource: "image://svg/:/white/convert.svg"
                 onTriggered: {
-                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[menu.reloadIndex]) // qmllint disable unqualified
-                    view.reloadThumbnail(menu.reloadIndex)
+                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[thumbnails_top.menuReloadIndex]) // qmllint disable unqualified
+                    view.reloadThumbnail(thumbnails_top.menuReloadIndex)
                 }
             }
 
-            PQMenuSeparator { visible: (menu.reloadIndexVisible) }
+            PQMenuSeparator { visible: (thumbnails_top.menuReloadIndexVisible) }
 
             PQMenuItem {
                 checkable: true
@@ -660,14 +660,14 @@ Item {
 
             onAboutToShow: {
                 PQCNotify.addToWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
-                menu.reloadIndex = view.highlightIndex
+                thumbnails_top.meuReloadIndex = view.highlightIndex
             }
 
             Connections {
                 target: view
                 function onHighlightIndexChanged() {
                     if(!menudeleg.visible)
-                        menu.reloadIndex = view.highlightIndex
+                        thumbnails_top.menuReloadIndex = view.highlightIndex
                 }
             }
 
