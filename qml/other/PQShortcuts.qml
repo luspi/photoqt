@@ -788,7 +788,12 @@ Item {
                     PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
                 break
             case "__clipboard":
-                PQCScriptsClipboard.copyFilesToClipboard([PQCFileFolderModel.currentFile])
+                var src = PQCFileFolderModel.currentFile
+                if(image.currentFilesInsideCount > 0 && PQCScriptsImages.isArchive(src) && !src.includes("::ARC::"))
+                    src = "%1::ARC::%2".arg(image.currentFileInsideFilename).arg(src)
+                if(image.currentFilesInsideCount > 0 && PQCScriptsImages.isPDFDocument(src) && !src.includes("::PDF::"))
+                    src = "%1::PDF::%2".arg(image.currentFileInside).arg(src)
+                PQCScriptsClipboard.copyFilesToClipboard([src])
                 break
             case "__print":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)

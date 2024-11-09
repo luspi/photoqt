@@ -124,8 +124,13 @@ Image {
         }
     ]
 
+    onFileCountChanged: {
+        image_top.currentFilesInsideCount = fileCount // qmllint disable unqualified
+    }
+
     onCurrentFileChanged: {
         image_top.currentFileInside = currentFile // qmllint disable unqualified
+        image_top.currentFileInsideFilename = fileList[currentFile]
     }
 
     function setSource() {
@@ -169,8 +174,10 @@ Image {
         target: image_top // qmllint disable unqualified
 
         function onArchiveJump(leftright : int) {
-            image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
-            image.setSource()
+            if(loader_top.isMainImage) { // qmllint disable unqualified
+                image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
+                image.setSource()
+            }
         }
 
     }

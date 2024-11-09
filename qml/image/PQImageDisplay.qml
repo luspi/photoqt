@@ -545,6 +545,7 @@ Loader {
                         active: false
                         sourceComponent:
                             PQDocument {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged: {
@@ -557,6 +558,11 @@ Loader {
                                     loader_top.resetToDefaults()
                                     image_wrapper.startupScale = false
                                 }
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
 
                             }
                     }
@@ -567,6 +573,7 @@ Loader {
                         active: false
                         sourceComponent:
                             PQArchive {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged: {
@@ -579,6 +586,11 @@ Loader {
                                     loader_top.resetToDefaults()
                                     image_wrapper.startupScale = false
                                 }
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
 
                             }
                     }
@@ -589,6 +601,7 @@ Loader {
                         active: false
                         sourceComponent:
                             PQVideoMpv {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged: {
@@ -599,6 +612,11 @@ Loader {
                                     loader_top.imageResolution.height = height
                                     image_wrapper.height = height
                                 }
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
 
                             }
                     }
@@ -609,6 +627,7 @@ Loader {
                         active: false
                         sourceComponent:
                             PQVideoQt {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged: {
@@ -620,6 +639,11 @@ Loader {
                                     image_wrapper.height = height
                                 }
 
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
+
                             }
                     }
 
@@ -629,12 +653,18 @@ Loader {
                         active: false
                         sourceComponent:
                             PQImageAnimated {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged:
                                     image_wrapper.width = width
                                 onHeightChanged:
                                     image_wrapper.height = height
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
                             }
                     }
 
@@ -644,12 +674,18 @@ Loader {
                         active: false
                         sourceComponent:
                             PQSVG {
+
                                 imageSource: imageloaderitem.imageSource
 
                                 onWidthChanged:
                                     image_wrapper.width = width
                                 onHeightChanged:
                                     image_wrapper.height = height
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
 
                             }
                     }
@@ -670,6 +706,11 @@ Loader {
                                 onHeightChanged:
                                     image_wrapper.height = sphitem.height
 
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
+
                             }
                     }
 
@@ -679,7 +720,9 @@ Loader {
                         active: false
                         sourceComponent:
                             PQImageNormal {
+
                                 imageSource: imageloaderitem.imageSource
+
                                 onWidthChanged: {
                                     if(!ignoreSignals)
                                         image_wrapper.width = width
@@ -688,6 +731,12 @@ Loader {
                                     if(!ignoreSignals)
                                         image_wrapper.height = height
                                 }
+
+                                // we do not want to have a property binding for this
+                                // otherwise we get error messages when the source changes to a different type
+                                Component.onCompleted:
+                                    imageSource = imageloaderitem.imageSource
+
                             }
                     }
 
@@ -697,6 +746,8 @@ Loader {
 
                         function onFinishSetup() {
                             image_top.currentFileInside = 0 // qmllint disable unqualified
+                            image_top.currentFilesInsideCount = 0
+                            image_top.currentFileInsideFilename = ""
                             loader_top.listenToClicksOnImage = false
                             loader_top.videoPlaying = false
                             loader_top.videoLoaded = false

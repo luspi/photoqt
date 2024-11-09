@@ -181,6 +181,10 @@ Image {
         loadNewPage.restart()
     }
 
+    onPageCountChanged: {
+        image_top.currentFilesInsideCount = pageCount // qmllint disable unqualified
+    }
+
     Timer {
         id: loadNewPage
         interval: 200

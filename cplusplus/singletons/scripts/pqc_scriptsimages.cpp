@@ -523,8 +523,8 @@ int PQCScriptsImages::getNumberDocumentPages(QString path) {
     if(path.trimmed().isEmpty())
         return 0;
 
-    if(path.contains("::PQT::"))
-        path = path.split("::PQT::").at(1);
+    if(path.contains("::PDF::"))
+        path = path.split("::PDF::").at(1);
 
 #ifdef PQMPOPPLER
     std::unique_ptr<Poppler::Document> document = Poppler::Document::load(path);
@@ -878,6 +878,243 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     }
 
 #endif  // PQMZXING
+
+    return ret;
+
+}
+
+QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    QString ret = "";
+
+    if(!path.contains("::ARC::"))
+        return "";
+
+    QStringList parts = path.split("::ARC::");
+    QString archivefile = parts.at(1);
+    QString compressedFilename = parts.at(0);
+
+    QFileInfo info(archivefile);
+    const QString suffix = info.suffix().toLower();
+
+#ifndef Q_OS_WIN
+    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "cbr" || suffix == "rar")) {
+
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which", QStringList() << "unrar");
+        which.waitForFinished();
+
+        if(!which.exitCode()) {
+
+            qDebug() << "loading archive with unrar";
+
+            // we extract it to a temp location from where we can load it then
+            const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
+
+            QDir td;
+            if(!td.exists(tempdir))
+                td.mkpath(tempdir);
+
+            QProcess p;
+            p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tempdir);
+            p.waitForFinished(15000);
+
+            return tempdir+compressedFilename;
+
+        } else
+            qWarning() << "unrar was not found in system path";
+
+    }
+#endif
+
+#ifdef PQMLIBARCHIVE
+
+    // Create new archive handler
+    struct archive *a = archive_read_new();
+
+    // We allow any type of compression and format
+    archive_read_support_filter_all(a);
+    archive_read_support_format_all(a);
+
+    // Read file
+    int r = archive_read_open_filename(a, archivefile.toLocal8Bit().data(), 10240);
+
+    // If something went wrong, output error message and stop here
+    if(r != ARCHIVE_OK) {
+        qWarning() << QString("archive_read_open_filename() returned code of %1").arg(r);
+        return "";
+    }
+
+    // Loop over entries in archive
+    struct archive_entry *entry;
+    while(archive_read_next_header(a, &entry) == ARCHIVE_OK) {
+
+        // Read the current file entry
+        // We use the '_w' variant here, as otherwise on Windows this call causes a segfault when a file in an archive contains non-latin characters
+        QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
+
+        // If this is the file we are looking for:
+        if(filenameinside == compressedFilename || (compressedFilename == "" && QFileInfo(filenameinside).suffix() != "")) {
+
+            // Find out the size of the data
+            int64_t size = archive_entry_size(entry);
+
+            // Create a uchar buffer of that size to hold the image data
+            uchar *buff = new uchar[size];
+
+            // And finally read the file into the buffer
+            la_ssize_t r = archive_read_data(a, (void*)buff, size);
+
+            if(r != size || size == 0) {
+                qWarning() << QString("Failed to read image data, read size (%1) doesn't match expected size (%2)...").arg(r).arg(size);
+                return "";
+            }
+
+            // we extract it to a temp location from where we can load it then
+            const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
+            const QString temppath = tempdir + filenameinside;
+
+            QDir td;
+            if(!td.exists(tempdir))
+                td.mkpath(tempdir);
+
+            // file handles
+            QFile file(temppath);
+            QFileInfo info(file);
+
+            // remove it if it exists, there is no way to know if it's the same file or not
+            if(file.exists()) file.remove();
+
+            // make sure the path exists
+            QDir dir(info.absolutePath());
+            if(!dir.exists())
+                dir.mkpath(info.absolutePath());
+
+            // write buffer to file
+            file.open(QIODevice::WriteOnly);
+            QDataStream out(&file);   // we will serialize the data into the file
+            out.writeRawData((const char*) buff,size);
+            file.close();
+            delete[] buff;
+
+            ret = temppath;
+
+            break;
+
+        }
+
+    }
+
+    // Close archive
+    r = archive_read_close(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_close() returned code of" << r;
+    r = archive_read_free(a);
+    if(r != ARCHIVE_OK)
+        qWarning() << "ERROR: archive_read_free() returned code of" << r;
+
+#endif
+
+    return ret;
+
+}
+
+QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
+
+    qDebug() << "args: path =" << path;
+
+    if(!path.contains("::PDF::"))
+        return "";
+
+    QString ret = "";
+
+#ifdef PQMQTPDF
+
+    // extract page and totalpage value from filename (prepended to filename (after filepath))
+    int page = path.split("::PDF::").at(0).toInt();
+    QString realFileName = path.split("::PDF::").at(1);
+
+    QPdfDocument doc;
+    doc.load(realFileName);
+
+    QPdfDocument::Error err = doc.error();
+    if(err != QPdfDocument::Error::None) {
+        qWarning() << "Error occured loading PDF";
+        return "";
+    }
+
+    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
+    QSize origSize = QSize(_pageSize.width(), _pageSize.height());
+
+    QImage p = doc.render(page, origSize);
+
+    if(p.isNull()) {
+        qWarning() << QString("Unable to read page %1").arg(page);
+        return "";
+    }
+
+    // some pdfs don't specify a background
+    // in that case the resulting image will have a transparent background
+    // to "fix" this we simply draw the image on top of a white image
+    QImage img(p.size(), p.format());
+    img.fill(Qt::white);
+    QPainter paint(&img);
+    paint.drawImage(QRect(QPoint(0,0), img.size()), p);
+    paint.end();
+
+    // we extract it to a temp location from where we can load it then
+    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
+    const QString temppath = tempdir + QString("%1.jpg").arg(page+1);
+
+    QDir td;
+    if(!td.exists(tempdir))
+        td.mkpath(tempdir);
+
+    if(img.save(temppath)) {
+        return temppath;
+    }
+
+#endif
+#ifdef PQMPOPPLER
+
+    // extract page and totalpage value from filename (prepended to filename (after filepath))
+    int page = path.split("::PDF::").at(0).toInt();
+    QString filename = path.split("::PDF::").at(1);
+
+    // Load poppler document and render to QImage
+    std::unique_ptr<Poppler::Document> document = Poppler::Document::load(filename);
+    if(!document || document->isLocked()) {
+        qWarning() << "Invalid PDF document, unable to load!";
+        return "";
+    }
+    document->setRenderHint(Poppler::Document::TextAntialiasing);
+    document->setRenderHint(Poppler::Document::Antialiasing);
+    std::unique_ptr<Poppler::Page> p = document->page(page);
+    if(p == nullptr) {
+        qWarning() << QString("Unable to read page %1").arg(page);
+        return "";
+    }
+
+    const double quality = PQCSettings::get()["filetypesPDFQuality"].toDouble();
+
+    QImage img = p->renderToImage(quality, quality);
+
+    // we extract it to a temp location from where we can load it then
+    const QString tempdir = PQCConfigFiles::get().CACHE_DIR() + "/clipboard/";
+    const QString temppath = tempdir + QString("%1.jpg").arg(page+1);
+
+    QDir td;
+    if(!td.exists(tempdir))
+        td.mkpath(tempdir);
+
+    if(img.save(temppath)) {
+        return temppath;
+    }
+
+#endif
 
     return ret;
 

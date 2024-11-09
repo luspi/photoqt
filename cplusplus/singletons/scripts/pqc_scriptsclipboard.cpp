@@ -26,6 +26,10 @@
 #include <QClipboard>
 #include <QUrl>
 #include <QTextDocumentFragment>
+#include <pqc_loadimage_archive.h>
+#include <pqc_configfiles.h>
+#include <scripts/pqc_scriptsother.h>
+#include <scripts/pqc_scriptsimages.h>
 
 PQCScriptsClipboard::PQCScriptsClipboard() {
     clipboard = qApp->clipboard();
@@ -57,8 +61,31 @@ void PQCScriptsClipboard::copyFilesToClipboard(QStringList files) {
     QMimeData* mimeData = new QMimeData();
 
     QList<QUrl> allurls;
-    for(auto &f : std::as_const(files))
-        allurls.push_back(QUrl::fromLocalFile(f));
+    for(auto &f : std::as_const(files)) {
+
+        // if we are looking at an image in an archive we need to copy it somewhere dedicated first and copy that one.
+        if(f.contains("::ARC::")) {
+
+            QString fname = PQCScriptsImages::get().extractArchiveFileToTempLocation(f);
+
+            if(fname != "")
+                allurls.push_back(QUrl::fromLocalFile(fname));
+            else
+                allurls.push_back(QUrl::fromLocalFile(f));
+
+        } else if(f.contains("::PDF::")) {
+
+            QString fname = PQCScriptsImages::get().extractDocumentPageToTempLocation(f);
+
+            if(fname != "")
+                allurls.push_back(QUrl::fromLocalFile(fname));
+            else
+                allurls.push_back(QUrl::fromLocalFile(f));
+
+        } else
+
+            allurls.push_back(QUrl::fromLocalFile(f));
+    }
     mimeData->setUrls(allurls);
     clipboard->setMimeData(mimeData);
 

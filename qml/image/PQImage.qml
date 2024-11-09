@@ -81,6 +81,8 @@ Item {
     }
 
     property int currentFileInside: 0
+    property int currentFilesInsideCount: 0
+    property string currentFileInsideFilename: "" // whenever currentFileInside is changed this gets adjusted.
 
     property string randomAnimation: "opacity"
 

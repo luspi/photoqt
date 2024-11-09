@@ -74,6 +74,8 @@ public:
     Q_INVOKABLE QString extractMotionPhoto(QString path);
     Q_INVOKABLE QVariantList getZXingData(QString path);
 
+    Q_INVOKABLE QString extractArchiveFileToTempLocation(QString path);
+    Q_INVOKABLE QString extractDocumentPageToTempLocation(QString path);
     Q_INVOKABLE bool extractFrameAndSave(QString path, int frameNumber);
 
     Q_INVOKABLE bool supportsTransparency(QString path);

@@ -693,6 +693,10 @@ void PQCScriptsFilesPaths::cleanupTemporaryFiles() {
     if(dir.exists())
         dir.removeRecursively();
 
+    dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/clipboard/");
+    if(dir.exists())
+        dir.removeRecursively();
+
     dir.setPath(PQCConfigFiles::get().CACHE_DIR() + "/motionphotos/");
     if(dir.exists())
         dir.removeRecursively();

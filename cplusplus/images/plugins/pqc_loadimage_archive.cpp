@@ -188,6 +188,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     QFileInfo info(archivefile);
     const QString suffix = info.suffix().toLower();
 
+#ifndef Q_OS_WIN
     if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "cbr" || suffix == "rar")) {
 
         QProcess which;
@@ -240,6 +241,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
             qWarning() << "unrar was not found in system path";
 
     }
+#endif
 
     // Create new archive handler
     struct archive *a = archive_read_new();
