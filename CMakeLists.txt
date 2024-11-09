@@ -220,7 +220,6 @@ endif()
 # pragma ComponentBehavior is only available since Qt 6.4
 if(Qt6_VERSION VERSION_LESS 6.4)
     foreach(QMLFILE ${photoqt_QML})
-        message(">> ${QMLFILE}")
         file(READ ${QMLFILE} FILE_CONTENTS)
         string(REPLACE "pragma ComponentBehavior: Bound" "" FILE_CONTENTS "${FILE_CONTENTS}")
         file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
