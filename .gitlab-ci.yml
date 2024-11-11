@@ -32,10 +32,10 @@ appimage:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update -qq && apt-get -y install software-properties-common wget
+    - apt-get update -qq && apt-get -y install software-properties-common wget git # add Neon PPA
     - echo "deb http://archive.neon.kde.org/user jammy main" | tee /etc/apt/sources.list.d/neon.list
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
-    - git clone -b 7.1.1-40 https://github.com/ImageMagick/ImageMagick
+    - git clone -b 7.1.1-40 https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
     - cd ImageMagick
     - ./configure --prefix=/usr --with-bzlib=yes --with-fontconfig=yes --with-freetype=yes --with-gslib=yes --with-gvc=yes --with-jpeg=yes --with-jp2=yes --with-png=yes --with-tiff=yes --with-xml=yes --with-gs-font-dir=yes --enable-hdri --disable-docs --with-modules=yes
     - ./configure --prefix=/usr --with-bzlib --with-fontconfig --with-freetype=yes --with-gslib --with-gvc --with-jpeg --with-jp2 --with-png --with-tiff --with-xml --with-gs-font-dir --enable-hdri --disable-docs
@@ -76,7 +76,7 @@ releaseappimage:
 
   script:
     - export DEBIAN_FRONTEND=noninteractive
-    - apt-get update -qq && apt-get -y install software-properties-common wget  # add Neon PPA
+    - apt-get update -qq && apt-get -y install software-properties-common wget git # add Neon PPA
     - echo "deb http://archive.neon.kde.org/user jammy main" | tee /etc/apt/sources.list.d/neon.list
     - wget -qO - http://archive.neon.kde.org/public.key | apt-key add -
     - git clone -b 7.1.1-40 https://github.com/ImageMagick/ImageMagick  # Install up-to-date ImageMagick
