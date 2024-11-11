@@ -105,10 +105,12 @@ bool PQCValidate::validate() {
 
 bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
 
+    QFileInfo userplaces_info(PQCConfigFiles::get().USER_PLACES_XBEL());
+
     // make sure necessary folder exist
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
-    dir.mkpath(QDir(PQCConfigFiles::get().USER_PLACES_XBEL()).absolutePath());
+    dir.mkpath(userplaces_info.absolutePath());
     if(thumb_cache_basedir != "") {
         dir.mkpath(thumb_cache_basedir);
         dir.mkpath(QString("%1/normal/").arg(thumb_cache_basedir));
@@ -121,6 +123,18 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
         dir.mkpath(QString("%1/large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
         dir.mkpath(QString("%1/x-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
         dir.mkpath(QString("%1/xx-large/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
+    }
+
+    // In a previous version the user-places.xbel file was created as directory instead.
+    // If an empty directory with that path exists we remove it.
+    if(userplaces_info.isDir()) {
+        qWarning() << "user-places.xbel is a directory. Checking whether it is empty and removing it in that case.";
+        QDir dir(PQCConfigFiles::get().USER_PLACES_XBEL());
+        if(dir.isEmpty()) {
+            dir.removeRecursively();
+            dir.mkpath(userplaces_info.absolutePath());
+        } else
+            qWarning() << "Directory is not empty, using favorites will not be possible";
     }
 
 #ifdef Q_OS_WIN
