@@ -206,25 +206,28 @@ add_definitions(-DQT_MESSAGELOGCONTEXT)
 
 # MultiEffect is only available since Qt 6.5
 if(Qt6_VERSION VERSION_LESS 6.5)
+
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
-else()
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
-endif()
 
-# pragma ComponentBehavior is only available since Qt 6.4
-if(Qt6_VERSION VERSION_LESS 6.4)
+    # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
     foreach(QMLFILE ${photoqt_QML})
         file(READ ${QMLFILE} FILE_CONTENTS)
         string(REPLACE "pragma ComponentBehavior: Bound" "" FILE_CONTENTS "${FILE_CONTENTS}")
         file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
     endforeach()
+
+else()
+
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
+    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
+
 endif()
+
 
 #############################
 #### Add the executeable ####
