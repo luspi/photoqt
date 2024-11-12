@@ -173,11 +173,6 @@ void PQCStartup::setupFresh() {
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 
-#ifdef Q_OS_WIN
-    // these defaults are different on Windows as on Linux
-    PQCSettings::get().update("filedialogDevices", true);
-#endif
-
     /**************************************************************/
     // create default shortcuts database
     if(QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB()))
@@ -212,6 +207,16 @@ void PQCStartup::setupFresh() {
     }
 
     /**************************************************************/
+
+#ifdef Q_OS_WIN
+    // these defaults are different on Windows as on Linux
+    PQCSettings::get().update("filedialogDevices", true);
+#endif
+
+    // the window decoration on Gnome is a bit weird
+    // that's why we disable it by default
+    if(qgetenv("XDG_CURRENT_DESKTOP").contains("GNOME"))
+        PQCSettings::get().update("interfaceWindowDecoration", false);
 
 }
 
