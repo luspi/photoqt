@@ -260,32 +260,35 @@ Flickable {
                     PQComboBox {
                         id: combo_add
                         y: (but_add.height-height)/2
-                        property list<var> data: [
-                            //: Please keep short! The counter shows where we are in the folder.
-                            ["counter", qsTranslate("settingsmanager", "counter")],
-                            //: Please keep short!
-                            ["filename", qsTranslate("settingsmanager", "filename")],
-                            //: Please keep short!
-                            ["filepathname", qsTranslate("settingsmanager", "filepath")],
-                            //: Please keep short! This is the image resolution.
-                            ["resolution", qsTranslate("settingsmanager", "resolution")],
-                            //: Please keep short! This is the current zoom level.
-                            ["zoom", qsTranslate("settingsmanager", "zoom")],
-                            //: Please keep short! This is the rotation of the current image
-                            ["rotation", qsTranslate("settingsmanager", "rotation")],
-                            //: Please keep short! This is the filesize of the current image.
-                            ["filesize", qsTranslate("settingsmanager", "filesize")],
-                            //: Please keep short! This is the color profile used for the current image
-                            ["colorprofile", qsTranslate("settingsmanager", "color profile")]
+                        property list<string> statusdata_keys: [
+                            "counter",
+                            "filename",
+                            "filepathname",
+                            "resolution",
+                            "zoom",
+                            "rotation",
+                            "filesize",
+                            "colorprofile"
                         ]
-                        property list<string> modeldata: []
-                        model: modeldata
-                        Component.onCompleted: {
-                            var tmp = []
-                            for(var i = 0; i < data.length; ++i)
-                                tmp.push(data[i][1])
-                            modeldata = tmp
-                        }
+                        property list<string> statusdata_vals: [
+                            //: Please keep short! The counter shows where we are in the folder.
+                            qsTranslate("settingsmanager", "counter"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "filename"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "filepath"),
+                            //: Please keep short! This is the image resolution.
+                            qsTranslate("settingsmanager", "resolution"),
+                            //: Please keep short! This is the current zoom level.
+                            qsTranslate("settingsmanager", "zoom"),
+                            //: Please keep short! This is the rotation of the current image
+                            qsTranslate("settingsmanager", "rotation"),
+                            //: Please keep short! This is the filesize of the current image.
+                            qsTranslate("settingsmanager", "filesize"),
+                            //: Please keep short! This is the color profile used for the current image
+                            qsTranslate("settingsmanager", "color profile")
+                        ]
+                        model: statusdata_vals
                     }
                     PQButton {
                         id: but_add
@@ -293,7 +296,7 @@ Flickable {
                         text: qsTranslate("settingsmanager", "add")
                         smallerVersion: true
                         onClicked: {
-                            model.append({"name": combo_add.data[combo_add.currentIndex][0], "index": model.count})
+                            model.append({"name": combo_add.statusdata_keys[combo_add.currentIndex], "index": model.count})
                             setting_top.checkDefault()
                         }
                     }
