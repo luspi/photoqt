@@ -168,11 +168,14 @@ Item {
 
         function onCurrentIndexChanged() {
 
+            if(PQCFileFolderModel.countMainView === 0) // qmllint disable unqualified
+                return
+
             timer_loadbg.stop()
 
             var showItem = -1
 
-            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex] // qmllint disable unqualified
+            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
             var newFolder = PQCScriptsFilesPaths.getDir(newFile)
             var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
 
