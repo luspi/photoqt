@@ -234,6 +234,7 @@ PQTemplateFullscreen {
                                                 ["Margin",
                                                  "AlwaysActualSize",
                                                  "FitInWindow",
+                                                 "RespectDevicePixelRatio",
                                                  "TransparencyMarker",
                                                  "InterpolationDisableForSmallImages",
                                                  "InterpolationThreshold",
