@@ -383,8 +383,6 @@ Window {
         else if(PQCSettings.interfaceRememberLastImage)
             PQCFileFolderModel.fileInFolderMainView = PQCScriptsConfig.getLastLoadedImage()
 
-        PQCFileFolderModel.fileInFolderMainView = "/home/lspies/Desktop/sample2.jpg"
-
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
