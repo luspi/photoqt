@@ -111,7 +111,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Image size")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt ensures that an image is fully visible when first loaded. To achieve this, large images are zoomed out to fit into the view, but images smaller than the view are left as-is. Alternatively, large images can be loaded at full scale, and small images can be zoomed in to also fit into view. The latter option might result in small images appearing pixelated.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt ensures that an image is fully visible when first loaded. To achieve this, large images are zoomed out to fit into the view, but images smaller than the view are left as-is. Alternatively, large images can be loaded at full scale, and small images can be zoomed in to also fit into view. The latter option might result in small images appearing pixelated.") + "<br><br>" + qsTranslate("settingsmanager", "In addition, PhotoQt by default scales the displayed images according to the scale factor of the screen so that images are displayed in their true size. If disabled then the main image will be scaled accordingly with the rest of the application.")
 
             content: [
 
@@ -159,6 +159,13 @@ Flickable {
                         id: small_asis
                         text: qsTranslate("settingsmanager", "load as-is")
                     }
+                },
+
+                PQCheckBox {
+                    id: scale_check
+                    text: qsTranslate("settingsmanager", "respect scale factor of screen")
+                    checked: PQCSettings.imageviewRespectDevicePixelRatio // qmllint disable unqualified
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -610,7 +617,7 @@ Flickable {
 
         if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
                 checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged() || color_enable.hasChanged() ||
-                color_embed.hasChanged() || color_default.hasChanged() || color_defaultcombo.hasChanged()) {
+                color_embed.hasChanged() || color_default.hasChanged() || color_defaultcombo.hasChanged() || scale_check.hasChanged()) {
             settingChanged = true
             return
         }
@@ -646,6 +653,7 @@ Flickable {
         large_full.loadAndSetDefault(PQCSettings.imageviewAlwaysActualSize)
         small_fit.loadAndSetDefault(PQCSettings.imageviewFitInWindow)
         small_asis.loadAndSetDefault(!PQCSettings.imageviewFitInWindow)
+        scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
 
         checkerboard.loadAndSetDefault(PQCSettings.imageviewTransparencyMarker)
 
@@ -684,6 +692,8 @@ Flickable {
         PQCSettings.imageviewAlwaysActualSize = large_full.checked
         PQCSettings.imageviewFitInWindow = small_fit.checked
 
+        PQCSettings.imageviewRespectDevicePixelRatio = scale_check.checked
+
         PQCSettings.imageviewTransparencyMarker = checkerboard.checked
 
         PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
@@ -708,6 +718,7 @@ Flickable {
         large_full.saveDefault()
         small_fit.saveDefault()
         small_asis.saveDefault()
+        scale_check.saveDefault()
         checkerboard.saveDefault()
         interp_check.saveDefault()
         interp_spin.saveDefault()

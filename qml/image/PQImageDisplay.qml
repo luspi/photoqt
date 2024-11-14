@@ -27,6 +27,7 @@ import PQCFileFolderModel
 import PQCNotify
 import PQCScriptsImages
 import PQCScriptsFilesPaths
+import PQCScriptsOther
 
 import "components"
 import "imageitems"
@@ -189,7 +190,7 @@ Loader {
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
-                    loader_top.imageScale = 1
+                    loader_top.imageScale = 1/PQCScriptsOther.getDevicePixelRatio()
             }
             function onRotateClock() {
 
@@ -1153,8 +1154,8 @@ Loader {
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
                         if(loader_top.rotatedUpright)
-                            return Math.min(1, Math.min((flickable.width/width), (flickable.height/height)))
-                        return Math.min(1, Math.min((flickable.width/height), (flickable.height/width)))
+                            return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height)))
+                        return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/height), (flickable.height/width)))
                     }
 
                     Timer {

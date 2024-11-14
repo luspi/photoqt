@@ -55,6 +55,7 @@ public:
     Q_INVOKABLE void restoreOverrideCursor();
     Q_INVOKABLE bool showDesktopNotification(QString summary, QString txt);
     Q_INVOKABLE QStringList convertJSArrayToStringList(QVariant val);
+    Q_INVOKABLE double getDevicePixelRatio();
 
 private:
     PQCScriptsOther();

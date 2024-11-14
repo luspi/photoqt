@@ -30,6 +30,7 @@ import PQCScriptsImages
 import PQCNotify
 import PQCScriptsChromeCast
 import PQCScriptsConfig
+import PQCScriptsOther
 
 import "../elements"
 import "../manage"
@@ -453,7 +454,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round(statusinfo_top.access_image.currentScale*100)+"%"
+            text: Math.round(PQCScriptsOther.getDevicePixelRatio() * statusinfo_top.access_image.currentScale*100)+"%"
         }
     }
 
