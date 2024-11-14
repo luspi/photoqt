@@ -51,9 +51,13 @@ QImage PQCProviderTheme::requestImage(const QString &icon, QSize *origSize, cons
 
     const QString suf = const_cast<QString&>(icon).toLower();
 
+    QImage ret;
+
+#ifndef Q_OS_WIN
     // Attempt to load icon from current theme
     QIcon ico = QIcon::fromTheme(suf);
-    QImage ret = QImage(ico.pixmap(use).toImage());
+    ret = QImage(ico.pixmap(use).toImage());
+#endif
 
     if(ret.isNull()) {
         qDebug() << "Icon not found in theme, using fallback icon:" << suf;
