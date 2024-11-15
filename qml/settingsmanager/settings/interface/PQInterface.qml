@@ -22,10 +22,12 @@
 
 import QtQuick
 import QtQuick.Controls
+import Qt.labs.platform
 
 import PQCScriptsConfig
 import PQCScriptsClipboard
 import PQCNotify
+import PQCScriptsOther
 
 import "../../../elements"
 
@@ -343,14 +345,61 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
-                    property list<string> options: PQCLook.getColorNames() // qmllint disable unqualified
+                    property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color")) // qmllint disable unqualified
                     model: options
-                    onCurrentIndexChanged:
+                    onCurrentIndexChanged: {
                         setting_top.checkDefault()
+                    }
+                },
+                Rectangle {
+                    id: accentcustom
+                    width: 200
+                    height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : 50
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    clip: true
+                    color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
+                    Rectangle {
+                        x: (parent.width-width)/2
+                        y: (parent.height-height)/2
+                        width: accent_coltxt.width+20
+                        height: accent_coltxt.height+10
+                        radius: 5
+                        color: "#88000000"
+                        PQText {
+                            id: accent_coltxt
+                            x: 10
+                            y: 5
+                            text: PQCScriptsOther.convertRgbaToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b, 255*accentcustom.color.a]) // qmllint disable unqualified
+                        }
+                    }
+
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            coldiag.currentColor = "#444444"
+                            coldiag.open()
+                            PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
+                        }
+                    }
                 }
 
             ]
 
+        }
+
+        ColorDialog {
+            id: coldiag
+            options: ColorDialog.ShowAlphaChannel
+            modality: Qt.ApplicationModal
+            onAccepted: {
+                accentcustom.color = coldiag.currentColor
+                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
+            }
+            onRejected: {
+                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
+            }
         }
 
         /**********************************************************************/
@@ -740,7 +789,8 @@ Flickable {
         autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
 
         var index = accentcolor.options.indexOf(PQCSettings.interfaceAccentColor)
-        if(index === -1) index = 0
+        accentcustom.color = PQCSettings.interfaceAccentColor
+        if(index === -1) index = accentcolor.options.length-1
         accentcolor.loadAndSetDefault(index)
 
         notif_grid.loc = PQCSettings.interfaceNotificationLocation
@@ -778,7 +828,10 @@ Flickable {
         PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
         PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
 
-        PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
+        if(accentcolor.currentIndex < accentcolor.options.length-1)
+            PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
+        else
+            PQCSettings.interfaceAccentColor = accent_coltxt.text
 
         PQCSettings.interfaceNotificationLocation = notif_grid.loc
         PQCSettings.interfaceNotificationTryNative = notif_external.checked
