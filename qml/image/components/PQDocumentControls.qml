@@ -134,7 +134,7 @@ Item {
                             width: parent.width-10
                             height: parent.height-10
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/first.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/first.svg" // qmllint disable unqualified
                         }
                         PQMouseArea {
                             id: mousefirst
@@ -158,7 +158,7 @@ Item {
                             width: parent.width
                             height: parent.height-6
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/backwards.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg" // qmllint disable unqualified
                         }
                         PQMouseArea {
                             id: mouseprev
@@ -182,7 +182,7 @@ Item {
                             width: parent.width
                             height: parent.height-6
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/forwards.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
                         }
                         PQMouseArea {
                             id: mousenext
@@ -207,7 +207,7 @@ Item {
                             width: parent.width-10
                             height: parent.height-10
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/last.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/last.svg" // qmllint disable unqualified
                         }
                         PQMouseArea {
                             id: mouselast
@@ -273,7 +273,7 @@ Item {
                         width: height
                         height: parent.height-10
                         sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/viewermode_on.svg"
+                        source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg" // qmllint disable unqualified
                         PQMouseArea {
                             id: viewermodemouse
                             anchors.fill: parent
@@ -308,7 +308,7 @@ Item {
                         Image {
                             height: controlitem.height/2.5
                             width: height
-                            source: "image://svg/:/white/padlock.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg" // qmllint disable unqualified
                             sourceSize: Qt.size(width, height)
                         }
 
@@ -340,7 +340,7 @@ Item {
                 height: 20
                 opacity: controlclosemouse.containsMouse ? 0.75 : 0
                 Behavior on opacity { NumberAnimation { duration: 300 } }
-                source: "image://svg/:/white/close.svg"
+                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                 sourceSize: Qt.size(width, height)
                 PQMouseArea {
                     id: controlclosemouse

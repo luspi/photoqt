@@ -1154,7 +1154,7 @@ Loader {
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
                         if(loader_top.rotatedUpright)
-                            return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height)))
+                            return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height))) // qmllint disable unqualified
                         return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/height), (flickable.height/width)))
                     }
 

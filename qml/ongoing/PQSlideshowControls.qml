@@ -139,7 +139,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/white/slideshowprev.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/slideshowprev.svg" // qmllint disable unqualified
 
             sourceSize: Qt.size(width, height)
 
@@ -172,7 +172,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: (loader_slideshowhandler.item.running ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg") // qmllint disable unqualified
+            source: (loader_slideshowhandler.item.running ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")) // qmllint disable unqualified
 
             sourceSize: Qt.size(width, height)
 
@@ -209,7 +209,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/white/slideshownext.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/slideshownext.svg" // qmllint disable unqualified
 
             sourceSize: Qt.size(width, height)
 
@@ -242,7 +242,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/white/exit.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/exit.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
 
             PQMouseArea {
@@ -285,12 +285,12 @@ Item {
             sourceSize: Qt.size(width, height)
 
             source: volumeslider.value<1 ?
-                        "image://svg/:/white/volume_mute.svg" :
+                        ("image://svg/:/" + PQCLook.iconShade + "/volume_mute.svg") : // qmllint disable unqualified
                         (volumeslider.value <= 40 ?
-                             "image://svg/:/white/volume_low.svg" :
+                             ("image://svg/:/" + PQCLook.iconShade + "/volume_low.svg") :
                              (volumeslider.value <= 80 ?
-                                  "image://svg/:/white/volume_medium.svg" :
-                                  "image://svg/:/white/volume_high.svg"))
+                                  ("image://svg/:/" + PQCLook.iconShade + "/volume_medium.svg") :
+                                  ("image://svg/:/" + PQCLook.iconShade + "/volume_high.svg")))
 
         }
 
@@ -332,7 +332,7 @@ Item {
         height: 15
         visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout // qmllint disable unqualified
         enabled: visible
-        source: "image://svg/:/white/popinpopout.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

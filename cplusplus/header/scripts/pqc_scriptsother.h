@@ -48,8 +48,10 @@ public:
     Q_INVOKABLE QString getUniqueId();
     Q_INVOKABLE void printFile(QString filename);
     Q_INVOKABLE int getCurrentScreen(QPoint pos);
+    Q_INVOKABLE QString addAlphaToColor(QString rgb, int alpha);
     Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
     Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
+    Q_INVOKABLE QString convertRgbToHex(QVariantList rgb);
     Q_INVOKABLE QVariantList selectColor(QVariantList def);
     Q_INVOKABLE void setPointingHandCursor();
     Q_INVOKABLE void restoreOverrideCursor();

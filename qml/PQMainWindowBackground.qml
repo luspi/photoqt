@@ -45,7 +45,7 @@ Item {
     function setBackground() {
         if(PQCSettings.interfaceBackgroundSolid) { // qmllint disable unqualified
             bgimage.source = ""
-            overlay.color = PQCLook.baseColor
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
         } else if(PQCSettings.interfaceBackgroundImageUse) {
             if(PQCSettings.interfaceBackgroundImagePath !== "")
                 bgimage.source = "image://full/" + PQCSettings.interfaceBackgroundImagePath
@@ -59,8 +59,8 @@ Item {
                 bgimage.fillMode = Image.Pad
             else
                 bgimage.fillMode = Image.Tile
-            toplevel.color = PQCLook.baseColor
-            overlay.color = PQCLook.transColor
+            toplevel.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCScriptsOther.addAlphaToColor(PQCSettings.interfaceBackgroundCustomOverlayColor, 222) : PQCLook.transColor
         } else if(PQCSettings.interfaceBackgroundImageScreenshot && PQCNotify.haveScreenshots) {
             var sc = PQCScriptsOther.getCurrentScreen(fullscreenitem.mapToGlobal(toplevel.x+toplevel.width/2, toplevel.y+toplevel.height/2))
             bgimage.source = "image://full/" + PQCScriptsFilesPaths.getTempDir() + "/photoqt_screenshot_" + sc + ".jpg"
@@ -72,7 +72,7 @@ Item {
             toplevel.color = "transparent"
         } else {
             bgimage.source = ""
-            overlay.color = PQCLook.transColor
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCScriptsOther.addAlphaToColor(PQCSettings.interfaceBackgroundCustomOverlayColor, 222) : PQCLook.transColor
             toplevel.color = "transparent"
         }
     }
@@ -124,6 +124,14 @@ Item {
         }
 
         function onInterfaceBackgroundImageScreenshotChanged() {
+            resetBG.restart()
+        }
+
+        function onInterfaceBackgroundCustomOverlayChanged() {
+            resetBG.restart()
+        }
+
+        function onInterfaceBackgroundCustomOverlayColorChanged() {
             resetBG.restart()
         }
 

@@ -122,7 +122,7 @@ Rectangle {
                 width: parent.implicitWidth
                 height: parent.implicitHeight
                 sourceSize: Qt.size(width, height)
-                source: "image://svg/:/white/handle.svg"
+                source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" // qmllint disable unqualified
             }
 
         }
@@ -243,7 +243,7 @@ Rectangle {
         height: 15
         visible: !PQCWindowGeometry.filedialogForcePopout // qmllint disable unqualified
         enabled: visible
-        source: "image://svg/:/white/popinpopout.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

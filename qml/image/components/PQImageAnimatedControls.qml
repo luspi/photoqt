@@ -144,7 +144,7 @@ Item {
                         y: 3
                         width: parent.width-6
                         height: width
-                        source: (image.playing ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg") // qmllint disable unqualified
+                        source: (image.playing ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")) // qmllint disable unqualified
                         sourceSize: Qt.size(width, height)
                         MouseArea {
                             id: playpausecontrol
@@ -206,7 +206,7 @@ Item {
                         height: parent.height-6
                         opacity: enabled ? 0.75 : 0.25
                         Behavior on opacity { NumberAnimation { duration: 200 } }
-                        source: "image://svg/:/white/remember.svg"
+                        source: "image://svg/:/" + PQCLook.iconShade + "/remember.svg" // qmllint disable unqualified
                         sourceSize: Qt.size(width, height)
                         enabled: !image.playing // qmllint disable unqualified
                         PQMouseArea {
@@ -246,7 +246,7 @@ Item {
                         Image {
                             height: controlitem.height/2.5
                             width: height
-                            source: "image://svg/:/white/padlock.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg" // qmllint disable unqualified
                             sourceSize: Qt.size(width, height)
                         }
 
@@ -278,7 +278,7 @@ Item {
                 height: 20
                 opacity: controlclosemouse.containsMouse ? 0.75 : 0
                 Behavior on opacity { NumberAnimation { duration: 300 } }
-                source: "image://svg/:/white/close.svg"
+                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                 sourceSize: Qt.size(width, height)
                 PQMouseArea {
                     id: controlclosemouse

@@ -473,7 +473,7 @@ Flickable {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData>0
-                                            source: "image://svg/:/white/upwards.svg"
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
@@ -488,7 +488,7 @@ Flickable {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData < music_view.model-1
-                                            source: "image://svg/:/white/upwards.svg"
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
@@ -501,7 +501,7 @@ Flickable {
                                             height: 40
                                             iconScale: 0.35
                                             radius: 0
-                                            source: "image://svg/:/white/x.svg"
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {

@@ -47,28 +47,28 @@ PQMenu {
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/rename.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Rename file")
         onTriggered:
             PQCNotify.executeInternalCommand("__rename") // qmllint disable unqualified
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/copy.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Copy file")
         onTriggered:
             PQCNotify.executeInternalCommand("__copy") // qmllint disable unqualified
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/move.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Move file")
         onTriggered:
             PQCNotify.executeInternalCommand("__move") // qmllint disable unqualified
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/delete.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Delete file")
         onTriggered:
             PQCNotify.executeInternalCommand("__deleteTrash") // qmllint disable unqualified
@@ -81,7 +81,7 @@ PQMenu {
         title: qsTranslate("contextmenu", "Manipulate image")
 
         PQMenuItem {
-            iconSource: "image://svg/:/white/scale.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/scale.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Scale image")
             enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
             onTriggered:
@@ -89,7 +89,7 @@ PQMenu {
         }
 
         PQMenuItem {
-            iconSource: "image://svg/:/white/crop.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/crop.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Crop image")
             enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
             onTriggered:
@@ -97,7 +97,7 @@ PQMenu {
         }
 
         PQMenuItem {
-            iconSource: "image://svg/:/white/faces.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Tag faces")
             enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
             onTriggered:
@@ -107,7 +107,7 @@ PQMenu {
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/clipboard.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Copy to clipboard")
         onTriggered: {
             PQCNotify.executeInternalCommand("__clipboard") // qmllint disable unqualified
@@ -115,7 +115,7 @@ PQMenu {
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/convert.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Export to different format")
         enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
         onTriggered:
@@ -123,7 +123,7 @@ PQMenu {
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/wallpaper.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Set as wallpaper")
         enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
         onTriggered:
@@ -194,7 +194,7 @@ PQMenu {
     }
 
     PQMenuItem {
-        iconSource: "image://svg/:/white/histogram.svg"
+        iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Show histogram")
         onTriggered:
             PQCNotify.executeInternalCommand("__histogram") // qmllint disable unqualified
@@ -203,7 +203,7 @@ PQMenu {
     Repeater {
         model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0 // qmllint disable unqualified
         PQMenuItem {
-            iconSource: "image://svg/:/white/mapmarker.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Show on map")
             onTriggered:
                 PQCNotify.executeInternalCommand("__showMapCurrent") // qmllint disable unqualified
@@ -213,7 +213,7 @@ PQMenu {
     Repeater {
         model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0 // qmllint disable unqualified
         PQMenuItem {
-            iconSource: "image://svg/:/white/qrcode.svg"
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" // qmllint disable unqualified
             text: PQCNotify.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
             onTriggered:
                 PQCNotify.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
@@ -229,7 +229,7 @@ PQMenu {
         PQMenuItem {
             required property int modelData
             property list<var> entry: cont.customentries[modelData]
-            iconSource: entry[0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + entry[0])
+            iconSource: entry[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + entry[0]) // qmllint disable unqualified
             text: entry[2]+""
             onTriggered: {
                 if(entry[1].startsWith("__"))

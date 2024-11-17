@@ -102,7 +102,7 @@ Item {
                 width: parent.implicitWidth
                 height: parent.implicitHeight
                 sourceSize: Qt.size(width, height)
-                source: "image://svg/:/white/handle.svg"
+                source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" // qmllint disable unqualified
             }
 
         }
@@ -148,7 +148,7 @@ Item {
                 Image {
                     anchors.fill: parent
                     anchors.margins: 5
-                    source: "image://svg/:/white/popinpopout.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
                     sourceSize: Qt.size(width, height)
                 }
 

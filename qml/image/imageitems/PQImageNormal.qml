@@ -253,7 +253,7 @@ Image {
                     mipmap: true
                     fillMode: Image.PreserveAspectFit
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/white/photosphere.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg" // qmllint disable unqualified
                 }
 
                 PQMouseArea {
@@ -465,7 +465,7 @@ Image {
                         opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5 // qmllint disable unqualified
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         sourceSize: Qt.size(width, height)
-                        source: PQCSettings.filetypesMotionAutoPlay ? "image://svg/:/white/autoplay.svg" : "image://svg/:/white/autoplay_off.svg" // qmllint disable unqualified
+                        source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg") // qmllint disable unqualified
                     }
 
                     PQMouseArea {
@@ -495,7 +495,7 @@ Image {
                         anchors.fill: parent
                         anchors.margins: 5
                         sourceSize: Qt.size(width, height)
-                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg"
+                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg") // qmllint disable unqualified
                     }
 
                     MouseArea {

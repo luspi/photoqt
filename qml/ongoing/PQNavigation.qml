@@ -103,7 +103,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "image://svg/:/white/leftarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: enabled ? 1 : 0.5
@@ -137,7 +137,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "image://svg/:/white/rightarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: enabled ? 1 : 0.5
@@ -171,7 +171,7 @@ Item {
         Image {
             width: 75
             height: width
-            source: "image://svg/:/white/menu.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
             PQMouseArea {
                 anchors.fill: parent

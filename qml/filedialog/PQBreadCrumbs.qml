@@ -69,18 +69,18 @@ Item {
                 }
 
                 PQButtonIcon {
-                    source: "image://svg/:/white/backwards.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg" // qmllint disable unqualified
                     enabled: filedialog_top.historyIndex>0 // qmllint disable unqualified
                     onClicked:
                         filedialog_top.goBackInHistory() // qmllint disable unqualified
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/white/upwards.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
                     onClicked:
                         filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/white/forwards.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
                     enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 // qmllint disable unqualified
                     onClicked:
                         filedialog_top.goForwardsInHistory() // qmllint disable unqualified
@@ -104,7 +104,7 @@ Item {
                     id: iconview
                     checkable: true
                     checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
-                    source: "image://svg/:/white/iconview.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Show files as icons")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
@@ -117,7 +117,7 @@ Item {
                     id: listview
                     checkable: true
                     checked: PQCSettings.filedialogLayout!=="icons" // qmllint disable unqualified
-                    source: "image://svg/:/white/listview.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
@@ -143,7 +143,7 @@ Item {
                 PQButtonIcon {
                     id: settings
                     checkable: true
-                    source: "image://svg/:/white/settings.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Settings")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
@@ -277,7 +277,7 @@ Item {
                                     height: parent.height*(1/fact)
                                     smooth: false
                                     fillMode: Image.PreserveAspectFit
-                                    source: (deleg.modelData===0 && crumbs.isNetwork) ? "image://svg/:/white/network.svg" : "image://svg/:/white/breadcrumb.svg"
+                                    source: (deleg.modelData===0 && crumbs.isNetwork) ? ("image://svg/:/" + PQCLook.iconShade + "/network.svg") : ("image://svg/:/" + PQCLook.iconShade + "/breadcrumb.svg") // qmllint disable unqualified
                                     sourceSize: Qt.size(width, height)
                                 }
                                 PQMouseArea {
@@ -423,7 +423,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/rotateleft.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateleft.svg" // qmllint disable unqualified
                         text: "Undo"
                         enabled: addressedit.lineedit.canUndo
                         onTriggered:
@@ -431,7 +431,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/rotateright.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateright.svg" // qmllint disable unqualified
                         text: "Redo"
                         enabled: addressedit.lineedit.canRedo
                         onTriggered:
@@ -441,7 +441,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/cut.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/cut.svg" // qmllint disable unqualified
                         text: "Cut"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onTriggered:
@@ -450,7 +450,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/copy.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                         text: "Copy"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onTriggered:
@@ -458,7 +458,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/clipboard.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
                         text: "Paste"
                         enabled: addressedit.lineedit.canPaste
                         onTriggered:
@@ -466,14 +466,14 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/delete.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" // qmllint disable unqualified
                         text: "Delete"
                         onTriggered:
                             addressedit.actionDelete()
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/quit.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" // qmllint disable unqualified
                         text: "Clear"
                         onTriggered:
                             addressedit.lineedit.remove(0,addressedit.text.length)
@@ -482,7 +482,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/white/leftrightarrow.svg"
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/leftrightarrow.svg" // qmllint disable unqualified
                         text: "Select all"
                         onTriggered:
                             addressedit.setFocus()
@@ -501,7 +501,7 @@ Item {
                     y: 10
                     width: rightitem.height-20
                     height: rightitem.height-20
-                    source: addressedit.visible ? "image://svg/:/white/checkmark.svg" : "image://svg/:/white/editpath.svg"
+                    source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg") // qmllint disable unqualified
                     onClicked: {
                         if(!addressedit.visible)
                             addressedit.show()

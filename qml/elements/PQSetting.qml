@@ -50,7 +50,7 @@ Row {
             opacity: setctrl.makeHelpTextVisible ? 0 : 1
             Behavior on opacity { NumberAnimation { duration: 150 } }
             clip: true
-            source: "image://svg/:/white/help.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/help.svg" // qmllint disable unqualified
             tooltip: setctrl.helptext
             tooltipPartialTransparency: false
             visible: width>0

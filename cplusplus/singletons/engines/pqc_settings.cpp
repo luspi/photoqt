@@ -413,7 +413,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -545,6 +545,36 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
 
+        } else if(curVer == "4.7") {
+
+            QSqlQuery queryGet(db);
+            if(!queryGet.exec("SELECT `value` FROM `interface` WHERE `name`='AccentColor'")) {
+
+                qWarning() << "Unable to retrieve AccentColor setting:" << queryGet.lastError().text().trimmed();
+
+            } else {
+
+                queryGet.next();
+
+                QString val = queryGet.value(0).toString();
+                queryGet.clear();
+
+                QMap<QString,QString> mapping;
+                mapping.insert("gray",   "#222222");
+                mapping.insert("red",    "#110505");
+                mapping.insert("green" , "#051105");
+                mapping.insert("blue",   "#050b11");
+                mapping.insert("purple", "#0b0211");
+                mapping.insert("orange", "#110b02");
+                mapping.insert("pink",   "#110511");
+
+                if(mapping.contains(val)) {
+                    QSqlQuery queryUpd(db);
+                    if(!queryUpd.exec(QString("UPDATE `interface` SET `value`='%1' WHERE `name`='AccentColor'").arg(mapping[val])))
+                        qWarning() << "Unable to update AccentColor:" << queryUpd.lastError().text().trimmed();
+                }
+
+            }
         }
 
         ////////////////////////////////////

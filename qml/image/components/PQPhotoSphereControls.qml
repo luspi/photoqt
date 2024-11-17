@@ -131,7 +131,7 @@ Item {
                         y: (parent.height-height)/2
                         height: leftrighttxt.height/1.2
                         width: height
-                        source: "image://svg/:/white/padlock.svg"
+                        source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg" // qmllint disable unqualified
                         sourceSize: Qt.size(width, height)
                     }
 
@@ -162,7 +162,7 @@ Item {
                 height: 20
                 opacity: controlclosemouse.containsMouse ? 0.75 : 0
                 Behavior on opacity { NumberAnimation { duration: 300 } }
-                source: "image://svg/:/white/close.svg"
+                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                 sourceSize: Qt.size(width, height)
                 PQMouseArea {
                     id: controlclosemouse

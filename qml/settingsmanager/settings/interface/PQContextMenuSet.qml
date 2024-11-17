@@ -121,7 +121,7 @@ Flickable {
 
                             PQButtonIcon {
                                 id: appicon
-                                source: (setting_top.entries[deleg.modelData][0]==="" ? "image://svg/:/white/application.svg" : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0]))
+                                source: (setting_top.entries[deleg.modelData][0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) // qmllint disable unqualified
                                 onSourceChanged:
                                     setting_top.checkDefault()
                                 onClicked: {
@@ -237,7 +237,7 @@ Flickable {
                             Image {
                                 id: delicn
                                 y: (addflags.height-height)/2
-                                source: "image://svg/:/white/x.svg"
+                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
                                 height: 15
                                 width: 15
                                 sourceSize: Qt.size(width, height)

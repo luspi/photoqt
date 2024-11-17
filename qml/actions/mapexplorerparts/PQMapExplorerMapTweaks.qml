@@ -68,7 +68,7 @@ Rectangle {
         id: resetbutton
         x: parent.width-width-mapexplorer_top.closebuttonWidth/2 // qmllint disable unqualified
         y: (parent.height-height)/2
-        source: "image://svg/:/white/reset.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
         //: The view here is the map layout in the map explorer
         tooltip: qsTranslate("mapexplorer", "Reset view")
         onClicked: {

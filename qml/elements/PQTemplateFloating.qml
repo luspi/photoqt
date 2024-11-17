@@ -147,7 +147,7 @@ Rectangle {
         visible: ele_top.showPopinPopout && !ele_top.forcePopout
         enabled: visible
         z: 1
-        source: "image://svg/:/white/popinpopout.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -203,7 +203,7 @@ Rectangle {
 
             visible: !ele_top.popout
 
-            source: "image://svg/:/white/close.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
 
             opacity: closemouse.containsMouse ? 0.8 : 0.1

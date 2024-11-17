@@ -151,7 +151,7 @@ Item {
                                 height: width
                                 rotation: (deleg.isSelected||filtertxt.text!=="") ? 90 : 0
                                 Behavior on rotation { NumberAnimation { duration: 200 } }
-                                source: "image://svg/:/white/forwards.svg"
+                                source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
                                 sourceSize: Qt.size(width, height)
                             }
 

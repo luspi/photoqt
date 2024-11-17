@@ -75,7 +75,7 @@ Item {
         Image {
             visible: entrytop.img!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/white/" + entrytop.img) : "")
+            source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : "") // qmllint disable unqualified
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
@@ -90,7 +90,7 @@ Item {
         Image {
             visible: entrytop.img_end!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: (entrytop.img_end!="") ? ("image://svg/:/white/" + entrytop.img_end) : ""
+            source: (entrytop.img_end!="") ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img_end) : "" // qmllint disable unqualified
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }

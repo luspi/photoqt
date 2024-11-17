@@ -577,7 +577,7 @@ PQTemplateFullscreen {
                                     y: (parent.height-height)/2
                                     width: parent.height*0.6
                                     height: width
-                                    source: "image://svg/:/white/upwards.svg"
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
                                     sourceSize: Qt.size(width, height)
                                     enabled: deleg.modelData>0
                                     opacity: enabled ? 1 : 0.5
@@ -600,7 +600,7 @@ PQTemplateFullscreen {
                                     width: parent.height*0.6
                                     height: width
                                     rotation: 180
-                                    source: "image://svg/:/white/upwards.svg"
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
                                     sourceSize: Qt.size(width, height)
                                     enabled: deleg.modelData<3
                                     opacity: enabled ? 1 : 0.5

@@ -99,7 +99,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/leftarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: windowbuttons_top.visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -126,7 +126,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/rightarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: windowbuttons_top.visibleAlways||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -158,7 +158,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/menu.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
 
             opacity: (windowbuttons_top.visibleAlways||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -187,7 +187,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/keepforeground.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/keepforeground.svg" // qmllint disable unqualified
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (fore_mouse.containsMouse ? 0.8 : 0.5)*(PQCSettings.interfaceKeepWindowOnTop ? 1 : 0.3) // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -222,7 +222,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: PQCScriptsConfig.amIOnWindows() ? "image://svg/:/white/windows-minimize.svg" : "image://svg/:/white/minimize.svg" // qmllint disable unqualified
+            source: PQCScriptsConfig.amIOnWindows() ? ("image://svg/:/" + PQCLook.iconShade + "/windows-minimize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/minimize.svg") // qmllint disable unqualified
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (mini_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -258,8 +258,8 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
             source: PQCScriptsConfig.amIOnWindows() ? // qmllint disable unqualified
-                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? "image://svg/:/white/windows-maximize.svg" : "image://svg/:/white/windows-restore.svg") :
-                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? "image://svg/:/white/maximize.svg" : "image://svg/:/white/restore.svg")
+                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/windows-maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/windows-restore.svg")) :
+                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/restore.svg"))
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -298,7 +298,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
-            source: PQCSettings.interfaceWindowMode ? "image://svg/:/white/fullscreen_on.svg" : "image://svg/:/white/fullscreen_off.svg" // qmllint disable unqualified
+            source: PQCSettings.interfaceWindowMode ? ("image://svg/:/" + PQCLook.iconShade + "/fullscreen_on.svg") : ("image://svg/:/" + PQCLook.iconShade + "/fullscreen_off.svg") // qmllint disable unqualified
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (fullscreen_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -332,7 +332,7 @@ Item {
         Image {
             width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            source: "image://svg/:/white/close.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (closemouse.containsMouse ? 1 : 0.8)

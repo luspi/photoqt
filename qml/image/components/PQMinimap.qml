@@ -309,7 +309,7 @@ Rectangle {
         width: 15
         height: 15
         z: 1
-        source: "image://svg/:/white/popinpopout.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }

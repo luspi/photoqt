@@ -202,6 +202,17 @@ int PQCScriptsOther::getCurrentScreen(QPoint pos) {
     return 0;
 }
 
+QString PQCScriptsOther::addAlphaToColor(QString rgb, int alpha) {
+
+    qDebug() << "args: rgb =" << rgb;
+    qDebug() << "args: alpha =" << alpha;
+
+    QColor col(rgb);
+    col.setAlpha(alpha);
+    return col.name(QColor::HexArgb);
+
+}
+
 QVariantList PQCScriptsOther::convertHexToRgba(QString hex) {
 
     qDebug() << "args: hex =" << hex;
@@ -233,10 +244,17 @@ QString PQCScriptsOther::convertRgbaToHex(QVariantList rgba) {
 
     qDebug() << "args: rgba =" << rgba;
 
-    std::stringstream ss;
-    ss << "#";
-    ss << std::hex << (rgba[3].toInt() << 24 | rgba[0].toInt() << 16 | rgba[1].toInt() << 8 | rgba[2].toInt());
-    return QString::fromStdString(ss.str());
+    QColor col(qRgba(rgba[0].toInt(), rgba[1].toInt(), rgba[2].toInt(), rgba[3].toInt()));
+    return col.name(QColor::HexArgb);
+
+}
+
+QString PQCScriptsOther::convertRgbToHex(QVariantList rgb) {
+
+    qDebug() << "args: rgb =" << rgb;
+
+    QColor col(qRgb(rgb[0].toInt(), rgb[1].toInt(), rgb[2].toInt()));
+    return col.name(QColor::HexRgb);
 
 }
 

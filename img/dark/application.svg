@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="84.857mm" height="83.621mm" version="1.1" viewBox="0 0 84.857 83.621" xmlns="http://www.w3.org/2000/svg">
+ <g transform="translate(-37.621 -49.441)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="0" stroke-width="8">
+  <rect x="50.413" y="97.906" width="25.042" height="24.481" style="paint-order:stroke fill markers"/>
+  <rect x="86.833" y="97.872" width="25.042" height="24.481" style="paint-order:stroke fill markers"/>
+  <rect transform="rotate(40.569)" x="113.2" y="-21.327" width="21.355" height="20.876" ry="0" style="paint-order:stroke fill markers"/>
+  <rect x="50.458" y="61.8" width="25.042" height="24.481" style="paint-order:stroke fill markers"/>
+ </g>
+</svg>

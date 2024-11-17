@@ -888,7 +888,7 @@ Rectangle {
         height: 15
         visible: !PQCWindowGeometry.mainmenuForcePopout // qmllint disable unqualified
         enabled: visible
-        source: "image://svg/:/white/popinpopout.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }

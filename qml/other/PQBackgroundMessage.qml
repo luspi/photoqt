@@ -104,7 +104,7 @@ Item {
                     height: 40
                     smooth: false
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/white/mouse.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/mouse.svg" // qmllint disable unqualified
 
                 }
 
@@ -146,7 +146,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/leftarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
 
             opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -192,6 +192,8 @@ Item {
             width: ltx.width+20
             height: ltx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
+            border.width: 1
+            border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrleft.visible&&ltx.text!=""&&opacity>0
 
@@ -248,7 +250,7 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/white/rightarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
 
             opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -294,6 +296,8 @@ Item {
             width: rtx.width+20
             height: rtx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
+            border.width: 1
+            border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrright.visible&&rtx.text!=""&&opacity>0
             opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0 // qmllint disable unqualified
@@ -349,7 +353,7 @@ Item {
             sourceSize: Qt.size(width, height)
             visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0 // qmllint disable unqualified
 
-            source: "image://svg/:/white/leftarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             rotation: -90
 
             opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
@@ -396,6 +400,8 @@ Item {
             width: btx.width+20
             height: btx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
+            border.width: 1
+            border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrdown.visible&&btx.text!=""&&opacity>0
             opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0 // qmllint disable unqualified
@@ -450,7 +456,7 @@ Item {
             sourceSize: Qt.size(width, height)
             visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0 // qmllint disable unqualified
 
-            source: "image://svg/:/white/leftarrow.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             rotation: 90
 
             opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
@@ -497,6 +503,8 @@ Item {
             width: utx.width+20
             height: utx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
+            border.width: 1
+            border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrup.visible&&utx.text!=""&&opacity>0
             opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0 // qmllint disable unqualified

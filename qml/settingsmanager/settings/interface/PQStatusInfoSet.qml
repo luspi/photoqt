@@ -210,7 +210,7 @@ Flickable {
                                     width: 20
                                     height: 20
 
-                                    source: "image://svg/:/white/close.svg"
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                                     sourceSize: Qt.size(width, height)
 
                                     opacity: closemouse.containsMouse ? 0.8 : 0.2

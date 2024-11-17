@@ -155,7 +155,7 @@ PQTemplateFullscreen {
             }
 
             Image {
-                source: scale_top.keepAspectRatio ? "image://svg/:/white/aspectratiokeep.svg" : "image://svg/:/white/aspectratioignore.svg"
+                source: scale_top.keepAspectRatio ? "image://svg/:/" + PQCLook.iconShade + "/aspectratiokeep.svg" : "image://svg/:/" + PQCLook.iconShade + "/aspectratioignore.svg" // qmllint disable unqualified
                 y: (spincol.height-height)/2
                 width: height/3
                 height: spincol.height*0.8

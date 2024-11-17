@@ -101,7 +101,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/white/checkmark.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         Timer {
             running: parent.visible
@@ -125,7 +125,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/white/x.svg"
+        source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
         sourceSize: Qt.size(width, height)
         Timer {
             id: failuretimer

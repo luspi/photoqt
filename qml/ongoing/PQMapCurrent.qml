@@ -234,7 +234,7 @@ PQTemplateFloating {
             width: 21
             height: 21
 
-            source: "image://svg/:/white/mapmarker.svg"
+            source: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
 
             opacity: explorermouse.containsMouse ? 0.8 : 0.1

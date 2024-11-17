@@ -257,7 +257,7 @@ Item {
                     y: (parent.height-height)/2
                     width: filtertxt.height/2
                     height: width
-                    source: "image://svg/:/white/x.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
                     sourceSize: Qt.size(width, height)
                     PQMouseArea {
                         anchors.fill: parent
@@ -356,7 +356,7 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
                 sourceSize: Qt.size(width, height)
-                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? "image://svg/:/white/viewermode_off.svg" : "image://svg/:/white/viewermode_on.svg" // qmllint disable unqualified
+                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? ("image://svg/:/" + PQCLook.iconShade + "/viewermode_off.svg") : ("image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg") // qmllint disable unqualified
                 mipmap: true
             }
 
@@ -454,7 +454,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round(PQCScriptsOther.getDevicePixelRatio() * statusinfo_top.access_image.currentScale*100)+"%"
+            text: Math.round(PQCScriptsOther.getDevicePixelRatio() * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
         }
     }
 

@@ -86,7 +86,7 @@ Item {
                     y: parent.height*0.2
                     height: parent.height*0.6
                     width: height
-                    source: loader_top.videoPlaying ? "image://svg/:/white/pause.svg" : "image://svg/:/white/play.svg" // qmllint disable unqualified
+                    source: loader_top.videoPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg") // qmllint disable unqualified
                     sourceSize: Qt.size(width, height)
                     PQMouseArea {
                         id: playpausemouse
@@ -152,14 +152,14 @@ Item {
                     sourceSize: Qt.size(width, height)
                     opacity: enabled ? 1 : 0.3
                     source: !enabled ?
-                                "image://svg/:/white/volume_noaudio.svg" :
+                                ("image://svg/:/" + PQCLook.iconShade + "/volume_noaudio.svg") : // qmllint disable unqualified
                                 PQCSettings.filetypesVideoVolume===0 ? // qmllint disable unqualified
-                                    "image://svg/:/white/volume_mute.svg" :
+                                    ("image://svg/:/" + PQCLook.iconShade + "/volume_mute.svg") :
                                     (PQCSettings.filetypesVideoVolume <= 40 ?
-                                         "image://svg/:/white/volume_low.svg" :
+                                         ("image://svg/:/" + PQCLook.iconShade + "/volume_low.svg") :
                                          (PQCSettings.filetypesVideoVolume <= 80 ?
-                                              "image://svg/:/white/volume_medium.svg" :
-                                              "image://svg/:/white/volume_high.svg"))
+                                              ("image://svg/:/" + PQCLook.iconShade + "/volume_medium.svg") :
+                                              ("image://svg/:/" + PQCLook.iconShade + "/volume_high.svg")))
 
                     PQMouseArea {
                         id: volumeiconmouse
@@ -235,7 +235,7 @@ Item {
                             height: lrtxt.height
                             width: height
                             opacity: PQCSettings.filetypesVideoLeftRightJumpVideo ? 1 : 0.4 // qmllint disable unqualified
-                            source: "image://svg/:/white/padlock.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg" // qmllint disable unqualified
                             sourceSize: Qt.size(width, height)
                         }
 
@@ -266,7 +266,7 @@ Item {
                 width: 20
                 height: 20
                 sourceSize: Qt.size(width, height)
-                source: controlitem.controlsClosed ? "image://svg/:/white/thumbnail.svg" : "image://svg/:/white/close.svg"
+                source: controlitem.controlsClosed ? ("image://svg/:/" + PQCLook.iconShade + "/thumbnail.svg") : ("image://svg/:/" + PQCLook.iconShade + "/close.svg") // qmllint disable unqualified
                 opacity: closemouse.containsMouse ? 1 : 0.1
                 visible: opacity > 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }

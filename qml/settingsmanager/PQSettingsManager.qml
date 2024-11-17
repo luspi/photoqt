@@ -543,7 +543,7 @@ PQTemplateFullscreen {
                     width: parent.implicitWidth
                     height: parent.implicitHeight
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/white/handle.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" // qmllint disable unqualified
                 }
             }
 

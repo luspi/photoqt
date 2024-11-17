@@ -39,6 +39,9 @@ public:
 
     void calculateColors(QString name);
 
+    Q_PROPERTY(QString iconShade READ getIconShade NOTIFY iconShadeChanged)
+    QString getIconShade();
+
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
@@ -72,6 +75,11 @@ public:
     QString getTransColorAccent();
     QString getTransColorHighlight();
     QString getTransColorActive();
+
+    /******************************************************/
+
+    Q_PROPERTY(QString transInverseColor READ getTransInverseColor NOTIFY transInverseColorChanged)
+    QString getTransInverseColor();
 
     /******************************************************/
 
@@ -117,9 +125,14 @@ public:
     /******************************************************/
 
     Q_INVOKABLE QStringList getColorNames();
+    Q_INVOKABLE QStringList getColorHexes();
 
 private:
     PQCLook();
+
+    int lightness_threshold;
+
+    QString m_iconShade;
 
     QString m_baseColor;
     QString m_baseColorAccent;
@@ -135,6 +148,8 @@ private:
     QString m_transColorAccent;
     QString m_transColorHighlight;
     QString m_transColorActive;
+
+    QString m_transInverseColor;
 
     QString m_textColor;
     QString m_textColorDisabled;
@@ -152,8 +167,8 @@ private:
     int m_fontWeightBold;
     int m_fontWeightNormal;
 
-    QHash<QString,QString> colorNameToHex;
     QStringList colorNames;
+    QStringList colorHexes;
 
 Q_SIGNALS:
     void baseColorChanged();
@@ -171,6 +186,8 @@ Q_SIGNALS:
     void transColorHighlightChanged();
     void transColorActiveChanged();
 
+    void transInverseColorChanged();
+
     void textColorChanged();
     void textColorDisabledChanged();
 
@@ -186,6 +203,8 @@ Q_SIGNALS:
 
     void fontWeightBoldChanged();
     void fontWeightNormalChanged();
+
+    void iconShadeChanged();
 
 };
 

@@ -457,7 +457,7 @@ PQCPhotoSphere { // qmllint disable
                         width: 32
                         height: 32
                         sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/white/close.svg"
+                        source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                     }
 
                     PQMouseArea {

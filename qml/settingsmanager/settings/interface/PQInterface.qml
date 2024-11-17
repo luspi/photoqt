@@ -336,6 +336,8 @@ Flickable {
 
         PQSetting {
 
+            id: set_accent
+
             helptext: qsTranslate("settingsmanager",  "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it.")
 
             //: A settings title
@@ -345,43 +347,121 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
+                    property list<string> hexes: PQCLook.getColorHexes() // qmllint disable unqualified
                     property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color")) // qmllint disable unqualified
                     model: options
                     onCurrentIndexChanged: {
                         setting_top.checkDefault()
                     }
                 },
-                Rectangle {
-                    id: accentcustom
-                    width: 200
-                    height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : 50
+
+                Column {
+
+                    height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : (accentcustomtxt.height + spacing + accentcustom.height)
                     Behavior on height { NumberAnimation { duration: 200 } }
+
                     clip: true
-                    color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
+
+                    spacing: 10
+
                     Rectangle {
-                        x: (parent.width-width)/2
-                        y: (parent.height-height)/2
-                        width: accent_coltxt.width+20
-                        height: accent_coltxt.height+10
-                        radius: 5
-                        color: "#88000000"
-                        PQText {
-                            id: accent_coltxt
-                            x: 10
-                            y: 5
-                            text: PQCScriptsOther.convertRgbaToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b, 255*accentcustom.color.a]) // qmllint disable unqualified
+                        id: accentcustom
+                        width: 200
+                        height: 50
+                        clip: true
+                        color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
+                        border.width: 1
+                        border.color: "black"
+                        Rectangle {
+                            x: (parent.width-width)/2
+                            y: (parent.height-height)/2
+                            width: accent_coltxt.width+20
+                            height: accent_coltxt.height+10
+                            radius: 5
+                            color: PQCLook.transInverseColor // qmllint disable unqualified
+                            PQText {
+                                id: accent_coltxt
+                                color: PQCLook.textInverseColor // qmllint disable unqualified
+                                x: 10
+                                y: 5
+                                text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b]) // qmllint disable unqualified
+                            }
+                        }
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: {
+                                coldiag.section = "accent"
+                                coldiag.currentColor = accentcustom.color
+                                coldiag.open()
+                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
+                            }
                         }
                     }
 
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            coldiag.currentColor = "#444444"
-                            coldiag.open()
-                            PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
+                    PQText {
+                        id: accentcustomtxt
+                        width: set_accent.rightcol
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        text: qsTranslate("settingsmanager", "It is recommended to choose either a very dark or very light color to improve the contrast and readability of text and icons.")
+                    }
+
+                },
+
+                Flow {
+                    width: set_accent.rightcol
+                    PQRadioButton {
+                        id: bgaccentusecheck
+                        text: qsTranslate("settingsmanager", "use accent color for background")
+                        checked: !PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        onCheckedChanged: setting_top.checkDefault()
+                    }
+                    PQRadioButton {
+                        id: bgcustomusecheck
+                        text: qsTranslate("settingsmanager", "use custom color for background")
+                        checked: PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        onCheckedChanged: setting_top.checkDefault()
+                    }
+                    Rectangle {
+                        id: bgcustomuse
+                        height: bgcustomusecheck.height
+                        width: bgcustomusecheck.checked ? 200 : 0
+                        Behavior on width { NumberAnimation { duration: 200 } }
+                        opacity: bgcustomusecheck.checked ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 150 } }
+                        clip: true
+                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor // qmllint disable unqualified
+                        onColorChanged: setting_top.checkDefault()
+                        Rectangle {
+                            x: (parent.width-width)/2
+                            y: (parent.height-height)/2
+                            width: bgcustomusetxt.width+20
+                            height: bgcustomusetxt.height+10
+                            radius: 5
+                            color: "#88000000"
+                            PQText {
+                                id: bgcustomusetxt
+                                x: 10
+                                y: 5
+                                text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b]) // qmllint disable unqualified
+                            }
                         }
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("settingsmanager", "Click to change color")
+                            onClicked: {
+                                coldiag.section = "bgcustom"
+                                coldiag.currentColor = bgcustomuse.color
+                                coldiag.open()
+                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
+                            }
+                        }
+
                     }
                 }
 
@@ -391,10 +471,13 @@ Flickable {
 
         ColorDialog {
             id: coldiag
-            options: ColorDialog.ShowAlphaChannel
             modality: Qt.ApplicationModal
+            property string section: ""
             onAccepted: {
-                accentcustom.color = coldiag.currentColor
+                if(section == "accent")
+                    accentcustom.color = coldiag.currentColor
+                else
+                    bgcustomuse.color = coldiag.currentColor
                 PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
             }
             onRejected: {
@@ -742,7 +825,13 @@ Flickable {
             return
         }
 
-        settingChanged = accentcolor.hasChanged()
+        if(accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
+                (bgcustomusecheck.checked && bgcustomuse.color != PQCSettings.interfaceBackgroundCustomOverlayColor)) {
+            settingChanged = true
+            return
+        }
+
+        settingChanged = false
 
     }
 
@@ -788,10 +877,13 @@ Flickable {
         autohide_topedge.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
         autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
 
-        var index = accentcolor.options.indexOf(PQCSettings.interfaceAccentColor)
+        var index = accentcolor.hexes.indexOf(PQCSettings.interfaceAccentColor)
         accentcustom.color = PQCSettings.interfaceAccentColor
         if(index === -1) index = accentcolor.options.length-1
         accentcolor.loadAndSetDefault(index)
+
+        bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
+        bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
 
         notif_grid.loc = PQCSettings.interfaceNotificationLocation
         notif_grid.default_loc = PQCSettings.interfaceNotificationLocation
@@ -828,10 +920,14 @@ Flickable {
         PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
         PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
 
-        if(accentcolor.currentIndex < accentcolor.options.length-1)
-            PQCSettings.interfaceAccentColor = accentcolor.options[accentcolor.currentIndex]
+        if(accentcolor.currentIndex < accentcolor.hexes.length)
+            PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
         else
             PQCSettings.interfaceAccentColor = accent_coltxt.text
+
+        PQCSettings.interfaceBackgroundCustomOverlay = bgcustomusecheck.checked
+        if(bgcustomusecheck.checked)
+            PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
 
         PQCSettings.interfaceNotificationLocation = notif_grid.loc
         PQCSettings.interfaceNotificationTryNative = notif_external.checked
@@ -856,6 +952,9 @@ Flickable {
         autohide_timeout.saveDefault()
 
         accentcolor.saveDefault()
+
+        bgcustomusecheck.saveDefault()
+        bgaccentusecheck.saveDefault()
 
         notif_grid.default_loc = notif_grid.loc
         notif_external.saveDefault()

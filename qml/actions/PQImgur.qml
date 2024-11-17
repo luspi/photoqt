@@ -195,7 +195,7 @@ PQTemplateFullscreen {
                 PQButtonIcon {
                     width: result_access.height
                     height: width
-                    source: "image://svg/:/white/copy.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                     onClicked:
                         PQCScriptsClipboard.copyTextToClipboard(imgur_top.imageURL) // qmllint disable unqualified
                 }
@@ -232,7 +232,7 @@ PQTemplateFullscreen {
                 PQButtonIcon {
                     width: result_delete.height
                     height: width
-                    source: "image://svg/:/white/copy.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                     onClicked:
                         PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + imgur_top.imageDeleteHash) // qmllint disable unqualified
                 }
@@ -331,7 +331,7 @@ PQTemplateFullscreen {
                             width: 26
                             height: 26
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/close.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                             opacity: 0.5
                             Behavior on opacity { NumberAnimation { duration: 200 } }
                             PQMouseArea {
@@ -402,7 +402,7 @@ PQTemplateFullscreen {
                                         PQButtonIcon {
                                             width: acctxt.height
                                             height: width
-                                            source: "image://svg/:/white/copy.svg"
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard(deleg.curdata[2]) // qmllint disable unqualified
                                         }
@@ -434,7 +434,7 @@ PQTemplateFullscreen {
                                         PQButtonIcon {
                                             width: deltxt.height
                                             height: width
-                                            source: "image://svg/:/white/copy.svg"
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + deleg.curdata[3]) // qmllint disable unqualified
                                         }

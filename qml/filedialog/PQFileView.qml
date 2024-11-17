@@ -576,7 +576,7 @@ GridView {
                 width: parent.width
                 height: parent.height/4
                 y: parent.height-height
-                color: "#cc2f2f2f"
+                color: PQCLook.transColor // qmllint disable unqualified
 
                 PQText {
                     id: filename
@@ -592,7 +592,7 @@ GridView {
                 Image {
                     x: (parent.width-width-5)
                     y: (parent.height-height-5)
-                    source: "image://svg/:/white/folder.svg"
+                    source: "image://svg/:/" + PQCLook.iconShade + "/folder.svg" // qmllint disable unqualified
                     height: 16
                     mipmap: true
                     width: height
@@ -1109,7 +1109,7 @@ GridView {
 
                 Image {
                     anchors.fill: parent
-                    source: (view.currentSelection.indexOf(deleg.modelData)!=-1 ? "image://svg/:/white/deselectfile.svg" : "image://svg/:/white/selectfile.svg")
+                    source: (view.currentSelection.indexOf(deleg.modelData)!=-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }

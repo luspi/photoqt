@@ -22,11 +22,13 @@
 
 import QtQuick
 import QtQuick.Controls
+import Qt.labs.platform
 
 import PQCNotify
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsConfig
+import PQCScriptsOther
 
 import "../../../elements"
 
@@ -213,7 +215,7 @@ Flickable {
                             width: 24
                             height: 24
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/white/close.svg"
+                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -264,6 +266,88 @@ Flickable {
                         }
                     }
 
+                },
+
+                Item {
+                    width: 1
+                    height: 1
+                },
+
+                Rectangle {
+                    width: set_bg.rightcol
+                    height: 1
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                },
+
+                Item {
+                    width: 1
+                    height: 1
+                },
+
+                Flow {
+                    id: accentrow
+                    width: set_bg.rightcol
+                    PQRadioButton {
+                        id: accentusecheck
+                        text: qsTranslate("settingsmanager", "overlay with accent color")
+                        checked: !PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        onCheckedChanged: setting_top.checkDefault()
+                    }
+                    PQRadioButton {
+                        id: customusecheck
+                        text: qsTranslate("settingsmanager", "overlay with custom color")
+                        checked: PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        onCheckedChanged: setting_top.checkDefault()
+                    }
+                    Rectangle {
+                        id: customuse
+                        height: customusecheck.height
+                        width: customusecheck.checked ? 200 : 0
+                        Behavior on width { NumberAnimation { duration: 200 } }
+                        opacity: customusecheck.checked ? 1 : 0
+                        Behavior on opacity { NumberAnimation { duration: 150 } }
+                        clip: true
+                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor // qmllint disable unqualified
+                        onColorChanged: setting_top.checkDefault()
+                        Rectangle {
+                            x: (parent.width-width)/2
+                            y: (parent.height-height)/2
+                            width: customusetxt.width+20
+                            height: customusetxt.height+10
+                            radius: 5
+                            color: "#88000000"
+                            PQText {
+                                id: customusetxt
+                                x: 10
+                                y: 5
+                                text: PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b]) // qmllint disable unqualified
+                            }
+                        }
+
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            text: qsTranslate("settingsmanager", "Click to change color")
+                            onClicked: {
+                                coldiag.currentColor = customuse.color
+                                coldiag.open()
+                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
+                            }
+                        }
+
+                        ColorDialog {
+                            id: coldiag
+                            modality: Qt.ApplicationModal
+                            onAccepted: {
+                                customuse.color = coldiag.currentColor
+                                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
+                            }
+                            onRejected: {
+                                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
+                            }
+                        }
+                    }
                 }
 
             ]
@@ -370,6 +454,11 @@ Flickable {
             return
         }
 
+        if(accentusecheck.hasChanged() || customusecheck.hasChanged() || (customusecheck.checked && customuse.color != PQCSettings.interfaceBackgroundCustomOverlayColor)) {
+            settingChanged = true
+            return
+        }
+
         if(previewimage.source !== "file:/" + PQCSettings.interfaceBackgroundImagePath ||
            radio_bg_scaletofit.hasChanged() ||  radio_bg_scaleandcrop.hasChanged() ||
            radio_bg_stretch.hasChanged() || radio_bg_center.hasChanged() || radio_bg_tile.hasChanged()) {
@@ -398,6 +487,10 @@ Flickable {
         radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
         radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
         radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
+
+        accentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
+        customusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
+
 
         /******************************/
 
@@ -439,6 +532,13 @@ Flickable {
         radio_solid.saveDefault()
         radio_custom.saveDefault()
         radio_nobg.saveDefault()
+
+        PQCSettings.interfaceBackgroundCustomOverlay = customusecheck.checked
+        if(customusecheck.checked)
+            PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b])
+
+        customusecheck.saveDefault()
+        accentusecheck.saveDefault()
 
         /******************************/
 

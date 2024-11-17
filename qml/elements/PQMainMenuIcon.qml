@@ -58,7 +58,7 @@ Item {
         opacity: parent.active ? 1 : 0.4
 
         sourceSize: Qt.size(menuicon.normalEntryHeight*menuicon.scaleFactor, menuicon.normalEntryHeight*menuicon.scaleFactor)
-        source: "image://svg/:/white/" + menuicon.img
+        source: "image://svg/:/" + PQCLook.iconShade + "/" + menuicon.img // qmllint disable unqualified
 
     }
     MouseArea {

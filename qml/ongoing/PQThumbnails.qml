@@ -562,7 +562,7 @@ Item {
             PQMenuItem {
                 visible: thumbnails_top.menuReloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
-                iconSource: "image://svg/:/white/convert.svg"
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
                 onTriggered: {
                     PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[thumbnails_top.menuReloadIndex]) // qmllint disable unqualified
                     view.reloadThumbnail(thumbnails_top.menuReloadIndex)
