@@ -410,6 +410,48 @@ Flickable {
 
                 },
 
+                PQButton {
+                    id: testbut
+                    property int secs: 3
+                    text: qsTranslate("settingsmanager", "Test color for %1 seconds").arg(secs)
+                    property string backupcolor: ""
+                    smallerVersion: true
+                    onClicked: {
+                        backupcolor = PQCSettings.interfaceAccentColor // qmllint disable unqualified
+
+                        if(accentcolor.currentIndex < accentcolor.hexes.length)
+                            PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
+                        else
+                            PQCSettings.interfaceAccentColor = accent_coltxt.text
+
+                        testtimer.restart()
+                        testbut.enabled = false
+                    }
+
+                    Component.onDestruction: {
+                        if(!testbut.enabled) {
+                            PQCSettings.interfaceAccentColor = testbut.backupcolor // qmllint disable unqualified
+                        }
+                    }
+
+                    Timer {
+                        id: testtimer
+                        interval: 1000
+                        onTriggered: {
+                            testbut.secs -= 1
+                            if(testbut.secs == 0) {
+                                testtimer.stop()
+                                testbut.secs = 3
+                                testbut.enabled = true
+                                PQCSettings.interfaceAccentColor = testbut.backupcolor // qmllint disable unqualified
+                            } else {
+                                testtimer.restart()
+                            }
+                        }
+                    }
+
+                },
+
                 Flow {
                     width: set_accent.rightcol
                     PQRadioButton {
@@ -463,6 +505,7 @@ Flickable {
                         }
 
                     }
+
                 }
 
             ]
