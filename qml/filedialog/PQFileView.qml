@@ -381,7 +381,7 @@ GridView {
 
                 fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
 
-                source: visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : "" // qmllint disable unqualified
+                source: visible ? encodeURI("image://thumb/" + deleg.currentPath) : "" // qmllint disable unqualified
                 onSourceChanged: {
                     if(!visible)
                         fileicon.source = fileicon.sourceString
@@ -397,12 +397,12 @@ GridView {
                     target: view
                     function onRefreshThumbnails() {
                         filethumb.source = ""
-                        filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
+                        filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
                     }
                     function onRefreshCurrentThumbnail() {
                         if(deleg.modelData === view.currentIndex) {
                             filethumb.source = ""
-                            filethumb.source = Qt.binding(function() { return (visible ? ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath)) : ""); })
+                            filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
                         }
                     }
                 }
@@ -752,7 +752,7 @@ GridView {
 
                             // if we do not cache this directory, we do not show a thumbnail image
                             if(!view.currentFolderExcluded && filethumb.status == Image.Ready && PQCSettings.filedialogThumbnails) {
-                                str += "<td valign=middle><img width=256 src=\"image://tooltipthumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.currentPath) + "\"></td>"
+                                str += "<td valign=middle><img width=256 src=\"" + encodeURI("image://tooltipthumb/" + deleg.currentPath) + "\"></td>"
                                 str += "<td>&nbsp;</td>"
                             }
 
@@ -1136,11 +1136,11 @@ GridView {
             Drag.active: mousearea.drag.active || listthumbmousearea.drag.active
             Drag.mimeData: {
                 if(!view.currentFileSelected) {
-                    return ({"text/uri-list": "file://"+deleg.currentPath})
+                    return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
                 } else {
                     var uris = []
                     for(var i in view.currentSelection)
-                        uris.push("file://" + PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]]) // qmllint disable unqualified
+                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]])) // qmllint disable unqualified
                     return ({"text/uri-list": uris})
                 }
             }

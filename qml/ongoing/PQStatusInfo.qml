@@ -22,6 +22,7 @@ pragma ComponentBehavior: Bound
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 
 import PQCFileFolderModel
@@ -454,7 +455,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round(PQCScriptsOther.getDevicePixelRatio() * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
+            text: Math.round(Screen.devicePixelRatio * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
         }
     }
 

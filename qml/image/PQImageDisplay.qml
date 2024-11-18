@@ -22,6 +22,7 @@ pragma ComponentBehavior: Bound
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Window
 
 import PQCFileFolderModel
 import PQCNotify
@@ -190,7 +191,7 @@ Loader {
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
-                    loader_top.imageScale = 1/PQCScriptsOther.getDevicePixelRatio()
+                    loader_top.imageScale = 1/Screen.devicePixelRatio
             }
             function onRotateClock() {
 
@@ -1154,8 +1155,8 @@ Loader {
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
                         if(loader_top.rotatedUpright)
-                            return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height))) // qmllint disable unqualified
-                        return Math.min(1./PQCScriptsOther.getDevicePixelRatio(), Math.min((flickable.width/height), (flickable.height/width)))
+                            return Math.min(1./Screen.devicePixelRatio, Math.min((flickable.width/width), (flickable.height/height)))
+                        return Math.min(1./Screen.devicePixelRatio, Math.min((flickable.width/height), (flickable.height/width)))
                     }
 
                     Timer {

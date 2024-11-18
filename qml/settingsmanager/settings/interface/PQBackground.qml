@@ -205,7 +205,7 @@ Flickable {
                             onClicked: {
                                 var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats()) // qmllint disable unqualified
                                 if(path !== "")
-                                    previewimage.source = "file:/" + path
+                                    previewimage.source = encodeURI("file:" + path)
                             }
                         }
 
@@ -459,7 +459,7 @@ Flickable {
             return
         }
 
-        if(previewimage.source !== "file:/" + PQCSettings.interfaceBackgroundImagePath ||
+        if(previewimage.source !== "file:" + PQCSettings.interfaceBackgroundImagePath ||
            radio_bg_scaletofit.hasChanged() ||  radio_bg_scaleandcrop.hasChanged() ||
            radio_bg_stretch.hasChanged() || radio_bg_center.hasChanged() || radio_bg_tile.hasChanged()) {
             settingChanged = true
@@ -495,7 +495,7 @@ Flickable {
         /******************************/
 
         if(PQCSettings.interfaceBackgroundImagePath !== "")
-            previewimage.source = "file:/" + PQCSettings.interfaceBackgroundImagePath
+            previewimage.source = encodeURI("file:" + PQCSettings.interfaceBackgroundImagePath)
         else
             previewimage.source = ""
         radio_bg_scaletofit.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScale)

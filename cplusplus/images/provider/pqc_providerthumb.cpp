@@ -260,7 +260,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
             dir.mkpath(info.absolutePath());
 
             // Set some required (and additional) meta information
-            p.setText("Thumb::URI", QString("file:///%1").arg(QString(filename)));
+            p.setText("Thumb::URI", QString("file://%1").arg(QString(filename)));
             p.setText("Thumb::MTime", QString("%1").arg(QFileInfo(filenameForChecking).lastModified().toSecsSinceEpoch()));
             QString mime = mimedb.mimeTypeForFile(filenameForChecking, QMimeDatabase::MatchContent).name();
             // this is the default mime type if no mime type is available or file cannot be found

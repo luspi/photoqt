@@ -171,7 +171,7 @@ void PQCScriptsWallpaper::setWallpaper(QString category, QString filename, QVari
                           "d = allDesktops[i];"
                           "d.wallpaperPlugin = \"org.kde.image\"; "
                           "d.currentConfigGroup = Array(\"Wallpaper\", \"org.kde.image\", \"General\"); "
-                          "d.writeConfig(\"Image\", \"file:///" + filename + "\");"
+                          "d.writeConfig(\"Image\", \"file:" + filename + "\");"
                                        "}";
 
             QDBusConnection bus = QDBusConnection::sessionBus();
@@ -198,7 +198,7 @@ void PQCScriptsWallpaper::setWallpaper(QString category, QString filename, QVari
         if(ret != 0)
             qWarning() << "ERROR: gsettings failed with exit code" << ret << "- are you sure Gnome/Unity is installed?";
         else
-            proc.execute("gsettings", QStringList() << "set" << "org.gnome.desktop.background" << "picture-uri" << QString("file:///%1").arg(filename));
+            proc.execute("gsettings", QStringList() << "set" << "org.gnome.desktop.background" << "picture-uri" << QString("file:%1").arg(filename));
 
 
     } else if(category == "xfce") {

@@ -37,9 +37,9 @@ Image {
         if(imageSource === "") {
             image.source = ""
         } else if(imageSource.includes("::PDF::")) {
-            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageSource.split("::PDF::")[1])) // qmllint disable unqualified
+            image.source = encodeURI("image://full/%1::PDF::%2".arg(image.currentPage).arg(imageSource.split("::PDF::")[1])) // qmllint disable unqualified
         } else {
-            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(imageSource))
+            image.source = encodeURI("image://full/%1::PDF::%2".arg(image.currentPage).arg(imageSource))
         }
     }
 
@@ -47,9 +47,9 @@ Image {
 
     Component.onCompleted: {
         if(image.imageSource.includes("::PDF::"))
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource) // qmllint disable unqualified
+            source = encodeURI("image://full/" + image.imageSource) // qmllint disable unqualified
         else
-            source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
+            source = encodeURI("image://full/%1::PDF::%2".arg(currentPage).arg(image.imageSource))
     }
 
     asynchronous: true
@@ -195,9 +195,9 @@ Image {
             } else {
                 image.asynchronous = false
                 if(image.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(image.imageSource.split("::PDF::")[1])) // qmllint disable unqualified
+                    image.source = encodeURI("image://full/%1::PDF::%2".arg(image.currentPage).arg(image.imageSource.split("::PDF::")[1])) // qmllint disable unqualified
                 } else {
-                    image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding("%1::PDF::%2".arg(image.currentPage).arg(image.imageSource))
+                    image.source = encodeURI("image://full/%1::PDF::%2".arg(image.currentPage).arg(image.imageSource))
                 }
                 image.asynchronous = true
             }

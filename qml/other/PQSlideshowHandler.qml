@@ -73,7 +73,7 @@ Item {
                         while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex != startingIndex)
                             currentMusicIndex += (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
-                        audioplayer.source = "file://" + musicFileOrder[currentMusicIndex]
+                        audioplayer.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
                     }
                 }
             }
@@ -256,7 +256,7 @@ Item {
             while(!PQCScriptsFilesPaths.doesItExist(musicFileOrder[currentMusicIndex]) && currentMusicIndex < musicFileOrder.length)
                 currentMusicIndex += 1
             loader_audioplayer.item.position = 0
-            loader_audioplayer.item.source = "file://" + musicFileOrder[currentMusicIndex]
+            loader_audioplayer.item.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
         }
 
     }

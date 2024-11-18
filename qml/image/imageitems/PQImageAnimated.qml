@@ -36,7 +36,7 @@ AnimatedImage {
 
     property string imageSource: ""
 
-    source: (image.imageSource==="" ? "" : ("file:/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))) // qmllint disable unqualified
+    source: (image.imageSource==="" ? "" : encodeURI("file:" + image.imageSource)) // qmllint disable unqualified
 
     asynchronous: true
 
@@ -58,10 +58,8 @@ AnimatedImage {
         if(status == Image.Ready) {
             fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
-            if(loader_top.defaultScale < 0.95)
-                loadScaledDown.restart()
         } else if(status == Image.Error)
-            source = "image://svg/:/other/errorimage.svg"
+            source = "qrc:/other/errorimage.svg"
     }
 
     // we use custom mirror properties to be able to animate the mirror process with transforms

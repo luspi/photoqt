@@ -49,7 +49,7 @@ Item {
 
         id: image
 
-        source: (svgtop.imageSource === "" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(svgtop.imageSource))) // qmllint disable unqualified
+        source: (svgtop.imageSource === "" ? "" : encodeURI("image://full/" + svgtop.imageSource)) // qmllint disable unqualified
 
         asynchronous: true
         cache: false

@@ -42,7 +42,7 @@ Image {
 
     property string imageSource: ""
 
-    source: image.imageSource==="" ? "" : ("image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageSource)) // qmllint disable unqualified
+    source: image.imageSource==="" ? "" : encodeURI("image://full/" + imageSource) // qmllint disable unqualified
 
     asynchronous: true
 
@@ -363,11 +363,7 @@ Image {
                         }
 
                         videoloader.active = false
-                        // earlier versions of Qt6 seem to struggle if only one slash is used
-                        if(PQCScriptsConfig.isQtAtLeast6_5())
-                            videoloader.mediaSrc = "file:/" + src
-                        else
-                            videoloader.mediaSrc = "file://" + src
+                        videoloader.mediaSrc = encodeURI("file:" + src)
                         videoloader.active = true
                         return
                     }

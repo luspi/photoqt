@@ -282,7 +282,7 @@ Item {
                                 mipmap: true
                                 cache: true
                                 asynchronous: true
-                                source: (!visible && source=="") ? "" : ("image://thumb/" + PQCScriptsFilesPaths.toPercentEncoding(deleg.filename)) // qmllint disable unqualified
+                                source: (!visible && source==="") ? "" : encodeURI("image://thumb/" + deleg.filename) // qmllint disable unqualified
                             }
                             Repeater {
                                 model: deleg.keys.length

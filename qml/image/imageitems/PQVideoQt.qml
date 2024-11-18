@@ -45,8 +45,7 @@ Item {
 
         id: video
 
-        // earlier versions of Qt6 seem to struggle if only one slash is used
-        source: (PQCScriptsConfig.isQtAtLeast6_5() ? "file:/" : "file://") + videotop.imageSource // qmllint disable unqualified
+        source: encodeURI("file:" + videotop.imageSource) // qmllint disable unqualified
 
         volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
 
@@ -67,11 +66,7 @@ Item {
         onPlaybackStateChanged: {
             if(playbackState === MediaPlayer.StoppedState) {
 
-                // earlier versions of Qt6 seem to struggle if only one slash is used
-                if(PQCScriptsConfig.isQtAtLeast6_5()) // qmllint disable unqualified
-                    video.source = "file:/" + videotop.imageSource
-                else
-                    video.source = "file://" + videotop.imageSource
+                video.source = encodeURI("file:" + videotop.imageSource)
 
                 if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) {
                     video.play()

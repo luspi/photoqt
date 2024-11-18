@@ -54,6 +54,8 @@ QString PQCScriptsFilesPaths::cleanPath(QString path) {
         path = path.remove(0, 7);
     else if(path.startsWith("file://"))
         path = path.remove(0, 6);
+    else if(path.startsWith("file:/"))
+        path = path.remove(0, 5);
     else if(path.startsWith("image://full/"))
         path = path.remove(0, 13);
     else if(path.startsWith("image://thumb/"))
@@ -76,6 +78,8 @@ QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
         path = path.remove(0, 7);
     else if(path.startsWith("file:/"))
         path = path.remove(0, 6);
+    else if(path.startsWith("file:"))
+        path = path.remove(0, 5);
     else if(path.startsWith("image://full/"))
         path = path.remove(0, 13);
     else if(path.startsWith("image://thumb/"))

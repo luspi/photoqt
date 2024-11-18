@@ -228,7 +228,8 @@ PQMenu {
 
         PQMenuItem {
             required property int modelData
-            property list<var> entry: cont.customentries[modelData]
+            // This needs to be a var and not a list<var> otherwise the entries will not load
+            property var entry: cont.customentries[modelData]
             iconSource: entry[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + entry[0]) // qmllint disable unqualified
             text: entry[2]+""
             onTriggered: {

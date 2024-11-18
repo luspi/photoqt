@@ -122,18 +122,21 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
         QString path = QUrl::fromPercentEncoding(bm.attribute("href").value());
 
-// we need to check for the old (wrong) syntax of two slashes
-// and for the new right synbtax of three slashes after file:
+// we need to check for the old syntax of two/three slashes
 #ifdef Q_OS_WIN
         if(path.startsWith("file:///"))
             path = path.remove(0,8);
         else if(path.startsWith("file://"))
             path = path.remove(0,7);
+        else if(path.startsWith("file:/"))
+            path = path.remove(0,6);
 #else
         if(path.startsWith("file:////"))
             path = path.remove(0,8);
         else if(path.startsWith("file:///"))
             path = path.remove(0,7);
+        else if(path.startsWith("file://"))
+            path = path.remove(0,6);
         else if(path == "trash:/")
             path = PQCConfigFiles::get().USER_TRASH_FILES();
 #endif
@@ -253,7 +256,7 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
         QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
-        if(curPath.startsWith("file:/") || curPath == "trash:/")
+        if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
             allIds.append(curId);
     }
 
@@ -373,7 +376,7 @@ void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howman
         pugi::xml_node cur = node.node();
         QString curId = cur.select_node("info/metadata/ID").node().child_value();
         QString curPath = QUrl::fromPercentEncoding(cur.attribute("href").value());
-        if(curPath.startsWith("file:/") || curPath == "trash:/")
+        if(curPath.startsWith("file:") || curPath == "trash:" || curPath == "trash:/")
             allIds.append(curId);
     }
 
@@ -450,7 +453,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
         QString path = cur.attribute("href").value();
 
-        if(path == "trash:/" || path.startsWith("file:/"))
+        if(path == "trash:" || path == "trash:/" || path.startsWith("file:"))
             allIds.push_back(cur.select_node("info/metadata/ID").node().child_value());
 
     }
@@ -473,7 +476,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
         // <bookmark>
         newnode.set_name("bookmark");
         newnode.append_attribute("href");
-        newnode.attribute("href").set_value(QString("file:///%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
+        newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
@@ -526,7 +529,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
                 // <bookmark>
                 newnode.set_name("bookmark");
                 newnode.append_attribute("href");
-                newnode.attribute("href").set_value(QString("file:///%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
+                newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
                 // <title>
                 pugi::xml_node title = newnode.append_child("title");
