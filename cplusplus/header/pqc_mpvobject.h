@@ -63,6 +63,26 @@ private Q_SLOTS:
     void doUpdate();
 };
 
+#else
+
+#include <QObject>
+
+class PQCMPVObject : public QObject {
+
+    Q_OBJECT
+
+public:
+    PQCMPVObject(QObject *parent = nullptr) : QObject(parent) {}
+
+    Q_PROPERTY(int width MEMBER m_w);
+    Q_PROPERTY(int height MEMBER m_h);
+
+private:
+    int m_w;
+    int m_h;
+
+};
+
 #endif
 
 #endif

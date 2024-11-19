@@ -93,9 +93,7 @@
 #include <vips/vips8>
 #endif
 
-#ifdef PQMVIDEOMPV
 #include <pqc_mpvobject.h>
-#endif
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -324,9 +322,8 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");
 #endif
 
-#ifdef PQMVIDEOMPV
+    // if MPV support is disabled, then this is an empty object
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
-#endif
 
     engine.load(url);
 
