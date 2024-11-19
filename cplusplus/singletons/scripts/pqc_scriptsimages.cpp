@@ -79,6 +79,8 @@ PQCScriptsImages::PQCScriptsImages() {
     connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
 
     loadColorProfileInfo();
+
+    lcms2CountFailedApplications = 0;
 }
 
 PQCScriptsImages::~PQCScriptsImages() {
@@ -1626,6 +1628,8 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
 
     bool manualSelectionCausedError = false;
 
+    bool attemptedToSetLCMS2Profile = false;
+
     // check if a color profile has been set by the user for this file
     QString profileName = getColorProfileFor(filename);
 
@@ -1691,9 +1695,12 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
                 targetProfile = cmsOpenProfileFromMem(bt.constData(), bt.size());
             }
 
-            if(targetProfile && applyColorSpaceLCMS2(img, filename, targetProfile))
+            attemptedToSetLCMS2Profile = true;
+
+            if(targetProfile && applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                lcms2CountFailedApplications = 0;
                 return true;
-            else
+            } else
                 manualSelectionCausedError = true;
 
         }
@@ -1708,8 +1715,13 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
         cmsHPROFILE targetProfile = cmsOpenProfileFromMem(img.colorSpace().iccProfile().constData(),
                                                           img.colorSpace().iccProfile().size());
 
-        if(targetProfile && applyColorSpaceLCMS2(img, filename, targetProfile))
-            return !manualSelectionCausedError;
+        if(targetProfile) {
+            attemptedToSetLCMS2Profile = true;
+            if(applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                lcms2CountFailedApplications = 0;
+                return !manualSelectionCausedError;
+            }
+        }
 
     }
 
@@ -1746,8 +1758,13 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
                     targetProfile = cmsOpenProfileFromMem(bt.constData(), bt.size());
                 }
 
-                if(targetProfile && applyColorSpaceLCMS2(img, filename, targetProfile))
-                    return !manualSelectionCausedError;
+                if(targetProfile ) {
+                    attemptedToSetLCMS2Profile = true;
+                    if(applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                        lcms2CountFailedApplications = 0;
+                        return !manualSelectionCausedError;
+                    }
+                }
 
             }
 
@@ -1768,6 +1785,22 @@ bool PQCScriptsImages::applyColorProfile(QString filename, QImage &img) {
 
 #endif
 
+        }
+
+    }
+
+    // if a profile was attempted to be set with LCMS2 but failed (i.e., we ended up here)
+    // then we increment a counter and show a notification message.
+    // If the counter passes 5 then we disable support for color spaces.
+    if(attemptedToSetLCMS2Profile && profileName == "") {
+
+        lcms2CountFailedApplications += 1;
+
+        if(lcms2CountFailedApplications > 5) {
+            PQCSettings::get().update("imageviewColorSpaceEnable", false);
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."));
+        } else {
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."));
         }
 
     }
@@ -1843,10 +1876,36 @@ bool PQCScriptsImages::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHP
         return false;
     } else {
 
+        // since the target format might not support alpha channels we use black instead of transparent to fill the initial image.
+        // we don't have to fill the image for cmsDoTransform but it allows for additional checking whether cmsDoTransform succeeded.
         QImage ret(img.size(), targetFormat);
-        ret.fill(Qt::transparent);
+        ret.fill(Qt::black);
+
         // Perform color space conversion
         cmsDoTransform(transform, img.constBits(), ret.bits(), img.width() * img.height());
+
+        // transform failed returning null image
+        if(ret.isNull()) {
+            qWarning() << "Failed to apply external color profile, null image returned";
+            return false;
+        }
+
+        // check if image is all black -> transform failed
+        bool allblack = true;
+        for(int x = 0; x < img.width(); ++x) {
+            for(int y = 0; y < img.height(); ++y) {
+                if(ret.pixelColor(x,y).black() < 255) {
+                    allblack = false;
+                    break;
+                }
+            }
+            if(!allblack) break;
+        }
+
+        if(allblack) {
+            qWarning() << "Failed to apply external color profile, image completely black";
+            return false;
+        }
 
         const int bufSize = 100;
         char buf[bufSize];

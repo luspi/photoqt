@@ -165,16 +165,18 @@ Rectangle {
             if(what === "show") {
                 if(param.length === 2 && param[0] === "notification") {
 
+                    var tit = param[1][0]
+                    var sum = param[1][1]
+                    if(sum == "") {
+                        sum = tit;
+                        tit = "";
+                    }
+
                     // use external tool if set, otherwise show integrated notification
-                    if(!PQCSettings.interfaceNotificationTryNative || !PQCScriptsOther.showDesktopNotification(param[1][0], param[1][1])) {
+                    if(!PQCSettings.interfaceNotificationTryNative || !PQCScriptsOther.showDesktopNotification(tit, sum)) {
                         show()
-                        if(param[1][1] === "") {
-                            titletext = ""
-                            statustext = param[1][0]
-                        } else {
-                            titletext = param[1][0]
-                            statustext = param[1][1]
-                        }
+                        titletext = tit
+                        statustext = sum
                     }
                 }
             }

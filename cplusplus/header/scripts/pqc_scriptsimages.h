@@ -108,6 +108,8 @@ public:
 private:
     PQCScriptsImages();
 
+    int lcms2CountFailedApplications;
+
     QMap<QString,QVariantList> histogramCache;
     QMap<QString,QStringList> archiveContentCache;
 
