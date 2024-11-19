@@ -47,6 +47,7 @@ PQMenu {
     }
 
     PQMenuItem {
+        id: renitem
         iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Rename file")
         onTriggered:
@@ -54,6 +55,7 @@ PQMenu {
     }
 
     PQMenuItem {
+        id: copitem
         iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Copy file")
         onTriggered:
@@ -61,6 +63,7 @@ PQMenu {
     }
 
     PQMenuItem {
+        id: movitem
         iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Move file")
         onTriggered:
@@ -68,6 +71,7 @@ PQMenu {
     }
 
     PQMenuItem {
+        id: delitem
         iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" // qmllint disable unqualified
         text: qsTranslate("contextmenu", "Delete file")
         onTriggered:
@@ -77,6 +81,8 @@ PQMenu {
     PQMenuSeparator {}
 
     PQMenu {
+
+        id: manimenu
 
         title: qsTranslate("contextmenu", "Manipulate image")
 
@@ -106,31 +112,72 @@ PQMenu {
 
     }
 
-    PQMenuItem {
-        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
-        text: qsTranslate("contextmenu", "Copy to clipboard")
-        onTriggered: {
-            PQCNotify.executeInternalCommand("__clipboard") // qmllint disable unqualified
+    PQMenu {
+
+        id: usemenu
+
+        title: qsTranslate("contextmenu", "Use image")
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Copy to clipboard")
+            onTriggered: {
+                PQCNotify.executeInternalCommand("__clipboard") // qmllint disable unqualified
+            }
         }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Export to different format")
+            enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+            onTriggered:
+                PQCNotify.executeInternalCommand("__export") // qmllint disable unqualified
+        }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Set as wallpaper")
+            enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+            onTriggered:
+                PQCNotify.executeInternalCommand("__wallpaper") // qmllint disable unqualified
+        }
+
+        Repeater {
+            model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0 // qmllint disable unqualified
+            PQMenuItem {
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" // qmllint disable unqualified
+                text: PQCNotify.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
+                onTriggered:
+                    PQCNotify.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
+            }
+        }
+
     }
 
-    PQMenuItem {
-        iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
-        text: qsTranslate("contextmenu", "Export to different format")
-        enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
-        onTriggered:
-            PQCNotify.executeInternalCommand("__export") // qmllint disable unqualified
-    }
+    PQMenu {
 
-    PQMenuItem {
-        iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg" // qmllint disable unqualified
-        text: qsTranslate("contextmenu", "Set as wallpaper")
-        enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
-        onTriggered:
-            PQCNotify.executeInternalCommand("__wallpaper") // qmllint disable unqualified
-    }
+        id: aboutmenu
 
-    PQMenuSeparator {}
+        title: qsTranslate("contextmenu", "About image")
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Show histogram")
+            onTriggered:
+                PQCNotify.executeInternalCommand("__histogram") // qmllint disable unqualified
+        }
+
+        Repeater {
+            model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0 // qmllint disable unqualified
+            PQMenuItem {
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
+                text: qsTranslate("contextmenu", "Show on map")
+                onTriggered:
+                    PQCNotify.executeInternalCommand("__showMapCurrent") // qmllint disable unqualified
+            }
+        }
+
+    }
 
     PQMenu {
         id: iccmenu
@@ -165,26 +212,6 @@ PQMenu {
                 }
             }
         }
-        Connections {
-            target: PQCFileFolderModel // qmllint disable unqualified
-            function onCurrentFileChanged() {
-                evaluateEnabledStatus.restart()
-            }
-        }
-
-        Timer {
-            id: evaluateEnabledStatus
-            interval: 200
-            running: true   // this makes sure the status is evaluated at startup
-            onTriggered: {
-                if(PQCSettings.imageviewColorSpaceEnable) // qmllint disable unqualified
-                    iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" &&
-                                       !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
-                                       !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
-                                       !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) &&
-                                       !PQCNotify.showingPhotoSphere)
-            }
-        }
 
         Component.onCompleted: {
             // we need to change the visibility of the parent of the menu as that is the respective menuitem
@@ -193,30 +220,38 @@ PQMenu {
 
     }
 
-    PQMenuItem {
-        iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg" // qmllint disable unqualified
-        text: qsTranslate("contextmenu", "Show histogram")
-        onTriggered:
-            PQCNotify.executeInternalCommand("__histogram") // qmllint disable unqualified
-    }
+    PQMenuSeparator { }
 
-    Repeater {
-        model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0 // qmllint disable unqualified
+    PQMenu {
+
+        title: qsTranslate("contextmenu", "Manage PhotoQt")
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/browse.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Browse images")
+            onTriggered:
+                PQCNotify.executeInternalCommand("__open") // qmllint disable unqualified
+        }
+
         PQMenuItem {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
-            text: qsTranslate("contextmenu", "Show on map")
+            text: qsTranslate("contextmenu", "Map Explorer")
             onTriggered:
-                PQCNotify.executeInternalCommand("__showMapCurrent") // qmllint disable unqualified
+                PQCNotify.executeInternalCommand("__showMapExplorer") // qmllint disable unqualified
         }
-    }
 
-    Repeater {
-        model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0 // qmllint disable unqualified
         PQMenuItem {
-            iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" // qmllint disable unqualified
-            text: PQCNotify.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Open settings manager")
             onTriggered:
-                PQCNotify.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
+                PQCNotify.executeInternalCommand("__settings") // qmllint disable unqualified
+        }
+
+        PQMenuItem {
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" // qmllint disable unqualified
+            text: qsTranslate("contextmenu", "Quit")
+            onTriggered:
+                PQCNotify.executeInternalCommand("__quit") // qmllint disable unqualified
         }
     }
 
@@ -252,6 +287,38 @@ PQMenu {
         interval: 200
         onTriggered:
             PQCNotify.removeFromWhichContextMenusOpen("contextmenu") // qmllint disable unqualified
+    }
+
+    Timer {
+        id: evaluateEnabledStatus
+        interval: 200
+        running: true   // this makes sure the status is evaluated at startup
+        onTriggered: {
+
+            renitem.enabled = (PQCFileFolderModel.currentFile !== "") // qmllint disable unqualified
+            copitem.enabled = (PQCFileFolderModel.currentFile !== "")
+            movitem.enabled = (PQCFileFolderModel.currentFile !== "")
+            delitem.enabled = (PQCFileFolderModel.currentFile !== "")
+
+            manimenu.enabled = (PQCFileFolderModel.currentFile !== "")
+            usemenu.enabled = (PQCFileFolderModel.currentFile !== "")
+            aboutmenu.enabled = (PQCFileFolderModel.currentFile !== "")
+
+            // color spaces submenu
+            if(PQCSettings.imageviewColorSpaceEnable)
+                iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" &&
+                                   !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
+                                   !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
+                                   !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) &&
+                                   !PQCNotify.showingPhotoSphere)
+        }
+    }
+
+    Connections {
+        target: PQCFileFolderModel // qmllint disable unqualified
+        function onCurrentFileChanged() {
+            evaluateEnabledStatus.restart()
+        }
     }
 
     Connections {
