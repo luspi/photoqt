@@ -135,7 +135,7 @@ Item {
 
         target: PQCNotify // qmllint disable unqualified
         function onShowNotificationMessage(msg) {
-            loader_top.show("notification", msg)
+            loader_top.show("notification", [msg, ""])
         }
 
     }
