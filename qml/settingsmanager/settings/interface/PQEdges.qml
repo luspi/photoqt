@@ -76,8 +76,8 @@ Flickable {
 
     property var actions: {
         "top": ["", "thumbnails"],
-        "left": ["", "thumbnails", "metadata"],
-        "right": ["mainmenu"],
+        "left": ["", "thumbnails", "metadata", "mainmenu"],
+        "right": ["", "thumbnails", "metadata", "mainmenu"],
         "bottom": ["", "thumbnails"]
     }
 
@@ -92,7 +92,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Edges")
 
-            helptext: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which window edge. Note that the main menu is fixed to the right window edge and cannot be moved or disabled.")
+            helptext: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which window edge. Note that if the main menu is completely disabled, then the settings manager can still be accessed by shortcut or through the context menu.")
 
             content: [
 
@@ -171,14 +171,13 @@ Flickable {
                             id: rightedge
                             width: 50
                             height: 200
-                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: rightmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
                             Behavior on color { ColorAnimation { duration: 200 } }
-                            enabled: false
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
                                 font.weight: setting_top.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColorDisabled // qmllint disable unqualified
+                                color: PQCLook.textColor // qmllint disable unqualified
                                 text: setting_top.labels[setting_top.current["right"]]
                             }
                             PQMouseArea {
@@ -187,7 +186,8 @@ Flickable {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 //: The action here is a screen edge action
-                                text: qsTranslate("settingsmanager", "The right edge action cannot be changed")
+                                text: qsTranslate("settingsmanager", "Click to change action")
+                                onClicked: setting_top.changeEdge("right")
                             }
                         }
 
@@ -357,7 +357,7 @@ Flickable {
 
         PQCSettings.interfaceEdgeTopAction = current["top"] // qmllint disable unqualified
         PQCSettings.interfaceEdgeLeftAction = current["left"]
-        PQCSettings.interfaceEdgeRightAction = "mainmenu"
+        PQCSettings.interfaceEdgeRightAction = current["right"]
         PQCSettings.interfaceEdgeBottomAction = current["bottom"]
 
         PQCSettings.interfaceHotEdgeSize = Math.round(sensitivity.value/5)
