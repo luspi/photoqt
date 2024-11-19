@@ -338,7 +338,7 @@ Flickable {
 
             id: set_accent
 
-            helptext: qsTranslate("settingsmanager",  "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it.")
+            helptext: qsTranslate("settingsmanager",  "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it. After selecting a new color it is recommended to first test the color using the provided button to make sure that the interface is readable with the new color.")
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Accent color")
@@ -399,13 +399,6 @@ Flickable {
                                 PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                             }
                         }
-                    }
-
-                    PQText {
-                        id: accentcustomtxt
-                        width: set_accent.rightcol
-                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                        text: qsTranslate("settingsmanager", "It is recommended to choose either a very dark or very light color to improve the contrast and readability of text and icons.")
                     }
 
                 },
