@@ -237,9 +237,9 @@ Item {
             id: scrollbar_top
             parent: view.parent
             visible: thumbnails_top.state==="top"
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.top: parent.top
+            anchors.left: parent ? parent.left : undefined
+            anchors.right: parent ? parent.right : undefined
+            anchors.top: parent ? parent.top : undefined
             anchors.topMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_top.height)/2
         }
 
