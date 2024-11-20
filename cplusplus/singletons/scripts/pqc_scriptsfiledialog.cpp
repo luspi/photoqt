@@ -132,6 +132,8 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
             path = path.remove(0,7);
         else if(path.startsWith("file:/"))
             path = path.remove(0,6);
+        else if(path.startsWith("file:"))
+            path = path.remove(0,5);
 #else
         if(path.startsWith("file:////"))
             path = path.remove(0,8);
@@ -139,7 +141,11 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
             path = path.remove(0,7);
         else if(path.startsWith("file://"))
             path = path.remove(0,6);
-        else if(path == "trash:/")
+        else if(path.startsWith("file:/"))
+            path = path.remove(0,5);
+        else if(path.startsWith("file:"))
+            path = path.remove(0,4);
+        else if(path == "trash:/" || path == "trash:")
             path = PQCConfigFiles::get().USER_TRASH_FILES();
 #endif
         else
@@ -478,7 +484,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
         // <bookmark>
         newnode.set_name("bookmark");
         newnode.append_attribute("href");
-        newnode.attribute("href").set_value(QString("file://%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path, "/ "))).toStdString().c_str());
+        newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
@@ -531,7 +537,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
                 // <bookmark>
                 newnode.set_name("bookmark");
                 newnode.append_attribute("href");
-                newnode.attribute("href").set_value(QString("file://%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path, "/ "))).toStdString().c_str());
+                newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
 
                 // <title>
                 pugi::xml_node title = newnode.append_child("title");
