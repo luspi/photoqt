@@ -110,12 +110,12 @@ Item {
         if((ele in loadermapping && loadermapping[ele][3] === 1) || ele === "facetagger") {
 
             // these are the same checks as above when setting this property
-            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
+            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) && // qmllint disable unqualified
                     (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                     (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal))) {
 
                 if(visibleItem === ele) {
-                    console.warn("Closing item:", ele)
+                    console.log("Closing item:", ele)
                     visibleItem = ""
                 } else
                     console.warn("Closed item not item recoreded as open:", ele, "=!=", visibleItem)

@@ -331,7 +331,7 @@ PQTemplateFullscreen {
                     if(param[0] === Qt.Key_Escape) {
 
                         if(spin_w.editMode || spin_h.editMode)
-                            closePopupMenuSpin()
+                            scale_top.closePopupMenuSpin()
                         else
                             scale_top.hide()
 

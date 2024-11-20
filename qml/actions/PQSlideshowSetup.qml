@@ -613,7 +613,7 @@ PQTemplateFullscreen {
                     if(param[0] === Qt.Key_Escape) {
 
                         if(animtype_combo.popup.visible || music_volumevideos.popup.visible || interval_slider.editMode)
-                            closePopupMenuSpin()
+                            slideshowsettings_top.closePopupMenuSpin()
                         else
                             slideshowsettings_top.hide()
 

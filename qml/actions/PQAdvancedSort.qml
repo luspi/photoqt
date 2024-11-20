@@ -732,7 +732,7 @@ PQTemplateFullscreen {
                         if(param[0] === Qt.Key_Escape) {
 
                             if(qual2.popup.visible || qual3.popup.visible || qual4.popup.visible)
-                                closePopupMenuSpin()
+                                advancedsort_top.closePopupMenuSpin()
                             else
                                 advancedsort_top.hide()
 

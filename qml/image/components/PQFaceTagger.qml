@@ -405,7 +405,6 @@ Item {
     }
 
     function hide() {
-        console.warn("### HIDE:", loader.visibleItem)
         opacity = 0
         PQCNotify.faceTagging = false // qmllint disable unqualified
         if(loader.visibleItem == "facetagger")

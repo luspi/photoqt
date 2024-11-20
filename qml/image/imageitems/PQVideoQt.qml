@@ -68,7 +68,7 @@ Item {
 
                 video.source = encodeURI("file:" + videotop.imageSource)
 
-                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) {
+                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) { // qmllint disable unqualified
                     video.play()
                 } else {
                     video.pause()

@@ -362,7 +362,7 @@ PQTemplateFullscreen {
                     if(param[0] === Qt.Key_Escape) {
 
                         if(reswidth.editMode || resheight.editMode || filesize.editMode)
-                            closePopupMenuSpin()
+                            filter_top.closePopupMenuSpin()
                         else
                             filter_top.button2.clicked()
 

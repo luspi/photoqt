@@ -217,7 +217,7 @@ Item {
                         height: 50
                         mipmap: true
                         smooth: false
-                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png"
+                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" // qmllint disable unqualified
                     }
 
                 function showAt(lat : real, lon : real) {
