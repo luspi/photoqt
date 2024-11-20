@@ -328,8 +328,14 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
-                    if(param[0] === Qt.Key_Escape)
-                        scale_top.hide()
+                    if(param[0] === Qt.Key_Escape) {
+
+                        if(spin_w.editMode || spin_h.editMode)
+                            closePopupMenuSpin()
+                        else
+                            scale_top.hide()
+
+                    }
 
                     else if(param[0] === Qt.Key_Plus) {
 
@@ -358,6 +364,11 @@ PQTemplateFullscreen {
 
         }
 
+    }
+
+    function closePopupMenuSpin() {
+        spin_w.acceptValue()
+        spin_h.acceptValue()
     }
 
     function scaleImage() {
@@ -417,10 +428,12 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed)
             scale_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
 
     }
 

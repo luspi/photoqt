@@ -229,7 +229,6 @@ Rectangle {
                 } else if(what === "forceClose") {
                     pasteExisting.hide()
                     modal.hide()
-                    filedialog_top.hideFileDialog()
                 }
 
             }
@@ -353,7 +352,9 @@ Rectangle {
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 
+        // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
         loader.elementClosed(thisis)
+
     }
 
 }

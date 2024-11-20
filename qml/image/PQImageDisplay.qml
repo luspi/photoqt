@@ -1303,7 +1303,7 @@ Loader {
 
                     flickable.flick(points[0].velocity.x*1.5, points[0].velocity.y*1.5)
 
-                } else if(points.length === 2 && initialPts.length == 2) {
+                } else if(points.length === 2 && initialPts.length === 2) {
 
                     pressAndHoldTimeout.stop()
 

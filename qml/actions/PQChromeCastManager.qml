@@ -234,7 +234,8 @@ PQTemplateFullscreen {
         opacity = 0
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
 }

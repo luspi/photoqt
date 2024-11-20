@@ -44,6 +44,8 @@ Column {
 
     property bool xfconfQueryError: true
 
+    property alias combobox: checkedOptCombo
+
     onVisibleChanged: {
         if(visible)
             check()
@@ -129,6 +131,7 @@ Column {
         }
 
         PQComboBox {
+            id: checkedOptCombo
             x: (parent.width-width)/2
             model: ListModel {
                 id: model

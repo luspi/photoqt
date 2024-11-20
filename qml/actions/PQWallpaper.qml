@@ -260,10 +260,14 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
-                    if(param[0] === Qt.Key_Escape)
-                        wallpaper_top.hide()
+                    if(param[0] === Qt.Key_Escape) {
 
-                    else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                        if(xfce.combobox.popup.visible)
+                            xfce.combobox.popup.close()
+                        else
+                            wallpaper_top.hide()
+
+                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                         wallpaper_top.setWallpaper()
 
                     else if(param[0] === Qt.Key_Tab) {
@@ -288,16 +292,24 @@ PQTemplateFullscreen {
     }
 
     function show() {
+
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+            hide()
+            return
+        }
+
         opacity = 1
         if(popoutWindowUsed)
             wallpaper_popout.visible = true // qmllint disable unqualified
     }
 
     function hide() {
+        xfce.combobox.popup.close()
         wallpaper_top.opacity = 0
         if(popoutWindowUsed)
             wallpaper_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
     function setWallpaper() {
@@ -306,7 +318,7 @@ PQTemplateFullscreen {
 
         if(curCat == 0) {
 
-            if(plasma.checkedScreens.length == 0)
+            if(plasma.checkedScreens.length === 0)
                 return
 
             args["screens"] = plasma.checkedScreens
@@ -317,7 +329,7 @@ PQTemplateFullscreen {
 
         } else if(curCat == 2) {
 
-            if(xfce.checkedScreens.length == 0)
+            if(xfce.checkedScreens.length === 0)
                 return
 
             args["screens"] = xfce.checkedScreens
@@ -325,7 +337,7 @@ PQTemplateFullscreen {
 
         } else if(curCat == 3) {
 
-            if(enlightenment.checkedScreens.length == 0 || enlightenment.checkedWorkspaces.length == 0)
+            if(enlightenment.checkedScreens.length === 0 || enlightenment.checkedWorkspaces.length === 0)
                 return
 
             args["screens"] = enlightenment.checkedScreens

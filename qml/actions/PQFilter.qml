@@ -359,9 +359,14 @@ PQTemplateFullscreen {
 
                 } else if(what === "keyEvent") {
 
-                    if(param[0] === Qt.Key_Escape)
-                        filter_top.button2.clicked()
-                    else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                    if(param[0] === Qt.Key_Escape) {
+
+                        if(reswidth.editMode || resheight.editMode || filesize.editMode)
+                            closePopupMenuSpin()
+                        else
+                            filter_top.button2.clicked()
+
+                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                         filter_top.button1.clicked()
                     else if(param[0] === Qt.Key_Tab) {
                         if(reswidth.activeFocus)
@@ -373,6 +378,12 @@ PQTemplateFullscreen {
                 }
             }
         }
+    }
+
+    function closePopupMenuSpin() {
+        reswidth.acceptValue()
+        resheight.acceptValue()
+        filesize.acceptValue()
     }
 
     function show() {
@@ -442,10 +453,12 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closePopupMenuSpin()
         filter_top.opacity = 0
         if(popoutWindowUsed)
             filter_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         fullscreenitem.forceActiveFocus()
     }

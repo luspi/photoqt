@@ -210,7 +210,7 @@ Item {
                     var spare = repeaterimage.itemAt(j)
 
                     // this is a spare item
-                    if((image_top.bgIndices.indexOf(spare.mainItemIndex) == -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
+                    if((image_top.bgIndices.indexOf(spare.mainItemIndex) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
                         spare.containingFolder = newFolder
                         spare.lastModified = newModified
                         spare.imageSource = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]

@@ -610,14 +610,25 @@ PQTemplateFullscreen {
             } else if(slideshowsettings_top.visible) {
 
                 if(what === "keyEvent") {
-                    if(param[0] === Qt.Key_Escape)
-                        slideshowsettings_top.hide()
-                    else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                    if(param[0] === Qt.Key_Escape) {
+
+                        if(animtype_combo.popup.visible || music_volumevideos.popup.visible || interval_slider.editMode)
+                            closePopupMenuSpin()
+                        else
+                            slideshowsettings_top.hide()
+
+                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                         slideshowsettings_top.startSlideshow()
                 }
 
             }
         }
+    }
+
+    function closePopupMenuSpin() {
+        animtype_combo.popup.close()
+        music_volumevideos.popup.close()
+        interval_slider.acceptValue()
     }
 
     function show() {
@@ -658,10 +669,12 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed)
             slideshowsetup_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
     function startSlideshow() {

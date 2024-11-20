@@ -197,7 +197,8 @@ PQTemplateFullscreen {
         delete_top.opacity = 0
         if(popoutWindowUsed)
             filedelete_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
 }

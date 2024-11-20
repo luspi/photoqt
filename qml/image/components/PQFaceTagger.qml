@@ -352,7 +352,7 @@ Item {
                     PQCNotify.faceTagging = true
                     facetagger_top.show()
 
-                } else if(what === "keyEvent") {
+                } else if(what === "keyEvent" && loader.visibleItem == "facetagger") {
 
                     if(param[0] === Qt.Key_Escape) {
 
@@ -405,9 +405,11 @@ Item {
     }
 
     function hide() {
+        console.warn("### HIDE:", loader.visibleItem)
         opacity = 0
         PQCNotify.faceTagging = false // qmllint disable unqualified
-        loader.visibleItem = ""
+        if(loader.visibleItem == "facetagger")
+            loader.visibleItem = ""
     }
 
 }

@@ -167,7 +167,7 @@ Rectangle {
 
                     var tit = param[1][0]
                     var sum = param[1][1]
-                    if(sum == "") {
+                    if(sum === "") {
                         sum = tit;
                         tit = "";
                     }

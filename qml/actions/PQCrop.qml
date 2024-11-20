@@ -419,7 +419,8 @@ PQTemplateFullscreen {
         opacity = 0
         if(popoutWindowUsed)
             crop_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
 }

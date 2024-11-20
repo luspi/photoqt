@@ -729,10 +729,14 @@ PQTemplateFullscreen {
 
                     if(what === "keyEvent") {
 
-                        if(param[0] === Qt.Key_Escape)
-                            advancedsort_top.hide()
+                        if(param[0] === Qt.Key_Escape) {
 
-                        else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                            if(qual2.popup.visible || qual3.popup.visible || qual4.popup.visible)
+                                closePopupMenuSpin()
+                            else
+                                advancedsort_top.hide()
+
+                        } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                             advancedsort_top.doSorting()
 
                         else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
@@ -760,6 +764,12 @@ PQTemplateFullscreen {
 
     }
 
+    function closePopupMenuSpin() {
+        qual2.popup.close()
+        qual3.popup.close()
+        qual4.popup.close()
+    }
+
     function doSorting() {
 
         advancedsort_top.saveData()
@@ -785,10 +795,12 @@ PQTemplateFullscreen {
 
     function hide() {
 
+        closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed)
             advancedsort_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
 
     }
 

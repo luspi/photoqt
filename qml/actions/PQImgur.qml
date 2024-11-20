@@ -634,7 +634,8 @@ PQTemplateFullscreen {
         opacity = 0
         if(popoutWindowUsed)
             imgur_popout.visible = false
-        loader.elementClosed("imgur")
+        else
+            loader.elementClosed("imgur")
     }
 
     function uploadAnonymously() {

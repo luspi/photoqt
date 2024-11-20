@@ -233,7 +233,8 @@ PQTemplateFullscreen {
         rename_top.opacity = 0
         if(popoutWindowUsed)
             filerename_popout.visible = false
-        loader.elementClosed(thisis)
+        else
+            loader.elementClosed(thisis)
     }
 
 }
