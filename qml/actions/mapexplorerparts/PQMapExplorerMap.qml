@@ -217,7 +217,7 @@ Item {
                         height: 50
                         mipmap: true
                         smooth: false
-                        source: "/white/maplocation.png"
+                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png"
                     }
 
                 function showAt(lat : real, lon : real) {
