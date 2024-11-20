@@ -91,6 +91,8 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
     // if file does not exist yet then we create a sceleton file
     if(!QFile(PQCConfigFiles::get().USER_PLACES_XBEL()).exists()) {
 
+        qDebug() << "Loading default user_places.xbel file";
+
         QString cont = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         cont += "<xbel xmlns:mime=\"http://www.freedesktop.org/standards/shared-mime-info\" xmlns:bookmark=\"http://www.freedesktop.org/standards/desktop-bookmarks\">\n";
         cont += "</xbel>";
@@ -476,7 +478,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
         // <bookmark>
         newnode.set_name("bookmark");
         newnode.append_attribute("href");
-        newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
+        newnode.attribute("href").set_value(QString("file://%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path, "/ "))).toStdString().c_str());
 
         // <title>
         pugi::xml_node title = newnode.append_child("title");
@@ -529,7 +531,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
                 // <bookmark>
                 newnode.set_name("bookmark");
                 newnode.append_attribute("href");
-                newnode.attribute("href").set_value(QString("file:%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path))).toStdString().c_str());
+                newnode.attribute("href").set_value(QString("file://%1").arg(QString::fromLatin1(QUrl::toPercentEncoding(path, "/ "))).toStdString().c_str());
 
                 // <title>
                 pugi::xml_node title = newnode.append_child("title");
