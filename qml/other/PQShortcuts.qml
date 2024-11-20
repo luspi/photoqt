@@ -148,7 +148,7 @@ Item {
         target: PQCNotify // qmllint disable unqualified
 
         function onCmdShortcutSequence(seq : string) {
-            keyshortcuts_top.checkComboForShortcut(seq)
+            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(0,0))
         }
 
         function onExecuteInternalCommand(cmd : string) {
@@ -174,7 +174,7 @@ Item {
                 if(key !== 16777249)
                     combo += PQCScriptsShortcuts.analyzeKeyPress(key)
 
-                keyshortcuts_top.checkComboForShortcut(combo)
+                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(0,0))
 
             }
 
@@ -233,9 +233,9 @@ Item {
             else {
 
                 if(!keyshortcuts_top.mouseGesture)
-                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton)
+                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton, Qt.point(0,0))
                 else
-                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""))
+                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""), Qt.point(0,0))
 
                 keyshortcuts_top.mousePath = []
                 keyshortcuts_top.mouseButton = ""
@@ -275,7 +275,7 @@ Item {
                 if(combo !== "") combo += "+"
                 combo += "Double Click"
 
-                keyshortcuts_top.checkComboForShortcut(combo)
+                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(0,0))
 
             }
 
