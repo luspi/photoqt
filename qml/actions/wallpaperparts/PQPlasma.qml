@@ -48,7 +48,7 @@ Column {
 
     PQTextXL {
         x: (parent.width-width)/2
-        text: "Plasma 5"
+        text: "Plasma"
         font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 

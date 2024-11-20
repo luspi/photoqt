@@ -90,13 +90,13 @@ PQTemplateFullscreen {
                             horizontalAlignment: Text.AlignHCenter
                             color: wallpaper_top.curCat==0 ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
                             font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                            text: "Plasma 5"
+                            text: "Plasma"
                             PQMouseArea {
                                 anchors.fill: parent
                                 cursorShape: Qt.PointingHandCursor
                                 hoverEnabled: true
                                 //: %1 is a placeholder for the name of a desktop environment (plasma, xfce, gnome, etc.)
-                                text: qsTranslate("wallpaper", "Click to choose %1").arg("Plasma 5")
+                                text: qsTranslate("wallpaper", "Click to choose %1").arg("Plasma")
                                 onClicked:
                                     wallpaper_top.curCat = 0
                             }
