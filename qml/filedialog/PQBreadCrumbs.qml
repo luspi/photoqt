@@ -44,6 +44,12 @@ Item {
     property bool folderListMenuOpen: false
     signal closeFolderListMenu()
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
+    }
+
     Row {
 
         Item {
