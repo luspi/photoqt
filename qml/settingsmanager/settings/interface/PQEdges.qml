@@ -277,14 +277,15 @@ Flickable {
         id: themenu
         Repeater {
             id: menurep
-            model: setting_top.actions[setting_top.menuedge].length
+            property list<string> curdat: setting_top.actions[setting_top.menuedge]
+            model: curdat.length
             PQMenuItem {
                 required property int modelData
                 checkable: true
-                checkableLikeRadioButton: true
-                property string act: setting_top.actions[setting_top.menuedge][modelData]
+                property string act: modelData < menurep.curdat.length ? menurep.curdat[modelData] : ""
                 text: setting_top.labels[act]
                 checked: setting_top.current[setting_top.menuedge] === act
+                checkableLikeRadioButton: true
                 onCheckedChanged: {
                     if(checked && setting_top.current[setting_top.menuedge] !== act) {
                         setting_top.current[setting_top.menuedge] = act
@@ -292,6 +293,7 @@ Flickable {
                         setting_top.currentChanged()
                     }
                     checked = Qt.binding(function() { return current[setting_top.menuedge] === act; })
+                    themenu.close()
                 }
             }
         }
