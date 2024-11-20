@@ -360,14 +360,12 @@ Flickable {
                     }
                 },
 
-                Column {
+                Item {
 
-                    height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : (accentcustomtxt.height + spacing + accentcustom.height)
+                    height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : accentcustom.height
                     Behavior on height { NumberAnimation { duration: 200 } }
 
                     clip: true
-
-                    spacing: 10
 
                     Rectangle {
                         id: accentcustom
