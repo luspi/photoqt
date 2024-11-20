@@ -790,7 +790,9 @@ PQTemplateFullscreen {
 
                     if(param[0] === Qt.Key_Escape) {
 
-                        if(confirmUnsaved.visible)
+                        if(settingsloader.item.catchEscape)
+                            settingsloader.item.handleEscape()
+                        else if(confirmUnsaved.visible)
                             confirmCancel.clicked()
                         else if(settinginfomessage.visible)
                             settinginfomessage.hide()
@@ -881,6 +883,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        settingsloader.item.handleEscape() // qmllint disable missing-property
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)

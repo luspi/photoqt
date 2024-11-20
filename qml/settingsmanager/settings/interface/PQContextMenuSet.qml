@@ -37,8 +37,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - context menu entries
@@ -55,6 +57,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+    property bool catchEscape: false
 
     property var defaultentries: ({})
     property list<var> entries: []
@@ -395,6 +398,10 @@ Flickable {
 
     Component.onDestruction:
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
+
+    function handleEscape() {
+        catchEscape = false
+    }
 
     function load() {
         loadtimer.restart()

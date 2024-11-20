@@ -32,8 +32,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - all file types
@@ -47,6 +49,8 @@ Item {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: catCombo.popup.visible
 
     property string defaultSettings: ""
 
@@ -335,6 +339,9 @@ Item {
     Component.onDestruction:
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
+    function handleEscape() {
+        catCombo.popup.close()
+    }
 
     function checkAll() {
         checkImg(true)

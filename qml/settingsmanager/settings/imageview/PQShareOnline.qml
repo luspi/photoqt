@@ -31,8 +31,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - imgur.com connection
@@ -50,6 +52,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+    property bool catchEscape: false
 
     Column {
 
@@ -220,6 +223,10 @@ Flickable {
 
     Component.onDestruction:
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
+
+    function handleEscape() {
+        catchEscape = false
+    }
 
     function load() {
         busy.showBusy()

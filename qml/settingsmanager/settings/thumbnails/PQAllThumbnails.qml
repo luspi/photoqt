@@ -29,8 +29,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - thumbnailsSpacing
@@ -52,6 +54,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: spacing_slider.editMode || highlight_liftup_slider.editMode
 
     Column {
 
@@ -236,6 +240,11 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        spacing_slider.acceptValue()
+        highlight_liftup_slider.acceptValue()
+    }
 
     function checkDefault() {
 

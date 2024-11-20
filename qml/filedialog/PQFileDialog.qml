@@ -186,6 +186,10 @@ Rectangle {
                         else if(fd_fileview.fileviewContextMenu.visible)
                             fd_fileview.fileviewContextMenu.close()
 
+                        // placescontext menu
+                        else if(fd_places.context.visible)
+                            fd_places.context.close()
+
                         // settings menu
                         else if(fd_breadcrumbs.topSettingsMenu.visible)
                             fd_breadcrumbs.topSettingsMenu.close()

@@ -29,8 +29,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - thumbnailsSize
@@ -55,6 +57,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: thumb_size.editMode || label_fontsize.editMode
 
     Column {
 
@@ -264,6 +268,11 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        thumb_size.acceptValue()
+        label_fontsize.acceptValue()
+    }
 
     function checkDefault() {
 

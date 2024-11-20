@@ -30,8 +30,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 
@@ -48,6 +50,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: padding.editMode || preview_colintspin.editMode || sortcriteria.popup.visible || folderthumb_timeout.popup.visible
 
     Column {
 
@@ -568,6 +572,13 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        padding.acceptValue()
+        preview_colintspin.acceptValue()
+        sortcriteria.popup.close()
+        folderthumb_timeout.popup.close()
+    }
 
     function checkDefault() {
 

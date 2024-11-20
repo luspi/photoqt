@@ -30,8 +30,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - interfaceStatusInfoList
@@ -54,6 +56,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: fontsize.editMode || autohide_timeout.editMode || combo_add.popup.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -428,6 +432,12 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        fontsize.acceptValue()
+        autohide_timeout.acceptValue()
+        combo_add.popup.close()
+    }
 
     // do not make this function typed, it will break
     function areTwoListsEqual(l1, l2) {

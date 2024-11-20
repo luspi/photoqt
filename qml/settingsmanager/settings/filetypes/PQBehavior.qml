@@ -28,8 +28,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - filetypesPDFQuality
@@ -51,6 +53,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+
+    property bool catchEscape: pdf_quality.editMode || videothumb.popup.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -335,6 +339,11 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        pdf_quality.acceptValue()
+        videothumb.popup.close()
+    }
 
     function checkDefault() {
 

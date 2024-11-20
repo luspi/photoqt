@@ -58,12 +58,13 @@ Item {
 
     property int titleWeight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
-    property bool editMode: !txt.visible
+    property bool editMode: false
 
     onVisibleChanged: {
         if(!visible) {
             PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
             txt.visible = true
+            editMode = false
         }
     }
 
@@ -124,7 +125,7 @@ Item {
                 to: control.maxval
                 width: 120
                 tooltipSuffix: control.suffix
-                visible: !txt.visible
+                visible: control.editMode
                 Component.onDestruction:
                     PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 Keys.onEnterPressed:
@@ -147,6 +148,7 @@ Item {
                 onClicked: {
                     PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
                     txt.visible = false
+                    control.editMode = true
                 }
             }
 
@@ -157,10 +159,11 @@ Item {
             text: genericStringSave
             smallerVersion: true
             height: spinbox.height
-            visible: !txt.visible
+            visible: control.editMode
             onClicked: {
                 PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 txt.visible = true
+                control.editMode = false
             }
         }
 
@@ -187,6 +190,7 @@ Item {
     function acceptValue() {
         PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
         txt.visible = true
+        control.editMode = false
     }
 
     function increase() {

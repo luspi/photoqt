@@ -28,8 +28,10 @@ import "../../../elements"
 // required top level properties for all settings:
 //
 // 1) property bool settingChanged
-// 2) function applyChanges()
-// 3) function revertChanges()
+// 2) property bool catchEscape
+// 3) function applyChanges()
+// 4) function revertChanges()
+// 5) function handleEscape()
 
 // settings in this file:
 // - interfaceAllowMultipleInstances
@@ -47,6 +49,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
+    property bool catchEscape: false
 
     Column {
 
@@ -268,6 +271,10 @@ Flickable {
 
     Component.onCompleted:
         load()
+
+    function handleEscape() {
+        catchEscape = false
+    }
 
     function checkDefault() {
 

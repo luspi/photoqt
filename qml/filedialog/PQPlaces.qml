@@ -54,6 +54,8 @@ Item {
 
     property bool showHiddenPlaces: false
 
+    property alias context: contextmenu
+
     Timer {
         id: resetHoverIndex
         interval: 50
