@@ -85,6 +85,11 @@ Item {
         }
     ]
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+    }
+
     SplitView {
 
         width: parent.width
