@@ -287,7 +287,7 @@ Rectangle {
                 hasBeenTriggered = true
                 var cl = PQCScriptsFilesPaths.cleanPath(imageloaderitem.imageSource) // qmllint disable unqualified
                 if(cl !== "")
-                    img.source = encodeURI("image://full/" + cl)
+                    img.source = encodeURI("image://thumb/" + cl)
             }
         }
 
@@ -298,7 +298,7 @@ Rectangle {
         function onImageSourceChanged(source : string) {
             var cl = PQCScriptsFilesPaths.cleanPath(source) // qmllint disable unqualified
             if(cl !== "")
-                img.source = "image://full/" + cl
+                img.source = encodeURI("image://thumb/" + cl)
         }
     }
 
