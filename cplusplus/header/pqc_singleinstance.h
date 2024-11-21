@@ -68,6 +68,9 @@ private:
     QLocalSocket *socket;
     QLocalServer *server;
 
+    bool delayAutoRepeat;
+    QTimer *resetDelayAutoRepeat;
+
     // This one is used in main process, handling the message sent by sub-instances
     void handleMessage(QString msg);
 
