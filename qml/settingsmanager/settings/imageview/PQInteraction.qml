@@ -72,7 +72,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Zoom")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt allows for a great deal of flexibility in viewing images at the perfect size. Additionally it allows for control of how fast the zoom happens, and if there is a minimum/maximum zoom level at which it should always stop no matter what. Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
+            helptext: qsTranslate("settingsmanager", "PhotoQt allows for a great deal of flexibility in viewing images at the perfect size. Additionally it allows for control of how fast the zoom happens (both in relative and absolute terms), and if there is a minimum/maximum zoom level at which it should always stop no matter what. Note that the maximum zoom level is the absolute zoom level, the minimum zoom level is relative to the default zoom level (the zoom level when the image is first loaded).")
 
             content: [
 
@@ -85,6 +85,24 @@ Flickable {
                     suffix: " %"
                     onValueChanged:
                         setting_top.checkDefault()
+                },
+
+                Flow {
+                    PQRadioButton {
+                        id: zoom_rel
+                        text: qsTranslate("settingsmanager", "relative zoom speed")
+                        checked: PQCSettings.imageviewZoomSpeedRelative // qmllint disable unqualified
+                    }
+                    PQRadioButton {
+                        id: zoom_abs
+                        text: qsTranslate("settingsmanager", "absolute zoom speed")
+                        checked: !zoom_rel.checked
+                    }
+                },
+
+                Item {
+                    width: 1
+                    height: 5
                 },
 
                 Flow {
@@ -252,6 +270,7 @@ Flickable {
         }
 
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
+                zoom_rel.hasChanged() || zoom_abs.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
                 mirroranim.hasChanged() || minimap.hasChanged() || minimapsizelevel.hasChanged()) {
             settingChanged = true
@@ -265,6 +284,8 @@ Flickable {
     function load() {
 
         zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) // qmllint disable unqualified
+        zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
+        zoom_abs.loadAndSetDefault(!PQCSettings.imageviewZoomSpeedRelative)
         minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
         minzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMin)
         maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
@@ -285,6 +306,7 @@ Flickable {
     function applyChanges() {
 
         PQCSettings.imageviewZoomSpeed = zoomspeed.value // qmllint disable unqualified
+        PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
         PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
         PQCSettings.imageviewZoomMin = minzoom_slider.value
         PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked
@@ -298,6 +320,8 @@ Flickable {
         PQCSettings.imageviewMinimapSizeLevel = minimapsizelevel.currentIndex
 
         zoomspeed.saveDefault()
+        zoom_rel.saveDefault()
+        zoom_abs.saveDefault()
         minzoom_check.saveDefault()
         minzoom_slider.saveDefault()
         maxzoom_check.saveDefault()

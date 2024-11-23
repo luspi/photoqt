@@ -159,17 +159,28 @@ Loader {
 
                     if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                    // compute zoom factor based on wheel movement (if done by mouse)
-                    var zoomfactor
-                    if(wheelDelta !== undefined)
-                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
-                    else
-                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+                    if(PQCSettings.imageviewZoomSpeedRelative) {
 
-                    if(PQCSettings.imageviewZoomMaxEnabled)
-                        loader_top.imageScale = Math.min(PQCSettings.imageviewZoomMax/100, loader_top.imageScale*zoomfactor)
-                    else
-                        loader_top.imageScale = Math.min(25, loader_top.imageScale*zoomfactor)
+                        // compute zoom factor based on wheel movement (if done by mouse)
+                        var zoomfactor
+                        if(wheelDelta !== undefined)
+                            zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
+                        else
+                            zoomfactor = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
+
+                        if(PQCSettings.imageviewZoomMaxEnabled)
+                            loader_top.imageScale = Math.min((PQCSettings.imageviewZoomMax/100), loader_top.imageScale*zoomfactor)
+                        else
+                            loader_top.imageScale = Math.min(25, loader_top.imageScale*zoomfactor)
+
+                    } else {
+
+                        if(PQCSettings.imageviewZoomMaxEnabled)
+                            loader_top.imageScale += Math.min(PQCSettings.imageviewZoomMax*0.01/toplevel.getDevicePixelRatio() - loader_top.imageScale, (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())
+                        else
+                            loader_top.imageScale += Math.min(25/toplevel.getDevicePixelRatio() - loader_top.imageScale, (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())
+
+                    }
                 }
             }
             function onZoomOut(wheelDelta : point) {
@@ -177,17 +188,28 @@ Loader {
 
                     if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                    // compute zoom factor based on wheel movement (if done by mouse)
-                    var zoomfactor
-                    if(wheelDelta !== undefined)
-                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
-                    else
-                        zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+                    if(PQCSettings.imageviewZoomSpeedRelative) {
 
-                    if(PQCSettings.imageviewZoomMinEnabled)
-                        loader_top.imageScale = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100), loader_top.imageScale/zoomfactor)
-                    else
-                        loader_top.imageScale = Math.max(0.01, loader_top.imageScale/zoomfactor)
+                        // compute zoom factor based on wheel movement (if done by mouse)
+                        var zoomfactor
+                        if(wheelDelta !== undefined)
+                            zoomfactor = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
+                        else
+                            zoomfactor = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
+
+                        if(PQCSettings.imageviewZoomMinEnabled)
+                            loader_top.imageScale = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100), loader_top.imageScale/zoomfactor)
+                        else
+                            loader_top.imageScale = Math.max(0.01, loader_top.imageScale/zoomfactor)
+
+                    } else {
+
+                        if(PQCSettings.imageviewZoomMinEnabled)
+                            loader_top.imageScale = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100)/toplevel.getDevicePixelRatio(), loader_top.imageScale - (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())
+                        else
+                            loader_top.imageScale = Math.max(0.01/toplevel.getDevicePixelRatio(), loader_top.imageScale - (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())
+
+                    }
                 }
             }
             function onZoomReset() {
