@@ -136,14 +136,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         return;
     }
 
-    // If a key is kept pressed then we enforce a rate limit, that key press is only considered twice a second.
-    // Individual distinct key presses are not rate limited (see eventFilter()).
-    delayAutoRepeat = false;
-    resetDelayAutoRepeat = new QTimer;
-    resetDelayAutoRepeat->setSingleShot(true);
-    resetDelayAutoRepeat->setInterval(500);
-    connect(resetDelayAutoRepeat, &QTimer::timeout, this, [=]() { delayAutoRepeat = false; });
-
     this->installEventFilter(this);
 
     // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
@@ -318,17 +310,9 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
         if(PQCNotify::get().getIgnoreKeysExceptEsc() && (ev->key() != Qt::Key_Escape && (ev->modifiers() == Qt::NoModifier || ev->modifiers() == Qt::ShiftModifier)))
             return QApplication::eventFilter(obj, e);
 
-        // If a key is kept pressed (autorepeat), then we limit how soon it is listened to again.
-        // The interval is specified in the QTimer in the constructor.
-        if(!ev->isAutoRepeat()) {
-            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-            return true;
-        } else if(!delayAutoRepeat) {
-            delayAutoRepeat = true;
-            resetDelayAutoRepeat->start();
-            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-            return true;
-        }
+        Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+        return true;
+
     }
 
     return QApplication::eventFilter(obj, e);

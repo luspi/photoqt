@@ -363,9 +363,3 @@ QStringList PQCScriptsOther::convertJSArrayToStringList(QVariant val) {
     return ret;
 
 }
-
-double PQCScriptsOther::getDevicePixelRatio() {
-    if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
-        return qApp->primaryScreen()->devicePixelRatio();
-    return 1;
-}

@@ -455,7 +455,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round(Screen.devicePixelRatio * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
+            text: Math.round(toplevel.getDevicePixelRatio() * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
         }
     }
 

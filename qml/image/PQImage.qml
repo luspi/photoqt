@@ -365,8 +365,25 @@ Item {
         z: image_top.curZ+1
     }
 
+    property bool delayImageLoad: false
+    Timer {
+        id: resetDelayImageLoad
+        interval: 250
+        onTriggered: {
+            image_top.delayImageLoad = false
+        }
+    }
+
     // some global handlers
     function showNext() {
+
+        if(image_top.delayImageLoad) {
+            if(!resetDelayImageLoad.running)
+                resetDelayImageLoad.restart()
+            return
+        }
+        image_top.delayImageLoad = true
+
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
                 PQCFileFolderModel.currentIndex = 0
@@ -376,6 +393,14 @@ Item {
     }
 
     function showPrev() {
+
+        if(image_top.delayImageLoad) {
+            if(!resetDelayImageLoad.running)
+                resetDelayImageLoad.restart()
+            return
+        }
+        image_top.delayImageLoad = true
+
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
                 PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1

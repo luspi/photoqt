@@ -436,4 +436,10 @@ Window {
         Qt.quit()
     }
 
+    function getDevicePixelRatio() {
+        if(PQCSettings.imageviewRespectDevicePixelRatio) // qmllint disable unqualified
+            return Screen.devicePixelRatio
+        return 1
+    }
+
 }

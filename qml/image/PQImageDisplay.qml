@@ -138,6 +138,17 @@ Loader {
                 image_top.currentlyShowingVideo = loader_top.videoLoaded // qmllint disable unqualified
         }
 
+        // keeping the shortcut for rotation pressed triggers it repeatedly very quickly
+        // this rate limits the rotation operation to the interval below
+        property bool delayImageRotate: false
+        Timer {
+            id: resetDelayImageRotate
+            interval: 250
+            onTriggered: {
+                loader_top.delayImageRotate = false
+            }
+        }
+
         // react to user commands
         Connections {
 
@@ -191,11 +202,19 @@ Loader {
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
-                    loader_top.imageScale = 1/Screen.devicePixelRatio
+                    loader_top.imageScale = 1/toplevel.getDevicePixelRatio()
             }
             function onRotateClock() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+
+                // rate limit rotation
+                if(loader_top.delayImageRotate) {
+                    if(!resetDelayImageRotate.running)
+                        resetDelayImageRotate.restart()
+                    return
+                }
+                loader_top.delayImageRotate = true
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation += 90
@@ -203,6 +222,14 @@ Loader {
             function onRotateAntiClock() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+
+                // rate limit rotation
+                if(loader_top.delayImageRotate) {
+                    if(!resetDelayImageRotate.running)
+                        resetDelayImageRotate.restart()
+                    return
+                }
+                loader_top.delayImageRotate = true
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation -= 90
@@ -1155,8 +1182,8 @@ Loader {
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
                         if(loader_top.rotatedUpright)
-                            return Math.min(1./Screen.devicePixelRatio, Math.min((flickable.width/width), (flickable.height/height)))
-                        return Math.min(1./Screen.devicePixelRatio, Math.min((flickable.width/height), (flickable.height/width)))
+                            return Math.min(1./toplevel.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height))) // qmllint disable unqualified
+                        return Math.min(1./toplevel.getDevicePixelRatio(), Math.min((flickable.width/height), (flickable.height/width)))
                     }
 
                     Timer {
