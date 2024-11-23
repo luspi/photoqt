@@ -64,6 +64,17 @@ Window {
         }
     }
 
+    // we keep track of whether a window is maximized or windowed
+    // when restoring the window we then can restore it to the state it was in before
+    property bool maxAndNowWindowed: false
+    onVisibilityChanged: {
+        if(visibility === Window.Maximized)
+            maxAndNowWindowed = true
+        else if(visibility === Window.Windowed) {
+            maxAndNowWindowed = false
+        }
+    }
+
     property bool startup: true
 
     PQMainWindowBackground {
@@ -197,7 +208,7 @@ Window {
         target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? Window.Maximized : Window.FullScreen) // qmllint disable unqualified
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
         }
 
         function onInterfacePopoutMetadataChanged() {
@@ -236,7 +247,7 @@ Window {
 
             toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = Window.Maximized
+                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
 
@@ -263,7 +274,7 @@ Window {
             } else {
                 toplevel.visible = true
                 if(toplevel.visibility === Window.Minimized)
-                    toplevel.visibility = Window.Maximized
+                    toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
                 toplevel.raise()
                 toplevel.requestActivate()
             }
@@ -281,7 +292,7 @@ Window {
                 if(!toplevel.visible) {
                     toplevel.visible = true
                     if(toplevel.visibility === Window.Minimized)
-                        toplevel.visibility = Window.Maximized
+                        toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
                     toplevel.raise()
                     toplevel.requestActivate()
                 }
@@ -306,7 +317,7 @@ Window {
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = Window.Maximized
+                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
         }

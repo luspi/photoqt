@@ -46,7 +46,7 @@ SystemTrayIcon {
                 trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
                 if(trayicon.acces_toplevel.visible) {
                     if(trayicon.acces_toplevel.visibility === Window.Minimized)
-                        trayicon.acces_toplevel.visibility = Window.Maximized
+                        trayicon.acces_toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
                     trayicon.acces_toplevel.raise()
                     trayicon.acces_toplevel.requestActivate()
                 }
@@ -69,7 +69,7 @@ SystemTrayIcon {
         trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
         if(trayicon.acces_toplevel.visible) {
             if(trayicon.acces_toplevel.visibility === Window.Minimized)
-                trayicon.acces_toplevel.visibility = Window.Maximized
+                trayicon.acces_toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
             trayicon.acces_toplevel.raise()
             trayicon.acces_toplevel.requestActivate()
         }
