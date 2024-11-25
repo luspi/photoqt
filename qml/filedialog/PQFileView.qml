@@ -1197,6 +1197,7 @@ GridView {
         }
 
         PQMenuItem {
+            implicitHeight: visible ? 40 : 0
             visible: contextmenu.isFile
             text: qsTranslate("thumbnails","Reload thumbnail")
             onTriggered: {
@@ -1247,7 +1248,9 @@ GridView {
         }
         PQMenuSeparator { }
         PQMenuItem {
-            enabled: !PQCScriptsConfig.amIOnWindows() && (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length) // qmllint disable unqualified
+            implicitHeight: visible ? 40 : 0
+            visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+            enabled: visible && (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length)
             text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
                         ? qsTranslate("filedialog", "Delete selection")
                         : (contextmenu.isFile ? qsTranslate("filedialog", "Delete file")
