@@ -294,6 +294,7 @@ Item {
                     id: chk_magick
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isImageMagickSupportEnabled()||PQCScriptsConfig.isGraphicsMagickSupportEnabled() // qmllint disable unqualified
                     text: (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick") // qmllint disable unqualified
                     onCheckedChanged:
@@ -304,6 +305,7 @@ Item {
                     id: chk_libraw
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isLibRawSupportEnabled() // qmllint disable unqualified
                     text: "LibRaw"
                     onCheckedChanged:
@@ -314,6 +316,7 @@ Item {
                     id: chk_devil
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isDevILSupportEnabled() // qmllint disable unqualified
                     text: "DevIL"
                     onCheckedChanged:
@@ -324,6 +327,7 @@ Item {
                     id: chk_freeimage
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isFreeImageSupportEnabled() // qmllint disable unqualified
                     text: "FreeImage"
                     onCheckedChanged:
@@ -334,6 +338,7 @@ Item {
                     id: chk_libvips
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isLibVipsSupportEnabled() // qmllint disable unqualified
                     text: "LibVips"
                     onCheckedChanged:
@@ -344,6 +349,7 @@ Item {
                     id: chk_libarchive
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isLibArchiveSupportEnabled() // qmllint disable unqualified
                     text: "LibArchive"
                     onCheckedChanged:
@@ -364,6 +370,7 @@ Item {
                     id: chk_video
                     checkable: true
                     checked: true
+                    implicitHeight: visible ? 40 : 0
                     visible: PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled() // qmllint disable unqualified
                     text: qsTranslate("filedialog", "Video files")
                     onCheckedChanged:

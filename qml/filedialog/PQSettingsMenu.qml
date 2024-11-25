@@ -279,6 +279,7 @@ PQMenu {
             //: file manager settings popdown: the devices here are the storage devices
             text: qsTranslate("filedialog", "show temporary devices")
             checkable: true
+            implicitHeight: visible ? 40 : 0
             visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
             checked: PQCSettings.filedialogDevicesShowTmpfs // qmllint disable unqualified
             onCheckedChanged:

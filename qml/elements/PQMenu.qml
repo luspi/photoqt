@@ -27,6 +27,19 @@ Menu {
 
     id: control
 
+    // setting the inset and padding properties are necessary in particular on Windows
+    // See: https://bugreports.qt.io/browse/QTBUG-131499
+
+    topInset: 0
+    leftInset: 0
+    rightInset: 0
+    bottomInset: 0
+
+    topPadding: 1
+    leftPadding: 1
+    rightPadding: 1
+    bottomPadding: 1
+
     delegate: PQMenuItem {
         moveToRightABit: true
     }
