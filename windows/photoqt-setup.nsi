@@ -56,7 +56,7 @@ Unicode True
 !define INSTDIR_REG_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\PhotoQt"
 
 ;include the Uninstall log header
-!include AdvUninstLog.nsh
+!include AdvUninstLog2.nsh
 
 ; name of project and installer filename
 Name "PhotoQt"
@@ -76,7 +76,7 @@ RequestExecutionLevel admin
 !define MUI_ICON "icon_install.ico"
 
 ; we have an interactive uninstall
-!insertmacro INTERACTIVE_UNINSTALL
+!insertmacro UNATTENDED_UNINSTALL
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ; Welcome page
@@ -1280,14 +1280,8 @@ Section "Uninstall"
     Delete "$desktop\PhotoQt.lnk"
 
     ;begin uninstall
-    !insertmacro UNINSTALL.LOG_BEGIN_UNINSTALL
-
-    ;uninstall from path, must be repeated for every install logged path individual
-    !insertmacro UNINSTALL.LOG_UNINSTALL "$INSTDIR"
-
-    ;end uninstall, after uninstall from all logged paths has been performed
-    !insertmacro UNINSTALL.LOG_END_UNINSTALL
-
+    !insertmacro UNINSTALL.NEW_UNINSTALL "$OUTDIR"
+    
     DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
 
     ; Remove environment variables
