@@ -213,8 +213,9 @@ Item {
                     if((image_top.bgIndices.indexOf(spare.mainItemIndex) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
                         spare.containingFolder = newFolder
                         spare.lastModified = newModified
-                        spare.imageSource = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+                        spare.imageSource = newFile
                         spare.mainItemIndex = PQCFileFolderModel.currentIndex
+                        spare.mainItemIndexChanged()
                         showItem = j
                         break;
                     }
@@ -318,6 +319,7 @@ Item {
                         curprevimg.lastModified = prevModified
                         curprevimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[0]]
                         curprevimg.mainItemIndex = nexttwo[0]
+                        curprevimg.mainItemIndexChanged()
                         break;
                     }
 
@@ -338,6 +340,7 @@ Item {
                         curnextimg.lastModified = nextModified
                         curnextimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[1]]
                         curnextimg.mainItemIndex = nexttwo[1]
+                        curnextimg.mainItemIndexChanged()
                         break;
                     }
 

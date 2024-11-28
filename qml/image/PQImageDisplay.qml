@@ -56,8 +56,8 @@ Loader {
         active = false
         active = (mainItemIndex!=-1)
         if(active) {
-            item.mainItemIndex = imageloaderitem.mainItemIndex
-            item.finishSetup()
+            imageloaderitem.item.mainItemIndex = imageloaderitem.mainItemIndex
+            imageloaderitem.item.finishSetup()
         }
     }
     active: false
