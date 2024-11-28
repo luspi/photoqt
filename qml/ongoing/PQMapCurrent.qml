@@ -175,7 +175,7 @@ PQTemplateFloating {
                         height: 50
                         mipmap: true
                         smooth: false
-                        source: "/white/maplocation.png"
+                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" // qmllint disable unqualified
                     }
 
             }
