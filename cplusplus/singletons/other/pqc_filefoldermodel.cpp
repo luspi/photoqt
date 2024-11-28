@@ -741,8 +741,6 @@ void PQCFileFolderModel::removeEntryMainView(int index) {
         cacheAdvancedSortFolder.removeOne(oldentry);
     }
 
-    loadDelayFileDialog->start();
-
     if(m_currentIndex < m_countMainView-1)
         setFileInFolderMainView(m_entriesMainView[index+1]);
     else if(m_countMainView > 1)
