@@ -867,7 +867,7 @@ Loader {
 
                     Loader {
                         id: minimap_loader
-                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !loader_top.thisIsAPhotoSphere // qmllint disable unqualified
+                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
                         asynchronous: true
                         source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml") // qmllint disable unqualified
                     }
