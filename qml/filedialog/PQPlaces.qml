@@ -237,7 +237,7 @@ Item {
 
             property int part: mouseArea.drag.active ? 1 : parent.parent.part // qmllint disable missing-property
             property var entry: places_top.entries[part][modelData]
-            property string hidden: entry===undefined||entry[4]===undefined||part==2 ? "false" : entry[4]
+            property string hidden: entry===undefined||entry[4]===undefined||part==2||(modelData==0) ? "false" : entry[4]
 
             color: places_top.hoverIndex[part]===modelData
                         ? (places_top.pressedIndex[part]===modelData ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) // qmllint disable unqualified
