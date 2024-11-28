@@ -256,7 +256,7 @@ Flickable {
                 PQSliderSpinBox {
                     id: cache_slider
                     width: set_cache.rightcol
-                    minval: 128
+                    minval: 256
                     maxval: 5120
                     title: qsTranslate("settingsmanager", "cache size:")
                     suffix: " MB"

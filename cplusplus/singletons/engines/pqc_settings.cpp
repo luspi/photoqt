@@ -572,6 +572,30 @@ int PQCSettings::migrate(QString oldversion) {
                     QSqlQuery queryUpd(db);
                     if(!queryUpd.exec(QString("UPDATE `interface` SET `value`='%1' WHERE `name`='AccentColor'").arg(mapping[val])))
                         qWarning() << "Unable to update AccentColor:" << queryUpd.lastError().text().trimmed();
+                    queryUpd.clear();
+                }
+
+            }
+
+            QSqlQuery queryChk(db);
+            if(!queryChk.exec("SELECT `value` FROM `imageview` WHERE `name`='Cache'")) {
+
+                qWarning() << "Unable to retrieve Cache setting:" << queryChk.lastError().text().trimmed();
+
+            } else {
+
+                queryChk.next();
+
+                int val = queryChk.value(0).toInt();
+                queryChk.clear();
+
+                if(val < 256) {
+
+                    QSqlQuery queryUpd(db);
+                    if(!queryUpd.exec(QString("UPDATE `imageview` SET `value`='256' WHERE `name`='Cache'")))
+                        qWarning() << "Unable to update Cache:" << queryUpd.lastError().text().trimmed();
+                    queryUpd.clear();
+
                 }
 
             }
