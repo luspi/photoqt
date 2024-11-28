@@ -50,20 +50,42 @@ PQMenu {
         }
 
         PQMenuItem {
+            id: mi_listview
             text: qsTranslate("filedialog", "list view")
             checkable: true
             checkableLikeRadioButton: true
             checked: PQCSettings.filedialogLayout==="list" // qmllint disable unqualified
             onTriggered:
                 PQCSettings.filedialogLayout = "list" // qmllint disable unqualified
+            onCheckedChanged: {
+                if(checked) PQCSettings.filedialogLayout = "list" // qmllint disable unqualified
+                mi_iconview.checked = !checked
+            }
+            Connections {
+                target: PQCSettings // qmllint disable unqualified
+                function onFiledialogLayoutChanged() {
+                    mi_listview.checked = (PQCSettings.filedialogLayout==="list") // qmllint disable unqualified
+                }
+            }
         }
         PQMenuItem {
+            id: mi_iconview
             text: qsTranslate("filedialog", "icon view")
             checkable: true
             checkableLikeRadioButton: true
             checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
             onTriggered:
                 PQCSettings.filedialogLayout = "icons" // qmllint disable unqualified
+            onCheckedChanged: {
+                if(checked) PQCSettings.filedialogLayout = "icons" // qmllint disable unqualified
+                mi_listview.checked = !checked
+            }
+            Connections {
+                target: PQCSettings // qmllint disable unqualified
+                function onFiledialogLayoutChanged() {
+                    mi_iconview.checked = (PQCSettings.filedialogLayout==="icons") // qmllint disable unqualified
+                }
+            }
         }
 
         PQMenuSeparator {}
