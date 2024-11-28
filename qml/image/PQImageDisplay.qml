@@ -1205,9 +1205,10 @@ Loader {
 
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
+                        var dpr = (loader_top.thisIsAPhotoSphere ? 1 : toplevel.getDevicePixelRatio()) // qmllint disable unqualified
                         if(loader_top.rotatedUpright)
-                            return Math.min(1./toplevel.getDevicePixelRatio(), Math.min((flickable.width/width), (flickable.height/height))) // qmllint disable unqualified
-                        return Math.min(1./toplevel.getDevicePixelRatio(), Math.min((flickable.width/height), (flickable.height/width)))
+                            return Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height)))
+                        return Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))
                     }
 
                     Timer {
