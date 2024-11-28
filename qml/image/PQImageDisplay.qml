@@ -1742,7 +1742,7 @@ Loader {
                 selectNewRandomAnimation.restart()
 
             // these are only done if we are not in a slideshow with the ken burns effect
-            if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
+            if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
 
                 if(PQCSettings.imageviewAlwaysActualSize) {
                     loader_top.zoomActualWithoutAnimation()
@@ -1755,7 +1755,7 @@ Loader {
 
             image_top.initialLoadingFinished = true
 
-            if(!PQCNotify.slideshowRunning || !PQCSettings.slideshowTypeAnimation === "kenburns") {
+            if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
 
                 loader_top.resetToDefaults()
                 loader_top.moveViewToCenter()
