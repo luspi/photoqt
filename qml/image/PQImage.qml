@@ -386,6 +386,7 @@ Item {
             return
         }
         image_top.delayImageLoad = true
+        resetDelayImageLoad.restart()
 
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
@@ -403,6 +404,7 @@ Item {
             return
         }
         image_top.delayImageLoad = true
+        resetDelayImageLoad.restart()
 
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)

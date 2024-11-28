@@ -237,6 +237,7 @@ Loader {
                     return
                 }
                 loader_top.delayImageRotate = true
+                resetDelayImageRotate.restart()
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation += 90
@@ -252,6 +253,7 @@ Loader {
                     return
                 }
                 loader_top.delayImageRotate = true
+                resetDelayImageRotate.restart()
 
                 if(loader_top.isMainImage)
                     loader_top.imageRotation -= 90
