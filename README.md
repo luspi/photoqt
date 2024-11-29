@@ -52,10 +52,13 @@ If you want to support PhotoQt financially, please **consider donating to the hu
 
 ## Screenshots
 
-![Main Interface](https://photoqt.org/img/screenshots/gitlab/maininterface.jpg "Main Interface"){width=400px}
-![Main Interface (popout)](https://photoqt.org/img/screenshots/gitlab/maininterface_popout.jpg "Main Interface (popout)"){width=400px}
-![File Manager](https://photoqt.org/img/screenshots/gitlab/filedialog.jpg "File Manager"){width=400px}
-![Settings Manager (interface)](https://photoqt.org/img/screenshots/gitlab/settingsmanager.jpg "Settings Manager"){width=400px}
+![Main Interface](https://photoqt.org/img/metainfo/metainfo1.png "Main Interface"){width=400px}
+![File Manager](https://photoqt.org/img/metainfo/metainfo2.png "File Manager"){width=400px}
+![Map Explorer](https://photoqt.org/img/metainfo/metainfo3.png "Map Explorer"){width=400px}
+![About](https://photoqt.org/img/metainfo/metainfo4.png "About"){width=400px}
+![Zoomed in With Minimap](https://photoqt.org/img/metainfo/metainfo5.png "Zoomed in With Minimap"){width=400px}
+![Settings Manager](https://photoqt.org/img/metainfo/metainfo6.png "Settings Manager"){width=400px}
+![Settings Manager (compact)](https://photoqt.org/img/metainfo/metainfo7.png "Settings Manager (compact)"){width=400px}
 
 
 ## License

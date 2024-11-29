@@ -1,6 +1,40 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.7 - 2024-11-29
+----------------------------
+- change: raise minimum required Qt version to 6.4 (6.5+ recommended)
+- add: fully custom accent color
+- add: make basis directory for thumbnail cache configurable
+- add: add option to zoom image in absolute percentage points
+- add: allow right edge action to be changed
+- add: snap package
+- improve: Escape key closes context menu, spinbox edits, and combobox popups
+- improve: hide temporary storage devices in file dialog
+- improve: On windows the favorites in the file dialog are stored in app specific directory
+- improve: tweak QML code to allow for better customizations (based on qmllint and qmlsc)
+- improve: copying image/page of archive/document to clipboard copies only displayed file/page
+- improve: image scale respects pixel density of screen (old behavior available in settings)
+- improve: better error checking application of color profiles with LCMS2
+- improve: context menu grouping
+- improve: disable minimap when inside photosphere
+- improve: better feature support in Appimages
+- fix: handling of file uris
+- fix: hidden mouse cursor in map explorer
+- fix: path to maplocation icon
+- fix: breadcrumbs don't pass right click menu to background
+- fix: minimap uses thumbnail image instead of full image
+- fix: short stutter shortly after video starts playing
+- fix: always show bookmarks header in file browser
+- fix: switching between name/natural name sorting without restarting
+- fix: setting up images during slideshow with some effects
+- fix: remember maximized/normal state of main window
+- fix: ensure to trigger left edge action with mouse at far left edge
+- fix: video playback in Flatpak package
+- fix: icons on Windows
+- fix: uninstaller speed on Windows
+
+
 Release 4.6 - 2024-08-01
 ----------------------------
 - add: new image display engine, faster and more reliable

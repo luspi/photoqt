@@ -4,7 +4,7 @@
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
     <name>PhotoQt</name>
-    <summary>View and manage images</summary>
+    <summary>View and manage images, videos, and documents</summary>
     <description>
         <p>PhotoQt is a fast and simple, good looking, yet powerful and highly configureable image viewer.</p>
         <p>It provides an uncluttered interface and can be extensively tweaked to fit ones needs perfectly. It is possible to set key or mouse shortcuts for many of its features and capabilities, as well as for any external script/command.</p>
@@ -18,18 +18,26 @@
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo2.png</image>
-            <caption>Opening a new file from within PhotoQt</caption>
+            <caption>Opening a new file</caption>
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo3.png</image>
-            <caption>The 'About' information shown inside PhotoQt</caption>
+            <caption>Exploring images with location data on an interactive map</caption>
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo4.png</image>
-            <caption>Zooming in reveals a minimap for easy navigation</caption>
+            <caption>The 'About' information</caption>
         </screenshot>
         <screenshot>
             <image>https://photoqt.org/img/metainfo/metainfo5.png</image>
+            <caption>Zooming in reveals a minimap for easy navigation</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://photoqt.org/img/metainfo/metainfo6.png</image>
+            <caption>The settings manager</caption>
+        </screenshot>
+        <screenshot>
+            <image>https://photoqt.org/img/metainfo/metainfo7.png</image>
             <caption>The settings manager in compact format</caption>
         </screenshot>
     </screenshots>
@@ -104,6 +112,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.7" date="2024-11-29">
+            <description>
+                After a short break due to a big move across continents, PhotoQt is back with a new release full of exciting additions, many quality of life improvements, and also some bug fixes.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.7
+            </url>
+        </release>
         <release version="4.6" date="2024-08-01">
             <description>
                 PhotoQt 4.6 is ready with another round of additions, improvements, and bug fixes. Thank you to all who gave feedback and suggestions!

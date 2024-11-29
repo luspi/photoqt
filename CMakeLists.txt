@@ -9,7 +9,7 @@ project(photoqt LANGUAGES CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "dev")
+SET(APPVERSION "4.7")
 add_definitions(-DPQMVERSION="${APPVERSION}")
 
 ########################################

@@ -4,7 +4,7 @@ The instructions below serve as a guide to compile and install PhotoQt from sour
 
 ## DEPENDENCIES
 
-- Qt >= 6.2 (6.5 or higher recommended)
+- Qt >= 6.4 (6.5 or higher recommended)
 - CMake (needed for building PhotoQt)
 - Qt6 ImageFormats
 
@@ -64,7 +64,7 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 
 2. _cmake .._
 
-    \# Note: This installs PhotoQt by default into /usr/local/{bin,share}
+    \# Note: This installs PhotoQt by default into /usr/local/{bin,share}  
     \# To install PhotoQt into another prefix e.g. /usr/{bin,share}, run:
 
     _cmake -DCMAKE\_INSTALL\_PREFIX=/usr .._
@@ -96,12 +96,12 @@ If you prefer to build it yourself, this process is not as hard as it might seem
 
 The following are required dependencies:
 
-1. Install Visual Studio 2019 Community Edition (free, be sure to install the 'Desktop Development with C++' workload)
+1. Install Visual Studio 2022 Community Edition (free, be sure to install the 'Desktop Development with C++' workload)
     - Website: https://visualstudio.microsoft.com/
 2. Install CMake
     - Website: https://cmake.org/
     - In the installer set the system path option to Add CMake to the system PATH for all users
-3. Install Qt 6.2 (6.5+ recommended)
+3. Install Qt 6.4 (6.5+ recommended)
     - Website: https://qt.io
     - In the installer, make sure to install all required modules as listed above under dependencies
     - After installation, confirm that your installation of Qt finds both CMake and the compiler installed in steps 1 and 2
