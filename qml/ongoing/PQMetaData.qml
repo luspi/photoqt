@@ -672,7 +672,7 @@ Rectangle {
                 if(posx < metadata_top.x-50 || posx > metadata_top.x+metadata_top.width+50 || posy < metadata_top.y-50 || posy > metadata_top.y+metadata_top.height+50)
                     metadata_top.setVisible = false
             } else {
-                if(metadata_top.hotArea.x < posx && metadata_top.hotArea.x+metadata_top.hotArea.width > posx && metadata_top.hotArea.y < posy && metadata_top.hotArea.height+metadata_top.hotArea.y > posy)
+                if(metadata_top.hotArea.x <= posx && metadata_top.hotArea.x+metadata_top.hotArea.width > posx && metadata_top.hotArea.y < posy && metadata_top.hotArea.height+metadata_top.hotArea.y > posy)
                     metadata_top.setVisible = true
             }
         }

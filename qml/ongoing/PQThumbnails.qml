@@ -702,7 +702,7 @@ Item {
                 if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
                     thumbnails_top.setVisible = false
             } else {
-                if(thumbnails_top.hotArea.x < posx && thumbnails_top.hotArea.x+thumbnails_top.hotArea.width-thumbnails_top.ignoreRightMotion > posx && thumbnails_top.hotArea.y < posy && thumbnails_top.hotArea.height+thumbnails_top.hotArea.y > posy)
+                if(thumbnails_top.hotArea.x <= posx && thumbnails_top.hotArea.x+thumbnails_top.hotArea.width-thumbnails_top.ignoreRightMotion > posx && thumbnails_top.hotArea.y < posy && thumbnails_top.hotArea.height+thumbnails_top.hotArea.y > posy)
                     thumbnails_top.setVisible = true
             }
         }

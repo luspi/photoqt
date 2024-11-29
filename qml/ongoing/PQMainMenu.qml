@@ -934,7 +934,7 @@ Rectangle {
                 if(posx < mainmenu_top.x-50 || posx > mainmenu_top.x+mainmenu_top.width+50 || posy < mainmenu_top.y-50 || posy > mainmenu_top.y+mainmenu_top.height+50)
                     mainmenu_top.setVisible = false
             } else {
-                if(mainmenu_top.hotArea.x < posx && mainmenu_top.hotArea.x+mainmenu_top.hotArea.width > posx && mainmenu_top.hotArea.y < posy && mainmenu_top.hotArea.height+mainmenu_top.hotArea.y-mainmenu_top.ignoreBottomMotion > posy)
+                if(mainmenu_top.hotArea.x <= posx && mainmenu_top.hotArea.x+mainmenu_top.hotArea.width > posx && mainmenu_top.hotArea.y < posy && mainmenu_top.hotArea.height+mainmenu_top.hotArea.y-mainmenu_top.ignoreBottomMotion > posy)
                     mainmenu_top.setVisible = true
             }
         }
