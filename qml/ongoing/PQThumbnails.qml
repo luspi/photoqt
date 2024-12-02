@@ -737,7 +737,7 @@ Item {
 
             onAboutToShow: {
                 PQCNotify.addToWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
-                thumbnails_top.meuReloadIndex = view.highlightIndex
+                thumbnails_top.menuReloadIndex = view.highlightIndex
             }
 
             Connections {
