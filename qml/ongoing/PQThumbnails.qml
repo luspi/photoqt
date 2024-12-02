@@ -177,6 +177,10 @@ Item {
         // state follows the global thumbnail state
         state: thumbnails_top.state
 
+        // if the width of the delegates can vary, then only keeping a few delegates ready makes the view jump back to the beginning when scrolling away from there
+        // the only solution is to make sure that all the delegates are set up and thumbnails loaded so that the view can scroll as expected
+        cacheBuffer: PQCSettings.thumbnailsSameHeightVaryWidth ? (PQCFileFolderModel.countMainView*PQCSettings.thumbnailsSize*2) : 320
+
         // highlight animations
         property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") // qmllint disable unqualified
         property bool hlMagnify: PQCSettings.thumbnailsHighlightAnimation.includes("magnify") // qmllint disable unqualified
@@ -347,9 +351,47 @@ Item {
             color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent" // qmllint disable unqualified
             Behavior on color { ColorAnimation { duration: 200 } }
 
-            // size the thumbnail image
-            width: PQCSettings.thumbnailsSize // qmllint disable unqualified
-            height: PQCSettings.thumbnailsSize // qmllint disable unqualified
+            state: thumbnails_top.state
+
+            // the thumbnail/container sizes depend on the state as there might be some variation in it
+            states: [
+                State {
+                    name: "bottom"
+                    PropertyChanges {
+                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : PQCSettings.thumbnailsSize
+                        deleg.height: PQCSettings.thumbnailsSize
+                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : PQCSettings.thumbnailsSize
+                        img.height: PQCSettings.thumbnailsSize
+                    }
+                },
+                State {
+                    name: "left"
+                    PropertyChanges {
+                        deleg.width: PQCSettings.thumbnailsSize
+                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : PQCSettings.thumbnailsSize
+                        img.width: PQCSettings.thumbnailsSize
+                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : PQCSettings.thumbnailsSize
+                    }
+                },
+                State {
+                    name: "right"
+                    PropertyChanges {
+                        deleg.width: PQCSettings.thumbnailsSize
+                        deleg.height: PQCSettings.thumbnailsSameHeightVaryWidth ? img.height : PQCSettings.thumbnailsSize
+                        img.width: PQCSettings.thumbnailsSize
+                        img.height: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.width/img.sourceSize.width) * img.sourceSize.height) : PQCSettings.thumbnailsSize
+                    }
+                },
+                State {
+                    name: "top"
+                    PropertyChanges {
+                        deleg.width: PQCSettings.thumbnailsSameHeightVaryWidth ? img.width : PQCSettings.thumbnailsSize
+                        deleg.height: PQCSettings.thumbnailsSize
+                        img.width: PQCSettings.thumbnailsSameHeightVaryWidth ? ((img.height/img.sourceSize.height) * img.sourceSize.width) : PQCSettings.thumbnailsSize
+                        img.height: PQCSettings.thumbnailsSize
+                    }
+                }
+            ]
 
             // the image
             Image {
@@ -384,11 +426,10 @@ Item {
                 Behavior on scale { NumberAnimation { duration: 200 } }
 
                 // some general properties
-                width: PQCSettings.thumbnailsSize // qmllint disable unqualified
-                height: PQCSettings.thumbnailsSize // qmllint disable unqualified
+                // the width/height is set by the state above
                 asynchronous: true
                 cache: false
-                fillMode: PQCSettings.thumbnailsCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
+                fillMode: (PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
                 source: "image://thumb/" + deleg.filepath
 
             }
@@ -576,9 +617,13 @@ Item {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "fit thumbnails")
                 ButtonGroup.group: grp1
-                checked: !PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.thumbnailsCropToFit = !checked // qmllint disable unqualified
+                checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) { // qmllint disable unqualified
+                        PQCSettings.thumbnailsCropToFit = false
+                        PQCSettings.thumbnailsSameHeightVaryWidth = false
+                    }
+                }
             }
 
             PQMenuItem {
@@ -587,8 +632,40 @@ Item {
                 text: qsTranslate("settingsmanager", "scale and crop thumbnails")
                 ButtonGroup.group: grp1
                 checked: PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.thumbnailsCropToFit = checked // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked) {
+                        PQCSettings.thumbnailsCropToFit = true // qmllint disable unqualified
+                        PQCSettings.thumbnailsSameHeightVaryWidth = false
+                    }
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "same height, varying width")
+                ButtonGroup.group: grp1
+                checked: PQCSettings.thumbnailsSameHeightVaryWidth // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked) {
+                        // See the comment below for why this check is here
+                        if(PQCSettings.thumbnailsCropToFit) { // qmllint disable unqualified
+                            PQCSettings.thumbnailsCropToFit = false
+                            delayChecking.restart()
+                        } else
+                            PQCSettings.thumbnailsSameHeightVaryWidth = true
+                    }
+                }
+                // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
+                // If we do then the padding/sourceSize of the images might not cooperate well
+                // This short delay in that case ensures that everything works just fine
+                Timer {
+                    id: delayChecking
+                    interval: 100
+                    onTriggered: {
+                        PQCSettings.thumbnailsSameHeightVaryWidth = true // qmllint disable unqualified
+                    }
+                }
             }
 
             PQMenuItem {

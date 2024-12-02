@@ -103,7 +103,8 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Scale and crop")
 
-            helptext: qsTranslate("settingsmanager", "The thumbnail for an image can either be scaled to fit fully inside the maximum size specified above, or it can be scaled and cropped such that it takes up all available space. In the latter case some parts of a thumbnail image might be cut off. In addition, thumbnails that are smaller than the size specified above can be kept at their original size.")
+            helptext: qsTranslate("settingsmanager", "The thumbnail for an image can either be scaled to fit fully inside the maximum size specified above, or it can be scaled and cropped such that it takes up all available space. In the latter case some parts of a thumbnail image might be cut off. In addition, thumbnails that are smaller than the size specified above can be kept at their original size.") +
+                      "<br><br>" + qsTranslate("settingsmanager", "A third option is to scale all thumbnails to the height of the bar and vary their width. Note that this requires all thumbnails to be preloaded at the start potentially causing short stutters in the interface. Such a listing of images at various widths can also be a little more difficult to scroll through.")
 
             content: [
 
@@ -118,6 +119,13 @@ Flickable {
                     id: thumb_crop
                     enforceMaxWidth: set_scale.rightcol
                     text: qsTranslate("settingsmanager", "scale and crop thumbnail")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQRadioButton {
+                    id: thumb_sameheight
+                    enforceMaxWidth: set_scale.rightcol
+                    text: qsTranslate("settingsmanager", "same height, varying width")
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -284,7 +292,7 @@ Flickable {
 
         settingChanged = (thumb_size.hasChanged() || thumb_fit.hasChanged() || thumb_crop.hasChanged() || thumb_small.hasChanged() ||
                           thumb_actual.hasChanged() || thumb_icon.hasChanged() || label_enable.hasChanged() || label_fontsize.hasChanged() ||
-                          tooltips_show.hasChanged())
+                          tooltips_show.hasChanged() || thumb_sameheight.hasChanged())
 
     }
 
@@ -292,8 +300,9 @@ Flickable {
 
         thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) // qmllint disable unqualified
 
-        thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit)
+        thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
         thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
+        thumb_sameheight.loadAndSetDefault(PQCSettings.thumbnailsSameHeightVaryWidth)
         thumb_small.loadAndSetDefault(PQCSettings.thumbnailsSmallThumbnailsKeepSmall)
 
         thumb_actual.loadAndSetDefault(!PQCSettings.thumbnailsIconsOnly)
@@ -315,7 +324,8 @@ Flickable {
         PQCSettings.thumbnailsSize = thumb_size.value // qmllint disable unqualified
 
         PQCSettings.thumbnailsCropToFit = thumb_crop.checked
-        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = thumb_small .checked
+        PQCSettings.thumbnailsSameHeightVaryWidth = thumb_sameheight.checked
+        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = thumb_small.checked
 
         PQCSettings.thumbnailsIconsOnly = thumb_icon.checked
 
@@ -328,6 +338,7 @@ Flickable {
         thumb_size.saveDefault()
         thumb_fit.saveDefault()
         thumb_crop.saveDefault()
+        thumb_sameheight.saveDefault()
         thumb_small.saveDefault()
         thumb_actual.saveDefault()
         thumb_icon.saveDefault()
