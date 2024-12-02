@@ -804,23 +804,49 @@ Item {
 
     function flickView(angleDeltaX : int, angleDeltaY : int) {
 
-        // only scroll horizontally
-        var val = angleDeltaY
-        if(Math.abs(angleDeltaX) > Math.abs(angleDeltaY))
+        var val, fac
+
+        if(thumbnails_top.state == "bottom" || thumbnails_top.state == "top") {
+
+            // only scroll horizontally
+            val = angleDeltaY
+            if(Math.abs(angleDeltaX) > Math.abs(angleDeltaY))
+                val = angleDeltaX
+
+            // continuing scroll makes the scroll go faster
+            if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
+                view.flickCounter = 0
+            else if(val < 0)
+                view.flickCounter -=1
+            else if(val > 0)
+                view.flickCounter += 1
+
+            fac = 5 + Math.min(20, Math.abs(view.flickCounter))
+
+            // flick horizontally
+            view.flick(fac*val, 0)
+
+        } else {
+
+            // only scroll vertically
             val = angleDeltaX
+            if(Math.abs(angleDeltaY) > Math.abs(angleDeltaX))
+                val = angleDeltaY
 
-        // continuing scroll makes the scroll go faster
-        if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
-            view.flickCounter = 0
-        else if(val < 0)
-            view.flickCounter -=1
-        else if(val > 0)
-            view.flickCounter += 1
+            // continuing scroll makes the scroll go faster
+            if((val < 0 && view.flickCounter > 0) || (val > 0 && view.flickCounter < 0))
+                view.flickCounter = 0
+            else if(val < 0)
+                view.flickCounter -=1
+            else if(val > 0)
+                view.flickCounter += 1
 
-        var fac = 5 + Math.min(20, Math.abs(view.flickCounter))
+            fac = 5 + Math.min(20, Math.abs(view.flickCounter))
 
-        // flick horizontally
-        view.flick(fac*val, 0)
+            // flick vertically
+            view.flick(0, fac*val)
+
+        }
 
     }
 
