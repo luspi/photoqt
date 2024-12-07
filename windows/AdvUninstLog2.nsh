@@ -59,6 +59,28 @@ Var TargetDir
 
 ;.............................. Uninstaller Macros ..............................
 
+/* Used before installation of new files for removing old files */
+Function preTrimNewlines
+ Exch $R0 ; removes whatever was stored into the stack with the file data
+ Push $R1
+ Push $R2
+ StrCpy $R1 0
+ 
+ loop:
+   IntOp $R1 $R1 - 1
+   StrCpy $R2 $R0 1 $R1
+   StrCmp $R2 "$\r" loop
+   StrCmp $R2 "$\n" loop
+   IntOp $R1 $R1 + 1
+   IntCmp $R1 0 no_trim_needed
+   StrCpy $R0 $R0 $R1
+ 
+ no_trim_needed:
+   Pop $R2
+   Pop $R1
+   Exch $R0
+FunctionEnd
+
 /* Used to get rid of pesky newline characters that prevent installations from happenning */
 Function un.TrimNewlines
  Exch $R0 ; removes whatever was stored into the stack with the file data
@@ -105,6 +127,23 @@ Function un.RemoveEmptyDirs
   End:
   FindClose $0
 FunctionEnd
+
+/* This is called at the start of the installation for removing old files */
+!macro UNINSTALL.NEW_PREUNINSTALL TempDir
+	StrCpy $TargetDir ${TempDir}
+  FileOpen $unlog_tmp_0 "$TargetDir\Uninstall.dat" r  
+  PreUninstallLoop:
+    ClearErrors #ClearErrors from displaying
+    FileRead $unlog_tmp_0 $R0 
+        IfErrors PreUninstallEnd
+    Push $R0 #throw contents of $R0 into stack
+	Call preTrimNewLines
+    Pop $R0 #takes contents of stack and places into $R0
+    Delete "$R0" #delete file
+    Goto PreUninstallLoop
+  PreUninstallEnd:
+  FileClose $unlog_tmp_0
+!macroend
 
 !macro UNINSTALL.NEW_UNINSTALL TempDir
 	StrCpy $TargetDir ${TempDir}

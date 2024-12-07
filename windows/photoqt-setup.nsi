@@ -119,14 +119,19 @@ Page custom FinalStepsInit FinalStepsLeave
 
 Section "PhotoQt" SecDummy
 
-    ;After set the output path open the uninstall log macros block and add files/dirs with File /r
-    ;This should be repeated every time the parent output path is changed either within the same
-    ;section, or if there are more sections including optional components.
+    ;The output path for where to install files to.
     SetOutPath "$INSTDIR"
+    
+    ;We start by removing existing files.
+    !insertmacro UNINSTALL.NEW_PREUNINSTALL "$INSTDIR"
+
+    ;Open the uninstall log file.
     !insertmacro UNINSTALL.LOG_OPEN_INSTALL
 
+    ;Recursively add all the files.
     File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\"
 
+    ;Close the uninstall log.
     !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
 
     WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "InstallDir" "$INSTDIR"
@@ -140,15 +145,15 @@ SectionEnd
 
 Function .onInit
 
-        ;prepare log always within .onInit function
-        !insertmacro UNINSTALL.LOG_PREPARE_INSTALL
+    ;prepare log always within .onInit function
+    !insertmacro UNINSTALL.LOG_PREPARE_INSTALL
 
 FunctionEnd
 
 Function .onInstSuccess
 
-         ;create/update log always within .onInstSuccess function
-         !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
+    ;create/update log always within .onInstSuccess function
+    !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
 
 FunctionEnd
 
