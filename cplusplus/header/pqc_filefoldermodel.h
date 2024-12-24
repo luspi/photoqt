@@ -139,8 +139,14 @@ public:
     int getCurrentIndex();
     void setCurrentIndex(int val);
 
+    Q_PROPERTY(int currentIndexNoDelay READ getCurrentIndexNoDelay NOTIFY currentIndexNoDelayChanged)
+    int getCurrentIndexNoDelay();
+
     Q_PROPERTY(QString currentFile READ getCurrentFile NOTIFY currentFileChanged)
     QString getCurrentFile();
+
+    Q_PROPERTY(QString currentFileNoDelay READ getCurrentFileNoDelay NOTIFY currentFileNoDelayChanged)
+    QString getCurrentFileNoDelay();
 
     Q_PROPERTY(bool isPDF READ getIsPDF NOTIFY isPDFChanged)
     bool getIsPDF();
@@ -179,6 +185,10 @@ public:
 
     Q_INVOKABLE void resetModel();
 
+    /********************************************/
+
+    QTimer *timerNotifyCurrentIndexChanged;
+
 private:
     PQCFileFolderModel(QObject *parent = 0);
 
@@ -210,7 +220,9 @@ private:
     bool m_filterCurrentlyActive;
 
     int m_currentIndex;
+    int m_currentIndexNoDelay;
     QString m_currentFile;
+    QString m_currentFileNoDelay;
 
     bool m_isPDF;
     bool m_isARC;
@@ -277,7 +289,9 @@ Q_SIGNALS:
     void includeFilesInSubFoldersChanged();
     void advancedSortDoneChanged();
     void currentIndexChanged();
+    void currentIndexNoDelayChanged();
     void currentFileChanged();
+    void currentFileNoDelayChanged();
     void isPDFChanged();
     void isARCChanged();
     void pdfNameChanged();

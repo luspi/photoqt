@@ -434,21 +434,21 @@ Item {
     Component {
         id: rectCounter
         PQText {
-            text: (PQCFileFolderModel.currentIndex+1) + "/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
+            text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
         }
     }
 
     Component {
         id: rectFilename
         PQText {
-            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
         }
     }
 
     Component {
         id: rectFilepath
         PQText {
-            text: PQCFileFolderModel.currentFile // qmllint disable unqualified
+            text: PQCFileFolderModel.currentFileNoDelay // qmllint disable unqualified
         }
     }
 
@@ -486,7 +486,7 @@ Item {
     Component {
         id: rectFilesize
         PQText {
-            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
         }
     }
 
@@ -496,7 +496,7 @@ Item {
             id: csptxt
             Behavior on color { ColorAnimation { duration: 200 } }
             Component.onCompleted: {
-                var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+                var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
                 if(val !== "") {
                     csptxt.text = val
                     csptxt.color = PQCLook.textColor
@@ -509,7 +509,7 @@ Item {
             Connections {
                 target: PQCNotify // qmllint disable unqualified
                 function onColorProfilesChanged() {
-                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
                     if(val !== "") {
                         csptxt.text = val
                         csptxt.color = PQCLook.textColor
@@ -522,14 +522,14 @@ Item {
             Connections {
                 target: PQCFileFolderModel // qmllint disable unqualified
                 function onCurrentFileChanged() {
-                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile)) { // qmllint disable unqualified
+                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) { // qmllint disable unqualified
                         csptxt.color = PQCLook.textColorDisabled
                         loadVideoColorInfo.restart()
-                    } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile)) {
+                    } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFileNoDelay)) {
                         csptxt.color = PQCLook.textColor
                         csptxt.text = "sRGB"
                     } else {
-                        var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFile)
+                        var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay)
                         if(val !== "") {
                             csptxt.color = PQCLook.textColor
                             csptxt.text = val
@@ -544,7 +544,7 @@ Item {
                 id: loadVideoColorInfo
                 interval: 1
                 onTriggered: {
-                    var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+                    var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
                     csptxt.color = PQCLook.textColor
                     if(val === "")
                         val = qsTranslate("statusinfo", "unknown color profile")

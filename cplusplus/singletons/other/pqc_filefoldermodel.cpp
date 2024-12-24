@@ -96,6 +96,41 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     loadDelayFileDialog->setSingleShot(true);
     connect(loadDelayFileDialog, &QTimer::timeout, this, &PQCFileFolderModel::loadDataFileDialog);
 
+    timerNotifyCurrentIndexChanged = new QTimer;
+    timerNotifyCurrentIndexChanged->setInterval(100);
+    timerNotifyCurrentIndexChanged->setSingleShot(true);
+    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=]() {
+
+        Q_EMIT currentIndexChanged();
+        Q_EMIT currentFileChanged();
+
+        bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
+        if(m_isPDF != ispdf) {
+            m_isPDF = ispdf;
+            m_isARC = false;
+            if(ispdf) {
+                m_pdfName = m_currentFile.split("::PDF::")[1];
+                m_pdfNum = m_currentFile.split("::PDF::")[0].toInt();
+            }
+            Q_EMIT isPDFChanged();
+            Q_EMIT pdfNameChanged();
+            Q_EMIT pdfNumChanged();
+        }
+
+        bool isarc = m_currentFile.indexOf("::ARC::")>-1;
+        if(m_isARC != isarc) {
+            m_isPDF = false;
+            m_isARC = isarc;
+            if(m_isARC) {
+                m_arcName = m_currentFile.split("::ARC::")[1];
+                m_arcFile = m_currentFile.split("::ARC::")[0];
+            }
+            Q_EMIT isARCChanged();
+            Q_EMIT arcNameChanged();
+            Q_EMIT arcFileChanged();
+        }
+    });
+
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
@@ -144,11 +179,15 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
     QFileInfo newfile(val);
     if(oldfile.dir() == newfile.dir() && m_fileInFolderMainView != "") {
         m_currentFile = val;
+        m_currentFileNoDelay = m_currentFile;
         m_currentIndex = m_entriesMainView.indexOf(val);
+        m_currentIndexNoDelay = m_currentIndex;
         m_fileInFolderMainView = val;
         Q_EMIT fileInFolderMainViewChanged();
         Q_EMIT currentFileChanged();
         Q_EMIT currentIndexChanged();
+        Q_EMIT currentFileNoDelayChanged();
+        Q_EMIT currentIndexNoDelayChanged();
     } else {
         m_fileInFolderMainView = val;
         loadDelayMainView->start();
@@ -691,10 +730,12 @@ void PQCFileFolderModel::advancedSortMainView() {
         m_countMainView = tmp;
 
         m_currentIndex = cacheAdvancedSortFolder.indexOf(m_currentFile);
+        m_currentIndexNoDelay = m_currentIndex;
 
         m_entriesMainView = cacheAdvancedSortFolder;
         Q_EMIT countMainViewChanged();
         Q_EMIT currentIndexChanged();
+        Q_EMIT currentIndexNoDelayChanged();
         Q_EMIT newDataLoadedMainView();
         Q_EMIT entriesMainViewChanged();
         Q_EMIT advancedSortingComplete();
@@ -783,6 +824,10 @@ int PQCFileFolderModel::getCurrentIndex() {
     return m_currentIndex;
 }
 
+int PQCFileFolderModel::getCurrentIndexNoDelay() {
+    return m_currentIndexNoDelay;
+}
+
 void PQCFileFolderModel::setCurrentIndex(int val) {
 
     if(m_currentIndex != val) {
@@ -792,41 +837,25 @@ void PQCFileFolderModel::setCurrentIndex(int val) {
         else
             m_currentFile = m_entriesMainView[m_currentIndex];
 
-        Q_EMIT currentIndexChanged();
-        Q_EMIT currentFileChanged();
+        m_currentIndexNoDelay = m_currentIndex;
+        m_currentFileNoDelay = m_currentFile;
+
+        Q_EMIT currentIndexNoDelayChanged();
+        Q_EMIT currentFileNoDelayChanged();
+
+        timerNotifyCurrentIndexChanged->start();
 
     }
 
-    bool ispdf = m_currentFile.indexOf("::PDF::")>-1;
-    if(m_isPDF != ispdf) {
-        m_isPDF = ispdf;
-        m_isARC = false;
-        if(ispdf) {
-            m_pdfName = m_currentFile.split("::PDF::")[1];
-            m_pdfNum = m_currentFile.split("::PDF::")[0].toInt();
-        }
-        Q_EMIT isPDFChanged();
-        Q_EMIT pdfNameChanged();
-        Q_EMIT pdfNumChanged();
-    }
-
-    bool isarc = m_currentFile.indexOf("::ARC::")>-1;
-    if(m_isARC != isarc) {
-        m_isPDF = false;
-        m_isARC = isarc;
-        if(m_isARC) {
-            m_arcName = m_currentFile.split("::ARC::")[1];
-            m_arcFile = m_currentFile.split("::ARC::")[0];
-        }
-        Q_EMIT isARCChanged();
-        Q_EMIT arcNameChanged();
-        Q_EMIT arcFileChanged();
-    }
 
 }
 
 QString PQCFileFolderModel::getCurrentFile() {
     return m_currentFile;
+}
+
+QString PQCFileFolderModel::getCurrentFileNoDelay() {
+    return m_currentFileNoDelay;
 }
 
 bool PQCFileFolderModel::getIsPDF() {
@@ -875,10 +904,14 @@ void PQCFileFolderModel::loadDataMainView() {
     if(m_fileInFolderMainView.isEmpty()) {
         m_currentFile = "";
         m_currentIndex = -1;
+        m_currentIndexNoDelay = -1;
+        m_currentFileNoDelay = "";
         Q_EMIT newDataLoadedMainView();
         Q_EMIT countMainViewChanged();
         Q_EMIT currentFileChanged();
         Q_EMIT currentIndexChanged();
+        Q_EMIT currentFileNoDelayChanged();
+        Q_EMIT currentIndexNoDelayChanged();
         return;
     }
 
@@ -947,10 +980,15 @@ void PQCFileFolderModel::loadDataMainView() {
         m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
         m_currentFile = m_fileInFolderMainView;
 
+        m_currentIndexNoDelay = m_currentIndex;
+        m_currentFileNoDelay = m_currentFile;
+
         Q_EMIT newDataLoadedMainView();
         Q_EMIT countMainViewChanged();
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
+        Q_EMIT currentIndexNoDelayChanged();
+        Q_EMIT currentFileNoDelayChanged();
 
     }
 
