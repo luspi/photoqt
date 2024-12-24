@@ -168,73 +168,86 @@ Item {
 
         function onCurrentIndexChanged() {
 
-            if(PQCFileFolderModel.countMainView === 0) // qmllint disable unqualified
+            if(image_top.delayImageLoad) {
+                if(!resetDelayImageLoad.running)
+                    resetDelayImageLoad.restart()
                 return
+            }
+            image_top.delayImageLoad = true
+            resetDelayImageLoad.restart()
 
-            timer_loadbg.stop()
+            image_top.reactToCurrentIndexChanged()
+        }
 
-            var showItem = -1
+    }
 
-            var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
-            var newFolder = PQCScriptsFilesPaths.getDir(newFile)
-            var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
+    function reactToCurrentIndexChanged() {
 
-            // if the current image is already loaded we only need to show it
-            for(var i = 0; i < image_top.howManyLoaders; ++i) {
+        if(PQCFileFolderModel.countMainView === 0) // qmllint disable unqualified
+            return
 
-                var img = repeaterimage.itemAt(i)
+        timer_loadbg.stop()
 
-                if(img.mainItemIndex === PQCFileFolderModel.currentIndex && img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
-                    showItem = i
+        var showItem = -1
+
+        var newFile = PQCFileFolderModel.entriesMainView[PQCFileFolderModel.currentIndex]
+        var newFolder = PQCScriptsFilesPaths.getDir(newFile)
+        var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
+
+        // if the current image is already loaded we only need to show it
+        for(var i = 0; i < image_top.howManyLoaders; ++i) {
+
+            var img = repeaterimage.itemAt(i)
+
+            if(img.mainItemIndex === PQCFileFolderModel.currentIndex && img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
+                showItem = i
+                break;
+            }
+
+        }
+
+        // these need to be loaded
+        var cur_showing = PQCFileFolderModel.currentIndex
+
+        image_top.bgIndices = []
+        for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
+            var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
+            var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
+            image_top.bgIndices.push(newp)
+            image_top.bgIndices.push(newn)
+        }
+
+        // image not already loaded
+        if(showItem == -1) {
+
+            for(var j = 0; j < image_top.howManyLoaders; ++j) {
+
+                var spare = repeaterimage.itemAt(j)
+
+                // this is a spare item
+                if((image_top.bgIndices.indexOf(spare.mainItemIndex) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
+                    spare.containingFolder = newFolder
+                    spare.lastModified = newModified
+                    spare.imageSource = newFile
+                    spare.mainItemIndex = PQCFileFolderModel.currentIndex
+                    spare.mainItemIndexChanged()
+                    showItem = j
                     break;
                 }
 
             }
+        }
 
-            // these need to be loaded
-            var cur_showing = PQCFileFolderModel.currentIndex
+        // start busy timer
+        timer_busyloading.restart()
 
-            image_top.bgIndices = []
-            for(var b = 0; b < PQCSettings.imageviewPreloadInBackground; ++b) {
-                var newp = (cur_showing-(b+1)+PQCFileFolderModel.countMainView)%PQCFileFolderModel.countMainView
-                var newn = (cur_showing+(b+1))%PQCFileFolderModel.countMainView
-                image_top.bgIndices.push(newp)
-                image_top.bgIndices.push(newn)
+        // show item
+        for(var k = 0; k < image_top.howManyLoaders; ++k) {
+            if(showItem == k) {
+                var newimg = repeaterimage.itemAt(k)
+                newimg.item.showImage()
+                break;
             }
-
-            // image not already loaded
-            if(showItem == -1) {
-
-                for(var j = 0; j < image_top.howManyLoaders; ++j) {
-
-                    var spare = repeaterimage.itemAt(j)
-
-                    // this is a spare item
-                    if((image_top.bgIndices.indexOf(spare.mainItemIndex) === -1 || spare.containingFolder !== newFolder || spare.lastModified !== newModified || spare.imageSource !== newFile) && (!spare.active || !spare.item.visible)) {
-                        spare.containingFolder = newFolder
-                        spare.lastModified = newModified
-                        spare.imageSource = newFile
-                        spare.mainItemIndex = PQCFileFolderModel.currentIndex
-                        spare.mainItemIndexChanged()
-                        showItem = j
-                        break;
-                    }
-
-                }
-            }
-
-            // start busy timer
-            timer_busyloading.restart()
-
-            // show item
-            for(var k = 0; k < image_top.howManyLoaders; ++k) {
-                if(showItem == k) {
-                    var newimg = repeaterimage.itemAt(k)
-                    newimg.item.showImage()
-                    break;
-                }
-            }
-
         }
 
     }
@@ -374,19 +387,12 @@ Item {
         interval: 250
         onTriggered: {
             image_top.delayImageLoad = false
+            image_top.reactToCurrentIndexChanged()
         }
     }
 
     // some global handlers
     function showNext() {
-
-        if(image_top.delayImageLoad) {
-            if(!resetDelayImageLoad.running)
-                resetDelayImageLoad.restart()
-            return
-        }
-        image_top.delayImageLoad = true
-        resetDelayImageLoad.restart()
 
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
@@ -397,14 +403,6 @@ Item {
     }
 
     function showPrev() {
-
-        if(image_top.delayImageLoad) {
-            if(!resetDelayImageLoad.running)
-                resetDelayImageLoad.restart()
-            return
-        }
-        image_top.delayImageLoad = true
-        resetDelayImageLoad.restart()
 
         if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
             if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
