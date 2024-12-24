@@ -546,6 +546,9 @@ Flickable {
                     property string loc: "center"
                     property string default_loc: "center"
 
+                    onLocChanged:
+                        setting_top.checkDefault()
+
                     spacing: 20
 
                     Row {
@@ -815,6 +818,8 @@ Flickable {
                     id: notif_external
                     visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
                     text: qsTranslate("settingsmanager", "try to show native notification")
+                    onCheckedChanged:
+                        setting_top.checkDefault()
                 },
 
                 Item {
