@@ -2034,7 +2034,8 @@ double PQCScriptsImages::getPixelDensity() {
 
 #ifndef Q_OS_WIN
 
-    if(qApp->platformName() == "wayland") {
+    // This currently only works for a single screen! -> TODO
+    if(qApp->screens().count() == 1 && qApp->platformName() == "wayland") {
 
         // 2025-01-01: Wayland issue:
         // Fractional scaling factors are currently (Qt 6.8.1) reported as full integers by QScreen::devicePixelRatio()
@@ -2045,8 +2046,8 @@ double PQCScriptsImages::getPixelDensity() {
         QProcess proc;
         proc.start("wayland-info", {"-i", "output"});
         proc.waitForFinished(1000);
-        QString out = proc.readAll();
-        int ret = proc.exitCode();
+        const QString out = proc.readAll();
+        const int ret = proc.exitCode();
 
         // a return value would likely mean that wayland-info is not installed
         // in that case we default to what was done before
@@ -2078,8 +2079,8 @@ double PQCScriptsImages::getPixelDensity() {
             if(physicalW > 0 && physicalH > 0 && logicalW > 0 && logicalH > 0) {
 
                 // compute the height/width ratios
-                double fac1 = static_cast<double>(physicalW)/static_cast<double>(logicalW);
-                double fac2 = static_cast<double>(physicalH)/static_cast<double>(logicalH);
+                const double fac1 = static_cast<double>(physicalW)/static_cast<double>(logicalW);
+                const double fac2 = static_cast<double>(physicalH)/static_cast<double>(logicalH);
 
                 // if the two ratios match and make sense, return them
                 if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.5 && fac1 < 5)
