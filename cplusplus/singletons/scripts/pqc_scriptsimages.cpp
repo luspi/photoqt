@@ -82,6 +82,10 @@ PQCScriptsImages::PQCScriptsImages() {
     loadColorProfileInfo();
 
     lcms2CountFailedApplications = 0;
+
+    devicePixelRatioCached = 0;
+    devicePixelRatioCachedWhen = 0;
+
 }
 
 PQCScriptsImages::~PQCScriptsImages() {
@@ -2034,13 +2038,18 @@ double PQCScriptsImages::getPixelDensity() {
 
 #ifndef Q_OS_WIN
 
+    // 2025-01-01: Wayland issue:
+    // Fractional scaling factors are currently (Qt 6.8.1) reported as full integers by QScreen::devicePixelRatio()
+    // The same issue occurs in wayland-info (from wayland-utils 1.2.0) with the reported scale factor there
+    // However, we can try to calculate the right scaling factor from the logical and physical dimensions reported by wayland-info
+
     // This currently only works for a single screen! -> TODO
     if(qApp->screens().count() == 1 && qApp->platformName() == "wayland") {
 
-        // 2025-01-01: Wayland issue:
-        // Fractional scaling factors are currently (Qt 6.8.1) reported as full integers by QScreen::devicePixelRatio()
-        // The same issue occurs in wayland-info (from wayland-utils 1.2.0) with the reported scale factor there
-        // However, we can try to calculate the right scaling factor from the logical and physical dimensions reported by wayland-info
+        // we cache a once calculated value for 5 minutes
+        if(QDateTime::currentMSecsSinceEpoch()-devicePixelRatioCachedWhen < 1000*60*5) {
+            return devicePixelRatioCached;
+        }
 
         // request all output information from wayland-info
         QProcess proc;
@@ -2083,8 +2092,11 @@ double PQCScriptsImages::getPixelDensity() {
                 const double fac2 = static_cast<double>(physicalH)/static_cast<double>(logicalH);
 
                 // if the two ratios match and make sense, return them
-                if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.5 && fac1 < 5)
+                if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.5 && fac1 < 5) {
+                    devicePixelRatioCached = fac1;
+                    devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
                     return fac1;
+                }
 
             }
 

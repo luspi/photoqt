@@ -134,6 +134,9 @@ private:
     bool applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
 #endif
 
+    double devicePixelRatioCached;
+    qint64 devicePixelRatioCachedWhen;
+
 Q_SIGNALS:
     void histogramDataLoaded(QVariantList data, int index);
     void histogramDataLoadedFailed(int index);
