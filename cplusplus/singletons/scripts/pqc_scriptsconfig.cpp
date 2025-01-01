@@ -317,7 +317,11 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
     archive_read_support_filter_all(a);
 
     // Read file - if something went wrong, output error message and stop here
+#ifdef Q_OS_WIN
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archiveFile.utf16()), 10240);
+#else
     int r = archive_read_open_filename(a, archiveFile.toLocal8Bit().data(), 10240);
+#endif
     if(r != ARCHIVE_OK) {
         qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
         return false;

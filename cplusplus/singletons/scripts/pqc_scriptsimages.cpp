@@ -946,7 +946,11 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
     archive_read_support_format_all(a);
 
     // Read file
+#ifdef Q_OS_WIN
+    int r = archive_read_open_filename_w(a, reinterpret_cast<const wchar_t*>(archivefile.utf16()), 10240);
+#else
     int r = archive_read_open_filename(a, archivefile.toLocal8Bit().data(), 10240);
+#endif
 
     // If something went wrong, output error message and stop here
     if(r != ARCHIVE_OK) {
