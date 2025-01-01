@@ -29,6 +29,7 @@ import PQCScriptsConfig
 import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
+import PQCScriptsImages
 
 import "manage"
 import "image"
@@ -438,7 +439,7 @@ Window {
 
     function getDevicePixelRatio() {
         if(PQCSettings.imageviewRespectDevicePixelRatio) // qmllint disable unqualified
-            return Screen.devicePixelRatio
+            return PQCScriptsImages.getPixelDensity()
         return 1
     }
 

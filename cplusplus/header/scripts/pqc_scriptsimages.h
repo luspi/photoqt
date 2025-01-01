@@ -101,6 +101,8 @@ public:
 
     Q_INVOKABLE void removeThumbnailFor(QString path);
 
+    Q_INVOKABLE double getPixelDensity();
+
 #ifdef PQMLCMS2
     int toLcmsFormat(QImage::Format fmt);
 #endif

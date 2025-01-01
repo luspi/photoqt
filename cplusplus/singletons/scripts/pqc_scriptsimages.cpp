@@ -33,6 +33,7 @@
 #include <QMediaPlayer>
 #include <QColorSpace>
 #include <QFileDialog>
+#include <QScreen>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settings.h>
@@ -2026,5 +2027,73 @@ void PQCScriptsImages::removeThumbnailFor(QString path) {
         if(QFileInfo::exists(thumbcachepath))
             QFile::remove(thumbcachepath);
     }
+
+}
+
+double PQCScriptsImages::getPixelDensity() {
+
+#ifndef Q_OS_WIN
+
+    if(qApp->platformName() == "wayland") {
+
+        // 2025-01-01: Wayland issue:
+        // Fractional scaling factors are currently (Qt 6.8.1) reported as full integers by QScreen::devicePixelRatio()
+        // The same issue occurs in wayland-info (from wayland-utils 1.2.0) with the reported scale factor there
+        // However, we can try to calculate the right scaling factor from the logical and physical dimensions reported by wayland-info
+
+        // request all output information from wayland-info
+        QProcess proc;
+        proc.start("wayland-info", {"-i", "output"});
+        proc.waitForFinished(1000);
+        QString out = proc.readAll();
+        int ret = proc.exitCode();
+
+        // a return value would likely mean that wayland-info is not installed
+        // in that case we default to what was done before
+        if(ret == 0) {
+
+            // prepare variables
+            int logicalW = 0, logicalH = 0;
+            int physicalW = 0, physicalH = 0;
+
+            // go through output line by line
+            const QStringList parts = out.split("\n");
+            for(const QString &line : parts) {
+
+                // read out logical dimensions
+                if(line.contains("logical_width:") && line.contains("logical_height:")) {
+                    logicalW = line.split("logical_width: ")[1].split(",")[0].toInt();
+                    logicalH = line.split("logical_height: ")[1].split("\n")[0].toInt();
+                }
+
+                // read out physical dimensions
+                if(!line.contains("logical_width:") && !line.contains("logical_height:") && line.contains("width:") && line.contains("height:")) {
+                    physicalW = line.split("width: ")[1].split(" ")[0].toInt();
+                    physicalH = line.split("height: ")[1].split(" ")[0].toInt();
+                }
+
+            }
+
+            // if everything was found
+            if(physicalW > 0 && physicalH > 0 && logicalW > 0 && logicalH > 0) {
+
+                // compute the height/width ratios
+                double fac1 = static_cast<double>(physicalW)/static_cast<double>(logicalW);
+                double fac2 = static_cast<double>(physicalH)/static_cast<double>(logicalH);
+
+                // if the two ratios match and make sense, return them
+                if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.5 && fac1 < 5)
+                    return fac1;
+
+            }
+
+        }
+
+    }
+
+#endif
+
+    // if the above didn't work, or we are on Windows
+    return qApp->devicePixelRatio();
 
 }
