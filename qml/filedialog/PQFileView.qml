@@ -50,6 +50,7 @@ GridView {
     Connections {
         target: PQCFileFolderModel // qmllint disable unqualified
         function onNewDataLoadedFileDialog() {
+            view.currentSelection = []
             view.model = 0
             view.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
             view.model = PQCFileFolderModel.countAllFileDialog
