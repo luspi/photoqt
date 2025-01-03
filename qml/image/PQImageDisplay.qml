@@ -48,9 +48,6 @@ Loader {
 
     signal iAmReady()
 
-    signal busyTimerStopAndHide()
-    signal busyTimerRestart()
-
     onMainItemIndexChanged: {
         imageLoadedAndReady = false
         active = false
@@ -553,10 +550,12 @@ Loader {
                     // react to status changes
                     property int status: Image.Null
                     onStatusChanged: {
+                        statusToBusy()
                         if(status == Image.Ready) {
                             imageloaderitem.imageLoadedAndReady = true
                             if(loader_top.isMainImage) {
-                                imageloaderitem.busyTimerStopAndHide()
+                                timer_busyloading.stop()
+                                busyloading.hide()
                                 var tmp = image_wrapper.computeDefaultScale()
                                 if(Math.abs(tmp-1) > 1e-6)
                                     image_wrapper.startupScale = true
@@ -568,7 +567,33 @@ Loader {
                                 loader_top.setUpImageWhenReady()
                             }
                         } else if(loader_top.isMainImage)
-                            imageloaderitem.busyTimerRestart()
+                            timer_busyloading.restart()
+                    }
+
+                    function statusToBusy() {
+                        if(!loader_top.isMainImage) return
+                        if(status === Image.Ready) {
+                            timer_busyloading.stop()
+                            busyloading.hide()
+                        } else {
+                            timer_busyloading.restart()
+                        }
+                    }
+                    Timer {
+                        id: timer_busyloading
+                        interval: 500
+                        onTriggered: {
+                            if(!PQCNotify.slideshowRunning) // qmllint disable unqualified
+                                busyloading.showBusy()
+                        }
+                    }
+
+                    // BUSY indicator
+                    PQWorking {
+                        id: busyloading
+                        parent: image_top
+                        anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
+                        z: image_top.curZ+1
                     }
 
                     onWidthChanged: {

@@ -152,13 +152,6 @@ Item {
                         timer_loadbg.restart()
                 }
             }
-            function onBusyTimerStopAndHide() {
-                timer_busyloading.stop()
-                busyloading.hide()
-            }
-            function onBusyTimerRestart() {
-                timer_busyloading.restart()
-            }
         }
     }
 
@@ -168,8 +161,14 @@ Item {
 
         function onCurrentIndexChanged() {
 
-            if(PQCFileFolderModel.countMainView === 0) // qmllint disable unqualified
+            if(PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+                for(var i = 0; i < howManyLoaders; ++i) {
+                    var curimg = repeaterimage.itemAt(i)
+                    if(curimg.item)
+                        curimg.item.hideImage() // qmllint disable missing-property
+                }
                 return
+            }
 
             timer_loadbg.stop()
 
@@ -223,9 +222,6 @@ Item {
                 }
             }
 
-            // start busy timer
-            timer_busyloading.restart()
-
             // show item
             for(var k = 0; k < image_top.howManyLoaders; ++k) {
                 if(showItem == k) {
@@ -240,10 +236,6 @@ Item {
     }
 
     function newMainImageReady(curIndex : int) {
-
-        // stop busy timer and hide indicator
-        timer_busyloading.stop()
-        busyloading.hide()
 
         // hide images that should not be visible
         for(var i = 0; i < howManyLoaders; ++i) {
@@ -350,22 +342,6 @@ Item {
 
 
         }
-    }
-
-
-    // BUSY indicator
-    Timer {
-        id: timer_busyloading
-        interval: 500
-        onTriggered: {
-            if(!PQCNotify.slideshowRunning) // qmllint disable unqualified
-                busyloading.showBusy()
-        }
-    }
-    PQWorking {
-        id: busyloading
-        anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
-        z: image_top.curZ+1
     }
 
     // some global handlers
