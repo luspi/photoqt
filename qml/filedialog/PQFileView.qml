@@ -865,7 +865,7 @@ GridView {
 
                     } else if(mouse.modifiers & Qt.ControlModifier) {
 
-                        view.shiftClickIndexStart = -1
+                        view.shiftClickIndexStart = deleg.modelData
 
                         if(view.currentFileSelected) {
                             view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
@@ -1121,10 +1121,13 @@ GridView {
                         cursorShape: Qt.PointingHandCursor
                         onClicked: {
                             if(!view.currentFileSelected) {
+                                view.shiftClickIndexStart = deleg.modelData
                                 view.currentSelection.push(deleg.modelData)
                                 view.currentSelectionChanged()
-                            } else
+                            } else {
+                                view.shiftClickIndexStart = -1
                                 view.currentSelection = view.currentSelection.filter(item => item!==deleg.modelData)
+                            }
                         }
                         onEntered: {
                             view.currentIndex = deleg.modelData
