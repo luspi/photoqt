@@ -308,7 +308,7 @@ bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
 #ifndef Q_OS_WIN
 
     QProcess proc_notifysend;
-    proc_notifysend.start("notify-send", {"-t", "2500",
+    proc_notifysend.start("notify-send", {"-t", "5000",
                                "-a", "PhotoQt",
                                "-i", "org.photoqt.PhotoQt",
                                summary,
@@ -335,7 +335,7 @@ bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
                                txt,
                                "[]",
                                "{'urgency': <1>}",
-                               "2500"});
+                               "5000"});
 
     proc_gdbus.waitForFinished(1000);
     // success!

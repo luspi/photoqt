@@ -187,7 +187,7 @@ Rectangle {
 
     Timer {
         id: hideNotification
-        interval: 2500
+        interval: 5000
         onTriggered:
             notification_top.hide()
     }
