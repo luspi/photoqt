@@ -50,7 +50,32 @@ GridView {
     Connections {
         target: PQCFileFolderModel // qmllint disable unqualified
         function onNewDataLoadedFileDialog() {
-            view.currentSelection = []
+
+            if(PQCSettings.filedialogRememberSelection) {
+
+                // If this is not the first folder
+                if(view.storeCurrentFolderName != "") {
+                    // this is needed to perform a deepcopy
+                    // otherwise a reference is stored that is changed subsequently
+                    var l = []
+                    for (var i in view.currentSelection)
+                        l.push(view.currentSelection[i])
+                    view.cacheSelection[view.storeCurrentFolderName] = l
+                }
+
+                // load selection
+                if(view.cacheSelection.hasOwnProperty(PQCFileFolderModel.folderFileDialog))
+                    view.currentSelection = view.cacheSelection[PQCFileFolderModel.folderFileDialog]
+                else
+                    view.currentSelection = []
+
+            } else
+
+                view.currentSelection = []
+
+            // store new folder name
+            view.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
+
             view.model = 0
             view.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
             view.model = PQCFileFolderModel.countAllFileDialog
@@ -88,6 +113,8 @@ GridView {
     property bool showGrid: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
     property bool currentFolderExcluded: false
     property int currentFolderThumbnailIndex: -1
+    property string storeCurrentFolderName: ""
+    property var cacheSelection: ({})
 
     signal refreshThumbnails()
     signal refreshCurrentThumbnail()
@@ -1331,9 +1358,10 @@ GridView {
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
                 filedialog_top.hideFileDialog()
-        }
 
-        view.currentSelection = []
+            if(!PQCSettings.filedialogRememberSelection)
+                view.currentSelection = []
+        }
 
     }
 
@@ -1556,8 +1584,6 @@ GridView {
             else {
                 loadOnClick(currentIndex)
             }
-
-            view.currentSelection = []
 
             navigateToFileStartingWith = []
 

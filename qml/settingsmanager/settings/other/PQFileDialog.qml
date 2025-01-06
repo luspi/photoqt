@@ -257,6 +257,29 @@ Flickable {
         PQSetting {
 
             //: Settings title
+            title: qsTranslate("settingsmanager", "Selection")
+
+            helptext: qsTranslate("settingsmanager", "Usually, once a folder is navigated away from any selection is lost. However, it is possible to remember the file/folder selection for each folder and have it recalled next time the folder is loaded.")
+
+            content: [
+                PQCheckBox {
+                    id: selremem
+                    enforceMaxWidth: set_sort.rightcol
+                    text: qsTranslate("settingsmanager", "Remember selection for each folder")
+                    onCheckedChanged: setting_top.checkDefault()
+                }
+
+            ]
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            //: Settings title
             title: qsTranslate("settingsmanager", "Sections")
 
             helptext: qsTranslate("settingsmanager", "In the left column there are two sections that can be shown. The bookmarks are a combination of some standard locations on any computer and a customizable list of your own bookmarks. The devices are a list of storage devices found on your system.")
@@ -616,6 +639,7 @@ Flickable {
         remembercheck.loadAndSetDefault(PQCSettings.filedialogKeepLastLocation)
         singleexec.loadAndSetDefault(!PQCSettings.filedialogSingleClickSelect)
         singlecheck.loadAndSetDefault(PQCSettings.filedialogSingleClickSelect)
+        selremem.loadAndSetDefault(PQCSettings.filedialogRememberSelection)
         sect_bookmarks.loadAndSetDefault(PQCSettings.filedialogPlaces)
         sect_devices.loadAndSetDefault(PQCSettings.filedialogDevices)
         sect_devicestmpfs.loadAndSetDefault(PQCSettings.filedialogDevicesShowTmpfs)
@@ -654,6 +678,7 @@ Flickable {
         PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
         PQCSettings.filedialogKeepLastLocation = remembercheck.checked
         PQCSettings.filedialogSingleClickSelect = singlecheck.checked
+        PQCSettings.filedialogRememberSelection = selremem.checked
         PQCSettings.filedialogPlaces = sect_bookmarks.checked
         PQCSettings.filedialogDevices = sect_devices.checked
         PQCSettings.filedialogDevicesShowTmpfs = sect_devicestmpfs.checked
@@ -687,6 +712,7 @@ Flickable {
         remembercheck.saveDefault()
         singleexec.saveDefault()
         singlecheck.saveDefault()
+        selremem.saveDefault()
         sect_bookmarks.saveDefault()
         sect_devices.saveDefault()
         sect_devicestmpfs.saveDefault()

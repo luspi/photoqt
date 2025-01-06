@@ -156,6 +156,14 @@ PQMenu {
                 PQCSettings.filedialogSingleClickSelect = checked // qmllint disable unqualified
         }
         PQMenuItem {
+            //: file manager settings popdown: how to select files
+            text: qsTranslate("filedialog", "remember selections")
+            checkable: true
+            checked: PQCSettings.filedialogRememberSelection // qmllint disable unqualified
+            onCheckedChanged:
+                PQCSettings.filedialogRememberSelection = checked // qmllint disable unqualified
+        }
+        PQMenuItem {
             text: qsTranslate("filedialog", "hidden files")
             checkable: true
             checked: PQCSettings.filedialogShowHiddenFilesFolders // qmllint disable unqualified
