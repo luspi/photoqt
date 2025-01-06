@@ -313,6 +313,12 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
         Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
         return true;
 
+    // this is to be used very sparingly and carefully to not react to events twice!
+    } else if(e->type() == QEvent::KeyRelease) {
+
+        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+        Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
+
     }
 
     return QApplication::eventFilter(obj, e);

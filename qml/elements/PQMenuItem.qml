@@ -32,6 +32,8 @@ MenuItem {
     property bool checkableLikeRadioButton: false
     property bool moveToRightABit: false
 
+    font.weight: PQCLook.fontWeightNormal
+
     // NOTE
     // When entry is checkable then by default clicking on an entry WILL NOT call the triggered() signal
     // Instead the checkedChanged() signal will be emitted and the menu will remain open

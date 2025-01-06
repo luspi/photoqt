@@ -35,6 +35,7 @@ import PQCScriptsOther
 import PQCScriptsShortcuts
 import PQCImageFormats
 import PQCScriptsImages
+import PQCNotify
 
 import "../elements"
 
@@ -1201,6 +1202,8 @@ GridView {
         property bool isFile: false
         property string path: ""
 
+        property bool shiftPressed: false
+
         onPathChanged: {
             if(path == "") {
                 isFolder = false
@@ -1282,11 +1285,12 @@ GridView {
             implicitHeight: visible ? 40 : 0
             visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
             enabled: visible && (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length)
+            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
             text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
-                        ? qsTranslate("filedialog", "Delete selection")
-                        : (contextmenu.isFile ? qsTranslate("filedialog", "Delete file")
-                                              : (contextmenu.isFolder ? qsTranslate("filedialog", "Delete folder")
-                                                                      : qsTranslate("filedialog", "Delete file/folder")))
+                        ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete selection permanently") : qsTranslate("filedialog", "Delete selection"))
+                        : (contextmenu.isFile ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete file permanently") : qsTranslate("filedialog", "Delete file"))
+                                              : (contextmenu.isFolder ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete folder permanently") : qsTranslate("filedialog", "Delete folder"))
+                                                                      : (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete file/folder permanently") : qsTranslate("filedialog", "Delete file/folder"))))
             onTriggered:
                 view.deleteFiles()
         }
@@ -1346,6 +1350,19 @@ GridView {
                 PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
         }
 
+
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        enabled: (filedialog_top.opacity > 0)
+
+        function onKeyRelease(key: int, modifiers: int) {
+            if(key < 16770000 || modifiers !== Qt.ShiftModifier)
+                contextmenu.shiftPressed = false
+        }
 
     }
 
@@ -1447,16 +1464,33 @@ GridView {
 
         modal.button2.visible = true // qmllint disable unqualified
 
-        if(currentFileSelected || (currentIndex===-1 && currentSelection.length))
-            modal.show("Move to Trash?",
-                       "Are you sure you want to move all selected files/folders to the trash?",
-                       "trash",
-                       currentSelection)
-        else
-            modal.show("Move to Trash?",
-                       "Are you sure you want to move all selected files/folders to the trash?",
-                       "trash",
-                       [currentIndex])
+        if(contextmenu.shiftPressed) {
+
+            if(currentFileSelected || (currentIndex===-1 && currentSelection.length))
+                modal.show("Delete permanently?",
+                           "Are you sure you want to delete all selected files/folders PERMANENTLY?",
+                           "permanent",
+                           currentSelection)
+            else
+                modal.show("Delete permanently?",
+                           "Are you sure you want to delete all selected files/folders PERMANENTLY?",
+                           "permanent",
+                           [currentIndex])
+
+        } else {
+
+            if(currentFileSelected || (currentIndex===-1 && currentSelection.length))
+                modal.show("Move to Trash?",
+                           "Are you sure you want to move all selected files/folders to the trash?",
+                           "trash",
+                           currentSelection)
+            else
+                modal.show("Move to Trash?",
+                           "Are you sure you want to move all selected files/folders to the trash?",
+                           "trash",
+                           [currentIndex])
+
+        }
         return
 
     }
@@ -1465,6 +1499,9 @@ GridView {
 
         ignoreMouseEvents = true
         bgMousearea.enableAnyways = true
+
+        if(modifiers !== Qt.ShiftModifier || key < 16770000)
+            contextmenu.shiftPressed = false
 
         if(key === Qt.Key_Up) {
 
@@ -1657,6 +1694,10 @@ GridView {
         } else if(key === Qt.Key_2 && modifiers & Qt.ControlModifier) {
 
             PQCSettings.filedialogLayout = "list"
+
+        } else if(key > 16770000 && modifiers === Qt.ShiftModifier) {
+
+            contextmenu.shiftPressed = true
 
         } else {
 

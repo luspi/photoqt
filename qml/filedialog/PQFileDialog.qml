@@ -280,8 +280,13 @@ Rectangle {
 
         onAccepted: {
             if(action == "trash") {
-                for(var key in payload)
-                    PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key]]) // qmllint disable unqualified
+                for(var key1 in payload)
+                    PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key1]]) // qmllint disable unqualified
+                fd_fileview.currentSelection = []
+                fd_fileview.currentCuts = []
+            } else if(action == "permanent") {
+                for(var key2 in payload)
+                    PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.entriesFileDialog[payload[key2]]) // qmllint disable unqualified
                 fd_fileview.currentSelection = []
                 fd_fileview.currentCuts = []
             }

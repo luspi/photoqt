@@ -262,6 +262,7 @@ Q_SIGNALS:
     void resetFormatsToDefault();
 
     void keyPress(int key, int modifiers);
+    void keyRelease(int key, int modifiers);
     void executeInternalCommand(QString cmd);
 
     void showNotificationMessage(QString msg);
