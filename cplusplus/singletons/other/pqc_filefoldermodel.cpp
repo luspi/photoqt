@@ -295,6 +295,15 @@ void PQCFileFolderModel::setReadArchiveOnly(bool c) {
     loadDelayMainView->start();
 }
 
+QStringList PQCFileFolderModel::getExtraFoldersToLoad() {
+    return m_extraFoldersToLoad;
+}
+void PQCFileFolderModel::setExtraFoldersToLoad(QStringList val) {
+    m_extraFoldersToLoad = val;
+    Q_EMIT extraFoldersToLoadChanged();
+    loadDelayMainView->start();
+}
+
 /********************************************/
 /********************************************/
 
@@ -1148,6 +1157,8 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             if(count > 100)
                 break;
         }
+    } else if(m_extraFoldersToLoad.length() > 0) {
+        foldersToScan.append(m_extraFoldersToLoad);
     }
 
     for(const QString &f : std::as_const(foldersToScan)) {

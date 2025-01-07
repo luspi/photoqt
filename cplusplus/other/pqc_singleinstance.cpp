@@ -35,6 +35,7 @@
 #include <pqc_notify.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
+#include <pqc_filefoldermodel.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -49,10 +50,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     server = nullptr;
 
     if(result & PQCCommandLineFile) {
-        QString fullfilename = parser.filename;
-        if(!QFileInfo(fullfilename).isAbsolute())
-            fullfilename = QDir::currentPath() + "/" + parser.filename;
-        message += ":://::_F_I_L_E_" + QFileInfo(fullfilename).canonicalFilePath().toUtf8();
+        for(const auto &f : parser.filenames) {
+            QString ff = f;
+            if(!QFileInfo(ff).isAbsolute())
+                ff = QDir::currentPath() + "/" + ff;
+            message += ":://::_F_I_L_E_" + QFileInfo(ff).canonicalFilePath().toUtf8();
+        }
     }
 
     if(result & PQCCommandLineOpen)
@@ -226,13 +229,24 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
     QStringList parts = msg.split(":://::");
 
+    QStringList allfiles;
+    QStringList allfolders;
+
     for(const QString &m : std::as_const(parts)) {
 
-        if(m.startsWith("_F_I_L_E_"))
+        if(m.startsWith("_F_I_L_E_")) {
 
-            PQCNotify::get().setFilePath(m.last(m.length()-9));
+            // sort by files and folders
+            // that way we can make sure to always load the first specified file as initial image
+            QFileInfo info(m.last(m.length()-9));
+            if(!info.exists())
+                continue;
+            if(info.isFile())
+                allfiles.append(m.last(m.length()-9));
+            else if(info.isDir())
+                allfolders.append(m.last(m.length()-9));
 
-        else if(m == "_O_P_E_N_")
+        } else if(m == "_O_P_E_N_")
 
             Q_EMIT PQCNotify::get().cmdOpen();
 
@@ -280,6 +294,16 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
             PQCNotify::get().setSettingUpdate(m.last(m.length()-15).split(":"));
 
+    }
+
+    // if we have files and/or folders that were passed on
+    if(allfiles.length() > 0 || allfolders.length() > 0) {
+        allfiles.append(allfolders);
+        if(allfiles.length() > 1)
+            PQCFileFolderModel::get().setExtraFoldersToLoad(allfiles.mid(1));
+        else
+            PQCFileFolderModel::get().setExtraFoldersToLoad({});
+        PQCNotify::get().setFilePath(allfiles[0]);
     }
 
 }

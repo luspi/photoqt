@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <QtDebug>
+#include <QFileInfo>
 #include <pqc_commandlineparser.h>
 
 PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) : QObject(parent), QCommandLineParser() {
@@ -93,7 +94,7 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(positionalArguments().length() > 0) {
         ret = ret|PQCCommandLineFile;
-        filename = positionalArguments().at(0);
+        filenames = positionalArguments();
     }
 
     if(isSet("o") || isSet("open"))

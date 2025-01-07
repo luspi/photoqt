@@ -67,7 +67,7 @@ public:
 
     QString exportFileName;
     QString importFileName;
-    QString filename;
+    QStringList filenames;
     QString shortcutSequence;
     QStringList settingUpdate;
 
