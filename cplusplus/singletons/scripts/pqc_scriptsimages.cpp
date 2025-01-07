@@ -2044,13 +2044,16 @@ double PQCScriptsImages::getPixelDensity() {
     // The same issue occurs in wayland-info (from wayland-utils 1.2.0) with the reported scale factor there
     // However, we can try to calculate the right scaling factor from the logical and physical dimensions reported by wayland-info
 
-    // This currently only works for a single screen! -> TODO
-    if(qApp->screens().count() == 1 && qApp->platformName() == "wayland") {
+    // If we are on wayland...
+    if(qApp->platformName() == "wayland") {
 
         // we cache a once calculated value for 5 minutes
         if(QDateTime::currentMSecsSinceEpoch()-devicePixelRatioCachedWhen < 1000*60*5) {
             return devicePixelRatioCached;
         }
+
+        QMap<int, QList<int> > valsLogical;
+        QMap<int, QList<int> > valsPhysical;
 
         // request all output information from wayland-info
         QProcess proc;
@@ -2066,38 +2069,99 @@ double PQCScriptsImages::getPixelDensity() {
             // prepare variables
             int logicalW = 0, logicalH = 0;
             int physicalW = 0, physicalH = 0;
+            int logicalId = -1, physicalId = -1;
 
             // go through output line by line
             const QStringList parts = out.split("\n");
             for(const QString &line : parts) {
 
+                // read out output ids
+                if(line.trimmed().startsWith("output:"))
+                    logicalId = line.split("output: ")[1].toInt();
+                if(line.contains("wl_output") && line.contains(", name:"))
+                    physicalId = line.split(", name: ")[1].toInt();
+
                 // read out logical dimensions
                 if(line.contains("logical_width:") && line.contains("logical_height:")) {
                     logicalW = line.split("logical_width: ")[1].split(",")[0].toInt();
                     logicalH = line.split("logical_height: ")[1].split("\n")[0].toInt();
+                    if(logicalId > -1)
+                        valsLogical[logicalId] = {logicalW, logicalH};
                 }
 
                 // read out physical dimensions
                 if(!line.contains("logical_width:") && !line.contains("logical_height:") && line.contains("width:") && line.contains("height:")) {
                     physicalW = line.split("width: ")[1].split(" ")[0].toInt();
                     physicalH = line.split("height: ")[1].split(" ")[0].toInt();
+                    if(physicalId > -1)
+                        valsPhysical[physicalId] = {physicalW, physicalH};
                 }
 
             }
 
-            // if everything was found
-            if(physicalW > 0 && physicalH > 0 && logicalW > 0 && logicalH > 0) {
+            // if all screen ratios are the same, we can still make use of that
+            // if this variable is >0 a common ratio has been found
+            // a value of -1 indicates different ratios
+            double useRatio = 0;
 
-                // compute the height/width ratios
-                const double fac1 = static_cast<double>(physicalW)/static_cast<double>(logicalW);
-                const double fac2 = static_cast<double>(physicalH)/static_cast<double>(logicalH);
+            // different amount of outputs found -> stop here
+            if(valsLogical.size() != valsPhysical.size())
+                useRatio = -1;
 
-                // if the two ratios match and make sense, return them
-                if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.5 && fac1 < 5) {
-                    devicePixelRatioCached = fac1;
-                    devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
-                    return fac1;
+            // same number of outputs
+            else {
+
+                // loop over all found outputs
+                QMapIterator<int, QList<int> > i(valsLogical);
+                while (i.hasNext()) {
+
+                    i.next();
+                    const int id = i.key();
+
+                    // if we have a matching physical output
+                    if(valsPhysical.contains(id)) {
+
+                        // compute the height/width ratios
+                        const double fac1 = static_cast<double>(valsPhysical.value(id).value(0))/static_cast<double>(valsLogical.value(id).value(0));
+                        const double fac2 = static_cast<double>(valsPhysical.value(id).value(1))/static_cast<double>(valsLogical.value(id).value(1));
+
+                        // if the two ratios match and make sense, return them
+                        if(fabs(fac1-fac2) < 1e-6 && fac1 > 0.25 && fac1 < 6) {
+
+                            // same ratio as before -> all good
+                            if(useRatio == 0 || fabs(useRatio-fac1) < 1e-6)
+                                useRatio = fac1;
+
+                            // different ratio -> problem
+                            else
+                                useRatio = -1;
+                        }
+
+                    } else
+                        // error -> stop
+                        useRatio = -1;
+
+                    // different ratios found
+                    if(useRatio < 0)
+                        break;
+
                 }
+
+            }
+
+            // Found single ratio across all screens
+            if(useRatio > 0) {
+
+                devicePixelRatioCached = useRatio;
+                devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
+                return useRatio;
+
+            // if error occured, then we effectively disable this feature
+            } else {
+
+                devicePixelRatioCached = 1;
+                devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
+                return 1;
 
             }
 
