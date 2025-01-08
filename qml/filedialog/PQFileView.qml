@@ -1263,7 +1263,7 @@ GridView {
 
         PQMenuItem {
             implicitHeight: visible ? 40 : 0
-            visible: view.currentSelection.length < 2 || !view.currentFileSelected
+            visible: view.currentSelection.length < 2 || !view.currentFileSelected || !menuitemLoadSelection.atLeastOneFolderSelected
             enabled: contextmenu.isFile || contextmenu.isFolder
             text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
@@ -1274,9 +1274,28 @@ GridView {
         }
 
         PQMenuItem {
+            id: menuitemLoadSelection
             implicitHeight: visible ? 40 : 0
-            visible: view.currentSelection.length>1 && (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder))
+            visible: (view.currentSelection.length>1 && (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder))) && atLeastOneFolderSelected
             text: qsTranslate("filedialog", "Load all selected files/folders")
+            // THis menu item is only visible if at least one folder is visible
+            // If only files are selected we will load the current folder anyways
+            property bool atLeastOneFolderSelected: false
+            Connections {
+                target: view
+                function onCurrentSelectionChanged() {
+                    var havefolder = false
+                    for(var i in view.currentSelection) {
+                        var cur = PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]] // qmllint disable unqualified
+                        if(PQCScriptsFilesPaths.isFolder(cur)) {
+                            havefolder = true
+                            break
+                        }
+                    }
+                    menuitemLoadSelection.atLeastOneFolderSelected = havefolder
+                }
+            }
+
             onTriggered: {
                 var allfiles = []
                 var allfolders = []
