@@ -1277,22 +1277,26 @@ GridView {
             id: menuitemLoadSelection
             implicitHeight: visible ? 40 : 0
             visible: (view.currentSelection.length>1 && (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder))) && atLeastOneFolderSelected
-            text: qsTranslate("filedialog", "Load all selected files/folders")
+            text: (atLeastOneFolderSelected&&atLeastOneFileSelected) ? qsTranslate("filedialog", "Load all selected files/folders") : qsTranslate("filedialog", "Load all selected folders")
             // THis menu item is only visible if at least one folder is visible
             // If only files are selected we will load the current folder anyways
             property bool atLeastOneFolderSelected: false
+            property bool atLeastOneFileSelected: false
             Connections {
                 target: view
                 function onCurrentSelectionChanged() {
                     var havefolder = false
+                    var havefile = false
                     for(var i in view.currentSelection) {
                         var cur = PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]] // qmllint disable unqualified
                         if(PQCScriptsFilesPaths.isFolder(cur)) {
                             havefolder = true
-                            break
+                        } else {
+                            havefile = true
                         }
                     }
                     menuitemLoadSelection.atLeastOneFolderSelected = havefolder
+                    menuitemLoadSelection.atLeastOneFileSelected = havefile
                 }
             }
 
