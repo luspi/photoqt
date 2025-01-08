@@ -922,6 +922,7 @@ GridView {
                                     if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
+                                        PQCFileFolderModel.extraFoldersToLoad = []
                                         PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
                                         filedialog_top.hideFileDialog()
                                     }
@@ -1093,6 +1094,7 @@ GridView {
                                     if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
+                                        PQCFileFolderModel.extraFoldersToLoad = []
                                         PQCFileFolderModel.fileInFolderMainView = deleg.currentPath
                                         filedialog_top.hideFileDialog()
                                     }
@@ -1239,21 +1241,18 @@ GridView {
                 view.refreshCurrentThumbnail()
             }
         }
-        PQMenuSeparator { visible: contextmenu.isFile }
 
         PQMenuItem {
-            enabled: contextmenu.isFile || contextmenu.isFolder
-            text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load this folder") : qsTranslate("filedialog", "Load this file"))
+            implicitHeight: visible ? 40 : 0
+            visible: contextmenu.isFolder
+            text: qsTranslate("filedialog", "Open this folder")
             onTriggered: {
-                if(contextmenu.isFolder)
-                    filedialog_top.loadNewPath(contextmenu.path) // qmllint disable unqualified
-                else {
-                    PQCFileFolderModel.fileInFolderMainView = contextmenu.path
-                    filedialog_top.hideFileDialog()
-                }
+                filedialog_top.loadNewPath(contextmenu.path) // qmllint disable unqualified
             }
         }
         PQMenuItem {
+            implicitHeight: visible ? 40 : 0
+            visible: (view.currentSelection.length==1 && view.currentFileSelected) || !view.currentFileSelected
             enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled() // qmllint disable unqualified
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
@@ -1261,7 +1260,50 @@ GridView {
                 fd_places.loadPlaces()
             }
         }
-        PQMenuSeparator { visible: contextmenu.isFile || contextmenu.isFolder }
+
+        PQMenuItem {
+            implicitHeight: visible ? 40 : 0
+            visible: view.currentSelection.length < 2 || !view.currentFileSelected
+            enabled: contextmenu.isFile || contextmenu.isFolder
+            text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))
+            onTriggered: {
+                PQCFileFolderModel.extraFoldersToLoad = [] // qmllint disable unqualified
+                PQCFileFolderModel.fileInFolderMainView = contextmenu.path
+                filedialog_top.hideFileDialog()
+            }
+        }
+
+        PQMenuItem {
+            implicitHeight: visible ? 40 : 0
+            visible: view.currentSelection.length>1 && (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder))
+            text: qsTranslate("filedialog", "Load all selected files/folders")
+            onTriggered: {
+                var allfiles = []
+                var allfolders = []
+                for(var i in view.currentSelection) {
+                    var cur = PQCFileFolderModel.entriesFileDialog[view.currentSelection[i]] // qmllint disable unqualified
+                    if(PQCScriptsFilesPaths.isFolder(cur))
+                        allfolders.push(cur)
+                    else
+                        allfiles.push(cur)
+                }
+
+                var comb = allfiles.concat(allfolders)
+
+                if(comb.length > 0) {
+
+                    var f = comb.shift()
+
+                    PQCFileFolderModel.extraFoldersToLoad = comb
+                    PQCFileFolderModel.fileInFolderMainView = f
+                    filedialog_top.hideFileDialog()
+
+                }
+            }
+        }
+
+        PQMenuSeparator { }
+
         PQMenuItem {
             enabled: contextmenu.isFile || contextmenu.isFolder
             text: view.currentFileSelected ? qsTranslate("filedialog", "Remove file selection") : qsTranslate("filedialog", "Select file")
@@ -1285,7 +1327,7 @@ GridView {
             implicitHeight: visible ? 40 : 0
             visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
             enabled: visible && (contextmenu.isFile || contextmenu.isFolder || view.currentSelection.length)
-            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
             text: (view.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view.currentSelection.length))
                         ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete selection permanently") : qsTranslate("filedialog", "Delete selection"))
                         : (contextmenu.isFile ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete file permanently") : qsTranslate("filedialog", "Delete file"))
@@ -1355,9 +1397,9 @@ GridView {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotify // qmllint disable unqualified
 
-        enabled: (filedialog_top.opacity > 0)
+        enabled: (filedialog_top.opacity > 0) // qmllint disable unqualified
 
         function onKeyRelease(key: int, modifiers: int) {
             if(key < 16770000 || modifiers !== Qt.ShiftModifier)
@@ -1372,6 +1414,7 @@ GridView {
         if(index < PQCFileFolderModel.countFoldersFileDialog) // qmllint disable unqualified
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
+            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
                 filedialog_top.hideFileDialog()

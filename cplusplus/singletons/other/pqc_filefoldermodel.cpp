@@ -1043,7 +1043,7 @@ void PQCFileFolderModel::loadDataFileDialog() {
     ////////////////////////
     // load files
 
-    m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true));
+    m_entriesFileDialog.append(getAllFiles(m_folderFileDialog, true, true));
 
     m_countFilesFileDialog = m_entriesFileDialog.length()-m_countFoldersFileDialog;
 
@@ -1116,7 +1116,7 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
 
 }
 
-QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExceptDefault) {
+QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersExceptDefault, bool enforceOnlyIncludingThisFolder) {
 
     qDebug() << "args: folder =" << folder;
     qDebug() << "args: ignoreFiltersExceptDefault =" << ignoreFiltersExceptDefault;
@@ -1145,20 +1145,24 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
     QStringList foldersToScan;
     foldersToScan << folder;
 
-    if(m_includeFilesInSubFolders) {
-        QDirIterator iter(folder, QDir::Dirs|QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
-        int count = 0;
-        while(iter.hasNext()) {
-            iter.next();
-            foldersToScan << iter.filePath();
+    if(!enforceOnlyIncludingThisFolder) {
 
-            // we limit the number of subfolders to avoid getting stuck
-            ++count;
-            if(count > 100)
-                break;
+        if(m_includeFilesInSubFolders) {
+            QDirIterator iter(folder, QDir::Dirs|QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            int count = 0;
+            while(iter.hasNext()) {
+                iter.next();
+                foldersToScan << iter.filePath();
+
+                // we limit the number of subfolders to avoid getting stuck
+                ++count;
+                if(count > 100)
+                    break;
+            }
+        } else if(m_extraFoldersToLoad.length() > 0) {
+            foldersToScan.append(m_extraFoldersToLoad);
         }
-    } else if(m_extraFoldersToLoad.length() > 0) {
-        foldersToScan.append(m_extraFoldersToLoad);
+
     }
 
     for(const QString &f : std::as_const(foldersToScan)) {
@@ -1414,7 +1418,7 @@ QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
 
     }
 
-    QStringList files = getAllFiles(parent, true);
+    QStringList files = getAllFiles(parent, true, true);
 
     for(const auto &f : std::as_const(files)) {
         if(f.sliced(parent.length()).startsWith(typed))

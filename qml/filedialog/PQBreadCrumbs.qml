@@ -583,6 +583,7 @@ Item {
             filedialog_top.loadNewPath(path)
         else {
             filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(path))
+            PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = path
             filedialog_top.hideFileDialog()
         }

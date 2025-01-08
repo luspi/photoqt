@@ -240,7 +240,7 @@ private:
     QTimer *loadDelayFileDialog;
 
     QStringList getAllFolders(QString folder, bool forceShowHidden = false);
-    QStringList getAllFiles(QString folder, bool ignoreFiltersExceptDefault = false);
+    QStringList getAllFiles(QString folder, bool ignoreFiltersExceptDefault = false, bool enforceOnlyIncludingThisFolder = false);
 
     QMimeDatabase db;
 
