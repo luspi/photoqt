@@ -248,7 +248,7 @@ Rectangle {
         property int activeIndex: -1
 
         PQMenuItem {
-            text: "Zoom to location"
+            text: qsTranslate("mapexplorer", "Zoom to location")
             onTriggered: {
                 if(contextmenu.activeIndex != -1)
                     mapexplorer_top.clickOnImage(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1], visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2]) // qmllint disable unqualified
@@ -256,7 +256,7 @@ Rectangle {
         }
 
         PQMenuItem {
-            text: "Load image"
+            text: qsTranslate("mapexplorer", "Load image")
             onTriggered: {
                 PQCFileFolderModel.fileInFolderMainView = visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][0] // qmllint disable unqualified
                 if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
@@ -266,7 +266,7 @@ Rectangle {
         }
 
         PQMenuItem {
-            text: "Copy GPS location to clipboard"
+            text: qsTranslate("mapexplorer", "Copy location to clipboard")
             onTriggered: {
                 PQCScriptsClipboard.copyTextToClipboard(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2])
             }
