@@ -1302,6 +1302,9 @@ GridView {
                         } else {
                             havefile = true
                         }
+                        // we found as much as we can find -> can stop now
+                        if(havefile && havefolder)
+                            break
                     }
                     menuitemLoadSelection.atLeastOneFolderSelected = havefolder
                     menuitemLoadSelection.atLeastOneFileSelected = havefile
