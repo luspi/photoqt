@@ -27,6 +27,7 @@ import QtPositioning
 
 import PQCScriptsFilesPaths
 import PQCLocation
+import PQCScriptsClipboard
 
 import "../../elements"
 
@@ -349,6 +350,34 @@ Item {
 
                 }
 
+            }
+
+            Rectangle {
+                width: gpspos.width+6
+                height: gpspos.height+6
+                color: "#bb000000"
+                z: 5
+                x: parent.width-width
+                y: parent.height-height
+
+                PQTextS {
+                    id: gpspos
+                    x: 3
+                    y: 3
+                    property list<double> loc: [Math.round(1e2*map.center.latitude)/1e2, Math.round(1e2*map.center.longitude)/1e2]
+                    text: loc[0] + ", " + loc[1]
+                    font.weight: PQCLook.fontWeightBold
+                }
+
+                PQMouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: qsTranslate("mapexplorer", "Click to copy location to clipboard")
+                    onClicked: {
+                        PQCScriptsClipboard.copyTextToClipboard(gpspos.loc[0] + " " + gpspos.loc[1])
+                    }
+                }
             }
 
             NumberAnimation {
