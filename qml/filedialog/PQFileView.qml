@@ -472,7 +472,7 @@ GridView {
                         fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
                         onStatusChanged: {
                             if(status == Image.Ready) {
-                                if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active) // qmllint disable unqualified
+                                if((curindex === view.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !mousearea.drag.active && !contextmenu.opened) // qmllint disable unqualified
                                     folderthumb_next.restart()
                                 folderthumb.hideExcept(num)
                                 fileicon.source = ""
@@ -707,6 +707,14 @@ GridView {
                 cursorShape: Qt.PointingHandCursor
 
                 tooltipReference: fd_splitview // qmllint disable unqualified
+
+                Connections {
+                    target: contextmenu
+                    function onVisibleChanged() {
+                        if(contextmenu.visible)
+                            mousearea.closeTooltip()
+                    }
+                }
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 

@@ -102,4 +102,8 @@ MouseArea {
 
     }
 
+    function closeTooltip() {
+        control.hide()
+    }
+
 }
