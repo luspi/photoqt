@@ -273,6 +273,7 @@ Item {
 
     function clickOnImage(lat : real, lon : real) {
 
+        map.hideHightlightMarker()
         map.setMapCenterSmooth(lat, lon)
         map.setMapZoomLevelSmooth(maptweaks.maxZoomLevel/2)
 

@@ -26,6 +26,7 @@ import QtQuick.Controls
 
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
+import PQCScriptsClipboard
 
 import "../../elements"
 
@@ -171,6 +172,8 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+
                 property bool tooltipSetup: false
 
                 onEntered: {
@@ -215,8 +218,13 @@ Rectangle {
                     resetCurrentIndex.restart()
                 }
 
-                onClicked: {
-                    mapexplorer_top.clickOnImage(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        mapexplorer_top.clickOnImage(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
+                    else {
+                        contextmenu.activeIndex = gridview.currentIndex
+                        contextmenu.popup()
+                    }
                 }
 
                 doubleClickThreshold: 200
@@ -229,6 +237,39 @@ Rectangle {
 
             }
 
+        }
+
+    }
+
+    PQMenu {
+
+        id: contextmenu
+
+        property int activeIndex: -1
+
+        PQMenuItem {
+            text: "Zoom to location"
+            onTriggered: {
+                if(contextmenu.activeIndex != -1)
+                    mapexplorer_top.clickOnImage(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1], visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2]) // qmllint disable unqualified
+            }
+        }
+
+        PQMenuItem {
+            text: "Load image"
+            onTriggered: {
+                PQCFileFolderModel.fileInFolderMainView = visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][0] // qmllint disable unqualified
+                if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
+                    mapexplorer_top.hideExplorer()
+                }
+            }
+        }
+
+        PQMenuItem {
+            text: "Copy GPS location to clipboard"
+            onTriggered: {
+                PQCScriptsClipboard.copyTextToClipboard(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2])
+            }
         }
 
     }
@@ -287,6 +328,7 @@ Rectangle {
         }
 
         visibleimages.visibleImagesWithLocation = m
+        gridview.currentIndex = -1
 
     }
 
