@@ -254,8 +254,8 @@ Item {
 
                     property list<string> keys: Object.keys(labels)
 
-                    anchorPoint.x: container.width/2
-                    anchorPoint.y: container.height/2
+                    anchorPoint.x: containerloader.width/2
+                    anchorPoint.y: containerloader.height/2
 
                     opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map_top.detaillevel) !== -1) ? 1 : 0
                     visible: opacity>0
@@ -266,6 +266,10 @@ Item {
                     property var lvls
 
                     sourceItem:
+                    Loader {
+                        id: containerloader
+                        active: deleg.visible
+                        sourceComponent:
                         Rectangle {
                             id: container
                             width: 68
@@ -342,11 +346,13 @@ Item {
                                 }
                             }
 
-                            Component.onCompleted: {
-                                deleg.lvls = deleg.levels.split("_")
-                            }
-
                         }
+
+                    }
+
+                    Component.onCompleted: {
+                        deleg.lvls = deleg.levels.split("_")
+                    }
 
                 }
 
