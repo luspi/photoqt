@@ -28,6 +28,7 @@ import QtPositioning
 import PQCScriptsFilesPaths
 import PQCLocation
 import PQCScriptsClipboard
+import PQCScriptsMetaData
 
 import "../../elements"
 
@@ -53,6 +54,9 @@ Item {
     signal updateVisibleRegionNow()
     signal showHighlightMarkerAt(var lat, var lon)
     signal hideHightlightMarker()
+
+    property bool gpsContextMenuIsOpen: false
+    signal closeMenus()
 
     function reloadLoader() {
         explorerMapLoader.active = false
@@ -372,18 +376,54 @@ Item {
                     y: 3
                     property list<double> loc: [Math.round(1e2*map.center.latitude)/1e2, Math.round(1e2*map.center.longitude)/1e2]
                     text: loc[0] + ", " + loc[1]
-                    font.weight: PQCLook.fontWeightBold
+                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                }
+
+                PQMenu {
+                    id: gpsmenu
+                    onAboutToShow:
+                        map_top.gpsContextMenuIsOpen = true
+                    onAboutToHide:
+                        map_top.gpsContextMenuIsOpen = false
+                    Connections {
+                        target: map_top
+                        function onCloseMenus() {
+                            gpsmenu.close()
+                        }
+                    }
+
+                    PQMenuItem {
+                        enabled: false
+                        text: qsTranslate("mapexplorer", "Copy to clipboard:")
+                    }
+
+                    PQMenuItem {
+                        id: menuitem1
+                        text: gpspos.loc[0] + ", " + gpspos.loc[1]
+                    }
+
+                    PQMenuItem {
+                        implicitHeight: (visible ? 40 : 0)
+                        visible: text!=menuitem1.text
+                        text: map.center.latitude + ", " + map.center.longitude
+                    }
+
+                    PQMenuItem {
+                        text: PQCScriptsMetaData.convertGPSDecimalToDegree(map.center.latitude, map.center.longitude) // qmllint disable unqualified
+                    }
                 }
 
                 PQMouseArea {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("mapexplorer", "Click to copy location to clipboard")
-                    onClicked: {
-                        PQCScriptsClipboard.copyTextToClipboard(gpspos.loc[0] + " " + gpspos.loc[1])
+                    text: qsTranslate("mapexplorer", "A left click copies exact location to clipboard, a right click shows a menu with more options.")
+                    acceptedButtons: Qt.LeftButton|Qt.RightButton
+                    onClicked: (mouse) => {
+                        gpsmenu.popup()
                     }
                 }
+
             }
 
             NumberAnimation {

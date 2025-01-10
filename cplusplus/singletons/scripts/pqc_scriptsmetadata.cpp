@@ -462,6 +462,40 @@ QPointF PQCScriptsMetaData::convertGPSToPoint(QString gps) {
 
 }
 
+QString PQCScriptsMetaData::convertGPSDecimalToDegree(double lat, double lon) {
+
+    QString ret = "";
+
+    // find N/S/E/W labels
+    QString lat_dir = (lat < 0 ? " S" : (lat > 0 ? " N" : ""));
+    QString lon_dir = (lon < 0 ? " W" : (lon > 0 ? " E" : ""));
+
+    // make sure values are positive
+    lat = fabs(lat);
+    lon = fabs(lon);
+
+    // find degree
+    int lat_deg = qFloor(lat);
+    int lon_deg = qFloor(lon);
+
+    // find minute
+    double lat_min_full = (lat-lat_deg)*60;
+    double lon_min_full = (lon-lon_deg)*60;
+    int lat_min = qFloor(lat_min_full);
+    int lon_min = qFloor(lon_min_full);
+
+    // find seconds
+    double lat_sec = qRound((lat_min_full-lat_min)*60*1e3)/1e3;
+    double lon_sec = qRound((lon_min_full-lon_min)*60*1e3)/1e3;
+    
+    // assemble final string
+    ret = QString("%1° %2' %3''%4, %5° %6' %7''%8").arg(lat_deg).arg(lat_min).arg(lat_sec).arg(lat_dir)
+                                                   .arg(lon_deg).arg(lon_min).arg(lon_sec).arg(lon_dir);
+
+    return ret;
+
+}
+
 QVariantList PQCScriptsMetaData::getFaceTags(QString filename) {
 
     qDebug() << "args: filename =" << filename;

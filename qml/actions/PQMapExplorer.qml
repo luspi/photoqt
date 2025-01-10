@@ -244,8 +244,14 @@ Item {
                     if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal) // qmllint disable unqualified
                         return
 
-                    if(param[0] === Qt.Key_Escape)
-                        mapexplorer_top.hideExplorer()
+                    if(param[0] === Qt.Key_Escape) {
+
+                        if(map.gpsContextMenuIsOpen)
+                            map.closeMenus()
+                        else
+                            mapexplorer_top.hideExplorer()
+
+                    }
                 }
 
             }
