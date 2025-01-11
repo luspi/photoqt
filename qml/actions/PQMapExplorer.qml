@@ -248,6 +248,8 @@ Item {
 
                         if(map.gpsContextMenuIsOpen)
                             map.closeMenus()
+                        else if(visibleimages.imageContextMenu.visible)
+                            visibleimages.imageContextMenu.close()
                         else
                             mapexplorer_top.hideExplorer()
 

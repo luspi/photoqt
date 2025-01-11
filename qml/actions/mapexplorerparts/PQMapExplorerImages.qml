@@ -40,6 +40,8 @@ Rectangle {
 
     property var visibleImagesWithLocation: []
 
+    property alias imageContextMenu: contextmenu
+
     GridView {
 
         id: gridview
