@@ -211,6 +211,9 @@ Item {
                         if(checked)
                             settingsmenu.popup(0, height)
                     }
+                    onRightClicked: {
+                        checked = !checked
+                    }
 
                     PQSettingsMenu {
                         id: settingsmenu

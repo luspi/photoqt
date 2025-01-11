@@ -71,7 +71,9 @@ Rectangle {
         cursorShape: Qt.PointingHandCursor
         text: control.tooltip
         acceptedButtons: Qt.LeftButton|Qt.RightButton
-        onPressed: {
+        onPressed: (mouse) => {
+            if(mouse.button == Qt.RightButton)
+                return
             if(control.checkable)
                 control.checked = !control.checked
             else
@@ -105,6 +107,8 @@ Rectangle {
             text: qsTranslate("buttongeneric", "Activate button")
             onTriggered: {
                 control.clicked(menu.origPoint)
+                if(control.checkable)
+                    control.checked = !control.checked
             }
         }
     }
