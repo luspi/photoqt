@@ -34,6 +34,8 @@ MenuItem {
 
     font.weight: PQCLook.fontWeightNormal
 
+    property int elide: Text.ElideMiddle
+
     // NOTE
     // When entry is checkable then by default clicking on an entry WILL NOT call the triggered() signal
     // Instead the checkedChanged() signal will be emitted and the menu will remain open
@@ -51,7 +53,7 @@ MenuItem {
             color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideMiddle
+            elide: menuItem.elide
             style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
             styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
         }
