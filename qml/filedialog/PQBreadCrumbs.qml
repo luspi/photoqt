@@ -40,9 +40,15 @@ Item {
     height: 50
 
     property alias topSettingsMenu: settingsmenu
+    property alias navButtonsMenu: navmenu
+    property alias editMenu: editmenu
+    property alias editContextMenu: contextmenu
 
     property bool folderListMenuOpen: false
     signal closeFolderListMenu()
+
+    property bool otherContextMenuOpen: false
+    signal closeMenus()
 
     MouseArea {
         anchors.fill: parent
@@ -77,19 +83,49 @@ Item {
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg" // qmllint disable unqualified
                     enabled: filedialog_top.historyIndex>0 // qmllint disable unqualified
+                    enableContextMenu: false
                     onClicked:
                         filedialog_top.goBackInHistory() // qmllint disable unqualified
+                    onRightClicked:
+                        navmenu.popup()
                 }
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                    enableContextMenu: false
                     onClicked:
                         filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
+                    onRightClicked:
+                        navmenu.popup()
                 }
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
                     enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 // qmllint disable unqualified
+                    enableContextMenu: false
                     onClicked:
                         filedialog_top.goForwardsInHistory() // qmllint disable unqualified
+                    onRightClicked:
+                        navmenu.popup()
+                }
+
+                PQMenu {
+                    id: navmenu
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go backwards in history")
+                        enabled: filedialog_top.historyIndex>0 // qmllint disable unqualified
+                        onTriggered:
+                            filedialog_top.goBackInHistory() // qmllint disable unqualified
+                    }
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go forwards in history")
+                        enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 // qmllint disable unqualified
+                        onTriggered:
+                            filedialog_top.goForwardsInHistory() // qmllint disable unqualified
+                    }
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go up a level")
+                        onTriggered:
+                            filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
+                    }
                 }
 
                 Item {
@@ -117,6 +153,15 @@ Item {
                         PQCSettings.filedialogLayout = (checked ? "icons" : "list")
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="icons" })
                     }
+                    contextmenu.onVisibleChanged: {
+                        breadcrumbs_top.otherContextMenuOpen = visible
+                    }
+                    Connections {
+                        target: breadcrumbs_top
+                        function onCloseMenus() {
+                            iconview.contextmenu.close()
+                        }
+                    }
                 }
 
                 PQButtonIcon {
@@ -129,6 +174,15 @@ Item {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
                         PQCSettings.filedialogLayout = (checked ? "list" : "icons")
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
+                    }
+                    contextmenu.onVisibleChanged: {
+                        breadcrumbs_top.otherContextMenuOpen = visible
+                    }
+                    Connections {
+                        target: breadcrumbs_top
+                        function onCloseMenus() {
+                            listview.contextmenu.close()
+                        }
                     }
                 }
 
@@ -151,6 +205,7 @@ Item {
                     checkable: true
                     source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Settings")
+                    enableContextMenu: false
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
                         if(checked)
@@ -187,8 +242,21 @@ Item {
                 cursorShape: Qt.IBeamCursor
                 enabled: !addressedit.visible
                 visible: !addressedit.visible
-                onClicked: {
-                    addressedit.show()
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.LeftButton)
+                        addressedit.show()
+                    else
+                        editmenu.popup()
+                }
+            }
+
+            PQMenu {
+                id: editmenu
+                PQMenuItem {
+                    text: qsTranslate("filedialog", "Edit location")
+                    onTriggered:
+                        addressedit.show()
                 }
             }
 
@@ -263,9 +331,42 @@ Item {
                                     id: mousearea2
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    onClicked: filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
+                                    onClicked: (mouse) => {
+                                        if(mouse.button === Qt.LeftButton)
+                                            filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
+                                        else
+                                            pathmenu.popup()
+                                    }
                                     enabled: (deleg.modelData<2 && crumbs.isNetwork) ? false : true
                                     cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    acceptedButtons: Qt.RightButton|Qt.LeftButton
+                                }
+                                PQMenu {
+                                    id: pathmenu
+                                    PQMenuItem {
+                                        text: qsTranslate("filedialog", "Navigate to this location")
+                                        onTriggered: {
+                                            filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
+                                        }
+                                    }
+                                    onAboutToShow: {
+                                        breadcrumbs_top.folderListMenuOpen = true
+                                    }
+                                    onAboutToHide:
+                                        breadcrumbs_top.folderListMenuOpen = false
+                                    Connections {
+                                        target: filedialog_top // qmllint disable unqualified
+                                        function onOpacityChanged() {
+                                            if(filedialog_top.opacity<1) // qmllint disable unqualified
+                                                pathmenu.close()
+                                        }
+                                    }
+                                    Connections {
+                                        target: breadcrumbs_top
+                                        function onCloseFolderListMenu() {
+                                            pathmenu.close()
+                                        }
+                                    }
                                 }
                             }
 
@@ -292,6 +393,7 @@ Item {
                                     hoverEnabled: true
                                     enabled: (deleg.modelData<2 && crumbs.isNetwork) ? false : true
                                     cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     onClicked: (pos) => {
                                         folderlist.popup(0,height)
                                     }
@@ -328,7 +430,7 @@ Item {
                                             inst.model = subfolders
                                             inst.currentParentFolder = deleg.subdir
                                         }
-                                        folderListMenuOpen = true
+                                        breadcrumbs_top.folderListMenuOpen = true
                                     }
                                     onAboutToHide:
                                         breadcrumbs_top.folderListMenuOpen = false
@@ -515,6 +617,15 @@ Item {
                             if(!addressedit.warning)
                                 breadcrumbs_top.loadEditPath()
                             addressedit.hide()
+                        }
+                    }
+                    contextmenu.onVisibleChanged: {
+                        breadcrumbs_top.otherContextMenuOpen = visible
+                    }
+                    Connections {
+                        target: breadcrumbs_top
+                        function onCloseMenus() {
+                            editbutton.contextmenu.close()
                         }
                     }
                 }

@@ -48,6 +48,7 @@ Rectangle {
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)
+    signal rightClicked(var pos)
 
     Image {
 
@@ -69,7 +70,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.tooltip
-        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
         onPressed: {
             if(control.checkable)
                 control.checked = !control.checked
@@ -84,7 +85,9 @@ Rectangle {
             if(control.enableContextMenu && mouse.button == Qt.RightButton) {
                 menu.origPoint = Qt.point(mousearea.mouseX, mousearea.mouseY)
                 menu.popup()
-            } else
+            } else if(mouse.button == Qt.RightButton)
+                control.rightClicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+            else
                 control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
         }
     }

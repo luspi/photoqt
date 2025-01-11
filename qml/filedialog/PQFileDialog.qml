@@ -321,9 +321,25 @@ Rectangle {
         } else if(fd_breadcrumbs.topSettingsMenu.visible) {
             fd_breadcrumbs.topSettingsMenu.close()
             return true
+        // breadcrumbs navigation menu
+        } else if(fd_breadcrumbs.navButtonsMenu.visible) {
+            fd_breadcrumbs.navButtonsMenu.close()
+            return true
+        // address bar location edit menu
+        } else if(fd_breadcrumbs.editMenu.visible) {
+            fd_breadcrumbs.editMenu.close()
+            return true
+        // address bar location edit text menu
+        } else if(fd_breadcrumbs.editContextMenu.visible) {
+            fd_breadcrumbs.editContextMenu.close()
+            return true
         // folder list menu
         } else if(fd_breadcrumbs.folderListMenuOpen) {
             fd_breadcrumbs.closeFolderListMenu()
+            return true
+        // other context menu
+        } else if(fd_breadcrumbs.otherContextMenuOpen) {
+            fd_breadcrumbs.closeMenus()
             return true
         }
         return false
