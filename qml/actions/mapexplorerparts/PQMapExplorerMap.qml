@@ -392,6 +392,22 @@ Item {
                         }
                     }
 
+                    property list<double> curLatLon: [0,0]
+                    Connections {
+                        target: map
+                        function onCenterChanged() {
+                            gpslocTimer.restart()
+                        }
+                    }
+
+                    Timer {
+                        id: gpslocTimer
+                        interval: 250
+                        onTriggered: {
+                            gpsmenu.curLatLon = [map.center.latitude, map.center.longitude]
+                        }
+                    }
+
                     PQMenuItem {
                         enabled: false
                         text: qsTranslate("mapexplorer", "Copy to clipboard:")
@@ -405,11 +421,11 @@ Item {
                     PQMenuItem {
                         implicitHeight: (visible ? 40 : 0)
                         visible: text!=menuitem1.text
-                        text: map.center.latitude + ", " + map.center.longitude
+                        text: Math.round(1e5*gpsmenu.curLatLon[0])/1e5 + ", " + Math.round(1e5*gpsmenu.curLatLon[1])/1e5
                     }
 
                     PQMenuItem {
-                        text: PQCScriptsMetaData.convertGPSDecimalToDegree(map.center.latitude, map.center.longitude) // qmllint disable unqualified
+                        text: PQCScriptsMetaData.convertGPSDecimalToDegree(gpsmenu.curLatLon[0], gpsmenu.curLatLon[1]) // qmllint disable unqualified
                     }
                 }
 
@@ -417,7 +433,7 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("mapexplorer", "A left click copies exact location to clipboard, a right click shows a menu with more options.")
+                    text: qsTranslate("mapexplorer", "Click to show a menu for copying location to clipboard.")
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                     onClicked: (mouse) => {
                         gpsmenu.popup()
