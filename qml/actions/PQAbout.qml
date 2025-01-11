@@ -46,6 +46,8 @@ PQTemplateFullscreen {
     button1.onClicked:
         hide()
 
+    property list<PQButton> allbuttons: [configbutton, configclipbut, configclosebut]
+
     content: [
 
         Image {
@@ -64,6 +66,7 @@ PQTemplateFullscreen {
         },
 
         PQButton {
+            id: configbutton
             x: (parent.width-width)/2
             text: "PhotoQt v" + PQCScriptsConfig.getVersion() // qmllint disable unqualified
             //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
@@ -172,11 +175,13 @@ PQTemplateFullscreen {
                     x: (parent.width-width)/2
                     spacing: 10
                     PQButton {
+                        id: configclipbut
                         text: qsTranslate("about", "Copy to clipboard")
                         onClicked:
                             PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true) // qmllint disable unqualified
                     }
                     PQButton {
+                        id: configclosebut
                         text: genericStringClose
                         onClicked:
                             configinfo.opacity = 0
@@ -208,14 +213,33 @@ PQTemplateFullscreen {
             } else if(about_top.opacity > 0) {
 
                 if(what === "keyEvent") {
-                    if(param[0] === Qt.Key_Escape)
+
+                    if(about_top.closeAnyMenu())
+                        return
+
+                    else if(param[0] === Qt.Key_Escape)
                         about_top.hide()
+
                 }
 
             }
 
         }
 
+    }
+
+    function closeAnyMenu() {
+        for(var i in allbuttons) {
+            if(allbuttons[i].contextmenu.visible) {
+                allbuttons[i].contextmenu.close()
+                return true
+            }
+        }
+        if(about_top.contextMenuOpen) {
+            about_top.closeContextMenus()
+            return true
+        }
+        return false
     }
 
     function show() {
@@ -225,6 +249,9 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        closeAnyMenu()
+
         if(configinfo.opacity > 0)
             configinfo.opacity = 0
         else {

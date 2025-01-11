@@ -37,6 +37,9 @@ Item {
 
     property int zoomMoveUpHeight: leftcolrect.state==="moveup" ? leftcolrect.height : 0
 
+    property list<PQButtonElement> allbuttons: [cancelbutton]
+    property list<PQMenu> allmenus: [filetypes]
+
     Rectangle {
 
         id: leftcolrect
@@ -228,6 +231,8 @@ Item {
                 horizontalAlignment: Text.AlignLeft
                 width: 300
                 forceWidth: width
+
+                enableContextMenu: false
 
                 property bool menuOpen: false
                 forceHovered: menuOpen

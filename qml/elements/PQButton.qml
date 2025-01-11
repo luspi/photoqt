@@ -46,6 +46,9 @@ Rectangle {
 
     property bool forceHovered: false
 
+    property bool enableContextMenu: true
+    property alias contextmenu: menu
+
     property int forceWidth: 0
     property bool extraWide: false
     property bool extraextraWide: false
@@ -89,8 +92,27 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.text
-        onClicked: {
-            control.clicked()
+        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
+        onClicked: (mouse) => {
+            if(mouse.button == Qt.LeftButton)
+                control.clicked()
+            else
+                menu.popup()
+        }
+    }
+
+    PQMenu {
+        id: menu
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            text: mouseArea.text!="" ? mouseArea.text : control.text
+        }
+        PQMenuItem {
+            text: qsTranslate("buttongeneric", "Activate button")
+            onTriggered: {
+                control.clicked()
+            }
         }
     }
 

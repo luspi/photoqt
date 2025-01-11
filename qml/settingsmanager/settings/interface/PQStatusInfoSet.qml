@@ -57,7 +57,9 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: fontsize.editMode || autohide_timeout.editMode || combo_add.popup.visible
+    property bool catchEscape: fontsize.contextMenuOpen || fontsize.editMode ||
+                               autohide_timeout.contextMenuOpen || autohide_timeout.editMode ||
+                               but_add.contextmenu.visible || combo_add.popup.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -434,7 +436,10 @@ Flickable {
         load()
 
     function handleEscape() {
+        but_add.contextmenu.close()
+        fontsize.closeContextMenus()
         fontsize.acceptValue()
+        autohide_timeout.closeContextMenus()
         autohide_timeout.acceptValue()
         combo_add.popup.close()
     }

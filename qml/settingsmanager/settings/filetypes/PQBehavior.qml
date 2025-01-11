@@ -54,7 +54,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: pdf_quality.editMode || videothumb.popup.visible
+    property bool catchEscape: pdf_quality.contextMenuOpen || pdf_quality.editMode || videothumb.popup.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -341,6 +341,7 @@ Flickable {
         load()
 
     function handleEscape() {
+        pdf_quality.closeContextMenus()
         pdf_quality.acceptValue()
         videothumb.popup.close()
     }

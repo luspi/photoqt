@@ -351,10 +351,16 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
-                    if(param[0] === Qt.Key_Escape)
+                    if(crop_top.contextMenuOpen) {
+                        crop_top.closeContextMenus()
+                        return
+                    }
+
+                    if(param[0] === Qt.Key_Escape) {
+
                         crop_top.hide()
 
-                    else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
 
                         crop_top.cropImage()
 
@@ -416,6 +422,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(crop_top.contextMenuOpen)
+            crop_top.closeContextMenus()
+
         opacity = 0
         if(popoutWindowUsed)
             crop_popout.visible = false // qmllint disable unqualified

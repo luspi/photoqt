@@ -260,6 +260,11 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(wallpaper_top.contextMenuOpen) {
+                        wallpaper_top.closeContextMenus()
+                        return
+                    }
+
                     if(param[0] === Qt.Key_Escape) {
 
                         if(xfce.combobox.popup.visible)
@@ -304,6 +309,8 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        if(wallpaper_top.contextMenuOpen)
+            wallpaper_top.closeContextMenus()
         xfce.combobox.popup.close()
         wallpaper_top.opacity = 0
         if(popoutWindowUsed)

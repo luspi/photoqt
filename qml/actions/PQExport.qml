@@ -461,6 +461,11 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(convert_top.contextMenuOpen) {
+                        convert_top.closeContextMenus()
+                        return
+                    }
+
                     // close something
                     if(param[0] === Qt.Key_Escape)
 
@@ -588,6 +593,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(convert_top.contextMenuOpen)
+            convert_top.closeContextMenus()
+
         convert_top.opacity = 0
         if(popoutWindowUsed)
             export_popout.visible = false // qmllint disable unqualified

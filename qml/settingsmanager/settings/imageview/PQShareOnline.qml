@@ -52,7 +52,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: false
+    property bool catchEscape: butauth.contextmenu.visible || butsave.contextmenu.visible
 
     Column {
 
@@ -98,6 +98,7 @@ Flickable {
                 },
 
                 PQButton {
+                    id: butauth
                     text: account.acc == "" ?
                               //: Written on button, used as in: Authenticate with user account
                               qsTranslate("settingsmanager", "Authenticate") :
@@ -161,6 +162,7 @@ Flickable {
                             }
                         }
                         PQButton {
+                            id: butsave
                             text: genericStringSave
                             cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                             onClicked: {
@@ -225,7 +227,8 @@ Flickable {
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
-        catchEscape = false
+        butauth.contextmenu.close()
+        butsave.contextmenu.close()
     }
 
     function load() {

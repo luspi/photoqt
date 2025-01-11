@@ -400,6 +400,10 @@ Rectangle {
     }
 
     function hide() {
+
+        savebut.contextmenu.close()
+        cancelbut.contextmenu.close()
+
         canceltimer.stop()
         savetimer.stop()
         newshortcut_top.opacity = 0

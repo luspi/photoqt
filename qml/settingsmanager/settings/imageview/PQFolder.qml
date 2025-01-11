@@ -55,7 +55,9 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: anispeed.editMode || preload.editMode || sortcriteria.popup.visible || anicombo.popup.visible
+    property bool catchEscape: anispeed.contextMenuOpen || anispeed.editMode ||
+                               preload.contextMenuOpen || preload.editMode ||
+                               sortcriteria.popup.visible || anicombo.popup.visible
 
     Column {
 
@@ -296,7 +298,9 @@ Flickable {
         load()
 
     function handleEscape() {
+        anispeed.closeContextMenus()
         anispeed.acceptValue()
+        preload.closeContextMenus()
         preload.acceptValue()
         sortcriteria.popup.close()
         anicombo.popup.close()

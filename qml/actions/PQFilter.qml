@@ -359,6 +359,9 @@ PQTemplateFullscreen {
 
                 } else if(what === "keyEvent") {
 
+                    if(filter_top.closeAnyMenu())
+                        return
+
                     if(param[0] === Qt.Key_Escape) {
 
                         if(reswidth.editMode || resheight.editMode || filesize.editMode)
@@ -378,6 +381,29 @@ PQTemplateFullscreen {
                 }
             }
         }
+    }
+
+    function closeAnyMenu() {
+        if(resgreaterless.contextmenu.visible) {
+            resgreaterless.contextmenu.close()
+            return true
+        } else if(filesizegreaterless.contextmenu.visible) {
+            filesizegreaterless.contextmenu.close()
+            return true
+        } else if(reswidth.contextMenuOpen) {
+            reswidth.closeContextMenus()
+            return true
+        } else if(resheight.contextMenuOpen) {
+            resheight.closeContextMenus()
+            return true
+        } else if(filesize.contextMenuOpen) {
+            filesize.closeContextMenus()
+            return true
+        } else if(filter_top.contextMenuOpen) {
+            filter_top.closeContextMenus()
+            return true
+        }
+        return false
     }
 
     function closePopupMenuSpin() {
@@ -453,6 +479,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closeAnyMenu()
         closePopupMenuSpin()
         filter_top.opacity = 0
         if(popoutWindowUsed)

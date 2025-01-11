@@ -50,7 +50,8 @@ Item {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: catCombo.popup.visible
+    property bool catchEscape: enableBut.contextmenu.visible || disableBut.contextmenu.visible ||
+                               enableallBut.contextmenu.visible || catCombo.popup.visible
 
     property string defaultSettings: ""
 
@@ -91,6 +92,7 @@ Item {
                         butrow.checkUncheck(1)
                 }
                 PQButton {
+                    id: disableBut
                     //: As in: "Disable all formats in the seleted category of file types"
                     text: qsTranslate("settingsmanager", "Disable")
                     onClicked:
@@ -116,6 +118,7 @@ Item {
                 }
 
                 PQButton {
+                    id: enableallBut
                     //: As in "Enable every single file format PhotoQt can open in any category"
                     text: qsTranslate("settingsmanager", "Enable everything")
                     onClicked: {
@@ -340,6 +343,9 @@ Item {
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
+        enableBut.contextmenu.close()
+        disableBut.contextmenu.close()
+        enableallBut.contextmenu.close()
         catCombo.popup.close()
     }
 

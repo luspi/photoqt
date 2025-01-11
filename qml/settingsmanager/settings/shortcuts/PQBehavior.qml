@@ -52,7 +52,8 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: dblclk.editMode || hidetimeout.editMode
+    property bool catchEscape: dblclk.contextMenuOpen || dblclk.editMode ||
+                               hidetimeout.contextMenuOpen || hidetimeout.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -208,7 +209,9 @@ Flickable {
         load()
 
     function handleEscape() {
+        dblclk.closeContextMenus()
         dblclk.acceptValue()
+        hidetimeout.closeContextMenus()
         hidetimeout.acceptValue()
     }
 

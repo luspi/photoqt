@@ -54,8 +54,9 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: langcombo.popup.visible || accentcolor.popup.visible ||
-                               butsize.editMode || autohide_timeout.editMode || notif_dist.editMode
+    property bool catchEscape: testbut.contextmenu.visible || langcombo.popup.visible || accentcolor.popup.visible ||
+                               butsize.contextMenuOpen || butsize.editMode || autohide_timeout.contextMenuOpen ||
+                               autohide_timeout.editMode || notif_dist.contextMenuOpen || notif_dist.editMode
 
     property var languages: {
         "en" : "English",
@@ -838,12 +839,18 @@ Flickable {
 
     function handleEscape() {
 
+        testbut.contextmenu.close()
+
         langcombo.popup.close()
         accentcolor.popup.close()
 
         butsize.acceptValue()
         autohide_timeout.acceptValue()
         notif_dist.acceptValue()
+
+        butsize.closeContextMenus()
+        autohide_timeout.closeContextMenus()
+        notif_dist.closeContextMenus()
 
     }
 

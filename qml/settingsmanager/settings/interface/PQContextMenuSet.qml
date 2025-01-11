@@ -58,6 +58,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: false
+    signal closeAllMenus()
 
     property var defaultentries: ({})
     property list<var> entries: []
@@ -137,6 +138,16 @@ Flickable {
                                     setting_top.entriesChanged()
 
                                 }
+
+                                contextmenu.onVisibleChanged: {
+                                    setting_top.catchEscape = visible
+                                }
+                                Connections {
+                                    target: setting_top
+                                    function onCloseAllMenus() {
+                                        appicon.contextmenu.close()
+                                    }
+                                }
                             }
                             PQLineEdit {
                                 id: entryname
@@ -197,6 +208,16 @@ Flickable {
 
                                         setting_top.entriesChanged()
 
+                                    }
+
+                                    contextmenu.onVisibleChanged: {
+                                        setting_top.catchEscape = visible
+                                    }
+                                    Connections {
+                                        target: setting_top
+                                        function onCloseAllMenus() {
+                                            selectexe.contextmenu.close()
+                                        }
                                     }
                                 }
                             }
@@ -265,13 +286,24 @@ Flickable {
                 },
 
                 PQButton {
+                    id: addnewbut
                     //: The entry here is a custom entry in the context menu
                     text: qsTranslate("settingsmanager", "Add new entry")
                     forceWidth: Math.min(parent.width, 500)
                     font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                     onClicked: setting_top.addNewEntry()
+                    contextmenu.onVisibleChanged: {
+                        setting_top.catchEscape = visible
+                    }
+                    Connections {
+                        target: setting_top
+                        function onCloseAllMenus() {
+                            addnewbut.contextmenu.close()
+                        }
+                    }
                 },
                 PQButton {
+                    id: addsysbut
                     forceWidth: Math.min(parent.width, 500)
                     visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
                     //: The system applications here refers to any image related applications that can be found automatically on your system
@@ -296,6 +328,15 @@ Flickable {
 
                         }
                         setting_top.entriesChanged()
+                    }
+                    contextmenu.onVisibleChanged: {
+                        setting_top.catchEscape = visible
+                    }
+                    Connections {
+                        target: setting_top
+                        function onCloseAllMenus() {
+                            addsysbut.contextmenu.close()
+                        }
                     }
                 }
 
@@ -400,7 +441,7 @@ Flickable {
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
-        catchEscape = false
+        closeAllMenus()
     }
 
     function load() {

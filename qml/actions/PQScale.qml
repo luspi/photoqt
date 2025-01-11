@@ -60,6 +60,9 @@ PQTemplateFullscreen {
     property bool keepAspectRatio: true
     property real aspectRatio: 1.0
 
+    property list<PQButton> allbuttons: [but025, but050, but075, but100, but150]
+    property list<PQSliderSpinBox> allsliders: [spin_w, spin_h]
+
     content: [
 
         PQTextL {
@@ -198,6 +201,7 @@ PQTemplateFullscreen {
             spacing: 5
 
             PQButton {
+                id: but025
                 text: "0.25x"
                 font.pointSize: PQCLook.fontSize // qmllint disable unqualified
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
@@ -209,6 +213,7 @@ PQTemplateFullscreen {
             }
 
             PQButton {
+                id: but050
                 text: "0.5x"
                 font.pointSize: PQCLook.fontSize // qmllint disable unqualified
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
@@ -220,6 +225,7 @@ PQTemplateFullscreen {
             }
 
             PQButton {
+                id: but075
                 text: "0.75x"
                 font.pointSize: PQCLook.fontSize // qmllint disable unqualified
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
@@ -231,6 +237,7 @@ PQTemplateFullscreen {
             }
 
             PQButton {
+                id: but100
                 text: "1x"
                 font.pointSize: PQCLook.fontSize // qmllint disable unqualified
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
@@ -242,6 +249,7 @@ PQTemplateFullscreen {
             }
 
             PQButton {
+                id: but150
                 text: "1.5x"
                 font.pointSize: PQCLook.fontSize // qmllint disable unqualified
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
@@ -328,6 +336,9 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(scale_top.closeAnyMenu())
+                        return
+
                     if(param[0] === Qt.Key_Escape) {
 
                         if(spin_w.editMode || spin_h.editMode)
@@ -364,6 +375,22 @@ PQTemplateFullscreen {
 
         }
 
+    }
+
+    function closeAnyMenu() {
+        for(var i in scale_top.allbuttons) {
+            if(scale_top.allbuttons[i].contextmenu.visible) {
+                scale_top.allbuttons[i].contextmenu.close()
+                return true
+            }
+        }
+        for(var j in scale_top.allsliders) {
+            if(scale_top.allsliders[j].contextMenuOpen) {
+                scale_top.allsliders[j].closeContextMenus()
+                return true
+            }
+        }
+        return false
     }
 
     function closePopupMenuSpin() {
@@ -428,6 +455,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closeAnyMenu()
         closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed)

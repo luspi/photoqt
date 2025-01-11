@@ -55,7 +55,8 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: spacing_slider.editMode || highlight_liftup_slider.editMode
+    property bool catchEscape: spacing_slider.contextMenuOpen || spacing_slider.editMode ||
+                               highlight_liftup_slider.contextMenuOpen || highlight_liftup_slider.editMode
 
     Column {
 
@@ -242,7 +243,9 @@ Flickable {
         load()
 
     function handleEscape() {
+        spacing_slider.closeContextMenus()
         spacing_slider.acceptValue()
+        highlight_liftup_slider.closeContextMenus()
         highlight_liftup_slider.acceptValue()
     }
 

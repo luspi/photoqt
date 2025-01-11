@@ -40,6 +40,9 @@ Rectangle {
     property alias tooltip: mousearea.text
     property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
     property real iconScale: 0.75
+    property bool enableContextMenu: true
+
+    property alias contextmenu: menu
 
     color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 150 } }
@@ -66,6 +69,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.tooltip
+        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
         onPressed: {
             if(control.checkable)
                 control.checked = !control.checked
@@ -76,8 +80,30 @@ Rectangle {
             if(!control.checkable)
                 control.down = false
         }
-        onClicked:
-            control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+        onClicked: (mouse) => {
+            if(control.enableContextMenu && mouse.button == Qt.RightButton) {
+                menu.origPoint = Qt.point(mousearea.mouseX, mousearea.mouseY)
+                menu.popup()
+            } else
+                control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+        }
+    }
+
+    PQMenu {
+        id: menu
+        property point origPoint
+        PQMenuItem {
+            visible: text!=""
+            enabled: false
+            font.italic: true
+            text: mousearea.text
+        }
+        PQMenuItem {
+            text: qsTranslate("buttongeneric", "Activate button")
+            onTriggered: {
+                control.clicked(menu.origPoint)
+            }
+        }
     }
 
 }

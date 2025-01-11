@@ -59,6 +59,11 @@ PQTemplateFullscreen {
 
     property list<string> musicfiles: []
 
+    property bool delegButContextMenuOpen: false
+    signal closeDelegButContextMenus()
+
+    property list<PQComboBox> allcombos: [animtype_combo, music_volumevideos]
+
     content: [
 
         Row {
@@ -486,6 +491,19 @@ PQTemplateFullscreen {
                                     property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
                                     property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
 
+                                    property bool delegButContextmenuOpen: delegbutup.contextmenu.visible||delegbutdown.contextmenu.visible||delegbutdel.contextmenu.visible
+                                    onDelegButContextmenuOpenChanged: {
+                                        slideshowsettings_top.delegButContextMenuOpen = musicdeleg.delegButContextmenuOpen
+                                    }
+                                    Connections {
+                                        target: slideshowsettings_top
+                                        function onCloseDelegButContextMenus() {
+                                            delegbutup.contextmenu.close()
+                                            delegbutdown.contextmenu.close()
+                                            delegbutdel.contextmenu.close()
+                                        }
+                                    }
+
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
                                     color: PQCLook.baseColorHighlight // qmllint disable unqualified
@@ -514,6 +532,7 @@ PQTemplateFullscreen {
                                         Behavior on width { NumberAnimation { duration: 200 } }
                                         height: 40
                                         PQButtonIcon {
+                                            id: delegbutup
                                             width: 40
                                             height: 40
                                             iconScale: 0.5
@@ -528,6 +547,7 @@ PQTemplateFullscreen {
                                             }
                                         }
                                         PQButtonIcon {
+                                            id: delegbutdown
                                             width: 40
                                             height: 40
                                             rotation: 180
@@ -543,6 +563,7 @@ PQTemplateFullscreen {
                                             }
                                         }
                                         PQButtonIcon {
+                                            id: delegbutdel
                                             width: 40
                                             height: 40
                                             iconScale: 0.35
@@ -610,6 +631,10 @@ PQTemplateFullscreen {
             } else if(slideshowsettings_top.visible) {
 
                 if(what === "keyEvent") {
+
+                    if(slideshowsettings_top.closeAnyMenu())
+                        return
+
                     if(param[0] === Qt.Key_Escape) {
 
                         if(animtype_combo.popup.visible || music_volumevideos.popup.visible || interval_slider.editMode)
@@ -623,6 +648,26 @@ PQTemplateFullscreen {
 
             }
         }
+    }
+
+    function closeAnyMenu() {
+        for(var j in allcombos) {
+            if(allcombos[j].popup.visible) {
+                allcombos[j].popup.close()
+                return true
+            }
+        }
+        if(delegButContextMenuOpen) {
+            closeDelegButContextMenus()
+            return true
+        } else if(interval_slider.contextMenuOpen) {
+            interval_slider.closeContextMenus()
+            return true
+        } else if(contextMenuOpen) {
+            closeContextMenus()
+            return true
+        }
+        return false
     }
 
     function closePopupMenuSpin() {
@@ -669,6 +714,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closeAnyMenu()
         closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed)

@@ -164,6 +164,10 @@ Item {
 
                 loader.passOn("keyEvent", [key, modifiers])
 
+            } else if(image.componentComboOpen) {
+
+                image.closeAllMenus()
+
             } else {
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")

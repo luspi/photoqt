@@ -174,6 +174,11 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(rename_top.contextMenuOpen) {
+                        rename_top.closeContextMenus()
+                        return
+                    }
+
                     if(param[0] === Qt.Key_Escape)
                         rename_top.hide()
 
@@ -229,6 +234,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(rename_top.contextMenuOpen)
+            rename_top.closeContextMenus()
+
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
         rename_top.opacity = 0
         if(popoutWindowUsed)

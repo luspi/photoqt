@@ -58,6 +58,9 @@ PQTemplateFullscreen {
     signal loadData()
     signal saveData()
 
+    property list<PQButton> allbuttons: [workingcancel]
+    property list<PQComboBox> allcombos: [qual2, qual3, qual4]
+
     content: [
 
         Row {
@@ -722,21 +725,24 @@ PQTemplateFullscreen {
 
                 if(working.visible) {
 
-                    if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
-                        workingcancel.clicked()
+                    if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+                        if(workingcancel.contextmenu.visible)
+                            workingcancel.contextmenu.close()
+                        else
+                            workingcancel.clicked()
+                    }
 
                 } else {
 
                     if(what === "keyEvent") {
 
-                        if(param[0] === Qt.Key_Escape) {
+                        if(advancedsort_top.closeAnyMenu())
+                            return
 
-                            if(qual2.popup.visible || qual3.popup.visible || qual4.popup.visible)
-                                advancedsort_top.closePopupMenuSpin()
-                            else
-                                advancedsort_top.hide()
+                        if(param[0] === Qt.Key_Escape)
+                            advancedsort_top.hide()
 
-                        } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
+                        else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
                             advancedsort_top.doSorting()
 
                         else if(param[0] === Qt.Key_Up || param[0] === Qt.Key_Left)
@@ -764,10 +770,28 @@ PQTemplateFullscreen {
 
     }
 
-    function closePopupMenuSpin() {
-        qual2.popup.close()
-        qual3.popup.close()
-        qual4.popup.close()
+    function closeAnyMenu() {
+
+        for(var i in allbuttons) {
+            if(allbuttons[i].contextmenu.visible) {
+                allbuttons[i].contextmenu.close()
+                return true
+            }
+        }
+        for(var j in allcombos) {
+            if(allcombos[j].popup.visible) {
+                allcombos[j].popup.close()
+                return true
+            }
+        }
+
+        if(advancedsort_top.contextMenuOpen) {
+            advancedsort_top.closeContextMenus()
+            return true
+        }
+
+        return false
+
     }
 
     function doSorting() {
@@ -795,7 +819,7 @@ PQTemplateFullscreen {
 
     function hide() {
 
-        closePopupMenuSpin()
+        closeAnyMenu()
         opacity = 0
         if(popoutWindowUsed)
             advancedsort_popout.visible = false // qmllint disable unqualified

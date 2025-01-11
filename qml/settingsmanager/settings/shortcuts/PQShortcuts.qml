@@ -49,7 +49,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: filter_category.popup.visible
+    property bool catchEscape: addnewgrp.contextmenu.visible || listview.delegContextMenu || filter_category.popup.visible
 
     property var actions: {
 
@@ -257,6 +257,7 @@ Flickable {
             }
 
             PQButton {
+                id: addnewgrp
                 text: qsTranslate("settingsmanager", "Add new shortcuts group")
                 onClicked: {
                     setting_top.entries.unshift([[],[],1,0,0])
@@ -335,6 +336,9 @@ Flickable {
             model: setting_top.numEntries
 
             ScrollBar.vertical: PQVerticalScrollBar {}
+
+            property bool delegContextMenu: false
+            signal closeMenus()
 
             delegate: Rectangle {
 
@@ -633,6 +637,9 @@ Flickable {
                                         setting_top.entries[dat[1]][0].splice(setting_top.entries[dat[1]][0].indexOf(dat[2]), 1)
                                         setting_top.entriesChanged()
                                         exstre.opacity = 0
+                                    }
+                                    contextmenu.onVisibleChanged: {
+                                        listview.delegContextMenu = visible
                                     }
                                 }
 
@@ -1170,6 +1177,8 @@ Flickable {
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
+        addnewgrp.contextmenu.close()
+        listview.closeMenus()
         filter_category.popup.close()
     }
 

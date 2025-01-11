@@ -58,7 +58,8 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: thumb_size.editMode || label_fontsize.editMode
+    property bool catchEscape: thumb_size.contextMenuOpen || thumb_size.editMode ||
+                               label_fontsize.contextMenuOpen || label_fontsize.editMode
 
     Column {
 

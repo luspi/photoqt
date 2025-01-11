@@ -66,6 +66,12 @@ Item {
 
             } else if(error.visible) {
                 if(what === "keyEvent") {
+
+                    if(errorbutton.contextmenu.visible) {
+                        errorbutton.contextmenu.close()
+                        return
+                    }
+
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
                         loader.elementClosed("filecopy")
@@ -97,6 +103,7 @@ Item {
                 font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
             PQButton {
+                id: errorbutton
                 x: (parent.width-width)/2
                 text: genericStringClose
                 onClicked: {

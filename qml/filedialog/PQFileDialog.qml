@@ -168,6 +168,9 @@ Rectangle {
 
                 if(what === "keyEvent") {
 
+                    if(filedialog_top.closeAnyMenu())
+                        return
+
                     if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
                         return
 
@@ -181,22 +184,6 @@ Rectangle {
                         // modal confirmation popup
                         else if(modal.visible)
                             modal.hide()
-
-                        // context menu
-                        else if(fd_fileview.fileviewContextMenu.visible)
-                            fd_fileview.fileviewContextMenu.close()
-
-                        // placescontext menu
-                        else if(fd_places.context.visible)
-                            fd_places.context.close()
-
-                        // settings menu
-                        else if(fd_breadcrumbs.topSettingsMenu.visible)
-                            fd_breadcrumbs.topSettingsMenu.close()
-
-                        // folder list menu
-                        else if(fd_breadcrumbs.folderListMenuOpen)
-                            fd_breadcrumbs.closeFolderListMenu()
 
                         else if(fd_breadcrumbs.isEditVisible())
                             fd_breadcrumbs.disableAddressEdit()
@@ -306,6 +293,43 @@ Rectangle {
         history.push(PQCFileFolderModel.folderFileDialog)
     }
 
+    function closeAnyMenu() {
+
+        // tweaks:
+        for(var i in fd_tweaks.allbuttons) {
+            if(fd_tweaks.allbuttons[i].contextmenu.visible) {
+                fd_tweaks.allbuttons[i].contextmenu.close()
+                return true;
+            }
+        }
+        for(var j in fd_tweaks.allmenus) {
+            if(fd_tweaks.allmenus[j].visible) {
+                fd_tweaks.allmenus[j].close()
+                return true;
+            }
+        }
+
+        // context menu
+        if(fd_fileview.fileviewContextMenu.visible) {
+            fd_fileview.fileviewContextMenu.close()
+            return true
+        // placescontext menu
+        } else if(fd_places.context.visible) {
+            fd_places.context.close()
+            return true
+        // settings menu
+        } else if(fd_breadcrumbs.topSettingsMenu.visible) {
+            fd_breadcrumbs.topSettingsMenu.close()
+            return true
+        // folder list menu
+        } else if(fd_breadcrumbs.folderListMenuOpen) {
+            fd_breadcrumbs.closeFolderListMenu()
+            return true
+        }
+        return false
+
+    }
+
     function loadNewPath(path) {
         fd_breadcrumbs.disableAddressEdit()
         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path) // qmllint disable unqualified
@@ -344,6 +368,8 @@ Rectangle {
     }
 
     function hideFileDialog() {
+
+        closeAnyMenu()
 
         if(pasteExisting.visible) {
             pasteExisting.hide()

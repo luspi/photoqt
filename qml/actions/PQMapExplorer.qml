@@ -241,17 +241,15 @@ Item {
 
                 if(what === "keyEvent") {
 
+                    if(mapexplorer_top.closeAnyMenu())
+                        return
+
                     if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal) // qmllint disable unqualified
                         return
 
                     if(param[0] === Qt.Key_Escape) {
 
-                        if(map.gpsContextMenuIsOpen)
-                            map.closeMenus()
-                        else if(visibleimages.imageContextMenu.visible)
-                            visibleimages.imageContextMenu.close()
-                        else
-                            mapexplorer_top.hideExplorer()
+                        mapexplorer_top.hideExplorer()
 
                     }
                 }
@@ -267,6 +265,23 @@ Item {
         target: mapcont
         property: "width"
         duration: 200
+    }
+
+    function closeAnyMenu() {
+        if(map.gpsContextMenuIsOpen) {
+            map.closeMenus()
+            return true
+        } else if(visibleimages.imageContextMenu.visible) {
+            visibleimages.imageContextMenu.close()
+            return true
+        } else if(maptweaks.contextmenu.visible) {
+            maptweaks.contextmenu.close()
+            return true
+        } else if(closebutton.contextmenu.visible) {
+            closebutton.contextmenu.close()
+            return true
+        }
+        return false
     }
 
     function resetMap() {
@@ -368,6 +383,8 @@ Item {
     }
 
     function hideExplorer() {
+
+        closeAnyMenu()
 
         if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal) // qmllint disable unqualified
             return

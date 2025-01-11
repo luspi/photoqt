@@ -35,6 +35,9 @@ Button {
     flat: true
     opacity: enabled ? 1 : 0.5
 
+    property bool enableContextMenu: true
+    property alias contextmenu: menu
+
     property alias tooltip: mouseArea.text
 
     //: This is a generic string written on clickable buttons - please keep short!
@@ -84,7 +87,27 @@ Button {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.text
-        onPressed: (mouse) =>  mouse.accepted = false
+        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
+        onPressed: (mouse) => {
+            if(control.enableContextMenu && mouse.button == Qt.RightButton)
+                menu.popup()
+            mouse.accepted = false
+        }
+    }
+
+    PQMenu {
+        id: menu
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            text: control.text
+        }
+        PQMenuItem {
+            text: qsTranslate("buttongeneric", "Activate button")
+            onTriggered: {
+                control.clicked()
+            }
+        }
     }
 
 }

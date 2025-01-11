@@ -137,6 +137,11 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(delete_top.contextMenuOpen) {
+                        delete_top.closeContextMenus()
+                        return
+                    }
+
                     if(param[0] === Qt.Key_Escape)
                         delete_top.hide()
 
@@ -194,6 +199,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(delete_top.contextMenuOpen)
+            delete_top.closeContextMenus()
+
         delete_top.opacity = 0
         if(popoutWindowUsed)
             filedelete_popout.visible = false // qmllint disable unqualified

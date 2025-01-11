@@ -52,7 +52,11 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: interval.editMode || anicombo.popup.visible || music_volumevideos.popup.visible
+    property bool catchEscape: interval.contextMenuOpen || interval.editMode ||
+                               anicombo.popup.visible || music_volumevideos.popup.visible ||
+                               filesbut.contextmenu.visible
+
+    property bool delegButContextMenu: false
 
     Column {
 
@@ -484,6 +488,9 @@ Flickable {
                                                 set_music.musicfiles.splice(musicdeleg.modelData-1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
                                             }
+                                            contextmenu.onVisibleChanged: {
+                                                setting_top.delegButContextMenu = visible
+                                            }
                                         }
                                         PQButtonIcon {
                                             width: 40
@@ -499,6 +506,9 @@ Flickable {
                                                 set_music.musicfiles.splice(musicdeleg.modelData+1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
                                             }
+                                            contextmenu.onVisibleChanged: {
+                                                setting_top.delegButContextMenu = visible
+                                            }
                                         }
                                         PQButtonIcon {
                                             width: 40
@@ -511,6 +521,9 @@ Flickable {
                                             onClicked: {
                                                 set_music.musicfiles.splice(musicdeleg.modelData, 1)
                                                 set_music.musicfilesChanged()
+                                            }
+                                            contextmenu.onVisibleChanged: {
+                                                setting_top.delegButContextMenu = visible
                                             }
                                         }
                                     }
@@ -556,9 +569,11 @@ Flickable {
         load()
 
     function handleEscape() {
+        interval.closeContextMenus()
         interval.acceptValue()
         anicombo.popup.close()
         music_volumevideos.popup.close()
+        filesbut.contextmenu.close()
     }
 
     // do not make this function typed, it will break

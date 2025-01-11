@@ -57,7 +57,9 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: zoomspeed.editMode || minzoom_slider.editMode || maxzoom_slider.editMode || minimapsizelevel.popup.visible
+    property bool catchEscape: zoomspeed.contextMenuOpen || zoomspeed.editMode || minzoom_slider.contextMenuOpen ||
+                               minzoom_slider.editMode || maxzoom_slider.contextMenuOpen || maxzoom_slider.editMode ||
+                               minimapsizelevel.popup.visible
 
     Column {
 
@@ -255,8 +257,11 @@ Flickable {
         load()
 
     function handleEscape() {
+        zoomspeed.closeContextMenus()
         zoomspeed.acceptValue()
+        minzoom_slider.closeContextMenus()
         minzoom_slider.acceptValue()
+        maxzoom_slider.closeContextMenus()
         maxzoom_slider.acceptValue()
         minimapsizelevel.popup.close()
     }

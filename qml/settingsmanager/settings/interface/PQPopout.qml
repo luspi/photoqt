@@ -71,7 +71,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: false
+    property bool catchEscape: butselall.contextmenu.visible || butselnone.contextmenu.visible || butselinv.contextmenu.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -318,6 +318,7 @@ Flickable {
                             y: (parent.height-height)/2
                             spacing: 5
                             PQButton {
+                                id: butselall
                                 width: (popout_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select all")
@@ -326,6 +327,7 @@ Flickable {
                                     setting_top.selectAllPopouts()
                             }
                             PQButton {
+                                id: butselnone
                                 width: (popout_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select none")
@@ -334,6 +336,7 @@ Flickable {
                                     setting_top.selectNoPopouts()
                             }
                             PQButton {
+                                id: butselinv
                                 width: (popout_buts.width-20)/3
                                 //: written on button, referring to inverting the selected options
                                 text: qsTranslate("settingsmanager", "Invert")
@@ -432,7 +435,9 @@ Flickable {
         load()
 
     function handleEscape() {
-        catchEscape = false
+        butselall.contextmenu.close()
+        butselnone.contextmenu.close()
+        butselinv.contextmenu.close()
     }
 
     function checkDefault() {

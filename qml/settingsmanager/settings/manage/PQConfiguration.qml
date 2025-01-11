@@ -47,7 +47,8 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: false
+    property bool catchEscape: butresetSet.contextmenu.visible || butresetSh.contextmenu.visible || butresetFf.contextmenu.visible ||
+                               butcancelaction.contextmenu.visible || butexport.contextmenu.visible || butimport.contextmenu.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -71,6 +72,7 @@ Flickable {
             content: [
 
                 PQButton {
+                    id: butresetSet
                     text: qsTranslate("settingsmanager", "reset settings")
                     width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
@@ -81,6 +83,7 @@ Flickable {
                 },
 
                 PQButton {
+                    id: butresetSh
                     text: qsTranslate("settingsmanager", "reset shortcuts")
                     width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
@@ -91,6 +94,7 @@ Flickable {
                 },
 
                 PQButton {
+                    id: butresetFf
                     text: qsTranslate("settingsmanager", "reset enabled file formats")
                     width: Math.min(400, set_reset.rightcol)
                     enabled: cancel.height===0
@@ -132,6 +136,7 @@ Flickable {
                         }
 
                         PQButton {
+                            id: butcancelaction
                             text: genericStringCancel
                             onClicked: cancel.hide()
                         }
@@ -199,6 +204,7 @@ Flickable {
             content: [
 
                 PQButton {
+                    id: butexport
                     text: qsTranslate("settingsmanager", "export configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked:
@@ -206,6 +212,7 @@ Flickable {
                 },
 
                 PQButton {
+                    id: butimport
                     text: qsTranslate("settingsmanager", "import configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked: {
@@ -230,7 +237,12 @@ Flickable {
         load()
 
     function handleEscape() {
-        catchEscape = false
+        butresetSet.contextmenu.close()
+        butresetSh.contextmenu.close()
+        butresetFf.contextmenu.close()
+        butcancelaction.contextmenu.close()
+        butexport.contextmenu.close()
+        butimport.contextmenu.close()
     }
 
     function checkDefault() {}

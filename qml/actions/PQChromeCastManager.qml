@@ -200,6 +200,12 @@ PQTemplateFullscreen {
             } else if(chromecastmanager_top.opacity > 0) {
 
                 if(what === "keyEvent") {
+
+                    if(chromecastmanager_top.contextMenuOpen) {
+                        chromecastmanager_top.closeContextMenus()
+                        return
+                    }
+
                     if(param[0] === Qt.Key_Escape)
                         chromecastmanager_top.hide()
                     else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return)
@@ -231,6 +237,10 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        if(chromecastmanager_top.contextMenuOpen)
+            chromecastmanager_top.closeContextMenus()
+
         opacity = 0
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = false // qmllint disable unqualified

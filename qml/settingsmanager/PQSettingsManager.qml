@@ -72,6 +72,8 @@ PQTemplateFullscreen {
             hide()
     }
 
+    property list<PQButton> allbuttons: [settingsinfobut, confirmApply, confirmDiscard, confirmCancel]
+
     botLeftContent: [
         Row {
             y: (parent.height-height)/2
@@ -652,6 +654,7 @@ PQTemplateFullscreen {
                 }
 
                 PQButton {
+                    id: settingsinfobut
                     x: (parent.width-width)/2
                     text: genericStringClose
                     onClicked:
@@ -780,6 +783,9 @@ PQTemplateFullscreen {
 
                 if(what === "keyEvent") {
 
+                    if(settingsmanager_top.closeAnyMenu())
+                        return
+
                     if(settingsmanager_top.passShortcutsToDetector) {
                         settingsmanager_top.passOnShortcuts(param[1], param[0])
                         return
@@ -848,6 +854,21 @@ PQTemplateFullscreen {
 
     }
 
+    function closeAnyMenu() {
+        for(var i in allbuttons) {
+            if(allbuttons[i].contextmenu.visible) {
+                allbuttons[i].contextmenu.close()
+                return true
+            }
+        }
+        if(contextMenuOpen) {
+            closeContextMenus()
+            return true
+        }
+
+        return false
+    }
+
     function confirmIfUnsavedChanged(cat: string, index: int) : bool {
 
         if(confirmUnsaved.cat != "")
@@ -883,6 +904,7 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+        closeAnyMenu()
         settingsloader.item.handleEscape() // qmllint disable missing-property
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0

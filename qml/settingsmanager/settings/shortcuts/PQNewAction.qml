@@ -378,6 +378,7 @@ Rectangle {
                     }
 
                     PQButton {
+                        id: saveext
                         text: qsTranslate("settingsmanager", "Save external action")
                         onClicked: {
                             var act = ext_exe.text + ":/:/:" + ext_flags.text + ":/:/:" + (ext_quit.checked ? 1 : 0)
@@ -427,6 +428,14 @@ Rectangle {
         function onPassOnShortcuts(mods: string, keys: int) {
 
             if(!newaction_top.visible) return
+
+            if(exebut.contextmenu.visible) {
+                exebut.contextmenu.close()
+                return
+            } else if(saveext.contextmenu.visible) {
+                saveext.contextmenu.close()
+                return
+            }
 
             if(keys === Qt.Key_Escape)
                 newaction_top.hide()

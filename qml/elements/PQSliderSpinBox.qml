@@ -60,6 +60,8 @@ Item {
 
     property bool editMode: false
 
+    property bool contextMenuOpen: txt.contextmenu.visible || acceptbut.contextmenu.visible
+
     onVisibleChanged: {
         if(!visible) {
             PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
@@ -167,6 +169,11 @@ Item {
             }
         }
 
+    }
+
+    function closeContextMenus() {
+        txt.contextmenu.close()
+        acceptbut.contextmenu.close()
     }
 
     function saveDefault() {

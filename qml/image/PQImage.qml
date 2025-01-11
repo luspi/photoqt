@@ -125,6 +125,9 @@ Item {
     property int bgOffset: 0
     property list<int> bgIndices: []
 
+    property bool componentComboOpen: false
+    signal closeAllMenus()
+
     Repeater {
 
         id: repeaterimage

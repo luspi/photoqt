@@ -57,7 +57,12 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: marginslider.editMode || interp_spin.editMode || cache_slider.editMode || color_defaultcombo.popup.visible
+    property bool catchEscape: marginslider.contextMenuOpen || marginslider.editMode ||
+                               interp_spin.contextMenuOpen || interp_spin.editMode ||
+                               cache_slider.contextMenuOpen || cache_slider.editMode ||
+                               color_defaultcombo.popup.visible || butselall.contextmenu.visible ||
+                               butselnone.contextmenu.visible || butselinv.contextmenu.visible ||
+                               butlcms2import.contextmenu.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -556,6 +561,7 @@ Flickable {
                                         y: (parent.height-height)/2
                                         spacing: 5
                                         PQButton {
+                                            id: butselall
                                             width: (color_buts.width-20)/3
                                             //: written on button
                                             text: qsTranslate("settingsmanager", "Select all")
@@ -564,6 +570,7 @@ Flickable {
                                                 setting_top.selectAllColorProfiles()
                                         }
                                         PQButton {
+                                            id: butselnone
                                             width: (color_buts.width-20)/3
                                             //: written on button
                                             text: qsTranslate("settingsmanager", "Select none")
@@ -572,6 +579,7 @@ Flickable {
                                                 setting_top.selectNoColorProfiles()
                                         }
                                         PQButton {
+                                            id: butselinv
                                             width: (color_buts.width-20)/3
                                             //: written on button, referring to inverting the selected options
                                             text: qsTranslate("settingsmanager", "Invert")
@@ -588,6 +596,7 @@ Flickable {
                         }
 
                         PQButton {
+                            id: butlcms2import
                             visible: PQCScriptsConfig.isLCMS2SupportEnabled() // qmllint disable unqualified
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
@@ -611,10 +620,17 @@ Flickable {
         load()
 
     function handleEscape() {
+        marginslider.closeContextMenus()
         marginslider.acceptValue()
+        interp_spin.closeContextMenus()
         interp_spin.acceptValue()
         cache_slider.acceptValue()
+        cache_slider.closeContextMenus()
         color_defaultcombo.popup.close()
+        butselall.contextmenu.close()
+        butselnone.contextmenu.close()
+        butselinv.contextmenu.close()
+        butlcms2import.contextmenu.close()
     }
 
     function checkDefault() {

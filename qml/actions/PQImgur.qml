@@ -66,6 +66,10 @@ PQTemplateFullscreen {
     property string imageURL: ""
     property string imageDeleteHash: ""
 
+    property bool copy3MenuOpen: false
+    property bool copy4MenuOpen: false
+    signal closeMenus()
+
     states: [
         State {
             name: "uploading"
@@ -193,6 +197,7 @@ PQTemplateFullscreen {
                 }
 
                 PQButtonIcon {
+                    id: copy1
                     width: result_access.height
                     height: width
                     source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
@@ -230,6 +235,7 @@ PQTemplateFullscreen {
                 }
 
                 PQButtonIcon {
+                    id: copy2
                     width: result_delete.height
                     height: width
                     source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
@@ -400,8 +406,19 @@ PQTemplateFullscreen {
                                             height: 1
                                         }
                                         PQButtonIcon {
+                                            id: copy3
                                             width: acctxt.height
                                             height: width
+                                            contextmenu.onAboutToShow:
+                                                imgur_top.copy3MenuOpen = true
+                                            contextmenu.onAboutToHide:
+                                                imgur_top.copy3MenuOpen = true
+                                            Connections {
+                                                target: imgur_top
+                                                function onCloseMenus() {
+                                                    copy3.contextmenu.close()
+                                                }
+                                            }
                                             source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard(deleg.curdata[2]) // qmllint disable unqualified
@@ -432,8 +449,19 @@ PQTemplateFullscreen {
                                             height: 1
                                         }
                                         PQButtonIcon {
+                                            id: copy4
                                             width: deltxt.height
                                             height: width
+                                            contextmenu.onAboutToShow:
+                                                imgur_top.copy4MenuOpen = true
+                                            contextmenu.onAboutToHide:
+                                                imgur_top.copy4MenuOpen = true
+                                            Connections {
+                                                target: imgur_top
+                                                function onCloseMenus() {
+                                                    copy4.contextmenu.close()
+                                                }
+                                            }
                                             source: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
                                             onClicked:
                                                 PQCScriptsClipboard.copyTextToClipboard("https://imgur.com/delete/" + deleg.curdata[3]) // qmllint disable unqualified
@@ -454,12 +482,14 @@ PQTemplateFullscreen {
             Row {
                 x: (parent.width-width)/2
                 PQButton {
+                    id: closebutton
                     text: genericStringClose
                     onClicked: {
                         imgurpast.hide()
                     }
                 }
                 PQButton {
+                    id: clearbutton
                     //: Written on button, please keep short. Used as in: clear all entries
                     text: qsTranslate("imgur", "Clear all")
                     onClicked: {
@@ -509,6 +539,10 @@ PQTemplateFullscreen {
             } else if(imgur_top.opacity > 0) {
 
                 if(what === "keyEvent") {
+
+                    if(imgur_top.closeAnyMenu())
+                        return
+
                     if(param[0] === Qt.Key_Escape)
                         imgur_top.hide()
                 }
@@ -607,6 +641,29 @@ PQTemplateFullscreen {
         }
     }
 
+    function closeAnyMenu() {
+        if(copy1.contextmenu.visible) {
+            copy1.contextmenu.close()
+            return true
+        } else if(copy2.contextmenu.visible) {
+            copy2.contextmenu.close()
+            return true
+        } else if(imgur_top.copy3MenuOpen || imgur_top.copy4MenuOpen) {
+            imgur_top.closeMenus()
+            return true
+        } else if(closebutton.contextmenu.visible) {
+            closebutton.contextmenu.close()
+            return true
+        } else if(clearbutton.contextmenu.visible) {
+            clearbutton.contextmenu.close()
+            return true
+        } else if(imgur_top.contextMenuOpen) {
+            imgur_top.closeContextMenus()
+            return true
+        }
+        return false
+    }
+
     function show() {
 
         imgurpast.opacity = 0
@@ -624,6 +681,8 @@ PQTemplateFullscreen {
     }
 
     function hide() {
+
+        closeAnyMenu()
 
         if(imgurpast.visible) {
             imgurpast.hide()

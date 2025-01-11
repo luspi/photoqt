@@ -77,6 +77,8 @@ Rectangle {
 
     property bool noGapsAnywhere: false
 
+    property bool contextMenuOpen: firstbutton.contextmenu.visible || secondbutton.contextmenu.visible || thirdbutton.contextmenu.visible
+
     /////////
 
     // this is set to true/false by the popout window
@@ -284,5 +286,11 @@ Rectangle {
     }
 
     function hide() {}
+
+    function closeContextMenus() {
+        firstbutton.contextmenu.close()
+        secondbutton.contextmenu.close()
+        thirdbutton.contextmenu.close()
+    }
 
 }

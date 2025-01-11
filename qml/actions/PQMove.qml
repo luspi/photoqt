@@ -69,7 +69,9 @@ Item {
 
             } else if(error.visible) {
                 if(what === "keyEvent") {
-                    if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
+                    if(errorbut.contextmenu.visible)
+                        errorbut.contextmenu.close()
+                    else if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
                         loader.elementClosed("filemove")
                     }
@@ -100,6 +102,7 @@ Item {
                 font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
             }
             PQButton {
+                id: errorbut
                 x: (parent.width-width)/2
                 text: genericStringClose
                 onClicked: {

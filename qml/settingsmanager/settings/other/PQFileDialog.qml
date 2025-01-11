@@ -51,7 +51,8 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: padding.editMode || preview_colintspin.editMode || sortcriteria.popup.visible || folderthumb_timeout.popup.visible
+    property bool catchEscape: padding.contextMenuOpen || padding.editMode || preview_colintspin.contextMenuOpen ||
+                               preview_colintspin.editMode || sortcriteria.popup.visible || folderthumb_timeout.popup.visible
 
     Column {
 
@@ -597,7 +598,9 @@ Flickable {
         load()
 
     function handleEscape() {
+        padding.closeContextMenus()
         padding.acceptValue()
+        preview_colintspin.closeContextMenus()
         preview_colintspin.acceptValue()
         sortcriteria.popup.close()
         folderthumb_timeout.popup.close()

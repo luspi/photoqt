@@ -59,7 +59,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: threads.editMode
+    property bool catchEscape: cache_dir_custom.contextmenu.visible || butaddfolder.contextmenu.visible || threads.editMode
 
     Column {
 
@@ -211,7 +211,7 @@ Flickable {
                 },
 
                 PQButton {
-
+                    id: butaddfolder
                     //: Written on a button
                     text: qsTranslate("settingsmanager", "Add folder")
                     onClicked: {
@@ -273,6 +273,8 @@ Flickable {
         PQCNotify.ignoreKeysExceptEsc = false // qmllint disable unqualified
 
     function handleEscape() {
+        cache_dir_custom.contextmenu.close()
+        butaddfolder.contextmenu.close()
         threads.acceptValue()
     }
 

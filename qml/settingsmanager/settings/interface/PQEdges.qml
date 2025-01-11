@@ -56,7 +56,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: themenu.visible || sensitivity.editMode
+    property bool catchEscape: themenu.visible || sensitivity.editMode || sensitivity.contextMenuOpen
 
     property var current: {
         "top": "",
@@ -327,6 +327,7 @@ Flickable {
     function handleEscape() {
         themenu.close()
         sensitivity.acceptValue()
+        sensitivity.closeContextMenus()
     }
 
     function checkDefault() {

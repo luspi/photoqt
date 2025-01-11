@@ -53,7 +53,9 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: fontsize.editMode || border_slider.editMode
+    property bool catchEscape: fontsize.contextMenuOpen || fontsize.editMode || border_slider.contextMenuOpen ||
+                               border_slider.editMode || butselall.contextmenu.visible || butselnone.contextmenu.visible ||
+                               butselinv.contextmenu.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -296,6 +298,7 @@ Flickable {
                             y: (parent.height-height)/2
                             spacing: 5
                             PQButton {
+                                id: butselall
                                 width: (labels_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select all")
@@ -304,6 +307,7 @@ Flickable {
                                     setting_top.selectAllLabels()
                             }
                             PQButton {
+                                id: butselnone
                                 width: (labels_buts.width-20)/3
                                 //: written on button
                                 text: qsTranslate("settingsmanager", "Select none")
@@ -312,6 +316,7 @@ Flickable {
                                     setting_top.selectNoLabels()
                             }
                             PQButton {
+                                id: butselinv
                                 width: (labels_buts.width-20)/3
                                 //: written on button, referring to inverting the selected options
                                 text: qsTranslate("settingsmanager", "Invert")
@@ -584,8 +589,13 @@ Flickable {
         load()
 
     function handleEscape() {
+        fontsize.closeContextMenus()
         fontsize.acceptValue()
+        border_slider.closeContextMenus()
         border_slider.acceptValue()
+        butselall.contextmenu.close()
+        butselnone.contextmenu.close()
+        butselinv.contextmenu.close()
     }
 
     function checkDefault() {

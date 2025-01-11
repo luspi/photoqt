@@ -140,6 +140,19 @@ Item {
 
                     model: image.fileList // qmllint disable unqualified
 
+                    popup.onOpened: {
+                        image_top.componentComboOpen = true // qmllint disable unqualified
+                    }
+                    popup.onClosed: {
+                        image_top.componentComboOpen = false // qmllint disable unqualified
+                    }
+                    Connections {
+                        target: image_top // qmllint disable unqualified
+                        function onCloseAllMenus() {
+                            fileselect.popup.close()
+                        }
+                    }
+
                 }
 
 
