@@ -257,6 +257,13 @@ Item {
             PQMenu {
                 id: editmenu
                 PQMenuItem {
+                    enabled: false
+                    font.italic: true
+                    elide: Text.ElideLeft
+                    text: PQCFileFolderModel.folderFileDialog // qmllint disable unqualified
+                }
+
+                PQMenuItem {
                     text: qsTranslate("filedialog", "Edit location")
                     onTriggered:
                         addressedit.show()
@@ -346,6 +353,12 @@ Item {
                                 }
                                 PQMenu {
                                     id: pathmenu
+                                    PQMenuItem {
+                                        enabled: false
+                                        text: deleg.subdir
+                                        font.italic: true
+                                        elide: Text.ElideLeft
+                                    }
                                     PQMenuItem {
                                         text: qsTranslate("filedialog", "Navigate to this location")
                                         onTriggered: {
@@ -612,6 +625,7 @@ Item {
                     y: 10
                     width: rightitem.height-20
                     height: rightitem.height-20
+                    tooltip: qsTranslate("filedialog", "Click to edit location")
                     source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg") // qmllint disable unqualified
                     onClicked: {
                         if(!addressedit.visible)
