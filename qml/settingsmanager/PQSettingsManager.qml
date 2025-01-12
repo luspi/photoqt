@@ -776,13 +776,13 @@ PQTemplateFullscreen {
 
             } else if(what == "showSettings") {
 
-                if(param == "metadata") {
+                if(param == "metadata")
                     sm_category.loadSpecificCategory("imageview","iv_metadata")
-                    settingsmanager_top.show("imageview","iv_metadata")
-                } else if(param == "thumbnails") {
+                else if(param == "thumbnails")
                     sm_category.loadSpecificCategory("thumbnails","tb_image")
-                    settingsmanager_top.show("thumbnails","tb_image")
-                }
+
+                // we need to call the loader to set all other variables there accordingly
+                loader.show("settingsmanager") // qmllint disable unqualified
 
             } else if(what === "hide") {
 

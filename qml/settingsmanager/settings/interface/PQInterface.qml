@@ -376,7 +376,7 @@ Flickable {
                         clip: true
                         color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
                         border.width: 1
-                        border.color: PQCLook.inverseColor
+                        border.color: PQCLook.inverseColor // qmllint disable unqualified
                         Rectangle {
                             x: (parent.width-width)/2
                             y: (parent.height-height)/2
