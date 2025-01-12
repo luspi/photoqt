@@ -292,6 +292,7 @@ Item {
                                             if(currentSubIndex[0] !== subdeleg.modelData)
                                                 currentSubIndex = [subdeleg.modelData, currentSubIndex[0]]
                                             categories_top.selectedCategories = [deleg.cat, deleg.catitemskeys[subdeleg.modelData]]
+
                                         }
                                     }
 
@@ -323,6 +324,14 @@ Item {
             onTextChanged:
                 categories_top.filterSettings(filtertxt.text.toLowerCase())
         }
+
+    }
+
+    function loadSpecificCategory(cat: string, subcat: string) {
+
+        currentMainIndex = [categoryKeys.indexOf(cat), currentMainIndex[0]]
+        currentSubIndex = [subCategoryKeys[cat].indexOf(subcat), currentSubIndex[0]]
+        categories_top.selectedCategories = [cat, subcat]
 
     }
 

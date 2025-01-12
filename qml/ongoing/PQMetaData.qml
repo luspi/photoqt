@@ -601,6 +601,16 @@ Rectangle {
                     PQCSettings.metadataGpsMap = "bing.com/maps" // qmllint disable unqualified
             }
 
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                text: qsTranslate("settingsmanager", "Manage in settings manager")
+                onTriggered: {
+                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                    loader.passOn("showSettings", "metadata")
+                }
+            }
+
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:

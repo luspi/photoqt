@@ -426,8 +426,8 @@ Flickable {
                     }
 
                     Component.onDestruction: {
-                        if(!testbut.enabled) {
-                            PQCSettings.interfaceAccentColor = testbut.backupcolor // qmllint disable unqualified
+                        if(!testbut.enabled && settingsmanager_top.opacity > 0) { // qmllint disable unqualified
+                            PQCSettings.interfaceAccentColor = testbut.backupcolor
                         }
                     }
 
@@ -958,6 +958,7 @@ Flickable {
     }
 
     function applyChanges() {
+
         if(langcombo.currentIndex == -1 || langcombo.currentIndex >= availableLanguages.length)
             PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
         else

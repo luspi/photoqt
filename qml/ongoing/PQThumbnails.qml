@@ -732,6 +732,16 @@ Item {
                 }
             }
 
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                text: qsTranslate("settingsmanager", "Manage in settings manager")
+                onTriggered: {
+                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                    loader.passOn("showSettings", "thumbnails")
+                }
+            }
+
             onAboutToHide:
                 recordAsClosed.restart()
 

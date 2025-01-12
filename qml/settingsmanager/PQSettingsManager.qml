@@ -774,6 +774,16 @@ PQTemplateFullscreen {
                 if(param === settingsmanager_top.thisis)
                     settingsmanager_top.show()
 
+            } else if(what == "showSettings") {
+
+                if(param == "metadata") {
+                    sm_category.loadSpecificCategory("imageview","iv_metadata")
+                    settingsmanager_top.show("imageview","iv_metadata")
+                } else if(param == "thumbnails") {
+                    sm_category.loadSpecificCategory("thumbnails","tb_image")
+                    settingsmanager_top.show("thumbnails","tb_image")
+                }
+
             } else if(what === "hide") {
 
                 if(param === settingsmanager_top.thisis)
