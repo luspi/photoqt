@@ -54,8 +54,8 @@ Rectangle {
 
     property int parentWidth
     property int parentHeight
-    width: Math.max(400, PQCSettings.mainmenuElementWidth) // qmllint disable unqualified
-    height: access_toplevel.height-2*gap
+    width: Math.max(400, PQCSettings.mainmenuElementSize.width) // qmllint disable unqualified
+    height: Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) // qmllint disable unqualified
 
     property bool setVisible: false
     property var visiblePos: [0,0]
@@ -142,9 +142,21 @@ Rectangle {
 
     property int normalEntryHeight: 20
 
+
     MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.RightButton
+        id: dragmouse
+        width: parent.width
+        height: 20
+        hoverEnabled: true
+        cursorShape: Qt.SizeAllCursor
+        acceptedButtons: Qt.RightButton|Qt.LeftButton
+        onWheel: (wheel) =>{
+            wheel.accepted = true
+        }
+        drag.target: mainmenu_top
+        drag.axis: Drag.YAxis
+        drag.minimumY: 0
+        drag.maximumY: toplevel.height-mainmenu_top.height // qmllint disable unqualified
     }
 
     Flickable {
@@ -153,6 +165,7 @@ Rectangle {
 
         anchors.fill: parent
         anchors.margins: 10
+        anchors.topMargin: 20
 
         contentHeight: flickable_col.height
         contentWidth: flickable_col.width
@@ -830,6 +843,32 @@ Rectangle {
 
     }
 
+    // drag vertically
+    MouseArea {
+        y: (parent.height-height)
+        width: parent.width
+        height: 10
+        cursorShape: Qt.SizeVerCursor
+
+        property int clickStart: -1
+        property int origHeight: PQCSettings.mainmenuElementSize.height // qmllint disable unqualified
+        onPressed: (mouse) => {
+            clickStart = mouse.y
+        }
+        onReleased:
+            clickStart = -1
+
+        onPositionChanged: (mouse) => {
+            if(clickStart == -1)
+                return
+            var diff = mouse.y-clickStart
+            PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
+
+        }
+
+    }
+
+    // drag from left to right
     MouseArea {
         x: (parent.width-width)
         width: 10
@@ -838,7 +877,7 @@ Rectangle {
         enabled: parent.state==="left"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementWidth // qmllint disable unqualified
+        property int origWidth: PQCSettings.mainmenuElementSize.width // qmllint disable unqualified
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -849,7 +888,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.mainmenuElementWidth = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
@@ -864,7 +903,7 @@ Rectangle {
         enabled: parent.state==="right"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementWidth // qmllint disable unqualified
+        property int origWidth: PQCSettings.mainmenuElementSize.width // qmllint disable unqualified
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -875,7 +914,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.mainmenuElementWidth = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
