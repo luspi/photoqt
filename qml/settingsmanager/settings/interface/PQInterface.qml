@@ -363,6 +363,7 @@ Flickable {
 
                 Item {
 
+                    width: accentcustom.width
                     height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : accentcustom.height
                     Behavior on height { NumberAnimation { duration: 200 } }
 
@@ -375,7 +376,7 @@ Flickable {
                         clip: true
                         color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
                         border.width: 1
-                        border.color: "black"
+                        border.color: PQCLook.inverseColor
                         Rectangle {
                             x: (parent.width-width)/2
                             y: (parent.height-height)/2
