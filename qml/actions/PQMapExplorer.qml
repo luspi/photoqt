@@ -390,7 +390,7 @@ Item {
             return
 
         opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && mapexplorer_window.visible)
             mapexplorer_window.visible = false
         else
             loader.elementClosed("mapexplorer")

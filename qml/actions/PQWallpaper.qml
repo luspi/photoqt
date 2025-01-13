@@ -313,7 +313,7 @@ PQTemplateFullscreen {
             wallpaper_top.closeContextMenus()
         xfce.combobox.popup.close()
         wallpaper_top.opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && wallpaper_popout.visible)
             wallpaper_popout.visible = false // qmllint disable unqualified
         else
             loader.elementClosed(thisis)

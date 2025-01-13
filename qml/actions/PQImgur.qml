@@ -691,7 +691,7 @@ PQTemplateFullscreen {
 
         PQCScriptsShareImgur.abort() // qmllint disable unqualified
         opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && imgur_popout.visible)
             imgur_popout.visible = false
         else
             loader.elementClosed("imgur")

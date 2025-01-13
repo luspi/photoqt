@@ -717,7 +717,7 @@ PQTemplateFullscreen {
         closeAnyMenu()
         closePopupMenuSpin()
         opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && slideshowsetup_popout.visible)
             slideshowsetup_popout.visible = false // qmllint disable unqualified
         else
             loader.elementClosed(thisis)

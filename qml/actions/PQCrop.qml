@@ -427,7 +427,7 @@ PQTemplateFullscreen {
             crop_top.closeContextMenus()
 
         opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && crop_popout.visible)
             crop_popout.visible = false // qmllint disable unqualified
         else
             loader.elementClosed(thisis)

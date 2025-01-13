@@ -204,7 +204,7 @@ PQTemplateFullscreen {
             delete_top.closeContextMenus()
 
         delete_top.opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && filedelete_popout.visible)
             filedelete_popout.visible = false // qmllint disable unqualified
         else
             loader.elementClosed(thisis)

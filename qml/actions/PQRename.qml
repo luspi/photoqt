@@ -240,7 +240,7 @@ PQTemplateFullscreen {
 
         PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
         rename_top.opacity = 0
-        if(popoutWindowUsed)
+        if(popoutWindowUsed && filerename_popout.visible)
             filerename_popout.visible = false
         else
             loader.elementClosed(thisis)
