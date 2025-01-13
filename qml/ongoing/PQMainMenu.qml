@@ -55,7 +55,9 @@ Rectangle {
     property int parentWidth
     property int parentHeight
     width: Math.max(400, PQCSettings.mainmenuElementSize.width) // qmllint disable unqualified
-    height: Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) // qmllint disable unqualified
+    height: PQCSettings.mainmenuElementHeightDynamic ? // qmllint disable unqualified
+                access_toplevel.height-2*gap :
+                Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height)
 
     property bool setVisible: false
     property var visiblePos: [0,0]
@@ -131,8 +133,13 @@ Rectangle {
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
         onWheel: (wheel) =>{
             wheel.accepted = true
+        }
+        onClicked: (mouse) => {
+            if(mouse.button == Qt.RightButton)
+                menu.item.popup() // qmllint disable missing-property
         }
     }
 
@@ -843,6 +850,57 @@ Rectangle {
 
     }
 
+    Loader {
+
+        id: menu
+        asynchronous: true
+
+        sourceComponent:
+        PQMenu {
+
+            id: menudeleg
+
+            PQMenuItem {
+                enabled: false
+                font.italic: true
+                moveToRightABit: true
+                text: qsTranslate("MainMenu", "Main menu")
+            }
+
+            PQMenuItem {
+                checkable: true
+                checked: PQCSettings.mainmenuElementHeightDynamic // qmllint disable unqualified
+                text: qsTranslate("MainMenu", "Adjust height dynamically")
+                onCheckedChanged: {
+                    if(checked) {
+                        mainmenu_top.y = Qt.binding(function() { return setVisible ? visiblePos[1] : invisiblePos[1] })
+                        mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap })
+                        PQCSettings.mainmenuElementHeightDynamic = true // qmllint disable unqualified
+                    } else {
+                        mainmenu_top.y = mainmenu_top.y
+                        mainmenu_top.height = mainmenu_top.height
+                        PQCSettings.mainmenuElementHeightDynamic = false // qmllint disable unqualified
+                    }
+                    checked = Qt.binding(function() { return PQCSettings.mainmenuElementHeightDynamic })
+                }
+            }
+
+            PQMenuItem {
+                text: qsTranslate("MainMenu", "Reset size to default")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                onTriggered: {
+                    PQCScriptsConfig.setDefaultSettingValueFor("mainmenuElementSize") // qmllint disable unqualified
+                    mainmenu_top.y = Qt.binding(function() { return setVisible ? visiblePos[1] : invisiblePos[1] })
+                    mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
+                    mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap })
+                    PQCSettings.mainmenuElementHeightDynamic = true
+                }
+            }
+
+        }
+
+    }
+
     // drag vertically
     MouseArea {
         y: (parent.height-height)
@@ -863,7 +921,8 @@ Rectangle {
                 return
             var diff = mouse.y-clickStart
             PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
-
+            mainmenu_top.height = Qt.binding(function() { return Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) } )
+            PQCSettings.mainmenuElementHeightDynamic = false
         }
 
     }
@@ -877,7 +936,7 @@ Rectangle {
         enabled: parent.state==="left"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementSize.width // qmllint disable unqualified
+        property int origWidth: mainmenu_top.width
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -888,8 +947,9 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
+            mainmenu_top.width = mainmenu_top.width
             PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
-
+            mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
     }
@@ -903,7 +963,7 @@ Rectangle {
         enabled: parent.state==="right"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.mainmenuElementSize.width // qmllint disable unqualified
+        property int origWidth: mainmenu_top.width
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -914,8 +974,9 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
+            mainmenu_top.width = mainmenu_top.width
             PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
-
+            mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
     }

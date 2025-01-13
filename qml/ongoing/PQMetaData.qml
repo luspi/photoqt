@@ -32,6 +32,7 @@ import PQCScriptsMetaData
 import PQCMetaData
 import PQCWindowGeometry
 import PQCScriptsClipboard
+import PQCScriptsConfig
 
 import "../elements"
 import "../"
@@ -42,8 +43,8 @@ Rectangle {
 
     property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
-    x: setVisible ? visiblePos[0] : invisiblePos[0]
-    y: setVisible ? visiblePos[1] : invisiblePos[1]
+    x: (setVisible ? visiblePos[0] : invisiblePos[0])
+    y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) // qmllint disable unqualified
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
 
     onYChanged: {
@@ -66,7 +67,10 @@ Rectangle {
     property int parentWidth
     property int parentHeight
     width: Math.max(300, PQCSettings.metadataElementSize.width) // qmllint disable unqualified
-    height: Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height) // qmllint disable unqualified
+    // height:  Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height) // qmllint disable unqualified
+    height: PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
+                access_toplevel.height-2*gap-statusinfoOffset :
+                Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height)
 
     color: PQCLook.transColor // qmllint disable unqualified
 
@@ -107,6 +111,7 @@ Rectangle {
                              "disabled" ))
 
     property int gap: 40
+    property int statusinfoOffset: statusinfo.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
 
     // the four states corresponding to screen edges
     states: [
@@ -114,8 +119,9 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 metadata_top.visiblePos: [metadata_top.gap,
-                                          Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y))]
-                metadata_top.invisiblePos: [-metadata_top.width, Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y))]
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.invisiblePos: [-metadata_top.width,
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
                 metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,metadata_top.access_toplevel.height)
                 metadata_top.windowSizeOkay: metadata_top.access_toplevel.width>500 && metadata_top.access_toplevel.height>500
             }
@@ -123,8 +129,10 @@ Rectangle {
         State {
             name: "right"
             PropertyChanges {
-                metadata_top.visiblePos: [metadata_top.access_toplevel.width-metadata_top.width-metadata_top.gap, Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y))]
-                metadata_top.invisiblePos: [metadata_top.access_toplevel.width, Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y))]
+                metadata_top.visiblePos: [metadata_top.access_toplevel.width-metadata_top.width-metadata_top.gap,
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.invisiblePos: [metadata_top.access_toplevel.width,
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
                 metadata_top.hotArea: Qt.rect(metadata_top.access_toplevel.width-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,metadata_top.access_toplevel.height)
                 metadata_top.windowSizeOkay: metadata_top.access_toplevel.width>500 && metadata_top.access_toplevel.height>500
             }
@@ -428,8 +436,10 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.y-clickStart
+            metadata_top.height = metadata_top.height
             PQCSettings.metadataElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
-
+            metadata_top.height = Qt.binding(function() { return PQCSettings.metadataElementSize.height })
+            PQCSettings.metadataElementHeightDynamic = false
         }
 
     }
@@ -442,7 +452,7 @@ Rectangle {
         enabled: parent.state=="left"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.metadataElementSize.width // qmllint disable unqualified
+        property int origWidth: metadata_top.width
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -468,7 +478,7 @@ Rectangle {
         enabled: parent.state=="right"
 
         property int clickStart: -1
-        property int origWidth: PQCSettings.metadataElementSize.width // qmllint disable unqualified
+        property int origWidth: metadata_top.width
         onPressed: (mouse) => {
             clickStart = mouse.x
         }
@@ -517,6 +527,15 @@ Rectangle {
 
         sourceComponent:
         PQMenu {
+
+            PQMenuItem {
+                enabled: false
+                font.italic: true
+                moveToRightABit: true
+                text: qsTranslate("metadata", "Metadata")
+            }
+
+            PQMenuSeparator {}
 
             PQMenu {
                 title: "Visible labels"
@@ -570,6 +589,7 @@ Rectangle {
             PQMenuItem {
                 enabled: false
                 moveToRightABit: true
+                font.italic: true
                 text: qsTranslate("settingsmanager", "GPS map")
             }
 
@@ -604,7 +624,40 @@ Rectangle {
             PQMenuSeparator {}
 
             PQMenuItem {
+                checkable: true
+                checked: PQCSettings.metadataElementHeightDynamic // qmllint disable unqualified
+                text: qsTranslate("metadata", "Adjust height dynamically")
+                onCheckedChanged: {
+                    if(checked) {
+                        metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                        metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                        PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
+                    } else {
+                        metadata_top.y = metadata_top.y
+                        metadata_top.height = metadata_top.height
+                        PQCSettings.metadataElementHeightDynamic = false // qmllint disable unqualified
+                    }
+                    checked = Qt.binding(function() { return PQCSettings.metadataElementHeightDynamic })
+                }
+            }
+
+            PQMenuItem {
+                text: qsTranslate("metadata", "Reset size to default")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                onTriggered: {
+                    PQCScriptsConfig.setDefaultSettingValueFor("metadataElementSize") // qmllint disable unqualified
+                    metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                    metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
+                    metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                    PQCSettings.metadataElementHeightDynamic = true
+                }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
                     loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
                     loader.passOn("showSettings", "metadata")

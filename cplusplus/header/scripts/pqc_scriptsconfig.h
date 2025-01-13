@@ -73,6 +73,7 @@ public:
     Q_INVOKABLE QStringList getAvailableTranslations();
     Q_INVOKABLE void updateTranslation();
     Q_INVOKABLE void inform(QString title, QString txt);
+    Q_INVOKABLE void setDefaultSettingValueFor(QString key);
 
 private:
     PQCScriptsConfig();

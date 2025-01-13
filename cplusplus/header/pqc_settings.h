@@ -42,6 +42,7 @@ public:
     void operator=(PQCSettings const&) = delete;
 
     void setDefault(bool ignoreLanguage = false);
+    void setDefaultFor(QString key);
 
     void update(QString key, QVariant value);
 

@@ -601,6 +601,13 @@ Item {
             id: menudeleg
 
             PQMenuItem {
+                enabled: false
+                font.italic: true
+                moveToRightABit: true
+                text: qsTranslate("MainMenu", "Thumbnails")
+            }
+
+            PQMenuItem {
                 visible: thumbnails_top.menuReloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
@@ -736,6 +743,7 @@ Item {
 
             PQMenuItem {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
                     loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
                     loader.passOn("showSettings", "thumbnails")

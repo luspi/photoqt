@@ -322,6 +322,81 @@ void PQCSettings::setDefault(bool ignoreLanguage) {
 
 }
 
+void PQCSettings::setDefaultFor(QString key) {
+
+    qDebug() << "args: key =" << key;
+    qDebug() << "readonly =" << readonly;
+
+    if(readonly) return;
+
+    QString tablename = "";
+    QString settingname = "";
+
+    for(auto &t : std::as_const(dbtables)) {
+
+        if(key.startsWith(t)) {
+            tablename = t;
+            break;
+        }
+
+    }
+
+    // invalid table name
+    if(tablename == "") {
+        qWarning() << "tablename not found";
+        return;
+    }
+
+    settingname = key.last(key.size()-tablename.size());
+
+    QSqlQuery query(db);
+    query.prepare(QString("SELECT `defaultvalue`,`datatype` FROM '%1' WHERE name='%2'").arg(tablename,settingname));
+    if(!query.exec())
+        qWarning() << "SQL Error:" << query.lastError().text();
+
+    if(!query.next()) {
+        qWarning() << "unable to get default value";
+        return;
+    }
+
+    QString value = query.value(0).toString();
+    QString datatype = query.value(1).toString();
+
+
+    if(datatype == "int")
+        this->update(key, value.toInt());
+    else if(datatype == "double")
+        this->update(key, value.toDouble());
+    else if(datatype == "bool")
+        this->update(key, static_cast<bool>(value.toInt()));
+    else if(datatype == "list") {
+        if(value.contains(":://::"))
+            this->update(key, value.split(":://::"));
+        else if(value != "")
+            this->update(key, QStringList() << value);
+        else
+            this->update(key, QStringList());
+    } else if(datatype == "point") {
+        const QStringList parts = value.split(",");
+        if(parts.length() == 2)
+            this->update(key, QPoint(parts[0].toUInt(), parts[1].toInt()));
+        else {
+            qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(key, value);
+            this->update(key, QPoint(0,0));
+        }
+    } else if(datatype == "size") {
+        const QStringList parts = value.split(",");
+        if(parts.length() == 2)
+            this->update(key, QSize(parts[0].toUInt(), parts[1].toInt()));
+        else {
+            qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(key, value);
+            this->update(key, QSize(0,0));
+        }
+    } else if(datatype == "string")
+        this->update(key, value);
+
+}
+
 void PQCSettings::update(QString key, QVariant value) {
     (*this)[key] = value;
     saveChangedValue(key, value);

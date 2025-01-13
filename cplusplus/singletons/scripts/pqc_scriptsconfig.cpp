@@ -652,3 +652,7 @@ bool PQCScriptsConfig::isLCMS2SupportEnabled() {
 #endif
     return false;
 }
+
+void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
+    PQCSettings::get().setDefaultFor(key);
+}
