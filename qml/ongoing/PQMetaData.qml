@@ -32,7 +32,6 @@ import PQCScriptsMetaData
 import PQCMetaData
 import PQCWindowGeometry
 import PQCScriptsClipboard
-import PQCScriptsConfig
 
 import "../elements"
 import "../"
@@ -45,7 +44,21 @@ Rectangle {
 
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
     y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) // qmllint disable unqualified
-    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
+    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+
+    property bool animateResize: false
+    onAnimateResizeChanged: {
+        if(animateResize)
+            resetAnimateResize.restart()
+    }
+
+    Timer {
+        id: resetAnimateResize
+        interval: 250
+        onTriggered: {
+            metadata_top.animateResize = false
+        }
+    }
 
     onYChanged: {
         if(!access_toplevel.startup && dragmouse.drag.active)
@@ -111,7 +124,7 @@ Rectangle {
                              "disabled" ))
 
     property int gap: 40
-    property int statusinfoOffset: statusinfo.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
+    property int statusinfoOffset: statusinfo.item.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
 
     // the four states corresponding to screen edges
     states: [
@@ -628,13 +641,16 @@ Rectangle {
                 checked: PQCSettings.metadataElementHeightDynamic // qmllint disable unqualified
                 text: qsTranslate("metadata", "Adjust height dynamically")
                 onCheckedChanged: {
+                    metadata_top.animateResize = true
                     if(checked) {
-                        metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                        metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
                     } else {
                         metadata_top.y = metadata_top.y
                         metadata_top.height = metadata_top.height
+                        PQCSettings.metadataElementPosition.y = metadata_top.y
+                        PQCSettings.metadataElementSize.height = metadata_top.height
                         PQCSettings.metadataElementHeightDynamic = false // qmllint disable unqualified
                     }
                     checked = Qt.binding(function() { return PQCSettings.metadataElementHeightDynamic })
@@ -646,7 +662,9 @@ Rectangle {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
                 onTriggered: {
                     PQCScriptsConfig.setDefaultSettingValueFor("metadataElementSize") // qmllint disable unqualified
-                    metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                    PQCScriptsConfig.setDefaultSettingValueFor("metadataElementPosition") // qmllint disable unqualified
+                    metadata_top.animateResize = true
+                    metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
                     metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true

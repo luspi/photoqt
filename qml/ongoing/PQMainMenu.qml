@@ -38,8 +38,34 @@ Rectangle {
     id: mainmenu_top
 
     x: setVisible ? visiblePos[0] : invisiblePos[0]
-    y: setVisible ? visiblePos[1] : invisiblePos[1]
-    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1 ? 0 : 200 } }
+    y: (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
+    Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
+
+    property bool animateResize: false
+    onAnimateResizeChanged: {
+        if(animateResize)
+            resetAnimateResize.restart()
+    }
+
+    Timer {
+        id: resetAnimateResize
+        interval: 250
+        onTriggered: {
+            mainmenu_top.animateResize = false
+        }
+    }
+
+    onYChanged: {
+        if(!access_toplevel.startup && dragmouse.drag.active)
+            saveXY.restart()
+    }
+
+    Timer {
+        id: saveXY
+        interval: 200
+        onTriggered:
+            PQCSettings.mainmenuElementPosition = Qt.point(Math.round(mainmenu_top.x),Math.round(mainmenu_top.y)) // qmllint disable unqualified
+    }
 
     color: PQCLook.transColor // qmllint disable unqualified
 
@@ -56,7 +82,7 @@ Rectangle {
     property int parentHeight
     width: Math.max(400, PQCSettings.mainmenuElementSize.width) // qmllint disable unqualified
     height: PQCSettings.mainmenuElementHeightDynamic ? // qmllint disable unqualified
-                access_toplevel.height-2*gap :
+                access_toplevel.height-2*gap-statusinfoOffset :
                 Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height)
 
     property bool setVisible: false
@@ -70,6 +96,11 @@ Rectangle {
     // this is a way to reliably detect whether it is used
     property bool popoutWindowUsed: false
 
+    onSetVisibleChanged: {
+        if(!setVisible)
+            menu.item.dismiss() // qmllint disable missing-property
+    }
+
     property bool isPopout: PQCSettings.interfacePopoutMainMenu||PQCWindowGeometry.mainmenuForcePopout // qmllint disable unqualified
 
     state: isPopout
@@ -81,6 +112,7 @@ Rectangle {
                  : "disabled" ))
 
     property int gap: 40
+    property int statusinfoOffset: statusinfo.item.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
 
     PQBlurBackground { thisis: "mainmenu" }
     PQShadowEffect { masterItem: mainmenu_top }
@@ -90,8 +122,10 @@ Rectangle {
         State {
             name: "left"
             PropertyChanges {
-                mainmenu_top.visiblePos: [mainmenu_top.gap, mainmenu_top.gap]
-                mainmenu_top.invisiblePos: [-mainmenu_top.width, mainmenu_top.gap]
+                mainmenu_top.visiblePos: [mainmenu_top.gap,
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.invisiblePos: [-mainmenu_top.width,
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
                 mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
                 mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
             }
@@ -99,8 +133,10 @@ Rectangle {
         State {
             name: "right"
             PropertyChanges {
-                mainmenu_top.visiblePos: [mainmenu_top.access_toplevel.width-mainmenu_top.width-mainmenu_top.gap, mainmenu_top.gap]
-                mainmenu_top.invisiblePos: [mainmenu_top.access_toplevel.width, mainmenu_top.gap]
+                mainmenu_top.visiblePos: [mainmenu_top.access_toplevel.width-mainmenu_top.width-mainmenu_top.gap,
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.invisiblePos: [mainmenu_top.access_toplevel.width,
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
                 mainmenu_top.hotArea: Qt.rect(mainmenu_top.access_toplevel.width-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
                 mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
             }
@@ -138,7 +174,7 @@ Rectangle {
             wheel.accepted = true
         }
         onClicked: (mouse) => {
-            if(mouse.button == Qt.RightButton)
+            if(mouse.button === Qt.RightButton)
                 menu.item.popup() // qmllint disable missing-property
         }
     }
@@ -872,13 +908,16 @@ Rectangle {
                 checked: PQCSettings.mainmenuElementHeightDynamic // qmllint disable unqualified
                 text: qsTranslate("MainMenu", "Adjust height dynamically")
                 onCheckedChanged: {
+                    mainmenu_top.animateResize = true
                     if(checked) {
-                        mainmenu_top.y = Qt.binding(function() { return setVisible ? visiblePos[1] : invisiblePos[1] })
-                        mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap })
+                        mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                        mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                         PQCSettings.mainmenuElementHeightDynamic = true // qmllint disable unqualified
                     } else {
                         mainmenu_top.y = mainmenu_top.y
                         mainmenu_top.height = mainmenu_top.height
+                        PQCSettings.mainmenuElementPosition.y = mainmenu_top.y
+                        PQCSettings.mainmenuElementSize.height = mainmenu_top.height
                         PQCSettings.mainmenuElementHeightDynamic = false // qmllint disable unqualified
                     }
                     checked = Qt.binding(function() { return PQCSettings.mainmenuElementHeightDynamic })
@@ -890,11 +929,25 @@ Rectangle {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
                 onTriggered: {
                     PQCScriptsConfig.setDefaultSettingValueFor("mainmenuElementSize") // qmllint disable unqualified
-                    mainmenu_top.y = Qt.binding(function() { return setVisible ? visiblePos[1] : invisiblePos[1] })
+                    PQCScriptsConfig.setDefaultSettingValueFor("mainmenuElementPosition") // qmllint disable unqualified
+                    mainmenu_top.animateResize = true
+                    mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
-                    mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap })
+                    mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                     PQCSettings.mainmenuElementHeightDynamic = true
                 }
+            }
+
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCNotify.addToWhichContextMenusOpen("mainmenu") // qmllint disable unqualified
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered:
+                    PQCNotify.removeFromWhichContextMenusOpen("mainmenu") // qmllint disable unqualified
             }
 
         }
@@ -920,6 +973,8 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.y-clickStart
+            mainmenu_top.height = mainmenu_top.height
+            mainmenu_top.y = mainmenu_top.y
             PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
             mainmenu_top.height = Qt.binding(function() { return Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) } )
             PQCSettings.mainmenuElementHeightDynamic = false
@@ -1017,11 +1072,18 @@ Rectangle {
     property int ignoreBottomMotion: PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0 // qmllint disable unqualified
 
     Connections {
+
         target: PQCNotify // qmllint disable unqualified
+
         function onMouseMove(posx : int, posy : int) {
 
             if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
                 mainmenu_top.setVisible = false
+                return
+            }
+
+            if(menu.item != null && menu.item.opened) {
+                mainmenu_top.setVisible = true
                 return
             }
 
@@ -1038,6 +1100,11 @@ Rectangle {
                     mainmenu_top.setVisible = true
             }
         }
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss() // qmllint disable missing-property
+        }
+
     }
 
     Connections {
