@@ -975,8 +975,9 @@ Rectangle {
             var diff = mouse.y-clickStart
             mainmenu_top.height = mainmenu_top.height
             mainmenu_top.y = mainmenu_top.y
-            PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
+            PQCSettings.mainmenuElementSize.height = mainmenu_top.height
             mainmenu_top.height = Qt.binding(function() { return Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) } )
+            PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
             PQCSettings.mainmenuElementHeightDynamic = false
         }
 

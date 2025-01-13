@@ -449,8 +449,11 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.y-clickStart
+            metadata_top.y = metadata_top.y
             metadata_top.height = metadata_top.height
-            PQCSettings.metadataElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
+            PQCSettings.metadataElementPosition.y = metadata_top.y // qmllint disable unqualified
+            PQCSettings.metadataElementSize.height = metadata_top.height
+            PQCSettings.metadataElementSize.height = Math.round(origHeight+diff)
             metadata_top.height = Qt.binding(function() { return PQCSettings.metadataElementSize.height })
             PQCSettings.metadataElementHeightDynamic = false
         }
@@ -643,7 +646,7 @@ Rectangle {
                 onCheckedChanged: {
                     metadata_top.animateResize = true
                     if(checked) {
-                        metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
+                        metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
                     } else {
