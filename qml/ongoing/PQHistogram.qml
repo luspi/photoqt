@@ -305,6 +305,16 @@ PQTemplateFloating {
                 }
             }
 
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                text: qsTranslate("histogram", "Hide histogram")
+                onTriggered: {
+                    PQCSettings.histogramVisible = false // qmllint disable unqualified
+                }
+            }
+
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:
@@ -313,8 +323,10 @@ PQTemplateFloating {
             Timer {
                 id: recordAsClosed
                 interval: 200
-                onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("histogram") // qmllint disable unqualified
+                onTriggered: {
+                    if(!themenu.visible)
+                        PQCNotify.removeFromWhichContextMenusOpen("histogram") // qmllint disable unqualified
+                }
             }
         }
 

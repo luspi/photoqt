@@ -780,6 +780,10 @@ PQTemplateFullscreen {
                     sm_category.loadSpecificCategory("imageview","iv_metadata")
                 else if(param == "thumbnails")
                     sm_category.loadSpecificCategory("thumbnails","tb_image")
+                else if(param == "statusinfo")
+                    sm_category.loadSpecificCategory("interface","if_statusinfo")
+                else if(param == "windowbuttons")
+                    sm_category.loadSpecificCategory("interface","if_interface")
 
                 // we need to call the loader to set all other variables there accordingly
                 loader.show("settingsmanager") // qmllint disable unqualified

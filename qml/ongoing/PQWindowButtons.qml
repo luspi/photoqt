@@ -373,6 +373,15 @@ Item {
                 id: menucomponent
 
                 PQMenuItem {
+                    enabled: false
+                    font.italic: true
+                    moveToRightABit: true
+                    text: qsTranslate("metadata", "Window buttons")
+                }
+
+                PQMenuSeparator {}
+
+                PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
                     checked: PQCSettings.interfaceWindowButtonsShow // qmllint disable unqualified
@@ -396,50 +405,63 @@ Item {
                     onCheckedChanged:
                         PQCSettings.interfaceNavigationTopRight = checked // qmllint disable unqualified
                 }
+
                 PQMenuSeparator {}
-                PQMenuItem {
-                    enabled: false
-                    moveToRightABit: true
-                    text: "visibility:"
+
+                PQMenu {
+
+                    title: "visibility:"
+
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "always")
+                        ButtonGroup.group: grp
+                        checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
+                            }
+                        }
+                    }
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "cursor move")
+                        ButtonGroup.group: grp
+                        checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceWindowButtonsAutoHide = true // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
+                            }
+                        }
+                    }
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "cursor near top edge")
+                        ButtonGroup.group: grp
+                        checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHideTopEdge = true
+                            }
+                        }
+                    }
+
                 }
 
+                PQMenuSeparator {}
+
                 PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "always")
-                    ButtonGroup.group: grp
-                    checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
-                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
-                        }
-                    }
-                }
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "cursor move")
-                    ButtonGroup.group: grp
-                    checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceWindowButtonsAutoHide = true // qmllint disable unqualified
-                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
-                        }
-                    }
-                }
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "cursor near top edge")
-                    ButtonGroup.group: grp
-                    checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
-                            PQCSettings.interfaceWindowButtonsAutoHideTopEdge = true
-                        }
+                    text: qsTranslate("settingsmanager", "Manage in settings manager")
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                    onTriggered: {
+                        loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                        loader.passOn("showSettings", "windowbuttons")
                     }
                 }
 
@@ -451,8 +473,10 @@ Item {
                 Timer {
                     id: recordAsClosed
                     interval: 200
-                    onTriggered:
-                        PQCNotify.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                    onTriggered: {
+                        if(!menucomponent.visible)
+                            PQCNotify.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                    }
                 }
             }
     }

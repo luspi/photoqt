@@ -544,6 +544,8 @@ Rectangle {
         sourceComponent:
         PQMenu {
 
+            id: themenu
+
             PQMenuItem {
                 enabled: false
                 font.italic: true
@@ -575,6 +577,37 @@ Rectangle {
 
             }
 
+            PQMenu {
+                title: "GPS map"
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: "openstreetmap.org"
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.metadataGpsMap==="openstreetmap.org" // qmllint disable unqualified
+                    onCheckedChanged:
+                        PQCSettings.metadataGpsMap = "openstreetmap.org" // qmllint disable unqualified
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: "maps.google.com"
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.metadataGpsMap==="maps.google.com" // qmllint disable unqualified
+                    onCheckedChanged:
+                        PQCSettings.metadataGpsMap = "maps.google.com" // qmllint disable unqualified
+                }
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: "bing.com/maps"
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.metadataGpsMap==="bing.com/maps" // qmllint disable unqualified
+                    onCheckedChanged:
+                        PQCSettings.metadataGpsMap = "bing.com/maps" // qmllint disable unqualified
+                }
+            }
+
             PQMenuSeparator {}
 
             PQMenuItem {
@@ -600,44 +633,7 @@ Rectangle {
                 }
             }
 
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                enabled: false
-                moveToRightABit: true
-                font.italic: true
-                text: qsTranslate("settingsmanager", "GPS map")
-            }
-
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: "openstreetmap.org"
-                ButtonGroup.group: grp2
-                checked: PQCSettings.metadataGpsMap==="openstreetmap.org" // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.metadataGpsMap = "openstreetmap.org" // qmllint disable unqualified
-            }
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: "maps.google.com"
-                ButtonGroup.group: grp2
-                checked: PQCSettings.metadataGpsMap==="maps.google.com" // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.metadataGpsMap = "maps.google.com" // qmllint disable unqualified
-            }
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: "bing.com/maps"
-                ButtonGroup.group: grp2
-                checked: PQCSettings.metadataGpsMap==="bing.com/maps" // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.metadataGpsMap = "bing.com/maps" // qmllint disable unqualified
-            }
-
-            PQMenuSeparator {}
+            PQMenuSeparator { lighterColor: true }
 
             PQMenuItem {
                 checkable: true
@@ -693,8 +689,10 @@ Rectangle {
             Timer {
                 id: recordAsClosed
                 interval: 200
-                onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                onTriggered: {
+                    if(!themenu.visible)
+                        PQCNotify.removeFromWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                }
             }
 
         }

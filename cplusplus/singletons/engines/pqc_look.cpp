@@ -60,6 +60,7 @@ PQCLook::PQCLook() {
             Q_EMIT baseColorActiveChanged();
 
             Q_EMIT inverseColorChanged();
+            Q_EMIT inverseColorAccentChanged();
             Q_EMIT inverseColorHighlightChanged();
             Q_EMIT inverseColorActiveChanged();
 
@@ -138,6 +139,7 @@ void PQCLook::calculateColors(QString name) {
         m_textColor = coltxt.name(QColor::HexArgb);
         m_textColorDisabled = coltxt.darker(highlight).name(QColor::HexArgb);
 
+        m_inverseColorAccent = invcol.darker(accent).name(QColor::HexArgb);
         m_inverseColorHighlight = invcol.darker(highlight).name(QColor::HexArgb);
         m_inverseColorActive = invcol.darker(active).name(QColor::HexArgb);
 
@@ -162,6 +164,7 @@ void PQCLook::calculateColors(QString name) {
         m_textColor = coltxt.name(QColor::HexArgb);
         m_textColorDisabled = coltxt.lighter(highlight).name(QColor::HexArgb);
 
+        m_inverseColorAccent = invcol.lighter(accent).name(QColor::HexArgb);
         m_inverseColorHighlight = invcol.lighter(highlight).name(QColor::HexArgb);
         m_inverseColorActive = invcol.lighter(active).name(QColor::HexArgb);
 
@@ -228,6 +231,10 @@ void PQCLook::setBaseColor(QString val) {
 
 QString PQCLook::getInverseColor() {
     return m_inverseColor;
+}
+
+QString PQCLook::getInverseColorAccent() {
+    return m_inverseColorAccent;
 }
 
 QString PQCLook::getInverseColorActive() {

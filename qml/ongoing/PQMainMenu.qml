@@ -903,6 +903,8 @@ Rectangle {
                 text: qsTranslate("MainMenu", "Main menu")
             }
 
+            PQMenuSeparator {}
+
             PQMenuItem {
                 checkable: true
                 checked: PQCSettings.mainmenuElementHeightDynamic // qmllint disable unqualified
@@ -946,8 +948,10 @@ Rectangle {
             Timer {
                 id: recordAsClosed
                 interval: 200
-                onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("mainmenu") // qmllint disable unqualified
+                onTriggered: {
+                    if(!menudeleg.visible)
+                        PQCNotify.removeFromWhichContextMenusOpen("mainmenu") // qmllint disable unqualified
+                }
             }
 
         }

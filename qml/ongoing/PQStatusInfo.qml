@@ -569,7 +569,16 @@ Item {
         sourceComponent:
             PQMenu {
 
-            id: menuitem
+                id: menuitem
+
+                PQMenuItem {
+                    enabled: false
+                    moveToRightABit: true
+                    font.italic: true
+                    text: "status info"
+                }
+
+                PQMenuSeparator {}
 
                 PQMenuItem {
                     checkable: true
@@ -588,50 +597,61 @@ Item {
                     onCheckedChanged:
                         PQCSettings.interfaceStatusInfoManageWindow = checked // qmllint disable unqualified
                 }
-                PQMenuSeparator {}
-                PQMenuItem {
-                    enabled: false
-                    moveToRightABit: true
-                    text: "visibility:"
+
+                PQMenu {
+
+                    title: "visibility:"
+
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "always")
+                        ButtonGroup.group: grp
+                        checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
+                            }
+                        }
+                    }
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "cursor move")
+                        ButtonGroup.group: grp
+                        checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceStatusInfoAutoHide = true // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
+                            }
+                        }
+                    }
+                    PQMenuItem {
+                        checkable: true
+                        checkableLikeRadioButton: true
+                        text: qsTranslate("settingsmanager", "cursor near top edge")
+                        ButtonGroup.group: grp
+                        checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(checked) {
+                                PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHideTopEdge = true
+                            }
+                        }
+                    }
+
                 }
 
+                PQMenuSeparator {}
+
                 PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "always")
-                    ButtonGroup.group: grp
-                    checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
-                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
-                        }
-                    }
-                }
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "cursor move")
-                    ButtonGroup.group: grp
-                    checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceStatusInfoAutoHide = true // qmllint disable unqualified
-                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
-                        }
-                    }
-                }
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "cursor near top edge")
-                    ButtonGroup.group: grp
-                    checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
-                            PQCSettings.interfaceStatusInfoAutoHideTopEdge = true
-                        }
+                    text: qsTranslate("settingsmanager", "Manage in settings manager")
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                    onTriggered: {
+                        loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                        loader.passOn("showSettings", "statusinfo")
                     }
                 }
 
@@ -643,8 +663,10 @@ Item {
                 Timer {
                     id: recordAsClosed
                     interval: 200
-                    onTriggered:
-                        PQCNotify.removeFromWhichContextMenusOpen("statusinfo") // qmllint disable unqualified
+                    onTriggered: {
+                        if(!menuitem.visible)
+                            PQCNotify.removeFromWhichContextMenusOpen("statusinfo") // qmllint disable unqualified
+                    }
                 }
             }
     }

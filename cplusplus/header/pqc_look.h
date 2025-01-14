@@ -57,9 +57,11 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString inverseColor READ getInverseColor NOTIFY inverseColorChanged)
+    Q_PROPERTY(QString inverseColorAccent READ getInverseColorAccent NOTIFY inverseColorAccentChanged)
     Q_PROPERTY(QString inverseColorHighlight READ getInverseColorHighlight NOTIFY inverseColorHighlightChanged)
     Q_PROPERTY(QString inverseColorActive READ getInverseColorActive NOTIFY inverseColorActiveChanged)
     QString getInverseColor();
+    QString getInverseColorAccent();
     QString getInverseColorHighlight();
     QString getInverseColorActive();
 
@@ -140,6 +142,7 @@ private:
     QString m_baseColorActive;
 
     QString m_inverseColor;
+    QString m_inverseColorAccent;
     QString m_inverseColorHighlight;
     QString m_inverseColorActive;
 
@@ -177,6 +180,7 @@ Q_SIGNALS:
     void baseColorActiveChanged();
 
     void inverseColorChanged();
+    void inverseColorAccentChanged();
     void inverseColorHighlightChanged();
     void inverseColorActiveChanged();
 

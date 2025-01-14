@@ -285,8 +285,10 @@ PQMenu {
     Timer {
         id: recordAsClosed
         interval: 200
-        onTriggered:
-            PQCNotify.removeFromWhichContextMenusOpen("contextmenu") // qmllint disable unqualified
+        onTriggered: {
+            if(!menutop.visible)
+                PQCNotify.removeFromWhichContextMenusOpen("contextmenu") // qmllint disable unqualified
+        }
     }
 
     Timer {

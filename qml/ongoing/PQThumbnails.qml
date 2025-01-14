@@ -607,6 +607,8 @@ Item {
                 text: qsTranslate("MainMenu", "Thumbnails")
             }
 
+            PQMenuSeparator { }
+
             PQMenuItem {
                 visible: thumbnails_top.menuReloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
@@ -617,70 +619,118 @@ Item {
                 }
             }
 
-            PQMenuSeparator { visible: (thumbnails_top.menuReloadIndexVisible) }
+            PQMenuSeparator { lighterColor: true; visible: thumbnails_top.menuReloadIndexVisible }
 
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "fit thumbnails")
-                ButtonGroup.group: grp1
-                checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) { // qmllint disable unqualified
-                        PQCSettings.thumbnailsCropToFit = false
-                        PQCSettings.thumbnailsSameHeightVaryWidth = false
-                    }
-                }
-            }
+            PQMenu {
 
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "scale and crop thumbnails")
-                ButtonGroup.group: grp1
-                checked: PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked) {
-                        PQCSettings.thumbnailsCropToFit = true // qmllint disable unqualified
-                        PQCSettings.thumbnailsSameHeightVaryWidth = false
-                    }
-                }
-            }
+                title: "thumbnail image"
 
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "same height, varying width")
-                ButtonGroup.group: grp1
-                checked: PQCSettings.thumbnailsSameHeightVaryWidth // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked) {
-                        // See the comment below for why this check is here
-                        if(PQCSettings.thumbnailsCropToFit) { // qmllint disable unqualified
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "fit thumbnails")
+                    ButtonGroup.group: grp1
+                    checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) { // qmllint disable unqualified
                             PQCSettings.thumbnailsCropToFit = false
-                            delayChecking.restart()
-                        } else
-                            PQCSettings.thumbnailsSameHeightVaryWidth = true
+                            PQCSettings.thumbnailsSameHeightVaryWidth = false
+                        }
                     }
                 }
-                // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
-                // If we do then the padding/sourceSize of the images might not cooperate well
-                // This short delay in that case ensures that everything works just fine
-                Timer {
-                    id: delayChecking
-                    interval: 100
-                    onTriggered: {
-                        PQCSettings.thumbnailsSameHeightVaryWidth = true // qmllint disable unqualified
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "scale and crop thumbnails")
+                    ButtonGroup.group: grp1
+                    checked: PQCSettings.thumbnailsCropToFit // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked) {
+                            PQCSettings.thumbnailsCropToFit = true // qmllint disable unqualified
+                            PQCSettings.thumbnailsSameHeightVaryWidth = false
+                        }
                     }
                 }
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "same height, varying width")
+                    ButtonGroup.group: grp1
+                    checked: PQCSettings.thumbnailsSameHeightVaryWidth // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked) {
+                            // See the comment below for why this check is here
+                            if(PQCSettings.thumbnailsCropToFit) { // qmllint disable unqualified
+                                PQCSettings.thumbnailsCropToFit = false
+                                delayChecking.restart()
+                            } else
+                                PQCSettings.thumbnailsSameHeightVaryWidth = true
+                        }
+                    }
+                    // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
+                    // If we do then the padding/sourceSize of the images might not cooperate well
+                    // This short delay in that case ensures that everything works just fine
+                    Timer {
+                        id: delayChecking
+                        interval: 100
+                        onTriggered: {
+                            PQCSettings.thumbnailsSameHeightVaryWidth = true // qmllint disable unqualified
+                        }
+                    }
+                }
+
+                PQMenuItem {
+                    checkable: true
+                    text: qsTranslate("settingsmanager", "keep small thumbnails small")
+                    checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall // qmllint disable unqualified
+                    onCheckedChanged:
+                        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked // qmllint disable unqualified
+                }
+
             }
 
-            PQMenuItem {
-                checkable: true
-                text: qsTranslate("settingsmanager", "keep small thumbnails small")
-                checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall // qmllint disable unqualified
-                onCheckedChanged:
-                    PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked // qmllint disable unqualified
+            PQMenu {
+
+                title: "visibility"
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "hide when not needed")
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.thumbnailsVisibility===0 // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.thumbnailsVisibility = 0 // qmllint disable unqualified
+                    }
+                }
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "always keep visible")
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.thumbnailsVisibility===1 // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.thumbnailsVisibility = 1 // qmllint disable unqualified
+                    }
+                }
+
+                PQMenuItem {
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    text: qsTranslate("settingsmanager", "hide when zoomed in")
+                    ButtonGroup.group: grp2
+                    checked: PQCSettings.thumbnailsVisibility===2 // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.thumbnailsVisibility = 2 // qmllint disable unqualified
+                    }
+                }
+
             }
 
             PQMenuSeparator {}
@@ -699,44 +749,6 @@ Item {
                 checked: PQCSettings.thumbnailsTooltip // qmllint disable unqualified
                 onCheckedChanged:
                     PQCSettings.thumbnailsTooltip = checked // qmllint disable unqualified
-            }
-
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "hide when not needed")
-                ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===0 // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked)
-                        PQCSettings.thumbnailsVisibility = 0 // qmllint disable unqualified
-                }
-            }
-
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "always keep visible")
-                ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===1 // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked)
-                        PQCSettings.thumbnailsVisibility = 1 // qmllint disable unqualified
-                }
-            }
-
-            PQMenuItem {
-                checkable: true
-                checkableLikeRadioButton: true
-                text: qsTranslate("settingsmanager", "hide when zoomed in")
-                ButtonGroup.group: grp2
-                checked: PQCSettings.thumbnailsVisibility===2 // qmllint disable unqualified
-                onCheckedChanged: {
-                    if(checked)
-                        PQCSettings.thumbnailsVisibility = 2 // qmllint disable unqualified
-                }
             }
 
             PQMenuSeparator {}
@@ -769,8 +781,10 @@ Item {
             Timer {
                 id: recordAsClosed
                 interval: 200
-                onTriggered:
-                    PQCNotify.removeFromWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
+                onTriggered: {
+                    if(!menudeleg.visible)
+                        PQCNotify.removeFromWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
+                }
             }
 
         }
