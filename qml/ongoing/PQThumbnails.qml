@@ -44,7 +44,7 @@ Item {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: ((setVisible||holdVisible) && windowSizeOkay && PQCFileFolderModel.countMainView>0) ? 1 : 0 // qmllint disable unqualified
+    opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0 // qmllint disable unqualified
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -151,6 +151,17 @@ Item {
             if(mouse.button === Qt.RightButton)
                 menu.item.popup() // qmllint disable missing-property
         }
+    }
+
+    PQTextXL {
+        anchors.fill: parent
+        horizontalAlignment: Qt.AlignHCenter
+        verticalAlignment: Qt.AlignVCenter
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        text: qsTranslate("thumbnails", "No file loaded")
+        font.bold: PQCLook.fontWeightBold // qmllint disable unqualified
+        color: PQCLook.textColorDisabled // qmllint disable unqualified
+        visible: PQCFileFolderModel.countMainView===0 // qmllint disable unqualified
     }
 
     // the view for the actual thumbnails
