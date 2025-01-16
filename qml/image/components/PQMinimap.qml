@@ -186,7 +186,8 @@ Rectangle {
                 wheel.accepted = false
                 return
             }
-            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers)
+            var pos = minimapmouse.mapToItem(toplevel, wheel.x, wheel.y)
+            PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
         }
 
 

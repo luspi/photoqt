@@ -148,11 +148,11 @@ Item {
         target: PQCNotify // qmllint disable unqualified
 
         function onCmdShortcutSequence(seq : string) {
-            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(0,0))
+            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(-1,-1), Qt.point(0,0))
         }
 
         function onExecuteInternalCommand(cmd : string) {
-            keyshortcuts_top.executeInternalFunction(cmd)
+            keyshortcuts_top.executeInternalFunction(cmd, Qt.point(-1,-1), Qt.point(0,0))
         }
 
         function onKeyPress(key : int, modifiers : int) {
@@ -178,17 +178,17 @@ Item {
                 if(key !== 16777249)
                     combo += PQCScriptsShortcuts.analyzeKeyPress(key)
 
-                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(0,0))
+                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(-1,-1), Qt.point(0,0))
 
             }
 
         }
 
-        function onMouseWheel(angleDelta : point, modifiers : int) {
+        function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
 
             if(loader.visibleItem !== "") // qmllint disable unqualified
 
-                loader.passOn("mouseWheel", [angleDelta, modifiers])
+                loader.passOn("mouseWheel", [mousePos, angleDelta, modifiers])
 
             else {
 
@@ -201,7 +201,7 @@ Item {
 
                 combo += PQCScriptsShortcuts.analyzeMouseWheel(angleDelta)
 
-                keyshortcuts_top.checkComboForShortcut(combo, angleDelta)
+                keyshortcuts_top.checkComboForShortcut(combo, mousePos, angleDelta)
 
             }
 
@@ -237,9 +237,9 @@ Item {
             else {
 
                 if(!keyshortcuts_top.mouseGesture)
-                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton, Qt.point(0,0))
+                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton, pos, Qt.point(0,0))
                 else
-                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""), Qt.point(0,0))
+                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""), pos, Qt.point(0,0))
 
                 keyshortcuts_top.mousePath = []
                 keyshortcuts_top.mouseButton = ""
@@ -279,7 +279,7 @@ Item {
                 if(combo !== "") combo += "+"
                 combo += "Double Click"
 
-                keyshortcuts_top.checkComboForShortcut(combo, Qt.point(0,0))
+                keyshortcuts_top.checkComboForShortcut(combo, pos, Qt.point(0,0))
 
             }
 
@@ -287,9 +287,10 @@ Item {
 
     }
 
-    function checkComboForShortcut(combo : string, wheelDelta : point) {
+    function checkComboForShortcut(combo : string, mousePos: point, wheelDelta : point) {
 
         console.log("args: combo =", combo)
+        console.log("args: mousePos =", mousePos)
         console.log("args: wheelDelta =", wheelDelta)
 
         // a context menu is open -> don't continue
@@ -470,7 +471,7 @@ Item {
             for(var c in commands) {
                 var cmd = commands[c]
                 if(cmd[0] === "_" && cmd[1] === "_")
-                    keyshortcuts_top.executeInternalFunction(cmd, wheelDelta)
+                    keyshortcuts_top.executeInternalFunction(cmd, mousePos, wheelDelta)
                 else {
                     if(PQCFileFolderModel.countMainView === 0)
                         return
@@ -488,7 +489,7 @@ Item {
             var index = PQCShortcuts.getNextCommandInCycle(combo, cycletimeout, commands.length)
             var curcmd = commands[index]
             if(curcmd[0] === "_" && curcmd[1] === "_")
-                keyshortcuts_top.executeInternalFunction(curcmd, wheelDelta)
+                keyshortcuts_top.executeInternalFunction(curcmd, mousePos, wheelDelta)
             else {
                 if(PQCFileFolderModel.countMainView === 0)
                     return
@@ -504,9 +505,10 @@ Item {
 
     }
 
-    function executeInternalFunction(cmd : string, wheelDelta : point) {
+    function executeInternalFunction(cmd : string, mousePos : point, wheelDelta : point) {
 
         console.debug("args: cmd =", cmd)
+        console.debug("args: mousePos =", mousePos)
         console.debug("args: wheelDelta =", wheelDelta)
 
         switch(cmd) {
@@ -581,8 +583,7 @@ Item {
                 break
             case "__contextMenuTouch":
                 if(!PQCNotify.slideshowRunning)
-                    // we "misuse" the wheelDelta parameter to pass on the touch point
-                    contextmenu.popup(wheelDelta)
+                    contextmenu.popup(mousePos)
                 break
             case "__showMetaData":
             case "__keepMetaData":
@@ -654,10 +655,10 @@ Item {
             // image functions
 
             case "__zoomIn":
-                image.zoomIn(wheelDelta)
+                image.zoomIn(mousePos, wheelDelta)
                 break
             case "__zoomOut":
-                image.zoomOut(wheelDelta)
+                image.zoomOut(mousePos, wheelDelta)
                 break
             case "__zoomReset":
                 image.zoomReset()

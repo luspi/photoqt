@@ -100,7 +100,7 @@ Window {
             PQCNotify.mouseMove(mouse.x, mouse.y) // qmllint disable unqualified
         }
         onWheel: (wheel) => {
-            PQCNotify.mouseWheel(wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
+            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
         }
     }
 
