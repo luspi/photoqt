@@ -346,38 +346,42 @@ Loader {
 
             }
 
-            // update x/y position of image
-            var realX = pos.x * loader_top.imageScale
-            var realY = pos.y * loader_top.imageScale
+            if(!PQCSettings.imageviewZoomToCenter) {
 
-            // TODO: FIX ROTATION HANDLING
+                // update x/y position of image
+                var realX = pos.x * loader_top.imageScale
+                var realY = pos.y * loader_top.imageScale
 
-            // no rotation
-            if(loader_top.imageRotation%360 == 0) {
+                // TODO: FIX ROTATION HANDLING
 
-                flickable.contentX -= (1-zoomfactor)*realX
-                flickable.contentY -= (1-zoomfactor)*realY
+                // no rotation
+                // if(loader_top.imageRotation%360 == 0) {
 
-            // rotated by 90 degrees
-            } else if(loader_top.imageRotation%360 == 90 || loader_top.imageRotation%360 == -270) {
+                    flickable.contentX -= (1-zoomfactor)*realX
+                    flickable.contentY -= (1-zoomfactor)*realY
 
-                flickable.contentX -= (1-zoomfactor)*realY
-                flickable.contentY += (1-zoomfactor)*realX
+                // rotated by 90 degrees
+                // } else if(loader_top.imageRotation%360 == 90 || loader_top.imageRotation%360 == -270) {
 
-            // rotated by 180 degrees
-            } else if(Math.abs(loader_top.imageRotation%360) == 180) {
+                //     flickable.contentX -= (1-zoomfactor)*realY
+                //     flickable.contentY += (1-zoomfactor)*realX
 
-                flickable.contentX -= (1-zoomfactor)*realX
-                flickable.contentY -= (1-zoomfactor)*realY
+                // // rotated by 180 degrees
+                // } else if(Math.abs(loader_top.imageRotation%360) == 180) {
 
-            // // rotated by 270 degrees
-            } else if(loader_top.imageRotation%360 == 270 || loader_top.imageRotation%360 == -90) {
+                //     flickable.contentX -= (1-zoomfactor)*realX
+                //     flickable.contentY -= (1-zoomfactor)*realY
 
-                flickable.contentX += (1-zoomfactor)*realY
-                flickable.contentY -= (1-zoomfactor)*realX
+                // // // rotated by 270 degrees
+                // } else if(loader_top.imageRotation%360 == 270 || loader_top.imageRotation%360 == -90) {
 
-            } else
-                console.log("ERROR: unknown rotation step:", loader_top.imageRotation)
+                //     flickable.contentX += (1-zoomfactor)*realY
+                //     flickable.contentY -= (1-zoomfactor)*realX
+
+                // } else
+                //     console.log("ERROR: unknown rotation step:", loader_top.imageRotation)
+
+            }
 
             // update scale factor
             loader_top.imageScale *= zoomfactor
@@ -981,7 +985,7 @@ Loader {
                         property: "scale"
                         from: image_wrapper.scale
                         to: loader_top.imageScale
-                        duration: loader_top.animateNextZoom ? 200 : 0
+                        duration: (loader_top.animateNextZoom||PQCSettings.imageviewZoomToCenter) ? 100 : 0 // qmllint disable unqualified
                         onFinished:
                             loader_top.animateNextZoom = false
                     }
