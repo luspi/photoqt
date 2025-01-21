@@ -247,9 +247,8 @@ Function FinalStepsLeave
     ${NSD_GetState} $CheckboxDesktop $CheckboxDesktop_State
     ${NSD_GetState} $CheckboxStartMenu $CheckboxStartMenu_State
 
-    IfSilent 0 +4
+    IfSilent 0 +3
     StrCpy $RadioButtonAll_State ${BST_CHECKED}
-    StrCpy $CheckboxDesktop_State ${BST_CHECKED}
     StrCpy $CheckboxStartMenu_State ${BST_CHECKED}
 
     ; We need to make sure that the updated file associations are registered
