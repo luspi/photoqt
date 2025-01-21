@@ -139,6 +139,9 @@ Section "PhotoQt" SecDummy
     ;Same as create shortcut you need to use ${UNINST_EXE} instead of anything else.
     WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "UninstallString" "${UNINST_EXE}"
 
+    IfSilent 0 +2
+    Call FinalStepsLeave
+
 SectionEnd
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -243,6 +246,11 @@ Function FinalStepsLeave
     ${NSD_GetState} $CheckboxPsdXcf $CheckboxPsdXcf_State
     ${NSD_GetState} $CheckboxDesktop $CheckboxDesktop_State
     ${NSD_GetState} $CheckboxStartMenu $CheckboxStartMenu_State
+
+    IfSilent 0 +4
+    StrCpy $RadioButtonAll_State ${BST_CHECKED}
+    StrCpy $CheckboxDesktop_State ${BST_CHECKED}
+    StrCpy $CheckboxStartMenu_State ${BST_CHECKED}
 
     ; We need to make sure that the updated file associations are registered
     ; That's why we unregister the old ones first
