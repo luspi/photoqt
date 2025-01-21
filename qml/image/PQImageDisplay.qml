@@ -121,7 +121,7 @@ Loader {
 
         signal finishSetup()
 
-        property bool animateNextZoom: false
+        property bool dontAnimateNextZoom: false
 
         onVideoPlayingChanged: {
             if(loader_top.isMainImage)
@@ -157,7 +157,7 @@ Loader {
 
                     if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                    if(mousePos.x == -1 || mousePos.y == -1)
+                    if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
 
                     loader_top.performZoom(mousePos, wheelDelta, true, 0)
@@ -180,19 +180,17 @@ Loader {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                if(loader_top.isMainImage) {
-                    loader_top.animateNextZoom = true
+                if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
-                }
+
             }
             function onZoomActual() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                if(loader_top.isMainImage) {
-                    loader_top.animateNextZoom = true
+                if(loader_top.isMainImage)
                     loader_top.imageScale = 1/toplevel.getDevicePixelRatio()
-                }
+
             }
             function onRotateClock() {
 
@@ -281,6 +279,9 @@ Loader {
 
         function performZoom(pos : point, wheelDelta : point, zoom_in : bool, forceZoomFactor: real) {
 
+            // stop movement of the image
+            flickable.cancelFlick()
+
             // adjust position from global to image
             pos = loader_top.mapToItem(image_wrapper, pos)
             pos.x -= image_wrapper.width/2
@@ -292,9 +293,27 @@ Loader {
 
                 zoomfactor = forceZoomFactor
 
+                if(PQCSettings.imageviewZoomMaxEnabled) {
+
+                    if(PQCSettings.imageviewZoomSpeedRelative)
+                        zoomfactor = Math.min(loader_top.imageScale*zoomfactor, loader_top.imageScale*loader_top.defaultScale*(PQCSettings.imageviewZoomMax*0.01))/loader_top.imageScale
+                    else
+                        zoomfactor = Math.min(loader_top.imageScale*zoomfactor, loader_top.imageScale*(PQCSettings.imageviewZoomMax*0.01))/loader_top.imageScale
+
+                }
+
+                if(PQCSettings.imageviewZoomMinEnabled) {
+
+                    if(PQCSettings.imageviewZoomSpeedRelative)
+                        zoomfactor = Math.max(loader_top.imageScale*zoomfactor, loader_top.defaultScale*(PQCSettings.imageviewZoomMin*0.01))/loader_top.imageScale
+                    else
+                        zoomfactor = Math.max(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMin*0.01)/loader_top.imageScale
+
+                }
+
             } else {
 
-                if(wheelDelta != undefined) {
+                if(wheelDelta !== undefined) {
                     if(wheelDelta.y > 12)
                         wheelDelta.y = 12
                     else if(wheelDelta.y < -12)
@@ -309,7 +328,7 @@ Loader {
                     if(PQCSettings.imageviewZoomSpeedRelative) {
 
                         // compute zoom factor based on wheel movement (if done by mouse)
-                        if(wheelDelta !== undefined && wheelDelta.y != 0)
+                        if(wheelDelta !== undefined && wheelDelta.y !== 0)
                             fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
                         else
                             fact = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
@@ -332,7 +351,7 @@ Loader {
 
                     if(PQCSettings.imageviewZoomSpeedRelative) {
 
-                        if(wheelDelta !== undefined && wheelDelta.y != 0)
+                        if(wheelDelta !== undefined && wheelDelta.y !== 0)
                             fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/Math.abs(wheelDelta.y)))*PQCSettings.imageviewZoomSpeed)))
                         else
                             fact = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
@@ -355,42 +374,11 @@ Loader {
 
             }
 
-            if(!PQCSettings.imageviewZoomToCenter) {
-
-                // update x/y position of image
-                var realX = pos.x * loader_top.imageScale
-                var realY = pos.y * loader_top.imageScale
-
-                // TODO: FIX ROTATION HANDLING
-
-                // no rotation
-                // if(loader_top.imageRotation%360 == 0) {
-
-                    flickable.contentX -= (1-zoomfactor)*realX
-                    flickable.contentY -= (1-zoomfactor)*realY
-
-                // rotated by 90 degrees
-                // } else if(loader_top.imageRotation%360 == 90 || loader_top.imageRotation%360 == -270) {
-
-                //     flickable.contentX -= (1-zoomfactor)*realY
-                //     flickable.contentY += (1-zoomfactor)*realX
-
-                // // rotated by 180 degrees
-                // } else if(Math.abs(loader_top.imageRotation%360) == 180) {
-
-                //     flickable.contentX -= (1-zoomfactor)*realX
-                //     flickable.contentY -= (1-zoomfactor)*realY
-
-                // // // rotated by 270 degrees
-                // } else if(loader_top.imageRotation%360 == 270 || loader_top.imageRotation%360 == -90) {
-
-                //     flickable.contentX += (1-zoomfactor)*realY
-                //     flickable.contentY -= (1-zoomfactor)*realX
-
-                // } else
-                //     console.log("ERROR: unknown rotation step:", loader_top.imageRotation)
-
-            }
+            // if we set a custom zoom position, then save that position first
+            // reacting to this position and adjusting the position of the image accordingly is
+            // done in a Connections located right above the PropertyAnimation with id scaleAnimation
+            if(!PQCSettings.imageviewZoomToCenter)
+                scaleAnimation.pos = pos
 
             // update scale factor
             loader_top.imageScale *= zoomfactor
@@ -986,16 +974,51 @@ Loader {
                         source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml") // qmllint disable unqualified
                     }
 
+                    Connections {
+
+                        // here we adjust the image position (if enabled) as reaction to scale animation
+                        target: image_wrapper
+                        enabled: !PQCSettings.imageviewZoomToCenter
+
+                        function onScaleChanged() {
+
+                            // calculate the real position
+                            var realX = scaleAnimation.pos.x * scaleAnimation.prevScale
+                            var realY = scaleAnimation.pos.y * scaleAnimation.prevScale
+
+                            // get the zoom factor to get from the previous scale to this one
+                            var zoomfactor = image_wrapper.scale/scaleAnimation.prevScale
+
+                            // TODO: properly handle rotated images
+
+                            // adjust position of image
+                            flickable.contentX -= (1-zoomfactor)*realX
+                            flickable.contentY -= (1-zoomfactor)*realY
+                            // make sure it is inside of the bounds
+                            flickable.returnToBounds()
+
+                            // cache the new scale factor
+                            scaleAnimation.prevScale = image_wrapper.scale
+
+                        }
+                    }
+
                     // scaling animation
                     PropertyAnimation {
                         id: scaleAnimation
                         target: image_wrapper
                         property: "scale"
+                        property real prevScale: image_wrapper.scale
+                        property point pos: Qt.point(0,0)
                         from: image_wrapper.scale
                         to: loader_top.imageScale
-                        duration: (loader_top.animateNextZoom||PQCSettings.imageviewZoomToCenter) ? 200 : 0 // qmllint disable unqualified
-                        onFinished:
-                            loader_top.animateNextZoom = false
+                        duration: loader_top.dontAnimateNextZoom ? 0 : 200
+
+                        onFinished: {
+                            loader_top.dontAnimateNextZoom = false
+                            prevScale = Qt.binding(function() { return image_wrapper.scale })
+                            pos = Qt.point(0,0)
+                        }
                     }
 
                     // rotation animation
@@ -1437,7 +1460,25 @@ Loader {
         }
 
         // we don't use a pinch area as we want to pass through flick events, something a pincharea cannot do
+        PinchHandler {
+
+            id: hdl
+
+            target: null
+
+            enabled: mpta.numPoints==0
+
+            rotationAxis.enabled: false
+
+            onScaleChanged: (delta) => {
+                loader_top.performZoom(Qt.point(translation.x, translation.y), Qt.point(0,0), delta>1, delta)
+            }
+
+        }
+
         MultiPointTouchArea {
+
+            id: mpta
 
             anchors.fill: parent
 
@@ -1447,24 +1488,29 @@ Loader {
 
             property list<point> initialPts: []
             property real initialScale
-
             property real previousLength: 0
+            property int numPoints: 0
 
             onPressed: (points) => {
 
+                numPoints += points.length
                 pressAndHoldTimeout.touchPos = points[0]
 
-                if(points.length === 2)
+                if(points.length === 2) {
                     initialPts = [Qt.point(points[0].x, points[0].y), Qt.point(points[1].x, points[1].y)]
-                else {
+                    pressAndHoldTimeout.stop()
+                } else {
                     initialPts.push(Qt.point(points[0].x, points[0].y))
                     if(points.length === 1)
                         pressAndHoldTimeout.restart()
+                    else
+                        pressAndHoldTimeout.stop()
                 }
 
                 initialScale = image_wrapper.scale
 
             }
+
             onUpdated: (points) => {
 
                 if(points.length === 1) {
@@ -1503,6 +1549,7 @@ Loader {
 
                         }
 
+                        loader_top.dontAnimateNextZoom = true
                         loader_top.performZoom(pos, Qt.point(0,0), undefined, curLength/previousLength)
                         previousLength = curLength
 
@@ -1513,7 +1560,9 @@ Loader {
 
             }
 
+
             onReleased: (points) => {
+                numPoints -= points.length
                 pressAndHoldTimeout.stop()
                 initialPts = []
                 previousLength = 0
