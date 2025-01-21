@@ -1200,7 +1200,7 @@ Loader {
 
                             scaleAnimation.stop()
 
-                            image_wrapper.scale = 1
+                            image_wrapper.scale = 1/toplevel.getDevicePixelRatio()
                             loader_top.imageScale = image_wrapper.scale
 
                         }
