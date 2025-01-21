@@ -167,7 +167,7 @@ PQCPhotoSphere { // qmllint disable
 
         target: image_top // qmllint disable unqualified
 
-        function onZoomIn(wheelDelta : point) {
+        function onZoomIn(mousePos: point, wheelDelta : point) {
             if(loader_top.isMainImage) // qmllint disable unqualified
                 thesphere.zoom("in")
         }

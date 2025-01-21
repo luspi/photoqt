@@ -488,7 +488,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -674,6 +674,15 @@ int PQCSettings::migrate(QString oldversion) {
                 }
 
             }
+        } else if(curVer == "4.8") {
+
+            QSqlQuery query(db);
+
+            query.prepare("UPDATE `imageview` SET `value`=0 WHERE `name`='ZoomToCenter'");
+            if(!query.exec())
+                qWarning() << "Unable to enable imageviewZoomToCenter by default:" << query.lastError().text().trimmed();
+            query.clear();
+
         }
 
         ////////////////////////////////////

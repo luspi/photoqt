@@ -92,8 +92,8 @@ Item {
     property bool currentlyShowingVideoPlaying: false
     property bool currentlyShowingVideoHasAudio: false
 
-    signal zoomIn(var wheelDelta)
-    signal zoomOut(var wheelDelta)
+    signal zoomIn(var mousePos, var wheelDelta)
+    signal zoomOut(var mousePos, var wheelDelta)
     signal zoomReset()
     signal zoomActual()
     signal rotateClock()

@@ -36,7 +36,7 @@ import "../../../elements"
 
 // settings in this file:
 // - imageviewZoomSpeed
-// - imageviewZoomToCenter (currently not implemented)
+// - imageviewZoomToCenter
 // - imageviewZoomMinEnabled
 // - imageviewZoomMin
 // - imageviewZoomMaxEnabled
@@ -151,6 +151,37 @@ Flickable {
                         suffix: " %"
                         onValueChanged:
                             setting_top.checkDefault()
+                    }
+
+                },
+
+                Item {
+                    width: 1
+                    height: 5
+                },
+
+                Flow {
+
+                    width: set_zoom.rightcol
+
+                    PQText {
+                        height: zoom_mousepos.height
+                        verticalAlignment: Text.AlignVCenter
+                        text: qsTranslate("settingsmanager", "Zoom to/from:")
+                    }
+
+                    PQRadioButton {
+                        id: zoom_mousepos
+                        //: refers to where to zoom to/from
+                        text: qsTranslate("settingsmanager", "mouse position")
+                        onCheckedChanged: setting_top.checkDefault()
+                    }
+
+                    PQRadioButton {
+                        id: zoom_imcent
+                        //: refers to where to zoom to/from
+                        text: qsTranslate("settingsmanager", "image center")
+                        onCheckedChanged: setting_top.checkDefault()
                     }
 
                 }
@@ -277,7 +308,8 @@ Flickable {
         if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                 zoom_rel.hasChanged() || zoom_abs.hasChanged() ||
                 maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged() || minimap.hasChanged() || minimapsizelevel.hasChanged()) {
+                mirroranim.hasChanged() || minimap.hasChanged() || minimapsizelevel.hasChanged() ||
+                zoom_mousepos.hasChanged() || zoom_imcent.hasChanged()) {
             settingChanged = true
             return
         }
@@ -295,6 +327,8 @@ Flickable {
         minzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMin)
         maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
         maxzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMax)
+        zoom_mousepos.loadAndSetDefault(!PQCSettings.imageviewZoomToCenter)
+        zoom_imcent.loadAndSetDefault(PQCSettings.imageviewZoomToCenter)
 
         mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
 
@@ -316,6 +350,7 @@ Flickable {
         PQCSettings.imageviewZoomMin = minzoom_slider.value
         PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked
         PQCSettings.imageviewZoomMax = maxzoom_slider.value
+        PQCSettings.imageviewZoomToCenter = zoom_imcent.checked
 
         PQCSettings.imageviewMirrorAnimate = mirroranim.checked
 
@@ -331,6 +366,8 @@ Flickable {
         minzoom_slider.saveDefault()
         maxzoom_check.saveDefault()
         maxzoom_slider.saveDefault()
+        zoom_mousepos.saveDefault()
+        zoom_imcent.saveDefault()
         mirroranim.saveDefault()
         floatingnav.saveDefault()
         minimap.saveDefault()

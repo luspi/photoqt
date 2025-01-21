@@ -268,7 +268,7 @@ Q_SIGNALS:
     void showNotificationMessage(QString msg);
 
     // these are called by various qml elements to trigger mouse shortcuts
-    void mouseWheel(QPointF angleDelta, int modifiers);
+    void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
     void mousePressed(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseMove(double x, double y);
