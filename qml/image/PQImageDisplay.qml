@@ -675,9 +675,9 @@ Loader {
                     // BUSY indicator
                     PQWorking {
                         id: busyloading
-                        parent: image_top
+                        parent: image_top // qmllint disable unqualified
                         anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
-                        z: image_top.curZ+1
+                        z: image_top.curZ+1 // qmllint disable unqualified
                     }
 
                     onWidthChanged: {
@@ -1481,6 +1481,7 @@ Loader {
             rotationAxis.enabled: false
 
             onScaleChanged: (delta) => {
+                loader_top.dontAnimateNextZoom = true
                 loader_top.performZoom(Qt.point(translation.x, translation.y), Qt.point(0,0), delta>1, delta)
             }
 
