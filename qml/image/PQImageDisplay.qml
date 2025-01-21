@@ -205,8 +205,10 @@ Loader {
                 loader_top.delayImageRotate = true
                 resetDelayImageRotate.restart()
 
-                if(loader_top.isMainImage)
+                if(loader_top.isMainImage) {
+                    loader_top.dontAnimateNextZoom = true
                     loader_top.imageRotation += 90
+                }
             }
             function onRotateAntiClock() {
 
@@ -221,14 +223,20 @@ Loader {
                 loader_top.delayImageRotate = true
                 resetDelayImageRotate.restart()
 
-                if(loader_top.isMainImage)
+                if(loader_top.isMainImage) {
+                    loader_top.dontAnimateNextZoom = true
                     loader_top.imageRotation -= 90
+                }
             }
             function onRotateReset() {
 
                 if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
+
                 if(loader_top.isMainImage) {
+
+                    loader_top.dontAnimateNextZoom = true
+
                     // rotate to the nearest (rotation%360==0) degrees
                     var offset = loader_top.imageRotation%360
                     if(offset == 180 || offset == 270)
@@ -239,6 +247,8 @@ Loader {
                         loader_top.imageRotation += 90
                     else if(offset == -180 || offset == -270)
                         loader_top.imageRotation -= (360+offset)
+                    else
+                        loader_top.dontAnimateNextZoom = false
                 }
             }
 
@@ -283,7 +293,12 @@ Loader {
             flickable.cancelFlick()
 
             // adjust position from global to image
-            pos = loader_top.mapToItem(image_wrapper, pos)
+            // first map to flickable content
+            pos = loader_top.mapToItem(flickable_content, pos)
+            // then scale to fit actual image item
+            pos.x /= image_wrapper.scale
+            pos.y /= image_wrapper.scale
+            // adjust because of transition origin
             pos.x -= image_wrapper.width/2
             pos.y -= image_wrapper.height/2
 
@@ -293,23 +308,11 @@ Loader {
 
                 zoomfactor = forceZoomFactor
 
-                if(PQCSettings.imageviewZoomMaxEnabled) {
+                if(PQCSettings.imageviewZoomMaxEnabled)
+                    zoomfactor = Math.min(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()))/loader_top.imageScale
 
-                    if(PQCSettings.imageviewZoomSpeedRelative)
-                        zoomfactor = Math.min(loader_top.imageScale*zoomfactor, loader_top.imageScale*loader_top.defaultScale*(PQCSettings.imageviewZoomMax*0.01))/loader_top.imageScale
-                    else
-                        zoomfactor = Math.min(loader_top.imageScale*zoomfactor, loader_top.imageScale*(PQCSettings.imageviewZoomMax*0.01))/loader_top.imageScale
-
-                }
-
-                if(PQCSettings.imageviewZoomMinEnabled) {
-
-                    if(PQCSettings.imageviewZoomSpeedRelative)
-                        zoomfactor = Math.max(loader_top.imageScale*zoomfactor, loader_top.defaultScale*(PQCSettings.imageviewZoomMin*0.01))/loader_top.imageScale
-                    else
-                        zoomfactor = Math.max(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMin*0.01)/loader_top.imageScale
-
-                }
+                if(PQCSettings.imageviewZoomMinEnabled)
+                    zoomfactor = Math.max(loader_top.imageScale*zoomfactor, loader_top.defaultScale*PQCSettings.imageviewZoomMin/100)/loader_top.imageScale
 
             } else {
 
@@ -334,16 +337,18 @@ Loader {
                             fact = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
 
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor = Math.min((PQCSettings.imageviewZoomMax/100), loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale*fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.min(25, loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(25/toplevel.getDevicePixelRatio(), loader_top.imageScale*fact)/loader_top.imageScale
 
                     } else {
 
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*toplevel.getDevicePixelRatio()))
+
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor += Math.min(PQCSettings.imageviewZoomMax*0.01/toplevel.getDevicePixelRatio() - loader_top.imageScale, ((PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())/loader_top.imageScale)
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale+fact)/loader_top.imageScale
                         else
-                            zoomfactor += Math.min(25/toplevel.getDevicePixelRatio() - loader_top.imageScale, ((PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())/loader_top.imageScale)
+                            zoomfactor = Math.min(25/toplevel.getDevicePixelRatio(), loader_top.imageScale+fact)/loader_top.imageScale
 
                     }
 
@@ -357,16 +362,18 @@ Loader {
                             fact = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
 
                         if(PQCSettings.imageviewZoomMinEnabled)
-                            zoomfactor = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100), loader_top.imageScale/fact)/loader_top.imageScale
+                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/100, loader_top.imageScale/fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.max(0.01, loader_top.imageScale/fact)/loader_top.imageScale
+                            zoomfactor = Math.max(0.01/toplevel.getDevicePixelRatio(), loader_top.imageScale/fact)/loader_top.imageScale
 
                     } else {
 
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*toplevel.getDevicePixelRatio()))
+
                         if(PQCSettings.imageviewZoomMinEnabled)
-                            zoomfactor = Math.max(loader_top.defaultScale*(PQCSettings.imageviewZoomMin/100)/toplevel.getDevicePixelRatio(), (loader_top.imageScale - (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())/loader_top.imageScale)
+                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale-fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.max(0.01/toplevel.getDevicePixelRatio(), (loader_top.imageScale - (PQCSettings.imageviewZoomSpeed*0.01)/toplevel.getDevicePixelRatio())/loader_top.imageScale)
+                            zoomfactor = Math.max(0.01/toplevel.getDevicePixelRatio(), loader_top.imageScale-fact)/loader_top.imageScale
 
                     }
 
@@ -978,7 +985,7 @@ Loader {
 
                         // here we adjust the image position (if enabled) as reaction to scale animation
                         target: image_wrapper
-                        enabled: !PQCSettings.imageviewZoomToCenter
+                        enabled: !PQCSettings.imageviewZoomToCenter&&!rotationAnimation.running // qmllint disable unqualified
 
                         function onScaleChanged() {
 
@@ -989,11 +996,11 @@ Loader {
                             // get the zoom factor to get from the previous scale to this one
                             var zoomfactor = image_wrapper.scale/scaleAnimation.prevScale
 
-                            // TODO: properly handle rotated images
-
                             // adjust position of image
-                            flickable.contentX -= (1-zoomfactor)*realX
-                            flickable.contentY -= (1-zoomfactor)*realY
+                            if(flickable.contentWidth > flickable.width)
+                                flickable.contentX -= (1-zoomfactor)*realX
+                            if(flickable.contentHeight > flickable.height)
+                                flickable.contentY -= (1-zoomfactor)*realY
                             // make sure it is inside of the bounds
                             flickable.returnToBounds()
 
@@ -1027,6 +1034,9 @@ Loader {
                         target: image_wrapper
                         duration: 200
                         property: "rotation"
+                        onFinished: {
+                            loader_top.dontAnimateNextZoom = false
+                        }
                     }
 
                     // reset default properties when window size changed
