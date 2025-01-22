@@ -211,6 +211,13 @@ Item {
             delegZ = 0
         }
 
+        Connections {
+            target: PQCSettings // qmllint disable unqualified
+            function onThumbnailsSameHeightVaryWidthChanged() {
+                loadCacheBuffer.triggered()
+            }
+        }
+
         // some visual settings
         spacing: PQCSettings.thumbnailsSpacing // qmllint disable unqualified
         boundsBehavior: smallerThanSize ? Flickable.StopAtBounds : Flickable.DragAndOvershootBounds
