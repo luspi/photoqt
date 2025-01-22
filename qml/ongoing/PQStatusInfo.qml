@@ -592,7 +592,7 @@ Item {
                 }
                 PQMenuItem {
                     checkable: true
-                    text: qsTranslate("settingsmanager",  "manage window")
+                    text: qsTranslate("settingsmanager", "manage window")
                     checked: PQCSettings.interfaceStatusInfoManageWindow // qmllint disable unqualified
                     onCheckedChanged:
                         PQCSettings.interfaceStatusInfoManageWindow = checked // qmllint disable unqualified
@@ -600,7 +600,7 @@ Item {
 
                 PQMenu {
 
-                    title: "visibility:"
+                    title: qsTranslate("settingsmanager", "visibility")
 
                     PQMenuItem {
                         checkable: true

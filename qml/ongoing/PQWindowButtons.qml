@@ -410,7 +410,7 @@ Item {
 
                 PQMenu {
 
-                    title: "visibility:"
+                    title: qsTranslate("settingsmanager", "visibility:")
 
                     PQMenuItem {
                         checkable: true
