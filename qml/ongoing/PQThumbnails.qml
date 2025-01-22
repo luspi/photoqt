@@ -178,18 +178,29 @@ Item {
             // to accomplish that we calculate the total necessary width of the thumbnail bar and adjust the cacheBuffer variable accordingly
 
             if(PQCSettings.thumbnailsSameHeightVaryWidth) { // qmllint disable unqualified
-
-                var w = 0
-                for(var i = 0; i < numModel; ++i)
-                    w += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width
-
-                cacheBuffer = Math.max(320, w)
-
-            } else
+                loadCacheBuffer.restart()
+            } else {
                 cacheBuffer = 320
+                model = numModel
+            }
 
-            model = numModel
         }
+
+        Timer {
+            id: loadCacheBuffer
+            // this interval corresponds to the usual animation duration.
+            // this ensures that the chosen image is first fully shown before we load this in the background
+            interval: 200
+            onTriggered: {
+                var w = 0
+                for(var i = 0; i < view.numModel; ++i)
+                    w += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width // qmllint disable unqualified
+
+                view.cacheBuffer = Math.max(320, w)
+                view.model = view.numModel
+            }
+        }
+
         onModelChanged: {
             delegZ = 0
         }
