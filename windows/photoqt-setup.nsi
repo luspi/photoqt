@@ -58,9 +58,11 @@ Unicode True
 ;include the Uninstall log header
 !include AdvUninstLog2.nsh
 
+!define PHOTOQT_VERSION "4.7"
+
 ; name of project and installer filename
 Name "PhotoQt"
-OutFile "photoqt-setup.exe"
+OutFile "photoqt-${PHOTOQT_VERSION}.exe"
 
 ; this is a 64-bit program, thus install into 64-bit directory
 InstallDir "$PROGRAMFILES64\PhotoQt"
@@ -137,7 +139,10 @@ Section "PhotoQt" SecDummy
     WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "InstallDir" "$INSTDIR"
     WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "DisplayName" "PhotoQt"
     ;Same as create shortcut you need to use ${UNINST_EXE} instead of anything else.
-    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "UninstallString" "${UNINST_EXE}"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "UninstallString" "${UNINST_EXE} /S"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "QuietUninstallString" "${UNINST_EXE} /S"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "DisplayVersion" "${PHOTOQT_VERSION}"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "Publisher" "Lukas Spies"
 
     IfSilent 0 +2
     Call FinalStepsLeave
