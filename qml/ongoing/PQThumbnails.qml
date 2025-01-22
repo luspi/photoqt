@@ -192,11 +192,17 @@ Item {
             // this ensures that the chosen image is first fully shown before we load this in the background
             interval: 200
             onTriggered: {
-                var w = 0
-                for(var i = 0; i < view.numModel; ++i)
-                    w += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width // qmllint disable unqualified
+                var pix = 0
 
-                view.cacheBuffer = Math.max(320, w)
+                if(thumbnails_top.state==="left" || thumbnails_top.state==="right") {
+                    for(var i = 0; i < view.numModel; ++i)
+                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).height // qmllint disable unqualified
+                } else {
+                    for(var i = 0; i < view.numModel; ++i)
+                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width // qmllint disable unqualified
+                }
+
+                view.cacheBuffer = Math.max(320, pix)
                 view.model = view.numModel
             }
         }
