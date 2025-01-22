@@ -183,8 +183,10 @@ void PQCSettings::readDB() {
                 }
             } else if(datatype == "string")
                 this->insert(name, value);
-            else
+            else if(datatype != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
+            else
+                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
 
 #ifndef NDEBUG
             valid.push_back(name);
