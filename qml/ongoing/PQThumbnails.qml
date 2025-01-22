@@ -325,7 +325,7 @@ Item {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: Math.min(thumbnails_top.width, view.contentWidth)
+                    view.implicitWidth: view.numModel==0 ? 0 : Math.min(thumbnails_top.width, view.contentWidth)
                     view.implicitHeight: thumbnails_top.height-view.y
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
@@ -338,7 +338,7 @@ Item {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: Math.min(thumbnails_top.height, view.contentHeight)
+                    view.implicitHeight: view.numModel==0 ? 0 : Math.min(thumbnails_top.height, view.contentHeight)
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
@@ -350,7 +350,7 @@ Item {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: Math.min(thumbnails_top.height, view.contentHeight)
+                    view.implicitHeight: view.numModel==0 ? 0 : Math.min(thumbnails_top.height, view.contentHeight)
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
