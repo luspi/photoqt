@@ -298,9 +298,9 @@ Item {
             id: scrollbar_left
             parent: view.parent
             visible: thumbnails_top.state==="left"
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: parent.left
+            anchors.top: parent==null ? undefined : parent.top
+            anchors.bottom: parent==null ? undefined : parent.bottom
+            anchors.left: parent==null ? undefined : parent.left
             anchors.leftMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_left.width)/2
         }
 
@@ -309,9 +309,9 @@ Item {
             id: scrollbar_right
             parent: view.parent
             visible: thumbnails_top.state==="right"
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.right: parent.right
+            anchors.top: parent==null ? undefined : parent.top
+            anchors.bottom: parent==null ? undefined : parent.bottom
+            anchors.right: parent==null ? undefined : parent.right
             anchors.rightMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_right.width)/2
         }
 
