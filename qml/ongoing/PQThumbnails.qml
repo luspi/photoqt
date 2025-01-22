@@ -170,7 +170,26 @@ Item {
         id: view
 
         // the model is the total image count
-        model: thumbnails_top.state==="disabled"||!thumbnails_top.access_image.initialLoadingFinished ? 0 : PQCFileFolderModel.countMainView // qmllint disable unqualified
+        property int numModel: thumbnails_top.state==="disabled"||!thumbnails_top.access_image.initialLoadingFinished ? 0 : PQCFileFolderModel.countMainView // qmllint disable unqualified
+        onNumModelChanged: {
+
+            // if the width of the delegates can vary, then only keeping a few delegates ready makes the view jump back to the beginning when scrolling away from there
+            // the only solution is to make sure that all the delegates are set up and thumbnails loaded so that the view can scroll as expected
+            // to accomplish that we calculate the total necessary width of the thumbnail bar and adjust the cacheBuffer variable accordingly
+
+            if(PQCSettings.thumbnailsSameHeightVaryWidth) { // qmllint disable unqualified
+
+                var w = 0
+                for(var i = 0; i < numModel; ++i)
+                    w += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width
+
+                cacheBuffer = Math.max(320, w)
+
+            } else
+                cacheBuffer = 320
+
+            model = numModel
+        }
         onModelChanged: {
             delegZ = 0
         }
@@ -187,10 +206,6 @@ Item {
 
         // state follows the global thumbnail state
         state: thumbnails_top.state
-
-        // if the width of the delegates can vary, then only keeping a few delegates ready makes the view jump back to the beginning when scrolling away from there
-        // the only solution is to make sure that all the delegates are set up and thumbnails loaded so that the view can scroll as expected
-        cacheBuffer: PQCSettings.thumbnailsSameHeightVaryWidth ? (PQCFileFolderModel.countMainView*PQCSettings.thumbnailsSize*2) : 320
 
         // highlight animations
         property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") // qmllint disable unqualified
