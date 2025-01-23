@@ -73,7 +73,7 @@ These are some libraries and tools that can add additional formats to PhotoQt if
 
 3. _make_
 
-    \# This creates an executeable photoqt binary located in the ./build/ folder
+    \# This creates an executable photoqt binary located in the ./build/ folder
 
 4. (as root or sudo) _make install_
 
@@ -119,6 +119,6 @@ The following dependencies are recommended but can be disabled through CMake if 
 9. [ZXing-C++](https://github.com/zxing-cpp/zxing-cpp/)
 10. [LittleCMS](https://littlecms.com/)
 
-Make sure that any installed dependency is added to the system path, or otherwise you need to explicitely point CMake to the right location for each of them. Regardless, CMake might have to be explicitely pointed to the library/include paths of some of the dependencies by specifying `target_include_directories()` and `target_link_libraries()`.
+Make sure that any installed dependency is added to the system path, or otherwise you need to explicitly point CMake to the right location for each of them. Regardless, CMake might have to be explicitly pointed to the library/include paths of some of the dependencies by specifying `target_include_directories()` and `target_link_libraries()`.
 
-Once all the requried and desired dependencies are installed, then the source code of PhotoQt can be fetched from the website (https://photoqt.og/down). Then simply follow the instructions in the `BUILDING AND INSTALLING` section above
+Once all the required and desired dependencies are installed, then the source code of PhotoQt can be fetched from the website (https://photoqt.og/down). Then simply follow the instructions in the `BUILDING AND INSTALLING` section above

@@ -183,7 +183,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     socket = new QLocalSocket();
     socket->connectToServer(server_str);
 
-    // If this is successfull, then an instance is already running
+    // If this is successful, then an instance is already running
     if(socket->waitForConnected(100)) {
 
         if(message == "")

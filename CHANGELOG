@@ -234,7 +234,7 @@ Release 3.4 - 2023-10-06
 - add: resvg support for rendering SVG files
 - add: thumbnails/filedialog: show thumbnails of very small images at the original size
 - add: notification when deleting image without confirmation
-- add: cmake flag to disable webp support (webp suport is enabled by default)
+- add: cmake flag to disable webp support (webp support is enabled by default)
 - add: missing settings elements to connect PhotoQt with imgur.com account
 - improve: shortcuts: duplicate shortcuts automatically reasigned with undo button
 - improve: remove all modal popups
@@ -407,7 +407,7 @@ Release 2.8 - 2022-07-31
 - Windows: loading of images located on network drives
 - Windows: trash support (Qt >= 5.15)
 - Windows: support setting as wallpaper
-- Windows: explicitely use OpenGLES
+- Windows: explicitly use OpenGLES
 - general UI updates and color adjustments
 
 
@@ -705,7 +705,7 @@ Release 1.4 - 2016-05-17
 - Re-written image engine
 - Improvement: Custom* elements have been extended for higher customisability
 - Improvement: Enable optimisations when compiling
-- Improvement: Better startup-checks (seperate namespace and files)
+- Improvement: Better startup-checks (separate namespace and files)
 - Add: Improved key navigation for elements
 - Add: Support for most RAW image formats (using Libraw)
 - Add: Custom element for opening files
@@ -825,7 +825,7 @@ Release 1.0 - 2013-08-11
 - Smart context menu options
 - Improved thumbnail handling and view
 - Dynamic thumbnail creation (only create those thumbnails currently visible)
-- Posibility to write resolution on thumbnails (in order to use this you have to remove thumbnails of older versions)
+- Possibility to write resolution on thumbnails (in order to use this you have to remove thumbnails of older versions)
 - Faster image and directory loading
 - Improved fading between images
 - Locale detection when no language is set
@@ -916,7 +916,7 @@ Release 0.7 - 2012-03-08
 - Rotating/flipping of image as stored in its exif data
 - Possibility to set and adjust mouse actions as shortcuts
 - Make Thumbnails moveable to top
-- Internal Shortcuts made easier accessable
+- Internal Shortcuts made easier accessible
 - More than one modifier (Ctrl/Shift/Alt) can now be used for shortcuts
 - Flipping of images
 - Zoom to actual size

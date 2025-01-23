@@ -192,7 +192,7 @@ void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targe
                 writer.setFileName(tmpImagePath);
                 writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
 
-                // if the actual writing suceeds we're done now
+                // if the actual writing succeeds we're done now
                 if(!writer.write(img))
                     qWarning() << "ERROR:" << writer.errorString();
                 else {

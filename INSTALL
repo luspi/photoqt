@@ -87,7 +87,7 @@
 
      # At this step you can also en-/disable any compile time features.
 
-3) make  # This creates an executeable photoqt binary located in the ./build/ folder
+3) make  # This creates an executable photoqt binary located in the ./build/ folder
 
 4) (as root or sudo) make install
      # This (  i) is only required if you want to install PhotoQt
@@ -146,10 +146,10 @@
 10) LittleCMS: https://littlecms.com/
 
  Make sure that any installed dependency is added to the system path, or otherwise you
- need to explicitely point CMake to the right location for each of them. Regardless, CMake
- might have to be explicitely pointed to the library/include paths of some of the
+ need to explicitly point CMake to the right location for each of them. Regardless, CMake
+ might have to be explicitly pointed to the library/include paths of some of the
  dependencies by specifying target_include_directories() and target_link_libraries().
 
- Once all the requried and desired dependencies are installed, then the source code of
+ Once all the required and desired dependencies are installed, then the source code of
  PhotoQt can be fetched from the website (https://photoqt.og/down). Then simply follow
  the instructions in the 'BUILDING AND INSTALLING' section above

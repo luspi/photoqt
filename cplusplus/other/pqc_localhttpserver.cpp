@@ -35,7 +35,7 @@ void delayms( int millisecondsToWait );
 
 PQCLocalHttpServer::PQCLocalHttpServer(QObject *parent) : QObject(parent) {
     server = new QTcpServer(this);
-    // waiting for the web brower to make contact,this will emit signal
+    // waiting for the web browser to make contact,this will emit signal
     connect(server, SIGNAL(newConnection()),this, SLOT(serve()));
 }
 

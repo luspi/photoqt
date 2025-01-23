@@ -680,7 +680,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     qDebug() << "args: path =" << path;
 
     // at this point we assume that the check for google motion photo has already been done
-    // and we wont need to check again
+    // and we won't need to check again
 
     // the approach taken in this function is inspired by the analysis found at:
     // https://linuxreviews.org/Google_Pixel_%22Motion_Photo%22
@@ -1057,7 +1057,7 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
-        qWarning() << "Error occured loading PDF";
+        qWarning() << "Error occurred loading PDF";
         return "";
     }
 
@@ -1186,7 +1186,7 @@ int PQCScriptsImages::getDocumentPageCount(QString path) {
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
-        qWarning() << "Error occured loading PDF";
+        qWarning() << "Error occurred loading PDF";
         return 0;
     }
 
@@ -2156,7 +2156,7 @@ double PQCScriptsImages::getPixelDensity() {
                 devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
                 return useRatio;
 
-            // if error occured, then we effectively disable this feature
+            // if error occurred, then we effectively disable this feature
             } else {
 
                 devicePixelRatioCached = 1;

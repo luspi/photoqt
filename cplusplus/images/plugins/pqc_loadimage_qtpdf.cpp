@@ -52,7 +52,7 @@ QSize PQCLoadImageQtPDF::loadSize(QString filename) {
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
-        qWarning() << "Error occured loading PDF";
+        qWarning() << "Error occurred loading PDF";
         return QSize();
     }
 
@@ -88,7 +88,7 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
 
     QPdfDocument::Error err = doc.error();
     if(err != QPdfDocument::Error::None) {
-        errormsg = "Error occured loading PDF";
+        errormsg = "Error occurred loading PDF";
         qWarning() << errormsg;
         return errormsg;
     }

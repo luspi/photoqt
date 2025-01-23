@@ -89,7 +89,7 @@ QString PQCScriptsMetaData::analyzeFlash(const QString val) {
     QString fYes = tr("yes");
     //: This string identifies that flash was not fired, stored in image metadata
     QString fNo = tr("no");
-    //: This string refers to the absense of a flash, stored in image metadata
+    //: This string refers to the absence of a flash, stored in image metadata
     QString fNoFlash = tr("No flash function");
     //: This string refers to a flash mode, stored in image metadata
     QString fNoStrobe = tr("strobe return light not detected");
