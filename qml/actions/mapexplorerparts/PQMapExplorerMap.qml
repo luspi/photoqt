@@ -180,6 +180,89 @@ Item {
                 }
             }
 
+            PQMouseArea {
+                id: mapmouse
+                anchors.fill: parent
+                acceptedButtons: Qt.RightButton
+                onClicked: {
+                    mapmenu.popup()
+                }
+            }
+            PQMenu {
+
+                id: mapmenu
+
+                property list<real> loc
+
+                PQMenuItem {
+                    enabled: false
+                    text: qsTranslate("mapexplorer", "Copy location to clipboard:")
+                }
+
+                PQMenuItem {
+                    id: menuitem_exact
+                    text: Math.round(1e2*mapmenu.loc[0])/1e2 + ", " + Math.round(1e2*mapmenu.loc[1])/1e2
+                    onTriggered: {
+                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    }
+                }
+
+                PQMenuItem {
+                    implicitHeight: (visible ? 40 : 0)
+                    visible: text!=menuitem_exact.text
+                    text: Math.round(1e5*mapmenu.loc[0])/1e5 + ", " + Math.round(1e5*mapmenu.loc[1])/1e5
+                    onTriggered: {
+                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    }
+                }
+
+                PQMenuItem {
+                    text: PQCScriptsMetaData.convertGPSDecimalToDegree(mapmenu.loc[0], mapmenu.loc[1]) // qmllint disable unqualified
+                    onTriggered: {
+                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    }
+                }
+
+                onAboutToShow: {
+                    var val = map.toCoordinate(Qt.point(mapmouse.mouseX, mapmouse.mouseY))
+                    mapmenu.loc = [val.latitude, val.longitude]
+                    map_top.gpsContextMenuIsOpen = true
+                    contextmarker.coordinate = val
+                }
+                onAboutToHide:
+                    map_top.gpsContextMenuIsOpen = false
+                Connections {
+                    target: map_top
+                    function onCloseMenus() {
+                        mapmenu.close()
+                    }
+                }
+
+            }
+
+            MapQuickItem {
+
+                id: contextmarker
+
+                anchorPoint.x: curposImage.width*(61/256)
+                anchorPoint.y: curposImage.height*(198/201)
+
+                opacity: mapmenu.visible ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 100 } }
+                visible: opacity>0
+
+                sourceItem:
+                    Image {
+                        id: curposImage
+                        width: 64
+                        height: 50
+                        mipmap: true
+                        smooth: false
+                        source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" // qmllint disable unqualified
+                    }
+
+            }
+
             property list<var> steps: [
                 [0.001, 16.5],
                 [0.005, 14],
@@ -410,22 +493,31 @@ Item {
 
                     PQMenuItem {
                         enabled: false
-                        text: qsTranslate("mapexplorer", "Copy to clipboard:")
+                        text: qsTranslate("mapexplorer", "Copy location to clipboard:")
                     }
 
                     PQMenuItem {
                         id: menuitem1
                         text: gpspos.loc[0] + ", " + gpspos.loc[1]
+                        onTriggered: {
+                            PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        }
                     }
 
                     PQMenuItem {
                         implicitHeight: (visible ? 40 : 0)
                         visible: text!=menuitem1.text
                         text: Math.round(1e5*gpsmenu.curLatLon[0])/1e5 + ", " + Math.round(1e5*gpsmenu.curLatLon[1])/1e5
+                        onTriggered: {
+                            PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        }
                     }
 
                     PQMenuItem {
                         text: PQCScriptsMetaData.convertGPSDecimalToDegree(gpsmenu.curLatLon[0], gpsmenu.curLatLon[1]) // qmllint disable unqualified
+                        onTriggered: {
+                            PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        }
                     }
                 }
 
