@@ -68,7 +68,7 @@ QSize PQCLoadImage::load(QString filename) {
     //////////////////////////////////////////////
     // first we check for filename suffix matches
 
-    // we need to explicitely set the initial size to be 0,0 otherwise the isNull check below will always fail
+    // we need to explicitly set the initial size to be 0,0 otherwise the isNull check below will always fail
     QSize sze(0,0);
 
     // resvg trumps Qt's SVG engine

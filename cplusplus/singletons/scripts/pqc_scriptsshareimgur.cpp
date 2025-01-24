@@ -406,7 +406,7 @@ int PQCScriptsShareImgur::upload(QString filename) {
     connect(reply, &QNetworkReply::errorOccurred, this, &PQCScriptsShareImgur::uploadError);
     connect(this, &PQCScriptsShareImgur::abortAllRequests, reply, &QNetworkReply::abort);
 
-    // Phew, no error occured!
+    // Phew, no error occurred!
     return IMGUR_NOERROR;
 
 }
@@ -446,7 +446,7 @@ int PQCScriptsShareImgur::anonymousUpload(QString filename) {
     connect(reply, &QNetworkReply::errorOccurred, this, &PQCScriptsShareImgur::uploadError);
     connect(this, &PQCScriptsShareImgur::abortAllRequests, reply, &QNetworkReply::abort);
 
-    // Phew, no error occured!
+    // Phew, no error occurred!
     return IMGUR_NOERROR;
 
 }
@@ -508,7 +508,7 @@ void PQCScriptsShareImgur::uploadProgress(qint64 bytesSent, qint64 bytesTotal) {
 
 }
 
-// An error occured
+// An error occurred
 void PQCScriptsShareImgur::uploadError(QNetworkReply::NetworkError err) {
 
     qDebug() << "args: err =" << err;

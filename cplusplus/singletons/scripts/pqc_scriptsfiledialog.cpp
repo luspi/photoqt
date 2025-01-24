@@ -472,7 +472,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
     while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))
         ++counter;
 
-    // no items currenty set
+    // no items currently set
     if(allIds.length() == 0) {
 
         pugi::xpath_node_set toplevel = doc.select_nodes("/xbel");

@@ -217,7 +217,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             }
         }
 
-        // If an error occured
+        // If an error occurred
         if(img.isNull()) {
             errormsg = reader.errorString();
             qWarning() << errormsg;

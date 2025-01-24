@@ -273,7 +273,7 @@ bool PQCScriptsChromeCast::disconnect() {
     const QString pyPath = QString("%1/chromecast_disconnect.py").arg(QDir::tempPath());
     QFile::remove(pyPath);
     if(!QFile::copy(":/chromecast_disconnect.py", pyPath)) {
-        qWarning() << "ERROR preparing disconnect python script, chromecast wont properly shut down";
+        qWarning() << "ERROR preparing disconnect python script, chromecast won't properly shut down";
         return false;
     }
 

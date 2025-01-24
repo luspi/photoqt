@@ -632,7 +632,7 @@ bool PQCImageFormats::enterNewFormat(QString endings, QString mimetypes, QString
     int howmany = query.record().value("NumFormats").toInt();
     if(howmany != 0) {
         if(!silentIfExists)
-            qDebug() << "Found" << howmany << "format with the new descrption, not entering anything new.";
+            qDebug() << "Found" << howmany << "format with the new description, not entering anything new.";
         return false;
     }
 

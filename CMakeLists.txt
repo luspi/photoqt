@@ -219,7 +219,7 @@ endif()
 
 
 #############################
-#### Add the executeable ####
+#### Add the executable ####
 #############################
 
 if(WIN32)
@@ -436,7 +436,7 @@ if(EXIV2)
         if(WIN32)
             target_compile_definitions(photoqt PRIVATE NOMINMAX)
         endif()
-        # if exiv2 0.27.x is used some c++ features removed in c++17 need to be reenabled
+        # if exiv2 0.27.x is used some c++ features removed in c++17 need to be re-enabled
         if(${CMAKE_CXX_COMPILER_ID} MATCHES "Clang")
             if(${exiv2_VERSION} MATCHES "^0\.27\.")
                 message("** Enabling C++ features removed in C++17 for Exiv2 0.27.x")
@@ -643,7 +643,7 @@ endif()
 
 if(UNIX)
 
-    # Install executeable
+    # Install executable
     install(
         TARGETS ${PROJECT_NAME}
         DESTINATION bin/
