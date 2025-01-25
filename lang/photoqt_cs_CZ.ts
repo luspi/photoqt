@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it" sourcelanguage="en">
+<TS version="2.1" language="cs" sourcelanguage="en">
   <context>
     <name>PQCImageFormats</name>
     <message>
@@ -8,19 +8,19 @@
       <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="79"/>
       <source>ERROR getting default image formats</source>
       <extracomment>This is the window title of an error message box</extracomment>
-      <translation>ERRORE impossibile recuperare i formati immagine predefiniti</translation>
+      <translation>CHYBA při získávání výchozích formátů obrázků</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="67"/>
       <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="80"/>
       <source>Not even a read-only version of the database of default image formats could be opened.</source>
-      <translation>Non è stato possibile aprire nemmeno una versione in sola lettura del database dei formati di immagine predefiniti.</translation>
+      <translation>Nepodařilo se otevřít ani verzi pouze pro čtení databáze výchozích formátů obrázků.</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="67"/>
       <location filename="../cplusplus/singletons/engines/pqc_imageformats.cpp" line="80"/>
       <source>Something went terribly wrong somewhere!</source>
-      <translation>Da qualche parte, qualcosa è andato terribilmente storto!</translation>
+      <translation>Něco se někde šíleně pokazilo!</translation>
     </message>
   </context>
   <context>
@@ -29,169 +29,169 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="89"/>
       <source>yes</source>
       <extracomment>This string identifies that flash was fired, stored in image metadata</extracomment>
-      <translation>sì</translation>
+      <translation>ano</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="91"/>
       <source>no</source>
       <extracomment>This string identifies that flash was not fired, stored in image metadata</extracomment>
-      <translation>no</translation>
+      <translation>ne</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="93"/>
       <source>No flash function</source>
       <extracomment>This string refers to the absense of a flash, stored in image metadata</extracomment>
-      <translation>Nessuna funzione flash</translation>
+      <translation>Žádná funkce blesku</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="95"/>
       <source>strobe return light not detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Luce stroboscopica di ritorno non rilevata</translation>
+      <translation>stroboskopické zpětné světlo není detekováno</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="97"/>
       <source>strobe return light detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Luce stroboscopica di ritorno rilevata</translation>
+      <translation>stroboskopické zpětné světlo detekováno</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="99"/>
       <source>compulsory flash mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Modalità flash obbligatoria</translation>
+      <translation>povinný režim blesku</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="101"/>
       <source>auto mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Modalità automatica</translation>
+      <translation>automatický režim</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="103"/>
       <source>red-eye reduction mode</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Modalità riduzione occhi rossi</translation>
+      <translation>režim redukce červených očí</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="105"/>
       <source>return light detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Restituisci luce rilevata</translation>
+      <translation>zpětné světlo detekováno</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="107"/>
       <source>return light not detected</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Restituisci luce non rilevata</translation>
+      <translation>zpětné světlo není detekováno</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="155"/>
       <source>Invalid flash</source>
       <extracomment>This string refers to a flash mode, stored in image metadata</extracomment>
-      <translation>Flash non valido</translation>
+      <translation>neplatný blesk</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="165"/>
       <source>Standard</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-      <translation>Predefinito</translation>
+      <translation>Standardní</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="168"/>
       <source>Landscape</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-      <translation>Orizzontale</translation>
+      <translation>Na šířku</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="171"/>
       <source>Portrait</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-      <translation>Verticale</translation>
+      <translation>Na výšku</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="174"/>
       <source>Night Scene</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-      <translation>Scena Notturna</translation>
+      <translation>Noční scéna</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="177"/>
       <source>Invalid Scene Type</source>
       <extracomment>This string refers to a type of scene, stored in image metadata</extracomment>
-      <translation>Tipo Di Scena Non Valido</translation>
+      <translation>Neplatný typ scény</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="227"/>
       <source>Unknown</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Sconosciuto</translation>
+      <translation>Neznámý</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="230"/>
       <source>Daylight</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Luce diurna</translation>
+      <translation>Denní světlo</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="233"/>
       <source>Fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Fluorescente</translation>
+      <translation>Fluorescenční</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="236"/>
       <source>Tungsten (incandescent light)</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Tungsteno (luce a incandescenza)</translation>
+      <translation>Wolfram (žárovka)</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="239"/>
       <source>Flash</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Flash</translation>
+      <translation>Blesk</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="242"/>
       <source>Fine weather</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Bel tempo</translation>
+      <translation>Dobré počasí</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="245"/>
       <source>Cloudy Weather</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Nuvoloso</translation>
+      <translation>Oblačné počasí</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="248"/>
       <source>Shade</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Ombreggiatura</translation>
+      <translation>Stín</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="251"/>
       <source>Daylight fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Luce diurna fluorescente</translation>
+      <translation>Denní světlo fluorescenční</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="254"/>
       <source>Day white fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Fluorescenza bianca diurna</translation>
+      <translation>Denní bílá fluorescenční</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="257"/>
       <source>Cool white fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Fluorescenza bianca fredda</translation>
+      <translation>Studená bílá fluorescenční</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="260"/>
       <source>White fluorescent</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Fluorescenza bianca</translation>
+      <translation>Bílá fluorescenční</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="263"/>
@@ -199,19 +199,19 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="269"/>
       <source>Standard light</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Luce predefinita</translation>
+      <translation>Standardní světlo</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="282"/>
       <source>Other light source</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Altra sorgente luminosa</translation>
+      <translation>Jiný zdroj světla</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsmetadata.cpp" line="285"/>
       <source>Invalid light source</source>
       <extracomment>This string refers to the light source stored in image metadata</extracomment>
-      <translation>Sorgente luminosa non valida</translation>
+      <translation>Neplatný zdroj světla</translation>
     </message>
   </context>
   <context>
@@ -219,7 +219,7 @@
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsother.cpp" line="106"/>
       <source>Print</source>
-      <translation>Stampa</translation>
+      <translation>Tisk</translation>
     </message>
   </context>
   <context>
@@ -228,23 +228,23 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsundo.cpp" line="82"/>
       <source>File with original filename exists already</source>
       <comment>filemanagement</comment>
-      <translation type="unfinished">File with original filename exists already</translation>
+      <translation>Soubor s původním názvem souboru již existuje</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsundo.cpp" line="96"/>
       <source>File restored from Trash</source>
       <comment>filemanagement</comment>
-      <translation type="unfinished">File restored from Trash</translation>
+      <translation>Soubor obnoven z koše</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsundo.cpp" line="103"/>
       <source>Failed to recover file</source>
-      <translation type="unfinished">Failed to recover file</translation>
+      <translation>Nepodařilo se obnovit soubor</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsundo.cpp" line="107"/>
       <source>Unknown action</source>
-      <translation type="unfinished">Unknown action</translation>
+      <translation>Neznámá akce</translation>
     </message>
   </context>
   <context>
@@ -253,12 +253,12 @@
       <location filename="../cplusplus/other/pqc_startup.cpp" line="47"/>
       <source>SQLite error</source>
       <extracomment>This is the window title of an error message box</extracomment>
-      <translation>Errore di SQLite</translation>
+      <translation>SQLite chyba</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_startup.cpp" line="48"/>
       <source>You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!</source>
-      <translation type="unfinished">You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!</translation>
+      <translation>Zdá se, že vám chybí SQLite ovladač pro Qt. Ten je nutný pro několik věcí, třeba pro čtení a zápis nastavení. Bez něj němůže PhotoQt fungovat!</translation>
     </message>
   </context>
   <context>
@@ -267,28 +267,28 @@
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="72"/>
       <source>ERROR getting database with default settings</source>
       <extracomment>This is the window title of an error message box</extracomment>
-      <translation>ERRORE nel recupero del database con le impostazioni predefinite</translation>
+      <translation>CHYBA při získávání databáze s výchozím nastavením</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
       <source>I tried hard, but I just cannot open even a read-only version of the settings database.</source>
-      <translation>Ce l'ho messa tutta, ma non riesco proprio ad aprire nemmeno una versione in sola lettura del database delle impostazioni.</translation>
+      <translation>Snažil jsem se, ale prostě nemohu otevřít ani verzi pouze pro čtení databáze nastavení.</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="85"/>
       <source>Something went terribly wrong somewhere!</source>
-      <translation>Da qualche parte, qualcosa è andato terribilmente storto!</translation>
+      <translation>Něco se někde šíleně pokazilo!</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="84"/>
       <source>ERROR opening database with default settings</source>
-      <translation>ERRORE nell'apertura del database con le impostazioni predefinite</translation>
+      <translation>CHYBA při otevírání databáze s výchozím nastavením</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="85"/>
       <source>I tried hard, but I just cannot open the database of default settings.</source>
-      <translation>Ce l'ho messa tutta, ma non riesco proprio ad aprire il database delle impostazioni predefinite.</translation>
+      <translation>Snažil jsem se, ale prostě nemohu otevřít databázi výchozích nastavení.</translation>
     </message>
   </context>
   <context>
@@ -297,28 +297,28 @@
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="61"/>
       <source>ERROR getting database with default shortcuts</source>
       <extracomment>This is the window title of an error message box</extracomment>
-      <translation>ERRORE nel recupero del database con le scorciatoie predefinite</translation>
+      <translation>CHYBA při získávání batabáze s výchozími zástupci</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
       <source>I tried hard, but I just cannot open even a read-only version of the shortcuts database.</source>
-      <translation>Ce l'ho messa tutta, ma non riesco proprio ad aprire nemmeno una versione in sola lettura del database delle scorciatoie.</translation>
+      <translation>Snažil jsem se, ale prostě nemohu otevřít ani verzi pouze pro čtení databáze zástupců.</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="74"/>
       <source>Something went terribly wrong somewhere!</source>
-      <translation>Da qualche parte, qualcosa è andato terribilmente storto!</translation>
+      <translation>Něco se někde šíleně pokazilo!</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="73"/>
       <source>ERROR opening database with default settings</source>
-      <translation>ERRORE nell'apertura del database con le impostazioni predefinite</translation>
+      <translation>CHYBA při otevírání databáze s výchozím nastavením</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="74"/>
       <source>I tried hard, but I just cannot open the database of default shortcuts.</source>
-      <translation>Ce l'ho messa tutta, ma non riesco proprio ad aprire il database delle scorciatoie predefinite.</translation>
+      <translation>Snažil jsem se, ale prostě nemohu otevřít databázi výchozích zástupců.</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="53"/>
@@ -336,73 +336,73 @@
       <location filename="../qml/other/PQShortcuts.qml" line="57"/>
       <source>Shift</source>
       <extracomment>Refers to a keyboard modifier</extracomment>
-      <translation>Maiuscolo</translation>
+      <translation>Shift</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="59"/>
       <source>Page Up</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Pagina su</translation>
+      <translation>Page Up</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="61"/>
       <source>Page Down</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Pagina giù</translation>
+      <translation>Page Down</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="63"/>
       <source>Meta</source>
       <extracomment>Refers to the key that usually has the Windows symbol on it</extracomment>
-      <translation>Windows</translation>
+      <translation>Meta</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="65"/>
       <source>Keypad</source>
       <extracomment>Refers to the key that triggers the number block on keyboards</extracomment>
-      <translation>Tastierino</translation>
+      <translation>Keypad</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="67"/>
       <source>Escape</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Esc</translation>
+      <translation>Escape</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="69"/>
       <source>Right</source>
       <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation>Destra</translation>
+      <translation>Doprava</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="71"/>
       <source>Left</source>
       <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation>Sinistra</translation>
+      <translation>Doleva</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="73"/>
       <source>Up</source>
       <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation>Su</translation>
+      <translation>Nahoru</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="75"/>
       <source>Down</source>
       <extracomment>Refers to one of the arrow keys on the keyboard</extracomment>
-      <translation>Giù</translation>
+      <translation>Dolů</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="77"/>
       <source>Space</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Spazio</translation>
+      <translation>Mezerník</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="79"/>
       <source>Delete</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Canc</translation>
+      <translation>Delete</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="81"/>
@@ -414,151 +414,151 @@
       <location filename="../qml/other/PQShortcuts.qml" line="83"/>
       <source>Home</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Inizio</translation>
+      <translation>Home</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="85"/>
       <source>End</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Fine</translation>
+      <translation>End</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="87"/>
       <source>Insert</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Ins</translation>
+      <translation>Insert</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="89"/>
       <source>Tab</source>
       <extracomment>Refers to one of the keys on the keyboard</extracomment>
-      <translation>Tabulazione</translation>
+      <translation>Tab</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="91"/>
       <source>Return</source>
       <extracomment>Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button) different if possible!</extracomment>
-      <translation>Invio</translation>
+      <translation>Return</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="93"/>
       <source>Enter</source>
       <extracomment>Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter different if possible!</extracomment>
-      <translation>Invio</translation>
+      <translation>Enter</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="98"/>
       <source>Left Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Sinistro</translation>
+      <translation>Levé tlačítko</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="100"/>
       <source>Right Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Destro</translation>
+      <translation>Pravé tlačítko</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="102"/>
       <source>Middle Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Centrale</translation>
+      <translation>Prostřední tlačítko</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="104"/>
       <source>Back Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Indietro</translation>
+      <translation>Tlačítko zpět</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="106"/>
       <source>Forward Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Avanti</translation>
+      <translation>Tlačítko dopředu</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="108"/>
       <source>Task Button</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante Attività</translation>
+      <translation>Tlačítko úlohy</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="110"/>
       <source>Button #7</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante 7</translation>
+      <translation>Tlačítko #7</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="112"/>
       <source>Button #8</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante 8</translation>
+      <translation>Tlačítko #8</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="114"/>
       <source>Button #9</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante 9</translation>
+      <translation>Tlačítko #9</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="116"/>
       <source>Button #10</source>
       <extracomment>Refers to a mouse button</extracomment>
-      <translation>Pulsante 10</translation>
+      <translation>Tlačítko #10</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="118"/>
       <source>Double Click</source>
       <extracomment>Refers to a mouse event</extracomment>
-      <translation>Doppio Clic</translation>
+      <translation>Dvojité kliknutí</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="120"/>
       <source>Wheel Up</source>
       <extracomment>Refers to the mouse wheel</extracomment>
-      <translation>Rotella Su</translation>
+      <translation>Kolečko nahoru</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="122"/>
       <source>Wheel Down</source>
       <extracomment>Refers to the mouse wheel</extracomment>
-      <translation>Rotella Giù</translation>
+      <translation>Kolečko dolů</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="124"/>
       <source>Wheel Left</source>
       <extracomment>Refers to the mouse wheel</extracomment>
-      <translation>Ruota Sinistra</translation>
+      <translation>Kolečko doleva</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="126"/>
       <source>Wheel Right</source>
       <extracomment>Refers to the mouse wheel</extracomment>
-      <translation>Ruota Destra</translation>
+      <translation>Kolečko doprava</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="128"/>
       <source>East</source>
       <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation>Est</translation>
+      <translation>Východ</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="130"/>
       <source>South</source>
       <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation>Sud</translation>
+      <translation>Jih</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="132"/>
       <source>West</source>
       <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation>Ovest</translation>
+      <translation>Západ</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="134"/>
       <source>North</source>
       <extracomment>Refers to a direction of the mouse when performing a mouse gesture</extracomment>
-      <translation>Nord</translation>
+      <translation>Sever</translation>
     </message>
   </context>
   <context>
@@ -567,37 +567,37 @@
       <location filename="../qml/actions/popout/PQExportPopout.qml" line="31"/>
       <source>Export image</source>
       <extracomment>Window title</extracomment>
-      <translation>Esporta immagine</translation>
+      <translation>Exportovat obrázek</translation>
     </message>
     <message>
       <location filename="../qml/filedialog/popout/PQFileDialogPopout.qml" line="33"/>
       <source>File Dialog</source>
       <extracomment>Window title</extracomment>
-      <translation>Finestra File</translation>
+      <translation>Dialog Souboru</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/popout/PQMainMenuPopout.qml" line="33"/>
       <source>Main Menu</source>
       <extracomment>Window title</extracomment>
-      <translation>Menu Principale</translation>
+      <translation>Hlavní nabídka</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/popout/PQMetaDataPopout.qml" line="33"/>
       <source>Metadata</source>
       <extracomment>Window title</extracomment>
-      <translation>Metadati</translation>
+      <translation>Metadata</translation>
     </message>
     <message>
       <location filename="../qml/actions/popout/PQAboutPopout.qml" line="31"/>
       <source>About</source>
       <extracomment>Window title</extracomment>
-      <translation>Informazioni</translation>
+      <translation>O aplikaci</translation>
     </message>
     <message>
       <location filename="../qml/actions/popout/PQMapExplorerPopout.qml" line="32"/>
       <source>Map Explorer</source>
       <extracomment>Window title</extracomment>
-      <translation>Esploratore Mappa</translation>
+      <translation>Průzkumník map</translation>
     </message>
   </context>
   <context>
@@ -606,7 +606,7 @@
       <location filename="../qml/actions/popout/PQAdvancedSortPopout.qml" line="32"/>
       <source>Advanced image sort</source>
       <extracomment>Window title</extracomment>
-      <translation>Ordinamento Immagini Avanzato</translation>
+      <translation>Rozšířené řazení obrázků</translation>
     </message>
   </context>
   <context>
@@ -623,28 +623,28 @@
       <location filename="../qml/elements/PQButtonElement.qml" line="46"/>
       <source>Cancel</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-      <translation>Annulla</translation>
+      <translation>Zrušit</translation>
     </message>
     <message>
       <location filename="../qml/elements/PQButton.qml" line="64"/>
       <location filename="../qml/elements/PQButtonElement.qml" line="48"/>
       <source>Save</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-      <translation>Salva</translation>
+      <translation>Uložit</translation>
     </message>
     <message>
       <location filename="../qml/elements/PQButton.qml" line="66"/>
       <location filename="../qml/elements/PQButtonElement.qml" line="50"/>
       <source>Close</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
-      <translation>Chiudi</translation>
+      <translation>Zavřít</translation>
     </message>
     <message>
       <location filename="../qml/elements/PQButton.qml" line="112"/>
       <location filename="../qml/elements/PQButtonElement.qml" line="106"/>
       <location filename="../qml/elements/PQButtonIcon.qml" line="107"/>
       <source>Activate button</source>
-      <translation>Pulsante di attivazione</translation>
+      <translation type="unfinished">Activate button</translation>
     </message>
   </context>
   <context>
@@ -652,123 +652,123 @@
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="37"/>
       <source>Image Viewer</source>
-      <translation>Visualizzatore immagini</translation>
+      <translation>Prohlížeč obrázků</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="39"/>
       <source>Image file to open.</source>
-      <translation>File immagine da aprire.</translation>
+      <translation>Soubor obrázku který se otevře.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="46"/>
       <source>Make PhotoQt ask for a new file.</source>
-      <translation>Fai chiedere a PhotoQt un nuovo file.</translation>
+      <translation>Požádat PhotoQt o nový soubor.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="48"/>
       <source>Shows PhotoQt from system tray.</source>
-      <translation>Mostra PhotoQt dal vassoio di sistema.</translation>
+      <translation>Zobrazí PhotoQt ze systémové lišty.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="50"/>
       <source>Hides PhotoQt to system tray.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Nasconde PhotoQt nel vassoio di sistema.</translation>
+      <translation>Schová PhotoQt do systémové lišty.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="52"/>
       <source>Quit PhotoQt.</source>
-      <translation>Esci da PhotoQt.</translation>
+      <translation>Ukončit PhotoQt.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="54"/>
       <source>Show/Hide PhotoQt.</source>
-      <translation>Mostra/Nascondi PhotoQt.</translation>
+      <translation>Zobrazit/skrýt PhotoQt.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="56"/>
       <source>Enable system tray icon.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Abilita icona nel vassoio di sistema.</translation>
+      <translation>Povolit ikonu v systémové liště.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="58"/>
       <source>Disable system tray icon.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Disabilita icona nel vassoio di sistema.</translation>
+      <translation>Zakázat ikonu v systémové liště.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="60"/>
       <source>Start PhotoQt hidden to the system tray.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Avvia PhotoQt nascosto nel vassoio di sistema.</translation>
+      <translation>Spustit PhotoQt skryté v systémové liště.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="62"/>
       <source>Simulate a shortcut sequence</source>
       <extracomment>Command line option</extracomment>
-      <translation>Simula una sequenza di tasti come scorciatoia</translation>
+      <translation>Simulovat posloupnost zástupců</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="64"/>
       <source>Change setting to specified value.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Cambia impostazione al valore specificato.</translation>
+      <translation>Změnit nastavení na zadanou hodnotu.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="66"/>
       <source>settingname:value</source>
       <extracomment>Command line option</extracomment>
-      <translation>nomeimpostazione:valore</translation>
+      <translation>názevnastavení:hodnota</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="68"/>
       <source>Switch on debug messages.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Attiva messaggi di debug.</translation>
+      <translation>Zapnout zprávy o ladění.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="70"/>
       <source>Switch off debug messages.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Disattiva messaggi di debug.</translation>
+      <translation>Vypnout zprávy o ladění.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="72"/>
       <source>Export configuration to given filename.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Esporta la configurazione nel file con il nome dato.</translation>
+      <translation>Exportovat konfiguraci do daného souboru.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="74"/>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="78"/>
       <source>filename</source>
       <extracomment>Command line option</extracomment>
-      <translation>nome del file</translation>
+      <translation>název souboru</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="76"/>
       <source>Import configuration from given filename.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Importa la configurazione dal file con il nome dato.</translation>
+      <translation>Importovat konfiguraci z daného souboru.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="80"/>
       <source>Check the configuration and correct any detected issues.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Controllare la configurazione e correggere eventuali problemi rilevati.</translation>
+      <translation>Zkontrolujte konfiguraci a opravte všechny zjištěné problémy.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="82"/>
       <source>Reset default configuration.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Ripristina la configurazione predefinita.</translation>
+      <translation>Obnovit výchozí konfiguraci.</translation>
     </message>
     <message>
       <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="84"/>
       <source>Show configuration overview.</source>
       <extracomment>Command line option</extracomment>
-      <translation>Mostra panoramica della configurazione.</translation>
+      <translation>Zobrazit přehled konfigurace.</translation>
     </message>
   </context>
   <context>
@@ -777,7 +777,7 @@
       <location filename="../qml/actions/popout/PQCropPopout.qml" line="31"/>
       <source>Crop image</source>
       <extracomment>Window title</extracomment>
-      <translation type="unfinished">Crop image</translation>
+      <translation>Oříznout obrázek</translation>
     </message>
   </context>
   <context>
@@ -794,18 +794,18 @@
       <location filename="../qml/actions/popout/PQDeletePopout.qml" line="31"/>
       <source>Delete file?</source>
       <extracomment>Window title</extracomment>
-      <translation>Elimina file?</translation>
+      <translation>Odstranit soubor?</translation>
     </message>
     <message>
       <location filename="../qml/actions/popout/PQRenamePopout.qml" line="31"/>
       <source>Rename file</source>
       <extracomment>Window title</extracomment>
-      <translation>Rinomina file</translation>
+      <translation>Přejmenovat soubor</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="760"/>
       <source>File successfully deleted</source>
-      <translation>File eliminato con successo</translation>
+      <translation>Soubor byl úspěšně odstraněn</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="760"/>
@@ -813,46 +813,46 @@
       <location filename="../qml/other/PQShortcuts.qml" line="780"/>
       <location filename="../qml/other/PQShortcuts.qml" line="814"/>
       <source>Success</source>
-      <translation type="unfinished">Success</translation>
+      <translation>Úspěšně dokončeno</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="763"/>
       <source>Could not delete file</source>
-      <translation>Impossibile eliminare il file</translation>
+      <translation>Nepodařilo se odstranit soubor</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="763"/>
       <location filename="../qml/other/PQShortcuts.qml" line="773"/>
       <location filename="../qml/other/PQShortcuts.qml" line="783"/>
       <source>Failed</source>
-      <translation type="unfinished">Failed</translation>
+      <translation>Selhání</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="770"/>
       <location filename="../qml/other/PQShortcuts.qml" line="780"/>
       <source>File successfully moved to trash</source>
-      <translation type="unfinished">File successfully moved to trash</translation>
+      <translation>Soubor byl úspěšně přesunut do koše</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="773"/>
       <location filename="../qml/other/PQShortcuts.qml" line="783"/>
       <source>Could not move file to trash</source>
-      <translation type="unfinished">Could not move file to trash</translation>
+      <translation>Nepodařilo se přesunout soubor do koše</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="810"/>
       <source>Trash</source>
-      <translation type="unfinished">Trash</translation>
+      <translation>Koš</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="810"/>
       <source>Nothing to restore</source>
-      <translation type="unfinished">Nothing to restore</translation>
+      <translation>Nic k obnovení</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="812"/>
       <source>Error</source>
-      <translation type="unfinished">Error</translation>
+      <translation>Chyba</translation>
     </message>
   </context>
   <context>
@@ -861,7 +861,7 @@
       <location filename="../qml/actions/popout/PQFilterPopout.qml" line="31"/>
       <source>Filter images in current directory</source>
       <extracomment>Window title</extracomment>
-      <translation>Filtra immagini nella cartella corrente</translation>
+      <translation>Filtrovat obrázky v aktuálním adresáři</translation>
     </message>
   </context>
   <context>
@@ -870,7 +870,7 @@
       <location filename="../qml/ongoing/popout/PQHistogramPopout.qml" line="33"/>
       <source>Histogram</source>
       <extracomment>Window title</extracomment>
-      <translation>Istogramma</translation>
+      <translation>Histogram</translation>
     </message>
   </context>
   <context>
@@ -879,86 +879,86 @@
       <location filename="../qml/image/components/PQArchiveControls.qml" line="327"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="282"/>
       <source>Click to enter viewer mode</source>
-      <translation type="unfinished">Click to enter viewer mode</translation>
+      <translation>Klikněte pro vstup do režimu prohlížení</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="371"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="326"/>
       <source>Lock left/right arrow keys to page navigation</source>
-      <translation type="unfinished">Lock left/right arrow keys to page navigation</translation>
+      <translation>Zamknout klávesové šipky doleva/doprava pro navigaci stránek</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="288"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="243"/>
       <source>Page %1/%2</source>
-      <translation>Pagina %1/%2</translation>
+      <translation>Strana %1/%2</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="185"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="144"/>
       <source>Go to first page</source>
-      <translation>Vai alla prima pagina</translation>
+      <translation>Jít an první stránku</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="209"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="168"/>
       <source>Go to previous page</source>
-      <translation>Vai alla pagina precedente</translation>
+      <translation>Jít na předchozí stránku</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="233"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="192"/>
       <source>Go to next page</source>
-      <translation>Vai alla pagina successiva</translation>
+      <translation>Jít na další stránku</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="258"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="217"/>
       <source>Go to last page</source>
-      <translation>Vai all'ultima pagina</translation>
+      <translation>Jít na poslední stránku</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQArchiveControls.qml" line="395"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="350"/>
       <location filename="../qml/image/components/PQPhotoSphereControls.qml" line="172"/>
       <source>Hide controls</source>
-      <translation>Nascondi controlli</translation>
+      <translation>Skrýt ovládací prvky</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQVideoControls.qml" line="254"/>
       <source>Lock left/right arrow keys to jumping forwards/backwards 5 seconds</source>
-      <translation type="unfinished">Lock left/right arrow keys to jumping forwards/backwards 5 seconds</translation>
+      <translation>Zamknout klávesové šipky doleva/doprava pro skok dopředu/dozadu o 5 sekund</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="141"/>
       <location filename="../qml/image/components/PQMinimapPopout.qml" line="34"/>
       <source>Minimap</source>
-      <translation>Minimappa</translation>
+      <translation>Minimapa</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="201"/>
       <source>Small minimap</source>
-      <translation>Minimappa piccola</translation>
+      <translation>Malá minimapa</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="207"/>
       <source>Normal minimap</source>
-      <translation>Minimappa normale</translation>
+      <translation>Normální minimapa</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="213"/>
       <source>Large minimap</source>
-      <translation>Minimappa grande</translation>
+      <translation>Velká minimapa</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="219"/>
       <source>Very large minimap</source>
-      <translation>Minimappa molto grande</translation>
+      <translation>Velmi velká minimapa</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQMinimap.qml" line="227"/>
       <source>Hide minimap</source>
-      <translation>Nascondi minimappa</translation>
+      <translation>Skrýt minimapu</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQPhotoSphereControls.qml" line="150"/>
@@ -972,7 +972,7 @@
       <location filename="../cplusplus/images/provider/pqc_providerfull.cpp" line="55"/>
       <location filename="../cplusplus/images/provider/pqc_providerthumb.cpp" line="204"/>
       <source>File failed to load, it does not exist!</source>
-      <translation>Il file non è stato caricato, non esiste!</translation>
+      <translation type="unfinished">File failed to load, it does not exist!</translation>
     </message>
     <message>
       <location filename="../cplusplus/images/plugins/pqc_loadimage_archive.cpp" line="223"/>
@@ -996,7 +996,7 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1814"/>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1817"/>
       <source>Application of color profile failed for:</source>
-      <translation type="unfinished">Application of color profile failed for:</translation>
+      <translation>Aplikace barevného profilu se nezdařila:</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1815"/>
@@ -1010,7 +1010,7 @@
       <location filename="../qml/actions/popout/PQImgurPopout.qml" line="32"/>
       <source>Upload to imgur.com</source>
       <extracomment>Window title</extracomment>
-      <translation>Carica su imgur.com</translation>
+      <translation type="unfinished">Upload to imgur.com</translation>
     </message>
   </context>
   <context>
@@ -1019,19 +1019,19 @@
       <location filename="../qml/ongoing/popout/PQLoggingPopout.qml" line="107"/>
       <source>enable</source>
       <extracomment>Used as in: enable debug message</extracomment>
-      <translation>abilita</translation>
+      <translation type="unfinished">enable</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/popout/PQLoggingPopout.qml" line="139"/>
       <source>copy to clipboard</source>
       <extracomment>the thing being copied here are the debug messages</extracomment>
-      <translation>copia negli appunti</translation>
+      <translation type="unfinished">copy to clipboard</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/popout/PQLoggingPopout.qml" line="145"/>
       <source>save to file</source>
       <extracomment>the thing saved to files here are the debug messages</extracomment>
-      <translation>Salva su file</translation>
+      <translation type="unfinished">save to file</translation>
     </message>
   </context>
   <context>
@@ -1041,7 +1041,7 @@
       <location filename="../qml/ongoing/PQMapCurrent.qml" line="213"/>
       <source>Current location</source>
       <extracomment>Window title</extracomment>
-      <translation>Posizione attuale</translation>
+      <translation type="unfinished">Current location</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/PQMapCurrent.qml" line="89"/>
@@ -1051,7 +1051,7 @@
     <message>
       <location filename="../qml/ongoing/PQMapCurrent.qml" line="193"/>
       <source>No location data</source>
-      <translation>Nessun dato sulla posizione</translation>
+      <translation type="unfinished">No location data</translation>
     </message>
   </context>
   <context>
@@ -1059,7 +1059,7 @@
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImagesTweaks.qml" line="46"/>
       <source>Image zoom:</source>
-      <translation>Zoom dell'immagine:</translation>
+      <translation type="unfinished">Image zoom:</translation>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImagesTweaks.qml" line="69"/>
@@ -1069,13 +1069,13 @@
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="49"/>
       <source>Map zoom:</source>
-      <translation>Ingrandimento mappa:</translation>
+      <translation type="unfinished">Map zoom:</translation>
     </message>
     <message>
       <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="75"/>
       <source>Reset view</source>
       <extracomment>The view here is the map layout in the map explorer</extracomment>
-      <translation>Reimposta vista</translation>
+      <translation type="unfinished">Reset view</translation>
     </message>
   </context>
   <context>
@@ -1091,22 +1091,22 @@
     <message>
       <location filename="../qml/ongoing/PQNavigation.qml" line="84"/>
       <source>Click and drag to move</source>
-      <translation>Clicca e trascina per spostare</translation>
+      <translation type="unfinished">Click and drag to move</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/PQNavigation.qml" line="122"/>
       <source>Navigate to previous image in folder</source>
-      <translation>Vai all'immagine precedente nella cartella</translation>
+      <translation type="unfinished">Navigate to previous image in folder</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/PQNavigation.qml" line="156"/>
       <source>Navigate to next image in folder</source>
-      <translation>Vai all'immagine successiva nella cartella</translation>
+      <translation type="unfinished">Navigate to next image in folder</translation>
     </message>
     <message>
       <location filename="../qml/ongoing/PQNavigation.qml" line="187"/>
       <source>Show main menu</source>
-      <translation>Mostra menu principale</translation>
+      <translation type="unfinished">Show main menu</translation>
     </message>
   </context>
   <context>
@@ -1115,25 +1115,25 @@
       <location filename="../qml/other/PQBackgroundMessage.qml" line="41"/>
       <source>Thumbnails</source>
       <extracomment>Label shown at startup before a file is loaded</extracomment>
-      <translation>Miniature</translation>
+      <translation type="unfinished">Thumbnails</translation>
     </message>
     <message>
       <location filename="../qml/other/PQBackgroundMessage.qml" line="43"/>
       <source>Main menu</source>
       <extracomment>Label shown at startup before a file is loaded</extracomment>
-      <translation>Menù principale</translation>
+      <translation type="unfinished">Main menu</translation>
     </message>
     <message>
       <location filename="../qml/other/PQBackgroundMessage.qml" line="45"/>
       <source>Metadata</source>
       <extracomment>Label shown at startup before a file is loaded</extracomment>
-      <translation>Metadati</translation>
+      <translation type="unfinished">Metadata</translation>
     </message>
     <message>
       <location filename="../qml/other/PQBackgroundMessage.qml" line="122"/>
       <source>Open a file</source>
       <extracomment>Part of the message shown in the main view before any image is loaded</extracomment>
-      <translation>Aprire un file</translation>
+      <translation type="unfinished">Open a file</translation>
     </message>
   </context>
   <context>
@@ -1143,14 +1143,14 @@
       <location filename="../qml/image/components/PQMinimap.qml" line="325"/>
       <source>Merge into main interface</source>
       <extracomment>Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface</extracomment>
-      <translation>Unisci nell'interfaccia principale</translation>
+      <translation type="unfinished">Merge into main interface</translation>
     </message>
     <message>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="163"/>
       <location filename="../qml/image/components/PQMinimap.qml" line="327"/>
       <source>Move to its own window</source>
       <extracomment>Tooltip of small button to show an element in its own window (i.e., not merged into main interface)</extracomment>
-      <translation>Muovi in una nuova finestra</translation>
+      <translation type="unfinished">Move to its own window</translation>
     </message>
   </context>
   <context>
@@ -1159,7 +1159,7 @@
       <location filename="../qml/actions/popout/PQScalePopout.qml" line="31"/>
       <source>Scale image</source>
       <extracomment>Window title</extracomment>
-      <translation>Scala immagine</translation>
+      <translation type="unfinished">Scale image</translation>
     </message>
   </context>
   <context>
@@ -1168,19 +1168,19 @@
       <location filename="../qml/settingsmanager/popout/PQSettingsManagerPopout.qml" line="33"/>
       <source>Settings Manager</source>
       <extracomment>Window title</extracomment>
-      <translation>Gestione Impostazioni</translation>
+      <translation type="unfinished">Settings Manager</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="86"/>
       <source>Background</source>
       <extracomment>Settings title</extracomment>
-      <translation>Sfondo</translation>
+      <translation type="unfinished">Background</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="74"/>
       <source>PDF</source>
       <extracomment>Settings title</extracomment>
-      <translation>PDF</translation>
+      <translation type="unfinished">PDF</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="76"/>
@@ -1191,7 +1191,7 @@
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="104"/>
       <source>Archive</source>
       <extracomment>Settings title</extracomment>
-      <translation>Archivio</translation>
+      <translation type="unfinished">Archive</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="106"/>
@@ -1206,13 +1206,13 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="114"/>
       <source>use external tool: unrar</source>
-      <translation>usare lo strumento esterno: unrar</translation>
+      <translation type="unfinished">use external tool: unrar</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="160"/>
       <source>Video</source>
       <extracomment>Settings title</extracomment>
-      <translation>Video</translation>
+      <translation type="unfinished">Video</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="136"/>
@@ -1233,12 +1233,12 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="169"/>
       <source>Autoplay</source>
-      <translation>Riproduzione automatica</translation>
+      <translation type="unfinished">Autoplay</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="176"/>
       <source>Loop</source>
-      <translation>Ripeti</translation>
+      <translation type="unfinished">Loop</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="184"/>
@@ -1285,7 +1285,7 @@
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="309"/>
       <source>Documents</source>
       <extracomment>Settings title</extracomment>
-      <translation>Documenti</translation>
+      <translation type="unfinished">Documents</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="311"/>
@@ -2113,7 +2113,7 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptscontextmenu.cpp" line="164"/>
       <source>Edit with %1</source>
       <extracomment>Used as in &apos;Edit with [application]&apos;. %1 will be replaced with application name.</extracomment>
-      <translation>Modifica con %1</translation>
+      <translation type="unfinished">Edit with %1</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/scripts/pqc_scriptscontextmenu.cpp" line="166"/>
@@ -2123,7 +2123,7 @@
       <location filename="../cplusplus/singletons/scripts/pqc_scriptscontextmenu.cpp" line="174"/>
       <source>Open in %1</source>
       <extracomment>Used as in &apos;Open with [application]&apos;. %1 will be replaced with application name.</extracomment>
-      <translation>Apri in %1</translation>
+      <translation type="unfinished">Open in %1</translation>
     </message>
   </context>
   <context>

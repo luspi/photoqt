@@ -272,7 +272,7 @@
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
       <source>I tried hard, but I just cannot open even a read-only version of the settings database.</source>
-      <translation type="unfinished">I tried hard, but I just cannot open even a read-only version of the settings database.</translation>
+      <translation>Bandžiau, tačiau negaliu atidaryti netgi read-only duombazės nustatymus.</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="73"/>
@@ -288,7 +288,7 @@
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="85"/>
       <source>I tried hard, but I just cannot open the database of default settings.</source>
-      <translation type="unfinished">I tried hard, but I just cannot open the database of default settings.</translation>
+      <translation>Bandžiau, tačiau negaliu atidaryti netgi standartinius nustatymus iš duombazės.</translation>
     </message>
   </context>
   <context>
@@ -302,7 +302,7 @@
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
       <source>I tried hard, but I just cannot open even a read-only version of the shortcuts database.</source>
-      <translation type="unfinished">I tried hard, but I just cannot open even a read-only version of the shortcuts database.</translation>
+      <translation>Bandžiau, tačiau negaliu atidaryti netgi read-only duombazės nuorodų.</translation>
     </message>
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="62"/>
@@ -318,7 +318,7 @@
     <message>
       <location filename="../cplusplus/singletons/engines/pqc_shortcuts.cpp" line="74"/>
       <source>I tried hard, but I just cannot open the database of default shortcuts.</source>
-      <translation type="unfinished">I tried hard, but I just cannot open the database of default shortcuts.</translation>
+      <translation>Bandžiau, tačiau nepavyksta atidaryti standartinių nuorodų duombazės.</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="53"/>
@@ -510,7 +510,7 @@
       <location filename="../qml/other/PQShortcuts.qml" line="118"/>
       <source>Double Click</source>
       <extracomment>Refers to a mouse event</extracomment>
-      <translation>Dvigubas spūstelėjimas</translation>
+      <translation>Dvigubas spustelėjimas</translation>
     </message>
     <message>
       <location filename="../qml/other/PQShortcuts.qml" line="120"/>
@@ -612,153 +612,160 @@
   <context>
     <name>buttongeneric</name>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="57"/>
-      <location filename="../qml/elements/PQButtonElement.qml" line="41"/>
+      <location filename="../qml/elements/PQButton.qml" line="60"/>
+      <location filename="../qml/elements/PQButtonElement.qml" line="44"/>
       <source>Ok</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Gerai</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="59"/>
-      <location filename="../qml/elements/PQButtonElement.qml" line="43"/>
+      <location filename="../qml/elements/PQButton.qml" line="62"/>
+      <location filename="../qml/elements/PQButtonElement.qml" line="46"/>
       <source>Cancel</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Atsisakyti</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="61"/>
-      <location filename="../qml/elements/PQButtonElement.qml" line="45"/>
+      <location filename="../qml/elements/PQButton.qml" line="64"/>
+      <location filename="../qml/elements/PQButtonElement.qml" line="48"/>
       <source>Save</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Įrašyti</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQButton.qml" line="63"/>
-      <location filename="../qml/elements/PQButtonElement.qml" line="47"/>
+      <location filename="../qml/elements/PQButton.qml" line="66"/>
+      <location filename="../qml/elements/PQButtonElement.qml" line="50"/>
       <source>Close</source>
       <extracomment>This is a generic string written on clickable buttons - please keep short!</extracomment>
       <translation>Užverti</translation>
+    </message>
+    <message>
+      <location filename="../qml/elements/PQButton.qml" line="112"/>
+      <location filename="../qml/elements/PQButtonElement.qml" line="106"/>
+      <location filename="../qml/elements/PQButtonIcon.qml" line="107"/>
+      <source>Activate button</source>
+      <translation type="unfinished">Activate button</translation>
     </message>
   </context>
   <context>
     <name>commandlineparser</name>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="36"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="37"/>
       <source>Image Viewer</source>
       <translation>Paveikslų žiūryklė</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="38"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="39"/>
       <source>Image file to open.</source>
       <translation>Paveikslo failas, kurį atverti.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="45"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="46"/>
       <source>Make PhotoQt ask for a new file.</source>
       <translation>Priversti PhotoQt prašyti naujo failo.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="47"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="48"/>
       <source>Shows PhotoQt from system tray.</source>
       <translation>Parodo PhotoQt iš sistemos dėklo.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="49"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="50"/>
       <source>Hides PhotoQt to system tray.</source>
       <extracomment>Command line option</extracomment>
       <translation>Paslepia PhotoQt į sistemos dėklą.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="51"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="52"/>
       <source>Quit PhotoQt.</source>
       <translation>Išeiti iš PhotoQt.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="53"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="54"/>
       <source>Show/Hide PhotoQt.</source>
       <translation>Rodyti/slėpti PhotoQt.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="55"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="56"/>
       <source>Enable system tray icon.</source>
       <extracomment>Command line option</extracomment>
       <translation>Įjungti sistemos dėklo piktogramą.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="57"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="58"/>
       <source>Disable system tray icon.</source>
       <extracomment>Command line option</extracomment>
       <translation>Išjungti sistemos dėklo piktogramą.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="59"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="60"/>
       <source>Start PhotoQt hidden to the system tray.</source>
       <extracomment>Command line option</extracomment>
       <translation>Paleidžia PhotoQt paslėptą į sistemos dėklą.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="61"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="62"/>
       <source>Simulate a shortcut sequence</source>
       <extracomment>Command line option</extracomment>
       <translation>Simuliuoti sparčiųjų klavišų seką</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="63"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="64"/>
       <source>Change setting to specified value.</source>
       <extracomment>Command line option</extracomment>
       <translation>Pakeisti nustatymą specialia reikšme.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="65"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="66"/>
       <source>settingname:value</source>
       <extracomment>Command line option</extracomment>
       <translation>settingname:value</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="67"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="68"/>
       <source>Switch on debug messages.</source>
       <extracomment>Command line option</extracomment>
       <translation>Įjungti derinimo pranešimus.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="69"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="70"/>
       <source>Switch off debug messages.</source>
       <extracomment>Command line option</extracomment>
       <translation>Išjungti derinimo pranešimus.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="71"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="72"/>
       <source>Export configuration to given filename.</source>
       <extracomment>Command line option</extracomment>
       <translation>Eksportuoti konfigūraciją į nurodytą failo pavadinimą.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="73"/>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="77"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="74"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="78"/>
       <source>filename</source>
       <extracomment>Command line option</extracomment>
       <translation>failo pavadinimas</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="75"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="76"/>
       <source>Import configuration from given filename.</source>
       <extracomment>Command line option</extracomment>
       <translation>Importuoti konfigūraciją iš nurodyto failo pavadinimo.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="79"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="80"/>
       <source>Check the configuration and correct any detected issues.</source>
       <extracomment>Command line option</extracomment>
-      <translation type="unfinished">Check the configuration and correct any detected issues.</translation>
+      <translation>Patikrinti konfiguraciją ir ištaisyti aptiktas klaidas.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="81"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="82"/>
       <source>Reset default configuration.</source>
       <extracomment>Command line option</extracomment>
       <translation>Atstatyti numatytąją konfiguraciją.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="83"/>
+      <location filename="../cplusplus/other/pqc_commandlineparser.cpp" line="84"/>
       <source>Show configuration overview.</source>
       <extracomment>Command line option</extracomment>
       <translation type="unfinished">Show configuration overview.</translation>
@@ -778,7 +785,7 @@
     <message>
       <location filename="../qml/image/imageitems/PQPhotoSphere.qml" line="467"/>
       <source>Click to exit photo sphere</source>
-      <translation type="unfinished">Click to exit photo sphere</translation>
+      <translation>Spustelk norėdamas išeiti iš foto sferos</translation>
     </message>
   </context>
   <context>
@@ -796,54 +803,54 @@
       <translation>Pervadinti failą</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="755"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="760"/>
       <source>File successfully deleted</source>
       <translation>Failas sėkmingai ištrintas</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="755"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="765"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="775"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="809"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="760"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="770"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="780"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="814"/>
       <source>Success</source>
       <translation>Pavyko</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="758"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="763"/>
       <source>Could not delete file</source>
       <translation>Nepavyko ištrinti failo</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="758"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="768"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="778"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="763"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="773"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="783"/>
       <source>Failed</source>
       <translation>Nepavyko</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="765"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="775"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="770"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="780"/>
       <source>File successfully moved to trash</source>
       <translation>Failas sėkmingai perkeltas į šiukšlinę</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="768"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="778"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="773"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="783"/>
       <source>Could not move file to trash</source>
       <translation>Nepavyko perkelti failo į šiukšlinę</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="805"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="810"/>
       <source>Trash</source>
       <translation>Šiukšliadėžė</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="805"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="810"/>
       <source>Nothing to restore</source>
       <translation>Nėra ką atkurti</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="807"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="812"/>
       <source>Error</source>
       <translation>Klaida</translation>
     </message>
@@ -869,49 +876,49 @@
   <context>
     <name>image</name>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="314"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="327"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="282"/>
       <source>Click to enter viewer mode</source>
-      <translation>Spūstelk norėdamas pereiti į peržiūros režimą</translation>
+      <translation>Spustelk norėdamas pereiti į peržiūros režimą</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="358"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="371"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="326"/>
       <source>Lock left/right arrow keys to page navigation</source>
       <translation>Užrakinti rodyklinį kairįjį/dešinįjį mygtukus puslapių navigacijai</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="275"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="288"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="243"/>
       <source>Page %1/%2</source>
       <translation>Puslapis %1/%2</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="172"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="185"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="144"/>
       <source>Go to first page</source>
       <translation>Eiti į pirmą puslapį</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="196"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="209"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="168"/>
       <source>Go to previous page</source>
       <translation>Eiti į ankstesnį puslapį</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="220"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="233"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="192"/>
       <source>Go to next page</source>
       <translation>Eiti į kitą puslapį</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="245"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="258"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="217"/>
       <source>Go to last page</source>
       <translation>Eiti į paskutinį puslapį</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQArchiveControls.qml" line="382"/>
+      <location filename="../qml/image/components/PQArchiveControls.qml" line="395"/>
       <location filename="../qml/image/components/PQDocumentControls.qml" line="350"/>
       <location filename="../qml/image/components/PQPhotoSphereControls.qml" line="172"/>
       <source>Hide controls</source>
@@ -929,34 +936,34 @@
       <translation>Navigacinis langelis</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQMinimap.qml" line="200"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="201"/>
       <source>Small minimap</source>
       <translation>Mažas navigacinis langelis</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQMinimap.qml" line="206"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="207"/>
       <source>Normal minimap</source>
       <translation>Normalus navigacinis langelis</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQMinimap.qml" line="212"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="213"/>
       <source>Large minimap</source>
       <translation>Didelis navigacinis langelis</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQMinimap.qml" line="218"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="219"/>
       <source>Very large minimap</source>
       <translation>Labai didelis navigacinis langelis</translation>
     </message>
     <message>
-      <location filename="../qml/image/components/PQMinimap.qml" line="226"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="227"/>
       <source>Hide minimap</source>
       <translation>Paslėpti navigacinį langelį</translation>
     </message>
     <message>
       <location filename="../qml/image/components/PQPhotoSphereControls.qml" line="150"/>
       <source>Lock arrow keys to moving photo sphere</source>
-      <translation type="unfinished">Lock arrow keys to moving photo sphere</translation>
+      <translation>Užrakinti rodyklinius mygtukus judinti foto sferą</translation>
     </message>
   </context>
   <context>
@@ -968,8 +975,8 @@
       <translation>Nepavyko įkelti failo, jo nėra!</translation>
     </message>
     <message>
-      <location filename="../cplusplus/images/plugins/pqc_loadimage_archive.cpp" line="219"/>
-      <location filename="../cplusplus/images/plugins/pqc_loadimage_archive.cpp" line="338"/>
+      <location filename="../cplusplus/images/plugins/pqc_loadimage_archive.cpp" line="223"/>
+      <location filename="../cplusplus/images/plugins/pqc_loadimage_archive.cpp" line="346"/>
       <location filename="../cplusplus/images/plugins/pqc_loadimage_devil.cpp" line="218"/>
       <location filename="../cplusplus/images/plugins/pqc_loadimage_freeimage.cpp" line="130"/>
       <location filename="../cplusplus/images/plugins/pqc_loadimage_libvips.cpp" line="97"/>
@@ -986,14 +993,15 @@
       <translation>Pasirinktas spalvų profilis nepritaikytas.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1801"/>
-      <source>Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager.</source>
-      <translation type="unfinished">Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager.</translation>
+      <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1814"/>
+      <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1817"/>
+      <source>Application of color profile failed for:</source>
+      <translation type="unfinished">Application of color profile failed for:</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1803"/>
-      <source>Application of color profile failed.</source>
-      <translation type="unfinished">Application of color profile failed.</translation>
+      <location filename="../cplusplus/singletons/scripts/pqc_scriptsimages.cpp" line="1815"/>
+      <source>Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager.</source>
+      <translation>Pakartotinai nepavyko pritaikyti spalvų profilio. Spalvų palečių palaikymas bus deaktyvuotas, bet jis gali būti vėl įjungtas nustatymuose.</translation>
     </message>
   </context>
   <context>
@@ -1059,15 +1067,15 @@
       <translation>formatuoti ir kirpti miniatiūrą</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="47"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="49"/>
       <source>Map zoom:</source>
       <translation>Navigacinio vaizdo priartinimas:</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="73"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerMapTweaks.qml" line="75"/>
       <source>Reset view</source>
       <extracomment>The view here is the map layout in the map explorer</extracomment>
-      <translation type="unfinished">Reset view</translation>
+      <translation>Atkurti rodinį</translation>
     </message>
   </context>
   <context>
@@ -1132,14 +1140,14 @@
     <name>popinpopout</name>
     <message>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="161"/>
-      <location filename="../qml/image/components/PQMinimap.qml" line="323"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="325"/>
       <source>Merge into main interface</source>
       <extracomment>Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface</extracomment>
       <translation>Sulieti su pagrindine sąsaja</translation>
     </message>
     <message>
       <location filename="../qml/elements/PQTemplateFloating.qml" line="163"/>
-      <location filename="../qml/image/components/PQMinimap.qml" line="325"/>
+      <location filename="../qml/image/components/PQMinimap.qml" line="327"/>
       <source>Move to its own window</source>
       <extracomment>Tooltip of small button to show an element in its own window (i.e., not merged into main interface)</extracomment>
       <translation>Perkelti į atskirą langą</translation>
@@ -1209,7 +1217,7 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="136"/>
       <source>show floating controls for archives</source>
-      <translation type="unfinished">show floating controls for archives</translation>
+      <translation>rodyti "skraidančius" mygtukus suarchyvuotiems failams</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="143"/>
@@ -1266,12 +1274,12 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="247"/>
       <source>PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame and/or use the space key to play/pause the animation, no matter what shortcut action is set to these keys.</source>
-      <translation type="unfinished">PhotoQt can show controls for animated images that allow for stepping through an animated image frame by frame, jumping to a specific frame, and play/pause the animation. Additionally is is possible to force the left/right arrow keys to load the previous/next frame and/or use the space key to play/pause the animation, no matter what shortcut action is set to these keys.</translation>
+      <translation>PhotoQt gali rodyti valdiklius animuotiems paveiksliukams leidžiančius peržiūrėti mežiagą: kadras po kadro, peršokti į tam tikrą kadrą, paleisti/stabdyti animaciją. Papildomai galima priverstinai kairįjį/dešinįjį klavišus naudoti buvusio/sekančio kadrų peržiūrėjimui ir/ar tarpo mygtuką paleisti/stabdyti animacijai (nepriklausomai kokie spartieji klavišai yra priskirti šioms funkcijoms).</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="254"/>
       <source>show floating controls for animated images</source>
-      <translation type="unfinished">show floating controls for animated images</translation>
+      <translation>rodyti "skraidančius" mygtukus animuotiems paveiksliukams</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="309"/>
@@ -1282,17 +1290,17 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="311"/>
       <source>When a document is loaded it is possible to navigate through the pages of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all pages are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating navigation.</source>
-      <translation type="unfinished">When a document is loaded it is possible to navigate through the pages of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all pages are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating navigation.</translation>
+      <translation>Užkrauto dokumento turinį galima peržiūrėti "skraidančiais" mygtukais, kurie atsiranda tik tuomet, kai dokumentas turi daugiau nei vieną puslapį arba peržiūros režimu. Kai peržiūros režimas aktyvuojamas visi puslapiai užkraunami miniatiūromis. Peržiūros režimas gali būti aktyvuojamas nuoroda ar mažuoju "skraidančiuoju" mygtuku esančiu po informaciniu langeliu.</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="318"/>
       <source>show floating controls for documents</source>
-      <translation type="unfinished">show floating controls for documents</translation>
+      <translation>rodyti "skraidančius" mygtukus dokumentams</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="261"/>
       <source>use left/right arrow to load previous/next frame</source>
-      <translation type="unfinished">use left/right arrow to load previous/next frame</translation>
+      <translation>naudoti kairėn/dešinėn rodyklių mygtukus užkrauti buvusį/sekantį kadrą</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="85"/>
@@ -1302,7 +1310,7 @@
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="268"/>
       <source>Always use space key to play/pause animation</source>
-      <translation type="unfinished">Always use space key to play/pause animation</translation>
+      <translation>Visad naudoti tarpo mygtuką groti/pauzė animacijai</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/filetypes/PQBehavior.qml" line="285"/>
@@ -1332,9 +1340,9 @@
       <translation>Laikinoji atmintis</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="115"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="116"/>
       <source>threshold:</source>
-      <translation type="unfinished">threshold:</translation>
+      <translation>Riba:</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="69"/>
@@ -1352,24 +1360,24 @@
       <translation>Autentifikuota su paskira:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="103"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="104"/>
       <source>Authenticate</source>
       <extracomment>Written on button, used as in: Authenticate with user account</extracomment>
       <translation>Autentifikuoti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="105"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="106"/>
       <source>Forget account</source>
       <extracomment>Written on button, used as in: Forget user account</extracomment>
       <translation>Pamiršti paskyrą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="148"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="149"/>
       <source>Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.</source>
-      <translation type="unfinished">Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.</translation>
+      <translation>Įjunkite naršyklę ir prisijunkite prie imgur.com. Tuomet įkelkite atvaizduotą PIN'ą į apatinį laukelį. Spustelėkite mygtuką darkart puslapio perkrovimui.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="193"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQShareOnline.qml" line="195"/>
       <source>An error occured:</source>
       <translation>Įvyko klaida:</translation>
     </message>
@@ -1428,19 +1436,19 @@
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="238"/>
       <source>scale to fit</source>
       <extracomment>If an image is set as background of PhotoQt this is one way it can be shown/scaled</extracomment>
-      <translation type="unfinished">scale to fit</translation>
+      <translation>keisti mastelį, kad įtilptų</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="245"/>
       <source>scale and crop to fit</source>
       <extracomment>If an image is set as background of PhotoQt this is one way it can be shown/scaled</extracomment>
-      <translation type="unfinished">scale and crop to fit</translation>
+      <translation>kirpti ir keisti mastelį, kad įtilptų</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="252"/>
       <source>stretch to fit</source>
       <extracomment>If an image is set as background of PhotoQt this is one way it can be shown/scaled</extracomment>
-      <translation type="unfinished">stretch to fit</translation>
+      <translation>ištempti, kad įtilptų</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="259"/>
@@ -1483,7 +1491,7 @@
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="377"/>
       <source>no action</source>
       <extracomment>what to do when the empty background is clicked</extracomment>
-      <translation type="unfinished">no action</translation>
+      <translation>nieko nedaryti</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="385"/>
@@ -1495,24 +1503,24 @@
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="393"/>
       <source>navigate between images</source>
       <extracomment>what to do when the empty background is clicked</extracomment>
-      <translation type="unfinished">navigate between images</translation>
+      <translation>naviguoti tarp paveikslėlių</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="401"/>
       <source>toggle window decoration</source>
       <extracomment>what to do when the empty background is clicked</extracomment>
-      <translation type="unfinished">toggle window decoration</translation>
+      <translation>perjunginėti langų dekoracijas</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="420"/>
       <source>Blurring elements behind other elements</source>
       <extracomment>A settings title</extracomment>
-      <translation type="unfinished">Blurring elements behind other elements</translation>
+      <translation>Sulieti elementus esančius antrame plane</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="421"/>
       <source>Whenever an element (e.g., histogram, main menu, etc.) is open, anything behind it can be blurred slightly. This reduces the contrast in the background which improves readability. Note that this requires a slightly higher amount of computations. It also does not work with anything behind PhotoQt that is not part of the window itself.</source>
-      <translation type="unfinished">Whenever an element (e.g., histogram, main menu, etc.) is open, anything behind it can be blurred slightly. This reduces the contrast in the background which improves readability. Note that this requires a slightly higher amount of computations. It also does not work with anything behind PhotoQt that is not part of the window itself.</translation>
+      <translation>Koumet atidaromas elementas (pvz. histograma, pagrindinis meniu, etc.), visa kas yra už jo gali būti šiek tiek suliejama. Tai sumažina kontrastą fone ir pagerina skaitomumą. Pažymėtina, jog naudojama ir daugiau kompiuterio resursų. Suliejamumo efektas neveiks ant objektų kurie nėra PhotoQt programos dalis.</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="429"/>
@@ -1520,18 +1528,18 @@
       <translation>Sulieti visa kas užnugary</translation>
     </message>
     <message>
-      <location filename="../qml/elements/PQSliderSpinBox.qml" line="147"/>
+      <location filename="../qml/elements/PQSliderSpinBox.qml" line="149"/>
       <source>Click to edit</source>
       <extracomment>Tooltip, used as in: Click to edit this value</extracomment>
-      <translation>Spustelėkite redagavimui</translation>
+      <translation>Spustelėkite norėdami redaguoti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="222"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="231"/>
       <source>Font size:</source>
       <translation>Šrifto dydis:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="205"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="206"/>
       <source>Visibility</source>
       <extracomment>Settings title</extracomment>
       <translation>Matomumas</translation>
@@ -1540,22 +1548,22 @@
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="67"/>
       <source>Single instance</source>
       <extracomment>Settings title</extracomment>
-      <translation type="unfinished">Single instance</translation>
+      <translation>Vienetinis langas</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="69"/>
       <source>PhotoQt can either run in single-instance mode or allow multiple instances to run at the same time. The former has the advantage that it is possible to interact with a running instance of PhotoQt through the command line (in fact, this is a requirement for that to work). The latter allows, for example, for the comparison of multiple images side by side.</source>
-      <translation type="unfinished">PhotoQt can either run in single-instance mode or allow multiple instances to run at the same time. The former has the advantage that it is possible to interact with a running instance of PhotoQt through the command line (in fact, this is a requirement for that to work). The latter allows, for example, for the comparison of multiple images side by side.</translation>
+      <translation>Visi asocijuoti failai su PhotoQt gali būti paleidžiami vienetiniu programos langu arba aktyvuojant naujus failus vis kitu langu. Daugybiniai langai pavyzdžiui gali būti naudingi paveiksliukų palyginimui. Dar vienas privalumas, jog tai leidžia komunikuoti su programa komandine eilute.</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="76"/>
       <source>run a single instance only</source>
-      <translation type="unfinished">run a single instance only</translation>
+      <translation>vienetinis programos langas</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="83"/>
       <source>allow multiple instances</source>
-      <translation type="unfinished">allow multiple instances</translation>
+      <translation>daugybiniai programos langai</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="100"/>
@@ -1571,7 +1579,7 @@
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="109"/>
       <source>start with blank session</source>
-      <translation type="unfinished">start with blank session</translation>
+      <translation>Startuoti tuščiu lapu</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="116"/>
@@ -1582,17 +1590,17 @@
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="133"/>
       <source>Remember changes</source>
       <extracomment>Settings title</extracomment>
-      <translation type="unfinished">Remember changes</translation>
+      <translation>Prisiminti pakeitimus</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="135"/>
       <source>Once an image has been loaded it can be manipulated freely by zooming, rotating, or mirroring the image. Once another image is loaded any such changes are forgotten. If preferred, it is possible for PhotoQt to remember any such manipulations per session. Note that once PhotoQt is closed these changes will be forgotten in any case.</source>
-      <translation type="unfinished">Once an image has been loaded it can be manipulated freely by zooming, rotating, or mirroring the image. Once another image is loaded any such changes are forgotten. If preferred, it is possible for PhotoQt to remember any such manipulations per session. Note that once PhotoQt is closed these changes will be forgotten in any case.</translation>
+      <translation>Kuomet paveiksliukas yra užkrautas juo galima laisvai manipuliuoti: keičiant mastelį, pasukant ar veidrodiškai apsukant. Užkrovus sekantį paveiksliuką visos manipuliacijos pamirštamos. Norint galima nustatyti PhotoQt atsiminti tokias manipuliacijas sesijos metu. Pažymėtina, jog uždarius programą visi pakeitimai bus pamiršti.</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="135"/>
       <source>In addition to on an per-image basis, PhotoQt can also keep the same changes across different images. If enabled and possible, the next image is loaded with the same scaling, rotation, and mirroring as the image before.</source>
-      <translation type="unfinished">In addition to on an per-image basis, PhotoQt can also keep the same changes across different images. If enabled and possible, the next image is loaded with the same scaling, rotation, and mirroring as the image before.</translation>
+      <translation>PhotoQt gali prisiminti ir pritaikyti visas atliktas modifikacijas kievienam sekančiam paveiksliukui. Jei aktyvuota ir įmanomą, sekantis paveiksliukas užkraunamas su tokiom pačiom modifikacijomis kaip kad prieš tai buvęs: mastelio keitimu, pasukimu ar veidrodišku apsukimu.</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="144"/>
@@ -1608,7 +1616,7 @@
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="162"/>
       <source>preserve across images:</source>
       <extracomment>this refers to preserving any selection of zoom/rotation/mirror across different images</extracomment>
-      <translation type="unfinished">preserve across images:</translation>
+      <translation>išlaikyti visuose paveiksliukuose:</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/manage/PQSession.qml" line="174"/>
@@ -1663,260 +1671,270 @@
       <translation type="unfinished">reset session when hiding</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="72"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="73"/>
       <source>Move image with mouse</source>
       <extracomment>Settings title</extracomment>
       <translation>Perkelti paveikslėlį pele</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="74"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="75"/>
       <source>PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).</source>
       <translation type="unfinished">PhotoQt can use both the left button of the mouse and the mouse wheel to move the image around. In that case, however, these actions are not available for shortcuts anymore, except when combined with one or more modifier buttons (Alt, Ctrl, etc.).</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="81"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="82"/>
       <source>move image with left button</source>
       <translation>Judinti paveiksliuką kairiuoju pelės klavišu</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="88"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="89"/>
       <source>move image with mouse wheel</source>
       <translation>Judinti paveiksliuką viduriniuoju pelės klavišu</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="144"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="145"/>
       <source>very sensitive</source>
       <extracomment>used as in: very sensitive mouse wheel</extracomment>
       <translation>labai jautru</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="154"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="155"/>
       <source>not sensitive</source>
       <extracomment>used as in: not at all sensitive mouse wheel</extracomment>
       <translation>nejautru</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="179"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="180"/>
       <source>hide cursor after timeout</source>
       <translation>slėpti pelės žymeklį po nustatyto laiko</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="105"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="106"/>
       <source>Double click</source>
       <extracomment>Settings title</extracomment>
       <translation>Dvigubas spūstelėjimas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="107"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="108"/>
       <source>A double click is defined as two clicks in quick succession. This means that PhotoQt will have to wait a certain amount of time to see if there is a second click before acting on a single click. Thus, the threshold (specified in milliseconds) for detecting double clicks should be as small as possible while still allowing for reliable detection of double clicks. Setting this value to zero disables double clicks and treats them as two distinct single clicks.</source>
-      <translation>"Dvigubo spūstelėjimo" terminas reiškia klavišo paspaudimą greitąja eiga du kartus. PhotoQt užregistravus pirmąjį paspaudimą, tam tikrą laiko tarpą lauks antrojo paspaudimo prieš inicijuodama vieno paspaudimo funkciją. Dvigubo spūstelėjimo laiko tarpas turėtų būti kaip įmanoma trumpesnis (nurodomas milisekundėmis) veiksmingai fiksuojantis dvigubą spūstelėjimą. Nustačius šią reikšmę lygią nuliui dvigubas spūstelėjimas nebeveikia.</translation>
+      <translation>"Dvigubo spustelėjimo" terminas reiškia klavišo paspaudimą greitąja eiga du kartus. PhotoQt užregistravus pirmąjį paspaudimą, tam tikrą laiko tarpą lauks antrojo paspaudimo prieš inicijuodama vieno paspaudimo funkciją. Dvigubo spustelėjimo laiko tarpas turėtų būti kaip įmanoma trumpesnis (nurodomas milisekundėmis) veiksmingai fiksuojantis dvigubą spustelėjimą. Nustačius šią reikšmę lygią nuliui dvigubas spustelėjimas nebeveikia.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="134"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="135"/>
       <source>Mouse wheel</source>
       <extracomment>Settings title</extracomment>
       <translation>Pelės ratukas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="136"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="137"/>
       <source>Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.</source>
       <translation>Priklausomai nuo technologijos, pelės ratuko pasukimas fiksuojamas intervalais arba kaip ilgai/greitai jis yra sukamas. Jautrumo nustatymas leidžia kompensuoti labai jautrių pelių netyčinį daugkartinį ratuko pasukimą.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="170"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="171"/>
       <source>Hide mouse cursor</source>
       <extracomment>Settings title</extracomment>
       <translation>Paslėpti pelės žymeklį</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="172"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="173"/>
       <source>Whenever an image is viewed and mouse cursor rests on the image it is possible to hide the mouse cursor after a set timeout. This way the cursor does not get in the way of actually viewing an image.</source>
       <translation>Atidarius paveiksliuką po tam tikro nustatyto laiko yra įmanoma paslėpti nejudinamą pelės kursorių. Pasislėpęs kursorius neužstoja paveiksliuko atidžiai peržiūrai.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="71"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="72"/>
       <source>Spacing</source>
       <extracomment>Settings title</extracomment>
       <translation type="unfinished">Spacing</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="73"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="74"/>
       <source>PhotoQt preloads thumbnails for all files in the current folder and lines them up side by side. In between each thumbnail image it is possible to add a little bit of blank space to better separate the individual images.</source>
       <translation>PhotoQt atidarytame aplanke užkrauna miniatiūras visiems failams ir išdėlioja jas viena šalia kitos. Norint labiau išskirti individualias miniatiūras galima keisti tarp jų tarpų dydį.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="101"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="102"/>
       <source>Highlight</source>
       <extracomment>Settings title</extracomment>
       <translation>Akcentuoti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="103"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="104"/>
       <source>The thumbnail corresponding to the currently loaded image is highlighted so that it is easy to spot. The same highlight effect is used when hovering over a thumbnail image. The different effects can be combined as desired.</source>
       <translation>Kad būtų galima greitai pastebėti užkrauto paveiksliuko miniatiūrą ji yra akcentuojama. Toks pats akcentavimas naudojamas užvedus pelės kursorių virš miniatiūros. Skirtingi akcentavimo efektai gali būti kombinuojami.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="111"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="112"/>
       <source>invert background color</source>
       <extracomment>effect for highlighting active thumbnail</extracomment>
       <translation>invertuoti fono spalvą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="119"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="120"/>
       <source>invert label color</source>
       <extracomment>effect for highlighting active thumbnail</extracomment>
       <translation>invertuoti žymos spalvą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="127"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="128"/>
       <source>line below</source>
       <extracomment>effect for highlighting active thumbnail</extracomment>
       <translation>juostelė iš apačios</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="135"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="136"/>
       <source>magnify</source>
       <extracomment>effect for highlighting active thumbnail</extracomment>
       <translation>padidinti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="147"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="148"/>
       <source>lift up</source>
       <extracomment>effect for highlighting active thumbnail</extracomment>
       <translation>pakelti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="215"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="216"/>
       <source>hide when not needed</source>
       <extracomment>used as in: hide thumbnail bar when not needed</extracomment>
       <translation>paslėpti kai nebereikalinga</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="181"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="182"/>
       <source>Center on active</source>
       <extracomment>Settings title</extracomment>
       <translation>Centruoti aktyvų</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="183"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="184"/>
       <source>When switching between images PhotoQt always makes sure that the thumbnail corresponding to the currently viewed image is visible somewhere along the thumbnail bar. Additionally it is possible to tell PhotoQt to not only keep it visible but also keep it in the center of the edge.</source>
       <translation>Peržiūrint paveiksliukus PhotoQt miniatiūrų juostoje visada kažkur rodoma aktyvioji miniatiūra. PhotoQt galima nurodyti ne tik jog ji būtų visad matoma, bet ir kad ji visad būtų miniatiūrų juostos centre.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="189"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="190"/>
       <source>keep active thumbnail in center</source>
       <translation>Perstumti aktyvią miniatiūrą į centrą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="207"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="208"/>
       <source>The visibility of the thumbnail bar can be set depending on personal choice. The bar can either always be kept visible, it can be hidden unless the mouse cursor is close to the respective screen edge, or it can be kept visible unless the main image has been zoomed in.</source>
       <translation type="unfinished">The visibility of the thumbnail bar can be set depending on personal choice. The bar can either always be kept visible, it can be hidden unless the mouse cursor is close to the respective screen edge, or it can be kept visible unless the main image has been zoomed in.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="223"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="224"/>
       <source>always keep visible</source>
       <extracomment>used as in: always keep thumbnail bar visible</extracomment>
       <translation>visad matomas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="231"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="232"/>
       <source>hide when zoomed in</source>
       <extracomment>used as in: hide thumbnail bar when zoomed in</extracomment>
       <translation>paslėpti kuomet priartinta</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="74"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="75"/>
       <source>Size</source>
       <extracomment>Settings title</extracomment>
       <translation>Dydis</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="76"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="77"/>
       <source>The thumbnails are typically hidden behind one of the screen edges. Which screen edge can be specified in the interface settings. The size of the thumbnails refers to the maximum size of each individual thumbnail image.</source>
       <translation>Paprastai miniatiūrų juosta slepiasi už vieno iš ekrano kraštų. Kraštą galima pasirinkti interfeiso nustatymuose. Miniatiūros dydžio nustatymas nurodo maksimalų dydį kiekvienai miniatiūrai.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="104"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="105"/>
       <source>Scale and crop</source>
       <extracomment>Settings title</extracomment>
       <translation>Koreguoti mastelį ir apkirpti</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="106"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="107"/>
       <source>The thumbnail for an image can either be scaled to fit fully inside the maximum size specified above, or it can be scaled and cropped such that it takes up all available space. In the latter case some parts of a thumbnail image might be cut off. In addition, thumbnails that are smaller than the size specified above can be kept at their original size.</source>
       <translation type="unfinished">The thumbnail for an image can either be scaled to fit fully inside the maximum size specified above, or it can be scaled and cropped such that it takes up all available space. In the latter case some parts of a thumbnail image might be cut off. In addition, thumbnails that are smaller than the size specified above can be kept at their original size.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="113"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="108"/>
+      <source>A third option is to scale all thumbnails to the height of the bar and vary their width. Note that this requires all thumbnails to be preloaded at the start potentially causing short stutters in the interface. Such a listing of images at various widths can also be a little more difficult to scroll through.</source>
+      <translation type="unfinished">A third option is to scale all thumbnails to the height of the bar and vary their width. Note that this requires all thumbnails to be preloaded at the start potentially causing short stutters in the interface. Such a listing of images at various widths can also be a little more difficult to scroll through.</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="115"/>
       <source>fit thumbnail</source>
       <translation>įtalpinti miniatiūra</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="120"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="122"/>
       <source>scale and crop thumbnail</source>
       <translation>koreguoti mastelį ir apkirpti miniatiūrą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="132"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="129"/>
+      <source>same height, varying width</source>
+      <translation type="unfinished">same height, varying width</translation>
+    </message>
+    <message>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="141"/>
       <source>keep small thumbnails small</source>
       <translation>Palikti mažas miniatiūras mažomis</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="185"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="194"/>
       <source>On top of each thumbnail image PhotoQt can put a small text label with the filename. The font size of the filename is freely adjustable. If a filename is too long for the available space only the beginning and end of the filename will be visible. Additionally, the label of thumbnails that are neither loaded nor hovered can be shown with less opacity.</source>
       <translation>Virš miniatiūrų paveiksliukų PhotoQt gali rodyti mažą teksto žymą su failo pavadinimu. Failo pavadinimo teksto dydis laisvai pasirenkamas. Jei failo pavadinimas per ilgas, tuomet bus rodoma tik failo pavadinimo pradžia ir pabaiga. Miniatiūrų žymos kurios nėra aktyvios gali būti rodomos blankesnės.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="233"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="242"/>
       <source>decrease opacity for inactive thumbnails</source>
       <translation>Sumažinti neaktyvių miniatiūrų matomumą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="149"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="158"/>
       <source>Icons only</source>
       <extracomment>Settings title</extracomment>
       <translation>Tik piktogramos</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="151"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="160"/>
       <source>Instead of loading actual thumbnail images in the background, PhotoQt can instead simply show the respective icon for the filetype. This requires much fewer resources and time but is not as user friendly.</source>
       <translation>Vietoje miniatiūrų su esamų paveiksliukų atvaizdais PhotoQt gali rodyti miniatiūras su failo tipo piktogramomis. Tai įgalina programą naudoti mažiau kompiuterio resursų ir veikti greičiau, tačiau tik failų piktogramos yra mažiau informatyvu.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="159"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="168"/>
       <source>use actual thumbnail images</source>
       <extracomment>The word actual is used with the same meaning as: real</extracomment>
       <translation>rodyti esamų paveiksliukų miniatiūras</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="166"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="175"/>
       <source>use filetype icons</source>
       <translation>rodyti failų tipo piktogramas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="183"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="192"/>
       <source>Label</source>
       <extracomment>Settings title</extracomment>
       <translation>Žyma</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="192"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="201"/>
       <source>show filename label</source>
       <translation>rodyti failo pavadinimo žymą</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="252"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="261"/>
       <source>Tooltip</source>
       <extracomment>Settings title</extracomment>
-      <translation>Patarimas</translation>
+      <translation>Patarimai</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="254"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="263"/>
       <source>PhotoQt can show additional information about an image in the form of a tooltip that is shown when the mouse cursor hovers above a thumbnail. The displayed information includes the full file name, file size, and file type.</source>
       <translation type="unfinished">PhotoQt can show additional information about an image in the form of a tooltip that is shown when the mouse cursor hovers above a thumbnail. The displayed information includes the full file name, file size, and file type.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="260"/>
+      <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="269"/>
       <source>show tooltips</source>
       <translation>rodyti patarimus</translation>
     </message>
@@ -1928,13 +1946,13 @@
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="93"/>
       <source>enable cache</source>
-      <translation type="unfinished">enable cache</translation>
+      <translation>aktyvuoti talpyklą</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="152"/>
       <source>Exclude folders</source>
       <extracomment>Settings title</extracomment>
-      <translation type="unfinished">Exclude folders</translation>
+      <translation>Išskirti aplankus</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="72"/>
@@ -1944,12 +1962,12 @@
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="108"/>
       <source>use default cache directory</source>
-      <translation type="unfinished">use default cache directory</translation>
+      <translation>naudoti standartinę direktoriją talpyklai</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="124"/>
       <source>Click to select custom base directory for thumbnail cache</source>
-      <translation type="unfinished">Click to select custom base directory for thumbnail cache</translation>
+      <translation>Spustelki norėdamas pasirinkti pagrindinės miniatiūrų direktorijos talpyklos vietą</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="154"/>
@@ -1964,7 +1982,7 @@
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="199"/>
       <source>Do not cache these folders:</source>
-      <translation type="unfinished">Do not cache these folders:</translation>
+      <translation>Nenaudoti talpyklos šiems aplankams:</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="206"/>
@@ -1981,7 +1999,7 @@
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="246"/>
       <source>How many threads</source>
       <extracomment>Settings title</extracomment>
-      <translation type="unfinished">How many threads</translation>
+      <translation>Kiek CPU gijų</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="248"/>
@@ -1989,80 +2007,80 @@
       <translation type="unfinished">In order to speed up loading all the thumbnails in a folder PhotoQt uses multiple threads simultaneously. On more powerful systems, a larger number of threads can result in much faster loading of all the thumbnails of a folder. Too many threads, however, might make a system feel slow for a short time.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="195"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="200"/>
       <source>Export/Import configuration</source>
       <extracomment>Settings title</extracomment>
       <translation>Eksportuoti/importuoti konfigūraciją</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="197"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="202"/>
       <source>Here you can create a backup of the configuration for backup or for moving it to another install of PhotoQt. You can import a local backup below. After importing a backup file PhotoQt will automatically close as it will need to be restarted for the changes to take effect.</source>
-      <translation type="unfinished">Here you can create a backup of the configuration for backup or for moving it to another install of PhotoQt. You can import a local backup below. After importing a backup file PhotoQt will automatically close as it will need to be restarted for the changes to take effect.</translation>
+      <translation>Čia galite atkūrti ar išsaugoti savuosius PhotoQt nustatymus. Nustatymus importavus PhotoQt automatiškai išsijungs, nes, kad priimtų pakeitimus, programa turi persileisti.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="202"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="208"/>
       <source>export configuration</source>
       <translation>eksportuoti konfigūraciją</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="209"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="216"/>
       <source>import configuration</source>
       <translation>importuoti konfigūraciją</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="213"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="220"/>
       <source>Restart required</source>
-      <translation type="unfinished">Restart required</translation>
+      <translation>Reikalingas programos perkrovimas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="214"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="221"/>
       <source>PhotoQt will now quit as it needs to be restarted for the changes to take effect.</source>
-      <translation type="unfinished">PhotoQt will now quit as it needs to be restarted for the changes to take effect.</translation>
+      <translation>Kad būtų priimti pakeitimai PhotoQt dabar persikraus.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="67"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="68"/>
       <source>Reset settings and shortcuts</source>
       <extracomment>Settings title</extracomment>
-      <translation type="unfinished">Reset settings and shortcuts</translation>
+      <translation>Atstatyti nustatymus ir nuorodas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="69"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="70"/>
       <source>Here the various configurations of PhotoQt can be reset to their defaults. Once you select one of the below categories you have a total of 5 seconds to cancel the action. After the 5 seconds are up the respective defaults will be set. This cannot be undone.</source>
-      <translation type="unfinished">Here the various configurations of PhotoQt can be reset to their defaults. Once you select one of the below categories you have a total of 5 seconds to cancel the action. After the 5 seconds are up the respective defaults will be set. This cannot be undone.</translation>
+      <translation>Čia galima atstatyti įvairius nustatymus standartiniais. Pasirinkus vieną iš žemiau esančių kategorijų turite 5 sekundes apsigalvoti. Po 5 sekundžių pasirinktas atstatymas bus nustatytas standartišku ir tai yra neatšaukiama.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="74"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="76"/>
       <source>reset settings</source>
       <translation>atstatyti nustatymus</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="84"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="87"/>
       <source>reset shortcuts</source>
       <translation>atstatyti nuorodas</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="94"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="98"/>
       <source>reset enabled file formats</source>
-      <translation type="unfinished">reset enabled file formats</translation>
+      <translation>atstatyti įjungtus failų tipus</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="126"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="130"/>
       <source>You can still cancel this action.</source>
       <translation type="unfinished">You can still cancel this action.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="131"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="135"/>
       <source>%1 seconds remaining!</source>
       <extracomment>Please don&apos;t forget the placeholder. It will be replaced by the number of seconds.</extracomment>
-      <translation type="unfinished">%1 seconds remaining!</translation>
+      <translation>%1 sekundės liko!</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="217"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="224"/>
       <source>Import failed</source>
-      <translation type="unfinished">Import failed</translation>
+      <translation>Importuoti nepavyko</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="218"/>
+      <location filename="../qml/settingsmanager/settings/manage/PQConfiguration.qml" line="225"/>
       <source>The configuration could not be imported.</source>
       <translation type="unfinished">The configuration could not be imported.</translation>
     </message>
@@ -2082,7 +2100,7 @@
       <translation type="unfinished">Slideshow</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="529"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="535"/>
       <source>Slideshow started.</source>
       <translation type="unfinished">Slideshow started.</translation>
     </message>
@@ -2120,12 +2138,12 @@
   <context>
     <name>unavailable</name>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="646"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="651"/>
       <source>Feature unavailable</source>
-      <translation type="unfinished">Feature unavailable</translation>
+      <translation>Savybė neprieinama</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="646"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="651"/>
       <source>Photo spheres are not supported by this build of PhotoQt.</source>
       <translation type="unfinished">Photo spheres are not supported by this build of PhotoQt.</translation>
     </message>
@@ -2136,7 +2154,7 @@
       <location filename="../qml/actions/popout/PQWallpaperPopout.qml" line="31"/>
       <source>Wallpaper</source>
       <extracomment>Window title</extracomment>
-      <translation type="unfinished">Wallpaper</translation>
+      <translation>Darbalaukio fonas</translation>
     </message>
     <message>
       <location filename="../qml/actions/wallpaperparts/PQOther.qml" line="58"/>

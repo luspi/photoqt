@@ -4,7 +4,7 @@
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-2.0+</project_license>
     <name>PhotoQt</name>
-    <summary>View and manage images, videos, and documents</summary>
+    <summary>View and manage images and videos</summary>
     <description>
         <p>PhotoQt is a fast and simple, good looking, yet powerful and highly configurable image viewer.</p>
         <p>It provides an uncluttered interface and can be extensively tweaked to fit ones needs perfectly. It is possible to set key or mouse shortcuts for many of its features and capabilities, as well as for any external script/command.</p>
@@ -112,6 +112,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.8" date="2025-01-25">
+            <description>
+                Another release is ready, v4.9, once again packed with new features, improvements, and bug fixes. Some of the new features will make the experience of using PhotoQt noticeably better.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.8
+            </url>
+        </release>
         <release version="4.7" date="2024-11-29">
             <description>
                 After a short break due to a big move across continents, PhotoQt is back with a new release full of exciting additions, many quality of life improvements, and also some bug fixes.

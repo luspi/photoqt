@@ -1,6 +1,41 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.8 - 2024-01-25
+----------------------------
+- add: zoom and pich to mouse/pinch position
+- add: touchpad pinches for zooming images
+- add: load multiple folders into main view both from command line and filedialog
+- add: thumbnails: variable width
+- add: file dialog: option to remember selections of folders
+- add: map explorer add context menu for images
+- add: map explorer: show current location at bottom right of map with context menu for copying location to clipboard
+- add: map explorer: add context menu to map for custom location
+- improve: file dialog: pressing shift switches trash function to permanently delete, including entry in context menu
+- improve: notification of failed application of color profile includes filename
+- improve: file dialog: tooltip and contextmenu handling
+- improve: file dialog: add context menus to breadcrumbs
+- improve: map explorer: performance of loading images
+- improve: attempt to compute device pixel ratio on Wayland using wayland-info
+- improve: mainmenu: vertically resizable and movable
+- improve: thumbnails: bar also visible with no files loaded but showing empty message
+- improve: add context menu to all buttons
+- improve: Escape always only closes context menu, combo box popup, or cancel slider/spinbox edit mode
+- improve: windows installer always removes old files first
+- improve: windows installer with silent mode
+- fix: avoid random crashes when switching images very quickly
+- fix: file dialog: remove selection every time folder changes
+- fix: file dialog: shift+click always selects range
+- fix: thumbnails: scrolling bar when shown at left/right edge
+- fix: deleting last file properly resets interface
+- fix: deleting file no longer gets stuck with busy loader
+- fix: map explorer: avoid crashes with many images loaded
+- fix: settings manager: show button to select custom accent color
+- fix: loading images at full scale at startup for device/pixel ratios other than 1
+- fix: load archive with unicode path on Windows
+- other: PhotoQt added to Windows app store
+
+
 Release 4.7 - 2024-11-29
 ----------------------------
 - change: raise minimum required Qt version to 6.4 (6.5+ recommended)
