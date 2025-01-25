@@ -138,6 +138,7 @@ PQMenu {
                     onCheckedChanged: {
                         if(checked)
                             PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
+                        checked = Qt.binding(function() { return (PQCSettings.filedialogElementPadding===modelData); })
                     }
                     onTriggered:
                         PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
