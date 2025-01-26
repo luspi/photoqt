@@ -37,7 +37,15 @@ Item {
     property var categories: ({})
 
     property list<string> filterCategories: []
+
+    // This variable (and only this one) causes a crash in qmlcachegen for Qt 6.4
+    // if its type is left as list<string>
+    /*1off_Qt64
+    property var filterSubCategories: []
+    2off_Qt64*/
+    /*1on_Qt65+*/
     property list<string> filterSubCategories: []
+    /*2on_Qt65+*/
 
     property list<string> selectedCategories: []
 

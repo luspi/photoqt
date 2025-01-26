@@ -201,11 +201,42 @@ if(Qt6_VERSION VERSION_LESS 6.5)
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
 
-    # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
+    # we need to modify the code slightly to make it work with Qt 6.4
     foreach(QMLFILE ${photoqt_QML})
+
         file(READ ${QMLFILE} FILE_CONTENTS)
-        string(REPLACE "pragma ComponentBehavior: Bound" "" FILE_CONTENTS "${FILE_CONTENTS}")
-        file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+
+        set(anything_changed FALSE)
+
+        # pragma ComponentBehavior causes issues with Qt 6.4 (and isn't supported before)
+        if(FILE_CONTENTS MATCHES "pragma ComponentBehavior: Bound")
+            string(REPLACE "pragma ComponentBehavior: Bound" "/*Qt64:pragma/ComponentBehavior:/Bound*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        # switch on Qt 6.4 specific code
+        if(FILE_CONTENTS MATCHES "/\\*1off_Qt64")
+            set(anything_changed TRUE)
+            string(REPLACE "/*1off_Qt64" "/*1on_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+        if(FILE_CONTENTS MATCHES "2off_Qt64\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "2off_Qt64*/" "/*2on_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        # switch off Qt 6.5+ specific code
+        if(FILE_CONTENTS MATCHES "/\\*1on_Qt65\\+\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "/*1on_Qt65+*/" "/*1off_Qt65+" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+        if(FILE_CONTENTS MATCHES "/\\*2on_Qt65\\+\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "/*2on_Qt65+*/" "2off_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        if(anything_changed)
+            file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+        endif()
+
     endforeach()
 
 else()
@@ -214,6 +245,45 @@ else()
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
     execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
                    "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
+
+    # we potentially need to undo some of the changes done above for Qt 6.4 specific code
+    foreach(QMLFILE ${photoqt_QML})
+
+        file(READ ${QMLFILE} FILE_CONTENTS)
+
+        set(anything_changed FALSE)
+
+        # re-enable pragma's if they were disabled previously
+        if(FILE_CONTENTS MATCHES "/\\*Qt64:pragma/ComponentBehavior:/Bound\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "/*Qt64:pragma/ComponentBehavior:/Bound*/" "pragma ComponentBehavior: Bound" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        # switch off Qt 6.4 specific code
+        if(FILE_CONTENTS MATCHES "/\\*1on_Qt64\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "/*1on_Qt64*/" "/*1off_Qt64" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+        if(FILE_CONTENTS MATCHES "/\\*2on_Qt64\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "/*2on_Qt64*/" "2off_Qt64*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        # switch on Qt 6.5+ specific code
+        if(FILE_CONTENTS MATCHES "/\\*1off_Qt65\\+")
+            set(anything_changed TRUE)
+            string(REPLACE "/*1off_Qt65+" "/*1on_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+        if(FILE_CONTENTS MATCHES "2off_Qt65\\+\\*/")
+            set(anything_changed TRUE)
+            string(REPLACE "2off_Qt65+*/" "/*2on_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
+        if(anything_changed)
+            file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
+        endif()
+
+    endforeach()
 
 endif()
 
