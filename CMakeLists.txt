@@ -336,6 +336,9 @@ endif()
 if(TESTING)
     qt_add_executable(photoqt_test ${photoqt_testscripts_SOURCES} misc/misc.qrc testing/resources/testing.qrc)
     target_link_libraries(photoqt_test PRIVATE Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core Qt6::Svg Qt6::Concurrent Qt6::Multimedia Qt6::PrintSupport Qt6::DBus Qt6::Test)
+    if(QTPDF)
+        target_link_libraries(photoqt_test PRIVATE Qt6::Pdf)
+    endif()
     target_include_directories(photoqt_test PRIVATE "testing/header")
     target_include_directories(photoqt_test PRIVATE "cplusplus/header")
     target_compile_definitions(photoqt_test PRIVATE PQMVERSION="${APPVERSION}")
@@ -348,9 +351,15 @@ endif()
 
 # Since Python might be imported we have to avoid using Qt keywords (like 'slots') to avoid naming conflicts
 target_compile_definitions(photoqt PRIVATE QT_NO_KEYWORDS)
+if(TESTING)
+    target_compile_definitions(photoqt_test PRIVATE QT_NO_KEYWORDS)
+endif()
 
 # we always want to capture debug/log context information
 target_compile_definitions(photoqt PRIVATE QT_MESSAGELOGCONTEXT)
+if(TESTING)
+    target_compile_definitions(photoqt_test PRIVATE QT_MESSAGELOGCONTEXT)
+endif()
 
 ##############################################
 #### COMPOSE THE APPROPRIATE DESKTOP FILE ####
