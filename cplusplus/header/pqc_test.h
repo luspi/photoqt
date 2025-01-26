@@ -57,10 +57,12 @@ private Q_SLOTS:
     // images
 
     void testLoadImageAndConvertToBase64();
+#ifdef PQMLIBARCHIVE
     void testListArchiveContentZip();
     void testListArchiveContentTarGz();
     void testListArchiveContentRar();
     void testListArchiveContent7z();
+#endif
 
 /********************************************************/
 /********************************************************/

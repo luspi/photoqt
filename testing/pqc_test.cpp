@@ -14,28 +14,28 @@
 void PQCTest::init() {
 
     QDir dir;
-    dir.mkpath(PQCConfigFiles::CONFIG_DIR());
+    dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
     dir.mkpath(QDir::tempPath() + "/photoqt_test");
 
-    QFile::copy(":/imageformats.db", PQCConfigFiles::IMAGEFORMATS_DB());
-    QFile::copy(":/settings.db", PQCConfigFiles::SETTINGS_DB());
-    QFile::copy(":/location.db", PQCConfigFiles::LOCATION_DB());
-    QFile::copy(":/contextmenu.db", PQCConfigFiles::CONTEXTMENU_DB());
-    QFile::copy(":/shortcuts.db", PQCConfigFiles::SHORTCUTS_DB());
+    QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB());
+    QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB());
+    QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB());
+    QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB());
+    QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB());
 
-    QFile file(PQCConfigFiles::IMAGEFORMATS_DB());
+    QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
-    file.setFileName(PQCConfigFiles::SETTINGS_DB());
+    file.setFileName(PQCConfigFiles::get().SETTINGS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
-    file.setFileName(PQCConfigFiles::LOCATION_DB());
+    file.setFileName(PQCConfigFiles::get().LOCATION_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
-    file.setFileName(PQCConfigFiles::CONTEXTMENU_DB());
+    file.setFileName(PQCConfigFiles::get().CONTEXTMENU_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
-    file.setFileName(PQCConfigFiles::SHORTCUTS_DB());
+    file.setFileName(PQCConfigFiles::get().SHORTCUTS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
 
@@ -43,11 +43,11 @@ void PQCTest::init() {
 
 void PQCTest::cleanup() {
 
-    QFile::remove(PQCConfigFiles::IMAGEFORMATS_DB());
-    QFile::remove(PQCConfigFiles::SETTINGS_DB());
-    QFile::remove(PQCConfigFiles::LOCATION_DB());
-    QFile::remove(PQCConfigFiles::CONTEXTMENU_DB());
-    QFile::remove(PQCConfigFiles::SHORTCUTS_DB());
+    QFile::remove(PQCConfigFiles::get().IMAGEFORMATS_DB());
+    QFile::remove(PQCConfigFiles::get().SETTINGS_DB());
+    QFile::remove(PQCConfigFiles::get().LOCATION_DB());
+    QFile::remove(PQCConfigFiles::get().CONTEXTMENU_DB());
+    QFile::remove(PQCConfigFiles::get().SHORTCUTS_DB());
 
     QDir dir(QDir::tempPath() + "/photoqt_test");
     dir.removeRecursively();
@@ -118,7 +118,7 @@ void PQCTest::getSuffix_data() {
     QTest::newRow("all lower") << "/home/test/image.jpg" << "jpg";
     QTest::newRow("mixed") << "/home/test/image.jPg" << "jPg";
     QTest::newRow("all upper") << "/home/test/image.JPG" << "JPG";
-    QTest::newRow("double suffix") << "/home/test/image.jpg.jpg" << "jpg";
+    QTest::newRow("double suffix") << "/home/test/image.jpg.jpg" << "jpg.jpg";
     QTest::newRow("empty") << "" << "";
 
 }
@@ -186,13 +186,13 @@ void PQCTest::testClipboard() {
 void PQCTest::testExportImport() {
 
     QVERIFY(PQCScriptsConfig::get().exportConfigTo(QDir::tempPath()+"/photoqt_test/export.pqt"));
-    QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt", false));
+    QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt"));
 
     QStringList checker;
-    checker << ":/settings.db" << PQCConfigFiles::SETTINGS_DB();
-    checker << ":/contextmenu.db" << PQCConfigFiles::CONTEXTMENU_DB();
-    checker << ":/shortcuts.db" << PQCConfigFiles::SHORTCUTS_DB();
-    checker << ":/imageformats.db" << PQCConfigFiles::IMAGEFORMATS_DB();
+    checker << ":/settings.db" << PQCConfigFiles::get().SETTINGS_DB();
+    checker << ":/contextmenu.db" << PQCConfigFiles::get().CONTEXTMENU_DB();
+    checker << ":/shortcuts.db" << PQCConfigFiles::get().SHORTCUTS_DB();
+    checker << ":/imageformats.db" << PQCConfigFiles::get().IMAGEFORMATS_DB();
 
     for(int i = 0; i < checker.length()/2; ++i) {
 
@@ -302,6 +302,7 @@ void PQCTest::testLoadImageAndConvertToBase64() {
 
 }
 
+#ifdef PQMLIBARCHIVE
 void PQCTest::testListArchiveContentZip() {
 
     QFile::copy(":/testing/testarchive.zip", QDir::tempPath()+"/photoqt_test/testarchive.zip");
@@ -359,6 +360,7 @@ void PQCTest::testListArchiveContentRar() {
     QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.rar"));
 
 }
+#endif
 
 /********************************************************/
 /********************************************************/
@@ -423,7 +425,7 @@ void PQCTest::testModelMainView() {
     expected << QDir::tempPath() + "/photoqt_test/blue5";
 
     QCOMPARE(expected, PQCFileFolderModel::get().getEntriesMainView());
-    QCOMPARE("blue2.png", PQCFileFolderModel::get().getCurrentFile());
+    QCOMPARE(QDir::tempPath() + "/photoqt_test/blue2.png", PQCFileFolderModel::get().getCurrentFile());
     QCOMPARE(1, PQCFileFolderModel::get().getCurrentIndex());
 
 }

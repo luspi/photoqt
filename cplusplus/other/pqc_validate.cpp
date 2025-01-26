@@ -110,6 +110,8 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
     // make sure necessary folder exist
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
+    dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
+    dir.mkpath(PQCConfigFiles::get().DATA_DIR());
     dir.mkpath(userplaces_info.absolutePath());
     if(thumb_cache_basedir != "") {
         dir.mkpath(thumb_cache_basedir);

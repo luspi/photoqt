@@ -89,7 +89,15 @@ QString PQCScriptsFilesPaths::cleanPath_windows(QString path) {
     if(info.isSymLink() && info.exists())
         path = info.symLinkTarget();
 
-    return QDir::cleanPath(path);
+    bool addslash = false;
+    if(path.startsWith("//"))
+        addslash = true;
+
+    path = QDir::cleanPath(path);
+    if(addslash)
+        path = "/"+path;
+
+    return path;
 
 }
 
