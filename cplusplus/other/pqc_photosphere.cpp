@@ -23,10 +23,11 @@
 #include <pqc_photosphere.h>
 #include <pqc_photosphererenderer.h>
 #include <pqc_configfiles.h>
+#include <pqc_loadimage.h>
 
 #include <QSGNode>
-#include <QFile>
-#include <QFileInfo>
+#include <QImage>
+#include <QBuffer>
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -116,13 +117,18 @@ void PQCPhotoSphere::setSource(QString path) {
             qWarning() << "Unable to open file.";
             return;
         }
-        QFileInfo info(path);
-        QDataStream in(&file);
-        QByteArray data(info.size(), 0);
-        in.readRawData(data.data(), info.size());
+
+        // load full image and set as raw data
+
+        QSize s;
+        QImage img;
+        PQCLoadImage::get().load(path, QSize(), s, img);
+
+        QBuffer buffer(&image);
+        buffer.open(QIODevice::WriteOnly);
+        img.save(&buffer, "JPG");
 
         m_imageUrl = path;
-        image = data;
 
 #if defined(PQMEXIV2) && defined(PQMEXIV2_ENABLE_BMFF)
 
