@@ -1043,7 +1043,7 @@ Loader {
                     // reset default properties when window size changed
                     Timer {
                         id: resetDefaults
-                        interval: 100
+                        interval: 50
                         onTriggered: {
                             var tmp = image_wrapper.computeDefaultScale()
                             if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
@@ -1091,10 +1091,29 @@ Loader {
                         target: imageloaderitem.access_fullscreen // qmllint disable unqualified
 
                         function onWidthChanged() {
+
+                            loader_top.dontAnimateNextZoom = true
+                            resetDefaults.triggered()
+
+                            // we do both, trigger the resize right away (for smoother scaling)
+                            // and start a short timer to do it again in a few ms
+                            // sometimes the right width/height is not immediately available
+                            // doing both avoids incorrectly sized images
+
                             resetDefaults.restart()
+
                         }
 
                         function onHeightChanged() {
+
+                            loader_top.dontAnimateNextZoom = true
+                            resetDefaults.triggered()
+
+                            // we do both, trigger the resize right away (for smoother scaling)
+                            // and start a short timer to do it again in a few ms
+                            // sometimes the right width/height is not immediately available
+                            // doing both avoids incorrectly sized images
+
                             resetDefaults.restart()
                         }
                     }
