@@ -443,7 +443,7 @@ Item {
 
             }
 
-            if(!PQCSettings.filetypesPhotoSphereAutoLoad && combo === "Esc") {
+            if((!PQCScriptsImages.isPhotoSphere(PQCFileFolderModel.currentFile) || !PQCSettings.filetypesPhotoSphereAutoLoad) && combo === "Esc") {
 
                 image.exitPhotoSphere()
                 return

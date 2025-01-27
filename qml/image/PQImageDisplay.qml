@@ -258,13 +258,13 @@ Loader {
             }
 
             function onEnterPhotoSphere() {
-                if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
+                if(PQCNotify.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
                     return
                 loader_top.doEnterPhotoSphere()
             }
 
             function onExitPhotoSphere() {
-                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
+                if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && !loader_top.photoSphereManuallyEntered)) // qmllint disable unqualified
                     return
                 loader_top.doExitPhotoSphere()
             }
@@ -2067,7 +2067,7 @@ Loader {
         function handleWhenCompletelyHidden() {
 
             // exit photo sphere when manually entered
-            if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered && !PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
+            if(loader_top.thisIsAPhotoSphere && loader_top.photoSphereManuallyEntered)
                 loader_top.doExitPhotoSphere()
 
             // check if this file has been deleted. If so, then we deactivate this loader
