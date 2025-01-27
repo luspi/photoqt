@@ -74,6 +74,7 @@ public:
     Q_INVOKABLE void updateTranslation();
     Q_INVOKABLE void inform(QString title, QString txt);
     Q_INVOKABLE void setDefaultSettingValueFor(QString key);
+    Q_INVOKABLE bool isNumericSortingAvailable();
 
 private:
     PQCScriptsConfig();

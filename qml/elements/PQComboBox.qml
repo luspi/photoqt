@@ -35,6 +35,8 @@ ComboBox {
     font.pointSize: PQCLook.fontSize // qmllint disable unqualified
     font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
+    property list<int> hideEntries: []
+
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
     property bool extrawide: false
@@ -47,7 +49,7 @@ ComboBox {
     delegate: ItemDelegate {
         id: deleg
         width: control.width
-        height: 40
+        height: control.hideEntries.indexOf(index)===-1 ? 40 : 0
         required property var model
         required property int index
         contentItem: Text {

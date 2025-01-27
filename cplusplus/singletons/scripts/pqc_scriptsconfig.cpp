@@ -656,3 +656,9 @@ bool PQCScriptsConfig::isLCMS2SupportEnabled() {
 void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
     PQCSettings::get().setDefaultFor(key);
 }
+
+bool PQCScriptsConfig::isNumericSortingAvailable() {
+    QCollator col;
+    col.setNumericMode(true);
+    return col.numericMode();
+}

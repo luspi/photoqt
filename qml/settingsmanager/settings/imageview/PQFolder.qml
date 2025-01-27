@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -123,6 +124,7 @@ Flickable {
                                                           qsTranslate("settingsmanager", "type")]
                         model: modeldata
                         onCurrentIndexChanged: setting_top.checkDefault()
+                        hideEntries: PQCScriptsConfig.isNumericSortingAvailable() ? [] : [0]
                     }
                 },
 
@@ -344,6 +346,9 @@ Flickable {
     function load() {
 
         loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) // qmllint disable unqualified
+
+        if(!PQCScriptsConfig.isNumericSortingAvailable() && PQCSettings.imageviewSortImagesBy === "naturalname")
+            PQCSettings.imageviewSortImagesBy = "name"
 
         var l = ["naturalname", "name", "time", "size", "type"]
         if(l.indexOf(PQCSettings.imageviewSortImagesBy) > -1)
