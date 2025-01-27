@@ -1063,8 +1063,13 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
     QStringList ret;
 
     const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
-    const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
+    QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
     const bool showHidden = (PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool() || forceShowHidden);
+
+#ifdef PQMWITHOUTICU
+    if(sortBy == "naturalname")
+        sortBy = "name";
+#endif
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(sortReversed)
@@ -1124,8 +1129,13 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
     QStringList ret;
 
     const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
-    const QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
+    QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
     const bool showHidden = PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool();
+
+#ifdef PQMWITHOUTICU
+    if(sortBy == "naturalname")
+        sortBy = "name";
+#endif
 
     QDir::SortFlags sortFlags = QDir::IgnoreCase;
     if(sortReversed)

@@ -291,9 +291,11 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
 #endif
 
     QCollator collator;
+#ifndef PQMWITHOUTICU
     collator.setCaseSensitivity(Qt::CaseInsensitive);
     collator.setIgnorePunctuation(true);
     collator.setNumericMode(true);
+#endif
 
     if(PQCSettings::get()["imageviewSortImagesAscending"].toBool())
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });

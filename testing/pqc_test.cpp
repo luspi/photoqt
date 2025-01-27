@@ -148,25 +148,25 @@ void PQCTest::getFoldersIn() {
 
     QStringList expected;
 
-    if(PQCScriptsConfig::get().isNumericSortingAvailable()) {
-        expected << "folder1"
-                 << "folder2"
-                 << "folder3"
-                 << "folder10"
-                 << "folder11"
-                 << "folder12"
-                 << "folder20"
-                 << "folder30";
-    } else {
-        expected << "folder1"
-                 << "folder10"
-                 << "folder11"
-                 << "folder12"
-                 << "folder2"
-                 << "folder20"
-                 << "folder3"
-                 << "folder30";
-    }
+#ifdef PQMWITHOUTICU
+    expected << "folder1"
+             << "folder10"
+             << "folder11"
+             << "folder12"
+             << "folder2"
+             << "folder20"
+             << "folder3"
+             << "folder30";
+#else
+    expected << "folder1"
+             << "folder2"
+             << "folder3"
+             << "folder10"
+             << "folder11"
+             << "folder12"
+             << "folder20"
+             << "folder30";
+#endif
 
     QCOMPARE(PQCScriptsFilesPaths::get().getFoldersIn(QDir::tempPath() + "/photoqt_test"), expected);
     QCOMPARE(PQCScriptsFilesPaths::get().getFoldersIn(""), QStringList());

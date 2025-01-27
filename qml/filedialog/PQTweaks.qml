@@ -174,7 +174,7 @@ Item {
                                                   "[" + qsTranslate("filedialog", "reverse order") + "]"]
                 model: modeldata
 
-                hideEntries: PQCScriptsConfig.isNumericSortingAvailable() ? [] : [1]
+                hideEntries: PQCScriptsConfig.isICUSupportEnabled() ? [] : [1]
 
                 Component.onCompleted: {
                     setCurrentIndex()
@@ -209,7 +209,7 @@ Item {
 
                 function setCurrentIndex() {
                     var sortby = PQCSettings.imageviewSortImagesBy // qmllint disable unqualified
-                    if(sortby === "name" || (sortby === "naturalname" && !PQCScriptsConfig.isNumericSortingAvailable()))
+                    if(sortby === "name" || (sortby === "naturalname" && !PQCScriptsConfig.isICUSupportEnabled()))
                         currentIndex = 0
                     else if(sortby === "naturalname")
                         currentIndex = 1

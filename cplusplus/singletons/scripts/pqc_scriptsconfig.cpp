@@ -657,8 +657,9 @@ void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
     PQCSettings::get().setDefaultFor(key);
 }
 
-bool PQCScriptsConfig::isNumericSortingAvailable() {
-    QCollator col;
-    col.setNumericMode(true);
-    return col.numericMode();
+bool PQCScriptsConfig::isICUSupportEnabled() {
+#ifdef PQMWITHOUTICU
+    return false;
+#endif
+    return true;
 }

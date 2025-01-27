@@ -108,7 +108,9 @@ void PQCAsyncImageResponseFolderThumb::run() {
         fileinfolist = dir.entryInfoList();
 
         QCollator collator;
+#ifndef PQMWITHOUTICU
         collator.setNumericMode(true);
+#endif
         std::sort(fileinfolist.begin(), fileinfolist.end(), [&collator](const QFileInfo &file1, const QFileInfo &file2) { return collator.compare(file1.fileName(), file2.fileName()) < 0; });
 
         PQCAsyncImageResponseFolderThumbCache::get().saveToCache(m_folder, checknum, fileinfolist);

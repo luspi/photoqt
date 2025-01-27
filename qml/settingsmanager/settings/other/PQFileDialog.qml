@@ -98,7 +98,7 @@ Flickable {
                                                           qsTranslate("settingsmanager", "type")]
                         model: modeldata
                         onCurrentIndexChanged: setting_top.checkDefault()
-                        hideEntries: PQCScriptsConfig.isNumericSortingAvailable() ? [] : [0]
+                        hideEntries: PQCScriptsConfig.isICUSupportEnabled() ? [] : [0]
                     }
                 },
 
@@ -631,7 +631,7 @@ Flickable {
 
     function load() {
 
-        if(!PQCScriptsConfig.isNumericSortingAvailable() && PQCSettings.imageviewSortImagesBy === "naturalname")
+        if(!PQCScriptsConfig.isICUSupportEnabled() && PQCSettings.imageviewSortImagesBy === "naturalname")
             PQCSettings.imageviewSortImagesBy = "name"
 
         var l = ["naturalname", "name", "time", "size", "type"]

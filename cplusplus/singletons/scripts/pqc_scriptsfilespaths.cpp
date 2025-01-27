@@ -232,7 +232,9 @@ QStringList PQCScriptsFilesPaths::getFoldersIn(QString path) {
     QStringList ret = dir.entryList();
 
     QCollator collator;
+#ifndef PQMWITHOUTICU
     collator.setNumericMode(true);
+#endif
     std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
 
     return ret;

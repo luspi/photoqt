@@ -63,6 +63,7 @@ option(RUNCPPCHECK "Analyse source code with cppcheck" OFF)
 option(FLATPAKBUILD "Enable this if this is a build for Flatpak" OFF)
 
 option(ADAPT_SOURCE "Adapt the source files for the current Qt version (if necessary)" OFF)
+option(WITHOUTICU "Enabled this if your Qt6 setup has no ICU support" OFF)
 
 if(QTPDF)
     if(POPPLER)
@@ -359,6 +360,14 @@ endif()
 target_compile_definitions(photoqt PRIVATE QT_MESSAGELOGCONTEXT)
 if(TESTING)
     target_compile_definitions(photoqt_test PRIVATE QT_MESSAGELOGCONTEXT)
+endif()
+
+if(WITHOUTICU)
+    message("** ICU support has been DISABLED")
+    target_compile_definitions(photoqt PRIVATE PQMWITHOUTICU)
+    if(TESTING)
+        target_compile_definitions(photoqt_test PRIVATE PQMWITHOUTICU)
+    endif()
 endif()
 
 ##############################################
