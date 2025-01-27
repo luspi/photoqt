@@ -430,7 +430,7 @@ PQCPhotoSphere { // qmllint disable
 
     Loader {
 
-        active: !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: (!PQCSettings.filetypesPhotoSphereAutoLoad || loader_top.photoSphereManuallyEntered) && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
             Rectangle {

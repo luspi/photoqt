@@ -258,7 +258,7 @@ Loader {
             }
 
             function onEnterPhotoSphere() {
-                if(!loader_top.isMainImage || !loader_top.thisIsAPhotoSphere || PQCSettings.filetypesPhotoSphereAutoLoad) // qmllint disable unqualified
+                if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
                     return
                 loader_top.doEnterPhotoSphere()
             }
@@ -907,6 +907,7 @@ Loader {
                         target: loader_top
 
                         function onFinishSetup() {
+
                             image_top.currentFileInside = 0 // qmllint disable unqualified
                             image_top.currentFilesInsideCount = 0
                             image_top.currentFileInsideFilename = ""
@@ -945,7 +946,7 @@ Loader {
                                 loader_top.listenToClicksOnImage = true
                             } else if(PQCScriptsImages.isSVG(imageloaderitem.imageSource)) {
                                 image_loader_svg.active = true
-                            } else if(PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
+                            } else if(loader_top.photoSphereManuallyEntered || PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
                                 loader_top.thisIsAPhotoSphere = true
                                 PQCNotify.showingPhotoSphere = true
                                 image_loader_sph.active = true
