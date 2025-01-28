@@ -86,10 +86,10 @@ Slider {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             propagateComposedEvents: true
-            function onClicked(mouse) { mouse.accepted = false }
-            function onDoubleClicked(mouse) { mouse.accepted = false }
-            function onPressAndHold(mouse) { mouse.accepted = false }
-            function onPressed(mouse) { mouse.accepted = false }
+            onClicked: (mouse) => { mouse.accepted = false }
+            onDoubleClicked: (mouse) => { mouse.accepted = false }
+            onPressAndHold: (mouse) => { mouse.accepted = false }
+            onPressed: (mouse) => { mouse.accepted = false }
             onEntered: {
                 control.sliderContainsMouse = true
             }
