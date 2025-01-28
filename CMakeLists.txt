@@ -236,6 +236,22 @@ if(Qt6_VERSION VERSION_LESS 6.5)
             string(REPLACE "/*2on_Qt65+*/" "2off_Qt65+*/" FILE_CONTENTS "${FILE_CONTENTS}")
         endif()
 
+        # Qt 6.4 striggles with properties of type list somewhat randomly
+        # Replacing them all by var keeps the code working and avoids any issues
+        if(FILE_CONTENTS MATCHES "property list\\<")
+            set(anything_changed TRUE)
+            string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<double>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<real>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+        endif()
+
         if(anything_changed)
             if(ADAPT_SOURCE)
                 file(WRITE ${QMLFILE} "${FILE_CONTENTS}")
