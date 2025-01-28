@@ -273,6 +273,8 @@ Q_SIGNALS:
     void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseMove(double x, double y);
     void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+    void mouseWindowExit();
+    void mouseWindowEnter();
 
 };
 

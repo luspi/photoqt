@@ -733,6 +733,14 @@ Rectangle {
         }
     }
 
+    Timer {
+        id: hideElementWithDelay
+        interval: 1000
+        onTriggered: {
+            metadata_top.setVisible = false
+        }
+    }
+
     Connections {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
@@ -757,6 +765,14 @@ Rectangle {
                 if(metadata_top.hotArea.x <= posx && metadata_top.hotArea.x+metadata_top.hotArea.width > posx && metadata_top.hotArea.y < posy && metadata_top.hotArea.height+metadata_top.hotArea.y > posy)
                     metadata_top.setVisible = true
             }
+        }
+
+        function onMouseWindowExit() {
+            hideElementWithDelay.restart()
+        }
+
+        function onMouseWindowEnter() {
+            hideElementWithDelay.stop()
         }
 
         function onCloseAllContextMenus() {

@@ -1076,6 +1076,14 @@ Rectangle {
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the main menu
     property int ignoreBottomMotion: PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0 // qmllint disable unqualified
 
+    Timer {
+        id: hideElementWithDelay
+        interval: 1000
+        onTriggered: {
+            mainmenu_top.setVisible = false
+        }
+    }
+
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
@@ -1104,6 +1112,14 @@ Rectangle {
                 if(mainmenu_top.hotArea.x <= posx && mainmenu_top.hotArea.x+mainmenu_top.hotArea.width > posx && mainmenu_top.hotArea.y < posy && mainmenu_top.hotArea.height+mainmenu_top.hotArea.y-mainmenu_top.ignoreBottomMotion > posy)
                     mainmenu_top.setVisible = true
             }
+        }
+
+        function onMouseWindowExit() {
+            hideElementWithDelay.restart()
+        }
+
+        function onMouseWindowEnter() {
+            hideElementWithDelay.stop()
         }
 
         function onCloseAllContextMenus() {

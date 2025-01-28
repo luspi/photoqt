@@ -843,6 +843,14 @@ Item {
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
     property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0 // qmllint disable unqualified
 
+    Timer {
+        id: hideElementWithDelay
+        interval: 1000
+        onTriggered: {
+            thumbnails_top.setVisible = false
+        }
+    }
+
     Connections {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
@@ -865,6 +873,15 @@ Item {
                     thumbnails_top.setVisible = true
             }
         }
+
+        function onMouseWindowExit() {
+            hideElementWithDelay.restart()
+        }
+
+        function onMouseWindowEnter() {
+            hideElementWithDelay.stop()
+        }
+
         function onCloseAllContextMenus() {
             menu.item.dismiss() // qmllint disable missing-property
         }

@@ -343,6 +343,10 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
         Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
 
+    } else if(e->type() == QEvent::Leave) {
+        Q_EMIT PQCNotify::get().mouseWindowExit();
+    } else if(e->type() == QEvent::Enter) {
+        Q_EMIT PQCNotify::get().mouseWindowEnter();
     }
 
     return QApplication::eventFilter(obj, e);
