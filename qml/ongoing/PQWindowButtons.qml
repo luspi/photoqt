@@ -492,7 +492,7 @@ Item {
             if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || loader.visibleItem !== "") { // qmllint disable unqualified
                 resetAutoHide.stop()
                 windowbuttons_top.state = "visible"
-                nearTopEdge = true
+                windowbuttons_top.nearTopEdge = true
                 return
             }
 
@@ -503,9 +503,9 @@ Item {
             if((posy < trigger && PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
                 windowbuttons_top.state = "visible"
 
-            nearTopEdge = (posy < trigger)
+            windowbuttons_top.nearTopEdge = (posy < trigger)
 
-            if(!nearTopEdge && (!resetAutoHide.running || PQCSettings.interfaceWindowButtonsAutoHideTopEdge))
+            if(!windowbuttons_top.nearTopEdge && (!resetAutoHide.running || PQCSettings.interfaceWindowButtonsAutoHide))
                 resetAutoHide.restart()
 
         }
