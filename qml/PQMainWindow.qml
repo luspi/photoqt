@@ -57,6 +57,26 @@ Window {
     width: 800
     height: 600
 
+    // this signals whether the window is currently being resized or not
+    property bool resizing: false
+    onWidthChanged: {
+        if(toplevel.startup) return
+        toplevel.resizing = true
+        resetResizing.restart()
+    }
+    onHeightChanged: {
+        if(toplevel.startup) return
+        toplevel.resizing = true
+        resetResizing.restart()
+    }
+    Timer {
+        id: resetResizing
+        interval: 500
+        onTriggered: {
+            toplevel.resizing = false
+        }
+    }
+
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
         if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {

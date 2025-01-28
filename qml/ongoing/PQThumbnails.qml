@@ -871,6 +871,14 @@ Item {
     }
 
     Connections {
+        target: access_toplevel
+        function onResizingChanged() {
+            if(access_toplevel.resizing)
+                thumbnails_top.setVisible = false
+        }
+    }
+
+    Connections {
         target: loader // qmllint disable unqualified
 
         function onPassOn(what : string, param : string) {

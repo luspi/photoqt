@@ -765,6 +765,13 @@ Rectangle {
 
     }
 
+    Connections {
+        target: access_toplevel
+        function onResizingChanged() {
+            if(access_toplevel.resizing)
+                metadata_top.setVisible = false
+        }
+    }
 
     Connections {
         target: loader // qmllint disable unqualified
