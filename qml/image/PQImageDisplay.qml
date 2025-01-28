@@ -1498,7 +1498,9 @@ Loader {
 
             enabled: mpta.numPoints==0
 
+            /*1on_Qt65+*/
             rotationAxis.enabled: false
+            /*2on_Qt65+*/
 
             onScaleChanged: (delta) => {
                 loader_top.dontAnimateNextZoom = true
