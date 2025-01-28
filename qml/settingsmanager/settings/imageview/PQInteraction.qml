@@ -94,11 +94,13 @@ Flickable {
                         id: zoom_rel
                         text: qsTranslate("settingsmanager", "relative zoom speed")
                         checked: PQCSettings.imageviewZoomSpeedRelative // qmllint disable unqualified
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: zoom_abs
                         text: qsTranslate("settingsmanager", "absolute zoom speed")
                         checked: !zoom_rel.checked
+                        onCheckedChanged: setting_top.checkDefault()
                     }
                 },
 
