@@ -185,6 +185,29 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             }
         }
 
+        // If QImageReader cannot read the image does not mean all hope is lost
+        if(!reader.canRead()) {
+
+            errormsg = "unable to read image with reader, trying direct QImage";
+            qDebug() << errormsg;
+
+            // It is possible that QImage can load an image directly even if QImageReader cannot
+            img.load(filename);
+            imgAlreadyLoaded = true;
+            origSize = img.size();
+
+            if(img.isNull()) {
+                errormsg = "image reader and QImage unable to read image";
+                qWarning() << errormsg;
+                return errormsg;
+            } else {
+                colorProfileAlreadyApplied = true;
+                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
+                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+            }
+        }
+
         // check if we need to scale the image
         if(maxSize.isValid() && origSize.isValid() && !maxSize.isNull() && !origSize.isNull()) {
 
