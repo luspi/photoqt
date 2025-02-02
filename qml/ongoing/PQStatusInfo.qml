@@ -98,7 +98,7 @@ Item {
         State {
             name: "hidden"
             PropertyChanges {
-                statusinfo_top.y: -statusinfo_top.height-5
+                statusinfo_top.y: -statusinfo_top.height-20
             }
         }
     ]
