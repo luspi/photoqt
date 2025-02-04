@@ -40,7 +40,7 @@ PQTemplateFullscreen {
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 
-    function onPopoutChanged() {
+    onPopoutChanged: {
         PQCSettings.interfacePopoutSettingsManager = popout // qmllint disable unqualified
     }
 
