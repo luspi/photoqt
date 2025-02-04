@@ -1,0 +1,14 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
+    "name": "photoqt",
+    "version-string": "4.8.1",
+    "dependencies": [
+        "exiv2",
+        "libarchive",
+        "libraw",
+        "pugixml",
+        "devil",
+        "freeimage",
+        "nu-book-zxing-cpp"
+    ]
+}
