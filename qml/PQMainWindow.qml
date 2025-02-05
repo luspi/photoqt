@@ -77,9 +77,11 @@ Window {
         }
     }
 
+    property bool isFullscreen: toplevel.visibility==Window.FullScreen
+
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
-        if(!toplevel.startup && toplevel.visibility != Window.FullScreen) {
+        if(!toplevel.startup && !toplevel.isFullscreen) {
             PQCWindowGeometry.mainWindowGeometry = geometry // qmllint disable unqualified
             PQCWindowGeometry.mainWindowMaximized = (toplevel.visibility == Window.Maximized)
         }

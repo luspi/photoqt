@@ -103,7 +103,7 @@ Item {
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: windowbuttons_top.visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: PQCSettings.interfaceNavigationTopRight && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
             mipmap: true
             PQMouseArea {
                 id: left_mouse
@@ -130,7 +130,7 @@ Item {
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
             opacity: windowbuttons_top.visibleAlways||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: PQCSettings.interfaceNavigationTopRight && opacity > 0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
             mipmap: true
             PQMouseArea {
                 id: right_mouse
@@ -165,7 +165,7 @@ Item {
 
             mipmap: true
 
-            visible: PQCSettings.interfaceNavigationTopRight && opacity > 0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
 
             PQMouseArea {
                 id: mainmenu_mouse
@@ -386,7 +386,10 @@ Item {
                     text: qsTranslate("settingsmanager", "show")
                     checked: PQCSettings.interfaceWindowButtonsShow // qmllint disable unqualified
                     onCheckedChanged: {
-                        PQCSettings.interfaceWindowButtonsShow = checked // qmllint disable unqualified
+                        if(checked !== PQCSettings.interfaceWindowButtonsShow) { // qmllint disable unqualified
+                            PQCSettings.interfaceWindowButtonsShow = checked
+                            checked = Qt.binding(function() {  return PQCSettings.interfaceWindowButtonsShow })
+                        }
                         if(!checked)
                             menucomponent.dismiss()
                     }
@@ -395,22 +398,44 @@ Item {
                     checkable: true
                     text: qsTranslate("settingsmanager", "duplicate buttons")
                     checked: PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons // qmllint disable unqualified
-                    onCheckedChanged:
-                        PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = checked // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked !== PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons) { // qmllint disable unqualified
+                            PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = checked
+                            checked = Qt.binding(function() {  return PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons })
+                        }
+                    }
                 }
-                PQMenuItem {
-                    checkable: true
-                    text: qsTranslate("settingsmanager", "navigation icons")
-                    checked: PQCSettings.interfaceNavigationTopRight // qmllint disable unqualified
-                    onCheckedChanged:
-                        PQCSettings.interfaceNavigationTopRight = checked // qmllint disable unqualified
+                PQMenu {
+                    title: qsTranslate("settingsmanager", "navigation icons")
+                    PQMenuItem {
+                        checkable: true
+                        text: qsTranslate("settingsmanager", "show icons")
+                        checked: PQCSettings.interfaceNavigationTopRight // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(PQCSettings.interfaceNavigationTopRight !== checked) { // qmllint disable unqualified
+                                PQCSettings.interfaceNavigationTopRight = checked
+                                checked = Qt.binding(function() {  return PQCSettings.interfaceNavigationTopRight })
+                            }
+                        }
+                    }
+                    PQMenuItem {
+                        checkable: true
+                        text: qsTranslate("settingsmanager", "only in fullscreen")
+                        checked: !PQCSettings.interfaceNavigationTopRightAlways // qmllint disable unqualified
+                        onCheckedChanged: {
+                            if(PQCSettings.interfaceNavigationTopRightAlways === checked) { // qmllint disable unqualified
+                                PQCSettings.interfaceNavigationTopRightAlways = !checked
+                                checked = Qt.binding(function() {  return !PQCSettings.interfaceNavigationTopRightAlways })
+                            }
+                        }
+                    }
                 }
 
                 PQMenuSeparator {}
 
                 PQMenu {
 
-                    title: qsTranslate("settingsmanager", "visibility:")
+                    title: qsTranslate("settingsmanager", "visibility")
 
                     PQMenuItem {
                         checkable: true

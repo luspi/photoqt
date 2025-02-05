@@ -268,11 +268,24 @@ Flickable {
                             onCheckedChanged: setting_top.checkDefault()
                         }
 
-                        PQCheckBox {
-                            id: integbut_nav
-                            enforceMaxWidth: set_winbut.rightcol
-                            text: qsTranslate("settingsmanager", "add navigation buttons")
-                            onCheckedChanged: setting_top.checkDefault()
+                        Flow {
+                            width: set_winbut.rightcol
+                            PQCheckBox {
+                                id: integbut_nav
+                                text: qsTranslate("settingsmanager", "add navigation buttons")
+                                onCheckedChanged: setting_top.checkDefault()
+                            }
+                            Item {
+                                width: integbut_nav.checked ? integbut_navfs.width : 0
+                                Behavior on width { NumberAnimation { duration: 200 } }
+                                height: integbut_navfs.height
+                                clip: true
+                                PQCheckBox {
+                                    id: integbut_navfs
+                                    text: qsTranslate("settingsmanager", "only in fullscreen")
+                                    onCheckedChanged: setting_top.checkDefault()
+                                }
+                            }
                         }
 
                         PQSliderSpinBox {
@@ -873,7 +886,7 @@ Flickable {
             return
         }
 
-        if(integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || butsize.hasChanged()) {
+        if(integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged() || butsize.hasChanged()) {
             settingChanged = true
             return
         }
@@ -933,6 +946,7 @@ Flickable {
         integbut_show.loadAndSetDefault(PQCSettings.interfaceWindowButtonsShow)
         integbut_dup.loadAndSetDefault(PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons)
         integbut_nav.loadAndSetDefault(PQCSettings.interfaceNavigationTopRight)
+        integbut_navfs.loadAndSetDefault(!PQCSettings.interfaceNavigationTopRightAlways)
         butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
 
         autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
@@ -978,6 +992,7 @@ Flickable {
         PQCSettings.interfaceWindowButtonsShow = integbut_show.checked
         PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = integbut_dup.checked
         PQCSettings.interfaceNavigationTopRight = integbut_nav.checked
+        PQCSettings.interfaceNavigationTopRightAlways = !integbut_navfs.checked
         PQCSettings.interfaceWindowButtonsSize = butsize.value
 
         PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
@@ -1008,6 +1023,7 @@ Flickable {
         integbut_show.saveDefault()
         integbut_dup.saveDefault()
         integbut_nav.saveDefault()
+        integbut_navfs.saveDefault()
         butsize.saveDefault()
 
         autohide_always.saveDefault()
