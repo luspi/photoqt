@@ -43,6 +43,7 @@ import "../../../elements"
 // - interfaceStatusInfoAutoHideTimeout
 // - interfaceStatusInfoAutoHideTopEdge
 // - interfaceStatusInfoShowImageChange
+// - interfaceStatusInfoAlignment
 // - interfaceStatusInfoManageWindow
 
 Flickable {
@@ -59,7 +60,7 @@ Flickable {
 
     property bool catchEscape: fontsize.contextMenuOpen || fontsize.editMode ||
                                autohide_timeout.contextMenuOpen || autohide_timeout.editMode ||
-                               but_add.contextmenu.visible || combo_add.popup.visible
+                               but_add.contextmenu.visible || combo_add.popup.visible || infoalignment.popup.visible
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -407,6 +408,27 @@ Flickable {
         PQSetting {
 
             //: Settings title
+            title: qsTranslate("settingsmanager", "Alignment")
+
+            helptext: qsTranslate("settingsmanager",  "The status info is typically shown along the top left corner of the window. If preferred, it is also possible to show it centered along the top edge or in the top right corner.")
+
+            content: [
+                PQComboBox {
+                    id: infoalignment
+                    model: ["left", "center", "right"]
+                    onCurrentIndexChanged: setting_top.checkDefault()
+                }
+            ]
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            //: Settings title
             title: qsTranslate("settingsmanager", "Window management")
 
             helptext: qsTranslate("settingsmanager",  "By default it is possible to drag the status info around as desired. However, it is also possible to use the status info for managing the window itself. When enabled, dragging the status info will drag the window around, and double clicking the status info will toggle the maximized status of the window.")
@@ -442,6 +464,7 @@ Flickable {
         autohide_timeout.closeContextMenus()
         autohide_timeout.acceptValue()
         combo_add.popup.close()
+        infoalignment.popup.close()
     }
 
     // do not make this function typed, it will break
@@ -491,7 +514,7 @@ Flickable {
             return
         }
 
-        if(imgchange.hasChanged() || managewindow.hasChanged()) {
+        if(imgchange.hasChanged() || managewindow.hasChanged() || infoalignment.hasChanged()) {
             settingChanged = true
             return
         }
@@ -518,6 +541,7 @@ Flickable {
 
         imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
         managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
+        infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoAlignment==="center" ? 1 : (PQCSettings.interfaceStatusInfoAlignment==="right" ? 2 : 0))
 
         settingChanged = false
         settingsLoaded = true
@@ -540,6 +564,10 @@ Flickable {
         PQCSettings.interfaceStatusInfoShowImageChange = imgchange.checked
         PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
 
+        opts = ["left", "center", "right"]
+        PQCSettings.interfaceStatusInfoAlignment = ""
+        PQCSettings.interfaceStatusInfoAlignment = opts[infoalignment.currentIndex]
+
         fontsize.saveDefault()
         autohide_always.saveDefault()
         autohide_anymove.saveDefault()
@@ -548,6 +576,7 @@ Flickable {
 
         imgchange.saveDefault()
         managewindow.saveDefault()
+        infoalignment.saveDefault()
 
         settingChanged = false
 

@@ -208,6 +208,8 @@ PQTemplateFullscreen {
                                                 [qsTranslate("settingsmanager", "Status info"),
                                                  qsTranslate("settingsmanager", "Font size"),
                                                  qsTranslate("settingsmanager", "Hide automatically"),
+                                                 //: The alignment here refers to the position of the statusinfo, where along the top edge of the window it should be aligned along
+                                                 qsTranslate("settingsmanager", "Alignment"),
                                                  qsTranslate("settingsmanager", "Window management")],
                                                 ["StatusInfoShow",
                                                  "StatusInfoList",
@@ -216,7 +218,8 @@ PQTemplateFullscreen {
                                                  "StatusInfoAutoHideTopEdge",
                                                  "StatusInfoAutoHideTimeout",
                                                  "StatusInfoShowImageChange",
-                                                 "StatusInfoManageWindow"]]
+                                                 "StatusInfoManageWindow",
+                                                 "StatusInfoAlignment"]]
 
                        }],
 

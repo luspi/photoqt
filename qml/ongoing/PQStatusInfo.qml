@@ -41,7 +41,7 @@ Item {
 
     id: statusinfo_top
 
-    x: 2*distanceFromEdge
+    x: computeDefaultX()
     y: distanceFromEdge
 
     Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge || statusinfo_top.movedByMouse) ? 200 : 0 } } // qmllint disable unqualified
@@ -643,6 +643,35 @@ Item {
                     }
 
                 }
+                PQMenu {
+
+                    //: The alignment here refers to the position of the statusinfo, where along the top edge of the window it should be aligned along
+                    title: qsTranslate("settingsmanager", "alignment")
+
+                    PQMenuItem {
+                        text: qsTranslate("settingsmanager", "left")
+                        onTriggered: {
+                            PQCSettings.interfaceStatusInfoAlignment = ""
+                            PQCSettings.interfaceStatusInfoAlignment = "left" // qmllint disable unqualified
+                        }
+                    }
+
+                    PQMenuItem {
+                        text: qsTranslate("settingsmanager", "center")
+                        onTriggered: {
+                            PQCSettings.interfaceStatusInfoAlignment = ""
+                            PQCSettings.interfaceStatusInfoAlignment = "center" // qmllint disable unqualified
+                        }
+                    }
+
+                    PQMenuItem {
+                        text: qsTranslate("settingsmanager", "right")
+                        onTriggered: {
+                            PQCSettings.interfaceStatusInfoAlignment = ""
+                            PQCSettings.interfaceStatusInfoAlignment = "right" // qmllint disable unqualified
+                        }
+                    }
+                }
 
                 PQMenuSeparator {}
 
@@ -708,6 +737,17 @@ Item {
 
     Connections {
 
+        target: PQCSettings
+
+        function onInterfaceStatusInfoAlignmentChanged() {
+            statusinfo_top.bindXToWindow()
+            statusinfo_top.y = 2*statusinfo_top.distanceFromEdge
+        }
+
+    }
+
+    Connections {
+
         target: PQCFileFolderModel // qmllint disable unqualified
 
         function onCurrentIndexChanged() {
@@ -744,6 +784,18 @@ Item {
             if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened) // qmllint disable unqualified
                 statusinfo_top.state = "hidden"
         }
+    }
+
+    function bindXToWindow() {
+        x = Qt.binding(function() { return computeDefaultX() })
+    }
+
+    function computeDefaultX() {
+        return (PQCSettings.interfaceStatusInfoAlignment==="right"
+                ? (toplevel.width - width - 2*distanceFromEdge)
+                : (PQCSettings.interfaceStatusInfoAlignment === "center"
+                        ? (toplevel.width-width)/2
+                        : 2*distanceFromEdge))
     }
 
 }
