@@ -77,11 +77,7 @@
 #include <scripts/pqc_scriptschromecast.h>
 #include <scripts/pqc_scriptsundo.h>
 
-#ifdef PQMGRAPHICSMAGICK
-#include <GraphicsMagick/Magick++.h>
-#endif
-
-#ifdef PQMIMAGEMAGICK
+#if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
 #endif
 
