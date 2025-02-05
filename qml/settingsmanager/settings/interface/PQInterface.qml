@@ -275,17 +275,42 @@ Flickable {
                                 text: qsTranslate("settingsmanager", "add navigation buttons")
                                 onCheckedChanged: setting_top.checkDefault()
                             }
-                            Item {
-                                width: integbut_nav.checked ? integbut_navfs.width : 0
-                                Behavior on width { NumberAnimation { duration: 200 } }
-                                height: integbut_navfs.height
-                                clip: true
-                                PQCheckBox {
-                                    id: integbut_navfs
-                                    text: qsTranslate("settingsmanager", "only in fullscreen")
-                                    onCheckedChanged: setting_top.checkDefault()
+                            Column {
+                                spacing: 10
+                                Item {
+                                    width: integbut_nav.checked ? integbut_navfs.width : 0
+                                    Behavior on width { NumberAnimation { duration: 200 } }
+                                    height: integbut_navfs.height
+                                    clip: true
+                                    PQCheckBox {
+                                        id: integbut_navfs
+                                        text: qsTranslate("settingsmanager", "only in fullscreen")
+                                        onCheckedChanged: setting_top.checkDefault()
+                                    }
+                                }
+                                Item {
+                                    width: integbut_nav.checked ? integbut_nav_lr_col.width : 0
+                                    Behavior on width { NumberAnimation { duration: 200 } }
+                                    height: integbut_nav.checked ? integbut_nav_lr_col.height : 0
+                                    Behavior on height { NumberAnimation { duration: 200 } }
+                                    clip: true
+                                    Column {
+                                        id: integbut_nav_lr_col
+                                        spacing: 5
+                                        PQRadioButton {
+                                            id: integbut_nav_left
+                                            text: qsTranslate("settingsmanager", "left of window buttons")
+                                            onCheckedChanged: setting_top.checkDefault()
+                                        }
+                                        PQRadioButton {
+                                            id: integbut_nav_right
+                                            text: qsTranslate("settingsmanager", "right of window buttons")
+                                            onCheckedChanged: setting_top.checkDefault()
+                                        }
+                                    }
                                 }
                             }
+
                         }
 
                         PQSliderSpinBox {
@@ -886,7 +911,8 @@ Flickable {
             return
         }
 
-        if(integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged() || butsize.hasChanged()) {
+        if(integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged()
+                || integbut_nav_left.hasChanged() || integbut_nav_right.hasChanged() || butsize.hasChanged()) {
             settingChanged = true
             return
         }
@@ -947,6 +973,8 @@ Flickable {
         integbut_dup.loadAndSetDefault(PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons)
         integbut_nav.loadAndSetDefault(PQCSettings.interfaceNavigationTopRight)
         integbut_navfs.loadAndSetDefault(!PQCSettings.interfaceNavigationTopRightAlways)
+        integbut_nav_left.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="left")
+        integbut_nav_right.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="right")
         butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
 
         autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
@@ -993,6 +1021,7 @@ Flickable {
         PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = integbut_dup.checked
         PQCSettings.interfaceNavigationTopRight = integbut_nav.checked
         PQCSettings.interfaceNavigationTopRightAlways = !integbut_navfs.checked
+        PQCSettings.interfaceNavigationTopRightLeftRight = (integbut_nav_right.checked ? "right" : "left")
         PQCSettings.interfaceWindowButtonsSize = butsize.value
 
         PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
@@ -1024,6 +1053,8 @@ Flickable {
         integbut_dup.saveDefault()
         integbut_nav.saveDefault()
         integbut_navfs.saveDefault()
+        integbut_nav_left.saveDefault()
+        integbut_nav_right.saveDefault()
         butsize.saveDefault()
 
         autohide_always.saveDefault()

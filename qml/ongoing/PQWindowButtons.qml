@@ -89,98 +89,108 @@ Item {
         }
     }
 
+    Component {
+        id: navigationbuttons
+
+        Row {
+
+            Image {
+                width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                sourceSize: Qt.size(width, height)
+                source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+                enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+                opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
+                mipmap: true
+                PQMouseArea {
+                    id: left_mouse
+                    anchors.fill: parent
+                    enabled: parent.enabled&&parent.opacity>0
+                    hoverEnabled: true
+                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    text: qsTranslate("navigate", "Navigate to previous image in folder")
+                    acceptedButtons: Qt.AllButtons
+                    onClicked: (mouse) => {
+                        if(mouse.button === Qt.LeftButton)
+                            PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
+                        else if(mouse.button === Qt.RightButton)
+                            menu.item.popup()
+                    }
+                }
+            }
+
+            Image {
+                width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                sourceSize: Qt.size(width, height)
+                source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
+                enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+                opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
+                mipmap: true
+                PQMouseArea {
+                    id: right_mouse
+                    anchors.fill: parent
+                    enabled: parent.enabled&&parent.opacity>0
+                    hoverEnabled: true
+                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                    text: qsTranslate("navigate", "Navigate to next image in folder")
+                    acceptedButtons: Qt.AllButtons
+                    onClicked: (mouse) => {
+                        if(mouse.button === Qt.LeftButton)
+                            PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
+                        else if(mouse.button === Qt.RightButton)
+                            menu.item.popup()
+                    }
+                }
+            }
+
+            Item {
+                width: 1
+                height: 1
+            }
+
+            Image {
+                width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+                sourceSize: Qt.size(width, height)
+                source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
+
+                opacity: (loader.visibleItem!==""||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
+
+                mipmap: true
+
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
+
+                PQMouseArea {
+                    id: mainmenu_mouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: qsTranslate("quickinfo", "Click here to show main menu")
+                    acceptedButtons: Qt.AllButtons
+                    onClicked: (mouse) => {
+                        if(mouse.button === Qt.LeftButton)
+                            PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
+                        else if(mouse.button === Qt.RightButton)
+                            menu.item.popup()
+                    }
+                }
+            }
+
+        }
+    }
+
     Row {
 
         id: row
 
         spacing: 0
 
-        Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: windowbuttons_top.visibleAlways ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
-            mipmap: true
-            PQMouseArea {
-                id: left_mouse
-                anchors.fill: parent
-                enabled: parent.enabled&&parent.opacity>0
-                hoverEnabled: true
-                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                text: qsTranslate("navigate", "Navigate to previous image in folder")
-                acceptedButtons: Qt.AllButtons
-                onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
-                        menu.item.popup()
-                }
-            }
-        }
-
-        Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: windowbuttons_top.visibleAlways||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
-            mipmap: true
-            PQMouseArea {
-                id: right_mouse
-                anchors.fill: parent
-                enabled: parent.enabled&&parent.opacity>0
-                hoverEnabled: true
-                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                text: qsTranslate("navigate", "Navigate to next image in folder")
-                acceptedButtons: Qt.AllButtons
-                onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
-                        menu.item.popup()
-                }
-            }
-        }
-
-        Item {
-            width: 1
-            height: 1
-        }
-
-        Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
-
-            opacity: (windowbuttons_top.visibleAlways||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-
-            mipmap: true
-
-            visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
-
-            PQMouseArea {
-                id: mainmenu_mouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                text: qsTranslate("quickinfo", "Click here to show main menu")
-                acceptedButtons: Qt.AllButtons
-                onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
-                        menu.item.popup()
-                }
-            }
+        Loader {
+            active: PQCSettings.interfaceNavigationTopRight&&PQCSettings.interfaceNavigationTopRightLeftRight==="left"
+            sourceComponent: navigationbuttons
         }
 
         Image {
@@ -359,6 +369,11 @@ Item {
                 }
             }
 
+        }
+
+        Loader {
+            active: PQCSettings.interfaceNavigationTopRight&&PQCSettings.interfaceNavigationTopRightLeftRight==="right"
+            sourceComponent: navigationbuttons
         }
 
     }
