@@ -645,30 +645,30 @@ Item {
                 }
                 PQMenu {
 
-                    //: The alignment here refers to the position of the statusinfo, where along the top edge of the window it should be aligned along
-                    title: qsTranslate("settingsmanager", "alignment")
+                    //: The position here refers to the position of the statusinfo, where along the top edge of the window it should be aligned along
+                    title: qsTranslate("settingsmanager", "position")
 
                     PQMenuItem {
-                        text: qsTranslate("settingsmanager", "left")
+                        text: qsTranslate("settingsmanager", "top left")
                         onTriggered: {
-                            PQCSettings.interfaceStatusInfoAlignment = ""
-                            PQCSettings.interfaceStatusInfoAlignment = "left" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = ""
+                            PQCSettings.interfaceStatusInfoPosition = "left" // qmllint disable unqualified
                         }
                     }
 
                     PQMenuItem {
-                        text: qsTranslate("settingsmanager", "center")
+                        text: qsTranslate("settingsmanager", "top center")
                         onTriggered: {
-                            PQCSettings.interfaceStatusInfoAlignment = ""
-                            PQCSettings.interfaceStatusInfoAlignment = "center" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = ""
+                            PQCSettings.interfaceStatusInfoPosition = "center" // qmllint disable unqualified
                         }
                     }
 
                     PQMenuItem {
-                        text: qsTranslate("settingsmanager", "right")
+                        text: qsTranslate("settingsmanager", "top right")
                         onTriggered: {
-                            PQCSettings.interfaceStatusInfoAlignment = ""
-                            PQCSettings.interfaceStatusInfoAlignment = "right" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = ""
+                            PQCSettings.interfaceStatusInfoPosition = "right" // qmllint disable unqualified
                         }
                     }
                 }
@@ -739,7 +739,7 @@ Item {
 
         target: PQCSettings
 
-        function onInterfaceStatusInfoAlignmentChanged() {
+        function oninterfaceStatusInfoPositionChanged() {
             statusinfo_top.bindXToWindow()
             statusinfo_top.y = 2*statusinfo_top.distanceFromEdge
         }
@@ -791,9 +791,9 @@ Item {
     }
 
     function computeDefaultX() {
-        return (PQCSettings.interfaceStatusInfoAlignment==="right"
+        return (PQCSettings.interfaceStatusInfoPosition==="right"
                 ? (toplevel.width - width - 2*distanceFromEdge)
-                : (PQCSettings.interfaceStatusInfoAlignment === "center"
+                : (PQCSettings.interfaceStatusInfoPosition === "center"
                         ? (toplevel.width-width)/2
                         : 2*distanceFromEdge))
     }

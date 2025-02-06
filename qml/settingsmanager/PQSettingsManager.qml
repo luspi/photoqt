@@ -219,7 +219,7 @@ PQTemplateFullscreen {
                                                  "StatusInfoAutoHideTimeout",
                                                  "StatusInfoShowImageChange",
                                                  "StatusInfoManageWindow",
-                                                 "StatusInfoAlignment"]]
+                                                 "StatusInfoPosition"]]
 
                        }],
 

@@ -43,7 +43,7 @@ import "../../../elements"
 // - interfaceStatusInfoAutoHideTimeout
 // - interfaceStatusInfoAutoHideTopEdge
 // - interfaceStatusInfoShowImageChange
-// - interfaceStatusInfoAlignment
+// - interfaceStatusInfoPosition
 // - interfaceStatusInfoManageWindow
 
 Flickable {
@@ -408,14 +408,14 @@ Flickable {
         PQSetting {
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Alignment")
+            title: qsTranslate("settingsmanager", "Position")
 
             helptext: qsTranslate("settingsmanager",  "The status info is typically shown along the top left corner of the window. If preferred, it is also possible to show it centered along the top edge or in the top right corner.")
 
             content: [
                 PQComboBox {
                     id: infoalignment
-                    model: ["left", "center", "right"]
+                    model: ["top left", "top center", "top right"]
                     onCurrentIndexChanged: setting_top.checkDefault()
                 }
             ]
@@ -541,7 +541,7 @@ Flickable {
 
         imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
         managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
-        infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoAlignment==="center" ? 1 : (PQCSettings.interfaceStatusInfoAlignment==="right" ? 2 : 0))
+        infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoPosition==="center" ? 1 : (PQCSettings.interfaceStatusInfoPosition==="right" ? 2 : 0))
 
         settingChanged = false
         settingsLoaded = true
@@ -565,8 +565,8 @@ Flickable {
         PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
 
         opts = ["left", "center", "right"]
-        PQCSettings.interfaceStatusInfoAlignment = ""
-        PQCSettings.interfaceStatusInfoAlignment = opts[infoalignment.currentIndex]
+        PQCSettings.interfaceStatusInfoPosition = ""
+        PQCSettings.interfaceStatusInfoPosition = opts[infoalignment.currentIndex]
 
         fontsize.saveDefault()
         autohide_always.saveDefault()
