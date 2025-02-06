@@ -185,6 +185,13 @@ Flickable {
                 },
 
                 PQCheckBox {
+                    id: ps_escape
+                    enforceMaxWidth: set_sph.rightcol
+                    text: qsTranslate("settingsmanager", "Escape key leaves manually entered photo sphere")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
                     id: ps_pan
                     enforceMaxWidth: set_sph.rightcol
                     text: qsTranslate("settingsmanager", "perform short panning animation after loading photo spheres")
@@ -211,7 +218,7 @@ Flickable {
             return
         }
 
-        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() ||
+        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() || ps_escape.hasChanged() ||
                           ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged() || ps_pan.hasChanged())
 
     }
@@ -226,6 +233,7 @@ Flickable {
         ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
         ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
         ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
+        ps_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
 
         settingChanged = false
         settingsLoaded = true
@@ -243,6 +251,7 @@ Flickable {
         PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
         PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
         PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
+        PQCSettings.imageviewEscapeExitSphere = ps_escape.checked
 
         applelive.saveDefault()
         motionmicro.saveDefault()
@@ -252,6 +261,7 @@ Flickable {
         ps_controls.saveDefault()
         ps_arrows.saveDefault()
         ps_pan.saveDefault()
+        ps_escape.saveDefault()
 
         settingChanged = false
 

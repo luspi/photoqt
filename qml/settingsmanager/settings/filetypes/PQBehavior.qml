@@ -41,6 +41,8 @@ import "../../../elements"
 // - filetypesVideoThumbnailer
 // - filetypesVideoPreferLibmpv
 // - imageviewAnimatedControls
+// - imageviewEscapeExitDocument
+// - imageviewEscapeExitArchive
 
 Flickable {
 
@@ -86,6 +88,12 @@ Flickable {
                     suffix: " dpi"
                     onValueChanged:
                         setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: pdf_escape
+                    text: qsTranslate("settingsmanager", "Escape key leaves document viewer")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -141,6 +149,12 @@ Flickable {
                     id: archiveleftright
                     enforceMaxWidth: set_arc.rightcol
                     text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: archive_escape
+                    text: qsTranslate("settingsmanager", "Escape key leaves archive viewer")
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -354,7 +368,7 @@ Flickable {
             return
         }
 
-        if(pdf_quality.hasChanged() || arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged()) {
+        if(pdf_quality.hasChanged() || pdf_escape.hasChanged() || arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged()) {
             settingChanged = true
             return
         }
@@ -384,10 +398,12 @@ Flickable {
     function load() {
 
         pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality) // qmllint disable unqualified
+        pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
 
         arc_extunrar.loadAndSetDefault(PQCSettings.filetypesExternalUnrar)
         archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
         archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
+        archive_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
 
         vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
         vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
@@ -414,10 +430,12 @@ Flickable {
     function applyChanges() {
 
         PQCSettings.filetypesPDFQuality = pdf_quality.value // qmllint disable unqualified
+        PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
 
         PQCSettings.filetypesExternalUnrar = arc_extunrar.checked
         PQCSettings.filetypesArchiveControls = archivecontrols.checked
         PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
+        PQCSettings.imageviewEscapeExitArchive = archive_escape.checked
 
         PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
         PQCSettings.filetypesVideoLoop = vid_loop.checked
@@ -436,8 +454,11 @@ Flickable {
         PQCSettings.filetypesDocumentLeftRight = documentleftright.checked
 
         pdf_quality.saveDefault()
+        pdf_escape.saveDefault()
         arc_extunrar.saveDefault()
         archivecontrols.saveDefault()
+        archiveleftright.saveDefault()
+        archive_escape.saveDefault()
         vid_autoplay.saveDefault()
         vid_loop.saveDefault()
         vid_qtmult.saveDefault()

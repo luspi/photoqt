@@ -402,7 +402,9 @@ PQTemplateFullscreen {
                                               "AnimatedSpacePause",
                                               "RAWUseEmbeddedIfAvailable",
                                               "DocumentControls",
-                                              "DocumentLeftRight"]],
+                                              "DocumentLeftRight",
+                                              "EscapeExitDocument",
+                                              "EscapeExitArchive"]],
                            "ft_advanced"    : [qsTranslate("settingsmanager", "Advanced"), "PQAdvanced",
                                                [qsTranslate("settingsmanager", "Motion/Live photos"),
                                                 qsTranslate("settingsmanager", "Photo spheres")],
@@ -410,7 +412,8 @@ PQTemplateFullscreen {
                                                  "LoadAppleLivePhotos",
                                                  "MotionPhotoPlayPause",
                                                  "MotionSpacePause",
-                                                 "CheckForPhotoSphere"]]
+                                                 "CheckForPhotoSphere",
+                                                 "EscapeExitSphere"]]
                        }],
 
         /**************************************************************************************************************************/
@@ -433,7 +436,12 @@ PQTemplateFullscreen {
                                               "UseMouseLeftButtonForImageMove",
                                               "DoubleClickThreshold",
                                               "MouseWheelSensitivity",
-                                              "HideCursorTimeout"]]
+                                              "HideCursorTimeout",
+                                              "EscapeExitDocument",
+                                              "EscapeExitArchive ",
+                                              "EscapeExitBarcodes",
+                                              "EscapeExitFilter",
+                                              "EscapeExitSphere"]]
                        }],
 
         /**************************************************************************************************************************/

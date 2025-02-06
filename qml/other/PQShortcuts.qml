@@ -293,18 +293,6 @@ Item {
         console.log("args: mousePos =", mousePos)
         console.log("args: wheelDelta =", wheelDelta)
 
-        // a context menu is open -> don't continue
-        if(PQCNotify.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
-            if(combo === "Esc")
-                PQCNotify.closeAllContextMenus()
-            return
-        }
-
-        // if in viewer mode, pressing 'Escape' exits viewer mode
-        if(combo === "Esc" && (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
-            PQCFileFolderModel.disableViewerMode()
-            return
-        }
 
         // make sure contextmenu is closed before executing shortcut
         if(contextmenu.opened) {
@@ -312,16 +300,38 @@ Item {
             return
         }
 
-        // Escape when bar/QR codes are displayed hides those bar codes
-        if(combo === "Esc" && PQCNotify.barcodeDisplayed) {
-            image.detectBarCodes()
-            return
-        }
+        if(combo === "Esc") {
 
-        // Escape when filter is set removes filter
-        if(combo === "Esc" && PQCFileFolderModel.isUserFilterSet()) {
-            PQCFileFolderModel.removeAllUserFilter()
-            return
+            // a context menu is open -> don't continue
+            if(PQCNotify.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
+                PQCNotify.closeAllContextMenus()
+                return
+            }
+
+            // if in viewer mode, pressing 'Escape' exits viewer mode
+            if(PQCFileFolderModel.isPDF && PQCSettings.imageviewEscapeExitDocument) {
+                PQCFileFolderModel.disableViewerMode()
+                return
+            }
+
+            // if in viewer mode, pressing 'Escape' exits viewer mode
+            if(PQCFileFolderModel.isARC && PQCSettings.imageviewEscapeExitArchive) {
+                PQCFileFolderModel.disableViewerMode()
+                return
+            }
+
+            // Escape when bar/QR codes are displayed hides those bar codes
+            if(PQCNotify.barcodeDisplayed && PQCSettings.imageviewEscapeExitBarcodes) {
+                image.detectBarCodes()
+                return
+            }
+
+            // Escape when filter is set removes filter
+            if(PQCFileFolderModel.isUserFilterSet() && PQCSettings.imageviewEscapeExitFilter) {
+                PQCFileFolderModel.removeAllUserFilter()
+                return
+            }
+
         }
 
         // Left/Right/Space when video is loaded might have special actions
@@ -443,7 +453,7 @@ Item {
 
             }
 
-            if((!PQCScriptsImages.isPhotoSphere(PQCFileFolderModel.currentFile) || !PQCSettings.filetypesPhotoSphereAutoLoad) && combo === "Esc") {
+            if((!PQCScriptsImages.isPhotoSphere(PQCFileFolderModel.currentFile) || !PQCSettings.filetypesPhotoSphereAutoLoad) && combo === "Esc" && PQCSettings.imageviewEscapeExitSphere) {
 
                 image.exitPhotoSphere()
                 return

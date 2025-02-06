@@ -39,6 +39,11 @@ import "../../../elements"
 // - interfaceDoubleClickThreshold
 // - interfaceMouseWheelSensitivity
 // - imageviewHideCursorTimeout
+// - imageviewEscapeExitDocument
+// - imageviewEscapeExitArchive
+// - imageviewEscapeExitBarcodes
+// - imageviewEscapeExitFilter
+// - imageviewEscapeExitSphere
 
 Flickable {
 
@@ -198,6 +203,56 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            id: set_escape
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Escape key handling")
+
+            helptext: qsTranslate("settingsmanager", "The Escape key can be used to cancel special actions or modes instead of any configured shortcut action. Here you can enable or disable any one of them.")
+
+            content: [
+
+                PQCheckBox {
+                    id: escape_doc
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "leave document viewer if inside")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: escape_arc
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "leave archive viewer if inside")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: escape_bar
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "hide barcodes if any visible")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: escape_flt
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "remove filter if any set")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: escape_sph
+                    enforceMaxWidth: set_hidemouse.rightcol
+                    text: qsTranslate("settingsmanager", "leave photo sphere if any entered")
+                    onCheckedChanged: setting_top.checkDefault()
+                }
+
+            ]
+
+        }
+
         Item {
             width: 1
             height: 1
@@ -223,6 +278,11 @@ Flickable {
             return
         }
 
+        if(escape_doc.hasChanged() || escape_arc.hasChanged() || escape_bar.hasChanged() || escape_flt.hasChanged() || escape_sph.hasChanged()) {
+            settingChanged = true
+            return
+        }
+
         if(movewhl.hasChanged() || movebut.hasChanged() || dblclk.hasChanged() || whl_sens.hasChanged() || hidetimeout.hasChanged() || hidetimeout_check.hasChanged()) {
             settingChanged = true
             return
@@ -240,6 +300,11 @@ Flickable {
         whl_sens.loadAndSetDefault(PQCSettings.interfaceMouseWheelSensitivity)
         hidetimeout_check.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout!==0)
         hidetimeout.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout)
+        escape_doc.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
+        escape_arc.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
+        escape_bar.loadAndSetDefault(PQCSettings.imageviewEscapeExitBarcodes)
+        escape_flt.loadAndSetDefault(PQCSettings.imageviewEscapeExitFilter)
+        escape_sph.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
 
         settingChanged = false
         settingsLoaded = true
@@ -257,6 +322,11 @@ Flickable {
             PQCSettings.imageviewHideCursorTimeout = 0
         else
             PQCSettings.imageviewHideCursorTimeout = hidetimeout.value
+        PQCSettings.imageviewEscapeExitDocument = escape_doc.checked
+        PQCSettings.imageviewEscapeExitArchive = escape_arc.checked
+        PQCSettings.imageviewEscapeExitBarcodes = escape_bar.checked
+        PQCSettings.imageviewEscapeExitFilter = escape_flt.checked
+        PQCSettings.imageviewEscapeExitSphere = escape_sph.checked
 
         movewhl.saveDefault()
         movebut.saveDefault()
@@ -264,6 +334,12 @@ Flickable {
         whl_sens.saveDefault()
         hidetimeout.saveDefault()
         hidetimeout_check.saveDefault()
+
+        escape_doc.saveDefault()
+        escape_arc.saveDefault()
+        escape_bar.saveDefault()
+        escape_flt.saveDefault()
+        escape_sph.saveDefault()
 
         settingChanged = false
 
