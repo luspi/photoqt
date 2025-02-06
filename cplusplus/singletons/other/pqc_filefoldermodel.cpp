@@ -1410,6 +1410,12 @@ void PQCFileFolderModel::disableViewerMode() {
     else if(tmp.contains("::ARC::"))
         setFileInFolderMainView(tmp.split("::ARC::")[1]);
     forceReloadMainView();
+
+    m_isPDF = false;
+    m_isARC = false;
+    Q_EMIT isARCChanged();
+    Q_EMIT isPDFChanged();
+
 }
 
 QString PQCFileFolderModel::getFirstMatchFileDialog(QString partial) {
