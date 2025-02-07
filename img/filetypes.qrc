@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>filetypes/3fr.svg</file>
-        <file>filetypes/3fr.svg</file>
         <file>filetypes/fff.svg</file>
         <file>filetypes/3gp.svg</file>
         <file>filetypes/3g2.svg</file>
@@ -38,9 +37,6 @@
         <file>filetypes/cap.svg</file>
         <file>filetypes/eip.svg</file>
         <file>filetypes/liq.svg</file>
-        <file>filetypes/cap.svg</file>
-        <file>filetypes/eip.svg</file>
-        <file>filetypes/liq.svg</file>
         <file>filetypes/iiq.svg</file>
         <file>filetypes/cb7.svg</file>
         <file>filetypes/cbr.svg</file>
@@ -60,11 +56,6 @@
         <file>filetypes/cur.svg</file>
         <file>filetypes/cut.svg</file>
         <file>filetypes/pal.svg</file>
-        <file>filetypes/dcr.svg</file>
-        <file>filetypes/kdc.svg</file>
-        <file>filetypes/drf.svg</file>
-        <file>filetypes/k25.svg</file>
-        <file>filetypes/dcs.svg</file>
         <file>filetypes/dcr.svg</file>
         <file>filetypes/kdc.svg</file>
         <file>filetypes/drf.svg</file>
@@ -132,7 +123,6 @@
         <file>filetypes/mat.svg</file>
         <file>filetypes/mdc.svg</file>
         <file>filetypes/mef.svg</file>
-        <file>filetypes/mef.svg</file>
         <file>filetypes/mfw.svg</file>
         <file>filetypes/miff.svg</file>
         <file>filetypes/mif.svg</file>
@@ -163,7 +153,6 @@
         <file>filetypes/ogg.svg</file>
         <file>filetypes/ogv.svg</file>
         <file>filetypes/ora.svg</file>
-        <file>filetypes/orf.svg</file>
         <file>filetypes/orf.svg</file>
         <file>filetypes/ori.svg</file>
         <file>filetypes/otb.svg</file>
@@ -210,8 +199,6 @@
         <file>filetypes/ps3.svg</file>
         <file>filetypes/psd.svg</file>
         <file>filetypes/psb.svg</file>
-        <file>filetypes/psd.svg</file>
-        <file>filetypes/psb.svg</file>
         <file>filetypes/psdt.svg</file>
         <file>filetypes/ptiff.svg</file>
         <file>filetypes/ptif.svg</file>
@@ -247,9 +234,6 @@
         <file>filetypes/pwm.svg</file>
         <file>filetypes/pwp.svg</file>
         <file>filetypes/sixel.svg</file>
-        <file>filetypes/srf.svg</file>
-        <file>filetypes/mrw.svg</file>
-        <file>filetypes/sr2.svg</file>
         <file>filetypes/srf.svg</file>
         <file>filetypes/mrw.svg</file>
         <file>filetypes/sr2.svg</file>
