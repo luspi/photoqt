@@ -58,11 +58,12 @@ option(WITH_LCMS2                 "Configure with support for the Little CMS lib
 option(WITH_MOTIONPHOTO           "Configure with support for Google Motion Photos and Apple Live Photos" ON)
 option(WITH_PHOTOSPHERE           "Configure with support for photo spheres and 360 degree panoramic views" ON)
 
-option(WITH_TESTING "Enable and build some unit tests" OFF)
-option(WITH_RUNCPPCHECK "Analyse source code with cppcheck" OFF)
-option(WITH_FLATPAKBUILD "Enable this option if this is a build for Flatpak" OFF)
-option(WITH_ADAPTSOURCE "Adapt and change the source files for the current Qt version (if necessary)" OFF)
-option(WITHOUT_ICU "Enable this option if your Qt6 setup has no ICU support" OFF)
+option(WITH_TESTING               "Enable and build some unit tests" OFF)
+option(WITH_RUNCPPCHECK           "Analyse source code with cppcheck" OFF)
+option(WITH_FLATPAKBUILD          "Enable this option if this is a build for Flatpak" OFF)
+option(WITH_ADAPTSOURCE           "Adapt and change the source files for the current Qt version (if necessary)" OFF)
+option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
+option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
 
 
 ##################################################################################################################
@@ -907,6 +908,11 @@ if(WITH_FLATPAKBUILD)
     target_link_libraries(photoqt PRIVATE ${GLIB_LIBRARIES})
     target_link_libraries(photoqt PRIVATE "gobject-2.0")
     target_link_libraries(photoqt PRIVATE "gio-2.0")
+endif()
+
+if(WITH_PORTABLETWEAKS)
+    message("** Enabling Portable tweaks")
+    target_compile_definitions(photoqt PRIVATE PQMPORTABLETWEAKS)
 endif()
 
 

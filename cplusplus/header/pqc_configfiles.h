@@ -109,8 +109,12 @@ public:
 
     void setThumbnailCacheBaseDir(QString basedir) {
 
+#ifdef PQMPORTABLETWEAKS
+        basedir = "./photoqt-data/thumbnails/";
+#else
         if(basedir == "")
             basedir = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+#endif
 
         qDebug() << "Setting thumbnail cache base dir to:" << basedir;
 
@@ -129,9 +133,15 @@ private:
 
     PQCConfigFiles() {
 
+#ifdef PQMPORTABLETWEAKS
+        m_CONFIG_DIR = "./photoqt-data/config/";
+        m_DATA_DIR = "./photoqt-data/data/";
+        m_CACHE_DIR = "./photoqt-data/cache/";
+#else
         m_CONFIG_DIR = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
         m_DATA_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
         m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
+#endif
 
         m_USER_TRASH_FILES = QString("%1/Trash/files").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #ifdef Q_OS_WIN

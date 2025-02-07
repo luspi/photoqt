@@ -145,7 +145,11 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
     // makes use of this file other than PhotoQt. This prevents littering global user folders.
     if(QString(PQMVERSION) == "4.7") {
         const QString newfile = PQCConfigFiles::get().USER_PLACES_XBEL();
+#ifdef PQMPORTABLETWEAKS
+        const QString oldfile = "./photoqt-data/data/user-places.xbel";
+#else
         const QString oldfile = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+#endif
         if(!QFile::exists(newfile) && QFile::exists(oldfile)) {
             QFile::copy(oldfile, newfile);
         }
