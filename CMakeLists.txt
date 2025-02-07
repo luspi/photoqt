@@ -281,8 +281,7 @@ if(WITH_VIDEO_MPV)
 endif()
 
 if(WITH_LIBVIPS)
-    find_package(PkgConfig REQUIRED)
-    pkg_search_module(GLIB REQUIRED glib-2.0 gobject-2.0)
+    pkg_search_module(VIPS REQUIRED vips-cpp)
 endif()
 
 if(WITH_EXIV2)
