@@ -56,7 +56,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
 
             const QString tpe = QString(s.fileSystemType());
 
-            if(tpe.toLower() == "tmpfs" && !PQCSettings::get()["filedialogDevicesShowTmpfs"].toBool())
+            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs") && !PQCSettings::get()["filedialogDevicesShowTmpfs"].toBool())
                 continue;
 
             QString name = s.name();
