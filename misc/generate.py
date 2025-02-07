@@ -297,8 +297,8 @@ if which == 'all' or which == 'cmake':
     cont = "set(MIMETYPE \""
     i = 0
     for row in data:
-        if row[1] != "":
-            parts = row[1].split(",")
+        if row[2] != "" and row[4] == "img":
+            parts = row[2].split(",")
             for p in parts:
                 if p not in mt:
                     if i%5 == 0 and i > 0:
@@ -327,6 +327,8 @@ if which == 'all' or which == 'windowsrc':
 
     cont = "IDI_ICON1               ICON    DISCARDABLE     \"windows/icon.ico\"\n";
 
+    recorded = []
+
     iF = 2
     for row in data:
 
@@ -334,11 +336,13 @@ if which == 'all' or which == 'windowsrc':
 
         for e in endng:
 
+            if e in recorded:
+                continue
+            recorded.append(e)
+
             cont += f"{iF}               ICON    DISCARDABLE     \"img/filetypes/{e}.ico\"\n";
 
             iF += 1
-
-    cont += f"{iF}               ICON    DISCARDABLE     \"img/filetypes/unknown.ico\"\n";
 
     f_new = open("output/windowsicons.rc", "w")
     f_new.write(cont)
@@ -411,7 +415,7 @@ if which == 'all' or which == 'nsi':
 
         endings = row[0].split(",")
         
-        desc = row[2]
+        desc = row[3]
         if ":" in desc:
             desc = desc.split(":")[1].strip()
 
@@ -432,7 +436,7 @@ if which == 'all' or which == 'nsi':
             elif endings[0] in ["psd", "xcf"]:
                 psdcont += line
                 un_psdcont += un_line
-            elif row[4] == 1:
+            elif row[5] == 1:
                 cont += line
                 un_cont += un_line
 
