@@ -1,6 +1,29 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.8.1
+----------------------------
+- add: window: sample vcpkg.json file
+- add: status info: option to position at left, center, or right
+- add: window buttons: show navigation buttons only in fullscreen
+- add: window buttons: position navigation buttons at left or right of window buttons
+- add: image formats: bmq, cine, cs1, dxo, jfif, obm, pdd, pxr, qtk, r3d, rdc, rwz, sti, x3f
+- improve: use better image engine to load photo sphere images
+- improve: changing window size immediately resizes main image
+- improve: hide metadata/mainmenu/thumbnails when window being resized
+- improve: hide metadata/mainmenu/thumbnails when mouse left window for more than 1s
+- improve: harden Qt image reader
+- fix: file dialog: fix toggling radio buttons in settings menu
+- fix: unit tests
+- fix: building with Qt 6.4
+- fix: dragability of photo sphere controls
+- fix: enter photo sphere manually even without metadata
+- fix: hiding window buttons on timeout
+- fix: fully hide status info including shaddow
+- fix: settings manager: react to popout changes
+- change: renamed CMake options to be more consistent
+
+
 Release 4.8 - 2024-01-25
 ----------------------------
 - add: zoom and pich to mouse/pinch position
