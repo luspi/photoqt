@@ -178,7 +178,7 @@ if which == 'all' or which == 'filetypes':
             if e == "unknown":
                 l = 1
             
-            qrc_cont += f"        <file>filetypes/{e}.ico</file>\n"
+            qrc_cont += f"        <file>filetypes/{e}.svg</file>\n"
                         
             if e == "svg" or e == "svgz":
                 category = "svg"
