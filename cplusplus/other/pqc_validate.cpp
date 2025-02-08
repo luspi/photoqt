@@ -146,7 +146,7 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
     if(QString(PQMVERSION) == "4.7") {
         const QString newfile = PQCConfigFiles::get().USER_PLACES_XBEL();
 #ifdef PQMPORTABLETWEAKS
-        const QString oldfile = "./photoqt-data/data/user-places.xbel";
+        const QString oldfile = QString("%1/photoqt-data/data/user-places.xbel").arg(qgetenv("PHOTOQT_EXE_BASEDIR"));
 #else
         const QString oldfile = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #endif

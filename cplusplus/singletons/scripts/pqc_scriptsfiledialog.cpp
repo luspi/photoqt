@@ -211,7 +211,6 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
 
 #endif
 
-#ifndef PQMPORTABLETWEAKS
     // When no entries are found, we fill in the four default entries
     // the `performEmptyCheck` boolean prevents a potential infinite loop if things go horribly wrong
     if(ret.length() == 0 && performEmptyCheck) {
@@ -240,7 +239,6 @@ QVariantList PQCScriptsFileDialog::getPlaces(bool performEmptyCheck) {
         return getPlaces(false);
 
     }
-#endif
 
     return ret;
 

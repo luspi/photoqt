@@ -580,7 +580,7 @@ QString PQCScriptsFilesPaths::findDropBoxFolder() {
 
 #ifdef Q_OS_UNIX
     QFile f(QDir::homePath()+"/.dropbox/host.db");
-#elif defined
+#else
     QFile f(QString("%1/Dropbox/host.db").arg(QStandardPaths::AppDataLocation));
 #endif
     if(f.exists()) {
