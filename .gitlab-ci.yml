@@ -1,6 +1,6 @@
 localization:
 
-  image: ubuntu:jammy
+  image: ubuntu:noble
 
   only:
     - schedules
@@ -8,8 +8,6 @@ localization:
   script:
     - export DEBIAN_FRONTEND=noninteractive
     - apt-get update && apt-get install -y qt6-base-dev qt6-l10n-tools openssh-client git wget
-    - qtchooser -install qt6 $(which qmake6)
-    - export QT_SELECT=qt6
     - eval `ssh-agent -s`
     - echo "${SSH_PRIVATE_KEY}" | tr -d '\r' | ssh-add - > /dev/null # add ssh key
     - mkdir -p ~/.ssh && chmod 700 ~/.ssh
@@ -17,8 +15,8 @@ localization:
     - echo "StrictHostKeyChecking no" > ~/.ssh/config
     - git config --global user.email "${CI_EMAIL}"
     - git config --global user.name "${CI_USERNAME}"
-    - git clone git@gitlab.com:luspi/photoqt-lang.git && cd photoqt-lang
-    - lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
+    - git clone git@gitlab.com:lspies/photoqt-lang.git && cd photoqt-lang
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
     - git push
@@ -46,7 +44,7 @@ appimage:
     - cd ..
     - export QT_SELECT=qt6
     - rm -rf lang/
-    - git clone -b l10n_master https://gitlab.com/luspi/photoqt-lang
+    - git clone -b l10n_master https://gitlab.com/lspies/photoqt-lang
     - mv photoqt-lang/localized lang
     - cd build/
     - cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DEXIV2=ON -DGRAPHICSMAGICK=OFF -DIMAGEMAGICK=ON -DCHROMECAST=ON -DVIDEO_QT=ON -DPOPPLER=OFF -DQTPDF=ON -DEXIV2_ENABLE_BMFF=ON -DRESVG=OFF -DMOTIONPHOTO=ON -DZXING=ON -DLCMS2=ON -DLOCATION=ON -DLIBVIPS=OFF
