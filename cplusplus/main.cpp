@@ -126,22 +126,29 @@ int main(int argc, char *argv[]) {
     qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),f.absolutePath().replace("/", "\\")).toLocal8Bit());
     qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
     qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
-#ifdef PQMPORTABLETWEAKS
-    if(argc > 1) {
-        qputenv("PHOTOQT_EXE_BASEDIR", argv[1]);
-        // create directory and set hidden attribute
-        QString folder = QString("%1/photoqt-data").arg(argv[1]);
-        QDir dir;
-        dir.mkdir(folder);
-        SetFileAttributesA(dir.toNativeSeparators(folder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
-    } else {
-        qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
-    }
-#endif
 
     // This allows for semi-transparent windows
     // By default Qt6 uses Direct3D which does not seem to support this
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+#endif
+
+#ifdef PQMPORTABLETWEAKS
+    if(argc > 1) {
+        qputenv("PHOTOQT_EXE_BASEDIR", argv[1]);
+        // create directory and set hidden attribute
+#ifdef Q_OS_WIN
+        QString folder = QString("%1/photoqt-data").arg(argv[1]);
+        QDir dir;
+        dir.mkdir(folder);
+        SetFileAttributesA(dir.toNativeSeparators(folder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
+#else
+        QString folder = QString("%1/.photoqt-data").arg(argv[1]);
+        QDir dir;
+        dir.mkdir(folder);
+#endif
+    } else {
+        qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
+    }
 #endif
 
     // avoids warning for customizing native styles (observed in particular on Windows)

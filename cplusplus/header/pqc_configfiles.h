@@ -110,7 +110,11 @@ public:
     void setThumbnailCacheBaseDir(QString basedir) {
 
 #ifdef PQMPORTABLETWEAKS
+#ifdef Q_OS_WIN
         basedir = QString("%1/photoqt-data/thumbnails/").arg(photoqt_exe_basedir);
+#else
+        basedir = QString("%1/.photoqt-data/thumbnails/").arg(photoqt_exe_basedir);
+#endif
 #else
         if(basedir == "")
             basedir = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
@@ -136,26 +140,43 @@ private:
         photoqt_exe_basedir = qgetenv("PHOTOQT_EXE_BASEDIR");
 
 #ifdef PQMPORTABLETWEAKS
+    #ifdef Q_OS_WIN
         m_CONFIG_DIR = QString("%1/photoqt-data/config/").arg(photoqt_exe_basedir);
         m_DATA_DIR = QString("%1/photoqt-data/data/").arg(photoqt_exe_basedir);
         m_CACHE_DIR = QString("%1/photoqt-data/cache/").arg(photoqt_exe_basedir);
+    #else
+        m_CONFIG_DIR = QString("%1/.photoqt-data/config/").arg(photoqt_exe_basedir);
+        m_DATA_DIR = QString("%1/.photoqt-data/data/").arg(photoqt_exe_basedir);
+        m_CACHE_DIR = QString("%1/.photoqt-data/cache/").arg(photoqt_exe_basedir);
+    #endif
 #else
         m_CONFIG_DIR = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
         m_DATA_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
         m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 #endif
+
 #ifdef PQMPORTABLETWEAKS
+    #ifdef Q_OS_WIN
         m_USER_TRASH_FILES = QString("%1/photoqt-data/Trash/files").arg(photoqt_exe_basedir);
+    #else
+        m_USER_TRASH_FILES = QString("%1/.photoqt-data/Trash/files").arg(photoqt_exe_basedir);
+    #endif
 #else
         m_USER_TRASH_FILES = QString("%1/Trash/files").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #endif
+
 #ifdef Q_OS_WIN
         m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(m_CACHE_DIR);
 #else
         m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #endif
+
 #ifdef PQMPORTABLETWEAKS
+    #ifdef Q_OS_WIN
         m_THUMBNAIL_CACHE_DIR = QString("%1/photoqt-data/thumbnails").arg(photoqt_exe_basedir);
+    #else
+        m_THUMBNAIL_CACHE_DIR = QString("%1/.photoqt-data/thumbnails").arg(photoqt_exe_basedir);
+    #endif
 #else
         m_THUMBNAIL_CACHE_DIR = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 #endif

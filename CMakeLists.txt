@@ -63,7 +63,7 @@ option(WITH_RUNCPPCHECK           "Analyse source code with cppcheck" OFF)
 option(WITH_FLATPAKBUILD          "Enable this option if this is a build for Flatpak" OFF)
 option(WITH_ADAPTSOURCE           "Adapt and change the source files for the current Qt version (if necessary)" OFF)
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
-option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version FOR WINDOWS ONLY" OFF)
+option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
 
 
 ##################################################################################################################
