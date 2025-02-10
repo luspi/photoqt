@@ -739,7 +739,7 @@ Item {
 
         target: PQCSettings
 
-        function oninterfaceStatusInfoPositionChanged() {
+        function onInterfaceStatusInfoPositionChanged() {
             statusinfo_top.bindXToWindow()
             statusinfo_top.y = 2*statusinfo_top.distanceFromEdge
         }
