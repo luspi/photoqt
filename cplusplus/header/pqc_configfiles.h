@@ -137,9 +137,10 @@ private:
 
     PQCConfigFiles() {
 
+#ifdef PQMPORTABLETWEAKS
+
         photoqt_exe_basedir = qgetenv("PHOTOQT_EXE_BASEDIR");
 
-#ifdef PQMPORTABLETWEAKS
     #ifdef Q_OS_WIN
         m_CONFIG_DIR = QString("%1/photoqt-data/config/").arg(photoqt_exe_basedir);
         m_DATA_DIR = QString("%1/photoqt-data/data/").arg(photoqt_exe_basedir);
