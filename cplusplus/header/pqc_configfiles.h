@@ -166,7 +166,11 @@ private:
 #endif
 
 #ifdef Q_OS_WIN
+    #ifdef PQMPORTABLETWEAKS
+        m_USER_PLACES_XBEL = QString("%1/user-places-%2.xbel").arg(m_CACHE_DIR, QSysInfo::machineHostName());
+    #else
         m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(m_CACHE_DIR);
+    #endif
 #else
         m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #endif
