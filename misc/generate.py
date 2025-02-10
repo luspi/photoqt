@@ -340,7 +340,7 @@ if which == 'all' or which == 'windowsrc':
                 continue
             recorded.append(e)
 
-            cont += f"{iF}               ICON    DISCARDABLE     \"img/filetypes/{e}.ico\"\n";
+            cont += f"{iF}               ICON    DISCARDABLE     \"windows/filetypes/{e}.ico\"\n";
 
             iF += 1
 
