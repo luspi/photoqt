@@ -523,7 +523,7 @@ PQTemplateFullscreen {
                                            qsTranslate("settingsmanager", "Interval"),
                                            qsTranslate("settingsmanager", "Loop"),
                                            qsTranslate("settingsmanager", "Shuffle"),
-                                           qsTranslate("settingsmanager", "Status info an window buttons"),
+                                           qsTranslate("settingsmanager", "Status info and window buttons"),
                                            qsTranslate("settingsmanager", "Include subfolders"),
                                            qsTranslate("settingsmanager", "Music file")],
                                           ["ImageTransition",
