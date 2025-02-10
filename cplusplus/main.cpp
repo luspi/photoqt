@@ -34,6 +34,11 @@
     #endif
 #endif
 
+// This needs to come early (in particular before the FreImage header)
+#ifdef Q_OS_WIN
+    #include <windows.h>
+#endif
+
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
 #include <pqc_startup.h>
@@ -127,6 +132,25 @@ int main(int argc, char *argv[]) {
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #endif
 
+#ifdef PQMPORTABLETWEAKS
+    if(argc > 1) {
+        qputenv("PHOTOQT_EXE_BASEDIR", argv[1]);
+        // create directory and set hidden attribute
+#ifdef Q_OS_WIN
+        QString folder = QString("%1/photoqt-data").arg(argv[1]);
+        QDir dir;
+        dir.mkdir(folder);
+        SetFileAttributesA(dir.toNativeSeparators(folder).toLocal8Bit(), FILE_ATTRIBUTE_HIDDEN);
+#else
+        QString folder = QString("%1/.photoqt-data").arg(argv[1]);
+        QDir dir;
+        dir.mkdir(folder);
+#endif
+    } else {
+        qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
+    }
+#endif
+
     // avoids warning for customizing native styles (observed in particular on Windows)
     qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
 
@@ -162,6 +186,15 @@ int main(int argc, char *argv[]) {
                 QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
         }
     }
+
+#ifdef PQMPORTABLETWEAKS
+    if(argc > 1) {
+        for(int i = 2; i < argc; ++i) {
+            argv[i-1] = argv[i];
+        }
+        argc -= 1;
+    }
+#endif
 
     // only a single instance
     PQCSingleInstance app(argc, argv);

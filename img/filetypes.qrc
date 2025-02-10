@@ -285,5 +285,9 @@
         <file>filetypes/pm.svg</file>
         <file>filetypes/xwd.svg</file>
         <file>filetypes/zip.svg</file>
+        <file>filetypes/folder.svg</file>
+        <file>filetypes/folder_listicon.svg</file>
+        <file>filetypes/folder_listicon_small.svg</file>
+        <file>filetypes/folder_listicon_verysmall.svg</file>
     </qresource>
 </RCC>

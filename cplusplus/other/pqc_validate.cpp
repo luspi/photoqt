@@ -139,7 +139,7 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
             qWarning() << "Directory is not empty, using favorites will not be possible";
     }
 
-#ifdef Q_OS_WIN
+#if defined(Q_OS_WIN) && !defined(PQMPORTABLETWEAKS)
     // if the user-places.xbel does not exist, we check if it exists in the old location and, if so, move it over
     // on Windows this file is moved to the app specific folder starting with version 4.7 as likely no other application
     // makes use of this file other than PhotoQt. This prevents littering global user folders.
