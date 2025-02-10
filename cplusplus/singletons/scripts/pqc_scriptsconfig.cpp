@@ -83,7 +83,9 @@ PQCScriptsConfig::PQCScriptsConfig() {
     currentTranslation = "en";
 }
 
-PQCScriptsConfig::~PQCScriptsConfig() {}
+PQCScriptsConfig::~PQCScriptsConfig() {
+    delete trans;
+}
 
 bool PQCScriptsConfig::amIOnWindows() {
 #ifdef Q_OS_WIN
@@ -558,23 +560,26 @@ QStringList PQCScriptsConfig::getAvailableTranslations() {
 
 void PQCScriptsConfig::updateTranslation() {
 
+    qDebug() << "";
+
     QString code = PQCSettings::get()["interfaceLanguage"].toString();
     if(code == currentTranslation)
         return;
 
-    if(!trans->isEmpty())
-        qApp->removeTranslator(trans);
-
+    static QTranslator trans;
+    qApp->removeTranslator(&trans);
 
     const QStringList allcodes = code.split("/");
 
+    // we use this to detect whether a translation was found for the above language code
+    currentTranslation = "";
     for(const QString &c : allcodes) {
 
         if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
 
-            if(trans->load(":/lang/photoqt_" + c)) {
+            if(trans.load(":/lang/photoqt_" + c)) {
                 currentTranslation = c;
-                qApp->installTranslator(trans);
+                qApp->installTranslator(&trans);
             } else
                 qWarning() << "Unable to install translator for language code" << c;
 
@@ -584,9 +589,9 @@ void PQCScriptsConfig::updateTranslation() {
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
 
-                if(trans->load(":/lang/photoqt_" + cc)) {
+                if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
-                    qApp->installTranslator(trans);
+                    qApp->installTranslator(&trans);
                 } else
                     qWarning() << "Unable to install translator for language code" << cc;
 
@@ -598,9 +603,9 @@ void PQCScriptsConfig::updateTranslation() {
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
 
-                if(trans->load(":/lang/photoqt_" + cc)) {
+                if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
-                    qApp->installTranslator(trans);
+                    qApp->installTranslator(&trans);
                 } else
                     qWarning() << "Unable to install translator for language code" << c;
 
@@ -608,6 +613,10 @@ void PQCScriptsConfig::updateTranslation() {
         }
 
     }
+
+    // no translation found -> store selected code
+    if(currentTranslation == "")
+        currentTranslation = code;
 
     QQmlEngine::contextForObject(this)->engine()->retranslate();
 
