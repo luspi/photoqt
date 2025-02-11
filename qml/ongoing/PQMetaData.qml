@@ -800,7 +800,7 @@ Rectangle {
                     if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
 
-                    if(popoutWindowUsed)
+                    if(metadata_top.popoutWindowUsed)
                         metadata_popout.visible = true
                 }
             }
