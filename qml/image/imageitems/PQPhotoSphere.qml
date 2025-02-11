@@ -437,7 +437,7 @@ PQCPhotoSphere { // qmllint disable
 
                     id: srccomp
 
-                    parent: fullscreenitem_foreground // qmllint disable unqualified
+                    parent: image_top // qmllint disable unqualified
                     x: statusinfo.item.visible ? statusinfo.item.x : 20 // qmllint disable unqualified
                     y: statusinfo.item.visible ? statusinfo.item.y+statusinfo.item.height+20 : 20 // qmllint disable unqualified
                     width: 42
