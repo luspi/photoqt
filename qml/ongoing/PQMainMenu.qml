@@ -81,9 +81,11 @@ Rectangle {
     property int parentWidth
     property int parentHeight
     width: Math.max(400, PQCSettings.mainmenuElementSize.width) // qmllint disable unqualified
-    height: PQCSettings.mainmenuElementHeightDynamic ? // qmllint disable unqualified
-                access_toplevel.height-2*gap-statusinfoOffset :
-                Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height)
+    height: isPopout ?
+                mainmenu_popout.height :
+                PQCSettings.mainmenuElementHeightDynamic ? // qmllint disable unqualified
+                    access_toplevel.height-2*gap-statusinfoOffset :
+                    Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height)
 
     property bool setVisible: false
     property var visiblePos: [0,0]
@@ -1063,7 +1065,6 @@ Rectangle {
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                mainmenu_top.hideMainMenu()
                 if(!PQCSettings.interfacePopoutMainMenu) // qmllint disable unqualified
                     PQCSettings.interfacePopoutMainMenu = true
                 else
@@ -1166,6 +1167,7 @@ Rectangle {
     }
 
     function showMainMenu() {
+        if(toplevel.startup) return
         mainmenu_top.setVisible = true
         if(popoutWindowUsed)
             mainmenu_popout.visible = true // qmllint disable unqualified

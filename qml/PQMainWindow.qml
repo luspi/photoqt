@@ -167,9 +167,12 @@ Window {
     Loader { id: loader_chromecast }
 
     // these should be above the other ongoing ones
+    // the thumbnails loader can be asynchronous as it is always integrated and never popped out
     Loader { id: loader_thumbnails; asynchronous: true; }
-    Loader { id: loader_metadata; asynchronous: true; }
-    Loader { id: loader_mainmenu; asynchronous: true; }
+
+    // these cannot be asynchronous, otherwise toggling the popped out state is buggy
+    Loader { id: loader_metadata }
+    Loader { id: loader_mainmenu }
 
     // actions
     Loader { id: loader_about }

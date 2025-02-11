@@ -81,7 +81,7 @@ Rectangle {
     property int parentHeight
     width: Math.max(300, PQCSettings.metadataElementSize.width) // qmllint disable unqualified
     // height:  Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height) // qmllint disable unqualified
-    height: state==="popout" ? metadata_popout.height :
+    height: isPopout ? metadata_popout.height :
                 PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
                             access_toplevel.height-2*gap-statusinfoOffset :
                             Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height)
@@ -114,7 +114,8 @@ Rectangle {
     PQBlurBackground { thisis: "metadata" }
     PQShadowEffect { masterItem: metadata_top }
 
-    state: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout ? // qmllint disable unqualified
+    property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout // qmllint disable unqualified
+    state: isPopout ?
                "popout" :
                PQCSettings.metadataElementFloating ?
                    "floating" :
@@ -243,11 +244,11 @@ Rectangle {
             id: dragmouse
             anchors.fill: parent
             hoverEnabled: true
-            cursorShape: Qt.SizeAllCursor
+            cursorShape: metadata_top.isPopout ? Qt.ArrowCursor : Qt.SizeAllCursor
             onWheel: (wheel) =>{
                 wheel.accepted = true
             }
-            drag.target: metadata_top
+            drag.target: metadata_top.isPopout ? undefined : metadata_top
             drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
             drag.minimumY: 0
             drag.maximumY: metadata_top.access_toplevel.height-metadata_top.height
@@ -452,7 +453,8 @@ Rectangle {
                 return
             var diff = mouse.y-clickStart
             metadata_top.y = metadata_top.y
-            metadata_top.height = metadata_top.height
+            if(!metadata_top.isPopout)
+                metadata_top.height = metadata_top.height
             PQCSettings.metadataElementPosition.y = metadata_top.y // qmllint disable unqualified
             PQCSettings.metadataElementSize.height = metadata_top.height
             PQCSettings.metadataElementSize.height = Math.round(origHeight+diff)
@@ -645,11 +647,13 @@ Rectangle {
                     metadata_top.animateResize = true
                     if(checked) {
                         metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
-                        metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                        if(!metadata_top.isPopout)
+                            metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
                     } else {
                         metadata_top.y = metadata_top.y
-                        metadata_top.height = metadata_top.height
+                        if(!metadata_top.isPopout)
+                            metadata_top.height = metadata_top.height
                         PQCSettings.metadataElementPosition.y = metadata_top.y
                         PQCSettings.metadataElementSize.height = metadata_top.height
                         PQCSettings.metadataElementHeightDynamic = false // qmllint disable unqualified
@@ -667,7 +671,8 @@ Rectangle {
                     metadata_top.animateResize = true
                     metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
-                    metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                    if(!metadata_top.isPopout)
+                        metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true
                 }
             }
@@ -723,7 +728,6 @@ Rectangle {
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                // metadata_top.hideMetaData()
                 if(!PQCSettings.interfacePopoutMetadata) // qmllint disable unqualified
                     PQCSettings.interfacePopoutMetadata = true
                 else {
@@ -799,7 +803,7 @@ Rectangle {
             if(what === "show") {
                 if(param === "metadata") {
 
-                    if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
+                    if(!PQCSettings.metadataElementFloating && !toplevel.startup) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)
