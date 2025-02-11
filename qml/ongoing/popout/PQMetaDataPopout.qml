@@ -41,7 +41,7 @@ PQTemplatePopout {
     modality: Qt.NonModal
 
     minimumWidth: 400
-    minimumHeight: 600
+    minimumHeight: 300
 
     onPopoutClosed: {
         PQCSettings.interfacePopoutMetadata = false // qmllint disable unqualified

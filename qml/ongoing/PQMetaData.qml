@@ -81,9 +81,10 @@ Rectangle {
     property int parentHeight
     width: Math.max(300, PQCSettings.metadataElementSize.width) // qmllint disable unqualified
     // height:  Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height) // qmllint disable unqualified
-    height: PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
-                access_toplevel.height-2*gap-statusinfoOffset :
-                Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height)
+    height: state==="popout" ? metadata_popout.height :
+                PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
+                            access_toplevel.height-2*gap-statusinfoOffset :
+                            Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height)
 
     color: PQCLook.transColor // qmllint disable unqualified
 
@@ -106,8 +107,8 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible)
-            menu.item.dismiss() // qmllint disable missing-property
+        if(!setVisible && menu.item !== null) // qmllint disable missing-property
+            menu.item.dismiss()
     }
 
     PQBlurBackground { thisis: "metadata" }
@@ -435,7 +436,8 @@ Rectangle {
         y: (parent.height-height)
         width: parent.width
         height: 10
-        cursorShape: Qt.SizeVerCursor
+        cursorShape: enabled ? Qt.SizeVerCursor : Qt.ArrowCursor
+        enabled: parent.state!=="popout"
 
         property int clickStart: -1
         property int origHeight: PQCSettings.metadataElementSize.height // qmllint disable unqualified
@@ -465,7 +467,7 @@ Rectangle {
         width: 10
         height: parent.height
         cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
-        enabled: parent.state=="left"
+        enabled: parent.state==="left"
 
         property int clickStart: -1
         property int origWidth: metadata_top.width
@@ -491,7 +493,7 @@ Rectangle {
         width: 10
         height: parent.height
         cursorShape: enabled ? Qt.SizeHorCursor : Qt.ArrowCursor
-        enabled: parent.state=="right"
+        enabled: parent.state==="right"
 
         property int clickStart: -1
         property int origWidth: metadata_top.width
