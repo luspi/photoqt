@@ -116,6 +116,7 @@ PQTemplateFullscreen {
                                                  qsTranslate("settingsmanager", "Fullscreen or window mode"),
                                                  qsTranslate("settingsmanager", "Window buttons"),
                                                  qsTranslate("settingsmanager", "Accent color"),
+                                                 qsTranslate("settingsmanager", "Font weight"),
                                                  qsTranslate("settingsmanager", "Notification")],
                                                  // the settings for filtering
                                                 ["Language",
@@ -131,6 +132,8 @@ PQTemplateFullscreen {
                                                  "WindowButtonsAutoHideTopEdge",
                                                  "WindowButtonsAutoHideTimeout",
                                                  "AccentColor",
+                                                 "FontNormalWeight",
+                                                 "FontBoldWeight",
                                                  "NotificationLocation",
                                                  "NotificationTryNative",
                                                  "NotificationDistanceFromEdge"]],

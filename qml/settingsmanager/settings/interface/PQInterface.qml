@@ -570,6 +570,96 @@ Flickable {
 
         PQSetting {
 
+            id: set_fontweight
+
+            helptext: qsTranslate("settingsmanager", "All text in PhotoQt is shown with one of two weights, either as regular text or in bold face. Here the actual weight used can be adjusted for the two types.")
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Font weight")
+
+            property list<string> values: [
+                        //: This refers to a type of font weight (thin is the lightest weight)
+                        qsTranslate("settingsmanager", "thin"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "very light"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "light"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "normal"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "medium"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "medium bold"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "bold"),
+                        //: This refers to a type of font weight
+                        qsTranslate("settingsmanager", "extra bold"),
+                        //: This refers to a type of font weight (black is the darkest, most bold weight)
+                        qsTranslate("settingsmanager", "black")
+            ]
+
+            content: [
+
+                Flow {
+                    width: set_fontweight.rightcol
+                    spacing: 5
+                    PQText {
+                        y: (fw_normalslider.height-height)/2
+                        text: qsTranslate("settingsmanager", "normal font weight:")
+                    }
+                    PQSlider {
+                        id: fw_normalslider
+                        from: 100
+                        to: 900
+                        stepSize: 1
+                        wheelStepSize: 10
+                        onValueChanged: setting_top.checkDefault()
+                    }
+
+                },
+
+                PQText {
+                    text: qsTranslate("settingsmanager", "current weight:") + " " + fw_normalslider.value + " (" + set_fontweight.values[Math.floor(fw_normalslider.value/100)-1] + ")"
+                },
+
+                Item {
+                    width: 1
+                    height: 10
+                },
+
+                Flow {
+                    width: set_fontweight.rightcol
+                    spacing: 5
+                    PQText {
+                        y: (fw_boldslider.height-height)/2
+                        //: The weight here refers to the font weight
+                        text: qsTranslate("settingsmanager", "bold font weight:")
+                    }
+                    PQSlider {
+                        id: fw_boldslider
+                        from: 100
+                        to: 900
+                        stepSize: 1
+                        wheelStepSize: 10
+                        onValueChanged: setting_top.checkDefault()
+                    }
+
+                },
+
+                PQText {
+                    text: qsTranslate("settingsmanager", "current weight:") + " " + fw_boldslider.value + " (" + set_fontweight.values[Math.round(fw_boldslider.value/100)-1] + ")"
+                }
+
+            ]
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
             id: set_notif
 
             helptext: qsTranslate("settingsmanager", "For certain actions a notification is shown. On Linux this notification can be shown as native notification. Alternatively it can also be shown integrated into the main interface.")
@@ -928,7 +1018,12 @@ Flickable {
         }
 
         if(accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
-                (bgcustomusecheck.checked && bgcustomuse.color != PQCSettings.interfaceBackgroundCustomOverlayColor)) {
+                (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor)) {
+            settingChanged = true
+            return
+        }
+
+        if(fw_normalslider.hasChanged() || fw_boldslider.hasChanged()) {
             settingChanged = true
             return
         }
@@ -990,6 +1085,9 @@ Flickable {
         bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
         bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
 
+        fw_normalslider.loadAndSetDefault(PQCSettings.interfaceFontNormalWeight)
+        fw_boldslider.loadAndSetDefault(PQCSettings.interfaceFontBoldWeight)
+
         notif_grid.loc = PQCSettings.interfaceNotificationLocation
         notif_grid.default_loc = PQCSettings.interfaceNotificationLocation
         notif_external.loadAndSetDefault(PQCSettings.interfaceNotificationTryNative)
@@ -1002,7 +1100,7 @@ Flickable {
 
     function applyChanges() {
 
-        if(langcombo.currentIndex == -1 || langcombo.currentIndex >= availableLanguages.length)
+        if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
             PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
         else
             PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
@@ -1037,6 +1135,9 @@ Flickable {
         if(bgcustomusecheck.checked)
             PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
 
+        PQCSettings.interfaceFontNormalWeight = fw_normalslider.value
+        PQCSettings.interfaceFontBoldWeight = fw_boldslider.value
+
         PQCSettings.interfaceNotificationLocation = notif_grid.loc
         PQCSettings.interfaceNotificationTryNative = notif_external.checked
         PQCSettings.interfaceNotificationDistanceFromEdge = notif_dist.value
@@ -1066,6 +1167,9 @@ Flickable {
 
         bgcustomusecheck.saveDefault()
         bgaccentusecheck.saveDefault()
+
+        fw_normalslider.saveDefault()
+        fw_boldslider.saveDefault()
 
         notif_grid.default_loc = notif_grid.loc
         notif_external.saveDefault()

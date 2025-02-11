@@ -44,8 +44,8 @@ PQCLook::PQCLook() {
 
     calculateFontSizes(11);
 
-    m_fontWeightBold = QFont::Bold;
-    m_fontWeightNormal = QFont::Normal;
+    m_fontWeightNormal = std::min(900, std::max(100, PQCSettings::get()["interfaceFontNormalWeight"].toInt()));
+    m_fontWeightBold = std::min(900, std::max(100, PQCSettings::get()["interfaceFontBoldWeight"].toInt()));
 
     connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, [=](const QString &key, const QVariant &value) {
         if(key == "interfaceAccentColor") {
@@ -78,6 +78,12 @@ PQCLook::PQCLook() {
             Q_EMIT textInverseColorChanged();
             Q_EMIT textInverseColorHighlightChanged();
             Q_EMIT textInverseColorActiveChanged();
+        } else if(key == "interfaceFontBoldWeight") {
+            m_fontWeightBold = value.toInt();
+            Q_EMIT fontWeightBoldChanged();
+        } else if(key == "interfaceFontNormalWeight") {
+            m_fontWeightNormal = value.toInt();
+            Q_EMIT fontWeightNormalChanged();
         }
     });
 
