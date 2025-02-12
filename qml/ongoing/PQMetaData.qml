@@ -394,6 +394,7 @@ Rectangle {
             }
 
             PQMetaDataEntry {
+                //: The location here is a GPS location
                 whichtxt: qsTranslate("metadata", "Location")
                 valtxt: PQCMetaData.iptcLocation // qmllint disable unqualified
                 prop: PQCSettings.metadataLocation // qmllint disable unqualified
@@ -414,6 +415,7 @@ Rectangle {
                 whichtxt: qsTranslate("metadata", "GPS Position")
                 valtxt: PQCMetaData.exifGPS // qmllint disable unqualified
                 prop: PQCSettings.metadataGps // qmllint disable unqualified
+                //: The location here is a GPS location
                 tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
                 signalClicks: true
                 onClicked: (mouse) => {

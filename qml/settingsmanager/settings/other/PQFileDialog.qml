@@ -205,7 +205,7 @@ Flickable {
 
         PQSetting {
 
-            //: Settings title
+            //: Settings title, location here is a folder path
             title: qsTranslate("settingsmanager", "Last location")
 
             helptext: qsTranslate("settingsmanager", "By default the file dialog starts out in your home folder at start. Enabling this setting makes the file dialog reopen at the same location where it ended in the last session.")

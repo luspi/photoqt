@@ -264,6 +264,7 @@ Item {
                 }
 
                 PQMenuItem {
+                    //: The location here is a folder path
                     text: qsTranslate("filedialog", "Edit location")
                     onTriggered:
                         addressedit.show()
@@ -360,6 +361,7 @@ Item {
                                         elide: Text.ElideLeft
                                     }
                                     PQMenuItem {
+                                        //: The location here is a folder path
                                         text: qsTranslate("filedialog", "Navigate to this location")
                                         onTriggered: {
                                             filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
@@ -625,6 +627,7 @@ Item {
                     y: 10
                     width: rightitem.height-20
                     height: rightitem.height-20
+                    //: The location here is a folder path
                     tooltip: qsTranslate("filedialog", "Click to edit location")
                     source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg") // qmllint disable unqualified
                     onClicked: {

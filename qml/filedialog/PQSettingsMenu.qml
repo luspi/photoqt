@@ -176,6 +176,7 @@ PQMenu {
             }
         }
         PQMenuItem {
+            //: The location here is a folder path
             text: qsTranslate("filedialog", "Remember last location")
             checkable: true
             checked: PQCSettings.filedialogKeepLastLocation // qmllint disable unqualified

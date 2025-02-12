@@ -486,6 +486,7 @@ PQTemplateFullscreen {
                                            [qsTranslate("settingsmanager", "Layout"),
                                             qsTranslate("settingsmanager", "Show hidden files and folders"),
                                             qsTranslate("settingsmanager", "Tooltip with Details"),
+                                            //: The location here is a folder path
                                             qsTranslate("settingsmanager", "Remember previous location"),
                                             qsTranslate("settingsmanager", "Only select with single click"),
                                             qsTranslate("settingsmanager", "Sections"),

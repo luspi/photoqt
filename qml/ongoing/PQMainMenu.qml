@@ -563,7 +563,11 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: PQCSettings.mapviewCurrentVisible ? qsTranslate("MainMenu", "Hide current location") : qsTranslate("MainMenu", "Show current location") // qmllint disable unqualified
+                    txt: PQCSettings.mapviewCurrentVisible ?
+                             //: The location here is the GPS location
+                             qsTranslate("MainMenu", "Hide current location") : // qmllint disable unqualified
+                             //: The location here is the GPS location
+                             qsTranslate("MainMenu", "Show current location")
                     cmd: "__showMapCurrent"
                     menuColWidth: mainmenu_top.colwidth
                 }

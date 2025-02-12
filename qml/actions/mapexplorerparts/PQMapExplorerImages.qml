@@ -204,6 +204,7 @@ Rectangle {
                                   qsTranslate("filedialog", "File type:")+" <b>" + ftype + "</b><br>" +
                                   qsTranslate("filedialog", "Date:")+" <b>" + fmodi.toLocaleDateString() + "</b><br>" +
                                   qsTranslate("filedialog", "Time:")+" <b>" + fmodi.toLocaleTimeString()+ "</b><br>" +
+                                  //: The location here is the GPS location
                                   qsTranslate("filedialog", "Location:")+" <b>" + (maindeleg.latitude>0 ? "+" : "") + Math.round(maindeleg.latitude*100)/100 + " " + (maindeleg.longitude>0 ? "+" : "") + Math.round(maindeleg.longitude*100)/100 + "</b>"
 
                         text = str
@@ -250,6 +251,7 @@ Rectangle {
         property int activeIndex: -1
 
         PQMenuItem {
+            //: The location here is the GPS location
             text: qsTranslate("mapexplorer", "Zoom to location")
             onTriggered: {
                 if(contextmenu.activeIndex != -1)
@@ -268,6 +270,7 @@ Rectangle {
         }
 
         PQMenuItem {
+            //: The location here is the GPS location
             text: qsTranslate("mapexplorer", "Copy location to clipboard")
             onTriggered: {
                 PQCScriptsClipboard.copyTextToClipboard(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2])
@@ -298,6 +301,7 @@ Rectangle {
         visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
+        //: The location here is the GPS location
         text: qsTranslate("mapexplorer", "no images with location data in current folder")
     }
 

@@ -196,6 +196,7 @@ Item {
 
                 PQMenuItem {
                     enabled: false
+                    //: The location here is a GPS location
                     text: qsTranslate("mapexplorer", "Copy location to clipboard:")
                 }
 
@@ -493,6 +494,7 @@ Item {
 
                     PQMenuItem {
                         enabled: false
+                        //: The location here is a GPS location
                         text: qsTranslate("mapexplorer", "Copy location to clipboard:")
                     }
 
@@ -525,6 +527,7 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
+                    //: The location here is a GPS location
                     text: qsTranslate("mapexplorer", "Click to show a menu for copying location to clipboard.")
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                     onClicked: (mouse) => {

@@ -190,6 +190,7 @@ PQTemplateFloating {
                 PQText {
                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     anchors.centerIn: parent
+                    //: The location here is a GPS location
                     text: qsTranslate("mapcurrent", "No location data")
                 }
                 MouseArea {
@@ -210,6 +211,7 @@ PQTemplateFloating {
                 PQText {
                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                     anchors.centerIn: parent
+                    //: The location here is a GPS location
                     text: qsTranslate("mapcurrent", "Current location")
                 }
                 MouseArea {
