@@ -1,26 +1,34 @@
 Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
-Release 4.8.1
+Release 4.8.1 - 2024-02-13
 ----------------------------
-- add: window: sample vcpkg.json file
+- add: image formats: bmq, cine, cs1, dxo, jfif, obm, pdd, pxr, qtk, r3d, rdc, rwz, sti, x3f
 - add: status info: option to position at left, center, or right
 - add: window buttons: show navigation buttons only in fullscreen
 - add: window buttons: position navigation buttons at left or right of window buttons
-- add: image formats: bmq, cine, cs1, dxo, jfif, obm, pdd, pxr, qtk, r3d, rdc, rwz, sti, x3f
+- add: make font weight adjustable
+- add: windows: sample vcpkg.json file
+- add: windows: tweaks for portable version
 - improve: use better image engine to load photo sphere images
 - improve: changing window size immediately resizes main image
 - improve: hide metadata/mainmenu/thumbnails when window being resized
 - improve: hide metadata/mainmenu/thumbnails when mouse left window for more than 1s
 - improve: harden Qt image reader
-- fix: file dialog: fix toggling radio buttons in settings menu
+- improve: file dialog: also include squashfs type (e.g., snaps) under temporary devices
+- improve: better and more reliable libvips plugin
+- fix: file dialog: toggling radio buttons in settings menu
+- fix: popping out main menu and metadata
+- fix: popped out metadata only does window resizing
+- fix: photo sphere exit button not overlaying everything
 - fix: unit tests
 - fix: building with Qt 6.4
-- fix: dragability of photo sphere controls
+- fix: dragability and positioning of controls for photo spheres, archives, documents, videos
 - fix: enter photo sphere manually even without metadata
 - fix: hiding window buttons on timeout
 - fix: fully hide status info including shaddow
 - fix: settings manager: react to popout changes
+- fix: localization of many strings
 - change: renamed CMake options to be more consistent
 
 
