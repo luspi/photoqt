@@ -111,8 +111,7 @@ QString PQCLoadImageUNRAR::load(QString filename, QSize maxSize, QSize &origSize
         return errormsg;
     }
 
-    if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+    PQCScriptsImages::get().applyColorProfile(filename, img);
     PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
 
     // Scale image if necessary

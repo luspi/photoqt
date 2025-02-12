@@ -196,8 +196,7 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         img = QImage::fromData(imgData);
 
         if(!img.isNull() && img.size() == origSize) {
-            if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+            PQCScriptsImages::get().applyColorProfile(filename, img);
             PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
         }
 

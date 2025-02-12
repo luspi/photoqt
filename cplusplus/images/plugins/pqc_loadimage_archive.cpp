@@ -219,8 +219,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
                 // cache image before potentially scaling it
                 if(!img.isNull()) {
-                    if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                        Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                    PQCScriptsImages::get().applyColorProfile(filename, img);
                     PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
                 }
 
@@ -342,8 +341,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
     // cache image before potentially scaling it
     if(!img.isNull()) {
-        if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+        PQCScriptsImages::get().applyColorProfile(filename, img);
         PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
     }
 

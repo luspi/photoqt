@@ -38,8 +38,6 @@ PQCLoadImageQt::PQCLoadImageQt() {
 
 QSize PQCLoadImageQt::loadSize(QString filename) {
 
-    QString errormsg = "";
-
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
 
@@ -89,7 +87,6 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
         if(origSize.width() == -1 || origSize.height() == -1) {
             QImage img;
             reader.read(&img);
-            imgAlreadyLoaded = true;
             return img.size();
         }
 
@@ -179,8 +176,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             origSize = img.size();
             if(!img.isNull()) {
                 colorProfileAlreadyApplied = true;
-                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCScriptsImages::get().applyColorProfile(filename, img);
                 PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
             }
         }
@@ -201,9 +197,9 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
                 qWarning() << errormsg;
                 return errormsg;
             } else {
+                errormsg = "";
                 colorProfileAlreadyApplied = true;
-                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCScriptsImages::get().applyColorProfile(filename, img);
                 PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
             }
         }
@@ -223,19 +219,11 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         }
 
-        // Eventually load the image
-        if(!reader.canRead()) {
-            errormsg = "image reader unable to read image";
-            qWarning() << errormsg;
-            return errormsg;
-        }
-
-        if(!imgAlreadyLoaded) {
+        if(!imgAlreadyLoaded && reader.canRead()) {
             reader.read(&img);
             if(!img.isNull() && img.size() == origSize) {
                 colorProfileAlreadyApplied = true;
-                if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                    Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
+                PQCScriptsImages::get().applyColorProfile(filename, img);
                 PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
             }
         }
@@ -247,10 +235,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             return errormsg;
         }
 
-        if(!colorProfileAlreadyApplied) {
-            if(!PQCScriptsImages::get().applyColorProfile(filename, img))
-                Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "The selected color profile could not be applied."));
-        }
+        if(!colorProfileAlreadyApplied)
+            PQCScriptsImages::get().applyColorProfile(filename, img);
 
         return "";
 
