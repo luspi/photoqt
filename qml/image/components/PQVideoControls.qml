@@ -43,13 +43,15 @@ Item {
 
             parent: loader_top // qmllint disable unqualified
 
-            x: (parent.width-width)/2
-            y: 0.9*parent.height
+            x: (loader_top.width-width)/2
+            y: 0.9*loader_top.height
             z: image_top.curZ // qmllint disable unqualified
             width: controlrow.width+20
             height: 50
             radius: 5
             color: PQCLook.transColor // qmllint disable unqualified
+
+            property bool manuallyDragged: false
 
             property bool controlsClosed: false
 
@@ -65,12 +67,56 @@ Item {
             visible: opacity > 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
+            Connections {
+                target: image_top // qmllint disable unqualified
+                enabled: controlitem.manuallyDragged
+                function onWidthChanged() {
+                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
+                }
+                function onHeightChanged() {
+                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5) // qmllint disable unqualified
+                }
+            }
+
+            onXChanged: {
+                if(x !== (parent.width-width)/2 && controlitem.manuallyDragged) {
+                    image_top.extraControlsLocation.x = x // qmllint disable unqualified
+                    x = x
+                }
+            }
+            onYChanged: {
+                if(y !== 0.9*parent.height && controlitem.manuallyDragged) {
+                    image_top.extraControlsLocation.y = y // qmllint disable unqualified
+                    y = y
+                }
+            }
+
+            Component.onCompleted: {
+                if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
+                    controlitem.x = image_top.extraControlsLocation.x
+                    controlitem.y = image_top.extraControlsLocation.y
+                    controlitem.manuallyDragged = true
+                }
+            }
+
             PQMouseArea {
                 id: controlmouse
                 anchors.fill: parent
-                text: "Click and drag to move"
+                drag.minimumX: 5
+                drag.minimumY: 5
+                drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
+                drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
+                hoverEnabled: true
+                text: qsTranslate("image", "Click and drag to move")
                 cursorShape: Qt.SizeAllCursor
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
                 drag.target: parent
+                drag.onActiveChanged: if(active) controlitem.manuallyDragged = true
+                onWheel: {}
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.RightButton)
+                        menu.popup()
+                }
             }
 
             Row {
@@ -91,11 +137,16 @@ Item {
                     PQMouseArea {
                         id: playpausemouse
                         anchors.fill: parent
-                        text: "Click to play/pause"
+                        text: qsTranslate("image", "Click to play/pause")
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        onClicked:
-                            loader_top.videoTogglePlay() // qmllint disable unqualified
+                        acceptedButtons: Qt.LeftButton|Qt.RightButton
+                        onClicked: (mouse) => {
+                            if(mouse.button === Qt.LeftButton)
+                                loader_top.videoTogglePlay() // qmllint disable unqualified
+                            else
+                                menu.popup()
+                        }
                     }
                 }
 
@@ -173,18 +224,17 @@ Item {
                         enabled: loader_top.videoHasAudio // qmllint disable unqualified
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: "Volume: " + PQCSettings.filetypesVideoVolume + "%<br>Click to mute/unmute" // qmllint disable unqualified
-                        property int backupVolume: -1
-                        onClicked: {
-                            if(PQCSettings.filetypesVideoVolume === 0) { // qmllint disable unqualified
-                                if(backupVolume == -1 || backupVolume == 0)
-                                    PQCSettings.filetypesVideoVolume = 100
-                                else
-                                    PQCSettings.filetypesVideoVolume = backupVolume
-                            } else {
-                                backupVolume = PQCSettings.filetypesVideoVolume
-                                PQCSettings.filetypesVideoVolume = 0
+                        acceptedButtons: Qt.LeftButton|Qt.RightButton
+                              //: The volume here is referring to SOUND volume
+                        text: qsTranslate("image", "Volume:") + " " +
+                              PQCSettings.filetypesVideoVolume + "%<br>" +  // qmllint disable unqualified
+                              qsTranslate("image", "Click to mute/unmute")
+                        onClicked: (mouse) => {
+                            if(mouse.button === Qt.RightButton) {
+                                menu.popup()
+                                return
                             }
+                            controlitem.muteUnmute()
                         }
                         onEntered:
                             volumecont.opacity = 1
@@ -251,9 +301,14 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        acceptedButtons: Qt.LeftButton|Qt.RightButton
                         text: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
-                        onClicked:
-                            PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo // qmllint disable unqualified
+                        onClicked: (mouse) => {
+                            if(mouse.button === Qt.LeftButton)
+                                PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo // qmllint disable unqualified
+                            else
+                                menu.popup()
+                        }
                     }
 
                 }
@@ -275,8 +330,34 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: controlitem.controlsClosed ? "Click to always show video controls" : "Click to hide video controls when video is playing"
+                    text: controlitem.controlsClosed ?
+                              qsTranslate("image", "Click to always show video controls") :
+                              qsTranslate("image", "Click to hide video controls when video is playing")
                     onClicked: controlitem.controlsClosed = !controlitem.controlsClosed
+                }
+            }
+
+            // the reset position button is only visible when hovered
+            Image {
+                x: -10
+                y: -10
+                width: 20
+                height: 20
+                opacity: controlresetmouse.containsMouse ? 0.75 : 0
+                Behavior on opacity { NumberAnimation { duration: 300 } }
+                source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                sourceSize: Qt.size(width, height)
+                PQMouseArea {
+                    id: controlresetmouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: qsTranslate("image", "Reset position")
+                    onClicked: (mouse) => {
+                        controlitem.manuallyDragged = false
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
+                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
+                    }
                 }
             }
 
@@ -328,6 +409,100 @@ Item {
                             volumecont.opacity = 0
                 }
 
+            }
+
+            PQMenu {
+                id: menu
+
+                property bool resetPosAfterHide: false
+
+                PQMenuItem {
+                    text: loader_top.videoPlaying ? qsTranslate("image", "Pause video") : qsTranslate("image", "Play video")
+                    onTriggered: {
+                        loader_top.videoTogglePlay()
+                    }
+                }
+
+                PQMenuItem {
+                    text: PQCSettings.filetypesVideoVolume===0 ?
+                              //: refers to unmuting sound
+                              qsTranslate("image", "Unmute") :
+                              //: refers to muting sound
+                              qsTranslate("image", "Mute")
+                    onTriggered: {
+                        controlitem.muteUnmute()
+                    }
+                }
+
+                PQMenuItem {
+                    text: PQCSettings.filetypesVideoLeftRightJumpVideo ?
+                              qsTranslate("image", "Unlock arrow keys") :
+                              qsTranslate("image", "Lock arrow keys")
+                    onTriggered: PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
+                }
+
+                PQMenuSeparator {}
+
+                PQMenuItem {
+                    text: qsTranslate("image", "Reset position")
+                    onTriggered: {
+                        menu.resetPosAfterHide = true
+                    }
+                }
+
+                PQMenuItem {
+                    text: qsTranslate("image", "Hide controls")
+                    onTriggered:
+                        controlitem.controlsClosed = false // qmllint disable unqualified
+                }
+
+                onVisibleChanged: {
+                    if(!visible && resetPosAfterHide) {
+                        resetPosAfterHide = false
+                        controlitem.manuallyDragged = false
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
+                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
+                    }
+                }
+
+                onAboutToHide:
+                    recordAsClosed.restart()
+                onAboutToShow:
+                    PQCNotify.addToWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
+
+                Timer {
+                    id: recordAsClosed
+                    interval: 200
+                    onTriggered: {
+                        if(!menu.visible)
+                            PQCNotify.removeFromWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
+                    }
+                }
+            }
+
+            Connections {
+
+                target: PQCNotify // qmllint disable unqualified
+
+                enabled: controlitem.enabled
+
+                function onCloseAllContextMenus() {
+                    menu.dismiss()
+                }
+
+            }
+
+            property int backupVolume: -1
+            function muteUnmute() {
+                if(PQCSettings.filetypesVideoVolume === 0) { // qmllint disable unqualified
+                    if(backupVolume == -1 || backupVolume == 0)
+                        PQCSettings.filetypesVideoVolume = 100
+                    else
+                        PQCSettings.filetypesVideoVolume = backupVolume
+                } else {
+                    backupVolume = PQCSettings.filetypesVideoVolume
+                    PQCSettings.filetypesVideoVolume = 0
+                }
             }
 
         }
