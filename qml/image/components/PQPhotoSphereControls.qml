@@ -111,8 +111,13 @@ Item {
                 hoverEnabled: true
                 cursorShape: Qt.SizeAllCursor
                 propagateComposedEvents: true
+                acceptedButtons: Qt.LeftButton|Qt.RightButton
                 onWheel: {}
                 drag.onActiveChanged: if(active) controlitem.manuallyDragged = true
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.RightButton)
+                        menu.popup()
+                }
             }
 
             Rectangle {
@@ -191,7 +196,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
-                    onClicked: {
+                    onClicked: (mouse) => {
                         PQCSettings.filetypesPhotoSphereControls = false // qmllint disable unqualified
                     }
                 }
@@ -213,7 +218,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Reset position")
-                    onClicked: {
+                    onClicked: (mouse) => {
                         controlitem.manuallyDragged = false
                         controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
                         controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
@@ -232,12 +237,16 @@ Item {
                               qsTranslate("image", "Lock arrow keys")
                     onTriggered: PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
                 }
+
+                PQMenuSeparator {}
+
                 PQMenuItem {
                     text: qsTranslate("image", "Reset position")
                     onTriggered: {
                         menu.resetPosAfterHide = true
                     }
                 }
+
                 PQMenuItem {
                     text: qsTranslate("image", "Hide controls")
                     onTriggered:

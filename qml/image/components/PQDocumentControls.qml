@@ -153,7 +153,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to first page")
-                            onClicked: {
+                            onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
                                     image_top.documentJump(-image.currentPage) // qmllint disable unqualified
                                 else
@@ -183,7 +183,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to previous page")
-                            onClicked: {
+                            onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
                                     image_top.documentJump(-1) // qmllint disable unqualified
                                 else
@@ -213,7 +213,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to next page")
-                            onClicked: {
+                            onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
                                     image_top.documentJump(1) // qmllint disable unqualified
                                 else
@@ -315,7 +315,7 @@ Item {
                             cursorShape: Qt.PointingHandCursor
                             acceptedButtons: Qt.LeftButton|Qt.RightButton
                             text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: {
+                            onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
                                     PQCFileFolderModel.enableViewerMode(image.currentPage) // qmllint disable unqualified
                                 else
@@ -365,7 +365,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton|Qt.RightButton
                         text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
-                        onClicked: {
+                        onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight // qmllint disable unqualified
                             else
@@ -393,7 +393,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Hide controls")
-                    onClicked: {
+                    onClicked: (mouse) => {
                         PQCSettings.filetypesDocumentControls = false // qmllint disable unqualified
                     }
                 }
@@ -415,7 +415,7 @@ Item {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Reset position")
-                    onClicked: {
+                    onClicked: (mouse) => {
                         controlitem.manuallyDragged = false
                         controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
                         controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
@@ -441,6 +441,8 @@ Item {
                         PQCFileFolderModel.enableViewerMode(image.currentPage)
                     }
                 }
+
+                PQMenuSeparator {}
 
                 PQMenuItem {
                     text: qsTranslate("image", "Reset position")
