@@ -215,7 +215,7 @@ Item {
                     text: qsTranslate("image", "Reset position")
                     onClicked: {
                         controlitem.manuallyDragged = false
-                        controlitem.x = Qt.binding(function() { return (loader_top.width-width)/2 })
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
                         controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
                     }
                 }
@@ -248,7 +248,7 @@ Item {
                     if(!visible && resetPosAfterHide) {
                         resetPosAfterHide = false
                         controlitem.manuallyDragged = false
-                        controlitem.x = Qt.binding(function() { return (loader_top.width-width)/2 })
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
                         controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
                     }
                 }
