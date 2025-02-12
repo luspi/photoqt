@@ -572,7 +572,7 @@ Flickable {
 
             id: set_fontweight
 
-            helptext: qsTranslate("settingsmanager", "All text in PhotoQt is shown with one of two weights, either as regular text or in bold face. Here the actual weight used can be adjusted for the two types.")
+            helptext: qsTranslate("settingsmanager", "All text in PhotoQt is shown with one of two weights, either as regular text or in bold face. Here the actual weight used can be adjusted for the two types. The default weight for normal text is 400 and for bold text is 700.")
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Font weight")
@@ -611,7 +611,7 @@ Flickable {
                         id: fw_normalslider
                         from: 100
                         to: 900
-                        stepSize: 1
+                        stepSize: 10
                         wheelStepSize: 10
                         onValueChanged: setting_top.checkDefault()
                     }
@@ -639,7 +639,7 @@ Flickable {
                         id: fw_boldslider
                         from: 100
                         to: 900
-                        stepSize: 1
+                        stepSize: 10
                         wheelStepSize: 10
                         onValueChanged: setting_top.checkDefault()
                     }
