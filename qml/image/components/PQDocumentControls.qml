@@ -429,14 +429,19 @@ Item {
                 property bool resetPosAfterHide: false
 
                 PQMenuItem {
-                    text: PQCSettings.filetypesDocumentLeftRight ?
-                              qsTranslate("image", "Unlock arrow keys") :
-                              qsTranslate("image", "Lock arrow keys")
-                    onTriggered: PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
+                    checkable: true
+                    checked: PQCSettings.filetypesDocumentLeftRight
+                    text: qsTranslate("image", "Arrow keys")
+                    onCheckedChanged: {
+                        PQCSettings.filetypesDocumentLeftRight = checked
+                        checked = Qt.binding(function() { return PQCSettings.filetypesDocumentLeftRight })
+                        menu.dismiss()
+                    }
                 }
 
                 PQMenuItem {
-                    text: qsTranslate("image", "Click to enter viewer mode")
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
+                    text: qsTranslate("image", "Viewer mode")
                     onTriggered: {
                         PQCFileFolderModel.enableViewerMode(image.currentPage)
                     }
@@ -445,6 +450,7 @@ Item {
                 PQMenuSeparator {}
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                     text: qsTranslate("image", "Reset position")
                     onTriggered: {
                         menu.resetPosAfterHide = true
@@ -452,6 +458,7 @@ Item {
                 }
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     text: qsTranslate("image", "Hide controls")
                     onTriggered:
                         PQCSettings.filetypesDocumentControls = false // qmllint disable unqualified

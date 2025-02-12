@@ -232,15 +232,20 @@ Item {
                 property bool resetPosAfterHide: false
 
                 PQMenuItem {
-                    text: PQCSettings.filetypesPhotoSphereArrowKeys ?
-                              qsTranslate("image", "Unlock arrow keys") :
-                              qsTranslate("image", "Lock arrow keys")
-                    onTriggered: PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
+                    checkable: true
+                    checked: PQCSettings.filetypesPhotoSphereArrowKeys
+                    text: qsTranslate("image", "Arrow keys")
+                    onCheckedChanged: {
+                        PQCSettings.filetypesPhotoSphereArrowKeys = checked
+                        checked = Qt.binding(function() { return PQCSettings.filetypesPhotoSphereArrowKeys })
+                        menu.dismiss()
+                    }
                 }
 
                 PQMenuSeparator {}
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                     text: qsTranslate("image", "Reset position")
                     onTriggered: {
                         menu.resetPosAfterHide = true
@@ -248,6 +253,7 @@ Item {
                 }
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     text: qsTranslate("image", "Hide controls")
                     onTriggered:
                         PQCSettings.filetypesPhotoSphereControls = false // qmllint disable unqualified

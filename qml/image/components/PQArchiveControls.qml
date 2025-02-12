@@ -475,12 +475,36 @@ Item {
                 property bool resetPosAfterHide: false
 
                 PQMenuItem {
+                    checkable: true
+                    checked: PQCSettings.filetypesArchiveLeftRight
+                    text: qsTranslate("image", "Arrow keys")
+                    onCheckedChanged: {
+                        PQCSettings.filetypesArchiveLeftRight = checked
+                        checked = Qt.binding(function() { return PQCSettings.filetypesArchiveLeftRight })
+                        menu.dismiss()
+                    }
+                }
+
+                PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
+                    text: qsTranslate("image", "Viewer mode")
+                    onTriggered: {
+                        PQCFileFolderModel.enableViewerMode(image.currentFile)
+                    }
+                }
+
+                PQMenuSeparator {}
+
+                PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                     text: qsTranslate("image", "Reset position")
                     onTriggered: {
                         menu.resetPosAfterHide = true
                     }
                 }
+
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     text: qsTranslate("image", "Hide controls")
                     onTriggered:
                         PQCSettings.filetypesArchiveControls = false // qmllint disable unqualified

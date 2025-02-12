@@ -417,6 +417,7 @@ Item {
                 property bool resetPosAfterHide: false
 
                 PQMenuItem {
+                    iconSource: loader_top.videoPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     text: loader_top.videoPlaying ? qsTranslate("image", "Pause video") : qsTranslate("image", "Play video")
                     onTriggered: {
                         loader_top.videoTogglePlay()
@@ -424,26 +425,32 @@ Item {
                 }
 
                 PQMenuItem {
-                    text: PQCSettings.filetypesVideoVolume===0 ?
-                              //: refers to unmuting sound
-                              qsTranslate("image", "Unmute") :
-                              //: refers to muting sound
-                              qsTranslate("image", "Mute")
-                    onTriggered: {
+                    checkable: true
+                    checked: PQCSettings.filetypesVideoVolume===0
+                    //: refers to muting sound
+                    text: qsTranslate("image", "Mute")
+                    onCheckedChanged: {
                         controlitem.muteUnmute()
+                        checked = Qt.binding(function() { return PQCSettings.filetypesVideoVolume===0 })
+                        menu.dismiss()
                     }
                 }
 
                 PQMenuItem {
-                    text: PQCSettings.filetypesVideoLeftRightJumpVideo ?
-                              qsTranslate("image", "Unlock arrow keys") :
-                              qsTranslate("image", "Lock arrow keys")
-                    onTriggered: PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
+                    checkable: true
+                    checked: PQCSettings.filetypesVideoLeftRightJumpVideo
+                    text: qsTranslate("image", "Arrow keys")
+                    onCheckedChanged: {
+                        PQCSettings.filetypesVideoLeftRightJumpVideo = checked
+                        checked = Qt.binding(function() { return PQCSettings.filetypesVideoLeftRightJumpVideo })
+                        menu.dismiss()
+                    }
                 }
 
                 PQMenuSeparator {}
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                     text: qsTranslate("image", "Reset position")
                     onTriggered: {
                         menu.resetPosAfterHide = true
@@ -451,6 +458,7 @@ Item {
                 }
 
                 PQMenuItem {
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     text: qsTranslate("image", "Hide controls")
                     onTriggered:
                         controlitem.controlsClosed = false // qmllint disable unqualified
