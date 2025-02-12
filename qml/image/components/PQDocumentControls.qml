@@ -45,16 +45,19 @@ Item {
 
             parent: loader_top // qmllint disable unqualified
 
-            x: (parent.width-width)/2
-            y: 0.9*parent.height
+            x: (loader_top.width-width)/2
+            y: 0.9*loader_top.height
             z: image_top.curZ // qmllint disable unqualified
             width: controlrow.width+20
             height: 50
             radius: 5
             color: PQCLook.transColor // qmllint disable unqualified
 
+            property bool manuallyDragged: false
+
             Connections {
                 target: image_top // qmllint disable unqualified
+                enabled: controlitem.manuallyDragged
                 function onWidthChanged() {
                     controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
                 }
@@ -64,13 +67,13 @@ Item {
             }
 
             onXChanged: {
-                if(x !== (parent.width-width)/2) {
+                if(x !== (parent.width-width)/2 && controlitem.manuallyDragged) {
                     image_top.extraControlsLocation.x = x // qmllint disable unqualified
                     x = x
                 }
             }
             onYChanged: {
-                if(y !== 0.9*parent.height) {
+                if(y !== 0.9*parent.height && controlitem.manuallyDragged) {
                     image_top.extraControlsLocation.y = y // qmllint disable unqualified
                     y = y
                 }
@@ -80,6 +83,7 @@ Item {
                 if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
                     controlitem.x = image_top.extraControlsLocation.x
                     controlitem.y = image_top.extraControlsLocation.y
+                    controlitem.manuallyDragged = true
                 }
             }
 
@@ -93,7 +97,7 @@ Item {
             property bool emptyAreaHovered: false
             property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||viewermodemouse.containsMouse||
                                    emptyAreaHovered||controlclosemouse.containsMouse||mouseprev.containsMouse||mousenext.containsMouse||
-                                   mousefirst.containsMouse||mouselast.containsMouse
+                                   mousefirst.containsMouse||mouselast.containsMouse||controlresetmouse.containsMouse||menu.visible
 
             // drag and catch wheel events
             MouseArea {
@@ -106,8 +110,14 @@ Item {
                 drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
                 hoverEnabled: true
                 cursorShape: Qt.SizeAllCursor
+                acceptedButtons: Qt.RightButton|Qt.LeftButton
                 propagateComposedEvents: true
                 onWheel: {}
+                drag.onActiveChanged: if(active) controlitem.manuallyDragged = true
+                onClicked: (mouse) => {
+                    if(mouse.button === Qt.RightButton)
+                        menu.popup()
+                }
             }
 
             Row {
@@ -141,8 +151,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to first page")
-                            onClicked: image_top.documentJump(-image.currentPage) // qmllint disable unqualified
+                            onClicked: {
+                                if(mouse.button === Qt.LeftButton)
+                                    image_top.documentJump(-image.currentPage) // qmllint disable unqualified
+                                else
+                                    menu.popup()
+                            }
                         }
                     }
 
@@ -165,8 +181,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to previous page")
-                            onClicked: image_top.documentJump(-1) // qmllint disable unqualified
+                            onClicked: {
+                                if(mouse.button === Qt.LeftButton)
+                                    image_top.documentJump(-1) // qmllint disable unqualified
+                                else
+                                    menu.popup()
+                            }
                         }
                     }
 
@@ -189,8 +211,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to next page")
-                            onClicked: image_top.documentJump(1) // qmllint disable unqualified
+                            onClicked: {
+                                if(mouse.button === Qt.LeftButton)
+                                    image_top.documentJump(1) // qmllint disable unqualified
+                                else
+                                    menu.popup()
+                            }
                         }
                     }
 
@@ -214,8 +242,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.RightButton|Qt.LeftButton
                             text: qsTranslate("image", "Go to last page")
-                            onClicked: image_top.documentJump(image.pageCount-image.currentPage-1) // qmllint disable unqualified
+                            onClicked: (mouse) => {
+                                if(mouse.button === Qt.LeftButton)
+                                    image_top.documentJump(image.pageCount-image.currentPage-1) // qmllint disable unqualified
+                                else
+                                    menu.popup()
+                            }
                         }
                     }
 
@@ -279,8 +313,14 @@ Item {
                             anchors.fill: parent
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
+                            acceptedButtons: Qt.LeftButton|Qt.RightButton
                             text: qsTranslate("image", "Click to enter viewer mode")
-                            onClicked: PQCFileFolderModel.enableViewerMode(image.currentPage) // qmllint disable unqualified
+                            onClicked: {
+                                if(mouse.button === Qt.LeftButton)
+                                    PQCFileFolderModel.enableViewerMode(image.currentPage) // qmllint disable unqualified
+                                else
+                                    menu.popup()
+                            }
                         }
                     }
                 }
@@ -323,9 +363,14 @@ Item {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
+                        acceptedButtons: Qt.LeftButton|Qt.RightButton
                         text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
-                        onClicked:
-                            PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight // qmllint disable unqualified
+                        onClicked: {
+                            if(mouse.button === Qt.LeftButton)
+                                PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight // qmllint disable unqualified
+                            else
+                                menu.popup()
+                        }
                     }
 
                 }
@@ -354,6 +399,86 @@ Item {
                 }
             }
 
+            // the reset position button is only visible when hovered
+            Image {
+                x: -10
+                y: -10
+                width: 20
+                height: 20
+                opacity: controlresetmouse.containsMouse ? 0.75 : 0
+                Behavior on opacity { NumberAnimation { duration: 300 } }
+                source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                sourceSize: Qt.size(width, height)
+                PQMouseArea {
+                    id: controlresetmouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    text: qsTranslate("image", "Reset position")
+                    onClicked: {
+                        controlitem.manuallyDragged = false
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
+                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
+                    }
+                }
+            }
+
+            PQMenu {
+                id: menu
+
+                property bool resetPosAfterHide: false
+
+                PQMenuItem {
+                    text: PQCSettings.filetypesDocumentLeftRight ?
+                              qsTranslate("image", "Unlock arrow keys") :
+                              qsTranslate("image", "Lock arrow keys")
+                    onTriggered: PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
+                }
+
+                PQMenuItem {
+                    text: qsTranslate("image", "Click to enter viewer mode")
+                    onTriggered: {
+                        PQCFileFolderModel.enableViewerMode(image.currentPage)
+                    }
+                }
+
+                PQMenuItem {
+                    text: qsTranslate("image", "Reset position")
+                    onTriggered: {
+                        menu.resetPosAfterHide = true
+                    }
+                }
+
+                PQMenuItem {
+                    text: qsTranslate("image", "Hide controls")
+                    onTriggered:
+                        PQCSettings.filetypesDocumentControls = false // qmllint disable unqualified
+                }
+
+                onVisibleChanged: {
+                    if(!visible && resetPosAfterHide) {
+                        resetPosAfterHide = false
+                        controlitem.manuallyDragged = false
+                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
+                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
+                    }
+                }
+
+                onAboutToHide:
+                    recordAsClosed.restart()
+                onAboutToShow:
+                    PQCNotify.addToWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
+
+                Timer {
+                    id: recordAsClosed
+                    interval: 200
+                    onTriggered: {
+                        if(!menu.visible)
+                            PQCNotify.removeFromWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
+                    }
+                }
+            }
+
             Connections {
 
                 target: PQCNotify // qmllint disable unqualified
@@ -366,6 +491,10 @@ Item {
                     var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
                     controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
 
+                }
+
+                function onCloseAllContextMenus() {
+                    menu.dismiss()
                 }
 
             }
