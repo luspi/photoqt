@@ -390,7 +390,7 @@ if(Qt6_VERSION VERSION_LESS 6.5)
 
         # Qt 6.4 striggles with properties of type list somewhat randomly
         # Replacing them all by var keeps the code working and avoids any issues
-        if(FILE_CONTENTS MATCHES "property list\\<")
+        if(FILE_CONTENTS MATCHES "list\\<")
             set(anything_changed TRUE)
             string(REPLACE "property list<int>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<string>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
@@ -399,9 +399,13 @@ if(Qt6_VERSION VERSION_LESS 6.5)
             string(REPLACE "property list<var>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<bool>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<point>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQMenu>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<PQButton>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            string(REPLACE "property list<PQButtonElement>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<PQComboBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
             string(REPLACE "property list<PQSliderSpinBox>" "property var" FILE_CONTENTS "${FILE_CONTENTS}")
+            # a list<string> is used in a few places as type in function definitions
+            string(REPLACE ": list<string>" ": var" FILE_CONTENTS "${FILE_CONTENTS}")
         endif()
 
         if(anything_changed)
