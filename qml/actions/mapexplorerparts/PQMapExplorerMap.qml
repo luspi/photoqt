@@ -122,7 +122,7 @@ Item {
 
             plugin: osmPlugin
 
-            activeMapType: supportedMapTypes[5]
+            activeMapType: supportedMapTypes[supportedMapTypes.length > 4 ? 5 : (supportedMapTypes.length-1)]
 
             property geoCoordinate startCentroid
 
