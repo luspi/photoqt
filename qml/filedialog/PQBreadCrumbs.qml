@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2024 Lukas Spies                                  **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **

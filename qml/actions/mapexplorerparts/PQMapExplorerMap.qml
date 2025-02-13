@@ -1,7 +1,7 @@
 pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
- ** Copyright (C) 2011-2024 Lukas Spies                                  **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
@@ -122,7 +122,7 @@ Item {
 
             plugin: osmPlugin
 
-            activeMapType: supportedMapTypes[5]
+            activeMapType: supportedMapTypes[supportedMapTypes.length > 4 ? 5 : (supportedMapTypes.length-1)]
 
             property geoCoordinate startCentroid
 
