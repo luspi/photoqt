@@ -23,7 +23,7 @@
 import numpy as np
 import sys
 
-known_args = np.array(['all', 'filetypecolors', 'filetypes', 'cmake', 'windowsrc', 'nsi'])
+known_args = np.array(['all', 'filetypecolors', 'filetypes', 'cmake', 'windowsrc', 'nsi', 'formatsdb'])
 
 if len(sys.argv) != 2 or sys.argv[1] not in known_args:
 
@@ -36,6 +36,7 @@ One of the following flags is required:
  cmake\t\tGenerate CMake desktop file creation
  windowsrc\tGenerate windows resource file
  nsi\t\tGenerate nsi entries
+ formatsdb\t\tSQL for writing formats to website database
 """)
 
     exit()
@@ -464,3 +465,37 @@ if which == 'all' or which == 'nsi':
     un_f_new.write(un_psdcont)
     un_f_new.close()
 
+
+#############################################################
+#############################################################
+# GENERATE NSI ENTRIES
+if which == 'all' or which == 'formatsdb':
+
+    sqltxt = "delete from imageformats;\n"
+
+    conndb = sqlite3.connect('imageformats.db')
+    cdb = conndb.cursor()
+
+    cdb.execute("SELECT endings,description,qt,imagemagick,graphicsmagick,libraw,poppler,xcftools,devil,freeimage,archive,video,libmpv FROM imageformats ORDER BY endings")
+    data = cdb.fetchall()
+
+    for row in data:
+
+        end = row[0]
+        des = row[1]
+        qt  = row[2]
+        im  = row[3]
+        gm  = row[4]
+        raw = row[5]
+        pop = row[6]
+        xcf = row[7]
+        dev = row[8]
+        fre = row[9]
+        arc = row[10]
+        vid = row[11]
+        mpv = row[12]
+
+        sqltxt += f"INSERT INTO imageformats (`endings`,`description`,`qt`,`imagemagick`,`graphicsmagick`,`libraw`,`poppler`,`xcftools`,`devil`,`freeimage`,`archive`,`video`,`libmpv`) VALUES ('{end}', '{des}', {qt}, {im}, {gm}, {raw}, {pop}, {xcf}, {dev}, {fre}, {arc}, {vid}, {mpv});\n"
+
+    f = open("output/imageformats_website.sql", "w")
+    f.write(sqltxt)
