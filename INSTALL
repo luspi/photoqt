@@ -145,10 +145,13 @@
  9) ZXing-C++: https://github.com/zxing-cpp/zxing-cpp/
 10) LittleCMS: https://littlecms.com/
 
- Make sure that any installed dependency is added to the system path, or otherwise you
- need to explicitly point CMake to the right location for each of them. Regardless, CMake
- might have to be explicitly pointed to the library/include paths of some of the
- dependencies by specifying target_include_directories() and target_link_libraries().
+ One easy way to get many of the dependencies is by taking advantage of vcpkg 
+ (https://vcpkg.io/). A sample vcpkg.conf can be found in the windows/ subfolder.
+
+ Whatever way you obtain the dependencies, make sure that any installed dependency can
+ be found by CMake. It might have to be explicitly pointed to the library/include paths of 
+ some of the dependencies by specifying target_include_directories() and 
+ target_link_libraries().
 
  Once all the required and desired dependencies are installed, then the source code of
  PhotoQt can be fetched from the website (https://photoqt.og/down). Then simply follow
