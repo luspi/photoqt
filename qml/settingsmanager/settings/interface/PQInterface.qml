@@ -58,57 +58,7 @@ Flickable {
                                butsize.contextMenuOpen || butsize.editMode || autohide_timeout.contextMenuOpen ||
                                autohide_timeout.editMode || notif_dist.contextMenuOpen || notif_dist.editMode
 
-    property var languages: {
-        "en" : "English",
-        "ar" : "عربي ,عربى",
-        "ca_ES" : "Català",
-        "cs" : "Čeština",
-        "de" : "Deutsch",
-        "el" : "Ελληνικά",
-        "es" : "Español",
-        "es_CR" : "Español (Costa Rica)",
-        "fi" : "Suomen kieli",
-        "fr" : "Français",
-        "he" : "עברית",
-        "it" : "Italiano",
-        "lt" : "lietuvių kalba",
-        "pl" : "Polski",
-        "pt" : "Português (Portugal)",
-        "pt_BR" : "Português (Brasil)",
-        "ru" : "Русский",
-        "sk" : "Slovenčina",
-        "tr" : "Türkçe",
-        "uk" : "Українська",
-        "zh" : "Chinese (simplified)",
-        "zh_TW" : "Chinese (traditional)"
-    }
-
-    property int origIndex
-
-    property list<string> langkeys: Object.keys(languages)
-
-    function getLanguageName(code: string) : string {
-
-        if(langkeys.indexOf(code) != -1) {
-
-            return languages[code]
-
-        } else {
-
-            var c = code.split("_")[0]
-
-            if(langkeys.indexOf(c) != -1)
-                return languages[c]
-
-        }
-
-        return code
-
-    }
-
     ScrollBar.vertical: PQVerticalScrollBar {}
-
-    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() // qmllint disable unqualified
 
     Column {
 
@@ -126,6 +76,57 @@ Flickable {
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Language")
+
+            property int origIndex
+
+            property var languages: {
+                "en" : "English",
+                "ar" : "عربي ,عربى",
+                "ca_ES" : "Català",
+                "cs" : "Čeština",
+                "de" : "Deutsch",
+                "el" : "Ελληνικά",
+                "es" : "Español",
+                "es_CR" : "Español (Costa Rica)",
+                "fi" : "Suomen kieli",
+                "fr" : "Français",
+                "he" : "עברית",
+                "it" : "Italiano",
+                "lt" : "lietuvių kalba",
+                "nl" : "Nederlands",
+                "pl" : "Polski",
+                "pt" : "Português (Portugal)",
+                "pt_BR" : "Português (Brasil)",
+                "ru" : "Русский",
+                "sk" : "Slovenčina",
+                "tr" : "Türkçe",
+                "uk" : "Українська",
+                "zh" : "Chinese (simplified)",
+                "zh_TW" : "Chinese (traditional)"
+            }
+
+            property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() // qmllint disable unqualified
+
+            property list<string> langkeys: Object.keys(languages)
+
+            function getLanguageName(code: string) : string {
+
+                if(langkeys.indexOf(code) != -1) {
+
+                    return languages[code]
+
+                } else {
+
+                    var c = code.split("_")[0]
+
+                    if(langkeys.indexOf(c) != -1)
+                        return languages[c]
+
+                }
+
+                return code
+
+            }
 
             content: [
 
@@ -150,6 +151,66 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+
+                var val = PQCScriptsConfig.getDefaultSettingValueFor("interfaceLanguage")
+
+                var setindex = availableLanguages.indexOf("en")
+                if(availableLanguages.indexOf(val) !== -1)
+                    setindex = availableLanguages.indexOf(val)
+                else {
+                    var c = val + "_" + val.toUpperCase()
+                    if(availableLanguages.indexOf(c) !== -1)
+                        setindex = availableLanguages.indexOf(c)
+                }
+                langcombo.currentIndex = setindex
+            }
+
+            function handleEscape() {
+                langcombo.popup.close()
+            }
+
+            function hasChanged() {
+                return (origIndex !== langcombo.currentIndex)
+            }
+
+            function load() {
+
+                var m = []
+                for(var i in availableLanguages) {
+                    m.push(getLanguageName(availableLanguages[i]))
+                }
+                langcombo.model = m
+
+                var code = PQCSettings.interfaceLanguage // qmllint disable unqualified
+
+                var setindex = availableLanguages.indexOf("en")
+
+                if(availableLanguages.indexOf(code) !== -1)
+                    setindex = availableLanguages.indexOf(code)
+                else {
+                    var c = code + "_" + code.toUpperCase()
+                    if(availableLanguages.indexOf(c) !== -1)
+                        setindex = availableLanguages.indexOf(c)
+                }
+
+                origIndex = setindex
+                langcombo.currentIndex = setindex
+
+            }
+
+            function applyChanges() {
+
+                if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
+                    PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
+                else
+                    PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
+                origIndex = langcombo.currentIndex
+                PQCScriptsConfig.updateTranslation()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -218,6 +279,60 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+
+                var wmmode_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowMode")
+                var keeptop_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceKeepWindowOnTop")
+                var rememgeo_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceSaveWindowGeometry")
+                var wmdeco_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowDecoration")
+
+                fsmode.checked = (wmmode_val==0)
+                wmmode.checked = (wmmode_val==1)
+
+                keeptop.checked = (keeptop_val==1)
+                rememgeo.checked = (rememgeo_val==1)
+                wmdeco_show.checked = (wmdeco_val==1)
+
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged())
+            }
+
+            function load() {
+
+                fsmode.loadAndSetDefault(!PQCSettings.interfaceWindowMode)
+                wmmode.loadAndSetDefault(!fsmode.checked)
+
+                keeptop.loadAndSetDefault(PQCSettings.interfaceKeepWindowOnTop)
+                rememgeo.loadAndSetDefault(PQCSettings.interfaceSaveWindowGeometry)
+
+                wmdeco_show.loadAndSetDefault(PQCSettings.interfaceWindowDecoration)
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceWindowMode = wmmode.checked
+
+                PQCSettings.interfaceKeepWindowOnTop = keeptop.checked
+                PQCSettings.interfaceSaveWindowGeometry = rememgeo.checked
+
+                PQCSettings.interfaceWindowDecoration = wmdeco_show.checked
+
+                fsmode.saveDefault()
+                wmmode.saveDefault()
+
+                keeptop.saveDefault()
+                rememgeo.saveDefault()
+
+                wmdeco_show.saveDefault()
+
+            }
 
         }
 
@@ -371,6 +486,84 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+
+                integbut_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsShow") == 1)
+                integbut_dup.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsDuplicateDecorationButtons") == 1)
+                integbut_nav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRight") == 1)
+                integbut_navfs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightAlways") == 0)
+                integbut_nav_left.checked = ((""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightLeftRight")) == "left")
+                integbut_nav_right.checked = ((""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightLeftRight")) == "right")
+                butsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsSize"))
+
+                var valAutoHide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHide")
+                var valAutoHideTop = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTopEdge")
+                var valAutoHideTimeout = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTimeout")
+                autohide_always.checked = (valAutoHide==0 && valAutoHideTop==0)
+                autohide_anymove.checked = (valAutoHide==1 && valAutoHideTop==0)
+                autohide_topedge.checked = (valAutoHideTop==1)
+                autohide_timeout.setValue(valAutoHideTimeout/1000)
+
+            }
+
+            function handleEscape() {
+                butsize.closeContextMenus()
+                butsize.acceptValue()
+                autohide_timeout.closeContextMenus()
+                autohide_timeout.acceptValue()
+            }
+
+            function hasChanged() {
+                return (integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged() ||
+                        integbut_nav_left.hasChanged() || integbut_nav_right.hasChanged() || butsize.hasChanged() ||
+                        autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() || autohide_timeout.hasChanged())
+            }
+
+            function load() {
+
+                integbut_show.loadAndSetDefault(PQCSettings.interfaceWindowButtonsShow)
+                integbut_dup.loadAndSetDefault(PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons)
+                integbut_nav.loadAndSetDefault(PQCSettings.interfaceNavigationTopRight)
+                integbut_navfs.loadAndSetDefault(!PQCSettings.interfaceNavigationTopRightAlways)
+                integbut_nav_left.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="left")
+                integbut_nav_right.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="right")
+                butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
+
+                autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
+                autohide_anymove.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
+                autohide_topedge.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
+                autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceWindowButtonsShow = integbut_show.checked
+                PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = integbut_dup.checked
+                PQCSettings.interfaceNavigationTopRight = integbut_nav.checked
+                PQCSettings.interfaceNavigationTopRightAlways = !integbut_navfs.checked
+                PQCSettings.interfaceNavigationTopRightLeftRight = (integbut_nav_right.checked ? "right" : "left")
+                PQCSettings.interfaceWindowButtonsSize = butsize.value
+
+                PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
+                PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
+                PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
+
+                integbut_show.saveDefault()
+                integbut_dup.saveDefault()
+                integbut_nav.saveDefault()
+                integbut_navfs.saveDefault()
+                integbut_nav_left.saveDefault()
+                integbut_nav_right.saveDefault()
+                butsize.saveDefault()
+
+                autohide_always.saveDefault()
+                autohide_anymove.saveDefault()
+                autohide_topedge.saveDefault()
+                autohide_timeout.saveDefault()
+
+            }
 
         }
 
@@ -546,6 +739,61 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+
+                var valCol = PQCScriptsConfig.getDefaultSettingValueFor("interfaceAccentColor")+""
+
+                accentcustom.color = valCol
+                var index = accentcolor.hexes.indexOf(valCol)
+                if(index === -1) index = accentcolor.options.length-1
+                accentcolor.currentIndex = index
+
+                var valOver = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundCustomOverlay")
+                bgaccentusecheck.checked = (valOver == 0)
+                bgcustomusecheck.checked = (valOver == 1)
+
+            }
+
+            function handleEscape() {
+                testbut.contextmenu.close()
+                accentcolor.popup.close()
+            }
+
+            function hasChanged() {
+                return (accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
+                        (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor))
+            }
+
+            function load() {
+
+                var index = accentcolor.hexes.indexOf(PQCSettings.interfaceAccentColor)
+                accentcustom.color = PQCSettings.interfaceAccentColor
+                if(index === -1) index = accentcolor.options.length-1
+                accentcolor.loadAndSetDefault(index)
+
+                bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
+                bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
+
+            }
+
+            function applyChanges() {
+
+                if(accentcolor.currentIndex < accentcolor.hexes.length)
+                    PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
+                else
+                    PQCSettings.interfaceAccentColor = accent_coltxt.text
+
+                PQCSettings.interfaceBackgroundCustomOverlay = bgcustomusecheck.checked
+                if(bgcustomusecheck.checked)
+                    PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
+
+                accentcolor.saveDefault()
+
+                bgcustomusecheck.saveDefault()
+                bgaccentusecheck.saveDefault()
+
+            }
+
         }
 
         ColorDialog {
@@ -651,6 +899,30 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                fw_normalslider.value = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFontNormalWeight")
+                fw_boldslider.value = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFontBoldWeight")
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (fw_normalslider.hasChanged() || fw_boldslider.hasChanged())
+            }
+
+            function load() {
+                fw_normalslider.loadAndSetDefault(PQCSettings.interfaceFontNormalWeight)
+                fw_boldslider.loadAndSetDefault(PQCSettings.interfaceFontBoldWeight)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceFontNormalWeight = fw_normalslider.value
+                PQCSettings.interfaceFontBoldWeight = fw_boldslider.value
+                fw_normalslider.saveDefault()
+                fw_boldslider.saveDefault()
+            }
 
         }
 
@@ -959,6 +1231,40 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                notif_grid.loc =  ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationLocation")
+                notif_external.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationTryNative") == 1)
+                notif_dist.setValue(PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationDistanceFromEdge"))
+            }
+
+            function handleEscape() {
+                notif_dist.closeContextMenus()
+                notif_dist.acceptValue()
+            }
+
+            function hasChanged() {
+                return (notif_grid.default_loc !== notif_grid.loc || notif_external.hasChanged() || notif_dist.hasChanged())
+            }
+
+            function load() {
+                notif_grid.loc = PQCSettings.interfaceNotificationLocation
+                notif_grid.default_loc = PQCSettings.interfaceNotificationLocation
+                notif_external.loadAndSetDefault(PQCSettings.interfaceNotificationTryNative)
+                notif_dist.loadAndSetDefault(PQCSettings.interfaceNotificationDistanceFromEdge)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceNotificationLocation = notif_grid.loc
+                PQCSettings.interfaceNotificationTryNative = notif_external.checked
+                PQCSettings.interfaceNotificationDistanceFromEdge = notif_dist.value
+
+                notif_grid.default_loc = notif_grid.loc
+                notif_external.saveDefault()
+                notif_dist.saveDefault()
+
+            }
+
         }
 
     }
@@ -968,18 +1274,12 @@ Flickable {
 
     function handleEscape() {
 
-        testbut.contextmenu.close()
-
-        langcombo.popup.close()
-        accentcolor.popup.close()
-
-        butsize.acceptValue()
-        autohide_timeout.acceptValue()
-        notif_dist.acceptValue()
-
-        butsize.closeContextMenus()
-        autohide_timeout.closeContextMenus()
-        notif_dist.closeContextMenus()
+        set_lang.handleEscape()
+        set_windowmode.handleEscape()
+        set_winbut.handleEscape()
+        set_accent.handleEscape()
+        set_fontweight.handleEscape()
+        set_notif.handleEscape()
 
     }
 
@@ -991,40 +1291,9 @@ Flickable {
             return
         }
 
-        if(setting_top.origIndex !== langcombo.currentIndex) {
+        if(set_lang.hasChanged() || set_windowmode.hasChanged() || set_winbut.hasChanged() ||
+                set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged()) {
             setting_top.settingChanged = true
-            return
-        }
-
-        if(wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged()
-                || integbut_nav_left.hasChanged() || integbut_nav_right.hasChanged() || butsize.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() || autohide_timeout.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(notif_grid.default_loc !== notif_grid.loc || notif_external.hasChanged() || notif_dist.hasChanged()) {
-            settingChanged = true;
-            return
-        }
-
-        if(accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
-                (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor)) {
-            settingChanged = true
-            return
-        }
-
-        if(fw_normalslider.hasChanged() || fw_boldslider.hasChanged()) {
-            settingChanged = true
             return
         }
 
@@ -1034,64 +1303,12 @@ Flickable {
 
     function load() {
 
-        var m = []
-        for(var i in availableLanguages) {
-            m.push(getLanguageName(availableLanguages[i]))
-        }
-        langcombo.model = m
-
-        var code = PQCSettings.interfaceLanguage // qmllint disable unqualified
-
-        var setindex = availableLanguages.indexOf("en")
-
-        if(availableLanguages.indexOf(code) !== -1)
-            setindex = availableLanguages.indexOf(code)
-
-        var c = code + "_" + code.toUpperCase()
-        if(availableLanguages.indexOf(c) !== -1)
-            setindex = availableLanguages.indexOf(c)
-
-        origIndex = setindex
-        langcombo.currentIndex = setindex
-
-        /******/
-
-        fsmode.loadAndSetDefault(!PQCSettings.interfaceWindowMode)
-        wmmode.loadAndSetDefault(!fsmode.checked)
-
-        keeptop.loadAndSetDefault(PQCSettings.interfaceKeepWindowOnTop)
-        rememgeo.loadAndSetDefault(PQCSettings.interfaceSaveWindowGeometry)
-
-        wmdeco_show.loadAndSetDefault(PQCSettings.interfaceWindowDecoration)
-
-        integbut_show.loadAndSetDefault(PQCSettings.interfaceWindowButtonsShow)
-        integbut_dup.loadAndSetDefault(PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons)
-        integbut_nav.loadAndSetDefault(PQCSettings.interfaceNavigationTopRight)
-        integbut_navfs.loadAndSetDefault(!PQCSettings.interfaceNavigationTopRightAlways)
-        integbut_nav_left.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="left")
-        integbut_nav_right.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="right")
-        butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
-
-        autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
-        autohide_anymove.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
-        autohide_topedge.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
-        autohide_timeout.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHideTimeout/1000)
-
-        var index = accentcolor.hexes.indexOf(PQCSettings.interfaceAccentColor)
-        accentcustom.color = PQCSettings.interfaceAccentColor
-        if(index === -1) index = accentcolor.options.length-1
-        accentcolor.loadAndSetDefault(index)
-
-        bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
-        bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
-
-        fw_normalslider.loadAndSetDefault(PQCSettings.interfaceFontNormalWeight)
-        fw_boldslider.loadAndSetDefault(PQCSettings.interfaceFontBoldWeight)
-
-        notif_grid.loc = PQCSettings.interfaceNotificationLocation
-        notif_grid.default_loc = PQCSettings.interfaceNotificationLocation
-        notif_external.loadAndSetDefault(PQCSettings.interfaceNotificationTryNative)
-        notif_dist.loadAndSetDefault(PQCSettings.interfaceNotificationDistanceFromEdge)
+        set_lang.load()
+        set_windowmode.load()
+        set_winbut.load()
+        set_accent.load()
+        set_fontweight.load()
+        set_notif.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -1100,80 +1317,12 @@ Flickable {
 
     function applyChanges() {
 
-        if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
-            PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
-        else
-            PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
-        origIndex = langcombo.currentIndex
-        PQCScriptsConfig.updateTranslation()
-
-
-        PQCSettings.interfaceWindowMode = wmmode.checked
-
-        PQCSettings.interfaceKeepWindowOnTop = keeptop.checked
-        PQCSettings.interfaceSaveWindowGeometry = rememgeo.checked
-
-        PQCSettings.interfaceWindowDecoration = wmdeco_show.checked
-
-        PQCSettings.interfaceWindowButtonsShow = integbut_show.checked
-        PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = integbut_dup.checked
-        PQCSettings.interfaceNavigationTopRight = integbut_nav.checked
-        PQCSettings.interfaceNavigationTopRightAlways = !integbut_navfs.checked
-        PQCSettings.interfaceNavigationTopRightLeftRight = (integbut_nav_right.checked ? "right" : "left")
-        PQCSettings.interfaceWindowButtonsSize = butsize.value
-
-        PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
-        PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
-        PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
-
-        if(accentcolor.currentIndex < accentcolor.hexes.length)
-            PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
-        else
-            PQCSettings.interfaceAccentColor = accent_coltxt.text
-
-        PQCSettings.interfaceBackgroundCustomOverlay = bgcustomusecheck.checked
-        if(bgcustomusecheck.checked)
-            PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
-
-        PQCSettings.interfaceFontNormalWeight = fw_normalslider.value
-        PQCSettings.interfaceFontBoldWeight = fw_boldslider.value
-
-        PQCSettings.interfaceNotificationLocation = notif_grid.loc
-        PQCSettings.interfaceNotificationTryNative = notif_external.checked
-        PQCSettings.interfaceNotificationDistanceFromEdge = notif_dist.value
-
-        fsmode.saveDefault()
-        wmmode.saveDefault()
-
-        keeptop.saveDefault()
-        rememgeo.saveDefault()
-
-        wmdeco_show.saveDefault()
-
-        integbut_show.saveDefault()
-        integbut_dup.saveDefault()
-        integbut_nav.saveDefault()
-        integbut_navfs.saveDefault()
-        integbut_nav_left.saveDefault()
-        integbut_nav_right.saveDefault()
-        butsize.saveDefault()
-
-        autohide_always.saveDefault()
-        autohide_anymove.saveDefault()
-        autohide_topedge.saveDefault()
-        autohide_timeout.saveDefault()
-
-        accentcolor.saveDefault()
-
-        bgcustomusecheck.saveDefault()
-        bgaccentusecheck.saveDefault()
-
-        fw_normalslider.saveDefault()
-        fw_boldslider.saveDefault()
-
-        notif_grid.default_loc = notif_grid.loc
-        notif_external.saveDefault()
-        notif_dist.saveDefault()
+        set_lang.applyChanges()
+        set_windowmode.applyChanges()
+        set_winbut.applyChanges()
+        set_accent.applyChanges()
+        set_fontweight.applyChanges()
+        set_notif.applyChanges()
 
         setting_top.settingChanged = false
 

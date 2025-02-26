@@ -140,6 +140,11 @@ SpinBox {
         _defaultValue = val
     }
 
+    function setValue(val : int) {
+        value = val
+        liveValue = val
+    }
+
     function hasChanged() : bool {
         return _defaultValue!==liveValue
     }

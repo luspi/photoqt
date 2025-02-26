@@ -43,6 +43,7 @@ public:
 
     void setDefault(bool ignoreLanguage = false);
     void setDefaultFor(QString key);
+    QVariantList getDefaultFor(QString key);
 
     void update(QString key, QVariant value);
 

@@ -666,6 +666,11 @@ void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
     PQCSettings::get().setDefaultFor(key);
 }
 
+QVariant PQCScriptsConfig::getDefaultSettingValueFor(QString key) {
+    const QVariantList val = PQCSettings::get().getDefaultFor(key);
+    return val[0];
+}
+
 bool PQCScriptsConfig::isICUSupportEnabled() {
 #ifdef PQMWITHOUTICU
     return false;

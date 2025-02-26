@@ -190,6 +190,10 @@ Item {
         spinbox.loadAndSetDefault(val)
     }
 
+    function setValue(val : int) {
+        spinbox.setValue(val)
+    }
+
     function hasChanged() : bool {
         return spinbox.hasChanged()
     }

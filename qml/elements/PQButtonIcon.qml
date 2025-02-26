@@ -72,7 +72,7 @@ Rectangle {
         text: control.tooltip
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onPressed: (mouse) => {
-            if(mouse.button == Qt.RightButton)
+            if(mouse.button === Qt.RightButton)
                 return
             if(control.checkable)
                 control.checked = !control.checked
@@ -84,13 +84,14 @@ Rectangle {
                 control.down = false
         }
         onClicked: (mouse) => {
-            if(control.enableContextMenu && mouse.button == Qt.RightButton) {
+            if(control.enableContextMenu && mouse.button === Qt.RightButton) {
                 menu.origPoint = Qt.point(mousearea.mouseX, mousearea.mouseY)
                 menu.popup()
-            } else if(mouse.button == Qt.RightButton)
+            } else if(mouse.button === Qt.RightButton)
                 control.rightClicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
-            else
+            else {
                 control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+            }
         }
     }
 

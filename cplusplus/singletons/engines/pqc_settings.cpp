@@ -324,12 +324,12 @@ void PQCSettings::setDefault(bool ignoreLanguage) {
 
 }
 
-void PQCSettings::setDefaultFor(QString key) {
+QVariantList PQCSettings::getDefaultFor(QString key) {
 
     qDebug() << "args: key =" << key;
     qDebug() << "readonly =" << readonly;
 
-    if(readonly) return;
+    if(readonly) return {"", ""};
 
     QString tablename = "";
     QString settingname = "";
@@ -346,7 +346,7 @@ void PQCSettings::setDefaultFor(QString key) {
     // invalid table name
     if(tablename == "") {
         qWarning() << "tablename not found";
-        return;
+        return {"", ""};
     }
 
     settingname = key.last(key.size()-tablename.size());
@@ -358,12 +358,24 @@ void PQCSettings::setDefaultFor(QString key) {
 
     if(!query.next()) {
         qWarning() << "unable to get default value";
-        return;
+        return {"", ""};
     }
 
-    QString value = query.value(0).toString();
-    QString datatype = query.value(1).toString();
+    return {query.value(0), query.value(1)};
 
+}
+
+void PQCSettings::setDefaultFor(QString key) {
+
+    qDebug() << "args: key =" << key;
+    qDebug() << "readonly =" << readonly;
+
+    if(readonly) return;
+
+    QVariantList def = getDefaultFor(key);
+
+    QString value = def[0].toString();
+    QString datatype = def[1].toString();
 
     if(datatype == "int")
         this->update(key, value.toInt());

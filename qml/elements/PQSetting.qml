@@ -87,7 +87,10 @@ Row {
             opacity: mouseOver ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
             source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
-            tooltip: qsTranslate("settingsmanager", "reset setting to default")
+            tooltip: qsTranslate("settingsmanager", "reset default values")
+            onClicked: (pos) => {
+                setctrl.resetToDefaults()
+            }
         }
 
     }
