@@ -36,37 +36,58 @@ Row {
 
     property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings // qmllint disable unqualified
 
-    Row {
+    signal resetToDefaults()
+
+    Column {
 
         width: setctrl.leftcol
-        spacing: 10
 
-        PQButtonIcon {
-            id: helpicon
-            y: (parent.height/ttl.lineCount -height)/2
-            width: setctrl.makeHelpTextVisible ? 0 : 30
-            Behavior on width { NumberAnimation { duration: 200 } }
-            height: 30
-            opacity: setctrl.makeHelpTextVisible ? 0 : 1
-            Behavior on opacity { NumberAnimation { duration: 150 } }
-            clip: true
-            source: "image://svg/:/" + PQCLook.iconShade + "/help.svg" // qmllint disable unqualified
-            tooltip: setctrl.helptext
-            tooltipPartialTransparency: false
-            visible: width>0
-            onClicked: {
-                settinginfomessage.show(setctrl.helptext) // qmllint disable unqualified
+        spacing: therightcol.height-titlecol.height-30
+
+        Row {
+
+            id: titlecol
+
+            width: setctrl.leftcol
+            spacing: 10
+
+            PQButtonIcon {
+                id: helpicon
+                y: (parent.height/ttl.lineCount -height)/2
+                width: setctrl.makeHelpTextVisible ? 0 : 30
+                Behavior on width { NumberAnimation { duration: 200 } }
+                height: 30
+                opacity: setctrl.makeHelpTextVisible ? 0 : 1
+                Behavior on opacity { NumberAnimation { duration: 150 } }
+                clip: true
+                source: "image://svg/:/" + PQCLook.iconShade + "/help.svg" // qmllint disable unqualified
+                tooltip: setctrl.helptext
+                tooltipPartialTransparency: false
+                visible: width>0
+                onClicked: {
+                    settinginfomessage.show(setctrl.helptext) // qmllint disable unqualified
+                }
             }
+
+            PQTextXL {
+                id: ttl
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                text: setctrl.title
+                font.capitalization: Font.SmallCaps
+                width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40)
+                Behavior on width { NumberAnimation { duration: 200 } }
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            }
+
         }
 
-        PQTextXL {
-            id: ttl
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-            text: setctrl.title
-            font.capitalization: Font.SmallCaps
-            width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40)
-            Behavior on width { NumberAnimation { duration: 200 } }
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        PQButtonIcon {
+            width: 20
+            height: 20
+            opacity: mouseOver ? 1 : 0.5
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+            tooltip: qsTranslate("settingsmanager", "reset setting to default")
         }
 
     }
@@ -78,6 +99,7 @@ Row {
 
     Column {
 
+        id: therightcol
         width: setctrl.rightcol
 
         Item {
