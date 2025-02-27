@@ -355,6 +355,114 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                var valBIS = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScreenshot")
+                var valBISo = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundSolid")
+                var valBIU = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageUse")
+                var valBIT = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundFullyTransparent")
+                radio_real.checked = (valBIS==0 && valBIU==0 && valBIT==0)
+                radio_fake.checked = valBIS
+                radio_solid.checked = valBISo
+                radio_nobg.checked = valBIT
+                radio_custom.checked = valBIU
+
+                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundCustomOverlay")
+                accentusecheck.checked = (val == 0)
+                customusecheck.checked = (val == 1)
+
+                previewimage.source = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImagePath")
+                radio_bg_scaletofit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScale") == 1)
+                radio_bg_scaleandcrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScaleCrop") == 1)
+                radio_bg_stretch.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageStretch") == 1)
+                radio_bg_center.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageCenter") == 1)
+                radio_bg_tile.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageTile") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+
+                if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged() || radio_nobg.hasChanged()) {
+                    return true
+                }
+
+                if(accentusecheck.hasChanged() || customusecheck.hasChanged() || (customusecheck.checked && customuse.color != PQCSettings.interfaceBackgroundCustomOverlayColor)) {
+                    return true
+                }
+
+                if(previewimage.source !== "file:" + PQCSettings.interfaceBackgroundImagePath ||
+                   radio_bg_scaletofit.hasChanged() ||  radio_bg_scaleandcrop.hasChanged() ||
+                   radio_bg_stretch.hasChanged() || radio_bg_center.hasChanged() || radio_bg_tile.hasChanged()) {
+                    return true
+                }
+
+                return false
+            }
+
+            function load() {
+
+                radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent) // qmllint disable unqualified
+                radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
+                radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
+                radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
+                radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
+
+                accentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
+                customusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
+
+
+                /******************************/
+
+                if(PQCSettings.interfaceBackgroundImagePath !== "")
+                    previewimage.source = encodeURI("file:" + PQCSettings.interfaceBackgroundImagePath)
+                else
+                    previewimage.source = ""
+                radio_bg_scaletofit.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScale)
+                radio_bg_scaleandcrop.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScaleCrop)
+                radio_bg_stretch.loadAndSetDefault(PQCSettings.interfaceBackgroundImageStretch)
+                radio_bg_center.loadAndSetDefault(PQCSettings.interfaceBackgroundImageCenter)
+                radio_bg_tile.loadAndSetDefault(PQCSettings.interfaceBackgroundImageTile)
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked // qmllint disable unqualified
+                PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
+                PQCSettings.interfaceBackgroundSolid = radio_solid.checked
+                PQCSettings.interfaceBackgroundFullyTransparent = radio_nobg.checked
+
+                radio_real.saveDefault()
+                radio_fake.saveDefault()
+                radio_solid.saveDefault()
+                radio_custom.saveDefault()
+                radio_nobg.saveDefault()
+
+                PQCSettings.interfaceBackgroundCustomOverlay = customusecheck.checked
+                if(customusecheck.checked)
+                    PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b])
+
+                customusecheck.saveDefault()
+                accentusecheck.saveDefault()
+
+                /******************************/
+
+                PQCSettings.interfaceBackgroundImagePath = PQCScriptsFilesPaths.cleanPath(previewimage.source)
+                PQCSettings.interfaceBackgroundImageScale = radio_bg_scaletofit.checked
+                PQCSettings.interfaceBackgroundImageScaleCrop = radio_bg_scaleandcrop.checked
+                PQCSettings.interfaceBackgroundImageStretch = radio_bg_stretch.checked
+                PQCSettings.interfaceBackgroundImageCenter = radio_bg_center.checked
+                PQCSettings.interfaceBackgroundImageTile = radio_bg_tile.checked
+
+                radio_bg_scaletofit.saveDefault()
+                radio_bg_scaleandcrop.saveDefault()
+                radio_bg_stretch.saveDefault()
+                radio_bg_center.saveDefault()
+                radio_bg_tile.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -404,6 +512,38 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                radio_closeclick.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceCloseOnEmptyBackground") == 1)
+                radio_navclick.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigateOnEmptyBackground") == 1)
+                radio_toggledeco.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowDecorationOnEmptyBackground") == 1)
+                radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (radio_closeclick.hasChanged() || radio_navclick.hasChanged() || radio_toggledeco.hasChanged() || radio_noaction.hasChanged())
+            }
+
+            function load() {
+                radio_closeclick.loadAndSetDefault(PQCSettings.interfaceCloseOnEmptyBackground)
+                radio_navclick.loadAndSetDefault(PQCSettings.interfaceNavigateOnEmptyBackground)
+                radio_toggledeco.loadAndSetDefault(PQCSettings.interfaceWindowDecorationOnEmptyBackground)
+                radio_noaction.loadAndSetDefault(!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceCloseOnEmptyBackground = radio_closeclick.checked
+                PQCSettings.interfaceNavigateOnEmptyBackground = radio_navclick.checked
+                PQCSettings.interfaceWindowDecorationOnEmptyBackground = radio_toggledeco.checked
+
+                radio_closeclick.saveDefault()
+                radio_navclick.saveDefault()
+                radio_toggledeco.saveDefault()
+                radio_noaction.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -432,6 +572,26 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                check_blurbg.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBlurElementsInBackground") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return check_blurbg.hasChanged()
+            }
+
+            function load() {
+                check_blurbg.loadAndSetDefault(PQCSettings.interfaceBlurElementsInBackground)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceBlurElementsInBackground = check_blurbg.checked
+                check_blurbg.saveDefault()
+            }
+
         }
 
         Item {
@@ -445,7 +605,9 @@ Flickable {
         load()
 
     function handleEscape() {
-        catchEscape = false
+        set_bg.handleEscape()
+        set_emp.handleEscape()
+        set_blur.handleEscape()
     }
 
     function checkDefault() {
@@ -456,29 +618,7 @@ Flickable {
             return
         }
 
-        if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged() || radio_nobg.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(accentusecheck.hasChanged() || customusecheck.hasChanged() || (customusecheck.checked && customuse.color != PQCSettings.interfaceBackgroundCustomOverlayColor)) {
-            settingChanged = true
-            return
-        }
-
-        if(previewimage.source !== "file:" + PQCSettings.interfaceBackgroundImagePath ||
-           radio_bg_scaletofit.hasChanged() ||  radio_bg_scaleandcrop.hasChanged() ||
-           radio_bg_stretch.hasChanged() || radio_bg_center.hasChanged() || radio_bg_tile.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(radio_closeclick.hasChanged() || radio_navclick.hasChanged() || radio_toggledeco.hasChanged() || radio_noaction.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(check_blurbg.hasChanged()) {
+        if(set_bg.hasChanged() || set_emp.hasChanged() || set_blur.hasChanged()) {
             settingChanged = true
             return
         }
@@ -489,38 +629,9 @@ Flickable {
 
     function load() {
 
-        radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent) // qmllint disable unqualified
-        radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
-        radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
-        radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
-        radio_custom.loadAndSetDefault(PQCSettings.interfaceBackgroundImageUse)
-
-        accentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
-        customusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
-
-
-        /******************************/
-
-        if(PQCSettings.interfaceBackgroundImagePath !== "")
-            previewimage.source = encodeURI("file:" + PQCSettings.interfaceBackgroundImagePath)
-        else
-            previewimage.source = ""
-        radio_bg_scaletofit.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScale)
-        radio_bg_scaleandcrop.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScaleCrop)
-        radio_bg_stretch.loadAndSetDefault(PQCSettings.interfaceBackgroundImageStretch)
-        radio_bg_center.loadAndSetDefault(PQCSettings.interfaceBackgroundImageCenter)
-        radio_bg_tile.loadAndSetDefault(PQCSettings.interfaceBackgroundImageTile)
-
-        /******************************/
-
-        radio_closeclick.loadAndSetDefault(PQCSettings.interfaceCloseOnEmptyBackground)
-        radio_navclick.loadAndSetDefault(PQCSettings.interfaceNavigateOnEmptyBackground)
-        radio_toggledeco.loadAndSetDefault(PQCSettings.interfaceWindowDecorationOnEmptyBackground)
-        radio_noaction.loadAndSetDefault(!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
-
-        /******************************/
-
-        check_blurbg.loadAndSetDefault(PQCSettings.interfaceBlurElementsInBackground)
+        set_bg.load()
+        set_emp.load()
+        set_blur.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -529,55 +640,9 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked // qmllint disable unqualified
-        PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
-        PQCSettings.interfaceBackgroundSolid = radio_solid.checked
-        PQCSettings.interfaceBackgroundFullyTransparent = radio_nobg.checked
-
-        radio_real.saveDefault()
-        radio_fake.saveDefault()
-        radio_solid.saveDefault()
-        radio_custom.saveDefault()
-        radio_nobg.saveDefault()
-
-        PQCSettings.interfaceBackgroundCustomOverlay = customusecheck.checked
-        if(customusecheck.checked)
-            PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b])
-
-        customusecheck.saveDefault()
-        accentusecheck.saveDefault()
-
-        /******************************/
-
-        PQCSettings.interfaceBackgroundImagePath = PQCScriptsFilesPaths.cleanPath(previewimage.source)
-        PQCSettings.interfaceBackgroundImageScale = radio_bg_scaletofit.checked
-        PQCSettings.interfaceBackgroundImageScaleCrop = radio_bg_scaleandcrop.checked
-        PQCSettings.interfaceBackgroundImageStretch = radio_bg_stretch.checked
-        PQCSettings.interfaceBackgroundImageCenter = radio_bg_center.checked
-        PQCSettings.interfaceBackgroundImageTile = radio_bg_tile.checked
-
-        radio_bg_scaletofit.saveDefault()
-        radio_bg_scaleandcrop.saveDefault()
-        radio_bg_stretch.saveDefault()
-        radio_bg_center.saveDefault()
-        radio_bg_tile.saveDefault()
-
-        /******************************/
-
-        PQCSettings.interfaceCloseOnEmptyBackground = radio_closeclick.checked
-        PQCSettings.interfaceNavigateOnEmptyBackground = radio_navclick.checked
-        PQCSettings.interfaceWindowDecorationOnEmptyBackground = radio_toggledeco.checked
-
-        radio_closeclick.saveDefault()
-        radio_navclick.saveDefault()
-        radio_toggledeco.saveDefault()
-        radio_noaction.saveDefault()
-
-        /******************************/
-
-        PQCSettings.interfaceBlurElementsInBackground = check_blurbg.checked
-
-        check_blurbg.saveDefault()
+        set_bg.applyChanges()
+        set_emp.applyChanges()
+        set_blur.applyChanges()
 
         settingChanged = false
 

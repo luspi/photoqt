@@ -24,6 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -128,6 +129,7 @@ Flickable {
         checkDefault()
 
     signal popoutLoadDefault()
+    signal popoutResetToDefault()
     signal popoutSaveChanges()
 
     signal selectAllPopouts()
@@ -143,6 +145,8 @@ Flickable {
         spacing: 10
 
         PQSetting {
+
+            id: set_popout
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Popout")
@@ -281,6 +285,9 @@ Flickable {
                                         function onPopoutLoadDefault() {
                                             check.checked = PQCSettings[setting_top.pops[deleg.modelData][0]] // qmllint disable unqualified
                                         }
+                                        function onPopoutResetToDefault() {
+                                            check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor(setting_top.pops[deleg.modelData][0]) == 1) // qmllint disable unqualified
+                                        }
 
                                         function onPopoutSaveChanges() {
                                             PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked // qmllint disable unqualified
@@ -352,6 +359,29 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                setting_top.popoutResetToDefault()
+            }
+
+            function handleEscape() {
+                butselall.contextmenu.close()
+                butselnone.contextmenu.close()
+                butselinv.contextmenu.close()
+            }
+
+            function hasChanged() {
+                return (_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join(""))
+            }
+
+            function load() {
+                setting_top.popoutLoadDefault()
+            }
+
+            function applyChanges() {
+                setting_top.popoutSaveChanges()
+                _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+            }
+
         }
 
         /**********************************************************************/
@@ -395,6 +425,34 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                keepopen_fd_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutFileDialogNonModal")==1) // qmllint disable unqualified
+                keepopen_me_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutMapExplorerNonModal")==1)
+                keepopen_sm_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutSettingsManagerNonModal")==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || keepopen_sm_check.hasChanged())
+            }
+
+            function load() {
+                keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
+                keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
+                keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked // qmllint disable unqualified
+                PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
+                PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
+                keepopen_fd_check.saveDefault()
+                keepopen_me_check.saveDefault()
+                keepopen_sm_check.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -422,6 +480,35 @@ Flickable {
 
             ]
 
+            Timer {
+                interval: 100
+                id: saveDefaultCheckTimer
+                onTriggered: {
+                    setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
+                }
+            }
+
+            onResetToDefaults: {
+                checksmall.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutWhenWindowIsSmall")==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return checksmall.hasChanged()
+            }
+
+            function load() {
+                checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
+                saveDefaultCheckTimer.restart()
+            }
+
+            function applyChanges() {
+                PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
+                checksmall.saveDefault()
+            }
+
         }
 
         Item {
@@ -435,9 +522,9 @@ Flickable {
         load()
 
     function handleEscape() {
-        butselall.contextmenu.close()
-        butselnone.contextmenu.close()
-        butselinv.contextmenu.close()
+        set_popout.handleEscape()
+        set_keep.handleEscape()
+        set_small.handleEscape()
     }
 
     function checkDefault() {
@@ -448,12 +535,7 @@ Flickable {
             return
         }
 
-        if(_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) {
-            settingChanged = true
-            return
-        }
-
-        if(keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || keepopen_sm_check.hasChanged() || checksmall.hasChanged()) {
+        if(set_popout.hasChanged() || set_keep.hasChanged() || set_small.hasChanged()) {
             settingChanged = true
             return
         }
@@ -467,25 +549,12 @@ Flickable {
         id: loadtimer
         onTriggered: {
 
-            setting_top.popoutLoadDefault()
-
-            keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
-            keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
-            keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
-            checksmall.loadAndSetDefault(PQCSettings.interfacePopoutWhenWindowIsSmall)
-
-            saveDefaultCheckTimer.restart()
+            set_popout.load()
+            set_keep.load()
+            set_small.load()
 
             settingChanged = false
             settingsLoaded = true
-        }
-    }
-
-    Timer {
-        interval: 100
-        id: saveDefaultCheckTimer
-        onTriggered: {
-            setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
         }
     }
 
@@ -495,17 +564,9 @@ Flickable {
 
     function applyChanges() {
 
-        setting_top.popoutSaveChanges()
-        PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked // qmllint disable unqualified
-        PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
-        PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
-        PQCSettings.interfacePopoutWhenWindowIsSmall = checksmall.checked
-
-        _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
-        keepopen_fd_check.saveDefault()
-        keepopen_me_check.saveDefault()
-        keepopen_sm_check.saveDefault()
-        checksmall.saveDefault()
+        set_popout.applyChanges()
+        set_keep.applyChanges()
+        set_small.applyChanges()
 
         settingChanged = false
 
