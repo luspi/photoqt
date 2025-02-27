@@ -42,7 +42,7 @@ Row {
 
         width: setctrl.leftcol
 
-        spacing: therightcol.height-titlecol.height-30
+        spacing: Math.max(0, therightcol.height-titlecol.height-30)
 
         Row {
 
