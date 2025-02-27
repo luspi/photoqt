@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -91,6 +92,27 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                thumb_size.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSize"))
+            }
+
+            function handleEscape() {
+                thumb_size.acceptValue()
+            }
+
+            function hasChanged() {
+                return thumb_size.hasChanged()
+            }
+
+            function load() {
+                thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) // qmllint disable unqualified
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsSize = thumb_size.value // qmllint disable unqualified
+                thumb_size.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -144,6 +166,40 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                var valCropToFit = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCropToFit")
+                var valSameHeight = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSameHeightVaryWidth")
+                var valKeepSmall = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSmallThumbnailsKeepSmall")
+                thumb_fit.checked = (valCropToFit==0 && valSameHeight==0)
+                thumb_crop.checked = (valCropToFit==1)
+                thumb_sameheight.checked = (valSameHeight==1)
+                thumb_small.checked = (valKeepSmall==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (thumb_fit.hasChanged() || thumb_crop.hasChanged() || thumb_small.hasChanged() || thumb_sameheight.hasChanged())
+            }
+
+            function load() {
+                thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
+                thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
+                thumb_sameheight.loadAndSetDefault(PQCSettings.thumbnailsSameHeightVaryWidth)
+                thumb_small.loadAndSetDefault(PQCSettings.thumbnailsSmallThumbnailsKeepSmall)
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsCropToFit = thumb_crop.checked
+                PQCSettings.thumbnailsSameHeightVaryWidth = thumb_sameheight.checked
+                PQCSettings.thumbnailsSmallThumbnailsKeepSmall = thumb_small.checked
+                thumb_fit.saveDefault()
+                thumb_crop.saveDefault()
+                thumb_sameheight.saveDefault()
+                thumb_small.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -177,6 +233,29 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                thumb_actual.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsIconsOnly")==0)
+                thumb_icon.checked = !thumb_actual.checked
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (thumb_actual.hasChanged() || thumb_icon.hasChanged())
+            }
+
+            function load() {
+                thumb_actual.loadAndSetDefault(!PQCSettings.thumbnailsIconsOnly)
+                thumb_icon.loadAndSetDefault(PQCSettings.thumbnailsIconsOnly)
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsIconsOnly = thumb_icon.checked
+                thumb_actual.saveDefault()
+                thumb_icon.saveDefault()
+            }
 
         }
 
@@ -247,6 +326,35 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                label_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsFilename")==1)
+                label_fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsFontSize"))
+                thumb_opaque.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsInactiveTransparent")==1)
+            }
+
+            function handleEscape() {
+                label_fontsize.acceptValue()
+            }
+
+            function hasChanged() {
+                return (label_enable.hasChanged() || label_fontsize.hasChanged() || thumb_opaque.hasChanged())
+            }
+
+            function load() {
+                label_enable.loadAndSetDefault(PQCSettings.thumbnailsFilename)
+                label_fontsize.loadAndSetDefault(PQCSettings.thumbnailsFontSize)
+                thumb_opaque.loadAndSetDefault(PQCSettings.thumbnailsInactiveTransparent)
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsFilename = label_enable.checked
+                PQCSettings.thumbnailsFontSize = label_fontsize.value
+                PQCSettings.thumbnailsInactiveTransparent = thumb_opaque.checked
+                label_enable.saveDefault()
+                label_fontsize.saveDefault()
+                thumb_opaque.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -271,6 +379,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                tooltips_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsTooltip")==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return tooltips_show.hasChanged()
+            }
+
+            function load() {
+                tooltips_show.loadAndSetDefault(PQCSettings.thumbnailsTooltip)
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsTooltip = tooltips_show.checked
+                tooltips_show.saveDefault()
+            }
+
         }
 
     }
@@ -279,8 +407,11 @@ Flickable {
         load()
 
     function handleEscape() {
-        thumb_size.acceptValue()
-        label_fontsize.acceptValue()
+        set_size.handleEscape()
+        set_scale.handleEscape()
+        set_icn.handleEscape()
+        set_label.handleEscape()
+        set_ttip.handleEscape()
     }
 
     function checkDefault() {
@@ -291,29 +422,18 @@ Flickable {
             return
         }
 
-        settingChanged = (thumb_size.hasChanged() || thumb_fit.hasChanged() || thumb_crop.hasChanged() || thumb_small.hasChanged() ||
-                          thumb_actual.hasChanged() || thumb_icon.hasChanged() || label_enable.hasChanged() || label_fontsize.hasChanged() ||
-                          tooltips_show.hasChanged() || thumb_sameheight.hasChanged())
+        settingChanged = (set_size.hasChanged() || set_scale.hasChanged() || set_icn.hasChanged() ||
+                          set_label.hasChanged() || set_ttip.hasChanged())
 
     }
 
     function load() {
 
-        thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) // qmllint disable unqualified
-
-        thumb_fit.loadAndSetDefault(!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
-        thumb_crop.loadAndSetDefault(PQCSettings.thumbnailsCropToFit)
-        thumb_sameheight.loadAndSetDefault(PQCSettings.thumbnailsSameHeightVaryWidth)
-        thumb_small.loadAndSetDefault(PQCSettings.thumbnailsSmallThumbnailsKeepSmall)
-
-        thumb_actual.loadAndSetDefault(!PQCSettings.thumbnailsIconsOnly)
-        thumb_icon.loadAndSetDefault(PQCSettings.thumbnailsIconsOnly)
-
-        label_enable.loadAndSetDefault(PQCSettings.thumbnailsFilename)
-        label_fontsize.loadAndSetDefault(PQCSettings.thumbnailsFontSize)
-        thumb_opaque.loadAndSetDefault(PQCSettings.thumbnailsInactiveTransparent)
-
-        tooltips_show.loadAndSetDefault(PQCSettings.thumbnailsTooltip)
+        set_size.load()
+        set_scale.load()
+        set_icn.load()
+        set_label.load()
+        set_ttip.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -322,31 +442,10 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSize = thumb_size.value // qmllint disable unqualified
-
-        PQCSettings.thumbnailsCropToFit = thumb_crop.checked
-        PQCSettings.thumbnailsSameHeightVaryWidth = thumb_sameheight.checked
-        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = thumb_small.checked
-
-        PQCSettings.thumbnailsIconsOnly = thumb_icon.checked
-
-        PQCSettings.thumbnailsFilename = label_enable.checked
-        PQCSettings.thumbnailsFontSize = label_fontsize.value
-        PQCSettings.thumbnailsInactiveTransparent = thumb_opaque.checked
-
-        PQCSettings.thumbnailsTooltip = tooltips_show.checked
-
-        thumb_size.saveDefault()
-        thumb_fit.saveDefault()
-        thumb_crop.saveDefault()
-        thumb_sameheight.saveDefault()
-        thumb_small.saveDefault()
-        thumb_actual.saveDefault()
-        thumb_icon.saveDefault()
-        label_enable.saveDefault()
-        label_fontsize.saveDefault()
-        thumb_opaque.saveDefault()
-        tooltips_show.saveDefault()
+        set_size.applyChanges()
+        set_scale.applyChanges()
+        set_icn.applyChanges()
+        set_label.applyChanges()
 
         settingChanged = false
 

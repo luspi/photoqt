@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -87,6 +88,28 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                spacing_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSpacing"))
+            }
+
+            function handleEscape() {
+                spacing_slider.closeContextMenus()
+                spacing_slider.acceptValue()
+            }
+
+            function hasChanged() {
+                return spacing_slider.hasChanged()
+            }
+
+            function load() {
+                spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) // qmllint disable unqualified
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsSpacing = spacing_slider.value // qmllint disable unqualified
+                spacing_slider.saveDefault()
+            }
 
         }
 
@@ -168,6 +191,60 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                var val = ""+PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimation")
+                highlight_invertbg.checked = (val.includes("invertbg"))
+                highlight_invertlabel.checked = (val.includes("invertlabel"))
+                highlight_line.checked = (val.includes("line"))
+                highlight_magnify.checked = (val.includes("magnify"))
+                highlight_liftup_check.checked = (val.includes("liftup"))
+                highlight_liftup_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimationLiftUp"))
+            }
+
+            function handleEscape() {
+                highlight_liftup_slider.closeContextMenus()
+                highlight_liftup_slider.acceptValue()
+            }
+
+            function hasChanged() {
+                return (highlight_invertbg.hasChanged() || highlight_invertlabel.hasChanged() ||
+                        highlight_line.hasChanged() || highlight_magnify.hasChanged() ||
+                        highlight_liftup_check.hasChanged() ||highlight_liftup_slider.hasChanged())
+            }
+
+            function load() {
+                highlight_invertbg.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertbg"))
+                highlight_invertlabel.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel"))
+                highlight_line.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("line"))
+                highlight_magnify.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("magnify"))
+                highlight_liftup_check.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("liftup"))
+                highlight_liftup_slider.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimationLiftUp)
+            }
+
+            function applyChanges() {
+                var opt = []
+                if(highlight_liftup_check.checked)
+                    opt.push("liftup")
+                if(highlight_invertbg.checked)
+                    opt.push("invertbg")
+                if(highlight_invertlabel.checked)
+                    opt.push("invertlabel")
+                if(highlight_line.checked)
+                    opt.push("line")
+                if(highlight_magnify.checked)
+                    opt.push("magnify")
+                PQCSettings.thumbnailsHighlightAnimation = opt
+
+                PQCSettings.thumbnailsHighlightAnimationLiftUp = highlight_liftup_slider.value
+
+                highlight_invertbg.saveDefault()
+                highlight_invertlabel.saveDefault()
+                highlight_line.saveDefault()
+                highlight_magnify.saveDefault()
+                highlight_liftup_check.saveDefault()
+                highlight_liftup_slider.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -191,6 +268,26 @@ Flickable {
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                thumb_center.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCenterOnActive")==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return thumb_center.hasChanged()
+            }
+
+            function load() {
+                thumb_center.loadAndSetDefault(PQCSettings.thumbnailsCenterOnActive)
+            }
+
+            function applyChanges() {
+                PQCSettings.thumbnailsCenterOnActive = thumb_center.checked
+                thumb_center.saveDefault()
+            }
 
         }
 
@@ -235,6 +332,41 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsVisibility")
+                vis_needed.checked = (val===0)
+                vis_always.checked = (val===1)
+                vis_zoomed.checked = (val===2)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (vis_needed.hasChanged() || vis_always.hasChanged() || vis_zoomed.hasChanged())
+            }
+
+            function load() {
+                vis_needed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===0)
+                vis_always.loadAndSetDefault(PQCSettings.thumbnailsVisibility===1)
+                vis_zoomed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===2)
+            }
+
+            function applyChanges() {
+
+                if(vis_needed.checked)
+                    PQCSettings.thumbnailsVisibility = 0
+                else if(vis_always.checked)
+                    PQCSettings.thumbnailsVisibility = 1
+                else if(vis_zoomed.checked)
+                    PQCSettings.thumbnailsVisibility = 2
+
+
+                vis_needed.saveDefault()
+                vis_always.saveDefault()
+                vis_zoomed.saveDefault()
+            }
+
         }
 
     }
@@ -243,10 +375,10 @@ Flickable {
         load()
 
     function handleEscape() {
-        spacing_slider.closeContextMenus()
-        spacing_slider.acceptValue()
-        highlight_liftup_slider.closeContextMenus()
-        highlight_liftup_slider.acceptValue()
+        set_spacing.handleEscape()
+        set_high.handleEscape()
+        set_cent.handleEscape()
+        set_vis.handleEscape()
     }
 
     function checkDefault() {
@@ -257,29 +389,16 @@ Flickable {
             return
         }
 
-        settingChanged = (spacing_slider.hasChanged() || highlight_invertbg.hasChanged() || highlight_invertlabel.hasChanged() ||
-                          highlight_line.hasChanged() || highlight_magnify.hasChanged() || highlight_liftup_check.hasChanged() ||
-                          highlight_liftup_slider.hasChanged() || thumb_center.hasChanged() || vis_needed.hasChanged() ||
-                          vis_always.hasChanged() || vis_zoomed.hasChanged())
+        settingChanged = (set_spacing.hasChanged() || set_high.hasChanged() || set_cent.hasChanged() || set_vis.hasChanged())
 
     }
 
     function load() {
 
-        spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) // qmllint disable unqualified
-
-        highlight_invertbg.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertbg"))
-        highlight_invertlabel.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel"))
-        highlight_line.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("line"))
-        highlight_magnify.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("magnify"))
-        highlight_liftup_check.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimation.includes("liftup"))
-        highlight_liftup_slider.loadAndSetDefault(PQCSettings.thumbnailsHighlightAnimationLiftUp)
-
-        thumb_center.loadAndSetDefault(PQCSettings.thumbnailsCenterOnActive)
-
-        vis_needed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===0)
-        vis_always.loadAndSetDefault(PQCSettings.thumbnailsVisibility===1)
-        vis_zoomed.loadAndSetDefault(PQCSettings.thumbnailsVisibility===2)
+        set_spacing.load()
+        set_high.load()
+        set_cent.load()
+        set_vis.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -288,43 +407,10 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.thumbnailsSpacing = spacing_slider.value // qmllint disable unqualified
-
-        var opt = []
-        if(highlight_liftup_check.checked)
-            opt.push("liftup")
-        if(highlight_invertbg.checked)
-            opt.push("invertbg")
-        if(highlight_invertlabel.checked)
-            opt.push("invertlabel")
-        if(highlight_line.checked)
-            opt.push("line")
-        if(highlight_magnify.checked)
-            opt.push("magnify")
-        PQCSettings.thumbnailsHighlightAnimation = opt
-
-        PQCSettings.thumbnailsHighlightAnimationLiftUp = highlight_liftup_slider.value
-
-        PQCSettings.thumbnailsCenterOnActive = thumb_center.checked
-
-        if(vis_needed.checked)
-            PQCSettings.thumbnailsVisibility = 0
-        else if(vis_always.checked)
-            PQCSettings.thumbnailsVisibility = 1
-        else if(vis_zoomed.checked)
-            PQCSettings.thumbnailsVisibility = 2
-
-        spacing_slider.saveDefault()
-        highlight_invertbg.saveDefault()
-        highlight_invertlabel.saveDefault()
-        highlight_line.saveDefault()
-        highlight_magnify.saveDefault()
-        highlight_liftup_check.saveDefault()
-        highlight_liftup_slider.saveDefault()
-        thumb_center.saveDefault()
-        vis_needed.saveDefault()
-        vis_always.saveDefault()
-        vis_zoomed.saveDefault()
+        set_spacing.applyChanges()
+        set_high.applyChanges()
+        set_cent.applyChanges()
+        set_vis.applyChanges()
 
         settingChanged = false
 
