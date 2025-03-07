@@ -85,6 +85,8 @@ Flickable {
 
             id: set_con
 
+            showResetButton: false
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Context menu")
 
@@ -366,6 +368,10 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                check_dupl.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("mainmenuShowExternal")==1)
+            }
 
         }
 

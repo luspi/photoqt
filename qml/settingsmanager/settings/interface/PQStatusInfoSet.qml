@@ -24,6 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -324,6 +325,70 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+
+                status_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShow") == 1) // qmllint disable unqualified
+
+                model.clear()
+                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList").split(":://::")
+                console.warn("####", setprops)
+                for(var j = 0; j < setprops.length; ++j)
+                    model.append({"name": setprops[j], "index": j})
+
+                fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoFontSize"))
+
+                // this is needed to check for model changes
+                setting_top.checkDefault()
+
+            }
+
+            function handleEscape() {
+                but_add.contextmenu.close()
+                fontsize.closeContextMenus()
+                fontsize.acceptValue()
+                combo_add.popup.close()
+            }
+
+            function hasChanged() {
+
+                var opts = []
+                for(var i = 0; i < model.count; ++i)
+                    opts.push(model.get(i).name)
+
+                return (status_show.hasChanged() ||
+                        !setting_top.areTwoListsEqual(opts, PQCSettings.interfaceStatusInfoList) ||
+                        fontsize.hasChanged())
+            }
+
+            function load() {
+
+                status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow) // qmllint disable unqualified
+
+                model.clear()
+                var setprops = PQCSettings.interfaceStatusInfoList
+                for(var j = 0; j < setprops.length; ++j)
+                    model.append({"name": setprops[j], "index": j})
+
+                fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceStatusInfoShow = status_show.checked // qmllint disable unqualified
+
+                var opts = []
+                for(var i = 0; i < model.count; ++i)
+                    opts.push(model.get(i).name)
+                PQCSettings.interfaceStatusInfoList = opts
+
+                PQCSettings.interfaceStatusInfoFontSize = fontsize.value
+
+                fontsize.saveDefault()
+                status_show.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -399,6 +464,61 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+
+                var val_hide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHide")
+                var val_topedge = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHideTopEdge")
+                var val_timeout = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHideTimeout")/1000
+
+                autohide_always.checked = (val_hide == 0 && val_topedge == 0)
+                autohide_anymove.checked = (val_hide == 1 && val_topedge == 0)
+                autohide_topedge.checked = (val_topedge == 1)
+                autohide_timeout.setValue(val_timeout)
+
+                imgchange.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShowImageChange") == 1)
+
+            }
+
+            function handleEscape() {
+                autohide_timeout.closeContextMenus()
+                autohide_timeout.acceptValue()
+            }
+
+            function hasChanged() {
+
+                return (autohide_always.hasChanged() ||
+                        autohide_topedge.hasChanged() ||
+                        autohide_anymove.hasChanged() ||
+                        autohide_timeout.hasChanged() ||
+                        imgchange.hasChanged())
+
+            }
+
+            function load() {
+
+                autohide_always.loadAndSetDefault(!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+                autohide_anymove.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+                autohide_topedge.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTopEdge)
+                autohide_timeout.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTimeout/1000)
+                imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceStatusInfoAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
+                PQCSettings.interfaceStatusInfoAutoHideTopEdge = autohide_topedge.checked
+                PQCSettings.interfaceStatusInfoAutoHideTimeout = autohide_timeout.value*1000
+                PQCSettings.interfaceStatusInfoShowImageChange = imgchange.checked
+
+                autohide_always.saveDefault()
+                autohide_anymove.saveDefault()
+                autohide_topedge.saveDefault()
+                autohide_timeout.saveDefault()
+                imgchange.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -406,6 +526,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_pos
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Position")
@@ -420,6 +542,30 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                var opts = ["left", "center", "right"]
+                infoalignment.currentIndex = Math.max(0, opts.indexOf(""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoPosition")))
+            }
+
+            function handleEscape() {
+                infoalignment.popup.close()
+            }
+
+            function hasChanged() {
+                return infoalignment.hasChanged()
+            }
+
+            function load() {
+                infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoPosition==="center" ? 1 : (PQCSettings.interfaceStatusInfoPosition==="right" ? 2 : 0))
+            }
+
+            function applyChanges() {
+                var opts = ["left", "center", "right"]
+                PQCSettings.interfaceStatusInfoPosition = ""
+                PQCSettings.interfaceStatusInfoPosition = opts[infoalignment.currentIndex]
+                infoalignment.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -427,6 +573,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_win
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Window management")
@@ -441,6 +589,26 @@ Flickable {
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                managewindow.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoManageWindow")==1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return managewindow.hasChanged()
+            }
+
+            function load() {
+                managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
+                managewindow.saveDefault()
+            }
 
         }
 
@@ -458,13 +626,10 @@ Flickable {
         load()
 
     function handleEscape() {
-        but_add.contextmenu.close()
-        fontsize.closeContextMenus()
-        fontsize.acceptValue()
-        autohide_timeout.closeContextMenus()
-        autohide_timeout.acceptValue()
-        combo_add.popup.close()
-        infoalignment.popup.close()
+        set_status.handleEscape()
+        set_hide.handleEscape()
+        set_pos.handleEscape()
+        set_win.handleEscape()
     }
 
     // do not make this function typed, it will break
@@ -495,53 +660,17 @@ Flickable {
             return
         }
 
-        if(status_show.checked !== PQCSettings.interfaceStatusInfoShow) {
-            settingChanged = true
-            return
-        }
-
-        var opts = []
-        for(var i = 0; i < model.count; ++i)
-            opts.push(model.get(i).name)
-
-        if(!areTwoListsEqual(opts, PQCSettings.interfaceStatusInfoList)) {
-            settingChanged = true
-            return
-        }
-
-        if(fontsize.hasChanged() || autohide_always.hasChanged() || autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_timeout.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(imgchange.hasChanged() || managewindow.hasChanged() || infoalignment.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_status.hasChanged() || set_hide.hasChanged() ||
+                          set_pos.hasChanged() || set_win.hasChanged())
 
     }
 
     function load() {
 
-        status_show.checked = PQCSettings.interfaceStatusInfoShow // qmllint disable unqualified
-
-        model.clear()
-        var setprops = PQCSettings.interfaceStatusInfoList
-        for(var j = 0; j < setprops.length; ++j)
-            model.append({"name": setprops[j], "index": j})
-
-        fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
-
-        autohide_always.loadAndSetDefault(!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
-        autohide_anymove.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge)
-        autohide_topedge.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTopEdge)
-        autohide_timeout.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTimeout/1000)
-
-        imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
-        managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
-        infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoPosition==="center" ? 1 : (PQCSettings.interfaceStatusInfoPosition==="right" ? 2 : 0))
+        set_status.load()
+        set_hide.load()
+        set_pos.load()
+        set_win.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -550,33 +679,10 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceStatusInfoShow = status_show.checked // qmllint disable unqualified
-
-        var opts = []
-        for(var i = 0; i < model.count; ++i)
-            opts.push(model.get(i).name)
-        PQCSettings.interfaceStatusInfoList = opts
-
-        PQCSettings.interfaceStatusInfoFontSize = fontsize.value
-        PQCSettings.interfaceStatusInfoAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
-        PQCSettings.interfaceStatusInfoAutoHideTopEdge = autohide_topedge.checked
-        PQCSettings.interfaceStatusInfoAutoHideTimeout = autohide_timeout.value*1000
-        PQCSettings.interfaceStatusInfoShowImageChange = imgchange.checked
-        PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
-
-        opts = ["left", "center", "right"]
-        PQCSettings.interfaceStatusInfoPosition = ""
-        PQCSettings.interfaceStatusInfoPosition = opts[infoalignment.currentIndex]
-
-        fontsize.saveDefault()
-        autohide_always.saveDefault()
-        autohide_anymove.saveDefault()
-        autohide_topedge.saveDefault()
-        autohide_timeout.saveDefault()
-
-        imgchange.saveDefault()
-        managewindow.saveDefault()
-        infoalignment.saveDefault()
+        set_status.applyChanges()
+        set_hide.applyChanges()
+        set_pos.applyChanges()
+        set_win.applyChanges()
 
         settingChanged = false
 

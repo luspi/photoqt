@@ -34,6 +34,8 @@ Row {
     property alias content: contcol.children
     property int contentSpacing: contcol.spacing
 
+    property bool showResetButton: true
+
     property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings // qmllint disable unqualified
 
     signal resetToDefaults()
@@ -74,23 +76,11 @@ Row {
                 font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
                 text: setctrl.title
                 font.capitalization: Font.SmallCaps
-                width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40)
+                width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40) - resetbutton.width
                 Behavior on width { NumberAnimation { duration: 200 } }
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             }
 
-        }
-
-        PQButtonIcon {
-            width: 20
-            height: 20
-            opacity: mouseOver ? 1 : 0.5
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
-            tooltip: qsTranslate("settingsmanager", "reset default values")
-            onClicked: (pos) => {
-                setctrl.resetToDefaults()
-            }
         }
 
     }
@@ -146,6 +136,21 @@ Row {
 
             width: setctrl.rightcol
 
+        }
+
+        PQButtonIcon {
+            id: resetbutton
+            x: setctrl.rightcol - width - 10
+            width: 20
+            height: 20
+            visible: setctrl.showResetButton
+            opacity: mouseOver ? 1 : 0.5
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+            tooltip: qsTranslate("settingsmanager", "reset to default values")
+            onClicked: (pos) => {
+                setctrl.resetToDefaults()
+            }
         }
 
     }

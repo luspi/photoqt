@@ -24,6 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -92,6 +93,8 @@ Flickable {
         spacing: 10
 
         PQSetting {
+
+            id: set_edges
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Edges")
@@ -238,6 +241,40 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                current["top"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeTopAction")
+                current["left"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeLeftAction")
+                current["right"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeRightAction")
+                current["bottom"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeBottomAction")
+                currentChanged()
+            }
+
+            function handleEscape() {
+                themenu.close()
+            }
+
+            function hasChanged() {
+                return (current["top"] !== PQCSettings.interfaceEdgeTopAction ||
+                        current["left"] !== PQCSettings.interfaceEdgeLeftAction ||
+                        current["right"] !== PQCSettings.interfaceEdgeRightAction ||
+                        current["bottom"] !== PQCSettings.interfaceEdgeBottomAction)
+            }
+
+            function load() {
+                current["top"] = PQCSettings.interfaceEdgeTopAction // qmllint disable unqualified
+                current["left"] = PQCSettings.interfaceEdgeLeftAction
+                current["right"] = PQCSettings.interfaceEdgeRightAction
+                current["bottom"] = PQCSettings.interfaceEdgeBottomAction
+                currentChanged()
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceEdgeTopAction = current["top"] // qmllint disable unqualified
+                PQCSettings.interfaceEdgeLeftAction = current["left"]
+                PQCSettings.interfaceEdgeRightAction = current["right"]
+                PQCSettings.interfaceEdgeBottomAction = current["bottom"]
+            }
+
         }
 
         /**********************************************************************/
@@ -266,6 +303,29 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                sensitivity.setValue(PQCScriptsConfig.getDefaultSettingValueFor("interfaceHotEdgeSize")*5)
+            }
+
+            function handleEscape() {
+                sensitivity.acceptValue()
+                sensitivity.closeContextMenus()
+            }
+
+            function hasChanged() {
+                return sensitivity.hasChanged()
+            }
+
+            function load() {
+                sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize*5)
+                PQCNotify.spinBoxPassKeyEvents = false
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceHotEdgeSize = Math.round(sensitivity.value/5)
+                sensitivity.saveDefault()
+            }
 
         }
 
@@ -325,9 +385,8 @@ Flickable {
         themenu.close()
 
     function handleEscape() {
-        themenu.close()
-        sensitivity.acceptValue()
-        sensitivity.closeContextMenus()
+        set_edges.handleEscape()
+        set_sens.handleEscape()
     }
 
     function checkDefault() {
@@ -338,30 +397,14 @@ Flickable {
             return
         }
 
-        if(current["top"] !== PQCSettings.interfaceEdgeTopAction ||
-                current["left"] !== PQCSettings.interfaceEdgeLeftAction ||
-                current["right"] !== PQCSettings.interfaceEdgeRightAction ||
-                current["bottom"] !== PQCSettings.interfaceEdgeBottomAction ||
-                sensitivity.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_edges.hasChanged()||set_sens.hasChanged())
 
     }
 
     function load() {
 
-        current["top"] = PQCSettings.interfaceEdgeTopAction // qmllint disable unqualified
-        current["left"] = PQCSettings.interfaceEdgeLeftAction
-        current["right"] = PQCSettings.interfaceEdgeRightAction
-        current["bottom"] = PQCSettings.interfaceEdgeBottomAction
-        currentChanged()
-
-        sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize*5)
-
-        PQCNotify.spinBoxPassKeyEvents = false
+        set_edges.load()
+        set_sens.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -370,13 +413,8 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceEdgeTopAction = current["top"] // qmllint disable unqualified
-        PQCSettings.interfaceEdgeLeftAction = current["left"]
-        PQCSettings.interfaceEdgeRightAction = current["right"]
-        PQCSettings.interfaceEdgeBottomAction = current["bottom"]
-
-        PQCSettings.interfaceHotEdgeSize = Math.round(sensitivity.value/5)
-        sensitivity.saveDefault()
+        set_edges.applyChanges()
+        set_sens.applyChanges()
 
         settingChanged = false
 
