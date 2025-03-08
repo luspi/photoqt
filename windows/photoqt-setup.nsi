@@ -1,5 +1,5 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-; Copyright (C) 2011-2021 Lukas Spies
+; Copyright (C) 2011-2025 Lukas Spies
 ; Contact: http://photoqt.org
 ;
 ; This file is part of PhotoQt.
@@ -123,7 +123,7 @@ Section "PhotoQt" SecDummy
 
     ;The output path for where to install files to.
     SetOutPath "$INSTDIR"
-    
+
     ;We start by removing existing files.
     !insertmacro UNINSTALL.NEW_PREUNINSTALL "$INSTDIR"
 
@@ -1368,8 +1368,9 @@ Section "Uninstall"
 
     ;begin uninstall
     !insertmacro UNINSTALL.NEW_UNINSTALL "$OUTDIR"
-    
+
     DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
+    DeleteRegKey "Software\PhotoQt" "Software\PhotoQt"
 
     ; Remove environment variables
     EnVar::Delete "PHOTOQT_MAGICK_CODER_MODULE_PATH"

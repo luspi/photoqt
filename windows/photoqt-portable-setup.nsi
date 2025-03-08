@@ -56,7 +56,7 @@ Section
 	File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\"
 
 	; the directory of the executable is passed on as we store config/cache data there
-	ExecWait '"$pluginsdir\photoqt.exe" "$exedir"'
+	ExecWait '"$pluginsdir\photoqt.exe" "$exedir" "$CMDLINE"'
 
 	SetOutPath $temp
 
