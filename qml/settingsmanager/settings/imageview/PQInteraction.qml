@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -190,6 +191,69 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+
+                zoomspeed.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeed")) // qmllint disable unqualified
+                zoom_rel.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeedRelative") == 1)
+                zoom_abs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeedRelative") == 0)
+                minzoom_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMinEnabled") == 1)
+                minzoom_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMin"))
+                maxzoom_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMaxEnabled") == 1)
+                maxzoom_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMax"))
+                zoom_mousepos.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomToCenter") == 0)
+                zoom_imcent.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomToCenter") == 1)
+
+            }
+
+            function handleEscape() {
+                zoomspeed.closeContextMenus()
+                zoomspeed.acceptValue()
+                minzoom_slider.closeContextMenus()
+                minzoom_slider.acceptValue()
+                maxzoom_slider.closeContextMenus()
+                maxzoom_slider.acceptValue()
+            }
+
+            function hasChanged() {
+                return (zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
+                        zoom_rel.hasChanged() || zoom_abs.hasChanged() || maxzoom_check.hasChanged() ||
+                        maxzoom_slider.hasChanged() || zoom_mousepos.hasChanged() || zoom_imcent.hasChanged())
+            }
+
+            function load() {
+                zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) // qmllint disable unqualified
+                zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
+                zoom_abs.loadAndSetDefault(!PQCSettings.imageviewZoomSpeedRelative)
+                minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
+                minzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMin)
+                maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
+                maxzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMax)
+                zoom_mousepos.loadAndSetDefault(!PQCSettings.imageviewZoomToCenter)
+                zoom_imcent.loadAndSetDefault(PQCSettings.imageviewZoomToCenter)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.imageviewZoomSpeed = zoomspeed.value // qmllint disable unqualified
+                PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
+                PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
+                PQCSettings.imageviewZoomMin = minzoom_slider.value
+                PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked
+                PQCSettings.imageviewZoomMax = maxzoom_slider.value
+                PQCSettings.imageviewZoomToCenter = zoom_imcent.checked
+
+                zoomspeed.saveDefault()
+                zoom_rel.saveDefault()
+                zoom_abs.saveDefault()
+                minzoom_check.saveDefault()
+                minzoom_slider.saveDefault()
+                maxzoom_check.saveDefault()
+                maxzoom_slider.saveDefault()
+                zoom_mousepos.saveDefault()
+                zoom_imcent.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -234,6 +298,31 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                minimap.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewShowMinimap")==1)
+                minimapsizelevel.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMinimapSizeLevel"))
+            }
+
+            function handleEscape() {
+                minimapsizelevel.popup.close()
+            }
+
+            function hasChanged() {
+                return (minimap.hasChanged() || minimapsizelevel.hasChanged())
+            }
+
+            function load() {
+                minimap.loadAndSetDefault(PQCSettings.imageviewShowMinimap)
+                minimapsizelevel.loadAndSetDefault(PQCSettings.imageviewMinimapSizeLevel)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewShowMinimap = minimap.checked
+                PQCSettings.imageviewMinimapSizeLevel = minimapsizelevel.currentIndex
+                minimap.saveDefault()
+                minimapsizelevel.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -257,6 +346,26 @@ Flickable {
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                mirroranim.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMirrorAnimate") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return mirroranim.hasChanged()
+            }
+
+            function load() {
+                mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewMirrorAnimate = mirroranim.checked
+                mirroranim.saveDefault()
+            }
 
         }
 
@@ -282,6 +391,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                floatingnav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationFloating") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return floatingnav.hasChanged()
+            }
+
+            function load() {
+                floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceNavigationFloating = floatingnav.checked
+                floatingnav.saveDefault()
+            }
+
         }
 
     }
@@ -290,13 +419,10 @@ Flickable {
         load()
 
     function handleEscape() {
-        zoomspeed.closeContextMenus()
-        zoomspeed.acceptValue()
-        minzoom_slider.closeContextMenus()
-        minzoom_slider.acceptValue()
-        maxzoom_slider.closeContextMenus()
-        maxzoom_slider.acceptValue()
-        minimapsizelevel.popup.close()
+        set_zoom.handleEscape()
+        set_mini.handleEscape()
+        set_mirflp.handleEscape()
+        set_float.handleEscape()
     }
 
     function checkDefault() {
@@ -307,37 +433,17 @@ Flickable {
             return
         }
 
-        if(zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
-                zoom_rel.hasChanged() || zoom_abs.hasChanged() ||
-                maxzoom_check.hasChanged() || maxzoom_slider.hasChanged() || floatingnav.hasChanged() ||
-                mirroranim.hasChanged() || minimap.hasChanged() || minimapsizelevel.hasChanged() ||
-                zoom_mousepos.hasChanged() || zoom_imcent.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_zoom.hasChanged() || set_mini.hasChanged() ||
+                          set_mirflp.hasChanged() || set_float.hasChanged())
 
     }
 
     function load() {
 
-        zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) // qmllint disable unqualified
-        zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
-        zoom_abs.loadAndSetDefault(!PQCSettings.imageviewZoomSpeedRelative)
-        minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
-        minzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMin)
-        maxzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMaxEnabled)
-        maxzoom_slider.loadAndSetDefault(PQCSettings.imageviewZoomMax)
-        zoom_mousepos.loadAndSetDefault(!PQCSettings.imageviewZoomToCenter)
-        zoom_imcent.loadAndSetDefault(PQCSettings.imageviewZoomToCenter)
-
-        mirroranim.loadAndSetDefault(PQCSettings.imageviewMirrorAnimate)
-
-        floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
-
-        minimap.loadAndSetDefault(PQCSettings.imageviewShowMinimap)
-        minimapsizelevel.loadAndSetDefault(PQCSettings.imageviewMinimapSizeLevel)
+        set_zoom.load()
+        set_mini.load()
+        set_mirflp.load()
+        set_float.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -346,34 +452,10 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewZoomSpeed = zoomspeed.value // qmllint disable unqualified
-        PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
-        PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
-        PQCSettings.imageviewZoomMin = minzoom_slider.value
-        PQCSettings.imageviewZoomMaxEnabled = maxzoom_check.checked
-        PQCSettings.imageviewZoomMax = maxzoom_slider.value
-        PQCSettings.imageviewZoomToCenter = zoom_imcent.checked
-
-        PQCSettings.imageviewMirrorAnimate = mirroranim.checked
-
-        PQCSettings.interfaceNavigationFloating = floatingnav.checked
-
-        PQCSettings.imageviewShowMinimap = minimap.checked
-        PQCSettings.imageviewMinimapSizeLevel = minimapsizelevel.currentIndex
-
-        zoomspeed.saveDefault()
-        zoom_rel.saveDefault()
-        zoom_abs.saveDefault()
-        minzoom_check.saveDefault()
-        minzoom_slider.saveDefault()
-        maxzoom_check.saveDefault()
-        maxzoom_slider.saveDefault()
-        zoom_mousepos.saveDefault()
-        zoom_imcent.saveDefault()
-        mirroranim.saveDefault()
-        floatingnav.saveDefault()
-        minimap.saveDefault()
-        minimapsizelevel.saveDefault()
+        set_zoom.applyChanges()
+        set_mini.applyChanges()
+        set_mirflp.applyChanges()
+        set_float.applyChanges()
 
         settingChanged = false
 

@@ -25,6 +25,7 @@ import QtQuick
 import QtQuick.Controls
 import PQCNotify
 import PQCScriptsOther
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -108,6 +109,7 @@ Flickable {
     checkDefault()
 
     signal labelsLoadDefault()
+    signal labelsResetDefault()
     signal labelsSaveChanges()
 
     signal selectAllLabels()
@@ -224,6 +226,7 @@ Flickable {
                                         font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
                                         color: PQCLook.textColor // qmllint disable unqualified
                                         extraHovered: tilemouse.containsMouse
+                                        checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] // qmllint disable unqualified
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
@@ -257,6 +260,10 @@ Flickable {
                                     Connections {
 
                                         target: setting_top
+
+                                        function onLabelsResetDefault() {
+                                            check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadata"+setting_top.labels[deleg.modelData][0]) == 1)// qmllint disable unqualified
+                                        }
 
                                         function onLabelsLoadDefault() {
                                             check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] // qmllint disable unqualified
@@ -332,6 +339,38 @@ Flickable {
 
             ]
 
+            Timer {
+                interval: 100
+                id: saveDefaultCheckTimer
+                onTriggered: {
+                    setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
+                }
+            }
+
+            onResetToDefaults: {
+                setting_top.labelsResetDefault()
+            }
+
+            function handleEscape() {
+                butselall.contextmenu.close()
+                butselnone.contextmenu.close()
+                butselinv.contextmenu.close()
+            }
+
+            function hasChanged() {
+                return (_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join(""))
+            }
+
+            function load() {
+                setting_top.labelsLoadDefault()
+                saveDefaultCheckTimer.restart()
+            }
+
+            function applyChanges() {
+                setting_top.labelsSaveChanges()
+                _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+            }
+
         }
 
         /**********************************************************************/
@@ -339,6 +378,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_autorot
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Auto Rotation")
@@ -354,6 +395,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                autorot.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataAutoRotation") == 1) // qmllint disable unqualified
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return autorot.hasChanged()
+            }
+
+            function load() {
+                autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) // qmllint disable unqualified
+            }
+
+            function applyChanges() {
+                PQCSettings.metadataAutoRotation = autorot.checked // qmllint disable unqualified
+                autorot.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -361,6 +422,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_gps
 
             //: Settings title
             title: qsTranslate("settingsmanager", "GPS map")
@@ -389,6 +452,39 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                var val = (""+PQCScriptsConfig.getDefaultSettingValueFor("metadataGpsMap"))
+                google.checked = (val === "maps.google.com")
+                bing.checked = (val === "bing.com/maps")
+                osm.checked = (val === "openstreetmap.org" || (!google.checked && !bing.checked))
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (osm.hasChanged() || google.hasChanged() || bing.hasChanged())
+            }
+
+            function load() {
+                google.loadAndSetDefault(PQCSettings.metadataGpsMap==="maps.google.com")
+                bing.loadAndSetDefault(PQCSettings.metadataGpsMap==="bing.com/maps")
+                osm.loadAndSetDefault(PQCSettings.metadataGpsMap==="openstreetmap.org" || (!google.checked && !bing.checked))
+            }
+
+            function applyChanges() {
+                if(bing.checked)
+                    PQCSettings.metadataGpsMap = "bing.com/maps"
+                else if(google.checked)
+                    PQCSettings.metadataGpsMap = "maps.google.com"
+                else
+                    PQCSettings.metadataGpsMap = "openstreetmap.org"
+                osm.saveDefault()
+                google.saveDefault()
+                bing.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -396,6 +492,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_float
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Floating element")
@@ -422,6 +520,29 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                screenegde.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataElementFloating") == 0)
+                floating.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataElementFloating") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (screenegde.hasChanged() || floating.hasChanged())
+            }
+
+            function load() {
+                screenegde.loadAndSetDefault(!PQCSettings.metadataElementFloating)
+                floating.loadAndSetDefault(PQCSettings.metadataElementFloating)
+            }
+
+            function applyChanges() {
+                PQCSettings.metadataElementFloating = floating.checked
+                screenegde.saveDefault()
+                floating.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -429,6 +550,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_face
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Face tags")
@@ -484,6 +607,44 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                facetags_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsEnabled") == 1)
+                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsVisibility")
+                tags_always.checked = (val === 1)
+                tags_one.checked = (val === 2)
+                tags_all.checked = (val === 3)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (facetags_show.hasChanged() || tags_always.hasChanged() || tags_one.hasChanged() || tags_all.hasChanged())
+            }
+
+            function load() {
+                facetags_show.loadAndSetDefault(PQCSettings.metadataFaceTagsEnabled)
+                tags_always.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===1)
+                tags_one.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===2)
+                tags_all.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===3)
+            }
+
+            function applyChanges() {
+                PQCSettings.metadataFaceTagsEnabled = facetags_show.checked
+                if(tags_always.checked)
+                    PQCSettings.metadataFaceTagsVisibility = 1
+                else if(tags_one.checked)
+                    PQCSettings.metadataFaceTagsVisibility = 2
+                else
+                    PQCSettings.metadataFaceTagsVisibility = 3
+
+                facetags_show.saveDefault()
+                tags_always.saveDefault()
+                tags_one.saveDefault()
+                tags_all.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -491,6 +652,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_facelook
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Look of face tags")
@@ -581,6 +744,46 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsFontSize"))
+                border_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorder") == 1)
+                border_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderWidth"))
+                border_color.rgba = PQCScriptsOther.convertHexToRgba(""+PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderColor"))
+            }
+
+            function handleEscape() {
+                fontsize.closeContextMenus()
+                fontsize.acceptValue()
+                border_slider.closeContextMenus()
+                border_slider.acceptValue()
+            }
+
+            function hasChanged() {
+                var colset = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+                return (fontsize.hasChanged() || border_show.hasChanged() || border_slider.hasChanged() ||
+                        border_color.rgba[0] !== colset[0] || border_color.rgba[1] !== colset[1] || border_color.rgba[2] !== colset[2] || border_color.rgba[3] !== colset[3])
+            }
+
+            function load() {
+                fontsize.loadAndSetDefault(PQCSettings.metadataFaceTagsFontSize)
+                border_show.loadAndSetDefault(PQCSettings.metadataFaceTagsBorder)
+                border_slider.loadAndSetDefault(PQCSettings.metadataFaceTagsBorderWidth)
+                border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.metadataFaceTagsFontSize = fontsize.value
+                PQCSettings.metadataFaceTagsBorder = border_show.checked
+                PQCSettings.metadataFaceTagsBorderWidth = border_slider.value
+                PQCSettings.metadataFaceTagsBorderColor = PQCScriptsOther.convertRgbaToHex(border_color.rgba)
+
+                fontsize.saveDefault()
+                border_show.saveDefault()
+                border_slider.saveDefault()
+
+            }
+
         }
 
     }
@@ -589,13 +792,13 @@ Flickable {
         load()
 
     function handleEscape() {
-        fontsize.closeContextMenus()
-        fontsize.acceptValue()
-        border_slider.closeContextMenus()
-        border_slider.acceptValue()
-        butselall.contextmenu.close()
-        butselnone.contextmenu.close()
-        butselinv.contextmenu.close()
+        set_labels.handleEscape()
+        set_autorot.handleEscape()
+        set_gps.handleEscape()
+        set_float.handleEscape()
+        set_face.handleEscape()
+        set_facelook.handleEscape()
+
     }
 
     function checkDefault() {
@@ -606,116 +809,32 @@ Flickable {
             return
         }
 
-        if(_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) {
-            settingChanged = true
-            return
-        }
+        settingChanged = (set_labels.hasChanged() || set_autorot.hasChanged() || set_gps.hasChanged() ||
+                          set_float.hasChanged() || set_face.hasChanged() || set_facelook.hasChanged())
 
-        if(autorot.hasChanged() || osm.hasChanged() || google.hasChanged() || bing.hasChanged() ||
-                screenegde.hasChanged() || floating.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(facetags_show.hasChanged() || fontsize.hasChanged() || border_show.hasChanged() || border_slider.hasChanged() ||
-                tags_always.hasChanged() || tags_one.hasChanged() || tags_all.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        var set = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
-        settingChanged = (border_color.rgba[0] !== set[0] || border_color.rgba[1] !== set[1] || border_color.rgba[2] !== set[2] || border_color.rgba[3] !== set[3])
-
-    }
-
-    Timer {
-        interval: 300
-        id: loadtimer
-        onTriggered: {
-
-            setting_top.labelsLoadDefault()
-
-            saveDefaultCheckTimer.restart()
-
-            setting_top.settingChanged = false
-            setting_top.settingsLoaded = true
-        }
-    }
-
-    Timer {
-        interval: 100
-        id: saveDefaultCheckTimer
-        onTriggered: {
-            setting_top._defaultCurrentCheckBoxStates = setting_top.currentCheckBoxStates.join("")
-        }
     }
 
     function load() {
 
-        loadtimer.restart()
+        set_labels.load()
+        set_autorot.load()
+        set_gps.load()
+        set_float.load()
+        set_face.load()
+        set_facelook.load()
 
-        autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) // qmllint disable unqualified
-
-        osm.loadAndSetDefault(PQCSettings.metadataGpsMap==="openstreetmap.org")
-        google.loadAndSetDefault(PQCSettings.metadataGpsMap==="maps.google.com")
-        bing.loadAndSetDefault(PQCSettings.metadataGpsMap==="bing.com/maps")
-
-        screenegde.loadAndSetDefault(!PQCSettings.metadataElementFloating)
-        floating.loadAndSetDefault(PQCSettings.metadataElementFloating)
-
-        facetags_show.loadAndSetDefault(PQCSettings.metadataFaceTagsEnabled)
-        fontsize.loadAndSetDefault(PQCSettings.metadataFaceTagsFontSize)
-        border_show.loadAndSetDefault(PQCSettings.metadataFaceTagsBorder)
-        border_slider.loadAndSetDefault(PQCSettings.metadataFaceTagsBorderWidth)
-        border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
-        tags_always.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===1)
-        tags_one.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===2)
-        tags_all.loadAndSetDefault(PQCSettings.metadataFaceTagsVisibility===3)
-
+        setting_top.settingChanged = false
+        setting_top.settingsLoaded = true
     }
 
     function applyChanges() {
 
-        setting_top.labelsSaveChanges()
-        _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
-
-        PQCSettings.metadataAutoRotation = autorot.checked // qmllint disable unqualified
-
-        if(osm.checked)
-            PQCSettings.metadataGpsMap = "openstreetmap.org"
-        else if(google.checked)
-            PQCSettings.metadataGpsMap = "maps.google.com"
-        else
-            PQCSettings.metadataGpsMap = "bing.com/maps"
-
-        PQCSettings.metadataElementFloating = floating.checked
-
-        PQCSettings.metadataFaceTagsEnabled = facetags_show.checked
-        PQCSettings.metadataFaceTagsFontSize = fontsize.value
-        PQCSettings.metadataFaceTagsBorder = border_show.checked
-        PQCSettings.metadataFaceTagsBorderWidth = border_slider.value
-        PQCSettings.metadataFaceTagsBorderColor = PQCScriptsOther.convertRgbaToHex(border_color.rgba)
-        if(tags_always.checked)
-            PQCSettings.metadataFaceTagsVisibility = 1
-        else if(tags_one.checked)
-            PQCSettings.metadataFaceTagsVisibility = 2
-        else
-            PQCSettings.metadataFaceTagsVisibility = 3
-
-        autorot.saveDefault()
-        osm.saveDefault()
-        google.saveDefault()
-        bing.saveDefault()
-        screenegde.saveDefault()
-        floating.saveDefault()
-
-        facetags_show.saveDefault()
-        fontsize.saveDefault()
-        border_show.saveDefault()
-        border_slider.saveDefault()
-        tags_always.saveDefault()
-        tags_one.saveDefault()
-        tags_all.saveDefault()
+        set_labels.applyChanges()
+        set_autorot.applyChanges()
+        set_gps.applyChanges()
+        set_float.applyChanges()
+        set_face.applyChanges()
+        set_facelook.applyChanges()
 
         settingChanged = false
 

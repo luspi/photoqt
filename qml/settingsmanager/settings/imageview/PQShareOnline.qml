@@ -58,6 +58,8 @@ Flickable {
 
         id: contcol
 
+        width: parent.width
+
         spacing: 10
 
         PQSetting {
@@ -65,6 +67,7 @@ Flickable {
             id: set_imgur
 
             title: "imgur.com"
+            showResetButton: false
 
             helptext: qsTranslate("settingsmanager", "It is possible to share an image from PhotoQt directly to imgur.com. This can either be done anonymously or to an imgur.com account. For the former, no setup is required, after a successful upload you are presented with the URL to access and the URL to delete the image. For the latter, PhotoQt first needs to be authenticated to an imgur.com user account.")
 

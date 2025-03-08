@@ -64,6 +64,8 @@ Flickable {
 
             id: set_reset
 
+            showResetButton: false
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Reset settings and shortcuts")
 
@@ -195,6 +197,8 @@ Flickable {
         PQSetting {
 
             id: set_expimp
+
+            showResetButton: false
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Export/Import configuration")

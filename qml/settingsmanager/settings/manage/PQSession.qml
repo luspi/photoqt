@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -86,6 +87,29 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                mult.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceAllowMultipleInstances") == 1)
+                sing.checked = !mult.checked
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (mult.hasChanged() || sing.hasChanged())
+            }
+
+            function load() {
+                sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) // qmllint disable unqualified
+                mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceAllowMultipleInstances = mult.checked // qmllint disable unqualified
+                mult.saveDefault()
+                sing.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -118,6 +142,29 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                reopenlast.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceRememberLastImage") == 1)
+                blanksession.checked = !reopenlast.checked
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (blanksession.hasChanged() || reopenlast.hasChanged())
+            }
+
+            function load() {
+                blanksession.loadAndSetDefault(!PQCSettings.interfaceRememberLastImage)
+                reopenlast.loadAndSetDefault(PQCSettings.interfaceRememberLastImage)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceRememberLastImage = reopenlast.checked
+                blanksession.saveDefault()
+                reopenlast.saveDefault()
+            }
 
         }
 
@@ -185,6 +232,47 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                remember.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewRememberZoomRotationMirror") == 1)
+                forget.checked = !remember.checked
+
+                reuse_zoom.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveZoom") == 1)
+                reuse_rotation.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveRotation") == 1)
+                reuse_mirror.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveMirror") == 1)
+                reuse.checked = (reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (forget.hasChanged() || remember.hasChanged() || reuse.hasChanged() ||
+                        reuse_zoom.hasChanged() || reuse_rotation.hasChanged() || reuse_mirror.hasChanged())
+            }
+
+            function load() {
+                forget.loadAndSetDefault(!PQCSettings.imageviewRememberZoomRotationMirror)
+                remember.loadAndSetDefault(PQCSettings.imageviewRememberZoomRotationMirror)
+
+                reuse_zoom.loadAndSetDefault(PQCSettings.imageviewPreserveZoom)
+                reuse_rotation.loadAndSetDefault(PQCSettings.imageviewPreserveRotation)
+                reuse_mirror.loadAndSetDefault(PQCSettings.imageviewPreserveMirror)
+                reuse.loadAndSetDefault(reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewRememberZoomRotationMirror = remember.checked
+                PQCSettings.imageviewPreserveZoom = (reuse.checked && reuse_zoom.checked)
+                PQCSettings.imageviewPreserveRotation = (reuse.checked && reuse_rotation.checked)
+                PQCSettings.imageviewPreserveMirror = (reuse.checked && reuse_mirror.checked)
+                forget.saveDefault()
+                remember.saveDefault()
+                reuse.saveDefault()
+                reuse_zoom.saveDefault()
+                reuse_rotation.saveDefault()
+                reuse_mirror.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -241,6 +329,43 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                trayicon_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIcon") > 0)
+                trayicon_hide.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIcon") === 1)
+                trayicon_mono.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIconMonochrome") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (trayicon_show.hasChanged() || trayicon_mono.hasChanged() || trayicon_hide.hasChanged())
+            }
+
+            function load() {
+                trayicon_show.loadAndSetDefault(PQCSettings.interfaceTrayIcon>0)
+                trayicon_hide.loadAndSetDefault(PQCSettings.interfaceTrayIcon===1)
+                trayicon_mono.loadAndSetDefault(PQCSettings.interfaceTrayIconMonochrome)
+            }
+
+            function applyChanges() {
+
+                if(trayicon_show.checked) {
+                    if(trayicon_hide.checked)
+                        PQCSettings.interfaceTrayIcon = 1
+                    else
+                        PQCSettings.interfaceTrayIcon = 2
+                } else
+                    PQCSettings.interfaceTrayIcon = 0
+
+                PQCSettings.interfaceTrayIconMonochrome = trayicon_mono.checked
+
+                trayicon_show.saveDefault()
+                trayicon_hide.saveDefault()
+                trayicon_mono.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -265,6 +390,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                trayicon_reset.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIconHideReset") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return trayicon_reset.hasChanged()
+            }
+
+            function load() {
+                trayicon_reset.loadAndSetDefault(PQCSettings.interfaceTrayIconHideReset)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceTrayIconHideReset = trayicon_reset.checked
+                trayicon_reset.saveDefault()
+            }
+
         }
 
     }
@@ -273,7 +418,11 @@ Flickable {
         load()
 
     function handleEscape() {
-        catchEscape = false
+        set_single.handleEscape()
+        set_reopen.handleEscape()
+        set_rem.handleEscape()
+        set_tray.handleEscape()
+        set_reset.handleEscape()
     }
 
     function checkDefault() {
@@ -284,34 +433,18 @@ Flickable {
             return
         }
 
-        settingChanged = (mult.hasChanged() || sing.hasChanged() ||
-                          blanksession.hasChanged() || reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() ||
-                          reuse.hasChanged() || reuse_zoom.hasChanged() || reuse_rotation.hasChanged() || reuse_mirror.hasChanged() ||
-                          trayicon_show.hasChanged() || trayicon_mono.hasChanged() || trayicon_hide.hasChanged() || trayicon_reset.hasChanged())
+        settingChanged = (set_single.hasChanged() || set_reopen.hasChanged() || set_rem.hasChanged() ||
+                          set_tray.hasChanged() || set_reset.hasChanged())
 
     }
 
     function load() {
 
-        sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) // qmllint disable unqualified
-        mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
-
-        blanksession.loadAndSetDefault(!PQCSettings.interfaceRememberLastImage)
-        reopenlast.loadAndSetDefault(PQCSettings.interfaceRememberLastImage)
-
-        forget.loadAndSetDefault(!PQCSettings.imageviewRememberZoomRotationMirror)
-        remember.loadAndSetDefault(PQCSettings.imageviewRememberZoomRotationMirror)
-
-        reuse_zoom.loadAndSetDefault(PQCSettings.imageviewPreserveZoom)
-        reuse_rotation.loadAndSetDefault(PQCSettings.imageviewPreserveRotation)
-        reuse_mirror.loadAndSetDefault(PQCSettings.imageviewPreserveMirror)
-        reuse.loadAndSetDefault(reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
-
-        trayicon_show.loadAndSetDefault(PQCSettings.interfaceTrayIcon>0)
-        trayicon_hide.loadAndSetDefault(PQCSettings.interfaceTrayIcon===1)
-        trayicon_mono.loadAndSetDefault(PQCSettings.interfaceTrayIconMonochrome)
-
-        trayicon_reset.loadAndSetDefault(PQCSettings.interfaceTrayIconHideReset)
+        set_single.load()
+        set_reopen.load()
+        set_rem.load()
+        set_tray.load()
+        set_reset.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -320,39 +453,11 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.interfaceAllowMultipleInstances = mult.checked // qmllint disable unqualified
-        PQCSettings.interfaceRememberLastImage = reopenlast.checked
-        PQCSettings.imageviewRememberZoomRotationMirror = remember.checked
-        PQCSettings.imageviewPreserveZoom = (reuse.checked && reuse_zoom.checked)
-        PQCSettings.imageviewPreserveRotation = (reuse.checked && reuse_rotation.checked)
-        PQCSettings.imageviewPreserveMirror = (reuse.checked && reuse_mirror.checked)
-
-        if(trayicon_show.checked) {
-            if(trayicon_hide.checked)
-                PQCSettings.interfaceTrayIcon = 1
-            else
-                PQCSettings.interfaceTrayIcon = 2
-        } else
-            PQCSettings.interfaceTrayIcon = 0
-
-        PQCSettings.interfaceTrayIconMonochrome = trayicon_mono.checked
-        PQCSettings.interfaceTrayIconHideReset = trayicon_reset.checked
-
-        mult.saveDefault()
-        sing.saveDefault()
-        blanksession.saveDefault()
-        reopenlast.saveDefault()
-        forget.saveDefault()
-        remember.saveDefault()
-        reuse.saveDefault()
-        reuse_zoom.saveDefault()
-        reuse_rotation.saveDefault()
-        reuse_mirror.saveDefault()
-
-        trayicon_show.saveDefault()
-        trayicon_hide.saveDefault()
-        trayicon_mono.saveDefault()
-        trayicon_reset.saveDefault()
+        set_single.applyChanges()
+        set_reopen.applyChanges()
+        set_rem.applyChanges()
+        set_tray.applyChanges()
+        set_reset.applyChanges()
 
         settingChanged = false
 

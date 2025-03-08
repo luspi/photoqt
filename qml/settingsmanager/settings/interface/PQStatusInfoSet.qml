@@ -330,7 +330,7 @@ Flickable {
                 status_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShow") == 1) // qmllint disable unqualified
 
                 model.clear()
-                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList").split(":://::")
+                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList")
                 console.warn("####", setprops)
                 for(var j = 0; j < setprops.length; ++j)
                     model.append({"name": setprops[j], "index": j})

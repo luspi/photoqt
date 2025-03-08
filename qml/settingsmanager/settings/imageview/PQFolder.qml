@@ -85,6 +85,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewLoopThroughFolder") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return loop.hasChanged()
+            }
+
+            function load() {
+                loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) // qmllint disable unqualified
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewLoopThroughFolder = loop.checked // qmllint disable unqualified
+                loop.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -145,6 +165,49 @@ Flickable {
                     }
                 }
             ]
+
+            onResetToDefaults: {
+                sortcriteria.currentIndex = 0
+                sortasc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewSortImagesAscending") == 1)
+                sortdesc.checked = !sortasc.checked
+            }
+
+            function handleEscape() {
+                sortcriteria.popup.close()
+            }
+
+            function hasChanged() {
+                return (sortcriteria.hasChanged() || sortasc.hasChanged() || sortdesc.hasChanged())
+            }
+
+            function load() {
+
+                if(!PQCScriptsConfig.isICUSupportEnabled() && PQCSettings.imageviewSortImagesBy === "naturalname")
+                    PQCSettings.imageviewSortImagesBy = "name"
+
+                var l = ["naturalname", "name", "time", "size", "type"]
+                if(l.indexOf(PQCSettings.imageviewSortImagesBy) > -1)
+                    sortcriteria.loadAndSetDefault(l.indexOf(PQCSettings.imageviewSortImagesBy))
+                else
+                    sortcriteria.loadAndSetDefault(0)
+
+                sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
+                sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
+
+            }
+
+            function applyChanges() {
+
+                var l = ["naturalname", "name", "time", "size", "type"]
+                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]
+                PQCSettings.imageviewSortImagesAscending = sortasc.checked
+
+                sortcriteria.saveDefault()
+                sortasc.saveDefault()
+                sortdesc.saveDefault()
+
+
+            }
 
         }
 
@@ -244,6 +307,50 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                anispeed_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAnimationDuration") > 0)
+                anicombo.currentIndex = 0
+                anispeed.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAnimationDuration"))
+            }
+
+            function handleEscape() {
+                anispeed.closeContextMenus()
+                anispeed.acceptValue()
+                anicombo.popup.close()
+            }
+
+            function hasChanged() {
+                return (anispeed_check.hasChanged() || anispeed.hasChanged() || anicombo.hasChanged())
+            }
+
+            function load() {
+
+                anispeed_check.loadAndSetDefault(PQCSettings.imageviewAnimationDuration>0)
+                var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                if(aniValues.indexOf(PQCSettings.imageviewAnimationType) > -1)
+                    anicombo.loadAndSetDefault(aniValues.indexOf(PQCSettings.imageviewAnimationType))
+                else
+                    anicombo.loadAndSetDefault(0)
+                anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
+
+            }
+
+            function applyChanges() {
+
+                if(!anispeed_check.checked)
+                    PQCSettings.imageviewAnimationDuration = 0
+                else {
+                    var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                    PQCSettings.imageviewAnimationType = aniValues[anicombo.currentIndex]
+                    PQCSettings.imageviewAnimationDuration = anispeed.value
+                }
+
+                anicombo.saveDefault()
+                anispeed_check.saveDefault()
+                anispeed.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -292,6 +399,28 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                preload.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreloadInBackground"))
+            }
+
+            function handleEscape() {
+                preload.closeContextMenus()
+                preload.acceptValue()
+            }
+
+            function hasChanged() {
+                return preload.hasChanged()
+            }
+
+            function load() {
+                preload.loadAndSetDefault(PQCSettings.imageviewPreloadInBackground)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewPreloadInBackground = preload.value
+                preload.saveDefault()
+            }
+
         }
 
     }
@@ -300,12 +429,10 @@ Flickable {
         load()
 
     function handleEscape() {
-        anispeed.closeContextMenus()
-        anispeed.acceptValue()
-        preload.closeContextMenus()
-        preload.acceptValue()
-        sortcriteria.popup.close()
-        anicombo.popup.close()
+        set_loop.handleEscape()
+        set_sort.handleEscape()
+        set_ani.handleEscape()
+        set_preload.handleEscape()
     }
 
     function checkDefault() {
@@ -316,58 +443,17 @@ Flickable {
             return
         }
 
-        if(loop.hasChanged() || sortasc.hasChanged() || sortdesc.hasChanged() ||
-                anispeed_check.hasChanged() || anispeed.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        var l = ["naturalname", "name", "time", "size", "type"]
-        if(PQCSettings.imageviewSortImagesBy !== l[sortcriteria.currentIndex]) {
-            settingChanged = true
-            return
-        }
-
-        var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        if(PQCSettings.imageviewAnimationType !== aniValues[anicombo.currentIndex]) {
-            settingChanged = true
-            return
-        }
-
-        if(preload.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_loop.hasChanged() || set_sort.hasChanged() ||
+                          set_ani.hasChanged() || set_preload.hasChanged())
 
     }
 
     function load() {
 
-        loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) // qmllint disable unqualified
-
-        if(!PQCScriptsConfig.isICUSupportEnabled() && PQCSettings.imageviewSortImagesBy === "naturalname")
-            PQCSettings.imageviewSortImagesBy = "name"
-
-        var l = ["naturalname", "name", "time", "size", "type"]
-        if(l.indexOf(PQCSettings.imageviewSortImagesBy) > -1)
-            sortcriteria.currentIndex = l.indexOf(PQCSettings.imageviewSortImagesBy)
-        else
-            sortcriteria.currentIndex = 0
-
-        sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
-        sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
-
-        anispeed_check.loadAndSetDefault(PQCSettings.imageviewAnimationDuration>0)
-        var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        if(aniValues.indexOf(PQCSettings.imageviewAnimationType) > -1)
-            anicombo.currentIndex = aniValues.indexOf(PQCSettings.imageviewAnimationType)
-        else
-            anicombo.currentIndex = 0
-        anispeed.loadAndSetDefault(PQCSettings.imageviewAnimationDuration)
-
-        preload.loadAndSetDefault(PQCSettings.imageviewPreloadInBackground)
+        set_loop.load()
+        set_sort.load()
+        set_ani.load()
+        set_preload.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -376,29 +462,10 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewLoopThroughFolder = loop.checked // qmllint disable unqualified
-
-        var l = ["naturalname", "name", "time", "size", "type"]
-        PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]
-
-        PQCSettings.imageviewSortImagesAscending = sortasc.checked
-
-        if(!anispeed_check.checked)
-            PQCSettings.imageviewAnimationDuration = 0
-        else {
-            var aniValues = ["opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-            PQCSettings.imageviewAnimationType = aniValues[anicombo.currentIndex]
-            PQCSettings.imageviewAnimationDuration = anispeed.value
-        }
-
-        PQCSettings.imageviewPreloadInBackground = preload.value
-
-        loop.saveDefault()
-        sortasc.saveDefault()
-        sortdesc.saveDefault()
-        anispeed_check.saveDefault()
-        anispeed.saveDefault()
-        preload.saveDefault()
+        set_loop.applyChanges()
+        set_sort.applyChanges()
+        set_ani.applyChanges()
+        set_preload.applyChanges()
 
         settingChanged = false
 

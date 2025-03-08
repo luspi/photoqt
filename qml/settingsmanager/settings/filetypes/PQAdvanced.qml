@@ -116,6 +116,39 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                applelive.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesLoadAppleLivePhotos") == 1) // qmllint disable unqualified
+                motionmicro.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesLoadMotionPhotos") == 1)
+                motionplaypause.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesMotionPhotoPlayPause") == 1)
+                motionspace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesMotionSpacePause") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return(applelive.hasChanged() || motionmicro.hasChanged() ||
+                       motionplaypause.hasChanged() || motionspace.hasChanged())
+            }
+
+            function load() {
+                applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos) // qmllint disable unqualified
+                motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
+                motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
+                motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked // qmllint disable unqualified
+                PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
+                PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
+                PQCSettings.filetypesMotionSpacePause = motionspace.checked
+                applelive.saveDefault()
+                motionmicro.saveDefault()
+                motionplaypause.saveDefault()
+                motionspace.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -199,6 +232,51 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                ps_entering.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereAutoLoad")==1 ?
+                                                0 :
+                                                (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereBigButton")==1 ?
+                                                     1 :
+                                                     2))
+                ps_controls.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereControls") == 1)
+                ps_arrows.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereArrowKeys") == 1)
+                ps_pan.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSpherePanOnLoad") == 1)
+                ps_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitSphere") == 1)
+            }
+
+            function handleEscape() {
+                ps_entering.popup.close()
+            }
+
+            function hasChanged() {
+                return (ps_escape.hasChanged() || ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged() || ps_pan.hasChanged())
+            }
+
+            function load() {
+                ps_entering.loadAndSetDefault(PQCSettings.filetypesPhotoSphereAutoLoad ? 0 : (PQCSettings.filetypesPhotoSphereBigButton ? 1 : 2))
+                ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
+                ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
+                ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
+                ps_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.filetypesPhotoSphereAutoLoad = ps_entering.currentIndex===0
+                PQCSettings.filetypesPhotoSphereBigButton = ps_entering.currentIndex===1
+                PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
+                PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
+                PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
+                PQCSettings.imageviewEscapeExitSphere = ps_escape.checked
+
+                ps_entering.saveDefault()
+                ps_controls.saveDefault()
+                ps_arrows.saveDefault()
+                ps_pan.saveDefault()
+                ps_escape.saveDefault()
+
+            }
+
         }
 
     }
@@ -207,7 +285,8 @@ Flickable {
         load()
 
     function handleEscape() {
-        ps_entering.popup.close()
+        set_motion.handleEscape()
+        set_sph.handleEscape()
     }
 
     function checkDefault() {
@@ -218,22 +297,14 @@ Flickable {
             return
         }
 
-        settingChanged = (applelive.hasChanged() || motionmicro.hasChanged() || motionspace.hasChanged() || ps_escape.hasChanged() ||
-                          ps_entering.hasChanged() || ps_controls.hasChanged() || ps_arrows.hasChanged() || ps_pan.hasChanged())
+        settingChanged = (set_motion.hasChanged() || set_sph.hasChanged())
 
     }
 
     function load() {
 
-        applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos) // qmllint disable unqualified
-        motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
-        motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
-        motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
-        ps_entering.loadAndSetDefault(PQCSettings.filetypesPhotoSphereAutoLoad ? 0 : (PQCSettings.filetypesPhotoSphereBigButton ? 1 : 2))
-        ps_controls.loadAndSetDefault(PQCSettings.filetypesPhotoSphereControls)
-        ps_arrows.loadAndSetDefault(PQCSettings.filetypesPhotoSphereArrowKeys)
-        ps_pan.loadAndSetDefault(PQCSettings.filetypesPhotoSpherePanOnLoad)
-        ps_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
+        set_motion.load()
+        set_sph.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -242,26 +313,8 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked // qmllint disable unqualified
-        PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
-        PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
-        PQCSettings.filetypesMotionSpacePause = motionspace.checked
-        PQCSettings.filetypesPhotoSphereAutoLoad = ps_entering.currentIndex===0
-        PQCSettings.filetypesPhotoSphereBigButton = ps_entering.currentIndex===1
-        PQCSettings.filetypesPhotoSphereControls = ps_controls.checked
-        PQCSettings.filetypesPhotoSphereArrowKeys = ps_arrows.checked
-        PQCSettings.filetypesPhotoSpherePanOnLoad = ps_pan.checked
-        PQCSettings.imageviewEscapeExitSphere = ps_escape.checked
-
-        applelive.saveDefault()
-        motionmicro.saveDefault()
-        motionplaypause.saveDefault()
-        motionspace.saveDefault()
-        ps_entering.saveDefault()
-        ps_controls.saveDefault()
-        ps_arrows.saveDefault()
-        ps_pan.saveDefault()
-        ps_escape.saveDefault()
+        set_motion.applyChanges()
+        set_sph.applyChanges()
 
         settingChanged = false
 

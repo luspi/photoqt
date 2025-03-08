@@ -120,6 +120,41 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                sortcriteria.currentIndex = 0
+                sortasc.checked = (PQCScriptsConfig.getDefaultSettingValueFor("imageviewSortImagesAscending") == 1)
+                sortdesc.checked = !sortasc.checked
+            }
+
+            function handleEscape() {
+                sortcriteria.popup.close()
+            }
+
+            function hasChanged() {
+                return (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged())
+            }
+
+            function load() {
+
+                if(!PQCScriptsConfig.isICUSupportEnabled() && PQCSettings.imageviewSortImagesBy === "naturalname")
+                    PQCSettings.imageviewSortImagesBy = "name"
+
+                var l = ["naturalname", "name", "time", "size", "type"]
+                sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) // qmllint disable unqualified
+                sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
+                sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
+
+            }
+
+            function applyChanges() {
+                var l = ["naturalname", "name", "time", "size", "type"]
+                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] // qmllint disable unqualified
+                PQCSettings.imageviewSortImagesAscending = sortasc.checked
+                sortcriteria.saveDefault()
+                sortasc.saveDefault()
+                sortdesc.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -127,6 +162,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_lay
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Layout")
@@ -151,6 +188,29 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "icons")
+                layout_list.checked = !layout_icon.checked
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (layout_icon.hasChanged() || layout_list.hasChanged())
+            }
+
+            function load() {
+                layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="icons")
+                layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="icons")
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")
+                layout_icon.saveDefault()
+                layout_list.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -158,6 +218,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_hid
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Hidden files")
@@ -174,6 +236,26 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                hiddencheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogShowHiddenFilesFolders") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return hiddencheck.hasChanged()
+            }
+
+            function load() {
+                hiddencheck.loadAndSetDefault(PQCSettings.filedialogShowHiddenFilesFolders)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogShowHiddenFilesFolders = hiddencheck.checked
+                hiddencheck.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -181,6 +263,7 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+            id: set_ttp
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Tooltip")
@@ -197,6 +280,26 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                tooltipcheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDetailsTooltip") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return tooltipcheck.hasChanged()
+            }
+
+            function load() {
+                tooltipcheck.loadAndSetDefault(PQCSettings.filedialogDetailsTooltip)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
+                tooltipcheck.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -204,6 +307,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_loc
 
             //: Settings title, location here is a folder path
             title: qsTranslate("settingsmanager", "Last location")
@@ -220,6 +325,26 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                remembercheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogKeepLastLocation") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return remembercheck.hasChanged()
+            }
+
+            function load() {
+                remembercheck.loadAndSetDefault(PQCSettings.filedialogKeepLastLocation)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogKeepLastLocation = remembercheck.checked
+                remembercheck.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -227,6 +352,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_sin
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Single clicks")
@@ -250,6 +377,29 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                singlecheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogSingleClickSelect") == 1)
+                singleexec.checked = !singlecheck.checked
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (singlecheck.hasChanged() || singleexec.hasChanged())
+            }
+
+            function load() {
+                singleexec.loadAndSetDefault(!PQCSettings.filedialogSingleClickSelect)
+                singlecheck.loadAndSetDefault(PQCSettings.filedialogSingleClickSelect)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogSingleClickSelect = singlecheck.checked
+                singleexec.saveDefault()
+                singlecheck.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -257,6 +407,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_sel
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Selection")
@@ -273,6 +425,26 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                selremem.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogRememberSelection") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return selremem.hasChanged()
+            }
+
+            function load() {
+                selremem.loadAndSetDefault(PQCSettings.filedialogRememberSelection)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogRememberSelection = selremem.checked
+                selremem.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -280,6 +452,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_sec
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Sections")
@@ -310,6 +484,34 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                sect_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPlaces") == 1)
+                sect_devices.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDevices") == 1)
+                sect_devicestmpfs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDevicesShowTmpfs") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (sect_bookmarks.hasChanged() || sect_devices.hasChanged() || sect_devicestmpfs.hasChanged())
+            }
+
+            function load() {
+                sect_bookmarks.loadAndSetDefault(PQCSettings.filedialogPlaces)
+                sect_devices.loadAndSetDefault(PQCSettings.filedialogDevices)
+                sect_devicestmpfs.loadAndSetDefault(PQCSettings.filedialogDevicesShowTmpfs)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogPlaces = sect_bookmarks.checked
+                PQCSettings.filedialogDevices = sect_devices.checked
+                PQCSettings.filedialogDevicesShowTmpfs = sect_devicestmpfs.checked
+                sect_bookmarks.saveDefault()
+                sect_devices.saveDefault()
+                sect_devicestmpfs.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -317,6 +519,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_dad
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Drag and drop")
@@ -345,6 +549,34 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                drag_icon.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewGrid") == 1)
+                drag_list.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewList") == 1)
+                drag_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropPlaces") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (drag_icon.hasChanged() || drag_list.hasChanged() || drag_bookmarks.hasChanged())
+            }
+
+            function load() {
+                drag_icon.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewGrid)
+                drag_list.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewList)
+                drag_bookmarks.loadAndSetDefault(PQCSettings.filedialogDragDropPlaces)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogDragDropFileviewGrid = drag_icon.checked
+                PQCSettings.filedialogDragDropFileviewList = drag_list.checked
+                PQCSettings.filedialogDragDropPlaces = drag_bookmarks.checked
+                drag_icon.saveDefault()
+                drag_list.saveDefault()
+                drag_bookmarks.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -352,6 +584,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_thb
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Thumbnails")
@@ -387,6 +621,30 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                thumb_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogThumbnails") == 1)
+                thumb_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogThumbnailsScaleCrop") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (thumb_show.hasChanged() || thumb_scalecrop.hasChanged())
+            }
+
+            function load() {
+                thumb_show.loadAndSetDefault(PQCSettings.filedialogThumbnails)
+                thumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogThumbnailsScaleCrop)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogThumbnails = thumb_show.checked
+                PQCSettings.filedialogThumbnailsScaleCrop = thumb_scalecrop.checked
+                thumb_show.saveDefault()
+                thumb_scalecrop.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -394,6 +652,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_pad
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Padding")
@@ -414,6 +674,28 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                padding.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogElementPadding"))
+            }
+
+            function handleEscape() {
+                padding.closeContextMenus()
+                padding.acceptValue()
+            }
+
+            function hasChanged() {
+                return padding.hasChanged()
+            }
+
+            function load() {
+                padding.loadAndSetDefault(PQCSettings.filedialogElementPadding)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogElementPadding = padding.value
+                padding.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -421,6 +703,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_fol
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Folder thumbnails")
@@ -500,6 +784,47 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                folderthumb_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnails") == 1)
+                folderthumb_timeout.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsSpeed")-1)
+                folderthumb_loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsLoop") == 1)
+                folderthumb_autoload.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsAutoload") == 1)
+                folderthumb_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsScaleCrop") == 1)
+            }
+
+            function handleEscape() {
+                folderthumb_timeout.popup.close()
+            }
+
+            function hasChanged() {
+                return (folderthumb_check.hasChanged() || folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() ||
+                        folderthumb_autoload.hasChanged() || folderthumb_scalecrop.hasChanged())
+            }
+
+            function load() {
+                folderthumb_check.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnails)
+                folderthumb_timeout.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsSpeed-1)
+                folderthumb_loop.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsLoop)
+                folderthumb_autoload.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsAutoload)
+                folderthumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsScaleCrop)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.filedialogFolderContentThumbnails = folderthumb_check.checked
+                PQCSettings.filedialogFolderContentThumbnailsSpeed = folderthumb_timeout.currentIndex+1
+                PQCSettings.filedialogFolderContentThumbnailsLoop = folderthumb_loop.checked
+                PQCSettings.filedialogFolderContentThumbnailsAutoload = folderthumb_autoload.checked
+                PQCSettings.filedialogFolderContentThumbnailsScaleCrop = folderthumb_scalecrop.checked
+
+                folderthumb_check.saveDefault()
+                folderthumb_timeout.saveDefault()
+                folderthumb_loop.saveDefault()
+                folderthumb_autoload.saveDefault()
+                folderthumb_scalecrop.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -507,6 +832,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_pre
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Preview")
@@ -591,6 +918,52 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                preview_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreview") == 1)
+                preview_blur.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewBlur") == 1)
+                preview_mute.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewMuted") == 1)
+                preview_colintspin.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewColorIntensity"))
+                preview_resolution.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewHigherResolution") == 1)
+                preview_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewCropToFit") == 1)
+            }
+
+            function handleEscape() {
+                preview_colintspin.closeContextMenus()
+                preview_colintspin.acceptValue()
+            }
+
+            function hasChanged() {
+                return (preview_check.hasChanged() || preview_blur.hasChanged() || preview_mute.hasChanged() ||
+                        preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged())
+            }
+
+            function load() {
+                preview_check.loadAndSetDefault(PQCSettings.filedialogPreview)
+                preview_blur.loadAndSetDefault(PQCSettings.filedialogPreviewBlur)
+                preview_mute.loadAndSetDefault(PQCSettings.filedialogPreviewMuted)
+                preview_colintspin.loadAndSetDefault(PQCSettings.filedialogPreviewColorIntensity)
+                preview_resolution.loadAndSetDefault(PQCSettings.filedialogPreviewHigherResolution)
+                preview_scalecrop.loadAndSetDefault(PQCSettings.filedialogPreviewCropToFit)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.filedialogPreview = preview_check.checked
+                PQCSettings.filedialogPreviewBlur = preview_blur.checked
+                PQCSettings.filedialogPreviewMuted = preview_mute.checked
+                PQCSettings.filedialogPreviewColorIntensity = preview_colintspin.value
+                PQCSettings.filedialogPreviewHigherResolution = preview_resolution.checked
+                PQCSettings.filedialogPreviewCropToFit = preview_scalecrop.checked
+
+                preview_check.saveDefault()
+                preview_blur.saveDefault()
+                preview_mute.saveDefault()
+                preview_colintspin.saveDefault()
+                preview_resolution.saveDefault()
+                preview_scalecrop.saveDefault()
+
+            }
+
         }
 
     }
@@ -599,12 +972,19 @@ Flickable {
         load()
 
     function handleEscape() {
-        padding.closeContextMenus()
-        padding.acceptValue()
-        preview_colintspin.closeContextMenus()
-        preview_colintspin.acceptValue()
-        sortcriteria.popup.close()
-        folderthumb_timeout.popup.close()
+        set_sort.handleEscape()
+        set_lay.handleEscape()
+        set_hid.handleEscape()
+        set_ttp.handleEscape()
+        set_loc.handleEscape()
+        set_sin.handleEscape()
+        set_sel.handleEscape()
+        set_sec.handleEscape()
+        set_dad.handleEscape()
+        set_thb.handleEscape()
+        set_pad.handleEscape()
+        set_fol.handleEscape()
+        set_pre.handleEscape()
     }
 
     function checkDefault() {
@@ -617,57 +997,29 @@ Flickable {
 
         var l = ["naturalname", "name", "time", "size", "type"]
 
-        settingChanged = (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged() ||
-                          layout_icon.hasChanged() || layout_list.hasChanged() || hiddencheck.hasChanged() || tooltipcheck.hasChanged() ||
-                          remembercheck.hasChanged() || singlecheck.hasChanged() || sect_bookmarks.hasChanged() || sect_devices.hasChanged() ||
-                          sect_devicestmpfs.hasChanged() ||
-                          drag_icon.hasChanged() || drag_list.hasChanged() || drag_bookmarks.hasChanged() || singleexec.hasChanged() ||
-                          thumb_show.hasChanged() || thumb_scalecrop.hasChanged() || padding.hasChanged() || folderthumb_check.hasChanged() ||
-                          folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() || folderthumb_autoload.hasChanged() ||
-                          folderthumb_scalecrop.hasChanged() || preview_check.hasChanged() || preview_blur.hasChanged() || preview_mute.hasChanged() ||
-                          preview_colintspin.hasChanged() || preview_resolution.hasChanged() || preview_scalecrop.hasChanged())
+        settingChanged = (set_sort.hasChanged() || set_lay.hasChanged() || set_hid.hasChanged() ||
+                          set_ttp.hasChanged() || set_loc.hasChanged() || set_sin.hasChanged() ||
+                          set_sel.hasChanged() || set_sec.hasChanged() || set_dad.hasChanged() ||
+                          set_thb.hasChanged() || set_pad.hasChanged() || set_fol.hasChanged() ||
+                          set_pre.hasChanged())
 
     }
 
     function load() {
 
-        if(!PQCScriptsConfig.isICUSupportEnabled() && PQCSettings.imageviewSortImagesBy === "naturalname")
-            PQCSettings.imageviewSortImagesBy = "name"
-
-        var l = ["naturalname", "name", "time", "size", "type"]
-        sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) // qmllint disable unqualified
-        sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
-        sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
-
-        layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="icons")
-        layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="icons")
-        hiddencheck.loadAndSetDefault(PQCSettings.filedialogShowHiddenFilesFolders)
-        tooltipcheck.loadAndSetDefault(PQCSettings.filedialogDetailsTooltip)
-        remembercheck.loadAndSetDefault(PQCSettings.filedialogKeepLastLocation)
-        singleexec.loadAndSetDefault(!PQCSettings.filedialogSingleClickSelect)
-        singlecheck.loadAndSetDefault(PQCSettings.filedialogSingleClickSelect)
-        selremem.loadAndSetDefault(PQCSettings.filedialogRememberSelection)
-        sect_bookmarks.loadAndSetDefault(PQCSettings.filedialogPlaces)
-        sect_devices.loadAndSetDefault(PQCSettings.filedialogDevices)
-        sect_devicestmpfs.loadAndSetDefault(PQCSettings.filedialogDevicesShowTmpfs)
-        drag_icon.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewGrid)
-        drag_list.loadAndSetDefault(PQCSettings.filedialogDragDropFileviewList)
-        drag_bookmarks.loadAndSetDefault(PQCSettings.filedialogDragDropPlaces)
-
-        thumb_show.loadAndSetDefault(PQCSettings.filedialogThumbnails)
-        thumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogThumbnailsScaleCrop)
-        padding.loadAndSetDefault(PQCSettings.filedialogElementPadding)
-        folderthumb_check.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnails)
-        folderthumb_timeout.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsSpeed-1)
-        folderthumb_loop.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsLoop)
-        folderthumb_autoload.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsAutoload)
-        folderthumb_scalecrop.loadAndSetDefault(PQCSettings.filedialogFolderContentThumbnailsScaleCrop)
-        preview_check.loadAndSetDefault(PQCSettings.filedialogPreview)
-        preview_blur.loadAndSetDefault(PQCSettings.filedialogPreviewBlur)
-        preview_mute.loadAndSetDefault(PQCSettings.filedialogPreviewMuted)
-        preview_colintspin.loadAndSetDefault(PQCSettings.filedialogPreviewColorIntensity)
-        preview_resolution.loadAndSetDefault(PQCSettings.filedialogPreviewHigherResolution)
-        preview_scalecrop.loadAndSetDefault(PQCSettings.filedialogPreviewCropToFit)
+        set_sort.load()
+        set_lay.load()
+        set_hid.load()
+        set_ttp.load()
+        set_loc.load()
+        set_sin.load()
+        set_sel.load()
+        set_sec.load()
+        set_dad.load()
+        set_thb.load()
+        set_pad.load()
+        set_fol.load()
+        set_pre.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -676,71 +1028,19 @@ Flickable {
 
     function applyChanges() {
 
-        var l = ["naturalname", "name", "time", "size", "type"]
-        PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] // qmllint disable unqualified
-        PQCSettings.imageviewSortImagesAscending = sortasc.checked
-
-        PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")
-        PQCSettings.filedialogShowHiddenFilesFolders = hiddencheck.checked
-        PQCSettings.filedialogDetailsTooltip = tooltipcheck.checked
-        PQCSettings.filedialogKeepLastLocation = remembercheck.checked
-        PQCSettings.filedialogSingleClickSelect = singlecheck.checked
-        PQCSettings.filedialogRememberSelection = selremem.checked
-        PQCSettings.filedialogPlaces = sect_bookmarks.checked
-        PQCSettings.filedialogDevices = sect_devices.checked
-        PQCSettings.filedialogDevicesShowTmpfs = sect_devicestmpfs.checked
-        PQCSettings.filedialogDragDropFileviewGrid = drag_icon.checked
-        PQCSettings.filedialogDragDropFileviewList = drag_list.checked
-        PQCSettings.filedialogDragDropPlaces = drag_bookmarks.checked
-
-        PQCSettings.filedialogThumbnails = thumb_show.checked
-        PQCSettings.filedialogThumbnailsScaleCrop = thumb_scalecrop.checked
-        PQCSettings.filedialogElementPadding = padding.value
-        PQCSettings.filedialogFolderContentThumbnails = folderthumb_check.checked
-        PQCSettings.filedialogFolderContentThumbnailsSpeed = folderthumb_timeout.currentIndex+1
-        PQCSettings.filedialogFolderContentThumbnailsLoop = folderthumb_loop.checked
-        PQCSettings.filedialogFolderContentThumbnailsAutoload = folderthumb_autoload.checked
-        PQCSettings.filedialogFolderContentThumbnailsScaleCrop = folderthumb_scalecrop.checked
-        PQCSettings.filedialogPreview = preview_check.checked
-        PQCSettings.filedialogPreviewBlur = preview_blur.checked
-        PQCSettings.filedialogPreviewMuted = preview_mute.checked
-        PQCSettings.filedialogPreviewColorIntensity = preview_colintspin.value
-        PQCSettings.filedialogPreviewHigherResolution = preview_resolution.checked
-        PQCSettings.filedialogPreviewCropToFit = preview_scalecrop.checked
-
-        sortcriteria.saveDefault()
-        sortasc.saveDefault()
-        sortdesc.saveDefault()
-
-        layout_icon.saveDefault()
-        layout_list.saveDefault()
-        hiddencheck.saveDefault()
-        tooltipcheck.saveDefault()
-        remembercheck.saveDefault()
-        singleexec.saveDefault()
-        singlecheck.saveDefault()
-        selremem.saveDefault()
-        sect_bookmarks.saveDefault()
-        sect_devices.saveDefault()
-        sect_devicestmpfs.saveDefault()
-        drag_icon.saveDefault()
-        drag_list.saveDefault()
-        drag_bookmarks.saveDefault()
-
-        thumb_show.saveDefault()
-        thumb_scalecrop.saveDefault()
-        padding.saveDefault()
-        folderthumb_check.saveDefault()
-        folderthumb_timeout.saveDefault()
-        folderthumb_loop.saveDefault()
-        folderthumb_autoload.saveDefault()
-        folderthumb_scalecrop.saveDefault()
-        preview_check.saveDefault()
-        preview_blur.saveDefault()
-        preview_mute.saveDefault()
-        preview_colintspin.saveDefault()
-        preview_resolution.saveDefault()
-        preview_scalecrop.saveDefault()
+        set_sort.applyChanges()
+        set_lay.applyChanges()
+        set_hid.applyChanges()
+        set_ttp.applyChanges()
+        set_loc.applyChanges()
+        set_sin.applyChanges()
+        set_sel.applyChanges()
+        set_sec.applyChanges()
+        set_dad.applyChanges()
+        set_thb.applyChanges()
+        set_pad.applyChanges()
+        set_fol.applyChanges()
+        set_pre.applyChanges()
 
         settingChanged = false
 

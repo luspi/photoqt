@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -97,6 +98,30 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                movewhl.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewUseMouseWheelForImageMove") == 1) // qmllint disable unqualified
+                movebut.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewUseMouseLeftButtonForImageMove") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (movewhl.hasChanged() || movebut.hasChanged())
+            }
+
+            function load() {
+                movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) // qmllint disable unqualified
+                movebut.loadAndSetDefault(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked // qmllint disable unqualified
+                PQCSettings.imageviewUseMouseLeftButtonForImageMove = movebut.checked
+                movewhl.saveDefault()
+                movebut.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -125,6 +150,28 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                dblclk.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceDoubleClickThreshold"))
+            }
+
+            function handleEscape() {
+                dblclk.closeContextMenus()
+                dblclk.acceptValue()
+            }
+
+            function hasChanged() {
+                return dblclk.hasChanged()
+            }
+
+            function load() {
+                dblclk.loadAndSetDefault(PQCSettings.interfaceDoubleClickThreshold)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceDoubleClickThreshold = dblclk.value
+                dblclk.saveDefault()
+            }
 
         }
 
@@ -162,6 +209,27 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                whl_sens.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceMouseWheelSensitivity"))
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return whl_sens.hasChanged()
+            }
+
+            function load() {
+                whl_sens.loadAndSetDefault(PQCSettings.interfaceMouseWheelSensitivity)
+            }
+
+            function applyChanges() {
+                PQCSettings.interfaceMouseWheelSensitivity = whl_sens.value
+                whl_sens.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -200,6 +268,31 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                hidetimeout_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewHideCursorTimeout") > 0)
+                hidetimeout.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewHideCursorTimeout"))
+            }
+
+            function handleEscape() {
+                hidetimeout.closeContextMenus()
+                hidetimeout.acceptValue()
+            }
+
+            function hasChanged() {
+                return (hidetimeout.hasChanged() || hidetimeout_check.hasChanged())
+            }
+
+            function load() {
+                hidetimeout_check.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout!==0)
+                hidetimeout.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewHideCursorTimeout = (hidetimeout_check.checked ? hidetimeout.value : 0)
+                hidetimeout.saveDefault()
+                hidetimeout_check.saveDefault()
+            }
 
         }
 
@@ -251,6 +344,45 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                escape_doc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitDocument") == 1)
+                escape_arc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitArchive") == 1)
+                escape_bar.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitBarcodes") == 1)
+                escape_flt.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitFilter") == 1)
+                escape_sph.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitSphere") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (escape_doc.hasChanged() || escape_arc.hasChanged() || escape_bar.hasChanged() || escape_flt.hasChanged() || escape_sph.hasChanged())
+            }
+
+            function load() {
+                escape_doc.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
+                escape_arc.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
+                escape_bar.loadAndSetDefault(PQCSettings.imageviewEscapeExitBarcodes)
+                escape_flt.loadAndSetDefault(PQCSettings.imageviewEscapeExitFilter)
+                escape_sph.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
+            }
+
+            function applyChanges() {
+
+                PQCSettings.imageviewEscapeExitDocument = escape_doc.checked
+                PQCSettings.imageviewEscapeExitArchive = escape_arc.checked
+                PQCSettings.imageviewEscapeExitBarcodes = escape_bar.checked
+                PQCSettings.imageviewEscapeExitFilter = escape_flt.checked
+                PQCSettings.imageviewEscapeExitSphere = escape_sph.checked
+
+                escape_doc.saveDefault()
+                escape_arc.saveDefault()
+                escape_bar.saveDefault()
+                escape_flt.saveDefault()
+                escape_sph.saveDefault()
+
+            }
+
         }
 
         Item {
@@ -264,10 +396,11 @@ Flickable {
         load()
 
     function handleEscape() {
-        dblclk.closeContextMenus()
-        dblclk.acceptValue()
-        hidetimeout.closeContextMenus()
-        hidetimeout.acceptValue()
+        set_move.handleEscape()
+        set_dbl.handleEscape()
+        set_whl.handleEscape()
+        set_hidemouse.handleEscape()
+        set_escape.handleEscape()
     }
 
     function checkDefault() {
@@ -278,33 +411,18 @@ Flickable {
             return
         }
 
-        if(escape_doc.hasChanged() || escape_arc.hasChanged() || escape_bar.hasChanged() || escape_flt.hasChanged() || escape_sph.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(movewhl.hasChanged() || movebut.hasChanged() || dblclk.hasChanged() || whl_sens.hasChanged() || hidetimeout.hasChanged() || hidetimeout_check.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_move.hasChanged() || set_dbl.hasChanged() || set_whl.hasChanged() ||
+                          set_hidemouse.hasChanged() || set_escape.hasChanged())
 
     }
 
     function load() {
 
-        movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) // qmllint disable unqualified
-        movebut.loadAndSetDefault(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
-        dblclk.loadAndSetDefault(PQCSettings.interfaceDoubleClickThreshold)
-        whl_sens.loadAndSetDefault(PQCSettings.interfaceMouseWheelSensitivity)
-        hidetimeout_check.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout!==0)
-        hidetimeout.loadAndSetDefault(PQCSettings.imageviewHideCursorTimeout)
-        escape_doc.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
-        escape_arc.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
-        escape_bar.loadAndSetDefault(PQCSettings.imageviewEscapeExitBarcodes)
-        escape_flt.loadAndSetDefault(PQCSettings.imageviewEscapeExitFilter)
-        escape_sph.loadAndSetDefault(PQCSettings.imageviewEscapeExitSphere)
+        set_move.load()
+        set_dbl.load()
+        set_whl.load()
+        set_hidemouse.load()
+        set_escape.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -313,33 +431,11 @@ Flickable {
 
     function applyChanges() {
 
-
-        PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked // qmllint disable unqualified
-        PQCSettings.imageviewUseMouseLeftButtonForImageMove = movebut.checked
-        PQCSettings.interfaceDoubleClickThreshold = dblclk.value
-        PQCSettings.interfaceMouseWheelSensitivity = whl_sens.value
-        if(!hidetimeout_check.checked)
-            PQCSettings.imageviewHideCursorTimeout = 0
-        else
-            PQCSettings.imageviewHideCursorTimeout = hidetimeout.value
-        PQCSettings.imageviewEscapeExitDocument = escape_doc.checked
-        PQCSettings.imageviewEscapeExitArchive = escape_arc.checked
-        PQCSettings.imageviewEscapeExitBarcodes = escape_bar.checked
-        PQCSettings.imageviewEscapeExitFilter = escape_flt.checked
-        PQCSettings.imageviewEscapeExitSphere = escape_sph.checked
-
-        movewhl.saveDefault()
-        movebut.saveDefault()
-        dblclk.saveDefault()
-        whl_sens.saveDefault()
-        hidetimeout.saveDefault()
-        hidetimeout_check.saveDefault()
-
-        escape_doc.saveDefault()
-        escape_arc.saveDefault()
-        escape_bar.saveDefault()
-        escape_flt.saveDefault()
-        escape_sph.saveDefault()
+        set_move.applyChanges()
+        set_dbl.applyChanges()
+        set_whl.applyChanges()
+        set_hidemouse.applyChanges()
+        set_escape.applyChanges()
 
         settingChanged = false
 

@@ -668,6 +668,8 @@ void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
 
 QVariant PQCScriptsConfig::getDefaultSettingValueFor(QString key) {
     const QVariantList val = PQCSettings::get().getDefaultFor(key);
+    if(val[1].toString() == "list")
+        return val[0].toString().split(":://::");
     return val[0];
 }
 

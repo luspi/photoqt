@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -98,6 +99,32 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                pdf_quality.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPDFQuality")) // qmllint disable unqualified
+                pdf_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitDocument") == 1)
+            }
+
+            function handleEscape() {
+                pdf_quality.closeContextMenus()
+                pdf_quality.acceptValue()
+            }
+
+            function hasChanged() {
+                return (pdf_quality.hasChanged() || pdf_escape.hasChanged())
+            }
+
+            function load() {
+                pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality) // qmllint disable unqualified
+                pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesPDFQuality = pdf_quality.value // qmllint disable unqualified
+                PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
+                pdf_quality.saveDefault()
+                pdf_escape.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -159,6 +186,38 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                arc_extunrar.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesExternalUnrar") == 1)
+                archivecontrols.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesArchiveControls") == 1)
+                archiveleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesArchiveLeftRight") == 1)
+                archive_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitArchive") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged())
+            }
+
+            function load() {
+                arc_extunrar.loadAndSetDefault(PQCSettings.filetypesExternalUnrar)
+                archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
+                archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
+                archive_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesExternalUnrar = arc_extunrar.checked
+                PQCSettings.filetypesArchiveControls = archivecontrols.checked
+                PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
+                PQCSettings.imageviewEscapeExitArchive = archive_escape.checked
+                arc_extunrar.saveDefault()
+                archivecontrols.saveDefault()
+                archiveleftright.saveDefault()
+                archive_escape.saveDefault()
+            }
 
         }
 
@@ -245,6 +304,52 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                vid_autoplay.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoAutoplay") == 1)
+                vid_loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLoop") == 1)
+                vid_qtmult.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 0)
+                vid_libmpv.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 1)
+                videothumb.currentIndex = (""+PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoThumbnailer")==="" ? 0 : 1)
+                videojump.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLeftRightJumpVideo") == 1)
+                videospace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoSpacePause") == 1)
+            }
+
+            function handleEscape() {
+                videothumb.popup.close()
+            }
+
+            function hasChanged() {
+                return (vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
+                        vid_libmpv.hasChanged() || videothumb.hasChanged() ||
+                        videojump.hasChanged() || videospace.hasChanged())
+            }
+
+            function load() {
+                vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
+                vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
+                vid_qtmult.loadAndSetDefault(!PQCSettings.filetypesVideoPreferLibmpv)
+                vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
+                videothumb.loadAndSetDefault(PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
+                videojump.loadAndSetDefault(PQCSettings.filetypesVideoLeftRightJumpVideo)
+                videospace.loadAndSetDefault(PQCSettings.filetypesVideoSpacePause)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
+                PQCSettings.filetypesVideoLoop = vid_loop.checked
+                PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
+                PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
+                PQCSettings.filetypesVideoLeftRightJumpVideo = videojump.checked
+                PQCSettings.filetypesVideoSpacePause = videospace.checked
+                vid_autoplay.saveDefault()
+                vid_loop.saveDefault()
+                vid_qtmult.saveDefault()
+                vid_libmpv.saveDefault()
+                videothumb.saveDefault()
+                videojump.saveDefault()
+                videospace.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -285,6 +390,34 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                animatedcontrol.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedControls") == 1)
+                animatedleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedLeftRight") == 1)
+                animspace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedSpacePause") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (animatedcontrol.hasChanged() || animatedleftright.hasChanged() || animspace.hasChanged())
+            }
+
+            function load() {
+                animatedcontrol.loadAndSetDefault(PQCSettings.filetypesAnimatedControls)
+                animatedleftright.loadAndSetDefault(PQCSettings.filetypesAnimatedLeftRight)
+                animspace.loadAndSetDefault(PQCSettings.filetypesAnimatedSpacePause)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesAnimatedControls = animatedcontrol.checked
+                PQCSettings.filetypesAnimatedLeftRight = animatedleftright.checked
+                PQCSettings.filetypesAnimatedSpacePause = animspace.checked
+                animatedcontrol.saveDefault()
+                animatedleftright.saveDefault()
+                animspace.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -308,6 +441,26 @@ Flickable {
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                rawembed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesRAWUseEmbeddedIfAvailable") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return rawembed.hasChanged()
+            }
+
+            function load() {
+                rawembed.loadAndSetDefault(PQCSettings.filetypesRAWUseEmbeddedIfAvailable)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesRAWUseEmbeddedIfAvailable = rawembed.checked
+                rawembed.saveDefault()
+            }
 
         }
 
@@ -342,6 +495,30 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                documentcontrols.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesDocumentControls") == 1)
+                documentleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesDocumentLeftRight") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (documentcontrols.hasChanged() || documentleftright.hasChanged())
+            }
+
+            function load() {
+                documentcontrols.loadAndSetDefault(PQCSettings.filetypesDocumentControls)
+                documentleftright.loadAndSetDefault(PQCSettings.filetypesDocumentLeftRight)
+            }
+
+            function applyChanges() {
+                PQCSettings.filetypesDocumentControls = documentcontrols.checked
+                PQCSettings.filetypesDocumentLeftRight = documentleftright.checked
+                documentcontrols.saveDefault()
+                documentleftright.saveDefault()
+            }
+
         }
 
         Item {
@@ -355,9 +532,12 @@ Flickable {
         load()
 
     function handleEscape() {
-        pdf_quality.closeContextMenus()
-        pdf_quality.acceptValue()
-        videothumb.popup.close()
+        set_pdf.handleEscape()
+        set_arc.handleEscape()
+        set_vid.handleEscape()
+        set_ani.handleEscape()
+        set_raw.handleEscape()
+        set_doc.handleEscape()
     }
 
     function checkDefault() {
@@ -368,59 +548,19 @@ Flickable {
             return
         }
 
-        if(pdf_quality.hasChanged() || pdf_escape.hasChanged() || arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
-                vid_libmpv.hasChanged() || (videothumb.currentIndex===1 && PQCSettings.filetypesVideoThumbnailer==="") ||
-                (videothumb.currentIndex===0 && PQCSettings.filetypesVideoThumbnailer!=="") ||
-                videojump.hasChanged() || videospace.hasChanged() || rawembed.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(animatedcontrol.hasChanged() || animatedleftright.hasChanged() || animspace.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(documentcontrols.hasChanged() || documentleftright.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_pdf.hasChanged() || set_arc.hasChanged() || set_vid.hasChanged() ||
+                          set_ani.hasChanged() || set_raw.hasChanged() || set_doc.hasChanged())
 
     }
 
     function load() {
 
-        pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality) // qmllint disable unqualified
-        pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
-
-        arc_extunrar.loadAndSetDefault(PQCSettings.filetypesExternalUnrar)
-        archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
-        archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
-        archive_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
-
-        vid_autoplay.loadAndSetDefault(PQCSettings.filetypesVideoAutoplay)
-        vid_loop.loadAndSetDefault(PQCSettings.filetypesVideoLoop)
-        vid_qtmult.loadAndSetDefault(!PQCSettings.filetypesVideoPreferLibmpv)
-        vid_libmpv.loadAndSetDefault(PQCSettings.filetypesVideoPreferLibmpv)
-        videothumb.currentIndex = (PQCSettings.filetypesVideoThumbnailer==="" ? 0 : 1)
-        videojump.loadAndSetDefault(PQCSettings.filetypesVideoLeftRightJumpVideo)
-        videospace.loadAndSetDefault(PQCSettings.filetypesVideoSpacePause)
-
-        animatedcontrol.loadAndSetDefault(PQCSettings.filetypesAnimatedControls)
-        animatedleftright.loadAndSetDefault(PQCSettings.filetypesAnimatedLeftRight)
-        animspace.loadAndSetDefault(PQCSettings.filetypesAnimatedSpacePause)
-
-        rawembed.loadAndSetDefault(PQCSettings.filetypesRAWUseEmbeddedIfAvailable)
-
-        documentcontrols.loadAndSetDefault(PQCSettings.filetypesDocumentControls)
-        documentleftright.loadAndSetDefault(PQCSettings.filetypesDocumentLeftRight)
+        set_pdf.load()
+        set_arc.load()
+        set_vid.load()
+        set_ani.load()
+        set_raw.load()
+        set_doc.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -429,47 +569,12 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.filetypesPDFQuality = pdf_quality.value // qmllint disable unqualified
-        PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
-
-        PQCSettings.filetypesExternalUnrar = arc_extunrar.checked
-        PQCSettings.filetypesArchiveControls = archivecontrols.checked
-        PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
-        PQCSettings.imageviewEscapeExitArchive = archive_escape.checked
-
-        PQCSettings.filetypesVideoAutoplay = vid_autoplay.checked
-        PQCSettings.filetypesVideoLoop = vid_loop.checked
-        PQCSettings.filetypesVideoPreferLibmpv = vid_libmpv.checked
-        PQCSettings.filetypesVideoThumbnailer = (videothumb.currentIndex===1 ? videothumb.currentText : "")
-        PQCSettings.filetypesVideoLeftRightJumpVideo = videojump.checked
-        PQCSettings.filetypesVideoSpacePause = videospace.checked
-
-        PQCSettings.filetypesAnimatedControls = animatedcontrol.checked
-        PQCSettings.filetypesAnimatedLeftRight = animatedleftright.checked
-        PQCSettings.filetypesAnimatedSpacePause = animspace.checked
-
-        PQCSettings.filetypesRAWUseEmbeddedIfAvailable = rawembed.checked
-
-        PQCSettings.filetypesDocumentControls = documentcontrols.checked
-        PQCSettings.filetypesDocumentLeftRight = documentleftright.checked
-
-        pdf_quality.saveDefault()
-        pdf_escape.saveDefault()
-        arc_extunrar.saveDefault()
-        archivecontrols.saveDefault()
-        archiveleftright.saveDefault()
-        archive_escape.saveDefault()
-        vid_autoplay.saveDefault()
-        vid_loop.saveDefault()
-        vid_qtmult.saveDefault()
-        vid_libmpv.saveDefault()
-        videojump.saveDefault()
-        videospace.saveDefault()
-        documentcontrols.saveDefault()
-        documentleftright.saveDefault()
-        animatedcontrol.saveDefault()
-        animatedleftright.saveDefault()
-        animspace.saveDefault()
+        set_pdf.applyChanges()
+        set_arc.applyChanges()
+        set_vid.applyChanges()
+        set_ani.applyChanges()
+        set_raw.applyChanges()
+        set_doc.applyChanges()
 
         settingChanged = false
 

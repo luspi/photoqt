@@ -446,6 +446,7 @@ Flickable {
         set_scale.applyChanges()
         set_icn.applyChanges()
         set_label.applyChanges()
+        set_ttip.applyChanges()
 
         settingChanged = false
 

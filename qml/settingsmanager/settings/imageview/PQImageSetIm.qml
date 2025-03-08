@@ -106,6 +106,28 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                marginslider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMargin"))
+            }
+
+            function handleEscape() {
+                marginslider.closeContextMenus()
+                marginslider.acceptValue()
+            }
+
+            function hasChanged() {
+                return marginslider.hasChanged()
+            }
+
+            function load() {
+                marginslider.loadAndSetDefault(PQCSettings.imageviewMargin) // qmllint disable unqualified
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewMargin = marginslider.value // qmllint disable unqualified
+                marginslider.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -178,6 +200,40 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                large_fit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAlwaysActualSize") == 0)
+                large_full.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAlwaysActualSize") == 1)
+                small_fit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewFitInWindow") == 1)
+                small_asis.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewFitInWindow") == 0)
+                scale_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewRespectDevicePixelRatio") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() || scale_check.hasChanged())
+            }
+
+            function load() {
+                large_fit.loadAndSetDefault(!PQCSettings.imageviewAlwaysActualSize)
+                large_full.loadAndSetDefault(PQCSettings.imageviewAlwaysActualSize)
+                small_fit.loadAndSetDefault(PQCSettings.imageviewFitInWindow)
+                small_asis.loadAndSetDefault(!PQCSettings.imageviewFitInWindow)
+                scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewAlwaysActualSize = large_full.checked
+                PQCSettings.imageviewFitInWindow = small_fit.checked
+                PQCSettings.imageviewRespectDevicePixelRatio = scale_check.checked
+                large_fit.saveDefault()
+                large_full.saveDefault()
+                small_fit.saveDefault()
+                small_asis.saveDefault()
+                scale_check.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -202,6 +258,27 @@ Flickable {
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                checkerboard.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewTransparencyMarker") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return checkerboard.hasChanged()
+            }
+
+            function load() {
+                checkerboard.loadAndSetDefault(PQCSettings.imageviewTransparencyMarker)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewTransparencyMarker = checkerboard.checked
+                checkerboard.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -241,6 +318,32 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                interp_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationDisableForSmallImages") == 1)
+                interp_spin.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationThreshold"))
+            }
+
+            function handleEscape() {
+                interp_spin.closeContextMenus()
+                interp_spin.acceptValue()
+            }
+
+            function hasChanged() {
+                return (interp_check.hasChanged() || interp_spin.hasChanged())
+            }
+
+            function load() {
+                interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
+                interp_spin.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
+                PQCSettings.imageviewInterpolationThreshold = interp_spin.value
+                interp_check.saveDefault()
+                interp_spin.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -270,6 +373,28 @@ Flickable {
                 }
 
             ]
+
+            onResetToDefaults: {
+                cache_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewCache"))
+            }
+
+            function handleEscape() {
+                cache_slider.acceptValue()
+                cache_slider.closeContextMenus()
+            }
+
+            function hasChanged() {
+                return cache_slider.hasChanged()
+            }
+
+            function load() {
+                cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
+            }
+
+            function applyChanges() {
+                PQCSettings.imageviewCache = cache_slider.value
+                cache_slider.saveDefault()
+            }
 
         }
 
@@ -612,6 +737,104 @@ Flickable {
 
             ]
 
+            Timer {
+                id: setDefaultAfterReset
+                interval: 100
+                onTriggered: {
+                    setting_top.colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
+                    setting_top.checkDefault()
+                }
+            }
+
+            onResetToDefaults: {
+
+                setting_top.colorprofiles_contextmenu_default = PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceContextMenu")
+                setting_top.colorProfileLoadDefault()
+                setDefaultAfterReset.restart()
+
+                color_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceEnable") == 1)
+                color_embed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceLoadEmbedded") == 1)
+                if((""+PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceDefault")) === "") {
+                    color_defaultcombo.currentIndex = 0
+                    color_default.checked = false
+                } else {
+                    color_defaultcombo.currentIndex = (colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
+                    color_default.loadAndSetDefault(true)
+                }
+
+            }
+
+            function handleEscape() {
+                color_defaultcombo.popup.close()
+                butselall.contextmenu.close()
+                butselnone.contextmenu.close()
+                butselinv.contextmenu.close()
+                butlcms2import.contextmenu.close()
+            }
+
+            function hasChanged() {
+
+                if(color_enable.hasChanged() || color_embed.hasChanged() || color_default.hasChanged() || color_defaultcombo.hasChanged()) {
+                    return true
+                }
+
+                if(setting_top.colorprofiles_contextmenu.length == setting_top.colorprofiles_contextmenu_default.length) {
+                    setting_top.colorprofiles_contextmenu_default.sort()
+                    setting_top.colorprofiles_contextmenu.sort()
+                    var chg = false
+                    for(var i in setting_top.colorprofiles_contextmenu) {
+                        if(setting_top.colorprofiles_contextmenu[i] !== setting_top.colorprofiles_contextmenu_default[i]) {
+                            chg = true
+                            break
+                        }
+                    }
+                    return chg
+                }
+
+                return true
+
+            }
+
+            function load() {
+
+                // we need to load this before setting up the element below
+                setting_top.colorProfileLoadDefault()
+
+                colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                colorprofiles = PQCScriptsImages.getColorProfiles()
+                colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
+                colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
+
+                color_enable.loadAndSetDefault(PQCSettings.imageviewColorSpaceEnable)
+                color_embed.loadAndSetDefault(PQCSettings.imageviewColorSpaceLoadEmbedded)
+                if(PQCSettings.imageviewColorSpaceDefault === "") {
+                    color_defaultcombo.loadAndSetDefault(0)
+                    color_default.loadAndSetDefault(false)
+                } else {
+                    color_defaultcombo.loadAndSetDefault(colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
+                    color_default.loadAndSetDefault(true)
+                }
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.imageviewColorSpaceEnable = color_enable.checked
+                if(color_defaultcombo.currentIndex === 0 || !color_default.checked)
+                    PQCSettings.imageviewColorSpaceDefault = ""
+                else
+                    PQCSettings.imageviewColorSpaceDefault = colorprofiles[color_defaultcombo.currentIndex-1]
+                PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
+                PQCSettings.imageviewColorSpaceContextMenu = colorprofiles_contextmenu
+                colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
+
+                color_enable.saveDefault()
+                color_embed.saveDefault()
+                color_default.saveDefault()
+                color_defaultcombo.saveDefault()
+
+            }
+
         }
 
     }
@@ -620,17 +843,12 @@ Flickable {
         load()
 
     function handleEscape() {
-        marginslider.closeContextMenus()
-        marginslider.acceptValue()
-        interp_spin.closeContextMenus()
-        interp_spin.acceptValue()
-        cache_slider.acceptValue()
-        cache_slider.closeContextMenus()
-        color_defaultcombo.popup.close()
-        butselall.contextmenu.close()
-        butselnone.contextmenu.close()
-        butselinv.contextmenu.close()
-        butlcms2import.contextmenu.close()
+        set_margin.handleEscape()
+        set_sze.handleEscape()
+        set_trans.handleEscape()
+        set_interp.handleEscape()
+        set_cache.handleEscape()
+        set_col.handleEscape()
     }
 
     function checkDefault() {
@@ -641,70 +859,19 @@ Flickable {
             return
         }
 
-        if(marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() || small_fit.hasChanged() || small_asis.hasChanged() ||
-                checkerboard.hasChanged() || interp_check.hasChanged() || interp_spin.hasChanged() || cache_slider.hasChanged() || color_enable.hasChanged() ||
-                color_embed.hasChanged() || color_default.hasChanged() || color_defaultcombo.hasChanged() || scale_check.hasChanged()) {
-            settingChanged = true
-            return
-        }
-
-        if(colorprofiles_contextmenu.length == colorprofiles_contextmenu_default.length) {
-            colorprofiles_contextmenu_default.sort()
-            colorprofiles_contextmenu.sort()
-            var chg = false
-            for(var i in colorprofiles_contextmenu) {
-                if(colorprofiles_contextmenu[i] !== colorprofiles_contextmenu_default[i]) {
-                    chg = true
-                    break
-                }
-            }
-            if(chg) {
-                settingChanged = true
-                return
-            }
-        } else {
-            settingChanged = true
-            return
-        }
-
-        settingChanged = false
+        settingChanged = (set_margin.hasChanged() || set_sze.hasChanged() || set_trans.hasChanged() ||
+                          set_interp.hasChanged() || set_cache.hasChanged() || set_col.hasChanged())
 
     }
 
     function load() {
 
-        marginslider.loadAndSetDefault(PQCSettings.imageviewMargin) // qmllint disable unqualified
-
-        large_fit.loadAndSetDefault(!PQCSettings.imageviewAlwaysActualSize)
-        large_full.loadAndSetDefault(PQCSettings.imageviewAlwaysActualSize)
-        small_fit.loadAndSetDefault(PQCSettings.imageviewFitInWindow)
-        small_asis.loadAndSetDefault(!PQCSettings.imageviewFitInWindow)
-        scale_check.loadAndSetDefault(PQCSettings.imageviewRespectDevicePixelRatio)
-
-        checkerboard.loadAndSetDefault(PQCSettings.imageviewTransparencyMarker)
-
-        interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
-        interp_spin.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
-
-        cache_slider.loadAndSetDefault(PQCSettings.imageviewCache)
-
-        // we need to load this before setting up the element below
-        setting_top.colorProfileLoadDefault()
-
-        colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
-        colorprofiles = PQCScriptsImages.getColorProfiles()
-        colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
-        colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
-
-        color_enable.loadAndSetDefault(PQCSettings.imageviewColorSpaceEnable)
-        color_embed.loadAndSetDefault(PQCSettings.imageviewColorSpaceLoadEmbedded)
-        if(PQCSettings.imageviewColorSpaceDefault === "") {
-            color_defaultcombo.loadAndSetDefault(0)
-            color_default.loadAndSetDefault(false)
-        } else {
-            color_defaultcombo.loadAndSetDefault(colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
-            color_default.loadAndSetDefault(true)
-        }
+        set_margin.load()
+        set_sze.load()
+        set_trans.load()
+        set_interp.load()
+        set_cache.load()
+        set_col.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -713,46 +880,12 @@ Flickable {
 
     function applyChanges() {
 
-        PQCSettings.imageviewMargin = marginslider.value // qmllint disable unqualified
-
-        PQCSettings.imageviewAlwaysActualSize = large_full.checked
-        PQCSettings.imageviewFitInWindow = small_fit.checked
-
-        PQCSettings.imageviewRespectDevicePixelRatio = scale_check.checked
-
-        PQCSettings.imageviewTransparencyMarker = checkerboard.checked
-
-        PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
-        PQCSettings.imageviewInterpolationThreshold = interp_spin.value
-
-        PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
-        PQCSettings.imageviewInterpolationThreshold = interp_spin.value
-
-        PQCSettings.imageviewCache = cache_slider.value
-
-        PQCSettings.imageviewColorSpaceEnable = color_enable.checked
-        if(color_defaultcombo.currentIndex === 0 || !color_default.checked)
-            PQCSettings.imageviewColorSpaceDefault = ""
-        else
-            PQCSettings.imageviewColorSpaceDefault = colorprofiles[color_defaultcombo.currentIndex-1]
-        PQCSettings.imageviewColorSpaceLoadEmbedded = color_embed.checked
-        PQCSettings.imageviewColorSpaceContextMenu = colorprofiles_contextmenu
-        colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
-
-        marginslider.saveDefault()
-        large_fit.saveDefault()
-        large_full.saveDefault()
-        small_fit.saveDefault()
-        small_asis.saveDefault()
-        scale_check.saveDefault()
-        checkerboard.saveDefault()
-        interp_check.saveDefault()
-        interp_spin.saveDefault()
-        cache_slider.saveDefault()
-        color_enable.saveDefault()
-        color_embed.saveDefault()
-        color_default.saveDefault()
-        color_defaultcombo.saveDefault()
+        set_margin.applyChanges()
+        set_sze.applyChanges()
+        set_trans.applyChanges()
+        set_interp.applyChanges()
+        set_cache.applyChanges()
+        set_col.applyChanges()
 
         settingChanged = false
 

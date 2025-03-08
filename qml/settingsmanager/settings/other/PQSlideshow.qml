@@ -25,6 +25,7 @@ import QtQuick
 import QtQuick.Controls
 import PQCNotify
 import PQCScriptsFilesPaths
+import PQCScriptsConfig
 
 import "../../../elements"
 
@@ -195,6 +196,50 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+
+                anim_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition")<15) // qmllint disable unqualified
+
+                var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                anicombo.currentIndex = (animArray.indexOf(""+PQCScriptsConfig.getDefaultSettingValueFor("slideshowTypeAnimation")))
+                if(anicombo.currentIndex === -1) anicombo.currentIndex = 0
+
+                anispeed.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition"))
+
+            }
+
+            function handleEscape() {
+                anicombo.popup.close()
+            }
+
+            function hasChanged() {
+                return (anim_check.hasChanged() || anicombo.hasChanged() || anispeed.hasChanged())
+            }
+
+            function load() {
+
+                anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) // qmllint disable unqualified
+
+                var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
+                if(anicombo.currentIndex === -1) anicombo.loadAndSetDefault(0)
+
+                anispeed.loadAndSetDefault(PQCSettings.slideshowImageTransition)
+
+            }
+
+            function applyChanges() {
+
+                var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
+                PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] // qmllint disable unqualified
+                PQCSettings.slideshowImageTransition = anispeed.value
+
+                anim_check.saveDefault()
+                anicombo.saveDefault()
+                anispeed.saveDefault()
+
+            }
+
         }
 
         /**********************************************************************/
@@ -202,6 +247,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_interval
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Interval")
@@ -222,6 +269,28 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                interval.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowTime"))
+            }
+
+            function handleEscape() {
+                interval.closeContextMenus()
+                interval.acceptValue()
+            }
+
+            function hasChanged() {
+                return interval.hasChanged()
+            }
+
+            function load() {
+                interval.loadAndSetDefault(PQCSettings.slideshowTime)
+            }
+
+            function applyChanges() {
+                PQCSettings.slideshowTime = interval.value
+                interval.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -229,6 +298,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_loop
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Loop")
@@ -245,6 +316,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowLoop") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return loop.hasChanged()
+            }
+
+            function load() {
+                loop.loadAndSetDefault(PQCSettings.slideshowLoop)
+            }
+
+            function applyChanges() {
+                PQCSettings.slideshowLoop = loop.checked
+                loop.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -252,6 +343,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_shuffle
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Shuffle")
@@ -268,6 +361,26 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                shuffle.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowShuffle") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return shuffle.hasChanged()
+            }
+
+            function load() {
+                shuffle.loadAndSetDefault(PQCSettings.slideshowShuffle)
+            }
+
+            function applyChanges() {
+                PQCSettings.slideshowShuffle = shuffle.checked
+                shuffle.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -275,6 +388,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_status
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Status info and window buttons")
@@ -298,6 +413,30 @@ Flickable {
                 }
             ]
 
+            onResetToDefaults: {
+                hidewindowbuttons.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowHideWindowButtons") == 1)
+                hidestatusinfo.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowHideLabels") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return (hidewindowbuttons.hasChanged() || hidestatusinfo.hasChanged())
+            }
+
+            function load() {
+                hidewindowbuttons.loadAndSetDefault(PQCSettings.slideshowHideWindowButtons)
+                hidestatusinfo.loadAndSetDefault(PQCSettings.slideshowHideLabels)
+            }
+
+            function applyChanges() {
+                PQCSettings.slideshowHideWindowButtons = hidewindowbuttons.checked
+                PQCSettings.slideshowHideLabels = hidestatusinfo.checked
+                hidewindowbuttons.saveDefault()
+                hidestatusinfo.saveDefault()
+            }
+
         }
 
         /**********************************************************************/
@@ -305,6 +444,8 @@ Flickable {
         /**********************************************************************/
 
         PQSetting {
+
+            id: set_sub
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Include subfolders")
@@ -320,6 +461,26 @@ Flickable {
                         setting_top.checkDefault()
                 }
             ]
+
+            onResetToDefaults: {
+                includesub.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowIncludeSubFolders") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return includesub.hasChanged()
+            }
+
+            function load() {
+                includesub.loadAndSetDefault(PQCSettings.slideshowIncludeSubFolders)
+            }
+
+            function applyChanges() {
+                PQCSettings.slideshowIncludeSubFolders = includesub.checked
+                includesub.saveDefault()
+            }
 
         }
 
@@ -561,6 +722,52 @@ Flickable {
 
             ]
 
+            onResetToDefaults: {
+                music_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusic") == 1)
+                music_volumevideos.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusicVolumeVideos"))
+                music_shuffle.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusicShuffle") == 1)
+                set_music.musicfiles = []
+            }
+
+            function handleEscape() {
+                music_volumevideos.popup.close()
+                filesbut.contextmenu.close()
+            }
+
+            function hasChanged() {
+                return (music_check.hasChanged() || music_volumevideos.hasChanged() || music_shuffle.hasChanged() ||
+                        !setting_top.areTwoListsEqual(set_music.musicfiles, PQCSettings.slideshowMusicFiles))
+            }
+
+            function load() {
+
+                music_check.loadAndSetDefault(PQCSettings.slideshowMusic)
+                music_volumevideos.loadAndSetDefault(PQCSettings.slideshowMusicVolumeVideos)
+                music_shuffle.loadAndSetDefault(PQCSettings.slideshowMusicShuffle)
+
+                var tmp = []
+                for(var i in PQCSettings.slideshowMusicFiles) {
+                    if(PQCScriptsFilesPaths.doesItExist(PQCSettings.slideshowMusicFiles[i]))
+                        tmp.push(PQCSettings.slideshowMusicFiles[i])
+                }
+                set_music.musicfiles = tmp
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.slideshowMusic = music_check.checked
+                PQCSettings.slideshowMusicVolumeVideos = music_volumevideos.currentIndex
+                PQCSettings.slideshowMusicShuffle = music_shuffle.checked
+                PQCSettings.slideshowMusicFiles = set_music.musicfiles
+
+                music_check.saveDefault()
+                music_check.saveDefault()
+                music_volumevideos.saveDefault()
+                music_shuffle.saveDefault()
+
+            }
+
         }
 
     }
@@ -569,11 +776,6 @@ Flickable {
         load()
 
     function handleEscape() {
-        interval.closeContextMenus()
-        interval.acceptValue()
-        anicombo.popup.close()
-        music_volumevideos.popup.close()
-        filesbut.contextmenu.close()
     }
 
     // do not make this function typed, it will break
@@ -604,39 +806,21 @@ Flickable {
             return
         }
 
-        settingChanged = (anicombo.hasChanged() || anispeed.hasChanged() || interval.hasChanged() || loop.hasChanged() ||
-                          shuffle.hasChanged() || hidewindowbuttons.hasChanged() || hidestatusinfo.hasChanged() || music_check.hasChanged() ||
-                          includesub.hasChanged() || music_volumevideos.hasChanged() || music_shuffle.hasChanged() ||
-                          !areTwoListsEqual(set_music.musicfiles, PQCSettings.slideshowMusicFiles))
+        settingChanged = (set_ani.hasChanged() || set_interval.hasChanged() || set_loop.hasChanged() ||
+                          set_shuffle.hasChanged() || set_status.hasChanged() || set_sub.hasChanged() ||
+                          set_music.hasChanged())
 
     }
 
     function load() {
 
-        anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) // qmllint disable unqualified
-
-        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
-        if(anicombo.currentIndex === -1) anicombo.loadAndSetDefault(0)
-
-        anispeed.loadAndSetDefault(PQCSettings.slideshowImageTransition)
-        interval.loadAndSetDefault(PQCSettings.slideshowTime)
-
-        loop.loadAndSetDefault(PQCSettings.slideshowLoop)
-        shuffle.loadAndSetDefault(PQCSettings.slideshowShuffle)
-        hidewindowbuttons.loadAndSetDefault(PQCSettings.slideshowHideWindowButtons)
-        hidestatusinfo.loadAndSetDefault(PQCSettings.slideshowHideLabels)
-        includesub.loadAndSetDefault(PQCSettings.slideshowIncludeSubFolders)
-        music_check.loadAndSetDefault(PQCSettings.slideshowMusic)
-        music_volumevideos.loadAndSetDefault(PQCSettings.slideshowMusicVolumeVideos)
-        music_shuffle.loadAndSetDefault(PQCSettings.slideshowMusicShuffle)
-
-        var tmp = []
-        for(var i in PQCSettings.slideshowMusicFiles) {
-            if(PQCScriptsFilesPaths.doesItExist(PQCSettings.slideshowMusicFiles[i]))
-                tmp.push(PQCSettings.slideshowMusicFiles[i])
-        }
-        set_music.musicfiles = tmp
+        set_ani.load()
+        set_interval.load()
+        set_loop.load()
+        set_shuffle.load()
+        set_status.load()
+        set_sub.load()
+        set_music.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -645,33 +829,13 @@ Flickable {
 
     function applyChanges() {
 
-        var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] // qmllint disable unqualified
-
-        PQCSettings.slideshowTime = interval.value
-        PQCSettings.slideshowImageTransition = anispeed.value
-        PQCSettings.slideshowLoop = loop.checked
-        PQCSettings.slideshowShuffle = shuffle.checked
-        PQCSettings.slideshowHideWindowButtons = hidewindowbuttons.checked
-        PQCSettings.slideshowHideLabels = hidestatusinfo.checked
-        PQCSettings.slideshowIncludeSubFolders = includesub.checked
-        PQCSettings.slideshowMusic = music_check.checked
-        PQCSettings.slideshowMusicVolumeVideos = music_volumevideos.currentIndex
-        PQCSettings.slideshowMusicShuffle = music_shuffle.checked
-        PQCSettings.slideshowMusicFiles = set_music.musicfiles
-
-        anicombo.saveDefault()
-        anispeed.saveDefault()
-        interval.saveDefault()
-        loop.saveDefault()
-        shuffle.saveDefault()
-        hidewindowbuttons.saveDefault()
-        hidestatusinfo.saveDefault()
-        music_check.saveDefault()
-        includesub.saveDefault()
-        music_check.saveDefault()
-        music_volumevideos.saveDefault()
-        music_shuffle.saveDefault()
+        set_ani.applyChanges()
+        set_interval.applyChanges()
+        set_loop.applyChanges()
+        set_shuffle.applyChanges()
+        set_status.applyChanges()
+        set_sub.applyChanges()
+        set_music.applyChanges()
 
         settingChanged = false
 
