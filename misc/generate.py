@@ -31,12 +31,12 @@ if len(sys.argv) != 2 or sys.argv[1] not in known_args:
 One of the following flags is required:
 
  all\t\tGenerate all items
- filetypecolors\tCHeck filetype colors and add any new/missing ones
+ filetypecolors\tCheck filetype colors and add any new/missing ones
  filetypes\tGenerate filetype icons
  cmake\t\tGenerate CMake desktop file creation
  windowsrc\tGenerate windows resource file
  nsi\t\tGenerate nsi entries
- formatsdb\t\tSQL for writing formats to website database
+ formatsdb\tSQL for writing formats to website database
 """)
 
     exit()
@@ -55,16 +55,16 @@ os.makedirs('output/', exist_ok=True)
 if which == 'filetypecolors':
 
     import random
-    
+
     print("Checking filetype colors...")
-    
+
     def myhex(x):
         val = hex(x)[2:]
         if len(val) == 1:
             val = f"0{val}"
         return val
-    
-    
+
+
     # create database connection
     conn = sqlite3.connect('imageformats.db')
     c = conn.cursor()
@@ -81,18 +81,18 @@ if which == 'filetypecolors':
     for row in data:
 
         ending = row[0]
-        
+
         c2.execute(f"SELECT * FROM colors WHERE endings='{ending}'")
         howmany = len(c2.fetchall())
-        
+
         if howmany == 0:
-            
+
             print("")
             print(f"Found new ending: {ending}")
-            
+
             color = f"#{myhex(random.randint(0,192))}{myhex(random.randint(0,192))}{myhex(random.randint(0,192))}"
             print(f"Generating new random color: {color}")
-            
+
             newdata[ending] = [color,row[1]]
 
 
@@ -128,10 +128,10 @@ if which == 'all' or which == 'filetypes':
 
     c.execute("SELECT endings,color,category FROM colors ORDER BY endings")
     data = c.fetchall()
-    
+
     # fontsizes and x/y for strings of length 1 to 9
     fontsizes = [
-        167.569, 
+        167.569,
         167.569,
         167.569,
         167.569,
@@ -147,25 +147,25 @@ if which == 'all' or which == 'filetypes':
         [246.16951, 827.80219],
         [193.34572, 827.80219],
         [142.90329, 827.80219],
-        
+
         [108.4817, 834.60229],
         [98.047729, 834.97253],
         [98.233337, 835.34283],
-        
+
         [85.050117, 842.14288],
         ]
 
     print("Generating filetype icons...")
-    
+
 
     qrc_cont = "<RCC>\n    <qresource prefix=\"/\">\n"
-    
+
     updatedEndings = np.array([])
 
     totallen = len(data)
     i = 1
     for row in data:
-        
+
         endings = row[0].split(",")
         color = row[1]
         category = row[2]
@@ -174,28 +174,28 @@ if which == 'all' or which == 'filetypes':
         i += 1
 
         for e in endings:
-            
+
             l = len(e)
             if e == "unknown":
                 l = 1
-            
+
             qrc_cont += f"        <file>filetypes/{e}.svg</file>\n"
-                        
+
             if e == "svg" or e == "svgz":
                 category = "svg"
-            
+
             fname_large = f"output/svg/large/{e}.svg"
             fname_small = f"output/svg/small/{e}.svg"
             fname_squared = f"output/svg/squared/{e}.svg"
-            
+
             generateHowMany = 0
-            
+
             if not os.path.exists(fname_large):
-                
+
                 generateHowMany += 1
-                
+
                 print(f"  > large SVG: {e}")
-                                      
+
                 icn_large = open(f"icons/{category}.svg").read()
                 icn_large = icn_large.replace("#f00", color)
                 icn_large = icn_large.replace("ZZZ", "?" if (e=="unknown") else e.upper())
@@ -205,13 +205,13 @@ if which == 'all' or which == 'filetypes':
                 f_large = open(fname_large, "w")
                 f_large.write(icn_large)
                 f_large.close()
-            
+
             if not os.path.exists(fname_squared):
-                
+
                 generateHowMany += 1
-                
+
                 print(f"  > square SVG: {e}")
-                                      
+
                 icn_squared = open(f"icons/{category}_squared.svg").read()
                 icn_squared = icn_squared.replace("#f00", color)
                 icn_squared = icn_squared.replace("ZZZ", "?" if (e=="unknown") else e.upper())
@@ -221,25 +221,25 @@ if which == 'all' or which == 'filetypes':
                 f_squared = open(fname_squared, "w")
                 f_squared.write(icn_squared)
                 f_squared.close()
-                
+
             if not os.path.exists(fname_small):
-                
+
                 generateHowMany += 1
-                
+
                 print(f"  > small SVG: {e}")
-            
+
                 icn_small = open(f"icons/{category}_small.svg").read()
                 icn_small = icn_small.replace("#f00", color)
                 f_small = open(fname_small, "w")
                 f_small.write(icn_small)
                 f_small.close()
-            
+
             if not os.path.exists(f"output/ico/{e}.ico"):
-                
+
                 generateHowMany += 1
-                
+
                 print(f"  > ICON: {e}")
-            
+
                 def convert(size):
                     global fname_small
                     global fname_large
@@ -249,30 +249,30 @@ if which == 'all' or which == 'filetypes':
                     else:
                         os.system(f"convert -background none -gravity center -compress zip {fname_large} -resize {size}x{size} -extent {size}x{size} -compress zip output/tmp/{e}{size}.png")
                     os.system(f"optipng -o7 -strip all output/tmp/{e}{size}.png")
-                                
+
                 pool_obj = multiprocessing.Pool()
                 pool_obj.map(convert,[256,128,64,48,32,16])
-                
+
                 exe = "go-png2ico "
                 for sze in [256,128,64,48,32,16]:
                     exe += f"output/tmp/{e}{sze}.png "
                 exe += f"output/ico/{e}.ico"
                 os.system(exe)
-                
+
             if generateHowMany == 0:
                 print(f"  > {e} already up to date")
             else:
                 updatedEndings = np.append(updatedEndings, e)
-            
+
     qrc_cont += "    </qresource>\n"
     qrc_cont += "</RCC>\n"
 
     f_qrc = open("output/filetypes.qrc", "w")
     f_qrc.write(qrc_cont)
     f_qrc.close()
-    
+
     shutil.rmtree("output/tmp/")
-    
+
     if len(updatedEndings) > 0:
         print("**********************")
         print("The following endings have been updated:")
@@ -284,7 +284,7 @@ if which == 'all' or which == 'filetypes':
 if which == 'all' or which == 'cmake':
 
     print("Generating addition to CMake ComposeDesktopFile()...")
-    
+
     # create database connection
     conn = sqlite3.connect('imageformats.db')
     c = conn.cursor()
@@ -292,7 +292,7 @@ if which == 'all' or which == 'cmake':
     # get all data
     c.execute('SELECT * FROM imageformats ORDER BY endings')
     data = c.fetchall()
-    
+
     mt = np.array([], dtype=str)
 
     cont = "set(MIMETYPE \""
@@ -319,7 +319,7 @@ if which == 'all' or which == 'cmake':
 if which == 'all' or which == 'windowsrc':
 
     print("Generating windows resource file...")
-    
+
     conn = sqlite3.connect('icons/iconcolors.db')
     c = conn.cursor()
 
@@ -355,8 +355,131 @@ if which == 'all' or which == 'windowsrc':
 # GENERATE NSI ENTRIES
 if which == 'all' or which == 'nsi':
 
-    print("Generating additions to FileAssociation.nsh...")
-    
+    print("Generating new FileAssociation.nsh")
+
+    cont = """/*
+_____________________________________________________________________________
+
+                       File Association
+_____________________________________________________________________________
+
+ Based on code taken from http://nsis.sourceforge.net/File_Association
+
+ Usage in script:
+ 1. !include "FileAssociation.nsh"
+ 2. [Section|Function]
+      ${FileAssociationFunction} "Param1" "Param2" "..." $var
+    [SectionEnd|FunctionEnd]
+
+ FileAssociationFunction=[RegisterExtension|UnRegisterExtension]
+
+_____________________________________________________________________________
+
+ ${RegisterExtension} "[executable]" "[extension]" "[description]"
+
+"[executable]"     ; executable which opens the file format
+                   ;
+"[extension]"      ; extension, which represents the file format to open
+                   ;
+"[description]"    ; description for the extension. This will be display in Windows Explorer.
+                   ;
+
+
+ ${UnRegisterExtension} "[extension]" "[description]"
+
+"[extension]"      ; extension, which represents the file format to open
+                   ;
+"[description]"    ; description for the extension. This will be display in Windows Explorer.
+                   ;
+
+_____________________________________________________________________________
+
+                         Macros
+_____________________________________________________________________________
+
+ Change log window verbosity (default: 3=no script)
+
+ Example:
+ !include "FileAssociation.nsh"
+ !insertmacro RegisterExtension
+ ${FileAssociation_VERBOSE} 4   # all verbosity
+ !insertmacro UnRegisterExtension
+ ${FileAssociation_VERBOSE} 3   # no script
+*/
+
+
+!ifndef FileAssociation_INCLUDED
+!define FileAssociation_INCLUDED
+
+!include Util.nsh
+!include LogicLib.nsh
+
+!verbose push
+!verbose 3
+!ifndef _FileAssociation_VERBOSE
+  !define _FileAssociation_VERBOSE 3
+!endif
+!verbose ${_FileAssociation_VERBOSE}
+!define FileAssociation_VERBOSE `!insertmacro FileAssociation_VERBOSE`
+!verbose pop
+
+!macro FileAssociation_VERBOSE _VERBOSE
+  !verbose push
+  !verbose 3
+  !undef _FileAssociation_VERBOSE
+  !define _FileAssociation_VERBOSE ${_VERBOSE}
+  !verbose pop
+!macroend
+
+
+
+!macro RegisterExtensionCall _EXECUTABLE _EXTENSION _DESCRIPTION
+  !verbose push
+  !verbose ${_FileAssociation_VERBOSE}
+  Push `${_DESCRIPTION}`
+  Push `${_EXTENSION}`
+  Push `${_EXECUTABLE}`
+  ${CallArtificialFunction} RegisterExtension_
+  !verbose pop
+!macroend
+
+!macro UnRegisterExtensionCall _EXTENSION _DESCRIPTION
+  !verbose push
+  !verbose ${_FileAssociation_VERBOSE}
+  Push `${_EXTENSION}`
+  Push `${_DESCRIPTION}`
+  ${CallArtificialFunction} UnRegisterExtension_
+  !verbose pop
+!macroend
+
+
+
+!define RegisterExtension `!insertmacro RegisterExtensionCall`
+!define un.RegisterExtension `!insertmacro RegisterExtensionCall`
+
+!macro RegisterExtension
+!macroend
+
+!macro un.RegisterExtension
+!macroend
+
+!macro RegisterExtension_
+  !verbose push
+  !verbose ${_FileAssociation_VERBOSE}
+
+  Exch $R2 ;exe
+  Exch
+  Exch $R1 ;ext
+  Exch
+  Exch 2
+  Exch $R0 ;desc
+  Exch 2
+  Push $0
+  Push $1
+  Push $3
+
+"""
+
     conn2 = sqlite3.connect('icons/iconcolors.db')
     c2 = conn2.cursor()
 
@@ -364,8 +487,6 @@ if which == 'all' or which == 'nsi':
     data2 = c2.fetchall()
 
     # FileAssociation.nsh
-
-    cont = ""
 
     iF = 1
     for row in data2:
@@ -386,14 +507,576 @@ if which == 'all' or which == 'nsi':
     cont += f"    StrCpy $3 \"{iF}\"\n";
     cont += "  ${EndIf}\n"
 
+    cont += """
+  ReadRegStr $1 HKCR $R1 ""  ; read current file association
+  StrCmp "$1" "" NoBackup  ; is it empty
+  StrCmp "$1" "$R0" NoBackup  ; is it our own
+    WriteRegStr HKCR $R1 "backup_val" "$1"  ; backup current value
+NoBackup:
+  WriteRegStr HKCR $R1 "" "$R0"  ; set our file association
+
+  ReadRegStr $0 HKCR $R0 ""
+  StrCmp $0 "" 0 Skip
+    WriteRegStr HKCR "$R0" "" "$R0"
+    WriteRegStr HKCR "$R0\\shell" "" "open"
+    WriteRegStr HKCR "$R0\\DefaultIcon" "" "$R2,$3"
+Skip:
+  WriteRegStr HKCR "$R0\\shell\\open\\command" "" '"$R2" "%1"'
+
+  Pop $3
+  Pop $1
+  Pop $0
+  Pop $R2
+  Pop $R1
+  Pop $R0
+
+  !verbose pop
+!macroend
+
+!define UnRegisterExtension `!insertmacro UnRegisterExtensionCall`
+!define un.UnRegisterExtension `!insertmacro UnRegisterExtensionCall`
+
+!macro UnRegisterExtension
+!macroend
+
+!macro un.UnRegisterExtension
+!macroend
+
+!macro UnRegisterExtension_
+  !verbose push
+  !verbose ${_FileAssociation_VERBOSE}
+
+  Exch $R1 ;desc
+  Exch
+  Exch $R0 ;ext
+  Exch
+  Push $0
+  Push $1
+
+  ReadRegStr $1 HKCR $R0 ""
+  StrCmp $1 $R1 0 NoOwn ; only do this if we own it
+  ReadRegStr $1 HKCR $R0 "backup_val"
+  StrCmp $1 "" 0 Restore ; if backup="" then delete the whole key
+  DeleteRegKey HKCR $R0
+  Goto NoOwn
+
+Restore:
+  WriteRegStr HKCR $R0 "" $1
+  DeleteRegValue HKCR $R0 "backup_val"
+  DeleteRegKey HKCR $R1 ;Delete key with association name settings
+
+NoOwn:
+
+  Pop $1
+  Pop $0
+  Pop $R1
+  Pop $R0
+
+  !verbose pop
+!macroend
+
+!endif # !FileAssociation_INCLUDED
+"""
+
     f_new = open("output/add_to_FileAssociation.nsh", "w")
     f_new.write(cont)
     f_new.close()
 
     #############################################################
 
-    print("Generating additions to install script...")
-    
+    from datetime import datetime
+
+    print("Generating new installer script...")
+    print(" >> make sure to update the UnRegisterExtension calls for any changes in the previous version!")
+
+    cont = """;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Copyright (C) 2011-""" + str(datetime.now().year) + """ Lukas Spies
+; Contact: http://photoqt.org
+;
+; This file is part of PhotoQt.
+;
+; PhotoQt is free software: you can redistribute it and/or modify
+; it under the terms of the GNU General Public License as published by
+; the Free Software Foundation, either version 2 of the License, or
+; (at your option) any later version.
+;
+; PhotoQt is distributed in the hope that it will be useful,
+; but WITHOUT ANY WARRANTY; without even the implied warranty of
+; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+; GNU General Public License for more details.
+;
+; You should have received a copy of the GNU General Public License
+; along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;
+; In order to use this file, the following files need to be placed in the
+; SAME DIRECTORY AS THE APPLICATION FILES:
+;
+; - AdvUninstLog.nsh
+; - FileAssociation.nsh
+; - icon_install.ico
+; - icon.ico
+; - license.txt
+; - photoqt-setup.nsi (this file)
+;
+; In addition the EnVar plugin needs to be installed for NSIS:
+; https://nsis.sourceforge.io/EnVar_plug-in
+;
+; This will then create a new file in the application directory
+; called photoqt-xxx.exe where xxx is the version number specified below.
+;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Unicode True
+
+; modern ui
+!include MUI2.nsh
+
+; more flow control and logic
+!include LogicLib.nsh
+
+; allows creation of custom pages
+!include nsDialogs.nsh
+
+; macro for registering and unregistering file extensions
+!include "FileAssociation.nsh"
+
+; some main registry info, used for many things below
+!define INSTDIR_REG_ROOT "HKLM"
+!define INSTDIR_REG_KEY "Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\PhotoQt"
+
+;include the Uninstall log header
+!include AdvUninstLog2.nsh
+
+!define PHOTOQT_VERSION "xxx"
+
+; name of project and installer filename
+Name "PhotoQt"
+OutFile "photoqt-${PHOTOQT_VERSION}.exe"
+
+; this is a 64-bit program, thus install into 64-bit directory
+InstallDir "$PROGRAMFILES64\\PhotoQt"
+InstallDirRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "InstallDir"
+
+; since we want to install into system location, request admin privileges
+RequestExecutionLevel admin
+
+; warn user on abort
+!define MUI_ABORTWARNING
+
+; a custom installer icon`
+!define MUI_ICON "icon_install.ico"
+
+; we have an interactive uninstall
+!insertmacro UNATTENDED_UNINSTALL
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Welcome page
+
+!define MUI_WELCOMEPAGE_TITLE "Welcome to the installer of PhotoQt"
+
+!define MUI_WELCOMEPAGE_TEXT "This installer will guide you through the installation of the PhotoQt. It is recommended that you close all other applications before starting the installer. $\\r$\\n$\\r$\\nIf you have any questions or concerns, please contact the developer through his website:$\\r$\\n$\\r$\\nhttps://photoqt.org$\\r$\\n$\\r$\\n$\\r$\\n Click Next to continue."
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Final page
+
+!define MUI_FINISHPAGE_RUN "$INSTDIR/photoqt.exe"
+!define MUI_FINISHPAGE_RUN_TEXT "Open PhotoQt"
+
+!define MUI_FINISHPAGE_LINK "PhotoQt website: https://photoqt.org"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://photoqt.org"
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; The order of pages
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_LICENSE "license.txt"
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+Page custom FinalStepsInit FinalStepsLeave
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+
+; Set the language if the installer to English
+; This has to come AFTER the list of pages above
+!insertmacro MUI_LANGUAGE "English"
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; List all the files and store some meta info
+
+Section "PhotoQt" SecDummy
+
+    ;The output path for where to install files to.
+    SetOutPath "$INSTDIR"
+
+    ;We start by removing existing files.
+    !insertmacro UNINSTALL.NEW_PREUNINSTALL "$INSTDIR"
+
+    ;Open the uninstall log file.
+    !insertmacro UNINSTALL.LOG_OPEN_INSTALL
+
+    ;Recursively add all the files.
+    File /r /x *nsh /x *nsi /x *qmlc /x photoqt-setup.exe ".\\"
+
+    ;Close the uninstall log.
+    !insertmacro UNINSTALL.LOG_CLOSE_INSTALL
+
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "InstallDir" "$INSTDIR"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "DisplayName" "PhotoQt"
+    ;Same as create shortcut you need to use ${UNINST_EXE} instead of anything else.
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "UninstallString" "${UNINST_EXE} /S"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "QuietUninstallString" "${UNINST_EXE} /S"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "DisplayVersion" "${PHOTOQT_VERSION}"
+    WriteRegStr ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}" "Publisher" "Lukas Spies"
+
+    IfSilent 0 +2
+    Call FinalStepsLeave
+
+SectionEnd
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+Function .onInit
+
+    ;prepare log always within .onInit function
+    !insertmacro UNINSTALL.LOG_PREPARE_INSTALL
+
+FunctionEnd
+
+Function .onInstSuccess
+
+    ;create/update log always within .onInstSuccess function
+    !insertmacro UNINSTALL.LOG_UPDATE_INSTALL
+
+FunctionEnd
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; Ask the user whether to register for any filetypes
+
+Var Dialog
+
+Var LabelFiletypeDesc
+
+Var RadioButtonNone
+Var RadioButtonAll
+Var RadioButtonAll_State
+
+Var CheckboxPdfPs
+Var CheckboxPdfPs_State
+Var CheckboxPsdXcf
+Var CheckboxPsdXcf_State
+
+Var CheckboxStartMenu
+Var CheckboxStartMenu_State
+Var CheckboxDesktop
+Var CheckboxDesktop_State
+
+Function FinalStepsInit
+    !insertmacro MUI_HEADER_TEXT "Finishing up" "$SMPROGRAMS\\$StartMenuFolder"
+
+    nsDialogs::Create 1018
+    Pop $Dialog
+    ${If} $Dialog == error
+        Abort
+    ${EndIf}
+
+    ${NSD_CreateLabel} 0 0 100% 18u "Here you can set PhotoQt as default application for all supported image formats. If you decide against this, then you can always still open any image from inside PhotoQt."
+    Pop $LabelFiletypeDesc
+
+    ${NSD_CreateRadioButton} 0 20u 100% 12u "Do not set as default for any image formats"
+    Pop $RadioButtonNone
+    ${NSD_OnClick} $RadioButtonNone FinalStepsDisEnable
+
+    ${NSD_CreateRadioButton} 0 33u 100% 12u "Set as default for all supported image formats"
+    Pop $RadioButtonAll
+    ${NSD_Check} $RadioButtonAll
+    ${NSD_OnClick} $RadioButtonAll FinalStepsDisEnable
+
+    ${NSD_CreateCheckbox} 0 48u 100% 12u "Include PDF and PS"
+    Pop $CheckboxPdfPs
+
+    ${NSD_CreateCheckbox} 0 61u 100% 12u "Include PSD and XCF"
+    Pop $CheckboxPsdXcf
+
+    ${NSD_CreateHLine} 0 83u 100% 1u HLineBeforeDesktop
+
+    ${NSD_CreateCheckbox} 0 88u 100% 12u "Create Desktop Icon"
+    Pop $CheckboxDesktop
+
+    ${NSD_CreateCheckbox} 0 103u 100% 12u "Create Start menu entry"
+    Pop $CheckboxStartMenu
+    ${NSD_Check} $CheckboxStartMenu
+
+    nsDialogs::Show
+
+FunctionEnd
+
+; pdf/psd/xcf checkboxes are only enabled when PhotoQt is to be set as default
+Function FinalStepsDisEnable
+
+    ${NSD_GetState} $RadioButtonAll $RadioButtonAll_State
+    ${If} $RadioButtonAll_State == ${BST_CHECKED}
+        EnableWindow $CheckboxPdfPs 1
+        EnableWindow $CheckboxPsdXcf 1
+    ${Else}
+        EnableWindow $CheckboxPdfPs 0
+        EnableWindow $CheckboxPsdXcf 0
+    ${EndIf}
+
+FunctionEnd
+
+; perform actions based on user choices
+Function FinalStepsLeave
+
+    SetShellVarContext all
+
+    ${NSD_GetState} $RadioButtonAll $RadioButtonAll_State
+    ${NSD_GetState} $CheckboxPdfPs $CheckboxPdfPs_State
+    ${NSD_GetState} $CheckboxPsdXcf $CheckboxPsdXcf_State
+    ${NSD_GetState} $CheckboxDesktop $CheckboxDesktop_State
+    ${NSD_GetState} $CheckboxStartMenu $CheckboxStartMenu_State
+
+    IfSilent 0 +3
+    StrCpy $RadioButtonAll_State ${BST_CHECKED}
+    StrCpy $CheckboxStartMenu_State ${BST_CHECKED}
+
+    ; The file associations change over time. First we remove the old ones.
+    ${UnRegisterExtension} ".3fr" "Hasselblad Raw Image Format"
+    ${UnRegisterExtension} ".aai" "AAI Dune image"
+    ${UnRegisterExtension} ".ani" "Animated Windows cursors"
+    ${UnRegisterExtension} ".apng" "Animated Portable Network Graphics"
+    ${UnRegisterExtension} ".ari" "ARRIFLEX Raw Image Format"
+    ${UnRegisterExtension} ".art" "1st Publisher"
+    ${UnRegisterExtension} ".arw" "Sony Digital Camera Alpha Raw Image Format"
+    ${UnRegisterExtension} ".asf" "Advanced Systems Format"
+    ${UnRegisterExtension} ".avif" "AV1 Image File Format"
+    ${UnRegisterExtension} ".avifs" "AV1 Image File Format"
+    ${UnRegisterExtension} ".avs" "AVS X image"
+    ${UnRegisterExtension} ".x" "AVS X image"
+    ${UnRegisterExtension} ".mbfavs" "AVS X image"
+    ${UnRegisterExtension} ".bay" "Casio Raw Image Format"
+    ${UnRegisterExtension} ".bmp" "Microsoft Windows bitmap"
+    ${UnRegisterExtension} ".dib" "Microsoft Windows bitmap"
+    ${UnRegisterExtension} ".bpg" "Better Portable Graphics"
+    ${UnRegisterExtension} ".cals" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".ct1" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".ct2" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".ct3" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".ct4" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".c4" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".cal" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".nif" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".ras" "Continuous Acquisition and Life-cycle Support Type 1 image"
+    ${UnRegisterExtension} ".cap" "Phase One Raw Image Format"
+    ${UnRegisterExtension} ".eip" "Phase One Raw Image Format"
+    ${UnRegisterExtension} ".liq" "Phase One Raw Image Format"
+    ${UnRegisterExtension} ".cb7" "Comic book archive"
+    ${UnRegisterExtension} ".cbr" "Comic book archive"
+    ${UnRegisterExtension} ".cbt" "Comic book archive"
+    ${UnRegisterExtension} ".cbz" "Comic book archive"
+    ${UnRegisterExtension} ".cg3" "CCITT Group 3"
+    ${UnRegisterExtension} ".g3" "CCITT Group 3"
+    ${UnRegisterExtension} ".crw" "Canon Digital Camera Raw Image Format"
+    ${UnRegisterExtension} ".crr" "Canon Digital Camera Raw Image Format"
+    ${UnRegisterExtension} ".cr2" "Canon Digital Camera Raw Image Format"
+    ${UnRegisterExtension} ".cr3" "Canon Digital Camera Raw Image Format"
+    ${UnRegisterExtension} ".cube" "Cube Color lookup table converted to a HALD image"
+    ${UnRegisterExtension} ".cur" "Microsoft Windows cursor format"
+    ${UnRegisterExtension} ".cut" "Dr. Halo"
+    ${UnRegisterExtension} ".pal" "Dr. Halo"
+    ${UnRegisterExtension} ".dcr" "Kodak Cineon Raw Image Format"
+    ${UnRegisterExtension} ".kdc" "Kodak Cineon Raw Image Format"
+    ${UnRegisterExtension} ".drf" "Kodak Cineon Raw Image Format"
+    ${UnRegisterExtension} ".k25" "Kodak Cineon Raw Image Format"
+    ${UnRegisterExtension} ".dcs" "Kodak Cineon Raw Image Format"
+    ${UnRegisterExtension} ".dcx" "ZSoft IBM PC multi-page Paintbrush image"
+    ${UnRegisterExtension} ".dds" "DirectDraw Surface"
+    ${UnRegisterExtension} ".dfont" "Multi-face font package"
+    ${UnRegisterExtension} ".dic" "Digital Imaging and Communications in Medicine (DICOM) image"
+    ${UnRegisterExtension} ".dcm" "Digital Imaging and Communications in Medicine (DICOM) image"
+    ${UnRegisterExtension} ".djvu" "DjVu digital document format "
+    ${UnRegisterExtension} ".djv" "DjVu digital document format "
+    ${UnRegisterExtension} ".dng" "Adobe Digital Negative Raw Image Format"
+    ${UnRegisterExtension} ".dpx" "Digital Moving Picture Exchange"
+    ${UnRegisterExtension} ".erf" "Epson Raw Image Format"
+    ${UnRegisterExtension} ".exr" "OpenEXR"
+    ${UnRegisterExtension} ".ff" "farbfeld"
+    ${UnRegisterExtension} ".fits" "Flexible Image Transport System"
+    ${UnRegisterExtension} ".fit" "Flexible Image Transport System"
+    ${UnRegisterExtension} ".fts" "Flexible Image Transport System"
+    ${UnRegisterExtension} ".fl32" "FilmLight floating point image format"
+    ${UnRegisterExtension} ".ftx" "FAKK 2"
+    ${UnRegisterExtension} ".gif" "Graphics Interchange Format"
+    ${UnRegisterExtension} ".gpr" "GoPro GPR Raw Image Format"
+    ${UnRegisterExtension} ".heif" "High Efficiency Image Format"
+    ${UnRegisterExtension} ".heic" "High Efficiency Image Format"
+    ${UnRegisterExtension} ".hrz" "Slow-scan television"
+    ${UnRegisterExtension} ".icns" "Apple Icon Image"
+    ${UnRegisterExtension} ".ico" "Microsoft Windows icon format"
+    ${UnRegisterExtension} ".iff" "Interchange File Format"
+    ${UnRegisterExtension} ".jbig" "Joint Bi-level Image experts Group file interchange format (JBIG)"
+    ${UnRegisterExtension} ".jbg" "Joint Bi-level Image experts Group file interchange format (JBIG)"
+    ${UnRegisterExtension} ".bie" "Joint Bi-level Image experts Group file interchange format (JBIG)"
+    ${UnRegisterExtension} ".jng" "JPEG Network Graphics"
+    ${UnRegisterExtension} ".jpeg" "Joint Photographic Experts Group JFIF format"
+    ${UnRegisterExtension} ".jpg" "Joint Photographic Experts Group JFIF format"
+    ${UnRegisterExtension} ".jpe" "Joint Photographic Experts Group JFIF format"
+    ${UnRegisterExtension} ".jif" "Joint Photographic Experts Group JFIF format"
+    ${UnRegisterExtension} ".jpeg2000" "JPEG-2000"
+    ${UnRegisterExtension} ".j2k" "JPEG-2000"
+    ${UnRegisterExtension} ".jp2" "JPEG-2000"
+    ${UnRegisterExtension} ".jpc" "JPEG-2000"
+    ${UnRegisterExtension} ".jpx" "JPEG-2000"
+    ${UnRegisterExtension} ".jxl" "JPEG XL"
+    ${UnRegisterExtension} ".jxr" "JPEG-XR"
+    ${UnRegisterExtension} ".hdp" "JPEG-XR"
+    ${UnRegisterExtension} ".wdp" "JPEG-XR"
+    ${UnRegisterExtension} ".koa" "KOALA files"
+    ${UnRegisterExtension} ".gg" "KOALA files"
+    ${UnRegisterExtension} ".gig" "KOALA files"
+    ${UnRegisterExtension} ".kla" "KOALA files"
+    ${UnRegisterExtension} ".kra" "Krita Document"
+    ${UnRegisterExtension} ".lbm" "Interlaced Bitmap"
+    ${UnRegisterExtension} ".mat" "MATLAB image format"
+    ${UnRegisterExtension} ".mdc" "Minolta/Agfa Raw Image Format"
+    ${UnRegisterExtension} ".mef" "Mamiya Raw Image Format"
+    ${UnRegisterExtension} ".miff" "Magick image file format"
+    ${UnRegisterExtension} ".mif" "Magick image file format"
+    ${UnRegisterExtension} ".mng" "Multiple-image Network Graphics"
+    ${UnRegisterExtension} ".mos" "Leaf Raw Image Format"
+    ${UnRegisterExtension} ".mpc" "Magick Persistent Cache image file format"
+    ${UnRegisterExtension} ".mtv" "MTV ray tracer bitmap"
+    ${UnRegisterExtension} ".pic" "MTV ray tracer bitmap"
+    ${UnRegisterExtension} ".mvg" "Magick Vector Graphics"
+    ${UnRegisterExtension} ".nef" "Nikon Digital SLR Camera Raw Image Format"
+    ${UnRegisterExtension} ".nrw" "Nikon Digital SLR Camera Raw Image Format"
+    ${UnRegisterExtension} ".ora" "OpenRaster"
+    ${UnRegisterExtension} ".orf" "Olympus Digital Camera Raw Image Format"
+    ${UnRegisterExtension} ".otb" "On-the-air Bitmap"
+    ${UnRegisterExtension} ".otf" "OpenType font file"
+    ${UnRegisterExtension} ".otc" "OpenType font file"
+    ${UnRegisterExtension} ".ttf" "OpenType font file"
+    ${UnRegisterExtension} ".ttc" "OpenType font file"
+    ${UnRegisterExtension} ".p7" "Xv Visual Schnauzer thumbnail format"
+    ${UnRegisterExtension} ".palm" "Palm pixmap"
+    ${UnRegisterExtension} ".pam" "Portable Arbitrary Map format"
+    ${UnRegisterExtension} ".pbm" "Portable bitmap format (black and white)"
+    ${UnRegisterExtension} ".pcd" "Photo CD"
+    ${UnRegisterExtension} ".pcds" "Photo CD"
+    ${UnRegisterExtension} ".pcx" "ZSoft PiCture eXchange"
+    ${UnRegisterExtension} ".pdb" "Palm Database ImageViewer Format"
+    ${UnRegisterExtension} ".pef" "Pentax Raw Image Format"
+    ${UnRegisterExtension} ".ptx" "Pentax Raw Image Format"
+    ${UnRegisterExtension} ".pes" "Embrid Embroidery Format"
+    ${UnRegisterExtension} ".pfb" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".pfm" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".afm" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".inf" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".pfa" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".ofm" "Postscript Type 1 font "
+    ${UnRegisterExtension} ".pfm" "Portable Float Map"
+    ${UnRegisterExtension} ".pgm" "Portable graymap format (gray scale)"
+    ${UnRegisterExtension} ".pgx" "JPEG 2000 uncompressed format"
+    ${UnRegisterExtension} ".phm" "Portable float map format 16-bit half"
+    ${UnRegisterExtension} ".pic" "Softimage PIC"
+    ${UnRegisterExtension} ".picon" "Personal Icon"
+    ${UnRegisterExtension} ".pict" "QuickDraw/PICT"
+    ${UnRegisterExtension} ".pct" "QuickDraw/PICT"
+    ${UnRegisterExtension} ".pic" "QuickDraw/PICT"
+    ${UnRegisterExtension} ".pix" "Alias/Wavefront RLE image format"
+    ${UnRegisterExtension} ".als" "Alias/Wavefront RLE image format"
+    ${UnRegisterExtension} ".alias" "Alias/Wavefront RLE image format"
+    ${UnRegisterExtension} ".png" "Portable Network Graphics"
+    ${UnRegisterExtension} ".ppm" "Portable pixmap format (color)"
+    ${UnRegisterExtension} ".pnm" "Portable pixmap format (color)"
+    ${UnRegisterExtension} ".ptiff" "Pyramid encoded TIFF"
+    ${UnRegisterExtension} ".ptif" "Pyramid encoded TIFF"
+    ${UnRegisterExtension} ".pxn" "Logitech Raw Image Format"
+    ${UnRegisterExtension} ".qoi" "Quite OK image format"
+    ${UnRegisterExtension} ".raf" "Fuji CCD Raw Image Format"
+    ${UnRegisterExtension} ".raw" "Leica Raw Image Format"
+    ${UnRegisterExtension} ".rwl" "Leica Raw Image Format"
+    ${UnRegisterExtension} ".rgba" "SGI images"
+    ${UnRegisterExtension} ".rgb" "SGI images"
+    ${UnRegisterExtension} ".sgi" "SGI images"
+    ${UnRegisterExtension} ".bw" "SGI images"
+    ${UnRegisterExtension} ".rgbe" "Radiance RGBE image format"
+    ${UnRegisterExtension} ".hdr" "Radiance RGBE image format"
+    ${UnRegisterExtension} ".rad" "Radiance RGBE image format"
+    ${UnRegisterExtension} ".rgf" "LEGO Mindstorms EV3 Robot Graphics File"
+    ${UnRegisterExtension} ".rla" "Wavefront RLA File Format"
+    ${UnRegisterExtension} ".rle" "Utah Run length encoded image file"
+    ${UnRegisterExtension} ".rw2" "Panasonic Raw Image Format"
+    ${UnRegisterExtension} ".scr" "ZX-Spectrum SCREEN"
+    ${UnRegisterExtension} ".sct" "Scitex Continuous Tone Picture"
+    ${UnRegisterExtension} ".ch" "Scitex Continuous Tone Picture"
+    ${UnRegisterExtension} ".ct" "Scitex Continuous Tone Picture"
+    ${UnRegisterExtension} ".sfw" "Seattle File Works image"
+    ${UnRegisterExtension} ".alb" "Seattle File Works image"
+    ${UnRegisterExtension} ".pwm" "Seattle File Works image"
+    ${UnRegisterExtension} ".pwp" "Seattle File Works image"
+    ${UnRegisterExtension} ".sixel" "DEC SIXEL Graphics Format"
+    ${UnRegisterExtension} ".srf" "Sony (Minolta) Raw Image Format"
+    ${UnRegisterExtension} ".mrw" "Sony (Minolta) Raw Image Format"
+    ${UnRegisterExtension} ".sr2" "Sony (Minolta) Raw Image Format"
+    ${UnRegisterExtension} ".srw" "Samsung Raw Image Format"
+    ${UnRegisterExtension} ".sun" "SUN Rasterfile"
+    ${UnRegisterExtension} ".ras" "SUN Rasterfile"
+    ${UnRegisterExtension} ".sr" "SUN Rasterfile"
+    ${UnRegisterExtension} ".im1" "SUN Rasterfile"
+    ${UnRegisterExtension} ".im24" "SUN Rasterfile"
+    ${UnRegisterExtension} ".im32" "SUN Rasterfile"
+    ${UnRegisterExtension} ".im8" "SUN Rasterfile"
+    ${UnRegisterExtension} ".rast" "SUN Rasterfile"
+    ${UnRegisterExtension} ".rs" "SUN Rasterfile"
+    ${UnRegisterExtension} ".scr" "SUN Rasterfile"
+    ${UnRegisterExtension} ".svg" "Scalable Vector Graphics"
+    ${UnRegisterExtension} ".svgz" "Scalable Vector Graphics"
+    ${UnRegisterExtension} ".tar" "TAR file format"
+    ${UnRegisterExtension} ".tga" "Truevision Targa image"
+    ${UnRegisterExtension} ".icb" "Truevision Targa image"
+    ${UnRegisterExtension} ".vda" "Truevision Targa image"
+    ${UnRegisterExtension} ".vst" "Truevision Targa image"
+    ${UnRegisterExtension} ".tiff" "Tagged Image File Format"
+    ${UnRegisterExtension} ".tif" "Tagged Image File Format"
+    ${UnRegisterExtension} ".tim" "PSX TIM (PlayStation Graphics)"
+    ${UnRegisterExtension} ".ttf" "TrueType font file"
+    ${UnRegisterExtension} ".vicar" "VICAR rasterfile format"
+    ${UnRegisterExtension} ".vic" "VICAR rasterfile format"
+    ${UnRegisterExtension} ".img" "VICAR rasterfile format"
+    ${UnRegisterExtension} ".viff" "Khoros Visualization Image File Format"
+    ${UnRegisterExtension} ".xv" "Khoros Visualization Image File Format"
+    ${UnRegisterExtension} ".vtf" "Valve Texture Format"
+    ${UnRegisterExtension} ".wbmp" "Wireless Bitmap"
+    ${UnRegisterExtension} ".webp" "Google web image format"
+    ${UnRegisterExtension} ".wmf" "Windows Metafile"
+    ${UnRegisterExtension} ".wmz" "Windows Metafile"
+    ${UnRegisterExtension} ".apm" "Windows Metafile"
+    ${UnRegisterExtension} ".wpg" "Word Perfect Graphics File"
+    ${UnRegisterExtension} ".xbm" "X BitMap"
+    ${UnRegisterExtension} ".bm" "X BitMap"
+    ${UnRegisterExtension} ".xpm" "X PixMap"
+    ${UnRegisterExtension} ".pm" "X PixMap"
+    ${UnRegisterExtension} ".xwd" "X Windows system window dump"
+    ${UnRegisterExtension} ".eps" "Encapsulated PostScript"
+    ${UnRegisterExtension} ".epsf" "Encapsulated PostScript"
+    ${UnRegisterExtension} ".epsi" "Encapsulated PostScript"
+    ${UnRegisterExtension} ".pdf" "Adobe Portable Document Format"
+    ${UnRegisterExtension} ".ps" "Adobe Level III PostScript file"
+    ${UnRegisterExtension} ".ps2" "Adobe Level III PostScript file"
+    ${UnRegisterExtension} ".ps3" "Adobe Level III PostScript file"
+    ${UnRegisterExtension} ".psd" "Adobe PhotoShop"
+    ${UnRegisterExtension} ".psb" "Adobe PhotoShop"
+    ${UnRegisterExtension} ".xcf" "Gimp XCF"
+"""
+
     # create database connection
     conn = sqlite3.connect('imageformats.db')
     c = conn.cursor()
@@ -404,18 +1087,18 @@ if which == 'all' or which == 'nsi':
 
     # register file extensions in install script
 
-    cont = ""
+    stdcont = ""
     pdfcont = ""
     psdcont = ""
 
-    un_cont = ""
+    un_stdcont = ""
     un_pdfcont = ""
     un_psdcont = ""
 
     for row in data:
 
         endings = row[0].split(",")
-        
+
         desc = row[3]
         if ":" in desc:
             desc = desc.split(":")[1].strip()
@@ -428,8 +1111,8 @@ if which == 'all' or which == 'nsi':
             if endings[0] == "zip" or endings[0] == "rar" or endings[0] == "7z":
                 continue
 
-            line = f"${{RegisterExtension}} \"$INSTDIR\\photoqt.exe\" \".{e}\" \"{desc}\"\n"
-            un_line = f"${{UnRegisterExtension}} \".{e}\" \"{desc}\"\n"
+            line = f"    ${{RegisterExtension}} \"$INSTDIR\\photoqt.exe\" \".{e}\" \"{endings[0].lower()}file\"\n"
+            un_line = f"    ${{UnRegisterExtension}} \".{e}\" \"{endings[0].lower()}file\"\n"
 
             if endings[0] in ["eps", "pdf", "ps"]:
                 pdfcont += line
@@ -438,32 +1121,146 @@ if which == 'all' or which == 'nsi':
                 psdcont += line
                 un_psdcont += un_line
             elif row[5] == 1:
-                cont += line
-                un_cont += un_line
+                stdcont += line
+                un_stdcont += un_line
 
-    f_new = open("output/register_extension", "w")
-    f_new.write(cont)
-    f_new.close()
+    cont += """
+    ${If} $RadioButtonAll_State == ${BST_CHECKED}
 
-    f_new = open("output/register_extension_pdf", "w")
-    f_new.write(pdfcont)
-    f_new.close()
+        WriteRegStr HKCU "Software\\PhotoQt" "fileformats" "all"
 
-    f_new = open("output/register_extension_psd", "w")
-    f_new.write(psdcont)
-    f_new.close()
+""" + stdcont.replace("    ", "        ") + """
 
-    un_f_new = open("output/unregister_extension", "w")
-    un_f_new.write(un_cont)
-    un_f_new.close()
+        ${If} $CheckboxPdfPs_State == ${BST_CHECKED}
 
-    un_f_new = open("output/unregister_extension_pdf", "w")
-    un_f_new.write(un_pdfcont)
-    un_f_new.close()
+            WriteRegStr HKCU "Software\\PhotoQt" "fileformats_pdfps" "registered"
 
-    un_f_new = open("output/unregister_extension_psd", "w")
-    un_f_new.write(un_psdcont)
-    un_f_new.close()
+""" + pdfcont.replace("    ", "            ") + """
+
+        ${Else}
+
+            ; if it was registered in a previous install, we need to de-register it here
+            Var /GLOBAL fileformats_pdfps
+            ReadRegStr $fileformats_pdfps HKCU "Software\\PhotoQt" "fileformats_pdfps"
+            ${If} $fileformats_pdfps == "registered"
+
+""" + un_pdfcont.replace("    ", "                ") + """
+
+            ${EndIf}
+
+            WriteRegStr HKCU "Software\\PhotoQt" "fileformats_pdfps" ""
+
+        ${EndIf}
+
+        ${If} $CheckboxPsdXcf_State == ${BST_CHECKED}
+
+            WriteRegStr HKCU "Software\\PhotoQt" "fileformats_psdxcf" "registered"
+
+""" + psdcont.replace("    ", "            ") + """
+
+        ${Else}
+
+            ; if it was registered in a previous install, we need to de-register it here
+            Var /GLOBAL fileformats_psdxcf
+            ReadRegStr $fileformats_psdxcf HKCU "Software\\PhotoQt" "fileformats_psdxcf"
+            ${If} $fileformats_psdxcf == "registered"
+
+""" + un_psdcont.replace("    ", "                ") + """
+
+            ${EndIf}
+
+            WriteRegStr HKCU "Software\\PhotoQt" "fileformats_psdxcf" ""
+
+        ${EndIf}
+
+    ${EndIf}
+
+    ${If} $CheckboxDesktop_State == ${BST_CHECKED}
+
+        ; create desktop shortcut
+        CreateShortcut "$desktop\\PhotoQt.lnk" "$instdir\\photoqt.exe" "" "$INSTDIR\\icon.ico" 0
+
+    ${Else}
+
+        Delete "$desktop\\PhotoQt.lnk"
+
+    ${EndIf}
+
+    ${If} $CheckboxStartMenu_State == ${BST_CHECKED}
+
+        ; create start menu entry in top level, no need for a subdirectory
+        CreateShortcut "$SMPROGRAMS\\PhotoQt.lnk" "$INSTDIR\\photoqt.exe" "" "" 0
+
+    ${Else}
+
+        Delete "$SMPROGRAMS\\PhotoQt.lnk"
+
+    ${EndIf}
+
+    WriteRegStr HKLM "${INSTDIR_REG_KEY}" "DisplayIcon" "$INSTDIR\\icon.ico"
+
+    System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
+
+FunctionEnd
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+; The uninstaller
+
+Section "Uninstall"
+
+    Var /GLOBAL un_fileformats
+    Var /GLOBAL un_fileformats_pdfps
+    Var /GLOBAL un_fileformats_psdxcf
+    ReadRegStr $un_fileformats HKCU "Software\\PhotoQt" "fileformats"
+    ReadRegStr $un_fileformats_pdfps HKCU "Software\\PhotoQt" "fileformats_pdfps"
+    ReadRegStr $un_fileformats_psdxcf HKCU "Software\\PhotoQt" "fileformats_psdxcf"
+
+    ; ... DE-register file formats ...
+    ${If} $un_fileformats == "all"
+
+""" + un_stdcont.replace("    ", "        ") + """
+        WriteRegStr HKCU "Software\\PhotoQt" "fileformats" ""
+
+    ${EndIf}
+
+    ${If} $un_fileformats_pdfps == "registered"
+
+""" + un_pdfcont.replace("    ", "        ") + """
+
+        WriteRegStr HKCU "Software\\PhotoQt" "fileformats_pdfps" ""
+
+    ${EndIf}
+
+    ${If} $un_fileformats_psdxcf == "registered"
+
+""" + un_psdcont.replace("    ", "        ") + """
+
+        WriteRegStr HKCU "Software\\PhotoQt" "fileformats_psdxcf" ""
+
+    ${EndIf}
+
+    SetShellVarContext all
+    Delete "$SMPROGRAMS\\PhotoQt.lnk"
+    Delete "$desktop\\PhotoQt.lnk"
+
+    ;begin uninstall
+    !insertmacro UNINSTALL.NEW_UNINSTALL "$OUTDIR"
+
+    DeleteRegKey ${INSTDIR_REG_ROOT} "${INSTDIR_REG_KEY}"
+    DeleteRegKey "Software\\PhotoQt" "Software\\PhotoQt"
+
+    ; Remove environment variables
+    EnVar::Delete "PHOTOQT_MAGICK_CODER_MODULE_PATH"
+    EnVar::Delete "PHOTOQT_MAGICK_FILTER_MODULE_PATH"
+
+    System::Call 'shell32.dll::SHChangeNotify(i, i, i, i) v (0x08000000, 0, 0, 0)'
+
+SectionEnd
+"""
+
+    f = open("output/photoqt-setup.nsi", "w")
+    f.write(cont)
+    f.close()
 
 
 #############################################################
