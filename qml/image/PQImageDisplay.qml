@@ -1307,9 +1307,11 @@ Loader {
                                 else
                                     image_wrapper.setMirrorHVToImage(false, false)
 
-                                flickable.contentX = vals[0]
-                                flickable.contentY = vals[1]
-                                flickable.returnToBounds()
+                                if(!PQCSettings.imageviewAlwaysActualSize || (PQCSettings.imageviewRememberZoomRotationMirror && imageloaderitem.imageSource in image_top.rememberChanges)) {
+                                    flickable.contentX = vals[0]
+                                    flickable.contentY = vals[1]
+                                    flickable.returnToBounds()
+                                }
 
                             } else if(!PQCSettings.imageviewAlwaysActualSize) {
 
@@ -1944,26 +1946,31 @@ Loader {
             if(PQCSettings.imageviewAnimationType === "random")
                 selectNewRandomAnimation.restart()
 
+            loader_top.loadScaleRotation()
+
             // these are only done if we are not in a slideshow with the ken burns effect
             if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
 
                 if(PQCSettings.imageviewAlwaysActualSize) {
                     loader_top.zoomActualWithoutAnimation()
-                    adjustXY.restart()
-                }
+                    if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
+                        if(flickable.contentWidth > flickable.width)
+                            flickable.contentX = Qt.binding(function() { return (flickable.contentWidth-flickable.width)/2 })
+                        if(flickable.contentHeight > flickable.height)
+                            flickable.contentY = Qt.binding(function() { return (flickable.contentHeight-flickable.height)/2 })
+                    }
+                } else {
 
-                loader_top.loadScaleRotation()
+                    image_top.initialLoadingFinished = true
+
+                    loader_top.resetToDefaults()
+                    loader_top.moveViewToCenter()
+
+                }
 
             }
 
             image_top.initialLoadingFinished = true
-
-            if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
-
-                loader_top.resetToDefaults()
-                loader_top.moveViewToCenter()
-
-            }
 
         }
 
