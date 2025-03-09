@@ -1947,6 +1947,7 @@ Loader {
                 selectNewRandomAnimation.restart()
 
             loader_top.loadScaleRotation()
+            loader_top.resetToDefaults()
 
             // these are only done if we are not in a slideshow with the ken burns effect
             if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
