@@ -32,12 +32,13 @@ Item {
     id: blur_top
     anchors.fill: parent
 
-    property list<string> itemkeys: ["image", "statusinfo", "histogram", "mapcurrent", "thumbnails", "metadata", "mainmenu"]
+    property list<string> itemkeys: ["image", "statusinfo", "histogram", "quickactions", "mapcurrent", "thumbnails", "metadata", "mainmenu"]
     property var items: {
         "image" : image, // qmllint disable unqualified
         "thumbnails" : loader_thumbnails,
         "statusinfo" : statusinfo,
         "histogram" : loader_histogram,
+        "quickactions" : loader_quickactions,
         "mapcurrent" : loader_mapcurrent,
         "mainmenu" : loader_mainmenu,
         "metadata" : loader_metadata

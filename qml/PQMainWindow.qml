@@ -158,6 +158,7 @@ Window {
 
     // ongoing
     Loader { id: loader_histogram }
+    Loader { id: loader_quickactions }
     Loader { id: loader_mapcurrent }
     Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }

@@ -43,11 +43,16 @@ Rectangle {
 
     /////////
 
+    property alias blur_thisis: blurbg.thisis
     property bool showPopinPopout: true
     property bool darkBackgroundManageIcons: false
     property string tooltip: ""
     property bool allowWheel: false
-    property alias blur_thisis: blurbg.thisis
+    property bool showMainMouseArea: true
+    property bool showBGMouseArea: false
+    property int contentPadding: 0
+    property bool allowResize: true
+    property bool moveButtonsOutside: false
 
     /////////
 
@@ -81,11 +86,32 @@ Rectangle {
 
     PQBlurBackground { id: blurbg }
 
+    PQMouseArea {
+        id: mouseareaBG
+        enabled: ele_top.showBGMouseArea
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        drag.target: ele_top.popout ? undefined : parent
+        text: ele_top.tooltip
+        onWheel: (wheel) => {
+            wheel.accepted = !ele_top.allowWheel
+        }
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                ele_top.rightClicked(mouse)
+            else
+                ele_top.leftClicked(mouse)
+            mouse.accepted = true
+        }
+    }
+
     Item {
 
         id: content
 
         anchors.fill: parent
+        anchors.margins: ele_top.contentPadding
 
         clip: true
 
@@ -95,6 +121,7 @@ Rectangle {
 
     PQMouseArea {
         id: mousearea
+        enabled: ele_top.showMainMouseArea
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
@@ -116,7 +143,7 @@ Rectangle {
 
         id: resizearea
 
-        enabled: !ele_top.popout
+        enabled: !ele_top.popout && ele_top.allowResize
 
         anchors {
             right: parent.right
@@ -124,7 +151,7 @@ Rectangle {
         }
         width: 10
         height: 10
-        cursorShape: Qt.SizeFDiagCursor
+        cursorShape: ele_top.allowResize ? Qt.SizeFDiagCursor : Qt.ArrowCursor
 
         onPositionChanged: (mouse) => {
             if(pressed) {
@@ -140,8 +167,8 @@ Rectangle {
     }
 
     Image {
-        x: 4
-        y: 4
+        x: moveButtonsOutside ? (5-width) : 4
+        y: moveButtonsOutside ? (5-height) : 4
         width: 15
         height: 15
         visible: ele_top.showPopinPopout && !ele_top.forcePopout
@@ -186,8 +213,8 @@ Rectangle {
 
     Row {
 
-        x: parent.width-width-2
-        y: 2
+        x: moveButtonsOutside ? (parent.width-additionalActionItem.width-10) : (parent.width-width+2)
+        y: moveButtonsOutside ? (10-height) : 2
 
         Item {
             id: additionalActionItem

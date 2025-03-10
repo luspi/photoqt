@@ -199,6 +199,8 @@ Flickable {
         "__close":              [qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "interface"],
                                  //: Name of shortcut action
         "__quit":               [qsTranslate("settingsmanager", "Quit PhotoQt"), "interface"],
+                                 //: Name of shortcut action
+        "__quickActions":       [qsTranslate("settingsmanager", "Hide/Show quick actions"), "interface"],
 
 
 

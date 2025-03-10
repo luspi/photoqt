@@ -41,6 +41,7 @@ Rectangle {
     property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
     property real iconScale: 0.75
     property bool enableContextMenu: true
+    property var dragTarget: undefined
 
     property alias contextmenu: menu
 
@@ -69,6 +70,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        drag.target: control.dragTarget
         text: control.tooltip
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onPressed: (mouse) => {
