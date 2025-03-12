@@ -554,9 +554,9 @@ PQTemplateFloating {
             x = tmppos.x
         if(tmppos.y === -1) {
             if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-50 })
+                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
             else
-                y = Qt.binding(function() { return 50 })
+                y = Qt.binding(function() { return 20 })
         } else
             y = tmppos.y
         recordFinishedSetup.restart()
