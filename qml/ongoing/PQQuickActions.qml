@@ -25,6 +25,8 @@ import QtQuick
 import QtQuick.Controls
 import PQCNotify
 import PQCFileFolderModel
+import PQCScriptsConfig
+import PQCWindowGeometry
 
 import "../elements"
 import "../"
@@ -35,6 +37,43 @@ PQTemplateFloating {
 
     width: contentitem.width
     height: contentitem.height
+
+    opacity: mouseOver||dragActive||closeMouseArea.containsMouse||popinMouseArea.containsMouse ? 1 : 0.2
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    color: PQCLook.baseColor
+
+    property int mouseOverIndex: -1
+    property bool mouseOver: false
+    Timer {
+        id: resetMouseOver
+        property int leftIndex
+        interval: 200
+        onTriggered: {
+            if(leftIndex === quickactions_top.mouseOverIndex)
+                quickactions_top.mouseOver = false
+        }
+    }
+
+    property bool finishedSetup: false
+
+    onXChanged: {
+        if(!toplevel.startup && finishedSetup)
+            storePos.restart()
+    }
+    onYChanged: {
+        if(!toplevel.startup && finishedSetup)
+            storePos.restart()
+    }
+
+    Timer {
+        id: storePos
+        interval: 200
+        onTriggered: {
+            PQCSettings.interfaceQuickActionsPosition.x = quickactions_top.x // qmllint disable unqualified
+            PQCSettings.interfaceQuickActionsPosition.y = quickactions_top.y
+        }
+    }
 
     // states: [
     //     State {
@@ -50,11 +89,11 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: quickactions_top }
 
-    // popout: PQCSettings.interfacePopoutHistogram // qmllint disable unqualified
-    // forcePopout: PQCWindowGeometry.histogramForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutQuickActions // qmllint disable unqualified
+    forcePopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
     shortcut: "__quickActions"
     tooltip: qsTranslate("quickactions", "Click-and-drag to move.")
-    blur_thisis: "quickactions"
+    blur_thisis: "-"
     showMainMouseArea: false
     showBGMouseArea: true
     contentPadding: 5
@@ -62,33 +101,11 @@ PQTemplateFloating {
     moveButtonsOutside: true
 
     onPopoutChanged: {
-        // if(popout !== PQCSettings.interfacePopoutHistogram) // qmllint disable unqualified
-            // PQCSettings.interfacePopoutHistogram = popout
+        if(popout !== PQCSettings.interfacePopoutQuickActions) // qmllint disable unqualified
+            PQCSettings.interfacePopoutQuickActions = popout
     }
 
-    property list<string> buttons: [
-        "rename",
-        "copy",
-        "move",
-        "delete",
-        "|",
-        "rotateleft",
-        "rotateright",
-        "mirrorhor",
-        "mirrorver",
-        "|",
-        "crop",
-        "scale",
-        "tagfaces",
-        "|",
-        "clipboard",
-        "export",
-        "wallpaper",
-        "qr",
-        "|",
-        "close",
-        "quitt"
-    ]
+    property list<string> buttons: PQCSettings.interfaceQuickActionsItems
 
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
@@ -117,8 +134,6 @@ PQTemplateFloating {
     property list<string> mapkeys: ["|", "rename", "copy", "move", "delete", "rotateleft",
                                      "rotateright", "mirrorhor", "mirrorver", "crop", "scale",
                                      "tagfaces", "clipboard", "export", "wallpaper", "qr", "close", "quit"]
-    onMapkeysChanged:
-    console.warn()
 
     content: [
 
@@ -126,7 +141,7 @@ PQTemplateFloating {
 
             id: contentitem
 
-            property string orientation: "vertical"
+            property string orientation: "horizontal"
             width: (orientation=="horizontal" ? contentrow.width : contentcol.width)+10
             height: (orientation=="horizontal" ? contentrow.height : contentcol.height)+10
 
@@ -135,13 +150,13 @@ PQTemplateFloating {
                 id: contentcol
 
                 width: childrenRect.width
-                spacing: 5
+                spacing: 0
 
                 Repeater {
 
                     model: contentitem.orientation=="vertical" ? quickactions_top.buttons.length : 0
 
-                    Item {
+                    Column {
 
                         id: delegver
 
@@ -153,7 +168,24 @@ PQTemplateFloating {
                                                        ["?", "?", "?", "?"])
 
                         width: childrenRect.width
-                        height: childrenRect.height
+
+                        Item {
+                            width: 40
+                            height: 2
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = -1*delegver.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = -1*delegver.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
+                        }
 
                         Rectangle {
                             id: sepver
@@ -161,6 +193,19 @@ PQTemplateFloating {
                             width: 40
                             height: 4
                             color: PQCLook.baseColorHighlight
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = delegver.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = delegver.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
                         }
 
                         Rectangle {
@@ -174,9 +219,23 @@ PQTemplateFloating {
                                 color: "white"
                                 text: "?"
                             }
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = delegver.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = delegver.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
                         }
 
                         PQButtonIcon {
+                            id: iconver
                             width: sepver.visible ? 0 : 40
                             height: sepver.visible ? 0 : 40
                             visible: !sepver.visible && !unknownver.visible
@@ -186,6 +245,34 @@ PQTemplateFloating {
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(delegver.props[2])
+                            }
+                            onMouseOverChanged: {
+                                if(mouseOver) {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = delegver.modelData
+                                    quickactions_top.mouseOver = true
+                                } else {
+                                    resetMouseOver.leftIndex = delegver.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
+                        }
+
+                        Item {
+                            width: 40
+                            height: 2
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = -1*delegver.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = -1*delegver.modelData
+                                    resetMouseOver.restart()
+                                }
                             }
                         }
 
@@ -200,13 +287,13 @@ PQTemplateFloating {
                 id: contentrow
 
                 height: childrenRect.height
-                spacing: 5
+                spacing: 0
 
                 Repeater {
 
                     model: contentitem.orientation=="horizontal" ? quickactions_top.buttons.length : 0
 
-                    Item {
+                    Row {
 
                         id: deleghor
 
@@ -217,8 +304,25 @@ PQTemplateFloating {
                                                        quickactions_top.mappings[deleghor.cat] :
                                                        ["?", "?", "?", "?"])
 
-                        width: childrenRect.width
                         height: childrenRect.height
+
+                        Item {
+                            width: 2
+                            height: 40
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = -1*deleghor.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = -1*deleghor.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
+                        }
 
                         Rectangle {
                             id: sephor
@@ -226,6 +330,19 @@ PQTemplateFloating {
                             width: 4
                             height: 40
                             color: PQCLook.baseColorHighlight
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = deleghor.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = deleghor.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
                         }
 
                         Rectangle {
@@ -239,9 +356,23 @@ PQTemplateFloating {
                                 color: "white"
                                 text: "?"
                             }
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = -1*deleghor.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = -1*deleghor.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
                         }
 
                         PQButtonIcon {
+                            id: icnhor
                             width: sephor.visible ? 0 : 40
                             height: sephor.visible ? 0 : 40
                             visible: !sephor.visible && !unknownhor.visible
@@ -251,6 +382,34 @@ PQTemplateFloating {
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(deleghor.props[2])
+                            }
+                            onMouseOverChanged: {
+                                if(mouseOver) {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = deleghor.modelData
+                                    quickactions_top.mouseOver = true
+                                } else {
+                                    resetMouseOver.leftIndex = deleghor.modelData
+                                    resetMouseOver.restart()
+                                }
+                            }
+                        }
+
+                        Item {
+                            width: 2
+                            height: 40
+                            MouseArea {
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onEntered: {
+                                    resetMouseOver.stop()
+                                    quickactions_top.mouseOverIndex = deleghor.modelData
+                                    quickactions_top.mouseOver = true
+                                }
+                                onExited: {
+                                    resetMouseOver.leftIndex = deleghor.modelData
+                                    resetMouseOver.restart()
+                                }
                             }
                         }
 
@@ -264,25 +423,85 @@ PQTemplateFloating {
 
     ]
 
+    Loader {
+
+        id: menu
+        asynchronous: true
+
+        sourceComponent:
+        PQMenu {
+            id: themenu
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("histogram", "show quick actions")
+                checked: PQCSettings.interfaceQuickActions // qmllint disable unqualified
+                onCheckedChanged: {
+                    PQCSettings.interfaceQuickActions = checked // qmllint disable unqualified
+                    if(!checked)
+                        themenu.dismiss()
+                }
+            }
+
+            PQMenuItem {
+                text: qsTranslate("MainMenu", "Reset position to default")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                onTriggered: {
+                    PQCScriptsConfig.setDefaultSettingValueFor("interfaceQuickActionsPosition") // qmllint disable unqualified
+                    quickactions_top.reposition()
+                }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                text: qsTranslate("settingsmanager", "Manage in settings manager")
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                onTriggered: {
+                    // loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                    // loader.passOn("showSettings", "metadata")
+                }
+            }
+
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCNotify.addToWhichContextMenusOpen("quickactions") // qmllint disable unqualified
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered: {
+                    if(!themenu.visible)
+                        PQCNotify.removeFromWhichContextMenusOpen("quickactions") // qmllint disable unqualified
+                }
+            }
+        }
+
+    }
+
     Component.onCompleted: {
         if(popout || forcePopout) {
             quickactions_top.state = "popout"
         } else {
             quickactions_top.state = ""
-            // x = PQCSettings.histogramPosition.x // qmllint disable unqualified
-            // y = PQCSettings.histogramPosition.y
-            // width = PQCSettings.histogramSize.width
-            // height = PQCSettings.histogramSize.height
-            x = 200
-            y = 200
+            quickactions_top.reposition()
         }
 
-        // if(PQCSettings.histogramVisible)
-        show()
+        if(PQCSettings.interfaceQuickActions)
+            show()
+
+        recordFinishedSetup.restart()
+    }
+
+    Timer {
+        id: recordFinishedSetup
+        interval: 500
+        onTriggered:
+            quickactions_top.finishedSetup = true
     }
 
     onRightClicked: (mouse) => {
-        // menu.item.popup() // qmllint disable missing-property
+        menu.item.popup() // qmllint disable missing-property
     }
 
     Connections {
@@ -292,11 +511,7 @@ PQTemplateFloating {
 
             if(what === "show") {
                 if(param === "quickactions") {
-                    if(quickactions_top.visible) {
-                        quickactions_top.hide()
-                    } else {
-                        quickactions_top.show()
-                    }
+                    quickactions_top.show()
                 }
             }
 
@@ -304,31 +519,52 @@ PQTemplateFloating {
 
     }
 
-    // Connections {
+    Connections {
 
-    //     target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings // qmllint disable unqualified
 
-    //     function onHistogramVisibleChanged() {
-    //         if(PQCSettings.histogramVisible) // qmllint disable unqualified
-    //             quickactions_top.show()
-    //         else
-    //             quickactions_top.hide()
-    //     }
+        function onInterfaceQuickActionsChanged() {
+            if(PQCSettings.interfaceQuickActions) // qmllint disable unqualified
+                quickactions_top.show()
+            else
+                quickactions_top.hide()
+        }
 
-    // }
+        function onInterfaceEdgeTopActionChanged() {
+            quickactions_top.reposition()
+        }
 
-    // Connections {
-    //     target: PQCNotify // qmllint disable unqualified
+    }
 
-    //     function onCloseAllContextMenus() {
-    //         menu.item.dismiss() // qmllint disable missing-property
-    //     }
+    Connections {
+        target: PQCNotify // qmllint disable unqualified
 
-    // }
+        function onCloseAllContextMenus() {
+            menu.item.dismiss() // qmllint disable missing-property
+        }
+
+    }
+
+    function reposition() {
+        finishedSetup = false
+        var tmppos = PQCSettings.interfaceQuickActionsPosition // qmllint disable unqualified
+        if(tmppos.x === -1)
+            x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
+        else
+            x = tmppos.x
+        if(tmppos.y === -1) {
+            if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
+                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-50 })
+            else
+                y = Qt.binding(function() { return 50 })
+        } else
+            y = tmppos.y
+        recordFinishedSetup.restart()
+    }
 
     function show() {
-        opacity = 1
-        // PQCSettings.histogramVisible = true // qmllint disable unqualified
+        PQCSettings.interfaceQuickActions = true // qmllint disable unqualified
+        opacity = Qt.binding(function() { return (mouseOver||dragActive||closeMouseArea.containsMouse||popinMouseArea.containsMouse ? 1 : 0.2) })
         // if(popoutWindowUsed)
             // histogram_popout.visible = true
     }
@@ -337,7 +573,7 @@ PQTemplateFloating {
         opacity = 0
         // if(popoutWindowUsed)
             // histogram_popout.visible = false // qmllint disable unqualified
-        // PQCSettings.histogramVisible = false
+        PQCSettings.interfaceQuickActions = false
     }
 
 }

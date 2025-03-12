@@ -409,6 +409,8 @@ Window {
 
         if(PQCSettings.histogramVisible)
             loader.show("histogram")
+        if(PQCSettings.interfaceQuickActions)
+            loader.show("quickactions")
         if(PQCSettings.mapviewCurrentVisible)
             loader.show("mapcurrent")
         if(PQCSettings.interfaceNavigationFloating)

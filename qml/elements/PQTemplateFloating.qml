@@ -53,6 +53,8 @@ Rectangle {
     property int contentPadding: 0
     property bool allowResize: true
     property bool moveButtonsOutside: false
+    property alias closeMouseArea: closemouse
+    property alias popinMouseArea: popinmouse
 
     /////////
 
