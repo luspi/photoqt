@@ -798,7 +798,7 @@ PQTemplateFullscreen {
                     sm_category.loadSpecificCategory("thumbnails","tb_image")
                 else if(param == "statusinfo")
                     sm_category.loadSpecificCategory("interface","if_statusinfo")
-                else if(param == "windowbuttons")
+                else if(param == "windowbuttons" || param == "quickactions")
                     sm_category.loadSpecificCategory("interface","if_interface")
 
                 // we need to call the loader to set all other variables there accordingly

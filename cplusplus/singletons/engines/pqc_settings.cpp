@@ -168,7 +168,7 @@ void PQCSettings::readDB() {
             } else if(datatype == "point") {
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
-                    this->insert(name, QPoint(parts[0].toUInt(), parts[1].toInt()));
+                    this->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
                 else {
                     qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
                     this->insert(name, QPoint(0,0));
@@ -176,7 +176,7 @@ void PQCSettings::readDB() {
             } else if(datatype == "size") {
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
-                    this->insert(name, QSize(parts[0].toUInt(), parts[1].toInt()));
+                    this->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
                 else {
                     qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
                     this->insert(name, QSize(0,0));
@@ -393,7 +393,7 @@ void PQCSettings::setDefaultFor(QString key) {
     } else if(datatype == "point") {
         const QStringList parts = value.split(",");
         if(parts.length() == 2)
-            this->update(key, QPoint(parts[0].toUInt(), parts[1].toInt()));
+            this->update(key, QPoint(parts[0].toInt(), parts[1].toInt()));
         else {
             qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(key, value);
             this->update(key, QPoint(0,0));
@@ -401,7 +401,7 @@ void PQCSettings::setDefaultFor(QString key) {
     } else if(datatype == "size") {
         const QStringList parts = value.split(",");
         if(parts.length() == 2)
-            this->update(key, QSize(parts[0].toUInt(), parts[1].toInt()));
+            this->update(key, QSize(parts[0].toInt(), parts[1].toInt()));
         else {
             qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(key, value);
             this->update(key, QSize(0,0));
@@ -899,11 +899,11 @@ void PQCSettings::updateFromCommandLine() {
     else if(type == "point") {
         QStringList parts = val.split(",");
         if(parts.length() == 2)
-            this->update(key, QPoint(parts[0].toUInt(), parts[1].toUInt()));
+            this->update(key, QPoint(parts[0].toInt(), parts[1].toInt()));
     } else if(type == "size") {
         QStringList parts = val.split(",");
         if(parts.length() == 2)
-            this->update(key, QSize(parts[0].toUInt(), parts[1].toUInt()));
+            this->update(key, QSize(parts[0].toInt(), parts[1].toInt()));
     } else if(type == "string")
         this->update(key, val);
 

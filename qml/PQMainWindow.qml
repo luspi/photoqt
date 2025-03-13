@@ -158,6 +158,7 @@ Window {
 
     // ongoing
     Loader { id: loader_histogram }
+    Loader { id: loader_quickactions }
     Loader { id: loader_mapcurrent }
     Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }
@@ -408,6 +409,8 @@ Window {
 
         if(PQCSettings.histogramVisible)
             loader.show("histogram")
+        if(PQCSettings.interfaceQuickActions)
+            loader.show("quickactions")
         if(PQCSettings.mapviewCurrentVisible)
             loader.show("mapcurrent")
         if(PQCSettings.interfaceNavigationFloating)

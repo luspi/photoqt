@@ -660,6 +660,9 @@ Item {
                 else
                     loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt.")])
                 break
+            case "__quickActions":
+                loader.show("quickactions")
+                break
 
             /**********************/
             // image functions

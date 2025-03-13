@@ -32,6 +32,8 @@ Rectangle {
     opacity: enabled ? 1 : 0.5
     radius: 5
 
+    property string overrideBaseColor: PQCLook.baseColor
+
     property alias source: icon.source
     property bool mouseOver: mousearea.containsMouse
     property bool down: false
@@ -41,10 +43,11 @@ Rectangle {
     property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
     property real iconScale: 0.75
     property bool enableContextMenu: true
+    property var dragTarget: undefined
 
     property alias contextmenu: menu
 
-    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
+    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : overrideBaseColor)) // qmllint disable unqualified
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)
@@ -69,6 +72,7 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
+        drag.target: control.dragTarget
         text: control.tooltip
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onPressed: (mouse) => {

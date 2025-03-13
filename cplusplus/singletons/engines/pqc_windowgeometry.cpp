@@ -120,6 +120,10 @@ PQCWindowGeometry::PQCWindowGeometry() {
                                                << 800 << 600     // default size
                                                << 650 << 450));  // popout threshold;
 
+    allElements.append(QVariant(QVariantList() << "quickactions" // name
+                                               << 0 << 0     // default size
+                                               << 0 << 0));  // popout threshold;
+
     // save values with delay
     saveDelay = new QTimer;
     saveDelay->setInterval(200);
