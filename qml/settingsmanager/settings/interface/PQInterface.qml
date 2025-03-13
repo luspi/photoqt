@@ -1280,6 +1280,8 @@ Flickable {
 
             helptext: qsTranslate("settingsmanager",  "The quick actions are some actions that can be performed with a currently viewed image. They allow for quickly performing an action with the mouse with a single click.")
 
+            property list<string> curEntries: []
+
             content: [
 
                 PQCheckBox {
@@ -1295,7 +1297,7 @@ Flickable {
                     radius: 5
                     clip: true
 
-                    height: enabled ? 500 : 0
+                    height: enabled ? 600 : 0
                     Behavior on height { NumberAnimation { duration: 200 } }
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
@@ -1392,10 +1394,13 @@ Flickable {
                                         drag.target: dragRect
                                         drag.axis: Drag.YAxis
                                         drag.onActiveChanged: {
-                                            if (mouseArea.drag.active) {
+                                            if(mouseArea.drag.active) {
                                                 avail.dragItemIndex = deleg.index;
                                             }
                                             dragRect.Drag.drop();
+                                            if(!mouseArea.drag.active) {
+                                                set_quick.populateModel()
+                                            }
                                         }
                                         cursorShape: Qt.OpenHandCursor
                                         onPressed:
@@ -1456,12 +1461,8 @@ Flickable {
                                         cursorShape: Qt.PointingHandCursor
                                         hoverEnabled: true
                                         onClicked: {
-                                            var adjust = 0
-                                            for(var i in avail.deleted) {
-                                                if(avail.deleted[i] < deleg.index)
-                                                    adjust -= 1;
-                                            }
-                                            avail.model.remove(deleg.index+adjust, 1)
+                                            set_quick.curEntries.splice(deleg.index, 1)
+                                            set_quick.populateModel()
                                             setting_top.checkDefault()
                                         }
                                     }
@@ -1479,6 +1480,13 @@ Flickable {
                         onPositionChanged: (drag) => {
                             var newindex = avail.indexAt(drag.x, drag.y)
                             if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+
+                                // we move the entry around in the list for the populate call later
+                                var element = set_quick.curEntries[avail.dragItemIndex];
+                                set_quick.curEntries.splice(avail.dragItemIndex, 1);
+                                set_quick.curEntries.splice(newindex, 0, element);
+
+                                // visual feedback, move the actual model around
                                 avail.model.move(avail.dragItemIndex, newindex, 1)
                                 avail.dragItemIndex = newindex
                                 setting_top.checkDefault()
@@ -1521,7 +1529,6 @@ Flickable {
                             "|"
                         ]
                         property list<string> quickdata_vals: [
-                            "["+qsTranslate("quickactions", "separator") + "]",
                             qsTranslate("quickactions", "Rename file"),
                             qsTranslate("quickactions", "Copy file"),
                             qsTranslate("quickactions", "Move file"),
@@ -1538,7 +1545,8 @@ Flickable {
                             qsTranslate("quickactions", "Set as wallpaper"),
                             qsTranslate("quickactions", "Detect/hide QR/barcodes"),
                             qsTranslate("quickactions", "Close window"),
-                            qsTranslate("quickactions", "Quit")
+                            qsTranslate("quickactions", "Quit"),
+                            "["+qsTranslate("quickactions", "separator") + "]"
                         ]
                         model: quickdata_vals
                     }
@@ -1548,7 +1556,8 @@ Flickable {
                         text: qsTranslate("settingsmanager", "add")
                         smallerVersion: true
                         onClicked: {
-                            model.append({"name": combo_add.quickdata_keys[combo_add.currentIndex], "index": model.count})
+                            set_quick.curEntries.push(combo_add.quickdata_keys[combo_add.currentIndex])
+                            set_quick.populateModel()
                             setting_top.checkDefault()
                         }
                     }
@@ -1589,10 +1598,8 @@ Flickable {
 
                 quick_show.loadAndSetDefault(PQCSettings.interfaceQuickActions) // qmllint disable unqualified
 
-                model.clear()
-                var setprops = PQCSettings.interfaceQuickActionsItems
-                for(var j = 0; j < setprops.length; ++j)
-                    model.append({"name": setprops[j], "index": j})
+                set_quick.curEntries = PQCSettings.interfaceQuickActionsItems
+                populateModel()
 
             }
 
@@ -1609,6 +1616,17 @@ Flickable {
 
             }
 
+            function populateModel() {
+                model.clear()
+                for(var j = 0; j < set_quick.curEntries.length; ++j)
+                    model.append({"name": set_quick.curEntries[j], "index": j})
+            }
+
+        }
+
+        Item {
+            width: 1
+            height: 20
         }
 
     }
