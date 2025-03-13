@@ -38,6 +38,13 @@ PQTemplateFloating {
     width: contentitem.width
     height: contentitem.height
 
+    onXChanged: {
+        quickactions_top.x = quickactions_top.x
+    }
+    onYChanged: {
+        quickactions_top.y = quickactions_top.y
+    }
+
     onWidthChanged: {
         if(popoutWindowUsed) {
             ele_window.minimumWidth = width
@@ -66,24 +73,6 @@ PQTemplateFloating {
     }
 
     property bool finishedSetup: false
-
-    onXChanged: {
-        if(!toplevel.startup && finishedSetup)
-            storePos.restart()
-    }
-    onYChanged: {
-        if(!toplevel.startup && finishedSetup)
-            storePos.restart()
-    }
-
-    Timer {
-        id: storePos
-        interval: 200
-        onTriggered: {
-            PQCSettings.interfaceQuickActionsPosition.x = quickactions_top.x // qmllint disable unqualified
-            PQCSettings.interfaceQuickActionsPosition.y = quickactions_top.y
-        }
-    }
 
     states: [
         State {
@@ -470,7 +459,6 @@ PQTemplateFloating {
                 text: qsTranslate("MainMenu", "Reset position to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCScriptsConfig.setDefaultSettingValueFor("interfaceQuickActionsPosition") // qmllint disable unqualified
                     quickactions_top.reposition()
                 }
             }
@@ -570,6 +558,21 @@ PQTemplateFloating {
 
     }
 
+    Connections {
+        target: toplevel
+
+        function onWidthChanged() {
+            if(!quickactions_top.finishedSetup) return
+            quickactions_top.x = Math.min(toplevel.width-quickactions_top.width, Math.max(0, quickactions_top.x))
+        }
+
+        function onHeightChanged() {
+            if(!quickactions_top.finishedSetup) return
+            quickactions_top.y = Math.min(toplevel.height-quickactions_top.height, Math.max(0, quickactions_top.y))
+        }
+
+    }
+
     function reposition() {
         finishedSetup = false
         if(popoutWindowUsed) {
@@ -578,18 +581,11 @@ PQTemplateFloating {
             ele_window.maximumWidth = width
             ele_window.maximumHeight = height
         } else {
-            var tmppos = PQCSettings.interfaceQuickActionsPosition // qmllint disable unqualified
-            if(tmppos.x === -1)
-                x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
+            x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
+            if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
+                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
             else
-                x = tmppos.x
-            if(tmppos.y === -1) {
-                if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                    y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
-                else
-                    y = Qt.binding(function() { return 20 })
-            } else
-                y = tmppos.y
+                y = 20
         }
         recordFinishedSetup.restart()
     }
