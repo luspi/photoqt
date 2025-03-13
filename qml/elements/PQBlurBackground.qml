@@ -46,7 +46,7 @@ Item {
 
     property string thisis: ""
 
-    property int bluruntil: thisis==="-" ? 0 : (thisis!=="" ? itemkeys.indexOf(thisis) : itemkeys.length)
+    property int bluruntil: thisis!=="" ? itemkeys.indexOf(thisis) : itemkeys.length
 
     Repeater {
 

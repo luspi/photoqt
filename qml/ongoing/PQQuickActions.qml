@@ -38,10 +38,20 @@ PQTemplateFloating {
     width: contentitem.width
     height: contentitem.height
 
-    opacity: mouseOver||dragActive||closeMouseArea.containsMouse||popinMouseArea.containsMouse ? 1 : 0.2
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    onWidthChanged: {
+        if(popoutWindowUsed) {
+            ele_window.minimumWidth = width
+            ele_window.maximumWidth = width
+        }
+    }
+    onHeightChanged: {
+        if(popoutWindowUsed) {
+            ele_window.minimumHeight = height
+            ele_window.maximumHeight = height
+        }
+    }
 
-    color: PQCLook.baseColor
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
     property int mouseOverIndex: -1
     property bool mouseOver: false
@@ -75,17 +85,15 @@ PQTemplateFloating {
         }
     }
 
-    // states: [
-    //     State {
-    //         name: "popout"
-    //         PropertyChanges {
-    //             quickactions_top.x: 0
-    //             quickactions_top.y: 0
-    //             quickactions_top.width: quickactions_top.parentWidth
-    //             quickactions_top.height: quickactions_top.parentHeight
-    //         }
-    //     }
-    // ]
+    states: [
+        State {
+            name: "popout"
+            PropertyChanges {
+                quickactions_top.x: 0
+                quickactions_top.y: 0
+            }
+        }
+    ]
 
     PQShadowEffect { masterItem: quickactions_top }
 
@@ -110,20 +118,21 @@ PQTemplateFloating {
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
         "|" : ["|", "|", "|", "|"],
-        "rename" :      [qsTranslate("quickactions", "Rename file"),                "rename",         "__rename",         false],
-        "copy"   :      [qsTranslate("quickactions", "Copy file"),                  "copy",           "__copy",           false],
-        "move"   :      [qsTranslate("quickactions", "Move file"),                  "move",           "__move",           false],
-        "delete" :      [qsTranslate("quickactions", "Delete file"),                "delete",         "__deleteTrash",    false],
-        "rotateleft" :  [qsTranslate("quickactions", "Rotate left"),                "rotateleft",     "__rotateL",        false],
-        "rotateright" : [qsTranslate("quickactions", "Rotate right"),               "rotateright",    "__rotateR",        false],
-        "mirrorhor" :   [qsTranslate("quickactions", "Mirror horizontally"),        "leftrightarrow", "__flipH",          false],
-        "mirrorver" :   [qsTranslate("quickactions", "Mirror vertically"),          "updownarrow",    "__flipV",          false],
-        "crop" :        [qsTranslate("quickactions", "Crop image"),                 "crop",           "__crop",           false],
-        "scale" :       [qsTranslate("quickactions", "Scale image"),                "scale",          "__scale",          false],
-        "tagfaces" :    [qsTranslate("quickactions", "Tag faces"),                  "faces",          "__tagFaces",       false],
-        "clipboard" :   [qsTranslate("quickactions", "Copy to clipboard"),          "clipboard",      "__clipboard",      false],
-        "export" :      [qsTranslate("quickactions", "Export to different format"), "convert",        "__export",         false],
-        "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),           "wallpaper",      "__wallpaper",      false],
+        "rename" :      [qsTranslate("quickactions", "Rename file"),                     "rename",         "__rename",      false],
+        "copy"   :      [qsTranslate("quickactions", "Copy file"),                       "copy",           "__copy",        false],
+        "move"   :      [qsTranslate("quickactions", "Move file"),                       "move",           "__move",        false],
+        "delete" :      [qsTranslate("quickactions", "Delete file (with confirmation)"), "delete",         "__delete",      false],
+        "deletetrash" : [qsTranslate("quickactions", "Move file directly to trash"),     "delete",         "__deleteTrash", false],
+        "rotateleft" :  [qsTranslate("quickactions", "Rotate left"),                     "rotateleft",     "__rotateL",     false],
+        "rotateright" : [qsTranslate("quickactions", "Rotate right"),                    "rotateright",    "__rotateR",     false],
+        "mirrorhor" :   [qsTranslate("quickactions", "Mirror horizontally"),             "leftrightarrow", "__flipH",       false],
+        "mirrorver" :   [qsTranslate("quickactions", "Mirror vertically"),               "updownarrow",    "__flipV",       false],
+        "crop" :        [qsTranslate("quickactions", "Crop image"),                      "crop",           "__crop",        false],
+        "scale" :       [qsTranslate("quickactions", "Scale image"),                     "scale",          "__scale",       false],
+        "tagfaces" :    [qsTranslate("quickactions", "Tag faces"),                       "faces",          "__tagFaces",    false],
+        "clipboard" :   [qsTranslate("quickactions", "Copy to clipboard"),               "clipboard",      "__clipboard",   false],
+        "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "__export",      false],
+        "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "__wallpaper",   false],
         "qr" :          [(PQCNotify.barcodeDisplayed ?
                               qsTranslate("quickactions", "Hide QR/barcodes") :
                               qsTranslate("quickactions", "Detect QR/barcodes")),   "qrcode",         "__detectBarCodes", false],
@@ -134,6 +143,8 @@ PQTemplateFloating {
     property list<string> mapkeys: ["|", "rename", "copy", "move", "delete", "rotateleft",
                                      "rotateright", "mirrorhor", "mirrorver", "crop", "scale",
                                      "tagfaces", "clipboard", "export", "wallpaper", "qr", "close", "quit"]
+
+    property int sze: popoutWindowUsed ? 50 : 40
 
     content: [
 
@@ -170,7 +181,7 @@ PQTemplateFloating {
                         width: childrenRect.width
 
                         Item {
-                            width: 40
+                            width: sze
                             height: 2
                             MouseArea {
                                 anchors.fill: parent
@@ -190,7 +201,7 @@ PQTemplateFloating {
                         Rectangle {
                             id: sepver
                             visible: delegver.props[0]==="|"
-                            width: 40
+                            width: sze
                             height: 4
                             color: PQCLook.baseColorHighlight
                             MouseArea {
@@ -211,8 +222,8 @@ PQTemplateFloating {
                         Rectangle {
                             id: unknownver
                             visible: delegver.props[0]==="?"
-                            width: visible ? 40 : 0
-                            height: visible ? 40 : 0
+                            width: visible ? sze : 0
+                            height: visible ? sze : 0
                             color: "red"
                             PQText {
                                 anchors.centerIn: parent
@@ -236,16 +247,23 @@ PQTemplateFloating {
 
                         PQButtonIcon {
                             id: iconver
-                            width: sepver.visible ? 0 : 40
-                            height: sepver.visible ? 0 : 40
+                            enableContextMenu: false
+                            overrideBaseColor: "transparent"
+                            width: sepver.visible ? 0 : sze
+                            height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
                             enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded")
-                            dragTarget: quickactions_top
+                            tooltip: popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(delegver.props[2])
                             }
+                            onRightClicked: {
+                                if(!popoutWindowUsed)
+                                    menu.item.popup()
+                            }
+
                             onMouseOverChanged: {
                                 if(mouseOver) {
                                     resetMouseOver.stop()
@@ -259,7 +277,7 @@ PQTemplateFloating {
                         }
 
                         Item {
-                            width: 40
+                            width: sze
                             height: 2
                             MouseArea {
                                 anchors.fill: parent
@@ -308,7 +326,7 @@ PQTemplateFloating {
 
                         Item {
                             width: 2
-                            height: 40
+                            height: sze
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -328,7 +346,7 @@ PQTemplateFloating {
                             id: sephor
                             visible: deleghor.props[0]==="|"
                             width: 4
-                            height: 40
+                            height: sze
                             color: PQCLook.baseColorHighlight
                             MouseArea {
                                 anchors.fill: parent
@@ -348,8 +366,8 @@ PQTemplateFloating {
                         Rectangle {
                             id: unknownhor
                             visible: deleghor.props[0]==="?"
-                            width: visible ? 40 : 0
-                            height: visible ? 40 : 0
+                            width: visible ? sze : 0
+                            height: visible ? sze : 0
                             color: "red"
                             PQText {
                                 anchors.centerIn: parent
@@ -373,15 +391,21 @@ PQTemplateFloating {
 
                         PQButtonIcon {
                             id: icnhor
-                            width: sephor.visible ? 0 : 40
-                            height: sephor.visible ? 0 : 40
+                            enableContextMenu: false
+                            overrideBaseColor: "transparent"
+                            width: sephor.visible ? 0 : sze
+                            height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
                             enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded")
-                            dragTarget: quickactions_top
+                            tooltip: popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(deleghor.props[2])
+                            }
+                            onRightClicked: {
+                                if(!popoutWindowUsed)
+                                    menu.item.popup()
                             }
                             onMouseOverChanged: {
                                 if(mouseOver) {
@@ -397,7 +421,7 @@ PQTemplateFloating {
 
                         Item {
                             width: 2
-                            height: 40
+                            height: sze
                             MouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -501,7 +525,8 @@ PQTemplateFloating {
     }
 
     onRightClicked: (mouse) => {
-        menu.item.popup() // qmllint disable missing-property
+        if(!popoutWindowUsed)
+            menu.item.popup() // qmllint disable missing-property
     }
 
     Connections {
@@ -547,32 +572,50 @@ PQTemplateFloating {
 
     function reposition() {
         finishedSetup = false
-        var tmppos = PQCSettings.interfaceQuickActionsPosition // qmllint disable unqualified
-        if(tmppos.x === -1)
-            x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
-        else
-            x = tmppos.x
-        if(tmppos.y === -1) {
-            if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
+        if(popoutWindowUsed) {
+            ele_window.minimumWidth = width
+            ele_window.minimumHeight = height
+            ele_window.maximumWidth = width
+            ele_window.maximumHeight = height
+        } else {
+            var tmppos = PQCSettings.interfaceQuickActionsPosition // qmllint disable unqualified
+            if(tmppos.x === -1)
+                x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
             else
-                y = Qt.binding(function() { return 20 })
-        } else
-            y = tmppos.y
+                x = tmppos.x
+            if(tmppos.y === -1) {
+                if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
+                    y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
+                else
+                    y = Qt.binding(function() { return 20 })
+            } else
+                y = tmppos.y
+        }
         recordFinishedSetup.restart()
     }
 
     function show() {
         PQCSettings.interfaceQuickActions = true // qmllint disable unqualified
-        opacity = Qt.binding(function() { return (mouseOver||dragActive||closeMouseArea.containsMouse||popinMouseArea.containsMouse ? 1 : 0.2) })
-        // if(popoutWindowUsed)
-            // histogram_popout.visible = true
+        opacity = Qt.binding(
+                    function() {
+                        return popoutWindowUsed ?
+                                    1 :
+                                    (mouseOver||dragActive||closeMouseArea.containsMouse||
+                                     popinMouseArea.containsMouse||menu.item.visible ? 0.8 : 0.2)
+                    })
+        if(popoutWindowUsed) {
+            quickactions_popout.visible = true
+            ele_window.minimumWidth = width
+            ele_window.minimumHeight = height
+            ele_window.maximumWidth = width
+            ele_window.maximumHeight = height
+        }
     }
 
     function hide() {
         opacity = 0
-        // if(popoutWindowUsed)
-            // histogram_popout.visible = false // qmllint disable unqualified
+        if(popoutWindowUsed)
+            quickactions_popout.visible = false // qmllint disable unqualified
         PQCSettings.interfaceQuickActions = false
     }
 

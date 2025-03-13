@@ -53,8 +53,15 @@ Window {
     Component.onCompleted: {
         ele_window.setX(geometry.x)
         ele_window.setY(geometry.y)
-        ele_window.setWidth(geometry.width)
-        ele_window.setHeight(geometry.height)
+        if(makeWindowNotResizable) {
+            minimumHeight = height
+            minimumWidth = width
+            maximumHeight = height
+            maximumWidth = width
+        } else {
+            ele_window.setWidth(geometry.width)
+            ele_window.setHeight(geometry.height)
+        }
     }
 
     onClosing:
@@ -73,6 +80,8 @@ Window {
         }
     }
 
+    property bool makeWindowNotResizable: false
+
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
@@ -82,10 +91,16 @@ Window {
         updateGeometry.restart()
     onYChanged:
         updateGeometry.restart()
-    onWidthChanged:
+    onWidthChanged: {
         updateGeometry.restart()
-    onHeightChanged:
+        minimumWidth = width
+        maximumWidth = width
+    }
+    onHeightChanged: {
         updateGeometry.restart()
+        minimumHeight = height
+        maximumHeight = height
+    }
     onVisibilityChanged:
         updateMaxStatus.restart()
 
