@@ -1267,10 +1267,374 @@ Flickable {
 
         }
 
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            id: set_quick
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Quick Actions")
+
+            helptext: qsTranslate("settingsmanager",  "The quick actions are some actions that can be performed with a currently viewed image. They allow for quickly performing an action with the mouse with a single click.")
+
+            content: [
+
+                PQCheckBox {
+                    id: quick_show
+                    enforceMaxWidth: set_quick.rightcol
+                    text: qsTranslate("settingsmanager", "show quick actions")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                Rectangle {
+                    enabled: quick_show.checked
+                    width: Math.min(parent.width-5, 600)
+                    radius: 5
+                    clip: true
+
+                    height: enabled ? 500 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    ListView {
+
+                        id: avail
+
+                        x: 5
+                        y: 5
+
+                        width: parent.width-10
+                        height: parent.height-10
+
+                        clip: true
+                        orientation: ListView.Vertical
+                        spacing: 5
+
+                        ScrollBar.vertical: PQVerticalScrollBar { id: scrollbar }
+
+                        property int dragItemIndex: -1
+
+                        property list<int> heights: []
+
+                        property list<int> deleted: []
+
+                        property var disp: {
+                            "|"           : "["+qsTranslate("quickactions", "separator") + "]",
+                            "rename"      : qsTranslate("quickactions", "Rename file"),
+                            "copy"        : qsTranslate("quickactions", "Copy file"),
+                            "move"        : qsTranslate("quickactions", "Move file"),
+                            "delete"      : qsTranslate("quickactions", "Delete file"),
+                            "rotateleft"  : qsTranslate("quickactions", "Rotate left"),
+                            "rotateright" : qsTranslate("quickactions", "Rotate right"),
+                            "mirrorhor"   : qsTranslate("quickactions", "Mirror horizontally"),
+                            "mirrorver"   : qsTranslate("quickactions", "Mirror vertically"),
+                            "crop"        : qsTranslate("quickactions", "Crop image"),
+                            "scale"       : qsTranslate("quickactions", "Scale image"),
+                            "tagfaces"    : qsTranslate("quickactions", "Tag faces"),
+                            "clipboard"   : qsTranslate("quickactions", "Copy to clipboard"),
+                            "export"      : qsTranslate("quickactions", "Export to different format"),
+                            "wallpaper"   : qsTranslate("quickactions", "Set as wallpaper"),
+                            "qr"          : qsTranslate("quickactions", "Detect/hide QR/barcodes"),
+                            "close"       : qsTranslate("quickactions", "Close window"),
+                            "quit"        : qsTranslate("quickactions", "Quit")
+                        }
+
+                        model: ListModel {
+                            id: model
+                        }
+
+                        delegate: Item {
+                            id: deleg
+                            width: avail.width-(scrollbar.size<1.0 ? (scrollbar.width+5) : 0)
+                            height: Math.max.apply(Math, avail.heights)
+
+                            required property string name
+                            required property int index
+
+                            Rectangle {
+                                id: dragRect
+                                width: deleg.width
+                                height: deleg.height
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                color: PQCLook.baseColorActive // qmllint disable unqualified
+                                radius: 5
+
+                                Item {
+                                    id: thehandle
+                                    x: 5
+                                    height: parent.height
+                                    width: height/2
+                                    Row {
+                                        y: (parent.height-height)/2
+                                        Repeater {
+                                            model: 4
+                                            Item {
+                                                width: thehandle.width/4
+                                                height: thehandle.height/2
+                                                Rectangle {
+                                                    x: (parent.width-width)/2
+                                                    width: 2
+                                                    height: parent.height
+                                                    color: PQCLook.baseColorHighlight
+                                                }
+                                            }
+                                        }
+                                    }
+                                    PQMouseArea {
+                                        id: mouseArea
+                                        anchors.fill: parent
+                                        drag.target: dragRect
+                                        drag.axis: Drag.YAxis
+                                        drag.onActiveChanged: {
+                                            if (mouseArea.drag.active) {
+                                                avail.dragItemIndex = deleg.index;
+                                            }
+                                            dragRect.Drag.drop();
+                                        }
+                                        cursorShape: Qt.OpenHandCursor
+                                        onPressed:
+                                            cursorShape = Qt.ClosedHandCursor
+                                        onReleased:
+                                            cursorShape = Qt.OpenHandCursor
+                                    }
+                                }
+
+                                PQText {
+                                    id: txt
+                                    x: thehandle.width+10 + (parent.width-width-thehandle.width-10)/2
+                                    y: (parent.height-height)/2
+                                    text: avail.disp[deleg.name]
+                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                    color: PQCLook.textColor // qmllint disable unqualified
+                                    onWidthChanged: {
+                                        avail.heights.push(height+20)
+                                        avail.heightsChanged()
+                                    }
+                                }
+                                states: [
+                                    State {
+                                        when: dragRect.Drag.active
+                                        ParentChange {
+                                            target: dragRect
+                                            parent: setting_top
+                                        }
+
+                                        AnchorChanges {
+                                            target: dragRect
+                                            anchors.horizontalCenter: undefined
+                                            anchors.verticalCenter: undefined
+                                        }
+                                    }
+                                ]
+
+                                Drag.active: mouseArea.drag.active
+                                Drag.hotSpot.x: 0
+                                Drag.hotSpot.y: 0
+
+                                Image {
+
+                                    x: parent.width-width-5
+                                    y: (parent.height-height)/2
+                                    width: 20
+                                    height: 20
+
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                                    sourceSize: Qt.size(width, height)
+
+                                    opacity: closemouse.containsMouse ? 0.8 : 0.2
+                                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                    PQMouseArea {
+                                        id: closemouse
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        hoverEnabled: true
+                                        onClicked: {
+                                            var adjust = 0
+                                            for(var i in avail.deleted) {
+                                                if(avail.deleted[i] < deleg.index)
+                                                    adjust -= 1;
+                                            }
+                                            avail.model.remove(deleg.index+adjust, 1)
+                                            setting_top.checkDefault()
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    DropArea {
+                        id: dropArea
+                        anchors.fill: parent
+                        onPositionChanged: (drag) => {
+                            var newindex = avail.indexAt(drag.x, drag.y)
+                            if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+                                avail.model.move(avail.dragItemIndex, newindex, 1)
+                                avail.dragItemIndex = newindex
+                                setting_top.checkDefault()
+                            }
+                        }
+                    }
+                },
+
+                Row {
+                    enabled: quick_show.checked
+                    spacing: 10
+
+                    height: enabled ? combo_add.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQComboBox {
+                        id: combo_add
+                        y: (but_add.height-height)/2
+                        width: 600 - but_add.width - 20
+                        property list<string> quickdata_keys: [
+                            "rename",
+                            "copy",
+                            "move",
+                            "delete",
+                            "rotateleft",
+                            "rotateright",
+                            "mirrorhor",
+                            "mirrorver",
+                            "crop",
+                            "scale",
+                            "tagfaces",
+                            "clipboard",
+                            "export",
+                            "wallpaper",
+                            "qr",
+                            "close",
+                            "quit",
+                            "|"
+                        ]
+                        property list<string> quickdata_vals: [
+                            "["+qsTranslate("quickactions", "separator") + "]",
+                            qsTranslate("quickactions", "Rename file"),
+                            qsTranslate("quickactions", "Copy file"),
+                            qsTranslate("quickactions", "Move file"),
+                            qsTranslate("quickactions", "Delete file"),
+                            qsTranslate("quickactions", "Rotate left"),
+                            qsTranslate("quickactions", "Rotate right"),
+                            qsTranslate("quickactions", "Mirror horizontally"),
+                            qsTranslate("quickactions", "Mirror vertically"),
+                            qsTranslate("quickactions", "Crop image"),
+                            qsTranslate("quickactions", "Scale image"),
+                            qsTranslate("quickactions", "Tag faces"),
+                            qsTranslate("quickactions", "Copy to clipboard"),
+                            qsTranslate("quickactions", "Export to different format"),
+                            qsTranslate("quickactions", "Set as wallpaper"),
+                            qsTranslate("quickactions", "Detect/hide QR/barcodes"),
+                            qsTranslate("quickactions", "Close window"),
+                            qsTranslate("quickactions", "Quit")
+                        ]
+                        model: quickdata_vals
+                    }
+                    PQButton {
+                        id: but_add
+                        //: This is written on a button that is used to add a selected block to the status info section.
+                        text: qsTranslate("settingsmanager", "add")
+                        smallerVersion: true
+                        onClicked: {
+                            model.append({"name": combo_add.quickdata_keys[combo_add.currentIndex], "index": model.count})
+                            setting_top.checkDefault()
+                        }
+                    }
+                }
+
+            ]
+
+            onResetToDefaults: {
+
+                quick_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActions") == 1) // qmllint disable unqualified
+
+                model.clear()
+                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActionsItems")
+                for(var j = 0; j < setprops.length; ++j)
+                    model.append({"name": setprops[j], "index": j})
+
+                // this is needed to check for model changes
+                setting_top.checkDefault()
+
+            }
+
+            function handleEscape() {
+                but_add.contextmenu.close()
+                combo_add.popup.close()
+            }
+
+            function hasChanged() {
+
+                var opts = []
+                for(var i = 0; i < model.count; ++i)
+                    opts.push(model.get(i).name)
+
+                return (quick_show.hasChanged() ||
+                        !setting_top.areTwoListsEqual(opts, PQCSettings.interfaceQuickActionsItems))
+            }
+
+            function load() {
+
+                quick_show.loadAndSetDefault(PQCSettings.interfaceQuickActions) // qmllint disable unqualified
+
+                model.clear()
+                var setprops = PQCSettings.interfaceQuickActionsItems
+                for(var j = 0; j < setprops.length; ++j)
+                    model.append({"name": setprops[j], "index": j})
+
+            }
+
+            function applyChanges() {
+
+                PQCSettings.interfaceQuickActions = quick_show.checked // qmllint disable unqualified
+
+                var opts = []
+                for(var i = 0; i < model.count; ++i)
+                    opts.push(model.get(i).name)
+                PQCSettings.interfaceQuickActionsItems = opts
+
+                quick_show.saveDefault()
+
+            }
+
+        }
+
     }
 
     Component.onCompleted:
         load()
+
+    // do not make this function typed, it will break
+    function areTwoListsEqual(l1, l2) {
+
+        if(l1.length !== l2.length)
+            return false
+
+        for(var i = 0; i < l1.length; ++i) {
+
+            if(l1[i].length !== l2[i].length)
+                return false
+
+            for(var j = 0; j < l1[i].length; ++j) {
+                if(l1[i][j] !== l2[i][j])
+                    return false
+            }
+        }
+
+        return true
+    }
 
     function handleEscape() {
 
@@ -1280,6 +1644,7 @@ Flickable {
         set_accent.handleEscape()
         set_fontweight.handleEscape()
         set_notif.handleEscape()
+        set_quick.handleEscape()
 
     }
 
@@ -1292,7 +1657,8 @@ Flickable {
         }
 
         if(set_lang.hasChanged() || set_windowmode.hasChanged() || set_winbut.hasChanged() ||
-                set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged()) {
+                set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged() ||
+                set_quick.hasChanged()) {
             setting_top.settingChanged = true
             return
         }
@@ -1309,6 +1675,7 @@ Flickable {
         set_accent.load()
         set_fontweight.load()
         set_notif.load()
+        set_quick.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -1323,6 +1690,7 @@ Flickable {
         set_accent.applyChanges()
         set_fontweight.applyChanges()
         set_notif.applyChanges()
+        set_quick.applyChanges()
 
         setting_top.settingChanged = false
 

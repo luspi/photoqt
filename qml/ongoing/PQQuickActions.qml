@@ -457,8 +457,8 @@ PQTemplateFloating {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    // loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                    // loader.passOn("showSettings", "metadata")
+                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
+                    loader.passOn("showSettings", "quickactions")
                 }
             }
 
