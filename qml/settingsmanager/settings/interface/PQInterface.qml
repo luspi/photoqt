@@ -1569,10 +1569,8 @@ Flickable {
 
                 quick_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActions") == 1) // qmllint disable unqualified
 
-                model.clear()
-                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActionsItems")
-                for(var j = 0; j < setprops.length; ++j)
-                    model.append({"name": setprops[j], "index": j})
+                set_quick.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActionsItems")
+                populateModel()
 
                 // this is needed to check for model changes
                 setting_top.checkDefault()
@@ -1585,13 +1583,8 @@ Flickable {
             }
 
             function hasChanged() {
-
-                var opts = []
-                for(var i = 0; i < model.count; ++i)
-                    opts.push(model.get(i).name)
-
                 return (quick_show.hasChanged() ||
-                        !setting_top.areTwoListsEqual(opts, PQCSettings.interfaceQuickActionsItems))
+                        !setting_top.areTwoListsEqual(set_quick.curEntries, PQCSettings.interfaceQuickActionsItems))
             }
 
             function load() {
