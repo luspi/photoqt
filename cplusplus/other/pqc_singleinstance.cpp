@@ -50,7 +50,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     server = nullptr;
 
     if(result & PQCCommandLineFile) {
-        for(const auto &f : parser.filenames) {
+        for(const auto &f : std::as_const(parser.filenames)) {
             QString ff = f;
             if(!QFileInfo(ff).isAbsolute())
                 ff = QDir::currentPath() + "/" + ff;

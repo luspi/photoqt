@@ -37,10 +37,43 @@
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
     animatedImageTemporaryCounter = 0;
+
+    networkSharesTimer.setInterval(1000*60*5);
+    connect(&networkSharesTimer, &QTimer::timeout, this, &PQCScriptsFilesPaths::detectNetworkShares);
+    detectNetworkShares();
 }
 
 PQCScriptsFilesPaths::~PQCScriptsFilesPaths() {
 
+}
+
+void PQCScriptsFilesPaths::detectNetworkShares() {
+    networkshares.clear();
+    const QList<QStorageInfo> info = QStorageInfo::mountedVolumes();
+    for(const QStorageInfo &s : info) {
+        if(s.isValid() && (s.fileSystemType() == "cifs" || s.fileSystemType() == "samba" || s.fileSystemType() == "fuse"))
+            networkshares.push_back(s.rootPath());
+#ifdef Q_OS_WIN
+        // on windows network shares often have a fileSystemType of FAT or NTFS or therelike
+        // This check excludes known physical devices assuming everything else to be remote
+        if (!QString::fromLatin1(s.device()).startsWith(QLatin1String("\\\\?\\Volume")))
+            networkshares.push_back(s.rootPath());
+#endif
+    }
+#ifdef Q_OS_UNIX
+    // sshfs mounts are not listed as part of mountedVolumes but we might be able to find them in mtab
+    QFile f("/etc/mtab");
+    if(f.exists() && f.open(QIODevice::ReadOnly)) {
+        QTextStream in(&f);
+        QString line;
+        while(in.readLineInto(&line)) {
+            QStringList parts = line.split(" ");
+            if(parts[2] == "fuse.sshfs")
+                networkshares.push_back(parts[1]);
+        }
+    }
+#endif
+    networkSharesTimer.start();
 }
 
 QString PQCScriptsFilesPaths::cleanPath(QString path) {
@@ -259,6 +292,8 @@ bool PQCScriptsFilesPaths::doesItExist(QString path) {
 
 bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
+    qDebug() << "args: filename =" << filename;
+
     if(PQCSettings::get()["thumbnailsExcludeDropBox"].toString() != "") {
         if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeDropBox"].toString())== 0)
             return true;
@@ -278,6 +313,13 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
     for(const QString &dir: str) {
         if(dir != "" && filename.indexOf(dir) == 0)
             return true;
+    }
+
+    if(PQCSettings::get()["thumbnailsExcludeNetworkShares"].toBool()) {
+        for(const QString &dir: std::as_const(networkshares)) {
+            if(dir != "" && filename.indexOf(dir) == 0)
+                return true;
+        }
     }
 
     return false;

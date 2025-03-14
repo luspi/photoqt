@@ -83,6 +83,12 @@ private:
 
     int animatedImageTemporaryCounter;
 
+    QTimer networkSharesTimer;
+    QStringList networkshares;
+
+private Q_SLOTS:
+    void detectNetworkShares();
+
 };
 
 #endif

@@ -356,7 +356,6 @@ int main(int argc, char *argv[]) {
 
     engine.load(url);
 
-
     int ret = app.exec();
 
 #ifdef PQMFREEIMAGE

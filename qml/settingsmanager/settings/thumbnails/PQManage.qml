@@ -181,9 +181,20 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Exclude folders")
 
-            helptext: qsTranslate("settingsmanager", "When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.")
+            helptext: qsTranslate("settingsmanager", "When an image is loaded PhotoQt preloads thumbnails for all images found in the current folder. Certain types of network folders and some cloud providers do not fully sync their files unless accessed. To avoid unnecessarily downloading large amount of files, it is possible to exclude specific directories from any sort of caching and preloading. Note that for files in these folders you will still see thumbnails consisting of filetype icons.")
 
             content: [
+
+                PQCheckBox {
+                    id: excludenetwork
+                    text: qsTranslate("settingsmanager", "Exclude network shares (if any) from caching")
+                },
+
+                Item {
+                    width: 1
+                    height: 1
+                    visible: nextcloud.visible||owncloud.visible||dropbox.visible
+                },
 
                 PQText {
                     id: cloudheader
@@ -263,6 +274,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
+
+                excludenetwork.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsExcludeNetworkShares") == 1)
+
                 nextcloud.folder = PQCScriptsFilesPaths.findNextcloudFolder()
                 nextcloud.checked = false
 
@@ -281,10 +295,13 @@ Flickable {
 
             function hasChanged() {
                 return (nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||
-                        exclude_folders.text !== PQCSettings.thumbnailsExcludeFolders.join("\n") )
+                        exclude_folders.text !== PQCSettings.thumbnailsExcludeFolders.join("\n") ||
+                        excludenetwork.hasChanged())
             }
 
             function load() {
+
+                excludenetwork.loadAndSetDefault(PQCSettings.thumbnailsExcludeNetworkShares)
 
                 if(PQCSettings.thumbnailsExcludeNextcloud !== "") {
                     nextcloud.folder = PQCSettings.thumbnailsExcludeNextcloud
@@ -318,6 +335,8 @@ Flickable {
             }
 
             function applyChanges() {
+
+                PQCSettings.thumbnailsExcludeNetworkShares = excludenetwork.checked
 
                 PQCSettings.thumbnailsExcludeNextcloud = (nextcloud.checked ? nextcloud.folder : "")
                 PQCSettings.thumbnailsExcludeOwnCloud = (owncloud.checked ? owncloud.folder : "")

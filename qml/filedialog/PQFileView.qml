@@ -498,7 +498,8 @@ GridView {
                                             : 500)
                     running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
                     onTriggered: {
-                        if(!PQCSettings.filedialogFolderContentThumbnails) // qmllint disable unqualified
+                        var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
+                        if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
                             return
                         if(deleg.modelData >= PQCFileFolderModel.countFoldersFileDialog)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
                             return
@@ -506,7 +507,7 @@ GridView {
                             return
                         if((view.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                             folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
-                            folderthumb_model.append({"folder": PQCFileFolderModel.entriesFileDialog[deleg.modelData], "num": folderthumb.curnum, "curindex": deleg.modelData})
+                            folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
                         }
                     }
                 }
