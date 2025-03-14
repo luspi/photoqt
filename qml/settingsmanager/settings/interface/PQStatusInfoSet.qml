@@ -77,6 +77,8 @@ Flickable {
 
             id: set_status
 
+            property list<string> curEntries: []
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Status info")
 
@@ -184,6 +186,9 @@ Flickable {
                                             avail.dragItemIndex = deleg.index;
                                         }
                                         dragRect.Drag.drop();
+                                        if(!mouseArea.drag.active) {
+                                            set_status.populateModel()
+                                        }
                                     }
                                     cursorShape: Qt.OpenHandCursor
                                     onPressed:
@@ -230,7 +235,8 @@ Flickable {
                                         cursorShape: Qt.PointingHandCursor
                                         hoverEnabled: true
                                         onClicked: {
-                                            avail.model.remove(deleg.index, 1)
+                                            set_status.curEntries.splice(deleg.index, 1)
+                                            set_status.populateModel()
                                             setting_top.checkDefault()
                                         }
                                     }
@@ -248,6 +254,12 @@ Flickable {
                         onPositionChanged: (drag) => {
                             var newindex = avail.indexAt(drag.x, drag.y)
                             if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+
+                                // we move the entry around in the list for the populate call later
+                                var element = set_status.curEntries[avail.dragItemIndex];
+                                set_status.curEntries.splice(avail.dragItemIndex, 1);
+                                set_status.curEntries.splice(newindex, 0, element);
+
                                 avail.model.move(avail.dragItemIndex, newindex, 1)
                                 avail.dragItemIndex = newindex
                                 setting_top.checkDefault()
@@ -304,7 +316,8 @@ Flickable {
                         text: qsTranslate("settingsmanager", "add")
                         smallerVersion: true
                         onClicked: {
-                            model.append({"name": combo_add.statusdata_keys[combo_add.currentIndex], "index": model.count})
+                            set_status.curEntries.push(combo_add.statusdata_keys[combo_add.currentIndex])
+                            set_status.populateModel()
                             setting_top.checkDefault()
                         }
                     }
@@ -329,11 +342,8 @@ Flickable {
 
                 status_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShow") == 1) // qmllint disable unqualified
 
-                model.clear()
-                var setprops = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList")
-                console.warn("####", setprops)
-                for(var j = 0; j < setprops.length; ++j)
-                    model.append({"name": setprops[j], "index": j})
+                set_status.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList")
+                populateModel()
 
                 fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoFontSize"))
 
@@ -350,13 +360,8 @@ Flickable {
             }
 
             function hasChanged() {
-
-                var opts = []
-                for(var i = 0; i < model.count; ++i)
-                    opts.push(model.get(i).name)
-
                 return (status_show.hasChanged() ||
-                        !setting_top.areTwoListsEqual(opts, PQCSettings.interfaceStatusInfoList) ||
+                        !setting_top.areTwoListsEqual(set_status.curEntries, PQCSettings.interfaceStatusInfoList) ||
                         fontsize.hasChanged())
             }
 
@@ -364,10 +369,8 @@ Flickable {
 
                 status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow) // qmllint disable unqualified
 
-                model.clear()
-                var setprops = PQCSettings.interfaceStatusInfoList
-                for(var j = 0; j < setprops.length; ++j)
-                    model.append({"name": setprops[j], "index": j})
+                set_status.curEntries = PQCSettings.interfaceStatusInfoList
+                populateModel()
 
                 fontsize.loadAndSetDefault(PQCSettings.interfaceStatusInfoFontSize)
 
@@ -387,6 +390,12 @@ Flickable {
                 fontsize.saveDefault()
                 status_show.saveDefault()
 
+            }
+
+            function populateModel() {
+                model.clear()
+                for(var j = 0; j < set_status.curEntries.length; ++j)
+                    model.append({"name": set_status.curEntries[j], "index": j})
             }
 
         }
