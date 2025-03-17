@@ -62,6 +62,7 @@ public:
     Q_INVOKABLE bool isFolder(QString path);
     Q_INVOKABLE bool doesItExist(QString path);
     Q_INVOKABLE bool isExcludeDirFromCaching(QString filename);
+    Q_INVOKABLE bool isOnNetwork(QString filename);
     Q_INVOKABLE void openInDefaultFileManager(QString filename);
     Q_INVOKABLE QString selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
     Q_INVOKABLE QString selectFolderFromDialog(QString buttonlabel, QString preselectFolder);

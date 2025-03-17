@@ -316,14 +316,22 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
     }
 
     if(PQCSettings::get()["thumbnailsExcludeNetworkShares"].toBool()) {
-        for(const QString &dir: std::as_const(networkshares)) {
-            if(dir != "" && filename.indexOf(dir) == 0)
-                return true;
-        }
+        return isOnNetwork(filename);
     }
 
     return false;
 
+}
+
+bool PQCScriptsFilesPaths::isOnNetwork(QString filename) {
+
+    qDebug() << "args: filename =" << filename;
+
+    for(const QString &dir: std::as_const(networkshares)) {
+        if(dir != "" && filename.indexOf(dir) == 0)
+            return true;
+    }
+    return false;
 }
 
 void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {

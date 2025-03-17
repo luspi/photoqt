@@ -117,6 +117,7 @@ if which == 'all' or which == 'filetypes':
     os.makedirs('output/svg/large', exist_ok=True)
     os.makedirs('output/svg/small', exist_ok=True)
     os.makedirs('output/svg/squared', exist_ok=True)
+    os.makedirs('output/svg/network', exist_ok=True)
     os.makedirs('output/ico', exist_ok=True)
     os.makedirs('output/tmp', exist_ok=True)
     files = glob.glob('./output/tmp/*')
@@ -180,6 +181,7 @@ if which == 'all' or which == 'filetypes':
                 l = 1
 
             qrc_cont += f"        <file>filetypes/{e}.svg</file>\n"
+            qrc_cont += f"        <file>filetypes/network_{e}.svg</file>\n"
 
             if e == "svg" or e == "svgz":
                 category = "svg"
@@ -187,6 +189,7 @@ if which == 'all' or which == 'filetypes':
             fname_large = f"output/svg/large/{e}.svg"
             fname_small = f"output/svg/small/{e}.svg"
             fname_squared = f"output/svg/squared/{e}.svg"
+            fname_network = f"output/svg/network/network_{e}.svg"
 
             generateHowMany = 0
 
@@ -221,6 +224,22 @@ if which == 'all' or which == 'filetypes':
                 f_squared = open(fname_squared, "w")
                 f_squared.write(icn_squared)
                 f_squared.close()
+
+            if not os.path.exists(fname_network):
+
+                generateHowMany += 1
+
+                print(f"  > network SVG: {e}")
+
+                icn_network = open(f"icons/{category}_network.svg").read()
+                icn_network = icn_network.replace("#f00", color)
+                icn_network = icn_network.replace("ZZZ", "?" if (e=="unknown") else e.upper())
+                icn_network = icn_network.replace("font-size:167.569px", f"font-size:{fontsizes[l-1]}px")
+                icn_network = icn_network.replace('x="378.4613"', f'x="{2*66.145895+xy[l-1][0]}"')
+                icn_network = icn_network.replace('y="827.80219"', f'y="{xy[l-1][1]}"')
+                f_network = open(fname_network, "w")
+                f_network.write(icn_network)
+                f_network.close()
 
             if not os.path.exists(fname_small):
 

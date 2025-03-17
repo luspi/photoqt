@@ -195,5 +195,7 @@
         <file>light/x.svg</file>
         <file>light/zoomin.svg</file>
         <file>light/zoomout.svg</file>
+        <file>dark/computer.svg</file>
+        <file>light/computer.svg</file>
     </qresource>
 </RCC>

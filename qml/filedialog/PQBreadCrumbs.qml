@@ -292,9 +292,34 @@ Item {
                     y: (parent.height-height)/2
 
                     property bool windows: PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
-                    property bool isNetwork: windows && PQCFileFolderModel.folderFileDialog.startsWith("//") // qmllint disable unqualified
+                    property bool isNetwork: PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
 
-                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : (isNetwork ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/")) // qmllint disable unqualified
+                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : ((isNetwork&&windows) ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/")) // qmllint disable unqualified
+                    onPartsChanged:
+                    console.warn("###", parts)
+
+                    Item { width: 15; height: 1 }
+                    Image {
+                        y: (parent.height-height)/2
+                        height: parent.height/2
+                        width: height
+                        source: ("image://svg/:/" + PQCLook.iconShade + "/computer.svg")
+                        PQMouseArea {
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            text: (crumbs.parts.length > 0 ? (crumbs.windows ? crumbs.parts[0] : "/") : "")
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: (mouse) => {
+                                if(crumbs.parts.length > 0) {
+                                    if(crumbs.windows)
+                                        filedialog_top.loadNewPath(crumbs.parts[0]) // qmllint disable unqualified
+                                    else
+                                        filedialog_top.loadNewPath("/")
+                                }
+                            }
+                        }
+                    }
+                    Item { width: 10; height: 1 }
 
                     Repeater {
 
@@ -305,6 +330,8 @@ Item {
                             id: deleg
 
                             required property int modelData
+
+                            property bool subdirIsNetwork: PQCScriptsFilesPaths.isOnNetwork(deleg.subdir)
 
                             property string subdir: {
                                 var p = ""
@@ -320,36 +347,45 @@ Item {
                                     if(modelData === 0)
                                         return "/"
                                     p = ""
-                                    for(var j = 1; j <= modelData; ++j)
+                                    for(var j = 1; j <= modelData; ++j) {
                                         p += "/"+crumbs.parts[j]
+                                    }
                                     return p
                                 }
                             }
 
                             Rectangle {
                                 height: breadcrumbs_top.height
-                                width: folder.text==="" ? 0 : (folder.width+20)
+                                width: folder.text==="" ? 0 : (folder.width+foldertypeicon.width+20)
                                 color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 200 } }
+                                Image {
+                                    id: foldertypeicon
+                                    x: 5
+                                    y: (parent.height-height)/2
+                                    height: deleg.subdirIsNetwork ? parent.height/3 : 0
+                                    width: height
+                                    source: deleg.subdirIsNetwork ? ("image://svg/:/" + PQCLook.iconShade + "/network.svg") : ""
+                                }
                                 PQText {
                                     id: folder
-                                    x: 10
+                                    x: foldertypeicon.width+10
                                     y: (parent.height-height)/2
                                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                                    text: deleg.modelData===0&&!crumbs.windows ? "/" : crumbs.parts[deleg.modelData]
+                                    text: deleg.modelData>0 ? crumbs.parts[deleg.modelData] : ""
                                 }
                                 PQMouseArea {
                                     id: mousearea2
                                     anchors.fill: parent
                                     hoverEnabled: true
+                                    text: deleg.subdir
                                     onClicked: (mouse) => {
                                         if(mouse.button === Qt.LeftButton)
                                             filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
                                         else
                                             pathmenu.popup()
                                     }
-                                    enabled: (deleg.modelData<2 && crumbs.isNetwork) ? false : true
-                                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    cursorShape: Qt.PointingHandCursor
                                     acceptedButtons: Qt.RightButton|Qt.LeftButton
                                 }
                                 PQMenu {
@@ -395,22 +431,21 @@ Item {
                                 color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 Image {
-                                    property real fact: (deleg.modelData===0 && crumbs.isNetwork) ? 1.5 : 3
+                                    property real fact: 3
                                     x: (parent.width-width)/2
                                     y: (parent.height-height)/2
-                                    width: parent.width*(1/fact)
                                     height: parent.height*(1/fact)
+                                    width: height
                                     smooth: false
                                     fillMode: Image.PreserveAspectFit
-                                    source: (deleg.modelData===0 && crumbs.isNetwork) ? ("image://svg/:/" + PQCLook.iconShade + "/network.svg") : ("image://svg/:/" + PQCLook.iconShade + "/breadcrumb.svg") // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/breadcrumb.svg" // qmllint disable unqualified
                                     sourceSize: Qt.size(width, height)
                                 }
                                 PQMouseArea {
                                     id: mousearea
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    enabled: (deleg.modelData<2 && crumbs.isNetwork) ? false : true
-                                    cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                                    cursorShape: Qt.PointingHandCursor
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     onClicked: (pos) => {
                                         folderlist.popup(0,height)

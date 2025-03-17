@@ -52,8 +52,15 @@ QImage PQCProviderIcon::requestImage(const QString &icon, QSize *origSize, const
     const QString suf = const_cast<QString&>(icon);
 
     QString iconname = ":/filetypes/unknown.svg";
+    if(suf.startsWith("network_"))
+        iconname = ":/filetypes/network_unknown.svg";
     if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf.toLower())))
         iconname = QString(":/filetypes/%1.svg").arg(suf.toLower());
+    else if(suf.contains(".")) {
+        const QString suf2 = (suf.startsWith("network_") ? "network_" : "") + suf.split(".").last();
+        if(QFile::exists(QString(":/filetypes/%1.svg").arg(suf2.toLower())))
+            iconname = QString(":/filetypes/%1.svg").arg(suf2.toLower());
+    }
 
     return svg->requestImage(iconname, origSize, requestedSize);
 

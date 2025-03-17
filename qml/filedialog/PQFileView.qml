@@ -79,6 +79,7 @@ GridView {
 
             view.model = 0
             view.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+            view.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
             view.model = PQCFileFolderModel.countAllFileDialog
             // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
             // (re-)setting the model will always reset the currentIndex to 0
@@ -113,6 +114,7 @@ GridView {
     // properties
     property bool showGrid: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
     property bool currentFolderExcluded: false
+    property bool currentFolderOnNetwork: false
     property int currentFolderThumbnailIndex: -1
     property string storeCurrentFolderName: ""
     property var cacheSelection: ({})
@@ -346,6 +348,8 @@ GridView {
         property int numberFilesInsideFolder: 0
         property bool currentFileCut: false
         property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
+        property bool isFolder: deleg.modelData < PQCFileFolderModel.countFoldersFileDialog
+        property bool onNetwork: PQCScriptsFilesPaths.isOnNetwork(currentPath)
 
         Item {
 
@@ -379,7 +383,7 @@ GridView {
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                property string sourceString: ("image://icon/"+(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
+                property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder // qmllint disable unqualified
                                                     ? (view.showGrid ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon")))
                                                     : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
@@ -397,7 +401,7 @@ GridView {
                 width: view.cellHeight-2*deleg.padding
                 height: view.cellHeight-2*deleg.padding
 
-                visible: deleg.modelData >= PQCFileFolderModel.countFoldersFileDialog && PQCSettings.filedialogThumbnails && !view.currentFolderExcluded // qmllint disable unqualified
+                visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view.currentFolderExcluded && !deleg.onNetwork // qmllint disable unqualified
 
                 opacity: deleg.currentFileCut ? 0.3 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -499,11 +503,11 @@ GridView {
                     running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
                     onTriggered: {
                         var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
-                        if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
-                            return
-                        if(deleg.modelData >= PQCFileFolderModel.countFoldersFileDialog)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+                        if(!deleg.isFolder)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
                             return
                         if(deleg.numberFilesInsideFolder == 0)
+                            return
+                        if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
                             return
                         if((view.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                             folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
@@ -570,7 +574,7 @@ GridView {
 
             // load async for files
             Timer {
-                running: deleg.modelData>=PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
+                running: !deleg.isFolder // qmllint disable unqualified
                 interval: 1
                 onTriggered: {
                     fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
@@ -579,7 +583,7 @@ GridView {
 
             // load async for folders
             Timer {
-                running: deleg.modelData < PQCFileFolderModel.countFoldersFileDialog // qmllint disable unqualified
+                running: deleg.isFolder // qmllint disable unqualified
                 interval: 1
                 onTriggered: {
                     PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
@@ -595,13 +599,12 @@ GridView {
                 }
             }
 
-
             /************************************************************/
             // FILE NAME/SIZE
 
-
             // the filename - icon view
             Rectangle {
+                id: filename_iconview
                 visible: view.showGrid
                 width: parent.width
                 height: parent.height/4
@@ -622,12 +625,12 @@ GridView {
                 Image {
                     x: (parent.width-width-5)
                     y: (parent.height-height-5)
-                    source: "image://svg/:/" + PQCLook.iconShade + "/folder.svg" // qmllint disable unqualified
+                    source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
                     height: 16
                     mipmap: true
                     width: height
                     opacity: 0.3
-                    visible: deleg.modelData < PQCFileFolderModel.countFoldersFileDialog && folderthumb.curnum>0 // qmllint disable unqualified
+                    visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
                 }
 
             }
@@ -688,7 +691,7 @@ GridView {
 
                 anchors.fill: parent
                 color: "#88ffffff"
-                opacity: view.currentSelection.indexOf(deleg.modelData)==-1 ? 0 : 1
+                opacity: view.currentSelection.indexOf(deleg.modelData)===-1 ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
@@ -767,7 +770,7 @@ GridView {
 
                         var str = ""
 
-                        if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog) {
+                        if(deleg.isFolder) {
 
                             if(!view.currentFolderExcluded && PQCSettings.filedialogFolderContentThumbnails && deleg.numberFilesInsideFolder>0) {
                                 // when a folder is hovered before a thumbnail inside is loaded, this will result in an empty image
@@ -928,7 +931,7 @@ GridView {
                                 var o = mousearea.storeClicks[deleg.currentPath]
 
                                 if(t-o < 300) {
-                                    if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
+                                    if(deleg.isFolder)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
                                         PQCFileFolderModel.extraFoldersToLoad = []
@@ -1100,7 +1103,7 @@ GridView {
                                 var o = mousearea.storeClicks[deleg.currentPath]
 
                                 if(t-o < 300) {
-                                    if(deleg.modelData < PQCFileFolderModel.countFoldersFileDialog)
+                                    if(deleg.isFolder)
                                         filedialog_top.loadNewPath(deleg.currentPath)
                                     else {
                                         PQCFileFolderModel.extraFoldersToLoad = []
