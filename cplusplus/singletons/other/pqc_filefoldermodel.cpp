@@ -38,6 +38,7 @@
 #include <pqc_settings.h>
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_constants.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -220,6 +221,7 @@ void PQCFileFolderModel::setCountMainView(int c) {
     if(m_countMainView == c)
         return;
     m_countMainView = c;
+    PQCConstants::get().setProperty("howManyFiles", c);
     Q_EMIT countMainViewChanged();
 }
 
@@ -431,14 +433,12 @@ void PQCFileFolderModel::advancedSortMainView() {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
-        const int tmp = m_countMainView;
-        m_countMainView = 0;
-        Q_EMIT countMainViewChanged();
-        m_countMainView = tmp;
+        const int tmp = getCountMainView();
+        setCountMainView(0);
+        setCountMainView(tmp);
 
         m_entriesMainView = cacheAdvancedSortFolder;
         Q_EMIT newDataLoadedMainView();
-        Q_EMIT countMainViewChanged();
         Q_EMIT advancedSortingComplete();
         return;
 
@@ -733,16 +733,14 @@ void PQCFileFolderModel::advancedSortMainView() {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
-        const int tmp = m_countMainView;
-        m_countMainView = 0;
-        Q_EMIT countMainViewChanged();
-        m_countMainView = tmp;
+        const int tmp = getCountMainView();
+        setCountMainView(0);
+        setCountMainView(tmp);
 
         m_currentIndex = cacheAdvancedSortFolder.indexOf(m_currentFile);
         m_currentIndexNoDelay = m_currentIndex;
 
         m_entriesMainView = cacheAdvancedSortFolder;
-        Q_EMIT countMainViewChanged();
         Q_EMIT currentIndexChanged();
         Q_EMIT currentIndexNoDelayChanged();
         Q_EMIT newDataLoadedMainView();
@@ -903,7 +901,7 @@ void PQCFileFolderModel::loadDataMainView() {
     // clear old entries
 
     m_entriesMainView.clear();
-    m_countMainView = 0;
+    setCountMainView(0);
     delete watcherMainView;
     watcherMainView = new QFileSystemWatcher;
 
@@ -946,7 +944,7 @@ void PQCFileFolderModel::loadDataMainView() {
     if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         m_entriesMainView = listPDFPages(m_fileInFolderMainView);
-        m_countMainView = m_entriesMainView.length();
+        setCountMainView(m_entriesMainView.length());
         m_readDocumentOnly = false;
         setCurrentIndex(numberPageDocument);
 
@@ -956,14 +954,14 @@ void PQCFileFolderModel::loadDataMainView() {
             m_entriesMainView = archiveContentPreloaded;
             archiveContentPreloaded.clear();
         }
-        m_countMainView = m_entriesMainView.length();
+        setCountMainView(m_entriesMainView.length());
         m_readArchiveOnly = false;
         setCurrentIndex(numberPageDocument);
 
     } else {
 
         m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-        m_countMainView = m_entriesMainView.length();
+        setCountMainView(m_entriesMainView.length());
 
         if(isFolder && m_entriesMainView.length())
             m_fileInFolderMainView = m_entriesMainView[0];
@@ -981,10 +979,9 @@ void PQCFileFolderModel::loadDataMainView() {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
-        const int tmp = m_countMainView;
-        m_countMainView = 0;
-        Q_EMIT countMainViewChanged();
-        m_countMainView = tmp;
+        const int tmp = getCountMainView();
+        setCountMainView(0);
+        setCountMainView(tmp);
 
         m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
         m_currentFile = m_fileInFolderMainView;
@@ -993,7 +990,6 @@ void PQCFileFolderModel::loadDataMainView() {
         m_currentFileNoDelay = m_currentFile;
 
         Q_EMIT newDataLoadedMainView();
-        Q_EMIT countMainViewChanged();
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
         Q_EMIT currentIndexNoDelayChanged();

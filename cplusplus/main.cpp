@@ -39,6 +39,7 @@
     #include <windows.h>
 #endif
 
+#include <pqc_constants.h>
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
 #include <pqc_startup.h>
@@ -336,6 +337,7 @@ int main(int argc, char *argv[]) {
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
+    engine.rootContext()->setContextProperty("PQCConstants", &PQCConstants::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

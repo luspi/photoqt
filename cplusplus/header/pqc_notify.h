@@ -266,6 +266,7 @@ Q_SIGNALS:
     void executeInternalCommand(QString cmd);
 
     void showNotificationMessage(QString msg);
+    void openSettingsManagerAt(QString category, QString subcategory);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);

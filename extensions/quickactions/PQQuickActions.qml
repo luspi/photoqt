@@ -24,12 +24,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
-import PQCFileFolderModel
-import PQCScriptsConfig
 import PQCWindowGeometry
 
-import "../elements"
-import "../"
+import "../../qml/elements"
+import "../../qml/"
 
 PQTemplateFloating {
 
@@ -241,15 +239,15 @@ PQTemplateFloating {
                             width: sepver.visible ? 0 : sze
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
+                            enabled: visible && (delegver.props[3] || PQCConstants.howManyFiles>0)
+                            tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(delegver.props[2])
                             }
                             onRightClicked: {
-                                if(!popoutWindowUsed)
+                                if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
                             }
 
@@ -385,15 +383,15 @@ PQTemplateFloating {
                             width: sephor.visible ? 0 : sze
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
+                            enabled: visible && (deleghor.props[3] || PQCConstants.howManyFiles>0)
+                            tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(deleghor.props[2])
                             }
                             onRightClicked: {
-                                if(!popoutWindowUsed)
+                                if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
                             }
                             onMouseOverChanged: {
@@ -469,8 +467,7 @@ PQTemplateFloating {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                    loader.passOn("showSettings", "quickactions")
+                    PQCNotify.openSettingsManagerAt("settingsmanager", "quickactions")
                 }
             }
 
@@ -559,16 +556,16 @@ PQTemplateFloating {
     }
 
     Connections {
-        target: toplevel
+        target: PQCConstants
 
-        function onWidthChanged() {
+        function onWindowWidthChanged() {
             if(!quickactions_top.finishedSetup) return
-            quickactions_top.x = Math.min(toplevel.width-quickactions_top.width, Math.max(0, quickactions_top.x))
+            quickactions_top.x = Math.min(PQCConstants.windowHeight-quickactions_top.width, Math.max(0, quickactions_top.x))
         }
 
-        function onHeightChanged() {
+        function onWindowHeightChanged() {
             if(!quickactions_top.finishedSetup) return
-            quickactions_top.y = Math.min(toplevel.height-quickactions_top.height, Math.max(0, quickactions_top.y))
+            quickactions_top.y = Math.min(PQCConstants.windowWidth-quickactions_top.height, Math.max(0, quickactions_top.y))
         }
 
     }
@@ -581,9 +578,9 @@ PQTemplateFloating {
             ele_window.maximumWidth = width
             ele_window.maximumHeight = height
         } else {
-            x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
+            x = Qt.binding(function() { return (PQCConstants.windowWidth-quickactions_top.width)/2 })
             if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
+                y = Qt.binding(function() { return PQCConstants.windowHeight-quickactions_top.height-20 })
             else
                 y = 20
         }

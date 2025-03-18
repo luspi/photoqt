@@ -60,11 +60,13 @@ Window {
     // this signals whether the window is currently being resized or not
     property bool resizing: false
     onWidthChanged: {
+        PQCConstants.windowWidth = width
         if(toplevel.startup) return
         toplevel.resizing = true
         resetResizing.restart()
     }
     onHeightChanged: {
+        PQCConstants.windowHeight = height
         if(toplevel.startup) return
         toplevel.resizing = true
         resetResizing.restart()

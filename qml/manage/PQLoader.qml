@@ -127,6 +127,11 @@ Item {
 
     function ensureItIsReady(ele : string, config : var) {
 
+        if(ele === "quickactions") {
+            config[2].source = "../extensions/quickactions/PQQuickActions" + ((config[4] || config[5]) ? "Popout" : "") + ".qml"
+            return
+        }
+
         var src
         if(config[4] || config[5])
             src = config[0] + "/popout/" + config[1] + "Popout.qml"
@@ -145,8 +150,14 @@ Item {
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
+
         function onShowNotificationMessage(msg) {
             loader_top.show("notification", [msg, ""])
+        }
+
+        function onOpenSettingsManagerAt(category : string, subcategory : string) {
+            loader_top.ensureItIsReady(category, loader.loadermapping[category]) // qmllint disable unqualified
+            loader_top.passOn("showSettings", subcategory)
         }
 
     }
