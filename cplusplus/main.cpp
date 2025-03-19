@@ -83,6 +83,7 @@
 #include <scripts/pqc_scriptschromecast.h>
 #include <scripts/pqc_scriptsundo.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/pqc_scriptsextensions.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -335,6 +336,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsChromeCast", 1, 0, "PQCScriptsChromeCast", &PQCScriptsChromeCast::get());
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
+    qmlRegisterSingletonInstance("PQCScriptsExtensions", 1, 0, "PQCScriptsExtensions", &PQCScriptsExtensions::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());

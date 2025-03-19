@@ -24,11 +24,16 @@ import QtQuick
 
 import PQCWindowGeometry
 import PQCScriptsConfig
+import PQCScriptsExtensions
 import PQCNotify
 
 Item {
 
     id: loader_top
+
+    property var extensionsloader: {
+        "quickactions" : loader_quickactions
+    }
 
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
@@ -60,7 +65,7 @@ Item {
         "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
         "settingsmanager"     : ["settingsmanager","PQSettingsManager", loader_settingsmanager, 1, PQCSettings.interfacePopoutSettingsManager, PQCWindowGeometry.settingsmanagerForcePopout],
         "crop"                : ["actions","PQCrop", loader_crop, 1, PQCSettings.interfacePopoutCrop, PQCWindowGeometry.cropForcePopout],
-        "quickactions"        : ["ongoing","PQQuickActions", loader_quickactions, 0, PQCSettings.interfacePopoutQuickActions, PQCWindowGeometry.quickactionsForcePopout]
+        // "quickactions"        : ["ongoing","PQQuickActions", loader_quickactions, 0, PQCSettings.interfacePopoutQuickActions, PQCWindowGeometry.quickactionsForcePopout]
     }
 
     property string visibleItem: ""
@@ -82,10 +87,15 @@ Item {
             return
         }
 
-        if(!(ele in loadermapping))
+        var config
+        var ind = PQCScriptsExtensions.getExtensions().indexOf(ele)
+        if(ind > -1 && ele in extensionsloader) {
+            config = composeExtensionConfig(ele)
+        } else if(!(ele in loadermapping)) {
+            console.log("Unknown element encountered:", ele)
             return
-
-        var config = loadermapping[ele]
+        } else
+            config = loadermapping[ele]
 
         if(config[3] === 1 && visibleItem != "")
             return
@@ -127,11 +137,6 @@ Item {
 
     function ensureItIsReady(ele : string, config : var) {
 
-        if(ele === "quickactions") {
-            config[2].source = "../extensions/quickactions/PQQuickActions" + ((config[4] || config[5]) ? "Popout" : "") + ".qml"
-            return
-        }
-
         var src
         if(config[4] || config[5])
             src = config[0] + "/popout/" + config[1] + "Popout.qml"
@@ -145,6 +150,17 @@ Item {
 
     function resetAll() {
         console.warn("## TODO: implement PQLoader::resetAll()")
+    }
+
+    function composeExtensionConfig(ele : string) : list<var> {
+        var vals = ["../extensions/" + ele,
+                      PQCScriptsExtensions.getQmlBaseName(ele),
+                      extensionsloader[ele],
+                      PQCScriptsExtensions.getIsModal(ele),
+                      (PQCScriptsExtensions.getAllowPopout(ele) ? PQCSettings[PQCScriptsExtensions.getPopoutSettingName(ele)] : false),
+                      false]
+        console.warn(vals)
+        return vals
     }
 
     Connections {

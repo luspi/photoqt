@@ -23,6 +23,7 @@
 #include <pqc_loadimage_libvips.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QCoreApplication>
 #include <QSize>
@@ -94,8 +95,8 @@ QString PQCLoadImageLibVips::load(QString filename, QSize maxSize, QSize &origSi
         return errormsg;
     }
 
-    PQCScriptsImages::get().applyColorProfile(filename, img);
-    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+    PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+    PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
 
     g_object_unref(vimg);
     g_free(buf);

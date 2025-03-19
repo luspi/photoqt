@@ -57,6 +57,7 @@ public:
     QString verifyNameAndGetType(QString name);
 
     int migrate(QString oldversion = "");
+    void setupFresh();
 
 public Q_SLOTS:
     void updateFromCommandLine();

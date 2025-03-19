@@ -44,12 +44,14 @@ public:
 
     Q_INVOKABLE bool getAllowPopout(QString id);
     Q_INVOKABLE bool getIsModal(QString id);
+    Q_INVOKABLE QString getQmlBaseName(QString id);
 
     Q_INVOKABLE QList<QStringList> getActions(QString id);
 
     Q_INVOKABLE QStringList getShortcuts(QString id);
     Q_INVOKABLE QMap<QString, QStringList> getShortcutsActions(QString id);
-    Q_INVOKABLE QMap<QString, QStringList> getSettings(QString id);
+    Q_INVOKABLE QList<QStringList> getSettings(QString id);
+    Q_INVOKABLE QString getPopoutSettingName(QString id);
 
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
@@ -61,12 +63,14 @@ private:
 
     QMap<QString, bool> m_allowPopout;
     QMap<QString, bool> m_isModal;
+    QMap<QString, QString> m_qmlBaseName;
 
     QMap<QString, QList<QStringList> > m_actions;
 
     QMap<QString, QStringList> m_shortcuts;
     QMap<QString, QMap<QString, QStringList> > m_shortcutsActions;
-    QMap<QString, QMap<QString, QStringList> > m_settings;
+    QMap<QString, QList<QStringList> > m_settings;
+    QMap<QString, QString> m_popoutSettingName;
 
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateSettings;
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateShortcuts;
