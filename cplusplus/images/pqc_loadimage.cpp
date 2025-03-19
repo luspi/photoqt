@@ -37,6 +37,8 @@
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
+
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>
@@ -58,7 +60,7 @@ QSize PQCLoadImage::load(QString filename) {
 
     // check image cache, we might be done right here
     QImage img;
-    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsImages::get().getColorProfileFor(filename), img))
+    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), img))
         return img.size();
 
     // for easier access below
@@ -227,7 +229,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         filename = info.symLinkTarget();
 
     // check image cache, we might be done right here
-    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsImages::get().getColorProfileFor(filename), img)) {
+    if(PQCImageCache::get().getCachedImage(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), img)) {
         origSize = img.size();
         if(requestedSize.width() > 2 && requestedSize.height() > 2 && origSize.width() > requestedSize.width() && origSize.height() > requestedSize.height())
             img = img.scaled(requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);

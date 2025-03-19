@@ -23,6 +23,7 @@
 #include <pqc_loadimage_xcf.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QProcess>
 #include <QDir>
@@ -107,8 +108,8 @@ QString PQCLoadImageXCF::load(QString filename, QSize maxSize, QSize &origSize, 
     }
 
     if(img.size() == origSize) {
-        PQCScriptsImages::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+        PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
     return "";

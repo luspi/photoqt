@@ -24,6 +24,7 @@
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
@@ -230,8 +231,8 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     if(!thumb && !half) {
 
         if(!img.isNull()) {
-            PQCScriptsImages::get().applyColorProfile(filename, img);
-            PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+            PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
         }
 
         // Scale image if necessary

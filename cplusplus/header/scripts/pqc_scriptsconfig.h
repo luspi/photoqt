@@ -46,10 +46,14 @@ public:
     Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE static bool importConfigFrom(QString path);
-    Q_INVOKABLE QString getLastLoadedImage();
-    Q_INVOKABLE void setLastLoadedImage(QString path);
-    Q_INVOKABLE void deleteLastLoadedImage();
+
+    // some general properties
     Q_INVOKABLE bool amIOnWindows();
+    Q_INVOKABLE bool isQtAtLeast6_5();
+    Q_INVOKABLE QString getVersion();
+    Q_INVOKABLE bool isBetaVersion();
+
+    // check for various supported features
     Q_INVOKABLE bool isChromecastEnabled();
     Q_INVOKABLE bool isLocationSupportEnabled();
     Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
@@ -61,21 +65,27 @@ public:
     Q_INVOKABLE bool isPDFSupportEnabled();
     Q_INVOKABLE bool isLibVipsSupportEnabled();
     Q_INVOKABLE bool isLibArchiveSupportEnabled();
-    Q_INVOKABLE bool isQtAtLeast6_5();
     Q_INVOKABLE bool isMPVSupportEnabled();
     Q_INVOKABLE bool isVideoQtSupportEnabled();
     Q_INVOKABLE bool isMotionPhotoSupportEnabled();
     Q_INVOKABLE bool isPhotoSphereSupportEnabled();
     Q_INVOKABLE bool isZXingSupportEnabled();
     Q_INVOKABLE bool isLCMS2SupportEnabled();
-    Q_INVOKABLE QString getVersion();
-    Q_INVOKABLE bool isBetaVersion();
+    Q_INVOKABLE bool isICUSupportEnabled();
+
+    // other methods
     Q_INVOKABLE QStringList getAvailableTranslations();
     Q_INVOKABLE void updateTranslation();
-    Q_INVOKABLE void inform(QString title, QString txt);
+    Q_INVOKABLE QString getLastLoadedImage();
+    Q_INVOKABLE void setLastLoadedImage(QString path);
+    Q_INVOKABLE void deleteLastLoadedImage();
+
+    // settings middleman
     Q_INVOKABLE void setDefaultSettingValueFor(QString key);
     Q_INVOKABLE QVariant getDefaultSettingValueFor(QString key);
-    Q_INVOKABLE bool isICUSupportEnabled();
+
+    // pop up messagebox
+    Q_INVOKABLE void inform(QString title, QString txt);
 
 private:
     PQCScriptsConfig();
