@@ -26,6 +26,7 @@ import QtQuick.Controls
 import PQCNotify
 import PQCScriptsImages
 import PQCScriptsConfig
+import PQCScriptsColorProfiles
 
 import "../../../elements"
 
@@ -577,7 +578,7 @@ Flickable {
                                                     extraHovered: tilemouse.containsMouse
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
-                                                        var curid = PQCScriptsImages.getColorProfileID(deleg.modelData) // qmllint disable unqualified
+                                                        var curid = PQCScriptsColorProfiles.getColorProfileID(deleg.modelData) // qmllint disable unqualified
                                                         var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
                                                         if(checked && arrayIndex == -1)
                                                             setting_top.colorprofiles_contextmenu.push(curid)
@@ -616,7 +617,7 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     opacity: delmouse.containsMouse ? 1 : 0.2
                                                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                                                    visible: deleg.modelData < PQCScriptsImages.getImportedColorProfiles().length // qmllint disable unqualified
+                                                    visible: deleg.modelData < PQCScriptsColorProfiles.getImportedColorProfiles().length // qmllint disable unqualified
                                                     text: "x"
                                                     color: "red"
                                                     font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
@@ -630,8 +631,8 @@ Flickable {
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
                                                             check.checked = false
-                                                            if(PQCScriptsImages.removeImportedColorProfile(deleg.modelData)) { // qmllint disable unqualified
-                                                                setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                                            if(PQCScriptsColorProfiles.removeImportedColorProfile(deleg.modelData)) { // qmllint disable unqualified
+                                                                setting_top.colorprofiledescs = PQCScriptsColorProfiles.getColorProfileDescriptions()
                                                             }
                                                         }
                                                     }
@@ -652,7 +653,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsImages.getColorProfileID(deleg.modelData))>-1) // qmllint disable unqualified
+                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsColorProfiles.getColorProfileID(deleg.modelData))>-1) // qmllint disable unqualified
                                                 }
 
                                             }
@@ -725,8 +726,8 @@ Flickable {
                             visible: PQCScriptsConfig.isLCMS2SupportEnabled() // qmllint disable unqualified
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
-                                if(PQCScriptsImages.importColorProfile()) { // qmllint disable unqualified
-                                    setting_top.colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
+                                if(PQCScriptsColorProfiles.importColorProfile()) { // qmllint disable unqualified
+                                    setting_top.colorprofiledescs = PQCScriptsColorProfiles.getColorProfileDescriptions()
                                 }
                             }
                         }
@@ -800,8 +801,8 @@ Flickable {
                 // we need to load this before setting up the element below
                 setting_top.colorProfileLoadDefault()
 
-                colorprofiledescs = PQCScriptsImages.getColorProfileDescriptions()
-                colorprofiles = PQCScriptsImages.getColorProfiles()
+                colorprofiledescs = PQCScriptsColorProfiles.getColorProfileDescriptions()
+                colorprofiles = PQCScriptsColorProfiles.getColorProfiles()
                 colorprofiles_contextmenu = PQCSettings.imageviewColorSpaceContextMenu
                 colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
 

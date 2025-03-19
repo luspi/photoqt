@@ -20,12 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <thread>
-
 #include <pqc_loadimage.h>
 #include <pqc_loadimage_archive.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
@@ -219,8 +218,8 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
                 // cache image before potentially scaling it
                 if(!img.isNull()) {
-                    PQCScriptsImages::get().applyColorProfile(filename, img);
-                    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+                    PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+                    PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
                 }
 
                 // Scale image if necessary
@@ -341,8 +340,8 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
 
     // cache image before potentially scaling it
     if(!img.isNull()) {
-        PQCScriptsImages::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+        PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
     // Scale image if necessary

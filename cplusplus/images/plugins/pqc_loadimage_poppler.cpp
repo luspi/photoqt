@@ -24,6 +24,7 @@
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
@@ -111,8 +112,8 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
     img = p->renderToImage(useQuality, useQuality);
 
     if(!img.isNull()) {
-        PQCScriptsImages::get().applyColorProfile(filename, img);
-        PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+        PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+        PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
     }
 
     origSize = p->pageSize()*(quality/72.0);

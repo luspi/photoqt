@@ -29,6 +29,7 @@ import PQCFileFolderModel
 import PQCScriptsContextMenu
 import PQCScriptsConfig
 import PQCScriptsImages
+import PQCScriptsColorProfiles
 
 import "../elements"
 
@@ -183,13 +184,13 @@ PQMenu {
         id: iccmenu
         title: qsTranslate("contextmenu", "Select color profile")
         onAboutToShow: {
-            cont.availableColorProfiles = PQCScriptsImages.getColorProfileDescriptions() // qmllint disable unqualified
+            cont.availableColorProfiles = PQCScriptsColorProfiles.getColorProfileDescriptions() // qmllint disable unqualified
         }
         PQMenuItem {
             text: qsTranslate("contextmenu", "Default color profile")
             font.bold: true
             onTriggered: {
-                PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
+                PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
                 image.reloadImage()
                 PQCFileFolderModel.currentFileChanged()
             }
@@ -203,10 +204,10 @@ PQMenu {
                 id: deleg
                 required property int modelData
                 text: cont.availableColorProfiles[modelData]
-                visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsImages.getColorProfileID(modelData))>-1 // qmllint disable unqualified
+                visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1 // qmllint disable unqualified
                 height: visible ? 40 : 0
                 onTriggered: {
-                    PQCScriptsImages.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
+                    PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
                     image.reloadImage()
                     PQCFileFolderModel.currentFileChanged()
                 }

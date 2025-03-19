@@ -24,6 +24,7 @@
 #include <pqc_imagecache.h>
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QCoreApplication>
 #include <QSize>
@@ -196,8 +197,8 @@ QString PQCLoadImageMagick::load(QString filename, QSize maxSize, QSize &origSiz
         img = QImage::fromData(imgData);
 
         if(!img.isNull() && img.size() == origSize) {
-            PQCScriptsImages::get().applyColorProfile(filename, img);
-            PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+            PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+            PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
         }
 
         // And we're done!

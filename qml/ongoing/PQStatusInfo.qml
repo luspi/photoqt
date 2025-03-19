@@ -32,6 +32,7 @@ import PQCNotify
 import PQCScriptsChromeCast
 import PQCScriptsConfig
 import PQCScriptsOther
+import PQCScriptsColorProfiles
 
 import "../elements"
 import "../manage"
@@ -544,7 +545,7 @@ Item {
                 id: loadVideoColorInfo
                 interval: 1
                 onTriggered: {
-                    var val = PQCScriptsImages.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+                    var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
                     csptxt.color = PQCLook.textColor
                     if(val === "")
                         val = qsTranslate("statusinfo", "unknown color profile")

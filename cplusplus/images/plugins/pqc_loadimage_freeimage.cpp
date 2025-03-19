@@ -23,6 +23,7 @@
 #include <pqc_loadimage_freeimage.h>
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 
 #include <QString>
@@ -126,8 +127,8 @@ QString PQCLoadImageFreeImage::load(QString filename, QSize maxSize, QSize &orig
         return errormsg;
     }
 
-    PQCScriptsImages::get().applyColorProfile(filename, img);
-    PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+    PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+    PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
 
     // Scale image if necessary
     if(maxSize.width() != -1) {

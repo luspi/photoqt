@@ -24,6 +24,7 @@
 #include <pqc_imagecache.h>
 #include <pqc_settings.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
 #include <QSize>
 #include <QImage>
@@ -176,8 +177,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             origSize = img.size();
             if(!img.isNull()) {
                 colorProfileAlreadyApplied = true;
-                PQCScriptsImages::get().applyColorProfile(filename, img);
-                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+                PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
             }
         }
 
@@ -199,8 +200,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             } else {
                 errormsg = "";
                 colorProfileAlreadyApplied = true;
-                PQCScriptsImages::get().applyColorProfile(filename, img);
-                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+                PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
             }
         }
 
@@ -223,8 +224,8 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
             reader.read(&img);
             if(!img.isNull() && img.size() == origSize) {
                 colorProfileAlreadyApplied = true;
-                PQCScriptsImages::get().applyColorProfile(filename, img);
-                PQCImageCache::get().saveImageToCache(filename, PQCScriptsImages::get().getColorProfileFor(filename), &img);
+                PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
+                PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
             }
         }
 
@@ -236,7 +237,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         }
 
         if(!colorProfileAlreadyApplied)
-            PQCScriptsImages::get().applyColorProfile(filename, img);
+            PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
 
         return "";
 

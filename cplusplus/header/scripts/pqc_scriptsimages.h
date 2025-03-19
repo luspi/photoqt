@@ -25,12 +25,7 @@
 
 #include <QObject>
 #include <QMap>
-#include <QImage>
-#include <QColorSpace>
-#include <QtQmlIntegration>
-#ifdef PQMLCMS2
-#include <lcms2.h>
-#endif
+#include <QQmlEngine>
 
 class QFile;
 
@@ -49,90 +44,53 @@ public:
     PQCScriptsImages(PQCScriptsImages const&)     = delete;
     void operator=(PQCScriptsImages const&) = delete;
 
-    Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
-    Q_INVOKABLE bool isItAnimated(QString filename);
-    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
-    Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
-    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false);
-    Q_INVOKABLE QString convertSecondsToPosition(int t);
-    Q_INVOKABLE void loadHistogramData(QString filepath, int index);
-    void _loadHistogramData(QString filepath, int index);
-
+    // check for what kind of image this is
     Q_INVOKABLE bool isMpvVideo(QString path);
     Q_INVOKABLE bool isQtVideo(QString path);
     Q_INVOKABLE bool isPDFDocument(QString path);
     Q_INVOKABLE bool isArchive(QString path);
-    Q_INVOKABLE int getNumberDocumentPages(QString path);
     Q_INVOKABLE int isMotionPhoto(QString path);
     Q_INVOKABLE bool isPhotoSphere(QString path);
     Q_INVOKABLE bool isComicBook(QString path);
     Q_INVOKABLE bool isSVG(QString path);
     Q_INVOKABLE bool isNormalImage(QString path);
 
-    Q_INVOKABLE int getDocumentPageCount(QString path);
-
-    Q_INVOKABLE QString extractMotionPhoto(QString path);
-    Q_INVOKABLE QVariantList getZXingData(QString path);
-
-    Q_INVOKABLE QString extractArchiveFileToTempLocation(QString path);
-    Q_INVOKABLE QString extractDocumentPageToTempLocation(QString path);
-    Q_INVOKABLE bool extractFrameAndSave(QString path, int frameNumber);
-
+    // info about image
+    Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
+    Q_INVOKABLE bool isItAnimated(QString filename);
+    Q_INVOKABLE void loadHistogramData(QString filepath, int index);
+    void _loadHistogramData(QString filepath, int index);
     Q_INVOKABLE bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
-
-    QList<QColorSpace::NamedColorSpace> getIntegratedColorProfiles();
-    QStringList getExternalColorProfiles();
-    QStringList getExternalColorProfileDescriptions();
-    Q_INVOKABLE QStringList getImportedColorProfiles();
-    QStringList getImportedColorProfileDescriptions();
-    Q_INVOKABLE QStringList getColorProfiles();
-    Q_INVOKABLE QStringList getColorProfileDescriptions();
-    Q_INVOKABLE QString getColorProfileID(int index);
-    Q_INVOKABLE void setColorProfile(QString path, int index);
-    Q_INVOKABLE QString getColorProfileFor(QString path);
-    Q_INVOKABLE QString getDescriptionForColorSpace(QString path);
-    Q_INVOKABLE int getIndexForColorProfile(QString desc);
-    Q_INVOKABLE bool importColorProfile();
-    Q_INVOKABLE bool removeImportedColorProfile(int index);
-    Q_INVOKABLE QString detectVideoColorProfile(QString path);
-    void loadColorProfileInfo();
-    bool applyColorProfile(QString filename, QImage &img);
-
-    Q_INVOKABLE void removeThumbnailFor(QString path);
-
     Q_INVOKABLE double getPixelDensity();
 
-#ifdef PQMLCMS2
-    int toLcmsFormat(QImage::Format fmt);
-#endif
+    // do with image
+    Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
+    Q_INVOKABLE QString extractMotionPhoto(QString path);
+    Q_INVOKABLE QVariantList getZXingData(QString path);
+    Q_INVOKABLE bool extractFrameAndSave(QString path, int frameNumber);
+
+    // archive/document methods
+    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false);
+    Q_INVOKABLE int getNumberDocumentPages(QString path);
+    Q_INVOKABLE int getDocumentPageCount(QString path);
+    Q_INVOKABLE QString extractArchiveFileToTempLocation(QString path);
+    Q_INVOKABLE QString extractDocumentPageToTempLocation(QString path);
+
+    // icon and thumbnail methods
+    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
+    Q_INVOKABLE void removeThumbnailFor(QString path);
+
+    // video methods
+    Q_INVOKABLE QString convertSecondsToPosition(int t);
 
 private:
     PQCScriptsImages();
-
-    int lcms2CountFailedApplications;
 
     QMap<QString,QVariantList> histogramCache;
     QMap<QString,QStringList> archiveContentCache;
 
     QMap<QString, bool> alphaChannels;
-
-    QList<QColorSpace::NamedColorSpace> integratedColorProfiles;
-    QStringList integratedColorProfileDescriptions;
-    QStringList externalColorProfiles;
-    QStringList externalColorProfileDescriptions;
-    QStringList importedColorProfiles;
-    QStringList importedColorProfileDescriptions;
-    QMap<QString, QString> iccColorProfiles;
-
-    qint64 importedICCLastMod;
-
-    QFile *colorlastlocation;
-
-    bool applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
-#ifdef PQMLCMS2
-    bool applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
-#endif
 
     double devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;

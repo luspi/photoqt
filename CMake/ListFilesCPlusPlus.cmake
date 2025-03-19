@@ -24,7 +24,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.cpp ${d}/pqc_s
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscrypt.cpp ${d}/pqc_scriptsfiledialog.cpp ${d}/pqc_scriptsfilemanagement.cpp ${d}/pqc_scriptsfilespaths.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsimages.cpp ${d}/pqc_scriptsmetadata.cpp ${d}/pqc_scriptsother.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.cpp ${d}/pqc_scriptsshortcuts.cpp ${d}/pqc_scriptswallpaper.cpp ${d}/pqc_scriptsundo.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsextensions.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsextensions.cpp ${d}/pqc_scriptscolorprofiles.cpp)
 
 SET(d "cplusplus/header")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h)
@@ -40,7 +40,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scr
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscrypt.h ${d}/pqc_scriptsfiledialog.h ${d}/pqc_scriptsfilemanagement.h ${d}/pqc_scriptsfilespaths.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsimages.h ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptsother.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptsshortcuts.h ${d}/pqc_scriptswallpaper.h ${d}/pqc_scriptsundo.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsextensions.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsextensions.h ${d}/pqc_scriptscolorprofiles.h)
 
 SET(d "cplusplus/images")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage.cpp ${d}/pqc_imagecache.cpp)
