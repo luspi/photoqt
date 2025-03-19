@@ -87,27 +87,35 @@ Item {
             return
         }
 
-        var config
         var ind = PQCScriptsExtensions.getExtensions().indexOf(ele)
-        if(ind > -1 && ele in extensionsloader) {
-            config = composeExtensionConfig(ele)
+        if(ind > -1) {
+            if(!(ele in extensionsloader))
+                console.warn("ERROR: Did not found loader for extension:", ele)
+            else {
+                if(PQCScriptsExtensions.getIsModal(ele))
+                    visibleItem = ele
+                ensureExtensionIsReady(ele)
+            }
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)
             return
-        } else
-            config = loadermapping[ele]
+        } else {
 
-        if(config[3] === 1 && visibleItem != "")
-            return
+            var config = loadermapping[ele]
 
-        // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogNonModal setting is set
-        if(config[3] === 1 &&
-            (ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
-            (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
-            (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
-            visibleItem = ele
+            if(config[3] === 1 && visibleItem != "")
+                return
 
-        ensureItIsReady(ele, config)
+            // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogNonModal setting is set
+            if(config[3] === 1 &&
+                (ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
+                (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
+                (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
+                visibleItem = ele
+
+            ensureItIsReady(ele, config)
+
+        }
 
         if(additional === undefined)
             passOn("show", ele)
@@ -148,19 +156,19 @@ Item {
 
     }
 
-    function resetAll() {
-        console.warn("## TODO: implement PQLoader::resetAll()")
+    function ensureExtensionIsReady(ele : string) {
+
+        var minreq = PQCScriptsExtensions.getMinimumRequiredWindowSize(ele)
+        if((PQCScriptsExtensions.getAllowPopout(ele) && PQCSettings["extensions"+PQCScriptsExtensions.getPopoutSettingName(ele)]) ||
+                minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
+            extensionsloader[ele].source = "../extensions/" + ele + "/" + PQCScriptsExtensions.getQmlBaseName(ele) + "Popout.qml"
+        else
+            extensionsloader[ele].source = "../extensions/" + ele + "/" + PQCScriptsExtensions.getQmlBaseName(ele) + ".qml"
+
     }
 
-    function composeExtensionConfig(ele : string) : list<var> {
-        var vals = ["../extensions/" + ele,
-                      PQCScriptsExtensions.getQmlBaseName(ele),
-                      extensionsloader[ele],
-                      PQCScriptsExtensions.getIsModal(ele),
-                      (PQCScriptsExtensions.getAllowPopout(ele) ? PQCSettings[PQCScriptsExtensions.getPopoutSettingName(ele)] : false),
-                      false]
-        console.warn(vals)
-        return vals
+    function resetAll() {
+        console.warn("## TODO: implement PQLoader::resetAll()")
     }
 
     Connections {

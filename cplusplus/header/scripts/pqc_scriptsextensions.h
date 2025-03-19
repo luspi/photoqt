@@ -46,6 +46,9 @@ public:
     Q_INVOKABLE bool getIsModal(QString id);
     Q_INVOKABLE QString getQmlBaseName(QString id);
 
+    Q_INVOKABLE QSize getDefaultPopoutSize(QString id);
+    Q_INVOKABLE QSize getMinimumRequiredWindowSize(QString id);
+
     Q_INVOKABLE QList<QStringList> getActions(QString id);
 
     Q_INVOKABLE QStringList getShortcuts(QString id);
@@ -64,6 +67,9 @@ private:
     QMap<QString, bool> m_allowPopout;
     QMap<QString, bool> m_isModal;
     QMap<QString, QString> m_qmlBaseName;
+
+    QMap<QString, QSize> m_defaultPopoutSize;
+    QMap<QString, QSize> m_minimumRequiredWindowSize;
 
     QMap<QString, QList<QStringList> > m_actions;
 

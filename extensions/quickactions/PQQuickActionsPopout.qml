@@ -23,6 +23,7 @@
 import QtQuick
 import PQCWindowGeometry
 import PQCNotify
+import PQCScriptsExtensions
 
 import "../../qml/elements"
 
@@ -33,11 +34,12 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("quickactions", "Quick Actions") + " | PhotoQt"
 
-    geometry: Qt.rect(0,0,100,100)
+    geometry: Qt.rect(0,0,PQCScriptsExtensions.getDefaultPopoutSize("quickactions").width,PQCScriptsExtensions.getDefaultPopoutSize("quickactions").height)
     isMax: false
-    popout: PQCSettings.interfacePopoutQuickActions // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
-    source: "ongoing/PQQuickActions.qml"
+    popout: PQCSettings.extensionsPopoutQuickActions || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall) // qmllint disable unqualified
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    source: "../extensions/quickactions/PQQuickActions.qml"
+    property size minRequiredWindowSize: PQCScriptsExtensions.getMinimumRequiredWindowSize("quickactions")
 
     modality: Qt.NonModal
 
@@ -45,14 +47,15 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutQuickActions = false // qmllint disable unqualified
+        PQCSettings.extensionsPopoutQuickActions = false // qmllint disable unqualified
         close()
-        PQCNotify.executeInternalCommand("__quickActions")
+        if(!sizepopout || !PQCSettings.interfacePopoutWhenWindowIsSmall)
+            PQCNotify.executeInternalCommand("__quickActions")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutQuickActions) // qmllint disable unqualified
-            PQCSettings.interfacePopoutQuickActions = popout
+        if(popout !== PQCSettings.extensionsPopoutQuickActions) // qmllint disable unqualified
+            PQCSettings.extensionsPopoutQuickActions = popout
     }
 
 }

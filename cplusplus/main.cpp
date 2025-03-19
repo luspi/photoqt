@@ -254,9 +254,10 @@ int main(int argc, char *argv[]) {
     // update or fresh install?
     if(checker != 0) {
 
-        if(checker == 2)
+        if(checker == 2) {
             startup.setupFresh();
-        else {
+            PQCSettings::get().setupFresh();
+        } else {
             int ret = PQCSettings::get().migrate();
             if(ret == 1) {
                 startup.setupFresh();

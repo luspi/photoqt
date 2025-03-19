@@ -473,7 +473,4 @@ Window {
         return 1
     }
 
-    function getLoader() {
-    }
-
 }

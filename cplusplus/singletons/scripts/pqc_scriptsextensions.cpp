@@ -19,6 +19,8 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
     m_allowPopout.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::allowPopout);
     m_isModal.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::isModal);
     m_qmlBaseName.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::qmlBaseName);
+    m_defaultPopoutSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::defaultPopoutWindowSize);
+    m_minimumRequiredWindowSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::minimumRequiredWindowSize);
     m_actions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::actions);
     m_shortcuts.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcuts);
     m_shortcutsActions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcutsActions);
@@ -57,6 +59,22 @@ QString PQCScriptsExtensions::getQmlBaseName(QString id) {
     }
     qWarning() << "Unknown extension id:" << id;
     return "";
+}
+
+QSize PQCScriptsExtensions::getDefaultPopoutSize(QString id) {
+    if(m_extensions.contains(id)) {
+        return m_defaultPopoutSize[id];
+    }
+    qWarning() << "Unknown extension id:" << id;
+    return QSize(0,0);
+}
+
+QSize PQCScriptsExtensions::getMinimumRequiredWindowSize(QString id) {
+    if(m_extensions.contains(id)) {
+        return m_minimumRequiredWindowSize[id];
+    }
+    qWarning() << "Unknown extension id:" << id;
+    return QSize(0,0);
 }
 
 QList<QStringList> PQCScriptsExtensions::getActions(QString id) {

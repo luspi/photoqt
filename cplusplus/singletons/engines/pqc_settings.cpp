@@ -48,7 +48,8 @@ PQCSettings::PQCSettings() {
                              << "slideshow"
                              << "histogram"
                              << "mapview"
-                             << "export";
+                             << "export"
+                             << "extensions";
 
     readonly = false;
 
@@ -1039,6 +1040,49 @@ void PQCSettings::updateFromCommandLine() {
             this->update(key, QSize(parts[0].toInt(), parts[1].toInt()));
     } else if(type == "string")
         this->update(key, val);
+
+}
+
+void PQCSettings::setupFresh() {
+
+    qDebug() << "";
+
+    // at this point we can assume that the settings.db has already been copied
+    // we only need to add any setting from the extensions
+
+    db.transaction();
+
+    const QStringList allext = PQCScriptsExtensions::get().getExtensions();
+    for(const QString &ext : allext) {
+
+        const QList<QStringList> settings = PQCScriptsExtensions::get().getSettings(ext);
+
+        for(const QStringList &set : settings) {
+
+            if(set.length() != 4) {
+                qWarning() << "Invalid settings detected:" << set;
+                continue;
+            }
+
+            QSqlQuery query(db);
+            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `defaultvalue`, `datatype`) VALUES (:nme, :val, :def, :dat)").arg(set[1]));
+            query.bindValue(":nme", set[0]);
+            query.bindValue(":val", set[3]);
+            query.bindValue(":def", set[3]);
+            query.bindValue(":dat", set[2]);
+
+            if(!query.exec()) {
+                qWarning() << "ERROR inserting setting:" << query.lastError().text();
+                qWarning() << "Faulty setting:" << set;
+            }
+
+            query.clear();
+
+        }
+
+    }
+
+    db.commit();
 
 }
 

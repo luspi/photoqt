@@ -84,7 +84,7 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: quickactions_top }
 
-    popout: PQCSettings.interfacePopoutQuickActions // qmllint disable unqualified
+    popout: PQCSettings.extensionsPopoutQuickActions // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
     shortcut: "__quickActions"
     tooltip: qsTranslate("quickactions", "Click-and-drag to move.")
@@ -96,8 +96,8 @@ PQTemplateFloating {
     moveButtonsOutside: true
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutQuickActions) // qmllint disable unqualified
-            PQCSettings.interfacePopoutQuickActions = popout
+        if(popout !== PQCSettings.extensionsPopoutQuickActions) // qmllint disable unqualified
+            PQCSettings.extensionsPopoutQuickActions = popout
     }
 
     property list<string> buttons: PQCSettings.interfaceQuickActionsItems

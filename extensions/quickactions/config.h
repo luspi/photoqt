@@ -1,5 +1,6 @@
 #include <QString>
 #include <QMap>
+#include <QSize>
 
 // Any extension should be self-contained and only interact with the rest of the
 // application through PQCNotify (to perform actions) and PQCConstants (to get
@@ -21,6 +22,11 @@ namespace PQCExtensionConfig {
         // but with 'Popout' added to the *end* of the basename
         bool allowPopout = true;
         bool isModal = false;
+
+        // window size handling
+        QSize defaultPopoutWindowSize = QSize(0,0);
+        // this is the min required window size to have it embedded
+        QSize minimumRequiredWindowSize = QSize(0,0);
 
         // This needs to have exactly two entries. If a popout does not exist, that entry can be the empty string.
         QString qmlBaseName = "PQQuickActions";
