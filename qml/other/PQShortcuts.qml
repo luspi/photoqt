@@ -35,6 +35,7 @@ import PQCScriptsImages
 import PQCImageFormats
 import PQCScriptsConfig
 import PQCScriptsUndo
+import PQCScriptsExtensions
 
 Item {
 
@@ -521,6 +522,32 @@ Item {
         console.debug("args: mousePos =", mousePos)
         console.debug("args: wheelDelta =", wheelDelta)
 
+        // check if the shortcut is a shortcut of an extension
+        if(PQCScriptsExtensions.getAllShortcuts().indexOf(cmd) > -1) {
+
+            // get the extension for this shortcut
+            var ext = PQCScriptsExtensions.getExtensionForShortcut(cmd)
+            // get all shortcuts for that extension
+            var allsh = PQCScriptsExtensions.getShortcutsActions(ext)
+            // loop over all shortcuts
+            for(var iSh in allsh) {
+                var sh = allsh[iSh]
+                // if we found the right shortcut, execute it
+                if(sh[0] === cmd) {
+                    var exec = sh[3]
+                    var args = sh[4]
+                    // the 'show' shortcut is a special one
+                    if(exec === "show") {
+                        loader.show(sh[4])
+                    } else {
+                        loader.passOn(exec, args)
+                    }
+                    return
+                }
+            }
+
+        }
+
         switch(cmd) {
 
             /**********************/
@@ -659,9 +686,6 @@ Item {
                     image.enterPhotoSphere()
                 else
                     loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt.")])
-                break
-            case "__quickActions":
-                loader.show("quickactions")
                 break
 
             /**********************/

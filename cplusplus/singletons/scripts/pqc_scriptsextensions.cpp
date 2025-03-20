@@ -22,12 +22,26 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
     m_defaultPopoutSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::defaultPopoutWindowSize);
     m_minimumRequiredWindowSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::minimumRequiredWindowSize);
     m_actions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::actions);
-    m_shortcuts.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcuts);
     m_shortcutsActions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcutsActions);
     m_settings.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::settings);
     m_popoutSettingName.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::popoutSettingName);
     m_migrateSettings.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateSettings);
     m_migrateShortcuts.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateShortcuts);
+
+
+    /********************************************/
+    /********************************************/
+
+    // get an easily accessible list of all shortcuts for each extension
+    for(auto i = m_shortcutsActions.cbegin(), end = m_shortcutsActions.cend(); i != end; ++i) {
+        QStringList allsh;
+        for(const QStringList &entry : i.value()) {
+            allsh.append(entry[0]);
+            m_mapShortcutToExtension.insert(entry[0], i.key());
+        }
+        m_shortcuts.insert(i.key(), allsh);
+        m_simpleListAllShortcuts.append(allsh);
+    }
 
 }
 
@@ -93,7 +107,7 @@ QStringList PQCScriptsExtensions::getShortcuts(QString id) {
     return {};
 }
 
-QMap<QString, QStringList> PQCScriptsExtensions::getShortcutsActions(QString id) {
+QList<QStringList> PQCScriptsExtensions::getShortcutsActions(QString id) {
     if(m_extensions.contains(id)) {
         return m_shortcutsActions[id];
     }
@@ -115,6 +129,29 @@ QString PQCScriptsExtensions::getPopoutSettingName(QString id) {
     }
     qWarning() << "Unknown extension id:" << id;
     return "";
+}
+
+QStringList PQCScriptsExtensions::getAllShortcuts() {
+    return m_simpleListAllShortcuts;
+}
+
+QString PQCScriptsExtensions::getDescriptionForShortcut(QString sh) {
+    QString ret = "";
+    for(const QString &ext : std::as_const(m_extensions)) {
+        const QList<QStringList> allsh = m_shortcutsActions[ext];
+        for(int i = 0; i < allsh.length(); ++i) {
+            if(allsh[i][0] == sh) {
+                ret = allsh[i][1];
+                break;
+            }
+        }
+        if(ret != "") break;
+    }
+    return ret;
+}
+
+QString PQCScriptsExtensions::getExtensionForShortcut(QString sh) {
+    return m_mapShortcutToExtension.value(sh, "");
 }
 
 QMap<QString, QList<QStringList> > PQCScriptsExtensions::getMigrateSettings(QString id) {

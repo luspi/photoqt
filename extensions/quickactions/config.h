@@ -1,6 +1,7 @@
 #include <QString>
 #include <QMap>
 #include <QSize>
+#include <QApplication>
 
 // Any extension should be self-contained and only interact with the rest of the
 // application through PQCNotify (to perform actions) and PQCConstants (to get
@@ -37,14 +38,17 @@ namespace PQCExtensionConfig {
         // what the loader might be able call
         // there is always assumed to be an action for "show" : {id}, and that doesn't need to be specified
 // TODO: IMPLEMENT THIS
+// -> IS THIS ACTUALLY NEEDED???
         QList<QStringList> actions = {};
 
         // what shortcuts there are to be defined:
-        // shortcut, default shortcut, action, additional arguments...
-        //
-// TODO: IMPLEMENT THIS
-        QStringList shortcuts = {"__quickActions"};
-        QMap<QString, QStringList> shortcutsActions = {{"__quickActions", {"show", "quickactions"}}};
+        // shortcut, description (for settings manager), default shortcut, action, additional argument
+        // One of them should always be 'show','{id}'!
+        QList<QStringList> shortcutsActions = {{"__quickActions",
+                                                //: Name of shortcut action
+                                                QApplication::translate("settingsmanager", "Hide/Show quick actions"),
+                                                "",
+                                                "show", "quickactions"}};
 
         // what settings this extension needs:
         // settings name, settings table (usually 'extensions'), datatype, defaultValue

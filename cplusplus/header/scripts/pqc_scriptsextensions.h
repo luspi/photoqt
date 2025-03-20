@@ -52,9 +52,13 @@ public:
     Q_INVOKABLE QList<QStringList> getActions(QString id);
 
     Q_INVOKABLE QStringList getShortcuts(QString id);
-    Q_INVOKABLE QMap<QString, QStringList> getShortcutsActions(QString id);
+    Q_INVOKABLE QList<QStringList> getShortcutsActions(QString id);
     Q_INVOKABLE QList<QStringList> getSettings(QString id);
     Q_INVOKABLE QString getPopoutSettingName(QString id);
+
+    Q_INVOKABLE QStringList getAllShortcuts();
+    Q_INVOKABLE QString getDescriptionForShortcut(QString sh);
+    Q_INVOKABLE QString getExtensionForShortcut(QString sh);
 
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
@@ -74,9 +78,11 @@ private:
     QMap<QString, QList<QStringList> > m_actions;
 
     QMap<QString, QStringList> m_shortcuts;
-    QMap<QString, QMap<QString, QStringList> > m_shortcutsActions;
+    QMap<QString, QList<QStringList> > m_shortcutsActions;
     QMap<QString, QList<QStringList> > m_settings;
     QMap<QString, QString> m_popoutSettingName;
+    QStringList m_simpleListAllShortcuts;
+    QMap<QString,QString> m_mapShortcutToExtension;
 
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateSettings;
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateShortcuts;
