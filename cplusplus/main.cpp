@@ -257,10 +257,13 @@ int main(int argc, char *argv[]) {
         if(checker == 2) {
             startup.setupFresh();
             PQCSettings::get().setupFresh();
+            PQCShortcuts::get().setupFresh();
         } else {
             int ret = PQCSettings::get().migrate();
             if(ret == 1) {
                 startup.setupFresh();
+                PQCSettings::get().setupFresh();
+                PQCShortcuts::get().setupFresh();
             } else {
                 PQCSettings::get().readDB();
                 PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());

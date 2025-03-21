@@ -28,6 +28,7 @@
 #include <pqc_shortcuts.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
+#include <scripts/pqc_scriptsextensions.h>
 
 PQCShortcuts::PQCShortcuts() {
 
@@ -425,7 +426,7 @@ bool PQCShortcuts::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -617,6 +618,129 @@ bool PQCShortcuts::migrate(QString oldversion) {
 
         }
 
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        /// EXTENSIONS
+
+        /////////////////////////////////////////////////////
+        // check for migrations for extensions
+
+        const QStringList ext = PQCScriptsExtensions::get().getExtensions();
+        for(const QString &e : ext) {
+
+            QMap<QString, QList<QStringList> > mig = PQCScriptsExtensions::get().getMigrateShortcuts(e);
+
+            for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
+
+                const QString v = i.key();
+
+                if(v == curVer) {
+
+                    const QList<QStringList> vals = i.value();
+                    for(const QStringList &entry : vals) {
+
+                        if(entry.length() < 2) {
+                            qWarning() << "Invalid shortcuts migration:" << entry;
+                            continue;
+                        }
+
+
+                        // first we rename the shortcut if needed
+                        if(entry[0] != entry[1]) {
+
+                            QSqlQuery query(db);
+
+                            query.prepare("UPDATE `shortcuts` SET `commands`=:cmdnew WHERE `commands`=:cmdold");
+                            query.bindValue(":cmdold", entry[0]);
+                            query.bindValue(":cmdnew", entry[1]);
+                            if(!query.exec()) {
+                                qWarning() << "Unable to migrate shortcut:" << query.lastError().text();
+                                qWarning() << "Failed migration:" << entry;
+                                continue;
+                            }
+
+                            query.clear();
+
+                        }
+
+                        // in this case we also need to update the shortcut (maybe)
+                        if(entry.length() > 3) {
+
+                            QSqlQuery query(db);
+
+                            // check old key exists
+                            // if not then no migration needs to be done
+                            // we check for existence of all shortcuts later
+                            query.prepare(QString("SELECT `combo` FROM `shortcuts` WHERE `combo`=:comboold AND `commands`=:cmdnew"));
+                            query.bindValue(":comboold", entry[2]);
+                            query.bindValue(":cmdnew", entry[1]);
+                            if(!query.exec()) {
+                                qWarning() << "Query failed to execute:" << query.lastError().text();
+                                continue;
+                            }
+
+                            // if an entry even exists... this can be false if the shortcut has never been entered before.
+                            // not-yet-entered shortcuts will be entered below
+                            if(query.next()) {
+
+                                for(int i = 3; i < entry.length(); ++i) {
+
+                                    const QString newsh = entry[i];
+
+                                    // check if new shortcut already exists
+                                    QSqlQuery queryExists(db);
+                                    queryExists.prepare("SELECT `combo` as c FROM `shortcuts` WHERE `combo`=:combonew");
+                                    queryExists.bindValue(":combonew", newsh);
+                                    if(!queryExists.exec()) {
+                                        qWarning() << "Query failed to execute:" << queryExists.lastError().text();
+                                        continue;
+                                    }
+
+                                    // the new shortcut does not exist yet -> use this one
+                                    if(!queryExists.next()) {
+
+                                        QSqlQuery queryNew(db);
+                                        queryNew.prepare("UPDATE `shortcuts` SET `combo`=:combonew WHERE `combo`=:comboold AND `commands`=:cmdnew");
+                                        queryNew.bindValue(":combonew", newsh);
+                                        queryNew.bindValue(":comboold", entry[2]);
+                                        queryNew.bindValue(":cmdnew", entry[1]);
+
+                                        if(!queryNew.exec()) {
+                                            qWarning() << "Query failed to execute:" << queryNew.lastError().text();
+                                            continue;
+                                        }
+
+                                        queryNew.clear();
+
+                                        break;
+
+                                    }
+
+                                    queryExists.clear();
+
+                                }
+
+                            }
+
+                            query.clear();
+
+                        }
+
+                    }
+
+
+                }
+
+            }
+
+        }
+
+        /// END EXTENSIONS
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+
     }
 
     readDB();
@@ -629,5 +753,50 @@ void PQCShortcuts::resetToDefault() {
 
     setDefault();
     readDB();
+
+}
+
+void PQCShortcuts::setupFresh() {
+
+    qDebug() << "";
+
+    // at this point we can assume that the settings.db has already been copied
+    // we only need to add any setting from the extensions
+
+    db.transaction();
+
+    const QStringList allext = PQCScriptsExtensions::get().getExtensions();
+    for(const QString &ext : allext) {
+
+        const QList<QStringList> shortcuts = PQCScriptsExtensions::get().getShortcutsActions(ext);
+
+        for(const QStringList &sh : shortcuts) {
+
+            if(sh.length() != 5) {
+                qWarning() << "Invalid shortcut detected:" << sh;
+                continue;
+            }
+
+            // no default shortcut
+            if(sh[2] == "")
+                continue;
+
+            QSqlQuery query(db);
+            query.prepare("INSERT OR IGNORE INTO shortcuts (`combo`, `commands`, `cycle`, `cycletimeout`, `simultaneous`) VALUES (:com, :cmd, 1, 0, 0)");
+            query.bindValue(":com", sh[2]);
+            query.bindValue(":cmd", sh[0]);
+
+            if(!query.exec()) {
+                qWarning() << "ERROR inserting shortcut:" << query.lastError().text();
+                qWarning() << "Faulty shortcut:" << sh;
+            }
+
+            query.clear();
+
+        }
+
+    }
+
+    db.commit();
 
 }

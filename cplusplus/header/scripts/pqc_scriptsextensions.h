@@ -49,19 +49,17 @@ public:
     Q_INVOKABLE QSize getDefaultPopoutSize(QString id);
     Q_INVOKABLE QSize getMinimumRequiredWindowSize(QString id);
 
-    Q_INVOKABLE QList<QStringList> getActions(QString id);
-
-    Q_INVOKABLE QStringList getShortcuts(QString id);
-    Q_INVOKABLE QList<QStringList> getShortcutsActions(QString id);
     Q_INVOKABLE QList<QStringList> getSettings(QString id);
     Q_INVOKABLE QString getPopoutSettingName(QString id);
 
+    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
+    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
+
+    Q_INVOKABLE QStringList getShortcuts(QString id);
+    Q_INVOKABLE QList<QStringList> getShortcutsActions(QString id);
     Q_INVOKABLE QStringList getAllShortcuts();
     Q_INVOKABLE QString getDescriptionForShortcut(QString sh);
     Q_INVOKABLE QString getExtensionForShortcut(QString sh);
-
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
 
 private:
     PQCScriptsExtensions();
@@ -74,8 +72,6 @@ private:
 
     QMap<QString, QSize> m_defaultPopoutSize;
     QMap<QString, QSize> m_minimumRequiredWindowSize;
-
-    QMap<QString, QList<QStringList> > m_actions;
 
     QMap<QString, QStringList> m_shortcuts;
     QMap<QString, QList<QStringList> > m_shortcutsActions;

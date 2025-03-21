@@ -35,19 +35,14 @@ namespace PQCExtensionConfig {
         // The name of the setting that stores its popout status
         QString popoutSettingName = "PopoutQuickActions";
 
-        // what the loader might be able call
-        // there is always assumed to be an action for "show" : {id}, and that doesn't need to be specified
-// TODO: IMPLEMENT THIS
-// -> IS THIS ACTUALLY NEEDED???
-        QList<QStringList> actions = {};
-
         // what shortcuts there are to be defined:
         // shortcut, description (for settings manager), default shortcut, action, additional argument
         // One of them should always be 'show','{id}'!
+        // NOTE: New (default) shortcuts need to be entered as migrations
         QList<QStringList> shortcutsActions = {{"__quickActions",
-                                                //: Name of shortcut action
-                                                QApplication::translate("settingsmanager", "Hide/Show quick actions"),
-                                                "",
+                                                //: Description of shortcut action
+                                                QApplication::translate("settingsmanager", "Show quick actions"),
+                                                "", // no default shortcut set
                                                 "show", "quickactions"}};
 
         // what settings this extension needs:
@@ -68,12 +63,13 @@ namespace PQCExtensionConfig {
 
         // any shortcut that needs migrating
         // The key is the version number at which any given migration needs to happen
-        // The values are the old and new shortcut and possible default shortcuts (in order of priority, the first match is used)
+        // The values are the old and new shortcut and possible default shortcuts, both old and new (in order of priority, the first match is used)
+        // The old default shortcut is needed to make sure we only change a default shortcut if it hasn't been changed yet
         //
-        // {"x.x", {{"oldname1", "newname1", "newshortcut1", "newshortcut1_variant", ...},
-        //          {"oldname2", "newname2", "newshortcut2", "newshortcut2_variant", ...}}}
+        // {"x.x", {{"oldname1", "newname1", "oldshortcut1", "newshortcut1", "newshortcut1_variant", ...},
+        //          {"oldname2", "newname2", "oldshortcut2", "newshortcut2", "newshortcut2_variant", ...}}}
         //
-// TODO: IMPLEMENT THIS
+        // NOTE: New (default) shortcuts need to be entered as migrations
         QMap<QString, QList<QStringList> > migrateShortcuts;
 
         // any further special migrations needs to be added directly to the PQCSettings::migrate() or PQCShortcuts::migrate() functions

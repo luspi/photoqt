@@ -15,18 +15,28 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
     //
 
     // QUICK ACTIONS
-    m_extensions.append(PQCExtensionConfig::QuickActions::id);
-    m_allowPopout.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::allowPopout);
-    m_isModal.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::isModal);
-    m_qmlBaseName.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::qmlBaseName);
-    m_defaultPopoutSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::defaultPopoutWindowSize);
-    m_minimumRequiredWindowSize.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::minimumRequiredWindowSize);
-    m_actions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::actions);
-    m_shortcutsActions.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcutsActions);
-    m_settings.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::settings);
-    m_popoutSettingName.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::popoutSettingName);
-    m_migrateSettings.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateSettings);
-    m_migrateShortcuts.insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateShortcuts);
+    m_extensions
+        .append(PQCExtensionConfig::QuickActions::id);
+    m_allowPopout
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::allowPopout);
+    m_isModal
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::isModal);
+    m_qmlBaseName
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::qmlBaseName);
+    m_defaultPopoutSize
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::defaultPopoutWindowSize);
+    m_minimumRequiredWindowSize
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::minimumRequiredWindowSize);
+    m_shortcutsActions
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::shortcutsActions);
+    m_settings
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::settings);
+    m_popoutSettingName
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::popoutSettingName);
+    m_migrateSettings
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateSettings);
+    m_migrateShortcuts
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateShortcuts);
 
 
     /********************************************/
@@ -89,14 +99,6 @@ QSize PQCScriptsExtensions::getMinimumRequiredWindowSize(QString id) {
     }
     qWarning() << "Unknown extension id:" << id;
     return QSize(0,0);
-}
-
-QList<QStringList> PQCScriptsExtensions::getActions(QString id) {
-    if(m_extensions.contains(id)) {
-        return m_actions[id];
-    }
-    qWarning() << "Unknown extension id:" << id;
-    return {};
 }
 
 QStringList PQCScriptsExtensions::getShortcuts(QString id) {
