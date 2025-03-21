@@ -32,7 +32,8 @@ Item {
     id: loader_top
 
     property var extensionsloader: {
-        "quickactions" : loader_quickactions
+        "quickactions" : loader_quickactions,
+        "floatingnavigation" : loader_floatingnavigation
     }
 
     // source, loader id, modal, popout, force popout
@@ -45,7 +46,7 @@ Item {
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
         "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCWindowGeometry.histogramForcePopout],
         "mapcurrent"          : ["ongoing","PQMapCurrent", loader_mapcurrent, 0, PQCSettings.interfacePopoutMapCurrent, PQCWindowGeometry.mapcurrentForcePopout],
-        "navigationfloating"  : ["ongoing","PQNavigation", loader_navigationfloating, 0, false, false],
+        // "navigationfloating"  : ["ongoing","PQNavigation", loader_navigationfloating, 0, false, false],
         "scale"               : ["actions","PQScale", loader_scale, 1, PQCSettings.interfacePopoutScale, PQCWindowGeometry.scaleForcePopout],
         "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
         "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
@@ -148,6 +149,9 @@ Item {
 
     function ensureItIsReady(ele : string, config : var) {
 
+        console.log("args: ele =", ele)
+        console.log("args: config =", config)
+
         var src
         if(config[4] || config[5])
             src = config[0] + "/popout/" + config[1] + "Popout.qml"
@@ -160,6 +164,8 @@ Item {
     }
 
     function ensureExtensionIsReady(ele : string) {
+
+        console.log("args: ele =", ele)
 
         var minreq = PQCScriptsExtensions.getMinimumRequiredWindowSize(ele)
         if((PQCScriptsExtensions.getAllowPopout(ele) && PQCSettings["extensions"+PQCScriptsExtensions.getPopoutSettingName(ele)]) ||

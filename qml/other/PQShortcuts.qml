@@ -679,7 +679,7 @@ Item {
                 }
                 break
             case "__navigationFloating":
-                loader.show("navigationfloating")
+                loader.show("floatingnavigation")
                 break
             case "__enterPhotoSphere":
                 if(PQCScriptsConfig.isPhotoSphereSupportEnabled())

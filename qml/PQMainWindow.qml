@@ -30,6 +30,7 @@ import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
 import PQCScriptsImages
+import PQCScriptsExtensions
 
 import "manage"
 import "image"
@@ -162,7 +163,7 @@ Window {
     Loader { id: loader_histogram }
     Loader { id: loader_quickactions }
     Loader { id: loader_mapcurrent }
-    Loader { id: loader_navigationfloating }
+    Loader { id: loader_floatingnavigation }
     Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowhandler }
     Loader { id: loader_notification }
@@ -409,16 +410,31 @@ Window {
         loader.show("metadata")
         loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
 
+        // check if anything needs to be done at startup with any of the extensions
+        var exts = PQCScriptsExtensions.getExtensions()
+        for(var iE in exts) {
+            var ext = exts[iE]
+            var checks = PQCScriptsExtensions.getDoAtStartup(ext)
+            for(var i in checks) {
+                var entry = checks[i]
+                if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
+                    if(entry[1] === "show") {
+                        PQCNotify.loaderPassOn("show", [entry[1]])
+                    } else if(entry[1] === "setup") {
+                        loader.ensureExtensionIsReady(ext)
+                    } else {
+                        console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
+                    }
+                }
+            }
+        }
+
         if(PQCSettings.histogramVisible)
             loader.show("histogram")
         if(PQCSettings.interfaceQuickActions)
             loader.show("quickactions")
         if(PQCSettings.mapviewCurrentVisible)
             loader.show("mapcurrent")
-        if(PQCSettings.interfaceNavigationFloating)
-            loader.show("navigationfloating")
-        else
-            loader.ensureItIsReady("navigationfloating", loader.loadermapping["navigationfloating"])
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

@@ -15,13 +15,13 @@
 
 namespace PQCExtensionConfig {
 
-    namespace QuickActions {
+    namespace FloatingNavigation {
 
-        QString id = "quickactions";
+        QString id = "floatingnavigation";
 
         // if this is true, then a second file for the popout needs to be added with the same filename
         // but with 'Popout' added to the *end* of the basename
-        bool allowPopout = true;
+        bool allowPopout = false;
         bool isModal = false;
 
         // window size handling
@@ -30,27 +30,24 @@ namespace PQCExtensionConfig {
         QSize minimumRequiredWindowSize = QSize(0,0);
 
         // This needs to have exactly two entries. If a popout does not exist, that entry can be the empty string.
-        QString qmlBaseName = "PQQuickActions";
+        QString qmlBaseName = "PQFloatingNavigation";
 
         // The name of the setting that stores its popout status
-        QString popoutSettingName = "PopoutQuickActions";
+        QString popoutSettingName = "";
 
         // what shortcuts there are to be defined:
         // shortcut, description (for settings manager), default shortcut, action, additional argument
         // One of them should always be 'show','{id}'!
         // NOTE: New (default) shortcuts need to be entered as migrations
-        QList<QStringList> shortcutsActions = {{"__quickActions",
+        QList<QStringList> shortcutsActions = {{"__navigationFloating",
                                                 //: Description of shortcut action
-                                                QApplication::translate("settingsmanager", "Show quick actions"),
-                                                "", // no default shortcut set
-                                                "show", "quickactions"}};
+                                                QApplication::translate("settingsmanager", "Show floating navigation buttons"),
+                                                "",
+                                                "show", "floatingnavigation"}};
 
         // what settings this extension needs:
         // settings name, settings table (usually 'extensions'), datatype, defaultValue
-        QList<QStringList> settings = {{"QuickActionsItems",  "extensions", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"},
-                                       {"QuickActionsHeight", "extensions", "int",  "40"},
-                                       {"QuickActions",       "extensions", "bool", "0"},
-                                       {"PopoutQuickActions", "extensions", "bool", "0"}};
+        QList<QStringList> settings = {{"NavigationFloating",  "extensions", "int", "0"}};
 
         // any setting that needs migrating
         // The key is the version number at which any given migration needs to happen
@@ -59,17 +56,17 @@ namespace PQCExtensionConfig {
         // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},
         //          {"oldname2", "oldtable2", "newname2", "newtable2"}}}
         //
-        QMap<QString, QList<QStringList> > migrateSettings;
+        QMap<QString, QList<QStringList> > migrateSettings = {
+            {"4.9", {{"NavigationFloating", "interface", "NavigationFloating", "extensions"}}}
+        };
 
         // any shortcut that needs migrating
         // The key is the version number at which any given migration needs to happen
-        // The values are the old and new shortcut and possible default shortcuts, both old and new (in order of priority, the first match is used)
-        // The old default shortcut is needed to make sure we only change a default shortcut if it hasn't been changed yet
+        // The values are the old and new shortcut and possible default shortcuts (in order of priority, the first match is used)
         //
-        // {"x.x", {{"oldname1", "newname1", "oldshortcut1", "newshortcut1", "newshortcut1_variant", ...},
-        //          {"oldname2", "newname2", "oldshortcut2", "newshortcut2", "newshortcut2_variant", ...}}}
+        // {"x.x", {{"oldname1", "newname1", "newshortcut1", "newshortcut1_variant", ...},
+        //          {"oldname2", "newname2", "newshortcut2", "newshortcut2_variant", ...}}}
         //
-        // NOTE: New (default) shortcuts need to be entered as migrations
         QMap<QString, QList<QStringList> > migrateShortcuts;
 
         // any further special migrations needs to be added directly to the PQCSettings::migrate() or PQCShortcuts::migrate() functions
@@ -77,7 +74,10 @@ namespace PQCExtensionConfig {
         // startup checks
         // the key is the setting that if true calls what's after. An empty setting always runs the command after
         // the values is the command, possible commands are 'show' and 'setup'
-        QList<QStringList> doAtStartup;
+        QList<QStringList> doAtStartup = {
+            {"", "setup", "floatingnavigation"},
+            {"NavigationFloating", "show", "floatingnavigation"}
+        };
 
     }
 

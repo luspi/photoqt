@@ -1,5 +1,6 @@
 #include <scripts/pqc_scriptsextensions.h>
 #include <quickactions/config.h>
+#include <floatingnavigation/config.h>
 #include <QVariant>
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -33,10 +34,38 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
         .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::settings);
     m_popoutSettingName
         .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::popoutSettingName);
+    m_doAtStartup
+        .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::doAtStartup);
     m_migrateSettings
         .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateSettings);
     m_migrateShortcuts
         .insert(PQCExtensionConfig::QuickActions::id, PQCExtensionConfig::QuickActions::migrateShortcuts);
+
+    // FLOATING NAVIGATION
+    m_extensions
+        .append(PQCExtensionConfig::FloatingNavigation::id);
+    m_allowPopout\
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::allowPopout);
+    m_isModal
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::isModal);
+    m_qmlBaseName
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::qmlBaseName);
+    m_defaultPopoutSize
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::defaultPopoutWindowSize);
+    m_minimumRequiredWindowSize
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::minimumRequiredWindowSize);
+    m_shortcutsActions
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::shortcutsActions);
+    m_settings
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::settings);
+    m_popoutSettingName
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::popoutSettingName);
+    m_doAtStartup
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::doAtStartup);
+    m_migrateSettings
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::migrateSettings);
+    m_migrateShortcuts
+        .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::migrateShortcuts);
 
 
     /********************************************/
@@ -154,6 +183,14 @@ QString PQCScriptsExtensions::getDescriptionForShortcut(QString sh) {
 
 QString PQCScriptsExtensions::getExtensionForShortcut(QString sh) {
     return m_mapShortcutToExtension.value(sh, "");
+}
+
+QList<QStringList> PQCScriptsExtensions::getDoAtStartup(QString id) {
+    if(m_extensions.contains(id)) {
+        return m_doAtStartup[id];
+    }
+    qWarning() << "Unknown extension id:" << id;
+    return {};
 }
 
 QMap<QString, QList<QStringList> > PQCScriptsExtensions::getMigrateSettings(QString id) {

@@ -26,6 +26,7 @@ import PQCNotify
 import PQCScriptsConfig
 
 import "../../../elements"
+import "../../../../extensions/floatingnavigation"
 
 // required top level properties for all settings:
 //
@@ -373,45 +374,18 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQSetting {
-
+        PQFloatingNavigationSettings {
             id: set_float
-
-            //: Settings title
-            title: qsTranslate("settingsmanager", "Floating navigation")
-
-            helptext: qsTranslate("settingsmanager", "Switching between images can be done in various ways. It is possible to do so through the shortcuts, through the main menu, or through floating navigation buttons. These floating buttons were added especially with touch screens in mind, as it allows easier navigation without having to use neither the keyboard nor the mouse. In addition to buttons for navigation it also includes a button to hide and show the main menu.")
-
-            content: [
-                PQCheckBox {
-                    id: floatingnav
-                    enforceMaxWidth: set_float.rightcol
-                    text: qsTranslate("settingsmanager", "show floating navigation buttons")
-                    onCheckedChanged: setting_top.checkDefault()
-                }
-            ]
-
-            onResetToDefaults: {
-                floatingnav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationFloating") == 1)
+            onCheckHasChanged: {
+                setting_top.checkDefault()
             }
-
-            function handleEscape() {
-            }
-
-            function hasChanged() {
-                return floatingnav.hasChanged()
-            }
-
-            function load() {
-                floatingnav.loadAndSetDefault(PQCSettings.interfaceNavigationFloating)
-            }
-
-            function applyChanges() {
-                PQCSettings.interfaceNavigationFloating = floatingnav.checked
-                floatingnav.saveDefault()
-            }
-
         }
+
+        Item {
+            width: 1
+            height: 20
+        }
+
 
     }
 

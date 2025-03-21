@@ -51,6 +51,7 @@ public:
 
     Q_INVOKABLE QList<QStringList> getSettings(QString id);
     Q_INVOKABLE QString getPopoutSettingName(QString id);
+    Q_INVOKABLE QList<QStringList> getDoAtStartup(QString id);
 
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
@@ -79,6 +80,7 @@ private:
     QMap<QString, QString> m_popoutSettingName;
     QStringList m_simpleListAllShortcuts;
     QMap<QString,QString> m_mapShortcutToExtension;
+    QMap<QString, QList<QStringList> > m_doAtStartup;
 
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateSettings;
     QMap<QString, QMap<QString, QList<QStringList > > > m_migrateShortcuts;
