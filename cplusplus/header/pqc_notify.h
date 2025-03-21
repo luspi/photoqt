@@ -218,6 +218,8 @@ private:
     QMap<QString, QString> m_colorProfiles;
 
 Q_SIGNALS:
+
+    // startup properties changes
     void filePathChanged();
     void debugChanged();
     void freshInstallChanged();
@@ -226,28 +228,24 @@ Q_SIGNALS:
     void settingUpdateChanged();
     void startupCheckChanged();
 
+    // some window states control from QML
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
     void ignoreKeysExceptEscChanged();
-    void haveScreenshotsChanged();
 
-    void debugLogMessagesChanged();
-
+    // actions happening that block the interface in some way
     void slideshowRunningChanged();
     void faceTaggingChanged();
-
     void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
-
     void barcodeDisplayedChanged();
 
-    void colorProfilesChanged();
-
+    // context menu properties
     void whichContextMenusOpenChanged();
     void closeAllContextMenus();
 
-    // these are kept similar to the
+    // command line signals
     void cmdOpen();
     void cmdShow();
     void cmdHide();
@@ -255,18 +253,17 @@ Q_SIGNALS:
     void cmdToggle();
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);
-    void resetSessionData();
 
+    // reset methods
     void resetSettingsToDefault();
     void resetShortcutsToDefault();
     void resetFormatsToDefault();
+    void resetSessionData();
 
+    // key/shortcuts related
     void keyPress(int key, int modifiers);
     void keyRelease(int key, int modifiers);
     void executeInternalCommand(QString cmd);
-
-    void showNotificationMessage(QString msg);
-    void openSettingsManagerAt(QString category, QString subcategory);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
@@ -276,6 +273,14 @@ Q_SIGNALS:
     void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseWindowExit();
     void mouseWindowEnter();
+
+    // other
+    void showNotificationMessage(QString msg);
+    void haveScreenshotsChanged();
+    void debugLogMessagesChanged();
+    void colorProfilesChanged();
+    void openSettingsManagerAt(QString category, QString subcategory);
+    void loaderPassOn(QString what, QStringList args);
 
 };
 

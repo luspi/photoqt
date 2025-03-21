@@ -117,10 +117,13 @@ Item {
 
         }
 
-        if(additional === undefined)
+        if(additional === undefined) {
             passOn("show", ele)
-        else
+            PQCNotify.loaderPassOn("show", [ele])
+        } else {
             passOn("show", [ele, additional])
+            PQCNotify.loaderPassOn("show", [ele, additional])
+        }
 
     }
 

@@ -515,21 +515,6 @@ PQTemplateFloating {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
-
-        function onPassOn(what : string, param : string) {
-
-            if(what === "show") {
-                if(param === "quickactions") {
-                    quickactions_top.show()
-                }
-            }
-
-        }
-
-    }
-
-    Connections {
 
         target: PQCSettings // qmllint disable unqualified
 
@@ -547,16 +532,23 @@ PQTemplateFloating {
     }
 
     Connections {
+
         target: PQCNotify // qmllint disable unqualified
 
         function onCloseAllContextMenus() {
             menu.item.dismiss() // qmllint disable missing-property
         }
 
+        function onLoaderPassOn(what : string, args : list<string>) {
+            if(what === "show" && args[0] === "quickactions")
+                quickactions_top.show()
+        }
+
     }
 
     Connections {
-        target: PQCConstants
+
+        target: PQCConstants // qmllint disable unqualified
 
         function onWindowWidthChanged() {
             if(!quickactions_top.finishedSetup) return
