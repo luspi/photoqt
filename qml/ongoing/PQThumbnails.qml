@@ -51,7 +51,6 @@ Item {
     property int radius:0
 
     property PQImage access_image: image // qmllint disable unqualified
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     // which edge the bar should be shown at
     state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ? // qmllint disable unqualified
@@ -71,7 +70,7 @@ Item {
 
     // which area triggers the bar to be shown
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
-    property rect hotArea: Qt.rect(0, access_toplevel.height-hotAreaSize, access_toplevel.width, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
 
     property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0 // qmllint disable unqualified
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
@@ -85,12 +84,12 @@ Item {
         State {
             name: "bottom"
             PropertyChanges {
-                thumbnails_top.visiblePos: [0,thumbnails_top.access_toplevel.height-thumbnails_top.height]
-                thumbnails_top.invisiblePos: [0, thumbnails_top.access_toplevel.height]
-                thumbnails_top.hotArea: Qt.rect(0, thumbnails_top.access_toplevel.height-thumbnails_top.hotAreaSize, thumbnails_top.access_toplevel.width, thumbnails_top.hotAreaSize)
-                thumbnails_top.width: thumbnails_top.access_toplevel.width
+                thumbnails_top.visiblePos: [0,PQCConstants.windowHeight-thumbnails_top.height]
+                thumbnails_top.invisiblePos: [0, PQCConstants.windowHeight]
+                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.windowHeight-thumbnails_top.hotAreaSize, PQCConstants.windowWidth, thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.windowWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.height>500
+                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
             }
         },
         State {
@@ -98,21 +97,21 @@ Item {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
-                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,thumbnails_top.access_toplevel.height)
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: thumbnails_top.access_toplevel.height
-                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.width>500
+                thumbnails_top.height: PQCConstants.windowHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                thumbnails_top.visiblePos: [thumbnails_top.access_toplevel.width-thumbnails_top.width,0]
-                thumbnails_top.invisiblePos: [thumbnails_top.access_toplevel.width,0]
-                thumbnails_top.hotArea: Qt.rect(thumbnails_top.access_toplevel.width-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,thumbnails_top.access_toplevel.height)
+                thumbnails_top.visiblePos: [PQCConstants.windowWidth-thumbnails_top.width,0]
+                thumbnails_top.invisiblePos: [PQCConstants.windowWidth,0]
+                thumbnails_top.hotArea: Qt.rect(PQCConstants.windowWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: thumbnails_top.access_toplevel.height
-                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.width>500
+                thumbnails_top.height: PQCConstants.windowHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
             }
         },
         State {
@@ -120,10 +119,10 @@ Item {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
-                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.access_toplevel.width,thumbnails_top.hotAreaSize)
-                thumbnails_top.width: thumbnails_top.access_toplevel.width
+                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.windowWidth,thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.windowWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: thumbnails_top.access_toplevel.height>500
+                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
             }
         },
         State {
@@ -368,7 +367,7 @@ Item {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: thumbnails_top.access_toplevel.width
+                    view.implicitWidth: PQCConstants.windowWidth
                     view.implicitHeight: 100
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentWidth<thumbnails_top.width
@@ -888,10 +887,12 @@ Item {
     }
 
     Connections {
-        target: access_toplevel
-        function onResizingChanged() {
-            if(access_toplevel.resizing)
-                thumbnails_top.setVisible = false
+        target: PQCConstants
+        function onWindowWidthChanged() {
+            thumbnails_top.setVisible = false
+        }
+        function onWindowHeightChanged() {
+            thumbnails_top.setVisible = false
         }
     }
 

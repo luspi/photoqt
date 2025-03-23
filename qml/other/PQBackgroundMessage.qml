@@ -32,8 +32,8 @@ Item {
 
     id: bgmsg
 
-    width: toplevel.width // qmllint disable unqualified
-    height: toplevel.height // qmllint disable unqualified
+    width: PQCConstants.windowWidth // qmllint disable unqualified
+    height: PQCConstants.windowHeight // qmllint disable unqualified
     visible: PQCFileFolderModel.countMainView===0 && PQCNotify.filePath==="" // qmllint disable unqualified
 
     property var entries: {
@@ -120,9 +120,9 @@ Item {
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
-                font.pointSize: Math.min(40, Math.max(20, (toplevel.width+toplevel.height)/80)) // qmllint disable unqualified
+                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80)) // qmllint disable unqualified
                 font.bold: true
-                opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0 // qmllint disable unqualified
+                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 color: PQCLook.textColor // qmllint disable unqualified
@@ -148,7 +148,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
 
-            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
@@ -197,7 +197,7 @@ Item {
             radius: 5
             visible: arrleft.visible&&ltx.text!=""&&opacity>0
 
-            opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -252,7 +252,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
 
-            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
@@ -264,8 +264,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: toplevel.width-110 // qmllint disable unqualified
-                    to: toplevel.width-130 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-110 // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-130 // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -274,8 +274,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: toplevel.width-130 // qmllint disable unqualified
-                    to: toplevel.width-110 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-130 // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-110 // qmllint disable unqualified
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -300,7 +300,7 @@ Item {
             border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrright.visible&&rtx.text!=""&&opacity>0
-            opacity: toplevel.width>750&&toplevel.height>500 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -320,8 +320,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: toplevel.width-arrright.width-right_txt.width-20 // qmllint disable unqualified
-                    to: toplevel.width-arrright.width-right_txt.width-40 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20 // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40 // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -330,8 +330,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: toplevel.width-arrright.width-right_txt.width-40 // qmllint disable unqualified
-                    to: toplevel.width-arrright.width-right_txt.width-20 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40 // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20 // qmllint disable unqualified
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -356,7 +356,7 @@ Item {
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             rotation: -90
 
-            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
@@ -368,8 +368,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: toplevel.height-110 // qmllint disable unqualified
-                    to: toplevel.height-130 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-110 // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-130 // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -378,8 +378,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: toplevel.height-130 // qmllint disable unqualified
-                    to: toplevel.height-110 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-130 // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-110 // qmllint disable unqualified
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -404,7 +404,7 @@ Item {
             border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrdown.visible&&btx.text!=""&&opacity>0
-            opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -424,8 +424,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: toplevel.height-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
-                    to: toplevel.height-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -434,8 +434,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: toplevel.height-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
-                    to: toplevel.height-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -459,7 +459,7 @@ Item {
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             rotation: 90
 
-            opacity: toplevel.width>500&&toplevel.height>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
@@ -507,7 +507,7 @@ Item {
             border.color: PQCLook.transInverseColor // qmllint disable unqualified
             radius: 5
             visible: arrup.visible&&utx.text!=""&&opacity>0
-            opacity: toplevel.width>500&&toplevel.height>625 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {

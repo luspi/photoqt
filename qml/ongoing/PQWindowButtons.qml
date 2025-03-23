@@ -36,7 +36,7 @@ Item {
 
     id: windowbuttons_top
 
-    x: acces_toplevel.width-width-distanceFromEdge // qmllint disable unqualified
+    x: PQCConstants.windowWidth-width-distanceFromEdge // qmllint disable unqualified
 
     Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || PQCSettings.interfaceWindowButtonsAutoHideTopEdge || windowbuttons_top.movedByMouse) ? 200 : 0 } } // qmllint disable unqualified
     Behavior on x { NumberAnimation { duration: (windowbuttons_top.movedByMouse) ? 200 : 0 } }
@@ -44,8 +44,6 @@ Item {
     property bool movedByMouse: false
 
     property int distanceFromEdge: 5
-
-    property PQMainWindow acces_toplevel: toplevel // qmllint disable unqualified
 
     width: row.width
     height: row.height
@@ -101,7 +99,7 @@ Item {
                 source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
                 enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
                 opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
-                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || PQCConstants.windowFullScreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
                 mipmap: true
                 PQMouseArea {
                     id: left_mouse
@@ -127,7 +125,7 @@ Item {
                 source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
                 enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
                 opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
-                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || PQCConstants.windowFullScreen) && opacity > 0 // qmllint disable unqualified
                 mipmap: true
                 PQMouseArea {
                     id: right_mouse
@@ -161,7 +159,7 @@ Item {
 
                 mipmap: true
 
-                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || toplevel.isFullscreen) && opacity > 0 // qmllint disable unqualified
+                visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || PQCConstants.windowFullScreen) && opacity > 0 // qmllint disable unqualified
 
                 PQMouseArea {
                     id: mainmenu_mouse
@@ -250,7 +248,7 @@ Item {
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
-                        windowbuttons_top.acces_toplevel.showMinimized() // qmllint disable unqualified
+                        PQCNotify.setWindowState(Window.Minimized)
                     else if(mouse.button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -268,8 +266,8 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
             sourceSize: Qt.size(width, height)
             source: PQCScriptsConfig.amIOnWindows() ? // qmllint disable unqualified
-                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/windows-maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/windows-restore.svg")) :
-                        (windowbuttons_top.acces_toplevel.visibility===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/restore.svg"))
+                        (PQCConstants.windowState===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/windows-maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/windows-restore.svg")) :
+                        (PQCConstants.windowState===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/restore.svg"))
 
             opacity: !windowbuttons_top.visibleAlways ? 0 : (minimaxi_mouse.containsMouse ? 0.8 : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -283,16 +281,16 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: (windowbuttons_top.acces_toplevel.visibility===Window.Maximized ? // qmllint disable unqualified
+                text: (PQCConstants.windowState===Window.Maximized ? // qmllint disable unqualified
                            qsTranslate("quickinfo", "Click here to restore window") :
                            qsTranslate("quickinfo", "Click here to maximize window"))
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton) {
-                        if(windowbuttons_top.acces_toplevel.visibility === Window.Windowed) // qmllint disable unqualified
-                            windowbuttons_top.acces_toplevel.visibility = Window.Maximized
+                        if(PQCConstants.windowState === Window.Windowed) // qmllint disable unqualified
+                            PQCNotify.setWindowState(Window.Maximized)
                         else
-                            windowbuttons_top.acces_toplevel.visibility = Window.Windowed
+                            PQCNotify.setWindowState(Window.Windowed)
                     } else if(mouse.button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -334,7 +332,7 @@ Item {
         }
 
         Item {
-            visible: (windowbuttons_top.acces_toplevel.visibility===Window.FullScreen) || (!PQCSettings.interfaceWindowDecoration) || PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons // qmllint disable unqualified
+            visible: (PQCConstants.windowState===Window.FullScreen) || (!PQCSettings.interfaceWindowDecoration) || PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons // qmllint disable unqualified
             width: 1
             height: 1
         }
@@ -350,7 +348,7 @@ Item {
 
             mipmap: true
 
-            visible: (windowbuttons_top.acces_toplevel.visibility===Window.FullScreen) || (!PQCSettings.interfaceWindowDecoration) || PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons // qmllint disable unqualified
+            visible: (PQCConstants.windowState===Window.FullScreen) || (!PQCSettings.interfaceWindowDecoration) || PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons // qmllint disable unqualified
 
             PQMouseArea {
                 id: closemouse
@@ -363,7 +361,7 @@ Item {
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
-                        windowbuttons_top.acces_toplevel.close() // qmllint disable unqualified
+                        PQCNotify.windowClose()
                     else if(mouse.button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }

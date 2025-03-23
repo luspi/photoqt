@@ -38,22 +38,20 @@ PQTemplateFloating {
 
     id: mapcurrent_top
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
-
     onXChanged: {
-        if(!access_toplevel.startup && dragActive)
+        if(PQCConstants.photoQtStartupDone && dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(!access_toplevel.startup && dragActive)
+        if(PQCConstants.photoQtStartupDone && dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(!access_toplevel.startup && resizeActive)
+        if(PQCConstants.photoQtStartupDone && resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(!access_toplevel.startup && resizeActive)
+        if(PQCConstants.photoQtStartupDone && resizeActive)
             storeSize.restart()
     }
 

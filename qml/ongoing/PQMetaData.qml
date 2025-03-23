@@ -40,8 +40,6 @@ Rectangle {
 
     id: metadata_top
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
-
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
     y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) // qmllint disable unqualified
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
@@ -61,12 +59,12 @@ Rectangle {
     }
 
     onYChanged: {
-        if(!access_toplevel.startup && dragmouse.drag.active)
+        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
             saveXY.restart()
     }
 
     onXChanged: {
-        if(!access_toplevel.startup && dragmouse.drag.active)
+        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
             saveXY.restart()
     }
 
@@ -80,11 +78,10 @@ Rectangle {
     property int parentWidth
     property int parentHeight
     width: Math.max(300, PQCSettings.metadataElementSize.width) // qmllint disable unqualified
-    // height:  Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height) // qmllint disable unqualified
     height: isPopout ? metadata_popout.height :
                 PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
-                            access_toplevel.height-2*gap-statusinfoOffset :
-                            Math.min(access_toplevel.height, PQCSettings.metadataElementSize.height)
+                            PQCConstants.windowHeight-2*gap-statusinfoOffset :
+                            Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
 
     color: PQCLook.transColor // qmllint disable unqualified
 
@@ -99,7 +96,7 @@ Rectangle {
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
-    property rect hotArea: Qt.rect(0, access_toplevel.height-hotAreaSize, access_toplevel.width, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
@@ -134,22 +131,22 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 metadata_top.visiblePos: [metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
                 metadata_top.invisiblePos: [-metadata_top.width,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,metadata_top.access_toplevel.height)
-                metadata_top.windowSizeOkay: metadata_top.access_toplevel.width>500 && metadata_top.access_toplevel.height>500
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
+                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                metadata_top.visiblePos: [metadata_top.access_toplevel.width-metadata_top.width-metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.invisiblePos: [metadata_top.access_toplevel.width,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(metadata_top.access_toplevel.width-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,metadata_top.access_toplevel.height)
-                metadata_top.windowSizeOkay: metadata_top.access_toplevel.width>500 && metadata_top.access_toplevel.height>500
+                metadata_top.visiblePos: [PQCConstants.windowWidth-metadata_top.width-metadata_top.gap,
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.invisiblePos: [PQCConstants.windowWidth,
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(PQCConstants.windowWidth-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
+                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
             }
         },
         State {
@@ -164,8 +161,8 @@ Rectangle {
             PropertyChanges {
                 metadata_top.hotArea: Qt.rect(0,0,0,0)
                 metadata_top.setVisible: PQCSettings.metadataElementVisible
-                metadata_top.visiblePos: [Math.max(0, Math.min(metadata_top.access_toplevel.width-metadata_top.width, PQCSettings.metadataElementPosition.x)),
-                                          Math.max(0, Math.min(metadata_top.access_toplevel.height-metadata_top.height, PQCSettings.metadataElementPosition.y))]
+                metadata_top.visiblePos: [Math.max(0, Math.min(PQCConstants.windowWidth-metadata_top.width, PQCSettings.metadataElementPosition.x)),
+                                          Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y))]
                 metadata_top.invisiblePos: metadata_top.visiblePos
                 metadata_top.windowSizeOkay: true
             }
@@ -251,7 +248,7 @@ Rectangle {
             drag.target: metadata_top.isPopout ? undefined : metadata_top
             drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
             drag.minimumY: 0
-            drag.maximumY: metadata_top.access_toplevel.height-metadata_top.height
+            drag.maximumY: PQCConstants.windowHeight-metadata_top.height
         }
 
     }
@@ -485,7 +482,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(metadata_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
@@ -511,7 +508,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(metadata_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
 
         }
 
@@ -650,7 +647,7 @@ Rectangle {
                     if(checked) {
                         metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         if(!metadata_top.isPopout)
-                            metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                            metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
                     } else {
                         metadata_top.y = metadata_top.y
@@ -674,7 +671,7 @@ Rectangle {
                     metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
                     if(!metadata_top.isPopout)
-                        metadata_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                        metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true
                 }
             }
@@ -790,10 +787,12 @@ Rectangle {
     }
 
     Connections {
-        target: access_toplevel
-        function onResizingChanged() {
-            if(access_toplevel.resizing)
-                metadata_top.setVisible = false
+        target: PQCConstants
+        function onWindowWidthChanged() {
+            metadata_top.setVisible = false
+        }
+        function onWindowHeightChanged() {
+            metadata_top.setVisible = false
         }
     }
 
@@ -805,7 +804,7 @@ Rectangle {
             if(what === "show") {
                 if(param === "metadata") {
 
-                    if(!PQCSettings.metadataElementFloating && !toplevel.startup) // qmllint disable unqualified
+                    if(!PQCSettings.metadataElementFloating && PQCConstants.photoQtStartupDone) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)

@@ -12,6 +12,7 @@
 // - add loader to PQMainWindow.qml
 // - add id for loader to PQLoader.qml
 // - add settings file to settings section
+// - add qmlBasename without PQ prefix to ListExtensions.cmake
 
 namespace PQCExtensionConfig {
 

@@ -16,9 +16,9 @@
 
 namespace PQCExtensionConfig {
 
-    namespace QuickActions {
+    namespace Histogram {
 
-        QString id = "quickactions";
+        QString id = "histogram";
 
         // if this is true, then a second file for the popout needs to be added with the same filename
         // but with 'Popout' added to the *end* of the basename
@@ -26,32 +26,37 @@ namespace PQCExtensionConfig {
         bool isModal = false;
 
         // window size handling
-        QSize defaultPopoutWindowSize = QSize(0,0);
+        QSize defaultPopoutWindowSize = QSize(300,200);
         // this is the min required window size to have it embedded
-        QSize minimumRequiredWindowSize = QSize(0,0);
+        QSize minimumRequiredWindowSize = QSize(500,350);
 
         // This needs to have exactly two entries. If a popout does not exist, that entry can be the empty string.
-        QString qmlBaseName = "PQQuickActions";
+        QString qmlBaseName = "PQHistogram";
 
         // The name of the setting that stores its popout status
-        QString popoutSettingName = "PopoutQuickActions";
+        QString popoutSettingName = "HistogramPopout";
 
         // what shortcuts there are to be defined:
         // shortcut, description (for settings manager), default shortcut, action, additional argument
         // One of them should always be 'show','{id}'!
         // NOTE: New (default) shortcuts need to be entered as migrations
-        QList<QStringList> shortcutsActions = {{"__quickActions",
-                                                //: Description of shortcut action
-                                                QApplication::translate("settingsmanager", "Show quick actions"),
-                                                "", // no default shortcut set
-                                                "show", "quickactions"}};
+        QList<QStringList> shortcutsActions = {
+            {"__histogram",
+             //: Description of shortcut action
+             QApplication::translate("settingsmanager", "Show Histogram"),
+             "", // no default shortcut set
+             "show", "histogram"}
+        };
 
         // what settings this extension needs:
         // settings name, settings table (usually 'extensions'), datatype, defaultValue
-        QList<QStringList> settings = {{"QuickActionsItems",  "extensions", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"},
-                                       {"QuickActionsHeight", "extensions", "int",  "40"},
-                                       {"QuickActions",       "extensions", "bool", "0"},
-                                       {"PopoutQuickActions", "extensions", "bool", "0"}};
+        QList<QStringList> settings = {
+            {"HistogramVisible",  "extensions", "bool",   "0"},
+            {"HistogramPosition", "extensions", "point",  "100,100"},
+            {"HistogramSize",     "extensions", "size",   "300,200"},
+            {"HistogramVersion",  "extensions", "string", "color"},
+            {"HistogramPopout",   "extensions", "bool",   "0"}
+        };
 
         // any setting that needs migrating
         // The key is the version number at which any given migration needs to happen
@@ -78,7 +83,9 @@ namespace PQCExtensionConfig {
         // startup checks
         // the key is the setting that if true calls what's after. An empty setting always runs the command after
         // the values is the command, possible commands are 'show' and 'setup'
-        QList<QStringList> doAtStartup;
+        QList<QStringList> doAtStartup = {
+            {"HistogramVisible", "show", "hisotram"}
+        };
 
     }
 

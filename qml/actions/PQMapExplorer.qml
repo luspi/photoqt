@@ -39,8 +39,8 @@ Item {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: toplevel.width // qmllint disable unqualified
-    property int parentHeight: toplevel.height // qmllint disable unqualified
+    property int parentWidth: PQCConstants.windowWidth // qmllint disable unqualified
+    property int parentHeight: PQCConstants.windowHeight // qmllint disable unqualified
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -53,9 +53,9 @@ Item {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "Map Explorer") // qmllint disable unqualified
-        else if(opacity == 0)
-            toplevel.titleOverride = ""
+            PQCNotify.windowTitleOverride(qsTranslate("actions", "Map Explorer")) // qmllint disable unqualified
+        else if(opacity === 0)
+            PQCNotify.windowTitleOverride("")
     }
 
     property bool finishShow: false

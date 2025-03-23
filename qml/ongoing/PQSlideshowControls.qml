@@ -33,8 +33,8 @@ Item {
 
     id: slideshowcontrols_top
 
-    x: (toplevel.width-width)/2  // qmllint disable unqualified
-    y: toplevel.height-height-50 // qmllint disable unqualified
+    x: (PQCConstants.windowWidth-width)/2  // qmllint disable unqualified
+    y: PQCConstants.windowHeight-height-50 // qmllint disable unqualified
     width: controlsrow.width
     height: 80
 

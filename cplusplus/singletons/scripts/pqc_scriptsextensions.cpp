@@ -1,6 +1,9 @@
 #include <scripts/pqc_scriptsextensions.h>
+
 #include <quickactions/config.h>
 #include <floatingnavigation/config.h>
+#include <histogram/config.h>
+
 #include <QVariant>
 #include <QQmlEngine>
 #include <QQmlContext>
@@ -14,6 +17,8 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
     // in addition, the loaderneeds to be added to PQMainWindow.qml
     // and the loader name added to the list in PQLoader.qml
     //
+
+
 
     // QUICK ACTIONS
     m_extensions
@@ -66,6 +71,32 @@ PQCScriptsExtensions::PQCScriptsExtensions() {
         .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::migrateSettings);
     m_migrateShortcuts
         .insert(PQCExtensionConfig::FloatingNavigation::id, PQCExtensionConfig::FloatingNavigation::migrateShortcuts);
+
+    // HISTOGRAM
+    m_extensions
+        .append(PQCExtensionConfig::Histogram::id);
+    m_allowPopout\
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::allowPopout);
+    m_isModal
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::isModal);
+    m_qmlBaseName
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::qmlBaseName);
+    m_defaultPopoutSize
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::defaultPopoutWindowSize);
+    m_minimumRequiredWindowSize
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::minimumRequiredWindowSize);
+    m_shortcutsActions
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::shortcutsActions);
+    m_settings
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::settings);
+    m_popoutSettingName
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::popoutSettingName);
+    m_doAtStartup
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::doAtStartup);
+    m_migrateSettings
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::migrateSettings);
+    m_migrateShortcuts
+        .insert(PQCExtensionConfig::Histogram::id, PQCExtensionConfig::Histogram::migrateShortcuts);
 
 
     /********************************************/

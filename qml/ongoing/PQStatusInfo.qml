@@ -198,14 +198,14 @@ Item {
                 }
                 onPressed: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) // qmllint disable unqualified
-                        toplevel.startSystemMove()
+                        PQCNotify.windowStartSystemMove()
                 }
                 onDoubleClicked: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) { // qmllint disable unqualified
-                        if(toplevel.visibility === Window.Maximized)
-                            toplevel.visibility = Window.Windowed
-                        else if(toplevel.visibility === Window.Windowed)
-                            toplevel.visibility = Window.Maximized
+                        if(PQCConstants.windowState === Window.Maximized)
+                            PQCNotify.setWindowState(Window.Windowed)
+                        else if(PQCConstants.windowState === Window.Windowed)
+                            PQCNotify.setWindowState(Window.Maximized)
                     }
                 }
                 drag.onActiveChanged:
@@ -456,7 +456,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round((PQCNotify.showingPhotoSphere ? 1 : toplevel.getDevicePixelRatio()) * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
+            text: Math.round((PQCNotify.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
         }
     }
 
@@ -793,9 +793,9 @@ Item {
 
     function computeDefaultX() {
         return (PQCSettings.interfaceStatusInfoPosition==="right"
-                ? (toplevel.width - width - 2*distanceFromEdge)
+                ? (PQCConstants.windowWidth - width - 2*distanceFromEdge)
                 : (PQCSettings.interfaceStatusInfoPosition === "center"
-                        ? (toplevel.width-width)/2
+                        ? (PQCConstants.windowWidth-width)/2
                         : 2*distanceFromEdge))
     }
 

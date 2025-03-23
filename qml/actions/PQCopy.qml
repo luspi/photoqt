@@ -32,8 +32,8 @@ import "../elements"
 
 Item {
 
-    width: toplevel.width // qmllint disable unqualified
-    height: toplevel.height // qmllint disable unqualified
+    width: PQCConstants.windowWidth // qmllint disable unqualified
+    height: PQCConstants.windowHeight // qmllint disable unqualified
 
     Connections {
 

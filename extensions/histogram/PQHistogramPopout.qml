@@ -21,56 +21,50 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Window
-import Qt.labs.platform
+import PQCWindowGeometry
 import PQCNotify
+import PQCScriptsExtensions
 
-import "../"
+import "../../qml/elements"
 
-SystemTrayIcon {
+PQTemplatePopout {
 
-    id: trayicon
+    id: histogram_popout
 
-    visible: PQCSettings.interfaceTrayIcon>0 // qmllint disable unqualified
+    //: Window title
+    title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
-    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg" // qmllint disable unqualified
+    geometry: Qt.rect(0,0,PQCScriptsExtensions.getDefaultPopoutSize("histogram").width,PQCScriptsExtensions.getDefaultPopoutSize("histogram").height)
+    isMax: false
+    popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    source: "../extensions/histogram/PQHistogram.qml"
+    property size minRequiredWindowSize: PQCScriptsExtensions.getMinimumRequiredWindowSize("histogram")
 
-    menu: Menu {
-        id: mn
+    modality: Qt.NonModal
 
-        MenuItem {
-            text: (PQCConstants.windowState===Window.Hidden ? qsTranslate("trayicon", "Show PhotoQt") : qsTranslate("trayicon", "Hide PhotoQt"))
-            onTriggered:
-                trayicon.triggerVisibility()
-        }
+    minimumWidth: 100
+    minimumHeight: 100
 
-        MenuItem {
-            text: "Quit PhotoQt"
-            onTriggered:
-                PQCNotify.photoQtQuit()
-        }
-
-        Component.onCompleted:
-            mn.visible = false
-
+    onPopoutClosed: {
+        PQCSettings.extensionsHistogramPopout = false // qmllint disable unqualified
+        close()
+        PQCNotify.executeInternalCommand("__histogram")
     }
 
-    onActivated: {
-        trayicon.triggerVisibility()
+    onPopoutChanged: {
+        if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
+            PQCSettings.extensionsHistogramPopout = popout
     }
 
-    function triggerVisibility() {
-        PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
-        if(PQCConstants.windowState === Window.Hidden) {
-            if(PQCConstants.windowMaxAndNotWindowed)
-                PQCNotify.setWindowState(Window.Maximized)
-            else
-                PQCNotify.setWindowState(Window.Windowed)
-        } else if(PQCConstants.windowState === Window.Minimized) {
-            PQCNotify.windowRaiseAndFocus()
-        } else {
-            PQCNotify.setWindowState(Window.Hidden)
-        }
+    onGeometryChanged: {
+        if(geometry !== PQCWindowGeometry.histogramGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.histogramGeometry = geometry
+    }
+
+    onIsMaxChanged: {
+        if(isMax !== PQCWindowGeometry.histogramMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.histogramMaximized = isMax
     }
 
 }

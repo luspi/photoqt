@@ -491,7 +491,7 @@ Item {
                         return
                     PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFile)
                     if(parts[2]*1 === 1)
-                        toplevel.close()
+                        PQCNotify.windowClose()
                 }
             }
 
@@ -509,7 +509,7 @@ Item {
                     return
                 PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFile)
                 if(curparts[2]*1 === 1)
-                    toplevel.close()
+                    PQCNotify.windowClose()
             }
 
         }
@@ -642,10 +642,10 @@ Item {
             // interface functions
 
             case "__quit":
-                toplevel.quitPhotoQt()
+                PQCNotify.photoQtQuit()
                 break
             case "__close":
-                toplevel.close()
+                PQCNotify.windowClose()
                 break
             case "__fullscreenToggle":
                 PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
@@ -859,7 +859,7 @@ Item {
             case "__resetSessionAndHide":
                 PQCNotify.resetSessionData()
                 PQCSettings.interfaceTrayIcon = 1
-                toplevel.close()
+                PQCNotify.windowClose()
                 break
             case "__resetSession":
                 PQCNotify.resetSessionData()

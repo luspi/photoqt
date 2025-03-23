@@ -62,13 +62,13 @@ Window {
     property bool resizing: false
     onWidthChanged: {
         PQCConstants.windowWidth = width
-        if(toplevel.startup) return
+        if(!PQCConstants.photoQtStartupDone) return
         toplevel.resizing = true
         resetResizing.restart()
     }
     onHeightChanged: {
         PQCConstants.windowHeight = height
-        if(toplevel.startup) return
+        if(PQCConstants.photoQtStartupDone) return
         toplevel.resizing = true
         resetResizing.restart()
     }
@@ -84,24 +84,22 @@ Window {
 
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
-        if(!toplevel.startup && !toplevel.isFullscreen) {
+        if(PQCConstants.photoQtStartupDone && !toplevel.isFullscreen) {
             PQCWindowGeometry.mainWindowGeometry = geometry // qmllint disable unqualified
             PQCWindowGeometry.mainWindowMaximized = (toplevel.visibility == Window.Maximized)
         }
     }
 
-    // we keep track of whether a window is maximized or windowed
-    // when restoring the window we then can restore it to the state it was in before
-    property bool maxAndNowWindowed: false
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
+        PQCConstants.windowState = toplevel.visibility
+        PQCConstants.windowFullScreen = (toplevel.visibility==Window.FullScreen)
+        // we keep track of whether a window is maximized or windowed
+        // when restoring the window we then can restore it to the state it was in before
         if(visibility === Window.Maximized)
-            maxAndNowWindowed = true
-        else if(visibility === Window.Windowed) {
-            maxAndNowWindowed = false
-        }
+            PQCConstants.windowMaxAndNotWindowed = true
+        else if(visibility === Window.Windowed)
+            PQCConstants.windowMaxAndNotWindowed = false
     }
-
-    property bool startup: true
 
     PQMainWindowBackground {
         id: fullscreenitem
@@ -231,14 +229,14 @@ Window {
         interval: 1000
         running: true
         onTriggered:
-            toplevel.startup = false
+            PQCConstants.photoQtStartupDone = true
     }
 
     Connections {
         target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
         }
 
         function onInterfacePopoutMetadataChanged() {
@@ -277,7 +275,7 @@ Window {
 
             toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
 
@@ -304,7 +302,7 @@ Window {
             } else {
                 toplevel.visible = true
                 if(toplevel.visibility === Window.Minimized)
-                    toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                    toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
                 toplevel.raise()
                 toplevel.requestActivate()
             }
@@ -322,7 +320,7 @@ Window {
                 if(!toplevel.visible) {
                     toplevel.visible = true
                     if(toplevel.visibility === Window.Minimized)
-                        toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                        toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
                     toplevel.raise()
                     toplevel.requestActivate()
                 }
@@ -347,9 +345,38 @@ Window {
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
+        }
+
+        function onSetWindowState(state : int) {
+            toplevel.visibility = state
+        }
+
+        function onWindowClose() {
+            toplevel.close()
+        }
+
+        function onPhotoQtQuit() {
+            toplevel.quitPhotoQt()
+        }
+
+        function onWindowTitleOverride(title : string) {
+            toplevel.titleOverride = title
+        }
+
+        function onWindowRaiseAndFocus() {
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
+
+        function onWindowStartSystemMove() {
+            toplevel.startSystemMove()
+        }
+
+        function onWindowStartSystemResize(edge : int) {
+            toplevel.startSystemResize(edge)
         }
 
         // this one is handled directly in PQShortcuts class
@@ -483,6 +510,7 @@ Window {
         Qt.quit()
     }
 
+    // TODO: REMOVE
     function getDevicePixelRatio() {
         if(PQCSettings.imageviewRespectDevicePixelRatio) // qmllint disable unqualified
             return PQCScriptsImages.getPixelDensity()

@@ -33,7 +33,8 @@ Item {
 
     property var extensionsloader: {
         "quickactions" : loader_quickactions,
-        "floatingnavigation" : loader_floatingnavigation
+        "floatingnavigation" : loader_floatingnavigation,
+        "histogram" : loader_histogram
     }
 
     // source, loader id, modal, popout, force popout
@@ -44,9 +45,7 @@ Item {
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],
         "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCWindowGeometry.filedialogForcePopout],
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
-        "histogram"           : ["ongoing","PQHistogram", loader_histogram, 0, PQCSettings.interfacePopoutHistogram, PQCWindowGeometry.histogramForcePopout],
         "mapcurrent"          : ["ongoing","PQMapCurrent", loader_mapcurrent, 0, PQCSettings.interfacePopoutMapCurrent, PQCWindowGeometry.mapcurrentForcePopout],
-        // "navigationfloating"  : ["ongoing","PQNavigation", loader_navigationfloating, 0, false, false],
         "scale"               : ["actions","PQScale", loader_scale, 1, PQCSettings.interfacePopoutScale, PQCWindowGeometry.scaleForcePopout],
         "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
         "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
@@ -66,7 +65,6 @@ Item {
         "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
         "settingsmanager"     : ["settingsmanager","PQSettingsManager", loader_settingsmanager, 1, PQCSettings.interfacePopoutSettingsManager, PQCWindowGeometry.settingsmanagerForcePopout],
         "crop"                : ["actions","PQCrop", loader_crop, 1, PQCSettings.interfacePopoutCrop, PQCWindowGeometry.cropForcePopout],
-        // "quickactions"        : ["ongoing","PQQuickActions", loader_quickactions, 0, PQCSettings.interfacePopoutQuickActions, PQCWindowGeometry.quickactionsForcePopout]
     }
 
     property string visibleItem: ""

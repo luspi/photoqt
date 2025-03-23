@@ -21,47 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCWindowGeometry
-import PQCNotify
-import "../../elements"
 
-PQTemplatePopout {
-
-    id: histogram_popout
-
-    //: Window title
-    title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
-
-    geometry: PQCWindowGeometry.histogramGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.histogramMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutHistogram // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.histogramForcePopout // qmllint disable unqualified
-    source: "ongoing/PQHistogram.qml"
-
-    modality: Qt.NonModal
-
-    minimumWidth: 100
-    minimumHeight: 100
-
-    onPopoutClosed: {
-        PQCSettings.interfacePopoutHistogram = false // qmllint disable unqualified
-        close()
-        PQCNotify.executeInternalCommand("__histogram")
-    }
-
-    onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutHistogram) // qmllint disable unqualified
-            PQCSettings.interfacePopoutHistogram = popout
-    }
-
-    onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.histogramGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.histogramGeometry = geometry
-    }
-
-    onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.histogramMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.histogramMaximized = isMax
-    }
-
+Item {
+    // no popout used
 }

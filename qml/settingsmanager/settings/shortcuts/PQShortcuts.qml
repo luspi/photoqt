@@ -115,8 +115,6 @@ Flickable {
         // SPECIAL ACTION WITH CURRENT IMAGE
 
                                  //: Name of shortcut action
-        "__histogram":          [qsTranslate("settingsmanager", "Show Histogram"), "currentimage"],
-                                 //: Name of shortcut action
         "__showMapCurrent":     [qsTranslate("settingsmanager", "Show Image on Map"), "currentimage"],
                                  //: Name of shortcut action
         "__viewerMode":         [qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
@@ -192,8 +190,6 @@ Flickable {
         "__showMetaData":       [qsTranslate("settingsmanager", "Hide/Show metadata"), "interface"],
                                  //: Name of shortcut action
         "__showThumbnails":     [qsTranslate("settingsmanager", "Hide/Show thumbnails"), "interface"],
-                                 //: Name of shortcut action
-        "__navigationFloating": [qsTranslate("settingsmanager", "Show floating navigation buttons"), "interface"],
                                  //: Name of shortcut action
         "__fullscreenToggle":   [qsTranslate("settingsmanager", "Toggle fullscreen mode"), "interface"],
                                  //: Name of shortcut action

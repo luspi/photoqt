@@ -23,9 +23,13 @@
 #ifndef PQCCONSTANTS_H
 #define PQCCONSTANTS_H
 
+#include <scripts/pqc_scriptsimages.h>
+#include <pqc_settings.h>
+
 #include <QObject>
 #include <QStandardPaths>
 #include <QDir>
+#include <QTimer>
 
 class PQCConstants : public QObject {
 
@@ -41,8 +45,15 @@ public:
     PQCConstants(PQCConstants const&)     = delete;
     void operator=(PQCConstants const&) = delete;
 
-    Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChange)
-    Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChange)
+    Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
+    Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
+    Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged);
+    Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged);
+    Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged);
+
+    Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged);
+
+    Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
 
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
 
@@ -50,17 +61,51 @@ private:
     PQCConstants() : QObject() {
         m_windowWidth = 0;
         m_windowHeight = 0;
+        m_windowState = Qt::WindowNoState;
+        m_windowFullScreen = false;
+        m_windowMaxAndNotWindowed = true;
+        m_photoQtStartupDone = false;
         m_howManyFiles = 0;
+
+        m_devicePixelRatio = 1.0;
+        if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+            m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+
+        m_updateDevicePixelRatio = new QTimer;
+        m_updateDevicePixelRatio->setInterval(1000*60*5);
+        m_updateDevicePixelRatio->setSingleShot(false);
+        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
+            m_devicePixelRatio = 1.0;
+            if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+        });
+        m_updateDevicePixelRatio->start();
+
+
     }
 
     int m_windowWidth;
     int m_windowHeight;
 
+    bool m_photoQtStartupDone;
+    int m_windowState;
+    bool m_windowFullScreen;
+    bool m_windowMaxAndNotWindowed;
+
+    double m_devicePixelRatio;
+
     int m_howManyFiles;
 
+    QTimer *m_updateDevicePixelRatio;
+
 Q_SIGNALS:
-    void windowWidthChange();
-    void windowHeightChange();
+    void windowWidthChanged();
+    void windowHeightChanged();
+    void windowStateChanged();
+    void windowFullScreenChanged();
+    void windowMaxAndNotWindowedChanged();
+    void photoQtStartupDoneChanged();
+    void devicePixelRatioChanged();
     void howManyFilesChanged();
 
 };

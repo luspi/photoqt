@@ -233,6 +233,13 @@ Q_SIGNALS:
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
     void ignoreKeysExceptEscChanged();
+    void setWindowState(int state);
+    void windowRaiseAndFocus();
+    void windowClose();
+    void windowTitleOverride(QString title);
+    void windowStartSystemMove();
+    void windowStartSystemResize(int edge);
+    void photoQtQuit();
 
     // actions happening that block the interface in some way
     void slideshowRunningChanged();

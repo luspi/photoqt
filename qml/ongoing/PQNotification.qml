@@ -29,10 +29,9 @@ import "../"
 Rectangle {
     id: notification_top
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     // we fall back to top right location if state is invalid
-    x: access_toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
+    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
     y: PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
 
     width: contcol.width+30
@@ -46,21 +45,21 @@ Rectangle {
             name: "bottomleft"
             PropertyChanges {
                 notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottom"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottomright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
 
@@ -68,21 +67,21 @@ Rectangle {
             name: "centerleft"
             PropertyChanges {
                 notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
         State {
             name: "center"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
         State {
             name: "centerright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
 
@@ -96,14 +95,14 @@ Rectangle {
         State {
             name: "top"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
                 notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "topright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
                 notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         }
