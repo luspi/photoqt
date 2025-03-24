@@ -115,8 +115,6 @@ Flickable {
         // SPECIAL ACTION WITH CURRENT IMAGE
 
                                  //: Name of shortcut action
-        "__showMapCurrent":     [qsTranslate("settingsmanager", "Show Image on Map"), "currentimage"],
-                                 //: Name of shortcut action
         "__viewerMode":         [qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
                                  //: Name of shortcut action
         "__scale":              [qsTranslate("settingsmanager", "Scale Image"), "currentimage"],

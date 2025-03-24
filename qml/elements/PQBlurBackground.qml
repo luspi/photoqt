@@ -33,12 +33,11 @@ Item {
     id: blur_top
     anchors.fill: parent
 
-    property list<string> itemkeys: ["image", "statusinfo", "mapcurrent", "thumbnails", "metadata", "mainmenu"].concat(PQCExtensionsHandler.getNotModalExtensions())
+    property list<string> itemkeys: ["image", "statusinfo", "thumbnails", "metadata", "mainmenu"].concat(PQCExtensionsHandler.getNotModalExtensions())
     property var items: {
         "image" : image, // qmllint disable unqualified
         "thumbnails" : loader_thumbnails,
         "statusinfo" : statusinfo,
-        "mapcurrent" : loader_mapcurrent,
         "mainmenu" : loader_mainmenu,
         "metadata" : loader_metadata
     }

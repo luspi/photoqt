@@ -2,7 +2,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} extensions/pqc_extensionshandler.cpp exte
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/header/pqc_extensionshandler.h)
 
 # LIST LL EXTENSIONS HERE
-SET(EXT "QuickActions" "FloatingNavigation" "Histogram")
+SET(EXT "QuickActions" "FloatingNavigation" "Histogram" "MapCurrent")
 
 foreach(qmlfile ${EXT})
 

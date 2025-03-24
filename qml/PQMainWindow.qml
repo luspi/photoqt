@@ -165,7 +165,6 @@ Window {
     }
 
     // ongoing
-    Loader { id: loader_mapcurrent }
     Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowhandler }
     Loader { id: loader_notification }
@@ -440,9 +439,6 @@ Window {
         loader.show("mainmenu")
         loader.show("metadata")
         loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
-
-        if(PQCSettings.mapviewCurrentVisible)
-            loader.show("mapcurrent")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath

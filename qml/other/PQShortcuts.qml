@@ -730,9 +730,6 @@ Item {
             case "__showFaceTags":
                 PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
                 break
-            case "__showMapCurrent":
-                loader.show("mapcurrent")
-                break
             case "__toggleAlwaysActualSize":
                 PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
                 break

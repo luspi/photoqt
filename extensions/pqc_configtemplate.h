@@ -21,6 +21,7 @@ class PQCExtensionConfig {
 public:
     PQCExtensionConfig() {
         id = "";
+        supportedByThisBuild = true;
         allowPopout = false;
         isModal = false;
         defaultPopoutWindowSize = QSize(0,0);
@@ -37,6 +38,10 @@ public:
     // the id the extension is known under
     // This has to match the extensions folder
     QString id;
+
+    // Some features might be disabled at compile time.
+    // If this boolean is set to false then this extension is being ignored
+    bool supportedByThisBuild;
 
     // if this is true, then a second file for the popout needs to be added with the same filename
     // but with 'Popout' added to the *end* of the basename

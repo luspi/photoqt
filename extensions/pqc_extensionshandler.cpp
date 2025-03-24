@@ -3,6 +3,7 @@
 #include <quickactions/config.h>
 #include <floatingnavigation/config.h>
 #include <histogram/config.h>
+#include <mapcurrent/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -14,9 +15,26 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     // ALL EXTENSIONS NEED TO BE REGISTERED HERE!!!
     /***********************************************/
 
+    m_allextensions.append(new PQCExtensionMapCurrent());
     m_allextensions.append(new PQCExtensionHistogram());
     m_allextensions.append(new PQCExtensionQuickActions());
     m_allextensions.append(new PQCExtensionFloatingNavigation());
+
+    /********************************************/
+    /********************************************/
+
+    QList<int> toDelete;
+    for(int i = 0; i < m_allextensions.length(); ++i) {
+        const PQCExtensionConfig *ext = m_allextensions[i];
+        if(!ext->supportedByThisBuild) {
+            toDelete << i;
+        }
+    }
+
+    for(int j = toDelete.length()-1; j >= 0; --j) {
+        delete m_allextensions[j];
+        m_allextensions.remove(j);
+    }
 
     /********************************************/
     /********************************************/
