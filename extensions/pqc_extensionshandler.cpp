@@ -18,16 +18,23 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     // and the loader name added to the list in PQLoader.qml
     //
 
+    m_allextensions.append(new PQCExtensionHistogram());
     m_allextensions.append(new PQCExtensionQuickActions());
     m_allextensions.append(new PQCExtensionFloatingNavigation());
-    m_allextensions.append(new PQCExtensionHistogram());
 
     /********************************************/
     /********************************************/
 
     // do some minor processing and caching for easier and quicker access later-on
     for(auto &ext : m_allextensions) {
+
         m_extensions.append(ext->id);
+
+        if(ext->isModal)
+            m_extensionsThatAreModal.append(ext->id);
+        else
+            m_extensionsThatAreNotModal.append(ext->id);
+
         QList<QStringList> actions = ext->shortcutsActions;
         QStringList allsh;
         for(int i = 0; i < actions.length(); ++i) {
@@ -36,6 +43,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         }
         m_shortcuts.insert(ext->id, allsh);
         m_simpleListAllShortcuts.append(allsh);
+
     }
 
 }
@@ -44,6 +52,14 @@ PQCExtensionsHandler::~PQCExtensionsHandler() {}
 
 QStringList PQCExtensionsHandler::getExtensions() {
     return m_extensions;
+}
+
+QStringList PQCExtensionsHandler::getModalExtensions() {
+    return m_extensionsThatAreModal;
+}
+
+QStringList PQCExtensionsHandler::getNotModalExtensions() {
+    return m_extensionsThatAreNotModal;
 }
 
 bool PQCExtensionsHandler::getAllowPopout(QString id) {

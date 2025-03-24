@@ -42,6 +42,8 @@ public:
     void operator=(PQCExtensionsHandler const&) = delete;
 
     Q_INVOKABLE QStringList getExtensions();
+    Q_INVOKABLE QStringList getModalExtensions();
+    Q_INVOKABLE QStringList getNotModalExtensions();
 
     Q_INVOKABLE bool getAllowPopout(QString id);
     Q_INVOKABLE bool getIsModal(QString id);
@@ -70,6 +72,8 @@ private:
 
     // these are processed ones and then cached as they are needed often
     QStringList m_extensions;
+    QStringList m_extensionsThatAreModal;
+    QStringList m_extensionsThatAreNotModal;
     QMap<QString, QStringList> m_shortcuts;
     QStringList m_simpleListAllShortcuts;
     QMap<QString,QString> m_mapShortcutToExtension;

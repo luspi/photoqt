@@ -554,7 +554,7 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "histogram.svg"
-                    txt: PQCSettings.histogramVisible ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
+                    txt: PQCSettings.extensionsHistogram ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
                     cmd: "__histogram"
                     menuColWidth: mainmenu_top.colwidth
                 }

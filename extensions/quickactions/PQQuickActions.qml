@@ -100,7 +100,7 @@ PQTemplateFloating {
             PQCSettings.extensionsPopoutQuickActions = popout
     }
 
-    property list<string> buttons: PQCSettings.interfaceQuickActionsItems
+    property list<string> buttons: PQCSettings.extensionsQuickActionsItems
 
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
@@ -445,9 +445,9 @@ PQTemplateFloating {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("histogram", "show quick actions")
-                checked: PQCSettings.interfaceQuickActions // qmllint disable unqualified
+                checked: PQCSettings.extensionsQuickActions // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.interfaceQuickActions = checked // qmllint disable unqualified
+                    PQCSettings.extensionsQuickActions = checked // qmllint disable unqualified
                     if(!checked)
                         themenu.dismiss()
                 }
@@ -496,9 +496,6 @@ PQTemplateFloating {
             quickactions_top.reposition()
         }
 
-        if(PQCSettings.interfaceQuickActions)
-            show()
-
         recordFinishedSetup.restart()
     }
 
@@ -519,7 +516,7 @@ PQTemplateFloating {
         target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceQuickActionsChanged() {
-            if(PQCSettings.interfaceQuickActions) // qmllint disable unqualified
+            if(PQCSettings.extensionsQuickActions) // qmllint disable unqualified
                 quickactions_top.show()
             else
                 quickactions_top.hide()
@@ -540,8 +537,12 @@ PQTemplateFloating {
         }
 
         function onLoaderPassOn(what : string, args : list<string>) {
-            if(what === "show" && args[0] === "quickactions")
-                quickactions_top.show()
+            if(what === "show" && args[0] === "quickactions") {
+                if(quickactions_top.visible)
+                    quickactions_top.hide()
+                else
+                    quickactions_top.show()
+            }
         }
 
     }
@@ -580,7 +581,7 @@ PQTemplateFloating {
     }
 
     function show() {
-        PQCSettings.interfaceQuickActions = true // qmllint disable unqualified
+        PQCSettings.extensionsQuickActions = true // qmllint disable unqualified
         opacity = Qt.binding(
                     function() {
                         return popoutWindowUsed ?
@@ -601,7 +602,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             quickactions_popout.visible = false // qmllint disable unqualified
-        PQCSettings.interfaceQuickActions = false
+        PQCSettings.extensionsQuickActions = false
     }
 
 }

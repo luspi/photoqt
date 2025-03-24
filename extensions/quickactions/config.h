@@ -29,6 +29,10 @@ public:
             {"PopoutQuickActions", "extensions", "bool", "0"}
         };
 
+        doAtStartup = {
+            {"QuickActions", "show", "quickactions"}
+        };
+
     }
 
 };

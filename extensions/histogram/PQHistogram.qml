@@ -267,9 +267,9 @@ PQTemplateFloating {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("histogram", "show histogram")
-                checked: PQCSettings.extensionsHistogramVisible // qmllint disable unqualified
+                checked: PQCSettings.extensionsHistogram // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.extensionsHistogramVisible = checked // qmllint disable unqualified
+                    PQCSettings.extensionsHistogram = checked // qmllint disable unqualified
                     if(!checked)
                         themenu.dismiss()
                 }
@@ -306,7 +306,7 @@ PQTemplateFloating {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
                 text: qsTranslate("histogram", "Hide histogram")
                 onTriggered: {
-                    PQCSettings.extensionsHistogramVisible = false // qmllint disable unqualified
+                    PQCSettings.extensionsHistogram = false // qmllint disable unqualified
                 }
             }
 
@@ -438,7 +438,7 @@ PQTemplateFloating {
 
     function show() {
         opacity = 1
-        PQCSettings.extensionsHistogramVisible = true // qmllint disable unqualified
+        PQCSettings.extensionsHistogram = true // qmllint disable unqualified
         if(popoutWindowUsed)
             histogram_popout.visible = true
     }
@@ -447,7 +447,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             histogram_popout.visible = false // qmllint disable unqualified
-        PQCSettings.extensionsHistogramVisible = false
+        PQCSettings.extensionsHistogram = false
     }
 
 }

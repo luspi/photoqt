@@ -25,7 +25,7 @@ public:
         };
 
         settings = {
-            {"HistogramVisible",  "extensions", "bool",   "0"},
+            {"Histogram",         "extensions", "bool",   "0"},
             {"HistogramPosition", "extensions", "point",  "100,100"},
             {"HistogramSize",     "extensions", "size",   "300,200"},
             {"HistogramVersion",  "extensions", "string", "color"},
@@ -33,13 +33,13 @@ public:
         };
 
         doAtStartup = {
-            {"HistogramVisible", "show", "histogram"}
+            {"Histogram", "show", "histogram"}
         };
 
         // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},
         //          {"oldname2", "oldtable2", "newname2", "newtable2"}}}
         migrateSettings = {
-            {"4.9", {{"Visible",         "histogram", "HistogramVisible",  "extensions"},
+            {"4.9", {{"Visible",         "histogram", "Histogram",         "extensions"},
                      {"Position",        "histogram", "HistogramPosition", "extensions"},
                      {"Size",            "histogram", "HistogramSize",     "extensions"},
                      {"Version",         "histogram", "HistogramVersion",  "extensions"},
