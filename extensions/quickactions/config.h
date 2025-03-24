@@ -17,7 +17,7 @@ public:
         shortcutsActions = {
             {"__quickActions",
              //: Description of shortcut action
-             QApplication::translate("settingsmanager", "Show quick actions"),
+             QApplication::translate("settingsmanager", "Show/Hide quick actions"),
              "", // no default shortcut set
              "show", "quickactions"}
         };

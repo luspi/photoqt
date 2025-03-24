@@ -13,10 +13,6 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     /***********************************************/
     // ALL EXTENSIONS NEED TO BE REGISTERED HERE!!!
     /***********************************************/
-    //
-    // in addition, the loaderneeds to be added to PQMainWindow.qml
-    // and the loader name added to the list in PQLoader.qml
-    //
 
     m_allextensions.append(new PQCExtensionHistogram());
     m_allextensions.append(new PQCExtensionQuickActions());

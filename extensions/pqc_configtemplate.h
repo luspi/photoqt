@@ -15,8 +15,7 @@
 // - register any new extension in the extension handler
 // - add settings file to settings section (for now)
 // - add qmlBasename without PQ prefix to ListExtensions.cmake
-// - if background is to be blurred update PQBlurBackground_real.qml with mapping
-
+//
 class PQCExtensionConfig {
 
 public:
