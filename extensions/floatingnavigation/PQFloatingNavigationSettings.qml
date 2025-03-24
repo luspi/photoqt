@@ -26,7 +26,7 @@ PQSetting {
     ]
 
     onResetToDefaults: {
-        floatingnav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("extensionsNavigationFloating") == 1)
+        floatingnav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("extensionsFloatingNavigation") == 1)
     }
 
     function handleEscape() {
@@ -37,11 +37,11 @@ PQSetting {
     }
 
     function load() {
-        floatingnav.loadAndSetDefault(PQCSettings.extensionsNavigationFloating)
+        floatingnav.loadAndSetDefault(PQCSettings.extensionsFloatingNavigation)
     }
 
     function applyChanges() {
-        PQCSettings.extensionsNavigationFloating = floatingnav.checked
+        PQCSettings.extensionsFloatingNavigation = floatingnav.checked
         floatingnav.saveDefault()
     }
 

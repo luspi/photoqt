@@ -265,7 +265,7 @@ PQTemplateFullscreen {
                                                  "ZoomMax",
                                                  "ZoomToCenter",
                                                  "MirrorAnimate",
-                                                 "NavigationFloating",
+                                                 "FloatingNavigation",
                                                  "ShowMinimap",
                                                  "MinimapSizeLevel"]],
 

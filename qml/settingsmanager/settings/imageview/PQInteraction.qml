@@ -43,7 +43,7 @@ import "../../../../extensions/floatingnavigation"
 // - imageviewZoomMin
 // - imageviewZoomMaxEnabled
 // - imageviewZoomMax
-// - interfaceNavigationFloating
+// - interfaceFloatingNavigation
 
 Flickable {
 

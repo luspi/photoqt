@@ -40,7 +40,7 @@ Item {
     property int parentWidth: PQCConstants.windowWidth
     property int parentHeight: PQCConstants.windowHeight
 
-    opacity: (!PQCSettings.extensionsNavigationFloating || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
+    opacity: (!PQCSettings.extensionsFloatingNavigation || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity > 0)
     enabled: visible

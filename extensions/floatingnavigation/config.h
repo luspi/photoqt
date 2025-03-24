@@ -20,16 +20,16 @@ public:
         };
 
         settings = {
-            {"NavigationFloating",  "extensions", "int", "0"}
+            {"FloatingNavigation",  "extensions", "int", "0"}
         };
 
         migrateSettings = {
-            {"4.9", {{"NavigationFloating", "interface", "NavigationFloating", "extensions"}}}
+            {"4.9", {{"NavigationFloating", "interface", "FloatingNavigation", "extensions"}}}
         };
 
         doAtStartup = {
             {"", "setup", "floatingnavigation"},
-            {"NavigationFloating", "show", "floatingnavigation"}
+            {"FloatingNavigation", "show", "floatingnavigation"}
         };
 
     }
