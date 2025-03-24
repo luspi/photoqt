@@ -87,7 +87,7 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutMetadata", qsTranslate("settingsmanager", "Metadata")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutHistogram", qsTranslate("settingsmanager", "Histogram")],
+                        ["extensionsHistogramPopout", qsTranslate("settingsmanager", "Histogram")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutMapCurrent", qsTranslate("settingsmanager", "Map (current image)")],
                         //: Used as identifying name for one of the elements in the interface
@@ -117,7 +117,9 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")],
                          //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutCrop", qsTranslate("settingsmanager", "Crop")]]
+                        ["interfacePopoutCrop", qsTranslate("settingsmanager", "Crop")],
+                         //: Used as identifying name for one of the elements in the interface
+                        ["extensionsPopoutQuickActions", qsTranslate("settingsmanager", "Quick Actions")]]
 
     property list<string> currentCheckBoxStates: ["0","0","0","0","0",
                                                   "0","0","0","0","0",

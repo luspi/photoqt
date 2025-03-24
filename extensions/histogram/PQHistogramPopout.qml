@@ -23,7 +23,7 @@
 import QtQuick
 import PQCWindowGeometry
 import PQCNotify
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 
 import "../../qml/elements"
 
@@ -34,12 +34,12 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
-    geometry: Qt.rect(0,0,PQCScriptsExtensions.getDefaultPopoutSize("histogram").width,PQCScriptsExtensions.getDefaultPopoutSize("histogram").height)
+    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("histogram").width,PQCExtensionsHandler.getDefaultPopoutSize("histogram").height)
     isMax: false
     popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
     source: "../extensions/histogram/PQHistogram.qml"
-    property size minRequiredWindowSize: PQCScriptsExtensions.getMinimumRequiredWindowSize("histogram")
+    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram")
 
     modality: Qt.NonModal
 
@@ -47,12 +47,14 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
+        if(PQCConstants.photoQtShuttingDown) return
         PQCSettings.extensionsHistogramPopout = false // qmllint disable unqualified
         close()
         PQCNotify.executeInternalCommand("__histogram")
     }
 
     onPopoutChanged: {
+        if(PQCConstants.photoQtShuttingDown) return
         if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
             PQCSettings.extensionsHistogramPopout = popout
     }

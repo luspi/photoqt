@@ -25,20 +25,21 @@
 
 #include <QObject>
 #include <QMap>
+#include "../../extensions/pqc_configtemplate.h"
 
-class PQCScriptsExtensions : public QObject {
+class PQCExtensionsHandler : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCScriptsExtensions& get() {
-        static PQCScriptsExtensions instance;
+    static PQCExtensionsHandler& get() {
+        static PQCExtensionsHandler instance;
         return instance;
     }
-    ~PQCScriptsExtensions();
+    ~PQCExtensionsHandler();
 
-    PQCScriptsExtensions(PQCScriptsExtensions const&)     = delete;
-    void operator=(PQCScriptsExtensions const&) = delete;
+    PQCExtensionsHandler(PQCExtensionsHandler const&)     = delete;
+    void operator=(PQCExtensionsHandler const&) = delete;
 
     Q_INVOKABLE QStringList getExtensions();
 
@@ -63,27 +64,15 @@ public:
     Q_INVOKABLE QString getExtensionForShortcut(QString sh);
 
 private:
-    PQCScriptsExtensions();
+    PQCExtensionsHandler();
 
+    QList<PQCExtensionConfig*> m_allextensions;
+
+    // these are processed ones and then cached as they are needed often
     QStringList m_extensions;
-
-    QMap<QString, bool> m_allowPopout;
-    QMap<QString, bool> m_isModal;
-    QMap<QString, QString> m_qmlBaseName;
-
-    QMap<QString, QSize> m_defaultPopoutSize;
-    QMap<QString, QSize> m_minimumRequiredWindowSize;
-
     QMap<QString, QStringList> m_shortcuts;
-    QMap<QString, QList<QStringList> > m_shortcutsActions;
-    QMap<QString, QList<QStringList> > m_settings;
-    QMap<QString, QString> m_popoutSettingName;
     QStringList m_simpleListAllShortcuts;
     QMap<QString,QString> m_mapShortcutToExtension;
-    QMap<QString, QList<QStringList> > m_doAtStartup;
-
-    QMap<QString, QMap<QString, QList<QStringList > > > m_migrateSettings;
-    QMap<QString, QMap<QString, QList<QStringList > > > m_migrateShortcuts;
 
 };
 

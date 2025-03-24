@@ -30,7 +30,7 @@ import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 
 import "manage"
 import "image"
@@ -157,11 +157,15 @@ Window {
     /*************************************************/
     // load on-demand
 
+    // These are the extensions loader
+    Repeater {
+        model: PQCExtensionsHandler.getExtensions().length
+        id: loader_extensions
+        Loader {}
+    }
+
     // ongoing
-    Loader { id: loader_histogram }
-    Loader { id: loader_quickactions }
     Loader { id: loader_mapcurrent }
-    Loader { id: loader_floatingnavigation }
     Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowhandler }
     Loader { id: loader_notification }
@@ -226,7 +230,7 @@ Window {
 
     Timer {
         id: resetStartup
-        interval: 1000
+        interval: 500
         running: true
         onTriggered:
             PQCConstants.photoQtStartupDone = true
@@ -437,29 +441,6 @@ Window {
         loader.show("metadata")
         loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
 
-        // check if anything needs to be done at startup with any of the extensions
-        var exts = PQCScriptsExtensions.getExtensions()
-        for(var iE in exts) {
-            var ext = exts[iE]
-            var checks = PQCScriptsExtensions.getDoAtStartup(ext)
-            for(var i in checks) {
-                var entry = checks[i]
-                if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
-                    if(entry[1] === "show") {
-                        PQCNotify.loaderPassOn("show", [entry[1]])
-                    } else if(entry[1] === "setup") {
-                        loader.ensureExtensionIsReady(ext)
-                    } else {
-                        console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
-                    }
-                }
-            }
-        }
-
-        if(PQCSettings.histogramVisible)
-            loader.show("histogram")
-        if(PQCSettings.interfaceQuickActions)
-            loader.show("quickactions")
         if(PQCSettings.mapviewCurrentVisible)
             loader.show("mapcurrent")
 
@@ -471,6 +452,40 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
+        startupSetupShowDelay.start()
+
+    }
+
+    // these are run with a slight delay to make sure that the window is fully set up first
+    Timer {
+        id: startupSetupShowDelay
+        interval: 100
+        onTriggered: {
+            // this is set in another timer here
+            // doing tings this way keeps them bth seperate and working independently
+            if(!PQCConstants.photoQtStartupDone) {
+                restart()
+                return
+            }
+            var exts = PQCExtensionsHandler.getExtensions()
+            for(var iE in exts) {
+                var ext = exts[iE]
+                var checks = PQCExtensionsHandler.getDoAtStartup(ext)
+                for(var i in checks) {
+                    var entry = checks[i]
+                    if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
+                        if(entry[1] === "show") {
+                            loader.ensureExtensionIsReady(ext, iE)
+                            PQCNotify.loaderPassOn("show", [entry[2]])
+                        } else if(entry[1] === "setup") {
+                            loader.ensureExtensionIsReady(ext, iE)
+                        } else {
+                            console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     function handleBeforeClosing() {
@@ -490,6 +505,8 @@ Window {
 
     onClosing: (close) => {
 
+        PQCConstants.photoQtShuttingDown = true
+
         // We stop a running slideshow to make sure all settings are restored to their normal state
         if(PQCNotify.slideshowRunning) // qmllint disable unqualified
             loader_slideshowhandler.item.hide()
@@ -499,6 +516,7 @@ Window {
             toplevel.visibility = Window.Hidden
             if(PQCSettings.interfaceTrayIconHideReset)
                 PQCNotify.resetSessionData()
+            PQCConstants.photoQtShuttingDown = false
         } else {
             close.accepted = true
             quitPhotoQt()

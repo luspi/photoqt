@@ -24,18 +24,12 @@ import QtQuick
 
 import PQCWindowGeometry
 import PQCScriptsConfig
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 import PQCNotify
 
 Item {
 
     id: loader_top
-
-    property var extensionsloader: {
-        "quickactions" : loader_quickactions,
-        "floatingnavigation" : loader_floatingnavigation,
-        "histogram" : loader_histogram
-    }
 
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
@@ -86,15 +80,11 @@ Item {
             return
         }
 
-        var ind = PQCScriptsExtensions.getExtensions().indexOf(ele)
+        var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
-            if(!(ele in extensionsloader))
-                console.warn("ERROR: Did not found loader for extension:", ele)
-            else {
-                if(PQCScriptsExtensions.getIsModal(ele))
-                    visibleItem = ele
-                ensureExtensionIsReady(ele)
-            }
+            if(PQCExtensionsHandler.getIsModal(ele))
+                visibleItem = ele
+            ensureExtensionIsReady(ele, ind)
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)
             return
@@ -161,16 +151,18 @@ Item {
 
     }
 
-    function ensureExtensionIsReady(ele : string) {
+    function ensureExtensionIsReady(ele : string, ind : int) {
 
         console.log("args: ele =", ele)
+        console.log("args: ind =", ind)
 
-        var minreq = PQCScriptsExtensions.getMinimumRequiredWindowSize(ele)
-        if((PQCScriptsExtensions.getAllowPopout(ele) && PQCSettings["extensions"+PQCScriptsExtensions.getPopoutSettingName(ele)]) ||
-                minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
-            extensionsloader[ele].source = "../extensions/" + ele + "/" + PQCScriptsExtensions.getQmlBaseName(ele) + "Popout.qml"
+        var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
+        if(PQCExtensionsHandler.getAllowPopout(ele) &&
+                (PQCSettings["extensions"+PQCExtensionsHandler.getPopoutSettingName(ele)] ||
+                 minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight))
+            loader_extensions.itemAt(ind).source = "../extensions/" + ele + "/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
         else
-            extensionsloader[ele].source = "../extensions/" + ele + "/" + PQCScriptsExtensions.getQmlBaseName(ele) + ".qml"
+            loader_extensions.itemAt(ind).source = "../extensions/" + ele + "/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
 
     }
 

@@ -28,7 +28,7 @@
 #include <pqc_shortcuts.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
-#include <scripts/pqc_scriptsextensions.h>
+#include <pqc_extensionshandler.h>
 
 PQCShortcuts::PQCShortcuts() {
 
@@ -626,10 +626,10 @@ bool PQCShortcuts::migrate(QString oldversion) {
         /////////////////////////////////////////////////////
         // check for migrations for extensions
 
-        const QStringList ext = PQCScriptsExtensions::get().getExtensions();
+        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
         for(const QString &e : ext) {
 
-            QMap<QString, QList<QStringList> > mig = PQCScriptsExtensions::get().getMigrateShortcuts(e);
+            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getMigrateShortcuts(e);
 
             for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
@@ -765,10 +765,10 @@ void PQCShortcuts::setupFresh() {
 
     db.transaction();
 
-    const QStringList allext = PQCScriptsExtensions::get().getExtensions();
+    const QStringList allext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &ext : allext) {
 
-        const QList<QStringList> shortcuts = PQCScriptsExtensions::get().getShortcutsActions(ext);
+        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getShortcutsActions(ext);
 
         for(const QStringList &sh : shortcuts) {
 

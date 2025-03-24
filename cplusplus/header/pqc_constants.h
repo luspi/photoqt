@@ -52,6 +52,7 @@ public:
     Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged);
 
     Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged);
+    Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged);
 
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
 
@@ -88,6 +89,7 @@ private:
     int m_windowHeight;
 
     bool m_photoQtStartupDone;
+    bool m_photoQtShuttingDown;
     int m_windowState;
     bool m_windowFullScreen;
     bool m_windowMaxAndNotWindowed;
@@ -105,6 +107,7 @@ Q_SIGNALS:
     void windowFullScreenChanged();
     void windowMaxAndNotWindowedChanged();
     void photoQtStartupDoneChanged();
+    void photoQtShuttingDownChanged();
     void devicePixelRatioChanged();
     void howManyFilesChanged();
 

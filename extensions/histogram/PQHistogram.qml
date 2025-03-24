@@ -27,7 +27,7 @@ import QtCharts
 
 import PQCFileFolderModel
 import PQCScriptsImages
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 import PQCNotify
 
 import "../../qml/elements"
@@ -81,14 +81,14 @@ PQTemplateFloating {
     PQShadowEffect { masterItem: histogram_top }
 
     popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
-    forcePopout: PQCConstants.windowWidth  < PQCScriptsExtensions.getMinimumRequiredWindowSize("histogram").width ||
-                 PQCConstants.windowHeight < PQCScriptsExtensions.getMinimumRequiredWindowSize("histogram").height
+    forcePopout: PQCConstants.windowWidth  < PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram").width ||
+                 PQCConstants.windowHeight < PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram").height
     shortcut: "__histogram"
     tooltip: qsTranslate("histogram", "Click-and-drag to move.")
     blur_thisis: "histogram"
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
+        if(PQCConstants.photoQtStartupDone && popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
             PQCSettings.extensionsHistogramPopout = popout
     }
 
@@ -229,18 +229,14 @@ PQTemplateFloating {
     ]
 
     Component.onCompleted: {
-        if(popout || forcePopout) {
-            histogram_top.state = "popout"
-        } else {
-            histogram_top.state = ""
-            x = PQCSettings.extensionsHistogramPosition.x // qmllint disable unqualified
-            y = PQCSettings.extensionsHistogramPosition.y
-            width = PQCSettings.extensionsHistogramSize.width
-            height = PQCSettings.extensionsHistogramSize.height
-        }
 
-        if(PQCSettings.extensionsHistogramVisible)
-            show()
+        x = PQCSettings.extensionsHistogramPosition.x // qmllint disable unqualified
+        y = PQCSettings.extensionsHistogramPosition.y
+        width = PQCSettings.extensionsHistogramSize.width
+        height = PQCSettings.extensionsHistogramSize.height
+
+        histogram_top.state = ((popout || forcePopout) ? "popout" : "")
+
     }
 
     onRightClicked: (mouse) => {
@@ -407,19 +403,6 @@ PQTemplateFloating {
 
             busy.opacity = 0
 
-        }
-
-    }
-
-    Connections {
-
-        target: PQCSettings // qmllint disable unqualified
-
-        function onExtensionsHistogramVisibleChanged() {
-            if(PQCSettings.extensionsHistogramVisible) // qmllint disable unqualified
-                histogram_top.show()
-            else
-                histogram_top.hide()
         }
 
     }

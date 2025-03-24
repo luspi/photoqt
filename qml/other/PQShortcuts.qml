@@ -35,7 +35,7 @@ import PQCScriptsImages
 import PQCImageFormats
 import PQCScriptsConfig
 import PQCScriptsUndo
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 
 Item {
 
@@ -523,12 +523,12 @@ Item {
         console.debug("args: wheelDelta =", wheelDelta)
 
         // check if the shortcut is a shortcut of an extension
-        if(PQCScriptsExtensions.getAllShortcuts().indexOf(cmd) > -1) {
+        if(PQCExtensionsHandler.getAllShortcuts().indexOf(cmd) > -1) {
 
             // get the extension for this shortcut
-            var ext = PQCScriptsExtensions.getExtensionForShortcut(cmd)
+            var ext = PQCExtensionsHandler.getExtensionForShortcut(cmd)
             // get all shortcuts for that extension
-            var allsh = PQCScriptsExtensions.getShortcutsActions(ext)
+            var allsh = PQCExtensionsHandler.getShortcutsActions(ext)
             // loop over all shortcuts
             for(var iSh in allsh) {
                 var sh = allsh[iSh]
@@ -720,9 +720,6 @@ Item {
                 break
             case "__flipReset":
                 image.mirrorReset()
-                break
-            case "__histogram":
-                loader.show("histogram")
                 break
             case "__fitInWindow":
                 PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow

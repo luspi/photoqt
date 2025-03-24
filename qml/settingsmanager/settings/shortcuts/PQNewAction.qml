@@ -28,7 +28,7 @@ import Qt.labs.platform
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
 import PQCNotify
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 
 import "../../../elements"
 
@@ -463,13 +463,13 @@ Rectangle {
 
         }
 
-        var allext = PQCScriptsExtensions.getExtensions()
+        var allext = PQCExtensionsHandler.getExtensions()
         for(var i in allext) {
 
             var ext = allext[i]
 
-            var fullsh = PQCScriptsExtensions.getShortcutsActions(ext)
-            var allsh = PQCScriptsExtensions.getShortcuts(ext)
+            var fullsh = PQCExtensionsHandler.getShortcutsActions(ext)
+            var allsh = PQCExtensionsHandler.getShortcuts(ext)
 
             for(var iSh in allsh) {
                 var sh = fullsh[iSh]
@@ -495,7 +495,7 @@ Rectangle {
             } else {
                 for(var i in setting_top.extensions) {
                     var ext = setting_top.extensions[i]
-                    if(cur in PQCScriptsExtensions.getShortcuts(ext)) {
+                    if(cur in PQCExtensionsHandler.getShortcuts(ext)) {
                         selectedCategory = "extensions"
                         break;
                     }

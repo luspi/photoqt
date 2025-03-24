@@ -26,7 +26,7 @@
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
-#include <scripts/pqc_scriptsextensions.h>
+#include <pqc_extensionshandler.h>
 
 PQCSettings::PQCSettings() {
 
@@ -783,10 +783,10 @@ int PQCSettings::migrate(QString oldversion) {
         /////////////////////////////////////////////////////
         // check for migrations for extensions
 
-        const QStringList ext = PQCScriptsExtensions::get().getExtensions();
+        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
         for(const QString &e : ext) {
 
-            QMap<QString, QList<QStringList> > mig = PQCScriptsExtensions::get().getMigrateSettings(e);
+            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getMigrateSettings(e);
 
             for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
@@ -872,7 +872,7 @@ int PQCSettings::migrate(QString oldversion) {
         // ext is already defined ahead of the for loop above
         for(const QString &e : ext) {
 
-            const QList<QStringList> set = PQCScriptsExtensions::get().getSettings(e);
+            const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
 
             for(const QStringList &entry : set) {
 
@@ -1052,10 +1052,10 @@ void PQCSettings::setupFresh() {
 
     db.transaction();
 
-    const QStringList allext = PQCScriptsExtensions::get().getExtensions();
+    const QStringList allext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &ext : allext) {
 
-        const QList<QStringList> settings = PQCScriptsExtensions::get().getSettings(ext);
+        const QList<QStringList> settings = PQCExtensionsHandler::get().getSettings(ext);
 
         for(const QStringList &set : settings) {
 

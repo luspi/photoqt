@@ -23,7 +23,7 @@
 import QtQuick
 import PQCWindowGeometry
 import PQCNotify
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 
 import "../../qml/elements"
 
@@ -34,12 +34,12 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("quickactions", "Quick Actions") + " | PhotoQt"
 
-    geometry: Qt.rect(0,0,PQCScriptsExtensions.getDefaultPopoutSize("quickactions").width,PQCScriptsExtensions.getDefaultPopoutSize("quickactions").height)
+    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").width,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").height)
     isMax: false
     popout: PQCSettings.extensionsPopoutQuickActions || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall) // qmllint disable unqualified
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
     source: "../extensions/quickactions/PQQuickActions.qml"
-    property size minRequiredWindowSize: PQCScriptsExtensions.getMinimumRequiredWindowSize("quickactions")
+    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("quickactions")
 
     modality: Qt.NonModal
 

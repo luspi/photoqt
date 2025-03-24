@@ -27,7 +27,7 @@ import QtQuick.Controls
 import PQCShortcuts
 import PQCScriptsShortcuts
 import PQCScriptsOther
-import PQCScriptsExtensions
+import PQCExtensionsHandler
 import PQCNotify
 
 import "../../../elements"
@@ -214,7 +214,7 @@ Flickable {
 
     }
 
-    property list<string> extensions: PQCScriptsExtensions.getExtensions()
+    property list<string> extensions: PQCExtensionsHandler.getExtensions()
 
     property int numEntries: 0
     property var entries: []
@@ -758,8 +758,8 @@ Flickable {
                                             ? (cmddeleg.cmd in setting_top.actions
                                                ? setting_top.actions[cmddeleg.cmd][0]
                                                  //: The unknown here refers to an unknown internal action that was set as shortcut
-                                               : (PQCScriptsExtensions.getAllShortcuts().indexOf(cmddeleg.cmd)>-1
-                                                  ? PQCScriptsExtensions.getDescriptionForShortcut(cmddeleg.cmd)
+                                               : (PQCExtensionsHandler.getAllShortcuts().indexOf(cmddeleg.cmd)>-1
+                                                  ? PQCExtensionsHandler.getDescriptionForShortcut(cmddeleg.cmd)
                                                   : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmddeleg.cmd)))
                                               //: This is an identifier in the shortcuts settings used to identify an external shortcut.
                                             : ("<i>" + qsTranslate("settingsmanager", "external") + "</i>: " +
