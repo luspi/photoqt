@@ -23,6 +23,7 @@
 import QtQuick
 
 import PQCScriptsShortcuts
+import PQCNotify
 
 import "../../../elements"
 
@@ -372,12 +373,10 @@ Rectangle {
 
     }
 
-    property string backupVisibleItem: ""
     function show(index: int, subindex: int) {
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) { // qmllint disable unqualified
-            backupVisibleItem = loader.visibleItem
-            loader.visibleItem = "shortcuts"
+            PQCNotify.loaderOverrideVisibleItem("shortcuts")
         }
 
         mouseComboMods = []
@@ -410,7 +409,7 @@ Rectangle {
         settingsmanager_top.passShortcutsToDetector = false // qmllint disable unqualified
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
-            loader.visibleItem = backupVisibleItem
+            PQCNotify.loaderRestoreVisibleItem()
 
     }
 

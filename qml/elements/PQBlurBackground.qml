@@ -26,23 +26,22 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Effects
+import PQCExtensionsHandler
 
 Item {
 
     id: blur_top
     anchors.fill: parent
 
-    property list<string> itemkeys: ["image", "statusinfo", "histogram", "quickactions", "mapcurrent", "thumbnails", "metadata", "mainmenu"]
+    property list<string> itemkeys: ["image", "statusinfo", "thumbnails", "metadata", "mainmenu"].concat(PQCExtensionsHandler.getNotModalExtensions())
     property var items: {
         "image" : image, // qmllint disable unqualified
         "thumbnails" : loader_thumbnails,
         "statusinfo" : statusinfo,
-        "histogram" : loader_histogram,
-        "quickactions" : loader_quickactions,
-        "mapcurrent" : loader_mapcurrent,
         "mainmenu" : loader_mainmenu,
         "metadata" : loader_metadata
     }
+    property int numIntegratedItems: Object.keys(items).length
 
     property string thisis: ""
 
@@ -57,12 +56,13 @@ Item {
             id: deleg
 
             required property int modelData
+            property bool isExtension: modelData>=blur_top.numIntegratedItems
 
             anchors.fill: parent
 
             ShaderEffectSource{
                 id: shader
-                sourceItem: blur_top.items[blur_top.itemkeys[deleg.modelData]]
+                sourceItem: isExtension ? loader_extensions.itemAt(PQCExtensionsHandler.getExtensions().indexOf(blur_top.itemkeys[deleg.modelData])) : blur_top.items[blur_top.itemkeys[deleg.modelData]]
                 anchors.fill: parent
                 property int adjust: deleg.modelData == 0 ? PQCSettings.imageviewMargin : 0 // qmllint disable unqualified
                 sourceRect: Qt.rect(blur_top.parent.x-adjust, blur_top.parent.y-adjust, blur_top.width, blur_top.height)

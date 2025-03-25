@@ -56,6 +56,8 @@ public:
     void closeDatabase();
     void reopenDatabase();
 
+    void setupFresh();
+
 public Q_SLOTS:
     void readDB();
     void resetToDefault();

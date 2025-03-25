@@ -30,6 +30,7 @@ import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
 import PQCScriptsImages
+import PQCExtensionsHandler
 
 import "manage"
 import "image"
@@ -60,12 +61,14 @@ Window {
     // this signals whether the window is currently being resized or not
     property bool resizing: false
     onWidthChanged: {
-        if(toplevel.startup) return
+        PQCConstants.windowWidth = width
+        if(!PQCConstants.photoQtStartupDone) return
         toplevel.resizing = true
         resetResizing.restart()
     }
     onHeightChanged: {
-        if(toplevel.startup) return
+        PQCConstants.windowHeight = height
+        if(PQCConstants.photoQtStartupDone) return
         toplevel.resizing = true
         resetResizing.restart()
     }
@@ -81,24 +84,22 @@ Window {
 
     property rect geometry: Qt.rect(x, y, width, height)
     onGeometryChanged: {
-        if(!toplevel.startup && !toplevel.isFullscreen) {
+        if(PQCConstants.photoQtStartupDone && !toplevel.isFullscreen) {
             PQCWindowGeometry.mainWindowGeometry = geometry // qmllint disable unqualified
             PQCWindowGeometry.mainWindowMaximized = (toplevel.visibility == Window.Maximized)
         }
     }
 
-    // we keep track of whether a window is maximized or windowed
-    // when restoring the window we then can restore it to the state it was in before
-    property bool maxAndNowWindowed: false
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
+        PQCConstants.windowState = toplevel.visibility
+        PQCConstants.windowFullScreen = (toplevel.visibility==Window.FullScreen)
+        // we keep track of whether a window is maximized or windowed
+        // when restoring the window we then can restore it to the state it was in before
         if(visibility === Window.Maximized)
-            maxAndNowWindowed = true
-        else if(visibility === Window.Windowed) {
-            maxAndNowWindowed = false
-        }
+            PQCConstants.windowMaxAndNotWindowed = true
+        else if(visibility === Window.Windowed)
+            PQCConstants.windowMaxAndNotWindowed = false
     }
-
-    property bool startup: true
 
     PQMainWindowBackground {
         id: fullscreenitem
@@ -146,7 +147,7 @@ Window {
         id: windowbuttons_ontop
         asynchronous: true
         source: "ongoing/PQWindowButtons.qml"
-        z: loader.visibleItem!=="filedialog" ? 999 : 0
+        z: PQCConstants.idOfVisibleItem!=="filedialog" ? 999 : 0
         onStatusChanged: {
             if(windowbuttons_ontop.status == Loader.Ready)
                 windowbuttons_ontop.item.visibleAlways = true
@@ -156,11 +157,14 @@ Window {
     /*************************************************/
     // load on-demand
 
+    // These are the extensions loader
+    Repeater {
+        model: PQCExtensionsHandler.getExtensions().length
+        id: loader_extensions
+        Loader {}
+    }
+
     // ongoing
-    Loader { id: loader_histogram }
-    Loader { id: loader_quickactions }
-    Loader { id: loader_mapcurrent }
-    Loader { id: loader_navigationfloating }
     Loader { id: loader_slideshowcontrols }
     Loader { id: loader_slideshowhandler }
     Loader { id: loader_notification }
@@ -188,7 +192,6 @@ Window {
     Loader { id: loader_filter }
     Loader { id: loader_imgur }
     Loader { id: loader_mapexplorer }
-    Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
     Loader { id: loader_slideshowsetup }
     Loader { id: loader_wallpaper }
@@ -225,17 +228,17 @@ Window {
 
     Timer {
         id: resetStartup
-        interval: 1000
+        interval: 500
         running: true
         onTriggered:
-            toplevel.startup = false
+            PQCConstants.photoQtStartupDone = true
     }
 
     Connections {
         target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
         }
 
         function onInterfacePopoutMetadataChanged() {
@@ -250,7 +253,7 @@ Window {
         id: metadatadelay
         interval: 250
         onTriggered:
-            loader.show("metadata")
+            PQCNotify.loaderShow("metadata")
     }
 
     Connections {
@@ -259,7 +262,7 @@ Window {
 
         function onCmdOpen() : void {
             console.log("")
-            loader.show("filedialog")
+            PQCNotify.loaderShow("filedialog")
         }
 
         function onCmdShow() : void {
@@ -274,7 +277,7 @@ Window {
 
             toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
 
@@ -301,7 +304,7 @@ Window {
             } else {
                 toplevel.visible = true
                 if(toplevel.visibility === Window.Minimized)
-                    toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                    toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
                 toplevel.raise()
                 toplevel.requestActivate()
             }
@@ -319,7 +322,7 @@ Window {
                 if(!toplevel.visible) {
                     toplevel.visible = true
                     if(toplevel.visibility === Window.Minimized)
-                        toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                        toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
                     toplevel.raise()
                     toplevel.requestActivate()
                 }
@@ -344,9 +347,38 @@ Window {
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
             toplevel.raise()
             toplevel.requestActivate()
+        }
+
+        function onSetWindowState(state : int) {
+            toplevel.visibility = state
+        }
+
+        function onWindowClose() {
+            toplevel.close()
+        }
+
+        function onPhotoQtQuit() {
+            toplevel.quitPhotoQt()
+        }
+
+        function onWindowTitleOverride(title : string) {
+            toplevel.titleOverride = title
+        }
+
+        function onWindowRaiseAndFocus() {
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
+
+        function onWindowStartSystemMove() {
+            toplevel.startSystemMove()
+        }
+
+        function onWindowStartSystemResize(edge : int) {
+            toplevel.startSystemResize(edge)
         }
 
         // this one is handled directly in PQShortcuts class
@@ -403,20 +435,9 @@ Window {
                 showFullScreen()
         }
 
-        loader.show("mainmenu")
-        loader.show("metadata")
-        loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
-
-        if(PQCSettings.histogramVisible)
-            loader.show("histogram")
-        if(PQCSettings.interfaceQuickActions)
-            loader.show("quickactions")
-        if(PQCSettings.mapviewCurrentVisible)
-            loader.show("mapcurrent")
-        if(PQCSettings.interfaceNavigationFloating)
-            loader.show("navigationfloating")
-        else
-            loader.ensureItIsReady("navigationfloating", loader.loadermapping["navigationfloating"])
+        PQCNotify.loaderShow("mainmenu")
+        PQCNotify.loaderShow("metadata")
+        PQCNotify.loaderSetup("thumbnails")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
@@ -426,6 +447,39 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
+        startupSetupShowDelay.start()
+
+    }
+
+    // these are run with a slight delay to make sure that the window is fully set up first
+    Timer {
+        id: startupSetupShowDelay
+        interval: 100
+        onTriggered: {
+            // this is set in another timer here
+            // doing tings this way keeps them bth seperate and working independently
+            if(!PQCConstants.photoQtStartupDone) {
+                restart()
+                return
+            }
+            var exts = PQCExtensionsHandler.getExtensions()
+            for(var iE in exts) {
+                var ext = exts[iE]
+                var checks = PQCExtensionsHandler.getDoAtStartup(ext)
+                for(var i in checks) {
+                    var entry = checks[i]
+                    if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
+                        if(entry[1] === "show") {
+                            PQCNotify.loaderShowExtension(ext)
+                        } else if(entry[1] === "setup") {
+                            PQCNotify.loaderSetupExtension(ext)
+                        } else {
+                            console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
+                        }
+                    }
+                }
+            }
+        }
     }
 
     function handleBeforeClosing() {
@@ -445,6 +499,8 @@ Window {
 
     onClosing: (close) => {
 
+        PQCConstants.photoQtShuttingDown = true
+
         // We stop a running slideshow to make sure all settings are restored to their normal state
         if(PQCNotify.slideshowRunning) // qmllint disable unqualified
             loader_slideshowhandler.item.hide()
@@ -454,6 +510,7 @@ Window {
             toplevel.visibility = Window.Hidden
             if(PQCSettings.interfaceTrayIconHideReset)
                 PQCNotify.resetSessionData()
+            PQCConstants.photoQtShuttingDown = false
         } else {
             close.accepted = true
             quitPhotoQt()
@@ -465,6 +522,7 @@ Window {
         Qt.quit()
     }
 
+    // TODO: REMOVE
     function getDevicePixelRatio() {
         if(PQCSettings.imageviewRespectDevicePixelRatio) // qmllint disable unqualified
             return PQCScriptsImages.getPixelDensity()

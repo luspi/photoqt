@@ -608,10 +608,10 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         if(lcms2CountFailedApplications > 5) {
             PQCSettings::get().update("imageviewColorSpaceEnable", false);
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed for:") + "<br><i>" + PQCScriptsFilesPaths::get().getFilename(filename) + "</i>");
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."));
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
         } else {
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed for:") + "<br><i>" + PQCScriptsFilesPaths::get().getFilename(filename) + "</i>");
+            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
         }
 
     }

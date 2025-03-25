@@ -22,6 +22,7 @@
 
 import QtQuick
 import PQCWindowGeometry
+import PQCNotify
 import "../../elements"
 
 PQTemplatePopout {
@@ -43,9 +44,7 @@ PQTemplatePopout {
     modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
 
     onPopoutClosed: {
-        // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "mapexplorer") // qmllint disable unqualified
-            loader.elementClosed("mapexplorer")
+        PQCNotify.loaderRegisterClose("mapexplorer")
     }
 
     onPopoutChanged: {

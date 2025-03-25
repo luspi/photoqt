@@ -39,8 +39,8 @@ Item {
 
     x: extraX + PQCSettings.imageviewMargin // qmllint disable unqualified
     y: extraY + PQCSettings.imageviewMargin // qmllint disable unqualified
-    width: toplevel.width-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
-    height: toplevel.height-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
+    width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
+    height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
 
     property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || currentScale < defaultScale))) // qmllint disable unqualified
 

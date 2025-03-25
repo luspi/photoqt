@@ -155,7 +155,7 @@ Loader {
             function onZoomIn(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -167,9 +167,9 @@ Loader {
             function onZoomOut(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
-                    if(mousePos.x == -1 || mousePos.y == -1)
+                    if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
 
                     loader_top.performZoom(mousePos, wheelDelta, false, 0)
@@ -178,7 +178,7 @@ Loader {
             }
             function onZoomReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
@@ -186,15 +186,15 @@ Loader {
             }
             function onZoomActual() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
-                    loader_top.imageScale = 1/toplevel.getDevicePixelRatio()
+                    loader_top.imageScale = 1/PQCConstants.devicePixelRatio
 
             }
             function onRotateClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -212,7 +212,7 @@ Loader {
             }
             function onRotateAntiClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -230,7 +230,7 @@ Loader {
             }
             function onRotateReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
 
                 if(loader_top.isMainImage) {
@@ -309,7 +309,7 @@ Loader {
                 zoomfactor = forceZoomFactor
 
                 if(PQCSettings.imageviewZoomMaxEnabled)
-                    zoomfactor = Math.min(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()))/loader_top.imageScale
+                    zoomfactor = Math.min(loader_top.imageScale*zoomfactor, PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio))/loader_top.imageScale
 
                 if(PQCSettings.imageviewZoomMinEnabled)
                     zoomfactor = Math.max(loader_top.imageScale*zoomfactor, loader_top.defaultScale*PQCSettings.imageviewZoomMin/100)/loader_top.imageScale
@@ -337,18 +337,18 @@ Loader {
                             fact = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
 
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio), loader_top.imageScale*fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.min(25/toplevel.getDevicePixelRatio(), loader_top.imageScale*fact)/loader_top.imageScale
+                            zoomfactor = Math.min(25/PQCConstants.devicePixelRatio, loader_top.imageScale*fact)/loader_top.imageScale
 
                     } else {
 
-                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*toplevel.getDevicePixelRatio()))
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*PQCConstants.devicePixelRatio))
 
                         if(PQCSettings.imageviewZoomMaxEnabled)
-                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale+fact)/loader_top.imageScale
+                            zoomfactor = Math.min(PQCSettings.imageviewZoomMax/(100*PQCConstants.devicePixelRatio), loader_top.imageScale+fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.min(25/toplevel.getDevicePixelRatio(), loader_top.imageScale+fact)/loader_top.imageScale
+                            zoomfactor = Math.min(25/PQCConstants.devicePixelRatio, loader_top.imageScale+fact)/loader_top.imageScale
 
                     }
 
@@ -364,16 +364,16 @@ Loader {
                         if(PQCSettings.imageviewZoomMinEnabled)
                             zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/100, loader_top.imageScale/fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.max(0.01/toplevel.getDevicePixelRatio(), loader_top.imageScale/fact)/loader_top.imageScale
+                            zoomfactor = Math.max(0.01/PQCConstants.devicePixelRatio, loader_top.imageScale/fact)/loader_top.imageScale
 
                     } else {
 
-                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*toplevel.getDevicePixelRatio()))
+                        fact = Math.max(0.01, PQCSettings.imageviewZoomSpeed/(100*PQCConstants.devicePixelRatio))
 
                         if(PQCSettings.imageviewZoomMinEnabled)
-                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/(100*toplevel.getDevicePixelRatio()), loader_top.imageScale-fact)/loader_top.imageScale
+                            zoomfactor = Math.max((loader_top.defaultScale*PQCSettings.imageviewZoomMin)/(100*PQCConstants.devicePixelRatio), loader_top.imageScale-fact)/loader_top.imageScale
                         else
-                            zoomfactor = Math.max(0.01/toplevel.getDevicePixelRatio(), loader_top.imageScale-fact)/loader_top.imageScale
+                            zoomfactor = Math.max(0.01/PQCConstants.devicePixelRatio, loader_top.imageScale-fact)/loader_top.imageScale
 
                     }
 
@@ -489,7 +489,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            interactive: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -507,7 +507,7 @@ Loader {
                 target: PQCNotify // qmllint disable unqualified
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
-                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                         return
                     flickable.interactive = false
                     reEnableInteractive.restart()
@@ -515,7 +515,7 @@ Loader {
 
                 function onMousePressed(mods : int, button : string, pos : point) {
 
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.stop()
                         flickable.interactive = false
                     }
@@ -527,7 +527,7 @@ Loader {
 
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
                         if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
-                            toplevel.close()
+                            PQCNotify.windowClose()
                         return
                     }
 
@@ -548,7 +548,7 @@ Loader {
                 }
 
                 function onMouseReleased() {
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.restart()
                     }
                 }
@@ -560,7 +560,7 @@ Loader {
                 interval: 100
                 repeat: false
                 onTriggered:
-                    flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
+                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
             }
 
             // the container for the content
@@ -1220,7 +1220,7 @@ Loader {
 
                             scaleAnimation.stop()
 
-                            image_wrapper.scale = 1/toplevel.getDevicePixelRatio()
+                            image_wrapper.scale = 1/PQCConstants.devicePixelRatio
                             loader_top.imageScale = image_wrapper.scale
 
                         }
@@ -1376,7 +1376,7 @@ Loader {
 
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
-                        var dpr = (loader_top.thisIsAPhotoSphere ? 1 : toplevel.getDevicePixelRatio()) // qmllint disable unqualified
+                        var dpr = (loader_top.thisIsAPhotoSphere ? 1 : PQCConstants.devicePixelRatio) // qmllint disable unqualified
                         if(loader_top.rotatedUpright)
                             return Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height)))
                         return Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))
@@ -1435,7 +1435,7 @@ Loader {
                        locpos.x > flickable_content.x+flickable_content.width ||
                        locpos.y > flickable_content.y+flickable_content.height)) {
 
-                    toplevel.close()
+                    PQCNotify.windowClose()
                     return
 
                 }
@@ -1469,7 +1469,7 @@ Loader {
 
                 if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
                     image_top.barcodeClick()
-                if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
+                if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCConstants.faceTaggingMode) {
                     mouse.accepted = false
                     return
                 }
@@ -1519,7 +1519,7 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            enabled: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
             property list<point> initialPts: []
             property real initialScale

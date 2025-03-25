@@ -149,7 +149,7 @@ Item {
 
             function updateVisibility() {
 
-                if(PQCNotify.faceTagging) { // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                     facedeleg.state = "hideentry"
                     return
                 }

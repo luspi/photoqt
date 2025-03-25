@@ -30,30 +30,29 @@ import PQCScriptsMetaData
 import PQCMetaData
 import PQCNotify
 import PQCWindowGeometry
+import PQCExtensionsHandler
 
-import "../elements"
-import "../"
+import "../../qml/elements"
+import "../../qml/"
 
 PQTemplateFloating {
 
     id: mapcurrent_top
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
-
     onXChanged: {
-        if(!access_toplevel.startup && dragActive)
+        if(PQCConstants.photoQtStartupDone && dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(!access_toplevel.startup && dragActive)
+        if(PQCConstants.photoQtStartupDone && dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(!access_toplevel.startup && resizeActive)
+        if(PQCConstants.photoQtStartupDone && resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(!access_toplevel.startup && resizeActive)
+        if(PQCConstants.photoQtStartupDone && resizeActive)
             storeSize.restart()
     }
 
@@ -61,10 +60,10 @@ PQTemplateFloating {
         id: storeSize
         interval: 200
         onTriggered: {
-            PQCSettings.mapviewCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
-            PQCSettings.mapviewCurrentPosition.y = mapcurrent_top.y
-            PQCSettings.mapviewCurrentSize.width = mapcurrent_top.width
-            PQCSettings.mapviewCurrentSize.height = mapcurrent_top.height
+            PQCSettings.extensionsMapCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
+            PQCSettings.extensionsMapCurrentPosition.y = mapcurrent_top.y
+            PQCSettings.extensionsMapCurrentSize.width = mapcurrent_top.width
+            PQCSettings.extensionsMapCurrentSize.height = mapcurrent_top.height
         }
     }
 
@@ -83,11 +82,11 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: mapcurrent_top }
 
-    popout: PQCSettings.interfacePopoutMapCurrent // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.mapcurrentForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
+    forcePopout: PQCConstants.windowWidth  < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").width ||
+                 PQCConstants.windowHeight < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").height
     shortcut: "__showMapCurrent"
-    tooltip: PQCSettings.interfacePopoutMapCurrent||PQCWindowGeometry.mapcurrentForcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
-
+    tooltip: PQCSettings.extensionsMapCurrentPopout||forcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
     blur_thisis: "mapcurrent"
 
     allowWheel: true
@@ -99,8 +98,8 @@ PQTemplateFloating {
     property real longitude: 8.40444
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapCurrent) // qmllint disable unqualified
-            PQCSettings.interfacePopoutMapCurrent = popout
+        if(PQCConstants.photoQtStartupDone && popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
+            PQCSettings.extensionsMapCurrentPopout = popout
     }
 
     Plugin {
@@ -265,18 +264,14 @@ PQTemplateFloating {
     ]
 
     Component.onCompleted: {
-        if(popout || forcePopout) {
-            mapcurrent_top.state = "popout"
-        } else {
-            mapcurrent_top.state = ""
-            x = PQCSettings.mapviewCurrentPosition.x // qmllint disable unqualified
-            y = PQCSettings.mapviewCurrentPosition.y
-            width = PQCSettings.mapviewCurrentSize.width
-            height = PQCSettings.mapviewCurrentSize.height
-        }
 
-        if(PQCSettings.mapviewCurrentVisible)
-            show()
+        x = PQCSettings.extensionsMapCurrentPosition.x // qmllint disable unqualified
+        y = PQCSettings.extensionsMapCurrentPosition.y
+        width = PQCSettings.extensionsMapCurrentSize.width
+        height = PQCSettings.extensionsMapCurrentSize.height
+
+        mapcurrent_top.state = ((popout || forcePopout) ? "popout" : "")
+
     }
 
     Connections {
@@ -290,34 +285,19 @@ PQTemplateFloating {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : string) {
+        function onLoaderPassOn(what : string, args : list<var>) {
 
-            if(what === "show") {
-                if(param === "mapcurrent") {
-                    if(mapcurrent_top.visible) {
-                        mapcurrent_top.hide()
-                    } else {
-                        mapcurrent_top.show()
-                        mapcurrent_top.updateMap()
-                    }
+            if(what === "show" && args[0] === "mapcurrent") {
+                if(mapcurrent_top.visible) {
+                    mapcurrent_top.hide()
+                } else {
+                    mapcurrent_top.show()
+                    mapcurrent_top.updateMap()
                 }
             }
 
-        }
-
-    }
-
-    Connections {
-
-        target: PQCSettings // qmllint disable unqualified
-
-        function onMapviewCurrentVisibleChanged() {
-            if(PQCSettings.mapviewCurrentVisible) // qmllint disable unqualified
-                mapcurrent_top.show()
-            else
-                mapcurrent_top.hide()
         }
 
     }
@@ -348,7 +328,7 @@ PQTemplateFloating {
 
     function show() {
         opacity = 1
-        PQCSettings.mapviewCurrentVisible = true // qmllint disable unqualified
+        PQCSettings.extensionsMapCurrent = true // qmllint disable unqualified
         if(popoutWindowUsed)
             mapcurrent_popout.visible = true
     }
@@ -357,7 +337,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             mapcurrent_popout.visible = false // qmllint disable unqualified
-        PQCSettings.mapviewCurrentVisible = false
+        PQCSettings.extensionsMapCurrent = false
     }
 
 }

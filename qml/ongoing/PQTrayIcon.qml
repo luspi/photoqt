@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
+import PQCNotify
 
 import "../"
 
@@ -34,29 +35,19 @@ SystemTrayIcon {
 
     icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg" // qmllint disable unqualified
 
-    property PQMainWindow acces_toplevel: toplevel // qmllint disable unqualified
-
     menu: Menu {
         id: mn
 
         MenuItem {
-            text: (trayicon.acces_toplevel.visible ? "Hide PhotoQt" : "Show PhotoQt")
-            onTriggered: {
-                PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
-                trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
-                if(trayicon.acces_toplevel.visible) {
-                    if(trayicon.acces_toplevel.visibility === Window.Minimized)
-                        trayicon.acces_toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
-                    trayicon.acces_toplevel.raise()
-                    trayicon.acces_toplevel.requestActivate()
-                }
-            }
+            text: (PQCConstants.windowState===Window.Hidden ? qsTranslate("trayicon", "Show PhotoQt") : qsTranslate("trayicon", "Hide PhotoQt"))
+            onTriggered:
+                trayicon.triggerVisibility()
         }
 
         MenuItem {
             text: "Quit PhotoQt"
             onTriggered:
-                trayicon.acces_toplevel.quitPhotoQt()
+                PQCNotify.photoQtQuit()
         }
 
         Component.onCompleted:
@@ -65,13 +56,20 @@ SystemTrayIcon {
     }
 
     onActivated: {
+        trayicon.triggerVisibility()
+    }
+
+    function triggerVisibility() {
         PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
-        trayicon.acces_toplevel.visible = !trayicon.acces_toplevel.visible
-        if(trayicon.acces_toplevel.visible) {
-            if(trayicon.acces_toplevel.visibility === Window.Minimized)
-                trayicon.acces_toplevel.visibility = (toplevel.maxAndNowWindowed ? Window.Maximized : Window.Windowed)
-            trayicon.acces_toplevel.raise()
-            trayicon.acces_toplevel.requestActivate()
+        if(PQCConstants.windowState === Window.Hidden) {
+            if(PQCConstants.windowMaxAndNotWindowed)
+                PQCNotify.setWindowState(Window.Maximized)
+            else
+                PQCNotify.setWindowState(Window.Windowed)
+        } else if(PQCConstants.windowState === Window.Minimized) {
+            PQCNotify.windowRaiseAndFocus()
+        } else {
+            PQCNotify.setWindowState(Window.Hidden)
         }
     }
 

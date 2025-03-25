@@ -22,6 +22,7 @@
 
 import QtQuick
 import PQCScriptsOther
+import PQCNotify
 
 import "../elements"
 import "../"
@@ -29,10 +30,9 @@ import "../"
 Rectangle {
     id: notification_top
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     // we fall back to top right location if state is invalid
-    x: access_toplevel.width-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
+    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
     y: PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
 
     width: contcol.width+30
@@ -46,21 +46,21 @@ Rectangle {
             name: "bottomleft"
             PropertyChanges {
                 notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottom"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "bottomright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: notification_top.access_toplevel.height-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: PQCConstants.windowHeight-notification_top.height-PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
 
@@ -68,21 +68,21 @@ Rectangle {
             name: "centerleft"
             PropertyChanges {
                 notification_top.x: PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
         State {
             name: "center"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
         State {
             name: "centerright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
-                notification_top.y: (notification_top.access_toplevel.height-notification_top.height)/2
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.y: (PQCConstants.windowHeight-notification_top.height)/2
             }
         },
 
@@ -96,14 +96,14 @@ Rectangle {
         State {
             name: "top"
             PropertyChanges {
-                notification_top.x: (notification_top.access_toplevel.width-notification_top.width)/2
+                notification_top.x: (PQCConstants.windowWidth-notification_top.width)/2
                 notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         },
         State {
             name: "topright"
             PropertyChanges {
-                notification_top.x: notification_top.access_toplevel.width-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
+                notification_top.x: PQCConstants.windowWidth-notification_top.width-PQCSettings.interfaceNotificationDistanceFromEdge
                 notification_top.y: PQCSettings.interfaceNotificationDistanceFromEdge
             }
         }
@@ -157,13 +157,32 @@ Rectangle {
 
     }
 
-    Connections {
-        target: loader // qmllint disable unqualified
+    property bool waitBeforeNextNotification: false
+    Timer {
+        id: resetWaitBeforeNextNotification
+        interval: 1000
+        onTriggered: {
+            notification_top.waitBeforeNextNotification = false
+        }
+    }
 
-        function onPassOn(what : string, param : var) {
+    Connections {
+
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
+
                 if(param.length === 2 && param[0] === "notification") {
+
+                    // only one iteration per 1s can be shown at a time
+                    // otherwise the check for a native notification might fail
+                    // and two notification might be shown (native and integrated)
+                    if(notification_top.waitBeforeNextNotification)
+                        return
+                    notification_top.waitBeforeNextNotification = true
+                    resetWaitBeforeNextNotification.restart()
 
                     var tit = param[1][0]
                     var sum = param[1][1]
@@ -187,7 +206,7 @@ Rectangle {
 
     Timer {
         id: hideNotification
-        interval: 5000
+        interval: 3000
         onTriggered:
             notification_top.hide()
     }

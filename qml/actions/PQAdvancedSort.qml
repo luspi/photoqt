@@ -26,6 +26,7 @@ import QtQuick.Layouts
 
 import PQCFileFolderModel
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -707,18 +708,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === advancedsort_top.thisis)
+                if(param[0] === advancedsort_top.thisis)
                     advancedsort_top.show()
 
             } else if(what === "hide") {
 
-                if(param === advancedsort_top.thisis)
+                if(param[0] === advancedsort_top.thisis)
                     advancedsort_top.hide()
 
             } else if(advancedsort_top.visible) {
@@ -824,7 +825,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             advancedsort_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
 
     }
 

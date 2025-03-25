@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import PQCNotify
 
 import "../"
 
@@ -28,18 +29,16 @@ Item {
 
     id: handles_top
 
-    width: acces_toplevel.width
-    height: acces_toplevel.height
+    width: PQCConstants.windowWidth
+    height: PQCConstants.windowHeight
 
     property int thickness: 10
-
-    property PQMainWindow acces_toplevel: toplevel // qmllint disable unqualified
 
     // MOVE with TOP edge
     MouseArea {
         x: statusinfo.item.width // qmllint disable unqualified
         y: 0
-        enabled: loader.visibleItem==="" // qmllint disable unqualified
+        enabled: !PQCConstants.modalWindowOpen // qmllint disable unqualified
         visible: enabled
         width: parent.width - statusinfo.item.width-20 - windowbuttons.item.width-10 // qmllint disable unqualified
         height: 3*handles_top.thickness
@@ -47,13 +46,15 @@ Item {
         cursorShape: Qt.SizeAllCursor
         acceptedButtons: Qt.AllButtons
         onWheel: (wheel) => { wheel.accepted = true }
-        onPressed:
-            handles_top.acces_toplevel.startSystemMove()
+        onPressed: {
+            PQCNotify.windowStartSystemMove()
+        }
         onDoubleClicked: {
-            if(handles_top.acces_toplevel.visibility === Window.Maximized)
-                handles_top.acces_toplevel.visibility = Window.Windowed
-            else if(handles_top.acces_toplevel.visibility === Window.Windowed)
-                handles_top.acces_toplevel.visibility = Window.Maximized
+            if(PQCConstants.windowState)
+            if(PQCConstants.windowState === Window.Maximized)
+                PQCNotify.setWindowState(Window.Windowed)
+            else if(PQCConstants.windowState === Window.Windowed)
+                PQCNotify.setWindowState(Window.Maximized)
         }
 
     }
@@ -67,7 +68,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge)
     }
 
     // RIGHT edge
@@ -79,7 +80,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge)
     }
 
     // TOP edge
@@ -91,7 +92,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.TopEdge)
     }
 
     // BOTTOM edge
@@ -103,7 +104,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.BottomEdge)
     }
 
     // TOP LEFT corner
@@ -115,7 +116,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge|Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge|Qt.TopEdge)
     }
 
     // TOP RIGHT corner
@@ -127,7 +128,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge|Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge|Qt.TopEdge)
     }
 
     // BOTTOM LEFT corner
@@ -139,7 +140,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.LeftEdge|Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge|Qt.BottomEdge)
     }
 
     // BOTTOM RIGHT corner
@@ -151,7 +152,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            handles_top.acces_toplevel.startSystemResize(Qt.RightEdge|Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge|Qt.BottomEdge)
     }
 
 }

@@ -39,6 +39,7 @@
     #include <windows.h>
 #endif
 
+#include <pqc_constants.h>
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
 #include <pqc_startup.h>
@@ -82,6 +83,7 @@
 #include <scripts/pqc_scriptschromecast.h>
 #include <scripts/pqc_scriptsundo.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
+#include <pqc_extensionshandler.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -252,12 +254,16 @@ int main(int argc, char *argv[]) {
     // update or fresh install?
     if(checker != 0) {
 
-        if(checker == 2)
+        if(checker == 2) {
             startup.setupFresh();
-        else {
+            PQCSettings::get().setupFresh();
+            PQCShortcuts::get().setupFresh();
+        } else {
             int ret = PQCSettings::get().migrate();
             if(ret == 1) {
                 startup.setupFresh();
+                PQCSettings::get().setupFresh();
+                PQCShortcuts::get().setupFresh();
             } else {
                 PQCSettings::get().readDB();
                 PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
@@ -334,10 +340,12 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsChromeCast", 1, 0, "PQCScriptsChromeCast", &PQCScriptsChromeCast::get());
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
+    engine.rootContext()->setContextProperty("PQCConstants", &PQCConstants::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

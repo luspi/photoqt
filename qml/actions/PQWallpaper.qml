@@ -27,6 +27,7 @@ import PQCScriptsConfig
 import PQCFileFolderModel
 import PQCScriptsWallpaper
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 import "./wallpaperparts"
@@ -242,18 +243,19 @@ PQTemplateFullscreen {
     ]
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === wallpaper_top.thisis)
+                if(param[0] === wallpaper_top.thisis)
                     wallpaper_top.show()
 
             } else if(what === "hide") {
 
-                if(param === wallpaper_top.thisis)
+                if(param[0] === wallpaper_top.thisis)
                     wallpaper_top.hide()
 
             } else if(wallpaper_top.opacity > 0) {
@@ -316,7 +318,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && wallpaper_popout.visible)
             wallpaper_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
     function setWallpaper() {

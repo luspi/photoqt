@@ -44,21 +44,20 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQKenBurnsSli
 
 SET(d "qml/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQThumbnails.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQStatusInfo.qml ${d}/PQContextMenu.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQHistogram.qml ${d}/PQMapCurrent.qml ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml ${d}/PQNavigation.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideshowControls.qml ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQWindowHandles.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQQuickActions.qml)
 
 SET(d "qml/ongoing/popout")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml ${d}/PQHistogramPopout.qml ${d}/PQMapCurrentPopout.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQLoggingPopout.qml ${d}/PQSlideshowControlsPopout.qml ${d}/PQQuickActionsPopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQLoggingPopout.qml ${d}/PQSlideshowControlsPopout.qml)
 
 SET(d "qml/actions")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQExport.qml ${d}/PQAbout.qml ${d}/PQScale.qml ${d}/PQDelete.qml ${d}/PQRename.qml ${d}/PQCopy.qml ${d}/PQMove.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQExport.qml ${d}/PQAbout.qml ${d}/PQDelete.qml ${d}/PQRename.qml ${d}/PQCopy.qml ${d}/PQMove.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFilter.qml ${d}/PQAdvancedSort.qml ${d}/PQSlideshowSetup.qml ${d}/PQImgur.qml ${d}/PQWallpaper.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorer.qml ${d}/PQChromeCastManager.qml ${d}/PQCrop.qml)
 
 SET(d "qml/actions/popout")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQExportPopout.qml ${d}/PQAboutPopout.qml ${d}/PQScalePopout.qml ${d}/PQDeletePopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQExportPopout.qml ${d}/PQAboutPopout.qml ${d}/PQDeletePopout.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQRenamePopout.qml ${d}/PQFilterPopout.qml ${d}/PQAdvancedSortPopout.qml ${d}/PQSlideshowSetupPopout.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImgurPopout.qml ${d}/PQWallpaperPopout.qml ${d}/PQChromeCastManagerPopout.qml ${d}/PQMapExplorerPopout.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQCropPopout.qml)
@@ -96,3 +95,4 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
 
 SET(d "qml/settingsmanager/settings/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)
+

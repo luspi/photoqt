@@ -56,7 +56,7 @@ Rectangle {
     }
 
     onYChanged: {
-        if(!access_toplevel.startup && dragmouse.drag.active)
+        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
             saveXY.restart()
     }
 
@@ -71,8 +71,6 @@ Rectangle {
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
 
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
-
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
     visible: opacity>0
@@ -84,14 +82,14 @@ Rectangle {
     height: isPopout ?
                 mainmenu_popout.height :
                 PQCSettings.mainmenuElementHeightDynamic ? // qmllint disable unqualified
-                    access_toplevel.height-2*gap-statusinfoOffset :
-                    Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height)
+                    PQCConstants.windowHeight-2*gap-statusinfoOffset :
+                    Math.min(PQCConstants.windowHeight, PQCSettings.mainmenuElementSize.height)
 
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
-    property rect hotArea: Qt.rect(0, access_toplevel.height-hotAreaSize, access_toplevel.width, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
@@ -125,22 +123,22 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 mainmenu_top.visiblePos: [mainmenu_top.gap,
-                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
                 mainmenu_top.invisiblePos: [-mainmenu_top.width,
-                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
-                mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, PQCConstants.windowHeight)
+                mainmenu_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                mainmenu_top.visiblePos: [mainmenu_top.access_toplevel.width-mainmenu_top.width-mainmenu_top.gap,
-                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.invisiblePos: [mainmenu_top.access_toplevel.width,
-                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(mainmenu_top.access_toplevel.height-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.hotArea: Qt.rect(mainmenu_top.access_toplevel.width-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, mainmenu_top.access_toplevel.height)
-                mainmenu_top.windowSizeOkay: mainmenu_top.access_toplevel.width>500 && mainmenu_top.access_toplevel.height>500
+                mainmenu_top.visiblePos: [PQCConstants.windowWidth-mainmenu_top.width-mainmenu_top.gap,
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.invisiblePos: [PQCConstants.windowWidth,
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.hotArea: Qt.rect(PQCConstants.windowWidth-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, PQCConstants.windowHeight)
+                mainmenu_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
             }
         },
         State {
@@ -201,7 +199,7 @@ Rectangle {
         drag.target: mainmenu_top
         drag.axis: Drag.YAxis
         drag.minimumY: 0
-        drag.maximumY: toplevel.height-mainmenu_top.height // qmllint disable unqualified
+        drag.maximumY: PQCConstants.windowHeight-mainmenu_top.height // qmllint disable unqualified
     }
 
     Flickable {
@@ -556,14 +554,14 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "histogram.svg"
-                    txt: PQCSettings.histogramVisible ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
+                    txt: PQCSettings.extensionsHistogram ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
                     cmd: "__histogram"
                     menuColWidth: mainmenu_top.colwidth
                 }
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: PQCSettings.mapviewCurrentVisible ?
+                    txt: PQCSettings.extensionsMapCurrent ?
                              //: The location here is the GPS location
                              qsTranslate("MainMenu", "Hide current location") : // qmllint disable unqualified
                              //: The location here is the GPS location
@@ -919,7 +917,7 @@ Rectangle {
                     mainmenu_top.animateResize = true
                     if(checked) {
                         mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
-                        mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                        mainmenu_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
                         PQCSettings.mainmenuElementHeightDynamic = true // qmllint disable unqualified
                     } else {
                         mainmenu_top.y = mainmenu_top.y
@@ -941,7 +939,7 @@ Rectangle {
                     mainmenu_top.animateResize = true
                     mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
-                    mainmenu_top.height = Qt.binding(function() { return access_toplevel.height-2*gap-statusinfoOffset })
+                    mainmenu_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
                     PQCSettings.mainmenuElementHeightDynamic = true
                 }
             }
@@ -986,7 +984,7 @@ Rectangle {
             mainmenu_top.height = mainmenu_top.height
             mainmenu_top.y = mainmenu_top.y
             PQCSettings.mainmenuElementSize.height = mainmenu_top.height
-            mainmenu_top.height = Qt.binding(function() { return Math.min(access_toplevel.height, PQCSettings.mainmenuElementSize.height) } )
+            mainmenu_top.height = Qt.binding(function() { return Math.min(PQCConstants.windowHeight, PQCSettings.mainmenuElementSize.height) } )
             PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff) // qmllint disable unqualified
             PQCSettings.mainmenuElementHeightDynamic = false
         }
@@ -1014,7 +1012,7 @@ Rectangle {
                 return
             var diff = mouse.x-clickStart
             mainmenu_top.width = mainmenu_top.width
-            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
             mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
@@ -1041,7 +1039,7 @@ Rectangle {
                 return
             var diff = clickStart-mouse.x
             mainmenu_top.width = mainmenu_top.width
-            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(mainmenu_top.access_toplevel.width/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
             mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
@@ -1095,7 +1093,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+            if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 mainmenu_top.setVisible = false
                 return
             }
@@ -1134,24 +1132,27 @@ Rectangle {
     }
 
     Connections {
-        target: access_toplevel
-        function onResizingChanged() {
-            if(access_toplevel.resizing)
-                mainmenu_top.setVisible = false
+        target: PQCConstants
+        function onWindowWidthChanged() {
+            mainmenu_top.setVisible = false
+        }
+        function onWindowHeightChanged() {
+            mainmenu_top.setVisible = false
         }
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : string) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param === "mainmenu") {
+                if(param[0] === "mainmenu") {
                     mainmenu_top.showMainMenu()
                 }
             } else if(what === "toggle") {
-                if(param === "mainmenu") {
+                if(param[0] === "mainmenu") {
                     mainmenu_top.toggle()
                 }
             }
@@ -1171,7 +1172,7 @@ Rectangle {
     }
 
     function showMainMenu() {
-        if(toplevel.startup) return
+        if(!PQCConstants.photoQtStartupDone) return
         mainmenu_top.setVisible = true
         if(popoutWindowUsed)
             mainmenu_popout.visible = true // qmllint disable unqualified

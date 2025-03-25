@@ -35,6 +35,7 @@ import PQCScriptsImages
 import PQCImageFormats
 import PQCScriptsConfig
 import PQCScriptsUndo
+import PQCExtensionsHandler
 
 Item {
 
@@ -157,12 +158,12 @@ Item {
 
         function onKeyPress(key : int, modifiers : int) {
 
-            if(loader.visibleItem !== "") { // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) { // qmllint disable unqualified
 
                 // make sure contextmenu is closed on key press
                 contextmenu.dismiss()
 
-                loader.passOn("keyEvent", [key, modifiers])
+                PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
 
             } else if(image.componentComboOpen) {
 
@@ -186,9 +187,9 @@ Item {
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
 
-            if(loader.visibleItem !== "") // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                loader.passOn("mouseWheel", [mousePos, angleDelta, modifiers])
+                PQCNotify.loaderPassOn("mouseWheel", [mousePos, angleDelta, modifiers])
 
             else {
 
@@ -209,9 +210,9 @@ Item {
 
         function onMousePressed(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem !== "") // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                loader.passOn("mousePressed", [modifiers, button, pos])
+                PQCNotify.loaderPassOn("mousePressed", [modifiers, button, pos])
 
             else {
 
@@ -230,9 +231,9 @@ Item {
 
         function onMouseReleased(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem !== "") // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                loader.passOn("mouseReleased", [modifiers, button, pos])
+                PQCNotify.loaderPassOn("mouseReleased", [modifiers, button, pos])
 
             else {
 
@@ -251,9 +252,9 @@ Item {
 
         function onMouseMove(x : int, y : int) {
 
-            if(loader.visibleItem !== "") // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                loader.passOn("mouseMove", [x, y])
+                PQCNotify.loaderPassOn("mouseMove", [x, y])
 
             else {
 
@@ -273,7 +274,7 @@ Item {
 
         function onMouseDoubleClicked(modifiers : int, button : string, pos : point) {
 
-            if(loader.visibleItem === "") { // qmllint disable unqualified
+            if(!PQCConstants.modalWindowOpen) { // qmllint disable unqualified
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "") combo += "+"
@@ -490,7 +491,7 @@ Item {
                         return
                     PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFile)
                     if(parts[2]*1 === 1)
-                        toplevel.close()
+                        PQCNotify.windowClose()
                 }
             }
 
@@ -508,7 +509,7 @@ Item {
                     return
                 PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFile)
                 if(curparts[2]*1 === 1)
-                    toplevel.close()
+                    PQCNotify.windowClose()
             }
 
         }
@@ -521,66 +522,89 @@ Item {
         console.debug("args: mousePos =", mousePos)
         console.debug("args: wheelDelta =", wheelDelta)
 
+        // check if the shortcut is a shortcut of an extension
+        if(PQCExtensionsHandler.getAllShortcuts().indexOf(cmd) > -1) {
+
+            // get the extension for this shortcut
+            var ext = PQCExtensionsHandler.getExtensionForShortcut(cmd)
+            // get all shortcuts for that extension
+            var allsh = PQCExtensionsHandler.getShortcutsActions(ext)
+            // loop over all shortcuts
+            for(var iSh in allsh) {
+                var sh = allsh[iSh]
+                // if we found the right shortcut, execute it
+                if(sh[0] === cmd) {
+                    var exec = sh[3]
+                    var args = sh[4]
+                    // the 'show' shortcut is a special one
+                    PQCNotify.loaderPassOn(exec, [args])
+                    if(exec === "show")
+                        PQCNotify.loaderShowExtension(ext)
+                    else
+                        PQCNotify.loaderPassOn(exec, [args])
+                    return
+                }
+            }
+
+        }
+
         switch(cmd) {
 
             /**********************/
             // elements
 
             case "__open":
-                loader.show("filedialog") // qmllint disable unqualified
+                PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
                 break
             case "__showMapExplorer":
-                loader.show("mapexplorer")
+                PQCNotify.loaderShow("mapexplorer")
                 break
             case "__settings":
-                loader.show("settingsmanager")
+                PQCNotify.loaderShow("settingsmanager")
                 break
             case "__about":
-                loader.show("about")
+                PQCNotify.loaderShow("about")
                 break
             case "__slideshow":
-                loader.show("slideshowsetup")
+                PQCNotify.loaderShow("slideshowsetup")
                 break
             case "__slideshowQuick":
-                loader.show("notification", [qsTranslate("slideshow", "Slideshow started."), ""])
-                loader.show("slideshowhandler")
-                loader.show("slideshowcontrols")
+                PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
+                PQCNotify.loaderShow("slideshowhandler")
+                PQCNotify.loaderShow("slideshowcontrols")
                 break
             case "__filterImages":
-                loader.show("filter")
+                PQCNotify.loaderShow("filter")
                 break
             case "__wallpaper":
-                loader.show("wallpaper")
-                break
-            case "__scale":
-                loader.show("scale")
+                PQCNotify.loaderShow("wallpaper")
                 break
             case "__imgur":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    loader.show("imgur")
+                    PQCNotify.loaderShow("imgur")
                     loader_imgur.item.uploadToAccount()
                 }
                 break
             case "__imgurAnonym":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    loader.show("imgur")
+                    PQCNotify.loaderShow("imgur")
                     loader_imgur.item.uploadAnonymously()
                 }
                 break
             case "__tagFaces":
-                loader.passOn("tagFaces", undefined)
+                PQCNotify.loaderPassOn("tagFaces", [])
                 break
             case "__chromecast":
-                loader.show("chromecastmanager")
+                PQCNotify.loaderShow("chromecastmanager")
                 break
             case "__logging":
-                loader.show("logging")
+                PQCNotify.loaderShow("logging")
                 break;
             case "__advancedSort":
-                loader.show("advancedsort")
+                PQCNotify.loaderShow("advancedsort")
                 break
             case "__advancedSortQuick":
-                loader.show("advancedsort")
+                PQCNotify.loaderShow("advancedsort")
                 loader_advancedsort.item.doSorting()
                 break
 
@@ -598,16 +622,16 @@ Item {
             case "__showMetaData":
             case "__keepMetaData":
                 PQCSettings.metadataElementVisible = !PQCSettings.metadataElementVisible
-                loader.show("metadata")
+                PQCNotify.loaderShow("metadata")
                 break
             case "__showMainMenu":
-                loader.show("mainmenu")
+                PQCNotify.loaderShow("mainmenu")
                 break
             case "__toggleMainMenu":
-                loader.passOn("toggle", "mainmenu")
+                PQCNotify.loaderPassOn("toggle", ["mainmenu"])
                 break
             case "__showThumbnails":
-                loader.show("thumbnails")
+                PQCNotify.loaderShow("thumbnails")
                 break
 
 
@@ -615,10 +639,10 @@ Item {
             // interface functions
 
             case "__quit":
-                toplevel.quitPhotoQt()
+                PQCNotify.photoQtQuit()
                 break
             case "__close":
-                toplevel.close()
+                PQCNotify.windowClose()
                 break
             case "__fullscreenToggle":
                 PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
@@ -652,16 +676,13 @@ Item {
                 }
                 break
             case "__navigationFloating":
-                loader.show("navigationfloating")
+                PQCNotify.loaderShow("floatingnavigation")
                 break
             case "__enterPhotoSphere":
                 if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
                     image.enterPhotoSphere()
                 else
-                    loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt.")])
-                break
-            case "__quickActions":
-                loader.show("quickactions")
+                    PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
                 break
 
             /**********************/
@@ -697,9 +718,6 @@ Item {
             case "__flipReset":
                 image.mirrorReset()
                 break
-            case "__histogram":
-                loader.show("histogram")
-                break
             case "__fitInWindow":
                 PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
                 break
@@ -708,9 +726,6 @@ Item {
                 break
             case "__showFaceTags":
                 PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
-                break
-            case "__showMapCurrent":
-                loader.show("mapcurrent")
                 break
             case "__toggleAlwaysActualSize":
                 PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
@@ -749,57 +764,57 @@ Item {
                 image.videoJump(-5)
                 break
             case "__crop":
-                loader.show("crop")
+                PQCNotify.loaderShow("crop")
                 break
 
             /**********************/
             // file actions
 
             case "__rename":
-                loader.show("filerename")
+                PQCNotify.loaderShow("filerename")
                 break
             case "__delete":
-                loader.show("filedelete")
+                PQCNotify.loaderShow("filedelete")
                 break
             case "__copy":
-                loader.show("filecopy")
+                PQCNotify.loaderShow("filecopy")
                 break
             case "__move":
-                loader.show("filemove")
+                PQCNotify.loaderShow("filemove")
                 break
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file"))
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", [qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        loader.show("notification", [qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash")])
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
                     }
                 }
                 break
             case "__saveAs":
             case "__export":
-                loader.show("export")
+                PQCNotify.loaderShow("export")
                 break
             case "__defaultFileManager":
                 if(PQCFileFolderModel.countMainView > 0)
@@ -820,11 +835,11 @@ Item {
             case "__undoTrash":
                 var ret = PQCScriptsUndo.undoLastAction("trash")
                 if(ret === "")
-                    loader.show("notification", [qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore")])
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
                 else if(ret.startsWith("-"))
-                    loader.show("notification", [qsTranslate("filemanagement", "Error"), ret.substring(1)])
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Error"), ret.substring(1))
                 else
-                    loader.show("notification", [qsTranslate("filemanagement", "Success"), ret])
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), ret)
 
 
                 break
@@ -835,7 +850,7 @@ Item {
             case "__resetSessionAndHide":
                 PQCNotify.resetSessionData()
                 PQCSettings.interfaceTrayIcon = 1
-                toplevel.close()
+                PQCNotify.windowClose()
                 break
             case "__resetSession":
                 PQCNotify.resetSessionData()

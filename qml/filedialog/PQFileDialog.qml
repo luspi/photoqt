@@ -40,8 +40,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: toplevel.width // qmllint disable unqualified
-    property int parentHeight: toplevel.height // qmllint disable unqualified
+    property int parentWidth: PQCConstants.windowWidth // qmllint disable unqualified
+    property int parentHeight: PQCConstants.windowHeight // qmllint disable unqualified
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -84,9 +84,9 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            toplevel.titleOverride = qsTranslate("actions", "File Dialog") // qmllint disable unqualified
-        else if(opacity == 0)
-            toplevel.titleOverride = ""
+            PQCNotify.windowTitleOverride(qsTranslate("actions", "File Dialog")) // qmllint disable unqualified
+        else if(opacity === 0)
+            PQCNotify.windowTitleOverride("")
     }
 
     MouseArea {
@@ -157,11 +157,14 @@ Rectangle {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
-        function onPassOn(what, param) {
+
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
+
             if(what === "show") {
 
-                if(param === filedialog_top.thisis)
+                if(param[0] === filedialog_top.thisis)
                     filedialog_top.showFileDialog()
 
             } else if(filedialog_top.opacity > 0) {
@@ -404,7 +407,7 @@ Rectangle {
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 
         // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
-        loader.elementClosed(thisis)
+        PQCNotify.loaderRegisterClose(thisis)
 
     }
 

@@ -173,18 +173,18 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "slideshowhandler")
+                if(param[0] === "slideshowhandler")
                     slideshowhandler_top.show()
 
             } else if(what === "hide") {
 
-                if(param === "slideshowhandler")
+                if(param[0] === "slideshowhandler")
                     slideshowhandler_top.hide()
 
             } else if(PQCNotify.slideshowRunning) { // qmllint disable unqualified
@@ -269,7 +269,7 @@ Item {
         slideshowhandler_top.running = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        loader.elementClosed("slideshowhandler")
+        PQCNotify.loaderRegisterClose("slideshowhandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
         PQCSettings.imageviewAnimationDuration = backupAnimSpeed

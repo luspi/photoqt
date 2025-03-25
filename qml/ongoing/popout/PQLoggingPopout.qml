@@ -152,13 +152,13 @@ Window {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what, param) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "logging") {
+                if(param[0] === "logging") {
 
                     if(PQCScriptsConfig.amIOnWindows()) // qmllint disable unqualified
                         logging_top.opacity = 0

@@ -24,12 +24,10 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCNotify
-import PQCFileFolderModel
-import PQCScriptsConfig
 import PQCWindowGeometry
 
-import "../elements"
-import "../"
+import "../../qml/elements"
+import "../../qml/"
 
 PQTemplateFloating {
 
@@ -86,7 +84,7 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: quickactions_top }
 
-    popout: PQCSettings.interfacePopoutQuickActions // qmllint disable unqualified
+    popout: PQCSettings.extensionsPopoutQuickActions // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
     shortcut: "__quickActions"
     tooltip: qsTranslate("quickactions", "Click-and-drag to move.")
@@ -98,11 +96,11 @@ PQTemplateFloating {
     moveButtonsOutside: true
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutQuickActions) // qmllint disable unqualified
-            PQCSettings.interfacePopoutQuickActions = popout
+        if(popout !== PQCSettings.extensionsPopoutQuickActions) // qmllint disable unqualified
+            PQCSettings.extensionsPopoutQuickActions = popout
     }
 
-    property list<string> buttons: PQCSettings.interfaceQuickActionsItems
+    property list<string> buttons: PQCSettings.extensionsQuickActionsItems
 
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
@@ -241,15 +239,15 @@ PQTemplateFloating {
                             width: sepver.visible ? 0 : sze
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
+                            enabled: visible && (delegver.props[3] || PQCConstants.howManyFiles>0)
+                            tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(delegver.props[2])
                             }
                             onRightClicked: {
-                                if(!popoutWindowUsed)
+                                if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
                             }
 
@@ -385,15 +383,15 @@ PQTemplateFloating {
                             width: sephor.visible ? 0 : sze
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
-                            tooltip: popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
-                            dragTarget: popoutWindowUsed ? undefined : quickactions_top
+                            enabled: visible && (deleghor.props[3] || PQCConstants.howManyFiles>0)
+                            tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
+                            dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
                             onClicked: {
                                 PQCNotify.executeInternalCommand(deleghor.props[2])
                             }
                             onRightClicked: {
-                                if(!popoutWindowUsed)
+                                if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
                             }
                             onMouseOverChanged: {
@@ -447,9 +445,9 @@ PQTemplateFloating {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("histogram", "show quick actions")
-                checked: PQCSettings.interfaceQuickActions // qmllint disable unqualified
+                checked: PQCSettings.extensionsQuickActions // qmllint disable unqualified
                 onCheckedChanged: {
-                    PQCSettings.interfaceQuickActions = checked // qmllint disable unqualified
+                    PQCSettings.extensionsQuickActions = checked // qmllint disable unqualified
                     if(!checked)
                         themenu.dismiss()
                 }
@@ -469,8 +467,7 @@ PQTemplateFloating {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                    loader.passOn("showSettings", "quickactions")
+                    PQCNotify.openSettingsManagerAt("settingsmanager", "quickactions")
                 }
             }
 
@@ -499,9 +496,6 @@ PQTemplateFloating {
             quickactions_top.reposition()
         }
 
-        if(PQCSettings.interfaceQuickActions)
-            show()
-
         recordFinishedSetup.restart()
     }
 
@@ -518,26 +512,11 @@ PQTemplateFloating {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
-
-        function onPassOn(what : string, param : string) {
-
-            if(what === "show") {
-                if(param === "quickactions") {
-                    quickactions_top.show()
-                }
-            }
-
-        }
-
-    }
-
-    Connections {
 
         target: PQCSettings // qmllint disable unqualified
 
         function onInterfaceQuickActionsChanged() {
-            if(PQCSettings.interfaceQuickActions) // qmllint disable unqualified
+            if(PQCSettings.extensionsQuickActions) // qmllint disable unqualified
                 quickactions_top.show()
             else
                 quickactions_top.hide()
@@ -550,25 +529,36 @@ PQTemplateFloating {
     }
 
     Connections {
+
         target: PQCNotify // qmllint disable unqualified
 
         function onCloseAllContextMenus() {
             menu.item.dismiss() // qmllint disable missing-property
         }
 
+        function onLoaderPassOn(what : string, args : list<var>) {
+            if(what === "show" && args[0] === "quickactions") {
+                if(quickactions_top.visible)
+                    quickactions_top.hide()
+                else
+                    quickactions_top.show()
+            }
+        }
+
     }
 
     Connections {
-        target: toplevel
 
-        function onWidthChanged() {
+        target: PQCConstants // qmllint disable unqualified
+
+        function onWindowWidthChanged() {
             if(!quickactions_top.finishedSetup) return
-            quickactions_top.x = Math.min(toplevel.width-quickactions_top.width, Math.max(0, quickactions_top.x))
+            quickactions_top.x = Math.min(PQCConstants.windowHeight-quickactions_top.width, Math.max(0, quickactions_top.x))
         }
 
-        function onHeightChanged() {
+        function onWindowHeightChanged() {
             if(!quickactions_top.finishedSetup) return
-            quickactions_top.y = Math.min(toplevel.height-quickactions_top.height, Math.max(0, quickactions_top.y))
+            quickactions_top.y = Math.min(PQCConstants.windowWidth-quickactions_top.height, Math.max(0, quickactions_top.y))
         }
 
     }
@@ -581,9 +571,9 @@ PQTemplateFloating {
             ele_window.maximumWidth = width
             ele_window.maximumHeight = height
         } else {
-            x = Qt.binding(function() { return (toplevel.width-quickactions_top.width)/2 })
+            x = Qt.binding(function() { return (PQCConstants.windowWidth-quickactions_top.width)/2 })
             if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                y = Qt.binding(function() { return toplevel.height-quickactions_top.height-20 })
+                y = Qt.binding(function() { return PQCConstants.windowHeight-quickactions_top.height-20 })
             else
                 y = 20
         }
@@ -591,7 +581,7 @@ PQTemplateFloating {
     }
 
     function show() {
-        PQCSettings.interfaceQuickActions = true // qmllint disable unqualified
+        PQCSettings.extensionsQuickActions = true // qmllint disable unqualified
         opacity = Qt.binding(
                     function() {
                         return popoutWindowUsed ?
@@ -612,7 +602,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             quickactions_popout.visible = false // qmllint disable unqualified
-        PQCSettings.interfaceQuickActions = false
+        PQCSettings.extensionsQuickActions = false
     }
 
 }

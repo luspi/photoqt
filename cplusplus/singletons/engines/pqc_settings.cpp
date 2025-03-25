@@ -26,6 +26,7 @@
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
+#include <pqc_extensionshandler.h>
 
 PQCSettings::PQCSettings() {
 
@@ -47,7 +48,8 @@ PQCSettings::PQCSettings() {
                              << "slideshow"
                              << "histogram"
                              << "mapview"
-                             << "export";
+                             << "export"
+                             << "extensions";
 
     readonly = false;
 
@@ -502,7 +504,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -772,6 +774,138 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
         }
+
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        /// EXTENSIONS
+
+        /////////////////////////////////////////////////////
+        // check for migrations for extensions
+
+        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
+        for(const QString &e : ext) {
+
+            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getMigrateSettings(e);
+
+            for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
+
+                const QString v = i.key();
+                if(v == curVer) {
+
+                    const QList<QStringList> vals = i.value();
+                    for(const QStringList &entry : vals) {
+
+                        if(entry.length() != 4) {
+                            qWarning() << "Invalid settings migration:" << entry;
+                            continue;
+                        }
+
+                        QSqlQuery query(db);
+
+                        // check old key exists
+                        // if not then no migration needs to be done
+                        // we check for existence of all settings later
+                        query.prepare(QString("SELECT `value`,`defaultValue`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                        query.bindValue(":nme", entry[0]);
+                        if(!query.exec()) {
+                            qWarning() << "Query failed to execute:" << query.lastError().text();
+                            continue;
+                        }
+
+                        // read data if an entry was found (due to unique constraint this is either zero or one)
+                        bool foundEntry = false;
+                        QString old_value = "";
+                        QString old_default = "";
+                        QString old_datatype = "";
+                        if(query.next()) {
+                            foundEntry = true;
+                            old_value = query.value(0).toString();
+                            old_default = query.value(1).toString();
+                            old_datatype = query.value(2).toString();
+                        }
+                        query.clear();
+
+                        // found an old entry
+                        if(foundEntry) {
+
+                            // enter new values if they don't exist already
+                            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[3]));
+                            query.bindValue(":nme", entry[2]);
+                            query.bindValue(":val", old_value);
+                            query.bindValue(":def", old_default);
+                            query.bindValue(":dat", old_datatype);
+                            if(!query.exec()) {
+                                qWarning() << "Unable to migrate setting:" << query.lastError().text();
+                                qWarning() << "Failed migration:" << entry;
+                                continue;
+                            }
+
+                            query.clear();
+
+                            // delete old entry
+                            query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                            query.bindValue(":nme", entry[0]);
+                            if(!query.exec()) {
+                                qWarning() << "Failed to delete old entry:" << query.lastError().text();
+                                qWarning() << "Failed migration:" << entry;
+                            }
+
+                            query.clear();
+
+                        }
+
+                    }
+
+                    break;
+
+                }
+
+            }
+        }
+
+        /////////////////////////////////////////////////////
+        // check for existence of settings for extensions
+
+        db.transaction();
+
+        // ext is already defined ahead of the for loop above
+        for(const QString &e : ext) {
+
+            const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
+
+            for(const QStringList &entry : set) {
+
+                if(entry.length() != 4) {
+                    qWarning() << "Wrong settings value length of" << entry.length();
+                    qWarning() << "Faulty settings entry:" << entry;
+                    continue;
+                }
+
+                QSqlQuery query(db);
+                query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `defaultValue`, `datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[1]));
+                query.bindValue(":nme", entry[0]);
+                query.bindValue(":val", entry[3]);
+                query.bindValue(":def", entry[3]);
+                query.bindValue(":dat", entry[2]);
+                if(!query.exec()) {
+                    qWarning() << "ERROR: Failed to enter required setting for extension" << e << ":" << query.lastError().text();
+                    continue;
+                }
+
+                query.clear();
+
+            }
+
+        }
+
+        db.commit();
+
+        /// END EXTENSIONS
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////
+
     }
 
     // value changes
@@ -906,6 +1040,49 @@ void PQCSettings::updateFromCommandLine() {
             this->update(key, QSize(parts[0].toInt(), parts[1].toInt()));
     } else if(type == "string")
         this->update(key, val);
+
+}
+
+void PQCSettings::setupFresh() {
+
+    qDebug() << "";
+
+    // at this point we can assume that the settings.db has already been copied
+    // we only need to add any setting from the extensions
+
+    db.transaction();
+
+    const QStringList allext = PQCExtensionsHandler::get().getExtensions();
+    for(const QString &ext : allext) {
+
+        const QList<QStringList> settings = PQCExtensionsHandler::get().getSettings(ext);
+
+        for(const QStringList &set : settings) {
+
+            if(set.length() != 4) {
+                qWarning() << "Invalid settings detected:" << set;
+                continue;
+            }
+
+            QSqlQuery query(db);
+            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `defaultvalue`, `datatype`) VALUES (:nme, :val, :def, :dat)").arg(set[1]));
+            query.bindValue(":nme", set[0]);
+            query.bindValue(":val", set[3]);
+            query.bindValue(":def", set[3]);
+            query.bindValue(":dat", set[2]);
+
+            if(!query.exec()) {
+                qWarning() << "ERROR inserting setting:" << query.lastError().text();
+                qWarning() << "Faulty setting:" << set;
+            }
+
+            query.clear();
+
+        }
+
+    }
+
+    db.commit();
 
 }
 

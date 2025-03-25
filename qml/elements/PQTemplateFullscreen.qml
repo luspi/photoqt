@@ -33,8 +33,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: toplevel.width   // qmllint disable unqualified
-    property int parentHeight: toplevel.height // qmllint disable unqualified
+    property int parentWidth: PQCConstants.windowWidth // qmllint disable unqualified
+    property int parentHeight: PQCConstants.windowHeight // qmllint disable unqualified
 
     // THESE ARE REQUIRED
     property string thisis
@@ -94,9 +94,9 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !popout)
-            toplevel.titleOverride = title // qmllint disable unqualified
-        else if(opacity == 0)
-            toplevel.titleOverride = "" // qmllint disable unqualified
+            PQCNotify.windowTitleOverride(title) // qmllint disable unqualified
+        else if(opacity === 0)
+            PQCNotify.windowTitleOverride("")
     }
 
     color: PQCLook.baseColorAccent // qmllint disable unqualified

@@ -27,6 +27,7 @@ import QtQuick.Controls
 import PQCShortcuts
 import PQCScriptsShortcuts
 import PQCScriptsOther
+import PQCExtensionsHandler
 import PQCNotify
 
 import "../../../elements"
@@ -114,13 +115,7 @@ Flickable {
         // SPECIAL ACTION WITH CURRENT IMAGE
 
                                  //: Name of shortcut action
-        "__histogram":          [qsTranslate("settingsmanager", "Show Histogram"), "currentimage"],
-                                 //: Name of shortcut action
-        "__showMapCurrent":     [qsTranslate("settingsmanager", "Show Image on Map"), "currentimage"],
-                                 //: Name of shortcut action
         "__viewerMode":         [qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
-                                 //: Name of shortcut action
-        "__scale":              [qsTranslate("settingsmanager", "Scale Image"), "currentimage"],
                                  //: Name of shortcut action
         "__rename":             [qsTranslate("settingsmanager", "Rename File"), "currentimage"],
                                  //: Name of shortcut action
@@ -192,15 +187,11 @@ Flickable {
                                  //: Name of shortcut action
         "__showThumbnails":     [qsTranslate("settingsmanager", "Hide/Show thumbnails"), "interface"],
                                  //: Name of shortcut action
-        "__navigationFloating": [qsTranslate("settingsmanager", "Show floating navigation buttons"), "interface"],
-                                 //: Name of shortcut action
         "__fullscreenToggle":   [qsTranslate("settingsmanager", "Toggle fullscreen mode"), "interface"],
                                  //: Name of shortcut action
         "__close":              [qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "interface"],
                                  //: Name of shortcut action
         "__quit":               [qsTranslate("settingsmanager", "Quit PhotoQt"), "interface"],
-                                 //: Name of shortcut action
-        "__quickActions":       [qsTranslate("settingsmanager", "Hide/Show quick actions"), "interface"],
 
 
 
@@ -218,6 +209,8 @@ Flickable {
         "__resetSessionAndHide":[qsTranslate("settingsmanager", "Reset current session and hide window"), "other"],
 
     }
+
+    property list<string> extensions: PQCExtensionsHandler.getExtensions()
 
     property int numEntries: 0
     property var entries: []
@@ -317,6 +310,7 @@ Flickable {
                         qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current image"),
                         qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Current folder"),
                         qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Interface"),
+                        qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Extensions"),
                         qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "Other"),
                         qsTranslate("settingsmanager", "Category:") + " " + qsTranslate("settingsmanager", "External")]
                     model: modeldata                }
@@ -760,7 +754,9 @@ Flickable {
                                             ? (cmddeleg.cmd in setting_top.actions
                                                ? setting_top.actions[cmddeleg.cmd][0]
                                                  //: The unknown here refers to an unknown internal action that was set as shortcut
-                                               : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmddeleg.cmd))
+                                               : (PQCExtensionsHandler.getAllShortcuts().indexOf(cmddeleg.cmd)>-1
+                                                  ? PQCExtensionsHandler.getDescriptionForShortcut(cmddeleg.cmd)
+                                                  : ("<i>"+qsTranslate("settingsmanager", "unknown:")+"</i> "+cmddeleg.cmd)))
                                               //: This is an identifier in the shortcuts settings used to identify an external shortcut.
                                             : ("<i>" + qsTranslate("settingsmanager", "external") + "</i>: " +
                                                cmddeleg.cmd.split(":/:/:")[0] + " " + cmddeleg.cmd.split(":/:/:")[1] +
@@ -1087,7 +1083,7 @@ Flickable {
 
                     if(filter_category.currentIndex !== 0) {
 
-                        var categories = ["viewingimages","currentimage","currentfolder","interface","other","external"]
+                        var categories = ["viewingimages","currentimage","currentfolder","interface","extensions","other","external"]
                         var filtercat = categories[filter_category.currentIndex-1]
 
                         var yes3 = false

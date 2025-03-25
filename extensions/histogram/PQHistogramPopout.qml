@@ -23,20 +23,23 @@
 import QtQuick
 import PQCWindowGeometry
 import PQCNotify
-import "../../elements"
+import PQCExtensionsHandler
+
+import "../../qml/elements"
 
 PQTemplatePopout {
 
-    id: quickactions_popout
+    id: histogram_popout
 
     //: Window title
-    title: qsTranslate("quickactions", "Quick Actions") + " | PhotoQt"
+    title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
-    geometry: Qt.rect(0,0,100,100)
+    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("histogram").width,PQCExtensionsHandler.getDefaultPopoutSize("histogram").height)
     isMax: false
-    popout: PQCSettings.interfacePopoutQuickActions // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
-    source: "ongoing/PQQuickActions.qml"
+    popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    source: "../extensions/histogram/PQHistogram.qml"
+    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram")
 
     modality: Qt.NonModal
 
@@ -44,14 +47,26 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutQuickActions = false // qmllint disable unqualified
+        if(PQCConstants.photoQtShuttingDown) return
+        PQCSettings.extensionsHistogramPopout = false // qmllint disable unqualified
         close()
-        PQCNotify.executeInternalCommand("__quickActions")
+        PQCNotify.executeInternalCommand("__histogram")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutQuickActions) // qmllint disable unqualified
-            PQCSettings.interfacePopoutQuickActions = popout
+        if(PQCConstants.photoQtShuttingDown) return
+        if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
+            PQCSettings.extensionsHistogramPopout = popout
+    }
+
+    onGeometryChanged: {
+        if(geometry !== PQCWindowGeometry.histogramGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.histogramGeometry = geometry
+    }
+
+    onIsMaxChanged: {
+        if(isMax !== PQCWindowGeometry.histogramMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.histogramMaximized = isMax
     }
 
 }

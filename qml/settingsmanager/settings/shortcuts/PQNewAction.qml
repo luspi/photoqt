@@ -28,6 +28,7 @@ import Qt.labs.platform
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
 import PQCNotify
+import PQCExtensionsHandler
 
 import "../../../elements"
 
@@ -53,6 +54,7 @@ Rectangle {
         "currentimage",
         "currentfolder",
         "interface",
+        "extensions",
         "other",
         "external"
     ]
@@ -62,8 +64,9 @@ Rectangle {
         "currentimage" : 1,
         "currentfolder" : 2,
         "interface" : 3,
-        "other" : 4,
-        "external" : 5
+        "extensions" : 4,
+        "other" : 5,
+        "external" : 6
     }
 
     property var categoryTitles: {
@@ -76,6 +79,8 @@ Rectangle {
                           //: This is a shortcut category
         "interface"     : qsTranslate("settingsmanager", "Interface"),
                           //: This is a shortcut category
+        "extensions"    : qsTranslate("settingsmanager", "Extensions"),
+                          //: This is a shortcut category
         "other"         : qsTranslate("settingsmanager", "Other"),
                           //: This is a shortcut category
         "external"      : qsTranslate("settingsmanager", "External")
@@ -86,11 +91,12 @@ Rectangle {
         qsTranslate("settingsmanager", "These actions are certain things that can be done with the currently viewed image. They typically do not affect any of the other images."),
         qsTranslate("settingsmanager", "These actions affect the currently loaded folder as a whole and not just single images."),
         qsTranslate("settingsmanager", "These actions affect the status and behavior of various interface elements regardless of the status of any possibly loaded image."),
+        qsTranslate("settingsmanager", "These actions belong to various parts of the application that are not strictly necessary for a simple image viewer. This section will be worked out more over the next releases."),
         qsTranslate("settingsmanager", "These actions do not fit into any other category."),
         qsTranslate("settingsmanager", "Here any external executable can be set as shortcut action. The button with the three dots can be used to select an executable with a file dialog.")
     ]
 
-    property list<var> actionsByCategory: [[], [], [], [], [],[]]
+    property list<var> actionsByCategory: [[], [], [], [], [], [], []]
 
     property int selectedCategory: 0
 
@@ -143,7 +149,7 @@ Rectangle {
             width: 200
             height: insidecont.height
 
-            model: 6
+            model: 7
 
             delegate:
                 Rectangle {
@@ -153,7 +159,7 @@ Rectangle {
                     required property int modelData
 
                     width: parent.width
-                    height: insidecont.height/6
+                    height: insidecont.height/7
 
                     border {
                         width: 1
@@ -207,13 +213,13 @@ Rectangle {
                 text: newaction_top.descriptions[newaction_top.selectedCategory]
             }
 
-            // these are categories 1-5, all except external shortcuts
+            // these are categories 1-6, all except external shortcuts
             ListView {
                 id: actionsview
                 y: desclabel.height+20
                 width: parent.width
                 height: parent.height-desclabel.height-25
-                visible: newaction_top.selectedCategory<5
+                visible: newaction_top.selectedCategory<6
                 orientation: ListView.Vertical
                 property list<string> modeldata: newaction_top.actionsByCategory[newaction_top.selectedCategory]
                 model: modeldata.length
@@ -457,6 +463,22 @@ Rectangle {
 
         }
 
+        var allext = PQCExtensionsHandler.getExtensions()
+        for(var i in allext) {
+
+            var ext = allext[i]
+
+            var fullsh = PQCExtensionsHandler.getShortcutsActions(ext)
+            var allsh = PQCExtensionsHandler.getShortcuts(ext)
+
+            for(var iSh in allsh) {
+                var sh = fullsh[iSh]
+                actionsByCategory[categoriesToIndex["extensions"]].push([sh[0],sh[1]])
+            }
+
+
+        }
+
         actionsByCategoryChanged()
 
     }
@@ -470,11 +492,19 @@ Rectangle {
             if(cur in setting_top.actions) {
                 var cat = categoriesToIndex[setting_top.actions[cur][1]]
                 selectedCategory = cat
+            } else {
+                for(var i in setting_top.extensions) {
+                    var ext = setting_top.extensions[i]
+                    if(cur in PQCExtensionsHandler.getShortcuts(ext)) {
+                        selectedCategory = "extensions"
+                        break;
+                    }
+                }
             }
 
         } else {
 
-            selectedCategory = 5
+            selectedCategory = 6
 
             var parts = cur.split(":/:/:")
             ext_exe.text = parts[0]

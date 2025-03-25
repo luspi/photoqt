@@ -23,7 +23,9 @@
 import QtQuick
 import PQCWindowGeometry
 import PQCNotify
-import "../../elements"
+import PQCExtensionsHandler
+
+import "../../qml/elements"
 
 PQTemplatePopout {
 
@@ -32,11 +34,12 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mapcurrentGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.mapcurrentMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutMapCurrent // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.mapcurrentForcePopout // qmllint disable unqualified
-    source: "ongoing/PQMapCurrent.qml"
+    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").width,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").height)
+    isMax: false // qmllint disable unqualified
+    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    source: "../extensions/mapcurrent/PQMapCurrent.qml"
+    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent")
 
     modality: Qt.NonModal
 
@@ -44,14 +47,16 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutMapCurrent = false // qmllint disable unqualified
+        if(PQCConstants.photoQtShuttingDown) return
+        PQCSettings.extensionsMapCurrentPopout = false // qmllint disable unqualified
         close()
         PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapCurrent) // qmllint disable unqualified
-            PQCSettings.interfacePopoutMapCurrent = popout
+        if(PQCConstants.photoQtShuttingDown) return
+        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
+            PQCSettings.extensionsMapCurrentPopout = popout
     }
 
     onGeometryChanged: {

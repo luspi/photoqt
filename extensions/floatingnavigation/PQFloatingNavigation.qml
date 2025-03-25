@@ -25,24 +25,22 @@ import QtQuick
 import PQCFileFolderModel
 import PQCNotify
 
-import "../elements"
-import "../"
+import "../../qml/elements"
+import "../../qml/"
 
 Item {
 
     id: nav_top
-
-    property PQMainWindow access_toplevel: toplevel // qmllint disable unqualified
 
     x: ((parentWidth-width)/2)
     y: parentHeight*0.8
     width: row.width
     height: 80
 
-    property int parentWidth: access_toplevel.width
-    property int parentHeight: access_toplevel.height
+    property int parentWidth: PQCConstants.windowWidth
+    property int parentHeight: PQCConstants.windowHeight
 
-    opacity: (!PQCSettings.interfaceNavigationFloating || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
+    opacity: (!PQCSettings.extensionsFloatingNavigation || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity > 0)
     enabled: visible
@@ -75,9 +73,9 @@ Item {
         anchors.fill: parent
         drag.target: parent
         drag.minimumX: 0
-        drag.maximumX: nav_top.access_toplevel.width-nav_top.width
+        drag.maximumX: PQCConstants.windowWidth-nav_top.width
         drag.minimumY: 0
-        drag.maximumY: nav_top.access_toplevel.height-nav_top.height
+        drag.maximumY: PQCConstants.windowHeight-nav_top.height
         property bool dragActive: drag.active
         onDragActiveChanged: nav_top.disconnectPos()
         hoverEnabled: true
@@ -114,9 +112,9 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
                 property bool dragActive: drag.active
                 onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
@@ -148,9 +146,9 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
                 property bool dragActive: drag.active
                 onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Navigate to next image in folder")
@@ -179,9 +177,9 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 drag.target: nav_top
                 drag.minimumX: 0
-                drag.maximumX: nav_top.access_toplevel.width-nav_top.width
+                drag.maximumX: PQCConstants.windowWidth-nav_top.width
                 drag.minimumY: 0
-                drag.maximumY: nav_top.access_toplevel.height-nav_top.height
+                drag.maximumY: PQCConstants.windowHeight-nav_top.height
                 property bool dragActive: drag.active
                 onDragActiveChanged: nav_top.disconnectPos()
                 text: qsTranslate("navigate", "Show main menu")
