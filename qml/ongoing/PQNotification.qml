@@ -157,6 +157,15 @@ Rectangle {
 
     }
 
+    property bool waitBeforeNextNotification: false
+    Timer {
+        id: resetWaitBeforeNextNotification
+        interval: 1000
+        onTriggered: {
+            notification_top.waitBeforeNextNotification = false
+        }
+    }
+
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
@@ -164,7 +173,16 @@ Rectangle {
         function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
+
                 if(param.length === 2 && param[0] === "notification") {
+
+                    // only one iteration per 1s can be shown at a time
+                    // otherwise the check for a native notification might fail
+                    // and two notification might be shown (native and integrated)
+                    if(notification_top.waitBeforeNextNotification)
+                        return
+                    notification_top.waitBeforeNextNotification = true
+                    resetWaitBeforeNextNotification.restart()
 
                     var tit = param[1][0]
                     var sum = param[1][1]
@@ -188,7 +206,7 @@ Rectangle {
 
     Timer {
         id: hideNotification
-        interval: 5000
+        interval: 3000
         onTriggered:
             notification_top.hide()
     }
