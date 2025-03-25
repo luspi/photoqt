@@ -1093,7 +1093,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+            if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 mainmenu_top.setVisible = false
                 return
             }
@@ -1142,16 +1142,17 @@ Rectangle {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : string) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param === "mainmenu") {
+                if(param[0] === "mainmenu") {
                     mainmenu_top.showMainMenu()
                 }
             } else if(what === "toggle") {
-                if(param === "mainmenu") {
+                if(param[0] === "mainmenu") {
                     mainmenu_top.toggle()
                 }
             }

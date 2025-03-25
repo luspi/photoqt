@@ -39,7 +39,6 @@ Item {
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],
         "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCWindowGeometry.filedialogForcePopout],
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
-        "scale"               : ["actions","PQScale", loader_scale, 1, PQCSettings.interfacePopoutScale, PQCWindowGeometry.scaleForcePopout],
         "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
         "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
         "filecopy"            : ["actions","PQCopy", loader_copy, 1, false, false],
@@ -61,8 +60,10 @@ Item {
     }
 
     property string visibleItem: ""
-
-    signal passOn(var what, var param)
+    onVisibleItemChanged: {
+        PQCConstants.idOfVisibleItem = visibleItem
+        PQCConstants.modalWindowOpen = (visibleItem!="")
+    }
 
     function show(ele : string, additional = undefined) : void {
 
@@ -72,17 +73,18 @@ Item {
         }
 
         if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
-            loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
+            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
             return
         } else if(ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
-            loader.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
+            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
             return
         }
 
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
-            if(PQCExtensionsHandler.getIsModal(ele))
-                visibleItem = ele
+            if(PQCExtensionsHandler.getIsModal(ele) && visibleItem != "")
+                return
+            visibleItem = ele
             ensureExtensionIsReady(ele, ind)
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)
@@ -106,10 +108,8 @@ Item {
         }
 
         if(additional === undefined) {
-            passOn("show", ele)
             PQCNotify.loaderPassOn("show", [ele])
         } else {
-            passOn("show", [ele, additional])
             PQCNotify.loaderPassOn("show", [ele, additional])
         }
 
@@ -117,7 +117,7 @@ Item {
 
     function elementClosed(ele : string) {
 
-        if((ele in loadermapping && loadermapping[ele][3] === 1) || ele === "facetagger") {
+        if((ele in loadermapping && loadermapping[ele][3] === 1) || PQCExtensionsHandler.getExtensions().indexOf(ele)>-1 || ele === "facetagger") {
 
             // these are the same checks as above when setting this property
             if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) && // qmllint disable unqualified
@@ -132,6 +132,7 @@ Item {
 
             }
         }
+
     }
 
     function ensureItIsReady(ele : string, config : var) {
@@ -169,17 +170,53 @@ Item {
         console.warn("## TODO: implement PQLoader::resetAll()")
     }
 
+    property string visibleItemBackup: ""
+
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
 
-        function onShowNotificationMessage(msg) {
-            loader_top.show("notification", [msg, ""])
+        function onShowNotificationMessage(title : string, msg : string) {
+            loader_top.show("notification", [title, msg])
         }
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady(category, loader.loadermapping[category]) // qmllint disable unqualified
-            loader_top.passOn("showSettings", subcategory)
+            loader_top.ensureItIsReady(category, loader_top.loadermapping[category]) // qmllint disable unqualified
+            PQCNotify.loaderPassOn("showSettings", [subcategory])
+        }
+
+        function onLoaderRegisterClose(ele : string) {
+            loader_top.elementClosed(ele)
+        }
+
+        function onLoaderShow(ele : string) {
+            loader_top.ensureItIsReady(ele, loader_top.loadermapping[ele])
+            loader_top.show(ele)
+        }
+
+        function onLoaderShowExtension(ele : string) {
+            loader_top.ensureExtensionIsReady(ele, PQCExtensionsHandler.getExtensions().indexOf(ele))
+            loader_top.show(ele)
+        }
+
+        function onLoaderSetup(ele : string) {
+            loader_top.ensureItIsReady(ele, loader_top.loadermapping[ele])
+        }
+
+        function onLoaderSetupExtension(ele : string) {
+            loader_top.ensureExtensionIsReady(ele, PQCExtensionsHandler.getExtensions().indexOf(ele))
+        }
+
+        function onLoaderOverrideVisibleItem(ele : string) {
+            loader_top.visibleItemBackup = loader_top.visibleItem
+            loader_top.visibleItem = ele
+        }
+
+        function onLoaderRestoreVisibleItem() {
+            if(loader_top.visibleItemBackup != "") {
+                loader_top.visibleItem = loader_top.visibleItemBackup
+                loader_top.visibleItemBackup = ""
+            }
         }
 
     }

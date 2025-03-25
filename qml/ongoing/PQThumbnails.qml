@@ -806,8 +806,7 @@ Item {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                    loader.passOn("showSettings", "thumbnails")
+                    PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
                 }
             }
 
@@ -854,7 +853,7 @@ Item {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+            if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 thumbnails_top.setVisible = false
                 return
             }
@@ -897,12 +896,13 @@ Item {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : string) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param === "thumbnails")
+                if(param[0] === "thumbnails")
                     thumbnails_top.setVisible = !thumbnails_top.setVisible
             }
 

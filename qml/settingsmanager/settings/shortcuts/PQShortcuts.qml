@@ -117,8 +117,6 @@ Flickable {
                                  //: Name of shortcut action
         "__viewerMode":         [qsTranslate("settingsmanager", "Enter viewer mode"), "currentimage"],
                                  //: Name of shortcut action
-        "__scale":              [qsTranslate("settingsmanager", "Scale Image"), "currentimage"],
-                                 //: Name of shortcut action
         "__rename":             [qsTranslate("settingsmanager", "Rename File"), "currentimage"],
                                  //: Name of shortcut action
         "__delete":             [qsTranslate("settingsmanager", "Delete File"), "currentimage"],

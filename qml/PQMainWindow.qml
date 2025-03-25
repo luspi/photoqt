@@ -147,7 +147,7 @@ Window {
         id: windowbuttons_ontop
         asynchronous: true
         source: "ongoing/PQWindowButtons.qml"
-        z: loader.visibleItem!=="filedialog" ? 999 : 0
+        z: PQCConstants.idOfVisibleItem!=="filedialog" ? 999 : 0
         onStatusChanged: {
             if(windowbuttons_ontop.status == Loader.Ready)
                 windowbuttons_ontop.item.visibleAlways = true
@@ -192,7 +192,6 @@ Window {
     Loader { id: loader_filter }
     Loader { id: loader_imgur }
     Loader { id: loader_mapexplorer }
-    Loader { id: loader_scale }
     Loader { id: loader_settingsmanager }
     Loader { id: loader_slideshowsetup }
     Loader { id: loader_wallpaper }
@@ -254,7 +253,7 @@ Window {
         id: metadatadelay
         interval: 250
         onTriggered:
-            loader.show("metadata")
+            PQCNotify.loaderShow("metadata")
     }
 
     Connections {
@@ -263,7 +262,7 @@ Window {
 
         function onCmdOpen() : void {
             console.log("")
-            loader.show("filedialog")
+            PQCNotify.loaderShow("filedialog")
         }
 
         function onCmdShow() : void {
@@ -436,9 +435,9 @@ Window {
                 showFullScreen()
         }
 
-        loader.show("mainmenu")
-        loader.show("metadata")
-        loader.ensureItIsReady("thumbnails", loader.loadermapping["thumbnails"])
+        PQCNotify.loaderShow("mainmenu")
+        PQCNotify.loaderShow("metadata")
+        PQCNotify.loaderSetup("thumbnails")
 
         if(PQCNotify.filePath !== "")
             PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
@@ -471,10 +470,9 @@ Window {
                     var entry = checks[i]
                     if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
                         if(entry[1] === "show") {
-                            loader.ensureExtensionIsReady(ext, iE)
-                            PQCNotify.loaderPassOn("show", [entry[2]])
+                            PQCNotify.loaderShowExtension(ext)
                         } else if(entry[1] === "setup") {
-                            loader.ensureExtensionIsReady(ext, iE)
+                            PQCNotify.loaderSetupExtension(ext)
                         } else {
                             console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
                         }

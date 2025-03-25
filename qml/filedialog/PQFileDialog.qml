@@ -157,11 +157,14 @@ Rectangle {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
-        function onPassOn(what, param) {
+
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
+
             if(what === "show") {
 
-                if(param === filedialog_top.thisis)
+                if(param[0] === filedialog_top.thisis)
                     filedialog_top.showFileDialog()
 
             } else if(filedialog_top.opacity > 0) {
@@ -404,7 +407,7 @@ Rectangle {
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 
         // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
-        loader.elementClosed(thisis)
+        PQCNotify.loaderRegisterClose(thisis)
 
     }
 

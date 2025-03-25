@@ -349,7 +349,7 @@ Item {
             onClicked: {
                 PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls // qmllint disable unqualified
                 slideshowcontrols_top.hide()
-                loader.show("slideshowcontrols")
+                PQCNotify.loaderRegisterClose("slideshowcontrols")
             }
         }
     }
@@ -379,18 +379,18 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "slideshowcontrols")
+                if(param[0] === "slideshowcontrols")
                     slideshowcontrols_top.show()
 
             } else if(what === "hide") {
 
-                if(param === "slideshowcontrols")
+                if(param[0] === "slideshowcontrols")
                     slideshowcontrols_top.hide()
 
             } else if(what === "keyEvent") {
@@ -440,7 +440,7 @@ Item {
         opacity = 0
         if(popoutWindowUsed)
             slideshowcontrols_popout.visible = false // qmllint disable unqualified
-        loader.elementClosed("slideshowcontrols")
+        PQCNotify.loaderRegisterClose("slideshowcontrols")
     }
 
     Component.onCompleted: {

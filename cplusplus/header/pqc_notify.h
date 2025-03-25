@@ -282,12 +282,21 @@ Q_SIGNALS:
     void mouseWindowEnter();
 
     // other
-    void showNotificationMessage(QString msg);
+    void showNotificationMessage(QString title, QString msg);
     void haveScreenshotsChanged();
     void debugLogMessagesChanged();
     void colorProfilesChanged();
     void openSettingsManagerAt(QString category, QString subcategory);
-    void loaderPassOn(QString what, QStringList args);
+
+    // loader methods
+    void loaderShow(QString ele);
+    void loaderShowExtension(QString ele);
+    void loaderSetup(QString ele);
+    void loaderSetupExtension(QString ele);
+    void loaderPassOn(QString what, QVariantList args);
+    void loaderRegisterClose(QString ele);
+    void loaderOverrideVisibleItem(QString ele);
+    void loaderRestoreVisibleItem();
 
 };
 

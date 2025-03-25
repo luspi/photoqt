@@ -90,7 +90,7 @@ Item {
                         to: 50
                         duration: 1000
                         loops: Animation.Infinite
-                        running: clickhere.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                        running: clickhere.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                         easing.type: Easing.OutCirc
                     }
                 }
@@ -155,7 +155,7 @@ Item {
 
                 id: seqleft
 
-                running: arrleft.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: arrleft.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -212,7 +212,7 @@ Item {
 
                 id: seqleft_txt
 
-                running: rectleft.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: rectleft.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -259,7 +259,7 @@ Item {
 
                 id: seqright
 
-                running: arrright.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: arrright.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -315,7 +315,7 @@ Item {
 
                 id: seqright_txt
 
-                running: right_txt.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: right_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -363,7 +363,7 @@ Item {
 
                 id: seqdown
 
-                running: arrdown.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: arrdown.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -419,7 +419,7 @@ Item {
 
                 id: seqdown_txt
 
-                running: bottom_txt.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: bottom_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -466,7 +466,7 @@ Item {
 
                 id: sequp
 
-                running: arrup.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: arrup.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -522,7 +522,7 @@ Item {
 
                 id: sequp_txt
 
-                running: up_txt.visible&&loader.visibleItem==="" // qmllint disable unqualified
+                running: up_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
                 loops: Animation.Infinite
 
                 // move out quick
@@ -609,7 +609,7 @@ Item {
             }
 
             if(mouse.button === Qt.LeftButton)
-                loader.show("filedialog")
+                PQCNotify.loaderShow("filedialog")
             else {
                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                 PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)

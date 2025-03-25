@@ -337,18 +337,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === filter_top.thisis)
+                if(param[0] === filter_top.thisis)
                     filter_top.show()
 
             } else if(what === "hide") {
 
-                if(param === filter_top.thisis)
+                if(param[0] === filter_top.thisis)
                     filter_top.hide()
 
             } else if(filter_top.visible) {
@@ -485,7 +485,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && filter_popout.visible)
             filter_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         fullscreenitem.forceActiveFocus()
     }

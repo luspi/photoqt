@@ -25,6 +25,7 @@ import QtQuick
 
 import PQCScriptsChromeCast
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -183,18 +184,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === chromecastmanager_top.thisis)
+                if(param[0] === chromecastmanager_top.thisis)
                     chromecastmanager_top.show()
 
             } else if(what === "hide") {
 
-                if(param === chromecastmanager_top.thisis)
+                if(param[0] === chromecastmanager_top.thisis)
                     chromecastmanager_top.hide()
 
             } else if(chromecastmanager_top.opacity > 0) {
@@ -229,7 +230,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = true // qmllint disable unqualified
         // we also show the chromecast handler
-        loader.show("chromecast")
+        PQCNotify.loaderShowExtension("chromecast")
 
         PQCScriptsChromeCast.startDiscovery()
 
@@ -245,7 +246,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

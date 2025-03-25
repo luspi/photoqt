@@ -44,7 +44,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        loader.passOn("forceClose", []) // qmllint disable unqualified
+        PQCNotify.loaderPassOn("forceClose", []) // qmllint disable unqualified
     }
 
     onGeometryChanged: {

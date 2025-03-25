@@ -314,7 +314,7 @@ bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
                                summary,
                                txt});
 
-    proc_notifysend.waitForFinished(1000);
+    proc_notifysend.waitForFinished(2500);
     // success!
     if(proc_notifysend.exitCode() == 0)
         return true;
@@ -337,7 +337,7 @@ bool PQCScriptsOther::showDesktopNotification(QString summary, QString txt) {
                                "{'urgency': <1>}",
                                "5000"});
 
-    proc_gdbus.waitForFinished(1000);
+    proc_gdbus.waitForFinished(2500);
     // success!
     if(proc_gdbus.exitCode() == 0)
         return true;

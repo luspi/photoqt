@@ -333,18 +333,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === crop_top.thisis)
+                if(param[0] === crop_top.thisis)
                     crop_top.show()
 
             } else if(what === "hide") {
 
-                if(param === crop_top.thisis)
+                if(param[0] === crop_top.thisis)
                     crop_top.hide()
 
             } else if(crop_top.opacity > 0) {
@@ -397,7 +397,7 @@ PQTemplateFullscreen {
         var canBeCropped = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
 
         if(!canBeCropped) {
-            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be cropped.")])
+            PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be cropped."))
             hide()
             return
         }
@@ -430,7 +430,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && crop_popout.visible)
             crop_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

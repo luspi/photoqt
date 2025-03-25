@@ -31,7 +31,6 @@ import PQCExtensionsHandler
 import PQCNotify
 
 import "../../qml/elements"
-import "../../qml/"
 
 PQTemplateFloating {
 
@@ -414,7 +413,7 @@ PQTemplateFloating {
             menu.item.dismiss() // qmllint disable missing-property
         }
 
-        function onLoaderPassOn(what : string, args : list<string>) {
+        function onLoaderPassOn(what : string, args : list<var>) {
             if(what === "show" && args[0] === "histogram") {
                 if(histogram_top.visible) {
                     histogram_top.hide()

@@ -4,6 +4,7 @@
 #include <floatingnavigation/config.h>
 #include <histogram/config.h>
 #include <mapcurrent/config.h>
+#include <scale/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -15,10 +16,14 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     // ALL EXTENSIONS NEED TO BE REGISTERED HERE!!!
     /***********************************************/
 
+    // not modal
     m_allextensions.append(new PQCExtensionMapCurrent());
     m_allextensions.append(new PQCExtensionHistogram());
     m_allextensions.append(new PQCExtensionQuickActions());
     m_allextensions.append(new PQCExtensionFloatingNavigation());
+
+    // modal
+    m_allextensions.append(new PQCExtensionScale());
 
     /********************************************/
     /********************************************/

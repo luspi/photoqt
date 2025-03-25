@@ -287,7 +287,7 @@ PQTemplateFloating {
     Connections {
         target: PQCNotify // qmllint disable unqualified
 
-        function onLoaderPassOn(what : string, args : list<string>) {
+        function onLoaderPassOn(what : string, args : list<var>) {
 
             if(what === "show" && args[0] === "mapcurrent") {
                 if(mapcurrent_top.visible) {

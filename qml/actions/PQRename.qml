@@ -156,18 +156,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === rename_top.thisis)
+                if(param[0] === rename_top.thisis)
                     rename_top.show()
 
             } else if(what === "hide") {
 
-                if(param === rename_top.thisis)
+                if(param[0] === rename_top.thisis)
                     rename_top.hide()
 
             } else if(rename_top.opacity > 0) {
@@ -243,7 +243,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && filerename_popout.visible)
             filerename_popout.visible = false
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

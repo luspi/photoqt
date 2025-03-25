@@ -52,7 +52,7 @@ Item {
         height: 42
         radius: 21
 
-        visible: PQCNotify.faceTagging // qmllint disable unqualified
+        visible: PQCConstants.faceTaggingMode // qmllint disable unqualified
 
         color: PQCLook.transColor // qmllint disable unqualified
 
@@ -142,7 +142,7 @@ Item {
             Connections {
                 target: PQCNotify // qmllint disable unqualified
 
-                enabled: !newmarker.visible && PQCNotify.faceTagging // qmllint disable unqualified
+                enabled: !newmarker.visible && PQCConstants.faceTaggingMode // qmllint disable unqualified
 
                 function onMouseMove(x : int, y : int) {
                     var pos = facedeleg.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
@@ -292,7 +292,7 @@ Item {
 
         target: PQCNotify // qmllint disable unqualified
 
-        enabled: PQCNotify.faceTagging && !whoisthis.visible // qmllint disable unqualified
+        enabled: PQCConstants.faceTaggingMode && !whoisthis.visible // qmllint disable unqualified
 
         function onMouseMove(x : int, y : int) {
             if(!facetagger_top.mouseDown) return
@@ -327,32 +327,32 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(loader_top.isMainImage) { // qmllint disable unqualified
 
                 if(what === "tagFaces") {
 
                     if(!PQCScriptsMetaData.areFaceTagsSupported(PQCFileFolderModel.currentFile)) {
-                        loader.show("notification", [qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags.")])
+                        PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags."))
                         return
                     } else if(PQCNotify.showingPhotoSphere) {
-                        loader.show("notification", [qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere.")])
+                        PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere."))
                         return
                     } else
-                        loader.show("notification", [qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces.")])
+                        PQCNotify.showNotificationMessage(qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
 
                     image.zoomReset()
                     image.rotateReset()
                     image.mirrorReset()
 
-                    loader.visibleItem = "facetagger"
-                    PQCNotify.faceTagging = true
+                    PQCNotify.loaderOverrideVisibleItem("facetagger")
+                    PQCConstants.faceTaggingMode = true
                     facetagger_top.show()
 
-                } else if(what === "keyEvent" && loader.visibleItem == "facetagger") {
+                } else if(what === "keyEvent" && PQCConstants.faceTaggingMode) {
 
                     if(param[0] === Qt.Key_Escape) {
 
@@ -376,7 +376,7 @@ Item {
 
     function deleteFaceTag(number : int) {
 
-        if(!PQCNotify.faceTagging) return // qmllint disable unqualified
+        if(!PQCConstants.faceTaggingMode) return // qmllint disable unqualified
 
         for(var i = 0; i < faceTags.length/6; ++i) {
             if(faceTags[6*i] === number) {
@@ -406,9 +406,8 @@ Item {
 
     function hide() {
         opacity = 0
-        PQCNotify.faceTagging = false // qmllint disable unqualified
-        if(loader.visibleItem == "facetagger")
-            loader.visibleItem = ""
+        PQCConstants.faceTaggingMode = false // qmllint disable unqualified
+        PQCNotify.loaderRegisterClose("facetagger")
     }
 
 }

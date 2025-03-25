@@ -450,12 +450,12 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param === convert_top.thisis)
+                if(param[0] === convert_top.thisis)
                     convert_top.show()
             } else if(convert_top.opacity > 0) {
 
@@ -601,7 +601,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && export_popout.visible)
             export_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

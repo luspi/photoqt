@@ -50,7 +50,7 @@ Item {
 
     property bool movedByMouse: false
 
-    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCNotify.faceTagging && PQCSettings.interfaceStatusInfoShow) ? 1 : 0 // qmllint disable unqualified
+    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow) ? 1 : 0 // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
@@ -66,7 +66,6 @@ Item {
 
     PQShadowEffect { masterItem: statusinfo_top }
 
-    property PQLoader access_loader: loader // qmllint disable unqualified
     property PQImage access_image: image // qmllint disable unqualified
 
     // don't pass mouse clicks to background
@@ -421,7 +420,7 @@ Item {
             //: Used in tooltip for the chromecast icon
             text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName // qmllint disable unqualified
             onClicked:
-                statusinfo_top.access_loader.show("chromecastmanager", undefined)
+                PQCNotify.loaderShowExtension("chromecastmanager")
         }
     }
 
@@ -680,8 +679,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     onTriggered: {
-                        loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                        loader.passOn("showSettings", "statusinfo")
+                        PQCNotify.openSettingsManagerAt("showSettings", ["statusinfo"])
                     }
                 }
 
@@ -709,7 +707,7 @@ Item {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || statusinfo_top.access_loader.visibleItem !== "") { // qmllint disable unqualified
+            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || PQCConstants.modalWindowOpen) { // qmllint disable unqualified
                 resetAutoHide.stop()
                 statusinfo_top.state = "visible"
                 statusinfo_top.nearTopEdge = true
@@ -767,10 +765,10 @@ Item {
 
     Connections {
 
-        target: statusinfo_top.access_loader
+        target: PQCConstants // qmllint disable unqualified
 
-        function onVisibleItemChanged() {
-            if(statusinfo_top.access_loader.visibleItem !== "")
+        function onModalWindowOpenChanged() {
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
                 statusinfo_top.state = "visible"
         }
 

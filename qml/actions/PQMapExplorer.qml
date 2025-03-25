@@ -223,18 +223,18 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "mapexplorer")
+                if(param[0] === "mapexplorer")
                     mapexplorer_top.showExplorer()
 
             } else if(what === "hide") {
 
-                if(param === "mapexplorer")
+                if(param[0] === "mapexplorer")
                     mapexplorer_top.hideExplorer()
 
             } else if(mapexplorer_top.opacity > 0) {
@@ -393,7 +393,7 @@ Item {
         if(popoutWindowUsed && mapexplorer_window.visible)
             mapexplorer_window.visible = false
         else
-            loader.elementClosed("mapexplorer")
+            PQCNotify.loaderShowExtension("mapexplorer")
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
 

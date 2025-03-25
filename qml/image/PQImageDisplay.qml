@@ -155,7 +155,7 @@ Loader {
             function onZoomIn(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -167,7 +167,7 @@ Loader {
             function onZoomOut(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -178,7 +178,7 @@ Loader {
             }
             function onZoomReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
@@ -186,7 +186,7 @@ Loader {
             }
             function onZoomActual() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = 1/PQCConstants.devicePixelRatio
@@ -194,7 +194,7 @@ Loader {
             }
             function onRotateClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -212,7 +212,7 @@ Loader {
             }
             function onRotateAntiClock() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -230,7 +230,7 @@ Loader {
             }
             function onRotateReset() {
 
-                if(PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
 
                 if(loader_top.isMainImage) {
@@ -489,7 +489,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            interactive: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -507,7 +507,7 @@ Loader {
                 target: PQCNotify // qmllint disable unqualified
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
-                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCNotify.faceTagging || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                         return
                     flickable.interactive = false
                     reEnableInteractive.restart()
@@ -515,7 +515,7 @@ Loader {
 
                 function onMousePressed(mods : int, button : string, pos : point) {
 
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.stop()
                         flickable.interactive = false
                     }
@@ -548,7 +548,7 @@ Loader {
                 }
 
                 function onMouseReleased() {
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.restart()
                     }
                 }
@@ -560,7 +560,7 @@ Loader {
                 interval: 100
                 repeat: false
                 onTriggered:
-                    flickable.interactive = Qt.binding(function() { return !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
+                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
             }
 
             // the container for the content
@@ -1469,7 +1469,7 @@ Loader {
 
                 if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
                     image_top.barcodeClick()
-                if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCNotify.faceTagging) {
+                if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCConstants.faceTaggingMode) {
                     mouse.accepted = false
                     return
                 }
@@ -1519,7 +1519,7 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCNotify.faceTagging && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            enabled: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
 
             property list<point> initialPts: []
             property real initialScale

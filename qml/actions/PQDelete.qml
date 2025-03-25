@@ -28,6 +28,7 @@ import PQCScriptsShortcuts
 import PQCScriptsConfig
 import PQCScriptsFileManagement
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -119,18 +120,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === delete_top.thisis)
+                if(param[0] === delete_top.thisis)
                     delete_top.show()
 
             } else if(what === "hide") {
 
-                if(param === delete_top.thisis)
+                if(param[0] === delete_top.thisis)
                     delete_top.hide()
 
             } else if(delete_top.opacity > 0) {
@@ -207,7 +208,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && filedelete_popout.visible)
             filedelete_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

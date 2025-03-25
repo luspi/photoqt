@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import PQCWindowGeometry
+import PQCNotify
 import "../../elements"
 
 PQTemplatePopout {
@@ -40,9 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "filter") // qmllint disable unqualified
-            loader.elementClosed("filter")
+        PQCNotify.loaderRegisterClose("filter")
     }
 
     onPopoutChanged: {

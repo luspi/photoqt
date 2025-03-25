@@ -536,7 +536,7 @@ PQTemplateFloating {
             menu.item.dismiss() // qmllint disable missing-property
         }
 
-        function onLoaderPassOn(what : string, args : list<string>) {
+        function onLoaderPassOn(what : string, args : list<var>) {
             if(what === "show" && args[0] === "quickactions") {
                 if(quickactions_top.visible)
                     quickactions_top.hide()

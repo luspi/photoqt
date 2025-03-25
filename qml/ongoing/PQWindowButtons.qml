@@ -48,7 +48,7 @@ Item {
     width: row.width
     height: row.height
 
-    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCNotify.faceTagging // qmllint disable unqualified
+    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCConstants.faceTaggingMode // qmllint disable unqualified
 
     property bool visibleAlways: false
 
@@ -98,7 +98,7 @@ Item {
                 sourceSize: Qt.size(width, height)
                 source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
                 enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-                opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
+                opacity: PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
                 visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || PQCConstants.windowFullScreen) && opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
                 mipmap: true
                 PQMouseArea {
@@ -124,7 +124,7 @@ Item {
                 sourceSize: Qt.size(width, height)
                 source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
                 enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-                opacity: loader.visibleItem!==""||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
+                opacity: PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
                 visible: PQCSettings.interfaceNavigationTopRight && (PQCSettings.interfaceNavigationTopRightAlways || PQCConstants.windowFullScreen) && opacity > 0 // qmllint disable unqualified
                 mipmap: true
                 PQMouseArea {
@@ -155,7 +155,7 @@ Item {
                 sourceSize: Qt.size(width, height)
                 source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
 
-                opacity: (loader.visibleItem!==""||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
+                opacity: (PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
 
                 mipmap: true
 
@@ -498,8 +498,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     onTriggered: {
-                        loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                        loader.passOn("showSettings", "windowbuttons")
+                        PQCNotify.onOpenSettingsManagerAt("showSettings", "windowbuttons")
                     }
                 }
 
@@ -527,7 +526,7 @@ Item {
 
         function onMouseMove(posx, posy) {
 
-            if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || loader.visibleItem !== "") { // qmllint disable unqualified
+            if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || PQCConstants.modalWindowOpen) { // qmllint disable unqualified
                 resetAutoHide.stop()
                 windowbuttons_top.state = "visible"
                 windowbuttons_top.nearTopEdge = true
@@ -556,10 +555,10 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
 
-        function onVisibleItemChanged() {
-            if(loader.visibleItem !== "") // qmllint disable unqualified
+        function onModalWindowOpenChanged() {
+            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
                 windowbuttons_top.state = "visible"
         }
 

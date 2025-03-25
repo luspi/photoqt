@@ -29,14 +29,14 @@ import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCWindowGeometry
 
-import "../elements"
+import "../../qml/elements"
 
 PQTemplateFullscreen {
 
     id: scale_top
 
     thisis: "scale"
-    popout: PQCSettings.interfacePopoutScale // qmllint disable unqualified
+    popout: PQCSettings.extensionsScalePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
     shortcut: "__scale"
 
@@ -49,7 +49,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutScale = popout // qmllint disable unqualified
+        PQCSettings.extensionsScalePopout = popout // qmllint disable unqualified
 
     button1.onClicked:
         scaleImage()
@@ -318,19 +318,17 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, args : list<var>) {
 
-            if(what === "show") {
+            if(what === "show" && args[0] === "scale") {
 
-                if(param === scale_top.thisis)
-                    scale_top.show()
+                scale_top.show()
 
-            } else if(what === "hide") {
+            } else if(what === "hide" && args[0] === "scale") {
 
-                if(param === scale_top.thisis)
-                    scale_top.hide()
+                scale_top.hide()
 
             } else if(scale_top.opacity > 0) {
 
@@ -339,7 +337,7 @@ PQTemplateFullscreen {
                     if(scale_top.closeAnyMenu())
                         return
 
-                    if(param[0] === Qt.Key_Escape) {
+                    if(args[0] === Qt.Key_Escape) {
 
                         if(spin_w.editMode || spin_h.editMode)
                             scale_top.closePopupMenuSpin()
@@ -348,21 +346,21 @@ PQTemplateFullscreen {
 
                     }
 
-                    else if(param[0] === Qt.Key_Plus) {
+                    else if(args[0] === Qt.Key_Plus) {
 
                         if(spin_w.activeFocus)
                             spin_w.increase()
                         else if(spin_h.activeFocus)
                             spin_h.increase()
 
-                    } else if(param[0] === Qt.Key_Minus) {
+                    } else if(args[0] === Qt.Key_Minus) {
 
                         if(spin_w.activeFocus)
                             spin_w.decrease()
                         else if(spin_h.activeFocus)
                             spin_h.decrease()
 
-                    } else if(param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
+                    } else if(args[0] === Qt.Key_Enter || args[0] === Qt.Key_Return) {
 
                         if(scale_top.button1.enabled)
                             scale_top.scaleImage()
@@ -436,7 +434,7 @@ PQTemplateFullscreen {
         var canBeScaled = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
 
         if(!canBeScaled) {
-            loader.show("notification", [qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be scaled.")])
+            PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be scaled."))
             hide()
             return
         }
@@ -461,7 +459,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && scale_popout.visible)
             scale_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose("scale")
 
     }
 

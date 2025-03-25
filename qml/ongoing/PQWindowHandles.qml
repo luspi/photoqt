@@ -38,7 +38,7 @@ Item {
     MouseArea {
         x: statusinfo.item.width // qmllint disable unqualified
         y: 0
-        enabled: loader.visibleItem==="" // qmllint disable unqualified
+        enabled: !PQCConstants.modalWindowOpen // qmllint disable unqualified
         visible: enabled
         width: parent.width - statusinfo.item.width-20 - windowbuttons.item.width-10 // qmllint disable unqualified
         height: 3*handles_top.thickness

@@ -27,6 +27,7 @@ import QtQuick.Controls
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -614,18 +615,19 @@ PQTemplateFullscreen {
     ]
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === slideshowsettings_top.thisis)
+                if(param[0] === slideshowsettings_top.thisis)
                     slideshowsettings_top.show()
 
             } else if(what === "hide") {
 
-                if(param === slideshowsettings_top.thisis)
+                if(param[0] === slideshowsettings_top.thisis)
                     slideshowsettings_top.hide()
 
             } else if(slideshowsettings_top.visible) {
@@ -720,7 +722,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && slideshowsetup_popout.visible)
             slideshowsetup_popout.visible = false // qmllint disable unqualified
         else
-            loader.elementClosed(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
     function startSlideshow() {
@@ -742,8 +744,8 @@ PQTemplateFullscreen {
         PQCSettings.slideshowMusicFiles = slideshowsettings_top.musicfiles
 
         hide()
-        loader.show("slideshowhandler")
-        loader.show("slideshowcontrols")
+        PQCNotify.loaderShowExtension("slideshowhandler")
+        PQCNotify.loaderShowExtension("slideshowcontrols")
 
     }
 

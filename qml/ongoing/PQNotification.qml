@@ -22,6 +22,7 @@
 
 import QtQuick
 import PQCScriptsOther
+import PQCNotify
 
 import "../elements"
 import "../"
@@ -157,9 +158,10 @@ Rectangle {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
                 if(param.length === 2 && param[0] === "notification") {

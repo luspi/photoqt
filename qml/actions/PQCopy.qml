@@ -37,29 +37,29 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "filecopy") {
+                if(param[0] === "filecopy") {
 
                     error.opacity = 0
                     if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
-                        loader.elementClosed("filecopy")
+                        PQCNotify.loaderRegisterClose("filecopy")
                         return
                     }
 
                     PQCNotify.modalFileDialogOpen = true
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        loader.elementClosed("filecopy")
+                        PQCNotify.loaderRegisterClose("filecopy")
                     } else {
                         if(!PQCScriptsFileManagement.copyFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else
-                            loader.elementClosed("filecopy")
+                            PQCNotify.loaderRegisterClose("filecopy")
                     }
                     PQCNotify.modalFileDialogOpen = false
                 }
@@ -74,7 +74,7 @@ Item {
 
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        loader.elementClosed("filecopy")
+                        PQCNotify.loaderRegisterClose("filecopy")
                     }
                 }
             }
@@ -108,7 +108,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    loader.elementClosed("filecopy") // qmllint disable unqualified
+                    PQCNotify.loaderRegisterClose("filecopy") // qmllint disable unqualified
                 }
             }
         }

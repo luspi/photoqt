@@ -54,6 +54,9 @@ public:
     Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged);
     Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged);
 
+    Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged);
+    Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged);
+    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged);
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
 
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
@@ -67,6 +70,9 @@ private:
         m_windowMaxAndNotWindowed = true;
         m_photoQtStartupDone = false;
         m_howManyFiles = 0;
+        m_faceTaggingMode = false;
+        m_idOfVisibleItem = "";
+        m_modalWindowOpen = false;
 
         m_devicePixelRatio = 1.0;
         if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
@@ -94,6 +100,9 @@ private:
     bool m_windowFullScreen;
     bool m_windowMaxAndNotWindowed;
 
+    bool m_faceTaggingMode;
+    bool m_modalWindowOpen;
+    QString m_idOfVisibleItem;
     double m_devicePixelRatio;
 
     int m_howManyFiles;
@@ -108,6 +117,9 @@ Q_SIGNALS:
     void windowMaxAndNotWindowedChanged();
     void photoQtStartupDoneChanged();
     void photoQtShuttingDownChanged();
+    void faceTaggingModeChanged();
+    void modalWindowOpenChanged();
+    void idOfVisibleItemChanged();
     void devicePixelRatioChanged();
     void howManyFilesChanged();
 

@@ -37,17 +37,17 @@ Item {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "filemove") {
+                if(param[0] === "filemove") {
 
                     error.opacity = 0
                     if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
-                        loader.elementClosed("filecopy")
+                        PQCNotify.loaderRegisterClose("filecopy")
                         return
                     }
 
@@ -55,13 +55,13 @@ Item {
                     PQCNotify.modalFileDialogOpen = true
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        loader.elementClosed("filemove")
+                        PQCNotify.loaderRegisterClose("filemove")
                     } else {
                         if(!PQCScriptsFileManagement.moveFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else {
                             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                            loader.elementClosed("filemove")
+                            PQCNotify.loaderRegisterClose("filemove")
                         }
                     }
                     PQCNotify.modalFileDialogOpen = false
@@ -73,7 +73,7 @@ Item {
                         errorbut.contextmenu.close()
                     else if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        loader.elementClosed("filemove")
+                        PQCNotify.loaderRegisterClose("filemove")
                     }
                 }
             }
@@ -107,7 +107,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    loader.elementClosed("filemove") // qmllint disable unqualified
+                    PQCNotify.loaderRegisterClose("filemove") // qmllint disable unqualified
                 }
             }
         }

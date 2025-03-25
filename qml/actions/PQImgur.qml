@@ -28,6 +28,7 @@ import PQCScriptsShareImgur
 import PQCFileFolderModel
 import PQCScriptsClipboard
 import PQCWindowGeometry
+import PQCNotify
 
 import "../elements"
 
@@ -522,18 +523,18 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what : string, param : var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === "imgur")
+                if(param[0] === "imgur")
                     imgur_top.show()
 
             } else if(what === "hide") {
 
-                if(param === "imgur")
+                if(param[0] === "imgur")
                     imgur_top.hide()
 
             } else if(imgur_top.opacity > 0) {
@@ -694,7 +695,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && imgur_popout.visible)
             imgur_popout.visible = false
         else
-            loader.elementClosed("imgur")
+            PQCNotify.loaderRegisterClose("imgur")
     }
 
     function uploadAnonymously() {

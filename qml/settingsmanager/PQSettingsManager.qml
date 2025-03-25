@@ -781,32 +781,32 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: loader // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onPassOn(what: string, param: var) {
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param === settingsmanager_top.thisis)
+                if(param[0] === settingsmanager_top.thisis)
                     settingsmanager_top.show()
 
-            } else if(what == "showSettings") {
+            } else if(what === "showSettings") {
 
-                if(param == "metadata")
+                if(param[0] === "metadata")
                     sm_category.loadSpecificCategory("imageview","iv_metadata")
-                else if(param == "thumbnails")
+                else if(param[0] === "thumbnails")
                     sm_category.loadSpecificCategory("thumbnails","tb_image")
-                else if(param == "statusinfo")
+                else if(param[0] === "statusinfo")
                     sm_category.loadSpecificCategory("interface","if_statusinfo")
-                else if(param == "windowbuttons" || param == "quickactions")
+                else if(param[0] === "windowbuttons" || param[0] === "quickactions")
                     sm_category.loadSpecificCategory("interface","if_interface")
 
                 // we need to call the loader to set all other variables there accordingly
-                loader.show("settingsmanager") // qmllint disable unqualified
+                PQCNotify.loaderShow("settingsmanager") // qmllint disable unqualified
 
             } else if(what === "hide") {
 
-                if(param === settingsmanager_top.thisis)
+                if(param[0] === settingsmanager_top.thisis)
                     settingsmanager_top.hide()
 
             } else if(settingsmanager_top.opacity > 0) {
@@ -940,7 +940,7 @@ PQTemplateFullscreen {
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)
             settingsmanager_window.visible = false // qmllint disable unqualified
-        loader.elementClosed(thisis)
+        PQCNotify.loaderRegisterClose(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false
         PQCNotify.spinBoxPassKeyEvents = false

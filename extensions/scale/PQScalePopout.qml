@@ -21,7 +21,8 @@
  **************************************************************************/
 
 import PQCWindowGeometry
-import "../../elements"
+import PQCNotify
+import "../../qml/elements"
 
 PQTemplatePopout {
 
@@ -32,22 +33,20 @@ PQTemplatePopout {
 
     geometry: PQCWindowGeometry.scaleGeometry // qmllint disable unqualified
     isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutScale // qmllint disable unqualified
+    popout: PQCSettings.extensionsScalePopout // qmllint disable unqualified
     sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
-    source: "actions/PQScale.qml"
+    source: "../extensions/scale/PQScale.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        // without the check it might spit out a warning at app quit
-        if(loader.visibleItem === "scale") // qmllint disable unqualified
-            loader.elementClosed("scale")
+        PQCNotify.loaderRegisterClose("scale")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutScale) // qmllint disable unqualified
-            PQCSettings.interfacePopoutScale = popout
+        if(popout !== PQCSettings.extensionsScalePopout) // qmllint disable unqualified
+            PQCSettings.extensionsScalePopout = popout
     }
 
     onGeometryChanged: {

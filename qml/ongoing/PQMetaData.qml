@@ -682,8 +682,7 @@ Rectangle {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    loader.ensureItIsReady("settingsmanager", loader.loadermapping["settingsmanager"]) // qmllint disable unqualified
-                    loader.passOn("showSettings", "metadata")
+                    PQCNotify.openSettingsManagerAt("showSettings", ["metadata"])
                 }
             }
 
@@ -750,7 +749,7 @@ Rectangle {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
 
-            if(PQCNotify.slideshowRunning || PQCNotify.faceTagging) { // qmllint disable unqualified
+            if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 metadata_top.setVisible = false
                 return
             }
@@ -797,12 +796,13 @@ Rectangle {
     }
 
     Connections {
-        target: loader // qmllint disable unqualified
 
-        function onPassOn(what : string, param : string) {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param === "metadata") {
+                if(param[0] === "metadata") {
 
                     if(!PQCSettings.metadataElementFloating && PQCConstants.photoQtStartupDone) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
