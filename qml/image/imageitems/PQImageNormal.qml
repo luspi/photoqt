@@ -41,7 +41,7 @@ Image {
 
     property string imageSource: ""
 
-    source: image.imageSource==="" ? "" : encodeURI("image://full/" + imageSource) // qmllint disable unqualified
+    source: image.imageSource==="" ? "" : "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageSource) // qmllint disable unqualified
 
     asynchronous: true
 
@@ -362,7 +362,7 @@ Image {
                         }
 
                         videoloader.active = false
-                        videoloader.mediaSrc = encodeURI("file:" + src)
+                        videoloader.mediaSrc = "file:" + PQCScriptsFilesPaths.toPercentEncoding(src)
                         videoloader.active = true
                         return
                     }

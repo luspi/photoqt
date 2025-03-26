@@ -42,9 +42,9 @@ Image {
         if(fileCount == 0)
             fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true) // qmllint disable unqualified
         if(image.imageSource.includes("::ARC::") || currentFile > fileCount-1)
-            source = encodeURI("image://full/" + image.imageSource)
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
         else
-            source = encodeURI("image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(image.imageSource))
+            source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
     }
 
     asynchronous: true
@@ -149,9 +149,9 @@ Image {
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
-            image.source = encodeURI("image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(src))
+            image.source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(src))
         else
-            image.source = encodeURI("image://full/" + src)
+            image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(src)
         image.asynchronous = true
     }
 

@@ -35,7 +35,7 @@ AnimatedImage {
 
     property string imageSource: ""
 
-    source: (image.imageSource==="" ? "" : encodeURI("file:" + image.imageSource)) // qmllint disable unqualified
+    source: (image.imageSource==="" ? "" : ("file:"+PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))) // qmllint disable unqualified
 
     asynchronous: true
 

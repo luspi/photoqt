@@ -44,7 +44,7 @@ Item {
 
         id: video
 
-        source: encodeURI("file:" + videotop.imageSource) // qmllint disable unqualified
+        source: "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource) // qmllint disable unqualified
 
         volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
 
@@ -65,7 +65,7 @@ Item {
         onPlaybackStateChanged: {
             if(playbackState === MediaPlayer.StoppedState) {
 
-                video.source = encodeURI("file:" + videotop.imageSource)
+                video.source = "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource)
 
                 if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) { // qmllint disable unqualified
                     video.play()
