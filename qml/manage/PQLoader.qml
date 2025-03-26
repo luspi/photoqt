@@ -32,7 +32,6 @@ Item {
 
     // source, loader id, modal, popout, force popout
     property var loadermapping: {
-        "export"              : ["actions","PQExport", loader_export, 1, PQCSettings.interfacePopoutExport, PQCWindowGeometry.exportForcePopout], // qmllint disable unqualified
         "about"               : ["actions","PQAbout", loader_about, 1, PQCSettings.interfacePopoutAbout, PQCWindowGeometry.aboutForcePopout],
         "mainmenu"            : ["ongoing","PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCWindowGeometry.mainmenuForcePopout],
         "metadata"            : ["ongoing","PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],

@@ -7,6 +7,7 @@
 #include <scaleimage/config.h>
 #include <cropimage/config.h>
 #include <wallpaper/config.h>
+#include <exportimage/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -28,6 +29,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     m_allextensions.append(new PQCExtensionScaleImage());
     m_allextensions.append(new PQCExtensionCropImage());
     m_allextensions.append(new PQCExtensionWallpaper());
+    m_allextensions.append(new PQCExtensionExportImage());
 
     /********************************************/
     /********************************************/

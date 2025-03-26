@@ -808,10 +808,6 @@ Item {
                     }
                 }
                 break
-            case "__saveAs":
-            case "__export":
-                PQCNotify.loaderShow("export")
-                break
             case "__defaultFileManager":
                 if(PQCFileFolderModel.countMainView > 0)
                     PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)

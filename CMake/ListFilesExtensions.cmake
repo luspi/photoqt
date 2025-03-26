@@ -3,7 +3,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/header/pqc_extensionshandler.h)
 
 # LIST ALL EXTENSIONS HERE
 SET(EXT "QuickActions" "FloatingNavigation" "Histogram" "MapCurrent")
-SET(EXT ${EXT} "ScaleImage" "CropImage" "Wallpaper")
+SET(EXT ${EXT} "ScaleImage" "CropImage" "Wallpaper" "ExportImage")
 
 foreach(qmlfile ${EXT})
 

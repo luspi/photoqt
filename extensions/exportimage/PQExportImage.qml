@@ -30,14 +30,14 @@ import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 import PQCWindowGeometry
 
-import "../elements"
+import "../../qml/elements"
 
 PQTemplateFullscreen {
 
     id: convert_top
 
-    thisis: "export"
-    popout: PQCSettings.interfacePopoutExport // qmllint disable unqualified
+    thisis: "exportimage"
+    popout: PQCSettings.extensionsExportImagePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
     shortcut: "__export"
 
@@ -51,7 +51,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     button1.onClicked: {
-        PQCSettings.exportLastUsed = targetFormat // qmllint disable unqualified
+        PQCSettings.extensionsExportImageLastUsed = targetFormat // qmllint disable unqualified
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
         if(file !== "") {
             errormessage.opacity = 0
@@ -65,15 +65,15 @@ PQTemplateFullscreen {
         hide()
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutExport = popout // qmllint disable unqualified
+        PQCSettings.extensionsExportImagePopout = popout // qmllint disable unqualified
 
     /***************************************************************/
 
     // the favs are shown on a label and are used to identify the respective entry in the listview
-    property list<string> favs: PQCSettings.exportFavorites // qmllint disable unqualified
+    property list<string> favs: PQCSettings.extensionsExportImageFavorites // qmllint disable unqualified
 
     // this is the selected format, both the first ending (for identification) and all endings for a format
-    property string targetFormat: PQCSettings.exportLastUsed // qmllint disable unqualified
+    property string targetFormat: PQCSettings.extensionsExportImageLastUsed // qmllint disable unqualified
 
     content: [
 
@@ -240,9 +240,9 @@ PQTemplateFullscreen {
                                 onExited: rem.hovered = false
                                 text: qsTranslate("export", "Click to remove this image format from your favorites")
                                 onClicked: {
-                                    var tmp = PQCSettings.exportFavorites // qmllint disable unqualified
+                                    var tmp = PQCSettings.extensionsExportImageFavorites // qmllint disable unqualified
                                     tmp.splice(favdeleg.modelData, 1)
-                                    PQCSettings.exportFavorites = tmp
+                                    PQCSettings.extensionsExportImageFavorites = tmp
                                 }
                             }
                         }
@@ -387,12 +387,12 @@ PQTemplateFullscreen {
                         text: deleg.isFav ? qsTranslate("export", "Click to remove this image format from your favorites")
                                           : qsTranslate("export", "Click to add this image format to your favorites")
                         onClicked: {
-                            var tmp = PQCSettings.exportFavorites // qmllint disable unqualified
+                            var tmp = PQCSettings.extensionsExportImageFavorites // qmllint disable unqualified
                             if(isFav)
                                 tmp.splice(tmp.indexOf(deleg.curUniqueid), 1)
                             else
                                 tmp.push(deleg.curUniqueid)
-                            PQCSettings.exportFavorites = tmp
+                            PQCSettings.extensionsExportImageFavorites = tmp
                         }
                     }
 
@@ -453,9 +453,10 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
-                if(param[0] === convert_top.thisis)
-                    convert_top.show()
+            if(what === "show" && param[0] === "exportimage") {
+
+                convert_top.show()
+
             } else if(convert_top.opacity > 0) {
 
                 if(what === "keyEvent") {

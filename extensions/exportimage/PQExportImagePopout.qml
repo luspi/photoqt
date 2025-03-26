@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import PQCWindowGeometry
-import "../../elements"
+import "../../qml/elements"
 
 PQTemplatePopout {
 
@@ -32,20 +32,20 @@ PQTemplatePopout {
 
     geometry: PQCWindowGeometry.exportGeometry // qmllint disable unqualified
     isMax: PQCWindowGeometry.exportMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutExport // qmllint disable unqualified
+    popout: PQCSettings.extensionsExportImagePopout // qmllint disable unqualified
     sizepopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
-    source: "actions/PQExport.qml"
+    source: "../extensions/exportimage/PQExportImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("export")
+        PQCNotify.loaderRegisterClose("exportimage")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutExport) // qmllint disable unqualified
-            PQCSettings.interfacePopoutExport = popout
+        if(popout !== PQCSettings.extensionsExportImagePopout) // qmllint disable unqualified
+            PQCSettings.extensionsExportImagePopout = popout
     }
 
     onGeometryChanged: {
