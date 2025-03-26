@@ -6,6 +6,7 @@
 #include <mapcurrent/config.h>
 #include <scaleimage/config.h>
 #include <cropimage/config.h>
+#include <wallpaper/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -26,6 +27,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     // modal
     m_allextensions.append(new PQCExtensionScaleImage());
     m_allextensions.append(new PQCExtensionCropImage());
+    m_allextensions.append(new PQCExtensionWallpaper());
 
     /********************************************/
     /********************************************/

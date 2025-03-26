@@ -136,8 +136,6 @@ Flickable {
                                  //: Name of shortcut action
         "__print":              [qsTranslate("settingsmanager", "Print current photo"), "currentimage"],
                                  //: Name of shortcut action
-        "__wallpaper":          [qsTranslate("settingsmanager", "Set as Wallpaper"), "currentimage"],
-                                 //: Name of shortcut action
         "__imgurAnonym":        [qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "currentimage"],
                                  //: Name of shortcut action
         "__imgur":              [qsTranslate("settingsmanager", "Upload to imgur.com user account"), "currentimage"],

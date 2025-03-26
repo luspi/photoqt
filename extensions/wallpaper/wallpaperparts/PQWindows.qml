@@ -22,7 +22,7 @@
 
 import QtQuick
 
-import "../../elements"
+import "../../../qml/elements"
 
 //*************//
 // WINDOWS

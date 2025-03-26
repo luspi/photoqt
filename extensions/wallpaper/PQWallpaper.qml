@@ -28,7 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsWallpaper
 import PQCWindowGeometry
 
-import "../elements"
+import "../../qml/elements"
 import "./wallpaperparts"
 
 PQTemplateFullscreen {
@@ -36,14 +36,14 @@ PQTemplateFullscreen {
     id: wallpaper_top
 
     thisis: "wallpaper"
-    popout: PQCSettings.interfacePopoutWallpaper // qmllint disable unqualified
+    popout: PQCSettings.extensionsWallpaperPopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
     shortcut: "__wallpaper"
 
     title: qsTranslate("wallpaper", "Wallpaper")
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutWallpaper = popout // qmllint disable unqualified
+        PQCSettings.extensionsWallpaperPopout = popout // qmllint disable unqualified
 
     button1.text: qsTranslate("wallpaper", "Set as Wallpaper")
 

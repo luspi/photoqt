@@ -20,42 +20,58 @@
  **                                                                      **
  **************************************************************************/
 
-import PQCWindowGeometry
-import "../../elements"
+import QtQuick
 
-PQTemplatePopout {
+import PQCScriptsWallpaper
 
-    id: wallpaper_popout
+import "../../../qml/elements"
 
-    //: Window title
-    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
+//********//
+// PLASMA 5
 
-    geometry: PQCWindowGeometry.wallpaperGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.wallpaperMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutWallpaper // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
-    source: "actions/PQWallpaper.qml"
+Column {
 
-    minimumWidth: 800
-    minimumHeight: 600
+    x: 0
+    y: 0
 
-    onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("wallpaper")
+    width: parent.width
+    height: childrenRect.height
+
+    spacing: 10
+
+    onVisibleChanged: {
+        if(visible)
+            check()
     }
 
-    onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutWallpaper) // qmllint disable unqualified
-            PQCSettings.interfacePopoutWallpaper = popout
+    property list<int> checkedScreens: []
+
+    PQTextXL {
+        x: (parent.width-width)/2
+        text: "Plasma"
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
-    onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.wallpaperGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.wallpaperGeometry = geometry
+    Item {
+        width: 1
+        height: 10
     }
 
-    onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.wallpaperMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.wallpaperMaximized = isMax
+    PQTextL {
+        x: 10
+        width: parent.width-20
+        horizontalAlignment: Text.AlignHCenter
+        wrapMode: Text.WordWrap
+        text: qsTranslate("wallpaper", "The image will be set to all screens at the same time.")
+    }
+
+    function check() {
+
+        wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
+        checkedScreens = []
+        for(var i = 0; i < wallpaper_top.numDesktops; ++i)
+            checkedScreens.push(i+1)
+
     }
 
 }

@@ -3,7 +3,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/header/pqc_extensionshandler.h)
 
 # LIST ALL EXTENSIONS HERE
 SET(EXT "QuickActions" "FloatingNavigation" "Histogram" "MapCurrent")
-SET(EXT ${EXT} "ScaleImage" "CropImage")
+SET(EXT ${EXT} "ScaleImage" "CropImage" "Wallpaper")
 
 foreach(qmlfile ${EXT})
 
@@ -14,3 +14,7 @@ foreach(qmlfile ${EXT})
     SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/config.h)
 
 endforeach()
+
+
+SET(d "extensions/wallpaper/wallpaperparts")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQEnlightenment.qml ${d}/PQGnome.qml ${d}/PQOther.qml ${d}/PQPlasma.qml ${d}/PQWindows.qml ${d}/PQXfce.qml)

@@ -24,7 +24,7 @@ import QtQuick
 
 import PQCScriptsWallpaper
 
-import "../../elements"
+import "../../../qml/elements"
 
 //*************//
 // GNOME/UNITY
