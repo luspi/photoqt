@@ -35,7 +35,7 @@ PQTemplateFullscreen {
     id: scale_top
 
     thisis: "scale"
-    popout: PQCSettings.extensionsScalePopout // qmllint disable unqualified
+    popout: PQCSettings.extensionsScaleImagePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
     shortcut: "__scale"
 
@@ -48,7 +48,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.extensionsScalePopout = popout // qmllint disable unqualified
+        PQCSettings.extensionsScaleImagePopout = popout // qmllint disable unqualified
 
     button1.onClicked:
         scaleImage()

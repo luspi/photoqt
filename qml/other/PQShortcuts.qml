@@ -762,9 +762,6 @@ Item {
             case "__videoJumpBackwards":
                 image.videoJump(-5)
                 break
-            case "__crop":
-                PQCNotify.loaderShow("crop")
-                break
 
             /**********************/
             // file actions

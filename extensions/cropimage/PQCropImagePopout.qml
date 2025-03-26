@@ -25,37 +25,37 @@ import "../../qml/elements"
 
 PQTemplatePopout {
 
-    id: scale_popout
+    id: crop_popout
 
     //: Window title
-    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
+    title: qsTranslate("crop", "Crop image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.scaleGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsScalePopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
-    source: "../extensions/scale/PQScale.qml"
+    geometry: PQCWindowGeometry.cropGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.cropMaximized // qmllint disable unqualified
+    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
+    source: "../extensions/cropimage/PQCropImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("scale")
+        PQCNotify.loaderRegisterClose("cropimage")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsScalePopout) // qmllint disable unqualified
-            PQCSettings.extensionsScalePopout = popout
+        if(popout !== PQCSettings.extensionsCropImagePopout) // qmllint disable unqualified
+            PQCSettings.extensionsCropImagePopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.scaleGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.scaleGeometry = geometry
+        if(geometry !== PQCWindowGeometry.cropGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.cropGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.scaleMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.scaleMaximized = isMax
+        if(isMax !== PQCWindowGeometry.cropMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.cropMaximized = isMax
     }
 
 }

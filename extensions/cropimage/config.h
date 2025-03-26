@@ -1,37 +1,37 @@
 #include "../pqc_configtemplate.h"
 
-class PQCExtensionScale : public PQCExtensionConfig {
+class PQCExtensionCropImage : public PQCExtensionConfig {
 
 public:
-    PQCExtensionScale() {
+    PQCExtensionCropImage() {
 
-        id = "scale";
+        id = "cropimage";
         allowPopout = true;
         isModal = true;
 
         defaultPopoutWindowSize = QSize(800,600);
         minimumRequiredWindowSize = QSize(600,400);
 
-        qmlBaseName = "PQScale";
+        qmlBaseName = "PQCropImage";
 
-        popoutSettingName = "ScalePopout";
+        popoutSettingName = "CropImagePopout";
 
         shortcutsActions = {
-            {"__scale",
+            {"__crop",
              //: Description of shortcut action
-             QApplication::translate("settingsmanager", "Scale Image"),
+             QApplication::translate("settingsmanager", "Crop Image"),
              "", // no default shortcut set
-             "show", "scale"}
+             "show", "cropimage"}
         };
 
         settings = {
-            {"ScalePopout",   "extensions", "bool",   "0"}
+            {"CropImagePopout", "extensions", "bool", "0"}
         };
 
         // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},
         //          {"oldname2", "oldtable2", "newname2", "newtable2"}}}
         migrateSettings = {
-            {"4.9", {{"PopoutScale", "interface", "ScalePopout", "extensions"}}}
+            {"4.9", {{"PopoutCrop", "interface", "CropImagePopout", "extensions"}}}
         };
 
     }

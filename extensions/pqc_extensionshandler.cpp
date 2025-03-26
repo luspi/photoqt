@@ -4,7 +4,8 @@
 #include <floatingnavigation/config.h>
 #include <histogram/config.h>
 #include <mapcurrent/config.h>
-#include <scale/config.h>
+#include <scaleimage/config.h>
+#include <cropimage/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -23,7 +24,8 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     m_allextensions.append(new PQCExtensionFloatingNavigation());
 
     // modal
-    m_allextensions.append(new PQCExtensionScale());
+    m_allextensions.append(new PQCExtensionScaleImage());
+    m_allextensions.append(new PQCExtensionCropImage());
 
     /********************************************/
     /********************************************/

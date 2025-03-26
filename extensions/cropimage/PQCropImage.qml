@@ -28,14 +28,14 @@ import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsFileManagement
 
-import "../elements"
+import "../../qml/elements"
 
 PQTemplateFullscreen {
 
     id: crop_top
 
-    thisis: "crop"
-    popout: PQCSettings.interfacePopoutCrop // qmllint disable unqualified
+    thisis: "cropimage"
+    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
     shortcut: "__crop"
 
@@ -47,7 +47,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutCrop = popout // qmllint disable unqualified
+        PQCSettings.extensionsCropImagePopout = popout // qmllint disable unqualified
 
     button1.onClicked: {
         cropImage()
@@ -336,15 +336,13 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
+            if(what === "show" && param[0] === "cropimage") {
 
-                if(param[0] === crop_top.thisis)
-                    crop_top.show()
+                crop_top.show()
 
-            } else if(what === "hide") {
+            } else if(what === "hide" && param[0] === "cropimage") {
 
-                if(param[0] === crop_top.thisis)
-                    crop_top.hide()
+                crop_top.hide()
 
             } else if(crop_top.opacity > 0) {
 
