@@ -28,7 +28,6 @@ import QtCharts
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCExtensionsHandler
-import PQCNotify
 
 import "../../qml/elements"
 

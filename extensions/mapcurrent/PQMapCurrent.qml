@@ -28,7 +28,6 @@ import PQCFileFolderModel
 import PQCScriptsCrypt
 import PQCScriptsMetaData
 import PQCMetaData
-import PQCNotify
 import PQCWindowGeometry
 import PQCExtensionsHandler
 

@@ -25,7 +25,6 @@ import QtQuick
 
 import PQCScriptsChromeCast
 import PQCWindowGeometry
-import PQCNotify
 
 import "../elements"
 

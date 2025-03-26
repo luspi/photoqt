@@ -25,7 +25,6 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCImageFormats
-import PQCNotify
 
 import "../../../elements"
 

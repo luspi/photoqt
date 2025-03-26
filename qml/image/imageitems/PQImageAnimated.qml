@@ -28,7 +28,6 @@ import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCScriptsClipboard
 import PQCScriptsOther
-import PQCNotify
 
 AnimatedImage {
 

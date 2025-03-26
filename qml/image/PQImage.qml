@@ -28,7 +28,6 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import PQCNotify
 import PQCResolutionCache
 
 import "../elements"

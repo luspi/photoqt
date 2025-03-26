@@ -26,7 +26,6 @@ import Qt.labs.platform
 
 import PQCScriptsConfig
 import PQCScriptsClipboard
-import PQCNotify
 import PQCScriptsOther
 
 import "../../../elements"

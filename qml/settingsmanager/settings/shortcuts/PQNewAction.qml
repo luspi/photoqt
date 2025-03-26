@@ -27,7 +27,6 @@ import Qt.labs.platform
 
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-import PQCNotify
 import PQCExtensionsHandler
 
 import "../../../elements"

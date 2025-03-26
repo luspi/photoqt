@@ -23,7 +23,6 @@
 import QtQuick
 
 import PQCScriptsImages
-import PQCNotify
 
 import "../../elements"
 

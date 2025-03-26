@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCNotify
 import "../imageitems"
 
 Loader {

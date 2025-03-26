@@ -27,7 +27,6 @@ import PQCScriptsConfig
 import PQCFileFolderModel
 import PQCScriptsWallpaper
 import PQCWindowGeometry
-import PQCNotify
 
 import "../elements"
 import "./wallpaperparts"

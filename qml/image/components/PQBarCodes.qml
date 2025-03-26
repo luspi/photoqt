@@ -25,7 +25,6 @@ import QtQuick
 
 import PQCScriptsOther
 import PQCScriptsClipboard
-import PQCNotify
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 

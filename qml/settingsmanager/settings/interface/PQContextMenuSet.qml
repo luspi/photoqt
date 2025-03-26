@@ -25,7 +25,6 @@ import QtQuick
 import QtQuick.Controls
 import QtCore
 
-import PQCNotify
 import PQCScriptsConfig
 import PQCScriptsContextMenu
 import PQCScriptsFilesPaths

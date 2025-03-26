@@ -22,7 +22,6 @@
 
 import QtQuick
 import PQCWindowGeometry
-import PQCNotify
 import "../../elements"
 
 PQTemplatePopout {

@@ -25,7 +25,6 @@ import QtMultimedia
 
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-import PQCNotify
 
 import "../components"
 

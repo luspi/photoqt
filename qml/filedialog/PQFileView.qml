@@ -35,7 +35,6 @@ import PQCScriptsOther
 import PQCScriptsShortcuts
 import PQCImageFormats
 import PQCScriptsImages
-import PQCNotify
 
 import "../elements"
 

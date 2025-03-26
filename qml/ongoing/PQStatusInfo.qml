@@ -28,7 +28,6 @@ import QtQuick.Controls
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import PQCNotify
 import PQCScriptsChromeCast
 import PQCScriptsConfig
 import PQCScriptsOther

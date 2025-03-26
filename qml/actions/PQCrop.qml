@@ -27,7 +27,6 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsFileManagement
-import PQCNotify
 
 import "../elements"
 

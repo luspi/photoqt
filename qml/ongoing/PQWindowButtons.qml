@@ -26,7 +26,6 @@ import QtQuick.Controls
 import QtQuick.Window
 
 import PQCFileFolderModel
-import PQCNotify
 import PQCScriptsConfig
 
 import "../elements"

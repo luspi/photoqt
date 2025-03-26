@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 
-import PQCNotify
 import PQCScriptsFilesPaths
 import PQCScriptsOther
 import PQCScriptsConfig

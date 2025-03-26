@@ -26,7 +26,6 @@ import QtQuick.Window
 import PQCScriptsOther
 import PQCFileFolderModel
 import PQCScriptsConfig
-import PQCNotify
 import PQCWindowGeometry
 import PQCScriptsFilesPaths
 import PQCScriptsImages

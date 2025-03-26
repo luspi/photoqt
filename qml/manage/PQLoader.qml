@@ -25,7 +25,6 @@ import QtQuick
 import PQCWindowGeometry
 import PQCScriptsConfig
 import PQCExtensionsHandler
-import PQCNotify
 
 Item {
 

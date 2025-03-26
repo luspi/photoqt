@@ -26,7 +26,6 @@ import QtQuick.Controls
 import PQCScriptsConfig
 import PQCScriptsClipboard
 import PQCWindowGeometry
-import PQCNotify
 
 import "../elements"
 

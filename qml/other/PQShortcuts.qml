@@ -24,7 +24,6 @@ import QtQuick
 import QtQml
 
 import PQCShortcuts
-import PQCNotify
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 import PQCFileFolderModel

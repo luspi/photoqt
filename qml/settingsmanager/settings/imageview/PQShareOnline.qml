@@ -24,7 +24,6 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsShareImgur
-import PQCNotify
 
 import "../../../elements"
 

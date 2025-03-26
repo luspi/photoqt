@@ -22,8 +22,6 @@
 
 import QtQuick
 
-import PQCNotify
-
 Rectangle {
 
     id: ele_top

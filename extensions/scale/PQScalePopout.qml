@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import PQCWindowGeometry
-import PQCNotify
 import "../../qml/elements"
 
 PQTemplatePopout {

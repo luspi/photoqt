@@ -25,7 +25,6 @@ import QtQuick
 import QtQuick.Window
 
 import PQCFileFolderModel
-import PQCNotify
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 import PQCScriptsOther

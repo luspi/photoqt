@@ -24,7 +24,6 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 
-import PQCNotify
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsConfig

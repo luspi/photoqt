@@ -25,7 +25,6 @@ import QtQuick
 import QtMultimedia
 
 import PQCFileFolderModel
-import PQCNotify
 import PQCScriptsFilesPaths
 
 Item {

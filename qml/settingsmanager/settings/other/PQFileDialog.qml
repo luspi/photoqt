@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import PQCNotify
 import PQCScriptsConfig
 
 import "../../../elements"

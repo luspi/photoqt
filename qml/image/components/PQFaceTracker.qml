@@ -25,7 +25,6 @@ import QtQuick
 
 import PQCFileFolderModel
 import PQCScriptsMetaData
-import PQCNotify
 
 import "../../elements"
 

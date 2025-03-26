@@ -23,7 +23,6 @@
 import QtQuick
 
 import PQCFileFolderModel
-import PQCNotify
 import PQCWindowGeometry
 
 import "../elements"

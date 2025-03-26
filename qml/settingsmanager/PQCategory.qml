@@ -23,8 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import PQCNotify
-
 import "../elements"
 
 Item {

@@ -28,7 +28,6 @@ import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsFileDialog
-import PQCNotify
 import PQCWindowGeometry
 
 import "../elements"

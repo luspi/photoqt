@@ -28,7 +28,6 @@ import PQCShortcuts
 import PQCScriptsShortcuts
 import PQCScriptsOther
 import PQCExtensionsHandler
-import PQCNotify
 
 import "../../../elements"
 

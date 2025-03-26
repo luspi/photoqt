@@ -24,7 +24,6 @@ import QtQuick
 
 import "../../elements"
 
-import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsImages
 

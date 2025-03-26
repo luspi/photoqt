@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsFileManagement
 import PQCScriptsFilesPaths

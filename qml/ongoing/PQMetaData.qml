@@ -24,7 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-import PQCNotify
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths

@@ -23,7 +23,6 @@
 import QtQuick
 
 import PQCFileFolderModel
-import PQCNotify
 import PQCScriptsFilesPaths
 import PQCScriptsFileManagement
 import PQCWindowGeometry

@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 
-import PQCNotify
 import PQCLocation
 import PQCWindowGeometry
 import PQCScriptsFilesPaths

@@ -28,7 +28,6 @@ import PQCScriptsShareImgur
 import PQCFileFolderModel
 import PQCScriptsClipboard
 import PQCWindowGeometry
-import PQCNotify
 
 import "../elements"
 

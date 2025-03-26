@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import PQCNotify
 import PQCPhotoSphere
 import PQCFileFolderModel
 

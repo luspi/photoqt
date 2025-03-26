@@ -24,7 +24,6 @@ import QtQuick
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCScriptsConfig
-import PQCNotify
 import "../../elements"
 
 Rectangle {

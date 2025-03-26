@@ -25,7 +25,6 @@ import QtQuick
 
 import "../../elements"
 
-import PQCNotify
 import PQCScriptsImages
 
 Item {

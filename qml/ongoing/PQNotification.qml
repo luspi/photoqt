@@ -22,7 +22,6 @@
 
 import QtQuick
 import PQCScriptsOther
-import PQCNotify
 
 import "../elements"
 import "../"

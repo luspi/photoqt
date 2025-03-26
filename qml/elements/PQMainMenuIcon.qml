@@ -22,8 +22,6 @@
 
 import QtQuick
 
-import PQCNotify
-
 Item {
 
     id: menuicon

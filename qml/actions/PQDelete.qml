@@ -28,7 +28,6 @@ import PQCScriptsShortcuts
 import PQCScriptsConfig
 import PQCScriptsFileManagement
 import PQCWindowGeometry
-import PQCNotify
 
 import "../elements"
 

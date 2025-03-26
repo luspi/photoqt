@@ -27,7 +27,6 @@ import QtQuick.Controls
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
-import PQCNotify
 import PQCScriptsClipboard
 
 import "../elements"
