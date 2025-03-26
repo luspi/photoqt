@@ -8,6 +8,7 @@
 #include <cropimage/config.h>
 #include <wallpaper/config.h>
 #include <exportimage/config.h>
+#include <imgurcom/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -30,6 +31,7 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     m_allextensions.append(new PQCExtensionCropImage());
     m_allextensions.append(new PQCExtensionWallpaper());
     m_allextensions.append(new PQCExtensionExportImage());
+    m_allextensions.append(new PQCExtensionImgurCom());
 
     /********************************************/
     /********************************************/

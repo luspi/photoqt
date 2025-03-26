@@ -60,6 +60,7 @@ public:
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
 
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
+    Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
 
 private:
     PQCConstants() : QObject() {
@@ -73,6 +74,7 @@ private:
         m_faceTaggingMode = false;
         m_idOfVisibleItem = "";
         m_modalWindowOpen = false;
+        m_lastExecutedShortcutCommand = "";
 
         m_devicePixelRatio = 1.0;
         if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
@@ -108,6 +110,7 @@ private:
     int m_howManyFiles;
 
     QTimer *m_updateDevicePixelRatio;
+    QString m_lastExecutedShortcutCommand;
 
 Q_SIGNALS:
     void windowWidthChanged();
@@ -122,6 +125,7 @@ Q_SIGNALS:
     void idOfVisibleItemChanged();
     void devicePixelRatioChanged();
     void howManyFilesChanged();
+    void lastExecutedShortcutCommandChanged();
 
 };
 

@@ -29,14 +29,14 @@ import PQCFileFolderModel
 import PQCScriptsClipboard
 import PQCWindowGeometry
 
-import "../elements"
+import "../../qml/elements"
 
 PQTemplateFullscreen {
 
     id: imgur_top
 
-    thisis: "imgur"
-    popout: PQCSettings.interfacePopoutFilter // qmllint disable unqualified
+    thisis: "imgurcom"
+    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
     shortcut: "__imgurAnonym"
     title: (accountname=="" ?
@@ -280,11 +280,16 @@ PQTemplateFullscreen {
         id: imgurpast
 
         anchors.fill: parent
-        color: PQCLook.transColorAccent // qmllint disable unqualified
+        color: PQCLook.baseColorAccent // qmllint disable unqualified
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+        }
 
         // no past uploads available
         PQTextL {
@@ -526,15 +531,13 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
+            if(what === "show" && param[0] === "imgurcom") {
 
-                if(param[0] === "imgur")
-                    imgur_top.show()
+                imgur_top.show()
 
-            } else if(what === "hide") {
+            } else if(what === "hide" && param[0] === "imgurcom") {
 
-                if(param[0] === "imgur")
-                    imgur_top.hide()
+                imgur_top.hide()
 
             } else if(imgur_top.opacity > 0) {
 
@@ -573,7 +576,7 @@ PQTemplateFullscreen {
 
         function onImgurImageUrl(theurl : string) {
             console.log("imgur.com image url:", theurl)
-            imgur_top.imageURL = url // qmllint disable unqualified
+            imgur_top.imageURL = theurl // qmllint disable unqualified
         }
 
         function onImgurDeleteHash(theurl : string) {
@@ -678,6 +681,13 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             imgur_popout.visible = true // qmllint disable unqualified
 
+        if(PQCConstants.lastExecutedShortcutCommand === "__imgurAnonym")
+            uploadAnonymously()
+        else if(PQCConstants.lastExecutedShortcutCommand === "__imgur")
+            uploadToAccount()
+        else
+            hide()
+
     }
 
     function hide() {
@@ -694,7 +704,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && imgur_popout.visible)
             imgur_popout.visible = false
         else
-            PQCNotify.loaderRegisterClose("imgur")
+            PQCNotify.loaderRegisterClose("imgurcom")
     }
 
     function uploadAnonymously() {

@@ -48,7 +48,6 @@ Item {
         "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
         "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCWindowGeometry.slideshowcontrolsForcePopout],
         "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
-        "imgur"               : ["actions","PQImgur", loader_imgur, 1, PQCSettings.interfacePopoutImgur, PQCWindowGeometry.imgurForcePopout],
         "mapexplorer"         : ["actions","PQMapExplorer", loader_mapexplorer, 1, PQCSettings.interfacePopoutMapExplorer, PQCWindowGeometry.mapexplorerForcePopout],
         "chromecast"          : ["ongoing","PQChromeCast", loader_chromecast, 0, false, false],
         "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
@@ -78,9 +77,12 @@ Item {
 
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
-            if(PQCExtensionsHandler.getIsModal(ele) && visibleItem != "")
-                return
-            visibleItem = ele
+            if(PQCExtensionsHandler.getIsModal(ele)) {
+                if(visibleItem != "")
+                    return
+                else
+                    visibleItem = ele
+            }
             ensureExtensionIsReady(ele, ind)
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)

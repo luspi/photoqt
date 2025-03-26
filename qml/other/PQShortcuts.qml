@@ -521,6 +521,8 @@ Item {
         console.debug("args: mousePos =", mousePos)
         console.debug("args: wheelDelta =", wheelDelta)
 
+        PQCConstants.lastExecutedShortcutCommand = cmd
+
         // check if the shortcut is a shortcut of an extension
         if(PQCExtensionsHandler.getAllShortcuts().indexOf(cmd) > -1) {
 

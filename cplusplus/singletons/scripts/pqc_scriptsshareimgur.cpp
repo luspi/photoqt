@@ -436,7 +436,7 @@ int PQCScriptsShareImgur::anonymousUpload(QString filename) {
 
     // Setup network request (XML format)
     QNetworkRequest request(QUrl("https://api.imgur.com/3/image.xml"));
-    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "application/application/x-www-form-urlencoded");
     request.setRawHeader("Authorization", QString("Client-ID " + imgurClientID).toLatin1());
 
     // Send upload request and connect to feedback signals

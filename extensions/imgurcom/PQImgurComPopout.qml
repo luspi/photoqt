@@ -22,7 +22,7 @@
 
 import QtQuick
 import PQCWindowGeometry
-import "../../elements"
+import "../../qml/elements"
 
 PQTemplatePopout {
 
@@ -33,20 +33,20 @@ PQTemplatePopout {
 
     geometry: PQCWindowGeometry.imgurGeometry // qmllint disable unqualified
     isMax: PQCWindowGeometry.imgurMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutImgur // qmllint disable unqualified
+    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
     sizepopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
-    source: "actions/PQImgur.qml"
+    source: "../extensions/imgurcom/PQImgurCom.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("imgur")
+        PQCNotify.loaderRegisterClose("imgurcom")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutImgur) // qmllint disable unqualified
-            PQCSettings.interfacePopoutImgur = popout
+        if(popout !== PQCSettings.extensionsImgurComPopout) // qmllint disable unqualified
+            PQCSettings.extensionsImgurComPopout = popout
     }
 
     onGeometryChanged: {
