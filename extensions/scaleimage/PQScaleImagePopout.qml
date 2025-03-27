@@ -34,7 +34,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
     popout: PQCSettings.extensionsScaleImagePopout // qmllint disable unqualified
     sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
-    source: "../extensions/scaleimage/PQScale.qml"
+    source: "../extensions/scaleimage/PQScaleImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600
