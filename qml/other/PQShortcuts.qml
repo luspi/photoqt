@@ -614,7 +614,7 @@ Item {
 
             case "__contextMenu":
                 if(!PQCNotify.slideshowRunning)
-                    contextmenu.popup()
+                    contextmenu.popup(undefined)
                 break
             case "__contextMenuTouch":
                 if(!PQCNotify.slideshowRunning)
