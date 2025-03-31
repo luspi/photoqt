@@ -189,43 +189,56 @@ Loader {
 
         }
 
-        PQMenu {
-            id: iccmenu
-            title: qsTranslate("contextmenu", "Select color profile")
-            onAboutToShow: {
-                cont.availableColorProfiles = PQCScriptsColorProfiles.getColorProfileDescriptions() // qmllint disable unqualified
-            }
-            PQMenuItem {
-                text: qsTranslate("contextmenu", "Default color profile")
-                font.bold: true
-                onTriggered: {
-                    PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
-                    image.reloadImage()
-                    PQCFileFolderModel.currentFileChanged()
+        // We need to hide this behind an instantiator in order to dynamically add/remove this submenu
+        // on some systems/Qt versions not doing it this way results in an emptyspace in the place of the menu item
+        Instantiator {
+            id: iccloader
+
+            model: PQCSettings.imageviewColorSpaceEnable ? 1 : 0
+
+            PQMenu {
+                id: iccmenu
+                enabled: menutop.currentFileSupportsColorSpaces
+                title: qsTranslate("contextmenu", "Select color profile")
+                onAboutToShow: {
+                    cont.availableColorProfiles = PQCScriptsColorProfiles.getColorProfileDescriptions() // qmllint disable unqualified
                 }
-            }
-
-            PQMenuSeparator {}
-
-            Repeater{
-                model: cont.availableColorProfiles.length
                 PQMenuItem {
-                    id: deleg
-                    required property int modelData
-                    text: cont.availableColorProfiles[modelData]
-                    visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1 // qmllint disable unqualified
-                    height: visible ? 40 : 0
+                    text: qsTranslate("contextmenu", "Default color profile")
+                    font.bold: true
                     onTriggered: {
-                        PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
+                        PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
                         image.reloadImage()
                         PQCFileFolderModel.currentFileChanged()
                     }
                 }
+
+                PQMenuSeparator {}
+
+                Repeater{
+                    model: cont.availableColorProfiles.length
+                    PQMenuItem {
+                        id: deleg
+                        required property int modelData
+                        text: cont.availableColorProfiles[modelData]
+                        visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1 // qmllint disable unqualified
+                        height: visible ? 40 : 0
+                        onTriggered: {
+                            PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
+                            image.reloadImage()
+                            PQCFileFolderModel.currentFileChanged()
+                        }
+                    }
+                }
+
             }
 
-            Component.onCompleted: {
-                // we need to change the visibility of the parent of the menu as that is the respective menuitem
-                parent.visible = PQCSettings.imageviewColorSpaceEnable // qmllint disable unqualified
+            // add/remove item into/from the correct position in the global menu
+            onObjectAdded: (index, object) => {
+                menutop.insertMenu(9, object)
+            }
+            onObjectRemoved: (index, object) => {
+                menutop.removeMenu(object)
             }
 
         }
@@ -306,6 +319,7 @@ Loader {
             }
         }
 
+        property bool currentFileSupportsColorSpaces: false
         Timer {
             id: evaluateEnabledStatus
             interval: 200
@@ -323,7 +337,8 @@ Loader {
 
                 // color spaces submenu
                 if(PQCSettings.imageviewColorSpaceEnable)
-                    iccmenu.enabled = (PQCFileFolderModel.currentFile !== "" &&
+                    menutop.currentFileSupportsColorSpaces =
+                                      (PQCFileFolderModel.currentFile !== "" &&
                                        !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
                                        !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
                                        !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) &&
@@ -369,6 +384,18 @@ Loader {
             PQCNotify.removeFromWhichContextMenusOpen("contextmenu")
             loadertop.active = true
         }
+    }
+
+    Connections {
+
+        target: PQCSettings
+
+        function onImageviewColorSpaceEnableChanged() {
+            loadertop.active = false
+            PQCNotify.removeFromWhichContextMenusOpen("contextmenu")
+            loadertop.active = true
+        }
+
     }
 
 }
