@@ -712,3 +712,11 @@ bool PQCScriptsShareImgur::deletePastEntry(QString timestamp) {
     return true;
 
 }
+
+void PQCScriptsShareImgur::closeDatabase() {
+
+    qDebug() << "";
+
+    db.close();
+
+}

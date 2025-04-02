@@ -1023,6 +1023,18 @@ void PQCSettings::setupFresh() {
 
     db.commit();
 
+    readDB();
+
+#ifdef Q_OS_WIN
+    // these defaults are different on Windows as on Linux
+    update("filedialogDevices", true);
+#endif
+
+    // the window decoration on Gnome is a bit weird
+    // that's why we disable it by default
+    if(qgetenv("XDG_CURRENT_DESKTOP").contains("GNOME"))
+        update("interfaceWindowDecoration", false);
+
 }
 
 void PQCSettings::resetToDefault() {

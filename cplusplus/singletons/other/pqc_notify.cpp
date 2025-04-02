@@ -117,6 +117,16 @@ bool PQCNotify::getIgnoreKeysExceptEsc() {
     return m_ignoreKeysExceptEsc;
 }
 
+void PQCNotify::setIgnoreAllKeys(bool val) {
+    if(val != m_ignoreAllKeys) {
+        m_ignoreAllKeys = val;
+        Q_EMIT ignoreAllKeysChanged();
+    }
+}
+bool PQCNotify::getIgnoreAllKeys() {
+    return m_ignoreAllKeys;
+}
+
 void PQCNotify::setDebugLogMessages(QString val) {
     if(val != m_debugLogMessages) {
         m_debugLogMessages = val;

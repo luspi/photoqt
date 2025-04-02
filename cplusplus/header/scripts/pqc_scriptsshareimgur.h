@@ -91,6 +91,8 @@ public:
     Q_INVOKABLE QImage getPastUploadThumbnail(QString timestamp);
     Q_INVOKABLE bool deletePastEntry(QString timestamp);
 
+    void closeDatabase();
+
 private:
     PQCScriptsShareImgur();
 

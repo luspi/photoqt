@@ -294,6 +294,13 @@ Item {
         console.log("args: wheelDelta =", wheelDelta)
 
 
+        if(combo === "Ctrl+Alt+Shift+R") {
+            console.warn("RESETTING TO DEFAULTS")
+            PQCScriptsConfig.resetToDefaultsWithConfirmation()
+            return
+        }
+
+
         // make sure contextmenu is closed before executing shortcut
         if(contextmenu.opened) {
             contextmenu.dismiss()

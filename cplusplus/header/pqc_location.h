@@ -89,6 +89,8 @@ public:
     Q_PROPERTY(QPointF maximumLocation READ getMaximumLocation NOTIFY maximumLocationChanged)
     QPointF getMaximumLocation() { return m_maximumLocation; }
 
+    void closeDatabase();
+
 private:
     PQCLocation(QObject *parent = nullptr);
 

@@ -332,3 +332,11 @@ void PQCLocation::processSummary(QString folder) {
     Q_EMIT maximumLocationChanged();
 
 }
+
+void PQCLocation::closeDatabase() {
+
+    qDebug() << "";
+
+    db.close();
+
+}

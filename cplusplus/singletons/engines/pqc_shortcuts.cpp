@@ -799,4 +799,6 @@ void PQCShortcuts::setupFresh() {
 
     db.commit();
 
+    readDB();
+
 }

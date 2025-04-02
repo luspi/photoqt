@@ -312,6 +312,11 @@ bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
 
     if(e->type() == QEvent::KeyPress && !PQCNotify::get().getModalFileDialogOpen()) {
 
+        // do not process events
+        if(PQCNotify::get().getIgnoreAllKeys()) {
+            return QApplication::eventFilter(obj, e);
+        }
+
         QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
 
         // These events are ignored if a spinbox is focussed:

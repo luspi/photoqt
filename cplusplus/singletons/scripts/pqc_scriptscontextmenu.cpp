@@ -204,3 +204,11 @@ QVariantList PQCScriptsContextMenu::detectSystemEntries() {
     return ret;
 
 }
+
+void PQCScriptsContextMenu::closeDatabase() {
+
+    qDebug() << "";
+
+    db.close();
+
+}

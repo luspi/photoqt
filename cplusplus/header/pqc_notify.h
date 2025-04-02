@@ -92,6 +92,10 @@ public:
     void setIgnoreKeysExceptEsc(bool val);
     Q_INVOKABLE bool getIgnoreKeysExceptEsc();
 
+    Q_PROPERTY(bool ignoreAllKeys READ getIgnoreAllKeys WRITE setIgnoreAllKeys NOTIFY ignoreAllKeysChanged)
+    void setIgnoreAllKeys(bool val);
+    Q_INVOKABLE bool getIgnoreAllKeys();
+
     /******************************************************/
 
     Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
@@ -172,6 +176,7 @@ private:
         m_spinBoxPassKeyEvents = false;
         m_ignoreKeysExceptEnterEsc = false;
         m_ignoreKeysExceptEsc = false;
+        m_ignoreAllKeys = false;
         m_debugLogMessages = "";
         m_slideshowRunning = false;
         m_faceTagging = false;
@@ -199,6 +204,7 @@ private:
     bool m_spinBoxPassKeyEvents;
     bool m_ignoreKeysExceptEnterEsc;
     bool m_ignoreKeysExceptEsc;
+    bool m_ignoreAllKeys;
 
     bool m_slideshowRunning;
     bool m_faceTagging;
@@ -233,6 +239,7 @@ Q_SIGNALS:
     void spinBoxPassKeyEventsChanged();
     void ignoreKeysExceptEnterEscChanged();
     void ignoreKeysExceptEscChanged();
+    void ignoreAllKeysChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
     void windowClose();

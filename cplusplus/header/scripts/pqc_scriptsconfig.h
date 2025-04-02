@@ -52,6 +52,7 @@ public:
     Q_INVOKABLE bool isQtAtLeast6_5();
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE bool isBetaVersion();
+    Q_INVOKABLE void resetToDefaultsWithConfirmation();
 
     // check for various supported features
     Q_INVOKABLE bool isChromecastEnabled();

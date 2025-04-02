@@ -23,6 +23,7 @@
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <QtDebug>
 #include <QFileDialog>
+#include <QApplication>
 #include <QImageReader>
 #include <QQmlContext>
 #include <QMessageBox>
@@ -32,6 +33,11 @@
 #include <pqc_validate.h>
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsconfig.h>
+#include <scripts/pqc_scriptscontextmenu.h>
+#include <scripts/pqc_scriptsshareimgur.h>
+#include <pqc_startup.h>
+#include <pqc_location.h>
+#include <pqc_notify.h>
 
 #ifdef WIN32
 #include <WinSock2.h>
@@ -678,4 +684,49 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
     return false;
 #endif
     return true;
+}
+
+void PQCScriptsConfig::resetToDefaultsWithConfirmation() {
+
+    PQCNotify::get().setIgnoreAllKeys(true);
+
+    QMessageBox msg;
+    msg.setWindowTitle(QApplication::translate("configuration", "Reset PhotoQt to its default state."));
+    msg.setText(QApplication::translate("configuration", "Do you want to reset PhotoQt to its default state? If you encounter any issues with your configuration, you should be able to fix it this way."));
+    msg.setInformativeText("<b>" + QApplication::translate("configuration", "Warning: This step cannot be undone!") + "</b>");
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msg.setDefaultButton(QMessageBox::Yes);
+    int ret = msg.exec();
+
+    if(ret == QMessageBox::Yes) {
+
+        qDebug() << "RESETTING PHOTOQT TO ITS DEFAULTS";
+
+        PQCSettings::get().closeDatabase();
+        PQCShortcuts::get().closeDatabase();
+        PQCImageFormats::get().closeDatabase();
+        PQCLocation::get().closeDatabase();
+        PQCScriptsContextMenu::get().closeDatabase();
+        PQCScriptsShareImgur::get().closeDatabase();
+
+        PQCStartup startup;
+        startup.setupFresh();
+
+        // further setup for settings
+        PQCSettings::get().reopenDatabase();
+        PQCSettings::get().setupFresh();
+
+        // further setup for shortcuts
+        PQCShortcuts::get().reopenDatabase();
+        PQCShortcuts::get().setupFresh();
+
+        QMessageBox::information(0, QApplication::translate("configuration", "Restart PhotoQt"),
+                                 QApplication::translate("configuration", "PhotoQt has been reset to its defaults and will need to be restarted."));
+
+        qApp->quit();
+
+    }
+
+    PQCNotify::get().setIgnoreAllKeys(false);
+
 }

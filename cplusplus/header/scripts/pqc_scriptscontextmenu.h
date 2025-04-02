@@ -47,6 +47,8 @@ public:
 
     Q_INVOKABLE QVariantList detectSystemEntries();
 
+    void closeDatabase();
+
 private:
     PQCScriptsContextMenu();
 

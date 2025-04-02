@@ -55,26 +55,41 @@ Rectangle {
     function assembleKeyCombo() {
 
         leftbutmessage.opacity = 0
+        resetmessage.opacity = 0
         savebut.enabled = true
 
         var txt = ""
+        var plaintxt = ""
 
         if(keyComboMods.length > 0) {
             txt += "<b>" + shortcuts.item.translateShortcut(keyComboMods.join("+")) + "</b>" // qmllint disable unqualified
             txt += "<br>+<br>"
+            plaintxt += keyComboMods.join("+")+"+"
         }
 
-        if(keyComboKey == "::PLUS::")
+        if(keyComboKey == "::PLUS::") {
             txt += "<b>+</b>"
-        else
+            plaintxt += "+"
+        } else {
             txt += "<b>" + shortcuts.item.translateShortcut(keyComboKey) + "</b>"
+            plaintxt += keyComboKey
+        }
 
         combo_txt.text = txt
 
-        if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
-            restartCancelTimer()
-        else
-            restartSaveTimer()
+        if(plaintxt === "Ctrl+Alt+Shift+R") {
+            resetmessage.opacity = 1
+            stopSaveTimer()
+            savebut.enabled = false
+        } else {
+            resetmessage.opacity = 0
+            leftbutmessage.opacity = 0
+            savebut.enabled = true
+            if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
+                restartCancelTimer()
+            else
+                restartSaveTimer()
+        }
 
     }
 
@@ -101,6 +116,7 @@ Rectangle {
             savebut.enabled = false
         } else {
             leftbutmessage.opacity = 0
+            resetmessage.opacity = 0
             if(txt.slice(txt.length-7,txt.length) == "<b></b>" || txt == "")
                 restartCancelTimer()
             else {
@@ -154,6 +170,37 @@ Rectangle {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
+
+        Rectangle {
+            id: resetmessage
+            y: parent.height-height
+            width: parent.width
+            height: resetmessagetxt.height+20
+            color: PQCLook.baseColorActive // qmllint disable unqualified
+            opacity: 0
+            // this needs to be done this way to avoid a binding loop warning
+            onOpacityChanged: {
+                visible = (opacity > 0)
+            }
+
+            visible: opacity>0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            PQText {
+                id: resetmessagetxt
+                y: 10
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                color: PQCLook.textColor // qmllint disable unqualified
+                text: qsTranslate("settingsmanager", "This key combination is reserved.") + "<br>\n" +
+                      qsTranslate("settingsmanager", "You can use it to reset PhotoQt to its default state.")
+            }
+            SequentialAnimation {
+                loops: Animation.Infinite
+                running: resetmessage.visible
+                PropertyAnimation { target: resetmessage; property: "opacity"; from: 1; to: 0.8; duration: 400 }
+                PropertyAnimation { target: resetmessage; property: "opacity"; from: 0.8; to: 1; duration: 400 }
+            }
         }
 
         Rectangle {
@@ -386,6 +433,7 @@ Rectangle {
 
         combo_txt.text = ""
         leftbutmessage.opacity = 0
+        resetmessage.opacity = 0
 
         restartCancelTimer()
 
