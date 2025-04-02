@@ -19,9 +19,9 @@ public:
         shortcutsActions = {
             {"__export",
              //: Description of shortcut action
-             QApplication::translate("settingsmanager", "Crop Image"),
+             QApplication::translate("settingsmanager", "Export Image"),
              "", // no default shortcut set
-             "show", "cropimage"}
+             "show", "exportimage"}
         };
 
         settings = {
