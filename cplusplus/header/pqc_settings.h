@@ -64,7 +64,7 @@ public Q_SLOTS:
     void resetToDefault();
 
 private:
-    PQCSettings();
+    PQCSettings(QObject *parent = nullptr);
 
     QStringList dbtables;
     QSqlDatabase db;

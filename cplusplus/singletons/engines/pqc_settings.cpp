@@ -28,7 +28,7 @@
 #include <pqc_notify.h>
 #include <pqc_extensionshandler.h>
 
-PQCSettings::PQCSettings() {
+PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
 
     // connect to database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
