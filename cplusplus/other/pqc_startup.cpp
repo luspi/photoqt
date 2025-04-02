@@ -216,8 +216,7 @@ void PQCStartup::resetToDefaults() {
               << "PhotoQt v" << PQMVERSION << std::endl
               << " > Resetting to default configuration... " << std::flush;
 
-    PQCSettings::get().setDefault();
-    PQCShortcuts::get().setDefault();
+    PQCScriptsConfig::get().resetToDefaultsWithConfirmation(true);
 
     std::cout << " >> Done!" << std::endl << std::endl;
 

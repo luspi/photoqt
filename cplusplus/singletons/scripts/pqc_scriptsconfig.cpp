@@ -686,17 +686,21 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
     return true;
 }
 
-void PQCScriptsConfig::resetToDefaultsWithConfirmation() {
+void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
 
     PQCNotify::get().setIgnoreAllKeys(true);
 
-    QMessageBox msg;
-    msg.setWindowTitle(QApplication::translate("configuration", "Reset PhotoQt to its default state."));
-    msg.setText(QApplication::translate("configuration", "Do you want to reset PhotoQt to its default state? If you encounter any issues with your configuration, you should be able to fix it this way."));
-    msg.setInformativeText("<b>" + QApplication::translate("configuration", "Warning: This step cannot be undone!") + "</b>");
-    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-    msg.setDefaultButton(QMessageBox::Yes);
-    int ret = msg.exec();
+    int ret = QMessageBox::Yes;
+
+    if(!skipConfirmation) {
+        QMessageBox msg;
+        msg.setWindowTitle(QApplication::translate("configuration", "Reset PhotoQt to its default state."));
+        msg.setText(QApplication::translate("configuration", "Do you want to reset PhotoQt to its default state? If you encounter any issues with your configuration, you should be able to fix it this way."));
+        msg.setInformativeText("<b>" + QApplication::translate("configuration", "Warning: This step cannot be undone!") + "</b>");
+        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+        msg.setDefaultButton(QMessageBox::Yes);
+        ret = msg.exec();
+    }
 
     if(ret == QMessageBox::Yes) {
 
@@ -720,10 +724,12 @@ void PQCScriptsConfig::resetToDefaultsWithConfirmation() {
         PQCShortcuts::get().reopenDatabase();
         PQCShortcuts::get().setupFresh();
 
-        QMessageBox::information(0, QApplication::translate("configuration", "Restart PhotoQt"),
-                                 QApplication::translate("configuration", "PhotoQt has been reset to its defaults and will need to be restarted."));
+        if(!skipConfirmation) {
+            QMessageBox::information(0, QApplication::translate("configuration", "Restart PhotoQt"),
+                                     QApplication::translate("configuration", "PhotoQt has been reset to its defaults and will need to be restarted."));
+            qApp->quit();
+        }
 
-        qApp->quit();
 
     }
 

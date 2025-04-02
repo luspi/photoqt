@@ -295,7 +295,7 @@ Item {
 
 
         if(combo === "Ctrl+Alt+Shift+R") {
-            console.warn("RESETTING TO DEFAULTS")
+            console.log("Detected shortcut for resetting PhotoQt")
             PQCScriptsConfig.resetToDefaultsWithConfirmation()
             return
         }
