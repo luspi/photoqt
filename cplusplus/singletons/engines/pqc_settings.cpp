@@ -526,10 +526,13 @@ int PQCSettings::migrate(QString oldversion) {
         QString curVer = versions[iV];
 
         ////////////////////////////////////
-        // first rename any tables
+        // first do any more complicated migrations
 
         // update to v4.0
         if(curVer == "4.0") {
+
+            /******************************************************/
+            // change table name 'openfile' to 'filedialog'
 
             QSqlQuery query(db);
 
@@ -551,229 +554,129 @@ int PQCSettings::migrate(QString oldversion) {
 
             }
 
+            /******************************************************/
+            // adjust ZoomLevel value
+
+            QVariant oldValue = migrationHelperGetOldValue("filedialog", "ZoomLevel");
+            if(oldValue.isValid() && !oldValue.isNull()) {
+                migrationHelperSetNewValue("filedialog", "Zoom", (oldValue.toInt()-9)*2.5);
+                migrationHelperRemoveValue("filedialog", "ZoomLevel");
+            }
+
+            /******************************************************/
+            // adjust list for AdvancedSortDateCriteria
+
+            QVariant oldSort = migrationHelperGetOldValue("imageview", "AdvancedSortDateCriteria");
+            if(oldSort.isValid() && !oldSort.isNull()) {
+                const QStringList oldSortVal = oldSort.toString().split(":://::");
+                QStringList newSortVal;
+                for(const auto &v : oldSortVal) {
+                    if(v == "1" || v == "0")
+                        continue;
+                    newSortVal << v;
+                }
+                migrationHelperSetNewValue("imageview", "AdvancedSortDateCriteria", newSortVal);
+            }
+
         } else if(curVer == "4.4") {
 
-            QSqlQuery query(db);
+            /******************************************************/
+            // adjust value of 'PreviewColorIntensity' in 'filedialog'
 
-            if(!query.exec("SELECT `value` FROM `filedialog` WHERE `name`='PreviewColorIntensity'"))
-                qCritical() << "Unable to get current PreviewColorIntensity value:" << query.lastError().text();
-            else {
-
-                query.next();
-
-                int val = query.value(0).toInt();
-
-                // if it's larger than that something went wrong
-                if(val <= 10) {
-
-                    QSqlQuery queryUpdate(db);
-                    queryUpdate.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='PreviewColorIntensity'");
-                    queryUpdate.bindValue(":val", val*10);
-                    if(!queryUpdate.exec())
-                        qCritical() << "ERROR updating PreviewColorIntensity value:" << queryUpdate.lastError().text();
-                    queryUpdate.clear();
-
-                }
-
-                query.clear();
-
-            }
-
-        } else if(curVer == "4.5") {
-
-            // update slideshow music settings
-            QSqlQuery query(db);
-
-            if(!query.exec("SELECT `value` FROM `slideshow` WHERE `name`='MusicFile'"))
-                qCritical() << "Unable to get current MusicFile value:" << query.lastError().text();
-            else {
-
-                query.next();
-
-                QString val = query.value(0).toString();
-
-                if(val != "") {
-
-                    QSqlQuery queryUpdate(db);
-                    queryUpdate.prepare("UPDATE `slideshow` SET `value`=:val WHERE `name`='MusicFiles'");
-                    queryUpdate.bindValue(":val", val);
-                    if(!queryUpdate.exec())
-                        qCritical() << "ERROR updating MusicFile value:" << queryUpdate.lastError().text();
-                    queryUpdate.clear();
-
-                }
-
-                query.clear();
-
-            }
-
-            // update name for modal settings
-            const QStringList renameModalSettings = {"PopoutFileDialog", "PopoutMapExplorer"};
-
-            for(auto &s : renameModalSettings) {
-
-                QSqlQuery queryRename(db);
-                if(!queryRename.exec(QString("Update `interface` SET `name`='%1NonModal' WHERE `name`='%2KeepOpen'").arg(s, s)))
-                    qCritical() << ("Unable to rename modal settings name '" + s + "':") << query.lastError().text();
-
-                queryRename.clear();
-
-            }
-
-            // update name for filwtypes settings
-            const QStringList renameFiletypeSettings = {"CheckForPhotoSphere", "PhotoSphereAutoLoad"};
-
-            for(int i = 0; i < renameFiletypeSettings.length()/2; ++i) {
-
-                QString oldSetting = renameFiletypeSettings[2*i +0];
-                QString newSetting = renameFiletypeSettings[2*i +1];
-
-                QSqlQuery queryRename(db);
-                if(!queryRename.exec(QString("Update `filetypes` SET `name`='%1' WHERE `name`='%2'").arg(newSetting, oldSetting)))
-                    qCritical() << ("Unable to rename filetypes settings name '" + oldSetting + "' to '" + newSetting + "':") << query.lastError().text();
-
-                queryRename.clear();
-
+            QVariant oldValue = migrationHelperGetOldValue("filedialog", "PreviewColorIntensity");
+            if(!oldValue.isNull() && oldValue.isValid()) {
+                int val = oldValue.toInt();
+                if(val <= 10)
+                    migrationHelperSetNewValue("filedialog", "PreviewColorIntensity", 10*val);
             }
 
         } else if(curVer == "4.7") {
 
-            QSqlQuery queryGet(db);
-            if(!queryGet.exec("SELECT `value` FROM `interface` WHERE `name`='AccentColor'")) {
+            /******************************************************/
+            // convert color names
 
-                qWarning() << "Unable to retrieve AccentColor setting:" << queryGet.lastError().text().trimmed();
+            QString oldValue = migrationHelperGetOldValue("interface", "AccentColor").toString();
 
-            } else {
+            QMap<QString,QString> mapping;
+            mapping.insert("gray",   "#222222");
+            mapping.insert("red",    "#110505");
+            mapping.insert("green" , "#051105");
+            mapping.insert("blue",   "#050b11");
+            mapping.insert("purple", "#0b0211");
+            mapping.insert("orange", "#110b02");
+            mapping.insert("pink",   "#110511");
 
-                queryGet.next();
+            if(mapping.contains(oldValue))
+                migrationHelperSetNewValue("interface", "AccentColor", mapping.value(oldValue));
 
-                QString val = queryGet.value(0).toString();
-                queryGet.clear();
+            /******************************************************/
+            // make sure cache is set to at least 256
 
-                QMap<QString,QString> mapping;
-                mapping.insert("gray",   "#222222");
-                mapping.insert("red",    "#110505");
-                mapping.insert("green" , "#051105");
-                mapping.insert("blue",   "#050b11");
-                mapping.insert("purple", "#0b0211");
-                mapping.insert("orange", "#110b02");
-                mapping.insert("pink",   "#110511");
+            QVariant oldCache = migrationHelperGetOldValue("imageview", "Cache");
+            if(oldCache.isValid() && !oldCache.isNull() && oldCache.toInt() < 256)
+                migrationHelperSetNewValue("interface", "AccentColor", 256);
 
-                if(mapping.contains(val)) {
-                    QSqlQuery queryUpd(db);
-                    if(!queryUpd.exec(QString("UPDATE `interface` SET `value`='%1' WHERE `name`='AccentColor'").arg(mapping[val])))
-                        qWarning() << "Unable to update AccentColor:" << queryUpd.lastError().text().trimmed();
-                    queryUpd.clear();
-                }
-
-            }
-
-            QSqlQuery queryChk(db);
-            if(!queryChk.exec("SELECT `value` FROM `imageview` WHERE `name`='Cache'")) {
-
-                qWarning() << "Unable to retrieve Cache setting:" << queryChk.lastError().text().trimmed();
-
-            } else {
-
-                queryChk.next();
-
-                int val = queryChk.value(0).toInt();
-                queryChk.clear();
-
-                if(val < 256) {
-
-                    QSqlQuery queryUpd(db);
-                    if(!queryUpd.exec(QString("UPDATE `imageview` SET `value`='256' WHERE `name`='Cache'")))
-                        qWarning() << "Unable to update Cache:" << queryUpd.lastError().text().trimmed();
-                    queryUpd.clear();
-
-                }
-
-            }
         } else if(curVer == "4.8") {
 
-            QSqlQuery query(db);
+            migrationHelperSetNewValue("imageview", "ZoomToCenter", 0);
 
-            query.prepare("UPDATE `imageview` SET `value`=0 WHERE `name`='ZoomToCenter'");
-            if(!query.exec())
-                qWarning() << "Unable to enable imageviewZoomToCenter by default:" << query.lastError().text().trimmed();
-            query.clear();
+        } else if(curVer == "4.9") {
+
+            QVariant oldDup = migrationHelperGetOldValue("interface", "WindowButtonsDuplicateDecorationButtons");
+
+            QString newValue = "ontop_0|0|1:://::fullscreen_0|0|1";
+            if(oldDup.isValid() && !oldDup.isNull() && oldDup.toInt() == 1)
+                newValue = "ontop_0|1|1:://::minimize_0|1|1:://::maximize_0|1|1:://::fullscreen_0|0|1:://::close_0|0|1";
+
+            QVariant oldNav = migrationHelperGetOldValue("interface", "NavigationTopRight");
+            QVariant oldNavAlw = migrationHelperGetOldValue("interface", "NavigationTopRightAlways");
+            QVariant oldNavPos = migrationHelperGetOldValue("interface", "NavigationTopRightLeftRight");
+
+            if(oldNav.isValid() && oldNav.toInt() == 1) {
+                if(oldNavPos.isValid() && oldNavPos.toString() == "right") {
+                    if(oldNavAlw.isValid() && oldNavAlw.toInt() == 1)
+                        newValue = QString("%1:://::left_0|0|0:://::right_0|0|0:://::menu_0|0|0").arg(newValue);
+                    else
+                        newValue = QString("%1:://::left_1|0|0:://::right_1|0|0:://::menu_1|0|0").arg(newValue);
+                } else {
+                    if(oldNavAlw.isValid() && oldNavAlw.toInt() == 1)
+                        newValue = QString("left_0|0|0:://::right_0|0|0:://::menu_0|0|0:://::%1").arg(newValue);
+                    else
+                        newValue = QString("left_1|0|0:://::right_1|0|0:://::menu_1|0|0:://::%1").arg(newValue);
+                }
+            }
+
+            migrationHelperInsertValue("interface", "WindowButtonsItems",
+                                       {newValue, "left_0|0|0:://::right_0|0|0:://::menu_0|0|0:://::ontop_0|0|1:://::fullscreen_0|0|1", "list"});
+
+            migrationHelperRemoveValue("interface", "WindowButtonsDuplicateDecorationButtons");
+            migrationHelperRemoveValue("interface", "NavigationTopRight");
+            migrationHelperRemoveValue("interface", "NavigationTopRightAlways");
+            migrationHelperRemoveValue("interface", "NavigationTopRightLeftRight");
 
         }
 
         ////////////////////////////////////
-        // first rename all settings
+        // then rename any settings
 
-        QMap<QString,QStringList> rename;
+        QMap<QString, QList<QStringList> > migrateNames = {
+            {"4.0", {{"ZoomLevel", "filedialog", "Zoom", "filedialog"},
+                     {"UserPlacesUser", "filedialog", "Places", "filedialog"},
+                     {"UserPlacesVolumes", "filedialog", "Devices", "filedialog"},
+                     {"UserPlacesWidth", "filedialog", "PlacesWidth", "filedialog"},
+                     {"DefaultView", "filedialog", "Layout", "filedialog"},
+                     {"PopoutFileSaveAs", "interface", "PopoutExport", "interface"},
+                     {"AdvancedSortExifDateCriteria", "imageview", "AdvancedSortDateCriteria", "imageview"},
+                     {"PopoutSlideShowSettings", "imageview", "PopoutSlideshowSetup", "interface"},
+                     {"PopoutSlideShowControls", "imageview", "PopoutSlideshowControls", "interface"}}},
+            {"4.5", {{"MusicFile", "slideshow", "MusicFiles", "slideshow"},
+                     {"PopoutFileDialogKeepOpen", "interface", "PopoutFileDialogNonModal", "interface"},
+                     {"PopoutMapExplorerKeepOpen", "interface", "PopoutMapExplorerNonModal", "interface"},
+                     {"CheckForPhotoSphere", "filetypes", "PhotoSphereAutoLoad", "filetypes"}}}
+             };
 
-        // update to v4.0
-        if(curVer == "4.0") {
+        migrationHelperChangeSettingsName(migrateNames, curVer);
 
-            rename ["ZoomLevel"] = QStringList() << "Zoom" << "filedialog";
-            rename ["UserPlacesUser"] = QStringList() << "Places" << "filedialog";
-            rename ["UserPlacesVolumes"] = QStringList() << "Devices" << "filedialog";
-            rename ["UserPlacesWidth"] = QStringList() << "PlacesWidth" << "filedialog";
-            rename ["DefaultView"] = QStringList() << "Layout" << "filedialog";
-            rename ["PopoutFileSaveAs"] = QStringList() << "PopoutExport" << "interface";
-            rename ["AdvancedSortExifDateCriteria"] = QStringList() << "AdvancedSortDateCriteria" << "imageview";
-            rename ["PopoutSlideShowSettings"] = QStringList() << "PopoutSlideshowSetup" << "interface";
-            rename ["PopoutSlideShowControls"] = QStringList() << "PopoutSlideshowControls" << "interface";
-
-        }
-
-        QMapIterator<QString, QStringList> i(rename);
-        while(i.hasNext()) {
-            i.next();
-
-            QString oldname = i.key();
-            QString newname = i.value().value(0);
-            QString table = i.value().value(1);
-
-            // delete old setting
-            if(newname == "") {
-
-                QSqlQuery query(db);
-                query.prepare(QString("DELETE FROM '%1' WHERE name=:old").arg(table));
-                query.bindValue(":old", oldname);
-                if(!query.exec()) {
-                    qWarning() << "Error removing old setting name (" << oldname << "): " << query.lastError().text();
-                    query.clear();
-                    continue;
-                }
-                query.clear();
-
-                // rename old setting
-            } else {
-
-                // check if the new setting already exists or not
-                QSqlQuery queryExist(db);
-                queryExist.prepare(QString("SELECT COUNT(name) FROM `%1` WHERE name=:name").arg(table));
-                queryExist.bindValue(":name", newname);
-                if(!queryExist.exec()) {
-                    qWarning() << "Unable to check if settings name already exists:" << queryExist.lastError().text();
-                    queryExist.clear();
-                    continue;
-                }
-                queryExist.next();
-                const int oldVal = queryExist.value(0).toInt();
-
-                if(oldVal == 0) {
-
-                    QSqlQuery query(db);
-                    query.prepare(QString("UPDATE '%1' SET name=:new WHERE name=:old").arg(table));
-                    query.bindValue(":new", newname);
-                    query.bindValue(":old", oldname);
-                    if(!query.exec()) {
-                        qWarning() << QString("Error updating setting name (%1 -> %2):").arg(oldname, newname) << query.lastError().text();
-                        query.clear();
-                        continue;
-                    }
-                    query.clear();
-
-                }
-
-            }
-        }
 
         ///////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////
@@ -784,85 +687,8 @@ int PQCSettings::migrate(QString oldversion) {
         // check for migrations for extensions
 
         const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-        for(const QString &e : ext) {
-
-            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getMigrateSettings(e);
-
-            for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
-
-                const QString v = i.key();
-                if(v == curVer) {
-
-                    const QList<QStringList> vals = i.value();
-                    for(const QStringList &entry : vals) {
-
-                        if(entry.length() != 4) {
-                            qWarning() << "Invalid settings migration:" << entry;
-                            continue;
-                        }
-
-                        QSqlQuery query(db);
-
-                        // check old key exists
-                        // if not then no migration needs to be done
-                        // we check for existence of all settings later
-                        query.prepare(QString("SELECT `value`,`defaultValue`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
-                        query.bindValue(":nme", entry[0]);
-                        if(!query.exec()) {
-                            qWarning() << "Query failed to execute:" << query.lastError().text();
-                            continue;
-                        }
-
-                        // read data if an entry was found (due to unique constraint this is either zero or one)
-                        bool foundEntry = false;
-                        QString old_value = "";
-                        QString old_default = "";
-                        QString old_datatype = "";
-                        if(query.next()) {
-                            foundEntry = true;
-                            old_value = query.value(0).toString();
-                            old_default = query.value(1).toString();
-                            old_datatype = query.value(2).toString();
-                        }
-                        query.clear();
-
-                        // found an old entry
-                        if(foundEntry) {
-
-                            // enter new values if they don't exist already
-                            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[3]));
-                            query.bindValue(":nme", entry[2]);
-                            query.bindValue(":val", old_value);
-                            query.bindValue(":def", old_default);
-                            query.bindValue(":dat", old_datatype);
-                            if(!query.exec()) {
-                                qWarning() << "Unable to migrate setting:" << query.lastError().text();
-                                qWarning() << "Failed migration:" << entry;
-                                continue;
-                            }
-
-                            query.clear();
-
-                            // delete old entry
-                            query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(entry[1]));
-                            query.bindValue(":nme", entry[0]);
-                            if(!query.exec()) {
-                                qWarning() << "Failed to delete old entry:" << query.lastError().text();
-                                qWarning() << "Failed migration:" << entry;
-                            }
-
-                            query.clear();
-
-                        }
-
-                    }
-
-                    break;
-
-                }
-
-            }
-        }
+        for(const QString &e : ext)
+            migrationHelperChangeSettingsName(PQCExtensionsHandler::get().getMigrateSettings(e), curVer);
 
         /////////////////////////////////////////////////////
         // check for existence of settings for extensions
@@ -908,57 +734,170 @@ int PQCSettings::migrate(QString oldversion) {
 
     }
 
-    // value changes
-
-    // ZoomLevel -> Zoom: (val-9)*2.5
-    QSqlQuery queryZoom(db);
-    queryZoom.prepare("SELECT `value` from `filedialog` WHERE `name`='ZoomLevel'");
-    if(!queryZoom.exec()) {
-        qWarning() << "Unable to migrate ZoomLevel to Zoom:" << queryZoom.lastError().text();
-        queryZoom.clear();
-        return -1;
-    }
-    if(queryZoom.next() ) {
-        const int oldVal = queryZoom.value(0).toInt();
-        queryZoom.clear();
-        queryZoom.prepare("UPDATE `filedialog` SET `value`=:val WHERE `name`='Zoom'");
-        queryZoom.bindValue(":val", static_cast<int>((oldVal-9)*2.5));
-        if(!queryZoom.exec()) {
-            qWarning() << "Unable to update Zoom value:" << queryZoom.lastError().text();
-            queryZoom.clear();
-            return -1;
-        }
-    }
-    queryZoom.clear();
-
-    // AdvancedSortDateCriteria: remove every second entry (checked value)
-    QSqlQuery querySort(db);
-    querySort.prepare("SELECT `value` from `imageview` WHERE `name`='AdvancedSortDateCriteria'");
-    if(!querySort.exec()) {
-        qWarning() << "Unable to migrate AdvancedSortDateCriteria:" << querySort.lastError().text();
-        querySort.clear();
-        return -1;
-    }
-    if(querySort.next()) {
-        const QStringList oldSortVal = querySort.value(0).toString().split(":://::");
-        QStringList newSortVal;
-        for(const auto &v : oldSortVal) {
-            if(v == "1" || v == "0")
-                continue;
-            newSortVal << v;
-        }
-        querySort.clear();
-        querySort.prepare("UPDATE `imageview` SET `value`=:val WHERE `name`='AdvancedSortDateCriteria'");
-        querySort.bindValue(":val", newSortVal.join(":://::"));
-        if(!querySort.exec()) {
-            qWarning() << "Unable to update AdvancedSortDateCriteria value:" << querySort.lastError().text();
-            querySort.clear();
-            return -1;
-        }
-    }
-    querySort.clear();
-
     return 0;
+
+}
+
+void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer) {
+
+    for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
+
+        const QString v = i.key();
+        if(v == curVer) {
+
+            const QList<QStringList> vals = i.value();
+            for(const QStringList &entry : vals) {
+
+                if(entry.length() != 4) {
+                    qWarning() << "Invalid settings migration:" << entry;
+                    continue;
+                }
+
+                QSqlQuery query(db);
+
+                // check old key exists
+                // if not then no migration needs to be done
+                // we check for existence of all settings later
+                query.prepare(QString("SELECT `value`,`defaultValue`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                query.bindValue(":nme", entry[0]);
+                if(!query.exec()) {
+                    qWarning() << "Query failed to execute:" << query.lastError().text();
+                    continue;
+                }
+
+                // read data if an entry was found (due to unique constraint this is either zero or one)
+                bool foundEntry = false;
+                QString old_value = "";
+                QString old_default = "";
+                QString old_datatype = "";
+                if(query.next()) {
+                    foundEntry = true;
+                    old_value = query.value(0).toString();
+                    old_default = query.value(1).toString();
+                    old_datatype = query.value(2).toString();
+                }
+                query.clear();
+
+                // found an old entry
+                if(foundEntry) {
+
+                    // If there is a new entry to be added
+                    if(entry[2] != "") {
+
+                        // enter new values if they don't exist already
+                        query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[3]));
+                        query.bindValue(":nme", entry[2]);
+                        query.bindValue(":val", old_value);
+                        query.bindValue(":def", old_default);
+                        query.bindValue(":dat", old_datatype);
+                        if(!query.exec()) {
+                            qWarning() << "Unable to migrate setting:" << query.lastError().text();
+                            qWarning() << "Failed migration:" << entry;
+                            continue;
+                        }
+
+                        query.clear();
+
+                    }
+
+                    // delete old entry
+                    query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                    query.bindValue(":nme", entry[0]);
+                    if(!query.exec()) {
+                        qWarning() << "Failed to delete old entry:" << query.lastError().text();
+                        qWarning() << "Failed migration:" << entry;
+                    }
+
+                    query.clear();
+
+                }
+
+            }
+
+            break;
+
+        }
+
+    }
+
+}
+
+QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting) {
+
+    qDebug() << "args: table =" << table;
+    qDebug() << "args: setting =" << setting;
+
+    QSqlQuery query(db);
+
+    query.prepare(QString("SELECT `value` FROM `%1` WHERE `name`=:nme").arg(table));
+    query.bindValue(":nme", setting);
+
+    if(!query.exec())
+        qCritical() << "Unable to get current" << setting << "value:" << query.lastError().text();
+    else {
+
+        if(query.next())
+            return query.value(0);
+
+    }
+
+    return QVariant();
+
+}
+
+void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
+
+    qDebug() << "args: table =" << table;
+    qDebug() << "args: setting =" << setting;
+
+    QSqlQuery query(db);
+
+    query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(table));
+    query.bindValue(":nme", setting);
+    if(!query.exec()) {
+        qWarning() << "Failed to delete old entry:" << query.lastError().text();
+        qWarning() << "Failed migration:" << setting;
+    }
+
+    query.clear();
+
+}
+
+void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVariantList value) {
+
+    qDebug() << "args: table =" << table;
+    qDebug() << "args: setting =" << setting;
+    qDebug() << "args: value =" << value;
+
+    QSqlQuery query(db);
+
+    query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(table));
+    query.bindValue(":nme", setting);
+    query.bindValue(":val", value[0]);
+    query.bindValue(":def", value[1]);
+    query.bindValue(":dat", value[2]);
+    if(!query.exec()) {
+        qWarning() << "Failed to insert new entry:" << query.lastError().text();
+        qWarning() << "Failed setting:" << setting;
+    }
+
+    query.clear();
+
+}
+
+void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVariant value) {
+
+    qDebug() << "args: table =" << table;
+    qDebug() << "args: setting =" << setting;
+    qDebug() << "args: value =" << value;
+
+    QSqlQuery query(db);
+    query.prepare(QString("UPDATE `%1` SET `value`=:val WHERE `name`=:nme").arg(table));
+    query.bindValue(":nme", setting);
+    query.bindValue(":val", value);
+    if(!query.exec())
+        qCritical() << "ERROR updating" << setting << "value:" << query.lastError().text();
+    query.clear();
 
 }
 
