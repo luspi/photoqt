@@ -179,7 +179,7 @@ Item {
         }
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady(category, loader_top.loadermapping[category]) // qmllint disable unqualified
+            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) // qmllint disable unqualified
             PQCNotify.loaderPassOn("showSettings", [subcategory])
         }
 

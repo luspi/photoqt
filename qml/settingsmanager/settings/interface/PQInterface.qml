@@ -57,7 +57,8 @@ Flickable {
 
     property bool catchEscape: testbut.contextmenu.visible || langcombo.popup.visible || accentcolor.popup.visible ||
                                butsize.contextMenuOpen || butsize.editMode || autohide_timeout.contextMenuOpen ||
-                               autohide_timeout.editMode || notif_dist.contextMenuOpen || notif_dist.editMode
+                               autohide_timeout.editMode || notif_dist.contextMenuOpen || notif_dist.editMode ||
+                               combo_add.popup.visible || set_winbut.itemmenuopened>0
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -345,18 +346,402 @@ Flickable {
 
             id: set_winbut
 
-            helptext: qsTranslate("settingsmanager",  "PhotoQt can show some integrated window buttons for basic window managements both when shown in fullscreen and when in window mode. In window mode with window decoration enabled it can either hide or show buttons from its integrated set that are duplicates of buttons in the window decoration. For help with navigating through a folder, small left/right arrows for navigation and a menu button can also be added next to the window buttons. There are also various visibility tweaks that can be adjusted.")
+            property list<string> curEntries: []
+            property list<string> defaultEntries: []
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.")
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Window buttons")
+
+            property int itemmenuopened: 0
+            signal closeItemMenu()
 
             content: [
 
                 PQCheckBox {
                     id: integbut_show
                     enforceMaxWidth: set_winbut.rightcol
-                    text: qsTranslate("settingsmanager", "show integrated window buttons")
+                    text: qsTranslate("settingsmanager", "enable integrated window buttons")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                Rectangle {
+                    enabled: integbut_show.checked
+                    width: parent.width-5
+                    radius: 5
+                    clip: true
+
+                    height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    ListView {
+
+                        id: avail
+
+                        x: 5
+                        y: 5
+
+                        width: parent.width-10
+                        height: parent.height-10
+
+                        clip: true
+                        orientation: ListView.Horizontal
+                        spacing: 5
+
+                        ScrollBar.horizontal: PQHorizontalScrollBar { id: scrollbar }
+
+                        property int dragItemIndex: -1
+
+                        property list<int> widths: []
+
+                        property var disp: {
+                            "left" : "leftarrow",
+                            "right" : "rightarrow",
+                            "menu" : "menu",
+                            "ontop" : "keepforeground",
+                            "fullscreen" : "fullscreen_on",
+                            "minimize" : (PQCScriptsConfig.amIOnWindows() ? "windows-minimize" : "minimize"),
+                            "maximize" : (PQCScriptsConfig.amIOnWindows() ? "windows-maximize" : "maximize"),
+                            "close" : "close"
+                        }
+
+                        model: ListModel {
+                            id: model
+                        }
+
+                        delegate: Item {
+
+                            id: deleg
+
+                            width: Math.max.apply(Math, avail.widths)
+                            height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+
+                            required property int index
+                            required property string component
+                            required property bool fullscreenonly
+                            required property bool windowedonly
+                            required property bool alwaysontop
+
+                            property bool hasBeenSetup: false
+                            Timer {
+                                interval: 500
+                                running: true
+                                onTriggered:
+                                    deleg.hasBeenSetup = true
+                            }
+
+                            onFullscreenonlyChanged: {
+                                if(!hasBeenSetup) return
+                                var entry = set_winbut.curEntries[index]
+                                var parts = entry.split("_")[1].split("|")
+                                var newfs = (fullscreenonly ? "1" : "0")
+                                if(newfs === parts[0]) return
+                                set_winbut.curEntries[index] = entry.split("_")[0] + "_" + newfs + "|" + parts[1] + "|" + parts[2]
+                                set_winbut.populateModel()
+                                setting_top.checkDefault()
+                            }
+                            onWindowedonlyChanged: {
+                                if(!hasBeenSetup) return
+                                var entry = set_winbut.curEntries[index]
+                                var parts = entry.split("_")[1].split("|")
+                                var newwm = (windowedonly ? "1" : "0")
+                                if(newwm === parts[1]) return
+                                set_winbut.curEntries[index] = entry.split("_")[0] + "_" + parts[0] + "|" + newwm + "|" + parts[2]
+                                set_winbut.populateModel()
+                                setting_top.checkDefault()
+                            }
+                            onAlwaysontopChanged: {
+                                if(!hasBeenSetup) return
+                                var entry = set_winbut.curEntries[index]
+                                var parts = entry.split("_")[1].split("|")
+                                var newot = (alwaysontop ? "1" : "0")
+                                if(newot === parts[2]) return
+                                set_winbut.curEntries[index] = entry.split("_")[0] + "_" + parts[0] + "|" + parts[1] + "|" + newot
+                                set_winbut.populateModel()
+                                setting_top.checkDefault()
+                            }
+
+                            Rectangle {
+                                id: dragRect
+                                width: deleg.width
+                                height: deleg.height
+                                anchors.verticalCenter: parent.verticalCenter
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                color: PQCLook.baseColorActive // qmllint disable unqualified
+                                radius: 5
+                                Image {
+                                    id: txt
+                                    x: (deleg.width-width)/2
+                                    y: deleg.height*0.1
+                                    width: deleg.height*0.75
+                                    height: deleg.height*0.75
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/" + avail.disp[deleg.component] + ".svg"
+                                    sourceSize: Qt.size(width, height)
+                                    onWidthChanged: {
+                                        avail.widths.push(width+20)
+                                        avail.widthsChanged()
+                                    }
+                                }
+                                Image {
+                                    x: parent.width-width-3
+                                    y: parent.height-height-3
+                                    visible: deleg.fullscreenonly||deleg.windowedonly
+                                    width: deleg.height*0.2
+                                    height: deleg.height*0.2
+                                    source: "image://svg/:/" + PQCLook.iconShade + (deleg.fullscreenonly ? "/fullscreen_on.svg" : "/computer.svg")
+                                    sourceSize: Qt.size(width, height)
+                                }
+                                Image {
+                                    x: 3
+                                    y: parent.height-height-3
+                                    width: deleg.height*0.2
+                                    height: deleg.height*0.2
+                                    visible: deleg.alwaysontop
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/thumbnail.svg"
+                                    sourceSize: Qt.size(width, height)
+                                }
+                                PQMenu {
+                                    id: itemmenu
+                                    PQMenuItem {
+                                        id: chk_fs
+                                        checkable: true
+                                        //: context menu entry, please keep short!
+                                        text: qsTranslate("settingsmanager", "only in fullscren")
+                                        onCheckedChanged: {
+                                            if(checked)
+                                                chk_wm.checked = false
+                                            if(deleg.fullscreenonly !== checked)
+                                                deleg.fullscreenonly = checked
+                                            setting_top.checkDefault()
+                                        }
+                                    }
+                                    PQMenuItem {
+                                        id: chk_wm
+                                        checkable: true
+                                        //: context menu entry, please keep short! Windowed here is used as the opposite to fullscreen.
+                                        text: qsTranslate("settingsmanager", "only when windowed")
+                                        onCheckedChanged: {
+                                            if(checked)
+                                                chk_fs.checked = false
+                                            if(deleg.windowedonly !== checked)
+                                                deleg.windowedonly = checked
+                                            setting_top.checkDefault()
+                                        }
+                                    }
+
+                                    PQMenuSeparator {}
+
+                                    PQMenuItem {
+                                        id: chk_ot
+                                        checkable: true
+                                        //: context menu entry, please keep short!
+                                        text: qsTranslate("settingsmanager", "always show entry")
+                                        onCheckedChanged: {
+                                            if(deleg.alwaysontop !== checked)
+                                                deleg.alwaysontop = checked
+                                            setting_top.checkDefault()
+                                        }
+                                    }
+
+                                    onAboutToHide: {
+                                        set_winbut.itemmenuopened -= 1
+                                        recordAsClosed.restart()
+                                    }
+                                    onAboutToShow: {
+                                        set_winbut.itemmenuopened += 1
+                                        chk_fs.checked = deleg.fullscreenonly
+                                        chk_wm.checked = deleg.windowedonly
+                                        chk_ot.checked = deleg.alwaysontop
+                                        PQCNotify.addToWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                    }
+
+                                    Connections {
+                                        target: set_winbut
+                                        function onCloseItemMenu() {
+                                            itemmenu.close()
+                                        }
+                                    }
+
+                                    Timer {
+                                        id: recordAsClosed
+                                        interval: 200
+                                        onTriggered: {
+                                            if(!itemmenu.opened)
+                                                PQCNotify.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                        }
+                                    }
+
+                                }
+
+                                PQMouseArea {
+                                    id: mouseArea
+                                    anchors.fill: parent
+                                    acceptedButtons: Qt.RightButton|Qt.LeftButton
+                                    text: combo_add.statusdata_vals[combo_add.statusdata_keys.indexOf(deleg.component)]
+                                    drag.target: parent
+                                    drag.axis: Drag.XAxis
+                                    drag.onActiveChanged: {
+                                        if (mouseArea.drag.active) {
+                                            avail.dragItemIndex = deleg.index;
+                                        }
+                                        dragRect.Drag.drop();
+                                        if(!mouseArea.drag.active) {
+                                            set_winbut.populateModel()
+                                        }
+                                    }
+                                    cursorShape: Qt.OpenHandCursor
+                                    onPressed: (mouse) => {
+                                        if(mouse.button === Qt.LeftButton)
+                                            cursorShape = Qt.ClosedHandCursor
+                                    }
+                                    onReleased: (mouse) => {
+                                        if(mouse.button === Qt.LeftButton)
+                                            cursorShape = Qt.OpenHandCursor
+                                    }
+                                    onClicked: (mouse) => {
+                                        if(mouse.button === Qt.RightButton) {
+                                            itemmenu.popup(0, deleg.height)
+                                        }
+                                    }
+                                }
+                                states: [
+                                    State {
+                                        when: dragRect.Drag.active
+                                        ParentChange {
+                                            target: dragRect
+                                            parent: setting_top
+                                        }
+
+                                        AnchorChanges {
+                                            target: dragRect
+                                            anchors.horizontalCenter: undefined
+                                            anchors.verticalCenter: undefined
+                                        }
+                                    }
+                                ]
+
+                                Drag.active: mouseArea.drag.active
+                                Drag.hotSpot.x: 0
+                                Drag.hotSpot.y: 0
+
+                                Image {
+
+                                    x: parent.width-width
+                                    y: 0
+                                    width: 20
+                                    height: 20
+
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                                    sourceSize: Qt.size(width, height)
+
+                                    opacity: closemouse.containsMouse ? 0.8 : 0.2
+                                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                    PQMouseArea {
+                                        id: closemouse
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        hoverEnabled: true
+                                        onClicked: {
+                                            set_winbut.curEntries.splice(deleg.index, 1)
+                                            set_winbut.populateModel()
+                                            setting_top.checkDefault()
+                                        }
+                                    }
+
+                                }
+
+                            }
+
+                        }
+                    }
+
+                    DropArea {
+                        id: dropArea
+                        anchors.fill: parent
+                        onPositionChanged: (drag) => {
+                            var newindex = avail.indexAt(drag.x, drag.y)
+                            if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+
+                                // we move the entry around in the list for the populate call later
+                                var element = set_winbut.curEntries[avail.dragItemIndex];
+                                set_winbut.curEntries.splice(avail.dragItemIndex, 1);
+                                set_winbut.curEntries.splice(newindex, 0, element);
+
+                                avail.model.move(avail.dragItemIndex, newindex, 1)
+                                avail.dragItemIndex = newindex
+                                setting_top.checkDefault()
+                            }
+                        }
+                    }
+                },
+
+                PQTextS {
+                    text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
+                },
+
+                Item {
+                    width: 1
+                    height: 1
+                },
+
+                Row {
+                    enabled: integbut_show.checked
+                    spacing: 10
+
+                    height: enabled ? combo_add.height : 0
+                    opacity: enabled ? 1 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQComboBox {
+                        id: combo_add
+                        y: (but_add.height-height)/2
+                        property list<string> statusdata_keys: [
+                            "left",
+                            "right",
+                            "menu",
+                            "ontop",
+                            "fullscreen",
+                            "minimize",
+                            "maximize",
+                            "close"
+                        ]
+                        property list<string> statusdata_vals: [
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "previous image"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "next image"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "main menu"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "keep window on top"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "toggle fullscreen"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "minimize window"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "maximize window"),
+                            //: Please keep short!
+                            qsTranslate("settingsmanager", "close window")
+                        ]
+                        model: statusdata_vals
+                    }
+                    PQButton {
+                        id: but_add
+                        //: This is written on a button that is used to add a selected block to the status info section.
+                        text: qsTranslate("settingsmanager", "add")
+                        smallerVersion: true
+                        onClicked: {
+                            set_winbut.curEntries.push(combo_add.statusdata_keys[combo_add.currentIndex]+"_0|0|1")
+                            set_winbut.populateModel()
+                            setting_top.checkDefault()
+                        }
+                    }
                 },
 
                 Item {
@@ -376,58 +761,6 @@ Flickable {
 
                         width: parent.width
                         spacing: set_winbut.contentSpacing
-
-                        PQCheckBox {
-                            id: integbut_dup
-                            enforceMaxWidth: set_winbut.rightcol
-                            text: qsTranslate("settingsmanager", "duplicate buttons from window decoration")
-                            onCheckedChanged: setting_top.checkDefault()
-                        }
-
-                        Flow {
-                            width: set_winbut.rightcol
-                            PQCheckBox {
-                                id: integbut_nav
-                                text: qsTranslate("settingsmanager", "add navigation buttons")
-                                onCheckedChanged: setting_top.checkDefault()
-                            }
-                            Column {
-                                spacing: 10
-                                Item {
-                                    width: integbut_nav.checked ? integbut_navfs.width : 0
-                                    Behavior on width { NumberAnimation { duration: 200 } }
-                                    height: integbut_navfs.height
-                                    clip: true
-                                    PQCheckBox {
-                                        id: integbut_navfs
-                                        text: qsTranslate("settingsmanager", "only in fullscreen")
-                                        onCheckedChanged: setting_top.checkDefault()
-                                    }
-                                }
-                                Item {
-                                    width: integbut_nav.checked ? integbut_nav_lr_col.width : 0
-                                    Behavior on width { NumberAnimation { duration: 200 } }
-                                    height: integbut_nav.checked ? integbut_nav_lr_col.height : 0
-                                    Behavior on height { NumberAnimation { duration: 200 } }
-                                    clip: true
-                                    Column {
-                                        id: integbut_nav_lr_col
-                                        spacing: 5
-                                        PQRadioButton {
-                                            id: integbut_nav_left
-                                            text: qsTranslate("settingsmanager", "left of window buttons")
-                                            onCheckedChanged: setting_top.checkDefault()
-                                        }
-                                        PQRadioButton {
-                                            id: integbut_nav_right
-                                            text: qsTranslate("settingsmanager", "right of window buttons")
-                                            onCheckedChanged: setting_top.checkDefault()
-                                        }
-                                    }
-                                }
-                            }
-
-                        }
 
                         PQSliderSpinBox {
                             id: butsize
@@ -491,12 +824,9 @@ Flickable {
             onResetToDefaults: {
 
                 integbut_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsShow") == 1)
-                integbut_dup.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsDuplicateDecorationButtons") == 1)
-                integbut_nav.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRight") == 1)
-                integbut_navfs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightAlways") == 0)
-                integbut_nav_left.checked = ((""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightLeftRight")) == "left")
-                integbut_nav_right.checked = ((""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigationTopRightLeftRight")) == "right")
                 butsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsSize"))
+                set_winbut.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsItems");
+                populateModel()
 
                 var valAutoHide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHide")
                 var valAutoHideTop = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTopEdge")
@@ -513,23 +843,22 @@ Flickable {
                 butsize.acceptValue()
                 autohide_timeout.closeContextMenus()
                 autohide_timeout.acceptValue()
+                combo_add.popup.close()
+                set_winbut.closeItemMenu()
+                set_winbut.itemmenuopened = 0
             }
 
             function hasChanged() {
-                return (integbut_show.hasChanged() || integbut_dup.hasChanged() || integbut_nav.hasChanged() || integbut_navfs.hasChanged() ||
-                        integbut_nav_left.hasChanged() || integbut_nav_right.hasChanged() || butsize.hasChanged() ||
+                return (integbut_show.hasChanged() || butsize.hasChanged() || !setting_top.areTwoListsEqual(set_winbut.curEntries, PQCSettings.interfaceWindowButtonsItems) ||
                         autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() || autohide_timeout.hasChanged())
             }
 
             function load() {
 
                 integbut_show.loadAndSetDefault(PQCSettings.interfaceWindowButtonsShow)
-                integbut_dup.loadAndSetDefault(PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons)
-                integbut_nav.loadAndSetDefault(PQCSettings.interfaceNavigationTopRight)
-                integbut_navfs.loadAndSetDefault(!PQCSettings.interfaceNavigationTopRightAlways)
-                integbut_nav_left.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="left")
-                integbut_nav_right.loadAndSetDefault(PQCSettings.interfaceNavigationTopRightLeftRight==="right")
                 butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
+                set_winbut.curEntries = PQCSettings.interfaceWindowButtonsItems
+                populateModel()
 
                 autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
                 autohide_anymove.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
@@ -541,10 +870,7 @@ Flickable {
             function applyChanges() {
 
                 PQCSettings.interfaceWindowButtonsShow = integbut_show.checked
-                PQCSettings.interfaceWindowButtonsDuplicateDecorationButtons = integbut_dup.checked
-                PQCSettings.interfaceNavigationTopRight = integbut_nav.checked
-                PQCSettings.interfaceNavigationTopRightAlways = !integbut_navfs.checked
-                PQCSettings.interfaceNavigationTopRightLeftRight = (integbut_nav_right.checked ? "right" : "left")
+                PQCSettings.interfaceWindowButtonsItems = set_winbut.curEntries
                 PQCSettings.interfaceWindowButtonsSize = butsize.value
 
                 PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
@@ -552,11 +878,6 @@ Flickable {
                 PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
 
                 integbut_show.saveDefault()
-                integbut_dup.saveDefault()
-                integbut_nav.saveDefault()
-                integbut_navfs.saveDefault()
-                integbut_nav_left.saveDefault()
-                integbut_nav_right.saveDefault()
                 butsize.saveDefault()
 
                 autohide_always.saveDefault()
@@ -564,6 +885,19 @@ Flickable {
                 autohide_topedge.saveDefault()
                 autohide_timeout.saveDefault()
 
+            }
+
+            function populateModel() {
+                model.clear()
+                for(var j = 0; j < set_winbut.curEntries.length; ++j) {
+                    var val = set_winbut.curEntries[j]
+                    var comp = val.split("_")[0]
+                    var parts = val.split("_")[1].split("|")
+                    var fs = (parts[0]==="1")
+                    var wm = (parts[1]==="1")
+                    var ot = (parts[2]==="1")
+                    model.append({"component": comp, "index": j, "fullscreenonly" : fs, "windowedonly" : wm, "alwaysontop" : ot})
+                }
             }
 
         }
