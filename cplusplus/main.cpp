@@ -284,6 +284,10 @@ int main(int argc, char *argv[]) {
     if(PQCNotify::get().getSettingUpdate().length() == 2)
         PQCSettings::get().updateFromCommandLine();
 
+    // At this point no new keys should ever be added to PhotoQt, only existing ones changed
+    // Thus we can freeze the property map for improved lookup speeds
+    PQCSettings::get().freeze();
+
     // Get screenshots for fake transparency
     PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());
 
