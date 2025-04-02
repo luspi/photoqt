@@ -40,7 +40,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("scale")
+        PQCNotify.loaderRegisterClose("scaleimage")
     }
 
     onPopoutChanged: {

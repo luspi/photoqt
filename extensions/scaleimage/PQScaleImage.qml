@@ -34,7 +34,7 @@ PQTemplateFullscreen {
 
     id: scale_top
 
-    thisis: "scale"
+    thisis: "scaleimage"
     popout: PQCSettings.extensionsScaleImagePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
     shortcut: "__scale"
@@ -321,11 +321,14 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, args : list<var>) {
 
-            if(what === "show" && args[0] === "scale") {
+            console.log("args: what =", what)
+            console.log("args: param =", param)
+
+            if(what === "show" && args[0] === "scaleimage") {
 
                 scale_top.show()
 
-            } else if(what === "hide" && args[0] === "scale") {
+            } else if(what === "hide" && args[0] === "scaleimage") {
 
                 scale_top.hide()
 
@@ -458,7 +461,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && scale_popout.visible)
             scale_popout.visible = false // qmllint disable unqualified
         else
-            PQCNotify.loaderRegisterClose("scale")
+            PQCNotify.loaderRegisterClose("scaleimage")
 
     }
 
