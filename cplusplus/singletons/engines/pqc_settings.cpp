@@ -46,9 +46,7 @@ PQCSettings::PQCSettings() {
                              << "filetypes"
                              << "filedialog"
                              << "slideshow"
-                             << "histogram"
                              << "mapview"
-                             << "export"
                              << "extensions";
 
     readonly = false;
