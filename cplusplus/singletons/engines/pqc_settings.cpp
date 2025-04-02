@@ -751,6 +751,19 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                     continue;
                 }
 
+                // check if old table still exists
+                QSqlQuery queryTableOld(db);
+                if(!queryTableOld.exec(QString("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='%1'").arg(entry[1]))) {
+                    qCritical() << "Unable to check if table named " << entry[1] << " exists:" << queryTableOld.lastError().text();
+                    continue;
+                } else {
+                    queryTableOld.next();
+                    if(queryTableOld.value(0).toInt() == 0) {
+                        qDebug() << "Old table" << entry[1] << "no longer exists - was it migrated away already?";
+                        continue;
+                    }
+                }
+
                 QSqlQuery query(db);
 
                 // check old key exists
