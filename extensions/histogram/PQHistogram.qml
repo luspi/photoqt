@@ -413,6 +413,10 @@ PQTemplateFloating {
         }
 
         function onLoaderPassOn(what : string, args : list<var>) {
+
+            console.log("args: what =", what)
+            console.log("args: param =", param)
+
             if(what === "show" && args[0] === "histogram") {
                 if(histogram_top.visible) {
                     histogram_top.hide()

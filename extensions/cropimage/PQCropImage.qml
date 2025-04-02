@@ -336,6 +336,9 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
+            console.log("args: what =", what)
+            console.log("args: param =", param)
+
             if(what === "show" && param[0] === "cropimage") {
 
                 crop_top.show()
