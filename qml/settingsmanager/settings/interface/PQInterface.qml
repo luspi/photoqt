@@ -680,13 +680,21 @@ Flickable {
                     }
                 },
 
-                PQTextS {
-                    text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
-                },
-
                 Item {
-                    width: 1
-                    height: 1
+
+                    enabled: integbut_show.checked
+                    clip: true
+                    width: helpmsg.width
+                    height: enabled ? helpmsg.height+5 : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    opacity: enabled ? 1 : 0
+                    Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                    PQText {
+                        id: helpmsg
+                        text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
+                    }
+
                 },
 
                 Row {
