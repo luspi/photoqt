@@ -224,7 +224,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
     // All the config files
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().SETTINGS_DB();
+    allfiles["CFG_USERSETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
     allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();
     allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
     allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
@@ -312,7 +312,9 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     // All the config files to be imported
     QHash<QString,QString> allfiles;
-    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().SETTINGS_DB();
+    // the old settings file CAN be used by the new versions (but not the other way round)
+    allfiles["CFG_SETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
+    allfiles["CFG_USERSETTINGS_DB"] = PQCConfigFiles::get().USERSETTINGS_DB();
     allfiles["CFG_CONTEXTMENU_DB"] = PQCConfigFiles::get().CONTEXTMENU_DB();
     allfiles["CFG_SHORTCUTS_DB"] = PQCConfigFiles::get().SHORTCUTS_DB();
     allfiles["CFG_IMAGEFORMATS_DB"] = PQCConfigFiles::get().IMAGEFORMATS_DB();

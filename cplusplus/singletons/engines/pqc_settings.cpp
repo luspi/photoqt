@@ -30,12 +30,28 @@
 
 PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
 
-    // connect to database
+    // create and connect to default database
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    QFile::remove(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
+    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
+    dbDefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
+    dbDefault.open();
+    if(!dbDefault.open()) {
+        qCritical() << "ERROR opening default database!";
+        QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
+                              QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+        return;
+    }
+
+    // connect to user database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-    db.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
+    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     dbtables = QStringList() << "general"
                              << "interface"
@@ -51,7 +67,7 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
 
     readonly = false;
 
-    QFileInfo infodb(PQCConfigFiles::get().SETTINGS_DB());
+    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
     if(!infodb.exists() || !db.open()) {
 
@@ -61,12 +77,12 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
         readonly = true;
         db.setConnectOptions("QSQLITE_OPEN_READONLY");
 
-        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/settings.db";
+        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/usersettings.db";
 
         if(QFile::exists(tmppath))
             QFile::remove(tmppath);
 
-        if(!QFile::copy(":/settings.db", tmppath)) {
+        if(!QFile::copy(":/usersettings.db", tmppath)) {
             qCritical() << "ERROR copying read-only default database!";
             //: This is the window title of an error message box
             QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR getting database with default settings"),
@@ -139,18 +155,21 @@ void PQCSettings::readDB() {
     valid.clear();
 #endif
 
+    /*******************************************/
+    // first enter all default values
+
     for(const auto &table : std::as_const(dbtables)) {
 
-        QSqlQuery query(db);
-        query.prepare(QString("SELECT `name`,`value`,`datatype` FROM '%1'").arg(table));
+        QSqlQuery query(dbDefault);
+        query.prepare(QString("SELECT `name`,`defaultvalue`,`datatype` FROM '%1'").arg(table));
         if(!query.exec())
             qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
 
         while(query.next()) {
 
-            QString name = QString("%1%2").arg(table, query.value(0).toString());
-            QString value = query.value(1).toString();
-            QString datatype = query.value(2).toString();
+            const QString name = QString("%1%2").arg(table, query.value(0).toString());
+            const QString value = query.value(1).toString();
+            const QString datatype = query.value(2).toString();
 
             if(datatype == "int")
                 this->insert(name, value.toInt());
@@ -196,6 +215,72 @@ void PQCSettings::readDB() {
 
     }
 
+    /*******************************************/
+    // then update with user values (if changed)
+
+    bool bakReadonly = readonly;
+    readonly = true;
+
+    for(const auto &table : std::as_const(dbtables)) {
+
+        QSqlQuery query(db);
+        query.prepare(QString("SELECT `name`,`value`,`datatype` FROM '%1'").arg(table));
+        if(!query.exec())
+            qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
+
+        while(query.next()) {
+
+            QString name = QString("%1%2").arg(table, query.value(0).toString());
+            QString value = query.value(1).toString();
+            QString datatype = query.value(2).toString();
+
+            if(datatype == "int")
+                this->updateWithoutNotification(name, value.toInt());
+            else if(datatype == "double")
+                this->updateWithoutNotification(name, value.toDouble());
+            else if(datatype == "bool")
+                this->updateWithoutNotification(name, static_cast<bool>(value.toInt()));
+            else if(datatype == "list") {
+                if(value.contains(":://::"))
+                    this->updateWithoutNotification(name, value.split(":://::"));
+                else if(value != "")
+                    this->updateWithoutNotification(name, QStringList() << value);
+                else
+                    this->updateWithoutNotification(name, QStringList());
+            } else if(datatype == "point") {
+                const QStringList parts = value.split(",");
+                if(parts.length() == 2)
+                    this->updateWithoutNotification(name, QPoint(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
+                    this->updateWithoutNotification(name, QPoint(0,0));
+                }
+            } else if(datatype == "size") {
+                const QStringList parts = value.split(",");
+                if(parts.length() == 2)
+                    this->updateWithoutNotification(name, QSize(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
+                    this->updateWithoutNotification(name, QSize(0,0));
+                }
+            } else if(datatype == "string")
+                this->updateWithoutNotification(name, value);
+            else if(datatype != "")
+                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
+            else
+                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
+
+#ifndef NDEBUG
+            if(table == "extensions")
+                valid.push_back(name);
+#endif
+
+        }
+
+    }
+
+    readonly = bakReadonly;
+
 }
 
 bool PQCSettings::backupDatabase() {
@@ -210,10 +295,10 @@ bool PQCSettings::backupDatabase() {
     }
 
     // backup file
-    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB())))
-        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB()));
-    QFile file(PQCConfigFiles::get().SETTINGS_DB());
-    return file.copy(QString("%1.bak").arg(PQCConfigFiles::get().SETTINGS_DB()));
+    if(QFile::exists(QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB())))
+        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
+    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+    return file.copy(QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
 
 }
 
@@ -251,31 +336,42 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     }
 
     // Using a placeholder also for table name causes an sqlite 'parameter count mismatch' error
-    query.prepare(QString("UPDATE %1 SET value=:val WHERE name=:name").arg(category));
+    // the 'on conflict' cause performs an update if the value already exists and the insert thus failed
+    query.prepare(QString("INSERT INTO '%1' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:val").arg(category));
+
+    query.bindValue(":nme", key);
 
     // we convert the value to a string
-    if(value.typeId() == QMetaType::Bool || value.typeId() == QMetaType::Int)
+    if(value.typeId() == QMetaType::Bool || value.typeId() == QMetaType::Int) {
         query.bindValue(":val", QString::number(value.toInt()));
-    else if(value.typeId() == QMetaType::QStringList)
+        query.bindValue(":dat", "bool");
+    } else if(value.typeId() == QMetaType::QStringList) {
         query.bindValue(":val", value.toStringList().join(":://::"));
-    else if(value.typeId() == QMetaType::QPoint)
+        query.bindValue(":dat", "list");
+    } else if(value.typeId() == QMetaType::QPoint) {
         query.bindValue(":val", QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y()));
-    else if(value.typeId() == QMetaType::QPointF)
+        query.bindValue(":dat", "point");
+    } else if(value.typeId() == QMetaType::QPointF) {
         query.bindValue(":val", QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y()));
-    else if(value.typeId() == QMetaType::QSize)
+        query.bindValue(":dat", "point");
+    } else if(value.typeId() == QMetaType::QSize) {
         query.bindValue(":val", QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height()));
-    else if(value.typeId() == QMetaType::QSizeF)
+        query.bindValue(":dat", "size");
+    } else if(value.typeId() == QMetaType::QSizeF) {
         query.bindValue(":val", QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height()));
-    else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
+        query.bindValue(":dat", "size");
+    } else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
         QStringList ret;
         QJSValue val = value.value<QJSValue>();
         const int length = val.property("length").toInt();
         for(int i = 0; i < length; ++i)
             ret << val.property(i).toString();
         query.bindValue(":val", ret.join(":://::"));
-    } else
+        query.bindValue(":dat", "list");
+    } else {
         query.bindValue(":val", value.toString());
-    query.bindValue(":name", key);
+        query.bindValue(":dat", "string");
+    }
 
     // and update database
     if(!query.exec())
@@ -285,9 +381,8 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
 }
 
-void PQCSettings::setDefault(bool ignoreLanguage) {
+void PQCSettings::setDefault() {
 
-    qDebug() << "args: ignoreLanguage =" << ignoreLanguage;
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
@@ -303,24 +398,12 @@ void PQCSettings::setDefault(bool ignoreLanguage) {
     for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(db);
-
-        if(ignoreLanguage)
-            query.prepare(QString("UPDATE %1 SET value=defaultvalue WHERE name!='Language'").arg(table));
-        else
-            query.prepare(QString("UPDATE %1 SET value=defaultvalue").arg(table));
-
-        if(!query.exec())
+        if(!query.exec(QString("DELETE FROM '%1'").arg(table)))
             qWarning() << "SQL Error:" << query.lastError().text();
 
     }
 
-    QSqlQuery query(db);
-    query.prepare("UPDATE general SET value=:ver WHERE name='Version'");
-    query.bindValue(":ver", PQMVERSION);
-    if(!query.exec())
-        qWarning() << "SQL Error:" << query.lastError().text();
-
-    dbCommitTimer->start();
+    setupFresh();
 
 }
 
@@ -351,7 +434,7 @@ QVariantList PQCSettings::getDefaultFor(QString key) {
 
     settingname = key.last(key.size()-tablename.size());
 
-    QSqlQuery query(db);
+    QSqlQuery query(dbDefault);
     query.prepare(QString("SELECT `defaultvalue`,`datatype` FROM '%1' WHERE name='%2'").arg(tablename,settingname));
     if(!query.exec())
         qWarning() << "SQL Error:" << query.lastError().text();
@@ -409,6 +492,10 @@ void PQCSettings::setDefaultFor(QString key) {
     } else if(datatype == "string")
         this->update(key, value);
 
+}
+
+void PQCSettings::updateWithoutNotification(QString key, QVariant value) {
+    (*this)[key] = value;
 }
 
 void PQCSettings::update(QString key, QVariant value) {
@@ -707,10 +794,9 @@ int PQCSettings::migrate(QString oldversion) {
                 }
 
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `defaultValue`, `datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[1]));
+                query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(entry[1]));
                 query.bindValue(":nme", entry[0]);
                 query.bindValue(":val", entry[3]);
-                query.bindValue(":def", entry[3]);
                 query.bindValue(":dat", entry[2]);
                 if(!query.exec()) {
                     qWarning() << "ERROR: Failed to enter required setting for extension" << e << ":" << query.lastError().text();
@@ -769,7 +855,7 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                 // check old key exists
                 // if not then no migration needs to be done
                 // we check for existence of all settings later
-                query.prepare(QString("SELECT `value`,`defaultValue`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                query.prepare(QString("SELECT `value`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
                 query.bindValue(":nme", entry[0]);
                 if(!query.exec()) {
                     qWarning() << "Query failed to execute:" << query.lastError().text();
@@ -779,13 +865,11 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                 // read data if an entry was found (due to unique constraint this is either zero or one)
                 bool foundEntry = false;
                 QString old_value = "";
-                QString old_default = "";
                 QString old_datatype = "";
                 if(query.next()) {
                     foundEntry = true;
                     old_value = query.value(0).toString();
-                    old_default = query.value(1).toString();
-                    old_datatype = query.value(2).toString();
+                    old_datatype = query.value(1).toString();
                 }
                 query.clear();
 
@@ -796,10 +880,9 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                     if(entry[2] != "") {
 
                         // enter new values if they don't exist already
-                        query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(entry[3]));
+                        query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(entry[3]));
                         query.bindValue(":nme", entry[2]);
                         query.bindValue(":val", old_value);
-                        query.bindValue(":def", old_default);
                         query.bindValue(":dat", old_datatype);
                         if(!query.exec()) {
                             qWarning() << "Unable to migrate setting:" << query.lastError().text();
@@ -882,10 +965,9 @@ void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVa
 
     QSqlQuery query(db);
 
-    query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`defaultValue`,`datatype`) VALUES (:nme, :val, :def, :dat)").arg(table));
+    query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(table));
     query.bindValue(":nme", setting);
     query.bindValue(":val", value[0]);
-    query.bindValue(":def", value[1]);
     query.bindValue(":dat", value[2]);
     if(!query.exec()) {
         qWarning() << "Failed to insert new entry:" << query.lastError().text();
@@ -1000,7 +1082,9 @@ void PQCSettings::setupFresh() {
     // at this point we can assume that the settings.db has already been copied
     // we only need to add any setting from the extensions
 
-    db.transaction();
+    dbCommitTimer->stop();
+    if(!dbIsTransaction)
+        db.transaction();
 
     const QStringList allext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &ext : allext) {
@@ -1015,10 +1099,9 @@ void PQCSettings::setupFresh() {
             }
 
             QSqlQuery query(db);
-            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `defaultvalue`, `datatype`) VALUES (:nme, :val, :def, :dat)").arg(set[1]));
+            query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(set[1]));
             query.bindValue(":nme", set[0]);
             query.bindValue(":val", set[3]);
-            query.bindValue(":def", set[3]);
             query.bindValue(":dat", set[2]);
 
             if(!query.exec()) {
@@ -1032,7 +1115,15 @@ void PQCSettings::setupFresh() {
 
     }
 
+    QSqlQuery query(db);
+    query.prepare("INSERT OR IGNORE INTO general (`name`, `value`, `datatype`) VALUES ('Version', :ver, 'string')");
+    query.bindValue(":ver", PQMVERSION);
+    if(!query.exec()) {
+        qWarning() << "ERROR setting current version number:" << query.lastError().text();
+    }
+
     db.commit();
+    dbIsTransaction = false;
 
     readDB();
 

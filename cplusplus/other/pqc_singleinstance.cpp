@@ -142,14 +142,14 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     this->installEventFilter(this);
 
     // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
-    if(QFile::exists(PQCConfigFiles::get().SETTINGS_DB())) {
+    if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
         QSqlDatabase dbtmp;
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
             dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsmultiple");
         else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
             dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsmultiple");
         dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-        dbtmp.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
+        dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
         if(!dbtmp.open()) {
             qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
             qWarning() << "Assuming only a single instance is to be used";

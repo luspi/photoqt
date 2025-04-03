@@ -590,11 +590,11 @@ bool PQCValidate::validateImageFormatsDatabase() {
 bool PQCValidate::validateSettingsDatabase() {
 
     // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::get().SETTINGS_DB())) {
-        if(!QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB()))
+    if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
             qWarning() << "Unable to (re-)create default settings database";
         else {
-            QFile file(PQCConfigFiles::get().SETTINGS_DB());
+            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
         return true;
@@ -608,7 +608,7 @@ bool PQCValidate::validateSettingsDatabase() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettings");
-    dbinstalled.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
@@ -629,7 +629,7 @@ bool PQCValidate::validateSettingsDatabase() {
     QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
     if(QFileInfo::exists(tmpfile) && !QFile::remove(tmpfile))
         qWarning() << "Error removing old tmp file";
-    if(!QFile::copy(":/settings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
+    if(!QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
         qWarning() << "Error copying default db to tmp file";
     QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db",
                           QFileDevice::WriteOwner|QFileDevice::ReadOwner |
@@ -681,7 +681,7 @@ bool PQCValidate::validateSettingsDatabase() {
         for(const QString &tab : std::as_const(whichTablesToAdd)) {
 
             QSqlQuery queryTabIns(dbinstalled);
-            if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `defaultvalue` TEXT, `datatype` TEXT)").arg(tab)))
+            if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `datatype` TEXT)").arg(tab)))
                 qWarning() << QString("ERROR adding missing table '%1':").arg(tab) << queryTabIns.lastError().text();
             queryTabIns.clear();
         }
@@ -693,7 +693,7 @@ bool PQCValidate::validateSettingsDatabase() {
     for(const auto &table : std::as_const(tables)) {
 
         // get reference data
-        query.prepare(QString("SELECT name,value,defaultvalue,datatype FROM '%1'").arg(table));
+        query.prepare(QString("SELECT `name`,`defaultvalue`,`datatype` FROM '%1'").arg(table));
         if(!query.exec()) {
             qWarning() << QString("Error getting default data for table '%1':").arg(table) << query.lastError().text();
             query.clear();
@@ -705,9 +705,8 @@ bool PQCValidate::validateSettingsDatabase() {
         while(query.next()) {
 
             const QString name = query.value(0).toString();
-            const QString value = query.value(1).toString();
-            const QString defaultvalue = query.value(2).toString();
-            const QString datatype = query.value(3).toString();
+            const QString defaultvalue = query.value(1).toString();
+            const QString datatype = query.value(2).toString();
 
             // check whether an entry with that name exists in the in-production database
             QSqlQuery check(dbinstalled);
@@ -726,10 +725,9 @@ bool PQCValidate::validateSettingsDatabase() {
             if(count == 0) {
 
                 QSqlQuery insquery(dbinstalled);
-                insquery.prepare(QString("INSERT INTO %1 (name,value,defaultvalue,datatype) VALUES(:nam,:val,:def,:dat)").arg(table));
+                insquery.prepare(QString("INSERT INTO %1 (name,value,datatype) VALUES(:nam,:val,:dat)").arg(table));
                 insquery.bindValue(":nam", name);
-                insquery.bindValue(":val", value);
-                insquery.bindValue(":def", defaultvalue);
+                insquery.bindValue(":val", defaultvalue);
                 insquery.bindValue(":dat", datatype);
 
                 if(!insquery.exec()) {
@@ -784,16 +782,15 @@ bool PQCValidate::validateSettingsDatabase() {
                     queryDel.clear();
                 }
 
-            // if entry does exist, make sure defaultvalue and datatype is valid
+            // if entry does exist, make sure datatype is valid
             } else {
 
                 QSqlQuery check(dbinstalled);
-                check.prepare(QString("UPDATE %1 SET defaultvalue=:def,datatype=:dat WHERE name=:nam").arg(table));
-                check.bindValue(":def", defaultvalue);
+                check.prepare(QString("UPDATE %1 SET datatype=:dat WHERE name=:nam").arg(table));
                 check.bindValue(":dat", datatype);
                 check.bindValue(":nam", name);
                 if(!check.exec()) {
-                    qWarning() << QString("Error updating defaultvalue and datatype '%1':").arg(name) << check.lastError().text();
+                    qWarning() << QString("Error updating datatype '%1':").arg(name) << check.lastError().text();
                     continue;
                 }
                 check.clear();
@@ -870,7 +867,7 @@ bool PQCValidate::validateSettingsValues() {
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettingsvalues");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettingsvalues");
-    dbinstalled.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
+    dbinstalled.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();

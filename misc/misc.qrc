@@ -1,11 +1,12 @@
 <RCC>
     <qresource prefix="/">
         <file>imageformats.db</file>
-        <file>settings.db</file>
         <file>shortcuts.db</file>
         <file>contextmenu.db</file>
         <file>checksettings.db</file>
         <file>location.db</file>
         <file>imgurhistory.db</file>
+        <file>defaultsettings.db</file>
+        <file>usersettings.db</file>
     </qresource>
 </RCC>

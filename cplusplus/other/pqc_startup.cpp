@@ -20,9 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <iomanip>
 #include <QFile>
-#include <QtSql>
+#include <QtSql/QSqlDatabase>
 #include <QMessageBox>
 #include <iostream>
 #include <pqc_startup.h>
@@ -52,44 +51,49 @@ int PQCStartup::check() {
     }
 
     // if no ettings db exist, then it is a fresh install
-    if(!QFile::exists(PQCConfigFiles::get().SETTINGS_DB()))
-        return 2;
+    if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+        if(!QFile::exists(PQCConfigFiles::get().OLDSETTINGS_DB()))
+            return 2;
+        else {
+            if(QFile::copy(PQCConfigFiles::get().OLDSETTINGS_DB(), PQCConfigFiles::get().USERSETTINGS_DB()))
+                QFile::remove(PQCConfigFiles::get().OLDSETTINGS_DB());
+            return 1;
+        }
+    }
 
     // last time a dev version was run
     // we need to figure this out WITHOUT using the PQCSettings class
-    if(QFile::exists(PQCConfigFiles::get().SETTINGS_DB())) {
-        QSqlDatabase dbtmp;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsversion");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsversion");
-        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-        dbtmp.setDatabaseName(PQCConfigFiles::get().SETTINGS_DB());
-        if(!dbtmp.open()) {
-            qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
-            qWarning() << "Assuming only a single instance is to be used";
-        } else {
-            QSqlQuery query(dbtmp);
-            if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'"))
-                qWarning() << "Unable to check for generalVersion setting";
-            else {
-                if(query.next()) {
-                    QString ver = query.value(0).toString();
-                    if(ver == "dev") {
-                        query.clear();
-                        dbtmp.close();
-                        return 3;
-                    }
-                    if(ver != QString(PQMVERSION)) {
-                        query.clear();
-                        dbtmp.close();
-                        return 1;
-                    }
+    QSqlDatabase dbtmp;
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsversion");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsversion");
+    dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+    dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(!dbtmp.open()) {
+        qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
+        qWarning() << "Assuming only a single instance is to be used";
+    } else {
+        QSqlQuery query(dbtmp);
+        if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'"))
+            qWarning() << "Unable to check for generalVersion setting";
+        else {
+            if(query.next()) {
+                QString ver = query.value(0).toString();
+                if(ver == "dev") {
+                    query.clear();
+                    dbtmp.close();
+                    return 3;
+                }
+                if(ver != QString(PQMVERSION)) {
+                    query.clear();
+                    dbtmp.close();
+                    return 1;
                 }
             }
-            query.clear();
-            dbtmp.close();
         }
+        query.clear();
+        dbtmp.close();
     }
 
     // nothing happened
@@ -153,12 +157,12 @@ void PQCStartup::setupFresh() {
 
     /**************************************************************/
     // create default settings database
-    if(QFile::exists(PQCConfigFiles::get().SETTINGS_DB()))
-        QFile::remove(PQCConfigFiles::get().SETTINGS_DB());
-    if(!QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB()))
+    if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB()))
+        QFile::remove(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
         qWarning() << "Unable to create settings database";
     else {
-        QFile file(PQCConfigFiles::get().SETTINGS_DB());
+        QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
         file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
     }
 

@@ -41,11 +41,12 @@ public:
     PQCSettings(PQCSettings const&)     = delete;
     void operator=(PQCSettings const&) = delete;
 
-    void setDefault(bool ignoreLanguage = false);
+    void setDefault();
     void setDefaultFor(QString key);
     QVariantList getDefaultFor(QString key);
 
     void update(QString key, QVariant value);
+    void updateWithoutNotification(QString key, QVariant value);
 
     void readDB();
 
@@ -68,6 +69,7 @@ private:
 
     QStringList dbtables;
     QSqlDatabase db;
+    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
