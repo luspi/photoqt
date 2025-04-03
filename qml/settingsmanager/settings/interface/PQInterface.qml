@@ -539,7 +539,7 @@ Flickable {
                                         id: chk_ot
                                         checkable: true
                                         //: context menu entry, please keep short!
-                                        text: qsTranslate("settingsmanager", "always show entry")
+                                        text: qsTranslate("settingsmanager", "above everything else")
                                         onCheckedChanged: {
                                             if(deleg.alwaysontop !== checked)
                                                 deleg.alwaysontop = checked
