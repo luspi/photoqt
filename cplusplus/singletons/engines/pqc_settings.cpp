@@ -780,10 +780,17 @@ int PQCSettings::migrate(QString oldversion) {
 
         db.transaction();
 
+        QSqlQuery queryTabIns(db);
+        if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
+            qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
+        queryTabIns.clear();
+
         // ext is already defined ahead of the for loop above
         for(const QString &e : ext) {
 
             const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
+
+            qDebug() << QString("Entering settings for extension %1:").arg(e) << set;
 
             for(const QStringList &entry : set) {
 
@@ -794,7 +801,7 @@ int PQCSettings::migrate(QString oldversion) {
                 }
 
                 QSqlQuery query(db);
-                query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(entry[1]));
+                query.prepare(QString("INSERT OR IGNORE INTO '%1' (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(entry[1]));
                 query.bindValue(":nme", entry[0]);
                 query.bindValue(":val", entry[3]);
                 query.bindValue(":dat", entry[2]);
@@ -823,6 +830,9 @@ int PQCSettings::migrate(QString oldversion) {
 }
 
 void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer) {
+
+    qDebug() << "args: mig =" << mig;
+    qDebug() << "args: curVer =" << curVer;
 
     for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 

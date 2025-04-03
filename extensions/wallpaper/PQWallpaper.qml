@@ -247,6 +247,9 @@ PQTemplateFullscreen {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
+            console.log("args: what =", what)
+            console.log("args: param =", param)
+
             if(what === "show") {
 
                 if(param[0] === wallpaper_top.thisis)

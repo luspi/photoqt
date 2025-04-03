@@ -681,7 +681,7 @@ bool PQCValidate::validateSettingsDatabase() {
         for(const QString &tab : std::as_const(whichTablesToAdd)) {
 
             QSqlQuery queryTabIns(dbinstalled);
-            if(!queryTabIns.exec(QString("CREATE TABLE `%1` (`name` TEXT UNIQUE, `value` TEXT, `datatype` TEXT)").arg(tab)))
+            if(!queryTabIns.exec(QString("CREATE TABLE %1 ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)").arg(tab)))
                 qWarning() << QString("ERROR adding missing table '%1':").arg(tab) << queryTabIns.lastError().text();
             queryTabIns.clear();
         }

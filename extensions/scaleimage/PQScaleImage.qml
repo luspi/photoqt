@@ -322,7 +322,7 @@ PQTemplateFullscreen {
         function onLoaderPassOn(what : string, args : list<var>) {
 
             console.log("args: what =", what)
-            console.log("args: param =", param)
+            console.log("args: args =", args)
 
             if(what === "show" && args[0] === "scaleimage") {
 
