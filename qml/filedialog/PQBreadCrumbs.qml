@@ -294,8 +294,6 @@ Item {
                     property bool isNetwork: PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
 
                     property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : ((isNetwork&&windows) ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/")) // qmllint disable unqualified
-                    onPartsChanged:
-                    console.warn("###", parts)
 
                     Item { width: 15; height: 1 }
                     Image {
