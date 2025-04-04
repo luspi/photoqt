@@ -58,7 +58,6 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: marginslider.contextMenuOpen || marginslider.editMode ||
-                               interp_spin.contextMenuOpen || interp_spin.editMode ||
                                cache_slider.contextMenuOpen || cache_slider.editMode ||
                                color_defaultcombo.popup.visible || butselall.contextmenu.visible ||
                                butselnone.contextmenu.visible || butselinv.contextmenu.visible ||
@@ -292,7 +291,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Interpolation")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for small images under the specified threshold PhotoQt can skip the use of interpolation algorithms. Note that both the width and height of an image need to be smaller than the threshold for it to be applied.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. For images that are smaller than the current window size, this interpolation is automatically disabled by default. Though not recommended, this behavior can be disabled here.")
 
             content: [
 
@@ -301,47 +300,27 @@ Flickable {
                     enforceMaxWidth: set_interp.rightcol
                     text: qsTranslate("settingsmanager", "disable interpolation for small images")
                     onCheckedChanged: setting_top.checkDefault()
-                },
-
-                PQSliderSpinBox {
-                    id: interp_spin
-                    width: set_interp.rightcol
-                    minval: 0
-                    maxval: 1000
-                    title: qsTranslate("settingsmanager", "threshold:")
-                    suffix: " px"
-                    enabled: interp_check.checked
-                    animateHeight: true
-                    onValueChanged:
-                        setting_top.checkDefault()
                 }
 
             ]
 
             onResetToDefaults: {
                 interp_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationDisableForSmallImages") == 1)
-                interp_spin.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationThreshold"))
             }
 
-            function handleEscape() {
-                interp_spin.closeContextMenus()
-                interp_spin.acceptValue()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
-                return (interp_check.hasChanged() || interp_spin.hasChanged())
+                return interp_check.hasChanged()
             }
 
             function load() {
                 interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
-                interp_spin.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
             }
 
             function applyChanges() {
                 PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
-                PQCSettings.imageviewInterpolationThreshold = interp_spin.value
                 interp_check.saveDefault()
-                interp_spin.saveDefault()
             }
 
         }

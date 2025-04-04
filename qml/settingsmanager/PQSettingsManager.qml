@@ -244,7 +244,6 @@ PQTemplateFullscreen {
                                                  "RespectDevicePixelRatio",
                                                  "TransparencyMarker",
                                                  "InterpolationDisableForSmallImages",
-                                                 "InterpolationThreshold",
                                                  "Cache",
                                                  "ColorSpaceContextMenu",
                                                  "ColorSpaceEnable",

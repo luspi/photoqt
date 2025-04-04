@@ -53,7 +53,8 @@ Item {
         asynchronous: true
         cache: false
 
-        property bool interpThreshold: (!PQCSettings.imageviewInterpolationDisableForSmallImages || width > PQCSettings.imageviewInterpolationThreshold || height > PQCSettings.imageviewInterpolationThreshold) // qmllint disable unqualified
+        property bool interpThreshold: (sourceSize.width > image_top.width || sourceSize.height > image_top.height ||
+                                        !PQCSettings.imageviewInterpolationDisableForSmallImages) // qmllint disable unqualified
 
         smooth: interpThreshold
         mipmap: interpThreshold

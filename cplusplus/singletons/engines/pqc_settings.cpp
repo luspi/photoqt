@@ -757,8 +757,9 @@ int PQCSettings::migrate(QString oldversion) {
             {"4.5", {{"MusicFile", "slideshow", "MusicFiles", "slideshow"},
                      {"PopoutFileDialogKeepOpen", "interface", "PopoutFileDialogNonModal", "interface"},
                      {"PopoutMapExplorerKeepOpen", "interface", "PopoutMapExplorerNonModal", "interface"},
-                     {"CheckForPhotoSphere", "filetypes", "PhotoSphereAutoLoad", "filetypes"}}}
-             };
+                     {"CheckForPhotoSphere", "filetypes", "PhotoSphereAutoLoad", "filetypes"}}},
+            {"4.9", {{"InterpolationThreshold", "imageview", "", ""}}}
+        };
 
         migrationHelperChangeSettingsName(migrateNames, curVer);
 
