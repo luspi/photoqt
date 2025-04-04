@@ -590,6 +590,17 @@ Loader {
                     property real prevH: loader_top.defaultHeight
                     property real prevScale: scale
                     property bool startupScale: false
+                    onStartupScaleChanged: {
+                        if(startupScale) resetStartupScale.restart()
+                    }
+
+                    Timer {
+                        id: resetStartupScale
+                        interval: 100
+                        onTriggered: {
+                            image_wrapper.startupScale = false
+                        }
+                    }
 
                     property real kenBurnsZoomFactor: loader_top.defaultScale
 
