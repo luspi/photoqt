@@ -42,6 +42,10 @@
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
 
+#ifdef PQMWAYLANDSPECIFIC
+#include <pqc_wayland.h>
+#endif
+
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
 #include <archive_entry.h>
@@ -1261,10 +1265,24 @@ double PQCScriptsImages::getPixelDensity() {
     // If we are on wayland...
     if(qApp->platformName() == "wayland") {
 
-        // we cache a once calculated value for 5 minutes
-        if(QDateTime::currentMSecsSinceEpoch()-devicePixelRatioCachedWhen < 1000*60*5) {
+#ifdef PQMWAYLANDSPECIFIC
+        const int timeout = 60*1;
+#else
+        const int timeout = 60*5;
+#endif
+
+        // we cache a once calculated value for 5 or 1 minutes
+        if(QDateTime::currentSecsSinceEpoch()-devicePixelRatioCachedWhen < timeout) {
             return devicePixelRatioCached;
         }
+
+#ifdef PQMWAYLANDSPECIFIC
+
+        devicePixelRatioCached = PQCWayland::getDevicePixelRatio();
+        devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
+        return devicePixelRatioCached;
+
+#else
 
         QMap<int, QList<int> > valsLogical;
         QMap<int, QList<int> > valsPhysical;
@@ -1367,19 +1385,21 @@ double PQCScriptsImages::getPixelDensity() {
             if(useRatio > 0) {
 
                 devicePixelRatioCached = useRatio;
-                devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
+                devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
                 return useRatio;
 
             // if error occurred, then we effectively disable this feature
             } else {
 
                 devicePixelRatioCached = 1;
-                devicePixelRatioCachedWhen = QDateTime::currentMSecsSinceEpoch();
+                devicePixelRatioCachedWhen = QDateTime::currentSecsSinceEpoch();
                 return 1;
 
             }
 
         }
+
+#endif
 
     }
 

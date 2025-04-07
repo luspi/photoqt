@@ -3,7 +3,7 @@
 ##############################################
 
 cmake_minimum_required(VERSION 3.26)
-project(photoqt LANGUAGES CXX)
+project(photoqt LANGUAGES C CXX)
 
 ##################################################################
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
@@ -65,6 +65,7 @@ option(WITH_FLATPAKBUILD          "Enable this option if this is a build for Fla
 option(WITH_ADAPTSOURCE           "Adapt and change the source files for the current Qt version (if necessary)" OFF)
 option(WITHOUT_ICU                "Enable this option if your Qt6 setup has no ICU support" OFF)
 option(WITH_PORTABLETWEAKS        "Apply tweaks for a build of a portable version" OFF)
+option(WITH_WAYLANDSPECIFIC      "Enable optional Wayland-specific code to allow for further optimizations." OFF)
 
 
 ##################################################################################################################
@@ -314,6 +315,10 @@ endif()
 if(WITH_FLATPAKBUILD)
     find_package(PkgConfig REQUIRED)
     pkg_search_module(GLIB REQUIRED glib-2.0 gobject-2.0 gio-2.0)
+endif()
+
+if(WITH_WAYLANDSPECIFIC)
+    find_package(Wayland REQUIRED Client)
 endif()
 
 ######################
@@ -919,6 +924,16 @@ endif()
 if(WITH_PORTABLETWEAKS)
     message("** Enabling Portable tweaks")
     target_compile_definitions(photoqt PRIVATE PQMPORTABLETWEAKS)
+endif()
+
+if(WITH_WAYLANDSPECIFIC)
+    if(NOT ${WAYLAND_CLIENT_FOUND})
+        message(FATAL_ERROR "** Unable to locate Wayland... is it installed?")
+    else()
+        message("** Enabling Wayland-specific code")
+        target_compile_definitions(photoqt PRIVATE PQMWAYLANDSPECIFIC)
+        target_link_libraries(photoqt PRIVATE Wayland::Client)
+    endif()
 endif()
 
 
