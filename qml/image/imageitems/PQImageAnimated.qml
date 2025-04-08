@@ -45,18 +45,9 @@ AnimatedImage {
     smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold // qmllint disable unqualified
     mipmap: interpThreshold
 
-    property bool fitImage: false
-    property bool imageLarger: (image.sourceSize.width > image_top.width || image.sourceSize.height > image_top.height) // qmllint disable unqualified
-
-    width: (fitImage||imageLarger) ? image_top.width : undefined // qmllint disable unqualified
-    height: (fitImage||imageLarger) ? image_top.height : undefined // qmllint disable unqualified
-
-    fillMode: Image.PreserveAspectFit
-
     onStatusChanged: {
         image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Ready) {
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
         } else if(status == Image.Error)
             source = "qrc:/other/errorimage.svg"

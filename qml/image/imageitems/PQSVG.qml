@@ -61,19 +61,13 @@ Item {
 
         z: parent.z
 
-        property bool fitImage: false
-
-        width: fitImage ? image_top.width : undefined // qmllint disable unqualified
-        height: fitImage ? image_top.height : undefined // qmllint disable unqualified
-
-        fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
+        fillMode: Image.Pad
 
         visible: !scaledimage.visible
 
         onStatusChanged: {
             image_wrapper.status = status // qmllint disable unqualified
             if(status == Image.Ready) {
-                fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
                 svgtop.hasAlpha = PQCScriptsImages.supportsTransparency(svgtop.imageSource)
             } else if(status == Image.Error)
                 source = "image://svg/:/other/errorimage.svg"

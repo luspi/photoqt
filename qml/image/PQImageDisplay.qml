@@ -77,6 +77,8 @@ Loader {
         property size imageResolution: Qt.size(0,0)
 
         onImageResolutionChanged: {
+            if(PQCSettings.imageviewFitInWindow)
+                resetDefaults.triggered()
             if(loader_top.isMainImage)
                 image_top.currentResolution = imageResolution // qmllint disable unqualified
         }
@@ -1059,8 +1061,12 @@ Loader {
                             if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
 
                                 var val = 0.99999999*tmp
-                                if(PQCSettings.imageviewFitInWindow)
-                                    val *= PQCConstants.devicePixelRatio
+                                if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.height > 0 && loader_top.imageResolution.width > 0) {
+                                    var factW = flickable.width/(loader_top.imageResolution.width*val)
+                                    var factH = flickable.height/(loader_top.imageResolution.height*val)
+                                    if(factW > 1 && factH > 1)
+                                        val *= Math.min(factW, factH)
+                                }
                                 loader_top.defaultScale = val
 
                                 if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) { // qmllint disable unqualified

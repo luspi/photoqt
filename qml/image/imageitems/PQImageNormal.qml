@@ -55,12 +55,7 @@ Image {
 
     cache: false
 
-    property bool fitImage: false
-
-    width: fitImage ? image_top.width : undefined // qmllint disable unqualified
-    height: fitImage ? image_top.height : undefined // qmllint disable unqualified
-
-    fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
+    fillMode: Image.Pad
 
     onStatusChanged: {
 
@@ -70,7 +65,6 @@ Image {
         image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Ready) {
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         } else if(status == Image.Error)

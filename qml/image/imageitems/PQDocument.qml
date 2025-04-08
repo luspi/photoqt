@@ -61,17 +61,12 @@ Image {
     smooth: interpThreshold
     mipmap: interpThreshold
 
-    property bool fitImage: false
-
-    width: fitImage ? image_top.width : undefined // qmllint disable unqualified
-    height: fitImage ? image_top.height : undefined // qmllint disable unqualified
-
     onVisibleChanged: {
         if(!image.visible)
             currentPage = 0
     }
 
-    fillMode: fitImage ? Image.PreserveAspectFit : Image.Pad
+    fillMode: Image.Pad
 
     // we use custom mirror properties to be able to animate the mirror process with transforms
     property bool myMirrorH: false
