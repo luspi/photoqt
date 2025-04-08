@@ -391,10 +391,10 @@ Item {
         opacity = 0
         if(popoutWindowUsed && mapexplorer_window.visible)
             mapexplorer_window.visible = false
-        else
-            PQCNotify.loaderShowExtension("mapexplorer")
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
+
+        PQCNotify.loaderRegisterClose("mapexplorer")
 
     }
 

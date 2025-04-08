@@ -170,6 +170,9 @@ Rectangle {
             }
 
             PQMouseArea {
+
+                id: delegmouse
+
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
@@ -221,10 +224,14 @@ Rectangle {
                     resetCurrentIndex.restart()
                 }
 
+                onPressAndHold: (mouse) => {
+                    contextmenu.popup(delegmouse.mapToItem(visibleimages, mouse.x, mouse.y))
+                }
+
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
                         mapexplorer_top.clickOnImage(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
-                    else {
+                    else if(mouse.button === Qt.RightButton) {
                         contextmenu.activeIndex = gridview.currentIndex
                         contextmenu.popup()
                     }
@@ -240,6 +247,18 @@ Rectangle {
 
             }
 
+        }
+
+    }
+
+    PinchHandler {
+
+        target: null
+
+        onScaleChanged: (delta) => {
+            var newval = Math.round(PQCSettings.mapviewExplorerThumbnailsZoomLevel*delta)
+            if(newval !== PQCSettings.mapviewExplorerThumbnailsZoomLevel)
+                PQCSettings.mapviewExplorerThumbnailsZoomLevel = newval
         }
 
     }

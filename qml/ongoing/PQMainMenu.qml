@@ -96,7 +96,7 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible)
+        if(!setVisible && menu.item !== null)
             menu.item.dismiss() // qmllint disable missing-property
     }
 

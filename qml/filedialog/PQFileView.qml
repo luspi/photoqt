@@ -1218,8 +1218,6 @@ GridView {
 
         target: null
 
-        enabled: true
-
         onScaleChanged: (delta) => {
             var newval = Math.round(PQCSettings.filedialogZoom*delta)
             if(newval !== PQCSettings.filedialogZoom)
