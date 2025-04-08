@@ -183,11 +183,52 @@ Item {
                 text: qsTranslate("navigate", "Navigate to previous image in folder")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        left_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -216,11 +257,52 @@ Item {
                 text: qsTranslate("navigate", "Navigate to next image in folder")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        right_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -251,11 +333,52 @@ Item {
                 text: qsTranslate("quickinfo", "Click here to show main menu")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        mainmenu_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -284,11 +407,52 @@ Item {
                 text: PQCSettings.interfaceKeepWindowOnTop ? qsTranslate("quickinfo", "Click here to not keep window in foreground") : qsTranslate("quickinfo", "Click here to keep window in foreground") // qmllint disable unqualified
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        fore_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -319,11 +483,52 @@ Item {
                            qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode // qmllint disable unqualified
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        fullscreen_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -352,11 +557,52 @@ Item {
                 text: qsTranslate("quickinfo", "Click here to minimize window")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCNotify.setWindowState(Window.Minimized)
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        mini_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -389,14 +635,55 @@ Item {
                            qsTranslate("quickinfo", "Click here to maximize window"))
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton) {
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton) {
                         if(PQCConstants.windowState === Window.Windowed) // qmllint disable unqualified
                             PQCNotify.setWindowState(Window.Maximized)
                         else
                             PQCNotify.setWindowState(Window.Windowed)
-                    } else if(mouse.button === Qt.RightButton)
+                    } else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        minimaxi_mouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
         }
 
@@ -425,18 +712,57 @@ Item {
                 text: qsTranslate("quickinfo", "Click here to close PhotoQt")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.LeftButton)
+                    executeClick(mouse.button)
+                }
+                function executeClick(button : int) {
+                    if(button === Qt.LeftButton)
                         PQCNotify.windowClose()
-                    else if(mouse.button === Qt.RightButton)
+                    else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
+            }
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onUpdated: (touchPoints) => {
+                    if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                        touchShowMenu.stop()
+                    }
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        closemouse.executeClick(Qt.LeftButton)
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(wb_top, toucharea.touchPos))
+                    }
+                }
+
             }
 
         }
 
     }
-
-
 
     ButtonGroup { id: grp }
 

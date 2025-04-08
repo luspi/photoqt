@@ -436,6 +436,7 @@ Rectangle {
         id: toucharea
 
         anchors.fill: parent
+        anchors.topMargin: 50
         mouseEnabled: false
 
         maximumTouchPoints: 1
@@ -445,6 +446,12 @@ Rectangle {
         onPressed: (touchPoints) => {
             touchPos = touchPoints[0]
             touchShowMenu.start()
+        }
+
+        onUpdated: (touchPoints) => {
+            if(Math.sqrt(Math.pow(touchPos.x-touchPoints[0].x, 2) + Math.pow(touchPos.y-touchPoints[0].y, 2)) > 50) {
+                touchShowMenu.stop()
+            }
         }
 
         onReleased: {
