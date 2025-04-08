@@ -560,6 +560,36 @@ Item {
         }
     }
 
+    MultiPointTouchArea {
+
+        id: toucharea
+
+        anchors.fill: parent
+        mouseEnabled: false
+
+        maximumTouchPoints: 1
+
+        property point touchPos
+
+        onPressed: (touchPoints) => {
+            touchPos = touchPoints[0]
+            touchShowMenu.start()
+        }
+
+        onReleased: {
+            touchShowMenu.stop()
+        }
+
+        Timer {
+            id: touchShowMenu
+            interval: 1000
+            onTriggered: {
+                menu.item.popup(toucharea.mapToItem(statusinfo_top, toucharea.touchPos))
+            }
+        }
+
+    }
+
     ButtonGroup { id: grp }
 
     Loader {

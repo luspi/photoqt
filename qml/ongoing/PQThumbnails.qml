@@ -527,9 +527,13 @@ Item {
                 }
 
                 onClicked: {
+                    executeClick()
+                }
+                function executeClick() {
                     if(PQCNotify.whichContextMenusOpen.length === 0) // qmllint disable unqualified
                         PQCFileFolderModel.currentIndex = deleg.modelData
                 }
+
                 onWheel: (wheel) => {
                     if(PQCNotify.whichContextMenusOpen.length === 0) // qmllint disable unqualified
                         thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
@@ -626,6 +630,40 @@ Item {
                         img.source = "image://thumb/" + deleg.filepath
                     }
                 }
+            }
+
+
+
+            MultiPointTouchArea {
+
+                id: toucharea
+
+                anchors.fill: parent
+                mouseEnabled: false
+
+                maximumTouchPoints: 1
+
+                property point touchPos
+
+                onPressed: (touchPoints) => {
+                    touchPos = touchPoints[0]
+                    touchShowMenu.start()
+                }
+
+                onReleased: {
+                    touchShowMenu.stop()
+                    if(!menu.item.opened)
+                        delegmouse.executeClick()
+                }
+
+                Timer {
+                    id: touchShowMenu
+                    interval: 1000
+                    onTriggered: {
+                        menu.item.popup(toucharea.mapToItem(thumbnails_top, toucharea.touchPos))
+                    }
+                }
+
             }
 
         }

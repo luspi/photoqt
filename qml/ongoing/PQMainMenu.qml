@@ -28,6 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsContextMenu
 import PQCWindowGeometry
+import PQCScriptsOther
 
 import "../elements"
 import "../"
@@ -176,6 +177,36 @@ Rectangle {
             if(mouse.button === Qt.RightButton)
                 menu.item.popup() // qmllint disable missing-property
         }
+    }
+
+    MultiPointTouchArea {
+
+        id: toucharea
+
+        anchors.fill: parent
+        mouseEnabled: false
+
+        maximumTouchPoints: 1
+
+        property point touchPos
+
+        onPressed: (touchPoints) => {
+            touchPos = touchPoints[0]
+            touchShowMenu.start()
+        }
+
+        onReleased: (touchPoints) => {
+            touchShowMenu.stop()
+        }
+
+        Timer {
+            id: touchShowMenu
+            interval: 1000
+            onTriggered: {
+                menu.item.popup(toucharea.mapToItem(mainmenu_top, toucharea.touchPos))
+            }
+        }
+
     }
 
     property bool anythingLoaded: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified

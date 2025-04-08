@@ -97,16 +97,21 @@ Item {
     }
 
     PQMouseArea {
+        id: mousearea
         enabled: parent.active
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         text: entrytop.tooltip
+        propagateComposedEvents: true
         onEntered:
             entrytop.hovered = true
         onExited:
             entrytop.hovered = false
         onClicked: {
+            executeClick()
+        }
+        function executeClick() {
             if(entrytop.cmd == "") {
                 entrytop.clicked()
             } else if(!entrytop.customEntry || entrytop.cmd.startsWith("__")) {
@@ -120,6 +125,39 @@ Item {
             if(closeMenu && !PQCSettings.interfacePopoutMainMenu)
                 mainmenu_top.hideMainMenu()
         }
+    }
+
+    MultiPointTouchArea {
+
+        id: toucharea
+
+        anchors.fill: parent
+        mouseEnabled: false
+
+        maximumTouchPoints: 1
+
+        property point touchPos
+
+        onPressed: (touchPoints) => {
+            touchPos = touchPoints[0]
+            touchShowMenu.start()
+        }
+
+        onReleased: (touchPoints) => {
+            touchShowMenu.stop()
+            if(!menu.item.opened) {
+                mousearea.executeClick()
+            }
+        }
+
+        Timer {
+            id: touchShowMenu
+            interval: 1000
+            onTriggered: {
+                menu.item.popup(toucharea.mapToItem(mainmenu_top, toucharea.touchPos))
+            }
+        }
+
     }
 
 }
