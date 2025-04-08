@@ -1149,7 +1149,7 @@ Loader {
                             loader_top.videoTogglePlay()
                         }
 
-                        function onMoveView(direction : string) {
+                        function onFlickView(direction : string) {
 
                             if(!loader_top.isMainImage)
                                 return
@@ -1165,6 +1165,25 @@ Loader {
                                 flickable.flick(0,1000)
                             else if(direction === "down")
                                 flickable.flick(0,-1000)
+
+                        }
+
+                        function onMoveView(direction : string) {
+
+                            if(!loader_top.isMainImage)
+                                return
+
+                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                                return
+
+                            if(direction === "left")
+                                flickable.contentX -= 10
+                            else if(direction === "right")
+                                flickable.contentX += 10
+                            else if(direction === "up")
+                                flickable.contentY -= 10
+                            else if(direction === "down")
+                                flickable.contentY += 10
                             else if(direction === "leftedge") {
                                 animateX.stop()
                                 animateX.from = flickable.contentX

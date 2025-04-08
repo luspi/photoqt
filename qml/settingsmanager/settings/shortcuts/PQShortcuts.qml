@@ -94,6 +94,14 @@ Flickable {
                                  //: Name of shortcut action
         "__chromecast":         [qsTranslate("settingsmanager", "Stream content to Chromecast device"), "viewingimages"],
                                  //: Name of shortcut action
+        "__flickViewLeft":      [qsTranslate("settingsmanager", "Flick view left"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flickViewRight":     [qsTranslate("settingsmanager", "Flick view right"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flickViewUp":        [qsTranslate("settingsmanager", "Flick view up"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__flickViewDown":      [qsTranslate("settingsmanager", "Flick view down"), "viewingimages"],
+                                 //: Name of shortcut action
         "__moveViewLeft":       [qsTranslate("settingsmanager", "Move view left"), "viewingimages"],
                                  //: Name of shortcut action
         "__moveViewRight":      [qsTranslate("settingsmanager", "Move view right"), "viewingimages"],

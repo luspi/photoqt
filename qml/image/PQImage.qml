@@ -103,6 +103,7 @@ Item {
     signal mirrorReset()
     signal playPauseAnimationVideo()
     signal moveView(var direction)
+    signal flickView(var direction)
     signal detectBarCodes()
     signal barcodeClick()
     signal videoJump(var seconds)

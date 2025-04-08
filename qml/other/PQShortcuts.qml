@@ -738,6 +738,18 @@ Item {
             case "__toggleAlwaysActualSize":
                 PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
                 break
+            case "__flickViewLeft":
+                image.flickView("left")
+                break
+            case "__flickViewRight":
+                image.flickView("right")
+                break
+            case "__flickViewUp":
+                image.flickView("up")
+                break
+            case "__flickViewDown":
+                image.flickView("down")
+                break
             case "__moveViewLeft":
                 image.moveView("left")
                 break
