@@ -1058,7 +1058,10 @@ Loader {
                             var tmp = image_wrapper.computeDefaultScale()
                             if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
 
-                                loader_top.defaultScale = 0.99999999*tmp
+                                var val = 0.99999999*tmp
+                                if(PQCSettings.imageviewFitInWindow)
+                                    val *= PQCConstants.devicePixelRatio
+                                loader_top.defaultScale = val
 
                                 if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) { // qmllint disable unqualified
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
@@ -1379,6 +1382,10 @@ Loader {
                         target: PQCSettings // qmllint disable unqualified
 
                         function onThumbnailsVisibilityChanged() {
+                            resetDefaults.restart()
+                        }
+
+                        function onImageviewFitInWindowChanged() {
                             resetDefaults.restart()
                         }
 
