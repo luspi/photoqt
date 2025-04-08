@@ -15,7 +15,7 @@ public:
             {"__navigationFloating",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Show floating navigation buttons"),
-             "",
+             "Ctrl+N",
              "show", "floatingnavigation"}
         };
 

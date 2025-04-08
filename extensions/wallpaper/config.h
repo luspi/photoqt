@@ -20,7 +20,7 @@ public:
             {"__wallpaper",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Set as Wallpaper"),
-             "", // no default shortcut set
+             "W",
              "show", "wallpaper"}
         };
 

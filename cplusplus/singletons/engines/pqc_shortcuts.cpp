@@ -781,17 +781,23 @@ void PQCShortcuts::setupFresh() {
             if(sh[2] == "")
                 continue;
 
-            QSqlQuery query(db);
-            query.prepare("INSERT OR IGNORE INTO shortcuts (`combo`, `commands`, `cycle`, `cycletimeout`, `simultaneous`) VALUES (:com, :cmd, 1, 0, 0)");
-            query.bindValue(":com", sh[2]);
-            query.bindValue(":cmd", sh[0]);
+            const QStringList parts = sh[2].split(":://::");
 
-            if(!query.exec()) {
-                qWarning() << "ERROR inserting shortcut:" << query.lastError().text();
-                qWarning() << "Faulty shortcut:" << sh;
+            for(const QString &p : parts) {
+
+                QSqlQuery query(db);
+                query.prepare("INSERT OR IGNORE INTO shortcuts (`combo`, `commands`, `cycle`, `cycletimeout`, `simultaneous`) VALUES (:com, :cmd, 1, 0, 0)");
+                query.bindValue(":com", p);
+                query.bindValue(":cmd", sh[0]);
+
+                if(!query.exec()) {
+                    qWarning() << "ERROR inserting shortcut:" << query.lastError().text();
+                    qWarning() << "Faulty shortcut:" << sh;
+                }
+
+                query.clear();
+
             }
-
-            query.clear();
 
         }
 

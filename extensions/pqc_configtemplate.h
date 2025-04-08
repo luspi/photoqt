@@ -60,9 +60,9 @@ public:
     QString popoutSettingName;
 
     // what shortcuts there are to be defined:
-    // shortcut, description (for settings manager), default shortcut, action, additional argument
+    // shortcut, description (for settings manager), default shortcuts (multiple:://::shortcuts), action, additional argument
     // One of them should always be 'show','{id}'!
-    // NOTE: New (default) shortcuts need to be entered as migrations
+    // NOTE: *New* (default) shortcuts need to be entered as migrations
     QList<QStringList> shortcutsActions;
 
     // what settings this extension needs:

@@ -20,7 +20,7 @@ public:
             {"__histogram",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Show/Hide Histogram"),
-             "", // no default shortcut set
+             "H",
              "show", "histogram"}
         };
 

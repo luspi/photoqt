@@ -20,7 +20,7 @@ public:
             {"__export",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Export Image"),
-             "", // no default shortcut set
+             "Ctrl+S:://::Ctrl+Shift+S",
              "show", "exportimage"}
         };
 

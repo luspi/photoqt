@@ -20,7 +20,7 @@ public:
             {"__scale",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Scale Image"),
-             "", // no default shortcut set
+             "Ctrl+X",
              "show", "scaleimage"}
         };
 

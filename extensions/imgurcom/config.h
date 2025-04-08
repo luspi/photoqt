@@ -20,7 +20,7 @@ public:
             {"__imgurAnonym",
              //: Description of shortcut action
              QApplication::translate("settingsmanager", "Upload to imgur.com (anonymously)"),
-             "", // no default shortcut set
+             "Ctrl+Shift+I",
              "show", "imgurcom"},
             {"__imgur",
              //: Description of shortcut action
