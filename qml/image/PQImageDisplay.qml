@@ -1176,15 +1176,19 @@ Loader {
                             if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
-                            if(direction === "left")
-                                flickable.contentX -= 10
-                            else if(direction === "right")
-                                flickable.contentX += 10
-                            else if(direction === "up")
-                                flickable.contentY -= 10
-                            else if(direction === "down")
-                                flickable.contentY += 10
-                            else if(direction === "leftedge") {
+                            if(direction === "left") {
+                                if(flickable.contentWidth > flickable.width)
+                                    flickable.contentX = Math.max(0, flickable.contentX-10)
+                            } else if(direction === "right") {
+                                if(flickable.contentWidth > flickable.width)
+                                    flickable.contentX = Math.min(flickable.contentWidth-flickable.width, flickable.contentX+10)
+                            } else if(direction === "up") {
+                                if(flickable.contentHeight > flickable.height)
+                                    flickable.contentY = Math.max(0, flickable.contentY-10)
+                            } else if(direction === "down") {
+                                if(flickable.contentHeight > flickable.height)
+                                    flickable.contentY = Math.min(flickable.contentHeight-flickable.height, flickable.contentY+10)
+                            } else if(direction === "leftedge") {
                                 animateX.stop()
                                 animateX.from = flickable.contentX
                                 animateX.to = 0
