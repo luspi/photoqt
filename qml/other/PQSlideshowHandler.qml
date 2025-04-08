@@ -258,6 +258,10 @@ Item {
             loader_audioplayer.item.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
         }
 
+        image.zoomReset()
+        image.rotateReset()
+        image.mirrorReset()
+
     }
 
     function hide() {

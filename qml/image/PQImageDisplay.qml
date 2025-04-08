@@ -1540,7 +1540,7 @@ Loader {
 
             target: null
 
-            enabled: mpta.numPoints==0
+            enabled: mpta.numPoints==0 && mpta.enabled
 
             /*1on_Qt65+*/
             rotationAxis.enabled: false

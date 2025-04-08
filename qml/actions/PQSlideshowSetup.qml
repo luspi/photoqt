@@ -743,8 +743,8 @@ PQTemplateFullscreen {
         PQCSettings.slideshowMusicFiles = slideshowsettings_top.musicfiles
 
         hide()
-        PQCNotify.loaderShowExtension("slideshowhandler")
-        PQCNotify.loaderShowExtension("slideshowcontrols")
+        PQCNotify.loaderShow("slideshowhandler")
+        PQCNotify.loaderShow("slideshowcontrols")
 
     }
 
