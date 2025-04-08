@@ -85,8 +85,25 @@ Item {
                 wheelStepSize: 1
 
                 value: PQCSettings.filedialogZoom // qmllint disable unqualified
-                onValueChanged:
-                    PQCSettings.filedialogZoom = value // qmllint disable unqualified
+                onValueChanged: {
+                    var newval = Math.round(value)
+                    if(newval !== PQCSettings.filedialogZoom) // qmllint disable unqualified
+                        PQCSettings.filedialogZoom = newval
+                }
+
+                Connections {
+
+                    target: PQCSettings // qmllint disable unqualified
+
+                    function onFiledialogZoomChanged() {
+                        if(zoomslider.value !== PQCSettings.filedialogZoom) // qmllint disable unqualified
+                            zoomslider.value = PQCSettings.filedialogZoom
+                    }
+                }
+
+                Component.onCompleted: {
+                    value = 1*value
+                }
 
             }
 

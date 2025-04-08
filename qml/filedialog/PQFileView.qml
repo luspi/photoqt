@@ -748,6 +748,13 @@ GridView {
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
                     parent.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view.currentFileSelected ? view.currentSelection.length : 1)
+
+                }
+
+                onPressAndHold: (mouse) => {
+                    contextmenu.path = deleg.currentPath
+                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                    contextmenu.popup(mousearea.mapToItem(view, Qt.point(mouse.x, mouse.y)))
                 }
 
                 onEntered: {
@@ -1203,6 +1210,20 @@ GridView {
                 }
             }
 
+        }
+
+    }
+
+    PinchHandler {
+
+        target: null
+
+        enabled: true
+
+        onScaleChanged: (delta) => {
+            var newval = Math.round(PQCSettings.filedialogZoom*delta)
+            if(newval !== PQCSettings.filedialogZoom)
+                PQCSettings.filedialogZoom = newval
         }
 
     }
