@@ -622,6 +622,137 @@ Item {
         }
     }
 
+    MultiPointTouchArea {
+
+        id: backtouch
+
+        anchors.fill: parent
+        mouseEnabled: false
+
+        maximumTouchPoints: 1
+
+        property point initPoint: Qt.point(-1,-1)
+
+        property bool cmdTriggered: false
+
+        onPressed: (points) => {
+                       reEnableMouseWithDelay.stop()
+                       imagemouse.enabled = false
+                       initPoint.x = points[0].x
+                       initPoint.y = points[0].y
+                   }
+
+        onUpdated: (points) => {
+            if(cmdTriggered) return
+
+
+                       if(Math.abs(points[0].y-initPoint.y) < 50 && Math.abs(points[0].x-initPoint.x) > 50) {
+
+                           cmdTriggered = true
+
+                           if(points[0].x-initPoint.x > 0)
+                               handleEdge("lefttoright")
+                           else if(points[0].x-initPoint.x < 0)
+                               handleEdge("righttoleft")
+
+                       } else if(Math.abs(points[0].x-initPoint.x) < 50 && Math.abs(points[0].y-initPoint.y) > 50) {
+
+                           cmdTriggered = true
+
+                           if(points[0].y-initPoint.y > 10)
+                               handleEdge("toptobottom")
+                           else
+                               handleEdge("bottomtotop")
+
+                       }
+
+        }
+
+        function handleEdge(direction : string) {
+
+            // swipe from left to right
+            if(direction === "lefttoright") {
+
+                if(checkVisibility(PQCSettings.interfaceEdgeRightAction)) {
+                    hideElement(PQCSettings.interfaceEdgeRightAction)
+                } else if(!checkVisibility(PQCSettings.interfaceEdgeLeftAction)) {
+                    showElement(PQCSettings.interfaceEdgeLeftAction)
+                }
+
+            // swipe from right to left
+            } else if(direction === "righttoleft") {
+
+                if(checkVisibility(PQCSettings.interfaceEdgeLeftAction)) {
+                    hideElement(PQCSettings.interfaceEdgeLeftAction)
+                } else if(!checkVisibility(PQCSettings.interfaceEdgeRightAction)) {
+                    showElement(PQCSettings.interfaceEdgeRightAction)
+                }
+
+            } else if(direction === "toptobottom") {
+
+                if(checkVisibility(PQCSettings.interfaceEdgeBottomAction)) {
+                    hideElement(PQCSettings.interfaceEdgeBottomAction)
+                } else if(!checkVisibility(PQCSettings.interfaceEdgeTopAction)) {
+                    showElement(PQCSettings.interfaceEdgeTopAction)
+                }
+
+            } else if(direction === "bottomtotop") {
+
+                if(checkVisibility(PQCSettings.interfaceEdgeTopAction)) {
+                    hideElement(PQCSettings.interfaceEdgeTopAction)
+                } else if(!checkVisibility(PQCSettings.interfaceEdgeBottomAction)) {
+                    showElement(PQCSettings.interfaceEdgeBottomAction)
+                }
+
+            }
+
+        }
+
+        function checkVisibility(item : string) : bool {
+
+            console.log("args: item =", item)
+
+            if(item === "metadata")
+                return loader_metadata.item.opacity > 0
+            if(item === "mainmenu")
+                return loader_mainmenu.item.opacity > 0
+            if(item === "thumbnails")
+                return loader_thumbnails.item.opacity > 0
+
+            return false
+
+        }
+
+        function hideElement(item : string) {
+            if(item === "") return
+            PQCNotify.loaderPassOn("forcehide", [item])
+        }
+
+        function showElement(item : string) {
+            if(item === "") return
+            PQCNotify.loaderPassOn("forceshow", [item])
+        }
+
+        onReleased: (points) => {
+            if(!cmdTriggered && Math.abs(points[0].x-initPoint.x) < 50 && Math.abs(points[0].y-initPoint.y) < 50) {
+                PQCNotify.loaderShow("filedialog")
+            }
+
+            reEnableMouseWithDelay.start()
+            initPoint = Qt.point(-1,-1)
+        }
+
+    }
+
+    Timer {
+        id: reEnableMouseWithDelay
+        interval: 250
+        onTriggered: {
+            imagemouse.enabled = true
+            backtouch.cmdTriggered = false
+        }
+    }
+
     // restarting all at the same time keeps all animations in sync
     function restartAllAnimations() {
         seqdown.restart()

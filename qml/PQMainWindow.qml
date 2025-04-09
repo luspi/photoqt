@@ -115,17 +115,6 @@ Window {
     // this one we load synchronously for easier access
     PQLoader { id: loader }
 
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        onPositionChanged: (mouse) => {
-            PQCNotify.mouseMove(mouse.x, mouse.y) // qmllint disable unqualified
-        }
-        onWheel: (wheel) => {
-            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
-        }
-    }
-
     // very cheap to set up, many properties needed everywhere -> no loader
     PQImage { id: image}
 

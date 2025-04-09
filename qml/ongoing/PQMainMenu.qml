@@ -1124,11 +1124,16 @@ Rectangle {
         }
     }
 
+    property bool ignoreMouseMoveShortly: false
+
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
 
         function onMouseMove(posx : int, posy : int) {
+
+            if(ignoreMouseMoveShortly)
+                return
 
             if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 mainmenu_top.setVisible = false
@@ -1192,10 +1197,26 @@ Rectangle {
                 if(param[0] === "mainmenu") {
                     mainmenu_top.toggle()
                 }
+            } else if(what === "forceshow" && param[0] === "mainmenu") {
+                mainmenu_top.ignoreMouseMoveShortly = true
+                mainmenu_top.setVisible = true
+                resetIgnoreMouseMoveShortly.restart()
+            } else if(what === "forcehide" && param[0] === "mainmenu") {
+                mainmenu_top.ignoreMouseMoveShortly = true
+                mainmenu_top.setVisible = false
+                resetIgnoreMouseMoveShortly.restart()
             }
 
         }
 
+    }
+
+    Timer {
+        id: resetIgnoreMouseMoveShortly
+        interval: 250
+        onTriggered: {
+            mainmenu_top.ignoreMouseMoveShortly = false
+        }
     }
 
     function toggle() {

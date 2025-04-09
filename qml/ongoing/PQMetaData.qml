@@ -781,9 +781,14 @@ Rectangle {
         }
     }
 
+    property bool ignoreMouseMoveShortly: false
+
     Connections {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
+
+            if(ignoreMouseMoveShortly)
+                return
 
             if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 metadata_top.setVisible = false
@@ -839,17 +844,32 @@ Rectangle {
 
             if(what === "show") {
                 if(param[0] === "metadata") {
-
                     if(!PQCSettings.metadataElementFloating && PQCConstants.photoQtStartupDone) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)
                         metadata_popout.visible = true
                 }
+            } else if(what === "forceshow" && param[0] === "metadata") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = true
+                resetIgnoreMouseMoveShortly.restart()
+            } else if(what === "forcehide" && param[0] === "metadata") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = false
+                resetIgnoreMouseMoveShortly.restart()
             }
 
         }
 
+    }
+
+    Timer {
+        id: resetIgnoreMouseMoveShortly
+        interval: 250
+        onTriggered: {
+            metadata_top.ignoreMouseMoveShortly = false
+        }
     }
 
     function hideMetaData() {

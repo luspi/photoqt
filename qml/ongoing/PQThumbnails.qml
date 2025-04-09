@@ -892,9 +892,13 @@ Item {
         }
     }
 
+    property bool ignoreMouseMoveShortly: false
+
     Connections {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
+
+            if(ignoreMouseMoveShortly) return
 
             if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 thumbnails_top.setVisible = false
@@ -944,20 +948,35 @@ Item {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
-                if(param[0] === "thumbnails")
-                    thumbnails_top.setVisible = !thumbnails_top.setVisible
+            if(what === "show" && param[0] === "thumbnails")
+                thumbnails_top.setVisible = !thumbnails_top.setVisible
+            else if(what === "forceshow" && param[0] === "thumbnails") {
+                thumbnails_top.ignoreMouseMoveShortly = true
+                thumbnails_top.setVisible = true
+                resetIgnoreMouseMoveShortly.restart()
+            } else if(what === "forcehide" && param[0] === "thumbnails") {
+                thumbnails_top.ignoreMouseMoveShortly = true
+                thumbnails_top.setVisible = false
+                resetIgnoreMouseMoveShortly.restart()
             }
 
         }
 
     }
 
+    Timer {
+        id: resetIgnoreMouseMoveShortly
+        interval: 250
+        onTriggered: {
+            thumbnails_top.ignoreMouseMoveShortly = false
+        }
+    }
+
     function flickView(angleDeltaX : int, angleDeltaY : int) {
 
         var val, fac
 
-        if(thumbnails_top.state == "bottom" || thumbnails_top.state == "top") {
+        if(thumbnails_top.state === "bottom" || thumbnails_top.state === "top") {
 
             // only scroll horizontally
             val = angleDeltaY
