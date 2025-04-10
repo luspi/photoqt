@@ -167,6 +167,12 @@ Window {
     Loader { id: loader_metadata }
     Loader { id: loader_mainmenu }
 
+    Loader {
+        id: mastertouchareas
+        asynchronous: true
+        source: "other/PQMasterTouchAreas.qml"
+    }
+
     // actions
     Loader { id: loader_about }
     Loader { id: loader_advancedsort }

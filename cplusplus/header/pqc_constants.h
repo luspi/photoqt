@@ -58,6 +58,7 @@ public:
     Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged);
     Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged);
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
+    Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged);
 
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
@@ -79,6 +80,8 @@ private:
         m_devicePixelRatio = 1.0;
         if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
             m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+
+        m_touchGestureActive = false;
 
         m_updateDevicePixelRatio = new QTimer;
         m_updateDevicePixelRatio->setInterval(1000*60*5);
@@ -106,6 +109,7 @@ private:
     bool m_modalWindowOpen;
     QString m_idOfVisibleItem;
     double m_devicePixelRatio;
+    bool m_touchGestureActive;
 
     int m_howManyFiles;
 
@@ -124,6 +128,7 @@ Q_SIGNALS:
     void modalWindowOpenChanged();
     void idOfVisibleItemChanged();
     void devicePixelRatioChanged();
+    void touchGestureActiveChanged();
     void howManyFilesChanged();
     void lastExecutedShortcutCommandChanged();
 

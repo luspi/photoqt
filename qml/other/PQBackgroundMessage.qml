@@ -735,6 +735,9 @@ Item {
 
         onReleased: (points) => {
             if(!cmdTriggered && Math.abs(points[0].x-initPoint.x) < 50 && Math.abs(points[0].y-initPoint.y) < 50) {
+                hideElement("metadata")
+                hideElement("mainmenu")
+                hideElement("thumbnails")
                 PQCNotify.loaderShow("filedialog")
             }
 

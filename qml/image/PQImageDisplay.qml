@@ -1460,6 +1460,7 @@ Loader {
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
             doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold // qmllint disable unqualified
+            enabled: !PQCConstants.touchGestureActive
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()

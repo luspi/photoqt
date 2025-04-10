@@ -29,7 +29,7 @@ SET(d "qml/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml)
 
 SET(d "qml/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQSlideshowHandler.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQBackgroundMessage.qml ${d}/PQSlideshowHandler.qml ${d}/PQMasterTouchAreas.qml)
 
 SET(d "qml/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)
