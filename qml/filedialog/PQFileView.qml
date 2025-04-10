@@ -131,8 +131,13 @@ GridView {
     Timer {
         id: updateThumbnailSizeTimer
         interval: 200
-        onTriggered:
+        onTriggered: {
+            if(pinchhandler.active) {
+                updateThumbnailSizeTimer.restart()
+                return
+            }
             view.updateThumbnailSize()
+        }
     }
 
     // This is the current thumbnail size. This is updated with a delay to allow for smoother zoom
@@ -1215,6 +1220,8 @@ GridView {
     }
 
     PinchHandler {
+
+        id: pinchhandler
 
         target: null
 
