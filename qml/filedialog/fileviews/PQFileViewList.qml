@@ -158,17 +158,22 @@ ListView {
 
         // the filename
         PQText {
+            id: filename_label
             opacity: view_top.currentFileCut ? 0.3 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             x: fileicon.width+10
             width: listdeleg.width-fileicon.width-fileinfo.width-10
             height: listdeleg.height
-            font.weight: rect_hovering.toShow || rect_selecting.toShow ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: listdeleg.currentFile
             animateColorChanged: false
             color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
+        }
+        PQMultiEffect {
+            shadowEnabled: true
+            shadowColor: PQCLook.textInverseColor
+            source: filename_label
         }
 
         // the file size/number of images
@@ -178,11 +183,15 @@ ListView {
             Behavior on opacity { NumberAnimation { duration: 200 } }
             x: listdeleg.width-width-10
             height: listdeleg.height
-            font.weight: rect_hovering.toShow || rect_selecting.toShow ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
             verticalAlignment: Text.AlignVCenter
             text: ""
             animateColorChanged: false
             color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
+        }
+        PQMultiEffect {
+            shadowEnabled: true
+            shadowColor: PQCLook.textInverseColor
+            source: fileinfo
         }
 
         /************************************************************/
