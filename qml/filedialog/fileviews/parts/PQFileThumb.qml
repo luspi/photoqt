@@ -22,12 +22,47 @@
 
 import QtQuick
 
-Text {
+Image {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
-    Behavior on color { ColorAnimation { duration: animateColorChanged ? 200 : 0 } }
-    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-    property bool animateColorChanged: true
+    id: filethumb
+
+    visible: !listdeleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !listdeleg.onNetwork // qmllint disable unqualified
+
+    opacity: view_top.currentFileCut ? 0.3 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    smooth: true
+    mipmap: false
+    asynchronous: true
+    cache: false
+    sourceSize: Qt.size(view_top.currentThumbnailWidth-2*PQCSettings.filedialogElementPadding, view_top.currentThumbnailHeight-2*PQCSettings.filedialogElementPadding)
+
+    fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
+
+    source: visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : "" // qmllint disable unqualified
+    onSourceChanged: {
+        if(!visible)
+            fileicon.source = fileicon.sourceString
+    }
+
+    onStatusChanged: {
+        if(status == Image.Ready) {
+            fileicon.source = ""
+        }
+    }
+
+    Connections {
+        target: view_top
+        function onRefreshThumbnails() {
+            filethumb.source = ""
+            filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : ""); })
+        }
+        function onRefreshCurrentThumbnail() {
+            if(listdeleg.modelData === view_top.currentIndex) {
+                filethumb.source = ""
+                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : ""); })
+            }
+        }
+    }
 
 }

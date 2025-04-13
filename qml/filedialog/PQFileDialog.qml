@@ -136,7 +136,7 @@ Rectangle {
 
         }
 
-        PQFileView {
+        PQFileView2 {
             id: fd_fileview
 
             SplitView.minimumWidth: 200
