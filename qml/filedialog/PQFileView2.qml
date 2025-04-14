@@ -937,6 +937,8 @@ Item {
         ignoreMouseEvents = true
         bgMousearea.enableAnyways = true
 
+        resetIgnoreMouseEvents.restart()
+
         if(modifiers !== Qt.ShiftModifier || key < 16770000)
             contextmenu.shiftPressed = false
 
@@ -1194,8 +1196,6 @@ Item {
             resetNavigateToFileStartingWith.restart()
 
         }
-
-        resetIgnoreMouseEvents.restart()
 
     }
 
