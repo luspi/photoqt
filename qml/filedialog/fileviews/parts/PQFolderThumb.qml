@@ -33,7 +33,7 @@ Item {
 
     property int curnum: 0
     onCurnumChanged: {
-        if(listdeleg.modelData === view_top.currentIndex)
+        if(deleg.modelData === view_top.currentIndex)
             view_top.currentFolderThumbnailIndex = folderthumb.curnum
     }
 
@@ -80,23 +80,23 @@ Item {
         running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
         onTriggered: {
 
-            var fname = PQCFileFolderModel.entriesFileDialog[listdeleg.modelData]
-            if(!listdeleg.isFolder)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+            var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
+            if(!deleg.isFolder)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
                 return
-            if(listdeleg.numberFilesInsideFolder == 0)
+            if(deleg.numberFilesInsideFolder == 0)
                 return
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
                 return
-            if((view_top.currentIndex===listdeleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
-                folderthumb.curnum = folderthumb.curnum%listdeleg.numberFilesInsideFolder +1
-                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": listdeleg.modelData})
+            if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
+                folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1
+                folderthumb_model.append({"folder": fname, "num": folderthumb.curnum, "curindex": deleg.modelData})
             }
         }
     }
     Connections {
         target: view_top
         function onCurrentIndexChanged() {
-            if(view_top.currentIndex===listdeleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload) // qmllint disable unqualified
+            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload) // qmllint disable unqualified
                 folderthumb_next.restart()
         }
     }

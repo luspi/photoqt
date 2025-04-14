@@ -31,15 +31,16 @@ import PQCScriptsFileDialog
 import "../../elements"
 import "./parts"
 
-ListView {
+GridView {
 
-    id: listview
-
-    orientation: Qt.Vertical
+    id: gridview
 
     anchors.fill: parent
 
     model: 0
+
+    cellWidth: 50 + PQCSettings.filedialogZoom*3
+    cellHeight: 50 + PQCSettings.filedialogZoom*3
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
@@ -64,8 +65,11 @@ ListView {
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
-        width: listview.width
-        height: 15 + PQCSettings.filedialogZoom
+        property bool isHovered: gridview.currentIndex===deleg.modelData
+        property bool isSelected: view_top.currentSelection.indexOf(deleg.modelData)>-1
+
+        width: gridview.cellWidth
+        height: gridview.cellHeight
 
         color: "transparent"
         border.width: 1
@@ -82,7 +86,7 @@ ListView {
 
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
-            width: deleg.height - 2*PQCSettings.filedialogElementPadding
+            width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
         }
@@ -94,7 +98,7 @@ ListView {
 
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
-            width: deleg.height - 2*PQCSettings.filedialogElementPadding
+            width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
         }
@@ -106,7 +110,7 @@ ListView {
 
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
-            width: deleg.height - 2*PQCSettings.filedialogElementPadding
+            width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
         }
@@ -118,7 +122,7 @@ ListView {
 
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
-            width: deleg.height - 2*PQCSettings.filedialogElementPadding
+            width: deleg.width - 2*PQCSettings.filedialogElementPadding
             height: deleg.height - 2*PQCSettings.filedialogElementPadding
 
         }
@@ -132,10 +136,9 @@ ListView {
             id: rect_hovering
 
             anchors.fill: parent
-            anchors.leftMargin: fileicon.width+2
+            anchors.bottomMargin: filename_label.height
             color: PQCLook.inverseColor
-            property bool toShow: listview.currentIndex===deleg.modelData
-            opacity: toShow ? 0.6 : 0
+            opacity: deleg.isHovered ? 0.3 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 
@@ -147,10 +150,9 @@ ListView {
             id: rect_selecting
 
             anchors.fill: parent
-            // anchors.leftMargin: fileicon.width+2
+            anchors.bottomMargin: filename_label.height
             color: PQCLook.inverseColor
-            property bool toShow: !(view_top.currentSelection.indexOf(deleg.modelData)===-1)
-            opacity: toShow ? 0.8 : 0
+            opacity: deleg.isSelected ? 0.6 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 
@@ -159,46 +161,92 @@ ListView {
         /************************************************************/
         // FILE NAME AND SIZE
 
-        // the filename
-        PQText {
+        // the filename - icon view
+        Rectangle {
             id: filename_label
-            opacity: view_top.currentFileCut ? 0.3 : 1
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            x: fileicon.width+10
-            width: deleg.width-fileicon.width-fileinfo.width-10
-            height: deleg.height
-            verticalAlignment: Text.AlignVCenter
-            elide: Text.ElideMiddle
-            text: deleg.currentFile
-            animateColorChanged: false
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
-        }
-        PQMultiEffect {
-            shadowEnabled: true
-            shadowColor: PQCLook.textInverseColor
-            source: filename_label
+            width: parent.width
+            height: parent.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
+            Behavior on height { NumberAnimation { duration: 200 } }
+            y: parent.height-height
+            color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+            Behavior on color { ColorAnimation { duration: 200 } }
+
+            PQText {
+                id: filename
+                anchors.fill: parent
+                anchors.margins: 5
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                maximumLineCount: 2
+                elide: Text.ElideMiddle
+                text: deleg.currentFile
+            }
+
+            Image {
+                x: (parent.width-width-5)
+                y: (parent.height-height-5)
+                source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                height: 16
+                mipmap: true
+                width: height
+                opacity: 0.3
+                visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+            }
+
         }
 
-        // the file size/number of images
-        PQText {
+        // this is a dummy item to be able to reuse some logic from other views
+        Item {
             id: fileinfo
-            opacity: view_top.currentFileCut ? 0.3 : 1
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            x: deleg.width-width-10
-            height: deleg.height
-            verticalAlignment: Text.AlignVCenter
-            text: ""
-            animateColorChanged: false
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
-        }
-        PQMultiEffect {
-            shadowEnabled: true
-            shadowColor: PQCLook.textInverseColor
-            source: fileinfo
+            property string text: ""
         }
 
         /************************************************************/
         // meta information
+
+        // how many files inside folder
+        Rectangle {
+            id: numberOfFilesInsideFolder_cont
+            x: (deleg.width-width)-5
+            y: 5
+            width: numberOfFilesInsideFolder.width + 20
+            height: 30
+            radius: 5
+            color: "#000000"
+            opacity: 0.8
+            visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
+
+            PQText {
+                id: numberOfFilesInsideFolder
+                x: 10
+                y: (parent.height-height)/2-2
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                elide: Text.ElideMiddle
+                text: deleg.numberFilesInsideFolder
+            }
+        }
+
+        // which # thumbnail inside folder
+        Rectangle {
+            id: numberThumbInsideFolderCont
+            x: (deleg.width-width)/2
+            y: 10
+            width: numberThumbInsideFolder.width + 10
+            height: 20
+            radius: 3
+            color: "#000000"
+            opacity: 0.6
+            visible: folderthumb.curnum>0 && folderthumb.visible
+
+            PQTextS {
+                id: numberThumbInsideFolder
+                x: 5
+                y: (parent.height-height)/2-2
+                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                elide: Text.ElideMiddle
+                text: "#"+folderthumb.curnum
+            }
+        }
 
         // load async for files
         Timer {
@@ -228,17 +276,29 @@ ListView {
         }
         /************************************************************/
 
-        // mouse area handling file icon events
+        // mouse area handling general mouse events
         PQMouseArea {
 
-            id: listthumbmousearea
+            id: gridmousearea
 
-            anchors.fill: filethumb
+            anchors.fill: parent
 
             hoverEnabled: true
-            cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
+            cursorShape: Qt.PointingHandCursor
 
-            drag.target: PQCSettings.filedialogDragDropFileviewList ? dragHandler : undefined // qmllint disable unqualified
+            tooltipReference: fd_splitview // qmllint disable unqualified
+
+            Connections {
+                target: contextmenu
+                function onVisibleChanged() {
+                    if(contextmenu.visible)
+                        gridmousearea.closeTooltip()
+                }
+            }
+
+            acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
+
+            drag.target: PQCSettings.filedialogDragDropFileviewGrid ? dragHandler : undefined // qmllint disable unqualified
 
             drag.onActiveChanged: {
                 if(drag.active) {
@@ -269,65 +329,6 @@ ListView {
             }
 
             onEntered: {
-                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
-                    return
-
-                if(!contextmenu.visible) {
-                    view_top.currentIndex = deleg.modelData
-                    resetCurrentIndex.stop()
-                } else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
-
-            }
-
-            onExited: {
-                view_top.handleEntriesMouseExit(deleg.modelData)
-            }
-
-            property var storeClicks: ({})
-
-            onClicked: (mouse) => {
-
-                view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
-                                                 mouse.modifiers, mouse.button)
-
-            }
-
-        }
-
-        // mouse area handling general mouse events
-        PQMouseArea {
-
-            id: listmousearea
-
-            anchors.fill: parent
-            anchors.leftMargin: fileicon.width
-
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-
-            tooltipReference: fd_splitview // qmllint disable unqualified
-
-            Connections {
-                target: contextmenu
-                function onVisibleChanged() {
-                    if(contextmenu.visible)
-                        listmousearea.closeTooltip()
-                }
-            }
-
-            acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
-
-            onPressed: {
-
-                if(!contextmenu.visible)
-                    view_top.currentIndex = deleg.modelData
-                else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
-
-            }
-
-            onEntered: {
 
                 text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
                                         deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
@@ -335,7 +336,8 @@ ListView {
             }
 
             onExited: {
-                view_top.handleEntriesMouseExit(deleg.modelData)
+                if(!selectmouse.containsMouse)
+                    view_top.handleEntriesMouseExit(deleg.modelData)
             }
 
             onClicked: (mouse) => {
@@ -353,8 +355,8 @@ ListView {
 
         Rectangle {
             id: selectedornot
-            x: fileicon.x + (fileicon.width-width)/2
-            y: fileicon.y + (fileicon.height-height)/2
+            x: 5
+            y: 5
             width: 30
             height: 30
             radius: 5
@@ -363,7 +365,7 @@ ListView {
             opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
                             ? 0.8
                             : (view_top.currentIndex===deleg.modelData
-                                    ? 0.4 : 0)
+                                    ? 0.8 : 0)
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             Image {
@@ -395,7 +397,7 @@ ListView {
 
         }
 
-        Drag.active: listmousearea.drag.active || listthumbmousearea.drag.active
+        Drag.active: gridmousearea.drag.active
         Drag.mimeData: {
             if(!view_top.currentFileSelected) {
                 return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})

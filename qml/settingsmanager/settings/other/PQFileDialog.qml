@@ -167,7 +167,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Layout")
 
-            helptext: qsTranslate("settingsmanager", "The files can be shown either as icons with an emphasis on the thumbnails, or as list with an emphasis on getting a clear overview.")
+            helptext: qsTranslate("settingsmanager", "The files can be shown either as grid with an emphasis on the thumbnails, or as list with an emphasis on getting a clear overview.")
 
             content: [
 
@@ -188,7 +188,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "icons")
+                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "grid")
                 layout_list.checked = !layout_icon.checked
             }
 
@@ -200,12 +200,12 @@ Flickable {
             }
 
             function load() {
-                layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="icons")
-                layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="icons")
+                layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="grid")
+                layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="grid")
             }
 
             function applyChanges() {
-                PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")
+                PQCSettings.filedialogLayout = (layout_icon.checked ? "grid" : "list")
                 layout_icon.saveDefault()
                 layout_list.saveDefault()
             }

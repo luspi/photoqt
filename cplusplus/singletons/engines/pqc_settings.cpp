@@ -739,6 +739,10 @@ int PQCSettings::migrate(QString oldversion) {
             migrationHelperRemoveValue("interface", "NavigationTopRightAlways");
             migrationHelperRemoveValue("interface", "NavigationTopRightLeftRight");
 
+            QString oldLayout = migrationHelperGetOldValue("filedialog", "Layout").toString();
+            if(oldLayout == "icons")
+                migrationHelperSetNewValue("filedialog", "Layout", "grid");
+
         }
 
         ////////////////////////////////////

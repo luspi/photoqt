@@ -23,7 +23,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBr
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml ${d}/PQFileView2.qml)
 
 SET(d "qml/filedialog/fileviews")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileViewList.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileViewList.qml ${d}/PQFileViewGrid.qml)
 
 SET(d "qml/filedialog/fileviews/parts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)

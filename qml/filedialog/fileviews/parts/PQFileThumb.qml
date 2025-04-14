@@ -26,7 +26,7 @@ Image {
 
     id: filethumb
 
-    visible: !listdeleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !listdeleg.onNetwork // qmllint disable unqualified
+    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork // qmllint disable unqualified
 
     opacity: view_top.currentFileCut ? 0.3 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -39,7 +39,7 @@ Image {
 
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
 
-    source: visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : "" // qmllint disable unqualified
+    source: visible ? encodeURI("image://thumb/" + deleg.currentPath) : "" // qmllint disable unqualified
     onSourceChanged: {
         if(!visible)
             fileicon.source = fileicon.sourceString
@@ -55,12 +55,12 @@ Image {
         target: view_top
         function onRefreshThumbnails() {
             filethumb.source = ""
-            filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : ""); })
+            filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
         }
         function onRefreshCurrentThumbnail() {
-            if(listdeleg.modelData === view_top.currentIndex) {
+            if(deleg.modelData === view_top.currentIndex) {
                 filethumb.source = ""
-                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + listdeleg.currentPath) : ""); })
+                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
             }
         }
     }

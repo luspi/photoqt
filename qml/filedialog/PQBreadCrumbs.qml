@@ -144,13 +144,13 @@ Item {
                 PQButtonIcon {
                     id: iconview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout==="grid" // qmllint disable unqualified
                     source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg" // qmllint disable unqualified
-                    tooltip: qsTranslate("filedialog", "Show files as icons")
+                    tooltip: qsTranslate("filedialog", "Show files as grid")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
-                        PQCSettings.filedialogLayout = (checked ? "icons" : "list")
-                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="icons" })
+                        PQCSettings.filedialogLayout = (checked ? "grid" : "list")
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="grid" })
                     }
                     contextmenu.onVisibleChanged: {
                         breadcrumbs_top.otherContextMenuOpen = visible
@@ -166,12 +166,12 @@ Item {
                 PQButtonIcon {
                     id: listview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout!=="icons" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout!=="grid" // qmllint disable unqualified
                     source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
-                        PQCSettings.filedialogLayout = (checked ? "list" : "icons")
+                        PQCSettings.filedialogLayout = (checked ? "list" : "grid")
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
                     contextmenu.onVisibleChanged: {

@@ -36,9 +36,9 @@ Image {
     opacity: view_top.currentFileCut ? 0.3 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    property string sourceString: ("image://icon/" + (listdeleg.onNetwork ? "network_" : "") + (listdeleg.isFolder // qmllint disable unqualified
+    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder // qmllint disable unqualified
                                         ? (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
-                                        : PQCScriptsFilesPaths.getSuffix(listdeleg.currentPath).toLowerCase()))
+                                        : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
     source: sourceString
 

@@ -61,9 +61,8 @@ Item {
 
     property int currentIndex: -1
     onCurrentIndexChanged: {
-// TODO
-        if(currentIndex !== listview.currentIndex)
-            listview.currentIndex = currentIndex
+        if(currentIndex !== getCurrentViewId().currentIndex)
+            getCurrentViewId().currentIndex = currentIndex
     }
 
     // properties
@@ -90,7 +89,64 @@ Item {
     /*********************************************************************/
 
     PQFileViewList {
+
         id: listview
+
+        visible: isCurrentView
+        isCurrentView: PQCSettings.filedialogLayout==="list"
+
+        onIsCurrentViewChanged: {
+            if(isCurrentView)
+                view_top.setupNewData()
+            else
+                model = 0
+        }
+
+    }
+
+    PQFileViewGrid {
+
+        id: gridview
+
+        visible: isCurrentView
+        isCurrentView: PQCSettings.filedialogLayout==="grid"
+
+        onIsCurrentViewChanged: {
+            if(isCurrentView)
+                view_top.setupNewData()
+            else
+                model = 0
+        }
+
+    }
+
+    function getCurrentViewId() {
+        if(gridview.isCurrentView)
+            return gridview
+        else if(listview.isCurrentView)
+            return listview
+
+        console.warn("ERROR! I don't know which view is supposed to be active... using listview")
+        listview.isCurrentView = true
+        return listview
+    }
+
+    Connections {
+
+        target: PQCSettings
+
+        function onFiledialogLayoutChanged() {
+
+            if(PQCSettings.filedialogLayout === "grid") {
+                gridview.isCurrentView = true
+                listview.isCurrentView = false
+            } else {
+                gridview.isCurrentView = false
+                listview.isCurrentView = true
+            }
+
+        }
+
     }
 
     /*********************************************************************/
@@ -98,6 +154,7 @@ Item {
 
     function handleEntriesMouseEnter(index : int, currentPath : string, fileThumbStatus : int, fileInfo : string,
                                      isFolder : bool, numberFilesInsideFolder : int, currentFolderThumbNum : int) : string {
+
 
         if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
             return ""
@@ -316,58 +373,62 @@ Item {
 
         function onNewDataLoadedFileDialog() {
 
-            if(PQCSettings.filedialogRememberSelection) {
-
-                // If this is not the first folder
-                if(view_top.storeCurrentFolderName != "") {
-                    // this is needed to perform a deepcopy
-                    // otherwise a reference is stored that is changed subsequently
-                    var l = []
-                    for (var i in view_top.currentSelection)
-                        l.push(view_top.currentSelection[i])
-                    view_top.cacheSelection[view_top.storeCurrentFolderName] = l
-                }
-
-                // load selection
-                if(view_top.cacheSelection.hasOwnProperty(PQCFileFolderModel.folderFileDialog))
-                    view_top.currentSelection = view_top.cacheSelection[PQCFileFolderModel.folderFileDialog]
-                else
-                    view_top.currentSelection = []
-
-            } else
-
-                view_top.currentSelection = []
-
-            // store new folder name
-            view_top.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
-
-// TODO
-            listview.model = 0
-
-            view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
-            view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
-
-            listview.model = PQCFileFolderModel.countAllFileDialog
-
-            // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
-            // (re-)setting the model will always reset the currentIndex to 0
-            view_top.currentIndex = -1
+            view_top.setupNewData()
 
         }
     }
+
+    function setupNewData() {
+
+        if(PQCSettings.filedialogRememberSelection) {
+
+            // If this is not the first folder
+            if(view_top.storeCurrentFolderName != "") {
+                // this is needed to perform a deepcopy
+                // otherwise a reference is stored that is changed subsequently
+                var l = []
+                for (var i in view_top.currentSelection)
+                    l.push(view_top.currentSelection[i])
+                view_top.cacheSelection[view_top.storeCurrentFolderName] = l
+            }
+
+            // load selection
+            if(view_top.cacheSelection.hasOwnProperty(PQCFileFolderModel.folderFileDialog))
+                view_top.currentSelection = view_top.cacheSelection[PQCFileFolderModel.folderFileDialog]
+            else
+                view_top.currentSelection = []
+
+        } else
+
+            view_top.currentSelection = []
+
+        // store new folder name
+        view_top.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
+
+        getCurrentViewId().model = 0
+
+        view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+        view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
+
+        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+
+        // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
+        // (re-)setting the model will always reset the currentIndex to 0
+        view_top.currentIndex = -1
+
+    }
+
     Component.onCompleted: {
-// TODO
-        listview.model = PQCFileFolderModel.countAllFileDialog // qmllint disable unqualified
+        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog // qmllint disable unqualified
         updateThumbnailSize()
     }
 
     Connections {
         target: PQCImageFormats // qmllint disable unqualified
         function onFormatsUpdated() {
-// TODO
-            listview.model = 0
+            getCurrentViewId().model = 0
             PQCFileFolderModel.forceReloadFileDialog() // qmllint disable unqualified
-            listview.model = PQCFileFolderModel.countAllFileDialog
+            getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
         }
     }
 
@@ -462,8 +523,7 @@ Item {
             }
 
             // this does some basic click checking when a click occured *before* the cursor has been moved
-// TODO
-            var ind = listview.indexAt(mouseX, listview.contentY+mouseY)
+            var ind = getCurrentViewId().indexAt(mouseX, getCurrentViewId().contentY+mouseY)
             if(ind !== -1) {
                 view_top.currentIndex = ind
                 enableAnyways = false
@@ -482,8 +542,7 @@ Item {
         onPositionChanged: {
             if(fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
                 return
-// TODO
-            var ind = listview.indexAt(mouseX, listview.contentY+mouseY)
+            var ind = getCurrentViewId().indexAt(mouseX, getCurrentViewId().contentY+mouseY)
             if(contextmenu.visible)
                 contextmenu.setCurrentIndexToThisAfterClose = ind
             else
