@@ -1007,10 +1007,14 @@ Item {
 
             } else {
 
-                if(view_top.currentIndex === -1)
-                    view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
-                else
-                    view_top.currentIndex = Math.max(0, view_top.currentIndex-1)
+                if(PQCSettings.filedialogLayout === "grid") {
+                    gridview.goUpARow()
+                } else {
+                    if(view_top.currentIndex === -1)
+                        view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+                    else
+                        view_top.currentIndex = Math.max(0, view_top.currentIndex-1)
+                }
 
             }
 
@@ -1018,10 +1022,14 @@ Item {
 
         } else if(key === Qt.Key_Down) {
 
-            if(view_top.currentIndex === -1)
-                view_top.currentIndex = 0
-            else
-                view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex+1)
+            if(PQCSettings.filedialogLayout === "grid") {
+                gridview.goDownARow()
+            } else {
+                if(view_top.currentIndex === -1)
+                    view_top.currentIndex = 0
+                else
+                    view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex+1)
+            }
 
             navigateToFileStartingWith = []
 
@@ -1061,35 +1069,27 @@ Item {
 
         } else if(key === Qt.Key_PageDown) {
 
-// TODO
-            // if(view.showGrid) {
-            //     if(view.currentIndex === -1)
-            //         view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(view.width/view.cellWidth))
-            //     else
-            //         view.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view.currentIndex + 5*Math.floor(view.width/view.cellWidth))
-            // } else {
+            if(PQCSettings.filedialogLayout === "grid") {
+                gridview.goDownSomeRows()
+            } else {
                 if(view_top.currentIndex === -1)
                     view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
                 else
                     view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5)
-            // }
+            }
 
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_PageUp) {
 
-// TODO
-            // if(view.showGrid) {
-            //     if(view.currentIndex === -1)
-            //         view.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(view.width/view.cellWidth))
-            //     else
-            //         view.currentIndex = Math.max(0, view.currentIndex - 5*Math.floor(view.width/view.cellWidth))
-            // } else {
+            if(PQCSettings.filedialogLayout === "grid") {
+                gridview.goUpSomeRows()
+            } else {
                 if(view_top.currentIndex === -1)
                     view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
                 else
                     view_top.currentIndex = Math.max(0, view_top.currentIndex - 5)
-            // }
+            }
 
             navigateToFileStartingWith = []
 

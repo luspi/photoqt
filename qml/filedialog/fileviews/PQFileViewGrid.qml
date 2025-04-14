@@ -417,4 +417,41 @@ GridView {
 
     }
 
+    function goDownARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = 0
+        else
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + Math.floor(gridview.width/gridview.cellWidth))
+
+    }
+
+    function goDownSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(gridview.width/gridview.cellWidth))
+        else
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5*Math.floor(gridview.width/gridview.cellWidth))
+
+    }
+
+    function goUpARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+        else
+            view_top.currentIndex = Math.max(0, view_top.currentIndex - Math.floor(gridview.width/gridview.cellWidth))
+
+
+    }
+
+    function goUpSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(gridview.width/gridview.cellWidth))
+        else
+            view_top.currentIndex = Math.max(0, view_top.currentIndex - 5*Math.floor(gridview.width/gridview.cellWidth))
+
+    }
+
 }
