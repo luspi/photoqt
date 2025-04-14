@@ -441,13 +441,11 @@ Item {
     }
     Timer {
         id: updateThumbnailSizeTimer
-        interval: 200
+        interval: 1000
         onTriggered:
             view_top.updateThumbnailSize()
     }
 
-    // cellWidth: showGrid ? 50 + PQCSettings.filedialogZoom*3 : width // qmllint disable unqualified
-    // cellHeight: showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom // qmllint disable unqualified
     clip: true
 
     // reset index to -1 if no other item has been hovered in the meantime
