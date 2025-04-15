@@ -96,6 +96,8 @@ GridView {
 
             id: fileicon
 
+            gridlike: true
+
             x: PQCSettings.filedialogElementPadding
             y: PQCSettings.filedialogElementPadding
             width: deleg.width - 2*PQCSettings.filedialogElementPadding

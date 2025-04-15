@@ -66,7 +66,6 @@ Item {
     }
 
     // properties
-    property bool showGrid: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
     property bool currentFolderExcluded: false
     property bool currentFolderOnNetwork: false
     property int currentFolderThumbnailIndex: -1
@@ -79,9 +78,10 @@ Item {
     // This is the current thumbnail size. This is updated with a delay to allow for smoother zoom
     property int currentThumbnailWidth
     property int currentThumbnailHeight
+// TODO!!!
     function updateThumbnailSize() {
-        currentThumbnailWidth = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : width) // qmllint disable unqualified
-        currentThumbnailHeight = (showGrid ? 50 + PQCSettings.filedialogZoom*3 : 15 + PQCSettings.filedialogZoom)
+        currentThumbnailWidth = width // qmllint disable unqualified
+        currentThumbnailHeight = 15 + PQCSettings.filedialogZoom
     }
 
     property var storeMouseClicks: ({})
@@ -120,11 +120,29 @@ Item {
 
     }
 
+    PQFileViewMasonry {
+
+        id: masonryview
+
+        visible: isCurrentView
+        isCurrentView: PQCSettings.filedialogLayout==="masonry"
+
+        onIsCurrentViewChanged: {
+            if(isCurrentView)
+                view_top.setupNewData()
+            else
+                model = 0
+        }
+
+    }
+
     function getCurrentViewId() {
         if(gridview.isCurrentView)
             return gridview
         else if(listview.isCurrentView)
             return listview
+        else if(masonryview.isCurrentView)
+            return masonryview
 
         console.warn("ERROR! I don't know which view is supposed to be active... using listview")
         listview.isCurrentView = true
@@ -140,9 +158,15 @@ Item {
             if(PQCSettings.filedialogLayout === "grid") {
                 gridview.isCurrentView = true
                 listview.isCurrentView = false
+                masonryview.isCurrentView = false
+            } else if(PQCSettings.filedialogLayout === "masonry") {
+                gridview.isCurrentView = false
+                listview.isCurrentView = false
+                masonryview.isCurrentView = true
             } else {
                 gridview.isCurrentView = false
                 listview.isCurrentView = true
+                masonryview.isCurrentView = false
             }
 
         }
@@ -507,8 +531,9 @@ Item {
 
         // this allows us to catch any right click no matter where it happens
         // AND still react to onEntered/Exited events for each individual delegate
-        enabled: view_top.currentIndex===-1 || enableAnyways
-        visible: view_top.currentIndex===-1 || enableAnyways
+        // note: the indexAt() method is not (yet) implemented for masonry view
+        enabled: (view_top.currentIndex===-1 || enableAnyways) && PQCSettings.filedialogLayout!=="masonry"
+        visible: (view_top.currentIndex===-1 || enableAnyways) && PQCSettings.filedialogLayout!=="masonry"
 
         onClicked: (mouse) => {
 
@@ -540,6 +565,7 @@ Item {
         onPositionChanged: {
             if(fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
                 return
+
             var ind = getCurrentViewId().indexAt(mouseX, getCurrentViewId().contentY+mouseY)
             if(contextmenu.visible)
                 contextmenu.setCurrentIndexToThisAfterClose = ind
