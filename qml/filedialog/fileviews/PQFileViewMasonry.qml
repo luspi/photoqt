@@ -57,9 +57,6 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
-    Component.onCompleted:
-        console.warn("######", widthStepSize)
-
     Flow {
 
         id: theflow
@@ -122,6 +119,16 @@ Flickable {
                     color: "transparent"
                     border.width: PQCSettings.filedialogElementPadding
                     border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+
+                    Item {
+                        id: dragHandler
+
+                        x: PQCSettings.filedialogElementPadding
+                        y: PQCSettings.filedialogElementPadding
+                        width: deleg.width - 2*PQCSettings.filedialogElementPadding
+                        height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+                    }
 
                     // the file type icon
                     PQFileIcon {
@@ -342,7 +349,7 @@ Flickable {
                         acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
     // TODO
-    //                    drag.target: PQCSettings.filedialogDragDropFileviewGrid ? dragHandler : undefined // qmllint disable unqualified
+                        drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined // qmllint disable unqualified
 
                         drag.onActiveChanged: {
                             if(drag.active) {

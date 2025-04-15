@@ -103,6 +103,16 @@ PQMenu {
         }
         PQMenuItem {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
+            text: qsTranslate("filedialog", "enable for masonry view")
+            checkable: true
+            checked: PQCSettings.filedialogDragDropFileviewMasonry // qmllint disable unqualified
+            onCheckedChanged: {
+                PQCSettings.filedialogDragDropFileviewMasonry = checked // qmllint disable unqualified
+                checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewMasonry })
+            }
+        }
+        PQMenuItem {
+            //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for bookmarks")
             checkable: true
             checked: PQCSettings.filedialogDragDropPlaces // qmllint disable unqualified
@@ -324,6 +334,82 @@ PQMenu {
                 function onFiledialogFolderContentThumbnailsSpeedChanged() {
                     foldthumb05.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===3) // qmllint disable unqualified
                 }
+            }
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            enabled: false
+            moveToRightABit: true
+            //: file manager settings popdown: timeout between switching folder thumbnails
+            text: qsTranslate("filedialog", "masonry view")
+        }
+        PQMenu {
+            id: masonrysubmenu
+            //: file manager settings popdown: submenu title
+            title: qsTranslate("filedialog", "uniformity")
+            PQMenuItem {
+                text: "unchanged dimensions"
+                checkable: true
+                checkableLikeRadioButton: true
+                checked: PQCSettings.filedialogMasonryUniformAggressiveness===0 // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogMasonryUniformAggressiveness = 0 // qmllint disable unqualified
+                    checked = Qt.binding(function() { return (PQCSettings.filedialogMasonryUniformAggressiveness===0); })
+                }
+            }
+            PQMenuItem {
+                text: "low"
+                checkable: true
+                checkableLikeRadioButton: true
+                checked: PQCSettings.filedialogMasonryUniformAggressiveness===1 // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogMasonryUniformAggressiveness = 1 // qmllint disable unqualified
+                    checked = Qt.binding(function() { return (PQCSettings.filedialogMasonryUniformAggressiveness===1); })
+                }
+            }
+            PQMenuItem {
+                text: "medium"
+                checkable: true
+                checkableLikeRadioButton: true
+                checked: PQCSettings.filedialogMasonryUniformAggressiveness===2 // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogMasonryUniformAggressiveness = 2 // qmllint disable unqualified
+                    checked = Qt.binding(function() { return (PQCSettings.filedialogMasonryUniformAggressiveness===2); })
+                }
+            }
+            PQMenuItem {
+                text: "high"
+                checkable: true
+                checkableLikeRadioButton: true
+                checked: PQCSettings.filedialogMasonryUniformAggressiveness===3 // qmllint disable unqualified
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.filedialogMasonryUniformAggressiveness = 3 // qmllint disable unqualified
+                    checked = Qt.binding(function() { return (PQCSettings.filedialogMasonryUniformAggressiveness===3); })
+                }
+            }
+
+            Instantiator {
+                model: 11
+                delegate: PQMenuItem {
+                    required property int modelData
+                    text: modelData + " px"
+                    checkable: true
+                    checkableLikeRadioButton: true
+                    checked: PQCSettings.filedialogElementPadding===modelData // qmllint disable unqualified
+                    onCheckedChanged: {
+                        if(checked)
+                            PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
+                        checked = Qt.binding(function() { return (PQCSettings.filedialogElementPadding===modelData); })
+                    }
+                }
+                onObjectAdded: (index, object) => paddingsubmenu.insertItem(index, object)
+                onObjectRemoved: (index, object) => paddingsubmenu.removeItem(object)
             }
         }
     }
