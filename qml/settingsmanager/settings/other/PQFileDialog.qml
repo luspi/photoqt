@@ -720,6 +720,63 @@ Flickable {
 
         PQSetting {
 
+            id: set_lab
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Filename labels")
+
+            helptext: qsTranslate("settingsmanager", "Whether to show labels with filenames on top of the thumbnails. Labels for folders are always shown")
+
+            content: [
+
+                PQRadioButton {
+                    id: labels_grid
+                    enforceMaxWidth: set_lab.rightcol
+                    text: qsTranslate("settingsmanager", "filename labels in grid view")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQRadioButton {
+                    id: labels_masonry
+                    enforceMaxWidth: set_lab.rightcol
+                    text: qsTranslate("settingsmanager", "filename labels in masonry view")
+                    onCheckedChanged: setting_top.checkDefault()
+                }
+
+            ]
+
+            onResetToDefaults: {
+                labels_grid.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowGrid") == 1)
+                labels_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowMasonry") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return labels_grid.hasChanged() || labels_masonry.hasChanged()
+            }
+
+            function load() {
+                labels_grid.loadAndSetDefault(PQCSettings.filedialogLabelsShowGrid)
+                labels_masonry.loadAndSetDefault(PQCSettings.filedialogLabelsShowMasonry)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogLabelsShowGrid = labels_grid.checked
+                PQCSettings.filedialogLabelsShowMasonry = labels_masonry.checked
+                labels_grid.saveDefault()
+                labels_masonry.saveDefault()
+            }
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
             id: set_fol
 
             //: Settings title
@@ -999,6 +1056,7 @@ Flickable {
         set_dad.handleEscape()
         set_thb.handleEscape()
         set_pad.handleEscape()
+        set_lab.handleEscape()
         set_fol.handleEscape()
         set_pre.handleEscape()
     }
@@ -1017,7 +1075,7 @@ Flickable {
                           set_ttp.hasChanged() || set_loc.hasChanged() || set_sin.hasChanged() ||
                           set_sel.hasChanged() || set_sec.hasChanged() || set_dad.hasChanged() ||
                           set_thb.hasChanged() || set_pad.hasChanged() || set_fol.hasChanged() ||
-                          set_pre.hasChanged())
+                          set_pre.hasChanged() || set_lab.hasChanged())
 
     }
 
@@ -1036,6 +1094,7 @@ Flickable {
         set_pad.load()
         set_fol.load()
         set_pre.load()
+        set_lab.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -1057,6 +1116,7 @@ Flickable {
         set_pad.applyChanges()
         set_fol.applyChanges()
         set_pre.applyChanges()
+        set_lab.applyChanges()
 
         settingChanged = false
 

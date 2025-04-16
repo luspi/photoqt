@@ -135,7 +135,6 @@ GridView {
             id: rect_hovering
 
             anchors.fill: parent
-            anchors.bottomMargin: filename_label.height
             color: PQCLook.inverseColor
             opacity: deleg.isHovered ? 0.3 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -149,7 +148,6 @@ GridView {
             id: rect_selecting
 
             anchors.fill: parent
-            anchors.bottomMargin: filename_label.height
             color: PQCLook.inverseColor
             opacity: deleg.isSelected ? 0.6 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -161,35 +159,41 @@ GridView {
         // FILE NAME AND SIZE
 
         // the filename - icon view
-        Rectangle {
-            id: filename_label
-            width: parent.width
-            height: parent.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
-            Behavior on height { NumberAnimation { duration: 200 } }
-            y: parent.height-height
-            color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
-            Behavior on color { ColorAnimation { duration: 200 } }
+        Loader {
 
-            PQText {
-                id: filename
-                anchors.fill: parent
-                anchors.margins: 5
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignHCenter
-                maximumLineCount: 2
-                elide: Text.ElideMiddle
-                text: deleg.currentFile
-            }
+            active: PQCSettings.filedialogLabelsShowGrid||deleg.isFolder
 
-            Image {
-                x: (parent.width-width-5)
-                y: (parent.height-height-5)
-                source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
-                height: 16
-                mipmap: true
-                width: height
-                opacity: 0.3
-                visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+            sourceComponent:
+            Rectangle {
+                id: filename_label
+                width: deleg.width
+                height: deleg.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
+                Behavior on height { NumberAnimation { duration: 200 } }
+                y: deleg.height-height
+                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+                Behavior on color { ColorAnimation { duration: 200 } }
+
+                PQText {
+                    id: filename
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
+                    text: deleg.currentFile
+                }
+
+                Image {
+                    x: (parent.width-width-5)
+                    y: (parent.height-height-5)
+                    source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                    height: 16
+                    mipmap: true
+                    width: height
+                    opacity: 0.3
+                    visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+                }
             }
 
         }

@@ -90,7 +90,7 @@ Flickable {
         }
     }
 
-    property int columnWidth: Math.floor((width - (view_scroll.visible ? PQCSettings.filedialogElementPadding : 0))/numColumns)
+    property real columnWidth: width/numColumns
 
     property var listviews: ({})
 
@@ -343,7 +343,6 @@ Flickable {
                 id: rect_hovering
 
                 anchors.fill: parent
-                // anchors.bottomMargin: filename_label.height
                 color: PQCLook.inverseColor
                 opacity: deleg.isHovered ? 0.3 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -357,7 +356,6 @@ Flickable {
                 id: rect_selecting
 
                 anchors.fill: parent
-                // anchors.bottomMargin: filename_label.height
                 color: PQCLook.inverseColor
                 opacity: deleg.isSelected ? 0.6 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -369,38 +367,45 @@ Flickable {
             // FILE NAME
 
             // the filename
-            Rectangle {
-                id: filename_label
-                width: parent.width
-                height: deleg.height>100 ?
-                            (Math.min(50, parent.height/4) + (deleg.isSelected||deleg.isHovered ? 10 : 0)) :
-                            (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
-                Behavior on height { NumberAnimation { duration: 200 } }
-                y: parent.height-height
-                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
-                Behavior on color { ColorAnimation { duration: 200 } }
-                clip: true
+            Loader {
 
-                PQText {
-                    id: filename
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    verticalAlignment: Text.AlignVCenter
-                    horizontalAlignment: Text.AlignHCenter
-                    maximumLineCount: 2
-                    elide: Text.ElideMiddle
-                    text: deleg.currentFile
-                }
+                active: PQCSettings.filedialogLabelsShowMasonry||deleg.isFolder
 
-                Image {
-                    x: (parent.width-width-5)
-                    y: (parent.height-height-5)
-                    source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
-                    height: 16
-                    mipmap: true
-                    width: height
-                    opacity: 0.3
-                    visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+                sourceComponent:
+                Rectangle {
+                    id: filename_label
+                    width: deleg.width
+                    height: deleg.height>100 ?
+                                (Math.min(50, deleg.height/4) + (deleg.isSelected||deleg.isHovered ? 10 : 0)) :
+                                (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    y: deleg.height-height
+                    color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                    clip: true
+
+                    PQText {
+                        id: filename
+                        anchors.fill: parent
+                        anchors.margins: 5
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        maximumLineCount: 2
+                        elide: Text.ElideMiddle
+                        text: deleg.currentFile
+                    }
+
+                    Image {
+                        x: (parent.width-width-5)
+                        y: (parent.height-height-5)
+                        source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                        height: 16
+                        mipmap: true
+                        width: height
+                        opacity: 0.3
+                        visible: deleg.isFolder && deleg.folderthumbCurNum>0 // qmllint disable unqualified
+                    }
+
                 }
 
             }
@@ -461,6 +466,7 @@ Flickable {
 
                 onEntered: {
 
+                    text = ""
                     text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
                                             deleg.isFolder, deleg.numberFilesInsideFolder, deleg.folderthumbCurNum)
 
