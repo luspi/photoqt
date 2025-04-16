@@ -43,7 +43,8 @@ ListView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
-    property bool isCurrentView: false
+    visible: isCurrentView
+    property bool isCurrentView: PQCSettings.filedialogLayout==="list"
 
     onCurrentIndexChanged: {
         if(!isCurrentView) return
@@ -67,7 +68,7 @@ ListView {
         width: listview.width
         height: 15 + PQCSettings.filedialogZoom
 
-        color: "transparent"
+        color: PQCLook.baseColor
         border.width: 1
         border.color: PQCLook.baseColorAccent // qmllint disable unqualified
 

@@ -174,7 +174,7 @@ Flickable {
                 PQRadioButton {
                     id: layout_icon
                     enforceMaxWidth: set_sort.rightcol
-                    text: qsTranslate("settingsmanager", "icon view")
+                    text: qsTranslate("settingsmanager", "grid view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -183,31 +183,41 @@ Flickable {
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "list view")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQRadioButton {
+                    id: layout_masonry
+                    enforceMaxWidth: set_sort.rightcol
+                    text: qsTranslate("settingsmanager", "masonry view")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
 
             onResetToDefaults: {
                 layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "grid")
-                layout_list.checked = !layout_icon.checked
+                layout_masonry.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "masonry")
+                layout_list.checked = !layout_icon.checked&&!layout_masonry.checked
             }
 
             function handleEscape() {
             }
 
             function hasChanged() {
-                return (layout_icon.hasChanged() || layout_list.hasChanged())
+                return (layout_icon.hasChanged() || layout_list.hasChanged() || layout_masonry.hasChanged())
             }
 
             function load() {
                 layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="grid")
-                layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="grid")
+                layout_masonry.loadAndSetDefault(PQCSettings.filedialogLayout==="masonry")
+                layout_list.loadAndSetDefault(!layout_icon.checked&&!layout_masonry.checked)
             }
 
             function applyChanges() {
-                PQCSettings.filedialogLayout = (layout_icon.checked ? "grid" : "list")
+                PQCSettings.filedialogLayout = (layout_icon.checked ? "grid" : (layout_masonry.checked ? "masonry" : "list"))
                 layout_icon.saveDefault()
                 layout_list.saveDefault()
+                layout_masonry.saveDefault()
             }
 
         }
@@ -530,19 +540,25 @@ Flickable {
                 PQCheckBox {
                     id: drag_icon
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for icon view"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for grid view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_list
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for list view"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for list view")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: drag_masonry
+                    enforceMaxWidth: set_sort.rightcol
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for masonry view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_bookmarks
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for bookmarks"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for bookmarks")
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -551,6 +567,7 @@ Flickable {
             onResetToDefaults: {
                 drag_icon.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewGrid") == 1)
                 drag_list.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewList") == 1)
+                drag_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewMasonry") == 1)
                 drag_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropPlaces") == 1)
             }
 

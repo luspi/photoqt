@@ -91,6 +91,22 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
             return img.size();
         }
 
+        // the reported size is not rotated automatically, we need to take care of this ourselves
+        if(PQCSettings::get()["metadataAutoRotation"].toBool()) {
+            QImageIOHandler::Transformations trans = reader.transformation();
+            switch(trans) {
+                case QImageIOHandler::TransformationRotate90:
+                case QImageIOHandler::TransformationRotate270:
+                case QImageIOHandler::TransformationFlipAndRotate90:
+                case QImageIOHandler::TransformationMirrorAndRotate90: {
+                    origSize = QSize(origSize.height(), origSize.width());
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
+
         return origSize;
 
     }

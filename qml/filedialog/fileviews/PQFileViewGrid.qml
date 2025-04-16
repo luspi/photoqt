@@ -44,7 +44,8 @@ GridView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
-    property bool isCurrentView: false
+    visible: isCurrentView
+    property bool isCurrentView: PQCSettings.filedialogLayout==="grid"
 
     onCurrentIndexChanged: {
         if(!isCurrentView) return
@@ -71,15 +72,9 @@ GridView {
         width: gridview.cellWidth
         height: gridview.cellHeight
 
-        color: "transparent"
+        color: PQCLook.baseColor
         border.width: 1
         border.color: PQCLook.baseColorAccent // qmllint disable unqualified
-
-        Rectangle {
-            anchors.fill: parent
-            color: PQCLook.transColor // qmllint disable unqualified
-            opacity: deleg.isFolder ? 0.6 : (modelData%2 ? 0.55 : 0.5)
-        }
 
         Item {
             id: dragHandler

@@ -339,16 +339,6 @@ Item {
                                 }
                             }
                         }
-                        RotationAnimation {
-                            id: busyani
-                            target: rooticon
-                            duration: 2000
-                            from: 0
-                            to: 360
-                            loops: Animation.Infinite
-                            alwaysRunToEnd: true
-                            running: false
-                        }
                     }
                     Item { width: 10; height: 1 }
 
@@ -727,10 +717,6 @@ Item {
         width: parent.width
         height: 1
         color: PQCLook.baseColorActive // qmllint disable unqualified
-    }
-
-    function setBusyLoadingFolder(loading : bool) {
-        busyani.running = loading
     }
 
     function checkValidEditPath() {

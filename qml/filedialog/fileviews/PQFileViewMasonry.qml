@@ -28,6 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsOther
 import PQCScriptsFileDialog
+import PQCScriptsImages
 
 import "../../elements"
 import "./parts"
@@ -38,221 +39,226 @@ Flickable {
 
     width: parent.width
     height: parent.height
-    contentWidth: parent.width
-    contentHeight: theflow.height
 
-    property alias model: rptr.model
+    contentHeight: mainrow.height
 
-    property bool isCurrentView: false
+    property int model: 0
+    onModelChanged: {
+        if(model == 0) {
+            for(var i = 0; i < masonryview.numColumns; ++i) {
+                listviews[i].clear()
+            }
+            return
+        }
+        masonryview.setupData()
+    }
+
+    visible: isCurrentView
+    property bool isCurrentView: PQCSettings.filedialogLayout==="masonry"
 
     property int currentIndex: -1
     onCurrentIndexChanged: {
-        if(!isCurrentView) return
+        if(!isCurrentView)
+            return
         view_top.currentIndex = currentIndex
     }
 
-    property list<int> possibleWidthStepSize: [1, 50, 100, 150]
-    property int widthStepSize: possibleWidthStepSize[PQCSettings.filedialogMasonryUniformAggressiveness]
-    property real unitWidth: theflow.width/Math.max(1, Math.floor(theflow.width/masonryview.widthStepSize)) - 2*PQCSettings.filedialogElementPadding
-
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
-    Flow {
+    property bool firstStart: true
 
-        id: theflow
+    property int _startWidth: 50 + PQCSettings.filedialogZoom*3
+    property int numColumns: Math.floor(width/_startWidth)
+    onNumColumnsChanged: {
+        if(firstStart) {
+            firstStart = false
+            return
+        }
+        callSetup.restart()
+    }
 
-        width: parent.width-(view_scroll.visible ? view_scroll.width : 0)
-        height: childrenRect.height
+
+    Timer {
+        id: callSetup
+        interval: 50
+        onTriggered: {
+            if(fd_splitview.resizing) {
+                callSetup.restart()
+                return
+            }
+            masonryview.setupData()
+        }
+    }
+
+    property int columnWidth: Math.floor((width - (view_scroll.visible ? PQCSettings.filedialogElementPadding : 0))/numColumns)
+
+    property var listviews: ({})
+
+    Row {
+
+        id: mainrow
 
         Repeater {
 
-            id: rptr
+            id: columnRepeater
 
-            model: 0
+            model: masonryview.numColumns
 
-            property int finishedSetup: 0
-            onModelChanged: {
-                finishedSetup = 0
-                fd_breadcrumbs.setBusyLoadingFolder(true)
+            Column {
+
+                id: columndeleg
+                required property int index
+
+                width: lv.width
+
+                ListView {
+
+                    id: lv
+
+                    width: columnWidth
+                    height: childrenRect.height
+                    interactive: false
+
+                    model: ListModel { id: mdl }
+
+                    Component.onCompleted: {
+                        masonryview.listviews[columndeleg.index] = mdl
+                    }
+
+                    delegate: viewentry
+
+                }
+
+
             }
-            onFinishedSetupChanged: {
-                if(finishedSetup > model-5) {
-                    fd_breadcrumbs.setBusyLoadingFolder(false)
+
+        }
+
+    }
+
+    Component {
+        id: viewentry
+
+        Rectangle {
+
+            id: deleg
+
+            required property string currentPath
+            required property int modelData
+            required property int offsetY
+
+            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
+            property int numberFilesInsideFolder: 0
+            property string fileinfoString: ""
+            property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
+            property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
+            property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
+
+            property bool isHovered: masonryview.currentIndex===deleg.modelData
+            property bool isSelected: view_top.currentSelection.indexOf(deleg.modelData)>-1
+
+            width: masonryview.columnWidth
+            height: filethumbVisible&&filethumbStatus==Image.Ready ? Math.max(30, (filethumbSourceSize.height * (width/filethumbSourceSize.width))) : masonryview.columnWidth
+
+            property bool filethumbVisible: false
+            property int filethumbStatus: Image.Null
+            property size filethumbSourceSize: Qt.size(0,0)
+
+            property int folderthumbCurNum: 0
+
+
+            clip: true
+            color: PQCLook.baseColor
+            border.width: PQCSettings.filedialogElementPadding
+            border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+
+            Item {
+                id: dragHandler
+
+                x: PQCSettings.filedialogElementPadding
+                y: PQCSettings.filedialogElementPadding
+                width: deleg.width - 2*PQCSettings.filedialogElementPadding
+                height: deleg.width - 2*PQCSettings.filedialogElementPadding
+
+            }
+
+            // the file type icon
+            PQFileIcon {
+
+                id: fileicon
+
+                gridlike: true
+
+                x: PQCSettings.filedialogElementPadding
+                y: PQCSettings.filedialogElementPadding
+                width: deleg.width - 2*PQCSettings.filedialogElementPadding
+                height: deleg.width - 2*PQCSettings.filedialogElementPadding
+
+            }
+
+            // the file thumbnail
+            Loader {
+                id: filethumbldr
+                asynchronous: true
+
+                // load from the top until just beyond what's currently visible
+                // anything below that doesn't need to be loaded until necessary
+                active: masonryview.contentY+deleg.height > deleg.offsetY-masonryview.height || deleg.filethumbStatus===Image.Ready
+                sourceComponent:
+                PQFileThumb {
+
+                    id: filethumb
+
+                    x: PQCSettings.filedialogElementPadding
+                    y: PQCSettings.filedialogElementPadding
+                    width: deleg.width - 2*PQCSettings.filedialogElementPadding
+                    height: deleg.height - 2*PQCSettings.filedialogElementPadding
+
+                    clip: true
+
+                    sourceSize: undefined
+
+                    onVisibleChanged:
+                        deleg.filethumbVisible = visible
+                    onStatusChanged:
+                        deleg.filethumbStatus = status
+                    onSourceSizeChanged:
+                        deleg.filethumbSourceSize = sourceSize
+
+                    Component.onCompleted: {
+                        deleg.filethumbVisible = visible
+                        deleg.filethumbStatus = status
+                        deleg.filethumbSourceSize = sourceSize
+                    }
+
                 }
             }
 
             Loader {
 
-                id: ldr
+                id: folderloader
 
-                required property int index
-
-                asynchronous: true
-                active: rptr.finishedSetup+2>=index
+                active: deleg.isFolder
 
                 sourceComponent:
-                Rectangle {
+                Item {
 
-                    id: deleg
-
-                    property int index: ldr.index
-                    property int modelData: ldr.index // some of the parts expect the index to be stored as modelData
-
-                    property string currentPath: PQCFileFolderModel.entriesFileDialog[index] // qmllint disable unqualified
-                    property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
-                    property int numberFilesInsideFolder: 0
-                    property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
-                    property bool isFolder: index < PQCFileFolderModel.countFoldersFileDialog
-                    property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
-
-                    property bool isHovered: masonryview.currentIndex===deleg.index
-                    property bool isSelected: view_top.currentSelection.indexOf(deleg.index)>-1
-
-                    property real fullThumbWidth: filethumb.visible ? (filethumb.sourceSize.width * (height/filethumb.sourceSize.height)) : height
-
-                    width: (masonryview.widthStepSize==1||!filethumb.visible) ?
-                               fullThumbWidth :
-                               Math.min(theflow.width, Math.max(masonryview.unitWidth, (masonryview.unitWidth+padding) * Math.floor(fullThumbWidth/masonryview.unitWidth)-padding))
-                    height: 50 + PQCSettings.filedialogZoom*3
-
-                    clip: true
-                    color: "transparent"
-                    border.width: PQCSettings.filedialogElementPadding
-                    border.color: PQCLook.baseColorAccent // qmllint disable unqualified
-
-                    Item {
-                        id: dragHandler
-
-                        x: PQCSettings.filedialogElementPadding
-                        y: PQCSettings.filedialogElementPadding
-                        width: deleg.width - 2*PQCSettings.filedialogElementPadding
-                        height: deleg.height - 2*PQCSettings.filedialogElementPadding
-
-                    }
-
-                    // the file type icon
-                    PQFileIcon {
-
-                        id: fileicon
-
-                        gridlike: true
-
-                        x: PQCSettings.filedialogElementPadding
-                        y: PQCSettings.filedialogElementPadding
-                        width: deleg.height - 2*PQCSettings.filedialogElementPadding
-                        height: deleg.height - 2*PQCSettings.filedialogElementPadding
-
-                    }
-
-                    // the file thumbnail
-                    PQFileThumb {
-
-                        id: filethumb
-
-                        x: PQCSettings.filedialogElementPadding
-                        y: PQCSettings.filedialogElementPadding
-                        width: deleg.width - 2*PQCSettings.filedialogElementPadding
-                        height: deleg.height - 2*PQCSettings.filedialogElementPadding
-
-                        clip: true
-
-                        sourceSize: undefined
-
-                        onStatusChanged: {
-                            if(status == Image.Ready || status == Image.Error)
-                                rptr.finishedSetup += 1
-                        }
-
-                    }
+                    x: PQCSettings.filedialogElementPadding
+                    y: PQCSettings.filedialogElementPadding
+                    width: deleg.width - 2*PQCSettings.filedialogElementPadding
+                    height: deleg.width - 2*PQCSettings.filedialogElementPadding
 
                     // the folder thumbnails
                     PQFolderThumb {
 
                         id: folderthumb
 
-                        x: PQCSettings.filedialogElementPadding
-                        y: PQCSettings.filedialogElementPadding
-                        width: deleg.height - 2*PQCSettings.filedialogElementPadding
-                        height: deleg.height - 2*PQCSettings.filedialogElementPadding
-
-                    }
-
-                    /************************************************************/
-                    // HIGHLIGHT/SELECT
-
-                    // hovering an item
-                    Rectangle {
-
-                        id: rect_hovering
-
                         anchors.fill: parent
-                        anchors.bottomMargin: filename_label.height
-                        color: PQCLook.inverseColor
-                        opacity: deleg.isHovered ? 0.3 : 0
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-                        visible: opacity>0
+
+                        onCurnumChanged:
+                            deleg.folderthumbCurNum = curnum
 
                     }
-
-                    // selecting an item
-                    Rectangle {
-
-                        id: rect_selecting
-
-                        anchors.fill: parent
-                        anchors.bottomMargin: filename_label.height
-                        color: PQCLook.inverseColor
-                        opacity: deleg.isSelected ? 0.6 : 0
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-                        visible: opacity>0
-
-                    }
-
-                    /************************************************************/
-                    // FILE NAME AND SIZE
-
-                    // the filename - icon view
-                    Rectangle {
-                        id: filename_label
-                        width: parent.width
-                        height: parent.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
-                        Behavior on height { NumberAnimation { duration: 200 } }
-                        y: parent.height-height
-                        color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
-                        Behavior on color { ColorAnimation { duration: 200 } }
-
-                        PQText {
-                            id: filename
-                            anchors.fill: parent
-                            anchors.margins: 5
-                            verticalAlignment: Text.AlignVCenter
-                            horizontalAlignment: Text.AlignHCenter
-                            maximumLineCount: 2
-                            elide: Text.ElideMiddle
-                            text: deleg.currentFile
-                        }
-
-                        Image {
-                            x: (parent.width-width-5)
-                            y: (parent.height-height-5)
-                            source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
-                            height: 16
-                            mipmap: true
-                            width: height
-                            opacity: 0.3
-                            visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
-                        }
-
-                    }
-
-                    // this is a dummy item to be able to reuse some logic from other views
-                    Item {
-                        id: fileinfo
-                        property string text: ""
-                    }
-
-                    /************************************************************/
-                    // meta information
 
                     // how many files inside folder
                     Rectangle {
@@ -298,216 +304,281 @@ Flickable {
                         }
                     }
 
-                    // load async for files
-                    Timer {
-                        running: !deleg.isFolder // qmllint disable unqualified
-                        interval: 1
-                        onTriggered: {
-                            fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
-                        }
-                    }
-
                     // load async for folders
                     Timer {
-                        running: deleg.isFolder // qmllint disable unqualified
+                        running: true // qmllint disable unqualified
                         interval: 1
                         onTriggered: {
                             PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
                                 if(count > 0) {
                                     deleg.numberFilesInsideFolder = count
-                                    fileinfo.text = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
+                                    deleg.fileinfoString = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
                                     if(count === 1)
-                                        fileinfo.text = qsTranslate("filedialog", "%1 image").arg(count)
+                                        deleg.fileinfoString = qsTranslate("filedialog", "%1 image").arg(count)
                                     else
-                                        fileinfo.text = qsTranslate("filedialog", "%1 images").arg(count)
+                                        deleg.fileinfoString = qsTranslate("filedialog", "%1 images").arg(count)
                                 }
                             })
                         }
                     }
-                    /************************************************************/
+                }
 
-                    // mouse area handling general mouse events
-                    PQMouseArea {
+            }
 
-                        id: masonrymousearea
+            // load async for files
+            Timer {
+                running: !deleg.isFolder // qmllint disable unqualified
+                interval: 1
+                onTriggered: {
+                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
+                }
+            }
 
-                        anchors.fill: parent
+            /************************************************************/
+            // HIGHLIGHT/SELECT
 
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
+            // hovering an item
+            Rectangle {
 
-                        tooltipReference: fd_splitview // qmllint disable unqualified
+                id: rect_hovering
 
-                        Connections {
-                            target: contextmenu
-                            function onVisibleChanged() {
-                                if(contextmenu.visible)
-                                    masonrymousearea.closeTooltip()
-                            }
-                        }
+                anchors.fill: parent
+                // anchors.bottomMargin: filename_label.height
+                color: PQCLook.inverseColor
+                opacity: deleg.isHovered ? 0.3 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
 
-                        acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
+            }
 
-    // TODO
-                        drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined // qmllint disable unqualified
+            // selecting an item
+            Rectangle {
 
-                        drag.onActiveChanged: {
-                            if(drag.active) {
-                                // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                                fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
-                                fd_places.dragReordering = false
-                                fd_places.dragItemId = deleg.currentPath
-                            }
-                            deleg.Drag.drop();
-                            if(!drag.active) {
-                                // reset variables used for drag/drop
-                                fd_places.dragItemIndex = -1
-                                fd_places.dragItemId = ""
-                            }
-                        }
+                id: rect_selecting
 
-                        onPressed: {
+                anchors.fill: parent
+                // anchors.bottomMargin: filename_label.height
+                color: PQCLook.inverseColor
+                opacity: deleg.isSelected ? 0.6 : 0
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+                visible: opacity>0
 
-                            if(!contextmenu.visible)
-                                view_top.currentIndex = deleg.modelData
-                            else
-                                contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+            }
 
-                            // we only need this when a potential drag might occur
-                            // otherwise no need to load this drag thumbnail
-                            deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? view_top.currentSelection.length : 1)
+            /************************************************************/
+            // FILE NAME
 
-                        }
+            // the filename
+            Rectangle {
+                id: filename_label
+                width: parent.width
+                height: deleg.height>100 ?
+                            (Math.min(50, parent.height/4) + (deleg.isSelected||deleg.isHovered ? 10 : 0)) :
+                            (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
+                Behavior on height { NumberAnimation { duration: 200 } }
+                y: parent.height-height
+                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+                Behavior on color { ColorAnimation { duration: 200 } }
+                clip: true
 
-                        onEntered: {
+                PQText {
+                    id: filename
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    verticalAlignment: Text.AlignVCenter
+                    horizontalAlignment: Text.AlignHCenter
+                    maximumLineCount: 2
+                    elide: Text.ElideMiddle
+                    text: deleg.currentFile
+                }
 
-                            text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
-                                                    deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
+                Image {
+                    x: (parent.width-width-5)
+                    y: (parent.height-height-5)
+                    source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                    height: 16
+                    mipmap: true
+                    width: height
+                    opacity: 0.3
+                    visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+                }
 
-                        }
+            }
 
-                        onExited: {
-                            if(!selectmouse.containsMouse)
-                                view_top.handleEntriesMouseExit(deleg.modelData)
-                        }
+            /************************************************************/
 
-                        onClicked: (mouse) => {
+            // mouse area handling general mouse events
+            PQMouseArea {
 
-                            view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
-                                                             mouse.modifiers, mouse.button)
+                id: masonrymousearea
 
-                        }
+                anchors.fill: parent
 
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+
+                tooltipReference: fd_splitview // qmllint disable unqualified
+
+                Connections {
+                    target: contextmenu
+                    function onVisibleChanged() {
+                        if(contextmenu.visible)
+                            masonrymousearea.closeTooltip()
                     }
+                }
 
-                    /************************************************************/
-                    // + ICON TO SELECT/ - ICON TO DESELECT
-                    // has to be on top of main mouse area
+                acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-                    Rectangle {
-                        id: selectedornot
-                        x: 5
-                        y: 5
-                        width: 30
-                        height: 30
-                        radius: 5
+                drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined // qmllint disable unqualified
 
-                        color: "#bbbbbb"
-                        opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
-                                        ? 0.8
-                                        : (view_top.currentIndex===deleg.modelData
-                                                ? 0.8 : 0)
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                        Image {
-                            anchors.fill: parent
-                            source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
-                            mipmap: true
-                            opacity: selectmouse.containsMouse ? 0.8 : 0.4
-                            Behavior on opacity { NumberAnimation { duration: 200 } }
-                            PQMouseArea {
-                                id: selectmouse
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: {
-                                    if(!view_top.currentFileSelected) {
-                                        view_top.shiftClickIndexStart = deleg.modelData
-                                        view_top.currentSelection.push(deleg.modelData)
-                                        view_top.currentSelectionChanged()
-                                    } else {
-                                        view_top.shiftClickIndexStart = -1
-                                        view_top.currentSelection = view_top.currentSelection.filter(item => item!==deleg.modelData)
-                                    }
-                                }
-                                onEntered: {
-                                    view_top.currentIndex = deleg.modelData
-                                }
-                            }
-                        }
-
+                drag.onActiveChanged: {
+                    if(drag.active) {
+                        // store which index is being dragged and that the entry comes from the userplaces (reordering only)
+                        fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
+                        fd_places.dragReordering = false
+                        fd_places.dragItemId = deleg.currentPath
                     }
-
-                    Drag.active: masonrymousearea.drag.active
-                    Drag.mimeData: {
-                        if(!view_top.currentFileSelected) {
-                            return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
-                        } else {
-                            var uris = []
-                            for(var i in view_top.currentSelection)
-                                uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) // qmllint disable unqualified
-                            return ({"text/uri-list": uris})
-                        }
+                    deleg.Drag.drop();
+                    if(!drag.active) {
+                        // reset variables used for drag/drop
+                        fd_places.dragItemIndex = -1
+                        fd_places.dragItemId = ""
                     }
-                    Drag.dragType: Drag.Automatic
+                }
 
-                    // this is set in the mousearea's onPressed signal
-                    // this avoid loading all drag thumbnails at the start
-                    property string dragImageSource: ""
-                    Drag.imageSource: dragImageSource
+                onPressed: {
+
+                    if(!contextmenu.visible)
+                        view_top.currentIndex = deleg.modelData
+                    else
+                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+
+                    // we only need this when a potential drag might occur
+                    // otherwise no need to load this drag thumbnail
+                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? view_top.currentSelection.length : 1)
 
                 }
 
+                onEntered: {
+
+                    text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
+                                            deleg.isFolder, deleg.numberFilesInsideFolder, deleg.folderthumbCurNum)
+
+                }
+
+                onExited: {
+                    if(!selectmouse.containsMouse)
+                        view_top.handleEntriesMouseExit(deleg.modelData)
+                }
+
+                onClicked: (mouse) => {
+
+                    view_top.handleEntriesMouseClick(deleg.modelData, deleg.currentPath, deleg.isFolder,
+                                                     mouse.modifiers, mouse.button)
+
+                }
+
+            }
+
+            /************************************************************/
+            // + ICON TO SELECT/ - ICON TO DESELECT
+            // has to be on top of main mouse area
+
+            Rectangle {
+                id: selectedornot
+                x: 5
+                y: deleg.height>40 ? 5 : 0
+                width: 30
+                height: 30
+                radius: 5
+
+                color: "#bbbbbb"
+                opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
+                                ? 0.8
+                                : (view_top.currentIndex===deleg.modelData
+                                        ? 0.8 : 0)
+                Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                Image {
+                    anchors.fill: parent
+                    source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
+                    mipmap: true
+                    opacity: selectmouse.containsMouse ? 0.8 : 0.4
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    PQMouseArea {
+                        id: selectmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            if(!view_top.currentFileSelected) {
+                                view_top.shiftClickIndexStart = deleg.modelData
+                                view_top.currentSelection.push(deleg.modelData)
+                                view_top.currentSelectionChanged()
+                            } else {
+                                view_top.shiftClickIndexStart = -1
+                                view_top.currentSelection = view_top.currentSelection.filter(item => item!==deleg.modelData)
+                            }
+                        }
+                        onEntered: {
+                            view_top.currentIndex = deleg.modelData
+                        }
+                    }
+                }
+
+            }
+
+            Drag.active: masonrymousearea.drag.active
+            Drag.mimeData: {
+                if(!view_top.currentFileSelected) {
+                    return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
+                } else {
+                    var uris = []
+                    for(var i in view_top.currentSelection)
+                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) // qmllint disable unqualified
+                    return ({"text/uri-list": uris})
+                }
+            }
+            Drag.dragType: Drag.Automatic
+
+            // this is set in the mousearea's onPressed signal
+            // this avoid loading all drag thumbnails at the start
+            property string dragImageSource: ""
+            Drag.imageSource: dragImageSource
+
+        }
+    }
+
+    property list<real> columnHeights: ({})
+
+    function setupData() {
+
+        for(var i = 0; i < masonryview.numColumns; ++i) {
+            listviews[i].clear()
+            columnHeights[i] = 0
+        }
+
+        for(var j = 0; j < PQCFileFolderModel.countAllFileDialog; ++j) {
+
+            var pth = PQCFileFolderModel.entriesFileDialog[j]
+
+            var minCol = 0
+            for(var k = 1; k < masonryview.numColumns; ++k)
+                if(columnHeights[k] < columnHeights[minCol])
+                    minCol = k
+
+            listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol]})
+
+            if(j < PQCFileFolderModel.countFoldersFileDialog)
+                columnHeights[minCol] += columnWidth
+            else {
+                var sze = PQCScriptsImages.getCurrentImageResolution(pth)
+                columnHeights[minCol] += (sze.height * (columnWidth/sze.width))
             }
 
         }
 
     }
 
-    function goDownARow() {
-
-        // if(view_top.currentIndex === -1)
-        //     view_top.currentIndex = 0
-        // else
-        //     view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + Math.floor(gridview.width/gridview.cellWidth))
-
-    }
-
-    function goDownSomeRows() {
-
-        // if(view_top.currentIndex === -1)
-        //     view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4*Math.floor(gridview.width/gridview.cellWidth))
-        // else
-        //     view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5*Math.floor(gridview.width/gridview.cellWidth))
-
-    }
-
-    function goUpARow() {
-
-        // if(view_top.currentIndex === -1)
-        //     view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
-        // else
-        //     view_top.currentIndex = Math.max(0, view_top.currentIndex - Math.floor(gridview.width/gridview.cellWidth))
-
-    }
-
-    function goUpSomeRows() {
-
-        // if(view_top.currentIndex === -1)
-        //     view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4*Math.floor(gridview.width/gridview.cellWidth))
-        // else
-        //     view_top.currentIndex = Math.max(0, view_top.currentIndex - 5*Math.floor(gridview.width/gridview.cellWidth))
-
-    }
 
 }
