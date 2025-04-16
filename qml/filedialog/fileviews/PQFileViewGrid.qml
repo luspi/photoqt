@@ -39,8 +39,10 @@ GridView {
 
     model: 0
 
-    cellWidth: 50 + PQCSettings.filedialogZoom*3
-    cellHeight: 50 + PQCSettings.filedialogZoom*3
+    property int baseSize: 50 + PQCSettings.filedialogZoom*3
+
+    cellWidth: width / Math.floor(width / baseSize)
+    cellHeight: baseSize
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
