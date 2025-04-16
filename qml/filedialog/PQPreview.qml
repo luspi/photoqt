@@ -54,7 +54,7 @@ Item {
         }
 
         Connections {
-            target: view // qmllint disable unqualified
+            target: view_top // qmllint disable unqualified
             function onCurrentIndexChanged(currentIndex : int) {
                 setBG.restart()
             }
@@ -64,20 +64,20 @@ Item {
         }
 
         function setCurrentBG() {
-            if(view.currentIndex === -1 || !PQCSettings.filedialogPreview || (view.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view.currentFolderThumbnailIndex == -1)) { // qmllint disable unqualified
+            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex == -1)) { // qmllint disable unqualified
                 preview.source = ""
                 return
             }
-            if(view.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
+            if(view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog) {
                 if(PQCSettings.filedialogFolderContentThumbnails)
-                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex] + ":://::" + view.currentFolderThumbnailIndex
+                    preview.source = "image://folderthumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex] + ":://::" + view_top.currentFolderThumbnailIndex
                 else
                     preview.source = ""
             } else {
                 if(PQCSettings.filedialogThumbnails)
-                    preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view.currentIndex]
+                    preview.source = "image://thumb/" + PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]
                 else
-                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view.currentIndex]).toLowerCase()
+                    preview.source = "image://icon/"+PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex]).toLowerCase()
             }
         }
 

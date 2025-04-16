@@ -167,14 +167,14 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Layout")
 
-            helptext: qsTranslate("settingsmanager", "The files can be shown either as icons with an emphasis on the thumbnails, or as list with an emphasis on getting a clear overview.")
+            helptext: qsTranslate("settingsmanager", "The files can be shown either as grid with an emphasis on the thumbnails, or as list with an emphasis on getting a clear overview.")
 
             content: [
 
                 PQRadioButton {
                     id: layout_icon
                     enforceMaxWidth: set_sort.rightcol
-                    text: qsTranslate("settingsmanager", "icon view")
+                    text: qsTranslate("settingsmanager", "grid view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -183,31 +183,41 @@ Flickable {
                     enforceMaxWidth: set_sort.rightcol
                     text: qsTranslate("settingsmanager", "list view")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQRadioButton {
+                    id: layout_masonry
+                    enforceMaxWidth: set_sort.rightcol
+                    text: qsTranslate("settingsmanager", "masonry view")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
 
             onResetToDefaults: {
-                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "icons")
-                layout_list.checked = !layout_icon.checked
+                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "grid")
+                layout_masonry.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "masonry")
+                layout_list.checked = !layout_icon.checked&&!layout_masonry.checked
             }
 
             function handleEscape() {
             }
 
             function hasChanged() {
-                return (layout_icon.hasChanged() || layout_list.hasChanged())
+                return (layout_icon.hasChanged() || layout_list.hasChanged() || layout_masonry.hasChanged())
             }
 
             function load() {
-                layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="icons")
-                layout_list.loadAndSetDefault(PQCSettings.filedialogLayout!=="icons")
+                layout_icon.loadAndSetDefault(PQCSettings.filedialogLayout==="grid")
+                layout_masonry.loadAndSetDefault(PQCSettings.filedialogLayout==="masonry")
+                layout_list.loadAndSetDefault(!layout_icon.checked&&!layout_masonry.checked)
             }
 
             function applyChanges() {
-                PQCSettings.filedialogLayout = (layout_icon.checked ? "icons" : "list")
+                PQCSettings.filedialogLayout = (layout_icon.checked ? "grid" : (layout_masonry.checked ? "masonry" : "list"))
                 layout_icon.saveDefault()
                 layout_list.saveDefault()
+                layout_masonry.saveDefault()
             }
 
         }
@@ -530,19 +540,25 @@ Flickable {
                 PQCheckBox {
                     id: drag_icon
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for icon view"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for grid view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_list
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for list view"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for list view")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+                PQCheckBox {
+                    id: drag_masonry
+                    enforceMaxWidth: set_sort.rightcol
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for masonry view")
                     onCheckedChanged: setting_top.checkDefault()
                 },
                 PQCheckBox {
                     id: drag_bookmarks
                     enforceMaxWidth: set_sort.rightcol
-                    text: "Enable drag-and-drop for bookmarks"
+                    text: qsTranslate("settingsmanager", "Enable drag-and-drop for bookmarks")
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -551,6 +567,7 @@ Flickable {
             onResetToDefaults: {
                 drag_icon.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewGrid") == 1)
                 drag_list.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewList") == 1)
+                drag_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewMasonry") == 1)
                 drag_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropPlaces") == 1)
             }
 
@@ -693,6 +710,63 @@ Flickable {
             function applyChanges() {
                 PQCSettings.filedialogElementPadding = padding.value
                 padding.saveDefault()
+            }
+
+        }
+
+        /**********************************************************************/
+        PQSettingsSeparator {}
+        /**********************************************************************/
+
+        PQSetting {
+
+            id: set_lab
+
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Filename labels")
+
+            helptext: qsTranslate("settingsmanager", "Whether to show labels with filenames on top of the thumbnails. Labels for folders are always shown")
+
+            content: [
+
+                PQRadioButton {
+                    id: labels_grid
+                    enforceMaxWidth: set_lab.rightcol
+                    text: qsTranslate("settingsmanager", "filename labels in grid view")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQRadioButton {
+                    id: labels_masonry
+                    enforceMaxWidth: set_lab.rightcol
+                    text: qsTranslate("settingsmanager", "filename labels in masonry view")
+                    onCheckedChanged: setting_top.checkDefault()
+                }
+
+            ]
+
+            onResetToDefaults: {
+                labels_grid.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowGrid") == 1)
+                labels_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowMasonry") == 1)
+            }
+
+            function handleEscape() {
+            }
+
+            function hasChanged() {
+                return labels_grid.hasChanged() || labels_masonry.hasChanged()
+            }
+
+            function load() {
+                labels_grid.loadAndSetDefault(PQCSettings.filedialogLabelsShowGrid)
+                labels_masonry.loadAndSetDefault(PQCSettings.filedialogLabelsShowMasonry)
+            }
+
+            function applyChanges() {
+                PQCSettings.filedialogLabelsShowGrid = labels_grid.checked
+                PQCSettings.filedialogLabelsShowMasonry = labels_masonry.checked
+                labels_grid.saveDefault()
+                labels_masonry.saveDefault()
             }
 
         }
@@ -982,6 +1056,7 @@ Flickable {
         set_dad.handleEscape()
         set_thb.handleEscape()
         set_pad.handleEscape()
+        set_lab.handleEscape()
         set_fol.handleEscape()
         set_pre.handleEscape()
     }
@@ -1000,7 +1075,7 @@ Flickable {
                           set_ttp.hasChanged() || set_loc.hasChanged() || set_sin.hasChanged() ||
                           set_sel.hasChanged() || set_sec.hasChanged() || set_dad.hasChanged() ||
                           set_thb.hasChanged() || set_pad.hasChanged() || set_fol.hasChanged() ||
-                          set_pre.hasChanged())
+                          set_pre.hasChanged() || set_lab.hasChanged())
 
     }
 
@@ -1019,6 +1094,7 @@ Flickable {
         set_pad.load()
         set_fol.load()
         set_pre.load()
+        set_lab.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -1040,6 +1116,7 @@ Flickable {
         set_pad.applyChanges()
         set_fol.applyChanges()
         set_pre.applyChanges()
+        set_lab.applyChanges()
 
         settingChanged = false
 

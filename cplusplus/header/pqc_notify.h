@@ -31,7 +31,6 @@
 class PQCNotify : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
 
 public:
     static PQCNotify& get();

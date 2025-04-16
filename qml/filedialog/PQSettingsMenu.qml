@@ -62,13 +62,24 @@ PQMenu {
         }
         PQMenuItem {
             id: mi_iconview
-            text: qsTranslate("filedialog", "icon view")
+            text: qsTranslate("filedialog", "grid view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
+            checked: PQCSettings.filedialogLayout==="grid" // qmllint disable unqualified
             onCheckedChanged: {
-                if(checked) PQCSettings.filedialogLayout = "icons" // qmllint disable unqualified
-                checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="icons") })
+                if(checked) PQCSettings.filedialogLayout = "grid" // qmllint disable unqualified
+                checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="grid") })
+            }
+        }
+        PQMenuItem {
+            id: mi_masonryview
+            text: qsTranslate("filedialog", "masonry view")
+            checkable: true
+            checkableLikeRadioButton: true
+            checked: PQCSettings.filedialogLayout==="masonry" // qmllint disable unqualified
+            onCheckedChanged: {
+                if(checked) PQCSettings.filedialogLayout = "masonry" // qmllint disable unqualified
+                checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="masonry") })
             }
         }
 
@@ -99,6 +110,16 @@ PQMenu {
             onCheckedChanged: {
                 PQCSettings.filedialogDragDropFileviewGrid = checked // qmllint disable unqualified
                 checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewGrid })
+            }
+        }
+        PQMenuItem {
+            //: file manager settings popdown: the thing to enable here is drag-and-drop
+            text: qsTranslate("filedialog", "enable for masonry view")
+            checkable: true
+            checked: PQCSettings.filedialogDragDropFileviewMasonry // qmllint disable unqualified
+            onCheckedChanged: {
+                PQCSettings.filedialogDragDropFileviewMasonry = checked // qmllint disable unqualified
+                checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewMasonry })
             }
         }
         PQMenuItem {
@@ -135,6 +156,35 @@ PQMenu {
                 onObjectAdded: (index, object) => paddingsubmenu.insertItem(index, object)
                 onObjectRemoved: (index, object) => paddingsubmenu.removeItem(object)
             }
+        }
+
+        PQMenu {
+            id: filelabelsubmenu
+            //: file manager settings popdown: submenu title
+            title: qsTranslate("filedialog", "filename labels")
+
+            PQMenuItem {
+                //: file manager settings popdown: scale and crop the thumbnails
+                text: qsTranslate("filedialog", "grid view")
+                checkable: true
+                checked: PQCSettings.filedialogLabelsShowGrid // qmllint disable unqualified
+                onCheckedChanged: {
+                    PQCSettings.filedialogLabelsShowGrid = checked // qmllint disable unqualified
+                    checked = Qt.binding(function() { return PQCSettings.filedialogLabelsShowGrid })
+                }
+            }
+
+            PQMenuItem {
+                //: file manager settings popdown: scale and crop the thumbnails
+                text: qsTranslate("filedialog", "masonry view")
+                checkable: true
+                checked: PQCSettings.filedialogLabelsShowMasonry // qmllint disable unqualified
+                onCheckedChanged: {
+                    PQCSettings.filedialogLabelsShowMasonry = checked // qmllint disable unqualified
+                    checked = Qt.binding(function() { return PQCSettings.filedialogLabelsShowMasonry })
+                }
+            }
+
         }
 
         PQMenuItem {

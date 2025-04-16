@@ -337,45 +337,52 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
     // Using a placeholder also for table name causes an sqlite 'parameter count mismatch' error
     // the 'on conflict' cause performs an update if the value already exists and the insert thus failed
-    query.prepare(QString("INSERT INTO '%1' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:val").arg(category));
+    query.prepare(QString("INSERT INTO '%1' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:valupdate").arg(category));
 
     query.bindValue(":nme", key);
 
     // we convert the value to a string
+    QString val = "";
     if(value.typeId() == QMetaType::Bool || value.typeId() == QMetaType::Int) {
-        query.bindValue(":val", QString::number(value.toInt()));
+        val = QString::number(value.toInt());
         query.bindValue(":dat", "bool");
     } else if(value.typeId() == QMetaType::QStringList) {
-        query.bindValue(":val", value.toStringList().join(":://::"));
+        val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
     } else if(value.typeId() == QMetaType::QPoint) {
-        query.bindValue(":val", QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y()));
+        val = QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y());
         query.bindValue(":dat", "point");
     } else if(value.typeId() == QMetaType::QPointF) {
-        query.bindValue(":val", QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y()));
+        val = QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y());
         query.bindValue(":dat", "point");
     } else if(value.typeId() == QMetaType::QSize) {
-        query.bindValue(":val", QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height()));
+        val = QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height());
         query.bindValue(":dat", "size");
     } else if(value.typeId() == QMetaType::QSizeF) {
-        query.bindValue(":val", QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height()));
+        val = QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height());
         query.bindValue(":dat", "size");
     } else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
         QStringList ret;
-        QJSValue val = value.value<QJSValue>();
-        const int length = val.property("length").toInt();
+        QJSValue _val = value.value<QJSValue>();
+        const int length = _val.property("length").toInt();
         for(int i = 0; i < length; ++i)
-            ret << val.property(i).toString();
-        query.bindValue(":val", ret.join(":://::"));
+            ret << _val.property(i).toString();
+        val = ret.join(":://::");
         query.bindValue(":dat", "list");
     } else {
-        query.bindValue(":val", value.toString());
+        val = value.toString();
         query.bindValue(":dat", "string");
     }
 
+    query.bindValue(":val", val);
+    query.bindValue(":valupdate", val);
+
     // and update database
-    if(!query.exec())
+    if(!query.exec()) {
         qWarning() << "SQL Error:" << query.lastError().text();
+        qWarning() << "Category =" << category << "- value =" << value;
+        qWarning() << "Executed query:" << query.lastQuery();
+    }
 
     dbCommitTimer->start();
 
@@ -738,6 +745,10 @@ int PQCSettings::migrate(QString oldversion) {
             migrationHelperRemoveValue("interface", "NavigationTopRight");
             migrationHelperRemoveValue("interface", "NavigationTopRightAlways");
             migrationHelperRemoveValue("interface", "NavigationTopRightLeftRight");
+
+            QString oldLayout = migrationHelperGetOldValue("filedialog", "Layout").toString();
+            if(oldLayout == "icons")
+                migrationHelperSetNewValue("filedialog", "Layout", "grid");
 
         }
 

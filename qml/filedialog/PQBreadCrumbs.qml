@@ -144,13 +144,13 @@ Item {
                 PQButtonIcon {
                     id: iconview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout==="icons" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout==="grid" // qmllint disable unqualified
                     source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg" // qmllint disable unqualified
-                    tooltip: qsTranslate("filedialog", "Show files as icons")
+                    tooltip: qsTranslate("filedialog", "Show files as grid")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
-                        PQCSettings.filedialogLayout = (checked ? "icons" : "list")
-                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="icons" })
+                        if(checked) PQCSettings.filedialogLayout = "grid"
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="grid" })
                     }
                     contextmenu.onVisibleChanged: {
                         breadcrumbs_top.otherContextMenuOpen = visible
@@ -166,12 +166,12 @@ Item {
                 PQButtonIcon {
                     id: listview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout!=="icons" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry" // qmllint disable unqualified
                     source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg" // qmllint disable unqualified
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
                         fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
-                        PQCSettings.filedialogLayout = (checked ? "list" : "icons")
+                        if(checked) PQCSettings.filedialogLayout = "list"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
                     contextmenu.onVisibleChanged: {
@@ -181,6 +181,28 @@ Item {
                         target: breadcrumbs_top
                         function onCloseMenus() {
                             listview.contextmenu.close()
+                        }
+                    }
+                }
+
+                PQButtonIcon {
+                    id: masonview
+                    checkable: true
+                    checked: PQCSettings.filedialogLayout==="masonry" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg" // qmllint disable unqualified
+                    tooltip: qsTranslate("filedialog", "Show files in masonry layout")
+                    onCheckedChanged: {
+                        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                        if(checked) PQCSettings.filedialogLayout = "masonry"
+                        checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="masonry" })
+                    }
+                    contextmenu.onVisibleChanged: {
+                        breadcrumbs_top.otherContextMenuOpen = visible
+                    }
+                    Connections {
+                        target: breadcrumbs_top
+                        function onCloseMenus() {
+                            masonview.contextmenu.close()
                         }
                     }
                 }
@@ -297,10 +319,12 @@ Item {
 
                     Item { width: 15; height: 1 }
                     Image {
+                        id: rooticon
                         y: (parent.height-height)/2
                         height: parent.height/2
                         width: height
                         source: ("image://svg/:/" + PQCLook.iconShade + "/computer.svg")
+                        sourceSize: Qt.size(width, height)
                         PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true

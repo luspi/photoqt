@@ -22,12 +22,26 @@
 
 import QtQuick
 
-Text {
+import PQCScriptsFilesPaths
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
-    Behavior on color { ColorAnimation { duration: animateColorChanged ? 200 : 0 } }
-    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-    property bool animateColorChanged: true
+Image {
+
+    id: fileicon
+
+    sourceSize: Qt.size(width,height)
+
+    smooth: true
+    mipmap: false
+
+    opacity: view_top.currentFileCut ? 0.3 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+
+    property bool gridlike: false
+
+    property string _foldername: gridlike ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
+    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?// qmllint disable unqualified
+                                        _foldername : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
+
+    source: sourceString
 
 }
