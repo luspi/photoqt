@@ -50,10 +50,10 @@ Item {
             source: "image://folderthumb/" + folder + ":://::" + num
             smooth: true
             mipmap: false
-// TODO
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
             onStatusChanged: {
                 if(status == Image.Ready) {
+// TODO
                     if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload)/* && !listmousearea.drag.active*/ && !contextmenu.opened) // qmllint disable unqualified
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)

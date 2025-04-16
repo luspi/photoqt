@@ -75,15 +75,6 @@ Item {
     signal refreshThumbnails()
     signal refreshCurrentThumbnail()
 
-    // This is the current thumbnail size. This is updated with a delay to allow for smoother zoom
-    property int currentThumbnailWidth
-    property int currentThumbnailHeight
-// TODO!!!
-    function updateThumbnailSize() {
-        currentThumbnailWidth = width // qmllint disable unqualified
-        currentThumbnailHeight = 15 + PQCSettings.filedialogZoom
-    }
-
     property var storeMouseClicks: ({})
 
     /*********************************************************************/
@@ -411,7 +402,6 @@ Item {
 
     Component.onCompleted: {
         getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog // qmllint disable unqualified
-        updateThumbnailSize()
     }
 
     Connections {
@@ -421,20 +411,6 @@ Item {
             PQCFileFolderModel.forceReloadFileDialog() // qmllint disable unqualified
             getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
         }
-    }
-
-    // The following Connection and Timer makes sure that changed to the zoom update the thumbnails with a delay
-    Connections {
-        target: PQCSettings // qmllint disable unqualified
-        function onFiledialogZoomChanged() {
-            updateThumbnailSizeTimer.restart()
-        }
-    }
-    Timer {
-        id: updateThumbnailSizeTimer
-        interval: 1000
-        onTriggered:
-            view_top.updateThumbnailSize()
     }
 
     clip: true

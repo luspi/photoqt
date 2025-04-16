@@ -216,7 +216,7 @@ Flickable {
 
                     clip: true
 
-                    sourceSize: undefined
+                    dontSetSourceSize: true
 
                     onVisibleChanged:
                         deleg.filethumbVisible = visible

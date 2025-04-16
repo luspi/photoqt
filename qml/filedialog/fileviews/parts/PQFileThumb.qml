@@ -35,7 +35,21 @@ Image {
     mipmap: false
     asynchronous: true
     cache: false
-    sourceSize: Qt.size(view_top.currentThumbnailWidth-2*PQCSettings.filedialogElementPadding, view_top.currentThumbnailHeight-2*PQCSettings.filedialogElementPadding)
+
+    property bool dontSetSourceSize: false
+
+    onWidthChanged:
+        updateSizeDelay.restart()
+    onHeightChanged:
+        updateSizeDelay.restart()
+    Timer {
+        id: updateSizeDelay
+        interval: 1000
+        onTriggered: {
+            if(dontSetSourceSize) return
+            filethumb.sourceSize = Qt.size(width, height)
+        }
+    }
 
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
 
@@ -49,6 +63,11 @@ Image {
         if(status == Image.Ready) {
             fileicon.source = ""
         }
+    }
+
+    Component.onCompleted: {
+        if(dontSetSourceSize) return
+        sourceSize = Qt.size(width, height)
     }
 
     Connections {
