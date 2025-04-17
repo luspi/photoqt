@@ -568,6 +568,8 @@ int PQCSettings::migrate(QString oldversion) {
             qWarning() << "ERROR committing database:" << db.lastError().text();
     }
 
+    db.transaction();
+
     if(oldversion == "") {
         // first we need to find the version in a database that has not yet been read
         QSqlQuery query(db);
@@ -714,6 +716,59 @@ int PQCSettings::migrate(QString oldversion) {
 
         } else if(curVer == "4.9") {
 
+            // first make sure all tables have UNIQUE constraint set for name column
+            // it is not possible to add such a constraint to an existing table in sqlite
+            // Thus we first create a new table with the proper structure, then copy all data
+            // over, delete the old table, and then rename the new table to the old name.
+
+            const QStringList tbls = {"filedialog", "filetypes", "general", "imageview", "interface",
+                                      "mainmenu", "mapview", "metadata", "slideshow", "thumbnails"};
+
+            for(const QString &t : tbls) {
+
+                QSqlQuery queryUnq(db);
+
+                if(!queryUnq.exec(QString("CREATE TABLE '%1_new' ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)").arg(t))) {
+                    qWarning() << "ERROR: Unable to create new table:" << t;
+                    qWarning() << "SQL error:" << queryUnq.lastError().text();
+                    qWarning() << "SQL query:" << queryUnq.lastQuery();
+                    queryUnq.clear();
+                    continue;
+                }
+
+                queryUnq.clear();
+
+                if(!queryUnq.exec(QString("INSERT INTO `%1_new` (`name`,`value`,`datatype`) SELECT `name`,`value`,`datatype` FROM `%2`").arg(t,t))) {
+                    qWarning() << "ERROR copying over data for table:" << t;
+                    qWarning() << "SQL error:" << queryUnq.lastError().text();
+                    qWarning() << "SQL query:" << queryUnq.lastQuery();
+                    continue;
+                }
+
+                queryUnq.clear();
+
+                if(!queryUnq.exec(QString("DROP TABLE `%1`").arg(t))) {
+                    qWarning() << "ERROR: Unable to drop old table:" << t;
+                    qWarning() << "SQL error:" << queryUnq.lastError().text();
+                    qWarning() << "SQL query:" << queryUnq.lastQuery();
+                    continue;
+                }
+
+                queryUnq.clear();
+
+                if(!queryUnq.exec(QString("ALTER TABLE `%1_new` RENAME TO `%2`").arg(t, t))) {
+                    qWarning() << "ERROR: Unable to rename new table:" << t;
+                    qWarning() << "SQL error:" << queryUnq.lastError().text();
+                    qWarning() << "SQL query:" << queryUnq.lastQuery();
+                    continue;
+                }
+
+                queryUnq.clear();
+
+            }
+
+            // Update settings names
+
             QVariant oldDup = migrationHelperGetOldValue("interface", "WindowButtonsDuplicateDecorationButtons");
 
             QString newValue = "ontop_0|0|1:://::fullscreen_0|0|1";
@@ -790,8 +845,6 @@ int PQCSettings::migrate(QString oldversion) {
         /////////////////////////////////////////////////////
         // check for existence of settings for extensions
 
-        db.transaction();
-
         QSqlQuery queryTabIns(db);
         if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
             qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
@@ -828,14 +881,14 @@ int PQCSettings::migrate(QString oldversion) {
 
         }
 
-        db.commit();
-
         /// END EXTENSIONS
         ///////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////
 
     }
+
+    db.commit();
 
     return 0;
 
