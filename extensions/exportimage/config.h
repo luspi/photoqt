@@ -33,7 +33,8 @@ public:
         migrateSettings = {
             {"4.9", {{"PopoutExport", "interface", "ExportImagePopout",      "extensions"},
                      {"Favorites",    "export",    "ExportImageFavorites", "extensions"},
-                     {"LastUsed",     "export",    "ExportImageLastUsed",  "extensions"}}}
+                     {"LastUsed",     "export",    "ExportImageLastUsed",  "extensions"},
+                     {"",             "export",    "",                     ""}}}
         };
 
         migrateShortcuts = {

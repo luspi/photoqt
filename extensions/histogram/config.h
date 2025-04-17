@@ -43,6 +43,7 @@ public:
                      {"Position",        "histogram", "HistogramPosition", "extensions"},
                      {"Size",            "histogram", "HistogramSize",     "extensions"},
                      {"Version",         "histogram", "HistogramVersion",  "extensions"},
+                     {"",                "histogram", "",                  ""},
                      {"PopoutHistogram", "interface", "HistogramPopout",   "extensions"}}}
         };
 

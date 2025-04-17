@@ -912,6 +912,16 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                     continue;
                 }
 
+                // special case: delete table
+                if(entry[0] == "" && entry[2] == "" && entry[3] == "") {
+                    QSqlQuery query(db);
+                    query.prepare(QString("DROP TABLE IF EXISTS `%1`").arg(entry[1]));
+                    if(!query.exec()) {
+                        qWarning() << "ERROR: Failed to drop table:" << entry[1];
+                    }
+                    continue;
+                }
+
                 // check if old table still exists
                 QSqlQuery queryTableOld(db);
                 if(!queryTableOld.exec(QString("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='%1'").arg(entry[1]))) {

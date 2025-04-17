@@ -76,6 +76,7 @@ public:
     // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},
     //          {"oldname2", "oldtable2", "newname2", "newtable2"}}}
     //
+    // Note: If only oldtable is specified with all other three strings empty will delete said table.
     QMap<QString, QList<QStringList> > migrateSettings;
 
     // any shortcut that needs migrating
