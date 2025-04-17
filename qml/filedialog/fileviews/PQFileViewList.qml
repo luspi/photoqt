@@ -49,6 +49,7 @@ ListView {
     onCurrentIndexChanged: {
         if(!isCurrentView) return
         view_top.currentIndex = currentIndex
+        listview.positionViewAtIndex(currentIndex, ListView.Contain)
     }
 
     delegate:
@@ -413,6 +414,42 @@ ListView {
         // this avoid loading all drag thumbnails at the start
         property string dragImageSource: ""
         Drag.imageSource: dragImageSource
+
+    }
+
+    function goDownARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = 0
+        else
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex+1)
+
+    }
+
+    function goDownSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
+        else
+            view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5)
+
+    }
+
+    function goUpARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
+        else
+            view_top.currentIndex = Math.max(0, view_top.currentIndex-1)
+
+    }
+
+    function goUpSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
+        else
+            view_top.currentIndex = Math.max(0, view_top.currentIndex - 5)
 
     }
 

@@ -970,36 +970,16 @@ Item {
 
         if(key === Qt.Key_Up) {
 
-            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier) {
-
+            if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
                 filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
-
-            } else {
-
-                if(PQCSettings.filedialogLayout === "grid") {
-                    gridview.goUpARow()
-                } else {
-                    if(view_top.currentIndex === -1)
-                        view_top.currentIndex = PQCFileFolderModel.countAllFileDialog-1
-                    else
-                        view_top.currentIndex = Math.max(0, view_top.currentIndex-1)
-                }
-
-            }
+            else
+                getCurrentViewId().goUpARow()
 
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Down) {
 
-            if(PQCSettings.filedialogLayout === "grid") {
-                gridview.goDownARow()
-            } else {
-                if(view_top.currentIndex === -1)
-                    view_top.currentIndex = 0
-                else
-                    view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex+1)
-            }
-
+            getCurrentViewId().goDownARow()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_Right) {
@@ -1038,28 +1018,12 @@ Item {
 
         } else if(key === Qt.Key_PageDown) {
 
-            if(PQCSettings.filedialogLayout === "grid") {
-                gridview.goDownSomeRows()
-            } else {
-                if(view_top.currentIndex === -1)
-                    view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, 4)
-                else
-                    view_top.currentIndex = Math.min(PQCFileFolderModel.countAllFileDialog-1, view_top.currentIndex + 5)
-            }
-
+            getCurrentViewId().goDownSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_PageUp) {
 
-            if(PQCSettings.filedialogLayout === "grid") {
-                gridview.goUpSomeRows()
-            } else {
-                if(view_top.currentIndex === -1)
-                    view_top.currentIndex = Math.max(0, PQCFileFolderModel.countAllFileDialog-1 - 4)
-                else
-                    view_top.currentIndex = Math.max(0, view_top.currentIndex - 5)
-            }
-
+            getCurrentViewId().goUpSomeRows()
             navigateToFileStartingWith = []
 
         } else if(key === Qt.Key_End) {

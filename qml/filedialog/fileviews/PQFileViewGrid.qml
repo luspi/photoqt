@@ -445,7 +445,6 @@ GridView {
         else
             view_top.currentIndex = Math.max(0, view_top.currentIndex - Math.floor(gridview.width/gridview.cellWidth))
 
-
     }
 
     function goUpSomeRows() {

@@ -61,6 +61,7 @@ Flickable {
         if(!isCurrentView)
             return
         view_top.currentIndex = currentIndex
+        ensureCurrentItemIsVisible()
     }
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
@@ -146,6 +147,7 @@ Flickable {
             required property string currentPath
             required property int modelData
             required property int offsetY
+            required property real itemHeight
 
             property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
             property int numberFilesInsideFolder: 0
@@ -165,7 +167,6 @@ Flickable {
             property size filethumbSourceSize: Qt.size(0,0)
 
             property int folderthumbCurNum: 0
-
 
             clip: true
             color: PQCLook.baseColor
@@ -555,13 +556,23 @@ Flickable {
         }
     }
 
+    PropertyAnimation {
+        id: contentYAni
+        duration: 100
+        target: masonryview
+        easing.type: Easing.InOutQuad
+        property: "contentY"
+    }
+
     property list<real> columnHeights: ({})
+    property var columnIndices: ({})
 
     function setupData() {
 
         for(var i = 0; i < masonryview.numColumns; ++i) {
             listviews[i].clear()
             columnHeights[i] = 0
+            columnIndices[i] = []
         }
 
         for(var j = 0; j < PQCFileFolderModel.countAllFileDialog; ++j) {
@@ -573,18 +584,95 @@ Flickable {
                 if(columnHeights[k] < columnHeights[minCol])
                     minCol = k
 
-            listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol]})
+            columnIndices[minCol].push(j)
 
-            if(j < PQCFileFolderModel.countFoldersFileDialog)
+            if(j < PQCFileFolderModel.countFoldersFileDialog) {
+                listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : columnWidth})
                 columnHeights[minCol] += columnWidth
-            else {
+            } else {
                 var sze = PQCScriptsImages.getCurrentImageResolution(pth)
-                columnHeights[minCol] += (sze.height * (columnWidth/sze.width))
+                var h = (sze.height * (columnWidth/sze.width))
+                listviews[minCol].append({"currentPath" : pth, "modelData" : j, "offsetY" : columnHeights[minCol], "itemHeight" : h})
+                columnHeights[minCol] += h
             }
 
         }
 
     }
 
+    function findCurrentRowColumn() {
+        var curCol, curRow
+        for(var i = 0; i < masonryview.numColumns; ++i) {
+            curRow = columnIndices[i].indexOf(view_top.currentIndex)
+            if(curRow > -1) {
+                curCol = i
+                break
+            }
+        }
+        return [curCol, curRow]
+    }
+
+    function goDownARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = 0
+        else {
+            var curColRow = findCurrentRowColumn()
+            view_top.currentIndex = columnIndices[curColRow[0]][Math.min(columnIndices[curColRow[0]].length-1, curColRow[1]+1)]
+        }
+
+    }
+
+    function goDownSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = columnIndices[0][Math.min(4, columnIndices[0].length)]
+        else {
+            var curColRow = findCurrentRowColumn()
+            view_top.currentIndex = columnIndices[curColRow[0]][Math.min(curColRow[1]+5, columnIndices[curColRow[0]].length)]
+        }
+
+    }
+
+    function goUpARow() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = columnIndices[0][columnIndices[0].length-1]
+        else {
+            var curColRow = findCurrentRowColumn()
+            view_top.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-1)]
+        }
+
+    }
+
+    function goUpSomeRows() {
+
+        if(view_top.currentIndex === -1)
+            view_top.currentIndex = columnIndices[0][Math.max(0, columnIndices[0].length-5)]
+        else {
+            var curColRow = findCurrentRowColumn()
+            view_top.currentIndex = columnIndices[curColRow[0]][Math.max(0, curColRow[1]-5)]
+        }
+
+    }
+
+    function ensureCurrentItemIsVisible() {
+
+        var curColRow = findCurrentRowColumn()
+
+        var itm = listviews[curColRow[0]].get(curColRow[1])
+        if(itm.offsetY < masonryview.contentY) {
+            contentYAni.stop()
+            contentYAni.from = masonryview.contentY
+            contentYAni.to = itm.offsetY
+            contentYAni.start()
+        } else if(itm.offsetY+itm.itemHeight > masonryview.contentY+masonryview.height) {
+            contentYAni.stop()
+            contentYAni.from = masonryview.contentY
+            contentYAni.to = itm.offsetY-masonryview.height+itm.itemHeight
+            contentYAni.start()
+        }
+
+    }
 
 }
