@@ -1144,6 +1144,40 @@ Loader {
                         }
                     }
 
+                    // when the key shortcut is kept pressed then we animate bouncing beyond the window edge once
+                    // after that we block any further bounces
+                    // we treat each edge separately, and bouncing beyond one window edge resets the other edges
+
+                    property bool animateShortcutMoveBeyondEdgeLeft: true
+                    property bool animateShortcutMoveBeyondEdgeRight: true
+                    property bool animateShortcutMoveBeyondEdgeTop: true
+                    property bool animateShortcutMoveBeyondEdgeBottom: true
+
+                    Timer {
+                        id: resetAnimateShortcutMoveBeyondEdgeLeft
+                        interval: 1000
+                        onTriggered:
+                            image_wrapper.animateShortcutMoveBeyondEdgeLeft = true
+                    }
+                    Timer {
+                        id: resetAnimateShortcutMoveBeyondEdgeRight
+                        interval: 1000
+                        onTriggered:
+                            image_wrapper.animateShortcutMoveBeyondEdgeRight = true
+                    }
+                    Timer {
+                        id: resetAnimateShortcutMoveBeyondEdgeTop
+                        interval: 1000
+                        onTriggered:
+                            image_wrapper.animateShortcutMoveBeyondEdgeTop = true
+                    }
+                    Timer {
+                        id: resetAnimateShortcutMoveBeyondEdgeBottom
+                        interval: 1000
+                        onTriggered:
+                            image_wrapper.animateShortcutMoveBeyondEdgeBottom = true
+                    }
+
                     Connections {
 
                         target: image_top // qmllint disable unqualified
@@ -1164,14 +1198,83 @@ Loader {
                             if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
-                            if(direction === "left")
+                            if(direction === "left") {
+
+                                image_wrapper.animateShortcutMoveBeyondEdgeRight = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeTop = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeBottom = true
+
+                                if(!image_wrapper.animateShortcutMoveBeyondEdgeLeft) {
+                                    resetAnimateShortcutMoveBeyondEdgeLeft.restart()
+                                    return
+                                }
+
+                                if(flickable.contentX < 3) {
+                                    resetAnimateShortcutMoveBeyondEdgeLeft.stop()
+                                    image_wrapper.animateShortcutMoveBeyondEdgeLeft = false
+                                    resetAnimateShortcutMoveBeyondEdgeLeft.restart()
+                                }
+
                                 flickable.flick(1000,0)
-                            else if(direction === "right")
+
+                            } else if(direction === "right") {
+
+                                image_wrapper.animateShortcutMoveBeyondEdgeLeft = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeTop = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeBottom = true
+
+                                if(!image_wrapper.animateShortcutMoveBeyondEdgeRight) {
+                                    resetAnimateShortcutMoveBeyondEdgeRight.restart()
+                                    return
+                                }
+
+                                if(flickable.contentX > flickable.contentWidth-flickable.width-3) {
+                                    resetAnimateShortcutMoveBeyondEdgeRight.stop()
+                                    image_wrapper.animateShortcutMoveBeyondEdgeRight = false
+                                    resetAnimateShortcutMoveBeyondEdgeRight.restart()
+                                }
+
                                 flickable.flick(-1000,0)
-                            else if(direction === "up")
+
+                            } else if(direction === "up") {
+
+                                image_wrapper.animateShortcutMoveBeyondEdgeLeft = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeRight = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeBottom = true
+
+                                if(!image_wrapper.animateShortcutMoveBeyondEdgeTop) {
+                                    resetAnimateShortcutMoveBeyondEdgeTop.restart()
+                                    return
+                                }
+
+                                if(flickable.contentY < 3) {
+                                    resetAnimateShortcutMoveBeyondEdgeTop.stop()
+                                    image_wrapper.animateShortcutMoveBeyondEdgeTop = false
+                                    resetAnimateShortcutMoveBeyondEdgeTop.restart()
+                                }
+
                                 flickable.flick(0,1000)
-                            else if(direction === "down")
+
+                            } else if(direction === "down") {
+
+                                image_wrapper.animateShortcutMoveBeyondEdgeLeft = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeRight = true
+                                image_wrapper.animateShortcutMoveBeyondEdgeTop = true
+
+                                if(!image_wrapper.animateShortcutMoveBeyondEdgeBottom) {
+                                    resetAnimateShortcutMoveBeyondEdgeBottom.restart()
+                                    return
+                                }
+
+                                if(flickable.contentY > flickable.contentHeight-flickable.height-3) {
+                                    resetAnimateShortcutMoveBeyondEdgeBottom.stop()
+                                    image_wrapper.animateShortcutMoveBeyondEdgeBottom = false
+                                    resetAnimateShortcutMoveBeyondEdgeBottom.restart()
+                                }
+
                                 flickable.flick(0,-1000)
+
+                            }
 
                         }
 
