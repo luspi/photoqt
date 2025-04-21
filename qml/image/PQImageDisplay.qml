@@ -104,6 +104,8 @@ Loader {
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
         property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex) // qmllint disable unqualified
 
+        onIsMainImageChanged: setGlobalProperties()
+
         // some signals
         signal zoomInForKenBurns()
         signal zoomActualWithoutAnimation()
@@ -270,6 +272,18 @@ Loader {
                 loader_top.doExitPhotoSphere()
             }
 
+        }
+
+        function setGlobalProperties() {
+            if(loader_top.isMainImage) {
+                image_top.currentFileInside = 0 // qmllint disable unqualified
+                image_top.currentFilesInsideCount = 0
+                image_top.currentFileInsideFilename = ""
+                PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere
+                image_top.currentlyShowingVideo = loader_top.videoLoaded
+                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+            }
         }
 
         function doEnterPhotoSphere() {
@@ -920,9 +934,6 @@ Loader {
 
                         function onFinishSetup() {
 
-                            image_top.currentFileInside = 0 // qmllint disable unqualified
-                            image_top.currentFilesInsideCount = 0
-                            image_top.currentFileInsideFilename = ""
                             loader_top.listenToClicksOnImage = false
                             loader_top.videoPlaying = false
                             loader_top.videoLoaded = false
@@ -930,7 +941,6 @@ Loader {
                             loader_top.videoPosition = 0
                             loader_top.videoHasAudio = false
                             loader_top.thisIsAPhotoSphere = false
-                            PQCNotify.showingPhotoSphere = false
 
                             image_loader_pdf.active = false
                             image_loader_arc.active = false
@@ -960,16 +970,13 @@ Loader {
                                 image_loader_svg.active = true
                             } else if(loader_top.photoSphereManuallyEntered || PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource) && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)) {
                                 loader_top.thisIsAPhotoSphere = true
-                                PQCNotify.showingPhotoSphere = true
                                 image_loader_sph.active = true
                             } else {
                                 loader_top.thisIsAPhotoSphere = PQCScriptsImages.isPhotoSphere(imageloaderitem.imageSource)
                                 image_loader_img.active = true
                             }
 
-                            image_top.currentlyShowingVideo = loader_top.videoLoaded
-                            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-                            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+                            loader_top.setGlobalProperties()
 
                         }
 
