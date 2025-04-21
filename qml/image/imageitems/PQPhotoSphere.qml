@@ -94,7 +94,9 @@ PQCPhotoSphere { // qmllint disable
             // compute the rate of change initiated by this pinch
             var startLength = Math.sqrt(Math.pow(pinch.startPoint1.x-pinch.startPoint2.x, 2) + Math.pow(pinch.startPoint1.y-pinch.startPoint2.y, 2))
             var curLength = Math.sqrt(Math.pow(pinch.point1.x-pinch.point2.x, 2) + Math.pow(pinch.point1.y-pinch.point2.y, 2))
-            thesphere.fieldOfView = storeFieldOfView * (startLength / curLength)
+            // avoid division by zero. Can sometimes happen at the end of a pinch.
+            if(Math.abs(curLength) > 1e-12)
+                thesphere.fieldOfView = storeFieldOfView * (startLength / curLength)
         }
 
         MouseArea {
