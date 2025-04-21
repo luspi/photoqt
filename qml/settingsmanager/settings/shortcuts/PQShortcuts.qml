@@ -217,13 +217,9 @@ Flickable {
 
     property list<string> extensions: PQCExtensionsHandler.getExtensions()
 
-    property int numEntries: 0
-    property var entries: []
+    property var idToEntr: ({})
+    property var currentEntries: []
     property var defaultEntries: []
-
-    onEntriesChanged:
-        checkDefault()
-
     property var entriesHeights: []
 
     signal highlightEntry(var idx)
@@ -260,19 +256,35 @@ Flickable {
                 id: addnewgrp
                 text: qsTranslate("settingsmanager", "Add new shortcuts group")
                 onClicked: {
-                    setting_top.entries.unshift([[],[],1,0,0])
-                    setting_top.entriesChanged()
+                    filter_combo.text = ""
+                    filter_action.text = ""
+
+                    for(var i in idToEntr)
+                        idToEntr[i] = idToEntr[i]+1
+
+                    var newid = PQCScriptsOther.getUniqueId()
+                    idToEntr[newid] = 0
+
+                    shmodel.insert(0,
+                                   {"combosstr" : "",
+                                    "commandsstr" : "",
+                                    "cycling" : 1,
+                                    "cycletimeout" : 0,
+                                    "simultaneous" : 0,
+                                    "uniqueid" : newid})
                     highlightNew.restart()
                 }
             }
             // We use a short timeout to make sure the newly added item has been added and heights updated
             Timer {
                 id: highlightNew
-                interval: 50
+                interval: 100
                 repeat: false
                 running: false
                 onTriggered: {
-                    setting_top.ensureVisible(0)
+                    listview.positionViewAtBeginning()
+                    setting_top.highlightEntry(0)
+                    listview.positionViewAtBeginning()
                 }
             }
 
@@ -324,6 +336,13 @@ Flickable {
 
         }
 
+        Timer {
+            id: timerCheckDefault
+            interval: 250
+            onTriggered:
+                setting_top.checkDefault()
+        }
+
         ListView {
 
             id: listview
@@ -334,7 +353,7 @@ Flickable {
             orientation: ListView.Vertical
             clip: true
 
-            model: setting_top.numEntries
+            model: ListModel { id: shmodel }
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -345,15 +364,44 @@ Flickable {
 
                 id: deleg
 
-                required property int modelData
-
                 width: setting_top.width
 
-                property list<string> combos: setting_top.entries[modelData][0]
-                property list<string> commands: setting_top.entries[modelData][1]
-                property int cycle: setting_top.entries[modelData][2]
-                property int cycletimeout: setting_top.entries[modelData][3]
-                property int simultaneous: setting_top.entries[modelData][4]
+                required property int index
+                required property string combosstr
+                required property string commandsstr
+                required property int cycling
+                required property int cycletimeout
+                required property int simultaneous
+                required property int uniqueid
+
+                property list<string> combos: combosstr==="" ? [] : combosstr.split(":://::")
+                property list<string> commands: commandsstr==="" ? [] : commandsstr.split(":://::")
+
+                onCombosChanged: {
+                    var ind = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[ind][0] = combos
+                    timerCheckDefault.restart()
+                }
+                onCommandsChanged: {
+                    var ind = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[ind][1] = commands
+                    timerCheckDefault.restart()
+                }
+                onCyclingChanged: {
+                    var ind = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[ind][2] = cycling
+                    timerCheckDefault.restart()
+                }
+                onCycletimeoutChanged: {
+                    var ind = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[ind][3] = cycletimeout
+                    timerCheckDefault.restart()
+                }
+                onSimultaneousChanged: {
+                    var index = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[index][4] = simultaneous
+                    timerCheckDefault.restart()
+                }
 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -369,12 +417,11 @@ Flickable {
                 }
 
                 onHeightChanged: {
-                    setting_top.entriesHeights[modelData] = height
+                    setting_top.entriesHeights[deleg.index] = height
 
                     if(!deleteMe || height > 0)
                         return
-                    setting_top.entries.splice(deleg.modelData,1)
-                    setting_top.entriesChanged()
+                    shmodel.remove(deleg.index)
                 }
 
                 clip: true
@@ -433,7 +480,7 @@ Flickable {
 
                                     id: combodeleg
 
-                                    required property int modelData
+                                    required property int index
 
                                     x: (ontheleft.width-width)/2
                                     height: 60
@@ -453,8 +500,9 @@ Flickable {
                                         if(!deleteMe || width>0)
                                             return
 
-                                        setting_top.entries[deleg.modelData][0].splice(modelData,1)
-                                        setting_top.entriesChanged()
+                                        var oldcombos = deleg.combos
+                                        oldcombos.splice(index,1)
+                                        deleg.combosstr = oldcombos.join(":://::")
 
                                     }
 
@@ -495,7 +543,7 @@ Flickable {
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
                                             font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                                            text: shortcuts.item.translateShortcut(deleg.combos[combodeleg.modelData]) // qmllint disable unqualified
+                                            text: shortcuts.item.translateShortcut(deleg.combos[combodeleg.index]) // qmllint disable unqualified
                                             color: PQCLook.textColor // qmllint disable unqualified
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
@@ -510,7 +558,7 @@ Flickable {
                                             text: qsTranslate("settingsmanager", "Click to change key combination")
 
                                             onClicked:
-                                                newshortcut.show(deleg.modelData, combodeleg.modelData)
+                                                newshortcut.show(deleg.index, combodeleg.index)
 
                                         }
 
@@ -567,7 +615,7 @@ Flickable {
                                     text: qsTranslate("settingsmanager", "Click to add new key combination")
 
                                     onClicked: {
-                                        newshortcut.show(deleg.modelData, -1)
+                                        newshortcut.show(deleg.index, -1)
                                     }
 
                                 }
@@ -599,7 +647,7 @@ Flickable {
                         Connections {
                             target: setting_top
                             function onHighlightExisting(entryindex: int, entryid: string) {
-                                if(entryindex === deleg.modelData) {
+                                if(entryindex === deleg.index) {
                                     countdwn.s = 5
                                     undobut.entryid = entryid
                                     exstre.opacity = 1
@@ -634,9 +682,10 @@ Flickable {
                                     text: qsTranslate("settingsmanager", "Undo reassignment")
                                     onClicked: {
                                         var dat = setting_top.handleExisting[entryid]
-                                        setting_top.entries[dat[0]][0].push(dat[2])
-                                        setting_top.entries[dat[1]][0].splice(setting_top.entries[dat[1]][0].indexOf(dat[2]), 1)
-                                        setting_top.entriesChanged()
+                                        shmodel.get(dat[0]).combosstr = (shmodel.get(dat[0]).combosstr==="" ? dat[2] : (shmodel.get(dat[0]).combos + ":://::"+dat[2]))
+                                        var oldcombos = deleg.combos
+                                        oldcombos.splice(deleg.combos.indexOf(dat[2]), 1)
+                                        deleg.combosstr = oldcombos.join(":://::")
                                         exstre.opacity = 0
                                     }
                                     contextmenu.onVisibleChanged: {
@@ -723,9 +772,9 @@ Flickable {
 
                             id: cmddeleg
 
-                            required property int modelData
+                            required property int index
 
-                            property string cmd: deleg.commands[modelData]
+                            property string cmd: deleg.commands[index]
 
                             width: ontheright.width
                             height: c2.height+10
@@ -746,8 +795,9 @@ Flickable {
                             onHeightChanged: {
                                 if(!deleteMe || height > 0)
                                     return
-                                setting_top.entries[deleg.modelData][1].splice(modelData,1)
-                                setting_top.entriesChanged()
+                                var oldcommands = deleg.commands
+                                oldcommands.splice(index,1)
+                                deleg.commandsstr = oldcommands.join(":://::")
                             }
 
                             // shortcut action
@@ -778,7 +828,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 text: qsTranslate("settingsmanager", "Click to change shortcut action")
                                 onClicked: {
-                                    newaction.change(deleg.modelData, cmddeleg.modelData)
+                                    newaction.change(deleg.index, cmddeleg.index)
                                 }
                             }
 
@@ -851,7 +901,7 @@ Flickable {
                                 //: The action here is a shortcut action
                                 text: qsTranslate("settingsmanager", "Click to add new action")
                                 onClicked: {
-                                    newaction.show(deleg.modelData)
+                                    newaction.show(deleg.index)
                                 }
 
                             }
@@ -900,12 +950,11 @@ Flickable {
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "cycle through actions one by one")
                                 font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
-                                checked: deleg.cycle
+                                checked: deleg.cycling
                                 ButtonGroup.group: radioGroup
                                 onCheckedChanged: {
-                                    setting_top.entries[deleg.modelData][2] = (checked ? 1 : 0)
-                                    setting_top.entries[deleg.modelData][4] = (checked ? 0 : 1)
-                                    setting_top.entriesChanged()
+                                    deleg.cycling = (checked ? 1 : 0)
+                                    deleg.simultaneous = (checked ? 0 : 1)
                                 }
                             }
 
@@ -937,8 +986,7 @@ Flickable {
                                     value: deleg.cycletimeout
                                     enabled: timeout_check.checked&&radio_cycle.checked
                                     onValueChanged: {
-                                        setting_top.entries[deleg.modelData][3] = cycletimeout_slider.value
-                                        setting_top.entriesChanged()
+                                        deleg.cycletimeout = cycletimeout_slider.value
                                     }
                                 }
 
@@ -970,9 +1018,8 @@ Flickable {
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
                                 onCheckedChanged: {
-                                    setting_top.entries[deleg.modelData][2] = (checked ? 0 : 1)
-                                    setting_top.entries[deleg.modelData][4] = (checked ? 1 : 0)
-                                    setting_top.entriesChanged()
+                                    deleg.cycling = (checked ? 0 : 1)
+                                    deleg.simultaneous = (checked ? 1 : 0)
                                 }
                             }
 
@@ -1011,14 +1058,15 @@ Flickable {
                 Connections {
                     target: setting_top
                     function onHighlightEntry(idx: int) {
-                        if(idx === deleg.modelData) {
+                        if(idx === deleg.index) {
                             deleg.color = PQCLook.baseColorHighlight // qmllint disable unqualified
                         }
                     }
                 }
 
                 Component.onCompleted: {
-                    setting_top.entriesHeights[deleg.modelData] = height
+
+                    setting_top.entriesHeights[deleg.index] = height
                     performFilter()
                 }
 
@@ -1117,6 +1165,10 @@ Flickable {
 
         onNewCombo: (index, subindex, combo) => {
 
+            console.log("args: index =", index)
+            console.log("args: subindex =", subindex)
+            console.log("args: combo =", combo)
+
             // this case should never actually happen
             if(combo.startsWith("Left Button")) {
                 return
@@ -1124,9 +1176,12 @@ Flickable {
 
             // first we need to check if that shortcut is already used somewhere
             var usedIndex = -1
-            for(var i in setting_top.entries) {
-                var combos = setting_top.entries[i][0]
-                if(combos.includes(combo)) {
+            for(var i = 0; i < shmodel.count; ++i) {
+                if(index === i) {
+                    // if we checking the current index, if the shortcut is already set we don't need to do anything
+                    if(shmodel.get(i).combosstr.split(":://::").includes(combo))
+                        return
+                } else if(shmodel.get(i).combosstr.split(":://::").includes(combo)) {
                     usedIndex = i
                     break
                 }
@@ -1136,16 +1191,22 @@ Flickable {
             if(usedIndex != -1) {
                 var newid = PQCScriptsOther.getUniqueId() // qmllint disable unqualified
                 setting_top.handleExisting[newid] = [usedIndex, index, combo]
-                setting_top.entries[usedIndex][0].splice(setting_top.entries[usedIndex][0].indexOf(combo), 1)
-                setting_top.entriesChanged()
+                var val = shmodel.get(usedIndex).combosstr.split(":://::")
+                val.splice(val.indexOf(combo), 1)
+                shmodel.get(usedIndex).combosstr = val.join(":://::")
                 setting_top.highlightExisting(index, newid)
             }
 
-            if(subindex === -1)
-                setting_top.entries[index][0].push(combo)
-            else
-                setting_top.entries[index][0][subindex] = combo
-            setting_top.entriesChanged()
+            if(subindex === -1) {
+                if(shmodel.get(index).combosstr === "")
+                    shmodel.get(index).combosstr = combo
+                else
+                    shmodel.get(index).combosstr += ":://::"+combo
+            } else {
+                var val2 = shmodel.get(index).combosstr.split(":://::")
+                val[subindex] = combo
+                shmodel.get(index).combosstr = val2.join(":://::")
+            }
 
         }
 
@@ -1159,15 +1220,18 @@ Flickable {
 
         onAddAction: (idx, act) => {
 
-            setting_top.entries[idx][1].push(act)
-            setting_top.entriesChanged()
+            if(shmodel.get(idx).commandsstr === "")
+                shmodel.get(idx).commandsstr = act
+            else
+                shmodel.get(idx).commandsstr += ":://::"+act
 
         }
 
         onUpdateAction: (idx, subidx, act) => {
 
-            setting_top.entries[idx][1][subidx] = act
-            setting_top.entriesChanged()
+            var val = shmodel.get(idx).commandsstr.split(":://::")
+            val[subidx] = act
+            shmodel.get(idx).commandsstr = val.join(":://::")
 
         }
 
@@ -1218,7 +1282,8 @@ Flickable {
             return
         }
 
-        settingChanged = !areTwoListsEqual(entries, defaultEntries)
+        settingChanged = !areTwoListsEqual(currentEntries, defaultEntries)
+
     }
 
     function ensureVisible(index: int) {
@@ -1246,9 +1311,24 @@ Flickable {
         filter_action.text = ""
         filter_combo.text = ""
         filter_category.currentIndex = 0
-        setting_top.entries = PQCShortcuts.getAllCurrentShortcuts() // qmllint disable unqualified
-        setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
-        setting_top.numEntries = setting_top.entries.length
+
+        currentEntries = PQCShortcuts.getAllCurrentShortcuts()
+        defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
+
+        shmodel.clear()
+
+        for(var i = 0; i < currentEntries.length; ++i) {
+
+            var newid = i
+            idToEntr[newid] = i
+
+            shmodel.append({"combosstr" : currentEntries[i][0].join(":://::"),
+                            "commandsstr" : currentEntries[i][1].join(":://::"),
+                            "cycling" : currentEntries[i][2],
+                            "cycletimeout" : currentEntries[i][3],
+                            "simultaneous" : currentEntries[i][4],
+                            "uniqueid" : newid})
+        }
 
         settingChanged = false
         settingsLoaded = true
@@ -1256,8 +1336,9 @@ Flickable {
     }
 
     function applyChanges() {
-        PQCShortcuts.saveAllCurrentShortcuts(setting_top.entries) // qmllint disable unqualified
-        setting_top.defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
+
+        PQCShortcuts.saveAllCurrentShortcuts(currentEntries) // qmllint disable unqualified
+        defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
         settingChanged = false
     }
 

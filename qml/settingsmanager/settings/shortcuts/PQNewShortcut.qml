@@ -468,14 +468,14 @@ Rectangle {
 
     function restartSaveTimer() {
         canceltimer.stop()
-        savetimer.countdown = 5
+        savetimer.countdown = 1
         savetimer.start()
     }
 
     function stopSaveTimer() {
         canceltimer.stop()
         savetimer.stop()
-        savetimer.countdown = 5
+        savetimer.countdown = 1
     }
 
 }
