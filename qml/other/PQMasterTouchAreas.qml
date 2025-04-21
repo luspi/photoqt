@@ -60,7 +60,7 @@ Item {
 
             if(cmdTriggered) return
 
-            if(Math.abs(points[0].y-initPoint.y) < 50 && points[0].x-initPoint.x > 50) {
+            if(points[0].x-initPoint.x > 50) {
 
                 cmdTriggered = true
                 mastertouch_top.handleEdge("lefttoright")
@@ -104,7 +104,7 @@ Item {
 
             if(cmdTriggered) return
 
-            if(Math.abs(points[0].y-initPoint.y) < 50 && initPoint.x-points[0].x > 50) {
+            if(initPoint.x-points[0].x > 50) {
 
                 cmdTriggered = true
                 mastertouch_top.handleEdge("righttoleft")
@@ -147,7 +147,7 @@ Item {
 
             if(cmdTriggered) return
 
-            if(Math.abs(points[0].x-initPoint.x) < 50 && points[0].y-initPoint.y > 50) {
+            if(points[0].y-initPoint.y > 50) {
 
                 cmdTriggered = true
                 mastertouch_top.handleEdge("toptobottom")
@@ -191,7 +191,7 @@ Item {
 
             if(cmdTriggered) return
 
-            if(Math.abs(points[0].x-initPoint.x) < 50 && initPoint.y-points[0].y > 50) {
+            if(initPoint.y-points[0].y > 50) {
 
                 cmdTriggered = true
                 mastertouch_top.handleEdge("bottomtotop")
