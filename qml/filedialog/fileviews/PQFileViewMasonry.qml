@@ -601,7 +601,8 @@ Flickable {
     }
 
     function findCurrentRowColumn() {
-        var curCol, curRow
+        var curCol = -1
+        var curRow = -1
         for(var i = 0; i < masonryview.numColumns; ++i) {
             curRow = columnIndices[i].indexOf(view_top.currentIndex)
             if(curRow > -1) {
@@ -659,6 +660,8 @@ Flickable {
     function ensureCurrentItemIsVisible() {
 
         var curColRow = findCurrentRowColumn()
+        if(curColRow[0] === -1)
+            return
 
         var itm = listviews[curColRow[0]].get(curColRow[1])
         if(itm.offsetY < masonryview.contentY) {
