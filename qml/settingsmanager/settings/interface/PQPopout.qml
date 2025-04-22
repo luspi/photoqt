@@ -88,9 +88,9 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["extensionsHistogramPopout", qsTranslate("settingsmanager", "Histogram")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutMapCurrent", qsTranslate("settingsmanager", "Map (current image)")],
+                        ["extensionsMapCurrentPopout", qsTranslate("settingsmanager", "Map (current image)")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutScale", qsTranslate("settingsmanager", "Scale")],
+                        ["extensionsScaleImagePopout", qsTranslate("settingsmanager", "Scale")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager", "Slideshow setup")],
                         //: Used as identifying name for one of the elements in the interface
@@ -100,13 +100,13 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFileDelete", qsTranslate("settingsmanager", "Delete file")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutExport", qsTranslate("settingsmanager", "Export file")],
+                        ["extensionsExportImagePopout", qsTranslate("settingsmanager", "Export file")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutAbout", qsTranslate("settingsmanager", "About")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutImgur", qsTranslate("settingsmanager", "Imgur")],
+                        ["extensionsImgurComPopout", qsTranslate("settingsmanager", "Imgur")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutWallpaper", qsTranslate("settingsmanager", "Wallpaper")],
+                        ["extensionsWallpaperPopout", qsTranslate("settingsmanager", "Wallpaper")],
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFilter", qsTranslate("settingsmanager", "Filter")],
                         //: Used as identifying name for one of the elements in the interface
@@ -116,9 +116,9 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")],
                          //: Used as identifying name for one of the elements in the interface
-                        ["interfacePopoutCrop", qsTranslate("settingsmanager", "Crop")],
+                        ["extensionsCropImagePopout", qsTranslate("settingsmanager", "Crop")],
                          //: Used as identifying name for one of the elements in the interface
-                        ["extensionsPopoutQuickActions", qsTranslate("settingsmanager", "Quick Actions")]]
+                        ["extensionsQuickActionsPopout", qsTranslate("settingsmanager", "Quick Actions")]]
 
     property list<string> currentCheckBoxStates: ["0","0","0","0","0",
                                                   "0","0","0","0","0",
