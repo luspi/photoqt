@@ -752,6 +752,7 @@ bool PQCShortcuts::migrate(QString oldversion) {
 void PQCShortcuts::resetToDefault() {
 
     setDefault();
+    setupFresh();
     readDB();
 
 }
