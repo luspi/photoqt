@@ -510,7 +510,7 @@ Flickable {
                                         id: chk_fs
                                         checkable: true
                                         //: context menu entry, please keep short!
-                                        text: qsTranslate("settingsmanager", "only in fullscren")
+                                        text: qsTranslate("settingsmanager", "only in fullscreen")
                                         onCheckedChanged: {
                                             if(checked)
                                                 chk_wm.checked = false
