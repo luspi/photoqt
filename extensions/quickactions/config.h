@@ -26,7 +26,7 @@ public:
             {"QuickActionsItems",  "extensions", "list", "rename:://::delete:://::|:://::rotateleft:://::rotateright:://::mirrorhor:://::mirrorver:://::|:://::crop:://::scale:://::|:://::close"},
             {"QuickActionsHeight", "extensions", "int",  "40"},
             {"QuickActions",       "extensions", "bool", "0"},
-            {"PopoutQuickActions", "extensions", "bool", "0"}
+            {"QuickActionsPopout", "extensions", "bool", "0"}
         };
 
         doAtStartup = {
