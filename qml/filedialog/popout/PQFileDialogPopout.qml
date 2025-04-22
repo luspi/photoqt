@@ -43,6 +43,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
+        PQCNotify.loaderRegisterClose("filedialog")
         PQCNotify.loaderPassOn("forceClose", []) // qmllint disable unqualified
     }
 
