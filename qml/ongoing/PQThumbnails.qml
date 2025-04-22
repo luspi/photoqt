@@ -384,7 +384,9 @@ Item {
 
             // the active property is set when either the current thumbnail corresponds to the main image
             // or when the mouse is hovering the current thumbnail
-            property bool active: modelData===PQCFileFolderModel.currentIndex || modelData===view.highlightIndex // qmllint disable unqualified
+            property bool active: modelData===PQCFileFolderModel.currentIndex || // qmllint disable unqualified
+                                  modelData===thumbnails_top.menuReloadIndex ||
+                                  modelData===view.highlightIndex
             onActiveChanged: {
                 if(active) {
                     view.delegZ += 1
@@ -873,8 +875,10 @@ Item {
                 id: recordAsClosed
                 interval: 200
                 onTriggered: {
-                    if(!menudeleg.visible)
+                    if(!menudeleg.visible) {
+                        thumbnails_top.menuReloadIndex = -1
                         PQCNotify.removeFromWhichContextMenusOpen("thumbnails") // qmllint disable unqualified
+                    }
                 }
             }
 
