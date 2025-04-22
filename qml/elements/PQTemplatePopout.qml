@@ -93,13 +93,17 @@ Window {
         updateGeometry.restart()
     onWidthChanged: {
         updateGeometry.restart()
-        minimumWidth = width
-        maximumWidth = width
+        if(makeWindowNotResizable) {
+            minimumWidth = width
+            maximumWidth = width
+        }
     }
     onHeightChanged: {
         updateGeometry.restart()
-        minimumHeight = height
-        maximumHeight = height
+        if(makeWindowNotResizable) {
+            minimumHeight = height
+            maximumHeight = height
+        }
     }
     onVisibilityChanged:
         updateMaxStatus.restart()
