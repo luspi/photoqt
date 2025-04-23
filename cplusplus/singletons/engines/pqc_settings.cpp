@@ -38,9 +38,8 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
     QFile::remove(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
     QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
     dbDefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
-    dbDefault.open();
     if(!dbDefault.open()) {
-        qCritical() << "ERROR opening default database!";
+        qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
         QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
                               QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
         return;

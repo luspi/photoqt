@@ -137,6 +137,7 @@ void PQCStartup::setupFresh() {
     // make sure necessary folder exist
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
+    dir.mkpath(PQCConfigFiles::get().CACHE_DIR());
     dir.mkpath(QFileInfo(PQCConfigFiles::get().USER_PLACES_XBEL()).absolutePath());
     dir.mkpath(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR());
     dir.mkpath(QString("%1/normal/").arg(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()));
