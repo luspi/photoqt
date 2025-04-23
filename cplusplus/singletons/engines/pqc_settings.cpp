@@ -836,6 +836,14 @@ int PQCSettings::migrate(QString oldversion) {
         /// EXTENSIONS
 
         /////////////////////////////////////////////////////
+        // make sure extensions table exists
+
+        QSqlQuery queryTabIns(db);
+        if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
+            qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
+        queryTabIns.clear();
+
+        /////////////////////////////////////////////////////
         // check for migrations for extensions
 
         const QStringList ext = PQCExtensionsHandler::get().getExtensions();
@@ -844,11 +852,6 @@ int PQCSettings::migrate(QString oldversion) {
 
         /////////////////////////////////////////////////////
         // check for existence of settings for extensions
-
-        QSqlQuery queryTabIns(db);
-        if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
-            qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
-        queryTabIns.clear();
 
         // ext is already defined ahead of the for loop above
         for(const QString &e : ext) {
@@ -940,7 +943,7 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                 // check old key exists
                 // if not then no migration needs to be done
                 // we check for existence of all settings later
-                query.prepare(QString("SELECT `value`,`datatype` FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                query.prepare(QString("SELECT `value`,`datatype` FROM '%1' WHERE `name`=:nme").arg(entry[1]));
                 query.bindValue(":nme", entry[0]);
                 if(!query.exec()) {
                     qWarning() << "Query failed to execute:" << query.lastError().text();
@@ -964,23 +967,27 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
                     // If there is a new entry to be added
                     if(entry[2] != "") {
 
+                        QSqlQuery query2(db);
                         // enter new values if they don't exist already
-                        query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(entry[3]));
-                        query.bindValue(":nme", entry[2]);
-                        query.bindValue(":val", old_value);
-                        query.bindValue(":dat", old_datatype);
-                        if(!query.exec()) {
-                            qWarning() << "Unable to migrate setting:" << query.lastError().text();
-                            qWarning() << "Failed migration:" << entry;
+                        query2.prepare(QString("INSERT INTO %1 (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT(`name`) DO UPDATE SET `value`=:val2,`datatype`=:dat2").arg(entry[3]));
+                        query2.bindValue(":nme", entry[2]);
+                        query2.bindValue(":val", old_value);
+                        query2.bindValue(":dat", old_datatype);
+                        query2.bindValue(":val2", old_value);
+                        query2.bindValue(":dat2", old_datatype);
+                        if(!query2.exec()) {
+                            qWarning() << "Unable to migrate setting:" << query2.lastError().text();
+                            qWarning() << "Failed query:" << query2.lastQuery();
+                            qWarning() << "Failed migration:" << entry << "//" << old_value << "/" << old_datatype;
                             continue;
                         }
 
-                        query.clear();
+                        query2.clear();
 
                     }
 
                     // delete old entry
-                    query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(entry[1]));
+                    query.prepare(QString("DELETE FROM '%1' WHERE `name`=:nme").arg(entry[1]));
                     query.bindValue(":nme", entry[0]);
                     if(!query.exec()) {
                         qWarning() << "Failed to delete old entry:" << query.lastError().text();

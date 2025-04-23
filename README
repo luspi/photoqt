@@ -4,14 +4,14 @@
 
  PhotoQt is a simple yet powerful and good looking image viewer, based on Qt/QML, published as open-source, and completely free. It is fast and highly configurable with a wide range of features and supported image formats.
 
- 
+
  FEATURES
 ----------
 
  PhotoQt is an image viewer that provides a simple and uncluttered interface. Yet, hidden beneath the surface awaits a large array of features. Here are some of its main features (not an exhaustive list). Suggestions for new features are always welcome!
 
 - Support of up to more than 140 IMAGE FORMATS. A list of all possibly supported image formats can be found on the website: https://photoqt.org/formats
-- TOUCHSCREEN support, including pinch-to-zoom
+- TOUCHSCREEN support, including pinch-to-zoom and various TOUCH GESTURES
 - Support for PHOTO SPHERES and 360 DEGREE PANORAMAS using equirectangular projection
 - Support for MOTION PHOTOS, MICRO VIDEOS, and APPLE LIVE PHOTOS
 - Showing GPS locations of images with an EMBEDDED MAP or explore all images with location data in current folder with an INTERACTIVE MAP
@@ -55,6 +55,6 @@
  LICENSE
 ---------
 
- PhotoQt is released under the GPLv2 (or later) license. 
+ PhotoQt is released under the GPLv2 (or later) license.
 
 

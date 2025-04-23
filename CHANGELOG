@@ -1,7 +1,39 @@
-Changelog PhotoQt - Copyright (C) 2011-2024, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
+Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
-Release 4.8.1 - 2024-02-13
+Release 4.9 - 2025-04-23
+----------------------------
+
+- add: file dialog: masonry layout for file view
+- add: new quick actions: floating element with shortcuts for several actions to manipulate current image
+- add: hardcoded reset shortcut (Ctrl+Alt+Shift+R) to reset PhotoQt to initial default categories
+- add: settings manager: reset individual settings group to its defaults
+- add: option (on by default) to always exclude network shares from any sort of caching/preloading
+- add: new shortcuts to flick images around, change existing moveImage shortcut to move images more statically
+- improve: much improved touch handling, including various touch gestures
+- improve: file view: grid layout always extends across the full width
+- improve: fully customizable integrated window buttons
+- improve: rate limit notifications to 1 per second
+- improve: new delete/move file icons
+- improve: prefer singleton classes over far-reaching id accesses in parts
+- improve: more resilient settings handling
+- improve: change setting to disable interpolation for small images to images smaller than window size
+- improve: rework fileview structure to be more efficient
+- improve: Wayland: optionally integrate subset of code from wayland-info to detect screen scaling factor
+- improve: behind the scenes preparation for extensions structure (to come soon)
+- improve: desktop file: add missing image/x-icns mimetype
+- improve: install scripts for Windows
+- fix: fit small images into window
+- fix: loading images with certain special characters in filenames
+- fix: file view: some times mouse hover events would stop being registered
+- fix: changing custom context menu entries at runtime no longer randomly orders context menu
+- fix: remove large empty gaps in context menu with certain actions disabled
+- fix: always ensure to set certain image properties only (and always) if image is main image
+- fix: sometimes at the end of a pinch by touchscreen the image would disappear altogether
+- fix: closing popped out filedialog window properly records it as closed
+
+
+Release 4.8.1 - 2025-02-13
 ----------------------------
 - add: image formats: bmq, cine, cs1, dxo, jfif, obm, pdd, pxr, qtk, r3d, rdc, rwz, sti, x3f
 - add: status info: option to position at left, center, or right
@@ -32,7 +64,7 @@ Release 4.8.1 - 2024-02-13
 - change: renamed CMake options to be more consistent
 
 
-Release 4.8 - 2024-01-25
+Release 4.8 - 2025-01-25
 ----------------------------
 - add: zoom and pich to mouse/pinch position
 - add: touchpad pinches for zooming images
