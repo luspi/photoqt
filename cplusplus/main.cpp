@@ -311,12 +311,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     QQmlApplicationEngine engine;
-    QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreationFailed,
-        &app,
-        []() { QCoreApplication::exit(-1); },
-        Qt::QueuedConnection);
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
 
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
@@ -367,7 +362,7 @@ int main(int argc, char *argv[]) {
     // if MPV support is disabled, then this is an empty object
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 
-    engine.loadFromModule("src", "PQMainWindow");
+    engine.load("qrc:/src/qml/PQMainWindow.qml");
 
     int ret = app.exec();
 
