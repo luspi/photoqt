@@ -141,7 +141,7 @@ PQTemplateFloating {
             zoomLevel: 1
             Behavior on zoomLevel { NumberAnimation { duration: 100 } }
 
-            activeMapType: supportedMapTypes[supportedMapTypes.length > 4 ? 5 : (supportedMapTypes.length-1)]
+            activeMapType: supportedMapTypes[supportedMapTypes.length > 5 ? 5 : (supportedMapTypes.length-1)]
 
             WheelHandler {
                 id: wheel
