@@ -361,6 +361,9 @@ PQSetting {
             opts.push(model.get(i).name)
         PQCSettings.extensionsQuickActionsItems = opts
 
+        if(quick_show.checked)
+            PQCNotify.loaderShowExtension("quickactions")
+
         quick_show.saveDefault()
 
     }
