@@ -1,6 +1,9 @@
 SET(photoqt_SOURCES ${photoqt_SOURCES} extensions/pqc_extensionshandler.cpp extensions/pqc_configtemplate.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} cplusplus/header/pqc_extensionshandler.h)
 
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} extensions/pqc_extensionshandler.cpp extensions/pqc_configtemplate.h)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} cplusplus/header/pqc_extensionshandler.h)
+
 # LIST ALL EXTENSIONS HERE
 SET(EXT "QuickActions" "FloatingNavigation" "Histogram" "MapCurrent")
 SET(EXT ${EXT} "ScaleImage" "CropImage" "Wallpaper" "ExportImage" "ImgurCom")

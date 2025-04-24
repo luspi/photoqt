@@ -35,11 +35,11 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
         dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
-    QFile::remove(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
-    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
-    dbDefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
+    QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     if(!dbDefault.open()) {
-        qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().CACHE_DIR() + "/defaultsettings.db");
+        qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().DEFAULTSETTINGS_DB());
         QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
                               QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
         return;

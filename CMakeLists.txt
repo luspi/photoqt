@@ -523,6 +523,7 @@ if(WITH_TESTING)
     target_include_directories(photoqt_test PRIVATE "cplusplus/header")
     target_compile_definitions(photoqt_test PRIVATE PQMVERSION="${APPVERSION}")
     target_include_directories(photoqt_test PRIVATE "cplusplus/header")
+    target_include_directories(photoqt_test PRIVATE "extensions")
 endif()
 
 ###############################

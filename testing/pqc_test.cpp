@@ -40,7 +40,8 @@ void PQCTest::init() {
     dir.mkpath(QDir::tempPath() + "/photoqt_test");
 
     QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB());
-    QFile::copy(":/settings.db", PQCConfigFiles::get().SETTINGS_DB());
+    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().USERSETTINGS_DB());
+    QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB());
     QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB());
     QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB());
     QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB());
@@ -48,7 +49,10 @@ void PQCTest::init() {
     QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
-    file.setFileName(PQCConfigFiles::get().SETTINGS_DB());
+    file.setFileName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+
+    file.setFileName(PQCConfigFiles::get().USERSETTINGS_DB());
     file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
 
     file.setFileName(PQCConfigFiles::get().LOCATION_DB());
@@ -66,7 +70,8 @@ void PQCTest::init() {
 void PQCTest::cleanup() {
 
     QFile::remove(PQCConfigFiles::get().IMAGEFORMATS_DB());
-    QFile::remove(PQCConfigFiles::get().SETTINGS_DB());
+    QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    QFile::remove(PQCConfigFiles::get().USERSETTINGS_DB());
     QFile::remove(PQCConfigFiles::get().LOCATION_DB());
     QFile::remove(PQCConfigFiles::get().CONTEXTMENU_DB());
     QFile::remove(PQCConfigFiles::get().SHORTCUTS_DB());
@@ -223,7 +228,7 @@ void PQCTest::testExportImport() {
     QVERIFY(PQCScriptsConfig::get().importConfigFrom(QDir::tempPath()+"/photoqt_test/export.pqt"));
 
     QStringList checker;
-    checker << ":/settings.db" << PQCConfigFiles::get().SETTINGS_DB();
+    checker << ":/usersettings.db" << PQCConfigFiles::get().USERSETTINGS_DB();
     checker << ":/contextmenu.db" << PQCConfigFiles::get().CONTEXTMENU_DB();
     checker << ":/shortcuts.db" << PQCConfigFiles::get().SHORTCUTS_DB();
     checker << ":/imageformats.db" << PQCConfigFiles::get().IMAGEFORMATS_DB();
