@@ -209,7 +209,10 @@ Flickable {
                 else
                     PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
                 origIndex = langcombo.currentIndex
-                PQCScriptsConfig.updateTranslation()
+
+                // DO NOT REFRESH THE INTERFACE WITH THE NEW TRANSLATIONS HERE
+                // updating the interface will reset the currentIndex of that popup
+                // thus, we refresh the update from that group!
 
             }
 
@@ -1134,6 +1137,14 @@ Flickable {
 
                 bgcustomusecheck.saveDefault()
                 bgaccentusecheck.saveDefault()
+
+                // this needs to happen after saving the above
+                // and afterwards we need to reset the index
+                // otherwise the currentIndex will be reset when updating the translations
+                PQCScriptsConfig.updateTranslation()
+                var index = accentcolor.hexes.indexOf(PQCSettings.interfaceAccentColor)
+                if(index === -1) index = accentcolor.options.length-1
+                accentcolor.loadAndSetDefault(index)
 
             }
 
