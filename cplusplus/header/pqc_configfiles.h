@@ -164,6 +164,11 @@ private:
         m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 #endif
 
+        QDir dir;
+        dir.mkpath(m_CONFIG_DIR);
+        dir.mkpath(m_DATA_DIR);
+        dir.mkpath(m_CACHE_DIR);
+
 #ifdef PQMPORTABLETWEAKS
     #ifdef Q_OS_WIN
         m_USER_TRASH_FILES = QString("%1/photoqt-data/Trash/files").arg(photoqt_exe_basedir);
@@ -182,6 +187,7 @@ private:
     #endif
 #else
         m_USER_PLACES_XBEL = QString("%1/user-places.xbel").arg(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation));
 #endif
 
 #ifdef PQMPORTABLETWEAKS
@@ -192,6 +198,7 @@ private:
     #endif
 #else
         m_THUMBNAIL_CACHE_DIR = QString("%1/thumbnails").arg(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
+        dir.mkpath(QStandardPaths::writableLocation(QStandardPaths::GenericCacheLocation));
 #endif
 
         m_CONTEXTMENU_DB = QString("%1/contextmenu.db").arg(CONFIG_DIR());
