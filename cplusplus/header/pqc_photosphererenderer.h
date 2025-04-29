@@ -23,6 +23,8 @@
 #ifndef PQC_PHOTOSPHERERENDERER
 #define PQC_PHOTOSPHERERENDERER
 
+#ifdef PQMPHOTOSPHERE
+
 #include <QQuickFramebufferObject>
 #include <QMatrix4x4>
 
@@ -57,5 +59,7 @@ public:
     QOpenGLTexture *texturePhotoSphere;
 
 };
+
+#endif
 
 #endif

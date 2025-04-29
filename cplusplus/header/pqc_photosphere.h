@@ -25,9 +25,15 @@
 
 // This is the QML type
 
+#ifdef PQMPHOTOSPHERE
 #include <QQuickFramebufferObject>
 
 class PQCPhotoSphere : public QQuickFramebufferObject {
+#else
+#include <QQuickItem>
+
+class PQCPhotoSphere : public QQuickItem {
+#endif
 
     Q_OBJECT
     QML_ELEMENT
@@ -63,9 +69,11 @@ Q_SIGNALS:
     void sourceChanged();
 
 protected:
+#ifdef PQMPHOTOSPHERE
     QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *data) override;
     Renderer *createRenderer() const override;
     void updateSphere();
+#endif
 
 private:
     QByteArray image;

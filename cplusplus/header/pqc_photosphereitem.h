@@ -23,6 +23,8 @@
 #ifndef PQC_PHOTOSPHERE
 #define PQC_PHOTOSPHERE
 
+#ifdef PQMPHOTOSPHERE
+
 #include <QVector3D>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
@@ -46,6 +48,8 @@ private:
     bool isSetup = false;
 
 };
+
+#endif
 
 #endif
 

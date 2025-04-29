@@ -21,6 +21,8 @@
  **************************************************************************/
 
 #include <pqc_photosphere.h>
+
+#ifdef PQMPHOTOSPHERE
 #include <pqc_photosphererenderer.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
@@ -34,6 +36,9 @@
 #endif
 
 PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickFramebufferObject(parent), recreateRenderer(false) {
+#else
+PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickItem(parent) {
+#endif
 
     m_azimuth = 180;
     m_elevation = 0;
@@ -41,9 +46,11 @@ PQCPhotoSphere::PQCPhotoSphere(QQuickItem *parent) : QQuickFramebufferObject(par
 
     partial = false;
 
+#ifdef PQMPHOTOSPHERE
     setFlag(ItemHasContents);
     setTextureFollowsItemSize(true);
     setMirrorVertically(true);
+#endif
 
 }
 
@@ -63,8 +70,10 @@ void PQCPhotoSphere::setAzimuth(double azimuth) {
     if(azimuth == m_azimuth)
         return;
 
+#ifdef PQMPHOTOSPHERE
     m_azimuth = azimuth;
     updateSphere();
+#endif
     Q_EMIT azimuthChanged();
 
 }
@@ -78,8 +87,10 @@ void PQCPhotoSphere::setElevation(double elevation) {
     if(elevation == m_elevation || !qIsFinite(elevation))
         return;
 
+#ifdef PQMPHOTOSPHERE
     m_elevation = qBound<double>(-90.0, elevation, 90.0);
     updateSphere();
+#endif
     Q_EMIT elevationChanged();
 
 }
@@ -93,8 +104,11 @@ void PQCPhotoSphere::setFieldOfView(double fieldOfView) {
     if(fieldOfView == m_fieldOfView || fieldOfView < 3.0 || fieldOfView > 150.0)
         return;
 
+#ifdef PQMPHOTOSPHERE
     m_fieldOfView = fieldOfView;
     updateSphere();
+#endif
+
     Q_EMIT fieldOfViewChanged();
 
 }
@@ -104,6 +118,8 @@ QString PQCPhotoSphere::getSource() {
 }
 
 void PQCPhotoSphere::setSource(QString path) {
+
+#ifdef PQMPHOTOSPHERE
 
     path = QUrl::fromPercentEncoding(path.toUtf8());
 
@@ -201,6 +217,8 @@ void PQCPhotoSphere::setSource(QString path) {
 
     recreateRenderer = true;
 
+#endif
+
 }
 
 
@@ -220,6 +238,7 @@ QSize PQCPhotoSphere::getFullSize() {
     return fullSize;
 }
 
+#ifdef PQMPHOTOSPHERE
 QSGNode *PQCPhotoSphere::updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *updatePaintNodeData) {
 
     if(oldNode && recreateRenderer) {
@@ -241,3 +260,4 @@ void PQCPhotoSphere::updateSphere() {
     polish();
     update();
 }
+#endif

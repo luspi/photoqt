@@ -20,6 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
+#ifdef PQMPHOTOSPHERE
+
 #include "pqc_photosphereitem.h"
 
 #include <QOpenGLFunctions>
@@ -143,3 +145,5 @@ void PQCPhotoSphereItem::drawSphere() {
     QOpenGLVertexArrayObject::Binder vertexArrowBinderBinder(&vertexArrowObject);
     QOpenGLContext::currentContext()->functions()->glDrawArrays(GL_TRIANGLES, 0, sphereVertices.size());
 }
+
+#endif

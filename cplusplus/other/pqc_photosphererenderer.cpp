@@ -20,6 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
+#ifdef PQMPHOTOSPHERE
+
 #include <pqc_photosphererenderer.h>
 
 #include <QOpenGLFramebufferObjectFormat>
@@ -158,3 +160,5 @@ void PQCPhotoSphereRenderer::synchronize(QQuickFramebufferObject *item) {
 
     }
 }
+
+#endif
