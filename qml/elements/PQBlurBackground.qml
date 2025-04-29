@@ -47,9 +47,11 @@ Item {
 
     property int bluruntil: thisis!=="" ? itemkeys.indexOf(thisis) : itemkeys.length
 
+    property bool resetBlur: false
+
     Repeater {
 
-        model: PQCSettings.interfaceBlurElementsInBackground ? blur_top.bluruntil : 0 // qmllint disable unqualified
+        model: (PQCSettings.interfaceBlurElementsInBackground && !blur_top.resetBlur) ? blur_top.bluruntil : 0 // qmllint disable unqualified
 
         Item {
 
@@ -89,5 +91,26 @@ Item {
         color: PQCLook.transColor // qmllint disable unqualified
         radius: blur_top.parent.radius // qmllint disable missing-property
     }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
+    // When switching to fullscreen mode and back then the blur region is a stretched vertically
+    // To fix this we reset the blur everytime the window mode setting is changed.
+
+    Connections {
+        target: PQCSettings
+        function onInterfaceWindowModeChanged() {
+            blur_top.resetBlur = true
+        }
+    }
+
+    Timer {
+        interval: 200
+        running: blur_top.resetBlur
+        onTriggered: {
+            blur_top.resetBlur
+        }
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
