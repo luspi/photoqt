@@ -1528,6 +1528,10 @@ Loader {
                             resetDefaults.restart()
                         }
 
+                        function onImageviewMarginChanged() {
+                            resetDefaults.restart()
+                        }
+
                     }
 
                     // calculate the default scale based on the current rotation
