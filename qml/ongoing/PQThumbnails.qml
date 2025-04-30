@@ -205,10 +205,6 @@ Item {
             }
         }
 
-        onModelChanged: {
-            delegZ = 0
-        }
-
         Connections {
             target: PQCSettings // qmllint disable unqualified
             function onThumbnailsSameHeightVaryWidthChanged() {
@@ -222,9 +218,6 @@ Item {
 
         // whether the view is smaller than screen edge
         property bool smallerThanSize: contentWidth<parent.width
-
-        // some animations (like magnify) require counting up the z property of the thumbnails
-        property int delegZ: 0
 
         // state follows the global thumbnail state
         state: thumbnails_top.state
@@ -389,8 +382,16 @@ Item {
                                   modelData===view.highlightIndex
             onActiveChanged: {
                 if(active) {
-                    view.delegZ += 1
-                    deleg.z = view.delegZ
+                    deleg.z = 2
+                } else
+                    deleg.z = 0
+            }
+
+            Connections {
+                target: view
+                onHighlightIndexChanged: {
+                    if(deleg.modelData === PQCFileFolderModel.currentIndex)
+                        deleg.z = 1
                 }
             }
 
