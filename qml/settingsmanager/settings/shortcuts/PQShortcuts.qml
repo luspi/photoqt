@@ -1321,7 +1321,7 @@ Flickable {
 
         for(var i = 0; i < currentEntries.length; ++i) {
 
-            var newid = ""+i
+            var newid = i.toString()
             idToEntr[newid] = i
 
             shmodel.append({"combosstr" : currentEntries[i][0].join(":://::"),
