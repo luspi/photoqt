@@ -135,6 +135,9 @@ Window {
         id: windowbuttons_ontop
         asynchronous: true
         source: "ongoing/PQWindowButtons.qml"
+        visible: opacity>0
+        opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
+        Behavior on opacity { NumberAnimation { duration: 200 } }
         z: PQCConstants.idOfVisibleItem!=="filedialog" ? 999 : 0
         onStatusChanged: {
             if(windowbuttons_ontop.status == Loader.Ready)
