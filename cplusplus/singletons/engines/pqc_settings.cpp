@@ -342,9 +342,12 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
     // we convert the value to a string
     QString val = "";
-    if(value.typeId() == QMetaType::Bool || value.typeId() == QMetaType::Int) {
+    if(value.typeId() == QMetaType::Bool) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "bool");
+    } else if(value.typeId() == QMetaType::Int) {
+        val = QString::number(value.toInt());
+        query.bindValue(":dat", "int");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
