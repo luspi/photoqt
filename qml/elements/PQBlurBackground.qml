@@ -21,8 +21,24 @@ pragma ComponentBehavior: Bound
  **                                                                      **
  **************************************************************************/
 
-// this is the file to be used with Qt >= 6.4
-// when running CMake, this file is copied to the real filename if Qt >= 6.4
+/*1off_Qt64
+
+import QtQuick
+
+Rectangle {
+
+    id: blur_top
+    anchors.fill: parent
+
+    color: PQCLook.transColor // qmllint disable unqualified
+
+    property string thisis: ""
+
+}
+
+2off_Qt64*/
+
+/*1on_Qt65+*/
 
 import QtQuick
 import QtQuick.Effects
@@ -114,3 +130,5 @@ Item {
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
+
+/*2on_Qt65+*/

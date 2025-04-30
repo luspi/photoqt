@@ -353,11 +353,6 @@ endif()
 # MultiEffect is only available since Qt 6.5
 if(Qt6_VERSION VERSION_LESS 6.5)
 
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_fake.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
-
     # we need to modify the code slightly to make it work with Qt 6.4
     foreach(QMLFILE ${photoqt_QML})
 
@@ -421,11 +416,6 @@ if(Qt6_VERSION VERSION_LESS 6.5)
     endforeach()
 
 else()
-
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQMultiEffect.qml")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E copy_if_different
-                   "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground_real.qml" "${CMAKE_CURRENT_SOURCE_DIR}/qml/elements/PQBlurBackground.qml")
 
     # we potentially need to undo some of the changes done above for Qt 6.4 specific code
     foreach(QMLFILE ${photoqt_QML})
