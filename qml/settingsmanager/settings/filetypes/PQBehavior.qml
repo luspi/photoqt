@@ -309,7 +309,7 @@ Flickable {
                 vid_loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLoop") == 1)
                 vid_qtmult.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 0)
                 vid_libmpv.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 1)
-                videothumb.currentIndex = (""+PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoThumbnailer")==="" ? 0 : 1)
+                videothumb.currentIndex = (PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoThumbnailer").toString()==="" ? 0 : 1)
                 videojump.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLeftRightJumpVideo") == 1)
                 videospace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoSpacePause") == 1)
             }

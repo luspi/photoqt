@@ -552,7 +552,7 @@ Flickable {
 
             onResetToDefaults: {
                 var opts = ["left", "center", "right"]
-                infoalignment.currentIndex = Math.max(0, opts.indexOf(""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoPosition")))
+                infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoPosition").toString()))
             }
 
             function handleEscape() {

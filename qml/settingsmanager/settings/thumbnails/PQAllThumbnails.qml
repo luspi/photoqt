@@ -191,7 +191,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var val = ""+PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimation")
+                var val = PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimation").toString()
                 highlight_invertbg.checked = (val.includes("invertbg"))
                 highlight_invertlabel.checked = (val.includes("invertlabel"))
                 highlight_line.checked = (val.includes("line"))

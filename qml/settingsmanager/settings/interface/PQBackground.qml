@@ -369,7 +369,7 @@ Flickable {
                 accentusecheck.checked = (val == 0)
                 customusecheck.checked = (val == 1)
 
-                previewimage.source = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImagePath")
+                previewimage.source = PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImagePath").toString()
                 radio_bg_scaletofit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScale") == 1)
                 radio_bg_scaleandcrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScaleCrop") == 1)
                 radio_bg_stretch.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageStretch") == 1)

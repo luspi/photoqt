@@ -195,8 +195,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                layout_icon.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "grid")
-                layout_masonry.checked = (""+PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout") === "masonry")
+                layout_icon.checked = (PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout").toString() === "grid")
+                layout_masonry.checked = (PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout").toString() === "masonry")
                 layout_list.checked = !layout_icon.checked&&!layout_masonry.checked
             }
 

@@ -241,10 +241,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                current["top"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeTopAction")
-                current["left"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeLeftAction")
-                current["right"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeRightAction")
-                current["bottom"] = ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeBottomAction")
+                current["top"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeTopAction").toString()
+                current["left"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeLeftAction").toString()
+                current["right"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeRightAction").toString()
+                current["bottom"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeBottomAction").toString()
                 currentChanged()
             }
 

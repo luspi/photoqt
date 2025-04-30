@@ -200,7 +200,7 @@ Flickable {
                 anim_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition")<15) // qmllint disable unqualified
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-                anicombo.currentIndex = (animArray.indexOf(""+PQCScriptsConfig.getDefaultSettingValueFor("slideshowTypeAnimation")))
+                anicombo.currentIndex = animArray.indexOf(PQCScriptsConfig.getDefaultSettingValueFor("slideshowTypeAnimation").toString())
                 if(anicombo.currentIndex === -1) anicombo.currentIndex = 0
 
                 anispeed.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition"))

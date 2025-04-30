@@ -398,7 +398,7 @@ Item {
     function composeChecker() {
         var str = ""
         for(var e in listview.ft) {
-            str += ""+listview.ft[e][1]
+            str += listview.ft[e][1].toString()
         }
         return str
     }

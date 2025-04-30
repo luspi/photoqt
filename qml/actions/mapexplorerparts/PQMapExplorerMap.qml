@@ -327,7 +327,7 @@ Item {
                 anchorPoint.x: containerloader.width/2
                 anchorPoint.y: containerloader.height/2
 
-                opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(""+map_top.detaillevel) !== -1) ? 1 : 0
+                opacity: (x > -width && x < map.width && y > -height && y < map.height) && (lvls.indexOf(map_top.detaillevel.toString()) !== -1) ? 1 : 0
                 visible: opacity>0
 
                 property bool showTruePos: keys.indexOf(map_top.detaillevel+"")!=-1 && labels[map_top.detaillevel]*1==1

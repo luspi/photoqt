@@ -1586,7 +1586,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                notif_grid.loc =  ""+PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationLocation")
+                notif_grid.loc =  PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationLocation").toString()
                 notif_external.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationTryNative") == 1)
                 notif_dist.setValue(PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationDistanceFromEdge"))
             }

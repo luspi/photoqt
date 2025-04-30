@@ -733,7 +733,7 @@ Flickable {
 
                 color_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceEnable") == 1)
                 color_embed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceLoadEmbedded") == 1)
-                if((""+PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceDefault")) === "") {
+                if(PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceDefault").toString() === "") {
                     color_defaultcombo.currentIndex = 0
                     color_default.checked = false
                 } else {

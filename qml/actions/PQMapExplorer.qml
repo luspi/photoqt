@@ -319,11 +319,11 @@ Item {
                     item_labels[det] = labels[labelkey]
             }
 
-            var latitude = ""+key.split("::")[0]
-            var longitude = ""+key.split("::")[1]
-            var filename = ""+items[key][0]
-            var full_lat = ""+items[key][1]
-            var full_lon = ""+items[key][2]
+            var latitude = key.split("::")[0].toString()
+            var longitude = key.split("::")[1].toString()
+            var filename = items[key][0].toString()
+            var full_lat = items[key][1].toString()
+            var full_lon = items[key][2].toString()
             var detaillevels = items[key]
             detaillevels.shift()
             detaillevels.shift()

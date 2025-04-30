@@ -141,7 +141,7 @@ Flickable {
             onResetToDefaults: {
                 cache_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCache")==1) // qmllint disable unqualified
                 cache_dir_default.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCacheBaseDirDefault")==1)
-                cache_dir_custom.customdir = ""+PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCacheBaseDirLocation")
+                cache_dir_custom.customdir = PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCacheBaseDirLocation").toString()
             }
 
             function handleEscape() {

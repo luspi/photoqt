@@ -453,7 +453,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var val = (""+PQCScriptsConfig.getDefaultSettingValueFor("metadataGpsMap"))
+                var val = PQCScriptsConfig.getDefaultSettingValueFor("metadataGpsMap").toString()
                 google.checked = (val === "maps.google.com")
                 bing.checked = (val === "bing.com/maps")
                 osm.checked = (val === "openstreetmap.org" || (!google.checked && !bing.checked))
@@ -747,7 +747,7 @@ Flickable {
                 fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsFontSize"))
                 border_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorder") == 1)
                 border_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderWidth"))
-                border_color.rgba = PQCScriptsOther.convertHexToRgba(""+PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderColor"))
+                border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderColor").toString())
             }
 
             function handleEscape() {
