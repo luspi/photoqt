@@ -609,11 +609,14 @@ Item {
                 PQCNotify.loaderShow("logging")
                 break;
             case "__advancedSort":
-                PQCNotify.loaderShow("advancedsort")
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
+                    PQCNotify.loaderShow("advancedsort")
                 break
             case "__advancedSortQuick":
-                PQCNotify.loaderShow("advancedsort")
-                loader_advancedsort.item.doSorting()
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    PQCNotify.loaderShow("advancedsort")
+                    loader_advancedsort.item.doSorting()
+                }
                 break
 
             /**********************/
