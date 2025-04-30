@@ -704,7 +704,7 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
     QStringList headerbytes = {"00000018667479706d703432",
                                "0000001c6674797069736f6d"};
 
-    char *data = new char[info.size()];
+    char *data = new char[info.size()]{};
 
     QFile file(path);
     if(!file.open(QIODevice::ReadOnly)) {
