@@ -157,7 +157,7 @@ Rectangle {
 
                     required property int modelData
 
-                    width: parent.width
+                    width: cattabs.width
                     height: insidecont.height/7
 
                     border {
@@ -482,9 +482,9 @@ Rectangle {
 
     }
 
-    function change(index: int, subindex: int) {
+    function change(index: int, subindex: int, uniqueid: string) {
 
-        var cur = setting_top.entries[index][1][subindex] // qmllint disable unqualified
+        var cur = setting_top.entries[setting_top.idToEntr[uniqueid]][1][subindex] // qmllint disable unqualified
 
         if(cur.startsWith("__")) {
 

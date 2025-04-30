@@ -830,7 +830,7 @@ Flickable {
                                 cursorShape: Qt.PointingHandCursor
                                 text: qsTranslate("settingsmanager", "Click to change shortcut action")
                                 onClicked: {
-                                    newaction.change(deleg.index, cmddeleg.index)
+                                    newaction.change(deleg.index, cmddeleg.index, deleg.uniqueid)
                                 }
                             }
 
@@ -1206,7 +1206,7 @@ Flickable {
                     shmodel.get(index).combosstr += ":://::"+combo
             } else {
                 var val2 = shmodel.get(index).combosstr.split(":://::")
-                val[subindex] = combo
+                val2[subindex] = combo
                 shmodel.get(index).combosstr = val2.join(":://::")
             }
 
