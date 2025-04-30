@@ -259,11 +259,13 @@ Flickable {
                     filter_combo.text = ""
                     filter_action.text = ""
 
-                    for(var i in idToEntr)
-                        idToEntr[i] = idToEntr[i]+1
+                    for(var i in setting_top.idToEntr)
+                        setting_top.idToEntr[i] = setting_top.idToEntr[i]+1
 
                     var newid = PQCScriptsOther.getUniqueId()
-                    idToEntr[newid] = 0
+                    setting_top.idToEntr[newid] = 0
+
+                    setting_top.currentEntries.unshift([[],[],1,0,0])
 
                     shmodel.insert(0,
                                    {"combosstr" : "",
@@ -372,7 +374,7 @@ Flickable {
                 required property int cycling
                 required property int cycletimeout
                 required property int simultaneous
-                required property int uniqueid
+                required property string uniqueid
 
                 property list<string> combos: combosstr==="" ? [] : combosstr.split(":://::")
                 property list<string> commands: commandsstr==="" ? [] : commandsstr.split(":://::")
@@ -398,8 +400,8 @@ Flickable {
                     timerCheckDefault.restart()
                 }
                 onSimultaneousChanged: {
-                    var index = setting_top.idToEntr[uniqueid]
-                    setting_top.currentEntries[index][4] = simultaneous
+                    var ind = setting_top.idToEntr[uniqueid]
+                    setting_top.currentEntries[ind][4] = simultaneous
                     timerCheckDefault.restart()
                 }
 
@@ -1319,7 +1321,7 @@ Flickable {
 
         for(var i = 0; i < currentEntries.length; ++i) {
 
-            var newid = i
+            var newid = ""+i
             idToEntr[newid] = i
 
             shmodel.append({"combosstr" : currentEntries[i][0].join(":://::"),
