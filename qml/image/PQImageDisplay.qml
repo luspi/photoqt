@@ -1562,10 +1562,10 @@ Loader {
         PQMouseArea {
             id: imagemouse
             anchors.fill: parent
-            anchors.leftMargin: -flickable_content.x
-            anchors.rightMargin: -flickable_content.x
-            anchors.topMargin: -flickable_content.y
-            anchors.bottomMargin: -flickable_content.y
+            anchors.leftMargin: -PQCSettings.imageviewMargin
+            anchors.rightMargin: -PQCSettings.imageviewMargin
+            anchors.topMargin: -PQCSettings.imageviewMargin
+            anchors.bottomMargin: -PQCSettings.imageviewMargin
             hoverEnabled: true
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
