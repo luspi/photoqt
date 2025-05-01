@@ -140,12 +140,16 @@ Item {
 
         Image {
             id: arrleft
+            x: extraSpace
             y: (parent.height-height)/2
             visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0 // qmllint disable unqualified
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+
+            property int extraSpace: (PQCSettings.interfaceEdgeLeftAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
+                                          PQCSettings.thumbnailsSize+20 : 0)
 
             opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -159,8 +163,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: 10
-                    to: 30
+                    from: 10+arrleft.extraSpace
+                    to: 30+arrleft.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -169,8 +173,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: 30
-                    to: 10
+                    from: 30+arrleft.extraSpace
+                    to: 10+arrleft.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -186,7 +190,7 @@ Item {
 
         Rectangle {
             id: rectleft
-            x: arrleft.width+20
+            x: arrleft.width+20+arrleft.extraSpace
             y: (parent.height-height)/2
             width: ltx.width+20
             height: ltx.height+10
@@ -216,8 +220,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: arrleft.width+20
-                    to: arrleft.width+40
+                    from: arrleft.width+20+arrleft.extraSpace
+                    to: arrleft.width+40+arrleft.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -226,8 +230,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: arrleft.width+40
-                    to: arrleft.width+20
+                    from: arrleft.width+40+arrleft.extraSpace
+                    to: arrleft.width+20+arrleft.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -243,13 +247,16 @@ Item {
 
         Image {
             id: arrright
-            x: parent.width-width-10
+            x: parent.width-width-10-extraSpace
             y: (parent.height-height)/2
             visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0 // qmllint disable unqualified
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
+
+            property int extraSpace: (PQCSettings.interfaceEdgeRightAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
+                                          PQCSettings.thumbnailsSize+20 : 0)
 
             opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -263,8 +270,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-110 // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-130 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-110-arrright.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-130-arrright.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -273,8 +280,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-130 // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-110 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-130-arrright.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-110-arrright.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -290,7 +297,7 @@ Item {
 
         Rectangle {
             id: right_txt
-            x: arrright.x-width-20
+            x: arrright.x-width-20-arrright.extraSpace
             y: (parent.height-height)/2
             width: rtx.width+20
             height: rtx.height+10
@@ -319,8 +326,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20 // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -329,8 +336,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40 // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20 // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace // qmllint disable unqualified
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -346,7 +353,11 @@ Item {
         Image {
             id: arrdown
             x: (parent.width-width)/2
-            y: parent.height-height-10
+            y: parent.height-height-10 - extraSpace
+
+            property int extraSpace: (PQCSettings.interfaceEdgeBottomAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
+                                          PQCSettings.thumbnailsSize+20 : 0)
+
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
@@ -367,8 +378,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-110 // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-130 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-110-arrdown.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-130-arrdown.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -377,8 +388,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-130 // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-110 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-130-arrdown.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-110-arrdown.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -395,7 +406,7 @@ Item {
         Rectangle {
             id: bottom_txt
             x: (parent.width-width)/2
-            y: parent.height-arrdown.height-height-20
+            y: parent.height-arrdown.height-height-20 - arrdown.extraSpace
             width: btx.width+20
             height: btx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
@@ -423,8 +434,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace // qmllint disable unqualified
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -433,8 +444,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40 // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20 // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace // qmllint disable unqualified
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace // qmllint disable unqualified
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -450,10 +461,14 @@ Item {
         Image {
             id: arrup
             x: (parent.width-width)/2
+            y: arrup.extraSpace
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
             visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0 // qmllint disable unqualified
+
+            property int extraSpace: (PQCSettings.interfaceEdgeTopAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
+                                          PQCSettings.thumbnailsSize+20 : 0)
 
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             rotation: 90
@@ -470,8 +485,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: 10
-                    to: 30
+                    from: 10+arrup.extraSpace
+                    to: 30+arrup.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -480,8 +495,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: 30
-                    to: 10
+                    from: 30+arrup.extraSpace
+                    to: 10+arrup.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -498,7 +513,7 @@ Item {
         Rectangle {
             id: up_txt
             x: (parent.width-width)/2
-            y: arrup.height+20
+            y: arrup.height+20+arrup.extraSpace
             width: utx.width+20
             height: utx.height+10
             color: PQCLook.transColor // qmllint disable unqualified
@@ -526,8 +541,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: arrup.height+20
-                    to: arrup.height+40
+                    from: arrup.height+20+arrup.extraSpace
+                    to: arrup.height+40+arrup.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -536,8 +551,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: arrup.height+40
-                    to: arrup.height+20
+                    from: arrup.height+40+arrup.extraSpace
+                    to: arrup.height+20+arrup.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
