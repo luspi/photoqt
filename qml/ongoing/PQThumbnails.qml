@@ -180,6 +180,7 @@ Item {
             } else {
                 cacheBuffer = 320
                 model = numModel
+                currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
             }
 
         }
@@ -202,6 +203,7 @@ Item {
 
                 view.cacheBuffer = Math.max(320, pix)
                 view.model = view.numModel
+                currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
             }
         }
 
@@ -268,7 +270,7 @@ Item {
         preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive // qmllint disable unqualified
                                ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2+PQCSettings.thumbnailsSize
                                : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
-        highlightRangeMode: ListView.ApplyRange
+        highlightRangeMode: PQCSettings.thumbnailsCenterOnActive ? ListView.StrictlyEnforceRange : ListView.ApplyRange
 
         // bottom scroll bar
         PQHorizontalScrollBar {
@@ -380,20 +382,8 @@ Item {
             property bool active: modelData===PQCFileFolderModel.currentIndex || // qmllint disable unqualified
                                   modelData===thumbnails_top.menuReloadIndex ||
                                   modelData===view.highlightIndex
-            onActiveChanged: {
-                if(active) {
-                    deleg.z = 2
-                } else
-                    deleg.z = 0
-            }
 
-            Connections {
-                target: view
-                onHighlightIndexChanged: {
-                    if(deleg.modelData === PQCFileFolderModel.currentIndex)
-                        deleg.z = 1
-                }
-            }
+            z: (modelData===PQCFileFolderModel.currentIndex) ? 2 : (active ? 1 : 0)
 
             property string filepath: PQCFileFolderModel.entriesMainView[modelData] // qmllint disable unqualified
             property string filename: PQCScriptsFilesPaths.getFilename(filepath) // qmllint disable unqualified
