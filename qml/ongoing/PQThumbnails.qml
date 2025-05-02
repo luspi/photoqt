@@ -272,6 +272,8 @@ Item {
                                : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
         highlightRangeMode: PQCSettings.thumbnailsCenterOnActive ? ListView.StrictlyEnforceRange : ListView.ApplyRange
 
+        maximumFlickVelocity: 5000 * Math.max(1, PQCSettings/250)
+
         // bottom scroll bar
         PQHorizontalScrollBar {
             id: scrollbar_bottom
@@ -967,7 +969,18 @@ Item {
         }
     }
 
+    Timer {
+        id: resetFlickCounter
+        interval: 1000
+        onTriggered:
+            view.flickCounter = 0
+    }
+
     function flickView(angleDeltaX : int, angleDeltaY : int) {
+
+        // we scale the flick speed a bit by the size of the thumbnails
+        // this ensures that we move a little faster for large thumbnail sizes
+        var sizefactor = Math.max(1, PQCSettings.thumbnailsSize/100)
 
         var val, fac
 
@@ -989,7 +1002,7 @@ Item {
             fac = 5 + Math.min(20, Math.abs(view.flickCounter))
 
             // flick horizontally
-            view.flick(fac*val, 0)
+            view.flick(fac*val*sizefactor, 0)
 
         } else {
 
@@ -1009,9 +1022,11 @@ Item {
             fac = 5 + Math.min(20, Math.abs(view.flickCounter))
 
             // flick vertically
-            view.flick(0, fac*val)
+            view.flick(0, fac*val*sizefactor)
 
         }
+
+        resetFlickCounter.restart()
 
     }
 
