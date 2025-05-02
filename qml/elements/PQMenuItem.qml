@@ -56,6 +56,17 @@ MenuItem {
             elide: menuItem.elide
             style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
             styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
+            Timer {
+                id: increaseWidth
+                running: controltxt.truncated&&menuItem.implicitWidth<400
+                interval: 500
+                repeat: true
+                onTriggered: {
+                    if(!controltxt.truncated)
+                        stop()
+                    menuItem.implicitWidth += 50
+                }
+            }
         }
 
     indicator: Item {
