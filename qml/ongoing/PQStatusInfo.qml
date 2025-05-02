@@ -103,7 +103,7 @@ Item {
         State {
             name: "visible"
             PropertyChanges {
-                statusinfo_top.y: statusinfo_top.distanceFromEdge
+                statusinfo_top.y: statusinfo_top.distanceFromEdge+statusinfo_top.computeYOffset()
             }
         },
         State {
