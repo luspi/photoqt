@@ -43,8 +43,7 @@ Item {
 
     x: computeDefaultX()
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge || PQCConstants.statusInfoMovedManually) ? 200 : 0 } } // qmllint disable unqualified
-    Behavior on x { NumberAnimation { duration: PQCConstants.statusInfoMovedManually ? 200 : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } } // qmllint disable unqualified
 
     opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -829,8 +828,16 @@ Item {
         }
 
         function onWindowWidthChanged() {
-            if(PQCConstants.quickActionsMovedManually) return
-            statusinfo_top.y = distanceFromEdge+computeYOffset()
+            if(PQCConstants.statusInfoMovedManually) {
+                statusinfo_top.x = Math.min(PQCConstants.windowWidth-statusinfo_top.width, Math.max(0, statusinfo_top.x))
+            } else
+                statusinfo_top.y = distanceFromEdge+computeYOffset()
+        }
+
+        function onWindowHeightChanged() {
+            if(PQCConstants.statusInfoMovedManually) {
+                statusinfo_top.y = Math.min(PQCConstants.windowHeight-statusinfo_top.height, Math.max(0, statusinfo_top.y))
+            }
         }
 
     }

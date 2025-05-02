@@ -594,12 +594,12 @@ PQTemplateFloating {
                 quickactions_top.reposition()
                 return
             }
-            quickactions_top.x = Math.min(PQCConstants.windowHeight-quickactions_top.width, Math.max(0, quickactions_top.x))
+            quickactions_top.x = Math.min(PQCConstants.windowWidth-quickactions_top.width, Math.max(0, quickactions_top.x))
         }
 
         function onWindowHeightChanged() {
             if(!quickactions_top.finishedSetup || !PQCConstants.quickActionsMovedManually) return
-            quickactions_top.y = Math.min(PQCConstants.windowWidth-quickactions_top.height, Math.max(0, quickactions_top.y))
+            quickactions_top.y = Math.min(PQCConstants.windowHeight-quickactions_top.height, Math.max(0, quickactions_top.y))
         }
 
         function onStatusInfoMovedDownChanged() {
