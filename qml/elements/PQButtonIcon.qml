@@ -44,6 +44,7 @@ Rectangle {
     property real iconScale: 0.75
     property bool enableContextMenu: true
     property var dragTarget: undefined
+    property bool dragActive: mousearea.drag.active
 
     property alias contextmenu: menu
 

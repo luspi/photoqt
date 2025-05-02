@@ -36,10 +36,12 @@ PQTemplateFloating {
     height: contentitem.height
 
     onXChanged: {
-        quickactions_top.x = quickactions_top.x
+        if(manuallyMoved)
+            quickactions_top.x = quickactions_top.x
     }
     onYChanged: {
-        quickactions_top.y = quickactions_top.y
+        if(manuallyMoved)
+            quickactions_top.y = quickactions_top.y
     }
 
     onWidthChanged: {
@@ -69,6 +71,7 @@ PQTemplateFloating {
         }
     }
 
+    property bool manuallyMoved: false
     property bool finishedSetup: false
 
     states: [
@@ -81,7 +84,12 @@ PQTemplateFloating {
         }
     ]
 
+
     PQShadowEffect { masterItem: quickactions_top }
+
+    onDragActiveChanged: {
+        if(dragActive) manuallyMoved = true
+    }
 
     popout: PQCSettings.extensionsQuickActionsPopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
@@ -242,9 +250,15 @@ PQTemplateFloating {
                             tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
+
+                            onDragActiveChanged: {
+                                if(dragActive) quickactions_top.manuallyMoved = true
+                            }
+
                             onClicked: {
                                 PQCNotify.executeInternalCommand(delegver.props[2])
                             }
+
                             onRightClicked: {
                                 if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
@@ -386,13 +400,20 @@ PQTemplateFloating {
                             tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
+
+                            onDragActiveChanged: {
+                                if(dragActive) quickactions_top.manuallyMoved = true
+                            }
+
                             onClicked: {
                                 PQCNotify.executeInternalCommand(deleghor.props[2])
                             }
+
                             onRightClicked: {
                                 if(!quickactions_top.popoutWindowUsed)
                                     menu.item.popup()
                             }
+
                             onMouseOverChanged: {
                                 if(mouseOver) {
                                     resetMouseOver.stop()
@@ -555,18 +576,19 @@ PQTemplateFloating {
         target: PQCConstants // qmllint disable unqualified
 
         function onWindowWidthChanged() {
-            if(!quickactions_top.finishedSetup) return
+            if(!quickactions_top.finishedSetup || !quickactions_top.manuallyMoved) return
             quickactions_top.x = Math.min(PQCConstants.windowHeight-quickactions_top.width, Math.max(0, quickactions_top.x))
         }
 
         function onWindowHeightChanged() {
-            if(!quickactions_top.finishedSetup) return
+            if(!quickactions_top.finishedSetup || !quickactions_top.manuallyMoved) return
             quickactions_top.y = Math.min(PQCConstants.windowWidth-quickactions_top.height, Math.max(0, quickactions_top.y))
         }
 
     }
 
     function reposition() {
+        manuallyMoved = false
         finishedSetup = false
         if(popoutWindowUsed) {
             ele_window.minimumWidth = width

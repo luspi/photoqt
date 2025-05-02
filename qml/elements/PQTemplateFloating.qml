@@ -61,7 +61,7 @@ Rectangle {
 
     /////////
 
-    property bool dragActive: mousearea.drag.active
+    property bool dragActive: mousearea.drag.active || mouseareaBG.drag.active
     property bool resizeActive: resizearea.pressed
 
     /////////
