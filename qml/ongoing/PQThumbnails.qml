@@ -203,7 +203,7 @@ Item {
 
                 view.cacheBuffer = Math.max(320, pix)
                 view.model = view.numModel
-                currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
+                view.currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
             }
         }
 
