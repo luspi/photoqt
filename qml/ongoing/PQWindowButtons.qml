@@ -47,6 +47,23 @@ Item {
     width: row.width
     height: row.height
 
+    onXChanged: {
+        if(!visibleAlways)
+            PQCConstants.windowButtonsCurrentRect.x = x
+    }
+    onYChanged: {
+        if(!visibleAlways)
+            PQCConstants.windowButtonsCurrentRect.y = y
+    }
+    onWidthChanged: {
+        if(!visibleAlways)
+            PQCConstants.windowButtonsCurrentRect.width = width
+    }
+    onHeightChanged: {
+        if(!visibleAlways)
+            PQCConstants.windowButtonsCurrentRect.height = height
+    }
+
     visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCConstants.faceTaggingMode // qmllint disable unqualified
 
     property bool visibleAlways: false

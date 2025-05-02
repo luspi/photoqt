@@ -42,19 +42,32 @@ Item {
     id: statusinfo_top
 
     x: computeDefaultX()
-    y: distanceFromEdge
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge || statusinfo_top.movedByMouse) ? 200 : 0 } } // qmllint disable unqualified
-    Behavior on x { NumberAnimation { duration: (statusinfo_top.movedByMouse) ? 200 : 0 } }
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge || PQCConstants.statusInfoMovedManually) ? 200 : 0 } } // qmllint disable unqualified
+    Behavior on x { NumberAnimation { duration: PQCConstants.statusInfoMovedManually ? 200 : 0 } }
 
-    property bool movedByMouse: false
-
-    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow) ? 1 : 0 // qmllint disable unqualified
+    opacity: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
     width: maincol.width
     height: maincol.height
+
+    // this is set to false in a timer at the end to blend in the status info once properly positioned
+    property bool hideAtStartup: true
+
+    onXChanged: {
+        PQCConstants.statusInfoCurrentRect.x = x
+    }
+    onYChanged: {
+        PQCConstants.statusInfoCurrentRect.y = y
+    }
+    onWidthChanged: {
+        PQCConstants.statusInfoCurrentRect.width = width
+    }
+    onHeightChanged: {
+        PQCConstants.statusInfoCurrentRect.height = height
+    }
 
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
     property list<string> info: PQCSettings.interfaceStatusInfoList // qmllint disable unqualified
@@ -187,6 +200,11 @@ Item {
             PQMouseArea {
                 anchors.fill: parent
                 drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top // qmllint disable unqualified
+                drag.onActiveChanged: {
+                    if(drag.active)
+                        PQCConstants.statusInfoMovedManually = true
+                }
+
                 hoverEnabled: true
                 text: PQCSettings.interfaceStatusInfoManageWindow ? // qmllint disable unqualified
                           qsTranslate("statusinfo", "Click and drag to move window around") :
@@ -206,8 +224,6 @@ Item {
                             PQCNotify.setWindowState(Window.Maximized)
                     }
                 }
-                drag.onActiveChanged:
-                    statusinfo_top.movedByMouse = true
 
             }
 
@@ -240,8 +256,10 @@ Item {
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
-                drag.onActiveChanged:
-                    statusinfo_top.movedByMouse = true
+                drag.onActiveChanged: {
+                    if(drag.active)
+                        PQCConstants.statusInfoMovedManually = true
+                }
             }
 
             Row {
@@ -378,8 +396,10 @@ Item {
                         PQCFileFolderModel.enableViewerMode(statusinfo_top.access_image.currentFileInside)
                     }
                 }
-                drag.onActiveChanged:
-                    statusinfo_top.movedByMouse = true
+                drag.onActiveChanged: {
+                    if(drag.active)
+                        PQCConstants.statusInfoMovedManually = true
+                }
             }
 
             Connections {
@@ -774,8 +794,9 @@ Item {
         target: PQCSettings
 
         function onInterfaceStatusInfoPositionChanged() {
+            PQCConstants.statusInfoMovedManually = false
             statusinfo_top.bindXToWindow()
-            statusinfo_top.y = 2*statusinfo_top.distanceFromEdge
+            statusinfo_top.y = statusinfo_top.distanceFromEdge
         }
 
     }
@@ -807,6 +828,25 @@ Item {
                 statusinfo_top.state = "visible"
         }
 
+        function onWindowWidthChanged() {
+            if(PQCConstants.quickActionsMovedManually) return
+            statusinfo_top.y = distanceFromEdge+computeYOffset()
+        }
+
+    }
+
+    // right at completion the rect infos for the various elements might not yet be fully set up
+    // this ensures that the status info is faded in with a short delay
+    Component.onCompleted: {
+        showStatusInfo.restart()
+    }
+    Timer {
+        id: showStatusInfo
+        interval: 500
+        onTriggered: {
+            statusinfo_top.y = distanceFromEdge+computeYOffset()
+            statusinfo_top.hideAtStartup = false
+        }
     }
 
     Timer {
@@ -818,6 +858,21 @@ Item {
             if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened) // qmllint disable unqualified
                 statusinfo_top.state = "hidden"
         }
+    }
+
+    function computeYOffset() {
+        var dist = 20
+        var offset = 0
+        if(PQCConstants.statusInfoMovedManually || !PQCSettings.interfaceWindowButtonsShow) {
+            PQCConstants.statusInfoMovedDown = false
+            return
+        }
+        if(PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x-dist) {
+            offset += PQCConstants.windowButtonsCurrentRect.height+20
+            PQCConstants.statusInfoMovedDown = true
+        } else
+            PQCConstants.statusInfoMovedDown = false
+        return offset
     }
 
     function bindXToWindow() {

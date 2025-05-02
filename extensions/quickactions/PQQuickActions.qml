@@ -36,21 +36,25 @@ PQTemplateFloating {
     height: contentitem.height
 
     onXChanged: {
-        if(manuallyMoved)
+        PQCConstants.quickActionsCurrentRect.x = x
+        if(PQCConstants.quickActionsMovedManually)
             quickactions_top.x = quickactions_top.x
     }
     onYChanged: {
-        if(manuallyMoved)
+        PQCConstants.quickActionsCurrentRect.y = y
+        if(PQCConstants.quickActionsMovedManually)
             quickactions_top.y = quickactions_top.y
     }
 
     onWidthChanged: {
+        PQCConstants.quickActionsCurrentRect.width = width
         if(popoutWindowUsed) {
             ele_window.minimumWidth = width
             ele_window.maximumWidth = width
         }
     }
     onHeightChanged: {
+        PQCConstants.quickActionsCurrentRect.height = height
         if(popoutWindowUsed) {
             ele_window.minimumHeight = height
             ele_window.maximumHeight = height
@@ -71,7 +75,6 @@ PQTemplateFloating {
         }
     }
 
-    property bool manuallyMoved: false
     property bool finishedSetup: false
 
     states: [
@@ -88,7 +91,7 @@ PQTemplateFloating {
     PQShadowEffect { masterItem: quickactions_top }
 
     onDragActiveChanged: {
-        if(dragActive) manuallyMoved = true
+        if(dragActive) PQCConstants.quickActionsMovedManually = true
     }
 
     popout: PQCSettings.extensionsQuickActionsPopout // qmllint disable unqualified
@@ -252,7 +255,7 @@ PQTemplateFloating {
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
 
                             onDragActiveChanged: {
-                                if(dragActive) quickactions_top.manuallyMoved = true
+                                if(dragActive) PQCConstants.quickActionsMovedManually = true
                             }
 
                             onClicked: {
@@ -402,7 +405,7 @@ PQTemplateFloating {
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""
 
                             onDragActiveChanged: {
-                                if(dragActive) quickactions_top.manuallyMoved = true
+                                if(dragActive) PQCConstants.quickActionsMovedManually = true
                             }
 
                             onClicked: {
@@ -546,6 +549,16 @@ PQTemplateFloating {
             quickactions_top.reposition()
         }
 
+        function onInterfaceStatusInfoPositionChanged() {
+            if(!PQCConstants.quickActionsMovedManually)
+                quickactions_top.reposition()
+        }
+
+        function onInterfaceStatusInfoShowChanged() {
+            if(!PQCConstants.quickActionsMovedManually)
+                quickactions_top.reposition()
+        }
+
     }
 
     Connections {
@@ -576,19 +589,36 @@ PQTemplateFloating {
         target: PQCConstants // qmllint disable unqualified
 
         function onWindowWidthChanged() {
-            if(!quickactions_top.finishedSetup || !quickactions_top.manuallyMoved) return
+            if(!quickactions_top.finishedSetup) return
+            if(!PQCConstants.quickActionsMovedManually) {
+                quickactions_top.reposition()
+                return
+            }
             quickactions_top.x = Math.min(PQCConstants.windowHeight-quickactions_top.width, Math.max(0, quickactions_top.x))
         }
 
         function onWindowHeightChanged() {
-            if(!quickactions_top.finishedSetup || !quickactions_top.manuallyMoved) return
+            if(!quickactions_top.finishedSetup || !PQCConstants.quickActionsMovedManually) return
             quickactions_top.y = Math.min(PQCConstants.windowWidth-quickactions_top.height, Math.max(0, quickactions_top.y))
+        }
+
+        function onStatusInfoMovedDownChanged() {
+            if(!quickactions_top.finishedSetup) return
+            if(!PQCConstants.quickActionsMovedManually) {
+                quickactions_top.reposition()
+                return
+            }
+        }
+
+        function onStatusInfoCurrentRectChanged() {
+            if(!PQCConstants.quickActionsMovedManually)
+                quickactions_top.reposition()
         }
 
     }
 
     function reposition() {
-        manuallyMoved = false
+        PQCConstants.quickActionsMovedManually = false
         finishedSetup = false
         if(popoutWindowUsed) {
             ele_window.minimumWidth = width
@@ -598,11 +628,51 @@ PQTemplateFloating {
         } else {
             x = Qt.binding(function() { return (PQCConstants.windowWidth-quickactions_top.width)/2 })
             if(PQCSettings.interfaceEdgeTopAction === "thumbnails")
-                y = Qt.binding(function() { return PQCConstants.windowHeight-quickactions_top.height-20 })
+                y = Qt.binding(function() { return PQCConstants.windowHeight-quickactions_top.height-20-computeYOffset() })
             else
-                y = 20
+                y = 20 + computeYOffset()
         }
         recordFinishedSetup.restart()
+    }
+
+    function computeYOffset() {
+        var dist = 20
+        var offset = 0
+        // if quick actions has not been manually moved yet
+        if(!PQCConstants.quickActionsMovedManually) {
+
+            // if the quick actions fill (at least) the full width
+            if(quickactions_top.x <= 0 && quickactions_top.x+quickactions_top.width >= PQCConstants.windowWidth) {
+
+                if(PQCSettings.interfaceStatusInfoShow && !PQCConstants.statusInfoMovedManually)
+                    offset += PQCConstants.statusInfoCurrentRect.height+20
+                if(PQCSettings.interfaceWindowButtonsShow && (PQCConstants.statusInfoMovedDown || !PQCSettings.interfaceStatusInfoShow))
+                    offset += PQCConstants.windowButtonsCurrentRect.height+20
+
+            // if the status info is visible and overlaps quick actions
+            } else if(PQCSettings.interfaceStatusInfoShow && !PQCConstants.statusInfoMovedManually) {
+                if((PQCConstants.quickActionsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist &&
+                    PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.statusInfoCurrentRect.x) ||
+                        (PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.statusInfoCurrentRect.x &&
+                         PQCConstants.quickActionsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist)) {
+                    offset += PQCConstants.statusInfoCurrentRect.height+20
+                    if(PQCConstants.statusInfoMovedDown)
+                        offset += PQCConstants.windowButtonsCurrentRect.height+20
+                }
+            // if window buttons are visible and overlap quick actions and if either (1) the status info is not shown, or (2) the status info and window buttons also overlap
+            } else if(PQCSettings.interfaceWindowButtonsShow && ((PQCConstants.windowButtonsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist) ||
+                                                          !(PQCSettings.interfaceStatusInfoShow && !PQCConstants.statusInfoMovedManually))) {
+                if((PQCConstants.quickActionsCurrentRect.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist &&
+                    PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x) ||
+                        (PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x &&
+                         PQCConstants.quickActionsCurrentRect.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist)) {
+                    if(PQCConstants.statusInfoMovedDown && PQCSettings.interfaceStatusInfoShow)
+                        offset += PQCConstants.statusInfoCurrentRect.height+20
+                    offset += PQCConstants.windowButtonsCurrentRect.height+20
+                }
+            }
+        }
+        return offset
     }
 
     function show() {
@@ -621,6 +691,8 @@ PQTemplateFloating {
             ele_window.maximumWidth = width
             ele_window.maximumHeight = height
         }
+        if(!PQCConstants.quickActionsMovedManually)
+            reposition()
     }
 
     function hide() {

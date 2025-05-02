@@ -47,18 +47,25 @@ public:
 
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
-    Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged);
-    Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged);
-    Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged);
+    Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged)
+    Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged)
+    Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged)
 
-    Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged);
-    Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged);
+    Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged)
+    Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
 
-    Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged);
-    Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged);
-    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged);
-    Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged);
-    Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged);
+    Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
+    Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
+    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
+    Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
+    Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
+
+    Q_PROPERTY(QRect statusInfoCurrentRect MEMBER m_statusInfoCurrentRect NOTIFY statusInfoCurrentRectChanged)
+    Q_PROPERTY(QRect quickActionsCurrentRect MEMBER m_quickActionsCurrentRect NOTIFY quickActionsCurrentRectChanged)
+    Q_PROPERTY(QRect windowButtonsCurrentRect MEMBER m_windowButtonsCurrentRect NOTIFY windowButtonsCurrentRectChanged)
+    Q_PROPERTY(bool statusInfoMovedManually MEMBER m_statusInfoMovedManually NOTIFY statusInfoMovedManuallyChanged)
+    Q_PROPERTY(bool quickActionsMovedManually MEMBER m_quickActionsMovedManually NOTIFY quickActionsMovedManuallyChanged)
+    Q_PROPERTY(bool statusInfoMovedDown MEMBER m_statusInfoMovedDown NOTIFY statusInfoMovedDownChanged)
 
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
@@ -76,6 +83,13 @@ private:
         m_idOfVisibleItem = "";
         m_modalWindowOpen = false;
         m_lastExecutedShortcutCommand = "";
+
+        m_statusInfoCurrentRect = QRect(0,0,0,0);
+        m_quickActionsCurrentRect = QRect(0,0,0,0);
+        m_windowButtonsCurrentRect = QRect(0,0,0,0);
+        m_statusInfoMovedManually = false;
+        m_quickActionsMovedManually = false;
+        m_statusInfoMovedDown = false;
 
         m_devicePixelRatio = 1.0;
         if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
@@ -111,6 +125,13 @@ private:
     double m_devicePixelRatio;
     bool m_touchGestureActive;
 
+    QRect m_statusInfoCurrentRect;
+    QRect m_quickActionsCurrentRect;
+    QRect m_windowButtonsCurrentRect;
+    bool m_statusInfoMovedManually;
+    bool m_quickActionsMovedManually;
+    bool m_statusInfoMovedDown;
+
     int m_howManyFiles;
 
     QTimer *m_updateDevicePixelRatio;
@@ -131,6 +152,12 @@ Q_SIGNALS:
     void touchGestureActiveChanged();
     void howManyFilesChanged();
     void lastExecutedShortcutCommandChanged();
+    void statusInfoCurrentRectChanged();
+    void quickActionsCurrentRectChanged();
+    void windowButtonsCurrentRectChanged();
+    void statusInfoMovedManuallyChanged();
+    void quickActionsMovedManuallyChanged();
+    void statusInfoMovedDownChanged();
 
 };
 
