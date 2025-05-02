@@ -1001,6 +1001,8 @@ Item {
 
             fac = 5 + Math.min(20, Math.abs(view.flickCounter))
 
+            // cancel flick. This is important for when active thumbnail is kept in center, without this scrolling is rather erratic
+            view.cancelFlick()
             // flick horizontally
             view.flick(fac*val*sizefactor, 0)
 
@@ -1021,6 +1023,8 @@ Item {
 
             fac = 5 + Math.min(20, Math.abs(view.flickCounter))
 
+            // cancel flick. This is important for when active thumbnail is kept in center, without this scrolling is rather erratic
+            view.cancelFlick()
             // flick vertically
             view.flick(0, fac*val*sizefactor)
 
