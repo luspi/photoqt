@@ -63,6 +63,8 @@ PQTemplateFloating {
 
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    visible: opacity>0 && !PQCNotify.slideshowRunning
+
     property int mouseOverIndex: -1
     property bool mouseOver: false
     Timer {
