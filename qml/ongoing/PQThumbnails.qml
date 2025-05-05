@@ -180,7 +180,9 @@ Item {
             } else {
                 cacheBuffer = 320
                 model = numModel
+                currentIndex = PQCFileFolderModel.currentIndex
                 currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
+                view.positionViewAtIndex(view.currentIndex, ListView.Contain)
             }
 
         }
