@@ -253,6 +253,17 @@ Window {
             PQCNotify.loaderShow("metadata")
     }
 
+    // this is called only when triggered from status info
+    // if this is not done with a short delay then the state is not applied properly
+    Timer {
+        id: setStateTimer
+        interval: 100
+        property int newstate
+        onTriggered: {
+            toplevel.visibility = newstate
+        }
+    }
+
     Connections {
 
         target: PQCNotify // qmllint disable unqualified
@@ -350,7 +361,8 @@ Window {
         }
 
         function onSetWindowState(state : int) {
-            toplevel.visibility = state
+            setStateTimer.newstate = state
+            setStateTimer.restart()
         }
 
         function onWindowClose() {
