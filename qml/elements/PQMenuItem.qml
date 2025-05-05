@@ -28,6 +28,12 @@ MenuItem {
     implicitWidth: 250
     implicitHeight: 40
 
+    onImplicitWidthChanged: {
+        if(menu !== null && implicitWidth > menu.width+10) {
+            menu.implicitWidth = implicitWidth
+        }
+    }
+
     property string iconSource: ""
     property bool checkableLikeRadioButton: false
     property bool moveToRightABit: false
@@ -59,7 +65,7 @@ MenuItem {
             Timer {
                 id: increaseWidth
                 running: controltxt.truncated&&menuItem.implicitWidth<400
-                interval: 500
+                interval: 400
                 repeat: true
                 onTriggered: {
                     if(!controltxt.truncated)
