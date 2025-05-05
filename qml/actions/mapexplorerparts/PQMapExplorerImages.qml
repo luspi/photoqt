@@ -53,8 +53,10 @@ Rectangle {
 
         ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
-        cellWidth: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6
-        cellHeight: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6
+        property int baseSize: 50 + PQCSettings.mapviewExplorerThumbnailsZoomLevel*3
+
+        cellWidth: width / Math.floor(width / baseSize)
+        cellHeight: baseSize
 
         property int currentIndex: -1
         Timer {
@@ -75,8 +77,8 @@ Rectangle {
 
             required property int modelData
 
-            width: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6 // qmllint disable unqualified
-            height: PQCSettings.mapviewExplorerThumbnailsZoomLevel*6 // qmllint disable unqualified
+            width: gridview.cellWidth
+            height: gridview.cellHeight
 
             readonly property string fpath: visibleimages.visibleImagesWithLocation[modelData][0] // qmllint disable unqualified
             readonly property real latitude: visibleimages.visibleImagesWithLocation[modelData][1] // qmllint disable unqualified
