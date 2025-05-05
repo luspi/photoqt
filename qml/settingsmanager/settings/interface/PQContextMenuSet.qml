@@ -113,6 +113,12 @@ Flickable {
 
                         required property int modelData
 
+                        property var curData: (deleg.modelData < setting_top.entries.length) ? setting_top.entries[deleg.modelData] : ["","","","",""]
+                        onCurDataChanged: {
+                            setting_top.entries[deleg.modelData] = curData
+                            setting_top.checkDefault()
+                        }
+
                         width: Math.min(800, set_con.rightcol-delicn.width-10)
                         height: 50
                         radius: 5
@@ -126,17 +132,17 @@ Flickable {
 
                             PQButtonIcon {
                                 id: appicon
-                                source: (setting_top.entries[deleg.modelData][0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) // qmllint disable unqualified
+                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) // qmllint disable unqualified
                                 onSourceChanged:
                                     setting_top.checkDefault()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog
                                     var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt()); // qmllint disable unqualified
                                     if(newicn !== "")
-                                        setting_top.entries[deleg.modelData][0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
+                                        deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                                     else
-                                        setting_top.entries[deleg.modelData][0] = ""
-                                    setting_top.entriesChanged()
+                                        deleg.curData[0] = ""
+                                    deleg.curDataChanged()
 
                                 }
 
@@ -155,12 +161,11 @@ Flickable {
                                 width: (deleg.width-appicon.width-quitcheck.width-30)/3
                                 //: The entry here refers to the text that is shown in the context menu for a custom entry
                                 placeholderText: qsTranslate("settingsmanager", "entry name")
-                                text: setting_top.entries[deleg.modelData][2]
+                                text: deleg.curData[2]
                                 onTextChanged: {
-                                    if(setting_top.entries[deleg.modelData][2] !== text) {
-                                        setting_top.entries[deleg.modelData][2] = text
-                                        setting_top.entriesChanged()
-                                        setting_top.checkDefault()
+                                    if(deleg.curData[2] !== text) {
+                                        deleg.curData[2] = text
+                                        deleg.curDataChanged()
                                     }
                                 }
                                 onControlActiveFocusChanged: {
@@ -172,12 +177,11 @@ Flickable {
                                     id: executable
                                     width: entryname.width
                                     placeholderText: qsTranslate("settingsmanager", "executable")
-                                    text: setting_top.entries[deleg.modelData][1]
+                                    text: deleg.curData[1]
                                     onTextChanged: {
-                                        if(setting_top.entries[deleg.modelData][1] !== text) {
-                                            setting_top.entries[deleg.modelData][1] = text
-                                            setting_top.entriesChanged()
-                                            setting_top.checkDefault()
+                                        if(deleg.curData[1] !== text) {
+                                            deleg.curData[1] = text
+                                            deleg.curDataChanged()
                                         }
                                     }
                                     onControlActiveFocusChanged:
@@ -199,15 +203,15 @@ Flickable {
                                         var icn = PQCScriptsImages.getIconPathFromTheme(fname)
 
                                         if(PQCScriptsFilesPaths.cleanPath(StandardPaths.findExecutable(fname)) === newexe)
-                                            setting_top.entries[deleg.modelData][1] = fname
+                                            deleg.curData[1] = fname
                                         else
-                                            setting_top.entries[deleg.modelData][1] = PQCScriptsFilesPaths.cleanPath(newexe)
+                                            deleg.curData[1] = PQCScriptsFilesPaths.cleanPath(newexe)
 
-                                        if(icn !== "" && setting_top.entries[deleg.modelData][0] === "") {
-                                            setting_top.entries[deleg.modelData][0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
+                                        if(icn !== "" && deleg.curData[0] === "") {
+                                            deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
                                         }
 
-                                        setting_top.entriesChanged()
+                                        deleg.curDataChanged()
 
                                     }
 
@@ -227,12 +231,11 @@ Flickable {
                                 width: entryname.width-selectexe.width
                                 //: The flags here are additional parameters that can be passed on to an executable
                                 placeholderText: qsTranslate("settingsmanager", "additional flags")
-                                text: setting_top.entries[deleg.modelData][4]
+                                text: deleg.curData[4]
                                 onTextChanged: {
-                                    if(setting_top.entries[deleg.modelData][4] !== text) {
-                                        setting_top.entries[deleg.modelData][4] = text
-                                        setting_top.entriesChanged()
-                                        setting_top.checkDefault()
+                                    if(deleg.curData[4] !== text) {
+                                        deleg.curData[4] = text
+                                        deleg.curDataChanged()
                                     }
                                 }
                                 onControlActiveFocusChanged:
@@ -243,13 +246,12 @@ Flickable {
                                 id: quitcheck
                                 //: Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!
                                 text: qsTranslate("settingsmanager", "quit")
-                                checked: (setting_top.entries[deleg.modelData][3]==="1")
+                                checked: (deleg.curData[3]==="1")
                                 onCheckedChanged: {
                                     var val = (checked ? "1" : "0")
-                                    if(setting_top.entries[deleg.modelData][3] !== val) {
-                                        setting_top.entries[deleg.modelData][3] = val
-                                        setting_top.entriesChanged()
-                                        setting_top.checkDefault()
+                                    if(deleg.curData[3] !== val) {
+                                        deleg.curData[3] = val
+                                        deleg.curDataChanged()
                                     }
                                 }
                             }
