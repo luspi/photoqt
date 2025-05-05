@@ -651,10 +651,10 @@ PQTemplateFloating {
 
             // if the status info is visible and overlaps quick actions
             } else if(PQCSettings.interfaceStatusInfoShow && !PQCConstants.statusInfoMovedManually) {
-                if((PQCConstants.quickActionsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist &&
-                    PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.statusInfoCurrentRect.x) ||
-                        (PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.statusInfoCurrentRect.x &&
-                         PQCConstants.quickActionsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist)) {
+                if((quickactions_top.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist &&
+                    quickactions_top.x+quickactions_top.width >= PQCConstants.statusInfoCurrentRect.x) ||
+                        (quickactions_top.x+quickactions_top.width >= PQCConstants.statusInfoCurrentRect.x &&
+                         quickactions_top.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist)) {
                     offset += PQCConstants.statusInfoCurrentRect.height+20
                     if(PQCConstants.statusInfoMovedDown)
                         offset += PQCConstants.windowButtonsCurrentRect.height+20
@@ -662,10 +662,10 @@ PQTemplateFloating {
             // if window buttons are visible and overlap quick actions and if either (1) the status info is not shown, or (2) the status info and window buttons also overlap
             } else if(PQCSettings.interfaceWindowButtonsShow && ((PQCConstants.windowButtonsCurrentRect.x <= PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width+dist) ||
                                                           !(PQCSettings.interfaceStatusInfoShow && !PQCConstants.statusInfoMovedManually))) {
-                if((PQCConstants.quickActionsCurrentRect.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist &&
-                    PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x) ||
-                        (PQCConstants.quickActionsCurrentRect.x+PQCConstants.quickActionsCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x &&
-                         PQCConstants.quickActionsCurrentRect.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist)) {
+                if((quickactions_top.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist &&
+                    quickactions_top.x+quickactions_top.width >= PQCConstants.windowButtonsCurrentRect.x) ||
+                        (quickactions_top.x+quickactions_top.width >= PQCConstants.windowButtonsCurrentRect.x &&
+                         quickactions_top.x <= PQCConstants.windowButtonsCurrentRect.x+PQCConstants.windowButtonsCurrentRect.width+dist)) {
                     if(PQCConstants.statusInfoMovedDown && PQCSettings.interfaceStatusInfoShow)
                         offset += PQCConstants.statusInfoCurrentRect.height+20
                     offset += PQCConstants.windowButtonsCurrentRect.height+20
