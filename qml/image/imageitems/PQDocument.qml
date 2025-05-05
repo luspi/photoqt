@@ -204,7 +204,6 @@ Image {
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready) {
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
             if(loader_top.defaultScale < 0.95)
                 loadScaledDown.restart()
         }
