@@ -291,7 +291,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Interpolation")
 
-            helptext: qsTranslate("settingsmanager", "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. For images that are smaller than the current window size, this interpolation is automatically disabled by default. Though not recommended, this behavior can be disabled here.")
+            helptext: qsTranslate("settingsmanager", "PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for small images under the specified threshold PhotoQt can skip the use of interpolation algorithms. Note that both the width and height of an image need to be smaller than the threshold for it to be applied.")
 
             content: [
 
@@ -300,7 +300,21 @@ Flickable {
                     enforceMaxWidth: set_interp.rightcol
                     text: qsTranslate("settingsmanager", "disable interpolation for small images")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQSliderSpinBox {
+                    id: interp_spin
+                    width: set_interp.rightcol
+                    minval: 0
+                    maxval: 1000
+                    title: qsTranslate("settingsmanager", "threshold:")
+                    suffix: " px"
+                    enabled: interp_check.checked
+                    animateHeight: true
+                    onValueChanged:
+                        setting_top.checkDefault()
                 }
+
 
             ]
 
@@ -308,18 +322,23 @@ Flickable {
                 interp_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationDisableForSmallImages") == 1)
             }
 
-            function handleEscape() {}
+            function handleEscape() {
+                interp_spin.closeContextMenus()
+                interp_spin.acceptValue()
+            }
 
             function hasChanged() {
-                return interp_check.hasChanged()
+                return interp_check.hasChanged()||interp_spin.hasChanged()
             }
 
             function load() {
                 interp_check.loadAndSetDefault(PQCSettings.imageviewInterpolationDisableForSmallImages)
+                interp_spin.loadAndSetDefault(PQCSettings.imageviewInterpolationThreshold)
             }
 
             function applyChanges() {
                 PQCSettings.imageviewInterpolationDisableForSmallImages = interp_check.checked
+                PQCSettings.imageviewInterpolationThreshold = interp_spin.value
                 interp_check.saveDefault()
             }
 

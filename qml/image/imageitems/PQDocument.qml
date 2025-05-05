@@ -55,11 +55,10 @@ Image {
     asynchronous: true
     cache: false
 
-    property bool interpThreshold: (sourceSize.width > image_top.width || sourceSize.height > image_top.height ||
-                                    !PQCSettings.imageviewInterpolationDisableForSmallImages) // qmllint disable unqualified
+    property bool noInterpThreshold: sourceSize.width < PQCSettings.imageviewInterpolationThreshold && sourceSize.height < PQCSettings.imageviewInterpolationThreshold
 
-    smooth: interpThreshold
-    mipmap: interpThreshold
+    smooth: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
+    mipmap: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
 
     onVisibleChanged: {
         if(!image.visible)

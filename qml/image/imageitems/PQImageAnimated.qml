@@ -39,11 +39,10 @@ AnimatedImage {
 
     asynchronous: true
 
-    property bool interpThreshold: (sourceSize.width > image_top.width || sourceSize.height > image_top.height ||
-                                    !PQCSettings.imageviewInterpolationDisableForSmallImages) // qmllint disable unqualified
+    property bool noInterpThreshold: sourceSize.width < PQCSettings.imageviewInterpolationThreshold && sourceSize.height < PQCSettings.imageviewInterpolationThreshold
 
-    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : interpThreshold // qmllint disable unqualified
-    mipmap: interpThreshold
+    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : (!PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold)
+    mipmap: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
 
     onStatusChanged: {
         image_wrapper.status = status // qmllint disable unqualified
