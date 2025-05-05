@@ -154,8 +154,6 @@ Image {
         image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
-        else if(status == Image.Ready)
-            fitImage = (PQCSettings.imageviewFitInWindow && image.sourceSize.width < image_top.width && image.sourceSize.height < image_top.height)
     }
 
     onSourceSizeChanged: {
