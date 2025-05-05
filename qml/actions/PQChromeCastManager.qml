@@ -229,7 +229,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = true // qmllint disable unqualified
         // we also show the chromecast handler
-        PQCNotify.loaderShowExtension("chromecast")
+        PQCNotify.loaderShow("chromecast")
 
         PQCScriptsChromeCast.startDiscovery()
 
