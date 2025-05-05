@@ -51,7 +51,8 @@ GridView {
 
     onCurrentIndexChanged: {
         if(!isCurrentView) return
-        view_top.currentIndex = currentIndex
+        if(view_top.currentIndex !== currentIndex)
+            view_top.currentIndex = currentIndex
     }
 
     delegate:
