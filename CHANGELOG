@@ -1,6 +1,37 @@
 Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+
+Release 4.9.1 - 2025-05-06
+----------------------------
+
+- fix: changing integer settings in settings manager no longer result in fixed value of 1
+- fix: don't reset accent color when language is changed
+- fix: focus on current thumbnail when folder is loaded
+- fix: scrolling thumbnails with certain settings
+- fix: adding shortcuts does no longer override existing shortcut groups
+- fix: quick actions preserves relative position until manually moved
+- fix: never overlap quick actions, status info, and window buttons
+- fix: properly hide window buttons that are shown on top with no other element opened
+- fix: maximizing/restoring window through status info works properly again
+- fix: make sure necessary directories exist at each start up
+- fix: don't attempt to open advanced sorting with nothing loaded blocking interface
+- fix: blur area misplaced when switching between fullscreen/windowed mode
+- fix: status info respects font size setting
+- fix: keep edge actions active no matter the image margin
+- fix: recalculate default properties when image margin is changed
+- fix: arrow/text location when nothing is loaded move up when thumbnail is always visible
+- fix: ensure unit tests are working
+- fix: compiling PhotoQt with photo spheres disabled
+- improve: enabling quick settings in settings manager immediately shows quick actions
+- improve: make thumbnail flick velocity depend weakly on thumbnail size
+- improve: thumbnail magnifying highlight effect properly slides inactive thumbnails behind current thumbnail
+- improve: increase width of context menus if any item contains text that is too long
+- improve: revert handling of interpolation for small images to pre-4.9 behavior
+- improve: implementation of formalized pre-release testing checklist
+- windows: fix: show title bar and min/max buttons when window is shown on top
+
+
 Release 4.9 - 2025-04-23
 ----------------------------
 
