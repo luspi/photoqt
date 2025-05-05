@@ -215,7 +215,7 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
       <translation>Grootte terugzetten naar standaard</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="701"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="696"/>
       <source>Thumbnails</source>
       <translation>Miniaturen</translation>
     </message>
@@ -483,32 +483,32 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>PQSettings</name>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="88"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="87"/>
       <source>ERROR getting database with default settings</source>
       <extracomment>This is the window title of an error message box</extracomment>
       <translation>FOUT bij het benaderen van de instellingen-database</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="89"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="88"/>
       <source>I tried hard, but I just cannot open even a read-only version of the settings database.</source>
       <translation>Ik heb het geprobeerd, maar kan zelfs geen alleen-lezen versie van de instellingen-database openen.</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="45"/>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="89"/>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="101"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="44"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="88"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="100"/>
       <source>Something went terribly wrong somewhere!</source>
       <translation>Er ging iets vreselijk mis!</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="44"/>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="100"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="43"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="99"/>
       <source>ERROR opening database with default settings</source>
       <translation>FOUT bij het openen van de instellingen-database</translation>
     </message>
     <message>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="45"/>
-      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="101"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="44"/>
+      <location filename="../cplusplus/singletons/engines/pqc_settings.cpp" line="100"/>
       <source>I tried hard, but I just cannot open the database of default settings.</source>
       <translation>Ik heb het geprobeerd, maar kan de instellingen-database niet openen.</translation>
     </message>
@@ -1054,7 +1054,7 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     <message>
       <location filename="../qml/elements/PQButton.qml" line="112"/>
       <location filename="../qml/elements/PQButtonElement.qml" line="106"/>
-      <location filename="../qml/elements/PQButtonIcon.qml" line="112"/>
+      <location filename="../qml/elements/PQButtonIcon.qml" line="113"/>
       <source>Activate button</source>
       <translation>Activeer knop</translation>
     </message>
@@ -1365,33 +1365,33 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
   <context>
     <name>filedialog</name>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="206"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="208"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="207"/>
       <source>File size:</source>
       <translation>Bestandsgrootte:</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="207"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="209"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="208"/>
       <source>File type:</source>
       <translation>Bestandstype:</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="208"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="210"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="174"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="209"/>
       <source>Date:</source>
       <translation>Datum:</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="209"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="211"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="175"/>
       <location filename="../qml/filedialog/PQFileView.qml" line="210"/>
       <source>Time:</source>
       <translation>Tijd:</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="211"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="213"/>
       <source>Location:</source>
       <extracomment>The location here is the GPS location</extracomment>
       <translation>Locatie:</translation>
@@ -1462,8 +1462,8 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     <message>
       <location filename="../qml/filedialog/fileviews/PQFileViewGrid.qml" line="271"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewGrid.qml" line="273"/>
-      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="222"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="224"/>
+      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="226"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewMasonry.qml" line="316"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewMasonry.qml" line="318"/>
       <source>%1 image</source>
@@ -1472,8 +1472,8 @@ Used as in SETUP advanced sort. Please keep short</extracomment>
     <message>
       <location filename="../qml/filedialog/fileviews/PQFileViewGrid.qml" line="271"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewGrid.qml" line="275"/>
-      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="222"/>
-      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="226"/>
+      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="224"/>
+      <location filename="../qml/filedialog/fileviews/PQFileViewList.qml" line="228"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewMasonry.qml" line="316"/>
       <location filename="../qml/filedialog/fileviews/PQFileViewMasonry.qml" line="320"/>
       <source>%1 images</source>
@@ -2004,54 +2004,54 @@ file manager settings popdown: scale and crop image previews</extracomment>
       <translation>Hernoem bestand</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="805"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="808"/>
       <source>File successfully deleted</source>
       <translation>Bestand is verwijderd</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="805"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="815"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="825"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="855"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="808"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="818"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="828"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="858"/>
       <source>Success</source>
       <translation>Gelukt</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="808"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="811"/>
       <source>Could not delete file</source>
       <translation>Kon bestand niet verwijderen</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="808"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="818"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="828"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="811"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="821"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="831"/>
       <source>Failed</source>
       <translation>Mislukt</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="815"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="825"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="818"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="828"/>
       <source>File successfully moved to trash</source>
       <translation>Bestand succesvol verplaatst naar prullenbak</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="818"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="828"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="821"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="831"/>
       <source>Could not move file to trash</source>
       <translation>Kon bestand niet naar prullenbak verplaatsen</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="851"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="854"/>
       <source>Trash</source>
       <translation>Prullenbak</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="851"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="854"/>
       <source>Nothing to restore</source>
       <translation>Niets te herstellen</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="853"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="856"/>
       <source>Error</source>
       <translation>Fout</translation>
     </message>
@@ -2402,12 +2402,12 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <translation>Gebruik links/rechts toetsen voor kadernavigatie</translation>
     </message>
     <message>
-      <location filename="../qml/image/imageitems/PQImageNormal.qml" line="258"/>
+      <location filename="../qml/image/imageitems/PQImageNormal.qml" line="257"/>
       <source>Click here to enter photo sphere</source>
       <translation>Klik hier voor weergave van fotobol</translation>
     </message>
     <message>
-      <location filename="../qml/image/imageitems/PQImageNormal.qml" line="466"/>
+      <location filename="../qml/image/imageitems/PQImageNormal.qml" line="465"/>
       <source>Toggle autoplay</source>
       <translation>Automatisch afspelen in-/uitschakelen</translation>
     </message>
@@ -2477,30 +2477,30 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <translation>Herstel weergave</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="274"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="276"/>
       <source>Zoom to location</source>
       <extracomment>The location here is the GPS location</extracomment>
       <translation>Zoom naar locatie</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="282"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="284"/>
       <source>Load image</source>
       <translation>Laad afbeelding</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="293"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="295"/>
       <source>Copy location to clipboard</source>
       <extracomment>The location here is the GPS location</extracomment>
       <translation>Kopieer locatie naar klembord</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="311"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="313"/>
       <source>no images in currently visible area</source>
       <extracomment>the currently visible area refers to the latitude/longitude selection in the map explorer</extracomment>
       <translation>geen afbeeldingen in huidig zichtbaar gebied</translation>
     </message>
     <message>
-      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="324"/>
+      <location filename="../qml/actions/mapexplorerparts/PQMapExplorerImages.qml" line="326"/>
       <source>no images with location data in current folder</source>
       <extracomment>The location here is the GPS location</extracomment>
       <translation>geen afbeeldingen met locatiegegevens in huidige map</translation>
@@ -2651,7 +2651,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <translation>Standaardgrootte terugzetten</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="780"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="797"/>
       <source>Window buttons</source>
       <translation>Vensterknoppen</translation>
     </message>
@@ -2659,12 +2659,12 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
   <context>
     <name>navigate</name>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="183"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="200"/>
       <source>Navigate to previous image in folder</source>
       <translation>Navigeer naar vorige afbeelding in map</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="257"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="274"/>
       <source>Navigate to next image in folder</source>
       <translation>Navigeer naar volgende afbeelding in map</translation>
     </message>
@@ -2728,47 +2728,47 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
   <context>
     <name>quickinfo</name>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="333"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="350"/>
       <source>Click here to show main menu</source>
       <translation>Klik hier om het hoofdmenu te tonen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="407"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="424"/>
       <source>Click here to not keep window in foreground</source>
       <translation>Klik hier om het venster niet op de voorgrond te houden</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="407"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="424"/>
       <source>Click here to keep window in foreground</source>
       <translation>Klik hier om het venster op de voorgrond te houden</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="557"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="574"/>
       <source>Click here to minimize window</source>
       <translation>Klik hier om venster te minimaliseren</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="634"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="651"/>
       <source>Click here to restore window</source>
       <translation>Klik hier om venster te herstellen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="635"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="652"/>
       <source>Click here to maximize window</source>
       <translation>Klik hier om het venster te maximaliseren.</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="482"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="499"/>
       <source>Click here to enter fullscreen mode</source>
       <translation>Klik hier voor volledig scherm modus</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="483"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="500"/>
       <source>Click here to exit fullscreen mode</source>
       <translation>Klik hier om volledig scherm te verlaten</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="712"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="729"/>
       <source>Click here to close PhotoQt</source>
       <translation>Klik hier om PhotoQt te sluiten</translation>
     </message>
@@ -2806,7 +2806,7 @@ used as tooltip in the sense of &apos;file size LESS THAN 123 KB/MB&apos;</extra
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="109"/>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="112"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="79"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="329"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="331"/>
       <source>Interface</source>
       <extracomment>A settings category
 ----------
@@ -2824,35 +2824,35 @@ This is a shortcut category</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="115"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="229"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="232"/>
       <source>Fullscreen or window mode</source>
       <extracomment>A settings title</extracomment>
       <translation>Volledig scherm of venster modus</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="116"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="355"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="358"/>
       <source>Window buttons</source>
       <extracomment>A settings title</extracomment>
       <translation>Vensterknoppen</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="117"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="924"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="927"/>
       <source>Accent color</source>
       <extracomment>A settings title</extracomment>
       <translation>Accentkleur</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="118"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1169"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1180"/>
       <source>Font weight</source>
       <extracomment>A settings title</extracomment>
       <translation>Tekstdikte</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="119"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1283"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1294"/>
       <source>Notification</source>
       <extracomment>A settings title</extracomment>
       <translation>Melding</translation>
@@ -2918,7 +2918,7 @@ Settings title</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="205"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="355"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="357"/>
       <source>Duplicate entries in main menu</source>
       <extracomment>The entries here are the custom entries in the context menu</extracomment>
       <translation>Opties overnemen in hoofdmenu</translation>
@@ -3001,7 +3001,7 @@ Settings title</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="240"/>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="389"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="408"/>
       <source>Color profiles</source>
       <extracomment>Settings title</extracomment>
       <translation>Kleurprofielen</translation>
@@ -3190,7 +3190,7 @@ A settings subcategory</extracomment>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="479"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="83"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="331"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="333"/>
       <source>Other</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation>Overig</translation>
@@ -3577,7 +3577,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
     <message>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="239"/>
       <location filename="../qml/settingsmanager/PQSettingsManager.qml" line="362"/>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="337"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="356"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQManage.qml" line="85"/>
       <source>Cache</source>
       <extracomment>Settings title</extracomment>
@@ -3645,73 +3645,74 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation>toon schaakbordpatroon</translation>
     </message>
     <message>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="294"/>
+      <source>PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. However, for small images this can lead to blurry images when no interpolation is necessary. Thus, for small images under the specified threshold PhotoQt can skip the use of interpolation algorithms. Note that both the width and height of an image need to be smaller than the threshold for it to be applied.</source>
+      <translation>PhotoQt maakt gebruik van interpolatie-algoritmen om vloeiende lijnen weer te geven en storende beeldfouten te vermijden. Voor kleine afbeeldingen kan dit echter leiden tot wazige afbeeldingen wanneer er geen interpolatie nodig is. PhotoQt kan daarom het gebruik van interpolatie-algoritmes uitzetten voor kleine afbeeldingen onder de opgegeven drempelwaarde. Dat geldt als zowel de breedte als de hoogte van een afbeelding kleiner zijn dan de drempelwaarde.</translation>
+    </message>
+    <message>
       <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="301"/>
       <source>disable interpolation for small images</source>
       <translation>schakel interpolatie uit voor kleine afbeeldingen</translation>
     </message>
     <message>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="310"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQBehavior.qml" line="146"/>
       <source>threshold:</source>
       <translation>Drempelwaarde:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="294"/>
-      <source>PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. For images that are smaller than the current window size, this interpolation is automatically disabled by default. Though not recommended, this behavior can be disabled here.</source>
-      <translation type="unfinished">PhotoQt makes use of interpolation algorithms to show smooth lines and avoid potential artefacts to be shown. For images that are smaller than the current window size, this interpolation is automatically disabled by default. Though not recommended, this behavior can be disabled here.</translation>
-    </message>
-    <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="339"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="358"/>
       <source>Whenever an image is loaded in full, PhotoQt caches such images in order to greatly improve performance if that same image is shown again soon after. This is done up to a certain memory limit after which the first images in the cache will be removed again to free up the required memory. Depending on the amount of memory available on the system, a higher value can lead to an improved user experience.</source>
       <translation>Wanneer een afbeelding volledig wordt geladen, zal PhotoQt een kopie opslaan in buffergeheugen om die sneller te kunnen tonen als dezelfde afbeelding kort daarna weer wordt weergegeven. Dit wordt gedaan tot de ingestelde buffergrootte waarna de oudste kopie wordt verwijderd om ruimte vrij te maken. Afhankelijk van het beschikbare geheugen, kan een hogere buffergrootte leiden tot een betere gebruikerservaring.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="348"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="367"/>
       <source>cache size:</source>
       <translation>buffergrootte:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="391"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="410"/>
       <source>There are a variety of options available for handling color profiles. Depending on availability, PhotoQt can use a possibly embedded color profile or apply a custom selected default color profile, and it can offer a customized selection of color profiles through the context menu for choosing a different profile on-the-fly.</source>
       <translation>Er zijn diverse opties voor het verwerken van kleurenprofielen. Afhankelijk van de beschikbaarheid kan PhotoQt een eventueel ingesloten kleurprofiel gebruiken of een aangepast standaard kleurprofiel toepassen, en het kan een selectie van kleurprofielen aanbieden via het contextmenu voor het kiezen van een ander profiel.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="398"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="417"/>
       <source>Enable color profile management</source>
       <translation>Kleurbeheer inschakelen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="420"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="439"/>
       <source>Look for and load embedded color profiles</source>
       <translation>Zoek en laad ingesloten kleurprofielen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="432"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="451"/>
       <source>Change default color profile</source>
       <translation>Wijzig standaard kleurprofiel</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="447"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="466"/>
       <source>(no default color profile)</source>
       <translation>(geen standaard kleurprofiel)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="462"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="481"/>
       <source>Select which color profiles should be offered through the context menu:</source>
       <translation>Kies de kleurprofielen om in het contextmenu te tonen:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="478"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="497"/>
       <source>Filter color profiles</source>
       <extracomment>placeholder text in a text edit</extracomment>
       <translation>Filter kleurprofielen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="609"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="628"/>
       <source>Remove imported color profile</source>
       <translation>Verwijder geïmporteerd kleurprofiel</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="671"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="690"/>
       <location filename="../qml/settingsmanager/settings/imageview/PQMetadata.qml" line="310"/>
       <location filename="../qml/settingsmanager/settings/interface/PQPopout.qml" line="332"/>
       <source>Select all</source>
@@ -3719,7 +3720,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation>Selecteer alles</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="680"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="699"/>
       <location filename="../qml/settingsmanager/settings/imageview/PQMetadata.qml" line="319"/>
       <location filename="../qml/settingsmanager/settings/interface/PQPopout.qml" line="341"/>
       <source>Select none</source>
@@ -3727,7 +3728,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation>Selecteer niets</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="689"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="708"/>
       <location filename="../qml/settingsmanager/settings/imageview/PQMetadata.qml" line="328"/>
       <location filename="../qml/settingsmanager/settings/interface/PQPopout.qml" line="350"/>
       <source>Invert</source>
@@ -3735,7 +3736,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation>Inverteren</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="705"/>
+      <location filename="../qml/settingsmanager/settings/imageview/PQImageSetIm.qml" line="724"/>
       <source>Import color profile</source>
       <translation>Importeer kleurprofiel</translation>
     </message>
@@ -3869,7 +3870,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="333"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1070"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1073"/>
       <source>Click to change color</source>
       <translation>Klik om kleur te wijzigen</translation>
     </message>
@@ -3892,7 +3893,7 @@ Used as identifying name for one of the elements in the interface</extracomment>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/interface/PQBackground.qml" line="492"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="738"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="741"/>
       <source>close window</source>
       <extracomment>what to do when the empty background is clicked
 ----------
@@ -3994,7 +3995,7 @@ Please keep short!</extracomment>
       <translation>kleurprofiel</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="745"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="748"/>
       <location filename="../qml/settingsmanager/settings/interface/PQStatusInfoSet.qml" line="315"/>
       <source>add</source>
       <extracomment>This is written on a button that is used to add a selected block to the status info section.</extracomment>
@@ -4383,7 +4384,7 @@ Settings title</extracomment>
       <translation>til omhoog</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="795"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="790"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="312"/>
       <source>hide when not needed</source>
       <extracomment>used as in: hide thumbnail bar when not needed</extracomment>
@@ -4412,31 +4413,31 @@ Settings title</extracomment>
       <translation>De zichtbaarheid van de miniatuurbalk kan ingesteld worden naar eigen voorkeur. De balk kan ofwel altijd zichtbaar gehouden worden, of verborgen worden tenzij de muiscursor dicht bij de respectievelijke schermrand komt, of het kan zichtbaar blijven tenzij de hoofdafbeelding is ingezoomd.</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="725"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="720"/>
       <source>fit thumbnails</source>
       <translation>herstel miniaturen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="739"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="734"/>
       <source>scale and crop thumbnails</source>
       <translation>schalen en uitsnijden miniaturen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="807"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="802"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="320"/>
       <source>always keep visible</source>
       <extracomment>used as in: always keep thumbnail bar visible</extracomment>
       <translation>altijd zichtbaar houden</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="819"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="814"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQAllThumbnails.qml" line="328"/>
       <source>hide when zoomed in</source>
       <extracomment>used as in: hide thumbnail bar when zoomed in</extracomment>
       <translation>verberg indien ingezoomd</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="834"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="829"/>
       <source>show filename labels</source>
       <translation>toon bestandsnaam labels</translation>
     </message>
@@ -4481,13 +4482,13 @@ Settings title</extracomment>
       <translation>miniaturen vullend maken</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="753"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="748"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="150"/>
       <source>same height, varying width</source>
       <translation>gelijke hoogte, variabele breedte</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="780"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="775"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="162"/>
       <source>keep small thumbnails small</source>
       <translation>kleine miniaturen niet vergroten</translation>
@@ -4551,7 +4552,7 @@ Settings title</extracomment>
       <translation>PhotoQt kan extra informatie over een afbeelding tonen in de vorm van een hint die wordt weergegeven wanneer de muisaanwijzer boven een miniatuur zweeft. De weergegeven informatie bevat de volledige bestandsnaam, bestandsgrootte en bestandstype.</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="842"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="837"/>
       <location filename="../qml/settingsmanager/settings/thumbnails/PQImageSetThumb.qml" line="376"/>
       <source>show tooltips</source>
       <translation>toon hints</translation>
@@ -4927,65 +4928,65 @@ some options as to what will happen with the slideshow music volume while videos
     </message>
     <message>
       <location filename="../qml/ongoing/PQMetaData.qml" line="718"/>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="714"/>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="851"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="850"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="745"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="846"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="867"/>
       <source>Manage in settings manager</source>
       <translation>Beheer in instellingenbeheer</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="620"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="787"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="651"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="804"/>
       <source>show</source>
       <translation>weergeven</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="630"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="661"/>
       <source>manage window</source>
       <translation>venster beheren</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="638"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="803"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="669"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="820"/>
       <source>visibility</source>
       <translation>zichtbaarheid</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="643"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="808"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="674"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="825"/>
       <source>always</source>
       <translation>altijd</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="656"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="821"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="687"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="838"/>
       <source>cursor move</source>
       <translation>muis verplaatsing</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="669"/>
-      <location filename="../qml/ongoing/PQWindowButtons.qml" line="834"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="700"/>
+      <location filename="../qml/ongoing/PQWindowButtons.qml" line="851"/>
       <source>cursor near top edge</source>
       <translation>cursor dichtbij bovenrand</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="684"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="715"/>
       <source>position</source>
       <extracomment>The position here refers to the position of the statusinfo, where along the top edge of the window it should be aligned along</extracomment>
       <translation>positie</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="687"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="718"/>
       <source>top left</source>
       <translation>linksboven</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="695"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="726"/>
       <source>top center</source>
       <translation>middenboven</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="703"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="734"/>
       <source>top right</source>
       <translation>rechtsboven</translation>
     </message>
@@ -5413,8 +5414,8 @@ Please keep short! This is the rotation of the current image</extracomment>
       <translation>Er zijn nog geen aangepaste acties</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="134"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="193"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="140"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="197"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="322"/>
       <source>Select</source>
       <extracomment>written on button for selecting a file from the file dialog
@@ -5423,24 +5424,24 @@ written on button in file picker to select an existing executable file</extracom
       <translation>Selecteer</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="157"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="163"/>
       <source>entry name</source>
       <extracomment>The entry here refers to the text that is shown in the context menu for a custom entry</extracomment>
       <translation>actie naam</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="174"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="179"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="306"/>
       <source>executable</source>
       <translation>Uitvoerbaar bestand</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="189"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="193"/>
       <source>Select executable</source>
       <translation>Selecteer uitvoerbaar bestand</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="229"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="233"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="356"/>
       <source>additional flags</source>
       <extracomment>The flags here are additional parameters that can be passed on to an executable
@@ -5449,36 +5450,36 @@ the flags here are parameters specified on the command line</extracomment>
       <translation>additionele vlaggen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="245"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="248"/>
       <source>quit</source>
       <extracomment>Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!</extracomment>
       <translation>stoppen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="276"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="278"/>
       <source>Delete entry</source>
       <extracomment>The entry here is a custom entry in the context menu</extracomment>
       <translation>Actie wissen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="292"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="294"/>
       <source>Add new entry</source>
       <extracomment>The entry here is a custom entry in the context menu</extracomment>
       <translation>Actie toevoegen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="311"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="313"/>
       <source>Add system applications</source>
       <extracomment>The system applications here refers to any image related applications that can be found automatically on your system</extracomment>
       <translation>Voeg systeemapps toe</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="357"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="359"/>
       <source>The custom context menu entries can also be duplicated in the main menu. If enabled, the entries set above will be accesible in both places.</source>
       <translation>De aangepaste acties van het contextmenu kunnen ook gedupliceerd worden in het hoofdmenu. Indien ingeschakeld, zijn deze acties op beide plaatsen te zien.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="364"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQContextMenuSet.qml" line="366"/>
       <source>Duplicate in main menu</source>
       <extracomment>Refers to duplicating the custom context menu entries in the main menu</extracomment>
       <translation>Dupliceren in hoofdmenu</translation>
@@ -5534,118 +5535,118 @@ Used as identifying name for one of the elements in the interface</extracomment>
       <translation>Als u wilt helpen met de vertalingen, hetzij nieuwe vertalingen of verbetering van bestaande vertalingen, ga dan naar de vertaalpagina op Crowdin:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="226"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="229"/>
       <source>There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.</source>
       <translation>Het applicatievenster kent twee modi: de volledig scherm modus of de venstermodus. In de volledig scherm modus zal PhotoQt zich gedragen als een zwevende laag waarin u snel afbeeldingen kunt bekijken. In venstermodus kan PhotoQt gebruikt worden naast andere toepassingen. In de venstermodus staan instellingen om het altijd boven andere vensters te tonen, en om de vensterplaats en -grootte tussen sessies te onthouden.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="237"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="240"/>
       <source>fullscreen mode</source>
       <translation>volledig scherm modus</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="243"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="246"/>
       <source>window mode</source>
       <translation>venstermodus</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="264"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="267"/>
       <source>keep above other windows</source>
       <translation>houd boven andere vensters</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="271"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="274"/>
       <source>remember its geometry </source>
       <extracomment>remember the geometry of PhotoQts window between sessions</extracomment>
       <translation>onthoud de plaatsing</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="277"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="280"/>
       <source>enable window decoration</source>
       <translation>laat vensterrand zien</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="352"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="355"/>
       <source>PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.</source>
       <translation type="unfinished">PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="365"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="368"/>
       <source>enable integrated window buttons</source>
       <translation type="unfinished">enable integrated window buttons</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="513"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="516"/>
       <source>only in fullscreen</source>
       <extracomment>context menu entry, please keep short!</extracomment>
       <translation type="unfinished">only in fullscreen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="526"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="529"/>
       <source>only when windowed</source>
       <extracomment>context menu entry, please keep short! Windowed here is used as the opposite to fullscreen.</extracomment>
       <translation type="unfinished">only when windowed</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="542"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="545"/>
       <source>above everything else</source>
       <extracomment>context menu entry, please keep short!</extracomment>
       <translation type="unfinished">above everything else</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="695"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="698"/>
       <source>(a right click on an entry shows more options)</source>
       <translation type="unfinished">(a right click on an entry shows more options)</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="724"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="727"/>
       <source>previous image</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">previous image</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="726"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="729"/>
       <source>next image</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">next image</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="728"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="731"/>
       <source>main menu</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">main menu</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="730"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="733"/>
       <source>keep window on top</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">keep window on top</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="732"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="735"/>
       <source>toggle fullscreen</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">toggle fullscreen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="734"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="737"/>
       <source>minimize window</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">minimize window</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="736"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="739"/>
       <source>maximize window</source>
       <extracomment>Please keep short!</extracomment>
       <translation type="unfinished">maximize window</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="778"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="781"/>
       <source>Size:</source>
       <translation>Grootte:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="793"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="796"/>
       <location filename="../qml/settingsmanager/settings/interface/PQStatusInfoSet.qml" line="420"/>
       <source>keep always visible</source>
       <extracomment>visibility status of the window buttons
@@ -5654,7 +5655,7 @@ visibility status of the status information</extracomment>
       <translation>altijd zichtbaar houden</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="801"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="804"/>
       <location filename="../qml/settingsmanager/settings/interface/PQStatusInfoSet.qml" line="428"/>
       <source>only show with any cursor move</source>
       <extracomment>visibility status of the window buttons
@@ -5663,7 +5664,7 @@ visibility status of the status information</extracomment>
       <translation>alleen tonen bij cursorbeweging</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="809"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="812"/>
       <location filename="../qml/settingsmanager/settings/interface/PQStatusInfoSet.qml" line="436"/>
       <source>only show when cursor near top edge</source>
       <extracomment>visibility status of the window buttons
@@ -5672,126 +5673,126 @@ visibility status of the status information</extracomment>
       <translation>alleen tonen met cursor bij bovenrand</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="818"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="821"/>
       <location filename="../qml/settingsmanager/settings/interface/PQStatusInfoSet.qml" line="445"/>
       <source>hide again after timeout:</source>
       <translation>na time-out weer verbergen:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="921"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="924"/>
       <source>Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it. After selecting a new color it is recommended to first test the color using the provided button to make sure that the interface is readable with the new color.</source>
       <translation>Hier is een accentkleur van PhotoQt te selecteren om de hele interface te kleuren in verschillende helderheid. Na het selecteren van een nieuwe kleur is het raadzaam om de kleur eerst te testen met de knop om zeker te zijn dat de interface leesbaar is met de nieuwe kleur.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="931"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="934"/>
       <source>custom color</source>
       <translation>aangepaste kleur</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="988"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="991"/>
       <source>Test color for %1 seconds</source>
       <translation>Test kleur voor %1 seconden</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1031"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1034"/>
       <source>use accent color for background</source>
       <translation>gebruik accentkleur voor achtergrond</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1037"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1040"/>
       <source>use custom color for background</source>
       <translation>gebruik aangepaste kleur voor achtergrond</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1166"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1177"/>
       <source>All text in PhotoQt is shown with one of two weights, either as regular text or in bold face. Here the actual weight used can be adjusted for the two types. The default weight for normal text is 400 and for bold text is 700.</source>
       <translation>Alle tekst in PhotoQt wordt weergegeven als gewone of vetgedrukte tekst. Hier kan het gewicht voor gewone of vetgedrukte tekst ingesteld worden. Standaard is dat 400 voor gewone en 700 voor vetgedrukte tekst.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1173"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1184"/>
       <source>thin</source>
       <extracomment>This refers to a type of font weight (thin is the lightest weight)</extracomment>
       <translation>dun</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1175"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1186"/>
       <source>very light</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>zeer licht</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1177"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1188"/>
       <source>light</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>licht</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1179"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1190"/>
       <source>normal</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>normaal</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1181"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1192"/>
       <source>medium</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>gemiddeld</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1183"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1194"/>
       <source>medium bold</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>gemiddeld vet</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1185"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1196"/>
       <source>bold</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>vet</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1187"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1198"/>
       <source>extra bold</source>
       <extracomment>This refers to a type of font weight</extracomment>
       <translation>extra vet</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1189"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1200"/>
       <source>black</source>
       <extracomment>This refers to a type of font weight (black is the darkest, most bold weight)</extracomment>
       <translation>zwart</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1199"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1210"/>
       <source>normal font weight:</source>
       <translation>normaal gewicht:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1213"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1241"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1224"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1252"/>
       <source>current weight:</source>
       <translation>huidig gewicht:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1227"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1238"/>
       <source>bold font weight:</source>
       <extracomment>The weight here refers to the font weight</extracomment>
       <translation>vet gewicht:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1280"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1291"/>
       <source>For certain actions a notification is shown. On Linux this notification can be shown as native notification. Alternatively it can also be shown integrated into the main interface.</source>
       <translation>Voor bepaalde acties wordt een melding weergegeven. Bij Linux kan dat als systeemmelding getoond worden of als melding in het programmavenster.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1314"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1325"/>
       <source>top</source>
       <extracomment>Vertical position of the integrated notification popup. Please keep short!</extracomment>
       <translation>boven</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1322"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1348"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1333"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1359"/>
       <source>center</source>
       <extracomment>Vertical position of the integrated notification popup. Please keep short!
 ----------
@@ -5799,43 +5800,43 @@ Horizontal position of the integrated notification popup. Please keep short!</ex
       <translation>midden</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1330"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1341"/>
       <source>bottom</source>
       <extracomment>Vertical position of the integrated notification popup. Please keep short!</extracomment>
       <translation>onder</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1342"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1353"/>
       <source>left</source>
       <extracomment>Horizontal position of the integrated notification popup. Please keep short!</extracomment>
       <translation>links</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1354"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1365"/>
       <source>right</source>
       <extracomment>Horizontal position of the integrated notification popup. Please keep short!</extracomment>
       <translation>rechts</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1374"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1394"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1414"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1437"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1457"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1477"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1500"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1520"/>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1540"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1385"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1405"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1425"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1448"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1468"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1488"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1511"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1531"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1551"/>
       <source>Show notification at this position</source>
       <translation>Toon melding op deze positie</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1556"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1567"/>
       <source>Distance from edge:</source>
       <translation>Afstand vanaf rand:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1565"/>
+      <location filename="../qml/settingsmanager/settings/interface/PQInterface.qml" line="1576"/>
       <source>try to show native notification</source>
       <translation>probeer systeemmelding te tonen</translation>
     </message>
@@ -6335,35 +6336,35 @@ Horizontal position of the integrated notification popup. Please keep short!</ex
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="73"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="326"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="328"/>
       <source>Viewing images</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation>Afbeeldingen bekijken</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="75"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="327"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="329"/>
       <source>Current image</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation>Huidige afbeelding</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="77"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="328"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="330"/>
       <source>Current folder</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation>Huidige map</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="81"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="330"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="332"/>
       <source>Extensions</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation type="unfinished">Extensions</translation>
     </message>
     <message>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQNewAction.qml" line="85"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="332"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="334"/>
       <source>External</source>
       <extracomment>This is a shortcut category</extracomment>
       <translation>Extern</translation>
@@ -6924,54 +6925,54 @@ Horizontal position of the integrated notification popup. Please keep short!</ex
       <translation>Voeg nieuwe snelkoppeling-groep toe</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="293"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="295"/>
       <source>The shortcuts can be filtered by either the key combinations, shortcut actions, category, or all three. For the string search, PhotoQt will by default check if any action/key combination includes whatever string is entered. Adding a dollar sign ($) at the start or end of the search term forces a match to be either at the start or the end of a key combination or action.</source>
       <translation>De snelkoppelingen kunnen worden gefilterd op toetscombinatie, actie, categorie of alle drie. Bij het zoeken van tekenreeksen kijkt PhotoQt of een actie/toetscombinatie de opgegeven tekenreeks bevat. Het toevoegen van een dollarteken ($) aan het begin of eind van de zoekterm vereist dat een match aan het begin of eind van de toetscombinatie of actie staat.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="305"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="307"/>
       <source>Filter key combinations</source>
       <translation>Filter toetscombinaties</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="315"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="317"/>
       <source>Filter shortcut actions</source>
       <translation>Filter sneltoets acties</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="325"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="327"/>
       <source>Show all categories</source>
       <translation>Toon alle categorieën</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="326"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="327"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="328"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="329"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="330"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="331"/>
       <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="332"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="333"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="334"/>
       <source>Category:</source>
       <translation>Categorie:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="469"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="484"/>
       <source>no key combination set</source>
       <translation>geen toetscombinatie ingesteld</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="558"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="573"/>
       <source>Click to change key combination</source>
       <translation>Klik om toetscombinatie te wijzigen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="569"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="584"/>
       <source>Click to delete key combination</source>
       <translation>Klik om toetscombinatie te verwijderen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="603"/>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="890"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="618"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="905"/>
       <source>ADD</source>
       <extracomment>Written on small button, used as in: add new key combination. Please keep short!
 ----------
@@ -6979,74 +6980,74 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <translation>TOEVOEGEN</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="615"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="630"/>
       <source>Click to add new key combination</source>
       <translation>Klik om toetscombinatie toe te voegen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="671"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="686"/>
       <source>The new shortcut was in use by another shortcuts group. It has been reassigned to this group.</source>
       <translation>De nieuwe snelkoppeling was in gebruik in een andere groep. Deze is opnieuw toegewezen aan deze groep.</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="682"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="697"/>
       <source>Undo reassignment</source>
       <translation>Maak nieuwe toewijzing ongedaan</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="761"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="776"/>
       <source>no action selected</source>
       <extracomment>The action here is a shortcut action</extracomment>
       <translation>Geen actie geselecteerd</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="814"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="829"/>
       <source>unknown:</source>
       <extracomment>The unknown here refers to an unknown internal action that was set as shortcut</extracomment>
       <translation>onbekend:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="816"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="831"/>
       <source>external</source>
       <extracomment>This is an identifier in the shortcuts settings used to identify an external shortcut.</extracomment>
       <translation>extern</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="819"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="834"/>
       <source>quit after</source>
       <extracomment>This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked</extracomment>
       <translation>stoppen na</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="829"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="844"/>
       <source>Click to change shortcut action</source>
       <translation>Klik om snelkoppeling te wijzigen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="855"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="870"/>
       <source>Click to delete shortcut action</source>
       <translation>Klik om snelkoppeling te verwijderen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="902"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="917"/>
       <source>Click to add new action</source>
       <extracomment>The action here is a shortcut action</extracomment>
       <translation>Klik om snelkoppeling toe te voegen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="951"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="966"/>
       <source>cycle through actions one by one</source>
       <extracomment>The actions here are shortcut actions</extracomment>
       <translation>acties een voor een doorlopen</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="970"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="985"/>
       <source>timeout for resetting cycle:</source>
       <extracomment>The cycle here is the act of cycling through shortcut actions one by one</extracomment>
       <translation>time-out voor het resetten van cyclus:</translation>
     </message>
     <message>
-      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="1016"/>
+      <location filename="../qml/settingsmanager/settings/shortcuts/PQShortcuts.qml" line="1031"/>
       <source>run all actions at once</source>
       <extracomment>The actions here are shortcut actions</extracomment>
       <translation>alle acties tegelijk uitvoeren</translation>
@@ -7321,41 +7322,41 @@ Written on small button, used as in: add new shortcut action. Please keep short!
   <context>
     <name>statusinfo</name>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="192"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="209"/>
       <source>Click and drag to move window around</source>
       <translation>Klik en sleep om venster te verplaatsen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="193"/>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="239"/>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="370"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="210"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="254"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="387"/>
       <source>Click and drag to move status info around</source>
       <translation>Klik en sleep om statusinformatie te verplaatsen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="266"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="283"/>
       <source>Click to remove filter</source>
       <translation>Klik om filter te verwijderen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="330"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="347"/>
       <source>Filter:</source>
       <extracomment>This refers to the currently set filter</extracomment>
       <translation>Filter:</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="420"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="439"/>
       <source>Connected to:</source>
       <extracomment>Used in tooltip for the chromecast icon</extracomment>
       <translation>Verbonden met:</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="429"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="448"/>
       <source>Click anywhere to open a file</source>
       <translation>Klik ergens om een bestand te openen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQStatusInfo.qml" line="549"/>
+      <location filename="../qml/ongoing/PQStatusInfo.qml" line="579"/>
       <source>unknown color profile</source>
       <translation>onbekend kleurprofiel</translation>
     </message>
@@ -7409,7 +7410,7 @@ Written on small button, used as in: add new shortcut action. Please keep short!
     <name>thumbnails</name>
     <message>
       <location filename="../qml/filedialog/PQFileView.qml" line="632"/>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="708"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="703"/>
       <source>Reload thumbnail</source>
       <translation>Miniatuur opnieuw laden</translation>
     </message>
@@ -7419,12 +7420,12 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <translation>Geen bestand geladen</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="511"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="506"/>
       <source>File size:</source>
       <translation>Bestandsgrootte:</translation>
     </message>
     <message>
-      <location filename="../qml/ongoing/PQThumbnails.qml" line="512"/>
+      <location filename="../qml/ongoing/PQThumbnails.qml" line="507"/>
       <source>File type:</source>
       <translation>Bestandstype:</translation>
     </message>
@@ -7447,7 +7448,7 @@ Written on small button, used as in: add new shortcut action. Please keep short!
     <message>
       <location filename="../qml/manage/PQLoader.qml" line="71"/>
       <location filename="../qml/manage/PQLoader.qml" line="74"/>
-      <location filename="../qml/other/PQShortcuts.qml" line="693"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="696"/>
       <source>Feature unavailable</source>
       <translation>Functie niet beschikbaar</translation>
     </message>
@@ -7462,7 +7463,7 @@ Written on small button, used as in: add new shortcut action. Please keep short!
       <translation>De locatie functie is niet beschikbaar in deze versie van PhotoQt.</translation>
     </message>
     <message>
-      <location filename="../qml/other/PQShortcuts.qml" line="693"/>
+      <location filename="../qml/other/PQShortcuts.qml" line="696"/>
       <source>Photo spheres are not supported by this build of PhotoQt.</source>
       <translation>Fotobollen niet ondersteund in deze versie van PhotoQt.</translation>
     </message>
