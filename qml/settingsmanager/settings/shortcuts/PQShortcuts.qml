@@ -376,30 +376,43 @@ Flickable {
                 required property int simultaneous
                 required property string uniqueid
 
+                property bool doneWithSetup: false
+                Timer {
+                    running: true
+                    interval: 300
+                    onTriggered:
+                        deleg.doneWithSetup = true
+                }
+
                 property list<string> combos: combosstr==="" ? [] : combosstr.split(":://::")
                 property list<string> commands: commandsstr==="" ? [] : commandsstr.split(":://::")
 
                 onCombosChanged: {
+                    if(!doneWithSetup) return
                     var ind = setting_top.idToEntr[uniqueid]
                     setting_top.currentEntries[ind][0] = combos
                     timerCheckDefault.restart()
                 }
                 onCommandsChanged: {
+                    if(!doneWithSetup) return
                     var ind = setting_top.idToEntr[uniqueid]
                     setting_top.currentEntries[ind][1] = commands
                     timerCheckDefault.restart()
                 }
                 onCyclingChanged: {
+                    if(!doneWithSetup) return
                     var ind = setting_top.idToEntr[uniqueid]
                     setting_top.currentEntries[ind][2] = cycling
                     timerCheckDefault.restart()
                 }
                 onCycletimeoutChanged: {
+                    if(!doneWithSetup) return
                     var ind = setting_top.idToEntr[uniqueid]
                     setting_top.currentEntries[ind][3] = cycletimeout
                     timerCheckDefault.restart()
                 }
                 onSimultaneousChanged: {
+                    if(!doneWithSetup) return
                     var ind = setting_top.idToEntr[uniqueid]
                     setting_top.currentEntries[ind][4] = simultaneous
                     timerCheckDefault.restart()
