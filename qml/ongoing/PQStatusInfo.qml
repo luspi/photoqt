@@ -867,14 +867,15 @@ Item {
         }
     }
 
+
     function computeYOffset() {
         var dist = 20
         var offset = 0
         if(PQCConstants.statusInfoMovedManually || !PQCSettings.interfaceWindowButtonsShow) {
             PQCConstants.statusInfoMovedDown = false
-            return
+            return 0
         }
-        if(PQCConstants.statusInfoCurrentRect.x+PQCConstants.statusInfoCurrentRect.width >= PQCConstants.windowButtonsCurrentRect.x-dist) {
+        if(statusinfo_top.x+statusinfo_top.width >= PQCConstants.windowButtonsCurrentRect.x-dist) {
             offset += PQCConstants.windowButtonsCurrentRect.height+20
             PQCConstants.statusInfoMovedDown = true
         } else
