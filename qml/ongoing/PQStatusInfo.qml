@@ -446,6 +446,7 @@ Item {
         id: rectNoImages
         PQText {
             text: qsTranslate("statusinfo", "Click anywhere to open a file")
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -453,6 +454,7 @@ Item {
         id: rectCounter
         PQText {
             text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -460,6 +462,7 @@ Item {
         id: rectFilename
         PQText {
             text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -467,6 +470,7 @@ Item {
         id: rectFilepath
         PQText {
             text: PQCFileFolderModel.currentFileNoDelay // qmllint disable unqualified
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -474,6 +478,7 @@ Item {
         id: rectZoom
         PQText {
             text: Math.round((PQCNotify.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * statusinfo_top.access_image.currentScale*100)+"%" // qmllint disable unqualified
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -481,6 +486,7 @@ Item {
         id: rectRotation
         PQText {
             text: (Math.round(statusinfo_top.access_image.currentRotation)%360+360)%360 + "°"
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -490,13 +496,16 @@ Item {
             spacing: 2
             PQText {
                 text: statusinfo_top.access_image.currentResolution.width
+                font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             }
             PQText {
                 opacity: 0.7
                 text: "x"
+                font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             }
             PQText {
                 text: statusinfo_top.access_image.currentResolution.height
+                font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             }
         }
     }
@@ -505,6 +514,7 @@ Item {
         id: rectFilesize
         PQText {
             text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
@@ -512,6 +522,7 @@ Item {
         id: rectColorProfile
         PQText {
             id: csptxt
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             Behavior on color { ColorAnimation { duration: 200 } }
             Component.onCompleted: {
                 var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
@@ -576,6 +587,7 @@ Item {
         id: rectDummy
         PQText {
             text: "[???]"
+            font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
 
