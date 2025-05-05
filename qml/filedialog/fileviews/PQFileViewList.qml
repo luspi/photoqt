@@ -67,7 +67,9 @@ ListView {
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
         width: listview.width
-        height: 15 + PQCSettings.filedialogZoom
+
+        // without the parseInt() the value is taken for some reason as string resulting in a height of "15" + "xx" = "15xx"
+        height: 15 + parseInt(PQCSettings.filedialogZoom)
 
         color: PQCLook.baseColor
         border.width: 1
