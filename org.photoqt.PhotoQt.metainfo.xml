@@ -112,6 +112,14 @@
         <content_attribute id="money-gambling">none</content_attribute>
     </content_rating>
     <releases>
+        <release version="4.9.1" date="2025-05-06">
+            <description>
+                PhotoQt 4.9 had a lot of exciting changes and additions. Unfortunately there were also some bugs that slipped through. This release, v4.9.1, fixes a whole range of them making PhotoQt better than ever before.
+            </description>
+            <url>
+                https://photoqt.org/news/photoqt-4.9.1
+            </url>
+        </release>
         <release version="4.9" date="2025-04-23">
             <description>
                 A new release for PhotoQt is ready with a bunch of additions and improvements and several bug fixes. This is a very exciting release, as there are some very exciting changes packed in it. Looking ahead, some big changes are in the works for v5.0.

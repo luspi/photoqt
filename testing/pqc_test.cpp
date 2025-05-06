@@ -40,7 +40,7 @@ void PQCTest::init() {
     dir.mkpath(QDir::tempPath() + "/photoqt_test");
 
     QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB());
-    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().USERSETTINGS_DB());
+    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB());
     QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB());
     QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB());
