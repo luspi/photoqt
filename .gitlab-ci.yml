@@ -16,7 +16,7 @@ localization:
     - git config --global user.email "${CI_EMAIL}"
     - git config --global user.name "${CI_USERNAME}"
     - git clone git@gitlab.com:lspies/photoqt-lang.git && cd photoqt-lang
-    - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ -ts photoqt-qt6.ts
+    - /usr/lib/qt6/bin/lupdate -no-obsolete ../qml/ ../cplusplus/ ../extensions/ -ts photoqt-qt6.ts
     - git add photoqt-qt6.ts
     - git diff-index --quiet HEAD || git commit -m "updating translation source files from CI - Qt6 version"
     - git push
