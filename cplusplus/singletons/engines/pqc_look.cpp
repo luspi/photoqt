@@ -35,10 +35,16 @@ PQCLook::PQCLook() {
                   "#110505", "#051105", "#050b11", "#110b02",
                   "#dddddd",
                   "#ff8080", "#a4c4a4", "#a4a4ff", "#ffd7c0"};
-    colorNames = {"dark gray",
-                  "dark red", "dark green", "dark blue", "dark orange",
-                  "light gray",
-                  "light red", "light green", "light blue", "light orange"};
+    colorNames = {QCoreApplication::translate("settingsmanager", "dark gray"),
+                  QCoreApplication::translate("settingsmanager", "dark red"),
+                  QCoreApplication::translate("settingsmanager", "dark green"),
+                  QCoreApplication::translate("settingsmanager", "dark blue"),
+                  QCoreApplication::translate("settingsmanager", "dark orange"),
+                  QCoreApplication::translate("settingsmanager", "light gray"),
+                  QCoreApplication::translate("settingsmanager", "light red"),
+                  QCoreApplication::translate("settingsmanager", "light green"),
+                  QCoreApplication::translate("settingsmanager", "light blue"),
+                  QCoreApplication::translate("settingsmanager", "light orange")};
 
     calculateColors(PQCSettings::get()["interfaceAccentColor"].toString());
 
