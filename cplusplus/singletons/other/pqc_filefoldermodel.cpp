@@ -857,6 +857,10 @@ void PQCFileFolderModel::setCurrentIndex(int val) {
 
 }
 
+int PQCFileFolderModel::getIndexOf(QString file) {
+    return m_entriesMainView.indexOf(file);
+}
+
 QString PQCFileFolderModel::getCurrentFile() {
     return m_currentFile;
 }

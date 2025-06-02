@@ -97,6 +97,15 @@ Window {
             masteritemattop.active = true
     }
 
+    Connections {
+        target: PQCConstants
+        enabled: PQCConstants.startupFileLoad!=""
+        function onImageInitiallyLoadedChanged() {
+            if(PQCConstants.imageInitiallyLoaded)
+                masteritemattop.active = true
+        }
+    }
+
     /****************************************************/
 
     Item {
@@ -160,7 +169,10 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
-        loadAppInBackgroundTimer.start()
+        if(PQCConstants.startupFileLoad == "")
+            loadAppInBackgroundTimer.triggered()
+        else
+            loadAppInBackgroundTimer.start()
 
         console.warn(">>> set up:", PQCScriptsOther.getTimestamp()-PQCScriptsPlain.getInitTime())
 

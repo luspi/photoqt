@@ -49,6 +49,15 @@ Loader {
 
     signal iAmReady()
 
+    Connections {
+        target: PQCFileFolderModel
+        enabled: imageloaderitem.thisIsStartupFile
+        function onCountMainViewChanged() {
+            imageloaderitem.mainItemIndex = PQCFileFolderModel.getIndexOf(PQCConstants.startupFileLoad)
+            imageloaderitem.thisIsStartupFile = false
+        }
+    }
+
     onMainItemIndexChanged: {
         imageLoadedAndReady = false
         active = false
@@ -104,7 +113,7 @@ Loader {
         // this is set to the duplicate from the loader
         property int mainItemIndex: -1
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex) // qmllint disable unqualified
+        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
 
         onIsMainImageChanged: setGlobalProperties()
 
@@ -696,7 +705,7 @@ Loader {
                         id: busyloading
                         parent: image_top // qmllint disable unqualified
                         anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
-                        z: image_top.curZ+1 // qmllint disable unqualified
+                        // z: image_top.curZ+1 // qmllint disable unqualified
                     }
 
                     onWidthChanged: {
@@ -2144,6 +2153,8 @@ Loader {
 
         // hide the image
         function hideImage() {
+
+            imageloaderitem.thisIsStartupFile = false
 
             // ignore anything that happened during a slideshow
             if(!PQCConstants.slideshowRunning) { // qmllint disable unqualified

@@ -165,13 +165,14 @@ Item {
 
     Timer {
         id: loadFirstImage
-        interval: 50
+        interval: 10
         onTriggered: {
             var img = repeaterimage.itemAt(0)
             if(img === null) {
                 loadFirstImage.restart()
                 return
             }
+
             img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFileLoad)
             img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFileLoad).toLocaleString()
             img.imageSource = PQCConstants.startupFileLoad
@@ -209,7 +210,7 @@ Item {
 
                 var img = repeaterimage.itemAt(i)
 
-                if(img.mainItemIndex === PQCFileFolderModel.currentIndex && img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
+                if((img.mainItemIndex === PQCFileFolderModel.currentIndex || img.thisIsStartupFile) && img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
                     showItem = i
                     break;
                 }
@@ -253,7 +254,6 @@ Item {
             for(var k = 0; k < image_top.howManyLoaders; ++k) {
                 if(showItem == k) {
                     var newimg = repeaterimage.itemAt(k)
-                    newimg.thisIsStartupFile = false
                     newimg.item.showImage()
                     break;
                 }

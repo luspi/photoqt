@@ -65,6 +65,12 @@ Loader {
 
         /****************************************************/
 
+        // If an image has been passed on then we wait with loading the rest of the interface until the image has been loaded
+        // After 2s of loading we show some first (and quick to set up) interface elements
+        // After an additional 2s if the image is still not loaded we also set up the rest of the interface
+
+        // If no image has been passed on we skip all of that and immediately set up the full interface
+
         Component.onCompleted: {
 
             // load files in folder
@@ -78,22 +84,47 @@ Loader {
 
         }
 
+        Connections {
+            target: PQCConstants
+            enabled: PQCConstants.startupFileLoad!=""
+            function onImageInitiallyLoadedChanged() {
+                if(PQCConstants.imageInitiallyLoaded && checkForFileFinished.running) {
+                    checkForFileFinished.stop()
+                    masteritem.finishSetup()
+                }
+            }
+        }
+
         Timer {
             id: checkForFileFinished
-            interval: 100
+            interval: 2000
+            property bool secondrun: false
             onTriggered: {
+                if(secondrun) {
+                    masteritem.finishSetup_part2()
+                    return
+                }
                 if(!PQCConstants.imageInitiallyLoaded) {
+                    masteritem.finishSetup_part1()
+                    secondrun = true
                     checkForFileFinished.restart()
                     return
                 }
                 finishSetup()
             }
         }
-
         function finishSetup() {
+            finishSetup_part1()
+            finishSetup_part2()
+        }
+
+        function finishSetup_part1() {
             masteritem.readyToContinueLoading = true
             PQCNotify.loaderSetup("mainmenu")
             PQCNotify.loaderSetup("metadata")
+        }
+
+        function finishSetup_part2() {
             PQCNotify.loaderSetup("thumbnails")
         }
 
