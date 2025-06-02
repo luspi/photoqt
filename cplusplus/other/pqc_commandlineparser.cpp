@@ -92,9 +92,6 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     PQCCommandLineResult ret = PQCCommandLineNothing;
 
-    ret = ret|PQCCommandLineFile;
-    filenames = {"/home/luspi/Nextcloud/Bilder/me.JPG"};
-
     if(positionalArguments().length() > 0) {
         ret = ret|PQCCommandLineFile;
         filenames = positionalArguments();

@@ -120,12 +120,12 @@ Image {
     ]
 
     onFileCountChanged: {
-        image_top.currentFilesInsideCount = fileCount // qmllint disable unqualified
+        PQCConstants.currentFileInsideTotal = fileCount // qmllint disable unqualified
     }
 
     onCurrentFileChanged: {
-        image_top.currentFileInside = currentFile // qmllint disable unqualified
-        image_top.currentFileInsideFilename = fileList[currentFile]
+        PQCConstants.currentFileInsideNum = currentFile
+        PQCConstants.currentFileInsideName = fileList[currentFile]
     }
 
     function setSource() {

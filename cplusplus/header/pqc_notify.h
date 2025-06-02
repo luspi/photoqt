@@ -152,13 +152,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(QStringList whichContextMenusOpen READ getWhichContextMenusOpen NOTIFY whichContextMenusOpenChanged)
-    Q_INVOKABLE void addToWhichContextMenusOpen(QString val);
-    Q_INVOKABLE void removeFromWhichContextMenusOpen(QString val);
-    Q_INVOKABLE QStringList getWhichContextMenusOpen();
-
-    /******************************************************/
-
     void setColorProfileFor(QString path, QString val);
     Q_INVOKABLE QString getColorProfileFor(QString path);
 
@@ -186,7 +179,6 @@ private:
         m_showingPhotoSphere = false;
         m_barcodeDisplayed = false;
         m_colorProfiles.clear();
-        m_whichContextMenusOpen.clear();
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -217,8 +209,6 @@ private:
     bool m_isMotionPhoto;
 
     bool m_barcodeDisplayed;
-
-    QStringList m_whichContextMenusOpen;
 
     QMap<QString, QString> m_colorProfiles;
 
@@ -255,7 +245,6 @@ Q_SIGNALS:
     void barcodeDisplayedChanged();
 
     // context menu properties
-    void whichContextMenusOpenChanged();
     void closeAllContextMenus();
 
     // command line signals

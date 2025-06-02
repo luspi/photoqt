@@ -36,7 +36,7 @@ Item {
 
     anchors.fill: parent
 
-    visible: loader_top.isMainImage && !PQCNotify.slideshowRunning && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+    visible: loader_top.isMainImage && !PQCConstants.slideshowRunning && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
 
     Repeater {
 
@@ -87,7 +87,7 @@ Item {
                 anchors.fill: parent
                 color: "transparent"
                 radius: Math.min(width/2, 10)
-                border.width: PQCSettings.metadataFaceTagsBorderWidth/image_top.currentScale // qmllint disable unqualified
+                border.width: PQCSettings.metadataFaceTagsBorderWidth/PQCConstants.currentImageScale // qmllint disable unqualified
                 border.color: PQCSettings.metadataFaceTagsBorderColor // qmllint disable unqualified
             }
 
@@ -107,7 +107,7 @@ Item {
                     id: faceLabel
                     x: 7
                     y: 5
-                    font.pointSize: PQCLook.fontSize/image_top.currentScale // qmllint disable unqualified
+                    font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale // qmllint disable unqualified
                     text: " "+facedeleg.curdata[5]+" "
                 }
 

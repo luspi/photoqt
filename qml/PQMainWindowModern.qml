@@ -38,13 +38,11 @@ Window {
     property bool resizing: false
     onWidthChanged: {
         PQCConstants.windowWidth = width
-        if(!PQCConstants.photoQtStartupDone) return
         resizing = true
         resetResizing.restart()
     }
     onHeightChanged: {
         PQCConstants.windowHeight = height
-        if(PQCConstants.photoQtStartupDone) return
         resizing = true
         resetResizing.restart()
     }
@@ -61,22 +59,6 @@ Window {
     PQMainWindowBackground {
         id: fullscreenitem
         anchors.fill: parent
-    }
-
-    /****************************************************/
-
-    Loader {
-        id: bgmessage
-        asynchronous: true
-        active: false
-        source: "modern/other/PQBackgroundMessage.qml"
-    }
-
-    Timer {
-        id: bgmessage_active
-        interval: 100
-        onTriggered:
-            bgmessage.active = true
     }
 
     /****************************************************/
@@ -99,14 +81,28 @@ Window {
 
     /****************************************************/
 
-    Item {
-        id: fullscreenitem_foreground
-        anchors.fill: parent
+    PQContextMenu { id: contextmenu }
+
+    /****************************************************/
+
+    // This is a Loader that loads the rest of the application in the background after set up
+    PQMasterItem {
+        id: masteritemattop
+    }
+
+    Timer {
+        id: loadAppInBackgroundTimer
+        interval: 100
+        onTriggered:
+            masteritemattop.active = true
     }
 
     /****************************************************/
 
-    PQContextMenu { id: contextmenu }
+    Item {
+        id: fullscreenitem_foreground
+        anchors.fill: parent
+    }
 
     /****************************************************/
 
@@ -164,8 +160,7 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
-        // startupSetupShowDelay.start()
-        bgmessage_active.start()
+        loadAppInBackgroundTimer.start()
 
         console.warn(">>> set up:", PQCScriptsOther.getTimestamp()-PQCScriptsPlain.getInitTime())
 
@@ -322,7 +317,7 @@ Window {
         PQCConstants.photoQtShuttingDown = true
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
-        // if(PQCNotify.slideshowRunning) // qmllint disable unqualified
+        // if(PQCConstants.slideshowRunning) // qmllint disable unqualified
             // loader_slideshowhandler.item.hide()
 
         if(PQCSettings.interfaceTrayIcon === 1) {
@@ -355,44 +350,5 @@ Window {
         to: 1
         duration: 100
     }
-
-    Timer {
-        id: resetStartup
-        interval: 500
-        running: true
-        onTriggered:
-            PQCConstants.photoQtStartupDone = true
-    }
-
-    // // these are run with a slight delay to make sure that the window is fully set up first
-    // Timer {
-    //     id: startupSetupShowDelay
-    //     interval: 500
-    //     onTriggered: {
-    //         // this is set in another timer here
-    //         // doing tings this way keeps them bth seperate and working independently
-    //         if(!PQCConstants.photoQtStartupDone) {
-    //             restart()
-    //             return
-    //         }
-    //         var exts = PQCExtensionsHandler.getExtensions()
-    //         for(var iE in exts) {
-    //             var ext = exts[iE]
-    //             var checks = PQCExtensionsHandler.getDoAtStartup(ext)
-    //             for(var i in checks) {
-    //                 var entry = checks[i]
-    //                 if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
-    //                     if(entry[1] === "show") {
-    //                         PQCNotify.loaderShowExtension(ext)
-    //                     } else if(entry[1] === "setup") {
-    //                         PQCNotify.loaderSetupExtension(ext)
-    //                     } else {
-    //                         console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     }
-    // }
 
 }

@@ -33,7 +33,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: PQCSettings.filetypesArchiveControls && !PQCFileFolderModel.isARC && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
@@ -521,14 +521,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCNotify.addToWhichContextMenusOpen("archivecontrols") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("archivecontrols") // qmllint disable unqualified
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menu.visible)
-                            PQCNotify.removeFromWhichContextMenusOpen("archivecontrols") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("archivecontrols") // qmllint disable unqualified
                     }
                 }
             }

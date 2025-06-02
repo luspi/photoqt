@@ -51,7 +51,7 @@ PQCPhotoSphere { // qmllint disable
         behavior_az.duration = 50
         behavior_ele.duration = 50
 
-        if(!panOnCompleted.running && !PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+        if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
             panOnCompleted.start()
     }
 
@@ -70,7 +70,7 @@ PQCPhotoSphere { // qmllint disable
         if(!loader_top.isMainImage)
             return
 
-        if(!panOnCompleted.running && !PQCNotify.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
+        if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
             panOnCompleted.start()
 
     }
@@ -431,7 +431,7 @@ PQCPhotoSphere { // qmllint disable
 
     Loader {
 
-        active: (!PQCSettings.filetypesPhotoSphereAutoLoad || loader_top.photoSphereManuallyEntered) && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: (!PQCSettings.filetypesPhotoSphereAutoLoad || loader_top.photoSphereManuallyEntered) && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
             Rectangle {

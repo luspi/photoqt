@@ -116,7 +116,7 @@ Window {
                 item.popoutWindowUsed = true
                 item.parentWidth = Qt.binding(function() { return ele_window.width })
                 item.parentHeight = Qt.binding(function() { return ele_window.height })
-                if(!PQCConstants.photoQtStartupDone && ele_window.popout)
+                if(ele_window.popout)
                     ele_window.visible = true
             }
     }

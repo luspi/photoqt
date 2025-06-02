@@ -68,7 +68,7 @@ Item {
         running: true
         onTriggered: {
             video.command(["loadfile", videotop.imageSource])
-            if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
+            if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
                 loader_top.videoPlaying = false
                 video.command(["set", "pause", "yes"])
             }
@@ -115,7 +115,7 @@ Item {
             PQCSettings.filetypesVideoVolume = video.getProperty("volume") // qmllint disable unqualified
             loader_top.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
-                if(PQCSettings.filetypesVideoLoop && !restarting && !PQCNotify.slideshowRunning) {
+                if(PQCSettings.filetypesVideoLoop && !restarting && !PQCConstants.slideshowRunning) {
                     video.command(["loadfile", videotop.imageSource])
                     restarting = true
                 }
@@ -222,13 +222,13 @@ Item {
 
             if(loader_top.videoPlaying) {
 
-                if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
+                if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
                     loader_top.videoPlaying = false
                 } else
                     video.command(["seek", 0, "absolute"])
 
             } else {
-                if(PQCSettings.filetypesVideoAutoplay || PQCNotify.slideshowRunning) {
+                if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning) {
                     video.command(["seek", 0, "absolute"])
                     loader_top.videoPlaying = true
                 }
@@ -246,7 +246,7 @@ Item {
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
-            if(PQCNotify.slideshowRunning) {
+            if(PQCConstants.slideshowRunning) {
                 video.command(["seek", 0, "absolute"])
                 loader_top.videoPlaying = true
             }

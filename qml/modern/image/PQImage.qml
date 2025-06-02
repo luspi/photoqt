@@ -41,7 +41,7 @@ Item {
     width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
     height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
 
-    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || currentScale < defaultScale))) // qmllint disable unqualified
+    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale))) // qmllint disable unqualified
 
     property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0 // qmllint disable unqualified
     property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.height : 0 // qmllint disable unqualified
@@ -57,31 +57,14 @@ Item {
     }
     property bool isSomeVideoLoaded: false
 
-    // this is set to true once an image is shown
-    // this is used, e.g., to detect when to start loading thumbnails
-    property bool initialLoadingFinished: false
-
     property int curZ: 0
-    property real defaultScale: 1
-    property real currentScale: 1
-    property real currentRotation: 0
-    property size currentResolution: Qt.size(0,0)
 
     property real currentFlickableVisibleAreaX: 0.0
     property real currentFlickableVisibleAreaY: 0.0
     property real currentFlickableVisibleAreaWidthRatio: 1.0
     property real currentFlickableVisibleAreaHeightRatio: 1.0
 
-    property bool imageIsAtDefaultScale: Math.abs(currentScale-defaultScale) < 1e-6
-
-    onCurrentResolutionChanged: {
-        if(currentResolution.height > 0 && currentResolution.width > 0)
-            PQCResolutionCache.saveResolution(PQCFileFolderModel.currentFile, currentResolution) // qmllint disable unqualified
-    }
-
-    property int currentFileInside: 0
-    property int currentFilesInsideCount: 0
-    property string currentFileInsideFilename: "" // whenever currentFileInside is changed this gets adjusted.
+    property bool imageIsAtDefaultScale: Math.abs(PQCConstants.currentImageScale-PQCConstants.currentImageDefaultScale) < 1e-6
 
     property string randomAnimation: "opacity"
 
@@ -175,7 +158,6 @@ Item {
             img.thisIsStartupFile = true
             img.mainItemIndex = -1
             img.mainItemIndexChanged()
-            // img.item.showImage()
 
         }
 
@@ -196,7 +178,6 @@ Item {
             img.thisIsStartupFile = true
             img.mainItemIndex = -1
             img.mainItemIndexChanged()
-            // img.showImage()
         }
     }
 
@@ -356,7 +337,7 @@ Item {
                         foundPrev = k
                         curprevimg.containingFolder = curFolder
                         curprevimg.lastModified = prevModified
-                        curprevimg.imageSource = filelistmodel[nexttwo[0]]
+                        curprevimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[0]]
                         curprevimg.mainItemIndex = nexttwo[0]
                         curprevimg.mainItemIndexChanged()
                         break;

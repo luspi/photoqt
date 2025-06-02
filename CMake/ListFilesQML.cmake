@@ -29,12 +29,9 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQResizeRect.qml ${d}/PQBlurBackground.qml)
 #
 # SET(d "qml/filedialog/popout")
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogPopout.qml)
-#
-# SET(d "qml/manage")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml)
-#
+
 SET(d "qml/modern/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml)# ${d}/PQSlideshowHandler.qml ${d}/PQMasterTouchAreas.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml ${d}/PQMasterItem.qml ${d}/PQLoader.qml)# ${d}/PQSlideshowHandler.qml ${d}/PQMasterTouchAreas.qml)
 
 SET(d "qml/modern/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)
@@ -48,7 +45,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQMinimap.qml ${d}/PQMinimapPopout.qml ${d}/
 SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQKenBurnsSlideshowBackground.qml)
 
 SET(d "qml/modern/ongoing")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQContextMenu.qml)#${d}/PQThumbnails.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQStatusInfo.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQThumbnails.qml)
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml)
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideshowControls.qml ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQWindowHandles.qml)
 #

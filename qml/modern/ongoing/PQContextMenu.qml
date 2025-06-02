@@ -306,7 +306,7 @@ Loader {
             loadertop.opened = false
         }
         onAboutToShow: {
-            PQCNotify.addToWhichContextMenusOpen("contextmenu") // qmllint disable unqualified
+            PQCConstants.addToWhichContextMenusOpen("globalcontextmenu") // qmllint disable unqualified
             loadertop.opened = true
         }
 
@@ -315,7 +315,7 @@ Loader {
             interval: 200
             onTriggered: {
                 if(!menutop.visible)
-                    PQCNotify.removeFromWhichContextMenusOpen("contextmenu") // qmllint disable unqualified
+                    PQCConstants.removeFromWhichContextMenusOpen("globalcontextmenu") // qmllint disable unqualified
             }
         }
 
@@ -381,8 +381,23 @@ Loader {
         // show up in random positions until PhotoQt is restarted.
         function onCustomEntriesChanged() {
             loadertop.active = false
-            PQCNotify.removeFromWhichContextMenusOpen("contextmenu")
+            PQCConstants.removeFromWhichContextMenusOpen("globalcontextmenu")
             loadertop.active = true
+        }
+    }
+
+    Connections {
+        target: PQCScriptsShortcuts
+
+        function onSendShortcutDismissGlobalContextMenu() {
+            loadertop.dismiss()
+        }
+
+        function onSendShortcutShowGlobalContextMenuAt(pos : point) {
+            if(pos.x === -1 || pos.y === -1)
+                loadertop.popup(undefined)
+            else
+                loadertop.popup(pos)
         }
     }
 
@@ -392,7 +407,7 @@ Loader {
 
         function onImageviewColorSpaceEnableChanged() {
             loadertop.active = false
-            PQCNotify.removeFromWhichContextMenusOpen("contextmenu")
+            PQCConstants.removeFromWhichContextMenusOpen("globalcontextmenu")
             loadertop.active = true
         }
 

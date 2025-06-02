@@ -28,7 +28,9 @@
 #include <QPoint>
 #include <QKeySequence>
 
-PQCScriptsShortcuts::PQCScriptsShortcuts() {}
+PQCScriptsShortcuts::PQCScriptsShortcuts() {
+    m_lastInternalShortcutExecuted = 0;
+}
 
 PQCScriptsShortcuts::~PQCScriptsShortcuts() {}
 
@@ -410,4 +412,12 @@ QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
 
     return "";
 
+}
+
+void PQCScriptsShortcuts::setCurrentTimestamp() {
+    m_lastInternalShortcutExecuted = QDateTime::currentMSecsSinceEpoch();
+}
+
+int PQCScriptsShortcuts::getCurrentTimestampDiffLessThan(int threshold) {
+    return (QDateTime::currentMSecsSinceEpoch() - m_lastInternalShortcutExecuted) < threshold;
 }

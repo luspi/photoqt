@@ -225,7 +225,7 @@ Image {
     // a big button in middle of screen to enter photo sphere
     Loader {
 
-        active: !image.ignoreSignals && loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: !image.ignoreSignals && loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
             Rectangle {
@@ -275,7 +275,7 @@ Image {
         running: !image.ignoreSignals && image.visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos) // qmllint disable unqualified
         onTriggered: {
 
-            if(PQCNotify.slideshowRunning) // qmllint disable unqualified
+            if(PQCConstants.slideshowRunning) // qmllint disable unqualified
                 return
 
             if(!loader_top.isMainImage)

@@ -35,7 +35,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: PQCSettings.filetypesDocumentControls&&!PQCFileFolderModel.isPDF && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
@@ -475,14 +475,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCNotify.addToWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menu.visible)
-                            PQCNotify.removeFromWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("documentcontrols") // qmllint disable unqualified
                     }
                 }
             }

@@ -46,7 +46,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesAnimatedControls && !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: PQCSettings.filetypesAnimatedControls && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {

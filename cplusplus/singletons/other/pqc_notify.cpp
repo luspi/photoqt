@@ -233,19 +233,3 @@ void PQCNotify::setColorProfileFor(QString path, QString val) {
 QString PQCNotify::getColorProfileFor(QString path) {
     return m_colorProfiles.value(path, "");
 }
-
-QStringList PQCNotify::getWhichContextMenusOpen() {
-    return m_whichContextMenusOpen;
-}
-void PQCNotify::addToWhichContextMenusOpen(QString val) {
-    if(!m_whichContextMenusOpen.contains(val)) {
-        m_whichContextMenusOpen.append(val);
-        Q_EMIT whichContextMenusOpenChanged();
-    }
-}
-void PQCNotify::removeFromWhichContextMenusOpen(QString val) {
-    if(m_whichContextMenusOpen.contains(val)) {
-        m_whichContextMenusOpen.remove(m_whichContextMenusOpen.indexOf(val));
-        Q_EMIT whichContextMenusOpenChanged();
-    }
-}

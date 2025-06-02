@@ -33,7 +33,7 @@ Item {
 
     Loader {
 
-        active: !PQCNotify.slideshowRunning // qmllint disable unqualified
+        active: !PQCConstants.slideshowRunning // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {
@@ -475,14 +475,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCNotify.addToWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menu.visible)
-                            PQCNotify.removeFromWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("videocontrols") // qmllint disable unqualified
                     }
                 }
             }

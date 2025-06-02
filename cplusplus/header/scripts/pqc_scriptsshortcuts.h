@@ -50,8 +50,18 @@ public:
     Q_INVOKABLE QString analyzeMouseDirection(QPoint prevPoint, QPoint curPoint);
     Q_INVOKABLE QString analyzeKeyPress(Qt::Key key);
 
+    Q_INVOKABLE void setCurrentTimestamp();
+    Q_INVOKABLE int getCurrentTimestampDiffLessThan(int threshold);
+
 private:
     PQCScriptsShortcuts();
+
+    qint64 m_lastInternalShortcutExecuted;
+
+Q_SIGNALS:
+
+    void sendShortcutShowGlobalContextMenuAt(QPoint pos);
+    void sendShortcutDismissGlobalContextMenu();
 
 };
 

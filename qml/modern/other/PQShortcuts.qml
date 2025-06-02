@@ -160,7 +160,7 @@ Item {
             if(PQCConstants.modalWindowOpen) { // qmllint disable unqualified
 
                 // make sure contextmenu is closed on key press
-                contextmenu.dismiss()
+                PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
 
                 PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
 
@@ -302,10 +302,10 @@ Item {
 
 
         // make sure contextmenu is closed before executing shortcut
-        // if(contextmenu.opened) {
-            // contextmenu.dismiss()
-            // return
-        // }
+        if(PQCConstants.isContextmenuOpen("globalcontextmenu")) {
+            PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
+            return
+        }
 
         if(combo === "Esc") {
 
@@ -524,6 +524,12 @@ Item {
 
     function executeInternalFunction(cmd : string, mousePos : point, wheelDelta : point) {
 
+        // we limit the internal shortcuts to happen at most once every threshold ms
+        // we can't do the math directly here as 64bit integers are not properly supported by QML
+        if(PQCScriptsShortcuts.getCurrentTimestampDiffLessThan(100))
+            return
+        PQCScriptsShortcuts.setCurrentTimestamp()
+
         console.debug("args: cmd =", cmd)
         console.debug("args: mousePos =", mousePos)
         console.debug("args: wheelDelta =", wheelDelta)
@@ -623,12 +629,12 @@ Item {
             // elements (ongoing)
 
             case "__contextMenu":
-                if(!PQCNotify.slideshowRunning)
-                    contextmenu.popup(undefined)
+                if(!PQCConstants.slideshowRunning)
+                    PQCScriptsShortcuts.sendShortcutShowGlobalContextMenuAt(Qt.point(-1,-1))
                 break
             case "__contextMenuTouch":
-                if(!PQCNotify.slideshowRunning)
-                    contextmenu.popup(mousePos)
+                if(!PQCConstants.slideshowRunning)
+                    PQCScriptsShortcuts.sendShortcutShowGlobalContextMenuAt(mousePos)
                 break
             case "__showMetaData":
             case "__keepMetaData":
@@ -838,10 +844,10 @@ Item {
                 break
             case "__clipboard":
                 var src = PQCFileFolderModel.currentFile
-                if(image.currentFilesInsideCount > 0 && PQCScriptsImages.isArchive(src) && !src.includes("::ARC::"))
-                    src = "%1::ARC::%2".arg(image.currentFileInsideFilename).arg(src)
-                if(image.currentFilesInsideCount > 0 && PQCScriptsImages.isPDFDocument(src) && !src.includes("::PDF::"))
-                    src = "%1::PDF::%2".arg(image.currentFileInside).arg(src)
+                if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isArchive(src) && !src.includes("::ARC::"))
+                    src = "%1::ARC::%2".arg(PQCConstants.currentFileInsideName).arg(src)
+                if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isPDFDocument(src) && !src.includes("::PDF::"))
+                    src = "%1::PDF::%2".arg(PQCConstants.currentFileInsideNum).arg(src)
                 PQCScriptsClipboard.copyFilesToClipboard([src])
                 break
             case "__print":

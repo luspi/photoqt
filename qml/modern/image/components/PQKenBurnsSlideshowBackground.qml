@@ -85,7 +85,7 @@ Loader {
             sc = Math.max(flickable.width/image_wrapper.width, flickable.height/image_wrapper.height)
 
         // If scale factor is invalid or not needed -> stop
-        if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns" || sc < loader_top.defaultScale*1.1 || sc === Number.POSITIVE_INFINITY) {
+        if(!PQCConstants.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns" || sc < loader_top.defaultScale*1.1 || sc === Number.POSITIVE_INFINITY) {
             kenburnsBG.active = false
             waitForItem.stop()
             performAni = false

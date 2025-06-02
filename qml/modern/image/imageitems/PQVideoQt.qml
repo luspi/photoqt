@@ -46,7 +46,7 @@ Item {
 
         source: "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource) // qmllint disable unqualified
 
-        volume: PQCNotify.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
+        volume: PQCConstants.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
 
         width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined // qmllint disable unqualified
         height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined // qmllint disable unqualified
@@ -55,7 +55,7 @@ Item {
 
         onPositionChanged: {
             if(position >= duration-100) {
-                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) // qmllint disable unqualified
+                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning) // qmllint disable unqualified
                     video.seek(0)
                 else
                     video.pause()
@@ -67,7 +67,7 @@ Item {
 
                 video.source = "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource)
 
-                if(PQCSettings.filetypesVideoLoop && !PQCNotify.slideshowRunning) { // qmllint disable unqualified
+                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning) { // qmllint disable unqualified
                     video.play()
                 } else {
                     video.pause()
@@ -155,7 +155,7 @@ Item {
 
             if(loader_top.videoPlaying) {
 
-                if(!PQCSettings.filetypesVideoAutoplay && !PQCNotify.slideshowRunning) {
+                if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
                     video.pause()
                 } else
                     video.seek(0)
@@ -163,7 +163,7 @@ Item {
             } else {
                 video.seek(0)
                 video.pause()
-                if(PQCSettings.filetypesVideoAutoplay || PQCNotify.slideshowRunning)
+                if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning)
                     video.play()
             }
 
@@ -179,7 +179,7 @@ Item {
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
 
-            if(PQCNotify.slideshowRunning) {
+            if(PQCConstants.slideshowRunning) {
                 video.seek(0)
                 video.play()
             }

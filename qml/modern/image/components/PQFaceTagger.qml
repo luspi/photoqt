@@ -130,7 +130,7 @@ Item {
                     id: faceLabel
                     x: 7
                     y: 5
-                    font.pointSize: PQCLook.fontSize/image_top.currentScale // qmllint disable unqualified
+                    font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale // qmllint disable unqualified
                     text: " "+facedeleg.curdata[5]+" "
                 }
 

@@ -20,6 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
+#ifndef PQC_RESOLUTIONCACHE
+#define PQC_RESOLUTIONCACHE
+
 #include <QObject>
 #include <QMap>
 
@@ -47,3 +50,5 @@ private:
     QMap<QString,QSize> resolution;
 
 };
+
+#endif

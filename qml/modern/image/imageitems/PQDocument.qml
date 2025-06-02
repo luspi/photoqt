@@ -172,12 +172,12 @@ Image {
     property int pageCount: PQCScriptsImages.getDocumentPageCount(image.imageSource) // qmllint disable unqualified
 
     onCurrentPageChanged: {
-        image_top.currentFileInside = currentPage // qmllint disable unqualified
+        PQCConstants.currentFileInsideNum = currentPage
         loadNewPage.restart()
     }
 
     onPageCountChanged: {
-        image_top.currentFilesInsideCount = pageCount // qmllint disable unqualified
+        PQCConstants.currentFileInsideTotal = pageCount // qmllint disable unqualified
     }
 
     Timer {

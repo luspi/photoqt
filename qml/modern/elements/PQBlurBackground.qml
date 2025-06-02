@@ -21,7 +21,7 @@ pragma ComponentBehavior: Bound
  **                                                                      **
  **************************************************************************/
 
-/*1off_Qt64
+/*1off_Qt64*/
 
 import QtQuick
 
@@ -36,9 +36,9 @@ Rectangle {
 
 }
 
-2off_Qt64*/
+/*2off_Qt64*/
 
-/*1on_Qt65+*/
+/*1on_Qt65+*//*
 
 import QtQuick
 import QtQuick.Effects
@@ -49,14 +49,22 @@ Item {
     id: blur_top
     anchors.fill: parent
 
-    property list<string> itemkeys: ["image", "statusinfo", "thumbnails", "metadata", "mainmenu"].concat(PQCExtensionsHandler.getNotModalExtensions())
+    property list<string> itemkeys: ["image", "statusinfo", "metadata", "mainmenu"]
     property var items: {
-        "image" : image, // qmllint disable unqualified
-        "thumbnails" : loader_thumbnails,
+        "image" : imageloader.item, // qmllint disable unqualified
         "statusinfo" : statusinfo,
         "mainmenu" : loader_mainmenu,
         "metadata" : loader_metadata
     }
+
+    // property list<string> itemkeys: ["image", "statusinfo", "thumbnails", "metadata", "mainmenu"].concat(PQCExtensionsHandler.getNotModalExtensions())
+    // property var items: {
+    //     "image" : imageloader.item, // qmllint disable unqualified
+    //     "thumbnails" : loader_thumbnails,
+    //     "statusinfo" : statusinfo,
+    //     "mainmenu" : loader_mainmenu,
+    //     "metadata" : loader_metadata
+    // }
     property int numIntegratedItems: Object.keys(items).length
 
     property string thisis: ""
@@ -80,7 +88,8 @@ Item {
 
             ShaderEffectSource{
                 id: shader
-                sourceItem: isExtension ? loader_extensions.itemAt(PQCExtensionsHandler.getExtensions().indexOf(blur_top.itemkeys[deleg.modelData])) : blur_top.items[blur_top.itemkeys[deleg.modelData]]
+                //sourceItem: isExtension ? loader_extensions.itemAt(PQCExtensionsHandler.getExtensions().indexOf(blur_top.itemkeys[deleg.modelData])) : blur_top.items[blur_top.itemkeys[deleg.modelData]]
+                sourceItem: blur_top.items[blur_top.itemkeys[deleg.modelData]]
                 anchors.fill: parent
                 property int adjust: deleg.modelData == 0 ? PQCSettings.imageviewMargin : 0 // qmllint disable unqualified
                 sourceRect: Qt.rect(blur_top.parent.x-adjust, blur_top.parent.y-adjust, blur_top.width, blur_top.height)
@@ -130,5 +139,5 @@ Item {
     /////////////////////////////////////////////////////////////////////////////////////////////////
 
 }
-
+*/
 /*2on_Qt65+*/

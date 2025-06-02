@@ -82,7 +82,7 @@ Loader {
             if(PQCSettings.imageviewFitInWindow)
                 resetDefaults.triggered()
             if(loader_top.isMainImage)
-                image_top.currentResolution = imageResolution // qmllint disable unqualified
+                PQCConstants.currentImageResolution = imageResolution // qmllint disable unqualified
         }
 
         property int imagePosX: 0
@@ -278,9 +278,9 @@ Loader {
 
         function setGlobalProperties() {
             if(loader_top.isMainImage) {
-                image_top.currentFileInside = 0 // qmllint disable unqualified
-                image_top.currentFilesInsideCount = 0
-                image_top.currentFileInsideFilename = ""
+                PQCConstants.currentFileInsideNum = 0
+                PQCConstants.currentFileInsideName = ""
+                PQCConstants.currentFileInsideTotal = 0
                 PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere
                 image_top.currentlyShowingVideo = loader_top.videoLoaded
                 image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
@@ -498,7 +498,7 @@ Loader {
                 NumberAnimation {
                     properties: "x,y"
                     // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
-                    duration: PQCNotify.slideshowRunning ? 0 : 250 // qmllint disable unqualified
+                    duration: PQCConstants.slideshowRunning ? 0 : 250 // qmllint disable unqualified
                     easing.type: Easing.OutQuad
                 }
                 // Signal that the view was dragged out of bounds
@@ -506,7 +506,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            interactive: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -577,7 +577,7 @@ Loader {
                 interval: 100
                 repeat: false
                 onTriggered:
-                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning })
+                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning })
             }
 
             // the container for the content
@@ -650,22 +650,20 @@ Loader {
                         prevScale = scale
 
                         if(loader_top.isMainImage)
-                            image_top.currentScale = scale // qmllint disable unqualified
+                            PQCConstants.currentImageScale = scale // qmllint disable unqualified
 
                     }
 
                     onRotationChanged: {
                         if(loader_top.isMainImage)
-                            image_top.currentRotation = rotation // qmllint disable unqualified
+                            PQCConstants.currentImageRotation = rotation // qmllint disable unqualified
                     }
 
                     // react to status changes
                     property int status: Image.Null
                     onStatusChanged: {
-                        statusToBusy()
                         if(status == Image.Ready) {
                             imageloaderitem.imageLoadedAndReady = true
-                            console.warn(">>>> READY:", loader_top.isMainImage)
                             if(loader_top.isMainImage) {
                                 timer_busyloading.stop()
                                 busyloading.hide()
@@ -675,28 +673,20 @@ Loader {
                                 loader_top.defaultWidth = width*loader_top.defaultScale
                                 loader_top.defaultHeight = height*loader_top.defaultScale
                                 loader_top.defaultScale = 0.99999999*tmp
-                                image_top.defaultScale = loader_top.defaultScale // qmllint disable unqualified
+                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale // qmllint disable unqualified
                                 imageloaderitem.iAmReady()
                                 loader_top.setUpImageWhenReady()
                             }
-                        } else if(loader_top.isMainImage)
-                            timer_busyloading.restart()
-                    }
-
-                    function statusToBusy() {
-                        if(!loader_top.isMainImage) return
-                        if(status === Image.Ready) {
-                            timer_busyloading.stop()
-                            busyloading.hide()
-                        } else {
+                        } else if(loader_top.isMainImage) {
                             timer_busyloading.restart()
                         }
                     }
+
                     Timer {
                         id: timer_busyloading
                         interval: 500
                         onTriggered: {
-                            if(!PQCNotify.slideshowRunning) // qmllint disable unqualified
+                            if(!PQCConstants.slideshowRunning) // qmllint disable unqualified
                                 busyloading.showBusy()
                         }
                     }
@@ -1097,7 +1087,7 @@ Loader {
                             }
 
                             if(loader_top.isMainImage) {
-                                image_top.defaultScale = loader_top.defaultScale
+                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                             }
                         }
                     }
@@ -1493,7 +1483,7 @@ Loader {
                                 loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                 if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
                                     loader_top.imageScale = loader_top.defaultScale
-                                image_top.defaultScale = loader_top.defaultScale // qmllint disable unqualified
+                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale // qmllint disable unqualified
                             }
                         }
 
@@ -1683,7 +1673,7 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            enabled: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
             property list<point> initialPts: []
             property real initialScale
@@ -1785,7 +1775,7 @@ Loader {
             property: "opacity"
             from: 0
             to: 1
-            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCNotify.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0) // qmllint disable unqualified
+            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCConstants.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0) // qmllint disable unqualified
 
             onStarted: {
                 if(loader_top.opacity > 0.9)
@@ -1957,7 +1947,7 @@ Loader {
 
         Loader {
             id: loader_kenburns
-            active: PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns" // qmllint disable unqualified
+            active: PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns" // qmllint disable unqualified
             sourceComponent:
                 PQKenBurnsSlideshowEffect { }
         }
@@ -2005,7 +1995,7 @@ Loader {
 
             // if a slideshow is running with the ken burns effect
             // then we need to do some special handling
-            if(PQCNotify.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
+            if(PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
                 if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded) {
                     loader_top.resetToDefaults()
@@ -2103,9 +2093,9 @@ Loader {
 
             image_top.curZ += 1
 
-            image_top.currentScale = loader_top.imageScale
-            image_top.currentRotation = loader_top.imageRotation
-            image_top.currentResolution = loader_top.imageResolution
+            PQCConstants.currentImageScale = loader_top.imageScale
+            PQCConstants.currentImageRotation = loader_top.imageRotation
+            PQCConstants.currentImageResolution = loader_top.imageResolution
 
             if(PQCSettings.imageviewAnimationType === "random")
                 selectNewRandomAnimation.restart()
@@ -2114,7 +2104,7 @@ Loader {
             loader_top.resetToDefaults()
 
             // these are only done if we are not in a slideshow with the ken burns effect
-            if(!PQCNotify.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
+            if(!PQCConstants.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
 
                 if(PQCSettings.imageviewAlwaysActualSize) {
                     loader_top.zoomActualWithoutAnimation()
@@ -2126,7 +2116,7 @@ Loader {
                     }
                 } else {
 
-                    image_top.initialLoadingFinished = true
+                    PQCConstants.imageInitiallyLoaded = true
 
                     loader_top.resetToDefaults()
                     loader_top.moveViewToCenter()
@@ -2135,7 +2125,7 @@ Loader {
 
             }
 
-            image_top.initialLoadingFinished = true
+            PQCConstants.imageInitiallyLoaded = true
 
         }
 
@@ -2156,7 +2146,7 @@ Loader {
         function hideImage() {
 
             // ignore anything that happened during a slideshow
-            if(!PQCNotify.slideshowRunning) { // qmllint disable unqualified
+            if(!PQCConstants.slideshowRunning) { // qmllint disable unqualified
 
                 if(loader_top.isMainImage) {
 

@@ -25,6 +25,8 @@
 
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_settings.h>
+#include <pqc_resolutioncache.h>
+#include <pqc_filefoldermodel.h>
 
 #include <QObject>
 #include <QStandardPaths>
@@ -45,7 +47,21 @@ public:
     PQCConstants(PQCConstants const&)     = delete;
     void operator=(PQCConstants const&) = delete;
 
+    /******************************************************/
+    // some generic global propertues
+
     Q_PROPERTY(QString startupFileLoad MEMBER m_startupFileLoad NOTIFY startupFileLoadChanged)
+    Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
+    Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
+    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
+    Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
+    Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
+    Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
+    Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
+    Q_PROPERTY(bool slideshowRunning MEMBER m_slideshowRunning NOTIFY slideshowRunningChanged)
+
+    /******************************************************/
+    // some window properties
 
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
@@ -53,14 +69,8 @@ public:
     Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged)
     Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged)
 
-    Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged)
-    Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
-
-    Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
-    Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
-    Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
-    Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
-    Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
+    /******************************************************/
+    // regarding certain specific elements
 
     Q_PROPERTY(QRect statusInfoCurrentRect MEMBER m_statusInfoCurrentRect NOTIFY statusInfoCurrentRectChanged)
     Q_PROPERTY(QRect quickActionsCurrentRect MEMBER m_quickActionsCurrentRect NOTIFY quickActionsCurrentRectChanged)
@@ -69,8 +79,46 @@ public:
     Q_PROPERTY(bool quickActionsMovedManually MEMBER m_quickActionsMovedManually NOTIFY quickActionsMovedManuallyChanged)
     Q_PROPERTY(bool statusInfoMovedDown MEMBER m_statusInfoMovedDown NOTIFY statusInfoMovedDownChanged)
 
-    Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
-    Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
+    Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
+
+    /******************************************************/
+    // some image properties
+
+    Q_PROPERTY(double currentImageScale MEMBER m_currentImageScale NOTIFY currentImageScaleChanged)
+    Q_PROPERTY(int currentImageRotation MEMBER m_currentImageRotation NOTIFY currentImageRotationChanged)
+    Q_PROPERTY(QSize currentImageResolution MEMBER m_currentImageResolution NOTIFY currentImageResolutionChanged)
+    Q_PROPERTY(double currentImageDefaultScale MEMBER m_currentImageDefaultScale NOTIFY currentImageDefaultScaleChanged)
+    Q_PROPERTY(int currentFileInsideNum MEMBER m_currentFileInsideNum NOTIFY currentFileInsideNumChanged)
+    Q_PROPERTY(int currentFileInsideTotal MEMBER m_currentFileInsideTotal NOTIFY currentFileInsideTotalChanged)
+    Q_PROPERTY(QString currentFileInsideName MEMBER m_currentFileInsideName NOTIFY currentFileInsideNameChanged)
+
+    // this signals that an image (any image) has been fully loaded. Only then do we start, e.g., loading thumbnails
+    Q_PROPERTY(bool imageInitiallyLoaded MEMBER m_imageInitiallyLoaded NOTIFY imageInitiallyLoadedChanged)
+
+    /******************************************************/
+    // handling all the contextmenus
+
+    Q_PROPERTY(QStringList whichContextMenusOpen READ getWhichContextMenusOpen NOTIFY whichContextMenusOpenChanged)
+    Q_INVOKABLE void addToWhichContextMenusOpen(QString val) {
+        if(!m_whichContextMenusOpen.contains(val)) {
+            m_whichContextMenusOpen.append(val);
+            Q_EMIT whichContextMenusOpenChanged();
+        }
+    }
+    Q_INVOKABLE void removeFromWhichContextMenusOpen(QString val) {
+        if(m_whichContextMenusOpen.contains(val)) {
+            m_whichContextMenusOpen.remove(m_whichContextMenusOpen.indexOf(val));
+            Q_EMIT whichContextMenusOpenChanged();
+        }
+    }
+    Q_INVOKABLE QStringList getWhichContextMenusOpen() {
+        return m_whichContextMenusOpen;
+    }
+    Q_INVOKABLE bool isContextmenuOpen(QString which) {
+        return m_whichContextMenusOpen.contains(which);
+    }
+
+    /******************************************************/
 
     Q_PROPERTY(qint64 initTime MEMBER m_initTime NOTIFY initTimeChanged)
 
@@ -95,6 +143,22 @@ private:
         m_idOfVisibleItem = "";
         m_modalWindowOpen = false;
         m_lastExecutedShortcutCommand = "";
+        m_slideshowRunning = false;
+
+        m_currentImageScale = 1;
+        m_currentImageRotation = 0;
+        m_currentImageResolution = QSize(0,0);
+        m_currentImageDefaultScale = 1.0;
+        m_currentFileInsideNum = 0;
+        m_currentFileInsideTotal = 0;
+        m_currentFileInsideName = "";
+        m_imageInitiallyLoaded = false;
+
+        // cache any possible resolution change
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
+            if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
+                PQCResolutionCache::get().saveResolution(PQCFileFolderModel::get().getCurrentFile(), m_currentImageResolution);
+        });
 
         m_statusInfoCurrentRect = QRect(0,0,0,0);
         m_quickActionsCurrentRect = QRect(0,0,0,0);
@@ -121,6 +185,10 @@ private:
 
         m_initTime = 0;
 
+        m_lastInternalShortcutExecuted = 0;
+
+        m_whichContextMenusOpen.clear();
+
     }
 
     QString m_startupFileLoad;
@@ -139,6 +207,16 @@ private:
     QString m_idOfVisibleItem;
     double m_devicePixelRatio;
     bool m_touchGestureActive;
+    bool m_slideshowRunning;
+
+    double m_currentImageScale;
+    int m_currentImageRotation;
+    QSize m_currentImageResolution;
+    double m_currentImageDefaultScale;
+    int m_currentFileInsideNum;
+    int m_currentFileInsideTotal;
+    QString m_currentFileInsideName;
+    bool m_imageInitiallyLoaded;
 
     QRect m_statusInfoCurrentRect;
     QRect m_quickActionsCurrentRect;
@@ -153,6 +231,9 @@ private:
     QString m_lastExecutedShortcutCommand;
 
     qint64 m_initTime;
+    qint64 m_lastInternalShortcutExecuted;
+
+    QStringList m_whichContextMenusOpen;
 
 Q_SIGNALS:
     void startupFileLoadChanged();
@@ -177,6 +258,18 @@ Q_SIGNALS:
     void quickActionsMovedManuallyChanged();
     void statusInfoMovedDownChanged();
     void initTimeChanged();
+    void lastInternalShortcutExecutedChanged();
+    void currentImageScaleChanged();
+    void currentImageRotationChanged();
+    void currentImageResolutionChanged();
+    void globalContextMenuOpenedChanged();
+    void whichContextMenusOpenChanged();
+    void currentFileInsideNumChanged();
+    void currentFileInsideTotalChanged();
+    void currentFileInsideNameChanged();
+    void slideshowRunningChanged();
+    void imageInitiallyLoadedChanged();
+    void currentImageDefaultScaleChanged();
 
 };
 

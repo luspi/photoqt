@@ -31,7 +31,7 @@ Rectangle {
 
     opacity: 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { id: opacityAny; duration: 200 } }
 
     anchors.fill: parent
     color: PQCLook.transColor // qmllint disable unqualified

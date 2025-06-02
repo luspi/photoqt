@@ -270,14 +270,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCNotify.addToWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menu.visible)
-                            PQCNotify.removeFromWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
                     }
                 }
             }

@@ -323,7 +323,7 @@ Item {
 
         if(PQCSettings.slideshowTypeAnimation === "kenburns") { // qmllint disable unqualified
 
-            if(PQCNotify.slideshowRunning) {
+            if(PQCConstants.slideshowRunning) {
 
                 if(!image_top.currentlyShowingVideo && !PQCNotify.showingPhotoSphere)
                     loader_top.zoomInForKenBurns()
@@ -379,12 +379,12 @@ Item {
     // If a slideshow is running with this effect then AN animation should always be running
     Timer {
         interval: 250
-        running: PQCNotify.slideshowRunning // qmllint disable unqualified
+        running: PQCConstants.slideshowRunning // qmllint disable unqualified
         repeat: true
         onTriggered: {
             if(loader_slideshowhandler.item !== null && // qmllint disable unqualified
                     loader_slideshowhandler.item.running &&
-                    PQCNotify.slideshowRunning &&
+                    PQCConstants.slideshowRunning &&
                     PQCSettings.slideshowTypeAnimation === "kenburns") {
                 if(!kb_lefttorightani.running && !kb_righttoleftani.running &&
                         !kb_toptobottomani.running && !kb_bottomtotopani.running &&
@@ -399,7 +399,7 @@ Item {
     function manageAni() {
 
         // no animation should be running -> stop!
-        if(!loader_top.isMainImage || !PQCNotify.slideshowRunning || // qmllint disable unqualified
+        if(!loader_top.isMainImage || !PQCConstants.slideshowRunning || // qmllint disable unqualified
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
                 loader_top.defaultScale >= 1 || !loader_slideshowhandler.item.running) {
             stopAfterFadeOut.restart()
