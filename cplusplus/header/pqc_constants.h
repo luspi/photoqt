@@ -45,6 +45,8 @@ public:
     PQCConstants(PQCConstants const&)     = delete;
     void operator=(PQCConstants const&) = delete;
 
+    Q_PROPERTY(QString startupFileLoad MEMBER m_startupFileLoad NOTIFY startupFileLoadChanged)
+
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
     Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged)
@@ -70,8 +72,18 @@ public:
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
 
+    Q_PROPERTY(qint64 initTime MEMBER m_initTime NOTIFY initTimeChanged)
+
+    void setInitTime(qint64 t) {
+        m_initTime = t;
+        initTimeChanged();
+    }
+
 private:
     PQCConstants() : QObject() {
+
+        m_startupFileLoad = "";
+
         m_windowWidth = 0;
         m_windowHeight = 0;
         m_windowState = Qt::WindowNoState;
@@ -107,8 +119,11 @@ private:
         });
         m_updateDevicePixelRatio->start();
 
+        m_initTime = 0;
 
     }
+
+    QString m_startupFileLoad;
 
     int m_windowWidth;
     int m_windowHeight;
@@ -137,7 +152,10 @@ private:
     QTimer *m_updateDevicePixelRatio;
     QString m_lastExecutedShortcutCommand;
 
+    qint64 m_initTime;
+
 Q_SIGNALS:
+    void startupFileLoadChanged();
     void windowWidthChanged();
     void windowHeightChanged();
     void windowStateChanged();
@@ -158,6 +176,7 @@ Q_SIGNALS:
     void statusInfoMovedManuallyChanged();
     void quickActionsMovedManuallyChanged();
     void statusInfoMovedDownChanged();
+    void initTimeChanged();
 
 };
 

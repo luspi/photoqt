@@ -28,7 +28,11 @@
 #include <pqc_notify.h>
 #include <pqc_extensionshandler.h>
 
+#include <scripts/pqc_scriptsother.h>
+
 PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
+
+    auto t0 = std::chrono::steady_clock::now();
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -137,6 +141,9 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
     connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
     connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
 
+    auto t1 = std::chrono::steady_clock::now();
+    qWarning() << "|| settings:" << std::chrono::duration<double, std::milli>(t1-t0).count();
+
 }
 
 PQCSettings::~PQCSettings() {
@@ -157,6 +164,8 @@ void PQCSettings::readDB() {
     /*******************************************/
     // first enter all default values
 
+    QVariantHash hashToEnter;
+
     for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(dbDefault);
@@ -167,40 +176,42 @@ void PQCSettings::readDB() {
         while(query.next()) {
 
             const QString name = QString("%1%2").arg(table, query.value(0).toString());
-            const QString value = query.value(1).toString();
             const QString datatype = query.value(2).toString();
 
             if(datatype == "int")
-                this->insert(name, value.toInt());
+                hashToEnter.insert(name, query.value(1).toInt());
             else if(datatype == "double")
-                this->insert(name, value.toDouble());
+                hashToEnter.insert(name, query.value(1).toDouble());
             else if(datatype == "bool")
-                this->insert(name, static_cast<bool>(value.toInt()));
+                hashToEnter.insert(name, static_cast<bool>(query.value(1).toInt()));
             else if(datatype == "list") {
+                QString value = query.value(1).toString();
                 if(value.contains(":://::"))
-                    this->insert(name, value.split(":://::"));
+                    hashToEnter.insert(name, value.split(":://::"));
                 else if(value != "")
-                    this->insert(name, QStringList() << value);
+                    hashToEnter.insert(name, QStringList() << value);
                 else
-                    this->insert(name, QStringList());
+                    hashToEnter.insert(name, QStringList());
             } else if(datatype == "point") {
+                QString value = query.value(1).toString();
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
-                    this->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
+                    hashToEnter.insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
                 else {
                     qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
-                    this->insert(name, QPoint(0,0));
+                    hashToEnter.insert(name, QPoint(0,0));
                 }
             } else if(datatype == "size") {
+                QString value = query.value(1).toString();
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
-                    this->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
+                    hashToEnter.insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
                 else {
                     qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
-                    this->insert(name, QSize(0,0));
+                    hashToEnter.insert(name, QSize(0,0));
                 }
             } else if(datatype == "string")
-                this->insert(name, value);
+                hashToEnter.insert(name, query.value(1).toString());
             else if(datatype != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
             else
@@ -213,6 +224,8 @@ void PQCSettings::readDB() {
         }
 
     }
+
+    this->insert(hashToEnter);
 
     /*******************************************/
     // then update with user values (if changed)
@@ -230,16 +243,16 @@ void PQCSettings::readDB() {
         while(query.next()) {
 
             QString name = QString("%1%2").arg(table, query.value(0).toString());
-            QString value = query.value(1).toString();
             QString datatype = query.value(2).toString();
 
             if(datatype == "int")
-                this->updateWithoutNotification(name, value.toInt());
+                this->updateWithoutNotification(name, query.value(1).toInt());
             else if(datatype == "double")
-                this->updateWithoutNotification(name, value.toDouble());
+                this->updateWithoutNotification(name, query.value(1).toDouble());
             else if(datatype == "bool")
-                this->updateWithoutNotification(name, static_cast<bool>(value.toInt()));
+                this->updateWithoutNotification(name, static_cast<bool>(query.value(1).toInt()));
             else if(datatype == "list") {
+                QString value = query.value(1).toString();
                 if(value.contains(":://::"))
                     this->updateWithoutNotification(name, value.split(":://::"));
                 else if(value != "")
@@ -247,6 +260,7 @@ void PQCSettings::readDB() {
                 else
                     this->updateWithoutNotification(name, QStringList());
             } else if(datatype == "point") {
+                QString value = query.value(1).toString();
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
                     this->updateWithoutNotification(name, QPoint(parts[0].toInt(), parts[1].toInt()));
@@ -255,6 +269,7 @@ void PQCSettings::readDB() {
                     this->updateWithoutNotification(name, QPoint(0,0));
                 }
             } else if(datatype == "size") {
+                QString value = query.value(1).toString();
                 const QStringList parts = value.split(",");
                 if(parts.length() == 2)
                     this->updateWithoutNotification(name, QSize(parts[0].toInt(), parts[1].toInt()));
@@ -263,7 +278,7 @@ void PQCSettings::readDB() {
                     this->updateWithoutNotification(name, QSize(0,0));
                 }
             } else if(datatype == "string")
-                this->updateWithoutNotification(name, value);
+                this->updateWithoutNotification(name, query.value(1).toString());
             else if(datatype != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
             else
@@ -509,7 +524,6 @@ void PQCSettings::updateWithoutNotification(QString key, QVariant value) {
 
 void PQCSettings::update(QString key, QVariant value) {
     (*this)[key] = value;
-    saveChangedValue(key, value);
 }
 
 void PQCSettings::checkValidSlot() {

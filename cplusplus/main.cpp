@@ -29,14 +29,14 @@
 #include <clocale>
 
 #ifdef PQMEXIV2
-    #ifdef PQMEXIV2_ENABLE_BMFF
-        #define EXV_ENABLE_BMFF
-    #endif
+#ifdef PQMEXIV2_ENABLE_BMFF
+#define EXV_ENABLE_BMFF
+#endif
 #endif
 
 // This needs to come early (in particular before the FreImage header)
 #ifdef Q_OS_WIN
-    #include <windows.h>
+#include <windows.h>
 #endif
 
 #include <pqc_constants.h>
@@ -114,7 +114,12 @@
 #include <gio/gio.h>
 #endif
 
+#include <pqc_plain.h>
+
 int main(int argc, char *argv[]) {
+
+    PQCScriptsPlain::get().setInitTime(PQCScriptsOther::get().getTimestamp());
+
 
 #ifdef Q_OS_WIN
 
@@ -197,8 +202,13 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    auto t0 = std::chrono::steady_clock::now();
+
     // only a single instance
     PQCSingleInstance app(argc, argv);
+
+    auto t1 = std::chrono::steady_clock::now();
+    qWarning() << "|| prelim:" << std::chrono::duration<double, std::milli>(t1-t0).count();
 
 #ifdef PQMVIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
@@ -207,20 +217,20 @@ int main(int argc, char *argv[]) {
 #endif
 
 #ifdef PQMEXIV2
-    #if EXIV2_TEST_VERSION(0, 28, 0)
+#if EXIV2_TEST_VERSION(0, 28, 0)
         // In this case Exiv2::enableBMFF() defaults to true
         // and the call to it is deprecated
-    #else
-        #ifdef PQMEXIV2_ENABLE_BMFF
-            Exiv2::enableBMFF(true);
-        #endif
-    #endif
+#else
+#ifdef PQMEXIV2_ENABLE_BMFF
+    Exiv2::enableBMFF(true);
+#endif
+#endif
 #endif
 
 #ifdef PQMFLATPAKBUILD
-    #if !GLIB_CHECK_VERSION(2,35,0)
-        g_type_init();
-    #endif
+#if !GLIB_CHECK_VERSION(2,35,0)
+    g_type_init();
+#endif
 #endif
 
     PQCStartup startup;
@@ -271,7 +281,7 @@ int main(int argc, char *argv[]) {
         // run consistency check
         // this is done when updating or coming from dev version
         if(checker == 1 || checker == 3)
-           validate.validate();
+            validate.validate();
 
         PQCSettings::get().update("generalVersion", PQMVERSION);
         PQCSettings::get().readDB();
@@ -281,10 +291,6 @@ int main(int argc, char *argv[]) {
     // after the checks above we can check for any possible settings update from the cli
     if(PQCNotify::get().getSettingUpdate().length() == 2)
         PQCSettings::get().updateFromCommandLine();
-
-    // At this point no new keys should ever be added to PhotoQt, only existing ones changed
-    // Thus we can freeze the property map for improved lookup speeds
-    PQCSettings::get().freeze();
 
     // Get screenshots for fake transparency
     PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());
@@ -337,6 +343,8 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
+    qmlRegisterSingletonInstance("PQCScriptsPlain", 1, 0, "PQCScriptsPlain", &PQCScriptsPlain::get());
+
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
@@ -359,18 +367,7 @@ int main(int argc, char *argv[]) {
     // if MPV support is disabled, then this is an empty object
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 
-    engine.load("qrc:/src/qml/PQMainWindow.qml");
+    engine.loadFromModule("src", "PQMainWindowModern");
 
-    int ret = app.exec();
-
-#ifdef PQMFREEIMAGE
-    FreeImage_DeInitialise();
-#endif
-
-#ifdef PQMLIBVIPS
-    vips_shutdown();
-#endif
-
-    return ret;
-
+    return app.exec();
 }

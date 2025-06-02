@@ -20,61 +20,39 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCCOMMANDLINEPARSER_H
-#define PQCCOMMANDLINEPARSER_H
+#ifndef PQCSCRIPTSPLAIN_H
+#define PQCSCRIPTSPLAIN_H
 
 #include <QObject>
-#include <QCommandLineParser>
-#include <QApplication>
-#include <QTranslator>
-#include <QFile>
-#include <iostream>
 
-enum PQCCommandLineResult {
-    PQCCommandLineNothing = 0,
-    PQCCommandLineFile = 1,
-    PQCCommandLineOpen = 2,
-    PQCCommandLineShow = 4,
-    PQCCommandLineHide = 8,
-    PQCCommandLineToggle = 16,
-    PQCCommandLineStartInTray = 128,
-    PQCCommandLineDebug = 512,
-    PQCCommandLineNoDebug = 1024,
-    PQCCommandLineExport = 2048,
-    PQCCommandLineImport = 4096,
-    PQShortcutSequence = 8192,
-    PQCCommandLineEnableTray = 16384,
-    PQCCommandLineDisableTray = 32768,
-    PQCCommandLineCheckConfig = 65536,
-    PQCCommandLineResetConfig = 131072,
-    PQCCommandLineShowInfo = 262144,
-    PQCCommandLineSettingUpdate = 524288,
-    PQCCommandLineQuit = 1048576
-};
-inline PQCCommandLineResult operator|(PQCCommandLineResult a, PQCCommandLineResult b) {
-    return static_cast<PQCCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
-}
-
-class PQCCommandLineParser : public QObject, public QCommandLineParser {
+class PQCScriptsPlain : public QObject {
 
     Q_OBJECT
 
 public:
+    static PQCScriptsPlain& get() {
+        static PQCScriptsPlain instance;
+        return instance;
+    }
+    ~PQCScriptsPlain() {}
 
-    explicit PQCCommandLineParser(QApplication &app, QObject *parent = nullptr);
-    ~PQCCommandLineParser();
-    PQCCommandLineResult getResult();
+    PQCScriptsPlain(PQCScriptsPlain const&)     = delete;
+    void operator=(PQCScriptsPlain const&) = delete;
 
-    QString exportFileName;
-    QString importFileName;
-    QStringList filenames;
-    QString shortcutSequence;
-    QString settingUpdate[2];
+    void setInitTime(qint64 t) {
+        m_initTime = t;
+    }
+    Q_INVOKABLE qint64 getInitTime() {
+        return m_initTime;
+    }
 
 private:
-    QTranslator trans;
+    PQCScriptsPlain() {
+        m_initTime = 0;
+    }
+
+    qint64 m_initTime;
 
 };
 
-
-#endif // PQCCommandLINEPARSER_H
+#endif

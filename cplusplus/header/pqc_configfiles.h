@@ -79,6 +79,10 @@ public:
         return m_USERSETTINGS_DB;
     }
 
+    const QString QUICKUSERSETTINGS_FILE() {
+        return m_QUICKUSERSETTINGS_FILE;
+    }
+
     const QString OLDSETTINGS_DB() {
         return m_OLDSETTINGS_DB;
     }
@@ -205,6 +209,7 @@ private:
         m_IMAGEFORMATS_DB = QString("%1/imageformats.db").arg(CONFIG_DIR());
         m_DEFAULTSETTINGS_DB = QString("%1/defaultsettings.db").arg(CACHE_DIR());
         m_USERSETTINGS_DB = QString("%1/usersettings.db").arg(CONFIG_DIR());
+        m_QUICKUSERSETTINGS_FILE = QString("%1/quickusersettings").arg(CACHE_DIR());
         m_OLDSETTINGS_DB = QString("%1/settings.db").arg(CONFIG_DIR());
         m_SHORTCUTS_DB = QString("%1/shortcuts.db").arg(CONFIG_DIR());
         m_LOCATION_DB = QString("%1/location.db").arg(CONFIG_DIR());
@@ -228,6 +233,7 @@ private:
     QString m_IMAGEFORMATS_DB;
     QString m_DEFAULTSETTINGS_DB;
     QString m_USERSETTINGS_DB;
+    QString m_QUICKUSERSETTINGS_FILE;
     QString m_OLDSETTINGS_DB;
     QString m_SHORTCUTS_DB;
     QString m_LOCATION_DB;

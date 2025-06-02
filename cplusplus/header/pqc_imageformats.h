@@ -155,11 +155,11 @@ public:
         return mimetypes_libmpv;
     }
 
-    Q_INVOKABLE QVariantMap getMagick() {
+    Q_INVOKABLE QVariantHash getMagick() {
         return magick;
     }
 
-    Q_INVOKABLE QVariantMap getMagickMimeType() {
+    Q_INVOKABLE QVariantHash getMagickMimeType() {
         return magick_mimetype;
     }
 
@@ -223,8 +223,8 @@ private:
     QStringList formats_libmpv;
     QStringList mimetypes_libmpv;
 
-    QVariantMap magick;
-    QVariantMap magick_mimetype;
+    QVariantHash magick;
+    QVariantHash magick_mimetype;
 
     // this is true if reading from the permanent database failed
     // in that case we load the built-in default database but read-only

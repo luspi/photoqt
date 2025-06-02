@@ -92,6 +92,9 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     PQCCommandLineResult ret = PQCCommandLineNothing;
 
+    ret = ret|PQCCommandLineFile;
+    filenames = {"/home/luspi/Nextcloud/Bilder/me.JPG"};
+
     if(positionalArguments().length() > 0) {
         ret = ret|PQCCommandLineFile;
         filenames = positionalArguments();
@@ -152,7 +155,8 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
         const QStringList tmp = value("setting").split(":");
         if(tmp.length() == 2) {
             ret = ret|PQCCommandLineSettingUpdate;
-            settingUpdate = tmp;
+            settingUpdate[0] = tmp[0];
+            settingUpdate[1] = tmp[1];
         }
 
     }
