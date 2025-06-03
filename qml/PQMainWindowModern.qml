@@ -37,15 +37,24 @@ Window {
     // this signals whether the window is currently being resized or not
     property bool resizing: false
     onWidthChanged: {
+        storeWindowGeometry.restart()
         PQCConstants.windowWidth = width
         resizing = true
         resetResizing.restart()
     }
     onHeightChanged: {
+        storeWindowGeometry.restart()
         PQCConstants.windowHeight = height
         resizing = true
         resetResizing.restart()
     }
+    onXChanged: {
+        storeWindowGeometry.restart()
+    }
+    onYChanged: {
+        storeWindowGeometry.restart()
+    }
+
     Timer {
         id: resetResizing
         interval: 500
@@ -54,7 +63,30 @@ Window {
         }
     }
 
+    // we store this with a delay to make sure the visibility properyt is properly updated
+    Timer {
+        id: storeWindowGeometry
+        interval: 200
+        onTriggered: {
+
+            if(PQCConstants.photoQtShuttingDown)
+                return
+
+            if(visibility === Window.Windowed) {
+                PQCWindowGeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
+                PQCWindowGeometry.mainWindowMaximized = false
+            } else if(visibility === Window.Maximized)
+                PQCWindowGeometry.mainWindowMaximized = true
+
+        }
+
+    }
+
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
+
+    onVisibilityChanged: {
+        storeWindowGeometry.restart()
+    }
 
     PQMainWindowBackground {
         id: fullscreenitem
