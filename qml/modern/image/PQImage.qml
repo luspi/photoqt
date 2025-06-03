@@ -252,7 +252,7 @@ Item {
                 if(showItem == k) {
                     var newimg = repeaterimage.itemAt(k)
                     newimg.item.showImage()
-                    newimg.item.thisIsStartupFile = false
+                    newimg.thisIsStartupFile = false
                     break;
                 }
             }
