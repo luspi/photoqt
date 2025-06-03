@@ -36,7 +36,6 @@ import "../elements"
 Loader {
     id: imageloaderitem
 
-    property int mainItemIndex: -1
     property string containingFolder: ""
     property string lastModified: ""
     property bool imageLoadedAndReady: false
@@ -49,23 +48,10 @@ Loader {
 
     signal iAmReady()
 
-    Connections {
-        target: PQCFileFolderModel
-        enabled: imageloaderitem.thisIsStartupFile
-        function onCountMainViewChanged() {
-            imageloaderitem.mainItemIndex = PQCFileFolderModel.getIndexOf(PQCConstants.startupFileLoad)
-            imageloaderitem.thisIsStartupFile = false
-        }
-    }
-
-    onMainItemIndexChanged: {
+    onImageSourceChanged: {
         imageLoadedAndReady = false
         active = false
-        active = (mainItemIndex!=-1 || thisIsStartupFile)
-        if(active) {
-            imageloaderitem.item.mainItemIndex = imageloaderitem.mainItemIndex
-            imageloaderitem.item.finishSetup()
-        }
+        active = (imageSource!="")
     }
     active: false
     sourceComponent:
@@ -110,10 +96,8 @@ Loader {
         property real videoPosition: 0.0
         property bool videoHasAudio: false
 
-        // this is set to the duplicate from the loader
-        property int mainItemIndex: -1
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (image_top.currentlyVisibleIndex===mainItemIndex || PQCFileFolderModel.currentIndex===mainItemIndex || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
+        property bool isMainImage: (image_top.currentlyVisibleSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
 
         onIsMainImageChanged: setGlobalProperties()
 
@@ -159,6 +143,11 @@ Loader {
             onTriggered: {
                 loader_top.delayImageRotate = false
             }
+        }
+
+        Component.onCompleted: {
+            if(imageloaderitem.imageSource != "")
+                finishSetup()
         }
 
         // react to user commands
@@ -1983,13 +1972,13 @@ Loader {
 
         function setUpImageWhenReady() {
 
-            // this needs to be checked for early as we set currentlyVisibleIndex in a few lines
-            var noPreviousImage = (image_top.currentlyVisibleIndex===-1) // qmllint disable unqualified
+            // this needs to be checked for early as we set currentlyVisibleSource in a few lines
+            var noPreviousImage = (image_top.currentlyVisibleSource==="") // qmllint disable unqualified
 
             PQCNotify.barcodeDisplayed = false
 
-            image_top.currentlyVisibleIndex = loader_top.mainItemIndex
-            image_top.imageFinishedLoading(loader_top.mainItemIndex)
+            image_top.currentlyVisibleSource = imageloaderitem.imageSource
+            image_top.imageFinishedLoading(imageloaderitem.imageSource)
 
             image_top.currentlyShowingVideo = loader_top.videoLoaded
             image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
@@ -2035,6 +2024,9 @@ Loader {
                     if(anim === "random")
                         anim = image_top.randomAnimation
 
+                    var index0 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[0])
+                    var index1 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[1])
+
                     if(anim === "opacity" || anim === "explosion" || anim === "implosion") {
 
                         opacityAnimation.stop()
@@ -2051,7 +2043,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         xAnimation.from = -width
-                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                        if(visibleSourcePrevCur[1] === "" || index0 > index1)
                             xAnimation.from = width
 
                         xAnimation.to = 0
@@ -2064,7 +2056,7 @@ Loader {
 
                         // the from value depends on whether we go forwards or backwards in the folder
                         yAnimation.from = -height
-                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                        if(visibleSourcePrevCur[1] === "" || index0 > index1)
                             yAnimation.from = height
 
                         yAnimation.to = 0
@@ -2078,7 +2070,7 @@ Loader {
                         rotAnimation_rotation.from = -180
                         rotAnimation_rotation.to = 0
 
-                        if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                        if(visibleSourcePrevCur[1] === "" || index0 > index1) {
                             rotAnimation_rotation.from = 180
                             rotAnimation_rotation.to = 0
                         }
@@ -2185,6 +2177,9 @@ Loader {
             if(anim === "random")
                 anim = image_top.randomAnimation
 
+            var index0 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[0])
+            var index1 = PQCFileFolderModel.getIndexOfMainView(visibleSourcePrevCur[1])
+
             if(anim === "opacity") {
 
                 opacityAnimation.stop()
@@ -2201,7 +2196,7 @@ Loader {
                 xAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 xAnimation.to = width*(loader_top.imageScale/loader_top.defaultScale)
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                if(visibleSourcePrevCur[1] === "" || index0 > index1)
                     xAnimation.to *= -1
 
                 xAnimation.restart()
@@ -2213,7 +2208,7 @@ Loader {
                 yAnimation.from = 0
                 // the to value depends on whether we go forwards or backwards in the folder
                 yAnimation.to = height*(loader_top.imageScale/loader_top.defaultScale)
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1])
+                if(visibleSourcePrevCur[1] === "" || index0 > index1)
                     yAnimation.to *= -1
 
                 yAnimation.restart()
@@ -2243,7 +2238,7 @@ Loader {
                 rotAnimation_rotation.from = 0
                 rotAnimation_rotation.to = 180
 
-                if(visibleIndexPrevCur[1] === -1 || visibleIndexPrevCur[0] > visibleIndexPrevCur[1]) {
+                if(visibleSourcePrevCur[1] === "" || index0 > index1) {
                     rotAnimation_rotation.from = 0
                     rotAnimation_rotation.to = -180
                 }
@@ -2269,7 +2264,7 @@ Loader {
                 imageloaderitem.lastModified = ""
                 imageloaderitem.containingFolder = ""
                 imageloaderitem.imageLoadedAndReady = false
-                imageloaderitem.mainItemIndex = -1
+                imageloaderitem.imageSource = ""
             }
 
         }

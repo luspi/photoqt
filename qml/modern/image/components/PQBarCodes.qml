@@ -41,7 +41,7 @@ Item {
 
     Connections {
         target: image_top // qmllint disable unqualified
-        function onCurrentlyVisibleIndexChanged(currentlyVisibleIndex : int) {
+        function onCurrentlyVisibleSourceChanged() {
             if(!loader_top.isMainImage) { // qmllint disable unqualified
                 // videoloader.active = false
                 bartop.barcodes = []

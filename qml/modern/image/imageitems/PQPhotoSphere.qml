@@ -307,7 +307,7 @@ PQCPhotoSphere { // qmllint disable
 
         target: image_top // qmllint disable unqualified
 
-        function onCurrentlyVisibleIndexChanged() {
+        function onCurrentlyVisibleSourceChanged() {
 
             if(!loader_top.isMainImage) { // qmllint disable unqualified
                 if(kb_left.running)

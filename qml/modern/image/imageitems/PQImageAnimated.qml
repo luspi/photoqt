@@ -138,7 +138,7 @@ AnimatedImage {
 
         target: image_top // qmllint disable unqualified
 
-        function onCurrentlyVisibleIndexChanged() {
+        function onCurrentlyVisibleSourceChanged() {
             image.playing = loader_top.isMainImage // qmllint disable unqualified
         }
 

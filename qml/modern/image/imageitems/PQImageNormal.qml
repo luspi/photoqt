@@ -211,7 +211,7 @@ Image {
 
     Connections {
         target: image_top // qmllint disable unqualified
-        function onCurrentlyVisibleIndexChanged() {
+        function onCurrentlyVisibleSourceChanged() {
             if(!loader_top.isMainImage && !image.ignoreSignals) { // qmllint disable unqualified
                 videoloader.active = false
             }

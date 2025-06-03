@@ -340,8 +340,10 @@ Item {
     // calculate the animation to be used for this image
     function figureOutAniIndex() {
 
+        var index = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageSource)
+
         if(PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
-            image_top.animatePhotoSpheres(loader_top.mainItemIndex%2)
+            image_top.animatePhotoSpheres(index%2)
             return
         }
 
@@ -351,15 +353,15 @@ Item {
 
         // image is much higher than wide
         if(fac < 0.75)
-            aniDeleg.aniIndex = 3 + loader_top.mainItemIndex%3
+            aniDeleg.aniIndex = 3 + index%3
 
         // image is much wider than high
         else if(fac > 2)
-            aniDeleg.aniIndex = loader_top.mainItemIndex%3
+            aniDeleg.aniIndex = index%3
 
         // more "normal" image
         else
-            aniDeleg.aniIndex = loader_top.mainItemIndex%6
+            aniDeleg.aniIndex = index%6
     }
 
     // after switched away from this image we repeatedly check whether the image is still visible
