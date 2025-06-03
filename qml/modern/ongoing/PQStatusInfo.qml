@@ -851,18 +851,9 @@ Item {
 
     }
 
-    // right at completion the rect infos for the various elements might not yet be fully set up
-    // this ensures that the status info is faded in with a short delay
     Component.onCompleted: {
-        showStatusInfo.restart()
-    }
-    Timer {
-        id: showStatusInfo
-        interval: 500
-        onTriggered: {
-            statusinfo_top.y = distanceFromEdge+computeYOffset()
-            statusinfo_top.hideAtStartup = false
-        }
+        statusinfo_top.y = distanceFromEdge+computeYOffset()
+        statusinfo_top.hideAtStartup = false
     }
 
     Timer {

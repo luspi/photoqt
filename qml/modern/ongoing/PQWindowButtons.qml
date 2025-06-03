@@ -44,6 +44,11 @@ Item {
     property int distanceFromEdge: 5
     property bool nearTopEdge: false
 
+    // this is set to false in a timer at the end to blend in the status info once properly positioned
+    property bool hideAtStartup: true
+    opacity: hideAtStartup ? 0 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+
     width: row.width
     height: row.height
 
@@ -91,6 +96,16 @@ Item {
             }
         }
     ]
+
+    Component.onCompleted: {
+        fadeIn.start()
+    }
+    Timer {
+        id: fadeIn
+        interval: 500
+        onTriggered:
+            wb_top.hideAtStartup = false
+    }
 
     // clicks between buttons has no effect anywhere
     PQMouseArea {

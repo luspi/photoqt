@@ -129,7 +129,11 @@ Loader {
             // load files in folder
             if(PQCConstants.startupFileLoad != "") {
                 PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFileLoad
-                checkForFileFinished.restart()
+                if(PQCConstants.imageInitiallyLoaded) {
+                    masteritem.readyToContinueLoading = true
+                    finishSetup()
+                } else
+                    checkForFileFinished.restart()
             } else {
                 masteritem.readyToContinueLoading = true
                 finishSetup()
