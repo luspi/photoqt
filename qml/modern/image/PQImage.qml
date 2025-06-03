@@ -188,6 +188,8 @@ Item {
 
         function onCurrentIndexChanged() {
 
+            console.warn(">>>>>> onCurrentIndexChanged():", PQCFileFolderModel.currentIndex)
+
             if(PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
                 for(var i = 0; i < howManyLoaders; ++i) {
                     var curimg = repeaterimage.itemAt(i)

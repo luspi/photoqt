@@ -44,18 +44,6 @@ Loader {
 
         PQLoader { id: masterloader }
 
-        // status info
-        Loader { id: statusinfo; active: masteritem.readyToContinueLoading; asynchronous: true; source: "../ongoing/PQStatusInfo.qml" }
-
-        Loader { id: loader_contextmenu; active: masteritem.readyToContinueLoading; asynchronous: true; source: "../ongoing/PQContextMenu.qml" }
-
-        // the thumbnails loader can be asynchronous as it is always integrated and never popped out
-        Loader { id: loader_thumbnails; asynchronous: true; }
-
-        Loader { id: loader_metadata }
-        Loader { id: loader_mainmenu }
-
-        /****************************************************/
 
         Loader {
             id: bgmessage
@@ -63,7 +51,72 @@ Loader {
             source: "PQBackgroundMessage.qml"
         }
 
-        /****************************************************/
+        // The tray icon loads right away WITHOUT any delay.
+        Loader {
+            id: loader_trayicon
+            asynchronous: true
+            source: "../ongoing/PQTrayIcon.qml"
+        }
+
+        Loader {
+            id: windowbuttons
+            asynchronous: true
+            active: masteritem.readyToContinueLoading
+            source: "../ongoing/PQWindowButtons.qml"
+        }
+        Loader {
+            id: windowbuttons_ontop
+            asynchronous: true
+            active: masteritem.readyToContinueLoading
+            source: "../ongoing/PQWindowButtons.qml"
+            visible: opacity>0
+            opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            z: PQCConstants.idOfVisibleItem!=="filedialog" ? 999 : 0
+            onStatusChanged: {
+                if(windowbuttons_ontop.status == Loader.Ready)
+                    windowbuttons_ontop.item.visibleAlways = true
+            }
+        }
+
+        Loader {
+            id: loader_windowhandles
+            asynchronous: true
+            active: masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
+            source: "../ongoing/PQWindowHandles.qml"
+        }
+
+        Loader {
+            id: statusinfo
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            source: "../ongoing/PQStatusInfo.qml"
+        }
+
+        Loader {
+            id: loader_contextmenu
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            source: "../ongoing/PQContextMenu.qml"
+        }
+
+        // the thumbnails loader can be asynchronous as it is always integrated and never popped out
+        Loader {
+            id: loader_thumbnails
+            asynchronous: true;
+        }
+
+        Loader {
+            id: loader_metadata
+        }
+
+        Loader {
+            id: loader_mainmenu
+        }
+
+        Loader {
+            id: loader_notification
+        }
 
         // If an image has been passed on then we wait with loading the rest of the interface until the image has been loaded
         // After 2s of loading we show some first (and quick to set up) interface elements
@@ -88,9 +141,14 @@ Loader {
             target: PQCConstants
             enabled: PQCConstants.startupFileLoad!=""
             function onImageInitiallyLoadedChanged() {
-                if(PQCConstants.imageInitiallyLoaded && checkForFileFinished.running) {
+                // don't rely on checking whether the timer below is running.
+                // For very small/fast images we might get here BEFORE that timer reports as running!
+                if(PQCConstants.imageInitiallyLoaded && finishSetupCalled < 2) {
                     checkForFileFinished.stop()
-                    masteritem.finishSetup()
+                    if(finishSetupCalled == 0)
+                        masteritem.finishSetup()
+                    else if(finishSetupCalled == 1)
+                        masteritem.finishSetup_part2()
                 }
             }
         }
@@ -113,18 +171,23 @@ Loader {
                 finishSetup()
             }
         }
+
+        property int finishSetupCalled: 0
+
         function finishSetup() {
             finishSetup_part1()
             finishSetup_part2()
         }
 
         function finishSetup_part1() {
+            finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
             PQCNotify.loaderSetup("mainmenu")
             PQCNotify.loaderSetup("metadata")
         }
 
         function finishSetup_part2() {
+            finishSetupCalled += 1
             PQCNotify.loaderSetup("thumbnails")
         }
 

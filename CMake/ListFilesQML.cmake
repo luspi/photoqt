@@ -46,8 +46,8 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQKenBurnsSli
 
 SET(d "qml/modern/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQThumbnails.qml)
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml)
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQSlideshowControls.qml ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQWindowHandles.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQNotification.qml)# ${d}/PQSlideshowControls.qml ${d}/PQChromeCast.qml)
 #
 # SET(d "qml/ongoing/popout")
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)
