@@ -84,9 +84,7 @@ Rectangle {
     visible: opacity>0
     enabled: visible
 
-    color: PQCLook.transColor // qmllint disable unqualified
-
-    PQBlurBackground { id: blurbg }
+    color: PQCLook.baseColor // qmllint disable unqualified
 
     PQMouseArea {
         id: mouseareaBG

@@ -34,7 +34,7 @@ import "../elements"
 import "../image"
 import "../"
 
-Item {
+Rectangle {
 
     id: thumbnails_top
 
@@ -78,7 +78,8 @@ Item {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
-    PQBlurBackground { thisis: "thumbnails" }
+    color: PQCLook.baseColor
+
     PQShadowEffect { masterItem: thumbnails_top }
 
     // the four states corresponding to screen edges

@@ -81,7 +81,7 @@ Rectangle {
                             PQCConstants.windowHeight-2*gap-statusinfoOffset :
                             Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.baseColor // qmllint disable unqualified
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
 
@@ -106,7 +106,6 @@ Rectangle {
             menu.item.dismiss()
     }
 
-    PQBlurBackground { thisis: "metadata" }
     PQShadowEffect { masterItem: metadata_top }
 
     property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout // qmllint disable unqualified

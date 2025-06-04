@@ -67,7 +67,7 @@ Rectangle {
             PQCSettings.mainmenuElementPosition = Qt.point(Math.round(mainmenu_top.x),Math.round(mainmenu_top.y)) // qmllint disable unqualified
     }
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.baseColor // qmllint disable unqualified
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
 
@@ -114,7 +114,6 @@ Rectangle {
     property int gap: 40
     property int statusinfoOffset: statusinfo.item.visible&&state==="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
 
-    PQBlurBackground { thisis: "mainmenu" }
     PQShadowEffect { masterItem: mainmenu_top }
 
     // the four states corresponding to screen edges
