@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 
@@ -71,10 +71,6 @@ Item {
     property string randomAnimation: "opacity"
 
     property point extraControlsLocation: Qt.point(-1,-1)
-
-    property bool currentlyShowingVideo: false
-    property bool currentlyShowingVideoPlaying: false
-    property bool currentlyShowingVideoHasAudio: false
 
     signal playPauseAnimationVideo()
     signal moveView(var direction)
@@ -203,6 +199,11 @@ Item {
         target: PQCFileFolderModel // qmllint disable unqualified
 
         function onCurrentIndexChanged() {
+
+            if(PQCConstants.ignoreFileFolderChangesTemporary) {
+                console.debug("Ignoring new currentIndex:", PQCFileFolderModel.currentIndex)
+                return
+            }
 
             if(PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
                 for(var i = 0; i < howManyLoaders; ++i) {

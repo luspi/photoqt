@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Window
@@ -124,15 +124,15 @@ Loader {
 
         onVideoPlayingChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying // qmllint disable unqualified
+                PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying // qmllint disable unqualified
         }
         onVideoHasAudioChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio // qmllint disable unqualified
+                PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio // qmllint disable unqualified
         }
         onVideoLoadedChanged: {
             if(loader_top.isMainImage)
-                image_top.currentlyShowingVideo = loader_top.videoLoaded // qmllint disable unqualified
+                PQCConstants.currentlyShowingVideo = loader_top.videoLoaded // qmllint disable unqualified
         }
 
         // keeping the shortcut for rotation pressed triggers it repeatedly very quickly
@@ -287,9 +287,9 @@ Loader {
                 PQCConstants.currentFileInsideName = ""
                 PQCConstants.currentFileInsideTotal = 0
                 PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere
-                image_top.currentlyShowingVideo = loader_top.videoLoaded
-                image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-                image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+                PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
+                PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
+                PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
             }
         }
 
@@ -1178,7 +1178,7 @@ Loader {
 
                     Connections {
 
-                        target: image_top // qmllint disable unqualified
+                        target: PQCNotify
 
                         function onPlayPauseAnimationVideo() {
 
@@ -1187,6 +1187,12 @@ Loader {
 
                             loader_top.videoTogglePlay()
                         }
+
+                    }
+
+                    Connections {
+
+                        target: image_top // qmllint disable unqualified
 
                         function onFlickView(direction : string) {
 
@@ -1987,9 +1993,9 @@ Loader {
             image_top.currentlyVisibleSource = imageloaderitem.imageSource
             image_top.imageFinishedLoading(imageloaderitem.imageSource)
 
-            image_top.currentlyShowingVideo = loader_top.videoLoaded
-            image_top.currentlyShowingVideoPlaying = loader_top.videoPlaying
-            image_top.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
+            PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
+            PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
+            PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
             image_top.currentFlickableVisibleAreaX = flickable.visibleArea.xPosition
             image_top.currentFlickableVisibleAreaY = flickable.visibleArea.yPosition

@@ -70,7 +70,7 @@ public:
     QVector<void*> qmlWindowAddresses;
 
 protected:
-    virtual bool eventFilter(QObject *obj, QEvent *e) override;
+    virtual bool notify(QObject *obj, QEvent *e) override;
 
 Q_SIGNALS:
     // Interact with application

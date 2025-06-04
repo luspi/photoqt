@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -900,7 +900,7 @@ Item {
 
             if(ignoreMouseMoveShortly) return
 
-            if(PQCNotify.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
+            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 thumbnails_top.setVisible = false
                 return
             }

@@ -44,100 +44,6 @@ Item {
 
     focus: true
 
-    // translate shortcuts below
-    // we use qsTr() here as before they were translated this way
-    // this way we avoid having to retranslate 40-50 strings
-
-    property var keyStrings: {
-        //: Refers to a keyboard modifier
-        "alt" : qsTr("Alt"),
-        //: Refers to a keyboard modifier
-        "ctrl" : qsTr("Ctrl"),
-        //: Refers to a keyboard modifier
-        "shift" : qsTr("Shift"),
-        //: Refers to one of the keys on the keyboard
-        "page up" : qsTr("Page Up"),
-        //: Refers to one of the keys on the keyboard
-        "page down" : qsTr("Page Down"),
-        //: Refers to the key that usually has the Windows symbol on it
-        "meta" : qsTr("Meta"),
-        //: Refers to the key that triggers the number block on keyboards
-        "keypad" : qsTr("Keypad"),
-        //: Refers to one of the keys on the keyboard
-        "esc" : qsTr("Escape"),
-        //: Refers to one of the arrow keys on the keyboard
-        "right" : qsTr("Right"),
-        //: Refers to one of the arrow keys on the keyboard
-        "left" : qsTr("Left"),
-        //: Refers to one of the arrow keys on the keyboard
-        "up" : qsTr("Up"),
-        //: Refers to one of the arrow keys on the keyboard
-        "down" : qsTr("Down"),
-        //: Refers to one of the keys on the keyboard
-        "space" : qsTr("Space"),
-        //: Refers to one of the keys on the keyboard
-        "delete" : qsTr("Delete"),
-        //: Refers to one of the keys on the keyboard
-        "backspace" : qsTr("Backspace"),
-        //: Refers to one of the keys on the keyboard
-        "home" : qsTr("Home"),
-        //: Refers to one of the keys on the keyboard
-        "end" : qsTr("End"),
-        //: Refers to one of the keys on the keyboard
-        "insert" : qsTr("Insert"),
-        //: Refers to one of the keys on the keyboard
-        "tab" : qsTr("Tab"),
-        //: Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button) different if possible!
-        "return" : qsTr("Return"),
-        //: Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter different if possible!
-        "enter" : qsTr("Enter")
-    }
-
-    property var mouseStrings: {
-        //: Refers to a mouse button
-        "left button" : qsTr("Left Button"),
-        //: Refers to a mouse button
-        "right button" : qsTr("Right Button"),
-        //: Refers to a mouse button
-        "middle button" : qsTr("Middle Button"),
-        //: Refers to a mouse button
-        "back button" : qsTr("Back Button"),
-        //: Refers to a mouse button
-        "forward button" : qsTr("Forward Button"),
-        //: Refers to a mouse button
-        "task button" : qsTr("Task Button"),
-        //: Refers to a mouse button
-        "button #7" : qsTr("Button #7"),
-        //: Refers to a mouse button
-        "button #8" : qsTr("Button #8"),
-        //: Refers to a mouse button
-        "button #9" : qsTr("Button #9"),
-        //: Refers to a mouse button
-        "button #10" : qsTr("Button #10"),
-        //: Refers to a mouse event
-        "double click" : qsTr("Double Click"),
-        //: Refers to the mouse wheel
-        "wheel up" : qsTr("Wheel Up"),
-        //: Refers to the mouse wheel
-        "wheel down" : qsTr("Wheel Down"),
-        //: Refers to the mouse wheel
-        "wheel left" : qsTr("Wheel Left"),
-        //: Refers to the mouse wheel
-        "wheel right" : qsTr("Wheel Right"),
-        //: Refers to a direction of the mouse when performing a mouse gesture
-        "east" : qsTr("East"),
-        //: Refers to a direction of the mouse when performing a mouse gesture
-        "south" : qsTr("South"),
-        //: Refers to a direction of the mouse when performing a mouse gesture
-        "west" : qsTr("West"),
-        //: Refers to a direction of the mouse when performing a mouse gesture
-        "north" : qsTr("North")
-    }
-
-    property var keyStringsKeys: Object.keys(keyStrings)
-    property var mouseStringsKeys: Object.keys(mouseStrings)
-
-
     property bool mouseGesture: false
     property string mouseButton: ""
     property var mousePath: []
@@ -164,6 +70,7 @@ Item {
 
                 PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
 
+            // TODO
             // } else if(image.componentComboOpen) {
 
                 // image.closeAllMenus()
@@ -367,7 +274,7 @@ Item {
                 }
 
                 if(PQCSettings.filetypesVideoSpacePause && combo === "Space") {
-                    image.playPauseAnimationVideo()
+                    PQCNotify.playPauseAnimationVideo()
                     return
                 }
 
@@ -396,7 +303,7 @@ Item {
                 }
 
                 if(combo === "Space" && PQCSettings.filetypesAnimatedSpacePause) {
-                    image.playPauseAnimationVideo()
+                    PQCNotify.playPauseAnimationVideo()
                     return
                 }
 
@@ -407,7 +314,7 @@ Item {
         // Space when motion photo is loaded might have special actions
         if(combo === "Space" && PQCNotify.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
 
-            image.playPauseAnimationVideo()
+            PQCNotify.playPauseAnimationVideo()
             return
 
         }
@@ -579,17 +486,17 @@ Item {
             case "__about":
                 PQCNotify.loaderShow("about")
                 break
-            // case "__slideshow":
-            //     PQCNotify.loaderShow("slideshowsetup")
-            //     break
+            case "__slideshow":
+                PQCNotify.loaderShow("slideshowsetup")
+                break
             // case "__slideshowQuick":
             //     PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
             //     PQCNotify.loaderShow("slideshowhandler")
             //     PQCNotify.loaderShow("slideshowcontrols")
             //     break
-            // case "__filterImages":
-            //     PQCNotify.loaderShow("filter")
-            //     break
+            case "__filterImages":
+                PQCNotify.loaderShow("filter")
+                break
             // case "__wallpaper":
             //     PQCNotify.loaderShow("wallpaper")
             //     break
@@ -608,22 +515,22 @@ Item {
             // case "__tagFaces":
             //     PQCNotify.loaderPassOn("tagFaces", [])
             //     break
-            // case "__chromecast":
-            //     PQCNotify.loaderShow("chromecastmanager")
-            //     break
+            case "__chromecast":
+                PQCNotify.loaderShow("chromecastmanager")
+                break
             // case "__logging":
             //     PQCNotify.loaderShow("logging")
             //     break;
-            // case "__advancedSort":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
-            //         PQCNotify.loaderShow("advancedsort")
-            //     break
-            // case "__advancedSortQuick":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         PQCNotify.loaderShow("advancedsort")
-            //         loader_advancedsort.item.doSorting()
-            //     }
-            //     break
+            case "__advancedSort":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
+                    PQCNotify.loaderShow("advancedsort")
+                break
+            case "__advancedSortQuick":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    PQCNotify.loaderShow("advancedsort")
+                    loader_advancedsort.item.doSorting()
+                }
+                break
 
             /**********************/
             // elements (ongoing)
@@ -735,9 +642,9 @@ Item {
             // case "__fitInWindow":
             //     PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
             //     break
-            // case "__playPauseAni":
-            //     image.playPauseAnimationVideo()
-            //     break
+            case "__playPauseAni":
+                PQCNotify.playPauseAnimationVideo()
+                break
             // case "__showFaceTags":
             //     PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
             //     break
@@ -793,48 +700,38 @@ Item {
             /**********************/
             // file actions
 
-            // case "__rename":
-            //     PQCNotify.loaderShow("filerename")
-            //     break
-            // case "__delete":
-            //     PQCNotify.loaderShow("filedelete")
-            //     break
-            // case "__copy":
-            //     PQCNotify.loaderShow("filecopy")
-            //     break
-            // case "__move":
-            //     PQCNotify.loaderShow("filemove")
-            //     break
-            // case "__deletePermanent":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted"))
-            //             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-            //         } else {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file"))
-            //         }
-            //     }
-            //     break
-            // case "__deleteTrash":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
-            //             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-            //         } else {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
-            //         }
-            //     }
-            //     break
-            // case "__deleteTrash":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
-            //             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-            //         } else {
-            //             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
-            //         }
-            //     }
-            //     break
+            case "__rename":
+                PQCNotify.loaderShow("filerename")
+                break
+            case "__delete":
+                PQCNotify.loaderShow("filedelete")
+                break
+            case "__copy":
+                PQCNotify.loaderShow("filecopy")
+                break
+            case "__move":
+                PQCNotify.loaderShow("filemove")
+                break
+            case "__deletePermanent":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted"))
+                        PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+                    } else {
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file"))
+                    }
+                }
+                break
+            case "__deleteTrash":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
+                    if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
+                        PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+                    } else {
+                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
+                    }
+                }
+                break
             // case "__defaultFileManager":
             //     if(PQCFileFolderModel.countMainView > 0)
             //         PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
@@ -883,83 +780,6 @@ Item {
             default:
                 console.log("unknown internal shortcut:", cmd)
         }
-
-    }
-
-    function translateShortcut(combo : string) : string {
-
-        if(combo === "")
-            return "";
-
-        combo = combo.replace("++","+PLUS");
-        if(combo === "+") combo = "PLUS";
-
-        var parts = combo.split("+");
-
-        var dir = "";
-        if(combo.includes(" Button")) {
-            var checkdir = parts[parts.length-1]
-            var onlydir = true;
-            for(var i in checkdir) {
-                var d = checkdir[i]
-                if(d !== 'N' && d !== 'S' && d !== 'E' && d !== 'W') {
-                    onlydir = false;
-                    break;
-                }
-            }
-            if(onlydir) {
-                dir = parts[parts.length-1]
-                parts.splice(parts.length-1, 1)
-            }
-        }
-
-        var ret = "";
-        for(var j in parts) {
-            var ele = parts[j]
-            if(ret != "")
-                ret += " + ";
-            if(ele === "")
-                continue;
-            if(ele === "PLUS")
-                ret += "+";
-            else {
-                var key_check = ele.toLowerCase()
-                if(keyStringsKeys.indexOf(key_check) > -1)
-                    ret += keyStrings[key_check];
-                else if(mouseStringsKeys.indexOf(key_check) > -1)
-                    ret += mouseStrings[key_check];
-                else
-                    ret += ele
-            }
-        }
-
-        if(dir != "") {
-            if(ret != "")
-                ret += "  ";
-            ret += translateMouseDirection(dir.split(""))
-        }
-
-        return ret;
-
-    }
-
-    function translateMouseDirection(parts : list<string>) : string {
-
-        var ret = ""
-
-        for(var i in parts) {
-            var p = parts[i]
-            if(p === "N")
-                ret += "↑";
-            else if(p === "S")
-                ret += "↓";
-            else if(p === "E")
-                ret += "→";
-            else if(p === "W")
-                ret += "←";
-        }
-
-        return ret
 
     }
 

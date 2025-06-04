@@ -37,20 +37,20 @@ Item {
         "metadata"            : ["ongoing", "PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],
         // "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCWindowGeometry.filedialogForcePopout],
         "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
-        // "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
-        // "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
-        // "filecopy"            : ["actions","PQCopy", loader_copy, 1, false, false],
-        // "filemove"            : ["actions","PQMove", loader_move, 1, false, false],
-        // "filter"              : ["actions","PQFilter", loader_filter, 1, PQCSettings.interfacePopoutFilter, PQCWindowGeometry.filterForcePopout],
-        // "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, PQCSettings.interfacePopoutAdvancedSort, PQCWindowGeometry.advancedsortForcePopout],
+        "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
+        "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
+        "filecopy"            : ["actions","PQCopy", loader_copy, 1, false, false],
+        "filemove"            : ["actions","PQMove", loader_move, 1, false, false],
+        "filter"              : ["actions","PQFilter", loader_filter, 1, PQCSettings.interfacePopoutFilter, PQCWindowGeometry.filterForcePopout],
+        "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, PQCSettings.interfacePopoutAdvancedSort, PQCWindowGeometry.advancedsortForcePopout],
         // "logging"             : ["ongoing","PQLogging", loader_logging, 0, true, true],
-        // "slideshowsetup"      : ["actions","PQSlideshowSetup", loader_slideshowsetup, 1, PQCSettings.interfacePopoutSlideshowSetup, PQCWindowGeometry.slideshowsetupForcePopout],
-        // "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
-        // "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCWindowGeometry.slideshowcontrolsForcePopout],
+        "slideshowsetup"      : ["actions","PQSlideshowSetup", loader_slideshowsetup, 1, PQCSettings.interfacePopoutSlideshowSetup, PQCWindowGeometry.slideshowsetupForcePopout],
+        "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
+        "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCWindowGeometry.slideshowcontrolsForcePopout],
         "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
         // "mapexplorer"         : ["actions","PQMapExplorer", loader_mapexplorer, 1, PQCSettings.interfacePopoutMapExplorer, PQCWindowGeometry.mapexplorerForcePopout],
         "chromecast"          : ["ongoing","PQChromeCast", loader_chromecast, 0, false, false],
-        // "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
+        "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
         // "settingsmanager"     : ["settingsmanager","PQSettingsManager", loader_settingsmanager, 1, PQCSettings.interfacePopoutSettingsManager, PQCWindowGeometry.settingsmanagerForcePopout],
     }
 
@@ -106,10 +106,10 @@ Item {
         // }
 
         if(additional === undefined) {
-            console.warn(">/> show", ele)
+            console.warn(">>> show", ele)
             PQCNotify.loaderPassOn("show", [ele])
         } else {
-            console.warn(">/> show", ele, additional)
+            console.warn(">>> show", ele, additional)
             PQCNotify.loaderPassOn("show", [ele, additional])
         }
 

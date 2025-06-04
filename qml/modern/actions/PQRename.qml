@@ -197,15 +197,19 @@ PQTemplateFullscreen {
         if(filenameedit.text === "" || error_exists.visible)
             return
 
+        PQCConstants.ignoreFileFolderChangesTemporary = true
+
         var dir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) // qmllint disable unqualified
         if(!PQCScriptsFileManagement.renameFile(dir, filename.text, filenameedit.text+filesuffix.text)) {
             error.visible = true
+            PQCConstants.ignoreFileFolderChangesTemporary = false
             return
         }
         error.visible = false
         error_exists.visible = false
 
         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
+        PQCConstants.ignoreFileFolderChangesTemporary = false
         PQCFileFolderModel.fileInFolderMainView = dir + "/" + filenameedit.text+filesuffix.text
 
         hide()
@@ -218,7 +222,6 @@ PQTemplateFullscreen {
             hide()
             return
         }
-        PQCNotify.ignoreKeysExceptEnterEsc = true
         opacity = 1
         if(popoutWindowUsed)
             filerename_popout.visible = true
@@ -237,7 +240,6 @@ PQTemplateFullscreen {
         if(rename_top.contextMenuOpen)
             rename_top.closeContextMenus()
 
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
         rename_top.opacity = 0
         if(popoutWindowUsed && filerename_popout.visible)
             filerename_popout.visible = false

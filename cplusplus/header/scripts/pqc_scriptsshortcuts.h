@@ -53,10 +53,16 @@ public:
     Q_INVOKABLE void setCurrentTimestamp();
     Q_INVOKABLE int getCurrentTimestampDiffLessThan(int threshold);
 
+    Q_INVOKABLE QString translateShortcut(QString combo);
+    Q_INVOKABLE QString translateMouseDirection(QStringList combo);
+
 private:
     PQCScriptsShortcuts();
 
     qint64 m_lastInternalShortcutExecuted;
+
+    QHash<QString,QString> m_keyStrings;
+    QHash<QString,QString> m_mouseStrings;
 
 Q_SIGNALS:
 

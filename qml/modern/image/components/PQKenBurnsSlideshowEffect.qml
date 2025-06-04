@@ -325,7 +325,7 @@ Item {
 
             if(PQCConstants.slideshowRunning) {
 
-                if(!image_top.currentlyShowingVideo && !PQCNotify.showingPhotoSphere)
+                if(!PQCConstants.currentlyShowingVideo && !PQCNotify.showingPhotoSphere)
                     loader_top.zoomInForKenBurns()
                 flickable.returnToBounds()
                 aniDeleg.manageAni()

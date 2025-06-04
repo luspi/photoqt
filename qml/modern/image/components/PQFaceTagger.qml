@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 
@@ -256,14 +256,12 @@ Item {
         }
 
         function show() {
-            PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
             opacity = 1
             whoisthis_name.text = ""
             whoisthis_name.setFocus()
         }
 
         function hide() {
-            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
             opacity = 0
             mouseDown = false
             newmarker.visible = false

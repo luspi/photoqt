@@ -19,7 +19,6 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
 pragma ComponentBehavior: Bound
 
 import QtQuick
@@ -69,7 +68,7 @@ Item {
             PQCConstants.windowButtonsCurrentRect.height = height
     }
 
-    visible: (!(PQCNotify.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCConstants.faceTaggingMode // qmllint disable unqualified
+    visible: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCConstants.faceTaggingMode // qmllint disable unqualified
 
     property bool visibleAlways: false
 
@@ -203,8 +202,8 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
-            visible: opacity > 0 && !PQCNotify.slideshowRunning // qmllint disable unqualified
+            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
+            visible: opacity > 0 && !PQCConstants.slideshowRunning // qmllint disable unqualified
             mipmap: true
             PQMouseArea {
                 id: left_mouse
@@ -277,7 +276,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
+            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
             visible: opacity > 0
             mipmap: true
             PQMouseArea {
@@ -351,7 +350,7 @@ Item {
             sourceSize: Qt.size(width, height)
             source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
 
-            opacity: (PQCConstants.modalWindowOpen||PQCNotify.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
+            opacity: (PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
 
             mipmap: true
 

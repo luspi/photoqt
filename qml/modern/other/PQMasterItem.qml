@@ -106,27 +106,24 @@ Loader {
             asynchronous: true;
         }
 
-        Loader {
-            id: loader_metadata
-        }
-
-        Loader {
-            id: loader_mainmenu
-        }
-
-        Loader {
-            id: loader_notification
-        }
-
-        Loader {
-            id: loader_chromecast
-        }
+        Loader { id: loader_metadata }
+        Loader { id: loader_mainmenu }
+        Loader { id: loader_notification }
+        Loader { id: loader_chromecast }
+        Loader { id: loader_slideshowcontrols }
+        Loader { id: loader_slideshowhandler }
 
         /******************************************/
 
-        Loader {
-            id: loader_about
-        }
+        Loader { id: loader_about }
+        Loader { id: loader_advancedsort }
+        Loader { id: loader_filedelete }
+        Loader { id: loader_copy }
+        Loader { id: loader_move }
+        Loader { id: loader_filerename }
+        Loader { id: loader_filter }
+        Loader { id: loader_slideshowsetup }
+        Loader { id: loader_chromecastmanager }
 
         // If an image has been passed on then we wait with loading the rest of the interface until the image has been loaded
         // After 2s of loading we show some first (and quick to set up) interface elements

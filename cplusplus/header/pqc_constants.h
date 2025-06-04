@@ -59,6 +59,7 @@ public:
     Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
     Q_PROPERTY(bool slideshowRunning MEMBER m_slideshowRunning NOTIFY slideshowRunningChanged)
+    Q_PROPERTY(bool ignoreFileFolderChangesTemporary MEMBER m_ignoreFileFolderChangesTemporary NOTIFY ignoreFileFolderChangesTemporaryChanged)
 
     /******************************************************/
     // some window properties
@@ -94,6 +95,10 @@ public:
 
     // this signals that an image (any image) has been fully loaded. Only then do we start, e.g., loading thumbnails
     Q_PROPERTY(bool imageInitiallyLoaded MEMBER m_imageInitiallyLoaded NOTIFY imageInitiallyLoadedChanged)
+
+    Q_PROPERTY(bool currentlyShowingVideo MEMBER m_currentlyShowingVideo NOTIFY currentlyShowingVideoChanged)
+    Q_PROPERTY(bool currentlyShowingVideoHasAudio MEMBER m_currentlyShowingVideoHasAudio NOTIFY currentlyShowingVideoHasAudioChanged)
+    Q_PROPERTY(bool currentlyShowingVideoPlaying MEMBER m_currentlyShowingVideoPlaying NOTIFY currentlyShowingVideoPlayingChanged)
 
     /******************************************************/
     // handling all the contextmenus
@@ -144,6 +149,7 @@ private:
         m_modalWindowOpen = false;
         m_lastExecutedShortcutCommand = "";
         m_slideshowRunning = false;
+        m_ignoreFileFolderChangesTemporary = false;
 
         m_currentImageScale = 1;
         m_currentImageRotation = 0;
@@ -153,6 +159,10 @@ private:
         m_currentFileInsideTotal = 0;
         m_currentFileInsideName = "";
         m_imageInitiallyLoaded = false;
+
+        m_currentlyShowingVideo = false;
+        m_currentlyShowingVideoHasAudio = false;
+        m_currentlyShowingVideoPlaying = false;
 
         // cache any possible resolution change
         connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
@@ -208,6 +218,7 @@ private:
     double m_devicePixelRatio;
     bool m_touchGestureActive;
     bool m_slideshowRunning;
+    bool m_ignoreFileFolderChangesTemporary;
 
     double m_currentImageScale;
     int m_currentImageRotation;
@@ -217,6 +228,10 @@ private:
     int m_currentFileInsideTotal;
     QString m_currentFileInsideName;
     bool m_imageInitiallyLoaded;
+
+    bool m_currentlyShowingVideo;
+    bool m_currentlyShowingVideoHasAudio;
+    bool m_currentlyShowingVideoPlaying;
 
     QRect m_statusInfoCurrentRect;
     QRect m_quickActionsCurrentRect;
@@ -268,8 +283,12 @@ Q_SIGNALS:
     void currentFileInsideTotalChanged();
     void currentFileInsideNameChanged();
     void slideshowRunningChanged();
+    void ignoreFileFolderChangesTemporaryChanged();
     void imageInitiallyLoadedChanged();
     void currentImageDefaultScaleChanged();
+    void currentlyShowingVideoChanged();
+    void currentlyShowingVideoHasAudioChanged();
+    void currentlyShowingVideoPlayingChanged();
 
 };
 

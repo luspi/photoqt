@@ -83,14 +83,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool ignoreKeysExceptEnterEsc READ getIgnoreKeysExceptEnterEsc WRITE setIgnoreKeysExceptEnterEsc NOTIFY ignoreKeysExceptEnterEscChanged)
-    void setIgnoreKeysExceptEnterEsc(bool val);
-    Q_INVOKABLE bool getIgnoreKeysExceptEnterEsc();
-
-    Q_PROPERTY(bool ignoreKeysExceptEsc READ getIgnoreKeysExceptEsc WRITE setIgnoreKeysExceptEsc NOTIFY ignoreKeysExceptEscChanged)
-    void setIgnoreKeysExceptEsc(bool val);
-    Q_INVOKABLE bool getIgnoreKeysExceptEsc();
-
     Q_PROPERTY(bool ignoreAllKeys READ getIgnoreAllKeys WRITE setIgnoreAllKeys NOTIFY ignoreAllKeysChanged)
     void setIgnoreAllKeys(bool val);
     Q_INVOKABLE bool getIgnoreAllKeys();
@@ -101,12 +93,6 @@ public:
     void setDebugLogMessages(QString val);
     Q_INVOKABLE QString getDebugLogMessages();
     void addDebugLogMessages(QString val);
-
-    /******************************************************/
-
-    Q_PROPERTY(bool slideshowRunning READ getSlideshowRunning WRITE setSlideshowRunning NOTIFY slideshowRunningChanged)
-    void setSlideshowRunning(bool val);
-    Q_INVOKABLE bool getSlideshowRunning();
 
     /******************************************************/
 
@@ -166,11 +152,8 @@ private:
         m_thumbs = 2;
         m_modalFileDialogOpen = false;
         m_spinBoxPassKeyEvents = false;
-        m_ignoreKeysExceptEnterEsc = false;
-        m_ignoreKeysExceptEsc = false;
         m_ignoreAllKeys = false;
         m_debugLogMessages = "";
-        m_slideshowRunning = false;
         m_faceTagging = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
@@ -193,11 +176,8 @@ private:
 
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;
-    bool m_ignoreKeysExceptEnterEsc;
-    bool m_ignoreKeysExceptEsc;
     bool m_ignoreAllKeys;
 
-    bool m_slideshowRunning;
     bool m_faceTagging;
 
     bool m_haveScreenshots;
@@ -226,8 +206,6 @@ Q_SIGNALS:
     // some window states control from QML
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
-    void ignoreKeysExceptEnterEscChanged();
-    void ignoreKeysExceptEscChanged();
     void ignoreAllKeysChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
@@ -238,7 +216,6 @@ Q_SIGNALS:
     void photoQtQuit();
 
     // actions happening that block the interface in some way
-    void slideshowRunningChanged();
     void faceTaggingChanged();
     void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
@@ -282,6 +259,7 @@ Q_SIGNALS:
     void debugLogMessagesChanged();
     void colorProfilesChanged();
     void openSettingsManagerAt(QString category, QString subcategory);
+    void playPauseAnimationVideo();
 
     // loader methods
     void loaderShow(QString ele);

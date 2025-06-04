@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -1188,8 +1188,6 @@ Rectangle {
         target: PQCNotify // qmllint disable unqualified
 
         function onLoaderPassOn(what : string, param : list<var>) {
-
-            console.warn("???", what, param)
 
             if(what === "show") {
                 if(param[0] === "mainmenu") {

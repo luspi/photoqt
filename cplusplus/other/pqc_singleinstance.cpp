@@ -152,8 +152,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         return;
     }
 
-    this->installEventFilter(this);
-
     // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
     if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
         QSqlDatabase dbtmp;
@@ -379,21 +377,24 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
 }
 
-bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
+bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
 
-    if(e->type() == QEvent::KeyPress) {
-        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-    } else if(e->type() == QEvent::KeyRelease) {
-        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
-    } else if(e->type() == QEvent::Leave) {
-        Q_EMIT PQCNotify::get().mouseWindowExit();
-    } else if(e->type() == QEvent::Enter) {
-        Q_EMIT PQCNotify::get().mouseWindowEnter();
+    const QString cn = obj->metaObject()->className();
+    if(cn == "QQuickRootItem") {
+        if(e->type() == QEvent::KeyPress) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+        } else if(e->type() == QEvent::KeyRelease) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
+        } else if(e->type() == QEvent::Leave) {
+            Q_EMIT PQCNotify::get().mouseWindowExit();
+        } else if(e->type() == QEvent::Enter) {
+            Q_EMIT PQCNotify::get().mouseWindowEnter();
+        }
     }
 
-    return QApplication::eventFilter(obj, e);
+    return QApplication::notify(obj, e);
 
 }
 
