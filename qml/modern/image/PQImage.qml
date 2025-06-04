@@ -334,7 +334,7 @@ Item {
                     var curprevimg = repeaterimage.itemAt(k)
 
                     // k not the current main image and not the next image
-                    if(curprevimg.imageSource !== PQCFileFolderModel.currentFile && (curprevimg.imageSource !== thenextimg.imageSource || foundNext == -1)) {
+                    if(curprevimg.imageSource !== PQCFileFolderModel.currentFile && (foundNext === -1 || curprevimg.imageSource !== thenextimg.imageSource)) {
                         foundPrev = k
                         curprevimg.containingFolder = curFolder
                         curprevimg.lastModified = prevModified
@@ -357,7 +357,7 @@ Item {
                     if(curnextimg.imageSource !== PQCFileFolderModel.currentFile && foundPrev != l) {
                         curnextimg.containingFolder = curFolder
                         curnextimg.lastModified = nextModified
-                        curnextimg.imageSource = PQCFileFolderModel.entriesMainView[nexttwo[1]]
+                        curnextimg.imageSource = nextFile
                         break;
                     }
 
