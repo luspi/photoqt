@@ -102,7 +102,7 @@ Item {
     }
     Timer {
         id: fadeIn
-        interval: 500
+        interval: 200
         onTriggered:
             wb_top.hideAtStartup = false
     }

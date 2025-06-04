@@ -853,7 +853,14 @@ Item {
 
     Component.onCompleted: {
         statusinfo_top.y = distanceFromEdge+computeYOffset()
-        statusinfo_top.hideAtStartup = false
+        fadeIn.start()
+    }
+
+    Timer {
+        id: fadeIn
+        interval: 200
+        onTriggered:
+            statusinfo_top.hideAtStartup = false
     }
 
     Timer {
