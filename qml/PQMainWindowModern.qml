@@ -84,8 +84,17 @@ Window {
 
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
 
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
+
         storeWindowGeometry.restart()
+
+        // we keep track of whether a window is maximized or windowed
+        // when restoring the window we then can restore it to the state it was in before
+        if(visibility === Window.Maximized)
+            PQCConstants.windowMaxAndNotWindowed = true
+        else if(visibility === Window.Windowed)
+            PQCConstants.windowMaxAndNotWindowed = false
+
     }
 
     PQMainWindowBackground {
@@ -207,6 +216,16 @@ Window {
             loadAppInBackgroundTimer.start()
 
         console.warn(">>> set up:", PQCScriptsOther.getTimestamp()-PQCScriptsPlain.getInitTime())
+
+    }
+
+    Connections {
+
+        target: PQCSettings // qmllint disable unqualified
+
+        function onInterfaceWindowModeChanged() {
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
+        }
 
     }
 
