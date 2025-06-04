@@ -47,14 +47,14 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQKenBurnsSli
 SET(d "qml/modern/ongoing")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQThumbnails.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQTrayIcon.qml ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQNotification.qml)# ${d}/PQSlideshowControls.qml ${d}/PQChromeCast.qml)
-#
-# SET(d "qml/ongoing/popout")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQLoggingPopout.qml ${d}/PQSlideshowControlsPopout.qml)
-#
-# SET(d "qml/actions")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQAbout.qml ${d}/PQDelete.qml ${d}/PQRename.qml ${d}/PQCopy.qml ${d}/PQMove.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQNotification.qml ${d}/PQChromeCast.qml)# ${d}/PQSlideshowControls.qml)
+
+SET(d "qml/modern/ongoing/popout")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQLoggingPopout.qml ${d}/PQSlideshowControlsPopout.qml)
+
+SET(d "qml/modern/actions")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQAbout.qml)# ${d}/PQRename.qml)# ${d}/PQDelete.qml  ${d}/PQCopy.qml ${d}/PQMove.qml)
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQFilter.qml ${d}/PQAdvancedSort.qml ${d}/PQSlideshowSetup.qml)
 # SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorer.qml ${d}/PQChromeCastManager.qml)
 #
