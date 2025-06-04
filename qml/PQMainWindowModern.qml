@@ -21,11 +21,9 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsOther
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-import PQCWindowGeometry
 import PQCExtensionsHandler
 
 import org.photoqt.qml

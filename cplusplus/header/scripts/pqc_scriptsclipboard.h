@@ -28,20 +28,24 @@
 
 class QClipboard;
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsClipboard : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsClipboard& get() {
-        static PQCScriptsClipboard instance;
-        return instance;
-    }
+    PQCScriptsClipboard();
     ~PQCScriptsClipboard();
-
-    PQCScriptsClipboard(PQCScriptsClipboard const&)     = delete;
-    void operator=(PQCScriptsClipboard const&) = delete;
 
     Q_INVOKABLE bool areFilesInClipboard();
     Q_INVOKABLE void copyFilesToClipboard(QStringList files);
@@ -50,7 +54,6 @@ public:
     Q_INVOKABLE QString getTextFromClipboard();
 
 private:
-    PQCScriptsClipboard();
 
     QClipboard *clipboard;
 

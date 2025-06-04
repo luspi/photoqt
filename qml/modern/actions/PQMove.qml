@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import PQCScriptsFileManagement
 import PQCFileFolderModel
 import PQCImageFormats
 import PQCScriptsFilesPaths

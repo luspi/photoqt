@@ -10,13 +10,13 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/main.cpp)
 SET(d "cplusplus/other")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp ${d}/pqc_validate.cpp ${d}/pqc_mpvobject.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.cpp ${d}/pqc_photosphereitem.cpp ${d}/pqc_photosphererenderer.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.cpp ${d}/pqc_photosphereitem.cpp ${d}/pqc_photosphererenderer.cpp ${d}/pqc_filefoldermodelcache.cpp)
 
 SET(d "cplusplus/other/wayland-specific")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_xdg-output-unstable-v1-protocol.c ${d}/pqc_get-wayland-device-pixel-ratio.cpp)
 
 SET(d "cplusplus/singletons/other")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp ${d}/pqc_metadata.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_metadata.cpp)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_resolutioncache.cpp)
 
 SET(d "cplusplus/singletons/engines")

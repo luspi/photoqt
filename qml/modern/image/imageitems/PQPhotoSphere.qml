@@ -24,7 +24,6 @@ import QtQuick
 
 import PQCPhotoSphere
 import PQCFileFolderModel
-import PQCScriptsShortcuts
 
 import org.photoqt.qml
 
@@ -457,7 +456,7 @@ PQCPhotoSphere { // qmllint disable
                     opacity: hovered ? 0.8 : 0.3
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    color: PQCLook.transColor // qmllint disable unqualified
+                    color: PQCLook.transColor
 
                     property bool hovered: false
 

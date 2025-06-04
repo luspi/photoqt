@@ -26,8 +26,6 @@ import "../components"
 
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import PQCScriptsClipboard
-import PQCScriptsOther
 
 import org.photoqt.qml
 

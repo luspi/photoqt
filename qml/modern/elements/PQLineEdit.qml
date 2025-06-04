@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsClipboard
 
 import org.photoqt.qml
 

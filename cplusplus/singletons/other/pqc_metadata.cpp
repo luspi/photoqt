@@ -36,11 +36,6 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-PQCMetaData &PQCMetaData::get() {
-    static PQCMetaData instance;
-    return instance;
-}
-
 PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
 
     loadDelay = new QTimer;

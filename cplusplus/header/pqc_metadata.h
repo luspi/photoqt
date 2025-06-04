@@ -29,16 +29,23 @@
 
 class QTimer;
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCMetaData : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCMetaData& get();
-
-    PQCMetaData(PQCMetaData const&)     = delete;
-    void operator=(PQCMetaData const&) = delete;
+    PQCMetaData(QObject *parent = 0);
 
     Q_PROPERTY(bool validFile READ getValidFile WRITE setValidFile NOTIFY validFileChanged)
     bool getValidFile() { return m_validFile; }
@@ -212,8 +219,6 @@ public:
     }
 
 private:
-    PQCMetaData(QObject *parent = 0);
-
     QTimer *loadDelay;
 
     void setEmptyData();

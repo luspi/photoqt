@@ -27,23 +27,26 @@
 #include <QJSValue>
 #include <QtQmlIntegration>
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsOther : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsOther& get() {
-        static PQCScriptsOther instance;
-        return instance;
-    }
+    PQCScriptsOther();
     ~PQCScriptsOther();
 
-    PQCScriptsOther(PQCScriptsOther const&)     = delete;
-    void operator=(PQCScriptsOther const&) = delete;
-
     // screenshot handling
-    Q_INVOKABLE bool takeScreenshots();
     Q_INVOKABLE void deleteScreenshots();
 
     // get methods
@@ -68,9 +71,6 @@ public:
 
     // QML convenience methods
     Q_INVOKABLE QStringList convertJSArrayToStringList(QVariant val);
-
-private:
-    PQCScriptsOther();
 
 };
 

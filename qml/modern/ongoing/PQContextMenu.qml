@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import PQCScriptsShortcuts
 import PQCFileFolderModel
 import PQCScriptsContextMenu
 import PQCScriptsConfig

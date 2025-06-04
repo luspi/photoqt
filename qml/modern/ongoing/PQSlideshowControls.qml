@@ -21,10 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-
-import PQCScriptsOther
-import PQCWindowGeometry
-
 import org.photoqt.qml
 
 import "../elements"

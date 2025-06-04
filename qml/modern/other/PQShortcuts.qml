@@ -25,11 +25,7 @@ import QtQml
 
 import PQCShortcuts
 import PQCScriptsFilesPaths
-import PQCScriptsFileManagement
 import PQCFileFolderModel
-import PQCScriptsClipboard
-import PQCScriptsOther
-import PQCScriptsShortcuts
 import PQCScriptsImages
 import PQCImageFormats
 import PQCScriptsConfig

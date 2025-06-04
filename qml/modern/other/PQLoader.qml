@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import PQCWindowGeometry
 import PQCScriptsConfig
 import PQCExtensionsHandler
 

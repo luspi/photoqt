@@ -23,7 +23,6 @@
 import QtQuick
 
 import PQCFileFolderModel
-import PQCScriptsClipboard
 
 import org.photoqt.qml
 

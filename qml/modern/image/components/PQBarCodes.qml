@@ -23,8 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import PQCScriptsOther
-import PQCScriptsClipboard
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 

@@ -22,7 +22,6 @@
 
 import QtQuick
 
-import PQCScriptsOther
 import PQCScriptsFilesPaths
 
 import org.photoqt.qml

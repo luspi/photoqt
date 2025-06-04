@@ -24,7 +24,6 @@ import QtQuick
 import QtQuick.Window
 
 import PQCScriptsConfig
-import PQCScriptsClipboard
 import PQCScriptsFilesPaths
 
 import "../../elements"

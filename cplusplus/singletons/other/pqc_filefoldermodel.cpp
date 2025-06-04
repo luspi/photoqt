@@ -205,8 +205,14 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
     Q_EMIT folderFileDialogChanged();
     loadDelayFileDialog->start();
 
-    if(val != "")
-        PQCScriptsFileDialog::get().setLastLocation(val);
+    if(val != "") {
+        QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
+        if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            QTextStream out(&file);
+            out << val;
+            file.close();
+        }
+    }
 
 }
 

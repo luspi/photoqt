@@ -25,20 +25,29 @@
 
 #include <QQmlPropertyMap>
 #include <QRect>
+#include <QtQmlIntegration>
 
 class QSettings;
 class QTimer;
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCWindowGeometry : public QQmlPropertyMap {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCWindowGeometry& get();
+    PQCWindowGeometry();
     ~PQCWindowGeometry();
-
-    PQCWindowGeometry(PQCWindowGeometry const&)        = delete;
-    void operator=(PQCWindowGeometry const&) = delete;
 
     QSettings *settings;
     void load();
@@ -48,7 +57,6 @@ private Q_SLOTS:
     void computeSmallSizeBehavior();
 
 private:
-    PQCWindowGeometry();
 
     QTimer *saveDelay;
 

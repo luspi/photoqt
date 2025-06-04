@@ -282,22 +282,6 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
 
 }
 
-bool PQCScriptsFileDialog::setLastLocation(QString path) {
-
-    qDebug() << "args: path =" << path;
-
-    QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
-    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
-        QTextStream out(&file);
-        out << path;
-        file.close();
-        return true;
-    }
-
-    return false;
-
-}
-
 unsigned int PQCScriptsFileDialog::_getNumberOfFilesInFolder(QString path) {
 
     // no debug statement here, this function is only and always called by the next function with the same name

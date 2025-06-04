@@ -58,25 +58,16 @@
 #include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
 #include <pqc_filefoldermodel.h>
-#include <pqc_metadata.h>
 #include <pqc_resolutioncache.h>
-#include <pqc_windowgeometry.h>
 #include <pqc_location.h>
 #include <pqc_photosphere.h>
 #include <scripts/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <scripts/pqc_scriptsfiledialog.h>
-#include <scripts/pqc_scriptsclipboard.h>
-#include <scripts/pqc_scriptsfilemanagement.h>
-#include <scripts/pqc_scriptsother.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsmetadata.h>
 #include <scripts/pqc_scriptscontextmenu.h>
-#include <scripts/pqc_scriptsshortcuts.h>
 #include <scripts/pqc_scriptscrypt.h>
 #include <scripts/pqc_scriptsshareimgur.h>
-#include <scripts/pqc_scriptswallpaper.h>
-#include <scripts/pqc_scriptschromecast.h>
 #include <scripts/pqc_scriptsundo.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_extensionshandler.h>
@@ -116,7 +107,7 @@
 
 int main(int argc, char *argv[]) {
 
-    PQCScriptsPlain::get().setInitTime(PQCScriptsOther::get().getTimestamp());
+    PQCScriptsPlain::get().setInitTime(QDateTime::currentMSecsSinceEpoch());
 
 
 #ifdef Q_OS_WIN
@@ -291,7 +282,18 @@ int main(int argc, char *argv[]) {
         PQCSettings::get().updateFromCommandLine();
 
     // Get screenshots for fake transparency
-    PQCNotify::get().setHaveScreenshots(PQCScriptsOther::get().takeScreenshots());
+    bool success = true;
+    for(int i = 0; i < QApplication::screens().count(); ++i) {
+        QScreen *screen = QApplication::screens().at(i);
+        QRect r = screen->geometry();
+        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
+            qDebug() << "Error taking screenshot for screen #" << i;
+            success = false;
+            break;
+        }
+    }
+    PQCNotify::get().setHaveScreenshots(success);
 
 // only one of them will be defined at a time
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
@@ -321,22 +323,13 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCShortcuts", 1, 0, "PQCShortcuts", &PQCShortcuts::get());
     qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
     qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
-    qmlRegisterSingletonInstance("PQCScriptsFileDialog", 1, 0, "PQCScriptsFileDialog", &PQCScriptsFileDialog::get());
-    qmlRegisterSingletonInstance("PQCScriptsClipboard", 1, 0, "PQCScriptsClipboard", &PQCScriptsClipboard::get());
-    qmlRegisterSingletonInstance("PQCScriptsFileManagement", 1, 0, "PQCScriptsFileManagement", &PQCScriptsFileManagement::get());
-    qmlRegisterSingletonInstance("PQCScriptsOther", 1, 0, "PQCScriptsOther", &PQCScriptsOther::get());
     qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
-    qmlRegisterSingletonInstance("PQCMetaData", 1, 0, "PQCMetaData", &PQCMetaData::get());
     qmlRegisterSingletonInstance("PQCScriptsMetaData", 1, 0, "PQCScriptsMetaData", &PQCScriptsMetaData::get());
     qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
-    qmlRegisterSingletonInstance("PQCScriptsShortcuts", 1, 0, "PQCScriptsShortcuts", &PQCScriptsShortcuts::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-    qmlRegisterSingletonInstance("PQCWindowGeometry", 1, 0, "PQCWindowGeometry", &PQCWindowGeometry::get());
     qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
     qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
-    qmlRegisterSingletonInstance("PQCScriptsWallpaper", 1, 0, "PQCScriptsWallpaper", &PQCScriptsWallpaper::get());
     qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
-    qmlRegisterSingletonInstance("PQCScriptsChromeCast", 1, 0, "PQCScriptsChromeCast", &PQCScriptsChromeCast::get());
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());

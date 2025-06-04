@@ -27,8 +27,6 @@ import QtQuick.Window
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCScriptsFilesPaths
-import PQCScriptsOther
-import PQCScriptsShortcuts
 
 import org.photoqt.qml
 

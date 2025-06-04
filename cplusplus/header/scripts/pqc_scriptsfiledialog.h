@@ -29,20 +29,24 @@
 
 class QJSValue;
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsFileDialog : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsFileDialog& get() {
-        static PQCScriptsFileDialog instance;
-        return instance;
-    }
+    PQCScriptsFileDialog();
     ~PQCScriptsFileDialog();
-
-    PQCScriptsFileDialog(PQCScriptsFileDialog const&)     = delete;
-    void operator=(PQCScriptsFileDialog const&) = delete;
 
     // get data
     Q_INVOKABLE QVariantList getDevices();
@@ -50,7 +54,7 @@ public:
     QString getUniquePlacesId();
 
     // last location
-    Q_INVOKABLE bool setLastLocation(QString path);
+    // this value is set in PQCFileFolderModel::setFolderFileDialog()
     Q_INVOKABLE QString getLastLocation();
 
     // count folder files
@@ -64,7 +68,6 @@ public:
     Q_INVOKABLE void deletePlacesEntry(QString id);
 
 private:
-    PQCScriptsFileDialog();
     QHash<QString,int> cacheNumberOfFilesInFolder;
 
 };

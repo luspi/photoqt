@@ -29,10 +29,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCFileFolderModel
 import PQCScriptsConfig
-import PQCScriptsOther
-import PQCScriptsClipboard
 import PQCScriptsMetaData
-import PQCScriptsShortcuts
 
 import QtMultimedia
 

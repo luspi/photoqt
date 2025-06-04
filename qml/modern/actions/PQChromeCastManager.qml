@@ -22,10 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-
-import PQCScriptsChromeCast
-import PQCWindowGeometry
-
 import org.photoqt.qml
 
 import "../elements"

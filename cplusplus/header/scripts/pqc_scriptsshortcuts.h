@@ -27,20 +27,24 @@
 #include <QMap>
 #include <QtQmlIntegration>
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsShortcuts : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsShortcuts& get() {
-        static PQCScriptsShortcuts instance;
-        return instance;
-    }
+    PQCScriptsShortcuts();
     ~PQCScriptsShortcuts();
-
-    PQCScriptsShortcuts(PQCScriptsShortcuts const&)     = delete;
-    void operator=(PQCScriptsShortcuts const&) = delete;
 
     Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
 
@@ -57,8 +61,6 @@ public:
     Q_INVOKABLE QString translateMouseDirection(QStringList combo);
 
 private:
-    PQCScriptsShortcuts();
-
     qint64 m_lastInternalShortcutExecuted;
 
     QHash<QString,QString> m_keyStrings;

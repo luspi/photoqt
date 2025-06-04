@@ -28,9 +28,6 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsMetaData
-import PQCMetaData
-import PQCWindowGeometry
-import PQCScriptsClipboard
 
 import org.photoqt.qml
 

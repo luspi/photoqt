@@ -23,7 +23,6 @@
 import QtQuick
 
 import PQCFileFolderModel
-import PQCScriptsChromeCast
 
 import org.photoqt.qml
 

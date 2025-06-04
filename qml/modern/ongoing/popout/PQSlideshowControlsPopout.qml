@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCWindowGeometry
+import org.photoqt.qml
 import "../../elements"
 
 PQTemplatePopout {

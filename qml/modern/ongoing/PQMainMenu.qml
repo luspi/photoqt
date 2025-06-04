@@ -27,8 +27,6 @@ import QtQuick.Controls
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsContextMenu
-import PQCWindowGeometry
-import PQCScriptsOther
 
 import org.photoqt.qml
 

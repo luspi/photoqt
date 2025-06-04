@@ -136,11 +136,6 @@ PQCWindowGeometry::PQCWindowGeometry() {
 
 }
 
-PQCWindowGeometry &PQCWindowGeometry::get() {
-    static PQCWindowGeometry instance;
-    return instance;
-}
-
 PQCWindowGeometry::~PQCWindowGeometry() {
     delete settings;
     delete saveDelay;

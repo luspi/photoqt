@@ -28,9 +28,7 @@ import QtQuick.Controls
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import PQCScriptsChromeCast
 import PQCScriptsConfig
-import PQCScriptsOther
 import PQCScriptsColorProfiles
 
 import org.photoqt.qml

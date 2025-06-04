@@ -67,52 +67,6 @@ PQCScriptsChromeCast::~PQCScriptsChromeCast() {
 
 /************************************************************/
 
-void PQCScriptsChromeCast::setAvailableDevices(QVariantList val) {
-    if(val != m_availableDevices) {
-        m_availableDevices = val;
-        Q_EMIT availableDevicesChanged();
-    }
-}
-
-QVariantList PQCScriptsChromeCast::getAvailableDevices() {
-    return m_availableDevices;
-}
-
-void PQCScriptsChromeCast::setInDiscovery(bool val) {
-    if(m_inDiscovery != val) {
-        m_inDiscovery = val;
-        Q_EMIT inDiscoveryChanged();
-    }
-}
-
-int PQCScriptsChromeCast::getInDiscovery() {
-    return m_inDiscovery;
-}
-
-void PQCScriptsChromeCast::setConnected(bool val) {
-    if(m_connected != val) {
-        m_connected = val;
-        Q_EMIT connectedChanged();
-    }
-}
-
-int PQCScriptsChromeCast::getConnected() {
-    return m_connected;
-}
-
-void PQCScriptsChromeCast::setCurDeviceName(QString val) {
-    if(m_curDeviceName != val) {
-        m_curDeviceName = val;
-        Q_EMIT curDeviceNameChanged();
-    }
-}
-
-QString PQCScriptsChromeCast::getCurDeviceName() {
-    return m_curDeviceName;
-}
-
-/************************************************************/
-
 void PQCScriptsChromeCast::readDiscoveryOutput() {
 
     qDebug() << "";
@@ -135,7 +89,8 @@ void PQCScriptsChromeCast::readDiscoveryOutput() {
 
     qWarning() << m_availableDevices;
 
-    setInDiscovery(false);
+    m_inDiscovery = false;
+    inDiscoveryChanged();
     Q_EMIT availableDevicesChanged();
 
 }
@@ -144,14 +99,16 @@ bool PQCScriptsChromeCast::startDiscovery() {
 
     qDebug() << "";
 
-    setInDiscovery(true);
+    m_inDiscovery = true;
+    inDiscoveryChanged();
 
     const QString tmpPath = QString("%1/chromecast_discovery.py").arg(QDir::tempPath());
 
     QFile::remove(tmpPath);
     if(!QFile::copy(":/chromecast_discovery.py", tmpPath)) {
         qWarning() << "ERROR preparing discovery python script, chromecast not available";
-        setInDiscovery(false);
+        m_inDiscovery = false;
+        inDiscoveryChanged();
         return false;
     }
 
@@ -170,8 +127,11 @@ bool PQCScriptsChromeCast::connectToDevice(int index) {
 
     m_selectedDevice = index;
 
-    setCurDeviceName(m_availableDevices[m_selectedDevice].toList()[0].toString());
-    setConnected(true);
+    m_curDeviceName = m_availableDevices[m_selectedDevice].toList()[0].toString();
+    curDeviceNameChanged();
+
+    m_connected = true;
+    connectedChanged();
 
     if(PQCFileFolderModel::get().getCountMainView() > 0 && PQCFileFolderModel::get().getCurrentIndex() > -1)
         return castImage(PQCFileFolderModel::get().getCurrentFile());
@@ -281,8 +241,11 @@ bool PQCScriptsChromeCast::disconnect() {
 
     procDisconnect->start("python", {pyPath, m_curDeviceName, localIP, QString::number(serverPort)});
 
-    setCurDeviceName("");
-    setConnected(false);
+    m_curDeviceName = "";
+    curDeviceNameChanged();
+
+    m_connected = false;
+    connectedChanged();
 
     return true;
 

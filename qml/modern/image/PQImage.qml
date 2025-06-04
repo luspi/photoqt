@@ -29,7 +29,6 @@ import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCResolutionCache
-import PQCScriptsShortcuts
 
 import org.photoqt.qml
 

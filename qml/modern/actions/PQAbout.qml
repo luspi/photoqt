@@ -24,9 +24,6 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsConfig
-import PQCScriptsClipboard
-import PQCWindowGeometry
-
 import org.photoqt.qml
 
 import "../elements"

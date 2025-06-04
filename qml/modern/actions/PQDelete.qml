@@ -24,10 +24,7 @@ import QtQuick
 
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
-import PQCScriptsShortcuts
 import PQCScriptsConfig
-import PQCScriptsFileManagement
-import PQCWindowGeometry
 
 import org.photoqt.qml
 

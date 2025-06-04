@@ -29,17 +29,12 @@
 class PQCScriptsWallpaper : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsWallpaper& get() {
-        static PQCScriptsWallpaper instance;
-        return instance;
-    }
+    explicit PQCScriptsWallpaper();
     ~PQCScriptsWallpaper();
-
-    PQCScriptsWallpaper(PQCScriptsWallpaper const&)     = delete;
-    void operator=(PQCScriptsWallpaper const&) = delete;
 
     Q_INVOKABLE int getScreenCount();
 
@@ -57,7 +52,6 @@ public:
     Q_INVOKABLE void setWallpaper(QString category, QString filename, QVariantMap options);
 
 private:
-    PQCScriptsWallpaper();
     bool checkIfCommandExists(QString cmd, QStringList args, QString &out);
 
 };
