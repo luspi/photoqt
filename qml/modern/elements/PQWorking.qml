@@ -25,6 +25,8 @@ import QtQuick
 
 import PQCScriptsFileManagement
 
+import org.photoqt.qml
+
 Rectangle {
 
     id: exportRunning

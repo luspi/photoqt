@@ -33,6 +33,8 @@ import PQCScriptsConfig
 import PQCScriptsOther
 import PQCScriptsColorProfiles
 
+import org.photoqt.qml
+
 import "../elements"
 import "../image"
 

@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
 
+import org.photoqt.qml
+
 import "../"
 
 SystemTrayIcon {

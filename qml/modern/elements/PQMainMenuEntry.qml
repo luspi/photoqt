@@ -25,6 +25,8 @@ import QtQuick
 import PQCScriptsShortcuts
 import PQCFileFolderModel
 
+import org.photoqt.qml
+
 Item {
 
     id: entrytop

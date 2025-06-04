@@ -24,6 +24,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls.Basic
 
+import org.photoqt.qml
+
 ComboBox {
 
     id: control

@@ -28,6 +28,8 @@ import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCScriptsImages
 
+import org.photoqt.qml
+
 import "../elements"
 import "../image"
 import "../"

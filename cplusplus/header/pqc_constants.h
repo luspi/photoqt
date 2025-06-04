@@ -33,19 +33,94 @@
 #include <QDir>
 #include <QTimer>
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCConstants : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCConstants& get() {
-        static PQCConstants instance;
-        return instance;
-    }
-    ~PQCConstants() {}
 
-    PQCConstants(PQCConstants const&)     = delete;
-    void operator=(PQCConstants const&) = delete;
+    explicit PQCConstants() : QObject() {
+
+        m_startupFileLoad = "";
+
+        m_windowWidth = 0;
+        m_windowHeight = 0;
+        m_windowState = Qt::WindowNoState;
+        m_windowFullScreen = false;
+        m_windowMaxAndNotWindowed = true;
+        m_photoQtStartupDone = false;
+        m_faceTaggingMode = false;
+        m_idOfVisibleItem = "";
+        m_modalWindowOpen = false;
+        m_lastExecutedShortcutCommand = "";
+        m_ignoreFileFolderChangesTemporary = false;
+        m_statusinfoIsVisible = true;
+
+        m_slideshowRunning = false;
+        m_slideshowRunningAndPlaying = false;
+        m_slideshowVolume = 1.0;
+
+        m_currentImageScale = 1;
+        m_currentImageRotation = 0;
+        m_currentImageResolution = QSize(0,0);
+        m_currentImageDefaultScale = 1.0;
+        m_currentFileInsideNum = 0;
+        m_currentFileInsideTotal = 0;
+        m_currentFileInsideName = "";
+        m_imageQMLItemHeight = 0;
+        m_imageInitiallyLoaded = false;
+
+        m_currentlyShowingVideo = false;
+        m_currentlyShowingVideoHasAudio = false;
+        m_currentlyShowingVideoPlaying = false;
+
+        // cache any possible resolution change
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
+            if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
+                PQCResolutionCache::get().saveResolution(PQCFileFolderModel::get().getCurrentFile(), m_currentImageResolution);
+        });
+
+        m_statusInfoCurrentRect = QRect(0,0,0,0);
+        m_quickActionsCurrentRect = QRect(0,0,0,0);
+        m_windowButtonsCurrentRect = QRect(0,0,0,0);
+        m_statusInfoMovedManually = false;
+        m_quickActionsMovedManually = false;
+        m_statusInfoMovedDown = false;
+
+        m_devicePixelRatio = 1.0;
+        if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+            m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+
+        m_touchGestureActive = false;
+
+        m_updateDevicePixelRatio = new QTimer;
+        m_updateDevicePixelRatio->setInterval(1000*60*5);
+        m_updateDevicePixelRatio->setSingleShot(false);
+        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
+            m_devicePixelRatio = 1.0;
+            if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
+        });
+        m_updateDevicePixelRatio->start();
+
+        m_initTime = 0;
+
+        m_lastInternalShortcutExecuted = 0;
+
+        m_whichContextMenusOpen.clear();
+
+    }
 
     /******************************************************/
     // some generic global propertues
@@ -56,7 +131,6 @@ public:
     Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
     Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
-    Q_PROPERTY(int howManyFiles MEMBER m_howManyFiles NOTIFY howManyFilesChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
     Q_PROPERTY(bool ignoreFileFolderChangesTemporary MEMBER m_ignoreFileFolderChangesTemporary NOTIFY ignoreFileFolderChangesTemporaryChanged)
 
@@ -140,79 +214,6 @@ public:
     }
 
 private:
-    PQCConstants() : QObject() {
-
-        m_startupFileLoad = "";
-
-        m_windowWidth = 0;
-        m_windowHeight = 0;
-        m_windowState = Qt::WindowNoState;
-        m_windowFullScreen = false;
-        m_windowMaxAndNotWindowed = true;
-        m_photoQtStartupDone = false;
-        m_howManyFiles = 0;
-        m_faceTaggingMode = false;
-        m_idOfVisibleItem = "";
-        m_modalWindowOpen = false;
-        m_lastExecutedShortcutCommand = "";
-        m_ignoreFileFolderChangesTemporary = false;
-        m_statusinfoIsVisible = true;
-
-        m_slideshowRunning = false;
-        m_slideshowRunningAndPlaying = false;
-        m_slideshowVolume = 1.0;
-
-        m_currentImageScale = 1;
-        m_currentImageRotation = 0;
-        m_currentImageResolution = QSize(0,0);
-        m_currentImageDefaultScale = 1.0;
-        m_currentFileInsideNum = 0;
-        m_currentFileInsideTotal = 0;
-        m_currentFileInsideName = "";
-        m_imageQMLItemHeight = 0;
-        m_imageInitiallyLoaded = false;
-
-        m_currentlyShowingVideo = false;
-        m_currentlyShowingVideoHasAudio = false;
-        m_currentlyShowingVideoPlaying = false;
-
-        // cache any possible resolution change
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
-            if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
-                PQCResolutionCache::get().saveResolution(PQCFileFolderModel::get().getCurrentFile(), m_currentImageResolution);
-        });
-
-        m_statusInfoCurrentRect = QRect(0,0,0,0);
-        m_quickActionsCurrentRect = QRect(0,0,0,0);
-        m_windowButtonsCurrentRect = QRect(0,0,0,0);
-        m_statusInfoMovedManually = false;
-        m_quickActionsMovedManually = false;
-        m_statusInfoMovedDown = false;
-
-        m_devicePixelRatio = 1.0;
-        if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
-            m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
-
-        m_touchGestureActive = false;
-
-        m_updateDevicePixelRatio = new QTimer;
-        m_updateDevicePixelRatio->setInterval(1000*60*5);
-        m_updateDevicePixelRatio->setSingleShot(false);
-        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
-            m_devicePixelRatio = 1.0;
-            if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
-                m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
-        });
-        m_updateDevicePixelRatio->start();
-
-        m_initTime = 0;
-
-        m_lastInternalShortcutExecuted = 0;
-
-        m_whichContextMenusOpen.clear();
-
-    }
-
     QString m_startupFileLoad;
 
     int m_windowWidth;
@@ -257,8 +258,6 @@ private:
     bool m_quickActionsMovedManually;
     bool m_statusInfoMovedDown;
 
-    int m_howManyFiles;
-
     QTimer *m_updateDevicePixelRatio;
     QString m_lastExecutedShortcutCommand;
 
@@ -281,7 +280,6 @@ Q_SIGNALS:
     void idOfVisibleItemChanged();
     void devicePixelRatioChanged();
     void touchGestureActiveChanged();
-    void howManyFilesChanged();
     void lastExecutedShortcutCommandChanged();
     void statusInfoCurrentRectChanged();
     void quickActionsCurrentRectChanged();

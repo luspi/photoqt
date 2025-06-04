@@ -23,6 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
+import org.photoqt.qml
+
 Item {
 
     id: control_top

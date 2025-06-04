@@ -28,6 +28,8 @@ import PQCScriptsConfig
 import PQCWindowGeometry
 import PQCExtensionsHandler
 
+import org.photoqt.qml
+
 import "./modern/other"
 import "./modern/image"
 import "./modern/ongoing"
@@ -94,10 +96,10 @@ Window {
             if(PQCConstants.photoQtShuttingDown)
                 return
 
-            if(visibility === Window.Windowed) {
+            if(toplevel.visibility === Window.Windowed) {
                 PQCWindowGeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
                 PQCWindowGeometry.mainWindowMaximized = false
-            } else if(visibility === Window.Maximized)
+            } else if(toplevel.visibility === Window.Maximized)
                 PQCWindowGeometry.mainWindowMaximized = true
 
         }
@@ -106,7 +108,7 @@ Window {
 
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
 
-    onVisibilityChanged: (visibility) => {
+    onVisibilityChanged: {
 
         storeWindowGeometry.restart()
 
@@ -143,8 +145,6 @@ Window {
     }
 
     /****************************************************/
-
-    PQContextMenu { id: contextmenu }
 
     /****************************************************/
 

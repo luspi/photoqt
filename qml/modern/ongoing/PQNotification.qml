@@ -23,6 +23,8 @@
 import QtQuick
 import PQCScriptsOther
 
+import org.photoqt.qml
+
 import "../elements"
 import "../"
 

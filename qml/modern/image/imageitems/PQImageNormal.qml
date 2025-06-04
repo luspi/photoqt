@@ -36,6 +36,8 @@ import PQCScriptsShortcuts
 
 import QtMultimedia
 
+import org.photoqt.qml
+
 Image {
 
     id: image

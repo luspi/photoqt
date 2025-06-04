@@ -25,6 +25,8 @@ import QtQuick
 import PQCFileFolderModel
 import PQCScriptsConfig
 
+import org.photoqt.qml
+
 import "../elements"
 
 Item {
@@ -617,7 +619,7 @@ Item {
             }
 
             // a context menu is open -> don't continue
-            if(PQCNotify.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
+            if(PQCConstants.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
                 PQCNotify.closeAllContextMenus()
                 return
             }

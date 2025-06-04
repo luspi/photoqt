@@ -25,6 +25,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
+import org.photoqt.qml
+
 Rectangle {
 
     id: blur_top

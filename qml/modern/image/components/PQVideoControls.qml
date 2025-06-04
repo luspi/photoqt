@@ -24,8 +24,9 @@ import QtQuick
 
 import PQCScriptsImages
 
-import "../../elements"
+import org.photoqt.qml
 
+import "../../elements"
 
 Item {
 

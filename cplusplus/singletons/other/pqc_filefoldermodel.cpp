@@ -38,7 +38,6 @@
 #include <pqc_settings.h>
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsimages.h>
-#include <pqc_constants.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -221,7 +220,6 @@ void PQCFileFolderModel::setCountMainView(int c) {
     if(m_countMainView == c)
         return;
     m_countMainView = c;
-    PQCConstants::get().setProperty("howManyFiles", c);
     Q_EMIT countMainViewChanged();
 }
 

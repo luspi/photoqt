@@ -30,6 +30,8 @@ import PQCScriptsFilesPaths
 import PQCScriptsOther
 import PQCScriptsShortcuts
 
+import org.photoqt.qml
+
 import "components"
 import "imageitems"
 import "../elements"

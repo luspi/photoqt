@@ -22,6 +22,8 @@
 
 import QtQuick
 
+import org.photoqt.qml
+
 PQMultiEffect {
 
     property Item masterItem

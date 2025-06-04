@@ -28,6 +28,8 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsShortcuts
 
+import org.photoqt.qml
+
 Item {
 
     id: slideshowhandler_top

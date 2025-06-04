@@ -22,6 +22,8 @@
 
 import QtQuick
 
+import org.photoqt.qml
+
 Rectangle {
 
     id: control
@@ -48,6 +50,8 @@ Rectangle {
 
     property bool enableContextMenu: true
     property alias contextmenu: menu
+
+    property bool contextmenuVisible: menu.visible
 
     property int forceWidth: 0
     property bool extraWide: false
@@ -114,6 +118,10 @@ Rectangle {
                 control.clicked()
             }
         }
+    }
+
+    function closeContextmenu() {
+        menu.close()
     }
 
 }

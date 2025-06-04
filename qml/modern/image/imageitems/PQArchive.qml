@@ -25,6 +25,8 @@ import QtQuick
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 
+import org.photoqt.qml
+
 import "../components"
 
 Image {

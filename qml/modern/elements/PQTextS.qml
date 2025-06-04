@@ -22,6 +22,8 @@
 
 import QtQuick
 
+import org.photoqt.qml
+
 Text {
 
     color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified

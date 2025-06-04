@@ -22,6 +22,8 @@
 
 import QtQuick
 
+import org.photoqt.qml
+
 Window {
 
     id: minimap_popout

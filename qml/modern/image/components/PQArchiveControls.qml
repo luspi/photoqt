@@ -27,6 +27,8 @@ import "../../elements"
 import PQCFileFolderModel
 import PQCScriptsImages
 
+import org.photoqt.qml
+
 Item {
 
     id: arctop

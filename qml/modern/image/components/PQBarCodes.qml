@@ -28,6 +28,8 @@ import PQCScriptsClipboard
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 
+import org.photoqt.qml
+
 import "../../elements"
 
 Item {

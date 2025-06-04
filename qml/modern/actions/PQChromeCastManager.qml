@@ -26,6 +26,8 @@ import QtQuick
 import PQCScriptsChromeCast
 import PQCWindowGeometry
 
+import org.photoqt.qml
+
 import "../elements"
 
 PQTemplateFullscreen {

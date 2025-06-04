@@ -26,6 +26,8 @@ import PQCPhotoSphere
 import PQCFileFolderModel
 import PQCScriptsShortcuts
 
+import org.photoqt.qml
+
 import "../../elements"
 import "../components"
 

@@ -27,6 +27,8 @@ import QtQuick.Layouts
 import PQCFileFolderModel
 import PQCWindowGeometry
 
+import org.photoqt.qml
+
 import "../elements"
 
 PQTemplateFullscreen {
@@ -57,9 +59,6 @@ PQTemplateFullscreen {
 
     signal loadData()
     signal saveData()
-
-    property list<PQButton> allbuttons: [workingcancel]
-    property list<PQComboBox> allcombos: [qual2, qual3, qual4]
 
     content: [
 
@@ -726,8 +725,8 @@ PQTemplateFullscreen {
                 if(working.visible) {
 
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) {
-                        if(workingcancel.contextmenu.visible)
-                            workingcancel.contextmenu.close()
+                        if(workingcancel.contextmenuVisible)
+                            workingcancel.closeContextmenu()
                         else
                             workingcancel.clicked()
                     }
@@ -770,19 +769,24 @@ PQTemplateFullscreen {
 
     }
 
-    function closeAnyMenu() {
+    function closeAnyMenu() : bool {
 
-        for(var i in allbuttons) {
-            if(allbuttons[i].contextmenu.visible) {
-                allbuttons[i].contextmenu.close()
-                return true
-            }
+        if(workingcancel.contextmenuVisible) {
+            workingcancel.closeContextmenu()
+            return true
         }
-        for(var j in allcombos) {
-            if(allcombos[j].popup.visible) {
-                allcombos[j].popup.close()
-                return true
-            }
+
+        if(qual2.popup.visible) {
+            qual2.popup.close()
+            return true
+        }
+        if(qual3.popup.visible) {
+            qual3.popup.close()
+            return true
+        }
+        if(qual4.popup.visible) {
+            qual4.popup.close()
+            return true
         }
 
         if(advancedsort_top.contextMenuOpen) {
@@ -794,7 +798,7 @@ PQTemplateFullscreen {
 
     }
 
-    function doSorting() {
+    function doSorting() : void {
 
         advancedsort_top.saveData()
 
@@ -803,7 +807,7 @@ PQTemplateFullscreen {
 
     }
 
-    function show() {
+    function show() : void {
 
         if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
             hide()
@@ -817,7 +821,7 @@ PQTemplateFullscreen {
 
     }
 
-    function hide() {
+    function hide() : void {
 
         closeAnyMenu()
         opacity = 0

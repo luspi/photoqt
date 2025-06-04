@@ -24,6 +24,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
+import org.photoqt.qml
+
 Rectangle {
 
     id: ele_top

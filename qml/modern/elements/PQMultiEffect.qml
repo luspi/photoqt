@@ -22,6 +22,8 @@
 
 import QtQuick.Effects
 
+import org.photoqt.qml
+
 MultiEffect {
     anchors.fill: source
 }

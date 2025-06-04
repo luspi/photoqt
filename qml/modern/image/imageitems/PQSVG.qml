@@ -30,6 +30,8 @@ import PQCScriptsOther
 import PQCScriptsClipboard
 import PQCScriptsMetaData
 
+import org.photoqt.qml
+
 Item {
 
     id: svgtop

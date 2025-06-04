@@ -28,6 +28,8 @@ import QtQuick.Window
 import PQCFileFolderModel
 import PQCScriptsConfig
 
+import org.photoqt.qml
+
 import "../elements"
 
 Item {

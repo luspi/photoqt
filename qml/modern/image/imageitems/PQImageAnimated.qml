@@ -29,6 +29,8 @@ import PQCScriptsImages
 import PQCScriptsClipboard
 import PQCScriptsOther
 
+import org.photoqt.qml
+
 AnimatedImage {
 
     id: image

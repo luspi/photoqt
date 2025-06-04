@@ -27,6 +27,8 @@ import PQCScriptsConfig
 import PQCScriptsClipboard
 import PQCWindowGeometry
 
+import org.photoqt.qml
+
 import "../elements"
 
 PQTemplateFullscreen {
@@ -45,8 +47,6 @@ PQTemplateFullscreen {
 
     button1.onClicked:
         hide()
-
-    property list<PQButton> allbuttons: [configbutton, configclipbut, configclosebut]
 
     content: [
 
@@ -228,12 +228,19 @@ PQTemplateFullscreen {
 
     }
 
-    function closeAnyMenu() {
-        for(var i in allbuttons) {
-            if(allbuttons[i].contextmenu.visible) {
-                allbuttons[i].contextmenu.close()
-                return true
-            }
+    function closeAnyMenu() : bool {
+
+        if(configbutton.contextmenuVisible) {
+            configbutton.closeContextmenu()
+            return true
+        }
+        if(configclipbut.contextmenuVisible) {
+            configclipbut.closeContextmenu()
+            return true
+        }
+        if(configclosebut.contextmenuVisible) {
+            configclosebut.closeContextmenu()
+            return true
         }
         if(about_top.contextMenuOpen) {
             about_top.closeContextMenus()

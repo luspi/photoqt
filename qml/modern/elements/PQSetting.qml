@@ -22,6 +22,8 @@
 
 import QtQuick
 
+import org.photoqt.qml
+
 Row {
 
     id: setctrl

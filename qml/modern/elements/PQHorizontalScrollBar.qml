@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Controls.Basic
 
+import org.photoqt.qml
+
 ScrollBar {
     id: control
     size: 0.3

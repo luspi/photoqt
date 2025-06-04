@@ -31,6 +31,8 @@ import PQCScriptsImages
 import PQCResolutionCache
 import PQCScriptsShortcuts
 
+import org.photoqt.qml
+
 import "../elements"
 
 Item {

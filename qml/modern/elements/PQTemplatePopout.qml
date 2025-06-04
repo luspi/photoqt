@@ -25,6 +25,8 @@ import QtQuick.Window
 
 import PQCScriptsConfig
 
+import org.photoqt.qml
+
 Window {
 
     id: ele_window

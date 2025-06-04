@@ -29,6 +29,8 @@ import PQCScriptsConfig
 import PQCScriptsFileManagement
 import PQCWindowGeometry
 
+import org.photoqt.qml
+
 import "../elements"
 
 PQTemplateFullscreen {

@@ -30,6 +30,8 @@ import PQCScriptsConfig
 import PQCScriptsImages
 import PQCScriptsColorProfiles
 
+import org.photoqt.qml
+
 import "../elements"
 
 Loader {

@@ -23,9 +23,11 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
-import "../../elements"
-
 import PQCScriptsImages
+
+import org.photoqt.qml
+
+import "../../elements"
 
 Item {
 

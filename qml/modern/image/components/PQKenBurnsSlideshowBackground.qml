@@ -21,6 +21,9 @@
  **************************************************************************/
 
 import QtQuick
+
+import org.photoqt.qml
+
 import "../imageitems"
 
 Loader {

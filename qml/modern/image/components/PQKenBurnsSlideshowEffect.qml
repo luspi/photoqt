@@ -24,6 +24,8 @@ import QtQuick
 
 import PQCFileFolderModel
 
+import org.photoqt.qml
+
 Item {
 
     id: aniDeleg

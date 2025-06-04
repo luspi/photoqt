@@ -39,7 +39,6 @@
 #include <windows.h>
 #endif
 
-#include <pqc_constants.h>
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
 #include <pqc_startup.h>
@@ -49,7 +48,6 @@
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
 #include <pqc_shortcuts.h>
-#include <pqc_look.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
 #include <pqc_providerthumb.h>
@@ -346,9 +344,7 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsPlain", 1, 0, "PQCScriptsPlain", &PQCScriptsPlain::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
-    engine.rootContext()->setContextProperty("PQCLook", &PQCLook::get());
     engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
-    engine.rootContext()->setContextProperty("PQCConstants", &PQCConstants::get());
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);

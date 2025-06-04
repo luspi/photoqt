@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Controls.Basic
 
+import org.photoqt.qml
+
 Slider {
 
     id: control

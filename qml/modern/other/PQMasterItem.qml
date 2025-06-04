@@ -24,6 +24,8 @@ import QtQuick
 
 import PQCFileFolderModel
 
+import org.photoqt.qml
+
 import "../ongoing"
 
 Loader {
@@ -112,6 +114,15 @@ Loader {
         Loader { id: loader_chromecast }
         Loader { id: loader_slideshowcontrols }
         Loader { id: loader_slideshowhandler }
+
+        /******************************************/
+
+        Loader {
+            id: contextmenu
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            source: "../ongoing/PQContextMenu.qml"
+        }
 
         /******************************************/
 

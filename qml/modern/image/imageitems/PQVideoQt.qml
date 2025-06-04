@@ -26,6 +26,8 @@ import QtMultimedia
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
 
+import org.photoqt.qml
+
 import "../components"
 
 Item {

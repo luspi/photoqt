@@ -25,17 +25,26 @@
 
 #include <QObject>
 #include <QHash>
+#include <QtQmlIntegration>
+
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCLook : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCLook& get();
+    explicit PQCLook();
     ~PQCLook();
-
-    PQCLook(PQCLook const&)        = delete;
-    void operator=(PQCLook const&) = delete;
 
     void calculateColors(QString name);
 
@@ -45,84 +54,57 @@ public:
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
-    Q_PROPERTY(QString baseColorAccent READ getBaseColorAccent NOTIFY baseColorAccentChanged)
-    Q_PROPERTY(QString baseColorHighlight READ getBaseColorHighlight NOTIFY baseColorHighlightChanged)
-    Q_PROPERTY(QString baseColorActive READ getBaseColorActive NOTIFY baseColorActiveChanged)
+    Q_PROPERTY(QString baseColorAccent MEMBER m_baseColorAccent NOTIFY baseColorAccentChanged)
+    Q_PROPERTY(QString baseColorHighlight MEMBER m_baseColorHighlight NOTIFY baseColorHighlightChanged)
+    Q_PROPERTY(QString baseColorActive MEMBER m_baseColorActive NOTIFY baseColorActiveChanged)
     void setBaseColor(QString val);
     QString getBaseColor();
-    QString getBaseColorAccent();
-    QString getBaseColorHighlight();
-    QString getBaseColorActive();
 
     /******************************************************/
 
-    Q_PROPERTY(QString inverseColor READ getInverseColor NOTIFY inverseColorChanged)
-    Q_PROPERTY(QString inverseColorAccent READ getInverseColorAccent NOTIFY inverseColorAccentChanged)
-    Q_PROPERTY(QString inverseColorHighlight READ getInverseColorHighlight NOTIFY inverseColorHighlightChanged)
-    Q_PROPERTY(QString inverseColorActive READ getInverseColorActive NOTIFY inverseColorActiveChanged)
-    QString getInverseColor();
-    QString getInverseColorAccent();
-    QString getInverseColorHighlight();
-    QString getInverseColorActive();
+    Q_PROPERTY(QString inverseColor MEMBER m_inverseColor NOTIFY inverseColorChanged)
+    Q_PROPERTY(QString inverseColorAccent MEMBER m_inverseColorAccent NOTIFY inverseColorAccentChanged)
+    Q_PROPERTY(QString inverseColorHighlight MEMBER m_inverseColorHighlight NOTIFY inverseColorHighlightChanged)
+    Q_PROPERTY(QString inverseColorActive MEMBER m_inverseColorActive NOTIFY inverseColorActiveChanged)
 
     /******************************************************/
 
-    Q_PROPERTY(QString faintColor READ getFaintColor NOTIFY faintColorChanged)
-    Q_PROPERTY(QString transColor READ getTransColor NOTIFY transColorChanged)
-    Q_PROPERTY(QString transColorAccent READ getTransColorAccent NOTIFY transColorAccentChanged)
-    Q_PROPERTY(QString transColorHighlight READ getTransColorHighlight NOTIFY transColorHighlightChanged)
-    Q_PROPERTY(QString transColorActive READ getTransColorActive NOTIFY transColorActiveChanged)
-    QString getFaintColor();
-    QString getTransColor();
-    QString getTransColorAccent();
-    QString getTransColorHighlight();
-    QString getTransColorActive();
+    Q_PROPERTY(QString faintColor MEMBER m_faintColor NOTIFY faintColorChanged)
+    Q_PROPERTY(QString transColor MEMBER m_transColor NOTIFY transColorChanged)
+    Q_PROPERTY(QString transColorAccent MEMBER m_transColorAccent NOTIFY transColorAccentChanged)
+    Q_PROPERTY(QString transColorHighlight MEMBER m_transColorHighlight NOTIFY transColorHighlightChanged)
+    Q_PROPERTY(QString transColorActive MEMBER m_transColorActive NOTIFY transColorActiveChanged)
 
     /******************************************************/
 
-    Q_PROPERTY(QString transInverseColor READ getTransInverseColor NOTIFY transInverseColorChanged)
-    QString getTransInverseColor();
+    Q_PROPERTY(QString transInverseColor MEMBER m_transInverseColor NOTIFY transInverseColorChanged)
 
     /******************************************************/
 
-    Q_PROPERTY(QString textColor READ getTextColor NOTIFY textColorChanged)
-    Q_PROPERTY(QString textColorDisabled READ getTextColorDisabled NOTIFY textColorDisabledChanged)
-    QString getTextColor();
-    QString getTextColorDisabled();
+    Q_PROPERTY(QString textColor MEMBER m_textColor NOTIFY textColorChanged)
+    Q_PROPERTY(QString textColorDisabled MEMBER m_textColorDisabled NOTIFY textColorDisabledChanged)
 
     /******************************************************/
 
-    Q_PROPERTY(QString textInverseColor READ getTextInverseColor NOTIFY textInverseColorChanged)
-    Q_PROPERTY(QString textInverseColorHighlight READ getTextInverseColorHighlight NOTIFY textInverseColorHighlightChanged)
-    Q_PROPERTY(QString textInverseColorActive READ getTextInverseColorActive NOTIFY textInverseColorActiveChanged)
-    QString getTextInverseColor();
-    QString getTextInverseColorHighlight();
-    QString getTextInverseColorActive();
+    Q_PROPERTY(QString textInverseColor MEMBER m_textInverseColor NOTIFY textInverseColorChanged)
+    Q_PROPERTY(QString textInverseColorHighlight MEMBER m_textInverseColorHighlight NOTIFY textInverseColorHighlightChanged)
+    Q_PROPERTY(QString textInverseColorActive MEMBER m_textInverseColorActive NOTIFY textInverseColorActiveChanged)
 
     /******************************************************/
 
     Q_PROPERTY(int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
-    Q_PROPERTY(int fontSizeS READ getFontSizeS NOTIFY fontSizeSChanged)
-    Q_PROPERTY(int fontSizeL READ getFontSizeL NOTIFY fontSizeLChanged)
-    Q_PROPERTY(int fontSizeXL READ getFontSizeXL NOTIFY fontSizeXLChanged)
-    Q_PROPERTY(int fontSizeXXL READ getFontSizeXXL NOTIFY fontSizeXXLChanged)
+    Q_PROPERTY(int fontSizeS MEMBER m_fontSizeS NOTIFY fontSizeSChanged)
+    Q_PROPERTY(int fontSizeL MEMBER m_fontSizeL NOTIFY fontSizeLChanged)
+    Q_PROPERTY(int fontSizeXL MEMBER m_fontSizeXL NOTIFY fontSizeXLChanged)
+    Q_PROPERTY(int fontSizeXXL MEMBER m_fontSizeXXL NOTIFY fontSizeXXLChanged)
     void setFontSize(int val);
     int getFontSize();
-    int getFontSizeS();
-    int getFontSizeL();
-    int getFontSizeXL();
-    int getFontSizeXXL();
-
     void calculateFontSizes(int sze);
 
     /******************************************************/
 
-    Q_PROPERTY(int fontWeightBold READ getFontWeightBold WRITE setFontWeightBold NOTIFY fontWeightBoldChanged)
-    Q_PROPERTY(int fontWeightNormal READ getFontWeightNormal WRITE setFontWeightNormal NOTIFY fontWeightNormalChanged)
-    int getFontWeightBold();
-    int getFontWeightNormal();
-    void setFontWeightBold(int val);
-    void setFontWeightNormal(int val);
+    Q_PROPERTY(int fontWeightBold MEMBER m_fontWeightBold NOTIFY fontWeightBoldChanged)
+    Q_PROPERTY(int fontWeightNormal MEMBER m_fontWeightNormal NOTIFY fontWeightNormalChanged)
 
     /******************************************************/
 
@@ -130,8 +112,6 @@ public:
     Q_INVOKABLE QStringList getColorHexes();
 
 private:
-    PQCLook();
-
     int lightness_threshold;
 
     QString m_iconShade;

@@ -30,6 +30,8 @@ import PQCScriptsContextMenu
 import PQCWindowGeometry
 import PQCScriptsOther
 
+import org.photoqt.qml
+
 import "../elements"
 import "../"
 

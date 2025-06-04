@@ -32,6 +32,8 @@ import PQCMetaData
 import PQCWindowGeometry
 import PQCScriptsClipboard
 
+import org.photoqt.qml
+
 import "../elements"
 import "../"
 

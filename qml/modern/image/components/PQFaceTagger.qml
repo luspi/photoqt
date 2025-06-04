@@ -27,6 +27,8 @@ import PQCFileFolderModel
 import PQCScriptsMetaData
 import PQCScriptsShortcuts
 
+import org.photoqt.qml
+
 import "../../elements"
 
 Item {

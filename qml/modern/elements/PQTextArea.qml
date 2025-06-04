@@ -23,6 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 
+import org.photoqt.qml
+
 ScrollView {
 
     id: control

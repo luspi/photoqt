@@ -23,6 +23,8 @@
 import QtQuick
 import PQCScriptsClipboard
 
+import org.photoqt.qml
+
 Rectangle {
 
     id: edit_top

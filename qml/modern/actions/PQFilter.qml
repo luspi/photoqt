@@ -25,6 +25,8 @@ import QtQuick
 import PQCFileFolderModel
 import PQCWindowGeometry
 
+import org.photoqt.qml
+
 import "../elements"
 
 PQTemplateFullscreen {

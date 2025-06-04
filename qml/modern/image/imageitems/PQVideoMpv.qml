@@ -25,6 +25,8 @@ import QtQuick
 import PQCScriptsFilesPaths
 import PQCMPVObject
 
+import org.photoqt.qml
+
 import "../components"
 
 // The MPV object needs to be wrapped in an item

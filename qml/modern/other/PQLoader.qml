@@ -26,6 +26,8 @@ import PQCWindowGeometry
 import PQCScriptsConfig
 import PQCExtensionsHandler
 
+import org.photoqt.qml
+
 Item {
 
     id: loader_top

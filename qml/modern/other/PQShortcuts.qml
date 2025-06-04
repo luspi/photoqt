@@ -36,6 +36,8 @@ import PQCScriptsConfig
 import PQCScriptsUndo
 import PQCExtensionsHandler
 
+import org.photoqt.qml
+
 Item {
 
     id: keyshortcuts_top
