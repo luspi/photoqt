@@ -54,7 +54,7 @@ Item {
             audioOutput: AudioOutput {
                 id: audiooutput
                 property real reduceVolume: (PQCSettings.slideshowMusicVolumeVideos === 0 ? 0 : (PQCSettings.slideshowMusicVolumeVideos === 1 ? 0.1 : 1)) // qmllint disable unqualified
-                volume: slideshowhandler_top.volume*(slideshowhandler_top.videoWithVolume ? reduceVolume : 1)
+                volume: PQCConstants.slideshowVolume*(slideshowhandler_top.videoWithVolume ? reduceVolume : 1)
                 Behavior on volume { NumberAnimation { duration: 200 } }
 
                 // this is needed to ensure we don't play music if the very first file is a video file with sound
@@ -65,7 +65,7 @@ Item {
             }
 
             onPlaybackStateChanged: {
-                if(playbackState === MediaPlayer.StoppedState && slideshowhandler_top.running && PQCConstants.slideshowRunning) { // qmllint disable unqualified
+                if(playbackState === MediaPlayer.StoppedState && PQCConstants.slideshowRunningAndPlaying && PQCConstants.slideshowRunning) { // qmllint disable unqualified
                     if(PQCSettings.slideshowMusic) {
                         currentMusicIndex = (currentMusicIndex+1)%PQCSettings.slideshowMusicFiles.length
 
@@ -82,7 +82,7 @@ Item {
                 play()
 
             function checkPlayPause() {
-                if(slideshowhandler_top.running)
+                if(PQCConstants.slideshowRunningAndPlaying)
                     audioplayer.play()
                 else
                     audioplayer.pause()
@@ -132,9 +132,9 @@ Item {
 
     Connections {
 
-        target: slideshowhandler_top
+        target: PQCConstants
 
-        function onRunningChanged() {
+        function onSlideshowRunningAndPlayingChanged() {
             if(PQCSettings.slideshowMusic) // qmllint disable unqualified
                 loader_audioplayer.item.checkPlayPause()
         }
@@ -150,7 +150,7 @@ Item {
         function onCurrentlyShowingVideoPlayingChanged() {
             if(PQCSettings.slideshowMusic) // qmllint disable unqualified
                 loader_audioplayer.item.checkPlayPause()
-            if(slideshowhandler_top.running && !PQCConstants.currentlyShowingVideoPlaying && !ignoreVideoChanges) {
+            if(PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideoPlaying && !ignoreVideoChanges) {
                 switcher.triggered()
                 ignoreVideoChanges = false
             }
@@ -163,7 +163,7 @@ Item {
         id: switcher
         interval: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000)) // qmllint disable unqualified
         repeat: true
-        running: slideshowhandler_top.running&&!PQCConstants.currentlyShowingVideo // qmllint disable unqualified
+        running: PQCConstants.slideshowRunningAndPlaying&&!PQCConstants.currentlyShowingVideo // qmllint disable unqualified
         onTriggered: {
             slideshowhandler_top.loadNextImage()
             if(PQCSettings.slideshowMusic) // qmllint disable unqualified
@@ -201,6 +201,22 @@ Item {
 
             }
 
+        }
+
+        function onSlideshowHideHandler() {
+            slideshowhandler_top.hide()
+        }
+
+        function onSlideshowToggle() {
+            slideshowhandler_top.toggle()
+        }
+
+        function onSlideshowNextImage(switchedManually : bool) {
+            slideshowhandler_top.loadNextImage(switchedManually)
+        }
+
+        function onSlideshowPrevImage(switchedManually : bool) {
+            slideshowhandler_top.loadPrevImage(switchedManually)
         }
 
     }
@@ -245,7 +261,7 @@ Item {
 
         }
 
-        slideshowhandler_top.running = true
+        PQCConstants.slideshowRunningAndPlaying = true
         PQCConstants.slideshowRunning = true
 
         if(PQCSettings.slideshowMusic) {
@@ -267,10 +283,10 @@ Item {
 
     function hide() {
 
-        var tmp = slideshowhandler_top.running
+        var tmp = PQCConstants.slideshowRunningAndPlaying
 
         PQCConstants.slideshowRunning = false // qmllint disable unqualified
-        slideshowhandler_top.running = false
+        PQCConstants.slideshowRunningAndPlaying = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
         PQCNotify.loaderRegisterClose("slideshowhandler")
@@ -338,7 +354,7 @@ Item {
     function toggle() {
         if(!PQCConstants.slideshowRunning) return // qmllint disable unqualified
         // The following two lines HAVE to be in this order!!
-        slideshowhandler_top.running = !slideshowhandler_top.running
+        PQCConstants.slideshowRunningAndPlaying = !PQCConstants.slideshowRunningAndPlaying
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
         PQCNotify.playPauseAnimationVideo()

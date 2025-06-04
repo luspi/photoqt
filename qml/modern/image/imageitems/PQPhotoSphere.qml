@@ -24,6 +24,7 @@ import QtQuick
 
 import PQCPhotoSphere
 import PQCFileFolderModel
+import PQCScriptsShortcuts
 
 import "../../elements"
 import "../components"
@@ -121,8 +122,8 @@ PQCPhotoSphere { // qmllint disable
             onPositionChanged: (mouse) => {
                 var posDiff = Qt.point(mouse.x-mousearea.clickedPos.x , mouse.y-mousearea.clickedPos.y)
                 var curTan = Math.tan(thesphere.fieldOfView * ((0.5*Math.PI)/180));
-                thesphere.azimuth = clickedAzimuth - (((3*256)/image.height) * posDiff.x/6) * curTan
-                thesphere.elevation = clickedElevation + (((3*256)/image.height) * posDiff.y/6) * curTan
+                thesphere.azimuth = clickedAzimuth - (((3*256)/PQCConstants.imageQMLItemHeight) * posDiff.x/6) * curTan
+                thesphere.elevation = clickedElevation + (((3*256)/PQCConstants.imageQMLItemHeight) * posDiff.y/6) * curTan
             }
             onReleased: {
                 behavior_fov.duration = 50
@@ -166,22 +167,28 @@ PQCPhotoSphere { // qmllint disable
 
     Connections {
 
-        target: image_top // qmllint disable unqualified
+        target: PQCScriptsShortcuts
 
-        function onZoomIn(mousePos: point, wheelDelta : point) {
+        function onSendShortcutZoomIn(mousePos: point, wheelDelta : point) {
             if(loader_top.isMainImage) // qmllint disable unqualified
                 thesphere.zoom("in")
         }
-        function onZoomOut(wheelDelta : point) {
+        function onSendShortcutZoomOut(wheelDelta : point) {
             if(loader_top.isMainImage) // qmllint disable unqualified
                 thesphere.zoom("out")
         }
-        function onZoomReset() {
+        function onSendShortcutZoomReset() {
             if(loader_top.isMainImage) { // qmllint disable unqualified
                 thesphere.zoom("reset")
                 thesphere.moveView("reset")
             }
         }
+
+    }
+
+    Connections {
+
+        target: image_top // qmllint disable unqualified
 
         function onMoveView(direction : string) {
 
@@ -323,10 +330,10 @@ PQCPhotoSphere { // qmllint disable
     // slideshow paused/resumed
     Connections {
 
-        target: loader_slideshowhandler.item // qmllint disable unqualified
+        target: PQCConstants
 
-        function onRunningChanged() {
-            if(loader_slideshowhandler.item.running) { // qmllint disable unqualified
+        function onSlideshowRunningAndPlayingChanged() {
+            if(PQCConstants.slideshowRunningAndPlaying) { // qmllint disable unqualified
                 if(aniDirection === 0) {
                     kb_right.stop()
                     if(kb_left.paused)
@@ -439,8 +446,8 @@ PQCPhotoSphere { // qmllint disable
                     id: srccomp
 
                     parent: image_top // qmllint disable unqualified
-                    x: statusinfo.item.visible ? statusinfo.item.x : 20 // qmllint disable unqualified
-                    y: statusinfo.item.visible ? statusinfo.item.y+statusinfo.item.height+20 : 20 // qmllint disable unqualified
+                    x: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.x : 20 // qmllint disable unqualified
+                    y: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.y+PQCConstants.statusInfoCurrentRect.height+20 : 20 // qmllint disable unqualified
                     width: 42
                     height: 42
                     radius: 21

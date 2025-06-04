@@ -477,7 +477,7 @@ endif()
 target_compile_definitions(photoqt PRIVATE PQMVERSION="${APPVERSION}")
 
 # add qml files
-qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML} RESOURCE_PREFIX)
+qt_add_qml_module(photoqt URI org.photoqt.qml VERSION 1.0 QML_FILES ${photoqt_QML} RESOURCE_PREFIX)
 
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")

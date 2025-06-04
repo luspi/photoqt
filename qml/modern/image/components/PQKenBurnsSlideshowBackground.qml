@@ -40,7 +40,7 @@ Loader {
 
     NumberAnimation {
         id: kenburnsBG_ani
-        running: kenburnsBG.performAni && loader_top.visible && loader_slideshowhandler.item.running && !PQCConstants.currentlyShowingVideo // qmllint disable unqualified
+        running: kenburnsBG.performAni && loader_top.visible && PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideo // qmllint disable unqualified
         target: kenburnsBG.item
         property: "scale"
         from: kenburnsBG.useScale
@@ -63,7 +63,7 @@ Loader {
     }
 
     Connections {
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
         function onSlideshowRunningChanged() {
             kenburnsBG.checkForBG()
         }

@@ -261,6 +261,12 @@ Q_SIGNALS:
     void openSettingsManagerAt(QString category, QString subcategory);
     void playPauseAnimationVideo();
 
+    // slideshow
+    void slideshowHideHandler();
+    void slideshowToggle();
+    void slideshowNextImage(bool switchedManually = false);
+    void slideshowPrevImage(bool switchedManually = false);
+
     // loader methods
     void loaderShow(QString ele);
     void loaderShowExtension(QString ele);

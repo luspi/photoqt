@@ -42,6 +42,9 @@ Item {
     width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
     height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
 
+    onHeightChanged:
+        PQCConstants.imageQMLItemHeight = height
+
     property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale))) // qmllint disable unqualified
 
     property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails" && loader_thumbnails.status===Loader.Ready) ? loader_thumbnails.item.width : 0 // qmllint disable unqualified

@@ -146,7 +146,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
-                    loader_slideshowhandler.item.loadPrevImage(true) // qmllint disable unqualified
+                    PQCNotify.slideshowPrevImage(true) // qmllint disable unqualified
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
@@ -169,7 +169,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: (loader_slideshowhandler.item.running ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")) // qmllint disable unqualified
+            source: (PQCConstants.slideshowRunningAndPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")) // qmllint disable unqualified
 
             sourceSize: Qt.size(width, height)
 
@@ -177,11 +177,11 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                text: (loader_slideshowhandler.item.running ? // qmllint disable unqualified
+                text: (PQCConstants.slideshowRunningAndPlaying ? // qmllint disable unqualified
                            qsTranslate("slideshow", "Click to pause slideshow") :
                            qsTranslate("slideshow", "Click to play slideshow"))
                 onClicked: {
-                    loader_slideshowhandler.item.toggle() // qmllint disable unqualified
+                    PQCNotify.slideshowToggle()
                     slideshowcontrols_top.updateState()
                 }
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
@@ -216,7 +216,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the next image")
                 onClicked:
-                    loader_slideshowhandler.item.loadNextImage(true) // qmllint disable unqualified
+                    PQCNotify.slideshowNextImage(true)
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "333"
                 onEntered: {
@@ -248,7 +248,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to exit slideshow")
                 onClicked: {
-                    loader_slideshowhandler.item.hide() // qmllint disable unqualified
+                    PQCNotify.slideshowHideHandler()
                 }
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "444"
@@ -310,7 +310,7 @@ Item {
                 slideshowcontrols_top.mouseOverId = "555"
 
             onValueChanged: {
-                loader_slideshowhandler.item.volume = value/100 // qmllint disable unqualified
+                PQCConstants.slideshowVolume = value/100 // qmllint disable unqualified
             }
 
         }
@@ -366,7 +366,7 @@ Item {
         if(mouseOverId !== "")
             state = "mouseover"
 
-        else if(!loader_slideshowhandler.item.running)
+        else if(!PQCConstants.slideshowRunningAndPlaying)
             state = "foreground"
 
         else
@@ -393,10 +393,10 @@ Item {
             } else if(what === "keyEvent") {
 
                 if(param[0] === Qt.Key_Left)
-                    loader_slideshowhandler.item.loadPrevImage(true) // qmllint disable unqualified
+                    PQCNotify.slideshowPrevImage(true)
 
                 else if(param[0] === Qt.Key_Right)
-                    loader_slideshowhandler.item.loadNextImage(true)
+                    PQCNotify.slideshowNextImage(true)
 
             }
 
@@ -405,7 +405,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
             slideshowcontrols_top.updateState()
@@ -419,9 +419,9 @@ Item {
 
     Connections {
 
-        target: loader_slideshowhandler.item // qmllint disable unqualified
+        target: PQCConstants
 
-        function onRunningChanged() {
+        function onSlideshowRunningAndPlayingChanged() {
             slideshowcontrols_top.updateState()
         }
 

@@ -48,6 +48,9 @@ Item {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
+    onVisibleChanged:
+        PQCConstants.statusinfoIsVisible = visible
+
     width: maincol.width
     height: maincol.height
 

@@ -291,10 +291,10 @@ Item {
     // slideshow paused/resumed
     Connections {
 
-        target: loader_slideshowhandler.item // qmllint disable unqualified
+        target: PQCConstants
 
-        function onRunningChanged() {
-            if(loader_slideshowhandler.item.running) // qmllint disable unqualified
+        function onSlideshowRunningAndPlayingChanged() {
+            if(PQCConstants.slideshowRunningAndPlaying) // qmllint disable unqualified
                 aniDeleg.manageAni()
             else
                 aniDeleg.stopAni()
@@ -305,7 +305,7 @@ Item {
     // slideshow started/stopped
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
             aniDeleg.handleSlideshowStatusChanged()
@@ -384,8 +384,7 @@ Item {
         running: PQCConstants.slideshowRunning // qmllint disable unqualified
         repeat: true
         onTriggered: {
-            if(loader_slideshowhandler.item !== null && // qmllint disable unqualified
-                    loader_slideshowhandler.item.running &&
+            if(PQCConstants.slideshowRunningAndPlaying &&
                     PQCConstants.slideshowRunning &&
                     PQCSettings.slideshowTypeAnimation === "kenburns") {
                 if(!kb_lefttorightani.running && !kb_righttoleftani.running &&
@@ -403,7 +402,7 @@ Item {
         // no animation should be running -> stop!
         if(!loader_top.isMainImage || !PQCConstants.slideshowRunning || // qmllint disable unqualified
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
-                loader_top.defaultScale >= 1 || !loader_slideshowhandler.item.running) {
+                loader_top.defaultScale >= 1 || !PQCConstants.slideshowRunningAndPlaying) {
             stopAfterFadeOut.restart()
             return
         }

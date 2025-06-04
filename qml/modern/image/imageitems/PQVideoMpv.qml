@@ -239,7 +239,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
 

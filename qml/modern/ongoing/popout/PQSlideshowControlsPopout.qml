@@ -44,7 +44,7 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         close()
-        loader_slideshowhandler.item.hide() // qmllint disable unqualified
+        PQCNotify.slideshowHideHandler()
     }
 
     onPopoutChanged: {

@@ -402,8 +402,8 @@ Window {
         PQCConstants.photoQtShuttingDown = true
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
-        // if(PQCConstants.slideshowRunning) // qmllint disable unqualified
-            // loader_slideshowhandler.item.hide()
+        if(PQCConstants.slideshowRunning)
+            PQCNotify.slideshowHideHandler()
 
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false

@@ -25,6 +25,7 @@ import QtQuick
 
 import PQCFileFolderModel
 import PQCScriptsMetaData
+import PQCScriptsShortcuts
 
 import "../../elements"
 
@@ -341,9 +342,9 @@ Item {
                     } else
                         PQCNotify.showNotificationMessage(qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
 
-                    image.zoomReset()
-                    image.rotateReset()
-                    image.mirrorReset()
+                    PQCScriptsShortcuts.sendShortcutZoomReset()
+                    PQCScriptsShortcuts.sendShortcutRotateReset()
+                    PQCScriptsShortcuts.sendShortcutMirrorReset()
 
                     PQCNotify.loaderOverrideVisibleItem("facetagger")
                     PQCConstants.faceTaggingMode = true

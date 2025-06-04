@@ -46,7 +46,7 @@ Item {
 
         source: "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource) // qmllint disable unqualified
 
-        volume: PQCConstants.slideshowRunning ? loader_slideshowhandler.item.volume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
+        volume: PQCConstants.slideshowRunning ? PQCConstants.slideshowVolume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
 
         width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined // qmllint disable unqualified
         height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined // qmllint disable unqualified
@@ -172,7 +172,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCConstants // qmllint disable unqualified
 
         function onSlideshowRunningChanged() {
 
