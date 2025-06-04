@@ -310,7 +310,7 @@ Item {
         if(combo === "Esc") {
 
             // a context menu is open -> don't continue
-            if(PQCNotify.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
+            if(PQCConstants.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
                 PQCNotify.closeAllContextMenus()
                 return
             }
