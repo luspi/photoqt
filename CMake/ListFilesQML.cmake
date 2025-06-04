@@ -32,7 +32,7 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQResizeRect.qml)
 
 SET(d "qml/modern/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml ${d}/PQMasterItem.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml)# ${d}/PQMasterTouchAreas.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml)
 
 SET(d "qml/modern/image")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)

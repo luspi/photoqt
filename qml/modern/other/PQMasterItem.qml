@@ -115,6 +115,14 @@ Loader {
         Loader { id: loader_slideshowcontrols }
         Loader { id: loader_slideshowhandler }
 
+
+        Loader {
+            id: mastertouchareas
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            source: "PQGestureTouchAreas.qml"
+        }
+
         /******************************************/
 
         Loader {
