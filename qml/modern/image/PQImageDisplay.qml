@@ -1554,7 +1554,7 @@ Loader {
                         onTriggered: {
                             if(PQCSettings.imageviewHideCursorTimeout === 0) // qmllint disable unqualified
                                 return
-                            if(contextmenu.opened)
+                            if(PQCConstants.isContextmenuOpen("globalcontextmenu"))
                                 hidecursor.restart()
                             else
                                 imagemouse.cursorShape = Qt.BlankCursor
