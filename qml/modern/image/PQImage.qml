@@ -268,7 +268,7 @@ Item {
             var curimg = repeaterimage.itemAt(i)
             if(curIndex !== i && repeaterimage.allactive[i]) {
                 curimg.item.hideImage()
-                curimg.item.thisIsStartupFile = false
+                curimg.thisIsStartupFile = false
             }
         }
 
