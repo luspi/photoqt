@@ -29,6 +29,7 @@ import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCResolutionCache
+import PQCScriptsShortcuts
 
 import "../elements"
 
@@ -75,16 +76,6 @@ Item {
     property bool currentlyShowingVideoPlaying: false
     property bool currentlyShowingVideoHasAudio: false
 
-    signal zoomIn(var mousePos, var wheelDelta)
-    signal zoomOut(var mousePos, var wheelDelta)
-    signal zoomReset()
-    signal zoomActual()
-    signal rotateClock()
-    signal rotateAntiClock()
-    signal rotateReset()
-    signal mirrorH()
-    signal mirrorV()
-    signal mirrorReset()
     signal playPauseAnimationVideo()
     signal moveView(var direction)
     signal flickView(var direction)
@@ -179,6 +170,32 @@ Item {
             img.thisIsStartupFile = true
 
         }
+    }
+
+    Connections {
+
+        target: PQCScriptsShortcuts
+
+        function onSendShortcutShowNextImage() {
+            image_top.showNext()
+        }
+
+        function onSendShortcutShowPrevImage() {
+            image_top.showPrev()
+        }
+
+        function onSendShortcutShowFirstImage() {
+            image_top.showFirst()
+        }
+
+        function onSendShortcutShowLastImage() {
+            image_top.showLast()
+        }
+
+        function onSendShortcutShowRandomImage() {
+            image_top.showRandom()
+        }
+
     }
 
     Connections {

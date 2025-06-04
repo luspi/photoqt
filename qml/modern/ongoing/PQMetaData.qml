@@ -850,6 +850,8 @@ Rectangle {
                     if(metadata_top.popoutWindowUsed)
                         metadata_popout.visible = true
                 }
+            } else if(what === "toggle" && param[0] === "metadata") {
+                metadata_top.toggle()
             } else if(what === "forceshow" && param[0] === "metadata") {
                 metadata_top.ignoreMouseMoveShortly = true
                 metadata_top.setVisible = true
@@ -876,6 +878,10 @@ Rectangle {
         if(popoutWindowUsed)
             metadata_popout.visible = false // qmllint disable unqualified
         metadata_top.setVisible = false
+    }
+
+    function toggle() {
+        metadata_top.setVisible = !metadata_top.setVisible
     }
 
 }

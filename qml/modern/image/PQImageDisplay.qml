@@ -28,6 +28,7 @@ import PQCFileFolderModel
 import PQCScriptsImages
 import PQCScriptsFilesPaths
 import PQCScriptsOther
+import PQCScriptsShortcuts
 
 import "components"
 import "imageitems"
@@ -153,9 +154,9 @@ Loader {
         // react to user commands
         Connections {
 
-            target: image_top // qmllint disable unqualified
+            target: PQCScriptsShortcuts
 
-            function onZoomIn(mousePos : point, wheelDelta : point) {
+            function onSendShortcutZoomIn(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
                     if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
@@ -167,7 +168,7 @@ Loader {
 
                 }
             }
-            function onZoomOut(mousePos : point, wheelDelta : point) {
+            function onSendShortcutZoomOut(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
                     if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
@@ -179,7 +180,7 @@ Loader {
 
                 }
             }
-            function onZoomReset() {
+            function onSendShortcutZoomReset() {
 
                 if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
@@ -187,7 +188,7 @@ Loader {
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
 
             }
-            function onZoomActual() {
+            function onSendShortcutZoomActual() {
 
                 if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
@@ -195,7 +196,7 @@ Loader {
                     loader_top.imageScale = 1/PQCConstants.devicePixelRatio
 
             }
-            function onRotateClock() {
+            function onSendShortcutRotateClock() {
 
                 if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
@@ -213,7 +214,7 @@ Loader {
                     loader_top.imageRotation += 90
                 }
             }
-            function onRotateAntiClock() {
+            function onSendShortcutRotateAntiClock() {
 
                 if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
@@ -231,7 +232,7 @@ Loader {
                     loader_top.imageRotation -= 90
                 }
             }
-            function onRotateReset() {
+            function onSendShortcutRotateReset() {
 
                 if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
 
@@ -254,6 +255,12 @@ Loader {
                         loader_top.dontAnimateNextZoom = false
                 }
             }
+
+        }
+
+        Connections {
+
+            target: image_top
 
             function onReloadImage() {
                 if(loader_top.isMainImage)

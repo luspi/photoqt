@@ -63,6 +63,25 @@ Q_SIGNALS:
     void sendShortcutShowGlobalContextMenuAt(QPoint pos);
     void sendShortcutDismissGlobalContextMenu();
 
+    void sendShortcutShowNextImage();
+    void sendShortcutShowPrevImage();
+    void sendShortcutShowFirstImage();
+    void sendShortcutShowLastImage();
+    void sendShortcutShowRandomImage();
+
+    void sendShortcutZoomIn(QPoint mousePos, QPoint wheelDelta);
+    void sendShortcutZoomOut(QPoint mousePos, QPoint wheelDelta);
+    void sendShortcutZoomReset();
+    void sendShortcutZoomActual();
+
+    void sendShortcutRotateClock();
+    void sendShortcutRotateAntiClock();
+    void sendShortcutRotateReset();
+
+    void sendShortcutMirrorHorizontal();
+    void sendShortcutMirrorVertical();
+    void sendShortcutMirrorReset();
+
 };
 
 #endif
