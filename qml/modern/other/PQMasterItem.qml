@@ -114,7 +114,7 @@ Loader {
         Loader { id: loader_chromecast }
         Loader { id: loader_slideshowcontrols }
         Loader { id: loader_slideshowhandler }
-
+        Loader { id: loader_mapexplorer }
 
         Loader {
             id: mastertouchareas

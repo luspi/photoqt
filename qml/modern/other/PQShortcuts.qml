@@ -475,9 +475,9 @@ Item {
             // case "__open":
             //     PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
             //     break
-            // case "__showMapExplorer":
-            //     PQCNotify.loaderShow("mapexplorer")
-            //     break
+            case "__showMapExplorer":
+                PQCNotify.loaderShow("mapexplorer")
+                break
             // case "__settings":
             //     PQCNotify.loaderShow("settingsmanager")
             //     break
