@@ -16,19 +16,19 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTempla
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSpinBox.qml ${d}/PQWorking.qml ${d}/PQLineEdit.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml ${d}/PQShadowEffect.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQResizeRect.qml)
-#
-# SET(d "qml/filedialog")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml)
-#
-# SET(d "qml/filedialog/fileviews")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFileViewList.qml ${d}/PQFileViewGrid.qml ${d}/PQFileViewMasonry.qml)
-#
-# SET(d "qml/filedialog/fileviews/parts")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)
-#
-# SET(d "qml/filedialog/popout")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogPopout.qml)
+
+SET(d "qml/modern/filedialog")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml)
+
+SET(d "qml/modern/filedialog/fileviews")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileViewList.qml ${d}/PQFileViewGrid.qml ${d}/PQFileViewMasonry.qml)
+
+SET(d "qml/modern/filedialog/fileviews/parts")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)
+
+SET(d "qml/modern/filedialog/popout")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/modern/other")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml ${d}/PQMasterItem.qml)

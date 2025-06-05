@@ -472,9 +472,9 @@ Item {
             /**********************/
             // elements
 
-            // case "__open":
-            //     PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
-            //     break
+            case "__open":
+                PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
+                break
             case "__showMapExplorer":
                 PQCNotify.loaderShow("mapexplorer")
                 break
