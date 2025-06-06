@@ -80,11 +80,11 @@ int PQCStartup::check() {
         else {
             if(query.next()) {
                 QString ver = query.value(0).toString();
-                if(ver == "dev") {
-                    query.clear();
-                    dbtmp.close();
-                    return 3;
-                }
+#ifndef NDEBUG
+                query.clear();
+                dbtmp.close();
+                return 3;
+#endif
                 if(ver != QString(PQMVERSION)) {
                     query.clear();
                     dbtmp.close();

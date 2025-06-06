@@ -132,7 +132,7 @@ PQCSettings::PQCSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
 
 #ifndef NDEBUG
     checkvalid = new QTimer;
-    checkvalid->setInterval(1000);
+    checkvalid->setInterval(10000);
     checkvalid->setSingleShot(false);
     connect(checkvalid, &QTimer::timeout, this, &PQCSettings::checkValidSlot);
     checkvalid->start();

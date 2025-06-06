@@ -273,6 +273,7 @@ int main(int argc, char *argv[]) {
             validate.validate();
 
         PQCSettings::get().update("generalVersion", PQMVERSION);
+        Q_EMIT PQCSettings::get().valueChanged("generalVersion", PQMVERSION);
         PQCSettings::get().readDB();
 
     }
