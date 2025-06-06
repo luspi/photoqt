@@ -76,19 +76,19 @@ Item {
         //     return
         // }
 
-        // var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
-        // if(ind > -1) {
-        //     if(PQCExtensionsHandler.getIsModal(ele)) {
-        //         if(visibleItem != "")
-        //             return
-        //         else
-        //             visibleItem = ele
-        //     }
-        //     ensureExtensionIsReady(ele, ind)
-        // } else if(!(ele in loadermapping)) {
-        //     console.log("Unknown element encountered:", ele)
-        //     return
-        // } else {
+        var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+        if(ind > -1) {
+            if(PQCExtensionsHandler.getIsModal(ele)) {
+                if(visibleItem != "")
+                    return
+                else
+                    visibleItem = ele
+            }
+            ensureExtensionIsReady(ele, ind)
+        } else if(!(ele in loadermapping)) {
+            console.log("Unknown element encountered:", ele)
+            return
+        } else {
 
             var config = loadermapping[ele]
 
@@ -104,7 +104,7 @@ Item {
 
             ensureItIsReady(ele, config)
 
-        // }
+        }
 
         if(additional === undefined) {
             console.warn(">>> show", ele)
@@ -161,9 +161,9 @@ Item {
         if(PQCExtensionsHandler.getAllowPopout(ele) &&
                 (PQCSettings["extensions"+PQCExtensionsHandler.getPopoutSettingName(ele)] ||
                  minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight))
-            loader_extensions.itemAt(ind).source = "../../extensions/" + ele + "/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
+            loader_extensions.itemAt(ind).source = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
         else
-            loader_extensions.itemAt(ind).source = "../../extensions/" + ele + "/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
+            loader_extensions.itemAt(ind).source = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
 
         // modal elements need to be shown on top, above things like mainmenu or metadata
         // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)

@@ -23,6 +23,7 @@
 import QtQuick
 
 import PQCFileFolderModel
+import PQCExtensionsHandler
 
 import org.photoqt.qml
 
@@ -94,6 +95,48 @@ Loader {
             asynchronous: true
             source: "../ongoing/PQStatusInfo.qml"
         }
+
+        /******************************************/
+
+        // These are the extensions loader
+        Repeater {
+            id: loader_extensions
+            model: PQCExtensionsHandler.getExtensions().length
+            Loader {}
+        }
+
+        // when the component is completed the repeater items will likely not yet be ready
+        // thus we keep checking until the first one is no longer null at which point we'll assume they all are ready.
+        Timer {
+            id: waitForExtLoaderToBeReady
+            interval: 100
+            onTriggered: {
+                if(!loader_extensions.itemAt(0)) {
+                    waitForExtLoaderToBeReady.restart()
+                    return
+                }
+                // set up extensions if necessary
+                var exts = PQCExtensionsHandler.getExtensions()
+                for(var iE in exts) {
+                    var ext = exts[iE]
+                    var checks = PQCExtensionsHandler.getDoAtStartup(ext)
+                    for(var i in checks) {
+                        var entry = checks[i]
+                        if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
+                            if(entry[1] === "show") {
+                                PQCNotify.loaderShowExtension(ext)
+                            } else if(entry[1] === "setup") {
+                                PQCNotify.loaderSetupExtension(ext)
+                            } else {
+                                console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        /******************************************/
 
         Loader {
             id: loader_contextmenu
@@ -220,6 +263,9 @@ Loader {
         function finishSetup_part2() {
             finishSetupCalled += 1
             PQCNotify.loaderSetup("thumbnails")
+
+            waitForExtLoaderToBeReady.start()
+
         }
 
     }

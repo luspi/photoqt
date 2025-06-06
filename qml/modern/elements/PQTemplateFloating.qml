@@ -43,7 +43,7 @@ Rectangle {
 
     /////////
 
-    property alias blur_thisis: blurbg.thisis
+    property string blur_thisis: "blurbg.thisis"
     property bool showPopinPopout: true
     property bool darkBackgroundManageIcons: false
     property string tooltip: ""

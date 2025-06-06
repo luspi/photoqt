@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,6 +19,7 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
@@ -29,26 +29,28 @@ import PQCFileFolderModel
 import PQCScriptsImages
 import PQCExtensionsHandler
 
-import "../../qml/elements"
+import org.photoqt.qml
+
+import "../../../qml/modern/elements"
 
 PQTemplateFloating {
 
     id: histogram_top
 
     onXChanged: {
-        if(PQCConstants.photoQtStartupDone && dragActive)
+        if(dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(PQCConstants.photoQtStartupDone && dragActive)
+        if(dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(PQCConstants.photoQtStartupDone && resizeActive)
+        if(resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(PQCConstants.photoQtStartupDone && resizeActive)
+        if(resizeActive)
             storeSize.restart()
     }
 
@@ -228,6 +230,8 @@ PQTemplateFloating {
 
     Component.onCompleted: {
 
+        console.warn(">>>", PQCSettings.extensionsHistogramPosition, PQCSettings.extensionsHistogramSize)
+
         x = PQCSettings.extensionsHistogramPosition.x // qmllint disable unqualified
         y = PQCSettings.extensionsHistogramPosition.y
         width = PQCSettings.extensionsHistogramSize.width
@@ -245,9 +249,9 @@ PQTemplateFloating {
         id: updateHistogram
         interval: 500
         repeat: false
-        property int indexTriggered
+        property string srcTriggered
         onTriggered: {
-            if(PQCFileFolderModel.currentIndex === indexTriggered) // qmllint disable unqualified
+            if(PQCFileFolderModel.currentFile === srcTriggered) // qmllint disable unqualified
                 PQCScriptsImages.loadHistogramData(PQCFileFolderModel.currentFile, PQCFileFolderModel.currentIndex)
         }
     }
@@ -327,10 +331,10 @@ PQTemplateFloating {
 
     Connections {
 
-        target: image // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onImageFinishedLoading(index : int) {
-            updateHistogram.indexTriggered = index
+        function onCurrentImageFinishedLoading(src : string) {
+            updateHistogram.srcTriggered = src
             updateHistogram.restart()
             failed.opacity = 0
             nofileloaded.opacity = 0
@@ -427,7 +431,7 @@ PQTemplateFloating {
                         busy.opacity = 0
                         failed.opacity = 0
                     } else {
-                        updateHistogram.indexTriggered = PQCFileFolderModel.currentIndex
+                        updateHistogram.srcTriggered = PQCFileFolderModel.currentFile
                         updateHistogram.restart()
                         failed.opacity = 0
                         nofileloaded.opacity = 0

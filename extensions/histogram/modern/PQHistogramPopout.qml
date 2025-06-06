@@ -21,10 +21,11 @@
  **************************************************************************/
 
 import QtQuick
-import PQCWindowGeometry
 import PQCExtensionsHandler
 
-import "../../qml/elements"
+import org.photoqt.qml
+
+import "../../qml/modern/elements"
 
 PQTemplatePopout {
 

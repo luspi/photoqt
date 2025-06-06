@@ -1991,7 +1991,7 @@ Loader {
             PQCNotify.barcodeDisplayed = false
 
             image_top.currentlyVisibleSource = imageloaderitem.imageSource
-            image_top.imageFinishedLoading(imageloaderitem.imageSource)
+            PQCNotify.currentImageFinishedLoading(imageloaderitem.imageSource)
 
             PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
             PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying

@@ -88,7 +88,6 @@ Item {
 
     signal animatePhotoSpheres(var direction)
 
-    signal imageFinishedLoading(var index)
     signal reloadImage()
     signal enterPhotoSphere()
     signal exitPhotoSphere()

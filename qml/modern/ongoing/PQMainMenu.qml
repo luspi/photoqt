@@ -56,7 +56,7 @@ Rectangle {
     }
 
     onYChanged: {
-        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
+        if(dragmouse.drag.active)
             saveXY.restart()
     }
 
@@ -1229,7 +1229,6 @@ Rectangle {
     }
 
     function showMainMenu() {
-        if(!PQCConstants.photoQtStartupDone) return
         mainmenu_top.setVisible = true
         if(popoutWindowUsed)
             mainmenu_popout.visible = true // qmllint disable unqualified

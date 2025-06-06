@@ -57,12 +57,12 @@ Rectangle {
     }
 
     onYChanged: {
-        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
+        if(dragmouse.drag.active)
             saveXY.restart()
     }
 
     onXChanged: {
-        if(PQCConstants.photoQtStartupDone && dragmouse.drag.active)
+        if(dragmouse.drag.active)
             saveXY.restart()
     }
 
@@ -842,7 +842,7 @@ Rectangle {
 
             if(what === "show") {
                 if(param[0] === "metadata") {
-                    if(!PQCSettings.metadataElementFloating && PQCConstants.photoQtStartupDone) // qmllint disable unqualified
+                    if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)

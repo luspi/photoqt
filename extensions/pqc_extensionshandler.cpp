@@ -1,14 +1,14 @@
 #include <pqc_extensionshandler.h>
 
-#include <quickactions/config.h>
-#include <floatingnavigation/config.h>
-#include <histogram/config.h>
-#include <mapcurrent/config.h>
-#include <scaleimage/config.h>
-#include <cropimage/config.h>
-#include <wallpaper/config.h>
-#include <exportimage/config.h>
-#include <imgurcom/config.h>
+// #include <quickactions/config.h>
+// #include <floatingnavigation/config.h>
+#include <histogram/modern/config.h>
+// #include <mapcurrent/config.h>
+// #include <scaleimage/config.h>
+// #include <cropimage/config.h>
+// #include <wallpaper/config.h>
+// #include <exportimage/config.h>
+// #include <imgurcom/config.h>
 
 #include <QVariant>
 #include <QQmlEngine>
@@ -21,17 +21,17 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
     /***********************************************/
 
     // not modal
-    m_allextensions.append(new PQCExtensionMapCurrent());
+    // m_allextensions.append(new PQCExtensionMapCurrent());
     m_allextensions.append(new PQCExtensionHistogram());
-    m_allextensions.append(new PQCExtensionQuickActions());
-    m_allextensions.append(new PQCExtensionFloatingNavigation());
+    // m_allextensions.append(new PQCExtensionQuickActions());
+    // m_allextensions.append(new PQCExtensionFloatingNavigation());
 
     // modal
-    m_allextensions.append(new PQCExtensionScaleImage());
-    m_allextensions.append(new PQCExtensionCropImage());
-    m_allextensions.append(new PQCExtensionWallpaper());
-    m_allextensions.append(new PQCExtensionExportImage());
-    m_allextensions.append(new PQCExtensionImgurCom());
+    // m_allextensions.append(new PQCExtensionScaleImage());
+    // m_allextensions.append(new PQCExtensionCropImage());
+    // m_allextensions.append(new PQCExtensionWallpaper());
+    // m_allextensions.append(new PQCExtensionExportImage());
+    // m_allextensions.append(new PQCExtensionImgurCom());
 
     /********************************************/
     /********************************************/

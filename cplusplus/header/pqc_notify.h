@@ -221,6 +221,9 @@ Q_SIGNALS:
     void isMotionPhotoChanged();
     void barcodeDisplayedChanged();
 
+    // some image signals
+    void currentImageFinishedLoading(QString src);
+
     // context menu properties
     void closeAllContextMenus();
 

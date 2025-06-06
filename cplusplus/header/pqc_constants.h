@@ -59,7 +59,6 @@ public:
         m_windowState = Qt::WindowNoState;
         m_windowFullScreen = false;
         m_windowMaxAndNotWindowed = true;
-        m_photoQtStartupDone = false;
         m_faceTaggingMode = false;
         m_idOfVisibleItem = "";
         m_modalWindowOpen = false;
@@ -127,7 +126,6 @@ public:
 
     Q_PROPERTY(QString startupFileLoad MEMBER m_startupFileLoad NOTIFY startupFileLoadChanged)
     Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
-    Q_PROPERTY(bool photoQtStartupDone MEMBER m_photoQtStartupDone NOTIFY photoQtStartupDoneChanged)
     Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
     Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
     Q_PROPERTY(double devicePixelRatio MEMBER m_devicePixelRatio NOTIFY devicePixelRatioChanged)
@@ -220,7 +218,6 @@ private:
     int m_windowWidth;
     int m_windowHeight;
 
-    bool m_photoQtStartupDone;
     bool m_photoQtShuttingDown;
     int m_windowState;
     bool m_windowFullScreen;
@@ -274,7 +271,6 @@ Q_SIGNALS:
     void windowStateChanged();
     void windowFullScreenChanged();
     void windowMaxAndNotWindowedChanged();
-    void photoQtStartupDoneChanged();
     void photoQtShuttingDownChanged();
     void faceTaggingModeChanged();
     void modalWindowOpenChanged();
