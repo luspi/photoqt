@@ -34,7 +34,12 @@ Loader {
     id: masteritemloader
 
     active: false
-    asynchronous: true
+
+    // If no file has been passed on at startup we don't want to load this item asynchronously.
+    // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
+    Component.onCompleted: {
+        asynchronous = (PQCConstants.startupFileLoad === "")
+    }
 
     sourceComponent:
     Item {
