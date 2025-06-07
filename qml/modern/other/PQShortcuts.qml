@@ -516,9 +516,9 @@ Item {
             case "__chromecast":
                 PQCNotify.loaderShow("chromecastmanager")
                 break
-            // case "__logging":
-            //     PQCNotify.loaderShow("logging")
-            //     break;
+            case "__logging":
+                PQCNotify.loaderShow("logging")
+                break;
             case "__advancedSort":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
                     PQCNotify.loaderShow("advancedsort")

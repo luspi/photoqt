@@ -162,7 +162,7 @@ Loader {
         Loader { id: loader_chromecast }
         Loader { id: loader_slideshowcontrols }
         Loader { id: loader_slideshowhandler }
-        Loader { id: loader_mapexplorer }
+        Loader { id: loader_logging }
 
         Loader {
             id: mastertouchareas
@@ -182,6 +182,7 @@ Loader {
 
         /******************************************/
 
+        Loader { id: loader_mapexplorer }
         Loader { id: loader_about }
         Loader { id: loader_advancedsort }
         Loader { id: loader_filedelete }

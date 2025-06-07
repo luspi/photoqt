@@ -26,7 +26,7 @@ import QtQuick.Window
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 
-import "../../elements"
+import org.photoqt.qml
 
 Window {
 
