@@ -20,42 +20,52 @@
  **                                                                      **
  **************************************************************************/
 
-import PQCWindowGeometry
-import "../../qml/elements"
+import QtQuick
+import PQCExtensionsHandler
+import org.photoqt.qml
+
+import "../../../qml/modern/elements"
 
 PQTemplatePopout {
 
-    id: crop_popout
+    id: mapcurrent_popout
 
     //: Window title
-    title: qsTranslate("crop", "Crop image") + " | PhotoQt"
+    title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.cropGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.cropMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
-    source: "../extensions/cropimage/PQCropImage.qml"
+    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").width,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").height)
+    isMax: false
+    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    source: "../../extensions/mapcurrent/modern/PQMapCurrent.qml"
+    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent")
 
-    minimumWidth: 800
-    minimumHeight: 600
+    modality: Qt.NonModal
+
+    minimumWidth: 100
+    minimumHeight: 100
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("cropimage")
+        if(PQCConstants.photoQtShuttingDown) return
+        PQCSettings.extensionsMapCurrentPopout = false // qmllint disable unqualified
+        close()
+        PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsCropImagePopout) // qmllint disable unqualified
-            PQCSettings.extensionsCropImagePopout = popout
+        if(PQCConstants.photoQtShuttingDown) return
+        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
+            PQCSettings.extensionsMapCurrentPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.cropGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.cropGeometry = geometry
+        if(geometry !== PQCWindowGeometry.mapcurrentGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.mapcurrentGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.cropMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.cropMaximized = isMax
+        if(isMax !== PQCWindowGeometry.mapcurrentMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.mapcurrentMaximized = isMax
     }
 
 }

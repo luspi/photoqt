@@ -21,8 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-
-import "../../../qml/elements"
+import org.photoqt.qml
 
 //*************//
 // WINDOWS

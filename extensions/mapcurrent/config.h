@@ -1,4 +1,4 @@
-#include "../pqc_configtemplate.h"
+#include <pqc_configtemplate.h>
 #include <scripts/pqc_scriptsconfig.h>
 
 class PQCExtensionMapCurrent : public PQCExtensionConfig {
@@ -12,6 +12,9 @@ public:
 
         allowPopout = true;
         isModal = false;
+
+        defaultPopoutWindowSize = QSize(300,200);
+        minimumRequiredWindowSize = QSize(500,350);
 
         qmlBaseName = "PQMapCurrent";
 

@@ -27,31 +27,30 @@ import QtPositioning
 import PQCFileFolderModel
 import PQCScriptsCrypt
 import PQCScriptsMetaData
-import PQCMetaData
-import PQCWindowGeometry
 import PQCExtensionsHandler
 
-import "../../qml/elements"
-import "../../qml/"
+import org.photoqt.qml
+
+import "../../../qml/modern/elements"
 
 PQTemplateFloating {
 
     id: mapcurrent_top
 
     onXChanged: {
-        if(PQCConstants.photoQtStartupDone && dragActive)
+        if(dragActive)
             storeSize.restart()
     }
     onYChanged: {
-        if(PQCConstants.photoQtStartupDone && dragActive)
+        if(dragActive)
             storeSize.restart()
     }
     onWidthChanged: {
-        if(PQCConstants.photoQtStartupDone && resizeActive)
+        if(resizeActive)
             storeSize.restart()
     }
     onHeightChanged: {
-        if(PQCConstants.photoQtStartupDone && resizeActive)
+        if(resizeActive)
             storeSize.restart()
     }
 
@@ -97,7 +96,7 @@ PQTemplateFloating {
     property real longitude: 8.40444
 
     onPopoutChanged: {
-        if(PQCConstants.photoQtStartupDone && popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
             PQCSettings.extensionsMapCurrentPopout = popout
     }
 

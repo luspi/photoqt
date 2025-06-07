@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,16 +19,15 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsShareImgur
 import PQCFileFolderModel
-import PQCScriptsClipboard
-import PQCWindowGeometry
 
-import "../../qml/elements"
+import org.photoqt.qml
 
 PQTemplateFullscreen {
 

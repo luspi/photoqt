@@ -22,13 +22,13 @@
 
 import QtQuick
 
-import PQCWindowGeometry
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCImageFormats
-import PQCScriptsFileManagement
 
-import "../../qml/elements"
+import org.photoqt.qml
+
+import "../../../qml/modern/elements"
 
 PQTemplateFullscreen {
 
@@ -405,10 +405,10 @@ PQTemplateFullscreen {
         cropbusy.hide()
         errorlabel.hide()
 
-        resizerect.startPos = Qt.point(image.currentFlickableVisibleAreaX,
-                                       image.currentFlickableVisibleAreaY)
-        resizerect.endPos = Qt.point(resizerect.startPos.x + image.currentFlickableVisibleAreaWidthRatio,
-                                     resizerect.startPos.y + image.currentFlickableVisibleAreaHeightRatio)
+        resizerect.startPos = Qt.point(PQCConstants.currentVisibleAreaX,
+                                       PQCConstants.currentVisibleAreaY)
+        resizerect.endPos = Qt.point(resizerect.startPos.x + PQCConstants.currentVisibleAreaWidthRatio,
+                                     resizerect.startPos.y + PQCConstants.currentVisibleAreaHeightRatio)
 
         animShowed = false
 

@@ -20,8 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-import PQCWindowGeometry
-import "../../qml/elements"
+import QtQuick
+
+import org.photoqt.qml
+
+import "../../../qml/modern/elements"
 
 PQTemplatePopout {
 
@@ -34,7 +37,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.exportMaximized // qmllint disable unqualified
     popout: PQCSettings.extensionsExportImagePopout // qmllint disable unqualified
     sizepopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
-    source: "../extensions/exportimage/PQExportImage.qml"
+    source: "../../extensions/exportimage/modern/PQExportImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600

@@ -79,6 +79,10 @@ public:
         m_currentFileInsideName = "";
         m_imageQMLItemHeight = 0;
         m_imageInitiallyLoaded = false;
+        m_currentVisibleAreaX = 0;
+        m_currentVisibleAreaY = 0;
+        m_currentVisibleAreaWidthRatio = 0;
+        m_currentVisibleAreaHeightRatio = 0;
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoHasAudio = false;
@@ -173,6 +177,11 @@ public:
     Q_PROPERTY(bool currentlyShowingVideoHasAudio MEMBER m_currentlyShowingVideoHasAudio NOTIFY currentlyShowingVideoHasAudioChanged)
     Q_PROPERTY(bool currentlyShowingVideoPlaying MEMBER m_currentlyShowingVideoPlaying NOTIFY currentlyShowingVideoPlayingChanged)
 
+    Q_PROPERTY(double currentVisibleAreaX MEMBER m_currentVisibleAreaX NOTIFY currentVisibleAreaXChanged)
+    Q_PROPERTY(double currentVisibleAreaY MEMBER m_currentVisibleAreaY NOTIFY currentVisibleAreaYChanged)
+    Q_PROPERTY(double currentVisibleAreaWidthRatio MEMBER m_currentVisibleAreaWidthRatio NOTIFY currentVisibleAreaWidthRatioChanged)
+    Q_PROPERTY(double currentVisibleAreaHeightRatio MEMBER m_currentVisibleAreaHeightRatio NOTIFY currentVisibleAreaHeightRatioChanged)
+
     /******************************************************/
     // some slideshow properties
 
@@ -244,6 +253,10 @@ private:
     QString m_currentFileInsideName;
     bool m_imageInitiallyLoaded;
     int m_imageQMLItemHeight;
+    double m_currentVisibleAreaX;
+    double m_currentVisibleAreaY;
+    double m_currentVisibleAreaWidthRatio;
+    double m_currentVisibleAreaHeightRatio;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -305,6 +318,10 @@ Q_SIGNALS:
     void slideshowVolumeChanged();
     void imageQMLItemHeightChanged();
     void statusinfoIsVisibleChanged();
+    void currentVisibleAreaXChanged();
+    void currentVisibleAreaYChanged();
+    void currentVisibleAreaWidthRatioChanged();
+    void currentVisibleAreaHeightRatioChanged();
 
 };
 

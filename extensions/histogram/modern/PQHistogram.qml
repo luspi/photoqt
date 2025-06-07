@@ -88,7 +88,7 @@ PQTemplateFloating {
     blur_thisis: "histogram"
 
     onPopoutChanged: {
-        if(PQCConstants.photoQtStartupDone && popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
             PQCSettings.extensionsHistogramPopout = popout
     }
 

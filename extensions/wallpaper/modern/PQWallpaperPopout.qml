@@ -20,42 +20,42 @@
  **                                                                      **
  **************************************************************************/
 
-import PQCWindowGeometry
-import "../../qml/elements"
+import QtQuick
+import org.photoqt.qml
 
 PQTemplatePopout {
 
-    id: scale_popout
+    id: wallpaper_popout
 
     //: Window title
-    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
+    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.scaleGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsScaleImagePopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
-    source: "../extensions/scaleimage/PQScaleImage.qml"
+    geometry: PQCWindowGeometry.wallpaperGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.wallpaperMaximized // qmllint disable unqualified
+    popout: PQCSettings.extensionsWallpaperPopout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
+    source: "../../extensions/wallpaper/modern/PQWallpaper.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("scaleimage")
+        PQCNotify.loaderRegisterClose("wallpaper")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsScaleImagePopout) // qmllint disable unqualified
-            PQCSettings.extensionsScaleImagePopout = popout
+        if(popout !== PQCSettings.extensionsWallpaperPopout) // qmllint disable unqualified
+            PQCSettings.extensionsWallpaperPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.scaleGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.scaleGeometry = geometry
+        if(geometry !== PQCWindowGeometry.wallpaperGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.wallpaperGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.scaleMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.scaleMaximized = isMax
+        if(isMax !== PQCWindowGeometry.wallpaperMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.wallpaperMaximized = isMax
     }
 
 }

@@ -33,7 +33,7 @@ public:
         };
 
         doAtStartup = {
-            {"Histogram", "show", "histogram"}
+            {"Histogram", "setup", "histogram"}
         };
 
         // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},

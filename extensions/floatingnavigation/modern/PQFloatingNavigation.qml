@@ -24,8 +24,7 @@ import QtQuick
 
 import PQCFileFolderModel
 
-import "../../qml/elements"
-import "../../qml/"
+import org.photoqt.qml
 
 Item {
 
@@ -196,6 +195,20 @@ Item {
             }
         }
 
+    }
+
+    Connections {
+        target: PQCNotify // qmllint disable unqualified
+
+        function onLoaderPassOn(what : string, args : list<var>) {
+
+            console.log("args: what =", what)
+            console.log("args: args =", args)
+
+            if(what === "show" && args[0] === "floatingnavigation") {
+                PQCSettings.extensionsFloatingNavigation = !PQCSettings.extensionsFloatingNavigation
+            }
+        }
     }
 
 }

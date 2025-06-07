@@ -21,15 +21,14 @@
  **************************************************************************/
 
 import QtQuick
+import org.photoqt.qml
 
-import PQCScriptsWallpaper
-
-import "../../../qml/elements"
-
-//********//
-// PLASMA 5
+//*************//
+// GNOME/UNITY
 
 Column {
+
+    id: gnome_top
 
     x: 0
     y: 0
@@ -39,16 +38,18 @@ Column {
 
     spacing: 10
 
+    property bool gsettingsError: true
+
     onVisibleChanged: {
         if(visible)
             check()
     }
 
-    property list<int> checkedScreens: []
+    property string checkedOption: ""
 
     PQTextXL {
         x: (parent.width-width)/2
-        text: "Plasma"
+        text: "Gnome/Unity/Cinnamon"
         font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
     }
 
@@ -57,20 +58,75 @@ Column {
         height: 10
     }
 
+    PQText {
+        x: (parent.width-width)/2
+        visible: gnome_top.gsettingsError
+        color: "red"
+        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+        text: qsTranslate("wallpaper", "Warning: %1 not found").arg("<i>gsettings</i>")
+    }
+
+    Item {
+        visible: gnome_top.gsettingsError
+        width: 1
+        height: 10
+    }
+
     PQTextL {
-        x: 10
-        width: parent.width-20
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap
-        text: qsTranslate("wallpaper", "The image will be set to all screens at the same time.")
+        x: (parent.width-width)/2
+        //: picture option refers to how to format a pictrue when setting it as wallpaper
+        text: qsTranslate("wallpaper", "Choose picture option")
+    }
+
+    Column {
+        id: col
+        x: (parent.width-width)/2
+        width: childrenRect.width
+        spacing: 10
+        PQRadioButton {
+            id: opt_wallpaper
+            text: "wallpaper"
+            onCheckedChanged:
+                if(checked)
+                    gnome_top.checkedOption = text
+        }
+        PQRadioButton {
+            id: opt_centered
+            text: "centered"
+            onCheckedChanged:
+                if(checked)
+                    gnome_top.checkedOption = text
+        }
+        PQRadioButton {
+            id: opt_scaled
+            text: "scaled"
+            onCheckedChanged:
+                if(checked)
+                    gnome_top.checkedOption = text
+        }
+        PQRadioButton {
+            id: opt_zoom
+            text: "zoom"
+            checked: true
+            Component.onCompleted:
+                gnome_top.checkedOption = text
+            onCheckedChanged:
+                if(checked)
+                    gnome_top.checkedOption = text
+        }
+        PQRadioButton {
+            id: opt_spanned
+            text: "spanned"
+            onCheckedChanged:
+                if(checked)
+                    gnome_top.checkedOption = text
+        }
     }
 
     function check() {
 
         wallpaper_top.numDesktops = PQCScriptsWallpaper.getScreenCount() // qmllint disable unqualified
-        checkedScreens = []
-        for(var i = 0; i < wallpaper_top.numDesktops; ++i)
-            checkedScreens.push(i+1)
+        gsettingsError = PQCScriptsWallpaper.checkGSettings()
 
     }
 

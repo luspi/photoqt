@@ -1,4 +1,3 @@
-pragma ComponentBehavior: Bound
 /**************************************************************************
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
@@ -20,13 +19,15 @@ pragma ComponentBehavior: Bound
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PQCWindowGeometry
+import PQCFileFolderModel
+import org.photoqt.qml
 
-import "../../qml/elements"
-import "../../qml/"
+import "../../../qml/modern/elements"
+import "../../../qml/"
 
 PQTemplateFloating {
 
@@ -251,7 +252,7 @@ PQTemplateFloating {
                             width: sepver.visible ? 0 : sze
                             height: sepver.visible ? 0 : sze
                             visible: !sepver.visible && !unknownver.visible
-                            enabled: visible && (delegver.props[3] || PQCConstants.howManyFiles>0)
+                            enabled: visible && (delegver.props[3] || PQCFileFolderModel.countMainView>0)
                             tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? delegver.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + delegver.props[1] + ".svg") : ""
@@ -401,7 +402,7 @@ PQTemplateFloating {
                             width: sephor.visible ? 0 : sze
                             height: sephor.visible ? 0 : sze
                             visible: !sephor.visible && !unknownhor.visible
-                            enabled: visible && (deleghor.props[3] || PQCConstants.howManyFiles>0)
+                            enabled: visible && (deleghor.props[3] || PQCFileFolderModel.countMainView>0)
                             tooltip: quickactions_top.popoutWindowUsed ? "" : (enabled ? deleghor.props[0] : qsTranslate("quickactions", "No file loaded"))
                             dragTarget: quickactions_top.popoutWindowUsed ? undefined : quickactions_top
                             source: visible ? ("image://svg/:/" + PQCLook.iconShade + "/" + deleghor.props[1] + ".svg") : ""

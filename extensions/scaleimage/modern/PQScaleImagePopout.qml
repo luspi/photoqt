@@ -21,51 +21,41 @@
  **************************************************************************/
 
 import QtQuick
-import PQCWindowGeometry
-import PQCExtensionsHandler
-
-import "../../qml/elements"
+import org.photoqt.qml
 
 PQTemplatePopout {
 
-    id: mapcurrent_popout
+    id: scale_popout
 
     //: Window title
-    title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
+    title: qsTranslate("scale", "Scale image") + " | PhotoQt"
 
-    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").width,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").height)
-    isMax: false // qmllint disable unqualified
-    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
-    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
-    source: "../extensions/mapcurrent/PQMapCurrent.qml"
-    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent")
+    geometry: PQCWindowGeometry.scaleGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.scaleMaximized // qmllint disable unqualified
+    popout: PQCSettings.extensionsScaleImagePopout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
+    source: "../../extensions/scaleimage/modern/PQScaleImage.qml"
 
-    modality: Qt.NonModal
-
-    minimumWidth: 100
-    minimumHeight: 100
+    minimumWidth: 800
+    minimumHeight: 600
 
     onPopoutClosed: {
-        if(PQCConstants.photoQtShuttingDown) return
-        PQCSettings.extensionsMapCurrentPopout = false // qmllint disable unqualified
-        close()
-        PQCNotify.executeInternalCommand("__showMapCurrent")
+        PQCNotify.loaderRegisterClose("scaleimage")
     }
 
     onPopoutChanged: {
-        if(PQCConstants.photoQtShuttingDown) return
-        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
-            PQCSettings.extensionsMapCurrentPopout = popout
+        if(popout !== PQCSettings.extensionsScaleImagePopout) // qmllint disable unqualified
+            PQCSettings.extensionsScaleImagePopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mapcurrentGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.mapcurrentGeometry = geometry
+        if(geometry !== PQCWindowGeometry.scaleGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.scaleGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mapcurrentMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.mapcurrentMaximized = isMax
+        if(isMax !== PQCWindowGeometry.scaleMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.scaleMaximized = isMax
     }
 
 }

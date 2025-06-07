@@ -469,19 +469,19 @@ Loader {
 
             visibleArea.onXPositionChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaX = visibleArea.xPosition // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaX = visibleArea.xPosition
             }
             visibleArea.onYPositionChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaY = visibleArea.yPosition // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaY = visibleArea.yPosition
             }
             visibleArea.onWidthRatioChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaWidthRatio = visibleArea.widthRatio // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaWidthRatio = visibleArea.widthRatio // qmllint disable unqualified
             }
             visibleArea.onHeightRatioChanged: {
                 if(loader_top.isMainImage)
-                    image_top.currentFlickableVisibleAreaHeightRatio = visibleArea.heightRatio // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaHeightRatio = visibleArea.heightRatio // qmllint disable unqualified
             }
 
             // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
@@ -1997,10 +1997,10 @@ Loader {
             PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
             PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
-            image_top.currentFlickableVisibleAreaX = flickable.visibleArea.xPosition
-            image_top.currentFlickableVisibleAreaY = flickable.visibleArea.yPosition
-            image_top.currentFlickableVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
-            image_top.currentFlickableVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
+            PQCConstants.currentVisibleAreaX = flickable.visibleArea.xPosition
+            PQCConstants.currentVisibleAreaY = flickable.visibleArea.yPosition
+            PQCConstants.currentVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
+            PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
 
             PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 

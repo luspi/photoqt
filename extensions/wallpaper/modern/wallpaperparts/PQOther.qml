@@ -21,10 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-
-import PQCScriptsWallpaper
-
-import "../../../qml/elements"
+import org.photoqt.qml
 
 //*************//
 // GNOME/UNITY

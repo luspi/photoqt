@@ -20,51 +20,41 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
-import PQCWindowGeometry
-import "../../qml/elements"
+import org.photoqt.qml
 
 PQTemplatePopout {
 
-    id: imgur_popout
+    id: crop_popout
 
     //: Window title
-    title: qsTranslate("imgur", "Upload to imgur.com") + " | PhotoQt"
+    title: qsTranslate("crop", "Crop image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.imgurGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.imgurMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
-    source: "../extensions/imgurcom/PQImgurCom.qml"
+    geometry: PQCWindowGeometry.cropGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.cropMaximized // qmllint disable unqualified
+    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
+    source: "../../extensions/cropimage/modern/PQCropImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("imgurcom")
+        PQCNotify.loaderRegisterClose("cropimage")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsImgurComPopout) // qmllint disable unqualified
-            PQCSettings.extensionsImgurComPopout = popout
+        if(popout !== PQCSettings.extensionsCropImagePopout) // qmllint disable unqualified
+            PQCSettings.extensionsCropImagePopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.imgurGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.imgurGeometry = geometry
+        if(geometry !== PQCWindowGeometry.cropGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.cropGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.imgurMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.imgurMaximized = isMax
-    }
-
-    function uploadAnonymously() {
-        loaderitem.uploadAnonymously() // qmllint disable missing-property
-    }
-
-    function uploadToAccount() {
-        loaderitem.uploadToAccount() // qmllint disable missing-property
+        if(isMax !== PQCWindowGeometry.cropMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.cropMaximized = isMax
     }
 
 }

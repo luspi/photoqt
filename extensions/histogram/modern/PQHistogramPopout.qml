@@ -22,10 +22,9 @@
 
 import QtQuick
 import PQCExtensionsHandler
-
 import org.photoqt.qml
 
-import "../../qml/modern/elements"
+import "../../../qml/modern/elements"
 
 PQTemplatePopout {
 
@@ -38,7 +37,7 @@ PQTemplatePopout {
     isMax: false
     popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
-    source: "../extensions/histogram/PQHistogram.qml"
+    source: "../../extensions/histogram/modern/PQHistogram.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram")
 
     modality: Qt.NonModal

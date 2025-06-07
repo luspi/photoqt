@@ -25,11 +25,8 @@ import QtQuick.Controls
 
 import PQCScriptsConfig
 import PQCFileFolderModel
-import PQCScriptsWallpaper
-import PQCWindowGeometry
 
-import "../../qml/elements"
-import "./wallpaperparts"
+import org.photoqt.qml
 
 PQTemplateFullscreen {
 

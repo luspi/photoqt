@@ -65,11 +65,6 @@ Item {
 
     property int curZ: 0
 
-    property real currentFlickableVisibleAreaX: 0.0
-    property real currentFlickableVisibleAreaY: 0.0
-    property real currentFlickableVisibleAreaWidthRatio: 1.0
-    property real currentFlickableVisibleAreaHeightRatio: 1.0
-
     property bool imageIsAtDefaultScale: Math.abs(PQCConstants.currentImageScale-PQCConstants.currentImageDefaultScale) < 1e-6
 
     property string randomAnimation: "opacity"

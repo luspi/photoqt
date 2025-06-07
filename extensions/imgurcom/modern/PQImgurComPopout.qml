@@ -20,42 +20,50 @@
  **                                                                      **
  **************************************************************************/
 
-import PQCWindowGeometry
-import "../../qml/elements"
+import QtQuick
+import org.photoqt.qml
 
 PQTemplatePopout {
 
-    id: wallpaper_popout
+    id: imgur_popout
 
     //: Window title
-    title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
+    title: qsTranslate("imgur", "Upload to imgur.com") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.wallpaperGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.wallpaperMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsWallpaperPopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
-    source: "../extensions/wallpaper/PQWallpaper.qml"
+    geometry: PQCWindowGeometry.imgurGeometry // qmllint disable unqualified
+    isMax: PQCWindowGeometry.imgurMaximized // qmllint disable unqualified
+    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
+    sizepopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
+    source: "../../extensions/imgurcom/modern/PQImgurCom.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("wallpaper")
+        PQCNotify.loaderRegisterClose("imgurcom")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsWallpaperPopout) // qmllint disable unqualified
-            PQCSettings.extensionsWallpaperPopout = popout
+        if(popout !== PQCSettings.extensionsImgurComPopout) // qmllint disable unqualified
+            PQCSettings.extensionsImgurComPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.wallpaperGeometry) // qmllint disable unqualified
-            PQCWindowGeometry.wallpaperGeometry = geometry
+        if(geometry !== PQCWindowGeometry.imgurGeometry) // qmllint disable unqualified
+            PQCWindowGeometry.imgurGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.wallpaperMaximized) // qmllint disable unqualified
-            PQCWindowGeometry.wallpaperMaximized = isMax
+        if(isMax !== PQCWindowGeometry.imgurMaximized) // qmllint disable unqualified
+            PQCWindowGeometry.imgurMaximized = isMax
+    }
+
+    function uploadAnonymously() {
+        loaderitem.uploadAnonymously() // qmllint disable missing-property
+    }
+
+    function uploadToAccount() {
+        loaderitem.uploadToAccount() // qmllint disable missing-property
     }
 
 }

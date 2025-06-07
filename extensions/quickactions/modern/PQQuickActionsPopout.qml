@@ -21,10 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-import PQCWindowGeometry
 import PQCExtensionsHandler
+import org.photoqt.qml
 
-import "../../qml/elements"
+import "../../../qml/modern/elements"
 
 PQTemplatePopout {
 
@@ -37,7 +37,7 @@ PQTemplatePopout {
     isMax: false
     popout: PQCSettings.extensionsQuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall) // qmllint disable unqualified
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
-    source: "../extensions/quickactions/PQQuickActions.qml"
+    source: "../../extensions/quickactions/modern/PQQuickActions.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("quickactions")
 
     modality: Qt.NonModal

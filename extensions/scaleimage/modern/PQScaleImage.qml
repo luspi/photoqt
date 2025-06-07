@@ -23,12 +23,10 @@
 import QtQuick
 
 import PQCFileFolderModel
-import PQCScriptsFileManagement
 import PQCScriptsFilesPaths
 import PQCImageFormats
-import PQCWindowGeometry
 
-import "../../qml/elements"
+import org.photoqt.qml
 
 PQTemplateFullscreen {
 
@@ -206,8 +204,8 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.25 // qmllint disable unqualified
-                    spin_h.value = image.currentResolution.height*0.25 // qmllint disable unqualified
+                    spin_w.value = PQCConstants.currentImageResolution.width*0.25 // qmllint disable unqualified
+                    spin_h.value = PQCConstants.currentImageResolution.height*0.25 // qmllint disable unqualified
                 }
             }
 
@@ -218,8 +216,8 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.5 // qmllint disable unqualified
-                    spin_h.value = image.currentResolution.height*0.5
+                    spin_w.value = PQCConstants.currentImageResolution.width*0.5 // qmllint disable unqualified
+                    spin_h.value = PQCConstants.currentImageResolution.height*0.5
                 }
             }
 
@@ -230,8 +228,8 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*0.75 // qmllint disable unqualified
-                    spin_h.value = image.currentResolution.height*0.75
+                    spin_w.value = PQCConstants.currentImageResolution.width*0.75 // qmllint disable unqualified
+                    spin_h.value = PQCConstants.currentImageResolution.height*0.75
                 }
             }
 
@@ -242,8 +240,8 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width // qmllint disable unqualified
-                    spin_h.value = image.currentResolution.height
+                    spin_w.value = PQCConstants.currentImageResolution.width // qmllint disable unqualified
+                    spin_h.value = PQCConstants.currentImageResolution.height
                 }
             }
 
@@ -254,8 +252,8 @@ PQTemplateFullscreen {
                 font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
                 width: height*1.5
                 onClicked: {
-                    spin_w.value = image.currentResolution.width*1.5 // qmllint disable unqualified
-                    spin_h.value = image.currentResolution.height*1.5
+                    spin_w.value = PQCConstants.currentImageResolution.width*1.5 // qmllint disable unqualified
+                    spin_h.value = PQCConstants.currentImageResolution.height*1.5
                 }
             }
 
@@ -441,9 +439,9 @@ PQTemplateFullscreen {
             return
         }
 
-        spin_w.loadAndSetDefault(image.currentResolution.width)
-        spin_h.loadAndSetDefault(image.currentResolution.height)
-        aspectRatio = image.currentResolution.width/image.currentResolution.height
+        spin_w.loadAndSetDefault(PQCConstants.currentImageResolution.width)
+        spin_h.loadAndSetDefault(PQCConstants.currentImageResolution.height)
+        aspectRatio = PQCConstants.currentImageResolution.width/PQCConstants.currentImageResolution.height
 
         scalebusy.hide()
         errorlabel.visible = false
