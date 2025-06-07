@@ -2,8 +2,7 @@ import QtQuick
 import QtQuick.Controls
 
 import PQCScriptsConfig
-
-import "../../../qml/modern/elements"
+import org.photoqt.qml
 
 PQSetting {
 

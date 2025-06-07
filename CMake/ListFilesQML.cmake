@@ -67,31 +67,31 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQChromeCastManagerPopout.qml ${d}/PQMapExpl
 SET(d "qml/modern/actions/mapexplorerparts")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)
 
-# SET(d "qml/settingsmanager")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
-#
-# SET(d "qml/settingsmanager/popout")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManagerPopout.qml)
-#
-# SET(d "qml/settingsmanager/settings/filetypes")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
-#
-# SET(d "qml/settingsmanager/settings/imageview")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImageSetIm.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
-#
-# SET(d "qml/settingsmanager/settings/interface")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenuSet.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfoSet.qml ${d}/PQEdges.qml)
-#
-# SET(d "qml/settingsmanager/settings/shortcuts")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
-#
-# SET(d "qml/settingsmanager/settings/thumbnails")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQImageSetThumb.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
-#
-# SET(d "qml/settingsmanager/settings/manage")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
-#
-# SET(d "qml/settingsmanager/settings/other")
-# SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)
-#
+SET(d "qml/modern/settingsmanager")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
+
+SET(d "qml/modern/settingsmanager/popout")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManagerPopout.qml)
+
+SET(d "qml/modern/settingsmanager/settings/filetypes")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
+
+SET(d "qml/modern/settingsmanager/settings/imageview")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImageSetIm.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
+
+SET(d "qml/modern/settingsmanager/settings/interface")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenuSet.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfoSet.qml ${d}/PQEdges.qml)
+
+SET(d "qml/modern/settingsmanager/settings/shortcuts")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
+
+SET(d "qml/modern/settingsmanager/settings/thumbnails")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQImageSetThumb.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
+
+SET(d "qml/modern/settingsmanager/settings/manage")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
+
+SET(d "qml/modern/settingsmanager/settings/other")
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)
+

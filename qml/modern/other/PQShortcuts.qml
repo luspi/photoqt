@@ -478,9 +478,9 @@ Item {
             case "__showMapExplorer":
                 PQCNotify.loaderShow("mapexplorer")
                 break
-            // case "__settings":
-            //     PQCNotify.loaderShow("settingsmanager")
-            //     break
+            case "__settings":
+                PQCNotify.loaderShow("settingsmanager")
+                break
             case "__about":
                 PQCNotify.loaderShow("about")
                 break

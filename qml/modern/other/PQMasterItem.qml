@@ -192,6 +192,7 @@ Loader {
         Loader { id: loader_slideshowsetup }
         Loader { id: loader_chromecastmanager }
         Loader { id: loader_filedialog }
+        Loader { id: loader_settingsmanager }
 
         // If an image has been passed on then we wait with loading the rest of the interface until the image has been loaded
         // After 2s of loading we show some first (and quick to set up) interface elements
