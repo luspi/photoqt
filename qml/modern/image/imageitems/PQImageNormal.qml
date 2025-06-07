@@ -275,7 +275,7 @@ Image {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Click here to enter photo sphere")
                     onClicked: {
-                        image_top.enterPhotoSphere() // qmllint disable unqualified
+                        PQCNotify.enterPhotoSphere()
                     }
                 }
 

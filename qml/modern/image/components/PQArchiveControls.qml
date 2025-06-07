@@ -153,14 +153,14 @@ Item {
                     model: image.fileList // qmllint disable unqualified
 
                     popup.onOpened: {
-                        image_top.componentComboOpen = true // qmllint disable unqualified
+                        PQCNotify.currentArchiveComboOpen = true
                     }
                     popup.onClosed: {
-                        image_top.componentComboOpen = false // qmllint disable unqualified
+                        PQCNotify.currentArchiveComboOpen = false
                     }
                     Connections {
-                        target: image_top // qmllint disable unqualified
-                        function onCloseAllMenus() {
+                        target: PQCNotify
+                        function onCurrentArchiveCloseCombo() {
                             fileselect.popup.close()
                         }
                     }
@@ -198,7 +198,7 @@ Item {
                             text: qsTranslate("image", "Go to first page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.archiveJump(-image.currentFile) // qmllint disable unqualified
+                                    PQCNotify.currentArchiveJump(-image.currentFile)
                                 else
                                     menu.popup()
                             }
@@ -228,7 +228,7 @@ Item {
                             text: qsTranslate("image", "Go to previous page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.archiveJump(-1) // qmllint disable unqualified
+                                    PQCNotify.currentArchiveJump(-1)
                                 else
                                     menu.popup()
                             }
@@ -258,7 +258,7 @@ Item {
                             text: qsTranslate("image", "Go to next page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.archiveJump(1) // qmllint disable unqualified
+                                    PQCNotify.currentArchiveJump(1)
                                 else
                                     menu.popup()
                             }
@@ -289,7 +289,7 @@ Item {
                             text: qsTranslate("image", "Go to last page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.archiveJump(image.fileCount-image.currentFile-1) // qmllint disable unqualified
+                                    PQCNotify.currentArchiveJump(image.fileCount-image.currentFile-1)
                                 else
                                     menu.popup()
                             }

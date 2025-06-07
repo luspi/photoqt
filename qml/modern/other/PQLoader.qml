@@ -87,12 +87,29 @@ Item {
             }
             ensureExtensionIsReady(ele, ind)
 
-            showWhenReady.theloader = loader_extensions.itemAt(ind)
-            if(additional === undefined)
-                showWhenReady.args = [ele]
-            else
-                showWhenReady.args = [ele, additional]
-            showWhenReady.start()
+            if(!loader_extensions.itemAt(ind).item) {
+                if(showWhenReady.args.length == 0) {
+                    showWhenReady.theloader = loader_extensions.itemAt(ind)
+                    if(additional === undefined)
+                        showWhenReady.args = [ele]
+                    else
+                        showWhenReady.args = [ele, additional]
+                    showWhenReady.start()
+                } else if(showWhenReady2.args.length == 0) {
+                    showWhenReady2.theloader = loader_extensions.itemAt(ind)
+                    if(additional === undefined)
+                        showWhenReady2.args = [ele]
+                    else
+                        showWhenReady2.args = [ele, additional]
+                    showWhenReady2.start()
+                } else
+                    console.error("Unable to set up extension, too few timers available.")
+            } else {
+                if(additional === undefined)
+                    PQCNotify.loaderPassOn("show", [ele])
+                else
+                    PQCNotify.loaderPassOn("show", [ele, additional])
+            }
 
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)
@@ -113,12 +130,29 @@ Item {
 
             ensureItIsReady(ele, config)
 
-            showWhenReady.theloader = config[2]
-            if(additional === undefined)
-                showWhenReady.args = [ele]
-            else
-                showWhenReady.args = [ele, additional]
-            showWhenReady.start()
+            if(!config[2].item) {
+                if(showWhenReady.args.length == 0) {
+                    showWhenReady.theloader = config[2]
+                    if(additional === undefined)
+                        showWhenReady.args = [ele]
+                    else
+                        showWhenReady.args = [ele, additional]
+                    showWhenReady.start()
+                } else if(showWhenReady2.args.length == 0) {
+                    showWhenReady2.theloader = config[2]
+                    if(additional === undefined)
+                        showWhenReady2.args = [ele]
+                    else
+                        showWhenReady2.args = [ele, additional]
+                    showWhenReady2.start()
+                } else
+                    console.error("Unable to set up item, too few timers available.")
+            } else {
+                if(additional === undefined)
+                    PQCNotify.loaderPassOn("show", [ele])
+                else
+                    PQCNotify.loaderPassOn("show", [ele, additional])
+            }
 
         }
 
@@ -128,7 +162,7 @@ Item {
         id: showWhenReady
         property var theloader: Loader
         property list<var> args: []
-        interval: 100
+        interval: 10
         triggeredOnStart: true
         onTriggered: {
             if(!theloader.item) {
@@ -137,6 +171,24 @@ Item {
             }
             console.warn(">>> SHOW:", args)
             PQCNotify.loaderPassOn("show", args)
+            args = []
+        }
+    }
+
+    Timer {
+        id: showWhenReady2
+        property var theloader: Loader
+        property list<var> args: []
+        interval: 10
+        triggeredOnStart: true
+        onTriggered: {
+            if(!theloader.item) {
+                showWhenReady2.start()
+                return
+            }
+            console.warn(">>> SHOW:", args)
+            PQCNotify.loaderPassOn("show", args)
+            args = []
         }
     }
 

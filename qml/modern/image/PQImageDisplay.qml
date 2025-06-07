@@ -260,12 +260,7 @@ Loader {
 
         Connections {
 
-            target: image_top
-
-            function onReloadImage() {
-                if(loader_top.isMainImage)
-                    loader_top.reloadTheImage()
-            }
+            target: PQCNotify
 
             function onEnterPhotoSphere() {
                 if(PQCNotify.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
@@ -277,6 +272,18 @@ Loader {
                 if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && !loader_top.photoSphereManuallyEntered)) // qmllint disable unqualified
                     return
                 loader_top.doExitPhotoSphere()
+            }
+
+        }
+
+
+        Connections {
+
+            target: image_top
+
+            function onReloadImage() {
+                if(loader_top.isMainImage)
+                    loader_top.reloadTheImage()
             }
 
         }
@@ -1192,9 +1199,9 @@ Loader {
 
                     Connections {
 
-                        target: image_top // qmllint disable unqualified
+                        target: PQCNotify
 
-                        function onFlickView(direction : string) {
+                        function onCurrentViewFlick(direction : string) {
 
                             if(!loader_top.isMainImage)
                                 return
@@ -1282,7 +1289,7 @@ Loader {
 
                         }
 
-                        function onMoveView(direction : string) {
+                        function onCurrentViewMove(direction : string) {
 
                             if(!loader_top.isMainImage)
                                 return

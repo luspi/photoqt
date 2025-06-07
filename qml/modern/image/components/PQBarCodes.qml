@@ -47,7 +47,14 @@ Item {
                 bartop.barcodes = []
             }
         }
-        function onDetectBarCodes() {
+
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onCurrentImageDetectBarCodes() {
             if(loader_top.isMainImage) { // qmllint disable unqualified
                 if(!PQCNotify.barcodeDisplayed) {
                     bartop.barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)

@@ -139,22 +139,29 @@ Item {
         loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
 
     Connections {
-        target: image_top // qmllint disable unqualified
-        function onMirrorH() {
-            videotop.myMirrorH = !videotop.myMirrorH
+        target: PQCScriptsShortcuts
+        function onSendShortcutMirrorHorizontal() {
+            if(visible) videotop.myMirrorH = !videotop.myMirrorH
         }
-        function onMirrorV() {
-            videotop.myMirrorV = !videotop.myMirrorV
+        function onSendShortcutMirrorVertical() {
+            if(visible) videotop.myMirrorV = !videotop.myMirrorV
         }
-        function onMirrorReset() {
+        function onSendShortcutMirrorReset() {
+            if(!visible) return
             videotop.myMirrorH = false
             videotop.myMirrorV = false
         }
-        function onVideoJump(seconds : int) {
+    }
+    Connections {
+
+        target: PQCNotify
+
+        function onCurrentVideoJump(seconds : int) {
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
             video.command(["seek", seconds])
         }
+
     }
 
     Connections {

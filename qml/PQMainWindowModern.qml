@@ -175,6 +175,19 @@ Window {
 
     /****************************************************/
 
+    // this is called only when triggered from status info
+    // if this is not done with a short delay then the state is not applied properly
+    Timer {
+        id: setStateTimer
+        interval: 100
+        property int newstate
+        onTriggered: {
+            toplevel.visibility = newstate
+        }
+    }
+
+    /****************************************************/
+
     Component.onCompleted: {
 
         PQCScriptsConfig.updateTranslation() // qmllint disable unqualified
@@ -345,8 +358,8 @@ Window {
         }
 
         function onSetWindowState(state : int) {
-            // setStateTimer.newstate = state
-            // setStateTimer.restart()
+            setStateTimer.newstate = state
+            setStateTimer.restart()
         }
 
         function onWindowClose() {

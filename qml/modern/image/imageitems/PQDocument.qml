@@ -219,9 +219,9 @@ Image {
 
     Connections {
 
-        target: image_top // qmllint disable unqualified
+        target: PQCNotify
 
-        function onDocumentJump(leftright : int) {
+        function onCurrentDocumentJump(leftright : int) {
             loadNewPage.interval = 0
             image.currentPage = (image.currentPage+leftright+image.pageCount)%image.pageCount
         }

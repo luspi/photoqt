@@ -83,6 +83,7 @@ public:
         m_currentVisibleAreaY = 0;
         m_currentVisibleAreaWidthRatio = 0;
         m_currentVisibleAreaHeightRatio = 0;
+        m_currentArchiveComboOpen = false;
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoHasAudio = false;
@@ -169,6 +170,7 @@ public:
     Q_PROPERTY(int currentFileInsideTotal MEMBER m_currentFileInsideTotal NOTIFY currentFileInsideTotalChanged)
     Q_PROPERTY(QString currentFileInsideName MEMBER m_currentFileInsideName NOTIFY currentFileInsideNameChanged)
     Q_PROPERTY(int imageQMLItemHeight MEMBER m_imageQMLItemHeight NOTIFY imageQMLItemHeightChanged)
+    Q_PROPERTY(bool currentArchiveComboOpen MEMBER m_currentArchiveComboOpen NOTIFY currentArchiveComboOpenChanged)
 
     // this signals that an image (any image) has been fully loaded. Only then do we start, e.g., loading thumbnails
     Q_PROPERTY(bool imageInitiallyLoaded MEMBER m_imageInitiallyLoaded NOTIFY imageInitiallyLoadedChanged)
@@ -253,6 +255,7 @@ private:
     QString m_currentFileInsideName;
     bool m_imageInitiallyLoaded;
     int m_imageQMLItemHeight;
+    bool m_currentArchiveComboOpen;
     double m_currentVisibleAreaX;
     double m_currentVisibleAreaY;
     double m_currentVisibleAreaWidthRatio;
@@ -322,6 +325,7 @@ Q_SIGNALS:
     void currentVisibleAreaYChanged();
     void currentVisibleAreaWidthRatioChanged();
     void currentVisibleAreaHeightRatioChanged();
+    void currentArchiveComboOpenChanged();
 
 };
 

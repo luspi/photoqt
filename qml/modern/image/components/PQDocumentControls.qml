@@ -156,7 +156,7 @@ Item {
                             text: qsTranslate("image", "Go to first page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.documentJump(-image.currentPage) // qmllint disable unqualified
+                                    PQCNotify.currentDocumentJump(-image.currentPage) // qmllint disable unqualified
                                 else
                                     menu.popup()
                             }
@@ -186,7 +186,7 @@ Item {
                             text: qsTranslate("image", "Go to previous page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.documentJump(-1) // qmllint disable unqualified
+                                    PQCNotify.currentDocumentJump(-1) // qmllint disable unqualified
                                 else
                                     menu.popup()
                             }
@@ -216,7 +216,7 @@ Item {
                             text: qsTranslate("image", "Go to next page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.documentJump(1) // qmllint disable unqualified
+                                    PQCNotify.currentDocumentJump(1) // qmllint disable unqualified
                                 else
                                     menu.popup()
                             }
@@ -247,7 +247,7 @@ Item {
                             text: qsTranslate("image", "Go to last page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    image_top.documentJump(image.pageCount-image.currentPage-1) // qmllint disable unqualified
+                                    PQCNotify.currentDocumentJump(image.pageCount-image.currentPage-1) // qmllint disable unqualified
                                 else
                                     menu.popup()
                             }

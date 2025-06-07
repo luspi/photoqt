@@ -142,7 +142,13 @@ AnimatedImage {
             image.playing = loader_top.isMainImage // qmllint disable unqualified
         }
 
-        function onAnimImageJump(leftright : int) {
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onCurrentAnimatedJump(leftright : int) {
             image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
         }
 

@@ -166,9 +166,9 @@ Image {
 
     Connections {
 
-        target: image_top // qmllint disable unqualified
+        target: PQCNotify
 
-        function onArchiveJump(leftright : int) {
+        function onCurrentArchiveJump(leftright : int) {
             if(loader_top.isMainImage) { // qmllint disable unqualified
                 image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
                 image.setSource()

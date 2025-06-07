@@ -72,20 +72,11 @@ Item {
     property point extraControlsLocation: Qt.point(-1,-1)
 
     signal playPauseAnimationVideo()
-    signal moveView(var direction)
-    signal flickView(var direction)
-    signal detectBarCodes()
     signal barcodeClick()
-    signal videoJump(var seconds)
-    signal animImageJump(var leftright)
-    signal documentJump(var leftright)
-    signal archiveJump(var leftright)
 
     signal animatePhotoSpheres(var direction)
 
     signal reloadImage()
-    signal enterPhotoSphere()
-    signal exitPhotoSphere()
 
     property var rememberChanges: ({})
     property list<var> reuseChanges: []
@@ -93,9 +84,6 @@ Item {
     property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2 // qmllint disable unqualified
     property int bgOffset: 0
     property list<string> bgFiles: []
-
-    property bool componentComboOpen: false
-    signal closeAllMenus()
 
     Repeater {
 

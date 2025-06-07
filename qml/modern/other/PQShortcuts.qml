@@ -68,10 +68,9 @@ Item {
 
                 PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
 
-            // TODO
-            // } else if(image.componentComboOpen) {
+            } else if(PQCConstants.currentArchiveComboOpen) {
 
-                // image.closeAllMenus()
+                PQCNotify.currentArchiveCloseCombo()
 
             } else {
 
@@ -234,7 +233,7 @@ Item {
 
             // Escape when bar/QR codes are displayed hides those bar codes
             if(PQCNotify.barcodeDisplayed && PQCSettings.imageviewEscapeExitBarcodes) {
-                image.detectBarCodes()
+                PQCNotify.currentImageDetectBarCodes()
                 return
             }
 
@@ -260,12 +259,12 @@ Item {
                 if(PQCSettings.filetypesVideoLeftRightJumpVideo) {
 
                     if(combo === "Left") {
-                        image.videoJump(-5)
+                        PQCNotify.currentVideoJump(-5)
                         return
                     }
 
                     if(combo === "Right") {
-                        image.videoJump(5)
+                        PQCNotify.currentVideoJump(5)
                         return
                     }
 
@@ -289,12 +288,12 @@ Item {
                 if(PQCSettings.filetypesAnimatedLeftRight) {
 
                     if(combo === "Left") {
-                        image.animImageJump(-1)
+                        PQCNotify.currentAnimatedJump(-1)
                         return
                     }
 
                     if(combo === "Right") {
-                        image.animImageJump(1)
+                        PQCNotify.currentAnimatedJump(1)
                         return
                     }
 
@@ -323,12 +322,12 @@ Item {
             if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
 
                 if(combo === "Left") {
-                    image.documentJump(-1)
+                    PQCNotify.currentDocumentJump(-1)
                     return
                 }
 
                 if(combo === "Right") {
-                    image.documentJump(1)
+                    PQCNotify.currentDocumentJump(1)
                     return
                 }
 
@@ -342,12 +341,12 @@ Item {
             if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
 
                 if(combo === "Left") {
-                    image.archiveJump(-1)
+                    PQCNotify.currentArchiveJump(-1)
                     return
                 }
 
                 if(combo === "Right") {
-                    image.archiveJump(1)
+                    PQCNotify.currentArchiveJump(1)
                     return
                 }
 
@@ -360,14 +359,14 @@ Item {
             if(PQCSettings.filetypesPhotoSphereArrowKeys &&
                     (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
 
-                image.moveView(combo.toLowerCase())
+                PQCNotify.currentViewMove(combo.toLowerCase())
                 return
 
             }
 
             if((!PQCScriptsImages.isPhotoSphere(PQCFileFolderModel.currentFile) || !PQCSettings.filetypesPhotoSphereAutoLoad) && combo === "Esc" && PQCSettings.imageviewEscapeExitSphere) {
 
-                image.exitPhotoSphere()
+                PQCNotify.exitPhotoSphere()
                 return
 
             }
@@ -487,32 +486,17 @@ Item {
             case "__slideshow":
                 PQCNotify.loaderShow("slideshowsetup")
                 break
-            // case "__slideshowQuick":
-            //     PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
-            //     PQCNotify.loaderShow("slideshowhandler")
-            //     PQCNotify.loaderShow("slideshowcontrols")
-            //     break
+            case "__slideshowQuick":
+                PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
+                PQCNotify.loaderShow("slideshowhandler")
+                PQCNotify.loaderShow("slideshowcontrols")
+                break
             case "__filterImages":
                 PQCNotify.loaderShow("filter")
                 break
-            // case "__wallpaper":
-            //     PQCNotify.loaderShow("wallpaper")
-            //     break
-            // case "__imgur":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         PQCNotify.loaderShow("imgur")
-            //         loader_imgur.item.uploadToAccount()
-            //     }
-            //     break
-            // case "__imgurAnonym":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-            //         PQCNotify.loaderShow("imgur")
-            //         loader_imgur.item.uploadAnonymously()
-            //     }
-            //     break
-            // case "__tagFaces":
-            //     PQCNotify.loaderPassOn("tagFaces", [])
-            //     break
+            case "__tagFaces":
+                PQCNotify.loaderPassOn("tagFaces", [])
+                break
             case "__chromecast":
                 PQCNotify.loaderShow("chromecastmanager")
                 break
@@ -585,24 +569,21 @@ Item {
             case "__loadRandom":
                 PQCScriptsShortcuts.sendShortcutShowRandomImage()
                 break
-            // case "__viewerMode":
-            //     if(!(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
-            //         if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
-            //             if(PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
-            //                 PQCFileFolderModel.enableViewerMode()
-            //         } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
-            //             PQCFileFolderModel.enableViewerMode()
-            //     }
-            //     break
-            // case "__navigationFloating":
-            //     PQCNotify.loaderShow("floatingnavigation")
-            //     break
-            // case "__enterPhotoSphere":
-            //     if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
-            //         image.enterPhotoSphere()
-            //     else
-            //         PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
-            //     break
+            case "__viewerMode":
+                if(!(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)) {
+                    if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
+                        if(PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile))
+                            PQCFileFolderModel.enableViewerMode()
+                    } else if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
+                        PQCFileFolderModel.enableViewerMode()
+                }
+                break
+            case "__enterPhotoSphere":
+                if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
+                    PQCNotify.enterPhotoSphere()
+                else
+                    PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
+                break
 
             /**********************/
             // image functions
@@ -637,63 +618,63 @@ Item {
             case "__flipReset":
                 PQCScriptsShortcuts.sendShortcutMirrorReset()
                 break
-            // case "__fitInWindow":
-            //     PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
-            //     break
+            case "__fitInWindow":
+                PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
+                break
             case "__playPauseAni":
                 PQCNotify.playPauseAnimationVideo()
                 break
-            // case "__showFaceTags":
-            //     PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
-            //     break
-            // case "__toggleAlwaysActualSize":
-            //     PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
-            //     break
-            // case "__flickViewLeft":
-            //     image.flickView("left")
-            //     break
-            // case "__flickViewRight":
-            //     image.flickView("right")
-            //     break
-            // case "__flickViewUp":
-            //     image.flickView("up")
-            //     break
-            // case "__flickViewDown":
-            //     image.flickView("down")
-            //     break
-            // case "__moveViewLeft":
-            //     image.moveView("left")
-            //     break
-            // case "__moveViewRight":
-            //     image.moveView("right")
-            //     break
-            // case "__moveViewUp":
-            //     image.moveView("up")
-            //     break
-            // case "__moveViewDown":
-            //     image.moveView("down")
-            //     break
-            // case "__goToLeftEdge":
-            //     image.moveView("leftedge")
-            //     break
-            // case "__goToRightEdge":
-            //     image.moveView("rightedge")
-            //     break
-            // case "__goToTopEdge":
-            //     image.moveView("topedge")
-            //     break
-            // case "__goToBottomEdge":
-            //     image.moveView("bottomedge")
-            //     break
-            // case "__detectBarCodes":
-            //     image.detectBarCodes()
-            //     break
-            // case "__videoJumpForwards":
-            //     image.videoJump(5)
-            //     break
-            // case "__videoJumpBackwards":
-            //     image.videoJump(-5)
-            //     break
+            case "__showFaceTags":
+                PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
+                break
+            case "__toggleAlwaysActualSize":
+                PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
+                break
+            case "__flickViewLeft":
+                PQCNotify.currentViewFlick("left")
+                break
+            case "__flickViewRight":
+                PQCNotify.currentViewFlick("right")
+                break
+            case "__flickViewUp":
+                PQCNotify.currentViewFlick("up")
+                break
+            case "__flickViewDown":
+                PQCNotify.currentViewFlick("down")
+                break
+            case "__moveViewLeft":
+                PQCNotify.currentViewMove("left")
+                break
+            case "__moveViewRight":
+                PQCNotify.currentViewMove("right")
+                break
+            case "__moveViewUp":
+                PQCNotify.currentViewMove("up")
+                break
+            case "__moveViewDown":
+                PQCNotify.currentViewMove("down")
+                break
+            case "__goToLeftEdge":
+                PQCNotify.currentViewMove("leftedge")
+                break
+            case "__goToRightEdge":
+                PQCNotify.currentViewMove("rightedge")
+                break
+            case "__goToTopEdge":
+                PQCNotify.currentViewMove("topedge")
+                break
+            case "__goToBottomEdge":
+                PQCNotify.currentViewMove("bottomedge")
+                break
+            case "__detectBarCodes":
+                PQCNotify.currentImageDetectBarCodes()
+                break
+            case "__videoJumpForwards":
+                PQCNotify.currentVideoJump(5)
+                break
+            case "__videoJumpBackwards":
+                PQCNotify.currentVideoJump(-5)
+                break
 
             /**********************/
             // file actions
@@ -730,48 +711,46 @@ Item {
                     }
                 }
                 break
-            // case "__defaultFileManager":
-            //     if(PQCFileFolderModel.countMainView > 0)
-            //         PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
-            //     break
-            // case "__clipboard":
-            //     var src = PQCFileFolderModel.currentFile
-            //     if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isArchive(src) && !src.includes("::ARC::"))
-            //         src = "%1::ARC::%2".arg(PQCConstants.currentFileInsideName).arg(src)
-            //     if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isPDFDocument(src) && !src.includes("::PDF::"))
-            //         src = "%1::PDF::%2".arg(PQCConstants.currentFileInsideNum).arg(src)
-            //     PQCScriptsClipboard.copyFilesToClipboard([src])
-            //     break
-            // case "__print":
-            //     if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
-            //         PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
-            //     break
-            // case "__undoTrash":
-            //     var ret = PQCScriptsUndo.undoLastAction("trash")
-            //     if(ret === "")
-            //         PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
-            //     else if(ret.startsWith("-"))
-            //         PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Error"), ret.substring(1))
-            //     else
-            //         PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), ret)
-
-
-            //     break
+            case "__defaultFileManager":
+                if(PQCFileFolderModel.countMainView > 0)
+                    PQCScriptsFilesPaths.openInDefaultFileManager(PQCFileFolderModel.currentFile)
+                break
+            case "__clipboard":
+                var src = PQCFileFolderModel.currentFile
+                if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isArchive(src) && !src.includes("::ARC::"))
+                    src = "%1::ARC::%2".arg(PQCConstants.currentFileInsideName).arg(src)
+                if(PQCConstants.currentFileInsideTotal > 0 && PQCScriptsImages.isPDFDocument(src) && !src.includes("::PDF::"))
+                    src = "%1::PDF::%2".arg(PQCConstants.currentFileInsideNum).arg(src)
+                PQCScriptsClipboard.copyFilesToClipboard([src])
+                break
+            case "__print":
+                if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
+                    PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
+                break
+            case "__undoTrash":
+                var ret = PQCScriptsUndo.undoLastAction("trash")
+                if(ret === "")
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
+                else if(ret.startsWith("-"))
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Error"), ret.substring(1))
+                else
+                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), ret)
+                break
 
             /**********************/
             // other
 
-            // case "__resetSessionAndHide":
-            //     PQCNotify.resetSessionData()
-            //     PQCSettings.interfaceTrayIcon = 1
-            //     PQCNotify.windowClose()
-            //     break
-            // case "__resetSession":
-            //     PQCNotify.resetSessionData()
-            //     break
-            // case "__onlineHelp":
-            //     Qt.openUrlExternally("https://photoqt.org/support")
-            //     break
+            case "__resetSessionAndHide":
+                PQCNotify.resetSessionData()
+                PQCSettings.interfaceTrayIcon = 1
+                PQCNotify.windowClose()
+                break
+            case "__resetSession":
+                PQCNotify.resetSessionData()
+                break
+            case "__onlineHelp":
+                Qt.openUrlExternally("https://photoqt.org/support")
+                break
 
 
             // other

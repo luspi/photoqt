@@ -189,9 +189,9 @@ PQCPhotoSphere { // qmllint disable
 
     Connections {
 
-        target: image_top // qmllint disable unqualified
+        target: PQCNotify // qmllint disable unqualified
 
-        function onMoveView(direction : string) {
+        function onCurrentViewMove(direction : string) {
 
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
@@ -475,7 +475,7 @@ PQCPhotoSphere { // qmllint disable
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("facetagging", "Click to exit photo sphere")
                         onClicked: {
-                            image_top.exitPhotoSphere() // qmllint disable unqualified
+                            PQCNotify.exitPhotoSphere()
                         }
                         onEntered: srccomp.hovered = true
                         onExited: srccomp.hovered = false

@@ -223,6 +223,16 @@ Q_SIGNALS:
 
     // some image signals
     void currentImageFinishedLoading(QString src);
+    void enterPhotoSphere();
+    void exitPhotoSphere();
+    void currentViewFlick(QString direction);
+    void currentViewMove(QString direction);
+    void currentImageDetectBarCodes();
+    void currentArchiveCloseCombo();
+    void currentVideoJump(int s);
+    void currentAnimatedJump(int leftright);
+    void currentDocumentJump(int leftright);
+    void currentArchiveJump(int leftright);
 
     // context menu properties
     void closeAllContextMenus();
