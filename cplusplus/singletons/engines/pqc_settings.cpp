@@ -523,7 +523,7 @@ void PQCSettings::updateWithoutNotification(QString key, QVariant value) {
 }
 
 void PQCSettings::update(QString key, QVariant value) {
-    (*this)[key] = value;
+    this->insert(key, value);
 }
 
 void PQCSettings::checkValidSlot() {

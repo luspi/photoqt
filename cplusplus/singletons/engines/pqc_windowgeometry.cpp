@@ -146,7 +146,7 @@ void PQCWindowGeometry::load() {
     const int sw = QApplication::primaryScreen()->size().width();
     const int sh = QApplication::primaryScreen()->size().height();
 
-    for(const auto &e : allElements) {
+    for(const auto &e : std::as_const(allElements)) {
 
         const QVariantList cur = e.toList();
 
