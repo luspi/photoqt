@@ -78,6 +78,7 @@ Item {
 
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
+
             if(PQCExtensionsHandler.getIsModal(ele)) {
                 if(visibleItem != "")
                     return
@@ -85,6 +86,14 @@ Item {
                     visibleItem = ele
             }
             ensureExtensionIsReady(ele, ind)
+
+            showWhenReady.theloader = loader_extensions.itemAt(ind)
+            if(additional === undefined)
+                showWhenReady.args = [ele]
+            else
+                showWhenReady.args = [ele, additional]
+            showWhenReady.start()
+
         } else if(!(ele in loadermapping)) {
             console.log("Unknown element encountered:", ele)
             return
@@ -104,16 +113,31 @@ Item {
 
             ensureItIsReady(ele, config)
 
+            showWhenReady.theloader = config[2]
+            if(additional === undefined)
+                showWhenReady.args = [ele]
+            else
+                showWhenReady.args = [ele, additional]
+            showWhenReady.start()
+
         }
 
-        if(additional === undefined) {
-            console.warn(">>> show", ele)
-            PQCNotify.loaderPassOn("show", [ele])
-        } else {
-            console.warn(">>> show", ele, additional)
-            PQCNotify.loaderPassOn("show", [ele, additional])
-        }
+    }
 
+    Timer {
+        id: showWhenReady
+        property var theloader: Loader
+        property list<var> args: []
+        interval: 100
+        triggeredOnStart: true
+        onTriggered: {
+            if(!theloader.item) {
+                showWhenReady.start()
+                return
+            }
+            console.warn(">>> SHOW:", args)
+            PQCNotify.loaderPassOn("show", args)
+        }
     }
 
     function elementClosed(ele : string) {
@@ -157,13 +181,18 @@ Item {
         console.log("args: ele =", ele)
         console.log("args: ind =", ind)
 
+        var src
+
         var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
         if(PQCExtensionsHandler.getAllowPopout(ele) &&
                 (PQCSettings["extensions"+PQCExtensionsHandler.getPopoutSettingName(ele)] ||
                  minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight))
-            loader_extensions.itemAt(ind).source = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
+            src = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
         else
-            loader_extensions.itemAt(ind).source = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
+            src = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
+
+        if(src !== loader_extensions.itemAt(ind).source)
+            loader_extensions.itemAt(ind).source = src
 
         // modal elements need to be shown on top, above things like mainmenu or metadata
         // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
