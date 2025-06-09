@@ -34,9 +34,10 @@ PQTemplatePopout {
     title: qsTranslate("histogram", "Histogram") + " | PhotoQt"
 
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("histogram").width,PQCExtensionsHandler.getDefaultPopoutSize("histogram").height)
+    originalGeometry: PQCWindowGeometry.histogramGeometry
     isMax: false
-    popout: PQCSettings.extensionsHistogramPopout // qmllint disable unqualified
-    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    popout: PQCSettings.extensionsHistogramPopout
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/histogram/modern/PQHistogram.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram")
 
@@ -47,24 +48,25 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         if(PQCConstants.photoQtShuttingDown) return
-        PQCSettings.extensionsHistogramPopout = false // qmllint disable unqualified
+        PQCSettings.extensionsHistogramPopout = false
         close()
         PQCNotify.executeInternalCommand("__histogram")
     }
 
     onPopoutChanged: {
         if(PQCConstants.photoQtShuttingDown) return
-        if(popout !== PQCSettings.extensionsHistogramPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsHistogramPopout)
             PQCSettings.extensionsHistogramPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.histogramGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.histogramGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.histogramMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.histogramMaximized)
             PQCWindowGeometry.histogramMaximized = isMax
     }
 

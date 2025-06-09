@@ -30,11 +30,13 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "About") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.aboutGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.aboutMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutAbout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.aboutForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.aboutGeometry
+    originalGeometry: PQCWindowGeometry.aboutGeometry
+    isMax: PQCWindowGeometry.aboutMaximized
+    popout: PQCSettings.interfacePopoutAbout
+    sizepopout: PQCWindowGeometry.aboutForcePopout
     source: "actions/PQAbout.qml"
+
 
     minimumWidth: 800
     minimumHeight: 600
@@ -49,12 +51,13 @@ PQTemplatePopout {
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.aboutGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.aboutGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.aboutMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.aboutMaximized)
             PQCWindowGeometry.aboutMaximized = isMax
     }
 

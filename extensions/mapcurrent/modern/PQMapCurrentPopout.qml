@@ -34,9 +34,10 @@ PQTemplatePopout {
     title: qsTranslate("mapcurrent", "Current location") + " | PhotoQt"
 
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").width,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").height)
+    originalGeometry: PQCWindowGeometry.mapcurrentGeometry
     isMax: false
-    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
-    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    popout: PQCSettings.extensionsMapCurrentPopout
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/mapcurrent/modern/PQMapCurrent.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent")
 
@@ -47,24 +48,25 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         if(PQCConstants.photoQtShuttingDown) return
-        PQCSettings.extensionsMapCurrentPopout = false // qmllint disable unqualified
+        PQCSettings.extensionsMapCurrentPopout = false
         close()
         PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     onPopoutChanged: {
         if(PQCConstants.photoQtShuttingDown) return
-        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsMapCurrentPopout)
             PQCSettings.extensionsMapCurrentPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mapcurrentGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.mapcurrentGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mapcurrentMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.mapcurrentMaximized)
             PQCWindowGeometry.mapcurrentMaximized = isMax
     }
 

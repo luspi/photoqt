@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Rename file") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filerenameGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.filerenameMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutFileRename // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.filerenameForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.filerenameGeometry
+    originalGeometry: PQCWindowGeometry.filerenameGeometry
+    isMax: PQCWindowGeometry.filerenameMaximized
+    popout: PQCSettings.interfacePopoutFileRename
+    sizepopout: PQCWindowGeometry.filerenameForcePopout
     source: "actions/PQRename.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutFileRename) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutFileRename)
             PQCSettings.interfacePopoutFileRename = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filerenameGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.filerenameGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filerenameMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.filerenameMaximized)
             PQCWindowGeometry.filerenameMaximized = isMax
     }
 

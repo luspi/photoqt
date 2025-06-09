@@ -31,10 +31,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Metadata") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.metadataGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.metadataMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutMetadata // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.metadataForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.metadataGeometry
+    originalGeometry: PQCWindowGeometry.metadataGeometry
+    isMax: PQCWindowGeometry.metadataMaximized
+    popout: PQCSettings.interfacePopoutMetadata
+    sizepopout: PQCWindowGeometry.metadataForcePopout
     source: "ongoing/PQMetaData.qml"
 
     modality: Qt.NonModal
@@ -43,23 +44,24 @@ PQTemplatePopout {
     minimumHeight: 300
 
     onPopoutClosed: {
-        PQCSettings.interfacePopoutMetadata = false // qmllint disable unqualified
+        PQCSettings.interfacePopoutMetadata = false
         close()
         PQCNotify.executeInternalCommand("__showMetaData")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMetadata) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutMetadata)
             PQCSettings.interfacePopoutMetadata = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.metadataGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.metadataGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.metadataMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.metadataMaximized)
             PQCWindowGeometry.metadataMaximized = isMax
     }
 

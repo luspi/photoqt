@@ -29,10 +29,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("crop", "Crop image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.cropGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.cropMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.cropGeometry
+    originalGeometry: PQCWindowGeometry.cropGeometry
+    isMax: PQCWindowGeometry.cropMaximized
+    popout: PQCSettings.extensionsCropImagePopout
+    sizepopout: PQCWindowGeometry.cropForcePopout
     source: "../../extensions/cropimage/modern/PQCropImage.qml"
 
     minimumWidth: 800
@@ -43,17 +44,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsCropImagePopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsCropImagePopout)
             PQCSettings.extensionsCropImagePopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.cropGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.cropGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.cropMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.cropMaximized)
             PQCWindowGeometry.cropMaximized = isMax
     }
 

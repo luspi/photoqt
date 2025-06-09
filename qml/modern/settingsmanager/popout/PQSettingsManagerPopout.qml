@@ -30,24 +30,26 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("settingsmanager", "Settings Manager") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.settingsmanagerGeometry      // qmllint disable unqualified
-    isMax: PQCWindowGeometry.settingsmanagerMaximized        // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutSettingsManager       // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.settingsmanagerGeometry
+    originalGeometry: PQCWindowGeometry.settingsmanagerGeometry
+    isMax: PQCWindowGeometry.settingsmanagerMaximized
+    popout: PQCSettings.interfacePopoutSettingsManager
+    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
     source: "settingsmanager/PQSettingsManager.qml"
 
-    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
+    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     minimumWidth: 1000
     minimumHeight: 800
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.settingsmanagerGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.settingsmanagerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized)
             PQCWindowGeometry.settingsmanagerMaximized = isMax
     }
 

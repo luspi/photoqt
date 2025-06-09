@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("imgur", "Upload to imgur.com") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.imgurGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.imgurMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.imgurGeometry
+    originalGeometry: PQCWindowGeometry.imgurGeometry
+    isMax: PQCWindowGeometry.imgurMaximized
+    popout: PQCSettings.extensionsImgurComPopout
+    sizepopout: PQCWindowGeometry.imgurForcePopout
     source: "../../extensions/imgurcom/modern/PQImgurCom.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsImgurComPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsImgurComPopout)
             PQCSettings.extensionsImgurComPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.imgurGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.imgurGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.imgurMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.imgurMaximized)
             PQCWindowGeometry.imgurMaximized = isMax
     }
 

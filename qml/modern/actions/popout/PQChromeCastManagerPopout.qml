@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("streaming", "Streaming (Chromecast)") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.chromecastmanagerGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.chromecastmanagerMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutChromecast // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.chromecastmanagerForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.chromecastmanagerGeometry
+    originalGeometry: PQCWindowGeometry.chromecastmanagerGeometry
+    isMax: PQCWindowGeometry.chromecastmanagerMaximized
+    popout: PQCSettings.interfacePopoutChromecast
+    sizepopout: PQCWindowGeometry.chromecastmanagerForcePopout
     source: "actions/PQChromeCastManager.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutChromecast) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutChromecast)
             PQCSettings.interfacePopoutChromecast = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.chromecastmanagerGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.chromecastmanagerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.chromecastmanagerMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.chromecastmanagerMaximized)
             PQCWindowGeometry.chromecastmanagerMaximized = isMax
     }
 

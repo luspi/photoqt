@@ -33,10 +33,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Export image") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.exportGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.exportMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsExportImagePopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.exportGeometry
+    originalGeometry: PQCWindowGeometry.exportGeometry
+    isMax: PQCWindowGeometry.exportMaximized
+    popout: PQCSettings.extensionsExportImagePopout
+    sizepopout: PQCWindowGeometry.exportForcePopout
     source: "../../extensions/exportimage/modern/PQExportImage.qml"
 
     minimumWidth: 800
@@ -47,17 +48,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsExportImagePopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsExportImagePopout)
             PQCSettings.extensionsExportImagePopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.exportGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.exportGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.exportMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.exportMaximized)
             PQCWindowGeometry.exportMaximized = isMax
     }
 

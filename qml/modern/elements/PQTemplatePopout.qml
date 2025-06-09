@@ -36,6 +36,7 @@ Window {
     // THESE ARE REQUIRED
 
     property rect geometry  // tie to PQCWindowGeometry.xxxGeometry
+    property rect originalGeometry  // tie to PQCWindowGeometry.xxxGeometry
     property bool isMax     // tie to PQCWindowGeometry.xxxMaximized
     property bool popout    // tie to PQSettings.interfacePopoutXxx
     property bool sizepopout// tie to PQCWindowGeometry.xxxForcePopout

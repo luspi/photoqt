@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("slideshow", "Slideshow setup") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.slideshowsetupGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.slideshowsetupMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutSlideshowSetup // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.slideshowsetupForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.slideshowsetupGeometry
+    originalGeometry: PQCWindowGeometry.slideshowsetupGeometry
+    isMax: PQCWindowGeometry.slideshowsetupMaximized
+    popout: PQCSettings.interfacePopoutSlideshowSetup
+    sizepopout: PQCWindowGeometry.slideshowsetupForcePopout
     source: "actions/PQSlideshowSetup.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutSlideshowSetup) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutSlideshowSetup)
             PQCSettings.interfacePopoutSlideshowSetup = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.slideshowsetupGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.slideshowsetupGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.slideshowsetupMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.slideshowsetupMaximized)
             PQCWindowGeometry.slideshowsetupMaximized = isMax
     }
 

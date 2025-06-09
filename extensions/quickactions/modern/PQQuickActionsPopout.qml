@@ -35,8 +35,8 @@ PQTemplatePopout {
 
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").width,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").height)
     isMax: false
-    popout: PQCSettings.extensionsQuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall) // qmllint disable unqualified
-    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight // qmllint disable unqualified
+    popout: PQCSettings.extensionsQuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall)
+    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/quickactions/modern/PQQuickActions.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("quickactions")
 
@@ -46,14 +46,14 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettings.extensionsQuickActionsPopout = false // qmllint disable unqualified
+        PQCSettings.extensionsQuickActionsPopout = false
         close()
         if(!sizepopout || !PQCSettings.interfacePopoutWhenWindowIsSmall)
             PQCNotify.executeInternalCommand("__quickActions")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsQuickActionsPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsQuickActionsPopout)
             PQCSettings.extensionsQuickActionsPopout = popout
     }
 

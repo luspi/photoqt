@@ -31,29 +31,31 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "File Dialog") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filedialogGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.filedialogMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutFileDialog // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.filedialogForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.filedialogGeometry
+    originalGeometry: PQCWindowGeometry.filedialogGeometry
+    isMax: PQCWindowGeometry.filedialogMaximized
+    popout: PQCSettings.interfacePopoutFileDialog
+    sizepopout: PQCWindowGeometry.filedialogForcePopout
     source: "filedialog/PQFileDialog.qml"
 
-    modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
+    modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     minimumWidth: 400
     minimumHeight: 600
 
     onPopoutClosed: {
         PQCNotify.loaderRegisterClose("filedialog")
-        PQCNotify.loaderPassOn("forceClose", []) // qmllint disable unqualified
+        PQCNotify.loaderPassOn("forceClose", [])
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filedialogGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.filedialogGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filedialogMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.filedialogMaximized)
             PQCWindowGeometry.filedialogMaximized = isMax
     }
 

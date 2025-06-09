@@ -30,33 +30,35 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("actions", "Map Explorer") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.mapexplorerGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.mapexplorerMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutMapExplorer // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.mapexplorerForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.mapexplorerGeometry
+    originalGeometry: PQCWindowGeometry.mapexplorerGeometry
+    isMax: PQCWindowGeometry.mapexplorerMaximized
+    popout: PQCSettings.interfacePopoutMapExplorer
+    sizepopout: PQCWindowGeometry.mapexplorerForcePopout
     source: "actions/PQMapExplorer.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
-    modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal // qmllint disable unqualified
+    modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     onPopoutClosed: {
         PQCNotify.loaderRegisterClose("mapexplorer")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutMapExplorer) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutMapExplorer)
             PQCSettings.interfacePopoutMapExplorer = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.mapexplorerGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.mapexplorerGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.mapexplorerMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.mapexplorerMaximized)
             PQCWindowGeometry.mapexplorerMaximized = isMax
     }
 

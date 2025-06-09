@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("filemanagement", "Delete file?") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.filedeleteGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.filedeleteMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutFileDelete // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.filedeleteForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.filedeleteGeometry
+    originalGeometry: PQCWindowGeometry.filedeleteGeometry
+    isMax: PQCWindowGeometry.filedeleteMaximized
+    popout: PQCSettings.interfacePopoutFileDelete
+    sizepopout: PQCWindowGeometry.filedeleteForcePopout
     source: "actions/PQDelete.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutFileDelete) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutFileDelete)
             PQCSettings.interfacePopoutFileDelete = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.filedeleteGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.filedeleteGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filedeleteMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.filedeleteMaximized)
             PQCWindowGeometry.filedeleteMaximized = isMax
     }
 

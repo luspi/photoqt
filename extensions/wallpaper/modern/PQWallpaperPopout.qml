@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("wallpaper", "Wallpaper") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.wallpaperGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.wallpaperMaximized // qmllint disable unqualified
-    popout: PQCSettings.extensionsWallpaperPopout // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.wallpaperGeometry
+    originalGeometry: PQCWindowGeometry.wallpaperGeometry
+    isMax: PQCWindowGeometry.wallpaperMaximized
+    popout: PQCSettings.extensionsWallpaperPopout
+    sizepopout: PQCWindowGeometry.wallpaperForcePopout
     source: "../../extensions/wallpaper/modern/PQWallpaper.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsWallpaperPopout) // qmllint disable unqualified
+        if(popout !== PQCSettings.extensionsWallpaperPopout)
             PQCSettings.extensionsWallpaperPopout = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.wallpaperGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.wallpaperGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.wallpaperMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.wallpaperMaximized)
             PQCWindowGeometry.wallpaperMaximized = isMax
     }
 

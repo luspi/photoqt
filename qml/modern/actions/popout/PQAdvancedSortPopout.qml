@@ -30,10 +30,11 @@ PQTemplatePopout {
     //: Window title
     title: qsTranslate("advancedsort", "Advanced image sort") + " | PhotoQt"
 
-    geometry: PQCWindowGeometry.advancedsortGeometry // qmllint disable unqualified
-    isMax: PQCWindowGeometry.advancedsortMaximized // qmllint disable unqualified
-    popout: PQCSettings.interfacePopoutAdvancedSort // qmllint disable unqualified
-    sizepopout: PQCWindowGeometry.advancedsortForcePopout // qmllint disable unqualified
+    geometry: PQCWindowGeometry.advancedsortGeometry
+    originalGeometry: PQCWindowGeometry.advancedsortGeometry
+    isMax: PQCWindowGeometry.advancedsortMaximized
+    popout: PQCSettings.interfacePopoutAdvancedSort
+    sizepopout: PQCWindowGeometry.advancedsortForcePopout
     source: "actions/PQAdvancedSort.qml"
 
     minimumWidth: 800
@@ -44,17 +45,18 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutAdvancedSort) // qmllint disable unqualified
+        if(popout !== PQCSettings.interfacePopoutAdvancedSort)
             PQCSettings.interfacePopoutAdvancedSort = popout
     }
 
     onGeometryChanged: {
-        if(geometry !== PQCWindowGeometry.advancedsortGeometry) // qmllint disable unqualified
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
             PQCWindowGeometry.advancedsortGeometry = geometry
     }
 
     onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.advancedsortMaximized) // qmllint disable unqualified
+        if(isMax !== PQCWindowGeometry.advancedsortMaximized)
             PQCWindowGeometry.advancedsortMaximized = isMax
     }
 
