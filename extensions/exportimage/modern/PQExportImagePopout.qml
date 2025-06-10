@@ -36,7 +36,7 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.exportGeometry
     originalGeometry: PQCWindowGeometry.exportGeometry
     isMax: PQCWindowGeometry.exportMaximized
-    popout: PQCSettings.extensionsExportImagePopout
+    popout: PQCSettingsExtensions.ExportImagePopout
     sizepopout: PQCWindowGeometry.exportForcePopout
     source: "../../extensions/exportimage/modern/PQExportImage.qml"
 
@@ -48,8 +48,8 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsExportImagePopout)
-            PQCSettings.extensionsExportImagePopout = popout
+        if(popout !== PQCSettingsExtensions.ExportImagePopout)
+            PQCSettingsExtensions.ExportImagePopout = popout
     }
 
     onGeometryChanged: {

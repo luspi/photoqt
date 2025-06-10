@@ -20,41 +20,50 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick
-import PQCExtensionsHandler
-import org.photoqt.qml
+#ifndef PQCUSERSETTINGDB_H
+#define PQCUSERSETTINGDB_H
 
-import "../../../qml/modern/elements"
+#include <QObject>
+#include <QtSql/QSqlDatabase>
 
-PQTemplatePopout {
+class QTimer;
 
-    id: quickactions_popout
+class PQCSettingsDB : public QObject {
 
-    //: Window title
-    title: qsTranslate("quickactions", "Quick Actions") + " | PhotoQt"
+    Q_OBJECT
 
-    geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").width,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").height)
-    isMax: false
-    popout: PQCSettingsExtensions.QuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall)
-    sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
-    source: "../../extensions/quickactions/modern/PQQuickActions.qml"
-    property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("quickactions")
-
-    modality: Qt.NonModal
-
-    minimumWidth: 100
-    minimumHeight: 100
-
-    onPopoutClosed: {
-        PQCSettingsExtensions.QuickActionsPopout = false
-        close()
-        if(!sizepopout || !PQCSettings.interfacePopoutWhenWindowIsSmall)
-            PQCNotify.executeInternalCommand("__quickActions")
+public:
+    static PQCSettingsDB& get() {
+        static PQCSettingsDB instance;
+        return instance;
     }
+    ~PQCSettingsDB();
 
-    onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.QuickActionsPopout)
-            PQCSettingsExtensions.QuickActionsPopout = popout
-    }
+    PQCSettingsDB(PQCSettingsDB const&)     = delete;
+    void operator=(PQCSettingsDB const&) = delete;
 
-}
+    QSqlDatabase *getDefaultDB();
+    QSqlDatabase *getUserDB();
+    bool getReadonly();
+    bool getDbInTransactionState();
+
+    void startTransactions();
+    void startTransactionsTimer();
+    void pauseTransactionsTimer();
+    void commitTransactions();
+
+private:
+    PQCSettingsDB();
+
+    QSqlDatabase db;
+    QSqlDatabase dbDefault;
+
+    bool dbInTransactionState;
+
+    bool readonly;
+
+    QTimer *dbCommitTimer;
+
+};
+
+#endif

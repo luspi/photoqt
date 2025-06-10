@@ -39,7 +39,7 @@
 
 #include <scripts/pqc_scriptsother.h>
 
-PQCSettings::PQCSettings(QObject *parent) : QObject(parent) {
+PQCSettings::PQCSettings() {
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))

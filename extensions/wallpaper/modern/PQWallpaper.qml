@@ -33,14 +33,14 @@ PQTemplateFullscreen {
     id: wallpaper_top
 
     thisis: "wallpaper"
-    popout: PQCSettings.extensionsWallpaperPopout // qmllint disable unqualified
+    popout: PQCSettingsExtensions.WallpaperPopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.wallpaperForcePopout // qmllint disable unqualified
     shortcut: "__wallpaper"
 
     title: qsTranslate("wallpaper", "Wallpaper")
 
     onPopoutChanged:
-        PQCSettings.extensionsWallpaperPopout = popout // qmllint disable unqualified
+        PQCSettingsExtensions.WallpaperPopout = popout // qmllint disable unqualified
 
     button1.text: qsTranslate("wallpaper", "Set as Wallpaper")
 

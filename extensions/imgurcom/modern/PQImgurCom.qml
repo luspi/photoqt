@@ -34,7 +34,7 @@ PQTemplateFullscreen {
     id: imgur_top
 
     thisis: "imgurcom"
-    popout: PQCSettings.extensionsImgurComPopout // qmllint disable unqualified
+    popout: PQCSettingsExtensions.ImgurComPopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
     shortcut: "__imgurAnonym"
     title: (accountname=="" ?

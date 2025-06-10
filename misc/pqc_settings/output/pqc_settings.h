@@ -44,7 +44,7 @@ class PQCSettings : public QObject {
     QML_SINGLETON
 
 public:
-    explicit PQCSettings(QObject *parent);
+    explicit PQCSettings();
     ~PQCSettings();
 
     /**************************************/

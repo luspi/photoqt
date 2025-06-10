@@ -58,10 +58,10 @@ PQTemplateFloating {
         id: storeSize
         interval: 200
         onTriggered: {
-            PQCSettings.extensionsMapCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
-            PQCSettings.extensionsMapCurrentPosition.y = mapcurrent_top.y
-            PQCSettings.extensionsMapCurrentSize.width = mapcurrent_top.width
-            PQCSettings.extensionsMapCurrentSize.height = mapcurrent_top.height
+            PQCSettingsExtensions.MapCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
+            PQCSettingsExtensions.MapCurrentPosition.y = mapcurrent_top.y
+            PQCSettingsExtensions.MapCurrentSize.width = mapcurrent_top.width
+            PQCSettingsExtensions.MapCurrentSize.height = mapcurrent_top.height
         }
     }
 
@@ -80,11 +80,11 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: mapcurrent_top }
 
-    popout: PQCSettings.extensionsMapCurrentPopout // qmllint disable unqualified
+    popout: PQCSettingsExtensions.MapCurrentPopout // qmllint disable unqualified
     forcePopout: PQCConstants.windowWidth  < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").width ||
                  PQCConstants.windowHeight < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").height
     shortcut: "__showMapCurrent"
-    tooltip: PQCSettings.extensionsMapCurrentPopout||forcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
+    tooltip: PQCSettingsExtensions.MapCurrentPopout||forcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
     blur_thisis: "mapcurrent"
 
     allowWheel: true
@@ -96,8 +96,8 @@ PQTemplateFloating {
     property real longitude: 8.40444
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsMapCurrentPopout) // qmllint disable unqualified
-            PQCSettings.extensionsMapCurrentPopout = popout
+        if(popout !== PQCSettingsExtensions.MapCurrentPopout) // qmllint disable unqualified
+            PQCSettingsExtensions.MapCurrentPopout = popout
     }
 
     Plugin {
@@ -263,10 +263,10 @@ PQTemplateFloating {
 
     Component.onCompleted: {
 
-        x = PQCSettings.extensionsMapCurrentPosition.x // qmllint disable unqualified
-        y = PQCSettings.extensionsMapCurrentPosition.y
-        width = PQCSettings.extensionsMapCurrentSize.width
-        height = PQCSettings.extensionsMapCurrentSize.height
+        x = PQCSettingsExtensions.MapCurrentPosition.x // qmllint disable unqualified
+        y = PQCSettingsExtensions.MapCurrentPosition.y
+        width = PQCSettingsExtensions.MapCurrentSize.width
+        height = PQCSettingsExtensions.MapCurrentSize.height
 
         mapcurrent_top.state = ((popout || forcePopout) ? "popout" : "")
 
@@ -329,7 +329,7 @@ PQTemplateFloating {
 
     function show() {
         opacity = 1
-        PQCSettings.extensionsMapCurrent = true // qmllint disable unqualified
+        PQCSettingsExtensions.MapCurrent = true // qmllint disable unqualified
         if(popoutWindowUsed)
             mapcurrent_popout.visible = true
     }
@@ -338,7 +338,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             mapcurrent_popout.visible = false // qmllint disable unqualified
-        PQCSettings.extensionsMapCurrent = false
+        PQCSettingsExtensions.MapCurrent = false
     }
 
 }

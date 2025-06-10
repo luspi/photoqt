@@ -33,7 +33,7 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.scaleGeometry
     originalGeometry: PQCWindowGeometry.scaleGeometry
     isMax: PQCWindowGeometry.scaleMaximized
-    popout: PQCSettings.extensionsScaleImagePopout
+    popout: PQCSettingsExtensions.ScaleImagePopout
     sizepopout: PQCWindowGeometry.scaleForcePopout
     source: "../../extensions/scaleimage/modern/PQScaleImage.qml"
 
@@ -45,8 +45,8 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsScaleImagePopout)
-            PQCSettings.extensionsScaleImagePopout = popout
+        if(popout !== PQCSettingsExtensions.ScaleImagePopout)
+            PQCSettingsExtensions.ScaleImagePopout = popout
     }
 
     onGeometryChanged: {

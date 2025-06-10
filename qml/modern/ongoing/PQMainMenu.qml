@@ -590,14 +590,14 @@ Rectangle {
 
                 PQMainMenuEntry {
                     img: "histogram.svg"
-                    txt: PQCSettings.extensionsHistogram ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
+                    txt: PQCSettingsExtensions.Histogram ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") // qmllint disable unqualified
                     cmd: "__histogram"
                     menuColWidth: mainmenu_top.colwidth
                 }
 
                 PQMainMenuEntry {
                     img: "mapmarker.svg"
-                    txt: PQCSettings.extensionsMapCurrent ?
+                    txt: PQCSettingsExtensions.MapCurrent ?
                              //: The location here is the GPS location
                              qsTranslate("MainMenu", "Hide current location") : // qmllint disable unqualified
                              //: The location here is the GPS location

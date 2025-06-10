@@ -32,7 +32,7 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.cropGeometry
     originalGeometry: PQCWindowGeometry.cropGeometry
     isMax: PQCWindowGeometry.cropMaximized
-    popout: PQCSettings.extensionsCropImagePopout
+    popout: PQCSettingsExtensions.CropImagePopout
     sizepopout: PQCWindowGeometry.cropForcePopout
     source: "../../extensions/cropimage/modern/PQCropImage.qml"
 
@@ -44,8 +44,8 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsCropImagePopout)
-            PQCSettings.extensionsCropImagePopout = popout
+        if(popout !== PQCSettingsExtensions.CropImagePopout)
+            PQCSettingsExtensions.CropImagePopout = popout
     }
 
     onGeometryChanged: {

@@ -36,7 +36,7 @@ PQTemplatePopout {
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").width,PQCExtensionsHandler.getDefaultPopoutSize("mapcurrent").height)
     originalGeometry: PQCWindowGeometry.mapcurrentGeometry
     isMax: false
-    popout: PQCSettings.extensionsMapCurrentPopout
+    popout: PQCSettingsExtensions.MapCurrentPopout
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/mapcurrent/modern/PQMapCurrent.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent")
@@ -48,15 +48,15 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         if(PQCConstants.photoQtShuttingDown) return
-        PQCSettings.extensionsMapCurrentPopout = false
+        PQCSettingsExtensions.MapCurrentPopout = false
         close()
         PQCNotify.executeInternalCommand("__showMapCurrent")
     }
 
     onPopoutChanged: {
         if(PQCConstants.photoQtShuttingDown) return
-        if(popout !== PQCSettings.extensionsMapCurrentPopout)
-            PQCSettings.extensionsMapCurrentPopout = popout
+        if(popout !== PQCSettingsExtensions.MapCurrentPopout)
+            PQCSettingsExtensions.MapCurrentPopout = popout
     }
 
     onGeometryChanged: {

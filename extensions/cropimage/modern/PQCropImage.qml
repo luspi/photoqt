@@ -35,7 +35,7 @@ PQTemplateFullscreen {
     id: crop_top
 
     thisis: "cropimage"
-    popout: PQCSettings.extensionsCropImagePopout // qmllint disable unqualified
+    popout: PQCSettingsExtensions.CropImagePopout // qmllint disable unqualified
     forcePopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
     shortcut: "__crop"
 
@@ -47,7 +47,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.extensionsCropImagePopout = popout // qmllint disable unqualified
+        PQCSettingsExtensions.CropImagePopout = popout // qmllint disable unqualified
 
     button1.onClicked: {
         cropImage()

@@ -33,7 +33,7 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.imgurGeometry
     originalGeometry: PQCWindowGeometry.imgurGeometry
     isMax: PQCWindowGeometry.imgurMaximized
-    popout: PQCSettings.extensionsImgurComPopout
+    popout: PQCSettingsExtensions.ImgurComPopout
     sizepopout: PQCWindowGeometry.imgurForcePopout
     source: "../../extensions/imgurcom/modern/PQImgurCom.qml"
 
@@ -45,8 +45,8 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.extensionsImgurComPopout)
-            PQCSettings.extensionsImgurComPopout = popout
+        if(popout !== PQCSettingsExtensions.ImgurComPopout)
+            PQCSettingsExtensions.ImgurComPopout = popout
     }
 
     onGeometryChanged: {

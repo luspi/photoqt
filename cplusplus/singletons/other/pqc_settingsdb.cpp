@@ -1,0 +1,159 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+#include <pqc_settingsdb.h>
+#include <pqc_configfiles.h>
+
+#include <QSqlError>
+#include <QCoreApplication>
+#include <QFile>
+#include <QMessageBox>
+#include <QTimer>
+
+PQCSettingsDB::PQCSettingsDB() {
+
+    // create and connect to default database
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+    if(!dbDefault.open()) {
+        qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().DEFAULTSETTINGS_DB());
+        QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
+                              QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+        return;
+    }
+
+    // connect to user database
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+    readonly = false;
+
+    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+
+    if(!infodb.exists() || !db.open()) {
+
+        qWarning() << "ERROR opening database:" << db.lastError().text();
+        qWarning() << "Will load read-only database of default settings";
+
+        readonly = true;
+        db.setConnectOptions("QSQLITE_OPEN_READONLY");
+
+        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/usersettings.db";
+
+        if(QFile::exists(tmppath))
+            QFile::remove(tmppath);
+
+        if(!QFile::copy(":/usersettings.db", tmppath)) {
+            qCritical() << "ERROR copying read-only default database!";
+            //: This is the window title of an error message box
+            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR getting database with default settings"),
+                                  QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open even a read-only version of the settings database.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+            return;
+        }
+
+        QFile f(tmppath);
+        f.setPermissions(f.permissions()|QFileDevice::WriteOwner);
+
+        db.setDatabaseName(tmppath);
+
+        if(!db.open()) {
+            qCritical() << "ERROR opening read-only default database!";
+            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
+                                  QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+            return;
+        }
+
+    } else {
+
+        readonly = false;
+        if(!infodb.permission(QFileDevice::WriteOwner))
+            readonly = true;
+
+    }
+
+    dbInTransactionState = false;
+
+    dbCommitTimer = new QTimer();
+    dbCommitTimer->setSingleShot(true);
+    dbCommitTimer->setInterval(400);
+    connect(dbCommitTimer, &QTimer::timeout, this, &PQCSettingsDB::commitTransactions);
+
+}
+
+PQCSettingsDB::~PQCSettingsDB() {
+    db.close();
+    dbDefault.close();
+}
+
+void PQCSettingsDB::startTransactions() {
+    qDebug() << "";
+    if(dbInTransactionState) return;
+    db.transaction();
+}
+
+void PQCSettingsDB::startTransactionsTimer() {
+    qDebug() << "";
+    dbCommitTimer->start();
+}
+
+void PQCSettingsDB::pauseTransactionsTimer() {
+    qDebug() << "";
+    dbCommitTimer->stop();
+}
+
+void PQCSettingsDB::commitTransactions() {
+    qDebug() << "";
+    if(!dbInTransactionState) return;
+    dbCommitTimer->stop();
+    dbInTransactionState = false;
+    db.commit();
+    if(db.lastError().text().trimmed().length())
+        qWarning() << "ERROR committing database:" << db.lastError().text();
+}
+
+bool PQCSettingsDB::getReadonly() {
+    qDebug() << "";
+    return readonly;
+}
+
+bool PQCSettingsDB::getDbInTransactionState() {
+    qDebug() << "";
+    return dbInTransactionState;
+}
+
+QSqlDatabase *PQCSettingsDB::getUserDB() {
+    qDebug() << "";
+    return &db;
+}
+
+QSqlDatabase *PQCSettingsDB::getDefaultDB() {
+    qDebug() << "";
+    return &dbDefault;
+}

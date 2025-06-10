@@ -38,7 +38,7 @@ Item {
     property int parentWidth: PQCConstants.windowWidth
     property int parentHeight: PQCConstants.windowHeight
 
-    opacity: (!PQCSettings.extensionsFloatingNavigation || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
+    opacity: (!PQCSettingsExtensions.FloatingNavigation || PQCNotify.slideshowRunning) ? 0 : (mouseOver ? opacityMouseOver : opacityBackground) // qmllint disable unqualified
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: (opacity > 0)
     enabled: visible
@@ -206,7 +206,7 @@ Item {
             console.log("args: args =", args)
 
             if(what === "show" && args[0] === "floatingnavigation") {
-                PQCSettings.extensionsFloatingNavigation = !PQCSettings.extensionsFloatingNavigation
+                PQCSettingsExtensions.FloatingNavigation = !PQCSettingsExtensions.FloatingNavigation
             }
         }
     }

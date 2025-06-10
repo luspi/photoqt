@@ -37,11 +37,11 @@ PQSetting {
     }
 
     function load() {
-        floatingnav.loadAndSetDefault(PQCSettings.extensionsFloatingNavigation)
+        floatingnav.loadAndSetDefault(PQCSettingsExtensions.FloatingNavigation)
     }
 
     function applyChanges() {
-        PQCSettings.extensionsFloatingNavigation = floatingnav.checked
+        PQCSettingsExtensions.FloatingNavigation = floatingnav.checked
         floatingnav.saveDefault()
     }
 
