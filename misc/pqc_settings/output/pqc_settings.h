@@ -35,16 +35,16 @@
 
 #include <QObject>
 #include <QtSql>
-#include <QtQmlIntegration>
+#include <QQmlPropertyMap>
 
-class PQCSettings : public QObject {
+class PQCSettings : public QQmlPropertyMap {
 
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
 
 public:
-    explicit PQCSettings(QObject *parent);
+    explicit PQCSettings();
     ~PQCSettings();
 
     /**************************************/
