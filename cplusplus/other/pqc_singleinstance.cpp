@@ -29,6 +29,8 @@
 #include <QQmlApplicationEngine>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QSqlError>
+#include <QSqlQuery>
 
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>

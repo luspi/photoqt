@@ -75,13 +75,14 @@ def get():
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
 #include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
 #include <pqc_extensionshandler.h>
 
 #include <scripts/pqc_scriptsother.h>
 
-PQCSettings::PQCSettings(QObject *parent) : QObject(parent) {
+PQCSettings::PQCSettings() {
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -190,7 +191,7 @@ PQCSettings::PQCSettings(QObject *parent) : QObject(parent) {
     for tab in dbtables:
 
         c = conn.cursor()
-        c.execute(f"SELECT `name` FROM {tab} ORDER BY `name`")
+        c.execute(f"SELECT `name`,`datatype` FROM {tab} ORDER BY `name`")
         data = c.fetchall()
 
         cont_SOURCE += f"""
@@ -198,9 +199,24 @@ PQCSettings::PQCSettings(QObject *parent) : QObject(parent) {
         for row in data:
 
             name = row[0]
+            datatype = row[1]
+
+            qtdatatpe = "QString"
+            if datatype == "bool":
+                qtdatatpe = "bool"
+            elif datatype == "int":
+                qtdatatpe = "int"
+            elif datatype == "double":
+                qtdatatpe = "double"
+            elif datatype == "list":
+                qtdatatpe = "QStringList"
+            elif datatype == "point":
+                qtdatatpe = "QPoint"
+            elif datatype == "size":
+                qtdatatpe = "QSize"
 
             cont_SOURCE += f"""
-    connect(this &PQCSettings::{tab}{name}Changed, this, [=]() {{ saveChangedValue(\"{tab}{name}\", val); }});"""
+    connect(this, &PQCSettings::{tab}{name}Changed, this, [=]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
 
 
 
@@ -208,10 +224,16 @@ PQCSettings::PQCSettings(QObject *parent) : QObject(parent) {
 
     /******************************************************/
 
-    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
+    // TODO!!
+    // connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
     connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
+    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
+
+PQCSettings::~PQCSettings() {{
+    delete dbCommitTimer;
+}}
 """
 
     return cont_SOURCE;

@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <pqc_look.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
@@ -46,51 +46,58 @@ PQCLook::PQCLook() : QObject() {
                   QCoreApplication::translate("settingsmanager", "light blue"),
                   QCoreApplication::translate("settingsmanager", "light orange")};
 
-    calculateColors(PQCSettings::get()["interfaceAccentColor"].toString());
+    calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
 
     calculateFontSizes(11);
 
-    m_fontWeightNormal = std::min(900, std::max(100, PQCSettings::get()["interfaceFontNormalWeight"].toInt()));
-    m_fontWeightBold = std::min(900, std::max(100, PQCSettings::get()["interfaceFontBoldWeight"].toInt()));
+    m_fontWeightNormal = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontNormalWeight()));
+    m_fontWeightBold = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontBoldWeight()));
 
-    connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, [=](const QString &key, const QVariant &value) {
-        if(key == "interfaceAccentColor") {
-            const QString val = value.toString();
-            calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
 
-            Q_EMIT iconShadeChanged();
+        const QString val = PQCSettingsCPP::get().getInterfaceAccentColor();
+        calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
 
-            Q_EMIT baseColorChanged();
-            Q_EMIT baseColorAccentChanged();
-            Q_EMIT baseColorHighlightChanged();
-            Q_EMIT baseColorActiveChanged();
+        Q_EMIT iconShadeChanged();
 
-            Q_EMIT inverseColorChanged();
-            Q_EMIT inverseColorAccentChanged();
-            Q_EMIT inverseColorHighlightChanged();
-            Q_EMIT inverseColorActiveChanged();
+        Q_EMIT baseColorChanged();
+        Q_EMIT baseColorAccentChanged();
+        Q_EMIT baseColorHighlightChanged();
+        Q_EMIT baseColorActiveChanged();
 
-            Q_EMIT faintColorChanged();
-            Q_EMIT transColorChanged();
-            Q_EMIT transColorAccentChanged();
-            Q_EMIT transColorHighlightChanged();
-            Q_EMIT transColorActiveChanged();
+        Q_EMIT inverseColorChanged();
+        Q_EMIT inverseColorAccentChanged();
+        Q_EMIT inverseColorHighlightChanged();
+        Q_EMIT inverseColorActiveChanged();
 
-            Q_EMIT transInverseColorChanged();
+        Q_EMIT faintColorChanged();
+        Q_EMIT transColorChanged();
+        Q_EMIT transColorAccentChanged();
+        Q_EMIT transColorHighlightChanged();
+        Q_EMIT transColorActiveChanged();
 
-            Q_EMIT textColorChanged();
-            Q_EMIT textColorDisabledChanged();
+        Q_EMIT transInverseColorChanged();
 
-            Q_EMIT textInverseColorChanged();
-            Q_EMIT textInverseColorHighlightChanged();
-            Q_EMIT textInverseColorActiveChanged();
-        } else if(key == "interfaceFontBoldWeight") {
-            m_fontWeightBold = value.toInt();
-            Q_EMIT fontWeightBoldChanged();
-        } else if(key == "interfaceFontNormalWeight") {
-            m_fontWeightNormal = value.toInt();
-            Q_EMIT fontWeightNormalChanged();
-        }
+        Q_EMIT textColorChanged();
+        Q_EMIT textColorDisabledChanged();
+
+        Q_EMIT textInverseColorChanged();
+        Q_EMIT textInverseColorHighlightChanged();
+        Q_EMIT textInverseColorActiveChanged();
+
+    });
+
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontBoldWeightChanged, this, [=]() {
+
+        m_fontWeightBold = PQCSettingsCPP::get().getInterfaceFontBoldWeight();
+        Q_EMIT fontWeightBoldChanged();
+
+    });
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontNormalWeightChanged, this, [=]() {
+
+        m_fontWeightNormal = PQCSettingsCPP::get().getInterfaceFontNormalWeight();
+        Q_EMIT fontWeightNormalChanged();
+
     });
 
 }

@@ -24,7 +24,7 @@
 #define PQCCONSTANTS_H
 
 #include <scripts/pqc_scriptsimages.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_filefoldermodel.h>
 
@@ -103,7 +103,7 @@ public:
         m_statusInfoMovedDown = false;
 
         m_devicePixelRatio = 1.0;
-        if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+        if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio())
             m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
 
         m_touchGestureActive = false;
@@ -113,7 +113,7 @@ public:
         m_updateDevicePixelRatio->setSingleShot(false);
         connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
             m_devicePixelRatio = 1.0;
-            if(PQCSettings::get()["imageviewRespectDevicePixelRatio"].toBool())
+            if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio())
                 m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
         });
         m_updateDevicePixelRatio->start();

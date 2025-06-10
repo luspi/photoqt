@@ -34,7 +34,7 @@
 #define PQCSETTINGS_H
 
 #include <QObject>
-#include <QtSql>
+#include <QSqlDatabase>
 #include <QtQmlIntegration>
 
 class PQCSettings : public QObject {
@@ -44,7 +44,7 @@ class PQCSettings : public QObject {
     QML_SINGLETON
 
 public:
-    explicit PQCSettings(QObject *parent);
+    explicit PQCSettings();
     ~PQCSettings();
 
     /**************************************/
@@ -52,157 +52,188 @@ public:
 
     Q_PROPERTY(bool filedialogDetailsTooltip READ getFiledialogDetailsTooltip WRITE setFiledialogDetailsTooltip NOTIFY filedialogDetailsTooltipChanged)
     bool getFiledialogDetailsTooltip();
-    void setFiledialogDetailsTooltip();
+    void setFiledialogDetailsTooltip(bool val);
+    bool getDefaultForFiledialogDetailsTooltip();
     void setDefaultForFiledialogDetailsTooltip();
 
     Q_PROPERTY(bool filedialogDevices READ getFiledialogDevices WRITE setFiledialogDevices NOTIFY filedialogDevicesChanged)
     bool getFiledialogDevices();
-    void setFiledialogDevices();
+    void setFiledialogDevices(bool val);
+    bool getDefaultForFiledialogDevices();
     void setDefaultForFiledialogDevices();
 
     Q_PROPERTY(bool filedialogDevicesShowTmpfs READ getFiledialogDevicesShowTmpfs WRITE setFiledialogDevicesShowTmpfs NOTIFY filedialogDevicesShowTmpfsChanged)
     bool getFiledialogDevicesShowTmpfs();
-    void setFiledialogDevicesShowTmpfs();
+    void setFiledialogDevicesShowTmpfs(bool val);
+    bool getDefaultForFiledialogDevicesShowTmpfs();
     void setDefaultForFiledialogDevicesShowTmpfs();
 
     Q_PROPERTY(bool filedialogDragDropFileviewGrid READ getFiledialogDragDropFileviewGrid WRITE setFiledialogDragDropFileviewGrid NOTIFY filedialogDragDropFileviewGridChanged)
     bool getFiledialogDragDropFileviewGrid();
-    void setFiledialogDragDropFileviewGrid();
+    void setFiledialogDragDropFileviewGrid(bool val);
+    bool getDefaultForFiledialogDragDropFileviewGrid();
     void setDefaultForFiledialogDragDropFileviewGrid();
 
     Q_PROPERTY(bool filedialogDragDropFileviewList READ getFiledialogDragDropFileviewList WRITE setFiledialogDragDropFileviewList NOTIFY filedialogDragDropFileviewListChanged)
     bool getFiledialogDragDropFileviewList();
-    void setFiledialogDragDropFileviewList();
+    void setFiledialogDragDropFileviewList(bool val);
+    bool getDefaultForFiledialogDragDropFileviewList();
     void setDefaultForFiledialogDragDropFileviewList();
 
     Q_PROPERTY(bool filedialogDragDropFileviewMasonry READ getFiledialogDragDropFileviewMasonry WRITE setFiledialogDragDropFileviewMasonry NOTIFY filedialogDragDropFileviewMasonryChanged)
     bool getFiledialogDragDropFileviewMasonry();
-    void setFiledialogDragDropFileviewMasonry();
+    void setFiledialogDragDropFileviewMasonry(bool val);
+    bool getDefaultForFiledialogDragDropFileviewMasonry();
     void setDefaultForFiledialogDragDropFileviewMasonry();
 
     Q_PROPERTY(bool filedialogDragDropPlaces READ getFiledialogDragDropPlaces WRITE setFiledialogDragDropPlaces NOTIFY filedialogDragDropPlacesChanged)
     bool getFiledialogDragDropPlaces();
-    void setFiledialogDragDropPlaces();
+    void setFiledialogDragDropPlaces(bool val);
+    bool getDefaultForFiledialogDragDropPlaces();
     void setDefaultForFiledialogDragDropPlaces();
 
     Q_PROPERTY(int filedialogElementPadding READ getFiledialogElementPadding WRITE setFiledialogElementPadding NOTIFY filedialogElementPaddingChanged)
     int getFiledialogElementPadding();
-    void setFiledialogElementPadding();
+    void setFiledialogElementPadding(int val);
+    int getDefaultForFiledialogElementPadding();
     void setDefaultForFiledialogElementPadding();
 
     Q_PROPERTY(bool filedialogFolderContentThumbnails READ getFiledialogFolderContentThumbnails WRITE setFiledialogFolderContentThumbnails NOTIFY filedialogFolderContentThumbnailsChanged)
     bool getFiledialogFolderContentThumbnails();
-    void setFiledialogFolderContentThumbnails();
+    void setFiledialogFolderContentThumbnails(bool val);
+    bool getDefaultForFiledialogFolderContentThumbnails();
     void setDefaultForFiledialogFolderContentThumbnails();
 
     Q_PROPERTY(bool filedialogFolderContentThumbnailsAutoload READ getFiledialogFolderContentThumbnailsAutoload WRITE setFiledialogFolderContentThumbnailsAutoload NOTIFY filedialogFolderContentThumbnailsAutoloadChanged)
     bool getFiledialogFolderContentThumbnailsAutoload();
-    void setFiledialogFolderContentThumbnailsAutoload();
+    void setFiledialogFolderContentThumbnailsAutoload(bool val);
+    bool getDefaultForFiledialogFolderContentThumbnailsAutoload();
     void setDefaultForFiledialogFolderContentThumbnailsAutoload();
 
     Q_PROPERTY(bool filedialogFolderContentThumbnailsLoop READ getFiledialogFolderContentThumbnailsLoop WRITE setFiledialogFolderContentThumbnailsLoop NOTIFY filedialogFolderContentThumbnailsLoopChanged)
     bool getFiledialogFolderContentThumbnailsLoop();
-    void setFiledialogFolderContentThumbnailsLoop();
+    void setFiledialogFolderContentThumbnailsLoop(bool val);
+    bool getDefaultForFiledialogFolderContentThumbnailsLoop();
     void setDefaultForFiledialogFolderContentThumbnailsLoop();
 
     Q_PROPERTY(bool filedialogFolderContentThumbnailsScaleCrop READ getFiledialogFolderContentThumbnailsScaleCrop WRITE setFiledialogFolderContentThumbnailsScaleCrop NOTIFY filedialogFolderContentThumbnailsScaleCropChanged)
     bool getFiledialogFolderContentThumbnailsScaleCrop();
-    void setFiledialogFolderContentThumbnailsScaleCrop();
+    void setFiledialogFolderContentThumbnailsScaleCrop(bool val);
+    bool getDefaultForFiledialogFolderContentThumbnailsScaleCrop();
     void setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
 
     Q_PROPERTY(int filedialogFolderContentThumbnailsSpeed READ getFiledialogFolderContentThumbnailsSpeed WRITE setFiledialogFolderContentThumbnailsSpeed NOTIFY filedialogFolderContentThumbnailsSpeedChanged)
     int getFiledialogFolderContentThumbnailsSpeed();
-    void setFiledialogFolderContentThumbnailsSpeed();
+    void setFiledialogFolderContentThumbnailsSpeed(int val);
+    int getDefaultForFiledialogFolderContentThumbnailsSpeed();
     void setDefaultForFiledialogFolderContentThumbnailsSpeed();
 
     Q_PROPERTY(bool filedialogKeepLastLocation READ getFiledialogKeepLastLocation WRITE setFiledialogKeepLastLocation NOTIFY filedialogKeepLastLocationChanged)
     bool getFiledialogKeepLastLocation();
-    void setFiledialogKeepLastLocation();
+    void setFiledialogKeepLastLocation(bool val);
+    bool getDefaultForFiledialogKeepLastLocation();
     void setDefaultForFiledialogKeepLastLocation();
 
     Q_PROPERTY(bool filedialogLabelsShowGrid READ getFiledialogLabelsShowGrid WRITE setFiledialogLabelsShowGrid NOTIFY filedialogLabelsShowGridChanged)
     bool getFiledialogLabelsShowGrid();
-    void setFiledialogLabelsShowGrid();
+    void setFiledialogLabelsShowGrid(bool val);
+    bool getDefaultForFiledialogLabelsShowGrid();
     void setDefaultForFiledialogLabelsShowGrid();
 
     Q_PROPERTY(bool filedialogLabelsShowMasonry READ getFiledialogLabelsShowMasonry WRITE setFiledialogLabelsShowMasonry NOTIFY filedialogLabelsShowMasonryChanged)
     bool getFiledialogLabelsShowMasonry();
-    void setFiledialogLabelsShowMasonry();
+    void setFiledialogLabelsShowMasonry(bool val);
+    bool getDefaultForFiledialogLabelsShowMasonry();
     void setDefaultForFiledialogLabelsShowMasonry();
 
     Q_PROPERTY(QString filedialogLayout READ getFiledialogLayout WRITE setFiledialogLayout NOTIFY filedialogLayoutChanged)
     QString getFiledialogLayout();
-    void setFiledialogLayout();
+    void setFiledialogLayout(QString val);
+    QString getDefaultForFiledialogLayout();
     void setDefaultForFiledialogLayout();
 
     Q_PROPERTY(bool filedialogPlaces READ getFiledialogPlaces WRITE setFiledialogPlaces NOTIFY filedialogPlacesChanged)
     bool getFiledialogPlaces();
-    void setFiledialogPlaces();
+    void setFiledialogPlaces(bool val);
+    bool getDefaultForFiledialogPlaces();
     void setDefaultForFiledialogPlaces();
 
     Q_PROPERTY(int filedialogPlacesWidth READ getFiledialogPlacesWidth WRITE setFiledialogPlacesWidth NOTIFY filedialogPlacesWidthChanged)
     int getFiledialogPlacesWidth();
-    void setFiledialogPlacesWidth();
+    void setFiledialogPlacesWidth(int val);
+    int getDefaultForFiledialogPlacesWidth();
     void setDefaultForFiledialogPlacesWidth();
 
     Q_PROPERTY(bool filedialogPreview READ getFiledialogPreview WRITE setFiledialogPreview NOTIFY filedialogPreviewChanged)
     bool getFiledialogPreview();
-    void setFiledialogPreview();
+    void setFiledialogPreview(bool val);
+    bool getDefaultForFiledialogPreview();
     void setDefaultForFiledialogPreview();
 
     Q_PROPERTY(bool filedialogPreviewBlur READ getFiledialogPreviewBlur WRITE setFiledialogPreviewBlur NOTIFY filedialogPreviewBlurChanged)
     bool getFiledialogPreviewBlur();
-    void setFiledialogPreviewBlur();
+    void setFiledialogPreviewBlur(bool val);
+    bool getDefaultForFiledialogPreviewBlur();
     void setDefaultForFiledialogPreviewBlur();
 
     Q_PROPERTY(int filedialogPreviewColorIntensity READ getFiledialogPreviewColorIntensity WRITE setFiledialogPreviewColorIntensity NOTIFY filedialogPreviewColorIntensityChanged)
     int getFiledialogPreviewColorIntensity();
-    void setFiledialogPreviewColorIntensity();
+    void setFiledialogPreviewColorIntensity(int val);
+    int getDefaultForFiledialogPreviewColorIntensity();
     void setDefaultForFiledialogPreviewColorIntensity();
 
     Q_PROPERTY(bool filedialogPreviewCropToFit READ getFiledialogPreviewCropToFit WRITE setFiledialogPreviewCropToFit NOTIFY filedialogPreviewCropToFitChanged)
     bool getFiledialogPreviewCropToFit();
-    void setFiledialogPreviewCropToFit();
+    void setFiledialogPreviewCropToFit(bool val);
+    bool getDefaultForFiledialogPreviewCropToFit();
     void setDefaultForFiledialogPreviewCropToFit();
 
     Q_PROPERTY(bool filedialogPreviewHigherResolution READ getFiledialogPreviewHigherResolution WRITE setFiledialogPreviewHigherResolution NOTIFY filedialogPreviewHigherResolutionChanged)
     bool getFiledialogPreviewHigherResolution();
-    void setFiledialogPreviewHigherResolution();
+    void setFiledialogPreviewHigherResolution(bool val);
+    bool getDefaultForFiledialogPreviewHigherResolution();
     void setDefaultForFiledialogPreviewHigherResolution();
 
     Q_PROPERTY(bool filedialogPreviewMuted READ getFiledialogPreviewMuted WRITE setFiledialogPreviewMuted NOTIFY filedialogPreviewMutedChanged)
     bool getFiledialogPreviewMuted();
-    void setFiledialogPreviewMuted();
+    void setFiledialogPreviewMuted(bool val);
+    bool getDefaultForFiledialogPreviewMuted();
     void setDefaultForFiledialogPreviewMuted();
 
     Q_PROPERTY(bool filedialogRememberSelection READ getFiledialogRememberSelection WRITE setFiledialogRememberSelection NOTIFY filedialogRememberSelectionChanged)
     bool getFiledialogRememberSelection();
-    void setFiledialogRememberSelection();
+    void setFiledialogRememberSelection(bool val);
+    bool getDefaultForFiledialogRememberSelection();
     void setDefaultForFiledialogRememberSelection();
 
     Q_PROPERTY(bool filedialogShowHiddenFilesFolders READ getFiledialogShowHiddenFilesFolders WRITE setFiledialogShowHiddenFilesFolders NOTIFY filedialogShowHiddenFilesFoldersChanged)
     bool getFiledialogShowHiddenFilesFolders();
-    void setFiledialogShowHiddenFilesFolders();
+    void setFiledialogShowHiddenFilesFolders(bool val);
+    bool getDefaultForFiledialogShowHiddenFilesFolders();
     void setDefaultForFiledialogShowHiddenFilesFolders();
 
     Q_PROPERTY(bool filedialogSingleClickSelect READ getFiledialogSingleClickSelect WRITE setFiledialogSingleClickSelect NOTIFY filedialogSingleClickSelectChanged)
     bool getFiledialogSingleClickSelect();
-    void setFiledialogSingleClickSelect();
+    void setFiledialogSingleClickSelect(bool val);
+    bool getDefaultForFiledialogSingleClickSelect();
     void setDefaultForFiledialogSingleClickSelect();
 
     Q_PROPERTY(bool filedialogThumbnails READ getFiledialogThumbnails WRITE setFiledialogThumbnails NOTIFY filedialogThumbnailsChanged)
     bool getFiledialogThumbnails();
-    void setFiledialogThumbnails();
+    void setFiledialogThumbnails(bool val);
+    bool getDefaultForFiledialogThumbnails();
     void setDefaultForFiledialogThumbnails();
 
     Q_PROPERTY(bool filedialogThumbnailsScaleCrop READ getFiledialogThumbnailsScaleCrop WRITE setFiledialogThumbnailsScaleCrop NOTIFY filedialogThumbnailsScaleCropChanged)
     bool getFiledialogThumbnailsScaleCrop();
-    void setFiledialogThumbnailsScaleCrop();
+    void setFiledialogThumbnailsScaleCrop(bool val);
+    bool getDefaultForFiledialogThumbnailsScaleCrop();
     void setDefaultForFiledialogThumbnailsScaleCrop();
 
     Q_PROPERTY(int filedialogZoom READ getFiledialogZoom WRITE setFiledialogZoom NOTIFY filedialogZoomChanged)
     int getFiledialogZoom();
-    void setFiledialogZoom();
+    void setFiledialogZoom(int val);
+    int getDefaultForFiledialogZoom();
     void setDefaultForFiledialogZoom();
 
     /**************************************/
@@ -210,137 +241,164 @@ public:
 
     Q_PROPERTY(bool filetypesAnimatedControls READ getFiletypesAnimatedControls WRITE setFiletypesAnimatedControls NOTIFY filetypesAnimatedControlsChanged)
     bool getFiletypesAnimatedControls();
-    void setFiletypesAnimatedControls();
+    void setFiletypesAnimatedControls(bool val);
+    bool getDefaultForFiletypesAnimatedControls();
     void setDefaultForFiletypesAnimatedControls();
 
     Q_PROPERTY(bool filetypesAnimatedLeftRight READ getFiletypesAnimatedLeftRight WRITE setFiletypesAnimatedLeftRight NOTIFY filetypesAnimatedLeftRightChanged)
     bool getFiletypesAnimatedLeftRight();
-    void setFiletypesAnimatedLeftRight();
+    void setFiletypesAnimatedLeftRight(bool val);
+    bool getDefaultForFiletypesAnimatedLeftRight();
     void setDefaultForFiletypesAnimatedLeftRight();
 
     Q_PROPERTY(bool filetypesAnimatedSpacePause READ getFiletypesAnimatedSpacePause WRITE setFiletypesAnimatedSpacePause NOTIFY filetypesAnimatedSpacePauseChanged)
     bool getFiletypesAnimatedSpacePause();
-    void setFiletypesAnimatedSpacePause();
+    void setFiletypesAnimatedSpacePause(bool val);
+    bool getDefaultForFiletypesAnimatedSpacePause();
     void setDefaultForFiletypesAnimatedSpacePause();
 
     Q_PROPERTY(bool filetypesArchiveControls READ getFiletypesArchiveControls WRITE setFiletypesArchiveControls NOTIFY filetypesArchiveControlsChanged)
     bool getFiletypesArchiveControls();
-    void setFiletypesArchiveControls();
+    void setFiletypesArchiveControls(bool val);
+    bool getDefaultForFiletypesArchiveControls();
     void setDefaultForFiletypesArchiveControls();
 
     Q_PROPERTY(bool filetypesArchiveLeftRight READ getFiletypesArchiveLeftRight WRITE setFiletypesArchiveLeftRight NOTIFY filetypesArchiveLeftRightChanged)
     bool getFiletypesArchiveLeftRight();
-    void setFiletypesArchiveLeftRight();
+    void setFiletypesArchiveLeftRight(bool val);
+    bool getDefaultForFiletypesArchiveLeftRight();
     void setDefaultForFiletypesArchiveLeftRight();
 
     Q_PROPERTY(bool filetypesDocumentControls READ getFiletypesDocumentControls WRITE setFiletypesDocumentControls NOTIFY filetypesDocumentControlsChanged)
     bool getFiletypesDocumentControls();
-    void setFiletypesDocumentControls();
+    void setFiletypesDocumentControls(bool val);
+    bool getDefaultForFiletypesDocumentControls();
     void setDefaultForFiletypesDocumentControls();
 
     Q_PROPERTY(bool filetypesDocumentLeftRight READ getFiletypesDocumentLeftRight WRITE setFiletypesDocumentLeftRight NOTIFY filetypesDocumentLeftRightChanged)
     bool getFiletypesDocumentLeftRight();
-    void setFiletypesDocumentLeftRight();
+    void setFiletypesDocumentLeftRight(bool val);
+    bool getDefaultForFiletypesDocumentLeftRight();
     void setDefaultForFiletypesDocumentLeftRight();
 
     Q_PROPERTY(bool filetypesExternalUnrar READ getFiletypesExternalUnrar WRITE setFiletypesExternalUnrar NOTIFY filetypesExternalUnrarChanged)
     bool getFiletypesExternalUnrar();
-    void setFiletypesExternalUnrar();
+    void setFiletypesExternalUnrar(bool val);
+    bool getDefaultForFiletypesExternalUnrar();
     void setDefaultForFiletypesExternalUnrar();
 
     Q_PROPERTY(bool filetypesLoadAppleLivePhotos READ getFiletypesLoadAppleLivePhotos WRITE setFiletypesLoadAppleLivePhotos NOTIFY filetypesLoadAppleLivePhotosChanged)
     bool getFiletypesLoadAppleLivePhotos();
-    void setFiletypesLoadAppleLivePhotos();
+    void setFiletypesLoadAppleLivePhotos(bool val);
+    bool getDefaultForFiletypesLoadAppleLivePhotos();
     void setDefaultForFiletypesLoadAppleLivePhotos();
 
     Q_PROPERTY(bool filetypesLoadMotionPhotos READ getFiletypesLoadMotionPhotos WRITE setFiletypesLoadMotionPhotos NOTIFY filetypesLoadMotionPhotosChanged)
     bool getFiletypesLoadMotionPhotos();
-    void setFiletypesLoadMotionPhotos();
+    void setFiletypesLoadMotionPhotos(bool val);
+    bool getDefaultForFiletypesLoadMotionPhotos();
     void setDefaultForFiletypesLoadMotionPhotos();
 
     Q_PROPERTY(bool filetypesMotionAutoPlay READ getFiletypesMotionAutoPlay WRITE setFiletypesMotionAutoPlay NOTIFY filetypesMotionAutoPlayChanged)
     bool getFiletypesMotionAutoPlay();
-    void setFiletypesMotionAutoPlay();
+    void setFiletypesMotionAutoPlay(bool val);
+    bool getDefaultForFiletypesMotionAutoPlay();
     void setDefaultForFiletypesMotionAutoPlay();
 
     Q_PROPERTY(bool filetypesMotionPhotoPlayPause READ getFiletypesMotionPhotoPlayPause WRITE setFiletypesMotionPhotoPlayPause NOTIFY filetypesMotionPhotoPlayPauseChanged)
     bool getFiletypesMotionPhotoPlayPause();
-    void setFiletypesMotionPhotoPlayPause();
+    void setFiletypesMotionPhotoPlayPause(bool val);
+    bool getDefaultForFiletypesMotionPhotoPlayPause();
     void setDefaultForFiletypesMotionPhotoPlayPause();
 
     Q_PROPERTY(bool filetypesMotionSpacePause READ getFiletypesMotionSpacePause WRITE setFiletypesMotionSpacePause NOTIFY filetypesMotionSpacePauseChanged)
     bool getFiletypesMotionSpacePause();
-    void setFiletypesMotionSpacePause();
+    void setFiletypesMotionSpacePause(bool val);
+    bool getDefaultForFiletypesMotionSpacePause();
     void setDefaultForFiletypesMotionSpacePause();
 
     Q_PROPERTY(int filetypesPDFQuality READ getFiletypesPDFQuality WRITE setFiletypesPDFQuality NOTIFY filetypesPDFQualityChanged)
     int getFiletypesPDFQuality();
-    void setFiletypesPDFQuality();
+    void setFiletypesPDFQuality(int val);
+    int getDefaultForFiletypesPDFQuality();
     void setDefaultForFiletypesPDFQuality();
 
     Q_PROPERTY(bool filetypesPhotoSphereArrowKeys READ getFiletypesPhotoSphereArrowKeys WRITE setFiletypesPhotoSphereArrowKeys NOTIFY filetypesPhotoSphereArrowKeysChanged)
     bool getFiletypesPhotoSphereArrowKeys();
-    void setFiletypesPhotoSphereArrowKeys();
+    void setFiletypesPhotoSphereArrowKeys(bool val);
+    bool getDefaultForFiletypesPhotoSphereArrowKeys();
     void setDefaultForFiletypesPhotoSphereArrowKeys();
 
     Q_PROPERTY(bool filetypesPhotoSphereAutoLoad READ getFiletypesPhotoSphereAutoLoad WRITE setFiletypesPhotoSphereAutoLoad NOTIFY filetypesPhotoSphereAutoLoadChanged)
     bool getFiletypesPhotoSphereAutoLoad();
-    void setFiletypesPhotoSphereAutoLoad();
+    void setFiletypesPhotoSphereAutoLoad(bool val);
+    bool getDefaultForFiletypesPhotoSphereAutoLoad();
     void setDefaultForFiletypesPhotoSphereAutoLoad();
 
     Q_PROPERTY(bool filetypesPhotoSphereBigButton READ getFiletypesPhotoSphereBigButton WRITE setFiletypesPhotoSphereBigButton NOTIFY filetypesPhotoSphereBigButtonChanged)
     bool getFiletypesPhotoSphereBigButton();
-    void setFiletypesPhotoSphereBigButton();
+    void setFiletypesPhotoSphereBigButton(bool val);
+    bool getDefaultForFiletypesPhotoSphereBigButton();
     void setDefaultForFiletypesPhotoSphereBigButton();
 
     Q_PROPERTY(bool filetypesPhotoSphereControls READ getFiletypesPhotoSphereControls WRITE setFiletypesPhotoSphereControls NOTIFY filetypesPhotoSphereControlsChanged)
     bool getFiletypesPhotoSphereControls();
-    void setFiletypesPhotoSphereControls();
+    void setFiletypesPhotoSphereControls(bool val);
+    bool getDefaultForFiletypesPhotoSphereControls();
     void setDefaultForFiletypesPhotoSphereControls();
 
     Q_PROPERTY(bool filetypesPhotoSpherePanOnLoad READ getFiletypesPhotoSpherePanOnLoad WRITE setFiletypesPhotoSpherePanOnLoad NOTIFY filetypesPhotoSpherePanOnLoadChanged)
     bool getFiletypesPhotoSpherePanOnLoad();
-    void setFiletypesPhotoSpherePanOnLoad();
+    void setFiletypesPhotoSpherePanOnLoad(bool val);
+    bool getDefaultForFiletypesPhotoSpherePanOnLoad();
     void setDefaultForFiletypesPhotoSpherePanOnLoad();
 
     Q_PROPERTY(bool filetypesRAWUseEmbeddedIfAvailable READ getFiletypesRAWUseEmbeddedIfAvailable WRITE setFiletypesRAWUseEmbeddedIfAvailable NOTIFY filetypesRAWUseEmbeddedIfAvailableChanged)
     bool getFiletypesRAWUseEmbeddedIfAvailable();
-    void setFiletypesRAWUseEmbeddedIfAvailable();
+    void setFiletypesRAWUseEmbeddedIfAvailable(bool val);
+    bool getDefaultForFiletypesRAWUseEmbeddedIfAvailable();
     void setDefaultForFiletypesRAWUseEmbeddedIfAvailable();
 
     Q_PROPERTY(bool filetypesVideoAutoplay READ getFiletypesVideoAutoplay WRITE setFiletypesVideoAutoplay NOTIFY filetypesVideoAutoplayChanged)
     bool getFiletypesVideoAutoplay();
-    void setFiletypesVideoAutoplay();
+    void setFiletypesVideoAutoplay(bool val);
+    bool getDefaultForFiletypesVideoAutoplay();
     void setDefaultForFiletypesVideoAutoplay();
 
     Q_PROPERTY(bool filetypesVideoLeftRightJumpVideo READ getFiletypesVideoLeftRightJumpVideo WRITE setFiletypesVideoLeftRightJumpVideo NOTIFY filetypesVideoLeftRightJumpVideoChanged)
     bool getFiletypesVideoLeftRightJumpVideo();
-    void setFiletypesVideoLeftRightJumpVideo();
+    void setFiletypesVideoLeftRightJumpVideo(bool val);
+    bool getDefaultForFiletypesVideoLeftRightJumpVideo();
     void setDefaultForFiletypesVideoLeftRightJumpVideo();
 
     Q_PROPERTY(bool filetypesVideoLoop READ getFiletypesVideoLoop WRITE setFiletypesVideoLoop NOTIFY filetypesVideoLoopChanged)
     bool getFiletypesVideoLoop();
-    void setFiletypesVideoLoop();
+    void setFiletypesVideoLoop(bool val);
+    bool getDefaultForFiletypesVideoLoop();
     void setDefaultForFiletypesVideoLoop();
 
     Q_PROPERTY(bool filetypesVideoPreferLibmpv READ getFiletypesVideoPreferLibmpv WRITE setFiletypesVideoPreferLibmpv NOTIFY filetypesVideoPreferLibmpvChanged)
     bool getFiletypesVideoPreferLibmpv();
-    void setFiletypesVideoPreferLibmpv();
+    void setFiletypesVideoPreferLibmpv(bool val);
+    bool getDefaultForFiletypesVideoPreferLibmpv();
     void setDefaultForFiletypesVideoPreferLibmpv();
 
     Q_PROPERTY(bool filetypesVideoSpacePause READ getFiletypesVideoSpacePause WRITE setFiletypesVideoSpacePause NOTIFY filetypesVideoSpacePauseChanged)
     bool getFiletypesVideoSpacePause();
-    void setFiletypesVideoSpacePause();
+    void setFiletypesVideoSpacePause(bool val);
+    bool getDefaultForFiletypesVideoSpacePause();
     void setDefaultForFiletypesVideoSpacePause();
 
     Q_PROPERTY(QString filetypesVideoThumbnailer READ getFiletypesVideoThumbnailer WRITE setFiletypesVideoThumbnailer NOTIFY filetypesVideoThumbnailerChanged)
     QString getFiletypesVideoThumbnailer();
-    void setFiletypesVideoThumbnailer();
+    void setFiletypesVideoThumbnailer(QString val);
+    QString getDefaultForFiletypesVideoThumbnailer();
     void setDefaultForFiletypesVideoThumbnailer();
 
     Q_PROPERTY(int filetypesVideoVolume READ getFiletypesVideoVolume WRITE setFiletypesVideoVolume NOTIFY filetypesVideoVolumeChanged)
     int getFiletypesVideoVolume();
-    void setFiletypesVideoVolume();
+    void setFiletypesVideoVolume(int val);
+    int getDefaultForFiletypesVideoVolume();
     void setDefaultForFiletypesVideoVolume();
 
     /**************************************/
@@ -348,17 +406,20 @@ public:
 
     Q_PROPERTY(bool generalAutoSaveSettings READ getGeneralAutoSaveSettings WRITE setGeneralAutoSaveSettings NOTIFY generalAutoSaveSettingsChanged)
     bool getGeneralAutoSaveSettings();
-    void setGeneralAutoSaveSettings();
+    void setGeneralAutoSaveSettings(bool val);
+    bool getDefaultForGeneralAutoSaveSettings();
     void setDefaultForGeneralAutoSaveSettings();
 
     Q_PROPERTY(bool generalCompactSettings READ getGeneralCompactSettings WRITE setGeneralCompactSettings NOTIFY generalCompactSettingsChanged)
     bool getGeneralCompactSettings();
-    void setGeneralCompactSettings();
+    void setGeneralCompactSettings(bool val);
+    bool getDefaultForGeneralCompactSettings();
     void setDefaultForGeneralCompactSettings();
 
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
-    void setGeneralVersion();
+    void setGeneralVersion(QString val);
+    QString getDefaultForGeneralVersion();
     void setDefaultForGeneralVersion();
 
     /**************************************/
@@ -366,232 +427,278 @@ public:
 
     Q_PROPERTY(bool imageviewAdvancedSortAscending READ getImageviewAdvancedSortAscending WRITE setImageviewAdvancedSortAscending NOTIFY imageviewAdvancedSortAscendingChanged)
     bool getImageviewAdvancedSortAscending();
-    void setImageviewAdvancedSortAscending();
+    void setImageviewAdvancedSortAscending(bool val);
+    bool getDefaultForImageviewAdvancedSortAscending();
     void setDefaultForImageviewAdvancedSortAscending();
 
     Q_PROPERTY(QString imageviewAdvancedSortCriteria READ getImageviewAdvancedSortCriteria WRITE setImageviewAdvancedSortCriteria NOTIFY imageviewAdvancedSortCriteriaChanged)
     QString getImageviewAdvancedSortCriteria();
-    void setImageviewAdvancedSortCriteria();
+    void setImageviewAdvancedSortCriteria(QString val);
+    QString getDefaultForImageviewAdvancedSortCriteria();
     void setDefaultForImageviewAdvancedSortCriteria();
 
     Q_PROPERTY(QStringList imageviewAdvancedSortDateCriteria READ getImageviewAdvancedSortDateCriteria WRITE setImageviewAdvancedSortDateCriteria NOTIFY imageviewAdvancedSortDateCriteriaChanged)
     QStringList getImageviewAdvancedSortDateCriteria();
-    void setImageviewAdvancedSortDateCriteria();
+    void setImageviewAdvancedSortDateCriteria(QStringList val);
+    QStringList getDefaultForImageviewAdvancedSortDateCriteria();
     void setDefaultForImageviewAdvancedSortDateCriteria();
 
     Q_PROPERTY(QString imageviewAdvancedSortQuality READ getImageviewAdvancedSortQuality WRITE setImageviewAdvancedSortQuality NOTIFY imageviewAdvancedSortQualityChanged)
     QString getImageviewAdvancedSortQuality();
-    void setImageviewAdvancedSortQuality();
+    void setImageviewAdvancedSortQuality(QString val);
+    QString getDefaultForImageviewAdvancedSortQuality();
     void setDefaultForImageviewAdvancedSortQuality();
 
     Q_PROPERTY(bool imageviewAlwaysActualSize READ getImageviewAlwaysActualSize WRITE setImageviewAlwaysActualSize NOTIFY imageviewAlwaysActualSizeChanged)
     bool getImageviewAlwaysActualSize();
-    void setImageviewAlwaysActualSize();
+    void setImageviewAlwaysActualSize(bool val);
+    bool getDefaultForImageviewAlwaysActualSize();
     void setDefaultForImageviewAlwaysActualSize();
 
     Q_PROPERTY(int imageviewAnimationDuration READ getImageviewAnimationDuration WRITE setImageviewAnimationDuration NOTIFY imageviewAnimationDurationChanged)
     int getImageviewAnimationDuration();
-    void setImageviewAnimationDuration();
+    void setImageviewAnimationDuration(int val);
+    int getDefaultForImageviewAnimationDuration();
     void setDefaultForImageviewAnimationDuration();
 
     Q_PROPERTY(QString imageviewAnimationType READ getImageviewAnimationType WRITE setImageviewAnimationType NOTIFY imageviewAnimationTypeChanged)
     QString getImageviewAnimationType();
-    void setImageviewAnimationType();
+    void setImageviewAnimationType(QString val);
+    QString getDefaultForImageviewAnimationType();
     void setDefaultForImageviewAnimationType();
 
     Q_PROPERTY(int imageviewCache READ getImageviewCache WRITE setImageviewCache NOTIFY imageviewCacheChanged)
     int getImageviewCache();
-    void setImageviewCache();
+    void setImageviewCache(int val);
+    int getDefaultForImageviewCache();
     void setDefaultForImageviewCache();
 
     Q_PROPERTY(QStringList imageviewColorSpaceContextMenu READ getImageviewColorSpaceContextMenu WRITE setImageviewColorSpaceContextMenu NOTIFY imageviewColorSpaceContextMenuChanged)
     QStringList getImageviewColorSpaceContextMenu();
-    void setImageviewColorSpaceContextMenu();
+    void setImageviewColorSpaceContextMenu(QStringList val);
+    QStringList getDefaultForImageviewColorSpaceContextMenu();
     void setDefaultForImageviewColorSpaceContextMenu();
 
     Q_PROPERTY(QString imageviewColorSpaceDefault READ getImageviewColorSpaceDefault WRITE setImageviewColorSpaceDefault NOTIFY imageviewColorSpaceDefaultChanged)
     QString getImageviewColorSpaceDefault();
-    void setImageviewColorSpaceDefault();
+    void setImageviewColorSpaceDefault(QString val);
+    QString getDefaultForImageviewColorSpaceDefault();
     void setDefaultForImageviewColorSpaceDefault();
 
     Q_PROPERTY(bool imageviewColorSpaceEnable READ getImageviewColorSpaceEnable WRITE setImageviewColorSpaceEnable NOTIFY imageviewColorSpaceEnableChanged)
     bool getImageviewColorSpaceEnable();
-    void setImageviewColorSpaceEnable();
+    void setImageviewColorSpaceEnable(bool val);
+    bool getDefaultForImageviewColorSpaceEnable();
     void setDefaultForImageviewColorSpaceEnable();
 
     Q_PROPERTY(bool imageviewColorSpaceLoadEmbedded READ getImageviewColorSpaceLoadEmbedded WRITE setImageviewColorSpaceLoadEmbedded NOTIFY imageviewColorSpaceLoadEmbeddedChanged)
     bool getImageviewColorSpaceLoadEmbedded();
-    void setImageviewColorSpaceLoadEmbedded();
+    void setImageviewColorSpaceLoadEmbedded(bool val);
+    bool getDefaultForImageviewColorSpaceLoadEmbedded();
     void setDefaultForImageviewColorSpaceLoadEmbedded();
 
     Q_PROPERTY(bool imageviewEscapeExitArchive READ getImageviewEscapeExitArchive WRITE setImageviewEscapeExitArchive NOTIFY imageviewEscapeExitArchiveChanged)
     bool getImageviewEscapeExitArchive();
-    void setImageviewEscapeExitArchive();
+    void setImageviewEscapeExitArchive(bool val);
+    bool getDefaultForImageviewEscapeExitArchive();
     void setDefaultForImageviewEscapeExitArchive();
 
     Q_PROPERTY(bool imageviewEscapeExitBarcodes READ getImageviewEscapeExitBarcodes WRITE setImageviewEscapeExitBarcodes NOTIFY imageviewEscapeExitBarcodesChanged)
     bool getImageviewEscapeExitBarcodes();
-    void setImageviewEscapeExitBarcodes();
+    void setImageviewEscapeExitBarcodes(bool val);
+    bool getDefaultForImageviewEscapeExitBarcodes();
     void setDefaultForImageviewEscapeExitBarcodes();
 
     Q_PROPERTY(bool imageviewEscapeExitDocument READ getImageviewEscapeExitDocument WRITE setImageviewEscapeExitDocument NOTIFY imageviewEscapeExitDocumentChanged)
     bool getImageviewEscapeExitDocument();
-    void setImageviewEscapeExitDocument();
+    void setImageviewEscapeExitDocument(bool val);
+    bool getDefaultForImageviewEscapeExitDocument();
     void setDefaultForImageviewEscapeExitDocument();
 
     Q_PROPERTY(bool imageviewEscapeExitFilter READ getImageviewEscapeExitFilter WRITE setImageviewEscapeExitFilter NOTIFY imageviewEscapeExitFilterChanged)
     bool getImageviewEscapeExitFilter();
-    void setImageviewEscapeExitFilter();
+    void setImageviewEscapeExitFilter(bool val);
+    bool getDefaultForImageviewEscapeExitFilter();
     void setDefaultForImageviewEscapeExitFilter();
 
     Q_PROPERTY(bool imageviewEscapeExitSphere READ getImageviewEscapeExitSphere WRITE setImageviewEscapeExitSphere NOTIFY imageviewEscapeExitSphereChanged)
     bool getImageviewEscapeExitSphere();
-    void setImageviewEscapeExitSphere();
+    void setImageviewEscapeExitSphere(bool val);
+    bool getDefaultForImageviewEscapeExitSphere();
     void setDefaultForImageviewEscapeExitSphere();
 
     Q_PROPERTY(bool imageviewFitInWindow READ getImageviewFitInWindow WRITE setImageviewFitInWindow NOTIFY imageviewFitInWindowChanged)
     bool getImageviewFitInWindow();
-    void setImageviewFitInWindow();
+    void setImageviewFitInWindow(bool val);
+    bool getDefaultForImageviewFitInWindow();
     void setDefaultForImageviewFitInWindow();
 
     Q_PROPERTY(int imageviewHideCursorTimeout READ getImageviewHideCursorTimeout WRITE setImageviewHideCursorTimeout NOTIFY imageviewHideCursorTimeoutChanged)
     int getImageviewHideCursorTimeout();
-    void setImageviewHideCursorTimeout();
+    void setImageviewHideCursorTimeout(int val);
+    int getDefaultForImageviewHideCursorTimeout();
     void setDefaultForImageviewHideCursorTimeout();
 
     Q_PROPERTY(bool imageviewInterpolationDisableForSmallImages READ getImageviewInterpolationDisableForSmallImages WRITE setImageviewInterpolationDisableForSmallImages NOTIFY imageviewInterpolationDisableForSmallImagesChanged)
     bool getImageviewInterpolationDisableForSmallImages();
-    void setImageviewInterpolationDisableForSmallImages();
+    void setImageviewInterpolationDisableForSmallImages(bool val);
+    bool getDefaultForImageviewInterpolationDisableForSmallImages();
     void setDefaultForImageviewInterpolationDisableForSmallImages();
 
     Q_PROPERTY(int imageviewInterpolationThreshold READ getImageviewInterpolationThreshold WRITE setImageviewInterpolationThreshold NOTIFY imageviewInterpolationThresholdChanged)
     int getImageviewInterpolationThreshold();
-    void setImageviewInterpolationThreshold();
+    void setImageviewInterpolationThreshold(int val);
+    int getDefaultForImageviewInterpolationThreshold();
     void setDefaultForImageviewInterpolationThreshold();
 
     Q_PROPERTY(bool imageviewLoopThroughFolder READ getImageviewLoopThroughFolder WRITE setImageviewLoopThroughFolder NOTIFY imageviewLoopThroughFolderChanged)
     bool getImageviewLoopThroughFolder();
-    void setImageviewLoopThroughFolder();
+    void setImageviewLoopThroughFolder(bool val);
+    bool getDefaultForImageviewLoopThroughFolder();
     void setDefaultForImageviewLoopThroughFolder();
 
     Q_PROPERTY(int imageviewMargin READ getImageviewMargin WRITE setImageviewMargin NOTIFY imageviewMarginChanged)
     int getImageviewMargin();
-    void setImageviewMargin();
+    void setImageviewMargin(int val);
+    int getDefaultForImageviewMargin();
     void setDefaultForImageviewMargin();
 
     Q_PROPERTY(int imageviewMinimapSizeLevel READ getImageviewMinimapSizeLevel WRITE setImageviewMinimapSizeLevel NOTIFY imageviewMinimapSizeLevelChanged)
     int getImageviewMinimapSizeLevel();
-    void setImageviewMinimapSizeLevel();
+    void setImageviewMinimapSizeLevel(int val);
+    int getDefaultForImageviewMinimapSizeLevel();
     void setDefaultForImageviewMinimapSizeLevel();
 
     Q_PROPERTY(bool imageviewMirrorAnimate READ getImageviewMirrorAnimate WRITE setImageviewMirrorAnimate NOTIFY imageviewMirrorAnimateChanged)
     bool getImageviewMirrorAnimate();
-    void setImageviewMirrorAnimate();
+    void setImageviewMirrorAnimate(bool val);
+    bool getDefaultForImageviewMirrorAnimate();
     void setDefaultForImageviewMirrorAnimate();
 
     Q_PROPERTY(int imageviewPreloadInBackground READ getImageviewPreloadInBackground WRITE setImageviewPreloadInBackground NOTIFY imageviewPreloadInBackgroundChanged)
     int getImageviewPreloadInBackground();
-    void setImageviewPreloadInBackground();
+    void setImageviewPreloadInBackground(int val);
+    int getDefaultForImageviewPreloadInBackground();
     void setDefaultForImageviewPreloadInBackground();
 
     Q_PROPERTY(bool imageviewPreserveMirror READ getImageviewPreserveMirror WRITE setImageviewPreserveMirror NOTIFY imageviewPreserveMirrorChanged)
     bool getImageviewPreserveMirror();
-    void setImageviewPreserveMirror();
+    void setImageviewPreserveMirror(bool val);
+    bool getDefaultForImageviewPreserveMirror();
     void setDefaultForImageviewPreserveMirror();
 
     Q_PROPERTY(bool imageviewPreserveRotation READ getImageviewPreserveRotation WRITE setImageviewPreserveRotation NOTIFY imageviewPreserveRotationChanged)
     bool getImageviewPreserveRotation();
-    void setImageviewPreserveRotation();
+    void setImageviewPreserveRotation(bool val);
+    bool getDefaultForImageviewPreserveRotation();
     void setDefaultForImageviewPreserveRotation();
 
     Q_PROPERTY(bool imageviewPreserveZoom READ getImageviewPreserveZoom WRITE setImageviewPreserveZoom NOTIFY imageviewPreserveZoomChanged)
     bool getImageviewPreserveZoom();
-    void setImageviewPreserveZoom();
+    void setImageviewPreserveZoom(bool val);
+    bool getDefaultForImageviewPreserveZoom();
     void setDefaultForImageviewPreserveZoom();
 
     Q_PROPERTY(bool imageviewRememberZoomRotationMirror READ getImageviewRememberZoomRotationMirror WRITE setImageviewRememberZoomRotationMirror NOTIFY imageviewRememberZoomRotationMirrorChanged)
     bool getImageviewRememberZoomRotationMirror();
-    void setImageviewRememberZoomRotationMirror();
+    void setImageviewRememberZoomRotationMirror(bool val);
+    bool getDefaultForImageviewRememberZoomRotationMirror();
     void setDefaultForImageviewRememberZoomRotationMirror();
 
     Q_PROPERTY(int imageviewResetViewAutoHideTimeout READ getImageviewResetViewAutoHideTimeout WRITE setImageviewResetViewAutoHideTimeout NOTIFY imageviewResetViewAutoHideTimeoutChanged)
     int getImageviewResetViewAutoHideTimeout();
-    void setImageviewResetViewAutoHideTimeout();
+    void setImageviewResetViewAutoHideTimeout(int val);
+    int getDefaultForImageviewResetViewAutoHideTimeout();
     void setDefaultForImageviewResetViewAutoHideTimeout();
 
     Q_PROPERTY(bool imageviewResetViewShow READ getImageviewResetViewShow WRITE setImageviewResetViewShow NOTIFY imageviewResetViewShowChanged)
     bool getImageviewResetViewShow();
-    void setImageviewResetViewShow();
+    void setImageviewResetViewShow(bool val);
+    bool getDefaultForImageviewResetViewShow();
     void setDefaultForImageviewResetViewShow();
 
     Q_PROPERTY(bool imageviewRespectDevicePixelRatio READ getImageviewRespectDevicePixelRatio WRITE setImageviewRespectDevicePixelRatio NOTIFY imageviewRespectDevicePixelRatioChanged)
     bool getImageviewRespectDevicePixelRatio();
-    void setImageviewRespectDevicePixelRatio();
+    void setImageviewRespectDevicePixelRatio(bool val);
+    bool getDefaultForImageviewRespectDevicePixelRatio();
     void setDefaultForImageviewRespectDevicePixelRatio();
 
     Q_PROPERTY(bool imageviewShowMinimap READ getImageviewShowMinimap WRITE setImageviewShowMinimap NOTIFY imageviewShowMinimapChanged)
     bool getImageviewShowMinimap();
-    void setImageviewShowMinimap();
+    void setImageviewShowMinimap(bool val);
+    bool getDefaultForImageviewShowMinimap();
     void setDefaultForImageviewShowMinimap();
 
     Q_PROPERTY(bool imageviewSortImagesAscending READ getImageviewSortImagesAscending WRITE setImageviewSortImagesAscending NOTIFY imageviewSortImagesAscendingChanged)
     bool getImageviewSortImagesAscending();
-    void setImageviewSortImagesAscending();
+    void setImageviewSortImagesAscending(bool val);
+    bool getDefaultForImageviewSortImagesAscending();
     void setDefaultForImageviewSortImagesAscending();
 
     Q_PROPERTY(QString imageviewSortImagesBy READ getImageviewSortImagesBy WRITE setImageviewSortImagesBy NOTIFY imageviewSortImagesByChanged)
     QString getImageviewSortImagesBy();
-    void setImageviewSortImagesBy();
+    void setImageviewSortImagesBy(QString val);
+    QString getDefaultForImageviewSortImagesBy();
     void setDefaultForImageviewSortImagesBy();
 
     Q_PROPERTY(bool imageviewTransparencyMarker READ getImageviewTransparencyMarker WRITE setImageviewTransparencyMarker NOTIFY imageviewTransparencyMarkerChanged)
     bool getImageviewTransparencyMarker();
-    void setImageviewTransparencyMarker();
+    void setImageviewTransparencyMarker(bool val);
+    bool getDefaultForImageviewTransparencyMarker();
     void setDefaultForImageviewTransparencyMarker();
 
     Q_PROPERTY(bool imageviewUseMouseLeftButtonForImageMove READ getImageviewUseMouseLeftButtonForImageMove WRITE setImageviewUseMouseLeftButtonForImageMove NOTIFY imageviewUseMouseLeftButtonForImageMoveChanged)
     bool getImageviewUseMouseLeftButtonForImageMove();
-    void setImageviewUseMouseLeftButtonForImageMove();
+    void setImageviewUseMouseLeftButtonForImageMove(bool val);
+    bool getDefaultForImageviewUseMouseLeftButtonForImageMove();
     void setDefaultForImageviewUseMouseLeftButtonForImageMove();
 
     Q_PROPERTY(bool imageviewUseMouseWheelForImageMove READ getImageviewUseMouseWheelForImageMove WRITE setImageviewUseMouseWheelForImageMove NOTIFY imageviewUseMouseWheelForImageMoveChanged)
     bool getImageviewUseMouseWheelForImageMove();
-    void setImageviewUseMouseWheelForImageMove();
+    void setImageviewUseMouseWheelForImageMove(bool val);
+    bool getDefaultForImageviewUseMouseWheelForImageMove();
     void setDefaultForImageviewUseMouseWheelForImageMove();
 
     Q_PROPERTY(int imageviewZoomMax READ getImageviewZoomMax WRITE setImageviewZoomMax NOTIFY imageviewZoomMaxChanged)
     int getImageviewZoomMax();
-    void setImageviewZoomMax();
+    void setImageviewZoomMax(int val);
+    int getDefaultForImageviewZoomMax();
     void setDefaultForImageviewZoomMax();
 
     Q_PROPERTY(bool imageviewZoomMaxEnabled READ getImageviewZoomMaxEnabled WRITE setImageviewZoomMaxEnabled NOTIFY imageviewZoomMaxEnabledChanged)
     bool getImageviewZoomMaxEnabled();
-    void setImageviewZoomMaxEnabled();
+    void setImageviewZoomMaxEnabled(bool val);
+    bool getDefaultForImageviewZoomMaxEnabled();
     void setDefaultForImageviewZoomMaxEnabled();
 
     Q_PROPERTY(int imageviewZoomMin READ getImageviewZoomMin WRITE setImageviewZoomMin NOTIFY imageviewZoomMinChanged)
     int getImageviewZoomMin();
-    void setImageviewZoomMin();
+    void setImageviewZoomMin(int val);
+    int getDefaultForImageviewZoomMin();
     void setDefaultForImageviewZoomMin();
 
     Q_PROPERTY(bool imageviewZoomMinEnabled READ getImageviewZoomMinEnabled WRITE setImageviewZoomMinEnabled NOTIFY imageviewZoomMinEnabledChanged)
     bool getImageviewZoomMinEnabled();
-    void setImageviewZoomMinEnabled();
+    void setImageviewZoomMinEnabled(bool val);
+    bool getDefaultForImageviewZoomMinEnabled();
     void setDefaultForImageviewZoomMinEnabled();
 
     Q_PROPERTY(int imageviewZoomSpeed READ getImageviewZoomSpeed WRITE setImageviewZoomSpeed NOTIFY imageviewZoomSpeedChanged)
     int getImageviewZoomSpeed();
-    void setImageviewZoomSpeed();
+    void setImageviewZoomSpeed(int val);
+    int getDefaultForImageviewZoomSpeed();
     void setDefaultForImageviewZoomSpeed();
 
     Q_PROPERTY(bool imageviewZoomSpeedRelative READ getImageviewZoomSpeedRelative WRITE setImageviewZoomSpeedRelative NOTIFY imageviewZoomSpeedRelativeChanged)
     bool getImageviewZoomSpeedRelative();
-    void setImageviewZoomSpeedRelative();
+    void setImageviewZoomSpeedRelative(bool val);
+    bool getDefaultForImageviewZoomSpeedRelative();
     void setDefaultForImageviewZoomSpeedRelative();
 
     Q_PROPERTY(bool imageviewZoomToCenter READ getImageviewZoomToCenter WRITE setImageviewZoomToCenter NOTIFY imageviewZoomToCenterChanged)
     bool getImageviewZoomToCenter();
-    void setImageviewZoomToCenter();
+    void setImageviewZoomToCenter(bool val);
+    bool getDefaultForImageviewZoomToCenter();
     void setDefaultForImageviewZoomToCenter();
 
     /**************************************/
@@ -599,392 +706,470 @@ public:
 
     Q_PROPERTY(QString interfaceAccentColor READ getInterfaceAccentColor WRITE setInterfaceAccentColor NOTIFY interfaceAccentColorChanged)
     QString getInterfaceAccentColor();
-    void setInterfaceAccentColor();
+    void setInterfaceAccentColor(QString val);
+    QString getDefaultForInterfaceAccentColor();
     void setDefaultForInterfaceAccentColor();
 
     Q_PROPERTY(bool interfaceAllowMultipleInstances READ getInterfaceAllowMultipleInstances WRITE setInterfaceAllowMultipleInstances NOTIFY interfaceAllowMultipleInstancesChanged)
     bool getInterfaceAllowMultipleInstances();
-    void setInterfaceAllowMultipleInstances();
+    void setInterfaceAllowMultipleInstances(bool val);
+    bool getDefaultForInterfaceAllowMultipleInstances();
     void setDefaultForInterfaceAllowMultipleInstances();
 
     Q_PROPERTY(bool interfaceBackgroundCustomOverlay READ getInterfaceBackgroundCustomOverlay WRITE setInterfaceBackgroundCustomOverlay NOTIFY interfaceBackgroundCustomOverlayChanged)
     bool getInterfaceBackgroundCustomOverlay();
-    void setInterfaceBackgroundCustomOverlay();
+    void setInterfaceBackgroundCustomOverlay(bool val);
+    bool getDefaultForInterfaceBackgroundCustomOverlay();
     void setDefaultForInterfaceBackgroundCustomOverlay();
 
     Q_PROPERTY(QString interfaceBackgroundCustomOverlayColor READ getInterfaceBackgroundCustomOverlayColor WRITE setInterfaceBackgroundCustomOverlayColor NOTIFY interfaceBackgroundCustomOverlayColorChanged)
     QString getInterfaceBackgroundCustomOverlayColor();
-    void setInterfaceBackgroundCustomOverlayColor();
+    void setInterfaceBackgroundCustomOverlayColor(QString val);
+    QString getDefaultForInterfaceBackgroundCustomOverlayColor();
     void setDefaultForInterfaceBackgroundCustomOverlayColor();
 
     Q_PROPERTY(bool interfaceBackgroundFullyTransparent READ getInterfaceBackgroundFullyTransparent WRITE setInterfaceBackgroundFullyTransparent NOTIFY interfaceBackgroundFullyTransparentChanged)
     bool getInterfaceBackgroundFullyTransparent();
-    void setInterfaceBackgroundFullyTransparent();
+    void setInterfaceBackgroundFullyTransparent(bool val);
+    bool getDefaultForInterfaceBackgroundFullyTransparent();
     void setDefaultForInterfaceBackgroundFullyTransparent();
 
     Q_PROPERTY(bool interfaceBackgroundImageCenter READ getInterfaceBackgroundImageCenter WRITE setInterfaceBackgroundImageCenter NOTIFY interfaceBackgroundImageCenterChanged)
     bool getInterfaceBackgroundImageCenter();
-    void setInterfaceBackgroundImageCenter();
+    void setInterfaceBackgroundImageCenter(bool val);
+    bool getDefaultForInterfaceBackgroundImageCenter();
     void setDefaultForInterfaceBackgroundImageCenter();
 
     Q_PROPERTY(QString interfaceBackgroundImagePath READ getInterfaceBackgroundImagePath WRITE setInterfaceBackgroundImagePath NOTIFY interfaceBackgroundImagePathChanged)
     QString getInterfaceBackgroundImagePath();
-    void setInterfaceBackgroundImagePath();
+    void setInterfaceBackgroundImagePath(QString val);
+    QString getDefaultForInterfaceBackgroundImagePath();
     void setDefaultForInterfaceBackgroundImagePath();
 
     Q_PROPERTY(bool interfaceBackgroundImageScale READ getInterfaceBackgroundImageScale WRITE setInterfaceBackgroundImageScale NOTIFY interfaceBackgroundImageScaleChanged)
     bool getInterfaceBackgroundImageScale();
-    void setInterfaceBackgroundImageScale();
+    void setInterfaceBackgroundImageScale(bool val);
+    bool getDefaultForInterfaceBackgroundImageScale();
     void setDefaultForInterfaceBackgroundImageScale();
 
     Q_PROPERTY(bool interfaceBackgroundImageScaleCrop READ getInterfaceBackgroundImageScaleCrop WRITE setInterfaceBackgroundImageScaleCrop NOTIFY interfaceBackgroundImageScaleCropChanged)
     bool getInterfaceBackgroundImageScaleCrop();
-    void setInterfaceBackgroundImageScaleCrop();
+    void setInterfaceBackgroundImageScaleCrop(bool val);
+    bool getDefaultForInterfaceBackgroundImageScaleCrop();
     void setDefaultForInterfaceBackgroundImageScaleCrop();
 
     Q_PROPERTY(bool interfaceBackgroundImageScreenshot READ getInterfaceBackgroundImageScreenshot WRITE setInterfaceBackgroundImageScreenshot NOTIFY interfaceBackgroundImageScreenshotChanged)
     bool getInterfaceBackgroundImageScreenshot();
-    void setInterfaceBackgroundImageScreenshot();
+    void setInterfaceBackgroundImageScreenshot(bool val);
+    bool getDefaultForInterfaceBackgroundImageScreenshot();
     void setDefaultForInterfaceBackgroundImageScreenshot();
 
     Q_PROPERTY(bool interfaceBackgroundImageStretch READ getInterfaceBackgroundImageStretch WRITE setInterfaceBackgroundImageStretch NOTIFY interfaceBackgroundImageStretchChanged)
     bool getInterfaceBackgroundImageStretch();
-    void setInterfaceBackgroundImageStretch();
+    void setInterfaceBackgroundImageStretch(bool val);
+    bool getDefaultForInterfaceBackgroundImageStretch();
     void setDefaultForInterfaceBackgroundImageStretch();
 
     Q_PROPERTY(bool interfaceBackgroundImageTile READ getInterfaceBackgroundImageTile WRITE setInterfaceBackgroundImageTile NOTIFY interfaceBackgroundImageTileChanged)
     bool getInterfaceBackgroundImageTile();
-    void setInterfaceBackgroundImageTile();
+    void setInterfaceBackgroundImageTile(bool val);
+    bool getDefaultForInterfaceBackgroundImageTile();
     void setDefaultForInterfaceBackgroundImageTile();
 
     Q_PROPERTY(bool interfaceBackgroundImageUse READ getInterfaceBackgroundImageUse WRITE setInterfaceBackgroundImageUse NOTIFY interfaceBackgroundImageUseChanged)
     bool getInterfaceBackgroundImageUse();
-    void setInterfaceBackgroundImageUse();
+    void setInterfaceBackgroundImageUse(bool val);
+    bool getDefaultForInterfaceBackgroundImageUse();
     void setDefaultForInterfaceBackgroundImageUse();
 
     Q_PROPERTY(bool interfaceBackgroundSolid READ getInterfaceBackgroundSolid WRITE setInterfaceBackgroundSolid NOTIFY interfaceBackgroundSolidChanged)
     bool getInterfaceBackgroundSolid();
-    void setInterfaceBackgroundSolid();
+    void setInterfaceBackgroundSolid(bool val);
+    bool getDefaultForInterfaceBackgroundSolid();
     void setDefaultForInterfaceBackgroundSolid();
 
     Q_PROPERTY(bool interfaceBlurElementsInBackground READ getInterfaceBlurElementsInBackground WRITE setInterfaceBlurElementsInBackground NOTIFY interfaceBlurElementsInBackgroundChanged)
     bool getInterfaceBlurElementsInBackground();
-    void setInterfaceBlurElementsInBackground();
+    void setInterfaceBlurElementsInBackground(bool val);
+    bool getDefaultForInterfaceBlurElementsInBackground();
     void setDefaultForInterfaceBlurElementsInBackground();
 
     Q_PROPERTY(bool interfaceCloseOnEmptyBackground READ getInterfaceCloseOnEmptyBackground WRITE setInterfaceCloseOnEmptyBackground NOTIFY interfaceCloseOnEmptyBackgroundChanged)
     bool getInterfaceCloseOnEmptyBackground();
-    void setInterfaceCloseOnEmptyBackground();
+    void setInterfaceCloseOnEmptyBackground(bool val);
+    bool getDefaultForInterfaceCloseOnEmptyBackground();
     void setDefaultForInterfaceCloseOnEmptyBackground();
 
     Q_PROPERTY(int interfaceDoubleClickThreshold READ getInterfaceDoubleClickThreshold WRITE setInterfaceDoubleClickThreshold NOTIFY interfaceDoubleClickThresholdChanged)
     int getInterfaceDoubleClickThreshold();
-    void setInterfaceDoubleClickThreshold();
+    void setInterfaceDoubleClickThreshold(int val);
+    int getDefaultForInterfaceDoubleClickThreshold();
     void setDefaultForInterfaceDoubleClickThreshold();
 
     Q_PROPERTY(QString interfaceEdgeBottomAction READ getInterfaceEdgeBottomAction WRITE setInterfaceEdgeBottomAction NOTIFY interfaceEdgeBottomActionChanged)
     QString getInterfaceEdgeBottomAction();
-    void setInterfaceEdgeBottomAction();
+    void setInterfaceEdgeBottomAction(QString val);
+    QString getDefaultForInterfaceEdgeBottomAction();
     void setDefaultForInterfaceEdgeBottomAction();
 
     Q_PROPERTY(QString interfaceEdgeLeftAction READ getInterfaceEdgeLeftAction WRITE setInterfaceEdgeLeftAction NOTIFY interfaceEdgeLeftActionChanged)
     QString getInterfaceEdgeLeftAction();
-    void setInterfaceEdgeLeftAction();
+    void setInterfaceEdgeLeftAction(QString val);
+    QString getDefaultForInterfaceEdgeLeftAction();
     void setDefaultForInterfaceEdgeLeftAction();
 
     Q_PROPERTY(QString interfaceEdgeRightAction READ getInterfaceEdgeRightAction WRITE setInterfaceEdgeRightAction NOTIFY interfaceEdgeRightActionChanged)
     QString getInterfaceEdgeRightAction();
-    void setInterfaceEdgeRightAction();
+    void setInterfaceEdgeRightAction(QString val);
+    QString getDefaultForInterfaceEdgeRightAction();
     void setDefaultForInterfaceEdgeRightAction();
 
     Q_PROPERTY(QString interfaceEdgeTopAction READ getInterfaceEdgeTopAction WRITE setInterfaceEdgeTopAction NOTIFY interfaceEdgeTopActionChanged)
     QString getInterfaceEdgeTopAction();
-    void setInterfaceEdgeTopAction();
+    void setInterfaceEdgeTopAction(QString val);
+    QString getDefaultForInterfaceEdgeTopAction();
     void setDefaultForInterfaceEdgeTopAction();
 
     Q_PROPERTY(int interfaceFontBoldWeight READ getInterfaceFontBoldWeight WRITE setInterfaceFontBoldWeight NOTIFY interfaceFontBoldWeightChanged)
     int getInterfaceFontBoldWeight();
-    void setInterfaceFontBoldWeight();
+    void setInterfaceFontBoldWeight(int val);
+    int getDefaultForInterfaceFontBoldWeight();
     void setDefaultForInterfaceFontBoldWeight();
 
     Q_PROPERTY(int interfaceFontNormalWeight READ getInterfaceFontNormalWeight WRITE setInterfaceFontNormalWeight NOTIFY interfaceFontNormalWeightChanged)
     int getInterfaceFontNormalWeight();
-    void setInterfaceFontNormalWeight();
+    void setInterfaceFontNormalWeight(int val);
+    int getDefaultForInterfaceFontNormalWeight();
     void setDefaultForInterfaceFontNormalWeight();
 
     Q_PROPERTY(int interfaceHotEdgeSize READ getInterfaceHotEdgeSize WRITE setInterfaceHotEdgeSize NOTIFY interfaceHotEdgeSizeChanged)
     int getInterfaceHotEdgeSize();
-    void setInterfaceHotEdgeSize();
+    void setInterfaceHotEdgeSize(int val);
+    int getDefaultForInterfaceHotEdgeSize();
     void setDefaultForInterfaceHotEdgeSize();
 
     Q_PROPERTY(bool interfaceKeepWindowOnTop READ getInterfaceKeepWindowOnTop WRITE setInterfaceKeepWindowOnTop NOTIFY interfaceKeepWindowOnTopChanged)
     bool getInterfaceKeepWindowOnTop();
-    void setInterfaceKeepWindowOnTop();
+    void setInterfaceKeepWindowOnTop(bool val);
+    bool getDefaultForInterfaceKeepWindowOnTop();
     void setDefaultForInterfaceKeepWindowOnTop();
 
     Q_PROPERTY(QString interfaceLanguage READ getInterfaceLanguage WRITE setInterfaceLanguage NOTIFY interfaceLanguageChanged)
     QString getInterfaceLanguage();
-    void setInterfaceLanguage();
+    void setInterfaceLanguage(QString val);
+    QString getDefaultForInterfaceLanguage();
     void setDefaultForInterfaceLanguage();
 
     Q_PROPERTY(bool interfaceMinimapPopout READ getInterfaceMinimapPopout WRITE setInterfaceMinimapPopout NOTIFY interfaceMinimapPopoutChanged)
     bool getInterfaceMinimapPopout();
-    void setInterfaceMinimapPopout();
+    void setInterfaceMinimapPopout(bool val);
+    bool getDefaultForInterfaceMinimapPopout();
     void setDefaultForInterfaceMinimapPopout();
 
     Q_PROPERTY(int interfaceMouseWheelSensitivity READ getInterfaceMouseWheelSensitivity WRITE setInterfaceMouseWheelSensitivity NOTIFY interfaceMouseWheelSensitivityChanged)
     int getInterfaceMouseWheelSensitivity();
-    void setInterfaceMouseWheelSensitivity();
+    void setInterfaceMouseWheelSensitivity(int val);
+    int getDefaultForInterfaceMouseWheelSensitivity();
     void setDefaultForInterfaceMouseWheelSensitivity();
 
     Q_PROPERTY(bool interfaceNavigateOnEmptyBackground READ getInterfaceNavigateOnEmptyBackground WRITE setInterfaceNavigateOnEmptyBackground NOTIFY interfaceNavigateOnEmptyBackgroundChanged)
     bool getInterfaceNavigateOnEmptyBackground();
-    void setInterfaceNavigateOnEmptyBackground();
+    void setInterfaceNavigateOnEmptyBackground(bool val);
+    bool getDefaultForInterfaceNavigateOnEmptyBackground();
     void setDefaultForInterfaceNavigateOnEmptyBackground();
 
     Q_PROPERTY(bool interfaceNavigationFloating READ getInterfaceNavigationFloating WRITE setInterfaceNavigationFloating NOTIFY interfaceNavigationFloatingChanged)
     bool getInterfaceNavigationFloating();
-    void setInterfaceNavigationFloating();
+    void setInterfaceNavigationFloating(bool val);
+    bool getDefaultForInterfaceNavigationFloating();
     void setDefaultForInterfaceNavigationFloating();
 
     Q_PROPERTY(int interfaceNotificationDistanceFromEdge READ getInterfaceNotificationDistanceFromEdge WRITE setInterfaceNotificationDistanceFromEdge NOTIFY interfaceNotificationDistanceFromEdgeChanged)
     int getInterfaceNotificationDistanceFromEdge();
-    void setInterfaceNotificationDistanceFromEdge();
+    void setInterfaceNotificationDistanceFromEdge(int val);
+    int getDefaultForInterfaceNotificationDistanceFromEdge();
     void setDefaultForInterfaceNotificationDistanceFromEdge();
 
     Q_PROPERTY(QString interfaceNotificationLocation READ getInterfaceNotificationLocation WRITE setInterfaceNotificationLocation NOTIFY interfaceNotificationLocationChanged)
     QString getInterfaceNotificationLocation();
-    void setInterfaceNotificationLocation();
+    void setInterfaceNotificationLocation(QString val);
+    QString getDefaultForInterfaceNotificationLocation();
     void setDefaultForInterfaceNotificationLocation();
 
     Q_PROPERTY(bool interfaceNotificationTryNative READ getInterfaceNotificationTryNative WRITE setInterfaceNotificationTryNative NOTIFY interfaceNotificationTryNativeChanged)
     bool getInterfaceNotificationTryNative();
-    void setInterfaceNotificationTryNative();
+    void setInterfaceNotificationTryNative(bool val);
+    bool getDefaultForInterfaceNotificationTryNative();
     void setDefaultForInterfaceNotificationTryNative();
 
     Q_PROPERTY(bool interfacePopoutAbout READ getInterfacePopoutAbout WRITE setInterfacePopoutAbout NOTIFY interfacePopoutAboutChanged)
     bool getInterfacePopoutAbout();
-    void setInterfacePopoutAbout();
+    void setInterfacePopoutAbout(bool val);
+    bool getDefaultForInterfacePopoutAbout();
     void setDefaultForInterfacePopoutAbout();
 
     Q_PROPERTY(bool interfacePopoutAdvancedSort READ getInterfacePopoutAdvancedSort WRITE setInterfacePopoutAdvancedSort NOTIFY interfacePopoutAdvancedSortChanged)
     bool getInterfacePopoutAdvancedSort();
-    void setInterfacePopoutAdvancedSort();
+    void setInterfacePopoutAdvancedSort(bool val);
+    bool getDefaultForInterfacePopoutAdvancedSort();
     void setDefaultForInterfacePopoutAdvancedSort();
 
     Q_PROPERTY(bool interfacePopoutChromecast READ getInterfacePopoutChromecast WRITE setInterfacePopoutChromecast NOTIFY interfacePopoutChromecastChanged)
     bool getInterfacePopoutChromecast();
-    void setInterfacePopoutChromecast();
+    void setInterfacePopoutChromecast(bool val);
+    bool getDefaultForInterfacePopoutChromecast();
     void setDefaultForInterfacePopoutChromecast();
 
     Q_PROPERTY(bool interfacePopoutExport READ getInterfacePopoutExport WRITE setInterfacePopoutExport NOTIFY interfacePopoutExportChanged)
     bool getInterfacePopoutExport();
-    void setInterfacePopoutExport();
+    void setInterfacePopoutExport(bool val);
+    bool getDefaultForInterfacePopoutExport();
     void setDefaultForInterfacePopoutExport();
 
     Q_PROPERTY(bool interfacePopoutFileDelete READ getInterfacePopoutFileDelete WRITE setInterfacePopoutFileDelete NOTIFY interfacePopoutFileDeleteChanged)
     bool getInterfacePopoutFileDelete();
-    void setInterfacePopoutFileDelete();
+    void setInterfacePopoutFileDelete(bool val);
+    bool getDefaultForInterfacePopoutFileDelete();
     void setDefaultForInterfacePopoutFileDelete();
 
     Q_PROPERTY(bool interfacePopoutFileDialog READ getInterfacePopoutFileDialog WRITE setInterfacePopoutFileDialog NOTIFY interfacePopoutFileDialogChanged)
     bool getInterfacePopoutFileDialog();
-    void setInterfacePopoutFileDialog();
+    void setInterfacePopoutFileDialog(bool val);
+    bool getDefaultForInterfacePopoutFileDialog();
     void setDefaultForInterfacePopoutFileDialog();
 
     Q_PROPERTY(bool interfacePopoutFileDialogNonModal READ getInterfacePopoutFileDialogNonModal WRITE setInterfacePopoutFileDialogNonModal NOTIFY interfacePopoutFileDialogNonModalChanged)
     bool getInterfacePopoutFileDialogNonModal();
-    void setInterfacePopoutFileDialogNonModal();
+    void setInterfacePopoutFileDialogNonModal(bool val);
+    bool getDefaultForInterfacePopoutFileDialogNonModal();
     void setDefaultForInterfacePopoutFileDialogNonModal();
 
     Q_PROPERTY(bool interfacePopoutFileRename READ getInterfacePopoutFileRename WRITE setInterfacePopoutFileRename NOTIFY interfacePopoutFileRenameChanged)
     bool getInterfacePopoutFileRename();
-    void setInterfacePopoutFileRename();
+    void setInterfacePopoutFileRename(bool val);
+    bool getDefaultForInterfacePopoutFileRename();
     void setDefaultForInterfacePopoutFileRename();
 
     Q_PROPERTY(bool interfacePopoutFilter READ getInterfacePopoutFilter WRITE setInterfacePopoutFilter NOTIFY interfacePopoutFilterChanged)
     bool getInterfacePopoutFilter();
-    void setInterfacePopoutFilter();
+    void setInterfacePopoutFilter(bool val);
+    bool getDefaultForInterfacePopoutFilter();
     void setDefaultForInterfacePopoutFilter();
 
     Q_PROPERTY(bool interfacePopoutImgur READ getInterfacePopoutImgur WRITE setInterfacePopoutImgur NOTIFY interfacePopoutImgurChanged)
     bool getInterfacePopoutImgur();
-    void setInterfacePopoutImgur();
+    void setInterfacePopoutImgur(bool val);
+    bool getDefaultForInterfacePopoutImgur();
     void setDefaultForInterfacePopoutImgur();
 
     Q_PROPERTY(bool interfacePopoutMainMenu READ getInterfacePopoutMainMenu WRITE setInterfacePopoutMainMenu NOTIFY interfacePopoutMainMenuChanged)
     bool getInterfacePopoutMainMenu();
-    void setInterfacePopoutMainMenu();
+    void setInterfacePopoutMainMenu(bool val);
+    bool getDefaultForInterfacePopoutMainMenu();
     void setDefaultForInterfacePopoutMainMenu();
 
     Q_PROPERTY(bool interfacePopoutMapExplorer READ getInterfacePopoutMapExplorer WRITE setInterfacePopoutMapExplorer NOTIFY interfacePopoutMapExplorerChanged)
     bool getInterfacePopoutMapExplorer();
-    void setInterfacePopoutMapExplorer();
+    void setInterfacePopoutMapExplorer(bool val);
+    bool getDefaultForInterfacePopoutMapExplorer();
     void setDefaultForInterfacePopoutMapExplorer();
 
     Q_PROPERTY(bool interfacePopoutMapExplorerNonModal READ getInterfacePopoutMapExplorerNonModal WRITE setInterfacePopoutMapExplorerNonModal NOTIFY interfacePopoutMapExplorerNonModalChanged)
     bool getInterfacePopoutMapExplorerNonModal();
-    void setInterfacePopoutMapExplorerNonModal();
+    void setInterfacePopoutMapExplorerNonModal(bool val);
+    bool getDefaultForInterfacePopoutMapExplorerNonModal();
     void setDefaultForInterfacePopoutMapExplorerNonModal();
 
     Q_PROPERTY(bool interfacePopoutMetadata READ getInterfacePopoutMetadata WRITE setInterfacePopoutMetadata NOTIFY interfacePopoutMetadataChanged)
     bool getInterfacePopoutMetadata();
-    void setInterfacePopoutMetadata();
+    void setInterfacePopoutMetadata(bool val);
+    bool getDefaultForInterfacePopoutMetadata();
     void setDefaultForInterfacePopoutMetadata();
 
     Q_PROPERTY(bool interfacePopoutSettingsManager READ getInterfacePopoutSettingsManager WRITE setInterfacePopoutSettingsManager NOTIFY interfacePopoutSettingsManagerChanged)
     bool getInterfacePopoutSettingsManager();
-    void setInterfacePopoutSettingsManager();
+    void setInterfacePopoutSettingsManager(bool val);
+    bool getDefaultForInterfacePopoutSettingsManager();
     void setDefaultForInterfacePopoutSettingsManager();
 
     Q_PROPERTY(bool interfacePopoutSettingsManagerNonModal READ getInterfacePopoutSettingsManagerNonModal WRITE setInterfacePopoutSettingsManagerNonModal NOTIFY interfacePopoutSettingsManagerNonModalChanged)
     bool getInterfacePopoutSettingsManagerNonModal();
-    void setInterfacePopoutSettingsManagerNonModal();
+    void setInterfacePopoutSettingsManagerNonModal(bool val);
+    bool getDefaultForInterfacePopoutSettingsManagerNonModal();
     void setDefaultForInterfacePopoutSettingsManagerNonModal();
 
     Q_PROPERTY(bool interfacePopoutSlideshowControls READ getInterfacePopoutSlideshowControls WRITE setInterfacePopoutSlideshowControls NOTIFY interfacePopoutSlideshowControlsChanged)
     bool getInterfacePopoutSlideshowControls();
-    void setInterfacePopoutSlideshowControls();
+    void setInterfacePopoutSlideshowControls(bool val);
+    bool getDefaultForInterfacePopoutSlideshowControls();
     void setDefaultForInterfacePopoutSlideshowControls();
 
     Q_PROPERTY(bool interfacePopoutSlideshowSetup READ getInterfacePopoutSlideshowSetup WRITE setInterfacePopoutSlideshowSetup NOTIFY interfacePopoutSlideshowSetupChanged)
     bool getInterfacePopoutSlideshowSetup();
-    void setInterfacePopoutSlideshowSetup();
+    void setInterfacePopoutSlideshowSetup(bool val);
+    bool getDefaultForInterfacePopoutSlideshowSetup();
     void setDefaultForInterfacePopoutSlideshowSetup();
 
     Q_PROPERTY(bool interfacePopoutWhenWindowIsSmall READ getInterfacePopoutWhenWindowIsSmall WRITE setInterfacePopoutWhenWindowIsSmall NOTIFY interfacePopoutWhenWindowIsSmallChanged)
     bool getInterfacePopoutWhenWindowIsSmall();
-    void setInterfacePopoutWhenWindowIsSmall();
+    void setInterfacePopoutWhenWindowIsSmall(bool val);
+    bool getDefaultForInterfacePopoutWhenWindowIsSmall();
     void setDefaultForInterfacePopoutWhenWindowIsSmall();
 
     Q_PROPERTY(bool interfaceQuickActions READ getInterfaceQuickActions WRITE setInterfaceQuickActions NOTIFY interfaceQuickActionsChanged)
     bool getInterfaceQuickActions();
-    void setInterfaceQuickActions();
+    void setInterfaceQuickActions(bool val);
+    bool getDefaultForInterfaceQuickActions();
     void setDefaultForInterfaceQuickActions();
 
     Q_PROPERTY(int interfaceQuickActionsHeight READ getInterfaceQuickActionsHeight WRITE setInterfaceQuickActionsHeight NOTIFY interfaceQuickActionsHeightChanged)
     int getInterfaceQuickActionsHeight();
-    void setInterfaceQuickActionsHeight();
+    void setInterfaceQuickActionsHeight(int val);
+    int getDefaultForInterfaceQuickActionsHeight();
     void setDefaultForInterfaceQuickActionsHeight();
 
     Q_PROPERTY(QStringList interfaceQuickActionsItems READ getInterfaceQuickActionsItems WRITE setInterfaceQuickActionsItems NOTIFY interfaceQuickActionsItemsChanged)
     QStringList getInterfaceQuickActionsItems();
-    void setInterfaceQuickActionsItems();
+    void setInterfaceQuickActionsItems(QStringList val);
+    QStringList getDefaultForInterfaceQuickActionsItems();
     void setDefaultForInterfaceQuickActionsItems();
 
     Q_PROPERTY(bool interfaceRememberLastImage READ getInterfaceRememberLastImage WRITE setInterfaceRememberLastImage NOTIFY interfaceRememberLastImageChanged)
     bool getInterfaceRememberLastImage();
-    void setInterfaceRememberLastImage();
+    void setInterfaceRememberLastImage(bool val);
+    bool getDefaultForInterfaceRememberLastImage();
     void setDefaultForInterfaceRememberLastImage();
 
     Q_PROPERTY(bool interfaceSaveWindowGeometry READ getInterfaceSaveWindowGeometry WRITE setInterfaceSaveWindowGeometry NOTIFY interfaceSaveWindowGeometryChanged)
     bool getInterfaceSaveWindowGeometry();
-    void setInterfaceSaveWindowGeometry();
+    void setInterfaceSaveWindowGeometry(bool val);
+    bool getDefaultForInterfaceSaveWindowGeometry();
     void setDefaultForInterfaceSaveWindowGeometry();
 
     Q_PROPERTY(bool interfaceStatusInfoAutoHide READ getInterfaceStatusInfoAutoHide WRITE setInterfaceStatusInfoAutoHide NOTIFY interfaceStatusInfoAutoHideChanged)
     bool getInterfaceStatusInfoAutoHide();
-    void setInterfaceStatusInfoAutoHide();
+    void setInterfaceStatusInfoAutoHide(bool val);
+    bool getDefaultForInterfaceStatusInfoAutoHide();
     void setDefaultForInterfaceStatusInfoAutoHide();
 
     Q_PROPERTY(int interfaceStatusInfoAutoHideTimeout READ getInterfaceStatusInfoAutoHideTimeout WRITE setInterfaceStatusInfoAutoHideTimeout NOTIFY interfaceStatusInfoAutoHideTimeoutChanged)
     int getInterfaceStatusInfoAutoHideTimeout();
-    void setInterfaceStatusInfoAutoHideTimeout();
+    void setInterfaceStatusInfoAutoHideTimeout(int val);
+    int getDefaultForInterfaceStatusInfoAutoHideTimeout();
     void setDefaultForInterfaceStatusInfoAutoHideTimeout();
 
     Q_PROPERTY(bool interfaceStatusInfoAutoHideTopEdge READ getInterfaceStatusInfoAutoHideTopEdge WRITE setInterfaceStatusInfoAutoHideTopEdge NOTIFY interfaceStatusInfoAutoHideTopEdgeChanged)
     bool getInterfaceStatusInfoAutoHideTopEdge();
-    void setInterfaceStatusInfoAutoHideTopEdge();
+    void setInterfaceStatusInfoAutoHideTopEdge(bool val);
+    bool getDefaultForInterfaceStatusInfoAutoHideTopEdge();
     void setDefaultForInterfaceStatusInfoAutoHideTopEdge();
 
     Q_PROPERTY(int interfaceStatusInfoFontSize READ getInterfaceStatusInfoFontSize WRITE setInterfaceStatusInfoFontSize NOTIFY interfaceStatusInfoFontSizeChanged)
     int getInterfaceStatusInfoFontSize();
-    void setInterfaceStatusInfoFontSize();
+    void setInterfaceStatusInfoFontSize(int val);
+    int getDefaultForInterfaceStatusInfoFontSize();
     void setDefaultForInterfaceStatusInfoFontSize();
 
     Q_PROPERTY(QStringList interfaceStatusInfoList READ getInterfaceStatusInfoList WRITE setInterfaceStatusInfoList NOTIFY interfaceStatusInfoListChanged)
     QStringList getInterfaceStatusInfoList();
-    void setInterfaceStatusInfoList();
+    void setInterfaceStatusInfoList(QStringList val);
+    QStringList getDefaultForInterfaceStatusInfoList();
     void setDefaultForInterfaceStatusInfoList();
 
     Q_PROPERTY(bool interfaceStatusInfoManageWindow READ getInterfaceStatusInfoManageWindow WRITE setInterfaceStatusInfoManageWindow NOTIFY interfaceStatusInfoManageWindowChanged)
     bool getInterfaceStatusInfoManageWindow();
-    void setInterfaceStatusInfoManageWindow();
+    void setInterfaceStatusInfoManageWindow(bool val);
+    bool getDefaultForInterfaceStatusInfoManageWindow();
     void setDefaultForInterfaceStatusInfoManageWindow();
 
     Q_PROPERTY(QString interfaceStatusInfoPosition READ getInterfaceStatusInfoPosition WRITE setInterfaceStatusInfoPosition NOTIFY interfaceStatusInfoPositionChanged)
     QString getInterfaceStatusInfoPosition();
-    void setInterfaceStatusInfoPosition();
+    void setInterfaceStatusInfoPosition(QString val);
+    QString getDefaultForInterfaceStatusInfoPosition();
     void setDefaultForInterfaceStatusInfoPosition();
 
     Q_PROPERTY(bool interfaceStatusInfoShow READ getInterfaceStatusInfoShow WRITE setInterfaceStatusInfoShow NOTIFY interfaceStatusInfoShowChanged)
     bool getInterfaceStatusInfoShow();
-    void setInterfaceStatusInfoShow();
+    void setInterfaceStatusInfoShow(bool val);
+    bool getDefaultForInterfaceStatusInfoShow();
     void setDefaultForInterfaceStatusInfoShow();
 
     Q_PROPERTY(bool interfaceStatusInfoShowImageChange READ getInterfaceStatusInfoShowImageChange WRITE setInterfaceStatusInfoShowImageChange NOTIFY interfaceStatusInfoShowImageChangeChanged)
     bool getInterfaceStatusInfoShowImageChange();
-    void setInterfaceStatusInfoShowImageChange();
+    void setInterfaceStatusInfoShowImageChange(bool val);
+    bool getDefaultForInterfaceStatusInfoShowImageChange();
     void setDefaultForInterfaceStatusInfoShowImageChange();
 
     Q_PROPERTY(int interfaceTrayIcon READ getInterfaceTrayIcon WRITE setInterfaceTrayIcon NOTIFY interfaceTrayIconChanged)
     int getInterfaceTrayIcon();
-    void setInterfaceTrayIcon();
+    void setInterfaceTrayIcon(int val);
+    int getDefaultForInterfaceTrayIcon();
     void setDefaultForInterfaceTrayIcon();
 
     Q_PROPERTY(bool interfaceTrayIconHideReset READ getInterfaceTrayIconHideReset WRITE setInterfaceTrayIconHideReset NOTIFY interfaceTrayIconHideResetChanged)
     bool getInterfaceTrayIconHideReset();
-    void setInterfaceTrayIconHideReset();
+    void setInterfaceTrayIconHideReset(bool val);
+    bool getDefaultForInterfaceTrayIconHideReset();
     void setDefaultForInterfaceTrayIconHideReset();
 
     Q_PROPERTY(bool interfaceTrayIconMonochrome READ getInterfaceTrayIconMonochrome WRITE setInterfaceTrayIconMonochrome NOTIFY interfaceTrayIconMonochromeChanged)
     bool getInterfaceTrayIconMonochrome();
-    void setInterfaceTrayIconMonochrome();
+    void setInterfaceTrayIconMonochrome(bool val);
+    bool getDefaultForInterfaceTrayIconMonochrome();
     void setDefaultForInterfaceTrayIconMonochrome();
 
     Q_PROPERTY(bool interfaceWindowButtonsAutoHide READ getInterfaceWindowButtonsAutoHide WRITE setInterfaceWindowButtonsAutoHide NOTIFY interfaceWindowButtonsAutoHideChanged)
     bool getInterfaceWindowButtonsAutoHide();
-    void setInterfaceWindowButtonsAutoHide();
+    void setInterfaceWindowButtonsAutoHide(bool val);
+    bool getDefaultForInterfaceWindowButtonsAutoHide();
     void setDefaultForInterfaceWindowButtonsAutoHide();
 
     Q_PROPERTY(int interfaceWindowButtonsAutoHideTimeout READ getInterfaceWindowButtonsAutoHideTimeout WRITE setInterfaceWindowButtonsAutoHideTimeout NOTIFY interfaceWindowButtonsAutoHideTimeoutChanged)
     int getInterfaceWindowButtonsAutoHideTimeout();
-    void setInterfaceWindowButtonsAutoHideTimeout();
+    void setInterfaceWindowButtonsAutoHideTimeout(int val);
+    int getDefaultForInterfaceWindowButtonsAutoHideTimeout();
     void setDefaultForInterfaceWindowButtonsAutoHideTimeout();
 
     Q_PROPERTY(bool interfaceWindowButtonsAutoHideTopEdge READ getInterfaceWindowButtonsAutoHideTopEdge WRITE setInterfaceWindowButtonsAutoHideTopEdge NOTIFY interfaceWindowButtonsAutoHideTopEdgeChanged)
     bool getInterfaceWindowButtonsAutoHideTopEdge();
-    void setInterfaceWindowButtonsAutoHideTopEdge();
+    void setInterfaceWindowButtonsAutoHideTopEdge(bool val);
+    bool getDefaultForInterfaceWindowButtonsAutoHideTopEdge();
     void setDefaultForInterfaceWindowButtonsAutoHideTopEdge();
 
     Q_PROPERTY(QStringList interfaceWindowButtonsItems READ getInterfaceWindowButtonsItems WRITE setInterfaceWindowButtonsItems NOTIFY interfaceWindowButtonsItemsChanged)
     QStringList getInterfaceWindowButtonsItems();
-    void setInterfaceWindowButtonsItems();
+    void setInterfaceWindowButtonsItems(QStringList val);
+    QStringList getDefaultForInterfaceWindowButtonsItems();
     void setDefaultForInterfaceWindowButtonsItems();
 
     Q_PROPERTY(bool interfaceWindowButtonsShow READ getInterfaceWindowButtonsShow WRITE setInterfaceWindowButtonsShow NOTIFY interfaceWindowButtonsShowChanged)
     bool getInterfaceWindowButtonsShow();
-    void setInterfaceWindowButtonsShow();
+    void setInterfaceWindowButtonsShow(bool val);
+    bool getDefaultForInterfaceWindowButtonsShow();
     void setDefaultForInterfaceWindowButtonsShow();
 
     Q_PROPERTY(int interfaceWindowButtonsSize READ getInterfaceWindowButtonsSize WRITE setInterfaceWindowButtonsSize NOTIFY interfaceWindowButtonsSizeChanged)
     int getInterfaceWindowButtonsSize();
-    void setInterfaceWindowButtonsSize();
+    void setInterfaceWindowButtonsSize(int val);
+    int getDefaultForInterfaceWindowButtonsSize();
     void setDefaultForInterfaceWindowButtonsSize();
 
     Q_PROPERTY(bool interfaceWindowDecoration READ getInterfaceWindowDecoration WRITE setInterfaceWindowDecoration NOTIFY interfaceWindowDecorationChanged)
     bool getInterfaceWindowDecoration();
-    void setInterfaceWindowDecoration();
+    void setInterfaceWindowDecoration(bool val);
+    bool getDefaultForInterfaceWindowDecoration();
     void setDefaultForInterfaceWindowDecoration();
 
     Q_PROPERTY(bool interfaceWindowDecorationOnEmptyBackground READ getInterfaceWindowDecorationOnEmptyBackground WRITE setInterfaceWindowDecorationOnEmptyBackground NOTIFY interfaceWindowDecorationOnEmptyBackgroundChanged)
     bool getInterfaceWindowDecorationOnEmptyBackground();
-    void setInterfaceWindowDecorationOnEmptyBackground();
+    void setInterfaceWindowDecorationOnEmptyBackground(bool val);
+    bool getDefaultForInterfaceWindowDecorationOnEmptyBackground();
     void setDefaultForInterfaceWindowDecorationOnEmptyBackground();
 
     Q_PROPERTY(bool interfaceWindowMode READ getInterfaceWindowMode WRITE setInterfaceWindowMode NOTIFY interfaceWindowModeChanged)
     bool getInterfaceWindowMode();
-    void setInterfaceWindowMode();
+    void setInterfaceWindowMode(bool val);
+    bool getDefaultForInterfaceWindowMode();
     void setDefaultForInterfaceWindowMode();
 
     /**************************************/
@@ -992,27 +1177,32 @@ public:
 
     Q_PROPERTY(bool mainmenuElementHeightDynamic READ getMainmenuElementHeightDynamic WRITE setMainmenuElementHeightDynamic NOTIFY mainmenuElementHeightDynamicChanged)
     bool getMainmenuElementHeightDynamic();
-    void setMainmenuElementHeightDynamic();
+    void setMainmenuElementHeightDynamic(bool val);
+    bool getDefaultForMainmenuElementHeightDynamic();
     void setDefaultForMainmenuElementHeightDynamic();
 
     Q_PROPERTY(QPoint mainmenuElementPosition READ getMainmenuElementPosition WRITE setMainmenuElementPosition NOTIFY mainmenuElementPositionChanged)
     QPoint getMainmenuElementPosition();
-    void setMainmenuElementPosition();
+    void setMainmenuElementPosition(QPoint val);
+    QPoint getDefaultForMainmenuElementPosition();
     void setDefaultForMainmenuElementPosition();
 
     Q_PROPERTY(QSize mainmenuElementSize READ getMainmenuElementSize WRITE setMainmenuElementSize NOTIFY mainmenuElementSizeChanged)
     QSize getMainmenuElementSize();
-    void setMainmenuElementSize();
+    void setMainmenuElementSize(QSize val);
+    QSize getDefaultForMainmenuElementSize();
     void setDefaultForMainmenuElementSize();
 
     Q_PROPERTY(int mainmenuElementWidth READ getMainmenuElementWidth WRITE setMainmenuElementWidth NOTIFY mainmenuElementWidthChanged)
     int getMainmenuElementWidth();
-    void setMainmenuElementWidth();
+    void setMainmenuElementWidth(int val);
+    int getDefaultForMainmenuElementWidth();
     void setDefaultForMainmenuElementWidth();
 
     Q_PROPERTY(bool mainmenuShowExternal READ getMainmenuShowExternal WRITE setMainmenuShowExternal NOTIFY mainmenuShowExternalChanged)
     bool getMainmenuShowExternal();
-    void setMainmenuShowExternal();
+    void setMainmenuShowExternal(bool val);
+    bool getDefaultForMainmenuShowExternal();
     void setDefaultForMainmenuShowExternal();
 
     /**************************************/
@@ -1020,27 +1210,32 @@ public:
 
     Q_PROPERTY(QPoint mapviewCurrentPosition READ getMapviewCurrentPosition WRITE setMapviewCurrentPosition NOTIFY mapviewCurrentPositionChanged)
     QPoint getMapviewCurrentPosition();
-    void setMapviewCurrentPosition();
+    void setMapviewCurrentPosition(QPoint val);
+    QPoint getDefaultForMapviewCurrentPosition();
     void setDefaultForMapviewCurrentPosition();
 
     Q_PROPERTY(QSize mapviewCurrentSize READ getMapviewCurrentSize WRITE setMapviewCurrentSize NOTIFY mapviewCurrentSizeChanged)
     QSize getMapviewCurrentSize();
-    void setMapviewCurrentSize();
+    void setMapviewCurrentSize(QSize val);
+    QSize getDefaultForMapviewCurrentSize();
     void setDefaultForMapviewCurrentSize();
 
     Q_PROPERTY(bool mapviewCurrentVisible READ getMapviewCurrentVisible WRITE setMapviewCurrentVisible NOTIFY mapviewCurrentVisibleChanged)
     bool getMapviewCurrentVisible();
-    void setMapviewCurrentVisible();
+    void setMapviewCurrentVisible(bool val);
+    bool getDefaultForMapviewCurrentVisible();
     void setDefaultForMapviewCurrentVisible();
 
     Q_PROPERTY(bool mapviewExplorerThumbnailsScaleCrop READ getMapviewExplorerThumbnailsScaleCrop WRITE setMapviewExplorerThumbnailsScaleCrop NOTIFY mapviewExplorerThumbnailsScaleCropChanged)
     bool getMapviewExplorerThumbnailsScaleCrop();
-    void setMapviewExplorerThumbnailsScaleCrop();
+    void setMapviewExplorerThumbnailsScaleCrop(bool val);
+    bool getDefaultForMapviewExplorerThumbnailsScaleCrop();
     void setDefaultForMapviewExplorerThumbnailsScaleCrop();
 
     Q_PROPERTY(int mapviewExplorerThumbnailsZoomLevel READ getMapviewExplorerThumbnailsZoomLevel WRITE setMapviewExplorerThumbnailsZoomLevel NOTIFY mapviewExplorerThumbnailsZoomLevelChanged)
     int getMapviewExplorerThumbnailsZoomLevel();
-    void setMapviewExplorerThumbnailsZoomLevel();
+    void setMapviewExplorerThumbnailsZoomLevel(int val);
+    int getDefaultForMapviewExplorerThumbnailsZoomLevel();
     void setDefaultForMapviewExplorerThumbnailsZoomLevel();
 
     /**************************************/
@@ -1048,167 +1243,200 @@ public:
 
     Q_PROPERTY(bool metadataAutoRotation READ getMetadataAutoRotation WRITE setMetadataAutoRotation NOTIFY metadataAutoRotationChanged)
     bool getMetadataAutoRotation();
-    void setMetadataAutoRotation();
+    void setMetadataAutoRotation(bool val);
+    bool getDefaultForMetadataAutoRotation();
     void setDefaultForMetadataAutoRotation();
 
     Q_PROPERTY(bool metadataCopyright READ getMetadataCopyright WRITE setMetadataCopyright NOTIFY metadataCopyrightChanged)
     bool getMetadataCopyright();
-    void setMetadataCopyright();
+    void setMetadataCopyright(bool val);
+    bool getDefaultForMetadataCopyright();
     void setDefaultForMetadataCopyright();
 
     Q_PROPERTY(bool metadataDimensions READ getMetadataDimensions WRITE setMetadataDimensions NOTIFY metadataDimensionsChanged)
     bool getMetadataDimensions();
-    void setMetadataDimensions();
+    void setMetadataDimensions(bool val);
+    bool getDefaultForMetadataDimensions();
     void setDefaultForMetadataDimensions();
 
     Q_PROPERTY(bool metadataElementFloating READ getMetadataElementFloating WRITE setMetadataElementFloating NOTIFY metadataElementFloatingChanged)
     bool getMetadataElementFloating();
-    void setMetadataElementFloating();
+    void setMetadataElementFloating(bool val);
+    bool getDefaultForMetadataElementFloating();
     void setDefaultForMetadataElementFloating();
 
     Q_PROPERTY(bool metadataElementHeightDynamic READ getMetadataElementHeightDynamic WRITE setMetadataElementHeightDynamic NOTIFY metadataElementHeightDynamicChanged)
     bool getMetadataElementHeightDynamic();
-    void setMetadataElementHeightDynamic();
+    void setMetadataElementHeightDynamic(bool val);
+    bool getDefaultForMetadataElementHeightDynamic();
     void setDefaultForMetadataElementHeightDynamic();
 
     Q_PROPERTY(QPoint metadataElementPosition READ getMetadataElementPosition WRITE setMetadataElementPosition NOTIFY metadataElementPositionChanged)
     QPoint getMetadataElementPosition();
-    void setMetadataElementPosition();
+    void setMetadataElementPosition(QPoint val);
+    QPoint getDefaultForMetadataElementPosition();
     void setDefaultForMetadataElementPosition();
 
     Q_PROPERTY(QSize metadataElementSize READ getMetadataElementSize WRITE setMetadataElementSize NOTIFY metadataElementSizeChanged)
     QSize getMetadataElementSize();
-    void setMetadataElementSize();
+    void setMetadataElementSize(QSize val);
+    QSize getDefaultForMetadataElementSize();
     void setDefaultForMetadataElementSize();
 
     Q_PROPERTY(bool metadataElementVisible READ getMetadataElementVisible WRITE setMetadataElementVisible NOTIFY metadataElementVisibleChanged)
     bool getMetadataElementVisible();
-    void setMetadataElementVisible();
+    void setMetadataElementVisible(bool val);
+    bool getDefaultForMetadataElementVisible();
     void setDefaultForMetadataElementVisible();
 
     Q_PROPERTY(bool metadataExposureTime READ getMetadataExposureTime WRITE setMetadataExposureTime NOTIFY metadataExposureTimeChanged)
     bool getMetadataExposureTime();
-    void setMetadataExposureTime();
+    void setMetadataExposureTime(bool val);
+    bool getDefaultForMetadataExposureTime();
     void setDefaultForMetadataExposureTime();
 
     Q_PROPERTY(bool metadataFLength READ getMetadataFLength WRITE setMetadataFLength NOTIFY metadataFLengthChanged)
     bool getMetadataFLength();
-    void setMetadataFLength();
+    void setMetadataFLength(bool val);
+    bool getDefaultForMetadataFLength();
     void setDefaultForMetadataFLength();
 
     Q_PROPERTY(bool metadataFNumber READ getMetadataFNumber WRITE setMetadataFNumber NOTIFY metadataFNumberChanged)
     bool getMetadataFNumber();
-    void setMetadataFNumber();
+    void setMetadataFNumber(bool val);
+    bool getDefaultForMetadataFNumber();
     void setDefaultForMetadataFNumber();
 
     Q_PROPERTY(bool metadataFaceTagsBorder READ getMetadataFaceTagsBorder WRITE setMetadataFaceTagsBorder NOTIFY metadataFaceTagsBorderChanged)
     bool getMetadataFaceTagsBorder();
-    void setMetadataFaceTagsBorder();
+    void setMetadataFaceTagsBorder(bool val);
+    bool getDefaultForMetadataFaceTagsBorder();
     void setDefaultForMetadataFaceTagsBorder();
 
     Q_PROPERTY(QString metadataFaceTagsBorderColor READ getMetadataFaceTagsBorderColor WRITE setMetadataFaceTagsBorderColor NOTIFY metadataFaceTagsBorderColorChanged)
     QString getMetadataFaceTagsBorderColor();
-    void setMetadataFaceTagsBorderColor();
+    void setMetadataFaceTagsBorderColor(QString val);
+    QString getDefaultForMetadataFaceTagsBorderColor();
     void setDefaultForMetadataFaceTagsBorderColor();
 
     Q_PROPERTY(int metadataFaceTagsBorderWidth READ getMetadataFaceTagsBorderWidth WRITE setMetadataFaceTagsBorderWidth NOTIFY metadataFaceTagsBorderWidthChanged)
     int getMetadataFaceTagsBorderWidth();
-    void setMetadataFaceTagsBorderWidth();
+    void setMetadataFaceTagsBorderWidth(int val);
+    int getDefaultForMetadataFaceTagsBorderWidth();
     void setDefaultForMetadataFaceTagsBorderWidth();
 
     Q_PROPERTY(bool metadataFaceTagsEnabled READ getMetadataFaceTagsEnabled WRITE setMetadataFaceTagsEnabled NOTIFY metadataFaceTagsEnabledChanged)
     bool getMetadataFaceTagsEnabled();
-    void setMetadataFaceTagsEnabled();
+    void setMetadataFaceTagsEnabled(bool val);
+    bool getDefaultForMetadataFaceTagsEnabled();
     void setDefaultForMetadataFaceTagsEnabled();
 
     Q_PROPERTY(int metadataFaceTagsFontSize READ getMetadataFaceTagsFontSize WRITE setMetadataFaceTagsFontSize NOTIFY metadataFaceTagsFontSizeChanged)
     int getMetadataFaceTagsFontSize();
-    void setMetadataFaceTagsFontSize();
+    void setMetadataFaceTagsFontSize(int val);
+    int getDefaultForMetadataFaceTagsFontSize();
     void setDefaultForMetadataFaceTagsFontSize();
 
     Q_PROPERTY(int metadataFaceTagsVisibility READ getMetadataFaceTagsVisibility WRITE setMetadataFaceTagsVisibility NOTIFY metadataFaceTagsVisibilityChanged)
     int getMetadataFaceTagsVisibility();
-    void setMetadataFaceTagsVisibility();
+    void setMetadataFaceTagsVisibility(int val);
+    int getDefaultForMetadataFaceTagsVisibility();
     void setDefaultForMetadataFaceTagsVisibility();
 
     Q_PROPERTY(bool metadataFileSize READ getMetadataFileSize WRITE setMetadataFileSize NOTIFY metadataFileSizeChanged)
     bool getMetadataFileSize();
-    void setMetadataFileSize();
+    void setMetadataFileSize(bool val);
+    bool getDefaultForMetadataFileSize();
     void setDefaultForMetadataFileSize();
 
     Q_PROPERTY(bool metadataFileType READ getMetadataFileType WRITE setMetadataFileType NOTIFY metadataFileTypeChanged)
     bool getMetadataFileType();
-    void setMetadataFileType();
+    void setMetadataFileType(bool val);
+    bool getDefaultForMetadataFileType();
     void setDefaultForMetadataFileType();
 
     Q_PROPERTY(bool metadataFilename READ getMetadataFilename WRITE setMetadataFilename NOTIFY metadataFilenameChanged)
     bool getMetadataFilename();
-    void setMetadataFilename();
+    void setMetadataFilename(bool val);
+    bool getDefaultForMetadataFilename();
     void setDefaultForMetadataFilename();
 
     Q_PROPERTY(bool metadataFlash READ getMetadataFlash WRITE setMetadataFlash NOTIFY metadataFlashChanged)
     bool getMetadataFlash();
-    void setMetadataFlash();
+    void setMetadataFlash(bool val);
+    bool getDefaultForMetadataFlash();
     void setDefaultForMetadataFlash();
 
     Q_PROPERTY(bool metadataGps READ getMetadataGps WRITE setMetadataGps NOTIFY metadataGpsChanged)
     bool getMetadataGps();
-    void setMetadataGps();
+    void setMetadataGps(bool val);
+    bool getDefaultForMetadataGps();
     void setDefaultForMetadataGps();
 
     Q_PROPERTY(QString metadataGpsMap READ getMetadataGpsMap WRITE setMetadataGpsMap NOTIFY metadataGpsMapChanged)
     QString getMetadataGpsMap();
-    void setMetadataGpsMap();
+    void setMetadataGpsMap(QString val);
+    QString getDefaultForMetadataGpsMap();
     void setDefaultForMetadataGpsMap();
 
     Q_PROPERTY(bool metadataImageNumber READ getMetadataImageNumber WRITE setMetadataImageNumber NOTIFY metadataImageNumberChanged)
     bool getMetadataImageNumber();
-    void setMetadataImageNumber();
+    void setMetadataImageNumber(bool val);
+    bool getDefaultForMetadataImageNumber();
     void setDefaultForMetadataImageNumber();
 
     Q_PROPERTY(bool metadataIso READ getMetadataIso WRITE setMetadataIso NOTIFY metadataIsoChanged)
     bool getMetadataIso();
-    void setMetadataIso();
+    void setMetadataIso(bool val);
+    bool getDefaultForMetadataIso();
     void setDefaultForMetadataIso();
 
     Q_PROPERTY(bool metadataKeywords READ getMetadataKeywords WRITE setMetadataKeywords NOTIFY metadataKeywordsChanged)
     bool getMetadataKeywords();
-    void setMetadataKeywords();
+    void setMetadataKeywords(bool val);
+    bool getDefaultForMetadataKeywords();
     void setDefaultForMetadataKeywords();
 
     Q_PROPERTY(bool metadataLightSource READ getMetadataLightSource WRITE setMetadataLightSource NOTIFY metadataLightSourceChanged)
     bool getMetadataLightSource();
-    void setMetadataLightSource();
+    void setMetadataLightSource(bool val);
+    bool getDefaultForMetadataLightSource();
     void setDefaultForMetadataLightSource();
 
     Q_PROPERTY(bool metadataLocation READ getMetadataLocation WRITE setMetadataLocation NOTIFY metadataLocationChanged)
     bool getMetadataLocation();
-    void setMetadataLocation();
+    void setMetadataLocation(bool val);
+    bool getDefaultForMetadataLocation();
     void setDefaultForMetadataLocation();
 
     Q_PROPERTY(bool metadataMake READ getMetadataMake WRITE setMetadataMake NOTIFY metadataMakeChanged)
     bool getMetadataMake();
-    void setMetadataMake();
+    void setMetadataMake(bool val);
+    bool getDefaultForMetadataMake();
     void setDefaultForMetadataMake();
 
     Q_PROPERTY(bool metadataModel READ getMetadataModel WRITE setMetadataModel NOTIFY metadataModelChanged)
     bool getMetadataModel();
-    void setMetadataModel();
+    void setMetadataModel(bool val);
+    bool getDefaultForMetadataModel();
     void setDefaultForMetadataModel();
 
     Q_PROPERTY(bool metadataSceneType READ getMetadataSceneType WRITE setMetadataSceneType NOTIFY metadataSceneTypeChanged)
     bool getMetadataSceneType();
-    void setMetadataSceneType();
+    void setMetadataSceneType(bool val);
+    bool getDefaultForMetadataSceneType();
     void setDefaultForMetadataSceneType();
 
     Q_PROPERTY(bool metadataSoftware READ getMetadataSoftware WRITE setMetadataSoftware NOTIFY metadataSoftwareChanged)
     bool getMetadataSoftware();
-    void setMetadataSoftware();
+    void setMetadataSoftware(bool val);
+    bool getDefaultForMetadataSoftware();
     void setDefaultForMetadataSoftware();
 
     Q_PROPERTY(bool metadataTime READ getMetadataTime WRITE setMetadataTime NOTIFY metadataTimeChanged)
     bool getMetadataTime();
-    void setMetadataTime();
+    void setMetadataTime(bool val);
+    bool getDefaultForMetadataTime();
     void setDefaultForMetadataTime();
 
     /**************************************/
@@ -1216,67 +1444,80 @@ public:
 
     Q_PROPERTY(bool slideshowHideLabels READ getSlideshowHideLabels WRITE setSlideshowHideLabels NOTIFY slideshowHideLabelsChanged)
     bool getSlideshowHideLabels();
-    void setSlideshowHideLabels();
+    void setSlideshowHideLabels(bool val);
+    bool getDefaultForSlideshowHideLabels();
     void setDefaultForSlideshowHideLabels();
 
     Q_PROPERTY(bool slideshowHideWindowButtons READ getSlideshowHideWindowButtons WRITE setSlideshowHideWindowButtons NOTIFY slideshowHideWindowButtonsChanged)
     bool getSlideshowHideWindowButtons();
-    void setSlideshowHideWindowButtons();
+    void setSlideshowHideWindowButtons(bool val);
+    bool getDefaultForSlideshowHideWindowButtons();
     void setDefaultForSlideshowHideWindowButtons();
 
     Q_PROPERTY(int slideshowImageTransition READ getSlideshowImageTransition WRITE setSlideshowImageTransition NOTIFY slideshowImageTransitionChanged)
     int getSlideshowImageTransition();
-    void setSlideshowImageTransition();
+    void setSlideshowImageTransition(int val);
+    int getDefaultForSlideshowImageTransition();
     void setDefaultForSlideshowImageTransition();
 
     Q_PROPERTY(bool slideshowIncludeSubFolders READ getSlideshowIncludeSubFolders WRITE setSlideshowIncludeSubFolders NOTIFY slideshowIncludeSubFoldersChanged)
     bool getSlideshowIncludeSubFolders();
-    void setSlideshowIncludeSubFolders();
+    void setSlideshowIncludeSubFolders(bool val);
+    bool getDefaultForSlideshowIncludeSubFolders();
     void setDefaultForSlideshowIncludeSubFolders();
 
     Q_PROPERTY(bool slideshowLoop READ getSlideshowLoop WRITE setSlideshowLoop NOTIFY slideshowLoopChanged)
     bool getSlideshowLoop();
-    void setSlideshowLoop();
+    void setSlideshowLoop(bool val);
+    bool getDefaultForSlideshowLoop();
     void setDefaultForSlideshowLoop();
 
     Q_PROPERTY(bool slideshowMusic READ getSlideshowMusic WRITE setSlideshowMusic NOTIFY slideshowMusicChanged)
     bool getSlideshowMusic();
-    void setSlideshowMusic();
+    void setSlideshowMusic(bool val);
+    bool getDefaultForSlideshowMusic();
     void setDefaultForSlideshowMusic();
 
     Q_PROPERTY(QString slideshowMusicFile READ getSlideshowMusicFile WRITE setSlideshowMusicFile NOTIFY slideshowMusicFileChanged)
     QString getSlideshowMusicFile();
-    void setSlideshowMusicFile();
+    void setSlideshowMusicFile(QString val);
+    QString getDefaultForSlideshowMusicFile();
     void setDefaultForSlideshowMusicFile();
 
     Q_PROPERTY(QStringList slideshowMusicFiles READ getSlideshowMusicFiles WRITE setSlideshowMusicFiles NOTIFY slideshowMusicFilesChanged)
     QStringList getSlideshowMusicFiles();
-    void setSlideshowMusicFiles();
+    void setSlideshowMusicFiles(QStringList val);
+    QStringList getDefaultForSlideshowMusicFiles();
     void setDefaultForSlideshowMusicFiles();
 
     Q_PROPERTY(bool slideshowMusicShuffle READ getSlideshowMusicShuffle WRITE setSlideshowMusicShuffle NOTIFY slideshowMusicShuffleChanged)
     bool getSlideshowMusicShuffle();
-    void setSlideshowMusicShuffle();
+    void setSlideshowMusicShuffle(bool val);
+    bool getDefaultForSlideshowMusicShuffle();
     void setDefaultForSlideshowMusicShuffle();
 
     Q_PROPERTY(int slideshowMusicVolumeVideos READ getSlideshowMusicVolumeVideos WRITE setSlideshowMusicVolumeVideos NOTIFY slideshowMusicVolumeVideosChanged)
     int getSlideshowMusicVolumeVideos();
-    void setSlideshowMusicVolumeVideos();
+    void setSlideshowMusicVolumeVideos(int val);
+    int getDefaultForSlideshowMusicVolumeVideos();
     void setDefaultForSlideshowMusicVolumeVideos();
 
     Q_PROPERTY(bool slideshowShuffle READ getSlideshowShuffle WRITE setSlideshowShuffle NOTIFY slideshowShuffleChanged)
     bool getSlideshowShuffle();
-    void setSlideshowShuffle();
+    void setSlideshowShuffle(bool val);
+    bool getDefaultForSlideshowShuffle();
     void setDefaultForSlideshowShuffle();
 
     Q_PROPERTY(int slideshowTime READ getSlideshowTime WRITE setSlideshowTime NOTIFY slideshowTimeChanged)
     int getSlideshowTime();
-    void setSlideshowTime();
+    void setSlideshowTime(int val);
+    int getDefaultForSlideshowTime();
     void setDefaultForSlideshowTime();
 
     Q_PROPERTY(QString slideshowTypeAnimation READ getSlideshowTypeAnimation WRITE setSlideshowTypeAnimation NOTIFY slideshowTypeAnimationChanged)
     QString getSlideshowTypeAnimation();
-    void setSlideshowTypeAnimation();
+    void setSlideshowTypeAnimation(QString val);
+    QString getDefaultForSlideshowTypeAnimation();
     void setDefaultForSlideshowTypeAnimation();
 
     /**************************************/
@@ -1284,122 +1525,146 @@ public:
 
     Q_PROPERTY(bool thumbnailsCache READ getThumbnailsCache WRITE setThumbnailsCache NOTIFY thumbnailsCacheChanged)
     bool getThumbnailsCache();
-    void setThumbnailsCache();
+    void setThumbnailsCache(bool val);
+    bool getDefaultForThumbnailsCache();
     void setDefaultForThumbnailsCache();
 
     Q_PROPERTY(bool thumbnailsCacheBaseDirDefault READ getThumbnailsCacheBaseDirDefault WRITE setThumbnailsCacheBaseDirDefault NOTIFY thumbnailsCacheBaseDirDefaultChanged)
     bool getThumbnailsCacheBaseDirDefault();
-    void setThumbnailsCacheBaseDirDefault();
+    void setThumbnailsCacheBaseDirDefault(bool val);
+    bool getDefaultForThumbnailsCacheBaseDirDefault();
     void setDefaultForThumbnailsCacheBaseDirDefault();
 
     Q_PROPERTY(QString thumbnailsCacheBaseDirLocation READ getThumbnailsCacheBaseDirLocation WRITE setThumbnailsCacheBaseDirLocation NOTIFY thumbnailsCacheBaseDirLocationChanged)
     QString getThumbnailsCacheBaseDirLocation();
-    void setThumbnailsCacheBaseDirLocation();
+    void setThumbnailsCacheBaseDirLocation(QString val);
+    QString getDefaultForThumbnailsCacheBaseDirLocation();
     void setDefaultForThumbnailsCacheBaseDirLocation();
 
     Q_PROPERTY(bool thumbnailsCenterOnActive READ getThumbnailsCenterOnActive WRITE setThumbnailsCenterOnActive NOTIFY thumbnailsCenterOnActiveChanged)
     bool getThumbnailsCenterOnActive();
-    void setThumbnailsCenterOnActive();
+    void setThumbnailsCenterOnActive(bool val);
+    bool getDefaultForThumbnailsCenterOnActive();
     void setDefaultForThumbnailsCenterOnActive();
 
     Q_PROPERTY(bool thumbnailsCropToFit READ getThumbnailsCropToFit WRITE setThumbnailsCropToFit NOTIFY thumbnailsCropToFitChanged)
     bool getThumbnailsCropToFit();
-    void setThumbnailsCropToFit();
+    void setThumbnailsCropToFit(bool val);
+    bool getDefaultForThumbnailsCropToFit();
     void setDefaultForThumbnailsCropToFit();
 
     Q_PROPERTY(bool thumbnailsDisable READ getThumbnailsDisable WRITE setThumbnailsDisable NOTIFY thumbnailsDisableChanged)
     bool getThumbnailsDisable();
-    void setThumbnailsDisable();
+    void setThumbnailsDisable(bool val);
+    bool getDefaultForThumbnailsDisable();
     void setDefaultForThumbnailsDisable();
 
     Q_PROPERTY(QString thumbnailsExcludeDropBox READ getThumbnailsExcludeDropBox WRITE setThumbnailsExcludeDropBox NOTIFY thumbnailsExcludeDropBoxChanged)
     QString getThumbnailsExcludeDropBox();
-    void setThumbnailsExcludeDropBox();
+    void setThumbnailsExcludeDropBox(QString val);
+    QString getDefaultForThumbnailsExcludeDropBox();
     void setDefaultForThumbnailsExcludeDropBox();
 
     Q_PROPERTY(QStringList thumbnailsExcludeFolders READ getThumbnailsExcludeFolders WRITE setThumbnailsExcludeFolders NOTIFY thumbnailsExcludeFoldersChanged)
     QStringList getThumbnailsExcludeFolders();
-    void setThumbnailsExcludeFolders();
+    void setThumbnailsExcludeFolders(QStringList val);
+    QStringList getDefaultForThumbnailsExcludeFolders();
     void setDefaultForThumbnailsExcludeFolders();
 
     Q_PROPERTY(bool thumbnailsExcludeNetworkShares READ getThumbnailsExcludeNetworkShares WRITE setThumbnailsExcludeNetworkShares NOTIFY thumbnailsExcludeNetworkSharesChanged)
     bool getThumbnailsExcludeNetworkShares();
-    void setThumbnailsExcludeNetworkShares();
+    void setThumbnailsExcludeNetworkShares(bool val);
+    bool getDefaultForThumbnailsExcludeNetworkShares();
     void setDefaultForThumbnailsExcludeNetworkShares();
 
     Q_PROPERTY(QString thumbnailsExcludeNextcloud READ getThumbnailsExcludeNextcloud WRITE setThumbnailsExcludeNextcloud NOTIFY thumbnailsExcludeNextcloudChanged)
     QString getThumbnailsExcludeNextcloud();
-    void setThumbnailsExcludeNextcloud();
+    void setThumbnailsExcludeNextcloud(QString val);
+    QString getDefaultForThumbnailsExcludeNextcloud();
     void setDefaultForThumbnailsExcludeNextcloud();
 
     Q_PROPERTY(QString thumbnailsExcludeOwnCloud READ getThumbnailsExcludeOwnCloud WRITE setThumbnailsExcludeOwnCloud NOTIFY thumbnailsExcludeOwnCloudChanged)
     QString getThumbnailsExcludeOwnCloud();
-    void setThumbnailsExcludeOwnCloud();
+    void setThumbnailsExcludeOwnCloud(QString val);
+    QString getDefaultForThumbnailsExcludeOwnCloud();
     void setDefaultForThumbnailsExcludeOwnCloud();
 
     Q_PROPERTY(bool thumbnailsFilename READ getThumbnailsFilename WRITE setThumbnailsFilename NOTIFY thumbnailsFilenameChanged)
     bool getThumbnailsFilename();
-    void setThumbnailsFilename();
+    void setThumbnailsFilename(bool val);
+    bool getDefaultForThumbnailsFilename();
     void setDefaultForThumbnailsFilename();
 
     Q_PROPERTY(int thumbnailsFontSize READ getThumbnailsFontSize WRITE setThumbnailsFontSize NOTIFY thumbnailsFontSizeChanged)
     int getThumbnailsFontSize();
-    void setThumbnailsFontSize();
+    void setThumbnailsFontSize(int val);
+    int getDefaultForThumbnailsFontSize();
     void setDefaultForThumbnailsFontSize();
 
     Q_PROPERTY(QStringList thumbnailsHighlightAnimation READ getThumbnailsHighlightAnimation WRITE setThumbnailsHighlightAnimation NOTIFY thumbnailsHighlightAnimationChanged)
     QStringList getThumbnailsHighlightAnimation();
-    void setThumbnailsHighlightAnimation();
+    void setThumbnailsHighlightAnimation(QStringList val);
+    QStringList getDefaultForThumbnailsHighlightAnimation();
     void setDefaultForThumbnailsHighlightAnimation();
 
     Q_PROPERTY(int thumbnailsHighlightAnimationLiftUp READ getThumbnailsHighlightAnimationLiftUp WRITE setThumbnailsHighlightAnimationLiftUp NOTIFY thumbnailsHighlightAnimationLiftUpChanged)
     int getThumbnailsHighlightAnimationLiftUp();
-    void setThumbnailsHighlightAnimationLiftUp();
+    void setThumbnailsHighlightAnimationLiftUp(int val);
+    int getDefaultForThumbnailsHighlightAnimationLiftUp();
     void setDefaultForThumbnailsHighlightAnimationLiftUp();
 
     Q_PROPERTY(bool thumbnailsIconsOnly READ getThumbnailsIconsOnly WRITE setThumbnailsIconsOnly NOTIFY thumbnailsIconsOnlyChanged)
     bool getThumbnailsIconsOnly();
-    void setThumbnailsIconsOnly();
+    void setThumbnailsIconsOnly(bool val);
+    bool getDefaultForThumbnailsIconsOnly();
     void setDefaultForThumbnailsIconsOnly();
 
     Q_PROPERTY(bool thumbnailsInactiveTransparent READ getThumbnailsInactiveTransparent WRITE setThumbnailsInactiveTransparent NOTIFY thumbnailsInactiveTransparentChanged)
     bool getThumbnailsInactiveTransparent();
-    void setThumbnailsInactiveTransparent();
+    void setThumbnailsInactiveTransparent(bool val);
+    bool getDefaultForThumbnailsInactiveTransparent();
     void setDefaultForThumbnailsInactiveTransparent();
 
     Q_PROPERTY(int thumbnailsMaxNumberThreads READ getThumbnailsMaxNumberThreads WRITE setThumbnailsMaxNumberThreads NOTIFY thumbnailsMaxNumberThreadsChanged)
     int getThumbnailsMaxNumberThreads();
-    void setThumbnailsMaxNumberThreads();
+    void setThumbnailsMaxNumberThreads(int val);
+    int getDefaultForThumbnailsMaxNumberThreads();
     void setDefaultForThumbnailsMaxNumberThreads();
 
     Q_PROPERTY(bool thumbnailsSameHeightVaryWidth READ getThumbnailsSameHeightVaryWidth WRITE setThumbnailsSameHeightVaryWidth NOTIFY thumbnailsSameHeightVaryWidthChanged)
     bool getThumbnailsSameHeightVaryWidth();
-    void setThumbnailsSameHeightVaryWidth();
+    void setThumbnailsSameHeightVaryWidth(bool val);
+    bool getDefaultForThumbnailsSameHeightVaryWidth();
     void setDefaultForThumbnailsSameHeightVaryWidth();
 
     Q_PROPERTY(int thumbnailsSize READ getThumbnailsSize WRITE setThumbnailsSize NOTIFY thumbnailsSizeChanged)
     int getThumbnailsSize();
-    void setThumbnailsSize();
+    void setThumbnailsSize(int val);
+    int getDefaultForThumbnailsSize();
     void setDefaultForThumbnailsSize();
 
     Q_PROPERTY(bool thumbnailsSmallThumbnailsKeepSmall READ getThumbnailsSmallThumbnailsKeepSmall WRITE setThumbnailsSmallThumbnailsKeepSmall NOTIFY thumbnailsSmallThumbnailsKeepSmallChanged)
     bool getThumbnailsSmallThumbnailsKeepSmall();
-    void setThumbnailsSmallThumbnailsKeepSmall();
+    void setThumbnailsSmallThumbnailsKeepSmall(bool val);
+    bool getDefaultForThumbnailsSmallThumbnailsKeepSmall();
     void setDefaultForThumbnailsSmallThumbnailsKeepSmall();
 
     Q_PROPERTY(int thumbnailsSpacing READ getThumbnailsSpacing WRITE setThumbnailsSpacing NOTIFY thumbnailsSpacingChanged)
     int getThumbnailsSpacing();
-    void setThumbnailsSpacing();
+    void setThumbnailsSpacing(int val);
+    int getDefaultForThumbnailsSpacing();
     void setDefaultForThumbnailsSpacing();
 
     Q_PROPERTY(bool thumbnailsTooltip READ getThumbnailsTooltip WRITE setThumbnailsTooltip NOTIFY thumbnailsTooltipChanged)
     bool getThumbnailsTooltip();
-    void setThumbnailsTooltip();
+    void setThumbnailsTooltip(bool val);
+    bool getDefaultForThumbnailsTooltip();
     void setDefaultForThumbnailsTooltip();
 
     Q_PROPERTY(int thumbnailsVisibility READ getThumbnailsVisibility WRITE setThumbnailsVisibility NOTIFY thumbnailsVisibilityChanged)
     int getThumbnailsVisibility();
-    void setThumbnailsVisibility();
+    void setThumbnailsVisibility(int val);
+    int getDefaultForThumbnailsVisibility();
     void setDefaultForThumbnailsVisibility();
 
 
@@ -1424,289 +1689,289 @@ public Q_SLOTS:
 private:
 
     // table: filedialog
-        bool m_filedialogDetailsTooltip;
-        bool m_filedialogDevices;
-        bool m_filedialogDevicesShowTmpfs;
-        bool m_filedialogDragDropFileviewGrid;
-        bool m_filedialogDragDropFileviewList;
-        bool m_filedialogDragDropFileviewMasonry;
-        bool m_filedialogDragDropPlaces;
-        int m_filedialogElementPadding;
-        bool m_filedialogFolderContentThumbnails;
-        bool m_filedialogFolderContentThumbnailsAutoload;
-        bool m_filedialogFolderContentThumbnailsLoop;
-        bool m_filedialogFolderContentThumbnailsScaleCrop;
-        int m_filedialogFolderContentThumbnailsSpeed;
-        bool m_filedialogKeepLastLocation;
-        bool m_filedialogLabelsShowGrid;
-        bool m_filedialogLabelsShowMasonry;
-        QString m_filedialogLayout;
-        bool m_filedialogPlaces;
-        int m_filedialogPlacesWidth;
-        bool m_filedialogPreview;
-        bool m_filedialogPreviewBlur;
-        int m_filedialogPreviewColorIntensity;
-        bool m_filedialogPreviewCropToFit;
-        bool m_filedialogPreviewHigherResolution;
-        bool m_filedialogPreviewMuted;
-        bool m_filedialogRememberSelection;
-        bool m_filedialogShowHiddenFilesFolders;
-        bool m_filedialogSingleClickSelect;
-        bool m_filedialogThumbnails;
-        bool m_filedialogThumbnailsScaleCrop;
-        int m_filedialogZoom;
+    bool m_filedialogDetailsTooltip;
+    bool m_filedialogDevices;
+    bool m_filedialogDevicesShowTmpfs;
+    bool m_filedialogDragDropFileviewGrid;
+    bool m_filedialogDragDropFileviewList;
+    bool m_filedialogDragDropFileviewMasonry;
+    bool m_filedialogDragDropPlaces;
+    int m_filedialogElementPadding;
+    bool m_filedialogFolderContentThumbnails;
+    bool m_filedialogFolderContentThumbnailsAutoload;
+    bool m_filedialogFolderContentThumbnailsLoop;
+    bool m_filedialogFolderContentThumbnailsScaleCrop;
+    int m_filedialogFolderContentThumbnailsSpeed;
+    bool m_filedialogKeepLastLocation;
+    bool m_filedialogLabelsShowGrid;
+    bool m_filedialogLabelsShowMasonry;
+    QString m_filedialogLayout;
+    bool m_filedialogPlaces;
+    int m_filedialogPlacesWidth;
+    bool m_filedialogPreview;
+    bool m_filedialogPreviewBlur;
+    int m_filedialogPreviewColorIntensity;
+    bool m_filedialogPreviewCropToFit;
+    bool m_filedialogPreviewHigherResolution;
+    bool m_filedialogPreviewMuted;
+    bool m_filedialogRememberSelection;
+    bool m_filedialogShowHiddenFilesFolders;
+    bool m_filedialogSingleClickSelect;
+    bool m_filedialogThumbnails;
+    bool m_filedialogThumbnailsScaleCrop;
+    int m_filedialogZoom;
 
     // table: filetypes
-        bool m_filetypesAnimatedControls;
-        bool m_filetypesAnimatedLeftRight;
-        bool m_filetypesAnimatedSpacePause;
-        bool m_filetypesArchiveControls;
-        bool m_filetypesArchiveLeftRight;
-        bool m_filetypesDocumentControls;
-        bool m_filetypesDocumentLeftRight;
-        bool m_filetypesExternalUnrar;
-        bool m_filetypesLoadAppleLivePhotos;
-        bool m_filetypesLoadMotionPhotos;
-        bool m_filetypesMotionAutoPlay;
-        bool m_filetypesMotionPhotoPlayPause;
-        bool m_filetypesMotionSpacePause;
-        int m_filetypesPDFQuality;
-        bool m_filetypesPhotoSphereArrowKeys;
-        bool m_filetypesPhotoSphereAutoLoad;
-        bool m_filetypesPhotoSphereBigButton;
-        bool m_filetypesPhotoSphereControls;
-        bool m_filetypesPhotoSpherePanOnLoad;
-        bool m_filetypesRAWUseEmbeddedIfAvailable;
-        bool m_filetypesVideoAutoplay;
-        bool m_filetypesVideoLeftRightJumpVideo;
-        bool m_filetypesVideoLoop;
-        bool m_filetypesVideoPreferLibmpv;
-        bool m_filetypesVideoSpacePause;
-        QString m_filetypesVideoThumbnailer;
-        int m_filetypesVideoVolume;
+    bool m_filetypesAnimatedControls;
+    bool m_filetypesAnimatedLeftRight;
+    bool m_filetypesAnimatedSpacePause;
+    bool m_filetypesArchiveControls;
+    bool m_filetypesArchiveLeftRight;
+    bool m_filetypesDocumentControls;
+    bool m_filetypesDocumentLeftRight;
+    bool m_filetypesExternalUnrar;
+    bool m_filetypesLoadAppleLivePhotos;
+    bool m_filetypesLoadMotionPhotos;
+    bool m_filetypesMotionAutoPlay;
+    bool m_filetypesMotionPhotoPlayPause;
+    bool m_filetypesMotionSpacePause;
+    int m_filetypesPDFQuality;
+    bool m_filetypesPhotoSphereArrowKeys;
+    bool m_filetypesPhotoSphereAutoLoad;
+    bool m_filetypesPhotoSphereBigButton;
+    bool m_filetypesPhotoSphereControls;
+    bool m_filetypesPhotoSpherePanOnLoad;
+    bool m_filetypesRAWUseEmbeddedIfAvailable;
+    bool m_filetypesVideoAutoplay;
+    bool m_filetypesVideoLeftRightJumpVideo;
+    bool m_filetypesVideoLoop;
+    bool m_filetypesVideoPreferLibmpv;
+    bool m_filetypesVideoSpacePause;
+    QString m_filetypesVideoThumbnailer;
+    int m_filetypesVideoVolume;
 
     // table: general
-        bool m_generalAutoSaveSettings;
-        bool m_generalCompactSettings;
-        QString m_generalVersion;
+    bool m_generalAutoSaveSettings;
+    bool m_generalCompactSettings;
+    QString m_generalVersion;
 
     // table: imageview
-        bool m_imageviewAdvancedSortAscending;
-        QString m_imageviewAdvancedSortCriteria;
-        QStringList m_imageviewAdvancedSortDateCriteria;
-        QString m_imageviewAdvancedSortQuality;
-        bool m_imageviewAlwaysActualSize;
-        int m_imageviewAnimationDuration;
-        QString m_imageviewAnimationType;
-        int m_imageviewCache;
-        QStringList m_imageviewColorSpaceContextMenu;
-        QString m_imageviewColorSpaceDefault;
-        bool m_imageviewColorSpaceEnable;
-        bool m_imageviewColorSpaceLoadEmbedded;
-        bool m_imageviewEscapeExitArchive;
-        bool m_imageviewEscapeExitBarcodes;
-        bool m_imageviewEscapeExitDocument;
-        bool m_imageviewEscapeExitFilter;
-        bool m_imageviewEscapeExitSphere;
-        bool m_imageviewFitInWindow;
-        int m_imageviewHideCursorTimeout;
-        bool m_imageviewInterpolationDisableForSmallImages;
-        int m_imageviewInterpolationThreshold;
-        bool m_imageviewLoopThroughFolder;
-        int m_imageviewMargin;
-        int m_imageviewMinimapSizeLevel;
-        bool m_imageviewMirrorAnimate;
-        int m_imageviewPreloadInBackground;
-        bool m_imageviewPreserveMirror;
-        bool m_imageviewPreserveRotation;
-        bool m_imageviewPreserveZoom;
-        bool m_imageviewRememberZoomRotationMirror;
-        int m_imageviewResetViewAutoHideTimeout;
-        bool m_imageviewResetViewShow;
-        bool m_imageviewRespectDevicePixelRatio;
-        bool m_imageviewShowMinimap;
-        bool m_imageviewSortImagesAscending;
-        QString m_imageviewSortImagesBy;
-        bool m_imageviewTransparencyMarker;
-        bool m_imageviewUseMouseLeftButtonForImageMove;
-        bool m_imageviewUseMouseWheelForImageMove;
-        int m_imageviewZoomMax;
-        bool m_imageviewZoomMaxEnabled;
-        int m_imageviewZoomMin;
-        bool m_imageviewZoomMinEnabled;
-        int m_imageviewZoomSpeed;
-        bool m_imageviewZoomSpeedRelative;
-        bool m_imageviewZoomToCenter;
+    bool m_imageviewAdvancedSortAscending;
+    QString m_imageviewAdvancedSortCriteria;
+    QStringList m_imageviewAdvancedSortDateCriteria;
+    QString m_imageviewAdvancedSortQuality;
+    bool m_imageviewAlwaysActualSize;
+    int m_imageviewAnimationDuration;
+    QString m_imageviewAnimationType;
+    int m_imageviewCache;
+    QStringList m_imageviewColorSpaceContextMenu;
+    QString m_imageviewColorSpaceDefault;
+    bool m_imageviewColorSpaceEnable;
+    bool m_imageviewColorSpaceLoadEmbedded;
+    bool m_imageviewEscapeExitArchive;
+    bool m_imageviewEscapeExitBarcodes;
+    bool m_imageviewEscapeExitDocument;
+    bool m_imageviewEscapeExitFilter;
+    bool m_imageviewEscapeExitSphere;
+    bool m_imageviewFitInWindow;
+    int m_imageviewHideCursorTimeout;
+    bool m_imageviewInterpolationDisableForSmallImages;
+    int m_imageviewInterpolationThreshold;
+    bool m_imageviewLoopThroughFolder;
+    int m_imageviewMargin;
+    int m_imageviewMinimapSizeLevel;
+    bool m_imageviewMirrorAnimate;
+    int m_imageviewPreloadInBackground;
+    bool m_imageviewPreserveMirror;
+    bool m_imageviewPreserveRotation;
+    bool m_imageviewPreserveZoom;
+    bool m_imageviewRememberZoomRotationMirror;
+    int m_imageviewResetViewAutoHideTimeout;
+    bool m_imageviewResetViewShow;
+    bool m_imageviewRespectDevicePixelRatio;
+    bool m_imageviewShowMinimap;
+    bool m_imageviewSortImagesAscending;
+    QString m_imageviewSortImagesBy;
+    bool m_imageviewTransparencyMarker;
+    bool m_imageviewUseMouseLeftButtonForImageMove;
+    bool m_imageviewUseMouseWheelForImageMove;
+    int m_imageviewZoomMax;
+    bool m_imageviewZoomMaxEnabled;
+    int m_imageviewZoomMin;
+    bool m_imageviewZoomMinEnabled;
+    int m_imageviewZoomSpeed;
+    bool m_imageviewZoomSpeedRelative;
+    bool m_imageviewZoomToCenter;
 
     // table: interface
-        QString m_interfaceAccentColor;
-        bool m_interfaceAllowMultipleInstances;
-        bool m_interfaceBackgroundCustomOverlay;
-        QString m_interfaceBackgroundCustomOverlayColor;
-        bool m_interfaceBackgroundFullyTransparent;
-        bool m_interfaceBackgroundImageCenter;
-        QString m_interfaceBackgroundImagePath;
-        bool m_interfaceBackgroundImageScale;
-        bool m_interfaceBackgroundImageScaleCrop;
-        bool m_interfaceBackgroundImageScreenshot;
-        bool m_interfaceBackgroundImageStretch;
-        bool m_interfaceBackgroundImageTile;
-        bool m_interfaceBackgroundImageUse;
-        bool m_interfaceBackgroundSolid;
-        bool m_interfaceBlurElementsInBackground;
-        bool m_interfaceCloseOnEmptyBackground;
-        int m_interfaceDoubleClickThreshold;
-        QString m_interfaceEdgeBottomAction;
-        QString m_interfaceEdgeLeftAction;
-        QString m_interfaceEdgeRightAction;
-        QString m_interfaceEdgeTopAction;
-        int m_interfaceFontBoldWeight;
-        int m_interfaceFontNormalWeight;
-        int m_interfaceHotEdgeSize;
-        bool m_interfaceKeepWindowOnTop;
-        QString m_interfaceLanguage;
-        bool m_interfaceMinimapPopout;
-        int m_interfaceMouseWheelSensitivity;
-        bool m_interfaceNavigateOnEmptyBackground;
-        bool m_interfaceNavigationFloating;
-        int m_interfaceNotificationDistanceFromEdge;
-        QString m_interfaceNotificationLocation;
-        bool m_interfaceNotificationTryNative;
-        bool m_interfacePopoutAbout;
-        bool m_interfacePopoutAdvancedSort;
-        bool m_interfacePopoutChromecast;
-        bool m_interfacePopoutExport;
-        bool m_interfacePopoutFileDelete;
-        bool m_interfacePopoutFileDialog;
-        bool m_interfacePopoutFileDialogNonModal;
-        bool m_interfacePopoutFileRename;
-        bool m_interfacePopoutFilter;
-        bool m_interfacePopoutImgur;
-        bool m_interfacePopoutMainMenu;
-        bool m_interfacePopoutMapExplorer;
-        bool m_interfacePopoutMapExplorerNonModal;
-        bool m_interfacePopoutMetadata;
-        bool m_interfacePopoutSettingsManager;
-        bool m_interfacePopoutSettingsManagerNonModal;
-        bool m_interfacePopoutSlideshowControls;
-        bool m_interfacePopoutSlideshowSetup;
-        bool m_interfacePopoutWhenWindowIsSmall;
-        bool m_interfaceQuickActions;
-        int m_interfaceQuickActionsHeight;
-        QStringList m_interfaceQuickActionsItems;
-        bool m_interfaceRememberLastImage;
-        bool m_interfaceSaveWindowGeometry;
-        bool m_interfaceStatusInfoAutoHide;
-        int m_interfaceStatusInfoAutoHideTimeout;
-        bool m_interfaceStatusInfoAutoHideTopEdge;
-        int m_interfaceStatusInfoFontSize;
-        QStringList m_interfaceStatusInfoList;
-        bool m_interfaceStatusInfoManageWindow;
-        QString m_interfaceStatusInfoPosition;
-        bool m_interfaceStatusInfoShow;
-        bool m_interfaceStatusInfoShowImageChange;
-        int m_interfaceTrayIcon;
-        bool m_interfaceTrayIconHideReset;
-        bool m_interfaceTrayIconMonochrome;
-        bool m_interfaceWindowButtonsAutoHide;
-        int m_interfaceWindowButtonsAutoHideTimeout;
-        bool m_interfaceWindowButtonsAutoHideTopEdge;
-        QStringList m_interfaceWindowButtonsItems;
-        bool m_interfaceWindowButtonsShow;
-        int m_interfaceWindowButtonsSize;
-        bool m_interfaceWindowDecoration;
-        bool m_interfaceWindowDecorationOnEmptyBackground;
-        bool m_interfaceWindowMode;
+    QString m_interfaceAccentColor;
+    bool m_interfaceAllowMultipleInstances;
+    bool m_interfaceBackgroundCustomOverlay;
+    QString m_interfaceBackgroundCustomOverlayColor;
+    bool m_interfaceBackgroundFullyTransparent;
+    bool m_interfaceBackgroundImageCenter;
+    QString m_interfaceBackgroundImagePath;
+    bool m_interfaceBackgroundImageScale;
+    bool m_interfaceBackgroundImageScaleCrop;
+    bool m_interfaceBackgroundImageScreenshot;
+    bool m_interfaceBackgroundImageStretch;
+    bool m_interfaceBackgroundImageTile;
+    bool m_interfaceBackgroundImageUse;
+    bool m_interfaceBackgroundSolid;
+    bool m_interfaceBlurElementsInBackground;
+    bool m_interfaceCloseOnEmptyBackground;
+    int m_interfaceDoubleClickThreshold;
+    QString m_interfaceEdgeBottomAction;
+    QString m_interfaceEdgeLeftAction;
+    QString m_interfaceEdgeRightAction;
+    QString m_interfaceEdgeTopAction;
+    int m_interfaceFontBoldWeight;
+    int m_interfaceFontNormalWeight;
+    int m_interfaceHotEdgeSize;
+    bool m_interfaceKeepWindowOnTop;
+    QString m_interfaceLanguage;
+    bool m_interfaceMinimapPopout;
+    int m_interfaceMouseWheelSensitivity;
+    bool m_interfaceNavigateOnEmptyBackground;
+    bool m_interfaceNavigationFloating;
+    int m_interfaceNotificationDistanceFromEdge;
+    QString m_interfaceNotificationLocation;
+    bool m_interfaceNotificationTryNative;
+    bool m_interfacePopoutAbout;
+    bool m_interfacePopoutAdvancedSort;
+    bool m_interfacePopoutChromecast;
+    bool m_interfacePopoutExport;
+    bool m_interfacePopoutFileDelete;
+    bool m_interfacePopoutFileDialog;
+    bool m_interfacePopoutFileDialogNonModal;
+    bool m_interfacePopoutFileRename;
+    bool m_interfacePopoutFilter;
+    bool m_interfacePopoutImgur;
+    bool m_interfacePopoutMainMenu;
+    bool m_interfacePopoutMapExplorer;
+    bool m_interfacePopoutMapExplorerNonModal;
+    bool m_interfacePopoutMetadata;
+    bool m_interfacePopoutSettingsManager;
+    bool m_interfacePopoutSettingsManagerNonModal;
+    bool m_interfacePopoutSlideshowControls;
+    bool m_interfacePopoutSlideshowSetup;
+    bool m_interfacePopoutWhenWindowIsSmall;
+    bool m_interfaceQuickActions;
+    int m_interfaceQuickActionsHeight;
+    QStringList m_interfaceQuickActionsItems;
+    bool m_interfaceRememberLastImage;
+    bool m_interfaceSaveWindowGeometry;
+    bool m_interfaceStatusInfoAutoHide;
+    int m_interfaceStatusInfoAutoHideTimeout;
+    bool m_interfaceStatusInfoAutoHideTopEdge;
+    int m_interfaceStatusInfoFontSize;
+    QStringList m_interfaceStatusInfoList;
+    bool m_interfaceStatusInfoManageWindow;
+    QString m_interfaceStatusInfoPosition;
+    bool m_interfaceStatusInfoShow;
+    bool m_interfaceStatusInfoShowImageChange;
+    int m_interfaceTrayIcon;
+    bool m_interfaceTrayIconHideReset;
+    bool m_interfaceTrayIconMonochrome;
+    bool m_interfaceWindowButtonsAutoHide;
+    int m_interfaceWindowButtonsAutoHideTimeout;
+    bool m_interfaceWindowButtonsAutoHideTopEdge;
+    QStringList m_interfaceWindowButtonsItems;
+    bool m_interfaceWindowButtonsShow;
+    int m_interfaceWindowButtonsSize;
+    bool m_interfaceWindowDecoration;
+    bool m_interfaceWindowDecorationOnEmptyBackground;
+    bool m_interfaceWindowMode;
 
     // table: mainmenu
-        bool m_mainmenuElementHeightDynamic;
-        QPoint m_mainmenuElementPosition;
-        QSize m_mainmenuElementSize;
-        int m_mainmenuElementWidth;
-        bool m_mainmenuShowExternal;
+    bool m_mainmenuElementHeightDynamic;
+    QPoint m_mainmenuElementPosition;
+    QSize m_mainmenuElementSize;
+    int m_mainmenuElementWidth;
+    bool m_mainmenuShowExternal;
 
     // table: mapview
-        QPoint m_mapviewCurrentPosition;
-        QSize m_mapviewCurrentSize;
-        bool m_mapviewCurrentVisible;
-        bool m_mapviewExplorerThumbnailsScaleCrop;
-        int m_mapviewExplorerThumbnailsZoomLevel;
+    QPoint m_mapviewCurrentPosition;
+    QSize m_mapviewCurrentSize;
+    bool m_mapviewCurrentVisible;
+    bool m_mapviewExplorerThumbnailsScaleCrop;
+    int m_mapviewExplorerThumbnailsZoomLevel;
 
     // table: metadata
-        bool m_metadataAutoRotation;
-        bool m_metadataCopyright;
-        bool m_metadataDimensions;
-        bool m_metadataElementFloating;
-        bool m_metadataElementHeightDynamic;
-        QPoint m_metadataElementPosition;
-        QSize m_metadataElementSize;
-        bool m_metadataElementVisible;
-        bool m_metadataExposureTime;
-        bool m_metadataFLength;
-        bool m_metadataFNumber;
-        bool m_metadataFaceTagsBorder;
-        QString m_metadataFaceTagsBorderColor;
-        int m_metadataFaceTagsBorderWidth;
-        bool m_metadataFaceTagsEnabled;
-        int m_metadataFaceTagsFontSize;
-        int m_metadataFaceTagsVisibility;
-        bool m_metadataFileSize;
-        bool m_metadataFileType;
-        bool m_metadataFilename;
-        bool m_metadataFlash;
-        bool m_metadataGps;
-        QString m_metadataGpsMap;
-        bool m_metadataImageNumber;
-        bool m_metadataIso;
-        bool m_metadataKeywords;
-        bool m_metadataLightSource;
-        bool m_metadataLocation;
-        bool m_metadataMake;
-        bool m_metadataModel;
-        bool m_metadataSceneType;
-        bool m_metadataSoftware;
-        bool m_metadataTime;
+    bool m_metadataAutoRotation;
+    bool m_metadataCopyright;
+    bool m_metadataDimensions;
+    bool m_metadataElementFloating;
+    bool m_metadataElementHeightDynamic;
+    QPoint m_metadataElementPosition;
+    QSize m_metadataElementSize;
+    bool m_metadataElementVisible;
+    bool m_metadataExposureTime;
+    bool m_metadataFLength;
+    bool m_metadataFNumber;
+    bool m_metadataFaceTagsBorder;
+    QString m_metadataFaceTagsBorderColor;
+    int m_metadataFaceTagsBorderWidth;
+    bool m_metadataFaceTagsEnabled;
+    int m_metadataFaceTagsFontSize;
+    int m_metadataFaceTagsVisibility;
+    bool m_metadataFileSize;
+    bool m_metadataFileType;
+    bool m_metadataFilename;
+    bool m_metadataFlash;
+    bool m_metadataGps;
+    QString m_metadataGpsMap;
+    bool m_metadataImageNumber;
+    bool m_metadataIso;
+    bool m_metadataKeywords;
+    bool m_metadataLightSource;
+    bool m_metadataLocation;
+    bool m_metadataMake;
+    bool m_metadataModel;
+    bool m_metadataSceneType;
+    bool m_metadataSoftware;
+    bool m_metadataTime;
 
     // table: slideshow
-        bool m_slideshowHideLabels;
-        bool m_slideshowHideWindowButtons;
-        int m_slideshowImageTransition;
-        bool m_slideshowIncludeSubFolders;
-        bool m_slideshowLoop;
-        bool m_slideshowMusic;
-        QString m_slideshowMusicFile;
-        QStringList m_slideshowMusicFiles;
-        bool m_slideshowMusicShuffle;
-        int m_slideshowMusicVolumeVideos;
-        bool m_slideshowShuffle;
-        int m_slideshowTime;
-        QString m_slideshowTypeAnimation;
+    bool m_slideshowHideLabels;
+    bool m_slideshowHideWindowButtons;
+    int m_slideshowImageTransition;
+    bool m_slideshowIncludeSubFolders;
+    bool m_slideshowLoop;
+    bool m_slideshowMusic;
+    QString m_slideshowMusicFile;
+    QStringList m_slideshowMusicFiles;
+    bool m_slideshowMusicShuffle;
+    int m_slideshowMusicVolumeVideos;
+    bool m_slideshowShuffle;
+    int m_slideshowTime;
+    QString m_slideshowTypeAnimation;
 
     // table: thumbnails
-        bool m_thumbnailsCache;
-        bool m_thumbnailsCacheBaseDirDefault;
-        QString m_thumbnailsCacheBaseDirLocation;
-        bool m_thumbnailsCenterOnActive;
-        bool m_thumbnailsCropToFit;
-        bool m_thumbnailsDisable;
-        QString m_thumbnailsExcludeDropBox;
-        QStringList m_thumbnailsExcludeFolders;
-        bool m_thumbnailsExcludeNetworkShares;
-        QString m_thumbnailsExcludeNextcloud;
-        QString m_thumbnailsExcludeOwnCloud;
-        bool m_thumbnailsFilename;
-        int m_thumbnailsFontSize;
-        QStringList m_thumbnailsHighlightAnimation;
-        int m_thumbnailsHighlightAnimationLiftUp;
-        bool m_thumbnailsIconsOnly;
-        bool m_thumbnailsInactiveTransparent;
-        int m_thumbnailsMaxNumberThreads;
-        bool m_thumbnailsSameHeightVaryWidth;
-        int m_thumbnailsSize;
-        bool m_thumbnailsSmallThumbnailsKeepSmall;
-        int m_thumbnailsSpacing;
-        bool m_thumbnailsTooltip;
-        int m_thumbnailsVisibility;
+    bool m_thumbnailsCache;
+    bool m_thumbnailsCacheBaseDirDefault;
+    QString m_thumbnailsCacheBaseDirLocation;
+    bool m_thumbnailsCenterOnActive;
+    bool m_thumbnailsCropToFit;
+    bool m_thumbnailsDisable;
+    QString m_thumbnailsExcludeDropBox;
+    QStringList m_thumbnailsExcludeFolders;
+    bool m_thumbnailsExcludeNetworkShares;
+    QString m_thumbnailsExcludeNextcloud;
+    QString m_thumbnailsExcludeOwnCloud;
+    bool m_thumbnailsFilename;
+    int m_thumbnailsFontSize;
+    QStringList m_thumbnailsHighlightAnimation;
+    int m_thumbnailsHighlightAnimationLiftUp;
+    bool m_thumbnailsIconsOnly;
+    bool m_thumbnailsInactiveTransparent;
+    int m_thumbnailsMaxNumberThreads;
+    bool m_thumbnailsSameHeightVaryWidth;
+    int m_thumbnailsSize;
+    bool m_thumbnailsSmallThumbnailsKeepSmall;
+    int m_thumbnailsSpacing;
+    bool m_thumbnailsTooltip;
+    int m_thumbnailsVisibility;
 
     QStringList dbtables;
     QSqlDatabase db;
@@ -1726,289 +1991,289 @@ private:
 Q_SIGNALS:
 
     // table: filedialog
-    void filedialogDetailsTooltipChanged(bool val);
-    void filedialogDevicesChanged(bool val);
-    void filedialogDevicesShowTmpfsChanged(bool val);
-    void filedialogDragDropFileviewGridChanged(bool val);
-    void filedialogDragDropFileviewListChanged(bool val);
-    void filedialogDragDropFileviewMasonryChanged(bool val);
-    void filedialogDragDropPlacesChanged(bool val);
-    void filedialogElementPaddingChanged(int val);
-    void filedialogFolderContentThumbnailsChanged(bool val);
-    void filedialogFolderContentThumbnailsAutoloadChanged(bool val);
-    void filedialogFolderContentThumbnailsLoopChanged(bool val);
-    void filedialogFolderContentThumbnailsScaleCropChanged(bool val);
-    void filedialogFolderContentThumbnailsSpeedChanged(int val);
-    void filedialogKeepLastLocationChanged(bool val);
-    void filedialogLabelsShowGridChanged(bool val);
-    void filedialogLabelsShowMasonryChanged(bool val);
-    void filedialogLayoutChanged(QString val);
-    void filedialogPlacesChanged(bool val);
-    void filedialogPlacesWidthChanged(int val);
-    void filedialogPreviewChanged(bool val);
-    void filedialogPreviewBlurChanged(bool val);
-    void filedialogPreviewColorIntensityChanged(int val);
-    void filedialogPreviewCropToFitChanged(bool val);
-    void filedialogPreviewHigherResolutionChanged(bool val);
-    void filedialogPreviewMutedChanged(bool val);
-    void filedialogRememberSelectionChanged(bool val);
-    void filedialogShowHiddenFilesFoldersChanged(bool val);
-    void filedialogSingleClickSelectChanged(bool val);
-    void filedialogThumbnailsChanged(bool val);
-    void filedialogThumbnailsScaleCropChanged(bool val);
-    void filedialogZoomChanged(int val);
+    void filedialogDetailsTooltipChanged();
+    void filedialogDevicesChanged();
+    void filedialogDevicesShowTmpfsChanged();
+    void filedialogDragDropFileviewGridChanged();
+    void filedialogDragDropFileviewListChanged();
+    void filedialogDragDropFileviewMasonryChanged();
+    void filedialogDragDropPlacesChanged();
+    void filedialogElementPaddingChanged();
+    void filedialogFolderContentThumbnailsChanged();
+    void filedialogFolderContentThumbnailsAutoloadChanged();
+    void filedialogFolderContentThumbnailsLoopChanged();
+    void filedialogFolderContentThumbnailsScaleCropChanged();
+    void filedialogFolderContentThumbnailsSpeedChanged();
+    void filedialogKeepLastLocationChanged();
+    void filedialogLabelsShowGridChanged();
+    void filedialogLabelsShowMasonryChanged();
+    void filedialogLayoutChanged();
+    void filedialogPlacesChanged();
+    void filedialogPlacesWidthChanged();
+    void filedialogPreviewChanged();
+    void filedialogPreviewBlurChanged();
+    void filedialogPreviewColorIntensityChanged();
+    void filedialogPreviewCropToFitChanged();
+    void filedialogPreviewHigherResolutionChanged();
+    void filedialogPreviewMutedChanged();
+    void filedialogRememberSelectionChanged();
+    void filedialogShowHiddenFilesFoldersChanged();
+    void filedialogSingleClickSelectChanged();
+    void filedialogThumbnailsChanged();
+    void filedialogThumbnailsScaleCropChanged();
+    void filedialogZoomChanged();
 
     // table: filetypes
-    void filetypesAnimatedControlsChanged(bool val);
-    void filetypesAnimatedLeftRightChanged(bool val);
-    void filetypesAnimatedSpacePauseChanged(bool val);
-    void filetypesArchiveControlsChanged(bool val);
-    void filetypesArchiveLeftRightChanged(bool val);
-    void filetypesDocumentControlsChanged(bool val);
-    void filetypesDocumentLeftRightChanged(bool val);
-    void filetypesExternalUnrarChanged(bool val);
-    void filetypesLoadAppleLivePhotosChanged(bool val);
-    void filetypesLoadMotionPhotosChanged(bool val);
-    void filetypesMotionAutoPlayChanged(bool val);
-    void filetypesMotionPhotoPlayPauseChanged(bool val);
-    void filetypesMotionSpacePauseChanged(bool val);
-    void filetypesPDFQualityChanged(int val);
-    void filetypesPhotoSphereArrowKeysChanged(bool val);
-    void filetypesPhotoSphereAutoLoadChanged(bool val);
-    void filetypesPhotoSphereBigButtonChanged(bool val);
-    void filetypesPhotoSphereControlsChanged(bool val);
-    void filetypesPhotoSpherePanOnLoadChanged(bool val);
-    void filetypesRAWUseEmbeddedIfAvailableChanged(bool val);
-    void filetypesVideoAutoplayChanged(bool val);
-    void filetypesVideoLeftRightJumpVideoChanged(bool val);
-    void filetypesVideoLoopChanged(bool val);
-    void filetypesVideoPreferLibmpvChanged(bool val);
-    void filetypesVideoSpacePauseChanged(bool val);
-    void filetypesVideoThumbnailerChanged(QString val);
-    void filetypesVideoVolumeChanged(int val);
+    void filetypesAnimatedControlsChanged();
+    void filetypesAnimatedLeftRightChanged();
+    void filetypesAnimatedSpacePauseChanged();
+    void filetypesArchiveControlsChanged();
+    void filetypesArchiveLeftRightChanged();
+    void filetypesDocumentControlsChanged();
+    void filetypesDocumentLeftRightChanged();
+    void filetypesExternalUnrarChanged();
+    void filetypesLoadAppleLivePhotosChanged();
+    void filetypesLoadMotionPhotosChanged();
+    void filetypesMotionAutoPlayChanged();
+    void filetypesMotionPhotoPlayPauseChanged();
+    void filetypesMotionSpacePauseChanged();
+    void filetypesPDFQualityChanged();
+    void filetypesPhotoSphereArrowKeysChanged();
+    void filetypesPhotoSphereAutoLoadChanged();
+    void filetypesPhotoSphereBigButtonChanged();
+    void filetypesPhotoSphereControlsChanged();
+    void filetypesPhotoSpherePanOnLoadChanged();
+    void filetypesRAWUseEmbeddedIfAvailableChanged();
+    void filetypesVideoAutoplayChanged();
+    void filetypesVideoLeftRightJumpVideoChanged();
+    void filetypesVideoLoopChanged();
+    void filetypesVideoPreferLibmpvChanged();
+    void filetypesVideoSpacePauseChanged();
+    void filetypesVideoThumbnailerChanged();
+    void filetypesVideoVolumeChanged();
 
     // table: general
-    void generalAutoSaveSettingsChanged(bool val);
-    void generalCompactSettingsChanged(bool val);
-    void generalVersionChanged(QString val);
+    void generalAutoSaveSettingsChanged();
+    void generalCompactSettingsChanged();
+    void generalVersionChanged();
 
     // table: imageview
-    void imageviewAdvancedSortAscendingChanged(bool val);
-    void imageviewAdvancedSortCriteriaChanged(QString val);
-    void imageviewAdvancedSortDateCriteriaChanged(QStringList val);
-    void imageviewAdvancedSortQualityChanged(QString val);
-    void imageviewAlwaysActualSizeChanged(bool val);
-    void imageviewAnimationDurationChanged(int val);
-    void imageviewAnimationTypeChanged(QString val);
-    void imageviewCacheChanged(int val);
-    void imageviewColorSpaceContextMenuChanged(QStringList val);
-    void imageviewColorSpaceDefaultChanged(QString val);
-    void imageviewColorSpaceEnableChanged(bool val);
-    void imageviewColorSpaceLoadEmbeddedChanged(bool val);
-    void imageviewEscapeExitArchiveChanged(bool val);
-    void imageviewEscapeExitBarcodesChanged(bool val);
-    void imageviewEscapeExitDocumentChanged(bool val);
-    void imageviewEscapeExitFilterChanged(bool val);
-    void imageviewEscapeExitSphereChanged(bool val);
-    void imageviewFitInWindowChanged(bool val);
-    void imageviewHideCursorTimeoutChanged(int val);
-    void imageviewInterpolationDisableForSmallImagesChanged(bool val);
-    void imageviewInterpolationThresholdChanged(int val);
-    void imageviewLoopThroughFolderChanged(bool val);
-    void imageviewMarginChanged(int val);
-    void imageviewMinimapSizeLevelChanged(int val);
-    void imageviewMirrorAnimateChanged(bool val);
-    void imageviewPreloadInBackgroundChanged(int val);
-    void imageviewPreserveMirrorChanged(bool val);
-    void imageviewPreserveRotationChanged(bool val);
-    void imageviewPreserveZoomChanged(bool val);
-    void imageviewRememberZoomRotationMirrorChanged(bool val);
-    void imageviewResetViewAutoHideTimeoutChanged(int val);
-    void imageviewResetViewShowChanged(bool val);
-    void imageviewRespectDevicePixelRatioChanged(bool val);
-    void imageviewShowMinimapChanged(bool val);
-    void imageviewSortImagesAscendingChanged(bool val);
-    void imageviewSortImagesByChanged(QString val);
-    void imageviewTransparencyMarkerChanged(bool val);
-    void imageviewUseMouseLeftButtonForImageMoveChanged(bool val);
-    void imageviewUseMouseWheelForImageMoveChanged(bool val);
-    void imageviewZoomMaxChanged(int val);
-    void imageviewZoomMaxEnabledChanged(bool val);
-    void imageviewZoomMinChanged(int val);
-    void imageviewZoomMinEnabledChanged(bool val);
-    void imageviewZoomSpeedChanged(int val);
-    void imageviewZoomSpeedRelativeChanged(bool val);
-    void imageviewZoomToCenterChanged(bool val);
+    void imageviewAdvancedSortAscendingChanged();
+    void imageviewAdvancedSortCriteriaChanged();
+    void imageviewAdvancedSortDateCriteriaChanged();
+    void imageviewAdvancedSortQualityChanged();
+    void imageviewAlwaysActualSizeChanged();
+    void imageviewAnimationDurationChanged();
+    void imageviewAnimationTypeChanged();
+    void imageviewCacheChanged();
+    void imageviewColorSpaceContextMenuChanged();
+    void imageviewColorSpaceDefaultChanged();
+    void imageviewColorSpaceEnableChanged();
+    void imageviewColorSpaceLoadEmbeddedChanged();
+    void imageviewEscapeExitArchiveChanged();
+    void imageviewEscapeExitBarcodesChanged();
+    void imageviewEscapeExitDocumentChanged();
+    void imageviewEscapeExitFilterChanged();
+    void imageviewEscapeExitSphereChanged();
+    void imageviewFitInWindowChanged();
+    void imageviewHideCursorTimeoutChanged();
+    void imageviewInterpolationDisableForSmallImagesChanged();
+    void imageviewInterpolationThresholdChanged();
+    void imageviewLoopThroughFolderChanged();
+    void imageviewMarginChanged();
+    void imageviewMinimapSizeLevelChanged();
+    void imageviewMirrorAnimateChanged();
+    void imageviewPreloadInBackgroundChanged();
+    void imageviewPreserveMirrorChanged();
+    void imageviewPreserveRotationChanged();
+    void imageviewPreserveZoomChanged();
+    void imageviewRememberZoomRotationMirrorChanged();
+    void imageviewResetViewAutoHideTimeoutChanged();
+    void imageviewResetViewShowChanged();
+    void imageviewRespectDevicePixelRatioChanged();
+    void imageviewShowMinimapChanged();
+    void imageviewSortImagesAscendingChanged();
+    void imageviewSortImagesByChanged();
+    void imageviewTransparencyMarkerChanged();
+    void imageviewUseMouseLeftButtonForImageMoveChanged();
+    void imageviewUseMouseWheelForImageMoveChanged();
+    void imageviewZoomMaxChanged();
+    void imageviewZoomMaxEnabledChanged();
+    void imageviewZoomMinChanged();
+    void imageviewZoomMinEnabledChanged();
+    void imageviewZoomSpeedChanged();
+    void imageviewZoomSpeedRelativeChanged();
+    void imageviewZoomToCenterChanged();
 
     // table: interface
-    void interfaceAccentColorChanged(QString val);
-    void interfaceAllowMultipleInstancesChanged(bool val);
-    void interfaceBackgroundCustomOverlayChanged(bool val);
-    void interfaceBackgroundCustomOverlayColorChanged(QString val);
-    void interfaceBackgroundFullyTransparentChanged(bool val);
-    void interfaceBackgroundImageCenterChanged(bool val);
-    void interfaceBackgroundImagePathChanged(QString val);
-    void interfaceBackgroundImageScaleChanged(bool val);
-    void interfaceBackgroundImageScaleCropChanged(bool val);
-    void interfaceBackgroundImageScreenshotChanged(bool val);
-    void interfaceBackgroundImageStretchChanged(bool val);
-    void interfaceBackgroundImageTileChanged(bool val);
-    void interfaceBackgroundImageUseChanged(bool val);
-    void interfaceBackgroundSolidChanged(bool val);
-    void interfaceBlurElementsInBackgroundChanged(bool val);
-    void interfaceCloseOnEmptyBackgroundChanged(bool val);
-    void interfaceDoubleClickThresholdChanged(int val);
-    void interfaceEdgeBottomActionChanged(QString val);
-    void interfaceEdgeLeftActionChanged(QString val);
-    void interfaceEdgeRightActionChanged(QString val);
-    void interfaceEdgeTopActionChanged(QString val);
-    void interfaceFontBoldWeightChanged(int val);
-    void interfaceFontNormalWeightChanged(int val);
-    void interfaceHotEdgeSizeChanged(int val);
-    void interfaceKeepWindowOnTopChanged(bool val);
-    void interfaceLanguageChanged(QString val);
-    void interfaceMinimapPopoutChanged(bool val);
-    void interfaceMouseWheelSensitivityChanged(int val);
-    void interfaceNavigateOnEmptyBackgroundChanged(bool val);
-    void interfaceNavigationFloatingChanged(bool val);
-    void interfaceNotificationDistanceFromEdgeChanged(int val);
-    void interfaceNotificationLocationChanged(QString val);
-    void interfaceNotificationTryNativeChanged(bool val);
-    void interfacePopoutAboutChanged(bool val);
-    void interfacePopoutAdvancedSortChanged(bool val);
-    void interfacePopoutChromecastChanged(bool val);
-    void interfacePopoutExportChanged(bool val);
-    void interfacePopoutFileDeleteChanged(bool val);
-    void interfacePopoutFileDialogChanged(bool val);
-    void interfacePopoutFileDialogNonModalChanged(bool val);
-    void interfacePopoutFileRenameChanged(bool val);
-    void interfacePopoutFilterChanged(bool val);
-    void interfacePopoutImgurChanged(bool val);
-    void interfacePopoutMainMenuChanged(bool val);
-    void interfacePopoutMapExplorerChanged(bool val);
-    void interfacePopoutMapExplorerNonModalChanged(bool val);
-    void interfacePopoutMetadataChanged(bool val);
-    void interfacePopoutSettingsManagerChanged(bool val);
-    void interfacePopoutSettingsManagerNonModalChanged(bool val);
-    void interfacePopoutSlideshowControlsChanged(bool val);
-    void interfacePopoutSlideshowSetupChanged(bool val);
-    void interfacePopoutWhenWindowIsSmallChanged(bool val);
-    void interfaceQuickActionsChanged(bool val);
-    void interfaceQuickActionsHeightChanged(int val);
-    void interfaceQuickActionsItemsChanged(QStringList val);
-    void interfaceRememberLastImageChanged(bool val);
-    void interfaceSaveWindowGeometryChanged(bool val);
-    void interfaceStatusInfoAutoHideChanged(bool val);
-    void interfaceStatusInfoAutoHideTimeoutChanged(int val);
-    void interfaceStatusInfoAutoHideTopEdgeChanged(bool val);
-    void interfaceStatusInfoFontSizeChanged(int val);
-    void interfaceStatusInfoListChanged(QStringList val);
-    void interfaceStatusInfoManageWindowChanged(bool val);
-    void interfaceStatusInfoPositionChanged(QString val);
-    void interfaceStatusInfoShowChanged(bool val);
-    void interfaceStatusInfoShowImageChangeChanged(bool val);
-    void interfaceTrayIconChanged(int val);
-    void interfaceTrayIconHideResetChanged(bool val);
-    void interfaceTrayIconMonochromeChanged(bool val);
-    void interfaceWindowButtonsAutoHideChanged(bool val);
-    void interfaceWindowButtonsAutoHideTimeoutChanged(int val);
-    void interfaceWindowButtonsAutoHideTopEdgeChanged(bool val);
-    void interfaceWindowButtonsItemsChanged(QStringList val);
-    void interfaceWindowButtonsShowChanged(bool val);
-    void interfaceWindowButtonsSizeChanged(int val);
-    void interfaceWindowDecorationChanged(bool val);
-    void interfaceWindowDecorationOnEmptyBackgroundChanged(bool val);
-    void interfaceWindowModeChanged(bool val);
+    void interfaceAccentColorChanged();
+    void interfaceAllowMultipleInstancesChanged();
+    void interfaceBackgroundCustomOverlayChanged();
+    void interfaceBackgroundCustomOverlayColorChanged();
+    void interfaceBackgroundFullyTransparentChanged();
+    void interfaceBackgroundImageCenterChanged();
+    void interfaceBackgroundImagePathChanged();
+    void interfaceBackgroundImageScaleChanged();
+    void interfaceBackgroundImageScaleCropChanged();
+    void interfaceBackgroundImageScreenshotChanged();
+    void interfaceBackgroundImageStretchChanged();
+    void interfaceBackgroundImageTileChanged();
+    void interfaceBackgroundImageUseChanged();
+    void interfaceBackgroundSolidChanged();
+    void interfaceBlurElementsInBackgroundChanged();
+    void interfaceCloseOnEmptyBackgroundChanged();
+    void interfaceDoubleClickThresholdChanged();
+    void interfaceEdgeBottomActionChanged();
+    void interfaceEdgeLeftActionChanged();
+    void interfaceEdgeRightActionChanged();
+    void interfaceEdgeTopActionChanged();
+    void interfaceFontBoldWeightChanged();
+    void interfaceFontNormalWeightChanged();
+    void interfaceHotEdgeSizeChanged();
+    void interfaceKeepWindowOnTopChanged();
+    void interfaceLanguageChanged();
+    void interfaceMinimapPopoutChanged();
+    void interfaceMouseWheelSensitivityChanged();
+    void interfaceNavigateOnEmptyBackgroundChanged();
+    void interfaceNavigationFloatingChanged();
+    void interfaceNotificationDistanceFromEdgeChanged();
+    void interfaceNotificationLocationChanged();
+    void interfaceNotificationTryNativeChanged();
+    void interfacePopoutAboutChanged();
+    void interfacePopoutAdvancedSortChanged();
+    void interfacePopoutChromecastChanged();
+    void interfacePopoutExportChanged();
+    void interfacePopoutFileDeleteChanged();
+    void interfacePopoutFileDialogChanged();
+    void interfacePopoutFileDialogNonModalChanged();
+    void interfacePopoutFileRenameChanged();
+    void interfacePopoutFilterChanged();
+    void interfacePopoutImgurChanged();
+    void interfacePopoutMainMenuChanged();
+    void interfacePopoutMapExplorerChanged();
+    void interfacePopoutMapExplorerNonModalChanged();
+    void interfacePopoutMetadataChanged();
+    void interfacePopoutSettingsManagerChanged();
+    void interfacePopoutSettingsManagerNonModalChanged();
+    void interfacePopoutSlideshowControlsChanged();
+    void interfacePopoutSlideshowSetupChanged();
+    void interfacePopoutWhenWindowIsSmallChanged();
+    void interfaceQuickActionsChanged();
+    void interfaceQuickActionsHeightChanged();
+    void interfaceQuickActionsItemsChanged();
+    void interfaceRememberLastImageChanged();
+    void interfaceSaveWindowGeometryChanged();
+    void interfaceStatusInfoAutoHideChanged();
+    void interfaceStatusInfoAutoHideTimeoutChanged();
+    void interfaceStatusInfoAutoHideTopEdgeChanged();
+    void interfaceStatusInfoFontSizeChanged();
+    void interfaceStatusInfoListChanged();
+    void interfaceStatusInfoManageWindowChanged();
+    void interfaceStatusInfoPositionChanged();
+    void interfaceStatusInfoShowChanged();
+    void interfaceStatusInfoShowImageChangeChanged();
+    void interfaceTrayIconChanged();
+    void interfaceTrayIconHideResetChanged();
+    void interfaceTrayIconMonochromeChanged();
+    void interfaceWindowButtonsAutoHideChanged();
+    void interfaceWindowButtonsAutoHideTimeoutChanged();
+    void interfaceWindowButtonsAutoHideTopEdgeChanged();
+    void interfaceWindowButtonsItemsChanged();
+    void interfaceWindowButtonsShowChanged();
+    void interfaceWindowButtonsSizeChanged();
+    void interfaceWindowDecorationChanged();
+    void interfaceWindowDecorationOnEmptyBackgroundChanged();
+    void interfaceWindowModeChanged();
 
     // table: mainmenu
-    void mainmenuElementHeightDynamicChanged(bool val);
-    void mainmenuElementPositionChanged(QPoint val);
-    void mainmenuElementSizeChanged(QSize val);
-    void mainmenuElementWidthChanged(int val);
-    void mainmenuShowExternalChanged(bool val);
+    void mainmenuElementHeightDynamicChanged();
+    void mainmenuElementPositionChanged();
+    void mainmenuElementSizeChanged();
+    void mainmenuElementWidthChanged();
+    void mainmenuShowExternalChanged();
 
     // table: mapview
-    void mapviewCurrentPositionChanged(QPoint val);
-    void mapviewCurrentSizeChanged(QSize val);
-    void mapviewCurrentVisibleChanged(bool val);
-    void mapviewExplorerThumbnailsScaleCropChanged(bool val);
-    void mapviewExplorerThumbnailsZoomLevelChanged(int val);
+    void mapviewCurrentPositionChanged();
+    void mapviewCurrentSizeChanged();
+    void mapviewCurrentVisibleChanged();
+    void mapviewExplorerThumbnailsScaleCropChanged();
+    void mapviewExplorerThumbnailsZoomLevelChanged();
 
     // table: metadata
-    void metadataAutoRotationChanged(bool val);
-    void metadataCopyrightChanged(bool val);
-    void metadataDimensionsChanged(bool val);
-    void metadataElementFloatingChanged(bool val);
-    void metadataElementHeightDynamicChanged(bool val);
-    void metadataElementPositionChanged(QPoint val);
-    void metadataElementSizeChanged(QSize val);
-    void metadataElementVisibleChanged(bool val);
-    void metadataExposureTimeChanged(bool val);
-    void metadataFLengthChanged(bool val);
-    void metadataFNumberChanged(bool val);
-    void metadataFaceTagsBorderChanged(bool val);
-    void metadataFaceTagsBorderColorChanged(QString val);
-    void metadataFaceTagsBorderWidthChanged(int val);
-    void metadataFaceTagsEnabledChanged(bool val);
-    void metadataFaceTagsFontSizeChanged(int val);
-    void metadataFaceTagsVisibilityChanged(int val);
-    void metadataFileSizeChanged(bool val);
-    void metadataFileTypeChanged(bool val);
-    void metadataFilenameChanged(bool val);
-    void metadataFlashChanged(bool val);
-    void metadataGpsChanged(bool val);
-    void metadataGpsMapChanged(QString val);
-    void metadataImageNumberChanged(bool val);
-    void metadataIsoChanged(bool val);
-    void metadataKeywordsChanged(bool val);
-    void metadataLightSourceChanged(bool val);
-    void metadataLocationChanged(bool val);
-    void metadataMakeChanged(bool val);
-    void metadataModelChanged(bool val);
-    void metadataSceneTypeChanged(bool val);
-    void metadataSoftwareChanged(bool val);
-    void metadataTimeChanged(bool val);
+    void metadataAutoRotationChanged();
+    void metadataCopyrightChanged();
+    void metadataDimensionsChanged();
+    void metadataElementFloatingChanged();
+    void metadataElementHeightDynamicChanged();
+    void metadataElementPositionChanged();
+    void metadataElementSizeChanged();
+    void metadataElementVisibleChanged();
+    void metadataExposureTimeChanged();
+    void metadataFLengthChanged();
+    void metadataFNumberChanged();
+    void metadataFaceTagsBorderChanged();
+    void metadataFaceTagsBorderColorChanged();
+    void metadataFaceTagsBorderWidthChanged();
+    void metadataFaceTagsEnabledChanged();
+    void metadataFaceTagsFontSizeChanged();
+    void metadataFaceTagsVisibilityChanged();
+    void metadataFileSizeChanged();
+    void metadataFileTypeChanged();
+    void metadataFilenameChanged();
+    void metadataFlashChanged();
+    void metadataGpsChanged();
+    void metadataGpsMapChanged();
+    void metadataImageNumberChanged();
+    void metadataIsoChanged();
+    void metadataKeywordsChanged();
+    void metadataLightSourceChanged();
+    void metadataLocationChanged();
+    void metadataMakeChanged();
+    void metadataModelChanged();
+    void metadataSceneTypeChanged();
+    void metadataSoftwareChanged();
+    void metadataTimeChanged();
 
     // table: slideshow
-    void slideshowHideLabelsChanged(bool val);
-    void slideshowHideWindowButtonsChanged(bool val);
-    void slideshowImageTransitionChanged(int val);
-    void slideshowIncludeSubFoldersChanged(bool val);
-    void slideshowLoopChanged(bool val);
-    void slideshowMusicChanged(bool val);
-    void slideshowMusicFileChanged(QString val);
-    void slideshowMusicFilesChanged(QStringList val);
-    void slideshowMusicShuffleChanged(bool val);
-    void slideshowMusicVolumeVideosChanged(int val);
-    void slideshowShuffleChanged(bool val);
-    void slideshowTimeChanged(int val);
-    void slideshowTypeAnimationChanged(QString val);
+    void slideshowHideLabelsChanged();
+    void slideshowHideWindowButtonsChanged();
+    void slideshowImageTransitionChanged();
+    void slideshowIncludeSubFoldersChanged();
+    void slideshowLoopChanged();
+    void slideshowMusicChanged();
+    void slideshowMusicFileChanged();
+    void slideshowMusicFilesChanged();
+    void slideshowMusicShuffleChanged();
+    void slideshowMusicVolumeVideosChanged();
+    void slideshowShuffleChanged();
+    void slideshowTimeChanged();
+    void slideshowTypeAnimationChanged();
 
     // table: thumbnails
-    void thumbnailsCacheChanged(bool val);
-    void thumbnailsCacheBaseDirDefaultChanged(bool val);
-    void thumbnailsCacheBaseDirLocationChanged(QString val);
-    void thumbnailsCenterOnActiveChanged(bool val);
-    void thumbnailsCropToFitChanged(bool val);
-    void thumbnailsDisableChanged(bool val);
-    void thumbnailsExcludeDropBoxChanged(QString val);
-    void thumbnailsExcludeFoldersChanged(QStringList val);
-    void thumbnailsExcludeNetworkSharesChanged(bool val);
-    void thumbnailsExcludeNextcloudChanged(QString val);
-    void thumbnailsExcludeOwnCloudChanged(QString val);
-    void thumbnailsFilenameChanged(bool val);
-    void thumbnailsFontSizeChanged(int val);
-    void thumbnailsHighlightAnimationChanged(QStringList val);
-    void thumbnailsHighlightAnimationLiftUpChanged(int val);
-    void thumbnailsIconsOnlyChanged(bool val);
-    void thumbnailsInactiveTransparentChanged(bool val);
-    void thumbnailsMaxNumberThreadsChanged(int val);
-    void thumbnailsSameHeightVaryWidthChanged(bool val);
-    void thumbnailsSizeChanged(int val);
-    void thumbnailsSmallThumbnailsKeepSmallChanged(bool val);
-    void thumbnailsSpacingChanged(int val);
-    void thumbnailsTooltipChanged(bool val);
-    void thumbnailsVisibilityChanged(int val);
+    void thumbnailsCacheChanged();
+    void thumbnailsCacheBaseDirDefaultChanged();
+    void thumbnailsCacheBaseDirLocationChanged();
+    void thumbnailsCenterOnActiveChanged();
+    void thumbnailsCropToFitChanged();
+    void thumbnailsDisableChanged();
+    void thumbnailsExcludeDropBoxChanged();
+    void thumbnailsExcludeFoldersChanged();
+    void thumbnailsExcludeNetworkSharesChanged();
+    void thumbnailsExcludeNextcloudChanged();
+    void thumbnailsExcludeOwnCloudChanged();
+    void thumbnailsFilenameChanged();
+    void thumbnailsFontSizeChanged();
+    void thumbnailsHighlightAnimationChanged();
+    void thumbnailsHighlightAnimationLiftUpChanged();
+    void thumbnailsIconsOnlyChanged();
+    void thumbnailsInactiveTransparentChanged();
+    void thumbnailsMaxNumberThreadsChanged();
+    void thumbnailsSameHeightVaryWidthChanged();
+    void thumbnailsSizeChanged();
+    void thumbnailsSmallThumbnailsKeepSmallChanged();
+    void thumbnailsSpacingChanged();
+    void thumbnailsTooltipChanged();
+    void thumbnailsVisibilityChanged();
 
 };
 

@@ -21,7 +21,9 @@
  **************************************************************************/
 
 #include <QFile>
-#include <QtSql/QSqlDatabase>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QSqlQuery>
 #include <QMessageBox>
 #include <iostream>
 #include <pqc_startup.h>

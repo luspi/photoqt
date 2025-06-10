@@ -25,7 +25,7 @@
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
 #include <pqc_imageformats.h>
@@ -192,7 +192,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     const QString suffix = info.suffix().toLower();
 
 #ifndef Q_OS_WIN
-    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "cbr" || suffix == "rar")) {
+    if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
 
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());

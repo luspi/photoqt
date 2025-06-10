@@ -81,10 +81,6 @@ public:
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void deleteLastLoadedImage();
 
-    // settings middleman
-    Q_INVOKABLE void setDefaultSettingValueFor(QString key);
-    Q_INVOKABLE QVariant getDefaultSettingValueFor(QString key);
-
     // pop up messagebox
     Q_INVOKABLE void inform(QString title, QString txt);
 

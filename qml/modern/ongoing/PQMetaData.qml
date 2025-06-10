@@ -699,8 +699,8 @@ Rectangle {
                 text: qsTranslate("metadata", "Reset size to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCScriptsConfig.setDefaultSettingValueFor("metadataElementSize") // qmllint disable unqualified
-                    PQCScriptsConfig.setDefaultSettingValueFor("metadataElementPosition") // qmllint disable unqualified
+                    PQCSettings.setDefaultForMetadataElementSize()
+                    PQCSettings.setDefaultForMetadataElementPosition()
                     metadata_top.animateResize = true
                     metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })

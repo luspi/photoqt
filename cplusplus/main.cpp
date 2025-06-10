@@ -45,7 +45,6 @@
 #include <pqc_validate.h>
 #include <pqc_notify.h>
 #include <pqc_messagehandler.h>
-#include <pqc_settings.h>
 #include <pqc_imageformats.h>
 #include <pqc_shortcuts.h>
 #include <pqc_providericon.h>
@@ -251,20 +250,22 @@ int main(int argc, char *argv[]) {
     // update or fresh install?
     if(checker != 0) {
 
+        // TODO
+
         if(checker == 2) {
             startup.setupFresh();
-            PQCSettings::get().setupFresh();
+            // PQCSettings::get().setupFresh();
             PQCShortcuts::get().setupFresh();
         } else {
-            int ret = PQCSettings::get().migrate();
-            if(ret == 1) {
-                startup.setupFresh();
-                PQCSettings::get().setupFresh();
-                PQCShortcuts::get().setupFresh();
-            } else {
-                PQCSettings::get().readDB();
-                PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
-            }
+            // int ret = PQCSettings::get().migrate();
+            // if(ret == 1) {
+            //     startup.setupFresh();
+            //     PQCSettings::get().setupFresh();
+            //     PQCShortcuts::get().setupFresh();
+            // } else {
+            //     PQCSettings::get().readDB();
+            //     PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
+            // }
         }
 
         // run consistency check
@@ -272,15 +273,16 @@ int main(int argc, char *argv[]) {
         if(checker == 1 || checker == 3)
             validate.validate();
 
-        PQCSettings::get().update("generalVersion", PQMVERSION);
-        Q_EMIT PQCSettings::get().valueChanged("generalVersion", PQMVERSION);
-        PQCSettings::get().readDB();
+        // PQCSettings::get().update("generalVersion", PQMVERSION);
+        // Q_EMIT PQCSettings::get().valueChanged("generalVersion", PQMVERSION);
+        // PQCSettings::get().readDB();
 
     }
 
     // after the checks above we can check for any possible settings update from the cli
-    if(PQCNotify::get().getSettingUpdate().length() == 2)
-        PQCSettings::get().updateFromCommandLine();
+    // TODO !!!
+    // if(PQCNotify::get().getSettingUpdate().length() == 2)
+    //     PQCSettings::get().updateFromCommandLine();
 
     // Get screenshots for fake transparency
     bool success = true;
@@ -338,7 +340,6 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsPlain", 1, 0, "PQCScriptsPlain", &PQCScriptsPlain::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
-    engine.rootContext()->setContextProperty("PQCSettings", &PQCSettings::get());
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);

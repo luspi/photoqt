@@ -186,6 +186,13 @@ Window {
         }
     }
 
+    Timer {
+        id: setVersion
+        interval: 1
+        onTriggered:
+            PQCSettings.generalVersion = PQCScriptsConfig.getVersion()
+    }
+
     /****************************************************/
 
     Component.onCompleted: {
@@ -246,6 +253,8 @@ Window {
             loadAppInBackgroundTimer.triggered()
         else
             loadAppInBackgroundTimer.start()
+
+        setVersion.start()
 
         console.warn(">>> set up:", PQCScriptsOther.getTimestamp()-PQCScriptsPlain.getInitTime())
 

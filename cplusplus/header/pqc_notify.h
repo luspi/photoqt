@@ -194,6 +194,9 @@ private:
 
 Q_SIGNALS:
 
+    // some c++ specific signals
+    void disableColorSpaceSupport();
+
     // startup properties changes
     void filePathChanged();
     void debugChanged();

@@ -24,7 +24,11 @@ import numpy as np
 import sys
 import sqlite3
 
-def get():
+def get(duplicateSettings, duplicateSettingsSignal):
+
+    duplicateSettingsNames = []
+    for i in duplicateSettings:
+        duplicateSettingsNames.append(i[1])
 
     conn = sqlite3.connect('../defaultsettings.db')
 
@@ -64,39 +68,50 @@ void PQCSettings::setupFresh() {
             cont += f"""
     m_{tab}{name} = """
 
+            valuestring = ""
+
             if datatype == "string":
-                cont += f"\"{defaultvalue}\""
+                valuestring = f"\"{defaultvalue}\""
             elif datatype == "bool":
-                cont += ("false" if defaultvalue == "0" else "true")
+                valuestring = ("false" if defaultvalue == "0" else "true")
             elif datatype == "int":
-                cont += defaultvalue
+                valuestring = defaultvalue
             elif datatype == "double":
-                cont += defaultvalue
+                valuestring = defaultvalue
             elif datatype == "list":
 
-                cont += "QStringList()";
+                valuestring = "QStringList()";
                 if defaultvalue != "":
                     parts = defaultvalue.split(":://::")
                     for p in parts:
-                        cont += f" << \"{p}\""
+                        valuestring += f" << \"{p}\""
 
             elif datatype == "point":
 
                 parts = defaultvalue.split(",")
                 if len(parts) == 2:
-                    cont += f"QPoint({parts[0]}, {parts[1]})"
+                    valuestring = f"QPoint({parts[0]}, {parts[1]})"
                 else:
-                    cont += f"QPoint(0, 0)"
+                    valuestring = f"QPoint(0, 0)"
 
             elif datatype == "size":
 
                 parts = defaultvalue.split(",")
                 if len(parts) == 2:
-                    cont += f"QSize({parts[0]}, {parts[1]})"
+                    valuestring = f"QSize({parts[0]}, {parts[1]})"
                 else:
-                    cont += f"QSize(0, 0)"
+                    valuestring = f"QSize(0, 0)"
 
+            cont += valuestring
             cont += ";"
+
+            if f"{tab}{name}" in duplicateSettingsNames:
+                cont += f"""
+    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = {valuestring};"""
+
+    if f"{tab}{name}" in duplicateSettingsSignal:
+        cont += f"""
+    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
     cont += """
 

@@ -24,7 +24,7 @@
 #include <iostream>
 #include <pqc_validate.h>
 #include <pqc_configfiles.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_shortcuts.h>
 #include <scripts/pqc_scriptsimages.h>
 
@@ -39,10 +39,9 @@ bool PQCValidate::validate() {
               << " > Validating configuration... " << std::endl;
 
     QString thumbnails_cache_basedir = "";
-    if(!PQCSettings::get()["thumbnailsCacheBaseDirDefault"].toBool())
-        thumbnails_cache_basedir = PQCSettings::get()["thumbnailsCacheBaseDirLocation"].toString();
+    if(!PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault())
+        thumbnails_cache_basedir = PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation();
 
-    PQCSettings::get().closeDatabase();
     PQCShortcuts::get().closeDatabase();
 
     bool success = true;
@@ -95,7 +94,7 @@ bool PQCValidate::validate() {
         success = false;
     }
 
-    PQCSettings::get().reopenDatabase();
+    // PQCSettings::get().reopenDatabase();
     PQCShortcuts::get().reopenDatabase();
 
     std::cout << " >> Done!" << std::endl << std::endl;

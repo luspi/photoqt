@@ -970,8 +970,8 @@ Rectangle {
                 text: qsTranslate("MainMenu", "Reset size to default")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCScriptsConfig.setDefaultSettingValueFor("mainmenuElementSize") // qmllint disable unqualified
-                    PQCScriptsConfig.setDefaultSettingValueFor("mainmenuElementPosition") // qmllint disable unqualified
+                    PQCSettings.setDefaultForMainmenuElementSize()
+                    PQCSettings.setDefaultForMainmenuElementPosition()
                     mainmenu_top.animateResize = true
                     mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })

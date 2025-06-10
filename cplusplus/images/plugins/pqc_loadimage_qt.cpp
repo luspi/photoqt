@@ -22,7 +22,7 @@
 
 #include <pqc_loadimage_qt.h>
 #include <pqc_imagecache.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
@@ -78,7 +78,7 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
         if(mime.size() == 2 && mime.at(0) == "image")
             reader.setFormat(mime.at(1).toUtf8());
 
-        reader.setAutoTransform(PQCSettings::get()["metadataAutoRotation"].toBool());
+        reader.setAutoTransform(PQCSettingsCPP::get().getMetadataAutoRotation());
 
         bool imgAlreadyLoaded = false;
 
@@ -92,7 +92,7 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
         }
 
         // the reported size is not rotated automatically, we need to take care of this ourselves
-        if(PQCSettings::get()["metadataAutoRotation"].toBool()) {
+        if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
             QImageIOHandler::Transformations trans = reader.transformation();
             switch(trans) {
                 case QImageIOHandler::TransformationRotate90:
@@ -178,7 +178,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         if(mime.size() == 2 && mime.at(0) == "image")
             reader.setFormat(mime.at(1).toUtf8());
 
-        reader.setAutoTransform(PQCSettings::get()["metadataAutoRotation"].toBool());
+        reader.setAutoTransform(PQCSettingsCPP::get().getMetadataAutoRotation());
 
         bool imgAlreadyLoaded = false;
 

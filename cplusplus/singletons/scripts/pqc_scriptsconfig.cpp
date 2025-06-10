@@ -28,7 +28,7 @@
 #include <QQmlContext>
 #include <QMessageBox>
 #include <pqc_configfiles.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_shortcuts.h>
 #include <pqc_validate.h>
 #include <pqc_imageformats.h>
@@ -292,9 +292,12 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     qDebug() << "args: path =" << path;
 
+    // TODO !!!
+    return false;
+
 #ifdef PQMLIBARCHIVE
 
-    PQCSettings::get().closeDatabase();
+    // PQCSettings::get().closeDatabase();
     PQCShortcuts::get().closeDatabase();
     PQCImageFormats::get().closeDatabase();
 
@@ -570,7 +573,7 @@ void PQCScriptsConfig::updateTranslation() {
 
     qDebug() << "";
 
-    QString code = PQCSettings::get()["interfaceLanguage"].toString();
+    QString code = PQCSettingsCPP::get().getInterfaceLanguage();
     if(code == currentTranslation)
         return;
 
@@ -670,17 +673,6 @@ bool PQCScriptsConfig::isLCMS2SupportEnabled() {
     return false;
 }
 
-void PQCScriptsConfig::setDefaultSettingValueFor(QString key) {
-    PQCSettings::get().setDefaultFor(key);
-}
-
-QVariant PQCScriptsConfig::getDefaultSettingValueFor(QString key) {
-    const QVariantList val = PQCSettings::get().getDefaultFor(key);
-    if(val[1].toString() == "list")
-        return val[0].toString().split(":://::");
-    return val[0];
-}
-
 bool PQCScriptsConfig::isICUSupportEnabled() {
 #ifdef PQMWITHOUTICU
     return false;
@@ -708,7 +700,12 @@ void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
 
         qDebug() << "RESETTING PHOTOQT TO ITS DEFAULTS";
 
-        PQCSettings::get().closeDatabase();
+        QMessageBox::information(0, "not yet implemented", "not yet implemented");
+
+        // TODO !!!
+
+
+        // PQCSettings::get().closeDatabase();
         PQCShortcuts::get().closeDatabase();
         PQCImageFormats::get().closeDatabase();
         PQCLocation::get().closeDatabase();
@@ -719,8 +716,8 @@ void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
         startup.setupFresh();
 
         // further setup for settings
-        PQCSettings::get().reopenDatabase();
-        PQCSettings::get().setupFresh();
+        // PQCSettings::get().reopenDatabase();
+        // PQCSettings::get().setupFresh();
 
         // further setup for shortcuts
         PQCShortcuts::get().reopenDatabase();

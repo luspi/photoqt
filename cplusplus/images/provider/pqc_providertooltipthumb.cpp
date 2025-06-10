@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <pqc_providertooltipthumb.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
 #include <pqc_providerthumb.h>
@@ -30,7 +30,7 @@
 QQuickImageResponse *PQCAsyncImageProviderTooltipThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseTooltipThumb *response = new PQCAsyncImageResponseTooltipThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
     return response;
 }

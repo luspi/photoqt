@@ -265,8 +265,6 @@ private Q_SLOTS:
     void loadDataFileDialog();
     void handleNewDataLoadedMainView();
 
-    void handleSettingsChanges(const QString &key, const QVariant &value);
-
 Q_SIGNALS:
     void newDataLoadedMainView();
     void newDataLoadedFileDialog();

@@ -30,7 +30,7 @@
 #include <QJSValue>
 #include <QJSEngine>
 #include <QtConcurrent>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 
 #ifdef PQMPUGIXML
 #include <pugixml.hpp>
@@ -56,7 +56,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
 
             const QString tpe = QString(s.fileSystemType());
 
-            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs") && !PQCSettings::get()["filedialogDevicesShowTmpfs"].toBool())
+            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs") && !PQCSettingsCPP::get().getFiledialogDevicesShowTmpfs())
                 continue;
 
             QString name = s.name();

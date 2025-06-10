@@ -23,7 +23,7 @@
 #include <scripts/pqc_scriptschromecast.h>
 #include <pqc_localhttpserver.h>
 #include <pqc_loadimage.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_filefoldermodel.h>
 
 #include <QVariantList>
@@ -192,7 +192,7 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
             img = img.scaledToHeight(1080);
 
         // if image is smaller than display and is not to be fit to window size
-        if(!PQCSettings::get()["imageviewFitInWindow"].toBool() && (img.width() < 1920 || img.height() < 1080)) {
+        if(!PQCSettingsCPP::get().getImageviewFitInWindow() && (img.width() < 1920 || img.height() < 1080)) {
             QImage ret(1920, 1080, QImage::Format_ARGB32);
             ret.fill(Qt::black);
             QPainter painter(&ret);

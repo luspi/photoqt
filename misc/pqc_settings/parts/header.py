@@ -75,8 +75,8 @@ def get():
 #define PQCSETTINGS_H
 
 #include <QObject>
-#include <QtSql>
-#include <QQmlIntegration>
+#include <QSqlDatabase>
+#include <QtQmlIntegration>
 
 class PQCSettings : public QObject {
 
@@ -122,7 +122,8 @@ public:
 
     Q_PROPERTY({qtdatatpe} {tab}{name} READ get{tab.capitalize()}{name} WRITE set{tab.capitalize()}{name} NOTIFY {tab}{name}Changed)
     {qtdatatpe} get{tab.capitalize()}{name}();
-    void set{tab.capitalize()}{name}();
+    void set{tab.capitalize()}{name}({qtdatatpe} val);
+    {qtdatatpe} getDefaultFor{tab.capitalize()}{name}();
     void setDefaultFor{tab.capitalize()}{name}();"""
         cont_HEADER += "\n"
 
@@ -177,7 +178,7 @@ private:"""
                 qtdatatpe = "QSize"
 
             cont_HEADER += f"""
-        {qtdatatpe} m_{tab}{name};"""
+    {qtdatatpe} m_{tab}{name};"""
 
 
     cont_HEADER += """
@@ -228,7 +229,7 @@ Q_SIGNALS:"""
                 qtdatatpe = "QSize"
 
             cont_HEADER += f"""
-    void {tab}{name}Changed({qtdatatpe} val);"""
+    void {tab}{name}Changed();"""
 
     cont_HEADER += """
 

@@ -32,46 +32,88 @@ import parts.setdefault as setdefault
 import parts.getdefaultfor as getdefaultfor
 import parts.setupfresh as setupfresh
 import parts.resettodefault as resettodefault
+import parts.cpp_header as cpp_header
 
 f = open("output/pqc_settings.h", "w")
 f.write(header.get())
 f.close()
 
-
 ##############################################################################################
 ##############################################################################################
 ##############################################################################################
 
-cont= constructor.get()
+duplicateSettings = [["bool", "imageviewFitInWindow"],
+                     ["bool", "imageviewSortImagesAscending"],
+                     ["QString", "imageviewSortImagesBy"],
+                     ["int", "imageviewCache"],
+                     ["bool", "imageviewColorSpaceEnable"],
+                     ["bool", "imageviewColorSpaceLoadEmbedded"],
+                     ["QString", "imageviewColorSpaceDefault"],
+                     ["QString", "imageviewAdvancedSortCriteria"],
+                     ["bool", "imageviewAdvancedSortAscending"],
+                     ["QString", "imageviewAdvancedSortQuality"],
+                     ["QStringList", "imageviewAdvancedSortDateCriteria"],
+                     ["bool", "imageviewRespectDevicePixelRatio"],
+                     ["", ""],
+                     ["bool", "filedialogDevicesShowTmpfs"],
+                     ["bool", "filedialogShowHiddenFilesFolders"],
+                     ["", ""],
+                     ["bool", "filetypesLoadAppleLivePhotos"],
+                     ["bool", "filetypesLoadMotionPhotos"],
+                     ["bool", "filetypesExternalUnrar"],
+                     ["QString", "filetypesVideoThumbnailer"],
+                     ["bool", "filetypesRAWUseEmbeddedIfAvailable"],
+                     ["double", "filetypesPDFQuality"],
+                     ["bool", "filetypesVideoPreferLibmpv"],
+                     ["", ""],
+                     ["QString", "interfaceAccentColor"],
+                     ["int", "interfaceFontNormalWeight"],
+                     ["int", "interfaceFontBoldWeight"],
+                     ["bool", "interfacePopoutWhenWindowIsSmall"],
+                     ["QString", "interfaceLanguage"],
+                     ["", ""],
+                     ["QString", "thumbnailsExcludeDropBox"],
+                     ["QString", "thumbnailsExcludeNextcloud"],
+                     ["QString", "thumbnailsExcludeOwnCloud"],
+                     ["QStringList", "thumbnailsExcludeFolders"],
+                     ["bool", "thumbnailsExcludeNetworkShares"],
+                     ["bool", "thumbnailsCacheBaseDirDefault"],
+                     ["QString", "thumbnailsCacheBaseDirLocation"],
+                     ["int", "thumbnailsMaxNumberThreads"],
+                     ["bool", "thumbnailsCache"],
+                     ["bool", "thumbnailsIconsOnly"],
+                     ["", ""],
+                     ["bool", "metadataAutoRotation"]]
 
-cont += getsetdef.get()
+duplicateSettingsSignal = ["imageviewSortImagesBy",
+                           "imageviewSortImagesAscending",
+                           "interfaceAccentColor",
+                           "interfaceFontBoldWeight",
+                           "interfaceFontNormalWeight",
+                           "filedialogShowHiddenFilesFolders"]
 
-cont += readdb.get()
-
-f = open("parts/backupdatabase.cpp", "r")
-cont += f.read()
-
+cont = constructor.get()
+cont += getsetdef.get(duplicateSettings, duplicateSettingsSignal)
+cont += readdb.get(duplicateSettings, duplicateSettingsSignal)
+f = open("parts/backupdatabase.cpp", "r"); cont += f.read()
 cont += savechangedvalue.get()
-
 cont += setdefault.get()
-
-cont += getdefaultfor.get()
-
-
-f = open("parts/closereopen.cpp", "r")
-cont += f.read()
-
-f = open("parts/migrate.cpp", "r")
-cont += f.read()
-
-f = open("parts/verifynameandgettype.cpp", "r")
-cont += f.read()
-
-cont += setupfresh.get()
-
+f = open("parts/closereopen.cpp", "r"); cont += f.read()
+f = open("parts/migrate.cpp", "r"); cont += f.read()
+f = open("parts/verifynameandgettype.cpp", "r"); cont += f.read()
+cont += setupfresh.get(duplicateSettings, duplicateSettingsSignal)
 cont += resettodefault.get()
 
-
 f = open("output/pqc_settings.cpp", "w")
+f.write(cont)
+f.close()
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+cont = cpp_header.get(duplicateSettings)
+
+f = open("output/pqc_settingscpp.h", "w")
 f.write(cont)
 f.close()
