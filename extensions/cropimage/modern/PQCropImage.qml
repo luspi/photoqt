@@ -35,8 +35,8 @@ PQTemplateFullscreen {
     id: crop_top
 
     thisis: "cropimage"
-    popout: PQCSettingsExtensions.CropImagePopout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.cropForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.CropImagePopout
+    forcePopout: PQCWindowGeometry.cropForcePopout
     shortcut: "__crop"
 
     title: qsTranslate("crop", "Crop image")
@@ -47,7 +47,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettingsExtensions.CropImagePopout = popout // qmllint disable unqualified
+        PQCSettings.extensions.CropImagePopout = popout
 
     button1.onClicked: {
         cropImage()
@@ -59,6 +59,14 @@ PQTemplateFullscreen {
 
     // this is needed to not show the animation again when the window is resized
     property bool animShowed: false
+
+    Connections {
+        target: PQCSettings
+        function onExtensionSettingUpdated(key : string, val : var) : void {
+            if(key === "CropImagePopout" && crop_top.popout !== val)
+                crop_top.popout = val
+        }
+    }
 
     content: [
 

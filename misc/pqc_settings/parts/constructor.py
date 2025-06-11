@@ -163,9 +163,6 @@ PQCSettings::PQCSettings() {
 
     }
 
-    // update with user settings
-    readDB();
-
     dbIsTransaction = false;
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
@@ -179,7 +176,15 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
+    m_extensions = new QQmlPropertyMap();
+
+    /******************************************************/
+
+    // set up with all defaults
     setupFresh();
+
+    // then update with user settings
+    readDB();
 
     /******************************************************/
     """
@@ -233,6 +238,7 @@ PQCSettings::PQCSettings() {
 
 PQCSettings::~PQCSettings() {{
     delete dbCommitTimer;
+    delete m_extensions;
 }}
 """
 

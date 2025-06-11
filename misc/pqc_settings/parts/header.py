@@ -77,6 +77,7 @@ def get():
 #include <QObject>
 #include <QSqlDatabase>
 #include <QtQmlIntegration>
+#include <QQmlPropertyMap>
 
 class PQCSettings : public QObject {
 
@@ -87,7 +88,11 @@ class PQCSettings : public QObject {
 public:
     explicit PQCSettings();
     ~PQCSettings();
-"""
+
+    // extensions settings
+    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)"""
+
+    cont_HEADER += "\n"
 
     for tab in dbtables:
 
@@ -189,6 +194,8 @@ private:"""
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
+    QQmlPropertyMap *m_extensions;
+
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
 
@@ -198,7 +205,8 @@ private:"""
     void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
-Q_SIGNALS:"""
+Q_SIGNALS:
+    void extensionsChanged();"""
 
     for tab in dbtables:
 

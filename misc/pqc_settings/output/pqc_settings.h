@@ -47,6 +47,9 @@ public:
     explicit PQCSettings();
     ~PQCSettings();
 
+    // extensions settings
+    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions)
+
     /**************************************/
     // table: filedialog
 
@@ -1978,6 +1981,8 @@ private:
     QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
+
+    QQmlPropertyMap *m_extensions;
 
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);

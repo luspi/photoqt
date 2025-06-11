@@ -37,8 +37,8 @@ PQTemplateFullscreen {
     id: convert_top
 
     thisis: "exportimage"
-    popout: PQCSettingsExtensions.ExportImagePopout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.exportForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.ExportImagePopout
+    forcePopout: PQCWindowGeometry.exportForcePopout
     shortcut: "__export"
 
     //: title of action element
@@ -51,7 +51,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     button1.onClicked: {
-        PQCSettingsExtensions.ExportImageLastUsed = targetFormat // qmllint disable unqualified
+        PQCSettings.extensions.ExportImageLastUsed = targetFormat
         var file = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("export", "Export"), PQCFileFolderModel.currentFile, parseInt(targetFormat), true);
         if(file !== "") {
             errormessage.opacity = 0
@@ -65,15 +65,15 @@ PQTemplateFullscreen {
         hide()
 
     onPopoutChanged:
-        PQCSettingsExtensions.ExportImagePopout = popout // qmllint disable unqualified
+        PQCSettings.extensions.ExportImagePopout = popout
 
     /***************************************************************/
 
     // the favs are shown on a label and are used to identify the respective entry in the listview
-    property list<string> favs: PQCSettingsExtensions.ExportImageFavorites // qmllint disable unqualified
+    property list<string> favs: PQCSettings.extensions.ExportImageFavorites
 
     // this is the selected format, both the first ending (for identification) and all endings for a format
-    property string targetFormat: PQCSettingsExtensions.ExportImageLastUsed // qmllint disable unqualified
+    property string targetFormat: PQCSettings.extensions.ExportImageLastUsed
 
     content: [
 
@@ -240,9 +240,9 @@ PQTemplateFullscreen {
                                 onExited: rem.hovered = false
                                 text: qsTranslate("export", "Click to remove this image format from your favorites")
                                 onClicked: {
-                                    var tmp = PQCSettingsExtensions.ExportImageFavorites // qmllint disable unqualified
+                                    var tmp = PQCSettings.extensions.ExportImageFavorites
                                     tmp.splice(favdeleg.modelData, 1)
-                                    PQCSettingsExtensions.ExportImageFavorites = tmp
+                                    PQCSettings.extensions.ExportImageFavorites = tmp
                                 }
                             }
                         }
@@ -387,12 +387,12 @@ PQTemplateFullscreen {
                         text: deleg.isFav ? qsTranslate("export", "Click to remove this image format from your favorites")
                                           : qsTranslate("export", "Click to add this image format to your favorites")
                         onClicked: {
-                            var tmp = PQCSettingsExtensions.ExportImageFavorites // qmllint disable unqualified
+                            var tmp = PQCSettings.extensions.ExportImageFavorites
                             if(isFav)
                                 tmp.splice(tmp.indexOf(deleg.curUniqueid), 1)
                             else
                                 tmp.push(deleg.curUniqueid)
-                            PQCSettingsExtensions.ExportImageFavorites = tmp
+                            PQCSettings.extensions.ExportImageFavorites = tmp
                         }
                     }
 

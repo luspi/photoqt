@@ -20,7 +20,7 @@ public:
         };
 
         settings = {
-            {"FloatingNavigation",  "extensions", "int", "0"}
+            {"FloatingNavigation",  "extensions", "bool", "0"}
         };
 
         migrateSettings = {

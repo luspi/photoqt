@@ -204,7 +204,7 @@ Loader {
         Component.onCompleted: {
 
             // load files in folder
-            if(PQCConstants.startupFileLoad != "") {
+            if(PQCConstants.startupFileLoad !== "") {
                 PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFileLoad
                 if(PQCConstants.imageInitiallyLoaded) {
                     masteritem.readyToContinueLoading = true
@@ -220,7 +220,7 @@ Loader {
 
         Connections {
             target: PQCConstants
-            enabled: PQCConstants.startupFileLoad!=""
+            enabled: PQCConstants.startupFileLoad!==""
             function onImageInitiallyLoadedChanged() {
                 // don't rely on checking whether the timer below is running.
                 // For very small/fast images we might get here BEFORE that timer reports as running!

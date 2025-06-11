@@ -36,7 +36,7 @@ PQTemplatePopout {
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("histogram").width,PQCExtensionsHandler.getDefaultPopoutSize("histogram").height)
     originalGeometry: PQCWindowGeometry.histogramGeometry
     isMax: false
-    popout: PQCSettingsExtensions.HistogramPopout
+    popout: PQCSettings.extensions.HistogramPopout
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/histogram/modern/PQHistogram.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("histogram")
@@ -48,15 +48,15 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         if(PQCConstants.photoQtShuttingDown) return
-        PQCSettingsExtensions.HistogramPopout = false
+        PQCSettings.extensions.HistogramPopout
         close()
         PQCNotify.executeInternalCommand("__histogram")
     }
 
     onPopoutChanged: {
         if(PQCConstants.photoQtShuttingDown) return
-        if(popout !== PQCSettingsExtensions.HistogramPopout)
-            PQCSettingsExtensions.HistogramPopout = popout
+        if(popout !== PQCSettings.extensions.HistogramPopout)
+            PQCSettings.extensions.HistogramPopout = popout
     }
 
     onGeometryChanged: {

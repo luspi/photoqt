@@ -35,7 +35,7 @@ PQTemplatePopout {
 
     geometry: Qt.rect(0,0,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").width,PQCExtensionsHandler.getDefaultPopoutSize("quickactions").height)
     isMax: false
-    popout: PQCSettingsExtensions.QuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall)
+    popout: PQCSettings.extensions.QuickActionsPopout || (sizepopout && PQCSettings.interfacePopoutWhenWindowIsSmall)
     sizepopout: minRequiredWindowSize.width > PQCConstants.windowWidth || minRequiredWindowSize.height > PQCConstants.windowHeight
     source: "../../extensions/quickactions/modern/PQQuickActions.qml"
     property size minRequiredWindowSize: PQCExtensionsHandler.getMinimumRequiredWindowSize("quickactions")
@@ -46,15 +46,15 @@ PQTemplatePopout {
     minimumHeight: 100
 
     onPopoutClosed: {
-        PQCSettingsExtensions.QuickActionsPopout = false
+        PQCSettings.extensions.QuickActionsPopout = false
         close()
         if(!sizepopout || !PQCSettings.interfacePopoutWhenWindowIsSmall)
             PQCNotify.executeInternalCommand("__quickActions")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.QuickActionsPopout)
-            PQCSettingsExtensions.QuickActionsPopout = popout
+        if(popout !== PQCSettings.extensions.QuickActionsPopout)
+            PQCSettings.extensions.QuickActionsPopout = popout
     }
 
 }

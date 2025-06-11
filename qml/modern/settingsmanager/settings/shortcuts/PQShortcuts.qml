@@ -556,7 +556,7 @@ Flickable {
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
                                             font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                                            text: PQCScriptsShortcuts.translateShortcut(deleg.combos[combodeleg.index]) // qmllint disable unqualified
+                                            text: PQCScriptsShortcuts.translateShortcut(deleg.combos[combodeleg.index])
                                             color: PQCLook.textColor // qmllint disable unqualified
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }

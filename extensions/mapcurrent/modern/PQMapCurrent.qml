@@ -58,10 +58,8 @@ PQTemplateFloating {
         id: storeSize
         interval: 200
         onTriggered: {
-            PQCSettingsExtensions.MapCurrentPosition.x = mapcurrent_top.x // qmllint disable unqualified
-            PQCSettingsExtensions.MapCurrentPosition.y = mapcurrent_top.y
-            PQCSettingsExtensions.MapCurrentSize.width = mapcurrent_top.width
-            PQCSettingsExtensions.MapCurrentSize.height = mapcurrent_top.height
+            PQCSettings.extensions.MapCurrentPosition = Qt.point(mapcurrent_top.x, mapcurrent_top.y)
+            PQCSettings.extensions.MapCurrentSize = Qt.size(mapcurrent_top.width, mapcurrent_top.height)
         }
     }
 
@@ -80,11 +78,11 @@ PQTemplateFloating {
 
     PQShadowEffect { masterItem: mapcurrent_top }
 
-    popout: PQCSettingsExtensions.MapCurrentPopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.MapCurrentPopout
     forcePopout: PQCConstants.windowWidth  < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").width ||
                  PQCConstants.windowHeight < PQCExtensionsHandler.getMinimumRequiredWindowSize("mapcurrent").height
     shortcut: "__showMapCurrent"
-    tooltip: PQCSettingsExtensions.MapCurrentPopout||forcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.") // qmllint disable unqualified
+    tooltip: PQCSettings.extensions.MapCurrentPopout||forcePopout ? "" : qsTranslate("mapcurrent", "Click-and-drag to move.")
     blur_thisis: "mapcurrent"
 
     allowWheel: true
@@ -96,8 +94,8 @@ PQTemplateFloating {
     property real longitude: 8.40444
 
     onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.MapCurrentPopout) // qmllint disable unqualified
-            PQCSettingsExtensions.MapCurrentPopout = popout
+        if(popout !== PQCSettings.extensions.MapCurrentPopout)
+            PQCSettings.extensions.MapCurrentPopout = popout
     }
 
     Plugin {
@@ -263,10 +261,13 @@ PQTemplateFloating {
 
     Component.onCompleted: {
 
-        x = PQCSettingsExtensions.MapCurrentPosition.x // qmllint disable unqualified
-        y = PQCSettingsExtensions.MapCurrentPosition.y
-        width = PQCSettingsExtensions.MapCurrentSize.width
-        height = PQCSettingsExtensions.MapCurrentSize.height
+        var pos = PQCSettings.extensions.MapCurrentPosition
+        var sze = PQCSettings.extensions.MapCurrentSize
+
+        x = pos.x
+        y = pos.y
+        width = sze.width
+        height = sze.height
 
         mapcurrent_top.state = ((popout || forcePopout) ? "popout" : "")
 
@@ -305,7 +306,7 @@ PQTemplateFloating {
 
     function updateMap() {
 
-        var pos = PQCScriptsMetaData.convertGPSToPoint(PQCMetaData.exifGPS) // qmllint disable unqualified
+        var pos = PQCScriptsMetaData.convertGPSToPoint(PQCMetaData.exifGPS)
 
         // this value means: no gps data
         if(pos.x === 9999 || pos.y === 9999) {
@@ -329,7 +330,7 @@ PQTemplateFloating {
 
     function show() {
         opacity = 1
-        PQCSettingsExtensions.MapCurrent = true // qmllint disable unqualified
+        PQCSettings.extensions.MapCurrent = true
         if(popoutWindowUsed)
             mapcurrent_popout.visible = true
     }
@@ -338,7 +339,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             mapcurrent_popout.visible = false // qmllint disable unqualified
-        PQCSettingsExtensions.MapCurrent = false
+        PQCSettings.extensions.MapCurrent = false
     }
 
 }

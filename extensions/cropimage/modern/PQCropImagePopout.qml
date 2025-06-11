@@ -20,6 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
+import QtQuick
 import org.photoqt.qml
 
 PQTemplatePopout {
@@ -32,20 +33,28 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.cropGeometry
     originalGeometry: PQCWindowGeometry.cropGeometry
     isMax: PQCWindowGeometry.cropMaximized
-    popout: PQCSettingsExtensions.CropImagePopout
+    popout: PQCSettings.extensions.CropImagePopout
     sizepopout: PQCWindowGeometry.cropForcePopout
     source: "../../extensions/cropimage/modern/PQCropImage.qml"
 
     minimumWidth: 800
     minimumHeight: 600
 
+    Connections {
+        target: PQCSettings
+        function onExtensionSettingUpdated(key : string, val : var) : void {
+            if(key === "CropImagePopout" && crop_popout.popout !== val)
+                crop_popout.popout = val
+        }
+    }
+
     onPopoutClosed: {
         PQCNotify.loaderRegisterClose("cropimage")
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.CropImagePopout)
-            PQCSettingsExtensions.CropImagePopout = popout
+        if(popout !== PQCSettings.extensions.CropImagePopout)
+            PQCSettings.extensions.CropImagePopout = popout
     }
 
     onGeometryChanged: {

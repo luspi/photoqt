@@ -34,14 +34,11 @@ import parts.setupfresh as setupfresh
 import parts.resettodefault as resettodefault
 import parts.cpp_header as cpp_header
 
-f = open("output/pqc_settings.h", "w")
-f.write(header.get())
-f.close()
-
 ##############################################################################################
 ##############################################################################################
 ##############################################################################################
 
+# which settings to duplicate for the C++ settings interface
 duplicateSettings = [["bool", "imageviewFitInWindow"],
                      ["bool", "imageviewSortImagesAscending"],
                      ["QString", "imageviewSortImagesBy"],
@@ -91,6 +88,18 @@ duplicateSettingsSignal = ["imageviewSortImagesBy",
                            "interfaceFontBoldWeight",
                            "interfaceFontNormalWeight",
                            "filedialogShowHiddenFilesFolders"]
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
+
+f = open("output/pqc_settings.h", "w")
+f.write(header.get())
+f.close()
+
+##############################################################################################
+##############################################################################################
+##############################################################################################
 
 cont = constructor.get()
 cont += getsetdef.get(duplicateSettings, duplicateSettingsSignal)

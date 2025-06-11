@@ -97,8 +97,8 @@ PQTemplateFloating {
         if(dragActive) PQCConstants.quickActionsMovedManually = true
     }
 
-    popout: PQCSettingsExtensions.QuickActionsPopout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.quickactionsForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.QuickActionsPopout
+    forcePopout: PQCWindowGeometry.quickactionsForcePopout
     shortcut: "__quickActions"
     tooltip: qsTranslate("quickactions", "Click-and-drag to move.")
     blur_thisis: "-"
@@ -109,11 +109,11 @@ PQTemplateFloating {
     moveButtonsOutside: true
 
     onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.QuickActionsPopout) // qmllint disable unqualified
-            PQCSettingsExtensions.QuickActionsPopout = popout
+        if(popout !== PQCSettings.extensions.QuickActionsPopout)
+            PQCSettings.extensions.QuickActionsPopout = popout
     }
 
-    property list<string> buttons: PQCSettingsExtensions.QuickActionsItems
+    property list<string> buttons: PQCSettings.extensions.QuickActionsItems
 
     // 4 values: tooltip, icon name, shortcut action, enabled with no file loaded
     property var mappings: {
@@ -471,9 +471,9 @@ PQTemplateFloating {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("histogram", "show quick actions")
-                checked: PQCSettingsExtensions.QuickActions // qmllint disable unqualified
+                checked: PQCSettings.extensions.QuickActions
                 onCheckedChanged: {
-                    PQCSettingsExtensions.QuickActions = checked // qmllint disable unqualified
+                    PQCSettings.extensions.QuickActions = checked
                     if(!checked)
                         themenu.dismiss()
                 }
@@ -542,7 +542,7 @@ PQTemplateFloating {
         target: PQCSettings // qmllint disable unqualified
 
         function onExtensionsQuickActionsChanged() {
-            if(PQCSettingsExtensions.QuickActions) // qmllint disable unqualified
+            if(PQCSettings.extensions.QuickActions)
                 quickactions_top.show()
             else
                 quickactions_top.hide()
@@ -679,7 +679,7 @@ PQTemplateFloating {
     }
 
     function show() {
-        PQCSettingsExtensions.QuickActions = true // qmllint disable unqualified
+        PQCSettings.extensions.QuickActions = true
         opacity = Qt.binding(
                     function() {
                         return popoutWindowUsed ?
@@ -702,7 +702,7 @@ PQTemplateFloating {
         opacity = 0
         if(popoutWindowUsed)
             quickactions_popout.visible = false // qmllint disable unqualified
-        PQCSettingsExtensions.QuickActions = false
+        PQCSettings.extensions.QuickActions = false
     }
 
 }

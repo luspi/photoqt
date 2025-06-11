@@ -33,8 +33,8 @@ PQTemplateFullscreen {
     id: scale_top
 
     thisis: "scaleimage"
-    popout: PQCSettingsExtensions.ScaleImagePopout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.scaleForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.ScaleImagePopout
+    forcePopout: PQCWindowGeometry.scaleForcePopout
     shortcut: "__scale"
 
     title: qsTranslate("scale", "Scale image")
@@ -46,7 +46,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettingsExtensions.ScaleImagePopout = popout // qmllint disable unqualified
+        PQCSettings.extensions.ScaleImagePopout = popout
 
     button1.onClicked:
         scaleImage()
@@ -66,7 +66,7 @@ PQTemplateFullscreen {
             id: errorlabel
             width: parent.width
             horizontalAlignment: Qt.AlignHCenter
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             visible: false
             text: qsTranslate("scale", "An error occured, file could not be scaled")

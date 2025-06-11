@@ -34,8 +34,8 @@ PQTemplateFullscreen {
     id: imgur_top
 
     thisis: "imgurcom"
-    popout: PQCSettingsExtensions.ImgurComPopout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.imgurForcePopout // qmllint disable unqualified
+    popout: PQCSettings.extensions.ImgurComPopout
+    forcePopout: PQCWindowGeometry.imgurForcePopout
     shortcut: "__imgurAnonym"
     title: (accountname=="" ?
                qsTranslate("imgur", "Upload to imgur.com") :
@@ -48,7 +48,7 @@ PQTemplateFullscreen {
 
     button2.text: qsTranslate("imgur", "Show past uploads")
     button2.visible: true
-    button2.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    button2.font.weight: PQCLook.fontWeightNormal
 
     button1.onClicked: {
         hide()

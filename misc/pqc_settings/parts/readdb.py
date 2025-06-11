@@ -54,8 +54,6 @@ void PQCSettings::readDB() {
 
     qDebug() << "";
 
-    // then update with user values (if changed)
-
     for(const auto &table : std::as_const(dbtables)) {
 
         QSqlQuery query(db);
@@ -65,7 +63,7 @@ void PQCSettings::readDB() {
 
         while(query.next()) {
 
-            QString name = QString("%1%2").arg(table, query.value(0).toString());
+            QString name = query.value(0).toString();
             QVariant value = query.value(1).toString();
         """
 
@@ -204,6 +202,55 @@ void PQCSettings::readDB() {
                 }
             }
         }
+
+    }
+
+    QSqlQuery queryEXT(db);
+    queryEXT.prepare("SELECT `name`,`value`,`datatype` FROM 'extensions'");
+    if(!queryEXT.exec())
+        qCritical() << "SQL Query error (extensions):" << queryEXT.lastError().text();
+
+    while(queryEXT.next()) {
+
+        QString name = queryEXT.value(0).toString();
+        QString value = queryEXT.value(1).toString();
+        QString datatype = queryEXT.value(2).toString();
+
+        if(datatype == "int")
+            m_extensions->insert(name, value.toInt());
+        else if(datatype == "double")
+            m_extensions->insert(name, value.toDouble());
+        else if(datatype == "bool")
+            m_extensions->insert(name, static_cast<bool>(value.toInt()));
+        else if(datatype == "list") {
+            if(value.contains(":://::"))
+                m_extensions->insert(name, value.split(":://::"));
+            else if(value != "")
+                m_extensions->insert(name, QStringList() << value);
+            else
+                m_extensions->insert(name, QStringList());
+        } else if(datatype == "point") {
+            const QStringList parts = value.split(",");
+            if(parts.length() == 2)
+                m_extensions->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
+            else {
+                qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
+                m_extensions->insert(name, QPoint(0,0));
+            }
+        } else if(datatype == "size") {
+            const QStringList parts = value.split(",");
+            if(parts.length() == 2)
+                m_extensions->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
+            else {
+                qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
+                m_extensions->insert(name, QSize(0,0));
+            }
+        } else if(datatype == "string")
+            m_extensions->insert(name, value);
+        else if(datatype != "")
+            qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
+        else
+            qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
 
     }
 

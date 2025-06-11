@@ -35,7 +35,8 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QtQmlIntegration/QtQmlIntegration>
+#include <QQmlPropertyMap>
 
 class PQCSettings : public QObject {
 
@@ -46,6 +47,9 @@ class PQCSettings : public QObject {
 public:
     explicit PQCSettings();
     ~PQCSettings();
+
+    // extensions settings
+    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)
 
     /**************************************/
     // table: filedialog
@@ -1979,6 +1983,8 @@ private:
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
+    QQmlPropertyMap *m_extensions;
+
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
 
@@ -1989,6 +1995,7 @@ private:
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
+    void extensionsChanged();
 
     // table: filedialog
     void filedialogDetailsTooltipChanged();

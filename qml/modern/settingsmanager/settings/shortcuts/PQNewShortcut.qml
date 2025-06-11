@@ -59,7 +59,7 @@ Rectangle {
         var plaintxt = ""
 
         if(keyComboMods.length > 0) {
-            txt += "<b>" + shortcuts.item.translateShortcut(keyComboMods.join("+")) + "</b>" // qmllint disable unqualified
+            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(keyComboMods.join("+")) + "</b>"
             txt += "<br>+<br>"
             plaintxt += keyComboMods.join("+")+"+"
         }
@@ -68,7 +68,7 @@ Rectangle {
             txt += "<b>+</b>"
             plaintxt += "+"
         } else {
-            txt += "<b>" + shortcuts.item.translateShortcut(keyComboKey) + "</b>"
+            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(keyComboKey) + "</b>"
             plaintxt += keyComboKey
         }
 
@@ -95,14 +95,14 @@ Rectangle {
         var txt = ""
 
         if(mouseComboMods.length > 0) {
-            txt += "<b>" + shortcuts.item.translateShortcut(mouseComboMods.join("+")) + "</b>" // qmllint disable unqualified
+            txt += "<b>" + PQCScriptsShortcuts.translateShortcut(mouseComboMods.join("+")) + "</b>"
             txt += "<br>+<br>"
         }
 
-        txt += "<b>" + shortcuts.item.translateShortcut(mouseComboButton) + "</b>"
+        txt += "<b>" + PQCScriptsShortcuts.translateShortcut(mouseComboButton) + "</b>"
         if(mouseComboDirection.length > 0) {
             txt += "<br>+<br>"
-            txt += "<b>" + shortcuts.item.translateMouseDirection(mouseComboDirection) + "</b>"
+            txt += "<b>" + PQCScriptsShortcuts.translateMouseDirection(mouseComboDirection) + "</b>"
         }
 
         combo_txt.text = txt

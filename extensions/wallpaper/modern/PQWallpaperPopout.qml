@@ -33,7 +33,7 @@ PQTemplatePopout {
     geometry: PQCWindowGeometry.wallpaperGeometry
     originalGeometry: PQCWindowGeometry.wallpaperGeometry
     isMax: PQCWindowGeometry.wallpaperMaximized
-    popout: PQCSettingsExtensions.WallpaperPopout
+    popout: PQCSettings.extensions.WallpaperPopout
     sizepopout: PQCWindowGeometry.wallpaperForcePopout
     source: "../../extensions/wallpaper/modern/PQWallpaper.qml"
 
@@ -45,8 +45,8 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettingsExtensions.WallpaperPopout)
-            PQCSettingsExtensions.WallpaperPopout = popout
+        if(popout !== PQCSettings.extensions.WallpaperPopout)
+            PQCSettings.extensions.WallpaperPopout = popout
     }
 
     onGeometryChanged: {

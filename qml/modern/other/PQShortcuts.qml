@@ -455,7 +455,6 @@ Item {
                     var exec = sh[3]
                     var args = sh[4]
                     // the 'show' shortcut is a special one
-                    PQCNotify.loaderPassOn(exec, [args])
                     if(exec === "show")
                         PQCNotify.loaderShowExtension(ext)
                     else

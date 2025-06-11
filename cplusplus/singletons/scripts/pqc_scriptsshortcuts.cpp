@@ -513,6 +513,8 @@ int PQCScriptsShortcuts::getCurrentTimestampDiffLessThan(int threshold) {
 
 QString PQCScriptsShortcuts::translateShortcut(QString combo) {
 
+    qDebug() << "args: combo =" << combo;
+
     if(combo == "")
         return "";
 
@@ -538,7 +540,8 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
     }
 
     QString ret = "";
-    for(const QString &ele : parts) {
+    for(const QString &ele : std::as_const(parts)) {
+        qWarning() << "    " << ele;
         if(ret != "")
             ret += " + ";
         if(ele == "")
@@ -549,7 +552,7 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
             QString key_check = ele.toLower();
             if(m_keyStrings.contains(key_check))
                 ret += m_keyStrings[key_check];
-            else if(m_mouseStrings.contains(key_check) > -1)
+            else if(m_mouseStrings.contains(key_check))
                 ret += m_mouseStrings[key_check];
             else
                 ret += ele;

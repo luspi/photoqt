@@ -339,26 +339,26 @@ PQSetting {
 
     function hasChanged() {
         return (quick_show.hasChanged() ||
-                !settop.areTwoListsEqual(settop.curEntries, PQCSettingsExtensions.QuickActionsItems))
+                !settop.areTwoListsEqual(settop.curEntries, PQCSettings.extensions.QuickActionsItems))
     }
 
     function load() {
 
-        quick_show.loadAndSetDefault(PQCSettingsExtensions.QuickActions) // qmllint disable unqualified
+        quick_show.loadAndSetDefault(PQCSettings.extensions.QuickActions)
 
-        settop.curEntries = PQCSettingsExtensions.QuickActionsItems
+        settop.curEntries = PQCSettings.extensions.QuickActionsItems
         populateModel()
 
     }
 
     function applyChanges() {
 
-        PQCSettingsExtensions.QuickActions = quick_show.checked // qmllint disable unqualified
+        PQCSettings.extensions.QuickActions = quick_show.checked
 
         var opts = []
         for(var i = 0; i < model.count; ++i)
             opts.push(model.get(i).name)
-        PQCSettingsExtensions.QuickActionsItems = opts
+        PQCSettings.extensions.QuickActionsItems = opts
 
         if(quick_show.checked)
             PQCNotify.loaderShowExtension("quickactions")
