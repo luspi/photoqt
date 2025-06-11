@@ -1690,6 +1690,8 @@ public:
     int migrate(QString oldversion = "");
     void setupFresh();
 
+    Q_INVOKABLE void updateFromCommandLine();
+
 public Q_SLOTS:
     void resetToDefault();
 

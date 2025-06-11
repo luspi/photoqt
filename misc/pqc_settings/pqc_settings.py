@@ -33,6 +33,7 @@ import parts.getdefaultfor as getdefaultfor
 import parts.setupfresh as setupfresh
 import parts.resettodefault as resettodefault
 import parts.cpp_header as cpp_header
+import parts.updatefromcommandline as updatefromcommandline
 
 ##############################################################################################
 ##############################################################################################
@@ -112,6 +113,7 @@ f = open("parts/migrate.cpp", "r"); cont += f.read()
 f = open("parts/verifynameandgettype.cpp", "r"); cont += f.read()
 cont += setupfresh.get(duplicateSettings, duplicateSettingsSignal)
 cont += resettodefault.get()
+cont += updatefromcommandline.get(duplicateSettings, duplicateSettingsSignal)
 f = open("parts/validatesettingsdatabase.cpp", "r"); cont += f.read()
 f = open("parts/validatesettingsvalues.cpp", "r"); cont += f.read()
 

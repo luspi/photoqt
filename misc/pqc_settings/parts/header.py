@@ -152,6 +152,8 @@ public:
     int migrate(QString oldversion = "");
     void setupFresh();
 
+    void updateFromCommandLine();
+
 public Q_SLOTS:
     void resetToDefault();
 

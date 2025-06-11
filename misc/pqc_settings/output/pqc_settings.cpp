@@ -457,8 +457,7 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    // TODO!!
-    // connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
+    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
     connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
     connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
@@ -8534,6 +8533,1141 @@ void PQCSettings::resetToDefault() {
     setDefaultForThumbnailsVisibility();
 
 }
+
+void PQCSettings::updateFromCommandLine() {
+
+    const QStringList update = PQCNotify::get().getSettingUpdate();
+    qDebug() << "update =" << update;
+
+    if(update.length() != 2)
+        return;
+
+    const QString key = update[0];
+    const QString val = update[1];
+
+    if(key == "filedialogDetailsTooltip") {
+        m_filedialogDetailsTooltip = (val.toInt()==1);
+        Q_EMIT filedialogDetailsTooltipChanged();
+    }
+    if(key == "filedialogDevices") {
+        m_filedialogDevices = (val.toInt()==1);
+        Q_EMIT filedialogDevicesChanged();
+    }
+    if(key == "filedialogDevicesShowTmpfs") {
+        m_filedialogDevicesShowTmpfs = (val.toInt()==1);
+        Q_EMIT filedialogDevicesShowTmpfsChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = (val.toInt()==1);
+    }
+    if(key == "filedialogDragDropFileviewGrid") {
+        m_filedialogDragDropFileviewGrid = (val.toInt()==1);
+        Q_EMIT filedialogDragDropFileviewGridChanged();
+    }
+    if(key == "filedialogDragDropFileviewList") {
+        m_filedialogDragDropFileviewList = (val.toInt()==1);
+        Q_EMIT filedialogDragDropFileviewListChanged();
+    }
+    if(key == "filedialogDragDropFileviewMasonry") {
+        m_filedialogDragDropFileviewMasonry = (val.toInt()==1);
+        Q_EMIT filedialogDragDropFileviewMasonryChanged();
+    }
+    if(key == "filedialogDragDropPlaces") {
+        m_filedialogDragDropPlaces = (val.toInt()==1);
+        Q_EMIT filedialogDragDropPlacesChanged();
+    }
+    if(key == "filedialogElementPadding") {
+        m_filedialogElementPadding = val.toInt();
+        Q_EMIT filedialogElementPaddingChanged();
+    }
+    if(key == "filedialogFolderContentThumbnails") {
+        m_filedialogFolderContentThumbnails = (val.toInt()==1);
+        Q_EMIT filedialogFolderContentThumbnailsChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsAutoload") {
+        m_filedialogFolderContentThumbnailsAutoload = (val.toInt()==1);
+        Q_EMIT filedialogFolderContentThumbnailsAutoloadChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsLoop") {
+        m_filedialogFolderContentThumbnailsLoop = (val.toInt()==1);
+        Q_EMIT filedialogFolderContentThumbnailsLoopChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsScaleCrop") {
+        m_filedialogFolderContentThumbnailsScaleCrop = (val.toInt()==1);
+        Q_EMIT filedialogFolderContentThumbnailsScaleCropChanged();
+    }
+    if(key == "filedialogFolderContentThumbnailsSpeed") {
+        m_filedialogFolderContentThumbnailsSpeed = val.toInt();
+        Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
+    }
+    if(key == "filedialogKeepLastLocation") {
+        m_filedialogKeepLastLocation = (val.toInt()==1);
+        Q_EMIT filedialogKeepLastLocationChanged();
+    }
+    if(key == "filedialogLabelsShowGrid") {
+        m_filedialogLabelsShowGrid = (val.toInt()==1);
+        Q_EMIT filedialogLabelsShowGridChanged();
+    }
+    if(key == "filedialogLabelsShowMasonry") {
+        m_filedialogLabelsShowMasonry = (val.toInt()==1);
+        Q_EMIT filedialogLabelsShowMasonryChanged();
+    }
+    if(key == "filedialogLayout") {
+        m_filedialogLayout = val;
+        Q_EMIT filedialogLayoutChanged();
+    }
+    if(key == "filedialogPlaces") {
+        m_filedialogPlaces = (val.toInt()==1);
+        Q_EMIT filedialogPlacesChanged();
+    }
+    if(key == "filedialogPlacesWidth") {
+        m_filedialogPlacesWidth = val.toInt();
+        Q_EMIT filedialogPlacesWidthChanged();
+    }
+    if(key == "filedialogPreview") {
+        m_filedialogPreview = (val.toInt()==1);
+        Q_EMIT filedialogPreviewChanged();
+    }
+    if(key == "filedialogPreviewBlur") {
+        m_filedialogPreviewBlur = (val.toInt()==1);
+        Q_EMIT filedialogPreviewBlurChanged();
+    }
+    if(key == "filedialogPreviewColorIntensity") {
+        m_filedialogPreviewColorIntensity = val.toInt();
+        Q_EMIT filedialogPreviewColorIntensityChanged();
+    }
+    if(key == "filedialogPreviewCropToFit") {
+        m_filedialogPreviewCropToFit = (val.toInt()==1);
+        Q_EMIT filedialogPreviewCropToFitChanged();
+    }
+    if(key == "filedialogPreviewHigherResolution") {
+        m_filedialogPreviewHigherResolution = (val.toInt()==1);
+        Q_EMIT filedialogPreviewHigherResolutionChanged();
+    }
+    if(key == "filedialogPreviewMuted") {
+        m_filedialogPreviewMuted = (val.toInt()==1);
+        Q_EMIT filedialogPreviewMutedChanged();
+    }
+    if(key == "filedialogRememberSelection") {
+        m_filedialogRememberSelection = (val.toInt()==1);
+        Q_EMIT filedialogRememberSelectionChanged();
+    }
+    if(key == "filedialogShowHiddenFilesFolders") {
+        m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
+        Q_EMIT filedialogShowHiddenFilesFoldersChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
+    }
+    if(key == "filedialogSingleClickSelect") {
+        m_filedialogSingleClickSelect = (val.toInt()==1);
+        Q_EMIT filedialogSingleClickSelectChanged();
+    }
+    if(key == "filedialogThumbnails") {
+        m_filedialogThumbnails = (val.toInt()==1);
+        Q_EMIT filedialogThumbnailsChanged();
+    }
+    if(key == "filedialogThumbnailsScaleCrop") {
+        m_filedialogThumbnailsScaleCrop = (val.toInt()==1);
+        Q_EMIT filedialogThumbnailsScaleCropChanged();
+    }
+    if(key == "filedialogZoom") {
+        m_filedialogZoom = val.toInt();
+        Q_EMIT filedialogZoomChanged();
+    }
+    if(key == "filetypesAnimatedControls") {
+        m_filetypesAnimatedControls = (val.toInt()==1);
+        Q_EMIT filetypesAnimatedControlsChanged();
+    }
+    if(key == "filetypesAnimatedLeftRight") {
+        m_filetypesAnimatedLeftRight = (val.toInt()==1);
+        Q_EMIT filetypesAnimatedLeftRightChanged();
+    }
+    if(key == "filetypesAnimatedSpacePause") {
+        m_filetypesAnimatedSpacePause = (val.toInt()==1);
+        Q_EMIT filetypesAnimatedSpacePauseChanged();
+    }
+    if(key == "filetypesArchiveControls") {
+        m_filetypesArchiveControls = (val.toInt()==1);
+        Q_EMIT filetypesArchiveControlsChanged();
+    }
+    if(key == "filetypesArchiveLeftRight") {
+        m_filetypesArchiveLeftRight = (val.toInt()==1);
+        Q_EMIT filetypesArchiveLeftRightChanged();
+    }
+    if(key == "filetypesDocumentControls") {
+        m_filetypesDocumentControls = (val.toInt()==1);
+        Q_EMIT filetypesDocumentControlsChanged();
+    }
+    if(key == "filetypesDocumentLeftRight") {
+        m_filetypesDocumentLeftRight = (val.toInt()==1);
+        Q_EMIT filetypesDocumentLeftRightChanged();
+    }
+    if(key == "filetypesExternalUnrar") {
+        m_filetypesExternalUnrar = (val.toInt()==1);
+        Q_EMIT filetypesExternalUnrarChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = (val.toInt()==1);
+    }
+    if(key == "filetypesLoadAppleLivePhotos") {
+        m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
+        Q_EMIT filetypesLoadAppleLivePhotosChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
+    }
+    if(key == "filetypesLoadMotionPhotos") {
+        m_filetypesLoadMotionPhotos = (val.toInt()==1);
+        Q_EMIT filetypesLoadMotionPhotosChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = (val.toInt()==1);
+    }
+    if(key == "filetypesMotionAutoPlay") {
+        m_filetypesMotionAutoPlay = (val.toInt()==1);
+        Q_EMIT filetypesMotionAutoPlayChanged();
+    }
+    if(key == "filetypesMotionPhotoPlayPause") {
+        m_filetypesMotionPhotoPlayPause = (val.toInt()==1);
+        Q_EMIT filetypesMotionPhotoPlayPauseChanged();
+    }
+    if(key == "filetypesMotionSpacePause") {
+        m_filetypesMotionSpacePause = (val.toInt()==1);
+        Q_EMIT filetypesMotionSpacePauseChanged();
+    }
+    if(key == "filetypesPDFQuality") {
+        m_filetypesPDFQuality = val.toInt();
+        Q_EMIT filetypesPDFQualityChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = val.toInt();
+    }
+    if(key == "filetypesPhotoSphereArrowKeys") {
+        m_filetypesPhotoSphereArrowKeys = (val.toInt()==1);
+        Q_EMIT filetypesPhotoSphereArrowKeysChanged();
+    }
+    if(key == "filetypesPhotoSphereAutoLoad") {
+        m_filetypesPhotoSphereAutoLoad = (val.toInt()==1);
+        Q_EMIT filetypesPhotoSphereAutoLoadChanged();
+    }
+    if(key == "filetypesPhotoSphereBigButton") {
+        m_filetypesPhotoSphereBigButton = (val.toInt()==1);
+        Q_EMIT filetypesPhotoSphereBigButtonChanged();
+    }
+    if(key == "filetypesPhotoSphereControls") {
+        m_filetypesPhotoSphereControls = (val.toInt()==1);
+        Q_EMIT filetypesPhotoSphereControlsChanged();
+    }
+    if(key == "filetypesPhotoSpherePanOnLoad") {
+        m_filetypesPhotoSpherePanOnLoad = (val.toInt()==1);
+        Q_EMIT filetypesPhotoSpherePanOnLoadChanged();
+    }
+    if(key == "filetypesRAWUseEmbeddedIfAvailable") {
+        m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
+        Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
+    }
+    if(key == "filetypesVideoAutoplay") {
+        m_filetypesVideoAutoplay = (val.toInt()==1);
+        Q_EMIT filetypesVideoAutoplayChanged();
+    }
+    if(key == "filetypesVideoLeftRightJumpVideo") {
+        m_filetypesVideoLeftRightJumpVideo = (val.toInt()==1);
+        Q_EMIT filetypesVideoLeftRightJumpVideoChanged();
+    }
+    if(key == "filetypesVideoLoop") {
+        m_filetypesVideoLoop = (val.toInt()==1);
+        Q_EMIT filetypesVideoLoopChanged();
+    }
+    if(key == "filetypesVideoPreferLibmpv") {
+        m_filetypesVideoPreferLibmpv = (val.toInt()==1);
+        Q_EMIT filetypesVideoPreferLibmpvChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = (val.toInt()==1);
+    }
+    if(key == "filetypesVideoSpacePause") {
+        m_filetypesVideoSpacePause = (val.toInt()==1);
+        Q_EMIT filetypesVideoSpacePauseChanged();
+    }
+    if(key == "filetypesVideoThumbnailer") {
+        m_filetypesVideoThumbnailer = val;
+        Q_EMIT filetypesVideoThumbnailerChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = val;
+    }
+    if(key == "filetypesVideoVolume") {
+        m_filetypesVideoVolume = val.toInt();
+        Q_EMIT filetypesVideoVolumeChanged();
+    }
+    if(key == "generalAutoSaveSettings") {
+        m_generalAutoSaveSettings = (val.toInt()==1);
+        Q_EMIT generalAutoSaveSettingsChanged();
+    }
+    if(key == "generalCompactSettings") {
+        m_generalCompactSettings = (val.toInt()==1);
+        Q_EMIT generalCompactSettingsChanged();
+    }
+    if(key == "generalVersion") {
+        m_generalVersion = val;
+        Q_EMIT generalVersionChanged();
+    }
+    if(key == "imageviewAdvancedSortAscending") {
+        m_imageviewAdvancedSortAscending = (val.toInt()==1);
+        Q_EMIT imageviewAdvancedSortAscendingChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = (val.toInt()==1);
+    }
+    if(key == "imageviewAdvancedSortCriteria") {
+        m_imageviewAdvancedSortCriteria = val;
+        Q_EMIT imageviewAdvancedSortCriteriaChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = val;
+    }
+    if(key == "imageviewAdvancedSortDateCriteria") {
+        m_imageviewAdvancedSortDateCriteria = val.split(":://::");
+        Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val.split(":://::");
+    }
+    if(key == "imageviewAdvancedSortQuality") {
+        m_imageviewAdvancedSortQuality = val;
+        Q_EMIT imageviewAdvancedSortQualityChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = val;
+    }
+    if(key == "imageviewAlwaysActualSize") {
+        m_imageviewAlwaysActualSize = (val.toInt()==1);
+        Q_EMIT imageviewAlwaysActualSizeChanged();
+    }
+    if(key == "imageviewAnimationDuration") {
+        m_imageviewAnimationDuration = val.toInt();
+        Q_EMIT imageviewAnimationDurationChanged();
+    }
+    if(key == "imageviewAnimationType") {
+        m_imageviewAnimationType = val;
+        Q_EMIT imageviewAnimationTypeChanged();
+    }
+    if(key == "imageviewCache") {
+        m_imageviewCache = val.toInt();
+        Q_EMIT imageviewCacheChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = val.toInt();
+    }
+    if(key == "imageviewColorSpaceContextMenu") {
+        m_imageviewColorSpaceContextMenu = val.split(":://::");
+        Q_EMIT imageviewColorSpaceContextMenuChanged();
+    }
+    if(key == "imageviewColorSpaceDefault") {
+        m_imageviewColorSpaceDefault = val;
+        Q_EMIT imageviewColorSpaceDefaultChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = val;
+    }
+    if(key == "imageviewColorSpaceEnable") {
+        m_imageviewColorSpaceEnable = (val.toInt()==1);
+        Q_EMIT imageviewColorSpaceEnableChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = (val.toInt()==1);
+    }
+    if(key == "imageviewColorSpaceLoadEmbedded") {
+        m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
+        Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
+    }
+    if(key == "imageviewEscapeExitArchive") {
+        m_imageviewEscapeExitArchive = (val.toInt()==1);
+        Q_EMIT imageviewEscapeExitArchiveChanged();
+    }
+    if(key == "imageviewEscapeExitBarcodes") {
+        m_imageviewEscapeExitBarcodes = (val.toInt()==1);
+        Q_EMIT imageviewEscapeExitBarcodesChanged();
+    }
+    if(key == "imageviewEscapeExitDocument") {
+        m_imageviewEscapeExitDocument = (val.toInt()==1);
+        Q_EMIT imageviewEscapeExitDocumentChanged();
+    }
+    if(key == "imageviewEscapeExitFilter") {
+        m_imageviewEscapeExitFilter = (val.toInt()==1);
+        Q_EMIT imageviewEscapeExitFilterChanged();
+    }
+    if(key == "imageviewEscapeExitSphere") {
+        m_imageviewEscapeExitSphere = (val.toInt()==1);
+        Q_EMIT imageviewEscapeExitSphereChanged();
+    }
+    if(key == "imageviewFitInWindow") {
+        m_imageviewFitInWindow = (val.toInt()==1);
+        Q_EMIT imageviewFitInWindowChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = (val.toInt()==1);
+    }
+    if(key == "imageviewHideCursorTimeout") {
+        m_imageviewHideCursorTimeout = val.toInt();
+        Q_EMIT imageviewHideCursorTimeoutChanged();
+    }
+    if(key == "imageviewInterpolationDisableForSmallImages") {
+        m_imageviewInterpolationDisableForSmallImages = (val.toInt()==1);
+        Q_EMIT imageviewInterpolationDisableForSmallImagesChanged();
+    }
+    if(key == "imageviewInterpolationThreshold") {
+        m_imageviewInterpolationThreshold = val.toInt();
+        Q_EMIT imageviewInterpolationThresholdChanged();
+    }
+    if(key == "imageviewLoopThroughFolder") {
+        m_imageviewLoopThroughFolder = (val.toInt()==1);
+        Q_EMIT imageviewLoopThroughFolderChanged();
+    }
+    if(key == "imageviewMargin") {
+        m_imageviewMargin = val.toInt();
+        Q_EMIT imageviewMarginChanged();
+    }
+    if(key == "imageviewMinimapSizeLevel") {
+        m_imageviewMinimapSizeLevel = val.toInt();
+        Q_EMIT imageviewMinimapSizeLevelChanged();
+    }
+    if(key == "imageviewMirrorAnimate") {
+        m_imageviewMirrorAnimate = (val.toInt()==1);
+        Q_EMIT imageviewMirrorAnimateChanged();
+    }
+    if(key == "imageviewPreloadInBackground") {
+        m_imageviewPreloadInBackground = val.toInt();
+        Q_EMIT imageviewPreloadInBackgroundChanged();
+    }
+    if(key == "imageviewPreserveMirror") {
+        m_imageviewPreserveMirror = (val.toInt()==1);
+        Q_EMIT imageviewPreserveMirrorChanged();
+    }
+    if(key == "imageviewPreserveRotation") {
+        m_imageviewPreserveRotation = (val.toInt()==1);
+        Q_EMIT imageviewPreserveRotationChanged();
+    }
+    if(key == "imageviewPreserveZoom") {
+        m_imageviewPreserveZoom = (val.toInt()==1);
+        Q_EMIT imageviewPreserveZoomChanged();
+    }
+    if(key == "imageviewRememberZoomRotationMirror") {
+        m_imageviewRememberZoomRotationMirror = (val.toInt()==1);
+        Q_EMIT imageviewRememberZoomRotationMirrorChanged();
+    }
+    if(key == "imageviewResetViewAutoHideTimeout") {
+        m_imageviewResetViewAutoHideTimeout = val.toInt();
+        Q_EMIT imageviewResetViewAutoHideTimeoutChanged();
+    }
+    if(key == "imageviewResetViewShow") {
+        m_imageviewResetViewShow = (val.toInt()==1);
+        Q_EMIT imageviewResetViewShowChanged();
+    }
+    if(key == "imageviewRespectDevicePixelRatio") {
+        m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
+        Q_EMIT imageviewRespectDevicePixelRatioChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
+    }
+    if(key == "imageviewShowMinimap") {
+        m_imageviewShowMinimap = (val.toInt()==1);
+        Q_EMIT imageviewShowMinimapChanged();
+    }
+    if(key == "imageviewSortImagesAscending") {
+        m_imageviewSortImagesAscending = (val.toInt()==1);
+        Q_EMIT imageviewSortImagesAscendingChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = (val.toInt()==1);
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
+    }
+    if(key == "imageviewSortImagesBy") {
+        m_imageviewSortImagesBy = val;
+        Q_EMIT imageviewSortImagesByChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = val;
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
+    }
+    if(key == "imageviewTransparencyMarker") {
+        m_imageviewTransparencyMarker = (val.toInt()==1);
+        Q_EMIT imageviewTransparencyMarkerChanged();
+    }
+    if(key == "imageviewUseMouseLeftButtonForImageMove") {
+        m_imageviewUseMouseLeftButtonForImageMove = (val.toInt()==1);
+        Q_EMIT imageviewUseMouseLeftButtonForImageMoveChanged();
+    }
+    if(key == "imageviewUseMouseWheelForImageMove") {
+        m_imageviewUseMouseWheelForImageMove = (val.toInt()==1);
+        Q_EMIT imageviewUseMouseWheelForImageMoveChanged();
+    }
+    if(key == "imageviewZoomMax") {
+        m_imageviewZoomMax = val.toInt();
+        Q_EMIT imageviewZoomMaxChanged();
+    }
+    if(key == "imageviewZoomMaxEnabled") {
+        m_imageviewZoomMaxEnabled = (val.toInt()==1);
+        Q_EMIT imageviewZoomMaxEnabledChanged();
+    }
+    if(key == "imageviewZoomMin") {
+        m_imageviewZoomMin = val.toInt();
+        Q_EMIT imageviewZoomMinChanged();
+    }
+    if(key == "imageviewZoomMinEnabled") {
+        m_imageviewZoomMinEnabled = (val.toInt()==1);
+        Q_EMIT imageviewZoomMinEnabledChanged();
+    }
+    if(key == "imageviewZoomSpeed") {
+        m_imageviewZoomSpeed = val.toInt();
+        Q_EMIT imageviewZoomSpeedChanged();
+    }
+    if(key == "imageviewZoomSpeedRelative") {
+        m_imageviewZoomSpeedRelative = (val.toInt()==1);
+        Q_EMIT imageviewZoomSpeedRelativeChanged();
+    }
+    if(key == "imageviewZoomToCenter") {
+        m_imageviewZoomToCenter = (val.toInt()==1);
+        Q_EMIT imageviewZoomToCenterChanged();
+    }
+    if(key == "interfaceAccentColor") {
+        m_interfaceAccentColor = val;
+        Q_EMIT interfaceAccentColorChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = val;
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
+    }
+    if(key == "interfaceAllowMultipleInstances") {
+        m_interfaceAllowMultipleInstances = (val.toInt()==1);
+        Q_EMIT interfaceAllowMultipleInstancesChanged();
+    }
+    if(key == "interfaceBackgroundCustomOverlay") {
+        m_interfaceBackgroundCustomOverlay = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundCustomOverlayChanged();
+    }
+    if(key == "interfaceBackgroundCustomOverlayColor") {
+        m_interfaceBackgroundCustomOverlayColor = val;
+        Q_EMIT interfaceBackgroundCustomOverlayColorChanged();
+    }
+    if(key == "interfaceBackgroundFullyTransparent") {
+        m_interfaceBackgroundFullyTransparent = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundFullyTransparentChanged();
+    }
+    if(key == "interfaceBackgroundImageCenter") {
+        m_interfaceBackgroundImageCenter = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageCenterChanged();
+    }
+    if(key == "interfaceBackgroundImagePath") {
+        m_interfaceBackgroundImagePath = val;
+        Q_EMIT interfaceBackgroundImagePathChanged();
+    }
+    if(key == "interfaceBackgroundImageScale") {
+        m_interfaceBackgroundImageScale = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageScaleChanged();
+    }
+    if(key == "interfaceBackgroundImageScaleCrop") {
+        m_interfaceBackgroundImageScaleCrop = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageScaleCropChanged();
+    }
+    if(key == "interfaceBackgroundImageScreenshot") {
+        m_interfaceBackgroundImageScreenshot = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageScreenshotChanged();
+    }
+    if(key == "interfaceBackgroundImageStretch") {
+        m_interfaceBackgroundImageStretch = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageStretchChanged();
+    }
+    if(key == "interfaceBackgroundImageTile") {
+        m_interfaceBackgroundImageTile = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageTileChanged();
+    }
+    if(key == "interfaceBackgroundImageUse") {
+        m_interfaceBackgroundImageUse = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundImageUseChanged();
+    }
+    if(key == "interfaceBackgroundSolid") {
+        m_interfaceBackgroundSolid = (val.toInt()==1);
+        Q_EMIT interfaceBackgroundSolidChanged();
+    }
+    if(key == "interfaceBlurElementsInBackground") {
+        m_interfaceBlurElementsInBackground = (val.toInt()==1);
+        Q_EMIT interfaceBlurElementsInBackgroundChanged();
+    }
+    if(key == "interfaceCloseOnEmptyBackground") {
+        m_interfaceCloseOnEmptyBackground = (val.toInt()==1);
+        Q_EMIT interfaceCloseOnEmptyBackgroundChanged();
+    }
+    if(key == "interfaceDoubleClickThreshold") {
+        m_interfaceDoubleClickThreshold = val.toInt();
+        Q_EMIT interfaceDoubleClickThresholdChanged();
+    }
+    if(key == "interfaceEdgeBottomAction") {
+        m_interfaceEdgeBottomAction = val;
+        Q_EMIT interfaceEdgeBottomActionChanged();
+    }
+    if(key == "interfaceEdgeLeftAction") {
+        m_interfaceEdgeLeftAction = val;
+        Q_EMIT interfaceEdgeLeftActionChanged();
+    }
+    if(key == "interfaceEdgeRightAction") {
+        m_interfaceEdgeRightAction = val;
+        Q_EMIT interfaceEdgeRightActionChanged();
+    }
+    if(key == "interfaceEdgeTopAction") {
+        m_interfaceEdgeTopAction = val;
+        Q_EMIT interfaceEdgeTopActionChanged();
+    }
+    if(key == "interfaceFontBoldWeight") {
+        m_interfaceFontBoldWeight = val.toInt();
+        Q_EMIT interfaceFontBoldWeightChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = val.toInt();
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
+    }
+    if(key == "interfaceFontNormalWeight") {
+        m_interfaceFontNormalWeight = val.toInt();
+        Q_EMIT interfaceFontNormalWeightChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = val.toInt();
+        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
+    }
+    if(key == "interfaceHotEdgeSize") {
+        m_interfaceHotEdgeSize = val.toInt();
+        Q_EMIT interfaceHotEdgeSizeChanged();
+    }
+    if(key == "interfaceKeepWindowOnTop") {
+        m_interfaceKeepWindowOnTop = (val.toInt()==1);
+        Q_EMIT interfaceKeepWindowOnTopChanged();
+    }
+    if(key == "interfaceLanguage") {
+        m_interfaceLanguage = val;
+        Q_EMIT interfaceLanguageChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = val;
+    }
+    if(key == "interfaceMinimapPopout") {
+        m_interfaceMinimapPopout = (val.toInt()==1);
+        Q_EMIT interfaceMinimapPopoutChanged();
+    }
+    if(key == "interfaceMouseWheelSensitivity") {
+        m_interfaceMouseWheelSensitivity = val.toInt();
+        Q_EMIT interfaceMouseWheelSensitivityChanged();
+    }
+    if(key == "interfaceNavigateOnEmptyBackground") {
+        m_interfaceNavigateOnEmptyBackground = (val.toInt()==1);
+        Q_EMIT interfaceNavigateOnEmptyBackgroundChanged();
+    }
+    if(key == "interfaceNavigationFloating") {
+        m_interfaceNavigationFloating = (val.toInt()==1);
+        Q_EMIT interfaceNavigationFloatingChanged();
+    }
+    if(key == "interfaceNotificationDistanceFromEdge") {
+        m_interfaceNotificationDistanceFromEdge = val.toInt();
+        Q_EMIT interfaceNotificationDistanceFromEdgeChanged();
+    }
+    if(key == "interfaceNotificationLocation") {
+        m_interfaceNotificationLocation = val;
+        Q_EMIT interfaceNotificationLocationChanged();
+    }
+    if(key == "interfaceNotificationTryNative") {
+        m_interfaceNotificationTryNative = (val.toInt()==1);
+        Q_EMIT interfaceNotificationTryNativeChanged();
+    }
+    if(key == "interfacePopoutAbout") {
+        m_interfacePopoutAbout = (val.toInt()==1);
+        Q_EMIT interfacePopoutAboutChanged();
+    }
+    if(key == "interfacePopoutAdvancedSort") {
+        m_interfacePopoutAdvancedSort = (val.toInt()==1);
+        Q_EMIT interfacePopoutAdvancedSortChanged();
+    }
+    if(key == "interfacePopoutChromecast") {
+        m_interfacePopoutChromecast = (val.toInt()==1);
+        Q_EMIT interfacePopoutChromecastChanged();
+    }
+    if(key == "interfacePopoutExport") {
+        m_interfacePopoutExport = (val.toInt()==1);
+        Q_EMIT interfacePopoutExportChanged();
+    }
+    if(key == "interfacePopoutFileDelete") {
+        m_interfacePopoutFileDelete = (val.toInt()==1);
+        Q_EMIT interfacePopoutFileDeleteChanged();
+    }
+    if(key == "interfacePopoutFileDialog") {
+        m_interfacePopoutFileDialog = (val.toInt()==1);
+        Q_EMIT interfacePopoutFileDialogChanged();
+    }
+    if(key == "interfacePopoutFileDialogNonModal") {
+        m_interfacePopoutFileDialogNonModal = (val.toInt()==1);
+        Q_EMIT interfacePopoutFileDialogNonModalChanged();
+    }
+    if(key == "interfacePopoutFileRename") {
+        m_interfacePopoutFileRename = (val.toInt()==1);
+        Q_EMIT interfacePopoutFileRenameChanged();
+    }
+    if(key == "interfacePopoutFilter") {
+        m_interfacePopoutFilter = (val.toInt()==1);
+        Q_EMIT interfacePopoutFilterChanged();
+    }
+    if(key == "interfacePopoutImgur") {
+        m_interfacePopoutImgur = (val.toInt()==1);
+        Q_EMIT interfacePopoutImgurChanged();
+    }
+    if(key == "interfacePopoutMainMenu") {
+        m_interfacePopoutMainMenu = (val.toInt()==1);
+        Q_EMIT interfacePopoutMainMenuChanged();
+    }
+    if(key == "interfacePopoutMapExplorer") {
+        m_interfacePopoutMapExplorer = (val.toInt()==1);
+        Q_EMIT interfacePopoutMapExplorerChanged();
+    }
+    if(key == "interfacePopoutMapExplorerNonModal") {
+        m_interfacePopoutMapExplorerNonModal = (val.toInt()==1);
+        Q_EMIT interfacePopoutMapExplorerNonModalChanged();
+    }
+    if(key == "interfacePopoutMetadata") {
+        m_interfacePopoutMetadata = (val.toInt()==1);
+        Q_EMIT interfacePopoutMetadataChanged();
+    }
+    if(key == "interfacePopoutSettingsManager") {
+        m_interfacePopoutSettingsManager = (val.toInt()==1);
+        Q_EMIT interfacePopoutSettingsManagerChanged();
+    }
+    if(key == "interfacePopoutSettingsManagerNonModal") {
+        m_interfacePopoutSettingsManagerNonModal = (val.toInt()==1);
+        Q_EMIT interfacePopoutSettingsManagerNonModalChanged();
+    }
+    if(key == "interfacePopoutSlideshowControls") {
+        m_interfacePopoutSlideshowControls = (val.toInt()==1);
+        Q_EMIT interfacePopoutSlideshowControlsChanged();
+    }
+    if(key == "interfacePopoutSlideshowSetup") {
+        m_interfacePopoutSlideshowSetup = (val.toInt()==1);
+        Q_EMIT interfacePopoutSlideshowSetupChanged();
+    }
+    if(key == "interfacePopoutWhenWindowIsSmall") {
+        m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
+        Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
+    }
+    if(key == "interfaceQuickActions") {
+        m_interfaceQuickActions = (val.toInt()==1);
+        Q_EMIT interfaceQuickActionsChanged();
+    }
+    if(key == "interfaceQuickActionsHeight") {
+        m_interfaceQuickActionsHeight = val.toInt();
+        Q_EMIT interfaceQuickActionsHeightChanged();
+    }
+    if(key == "interfaceQuickActionsItems") {
+        m_interfaceQuickActionsItems = val.split(":://::");
+        Q_EMIT interfaceQuickActionsItemsChanged();
+    }
+    if(key == "interfaceRememberLastImage") {
+        m_interfaceRememberLastImage = (val.toInt()==1);
+        Q_EMIT interfaceRememberLastImageChanged();
+    }
+    if(key == "interfaceSaveWindowGeometry") {
+        m_interfaceSaveWindowGeometry = (val.toInt()==1);
+        Q_EMIT interfaceSaveWindowGeometryChanged();
+    }
+    if(key == "interfaceStatusInfoAutoHide") {
+        m_interfaceStatusInfoAutoHide = (val.toInt()==1);
+        Q_EMIT interfaceStatusInfoAutoHideChanged();
+    }
+    if(key == "interfaceStatusInfoAutoHideTimeout") {
+        m_interfaceStatusInfoAutoHideTimeout = val.toInt();
+        Q_EMIT interfaceStatusInfoAutoHideTimeoutChanged();
+    }
+    if(key == "interfaceStatusInfoAutoHideTopEdge") {
+        m_interfaceStatusInfoAutoHideTopEdge = (val.toInt()==1);
+        Q_EMIT interfaceStatusInfoAutoHideTopEdgeChanged();
+    }
+    if(key == "interfaceStatusInfoFontSize") {
+        m_interfaceStatusInfoFontSize = val.toInt();
+        Q_EMIT interfaceStatusInfoFontSizeChanged();
+    }
+    if(key == "interfaceStatusInfoList") {
+        m_interfaceStatusInfoList = val.split(":://::");
+        Q_EMIT interfaceStatusInfoListChanged();
+    }
+    if(key == "interfaceStatusInfoManageWindow") {
+        m_interfaceStatusInfoManageWindow = (val.toInt()==1);
+        Q_EMIT interfaceStatusInfoManageWindowChanged();
+    }
+    if(key == "interfaceStatusInfoPosition") {
+        m_interfaceStatusInfoPosition = val;
+        Q_EMIT interfaceStatusInfoPositionChanged();
+    }
+    if(key == "interfaceStatusInfoShow") {
+        m_interfaceStatusInfoShow = (val.toInt()==1);
+        Q_EMIT interfaceStatusInfoShowChanged();
+    }
+    if(key == "interfaceStatusInfoShowImageChange") {
+        m_interfaceStatusInfoShowImageChange = (val.toInt()==1);
+        Q_EMIT interfaceStatusInfoShowImageChangeChanged();
+    }
+    if(key == "interfaceTrayIcon") {
+        m_interfaceTrayIcon = val.toInt();
+        Q_EMIT interfaceTrayIconChanged();
+    }
+    if(key == "interfaceTrayIconHideReset") {
+        m_interfaceTrayIconHideReset = (val.toInt()==1);
+        Q_EMIT interfaceTrayIconHideResetChanged();
+    }
+    if(key == "interfaceTrayIconMonochrome") {
+        m_interfaceTrayIconMonochrome = (val.toInt()==1);
+        Q_EMIT interfaceTrayIconMonochromeChanged();
+    }
+    if(key == "interfaceWindowButtonsAutoHide") {
+        m_interfaceWindowButtonsAutoHide = (val.toInt()==1);
+        Q_EMIT interfaceWindowButtonsAutoHideChanged();
+    }
+    if(key == "interfaceWindowButtonsAutoHideTimeout") {
+        m_interfaceWindowButtonsAutoHideTimeout = val.toInt();
+        Q_EMIT interfaceWindowButtonsAutoHideTimeoutChanged();
+    }
+    if(key == "interfaceWindowButtonsAutoHideTopEdge") {
+        m_interfaceWindowButtonsAutoHideTopEdge = (val.toInt()==1);
+        Q_EMIT interfaceWindowButtonsAutoHideTopEdgeChanged();
+    }
+    if(key == "interfaceWindowButtonsItems") {
+        m_interfaceWindowButtonsItems = val.split(":://::");
+        Q_EMIT interfaceWindowButtonsItemsChanged();
+    }
+    if(key == "interfaceWindowButtonsShow") {
+        m_interfaceWindowButtonsShow = (val.toInt()==1);
+        Q_EMIT interfaceWindowButtonsShowChanged();
+    }
+    if(key == "interfaceWindowButtonsSize") {
+        m_interfaceWindowButtonsSize = val.toInt();
+        Q_EMIT interfaceWindowButtonsSizeChanged();
+    }
+    if(key == "interfaceWindowDecoration") {
+        m_interfaceWindowDecoration = (val.toInt()==1);
+        Q_EMIT interfaceWindowDecorationChanged();
+    }
+    if(key == "interfaceWindowDecorationOnEmptyBackground") {
+        m_interfaceWindowDecorationOnEmptyBackground = (val.toInt()==1);
+        Q_EMIT interfaceWindowDecorationOnEmptyBackgroundChanged();
+    }
+    if(key == "interfaceWindowMode") {
+        m_interfaceWindowMode = (val.toInt()==1);
+        Q_EMIT interfaceWindowModeChanged();
+    }
+    if(key == "mainmenuElementHeightDynamic") {
+        m_mainmenuElementHeightDynamic = (val.toInt()==1);
+        Q_EMIT mainmenuElementHeightDynamicChanged();
+    }
+    if(key == "mainmenuElementPosition") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT mainmenuElementPositionChanged();
+    }
+    if(key == "mainmenuElementSize") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT mainmenuElementSizeChanged();
+    }
+    if(key == "mainmenuElementWidth") {
+        m_mainmenuElementWidth = val.toInt();
+        Q_EMIT mainmenuElementWidthChanged();
+    }
+    if(key == "mainmenuShowExternal") {
+        m_mainmenuShowExternal = (val.toInt()==1);
+        Q_EMIT mainmenuShowExternalChanged();
+    }
+    if(key == "mapviewCurrentPosition") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT mapviewCurrentPositionChanged();
+    }
+    if(key == "mapviewCurrentSize") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT mapviewCurrentSizeChanged();
+    }
+    if(key == "mapviewCurrentVisible") {
+        m_mapviewCurrentVisible = (val.toInt()==1);
+        Q_EMIT mapviewCurrentVisibleChanged();
+    }
+    if(key == "mapviewExplorerThumbnailsScaleCrop") {
+        m_mapviewExplorerThumbnailsScaleCrop = (val.toInt()==1);
+        Q_EMIT mapviewExplorerThumbnailsScaleCropChanged();
+    }
+    if(key == "mapviewExplorerThumbnailsZoomLevel") {
+        m_mapviewExplorerThumbnailsZoomLevel = val.toInt();
+        Q_EMIT mapviewExplorerThumbnailsZoomLevelChanged();
+    }
+    if(key == "metadataAutoRotation") {
+        m_metadataAutoRotation = (val.toInt()==1);
+        Q_EMIT metadataAutoRotationChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = (val.toInt()==1);
+    }
+    if(key == "metadataCopyright") {
+        m_metadataCopyright = (val.toInt()==1);
+        Q_EMIT metadataCopyrightChanged();
+    }
+    if(key == "metadataDimensions") {
+        m_metadataDimensions = (val.toInt()==1);
+        Q_EMIT metadataDimensionsChanged();
+    }
+    if(key == "metadataElementFloating") {
+        m_metadataElementFloating = (val.toInt()==1);
+        Q_EMIT metadataElementFloatingChanged();
+    }
+    if(key == "metadataElementHeightDynamic") {
+        m_metadataElementHeightDynamic = (val.toInt()==1);
+        Q_EMIT metadataElementHeightDynamicChanged();
+    }
+    if(key == "metadataElementPosition") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT metadataElementPositionChanged();
+    }
+    if(key == "metadataElementSize") {
+        QStringList parts = val.split(",");
+        if(parts.length() != 2)
+            return;
+        m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+        Q_EMIT metadataElementSizeChanged();
+    }
+    if(key == "metadataElementVisible") {
+        m_metadataElementVisible = (val.toInt()==1);
+        Q_EMIT metadataElementVisibleChanged();
+    }
+    if(key == "metadataExposureTime") {
+        m_metadataExposureTime = (val.toInt()==1);
+        Q_EMIT metadataExposureTimeChanged();
+    }
+    if(key == "metadataFLength") {
+        m_metadataFLength = (val.toInt()==1);
+        Q_EMIT metadataFLengthChanged();
+    }
+    if(key == "metadataFNumber") {
+        m_metadataFNumber = (val.toInt()==1);
+        Q_EMIT metadataFNumberChanged();
+    }
+    if(key == "metadataFaceTagsBorder") {
+        m_metadataFaceTagsBorder = (val.toInt()==1);
+        Q_EMIT metadataFaceTagsBorderChanged();
+    }
+    if(key == "metadataFaceTagsBorderColor") {
+        m_metadataFaceTagsBorderColor = val;
+        Q_EMIT metadataFaceTagsBorderColorChanged();
+    }
+    if(key == "metadataFaceTagsBorderWidth") {
+        m_metadataFaceTagsBorderWidth = val.toInt();
+        Q_EMIT metadataFaceTagsBorderWidthChanged();
+    }
+    if(key == "metadataFaceTagsEnabled") {
+        m_metadataFaceTagsEnabled = (val.toInt()==1);
+        Q_EMIT metadataFaceTagsEnabledChanged();
+    }
+    if(key == "metadataFaceTagsFontSize") {
+        m_metadataFaceTagsFontSize = val.toInt();
+        Q_EMIT metadataFaceTagsFontSizeChanged();
+    }
+    if(key == "metadataFaceTagsVisibility") {
+        m_metadataFaceTagsVisibility = val.toInt();
+        Q_EMIT metadataFaceTagsVisibilityChanged();
+    }
+    if(key == "metadataFileSize") {
+        m_metadataFileSize = (val.toInt()==1);
+        Q_EMIT metadataFileSizeChanged();
+    }
+    if(key == "metadataFileType") {
+        m_metadataFileType = (val.toInt()==1);
+        Q_EMIT metadataFileTypeChanged();
+    }
+    if(key == "metadataFilename") {
+        m_metadataFilename = (val.toInt()==1);
+        Q_EMIT metadataFilenameChanged();
+    }
+    if(key == "metadataFlash") {
+        m_metadataFlash = (val.toInt()==1);
+        Q_EMIT metadataFlashChanged();
+    }
+    if(key == "metadataGps") {
+        m_metadataGps = (val.toInt()==1);
+        Q_EMIT metadataGpsChanged();
+    }
+    if(key == "metadataGpsMap") {
+        m_metadataGpsMap = val;
+        Q_EMIT metadataGpsMapChanged();
+    }
+    if(key == "metadataImageNumber") {
+        m_metadataImageNumber = (val.toInt()==1);
+        Q_EMIT metadataImageNumberChanged();
+    }
+    if(key == "metadataIso") {
+        m_metadataIso = (val.toInt()==1);
+        Q_EMIT metadataIsoChanged();
+    }
+    if(key == "metadataKeywords") {
+        m_metadataKeywords = (val.toInt()==1);
+        Q_EMIT metadataKeywordsChanged();
+    }
+    if(key == "metadataLightSource") {
+        m_metadataLightSource = (val.toInt()==1);
+        Q_EMIT metadataLightSourceChanged();
+    }
+    if(key == "metadataLocation") {
+        m_metadataLocation = (val.toInt()==1);
+        Q_EMIT metadataLocationChanged();
+    }
+    if(key == "metadataMake") {
+        m_metadataMake = (val.toInt()==1);
+        Q_EMIT metadataMakeChanged();
+    }
+    if(key == "metadataModel") {
+        m_metadataModel = (val.toInt()==1);
+        Q_EMIT metadataModelChanged();
+    }
+    if(key == "metadataSceneType") {
+        m_metadataSceneType = (val.toInt()==1);
+        Q_EMIT metadataSceneTypeChanged();
+    }
+    if(key == "metadataSoftware") {
+        m_metadataSoftware = (val.toInt()==1);
+        Q_EMIT metadataSoftwareChanged();
+    }
+    if(key == "metadataTime") {
+        m_metadataTime = (val.toInt()==1);
+        Q_EMIT metadataTimeChanged();
+    }
+    if(key == "slideshowHideLabels") {
+        m_slideshowHideLabels = (val.toInt()==1);
+        Q_EMIT slideshowHideLabelsChanged();
+    }
+    if(key == "slideshowHideWindowButtons") {
+        m_slideshowHideWindowButtons = (val.toInt()==1);
+        Q_EMIT slideshowHideWindowButtonsChanged();
+    }
+    if(key == "slideshowImageTransition") {
+        m_slideshowImageTransition = val.toInt();
+        Q_EMIT slideshowImageTransitionChanged();
+    }
+    if(key == "slideshowIncludeSubFolders") {
+        m_slideshowIncludeSubFolders = (val.toInt()==1);
+        Q_EMIT slideshowIncludeSubFoldersChanged();
+    }
+    if(key == "slideshowLoop") {
+        m_slideshowLoop = (val.toInt()==1);
+        Q_EMIT slideshowLoopChanged();
+    }
+    if(key == "slideshowMusic") {
+        m_slideshowMusic = (val.toInt()==1);
+        Q_EMIT slideshowMusicChanged();
+    }
+    if(key == "slideshowMusicFile") {
+        m_slideshowMusicFile = val;
+        Q_EMIT slideshowMusicFileChanged();
+    }
+    if(key == "slideshowMusicFiles") {
+        m_slideshowMusicFiles = val.split(":://::");
+        Q_EMIT slideshowMusicFilesChanged();
+    }
+    if(key == "slideshowMusicShuffle") {
+        m_slideshowMusicShuffle = (val.toInt()==1);
+        Q_EMIT slideshowMusicShuffleChanged();
+    }
+    if(key == "slideshowMusicVolumeVideos") {
+        m_slideshowMusicVolumeVideos = val.toInt();
+        Q_EMIT slideshowMusicVolumeVideosChanged();
+    }
+    if(key == "slideshowShuffle") {
+        m_slideshowShuffle = (val.toInt()==1);
+        Q_EMIT slideshowShuffleChanged();
+    }
+    if(key == "slideshowTime") {
+        m_slideshowTime = val.toInt();
+        Q_EMIT slideshowTimeChanged();
+    }
+    if(key == "slideshowTypeAnimation") {
+        m_slideshowTypeAnimation = val;
+        Q_EMIT slideshowTypeAnimationChanged();
+    }
+    if(key == "thumbnailsCache") {
+        m_thumbnailsCache = (val.toInt()==1);
+        Q_EMIT thumbnailsCacheChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = (val.toInt()==1);
+    }
+    if(key == "thumbnailsCacheBaseDirDefault") {
+        m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
+        Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
+    }
+    if(key == "thumbnailsCacheBaseDirLocation") {
+        m_thumbnailsCacheBaseDirLocation = val;
+        Q_EMIT thumbnailsCacheBaseDirLocationChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = val;
+    }
+    if(key == "thumbnailsCenterOnActive") {
+        m_thumbnailsCenterOnActive = (val.toInt()==1);
+        Q_EMIT thumbnailsCenterOnActiveChanged();
+    }
+    if(key == "thumbnailsCropToFit") {
+        m_thumbnailsCropToFit = (val.toInt()==1);
+        Q_EMIT thumbnailsCropToFitChanged();
+    }
+    if(key == "thumbnailsDisable") {
+        m_thumbnailsDisable = (val.toInt()==1);
+        Q_EMIT thumbnailsDisableChanged();
+    }
+    if(key == "thumbnailsExcludeDropBox") {
+        m_thumbnailsExcludeDropBox = val;
+        Q_EMIT thumbnailsExcludeDropBoxChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = val;
+    }
+    if(key == "thumbnailsExcludeFolders") {
+        m_thumbnailsExcludeFolders = val.split(":://::");
+        Q_EMIT thumbnailsExcludeFoldersChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val.split(":://::");
+    }
+    if(key == "thumbnailsExcludeNetworkShares") {
+        m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
+        Q_EMIT thumbnailsExcludeNetworkSharesChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
+    }
+    if(key == "thumbnailsExcludeNextcloud") {
+        m_thumbnailsExcludeNextcloud = val;
+        Q_EMIT thumbnailsExcludeNextcloudChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = val;
+    }
+    if(key == "thumbnailsExcludeOwnCloud") {
+        m_thumbnailsExcludeOwnCloud = val;
+        Q_EMIT thumbnailsExcludeOwnCloudChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = val;
+    }
+    if(key == "thumbnailsFilename") {
+        m_thumbnailsFilename = (val.toInt()==1);
+        Q_EMIT thumbnailsFilenameChanged();
+    }
+    if(key == "thumbnailsFontSize") {
+        m_thumbnailsFontSize = val.toInt();
+        Q_EMIT thumbnailsFontSizeChanged();
+    }
+    if(key == "thumbnailsHighlightAnimation") {
+        m_thumbnailsHighlightAnimation = val.split(":://::");
+        Q_EMIT thumbnailsHighlightAnimationChanged();
+    }
+    if(key == "thumbnailsHighlightAnimationLiftUp") {
+        m_thumbnailsHighlightAnimationLiftUp = val.toInt();
+        Q_EMIT thumbnailsHighlightAnimationLiftUpChanged();
+    }
+    if(key == "thumbnailsIconsOnly") {
+        m_thumbnailsIconsOnly = (val.toInt()==1);
+        Q_EMIT thumbnailsIconsOnlyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = (val.toInt()==1);
+    }
+    if(key == "thumbnailsInactiveTransparent") {
+        m_thumbnailsInactiveTransparent = (val.toInt()==1);
+        Q_EMIT thumbnailsInactiveTransparentChanged();
+    }
+    if(key == "thumbnailsMaxNumberThreads") {
+        m_thumbnailsMaxNumberThreads = val.toInt();
+        Q_EMIT thumbnailsMaxNumberThreadsChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = val.toInt();
+    }
+    if(key == "thumbnailsSameHeightVaryWidth") {
+        m_thumbnailsSameHeightVaryWidth = (val.toInt()==1);
+        Q_EMIT thumbnailsSameHeightVaryWidthChanged();
+    }
+    if(key == "thumbnailsSize") {
+        m_thumbnailsSize = val.toInt();
+        Q_EMIT thumbnailsSizeChanged();
+    }
+    if(key == "thumbnailsSmallThumbnailsKeepSmall") {
+        m_thumbnailsSmallThumbnailsKeepSmall = (val.toInt()==1);
+        Q_EMIT thumbnailsSmallThumbnailsKeepSmallChanged();
+    }
+    if(key == "thumbnailsSpacing") {
+        m_thumbnailsSpacing = val.toInt();
+        Q_EMIT thumbnailsSpacingChanged();
+    }
+    if(key == "thumbnailsTooltip") {
+        m_thumbnailsTooltip = (val.toInt()==1);
+        Q_EMIT thumbnailsTooltipChanged();
+    }
+    if(key == "thumbnailsVisibility") {
+        m_thumbnailsVisibility = val.toInt();
+        Q_EMIT thumbnailsVisibilityChanged();
+    }
+
+}
 // THIS FUNCTION IS NOT TO BE CALLED FROM INSIDE PQCSETTINGS!!
 // It is only to be called whenever the class has been set up
 // specifically for validating (see constructor).
@@ -8749,7 +9883,6 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
     }
 
     dbcheck.close();
-    QSqlDatabase::removeDatabase("checksettings");
 
     if(!skipDBHandling) {
         db.close();

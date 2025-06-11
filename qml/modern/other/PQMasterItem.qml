@@ -273,6 +273,9 @@ Loader {
 
             waitForExtLoaderToBeReady.start()
 
+            if(PQCNotify.getSettingUpdate().length === 2)
+                PQCSettings.updateFromCommandLine();
+
         }
 
     }

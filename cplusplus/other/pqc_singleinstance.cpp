@@ -243,6 +243,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         connect(server, &QLocalServer::newConnection, this, &PQCSingleInstance::newConnection);
 
         m_receivedFile = receivedFile;
+        m_receivedSetting[0] = receivedSetting[0];
+        m_receivedSetting[1] = receivedSetting[1];
+        m_receivedShortcut = receivedShortcut;
         handleMessage(msg);
 
     }
@@ -370,10 +373,10 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
     // if we have files and/or folders that were passed on
     if(allfiles.length() > 0 || allfolders.length() > 0) {
         allfiles.append(allfolders);
-        // if(allfiles.length() > 1)
-            // PQCFileFolderModel::get().setExtraFoldersToLoad(allfiles.mid(1));
-        // else
-            // PQCFileFolderModel::get().setExtraFoldersToLoad({});
+        if(allfiles.length() > 1)
+            PQCFileFolderModel::get().setExtraFoldersToLoad(allfiles.mid(1));
+        else
+            PQCFileFolderModel::get().setExtraFoldersToLoad({});
         PQCNotify::get().setFilePath(allfiles[0]);
     }
 
