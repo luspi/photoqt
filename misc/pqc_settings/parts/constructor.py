@@ -82,6 +82,14 @@ def get():
 
 #include <scripts/pqc_scriptsother.h>
 
+PQCSettings::PQCSettings(bool validateonly) {
+    if(validateonly) {
+        dbCommitTimer = nullptr;
+        qDebug() << "THIS INSTANCE SHOULD ONLY BE USED FOR VALIDATING!";
+    } else
+        PQCSettings();
+}
+
 PQCSettings::PQCSettings() {
 
     // create and connect to default database
@@ -104,7 +112,6 @@ PQCSettings::PQCSettings() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -122,7 +129,19 @@ PQCSettings::PQCSettings() {
 
     QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
-    if(!infodb.exists() || !db.open()) {
+    // the db does not exist -> create it
+    if(!infodb.exists()) {
+        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+            qWarning() << "Unable to (re-)create default user settings database";
+        else {
+            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+
+    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+    if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
         qWarning() << "Will load read-only database of default settings";
@@ -183,8 +202,23 @@ PQCSettings::PQCSettings() {
     // set up with all defaults
     setupFresh();
 
-    // then update with user settings
-    readDB();
+    /******************************************************/
+
+    // then update with user settings (if applicable)
+    QFileInfo info(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(!info.exists()) {
+        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+            qWarning() << "Unable to (re-)create default settings database";
+        else {
+            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    } else {
+        readDB();
+        QString curver = PQMVERSION;
+        if(curver != m_generalVersion)
+            migrate(m_generalVersion);
+    }
 
     /******************************************************/
     """
@@ -237,8 +271,10 @@ PQCSettings::PQCSettings() {
 }
 
 PQCSettings::~PQCSettings() {{
-    delete dbCommitTimer;
-    delete m_extensions;
+    if(dbCommitTimer != nullptr) {{
+        delete dbCommitTimer;
+        delete m_extensions;
+    }}
 }}
 """
 

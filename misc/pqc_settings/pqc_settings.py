@@ -112,6 +112,9 @@ f = open("parts/migrate.cpp", "r"); cont += f.read()
 f = open("parts/verifynameandgettype.cpp", "r"); cont += f.read()
 cont += setupfresh.get(duplicateSettings, duplicateSettingsSignal)
 cont += resettodefault.get()
+f = open("parts/validatesettingsdatabase.cpp", "r"); cont += f.read()
+f = open("parts/validatesettingsvalues.cpp", "r"); cont += f.read()
+
 
 f = open("output/pqc_settings.cpp", "w")
 f.write(cont)

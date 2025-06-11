@@ -86,6 +86,7 @@ class PQCSettings : public QObject {
     QML_SINGLETON
 
 public:
+    explicit PQCSettings(bool validateonly);
     explicit PQCSettings();
     ~PQCSettings();
 
@@ -146,6 +147,8 @@ public:
 
     QString verifyNameAndGetType(QString name);
 
+    bool validateSettingsDatabase(bool skipDBHandling = false);
+    bool validateSettingsValues(bool skipDBHandling = false);
     int migrate(QString oldversion = "");
     void setupFresh();
 

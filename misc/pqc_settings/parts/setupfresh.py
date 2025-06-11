@@ -70,7 +70,10 @@ void PQCSettings::setupFresh() {
 
             valuestring = ""
 
-            if datatype == "string":
+            # we always default to the up-to-date version
+            if tab == "general" and name == "Version":
+                valuestring = "PQMVERSION"
+            elif datatype == "string":
                 valuestring = f"\"{defaultvalue}\""
             elif datatype == "bool":
                 valuestring = ("false" if defaultvalue == "0" else "true")

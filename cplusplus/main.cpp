@@ -46,7 +46,6 @@
 #include <pqc_notify.h>
 #include <pqc_messagehandler.h>
 #include <pqc_imageformats.h>
-#include <pqc_shortcuts.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
 #include <pqc_providerthumb.h>
@@ -248,36 +247,10 @@ int main(int argc, char *argv[]) {
     PQCNotify::get().setStartupCheck(checker);
 
     // update or fresh install?
-    if(checker != 0) {
-
-        // TODO
-
-        if(checker == 2) {
-            startup.setupFresh();
-            // PQCSettings::get().setupFresh();
-            PQCShortcuts::get().setupFresh();
-        } else {
-            // int ret = PQCSettings::get().migrate();
-            // if(ret == 1) {
-            //     startup.setupFresh();
-            //     PQCSettings::get().setupFresh();
-            //     PQCShortcuts::get().setupFresh();
-            // } else {
-            //     PQCSettings::get().readDB();
-            //     PQCShortcuts::get().migrate(PQCSettings::get()["generalVersion"].toString());
-            // }
-        }
-
-        // run consistency check
-        // this is done when updating or coming from dev version
-        if(checker == 1 || checker == 3)
-            validate.validate();
-
-        // PQCSettings::get().update("generalVersion", PQMVERSION);
-        // Q_EMIT PQCSettings::get().valueChanged("generalVersion", PQMVERSION);
-        // PQCSettings::get().readDB();
-
+    if(checker == 1) {
+        validate.validate();
     }
+
 
     // after the checks above we can check for any possible settings update from the cli
     // TODO !!!
@@ -323,7 +296,6 @@ int main(int argc, char *argv[]) {
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
     qmlRegisterSingletonInstance("PQCFileFolderModel", 1, 0, "PQCFileFolderModel", &PQCFileFolderModel::get());
-    qmlRegisterSingletonInstance("PQCShortcuts", 1, 0, "PQCShortcuts", &PQCShortcuts::get());
     qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
     qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
     qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());

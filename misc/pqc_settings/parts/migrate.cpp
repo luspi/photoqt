@@ -347,6 +347,9 @@ int PQCSettings::migrate(QString oldversion) {
 
     db.commit();
 
+    validateSettingsDatabase(true);
+    validateSettingsValues(true);
+
     return 0;
 
 }

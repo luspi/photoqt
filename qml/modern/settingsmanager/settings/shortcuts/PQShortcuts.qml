@@ -24,7 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 
-import PQCShortcuts
 import PQCExtensionsHandler
 
 import org.photoqt.qml

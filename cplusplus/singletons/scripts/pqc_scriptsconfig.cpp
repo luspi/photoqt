@@ -292,13 +292,13 @@ bool PQCScriptsConfig::importConfigFrom(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    // TODO !!!
+    // TODO 5.0 !!!
     return false;
 
 #ifdef PQMLIBARCHIVE
 
     // PQCSettings::get().closeDatabase();
-    PQCShortcuts::get().closeDatabase();
+    // PQCShortcuts::get().closeDatabase();
     PQCImageFormats::get().closeDatabase();
 
     // Obtain a filename from the user or used passed on filename
@@ -702,11 +702,11 @@ void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
 
         QMessageBox::information(0, "not yet implemented", "not yet implemented");
 
-        // TODO !!!
+        // TODO 5.0 !!!
 
 
         // PQCSettings::get().closeDatabase();
-        PQCShortcuts::get().closeDatabase();
+        // PQCShortcuts::get().closeDatabase();
         PQCImageFormats::get().closeDatabase();
         PQCLocation::get().closeDatabase();
         PQCScriptsContextMenu::get().closeDatabase();
@@ -720,8 +720,8 @@ void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
         // PQCSettings::get().setupFresh();
 
         // further setup for shortcuts
-        PQCShortcuts::get().reopenDatabase();
-        PQCShortcuts::get().setupFresh();
+        // PQCShortcuts::get().reopenDatabase();
+        // PQCShortcuts::get().setupFresh();
 
         if(!skipConfirmation) {
             QMessageBox::information(0, QApplication::translate("configuration", "Restart PhotoQt"),

@@ -23,7 +23,6 @@
 import QtQuick
 import QtQml
 
-import PQCShortcuts
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCScriptsImages

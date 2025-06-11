@@ -37,13 +37,24 @@ PQCShortcuts::PQCShortcuts() {
         db = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
         db = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
-    db.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
 
     readonly = false;
 
     QFileInfo infodb(PQCConfigFiles::get().SHORTCUTS_DB());
 
-    if(!infodb.exists() || !db.open()) {
+    // the db does not exist -> create it
+    if(!infodb.exists()) {
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
+            qWarning() << "Unable to (re-)create default shortcuts database";
+        else {
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+
+    db.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
+
+    if(!db.open()) {
 
         qCritical() << "ERROR opening database:" << db.lastError().text();
         qCritical() << "Will load read-only database of default shortcuts";
@@ -84,8 +95,6 @@ PQCShortcuts::PQCShortcuts() {
 
     }
 
-    readDB();
-
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
@@ -98,9 +107,107 @@ PQCShortcuts::PQCShortcuts() {
 
     connect(&PQCNotify::get(), &PQCNotify::resetShortcutsToDefault, this, &PQCShortcuts::resetToDefault);
 
+    // on updates we call migrate() which calls readDB() itself.
+    if(checkForUpdateOrNew() != 1)
+        readDB();
+
 }
 
-PQCShortcuts::~PQCShortcuts() {}
+PQCShortcuts::~PQCShortcuts() {
+    if(dbCommitTimer != nullptr) {
+        delete dbCommitTimer;
+    }
+}
+
+int PQCShortcuts::checkForUpdateOrNew() {
+
+    // 0 := no update
+    // 1 := update
+    // 2 := new install
+    int updateornew = 0;
+
+    // make sure db exists
+    QFileInfo info(PQCConfigFiles::get().SHORTCUTS_DB());
+    if(!info.exists()) {
+        updateornew = 2;
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
+            qWarning() << "Unable to (re-)create default shortcuts database";
+        else {
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            QSqlQuery queryEnter(db);
+            queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+            queryEnter.bindValue(":ver", PQMVERSION);
+            if(!queryEnter.exec()) {
+                qCritical() << "Unable to enter version in new config table";
+            }
+        }
+    }
+
+    if(updateornew != 2) {
+
+        // ensure config table exists
+        QSqlQuery query(db);
+        // check if config table exists
+        if(!query.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='config';")) {
+            qCritical() << "Unable to verify existince of config table";
+        } else {
+            // the table does not exist
+            if(!query.next()) {
+                updateornew = 1;
+                QSqlQuery queryNew(db);
+                if(!queryNew.exec("CREATE TABLE 'config' ('name' TEXT UNIQUE, 'value' TEXT)")) {
+                    qCritical() << "Unable to create config table";
+                } else {
+                    QSqlQuery queryEnter(db);
+                    queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+                    queryEnter.bindValue(":ver", PQMVERSION);
+                    if(!queryEnter.exec()) {
+                        qCritical() << "Unable to enter version in new config table";
+                    }
+                    // This was the last version with NO version number in the shortcuts database
+                    migrate("4.9.1");
+                }
+            }
+        }
+
+    }
+
+    // this means the db existed already AND the config table exists already
+    if(updateornew == 0) {
+
+        QSqlQuery query(db);
+        if(!query.exec("SELECT `value` FROM `config` WHERE `name`='version'")) {
+            qCritical() << "Unable to retrieve existing version number";
+        } else {
+            if(!query.next()) {
+                QSqlQuery queryEnter(db);
+                queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+                queryEnter.bindValue(":ver", PQMVERSION);
+                if(!queryEnter.exec()) {
+                    qCritical() << "Unable to enter version in new config table";
+                }
+            } else {
+                const QString value = query.value(0).toString();
+                const QString curver = PQMVERSION;
+                if(curver != value) {
+                    updateornew = 1;
+                    migrate(value);
+                    QSqlQuery queryEnter(db);
+                    queryEnter.prepare("UPDATE 'config' SET `value`=:ver WHERE `name`='version'");
+                    queryEnter.bindValue(":ver", PQMVERSION);
+                    if(!queryEnter.exec()) {
+                        qCritical() << "Unable to enter version in new config table";
+                    }
+                }
+            }
+        }
+
+    }
+
+    return updateornew;
+
+}
 
 bool PQCShortcuts::backupDatabase() {
 
@@ -615,6 +722,22 @@ bool PQCShortcuts::migrate(QString oldversion) {
                 queryNew.clear();
 
             }
+
+        } else if(curVer == "4.9.1") {
+
+            // These two checks were located in the validation function for qutie some time
+            // After 4.9.1 they were moved here.
+
+            QSqlQuery query1(db);
+            if(!query1.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Escape', 'Esc')"))
+                qWarning() << "Error renaming Escape to Esc:" << query1.lastError().text();
+            query1.clear();
+
+            QSqlQuery query2(db);
+            if(!query2.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Delete', 'Del')"))
+                qWarning() << "Error renaming Delete to Del:" << query2.lastError().text();
+
+            query2.clear();
 
         }
 

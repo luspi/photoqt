@@ -25,22 +25,28 @@
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
+#include <QtQmlIntegration>
 
 class QTimer;
+
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCShortcuts : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCShortcuts& get() {
-        static PQCShortcuts instance;
-        return instance;
-    }
+    explicit PQCShortcuts();
     ~PQCShortcuts();
-
-    PQCShortcuts(PQCShortcuts const&)     = delete;
-    void operator=(PQCShortcuts const&) = delete;
 
     Q_INVOKABLE void setDefault();
 
@@ -63,7 +69,8 @@ public Q_SLOTS:
     void resetToDefault();
 
 private:
-    PQCShortcuts();
+
+    int checkForUpdateOrNew();
 
     QStringList shortcutsOrder;
     QMap<QString,QVariantList> shortcuts;
@@ -73,6 +80,8 @@ private:
     bool readonly;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
+
+    QString m_version;
 
 Q_SIGNALS:
     void aboutChanged();

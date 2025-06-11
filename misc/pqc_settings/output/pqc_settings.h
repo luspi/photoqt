@@ -36,6 +36,7 @@
 #include <QObject>
 #include <QSqlDatabase>
 #include <QtQmlIntegration>
+#include <QQmlPropertyMap>
 
 class PQCSettings : public QObject {
 
@@ -44,11 +45,12 @@ class PQCSettings : public QObject {
     QML_SINGLETON
 
 public:
+    explicit PQCSettings(bool validateonly);
     explicit PQCSettings();
     ~PQCSettings();
 
     // extensions settings
-    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions)
+    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)
 
     /**************************************/
     // table: filedialog
@@ -1683,6 +1685,8 @@ public:
 
     QString verifyNameAndGetType(QString name);
 
+    bool validateSettingsDatabase(bool skipDBHandling = false);
+    bool validateSettingsValues(bool skipDBHandling = false);
     int migrate(QString oldversion = "");
     void setupFresh();
 
@@ -1994,6 +1998,7 @@ private:
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
+    void extensionsChanged();
 
     // table: filedialog
     void filedialogDetailsTooltipChanged();
