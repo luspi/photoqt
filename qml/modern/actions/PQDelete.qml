@@ -21,14 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-
 import org.photoqt.qml
-
-import "../elements"
 
 PQTemplateFullscreen {
 

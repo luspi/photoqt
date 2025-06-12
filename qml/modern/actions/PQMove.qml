@@ -21,14 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCFileFolderModel
 import PQCImageFormats
 import PQCScriptsFilesPaths
-
 import org.photoqt.qml
-
-import "../elements"
 
 Item {
 

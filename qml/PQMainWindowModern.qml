@@ -24,12 +24,7 @@ import QtQuick
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-
 import org.photoqt.qml
-
-import "./modern/other"
-import "./modern/image"
-import "./modern/ongoing"
 
 import PQCScriptsPlain
 

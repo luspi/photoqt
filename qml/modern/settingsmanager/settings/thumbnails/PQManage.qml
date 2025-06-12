@@ -22,10 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
-
 import org.photoqt.qml
 
 // required top level properties for all settings:

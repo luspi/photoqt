@@ -21,11 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-
 import org.photoqt.qml
-
-import "../elements"
-import "../"
 
 Rectangle {
     id: notification_top

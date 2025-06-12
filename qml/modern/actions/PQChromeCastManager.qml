@@ -24,8 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import org.photoqt.qml
 
-import "../elements"
-
 PQTemplateFullscreen {
 
     id: chromecastmanager_top

@@ -22,9 +22,7 @@
 
 import QtQuick
 import QtQuick.Window
-
 import PQCScriptsConfig
-
 import org.photoqt.qml
 
 Window {

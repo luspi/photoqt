@@ -23,9 +23,6 @@
 import QtQuick
 import org.photoqt.qml
 
-import "../elements"
-import "../image"
-
 Item {
 
     id: slideshowcontrols_top

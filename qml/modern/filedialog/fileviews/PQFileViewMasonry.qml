@@ -23,15 +23,10 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-
 import org.photoqt.qml
-
-import "../../elements"
-import "./parts"
 
 Flickable {
 

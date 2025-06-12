@@ -22,17 +22,12 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-
-import "../../elements"
-
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsMetaData
-
 import QtMultimedia
-
 import org.photoqt.qml
 
 Image {

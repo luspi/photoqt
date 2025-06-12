@@ -21,10 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCScriptsConfig
 import PQCExtensionsHandler
-
 import org.photoqt.qml
 
 Item {

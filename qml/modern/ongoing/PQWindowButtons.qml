@@ -24,13 +24,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-
 import PQCFileFolderModel
 import PQCScriptsConfig
-
 import org.photoqt.qml
-
-import "../elements"
 
 Item {
 

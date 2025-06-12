@@ -22,11 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-
 import PQCScriptsConfig
 import org.photoqt.qml
-
-import "../elements"
 
 PQTemplateFullscreen {
 

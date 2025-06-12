@@ -21,14 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PQCScriptsConfig
-
 import org.photoqt.qml
-
-import "../../elements"
 
 Rectangle {
 

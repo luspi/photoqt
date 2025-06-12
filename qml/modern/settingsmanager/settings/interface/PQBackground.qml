@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
-
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsConfig

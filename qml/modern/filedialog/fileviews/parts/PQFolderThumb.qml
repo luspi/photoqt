@@ -21,10 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
-
 import org.photoqt.qml
 
 Item {

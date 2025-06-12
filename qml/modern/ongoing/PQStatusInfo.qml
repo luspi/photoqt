@@ -24,17 +24,12 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
-
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCScriptsConfig
 import PQCScriptsColorProfiles
-
 import org.photoqt.qml
-
-import "../elements"
-import "../image"
 
 Item {
 

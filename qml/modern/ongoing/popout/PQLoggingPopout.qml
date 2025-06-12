@@ -22,10 +22,8 @@
 
 import QtQuick
 import QtQuick.Window
-
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
-
 import org.photoqt.qml
 
 Window {

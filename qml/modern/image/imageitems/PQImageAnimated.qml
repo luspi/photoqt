@@ -21,12 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-
-import "../components"
-
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-
 import org.photoqt.qml
 
 AnimatedImage {

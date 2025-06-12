@@ -23,16 +23,10 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Window
-
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCScriptsFilesPaths
-
 import org.photoqt.qml
-
-import "components"
-import "imageitems"
-import "../elements"
 
 Loader {
     id: imageloaderitem

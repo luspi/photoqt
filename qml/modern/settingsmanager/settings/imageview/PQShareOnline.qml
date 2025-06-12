@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-
 import PQCScriptsShareImgur
 import org.photoqt.qml
 

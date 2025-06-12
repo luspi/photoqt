@@ -23,16 +23,11 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsMetaData
-
 import org.photoqt.qml
-
-import "../elements"
-import "../"
 
 Rectangle {
 

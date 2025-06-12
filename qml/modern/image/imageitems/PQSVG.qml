@@ -21,13 +21,11 @@
  **************************************************************************/
 
 import QtQuick
-
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsMetaData
-
 import org.photoqt.qml
 
 Item {
