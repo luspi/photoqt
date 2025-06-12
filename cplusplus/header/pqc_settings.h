@@ -1680,8 +1680,8 @@ public:
 
     bool backupDatabase();
 
-    void closeDatabase();
-    void reopenDatabase();
+    Q_INVOKABLE void closeDatabase();
+    Q_INVOKABLE void reopenDatabase();
 
     QString verifyNameAndGetType(QString name);
 

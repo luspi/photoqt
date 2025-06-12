@@ -203,6 +203,15 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
 bool PQCScriptsConfig::exportConfigTo(QString path) {
 
+    /*********************************************************/
+    // NOTE: BEFORE CALLING you HAVE TO ENSURE:
+    // -> settings database is closed
+    // -> shortcuts database is closed
+    //
+    // If called by command line, they are never opened.
+    // If called through interface, they must be closed (and subsequently reopened) manually!
+    /*********************************************************/
+
     qDebug() << "args: path =" << path;
 
 #ifdef PQMLIBARCHIVE
@@ -290,16 +299,19 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
 
 bool PQCScriptsConfig::importConfigFrom(QString path) {
 
+    /*********************************************************/
+    // NOTE: BEFORE CALLING you HAVE TO ENSURE:
+    // -> settings database is closed
+    // -> shortcuts database is closed
+    // -> image formats database is closed
+    //
+    // If called by command line, they are never opened.
+    // If called through interface, they must be closed manually!
+    /*********************************************************/
+
     qDebug() << "args: path =" << path;
 
-    // TODO 5.0 !!!
-    return false;
-
 #ifdef PQMLIBARCHIVE
-
-    // PQCSettings::get().closeDatabase();
-    // PQCShortcuts::get().closeDatabase();
-    PQCImageFormats::get().closeDatabase();
 
     // Obtain a filename from the user or used passed on filename
     QString archiveFile;
@@ -680,58 +692,19 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
     return true;
 }
 
-void PQCScriptsConfig::resetToDefaultsWithConfirmation(bool skipConfirmation) {
+void PQCScriptsConfig::callStartupSetupFresh() {
 
-    PQCNotify::get().setIgnoreAllKeys(true);
+    PQCStartup startup;
+    startup.setupFresh();
 
-    int ret = QMessageBox::Yes;
+}
 
-    if(!skipConfirmation) {
-        QMessageBox msg;
-        msg.setWindowTitle(QApplication::translate("configuration", "Reset PhotoQt to its default state."));
-        msg.setText(QApplication::translate("configuration", "Do you want to reset PhotoQt to its default state? If you encounter any issues with your configuration, you should be able to fix it this way."));
-        msg.setInformativeText("<b>" + QApplication::translate("configuration", "Warning: This step cannot be undone!") + "</b>");
-        msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
-        msg.setDefaultButton(QMessageBox::Yes);
-        ret = msg.exec();
-    }
-
-    if(ret == QMessageBox::Yes) {
-
-        qDebug() << "RESETTING PHOTOQT TO ITS DEFAULTS";
-
-        QMessageBox::information(0, "not yet implemented", "not yet implemented");
-
-        // TODO 5.0 !!!
-
-
-        // PQCSettings::get().closeDatabase();
-        // PQCShortcuts::get().closeDatabase();
-        PQCImageFormats::get().closeDatabase();
-        PQCLocation::get().closeDatabase();
-        PQCScriptsContextMenu::get().closeDatabase();
-        PQCScriptsShareImgur::get().closeDatabase();
-
-        PQCStartup startup;
-        startup.setupFresh();
-
-        // further setup for settings
-        // PQCSettings::get().reopenDatabase();
-        // PQCSettings::get().setupFresh();
-
-        // further setup for shortcuts
-        // PQCShortcuts::get().reopenDatabase();
-        // PQCShortcuts::get().setupFresh();
-
-        if(!skipConfirmation) {
-            QMessageBox::information(0, QApplication::translate("configuration", "Restart PhotoQt"),
-                                     QApplication::translate("configuration", "PhotoQt has been reset to its defaults and will need to be restarted."));
-            qApp->quit();
-        }
-
-
-    }
-
-    PQCNotify::get().setIgnoreAllKeys(false);
-
+bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString informativeText) {
+    QMessageBox msg;
+    msg.setWindowTitle(title);
+    msg.setText(text);
+    msg.setInformativeText(informativeText);
+    msg.setStandardButtons(QMessageBox::Yes | QMessageBox::Cancel);
+    msg.setDefaultButton(QMessageBox::Yes);
+    return (msg.exec() == QMessageBox::Yes);
 }

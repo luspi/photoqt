@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCScriptsConfig
+import PQCImageFormats
 import org.photoqt.qml
 
 // required top level properties for all settings:
@@ -208,8 +209,19 @@ Flickable {
                     id: butexport
                     text: qsTranslate("settingsmanager", "export configuration")
                     width: Math.min(400, set_expimp.rightcol)
-                    onClicked:
+                    onClicked: {
+
+                        PQCShortcuts.closeDatabase()
+                        PQCSettings.closeDatabase()
+                        PQCImageFormats.closeDatabase()
+
                         PQCScriptsConfig.exportConfigTo("") // qmllint disable unqualified
+
+                        PQCShortcuts.reopenDatabase()
+                        PQCSettings.reopenDatabase()
+                        PQCImageFormats.reopenDatabase()
+
+                    }
                 },
 
                 PQButton {
@@ -217,6 +229,11 @@ Flickable {
                     text: qsTranslate("settingsmanager", "import configuration")
                     width: Math.min(400, set_expimp.rightcol)
                     onClicked: {
+
+                        PQCShortcuts.closeDatabase()
+                        PQCSettings.closeDatabase()
+                        PQCImageFormats.closeDatabase()
+
                         if(PQCScriptsConfig.importConfigFrom("")) { // qmllint disable unqualified
                             PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                                     qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))

@@ -26,6 +26,7 @@
 #include <QSqlQuery>
 #include <QMessageBox>
 #include <iostream>
+#include <algorithm>
 #include <pqc_startup.h>
 #include <pqc_configfiles.h>
 #include <pqc_settings.h>
@@ -105,10 +106,30 @@ int PQCStartup::check() {
 
 void PQCStartup::exportData(QString path) {
 
-    // use plain cout as we don't want any log/debug info prepended
     std::cout << std::endl
-              << "PhotoQt v" << PQMVERSION << std::endl
-              << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
+              << "PhotoQt v" << PQMVERSION << std::endl << std::endl;
+
+    if(QFile::exists(path)) {
+
+        std::cout << "> The specified file exists already and will be overwritten." << std::endl << std::endl
+                  << "Continue? [yN] " << std::flush;
+
+        // request input
+        std::string choice;
+        std::cin >> choice;
+
+        // convert input to all lowercase
+        std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
+
+        if(choice != "y" && choice != "yes") {
+            std::cout << std::endl
+                      << "> Cancelling request... Goodbye." << std::endl << std::endl;
+            return;
+        }
+    }
+
+    // use plain cout as we don't want any log/debug info prepended
+    std::cout << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
 
     if(PQCScriptsConfig::get().exportConfigTo(path))
         std::cout << " >> Done!" << std::endl << std::endl;
@@ -119,15 +140,44 @@ void PQCStartup::exportData(QString path) {
 
 void PQCStartup::importData(QString path) {
 
-    // use plain cout as we don't want any log/debug info prepended
     std::cout << std::endl
-              << "PhotoQt v" << PQMVERSION << std::endl
-              << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
+              << "PhotoQt v" << PQMVERSION << std::endl << std::endl;
 
-    if(PQCScriptsConfig::get().importConfigFrom(path))
-        std::cout << " >> Done!" << std::endl << std::endl;
-    else
-        std::cout << " >> Failed!" << std::endl << std::endl;
+    if(!QFile::exists(path)) {
+        std::cout << "> ERROR: The specified file could not be found." << std::endl
+                  << "> Stopping here... Goodbye." << std::endl << std::endl;
+        return;
+    }
+
+    std::cout << "> This will overwrite the existing configuration with the" << std::endl
+              << "  configuration found in the specified file." << std::endl
+              << "> This step cannot be undone." << std::endl << std::endl
+              << "Continue? [yN] " << std::flush;
+
+    // request input
+    std::string choice;
+    std::cin >> choice;
+
+    // convert input to all lowercase
+    std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
+
+    if(choice == "y" || choice == "yes") {
+
+        // use plain cout as we don't want any log/debug info prepended
+        std::cout << std::endl
+                  << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
+
+        if(PQCScriptsConfig::get().importConfigFrom(path))
+            std::cout << " >> done! Goodbye." << std::endl << std::endl;
+        else
+            std::cout << " >> failed! Goodbye." << std::endl << std::endl;
+
+        return;
+
+    }
+
+    std::cout << std::endl
+              << "> Cancelling request... Goodbye." << std::endl << std::endl;
 
 }
 
@@ -220,12 +270,33 @@ void PQCStartup::setupFresh() {
 void PQCStartup::resetToDefaults() {
 
     std::cout << std::endl
-              << "PhotoQt v" << PQMVERSION << std::endl
-              << " > Resetting to default configuration... " << std::flush;
+              << "PhotoQt v" << PQMVERSION << std::endl << std::endl
+              << "> This will reset PhotoQt to its default state." << std::endl
+              << "> This step cannot be undone." << std::endl << std::endl
+              << "Continue? [yN] " << std::flush;
 
-    PQCScriptsConfig::get().resetToDefaultsWithConfirmation(true);
+    // request input
+    std::string choice;
+    std::cin >> choice;
 
-    std::cout << " >> Done!" << std::endl << std::endl;
+    // convert input to all lowercase
+    std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
+
+    if(choice == "y" || choice == "yes") {
+
+        std::cout << std::endl
+                  << " > Resetting to default configuration... " << std::flush;
+
+        setupFresh();
+
+        std::cout << "done! Goodbye." << std::endl << std::endl;
+
+        return;
+
+    }
+
+    std::cout << std::endl
+              << "> Cancelling request... Goodbye." << std::endl << std::endl;
 
 }
 

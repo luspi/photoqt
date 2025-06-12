@@ -59,8 +59,8 @@ public:
     Q_INVOKABLE bool migrate(QString oldversion = "");
 
     bool backupDatabase();
-    void closeDatabase();
-    void reopenDatabase();
+    Q_INVOKABLE void closeDatabase();
+    Q_INVOKABLE void reopenDatabase();
 
     void setupFresh();
 

@@ -29,6 +29,9 @@ import PQCImageFormats
 import PQCScriptsConfig
 import PQCScriptsUndo
 import PQCExtensionsHandler
+import PQCLocation
+import PQCScriptsContextMenu
+import PQCScriptsShareImgur
 
 import org.photoqt.qml
 
@@ -197,8 +200,28 @@ Item {
 
 
         if(combo === "Ctrl+Alt+Shift+R") {
+
             console.log("Detected shortcut for resetting PhotoQt")
-            PQCScriptsConfig.resetToDefaultsWithConfirmation()
+
+            if(PQCScriptsConfig.askForConfirmation(qsTranslate("configuration", "Reset PhotoQt to its default state."),
+                                                   qsTranslate("configuration", "Do you want to reset PhotoQt to its default state? If you encounter any issues with your configuration, you should be able to fix it this way."),
+                                                   "<b>" + qsTranslate("configuration", "Warning: This step cannot be undone!") + "</b>")) {
+
+                PQCSettings.closeDatabase()
+                PQCShortcuts.closeDatabase()
+                PQCImageFormats.closeDatabase()
+                PQCLocation.closeDatabase()
+                PQCScriptsContextMenu.closeDatabase()
+                PQCScriptsShareImgur.closeDatabase()
+
+                PQCScriptsConfig.callStartupSetupFresh()
+
+                PQCScriptsConfig.inform(qsTranslate("configuration", "Restart PhotoQt"),
+                                        qsTranslate("configuration", "PhotoQt has been reset to its defaults and will need to be restarted."))
+
+                Qt.quit()
+
+            }
             return
         }
 

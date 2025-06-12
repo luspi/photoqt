@@ -52,7 +52,7 @@ public:
     Q_INVOKABLE bool isQtAtLeast6_5();
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE bool isBetaVersion();
-    Q_INVOKABLE void resetToDefaultsWithConfirmation(bool skipConfirmation = false);
+    Q_INVOKABLE void callStartupSetupFresh();
 
     // check for various supported features
     Q_INVOKABLE bool isChromecastEnabled();
@@ -83,6 +83,7 @@ public:
 
     // pop up messagebox
     Q_INVOKABLE void inform(QString title, QString txt);
+    Q_INVOKABLE bool askForConfirmation(QString title, QString text, QString informativeText);
 
 private:
     PQCScriptsConfig();

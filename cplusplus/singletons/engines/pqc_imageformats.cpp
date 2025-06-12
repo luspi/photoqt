@@ -787,3 +787,12 @@ void PQCImageFormats::closeDatabase() {
     db.close();
 
 }
+
+void PQCImageFormats::reopenDatabase() {
+
+    qDebug() << "";
+
+    if(!db.open())
+        qCritical() << "Unable to reopen database:" << db.lastError().text();
+
+}
