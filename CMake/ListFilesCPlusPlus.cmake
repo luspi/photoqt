@@ -72,6 +72,7 @@ SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/main.cpp ${d
 SET(d "cplusplus/other")
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_commandlineparser.cpp ${d}/pqc_singleinstance.cpp ${d}/pqc_startup.cpp  ${d}/pqc_validate.cpp)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_filefoldermodelcache.cpp)
 
 SET(d "cplusplus/images")
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_loadimage.cpp ${d}/pqc_imagecache.cpp)
@@ -84,11 +85,11 @@ SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_loadimag
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_loadimage_resvg.cpp)
 
 SET(d "cplusplus/singletons/other")
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp ${d}/pqc_filefoldermodelcache.cpp)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_notify.cpp ${d}/pqc_filefoldermodel.cpp)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_resolutioncache.cpp)
 
 SET(d "cplusplus/singletons/engines")
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp ${d}/pqc_imageformats.cpp)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_imageformats.cpp)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_location.cpp)
 
 SET(d "cplusplus/singletons/scripts")
@@ -100,8 +101,8 @@ SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_scriptsc
 
 SET(d "cplusplus/header")
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h)
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_notify.h ${d}/pqc_settings.h ${d}/pqc_shortcuts.h)
-SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_look.h)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_notify.h ${d}/pqc_settings.h ${d}/pqc_shortcuts.h ${d}/pqc_settingscpp.h)
+SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_filefoldermodel.h ${d}/pqc_filefoldermodelcache.h ${d}/pqc_imageformats.h ${d}/pqc_providerfolderthumb.h)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
 SET(photoqt_testscripts_SOURCES ${photoqt_testscripts_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_resolutioncache.h ${d}/pqc_test.h ${d}/pqc_constants.h)

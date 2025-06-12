@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/testing">
+        <file>blue.png</file>
+        <file>testarchive.zip</file>
+        <file>testarchive.tar.gz</file>
+        <file>testarchive.7z</file>
+        <file>testarchive.rar</file>
+    </qresource>
+</RCC>
