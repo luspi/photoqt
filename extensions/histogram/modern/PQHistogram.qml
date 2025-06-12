@@ -29,7 +29,7 @@ import PQCFileFolderModel
 import PQCScriptsImages
 import PQCExtensionsHandler
 
-import org.photoqt.qml
+import PhotoQt
 
 import "../../../qml/modern/elements"
 

@@ -26,7 +26,7 @@ import QtQuick.Controls
 import QtQuick.Window
 import PQCFileFolderModel
 import PQCScriptsConfig
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

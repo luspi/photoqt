@@ -23,7 +23,7 @@
 import QtQuick
 import PQCFileFolderModel
 import PQCExtensionsHandler
-import org.photoqt.qml
+import PhotoQt
 
 Loader {
 

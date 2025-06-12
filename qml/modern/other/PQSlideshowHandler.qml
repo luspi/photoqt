@@ -25,7 +25,7 @@ import QtQuick
 import QtMultimedia
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

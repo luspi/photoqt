@@ -22,7 +22,7 @@
 
 import QtQuick
 
-import org.photoqt.qml
+import PhotoQt
 
 import "../../../qml/modern/elements"
 

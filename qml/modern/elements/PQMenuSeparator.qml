@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import org.photoqt.qml
+import PhotoQt
 
 MenuSeparator {
     property bool lighterColor: false

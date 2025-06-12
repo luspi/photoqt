@@ -26,7 +26,7 @@ import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCImageFormats
 
-import org.photoqt.qml
+import PhotoQt
 
 PQTemplateFullscreen {
 

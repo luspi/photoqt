@@ -27,7 +27,7 @@ import QtQuick.Controls
 import PQCScriptsShareImgur
 import PQCFileFolderModel
 
-import org.photoqt.qml
+import PhotoQt
 
 PQTemplateFullscreen {
 

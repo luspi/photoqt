@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCScriptsConfig
-import org.photoqt.qml
+import PhotoQt
 
 PQMenu {
     id: settingsmenu

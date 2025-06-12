@@ -23,7 +23,7 @@
 import QtQuick
 import PQCPhotoSphere
 import PQCFileFolderModel
-import org.photoqt.qml
+import PhotoQt
 
 PQCPhotoSphere { // qmllint disable
 

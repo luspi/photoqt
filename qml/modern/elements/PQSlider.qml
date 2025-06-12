@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls.Basic
-import org.photoqt.qml
+import PhotoQt
 
 Slider {
 

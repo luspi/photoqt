@@ -33,7 +33,7 @@ import PQCLocation
 import PQCScriptsContextMenu
 import PQCScriptsShareImgur
 
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

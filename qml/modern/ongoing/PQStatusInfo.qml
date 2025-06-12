@@ -29,7 +29,7 @@ import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCScriptsConfig
 import PQCScriptsColorProfiles
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

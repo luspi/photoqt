@@ -28,7 +28,7 @@ import PQCScriptsContextMenu
 import PQCScriptsConfig
 import PQCScriptsImages
 import PQCScriptsColorProfiles
-import org.photoqt.qml
+import PhotoQt
 
 Loader {
 

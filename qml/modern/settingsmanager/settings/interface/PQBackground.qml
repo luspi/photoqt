@@ -26,7 +26,7 @@ import Qt.labs.platform
 import PQCScriptsFilesPaths
 import PQCImageFormats
 import PQCScriptsConfig
-import org.photoqt.qml
+import PhotoQt
 
 // required top level properties for all settings:
 //

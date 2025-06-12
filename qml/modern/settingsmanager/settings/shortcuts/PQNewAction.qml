@@ -27,7 +27,7 @@ import Qt.labs.platform
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
 import PQCExtensionsHandler
-import org.photoqt.qml
+import PhotoQt
 
 Rectangle {
 

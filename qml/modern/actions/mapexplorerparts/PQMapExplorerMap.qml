@@ -27,7 +27,7 @@ import QtPositioning
 import PQCScriptsFilesPaths
 import PQCLocation
 import PQCScriptsMetaData
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

@@ -26,7 +26,7 @@ import QtQuick.Controls
 import PQCScriptsConfig
 import PQCFileFolderModel
 
-import org.photoqt.qml
+import PhotoQt
 
 PQTemplateFullscreen {
 

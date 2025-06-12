@@ -26,7 +26,7 @@ import QtQuick.Controls
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsContextMenu
-import org.photoqt.qml
+import PhotoQt
 
 Rectangle {
 

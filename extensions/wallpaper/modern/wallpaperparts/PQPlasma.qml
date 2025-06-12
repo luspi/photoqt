@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import org.photoqt.qml
+import PhotoQt
 
 //********//
 // PLASMA 5

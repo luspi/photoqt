@@ -29,7 +29,7 @@ import PQCScriptsCrypt
 import PQCScriptsMetaData
 import PQCExtensionsHandler
 
-import org.photoqt.qml
+import PhotoQt
 
 import "../../../qml/modern/elements"
 

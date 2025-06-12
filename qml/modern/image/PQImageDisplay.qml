@@ -26,7 +26,7 @@ import QtQuick.Window
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCScriptsFilesPaths
-import org.photoqt.qml
+import PhotoQt
 
 Loader {
     id: imageloaderitem

@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCFileFolderModel
-import org.photoqt.qml
+import PhotoQt
 
 import "../../../qml/modern/elements"
 import "../../../qml/"

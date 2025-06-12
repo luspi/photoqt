@@ -27,7 +27,7 @@ import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsMetaData
-import org.photoqt.qml
+import PhotoQt
 
 Rectangle {
 

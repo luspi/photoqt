@@ -24,7 +24,7 @@ import QtQuick
 
 import PQCFileFolderModel
 
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

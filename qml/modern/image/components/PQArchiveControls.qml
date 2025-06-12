@@ -23,7 +23,7 @@
 import QtQuick
 import PQCFileFolderModel
 import PQCScriptsImages
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

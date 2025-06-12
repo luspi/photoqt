@@ -3,7 +3,7 @@ import QtQuick.Controls
 
 import PQCScriptsConfig
 
-import org.photoqt.qml
+import PhotoQt
 
 PQSetting {
 

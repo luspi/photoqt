@@ -22,7 +22,7 @@
 
 import QtQuick
 import PQCScriptsImages
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

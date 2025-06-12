@@ -26,7 +26,7 @@ import QtQuick.Layouts
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsImages
-import org.photoqt.qml
+import PhotoQt
 
 Flickable {
 

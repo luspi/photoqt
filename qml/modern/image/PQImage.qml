@@ -28,7 +28,7 @@ import PQCScriptsConfig
 import PQCScriptsFilesPaths
 import PQCScriptsImages
 import PQCResolutionCache
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 

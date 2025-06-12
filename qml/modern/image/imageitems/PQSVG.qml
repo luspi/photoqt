@@ -26,7 +26,7 @@ import PQCScriptsImages
 import PQCFileFolderModel
 import PQCScriptsConfig
 import PQCScriptsMetaData
-import org.photoqt.qml
+import PhotoQt
 
 Item {
 
