@@ -172,8 +172,8 @@ Image {
         interval: 500
         repeat: false
         onTriggered: {
-            image.screenW = image_top.width // qmllint disable unqualified
-            image.screenH = image_top.height // qmllint disable unqualified
+            image.screenW = image_top.width
+            image.screenH = image_top.height
         }
     }
 
@@ -186,11 +186,11 @@ Image {
         Image {
             width: image.width
             height: image.height
-            source: image.source
+            source: visible ? image.source : ""
             smooth: image_wrapper.scale < 0.95*loader_top.defaultScale // qmllint disable unqualified
             mipmap: smooth
             cache: false
-            visible: loader_top.defaultScale >= image_wrapper.scale // qmllint disable unqualified
+            visible: loader_top.defaultScale >= (1/0.95)*image_wrapper.scale // qmllint disable unqualified
             sourceSize: Qt.size(image.screenW, image.screenH)
         }
     }

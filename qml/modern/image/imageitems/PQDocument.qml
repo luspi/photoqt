@@ -158,10 +158,11 @@ Image {
         Image {
             width: image.width
             height: image.height
-            source: image.source
+            source: visible ? image.source : ""
             smooth: image_wrapper.scale < 0.95*loader_top.defaultScale // qmllint disable unqualified
             mipmap: smooth
-            visible: loader_top.defaultScale >= image_wrapper.scale // qmllint disable unqualified
+            cache: false
+            visible: loader_top.defaultScale >= (1/0.95)*image_wrapper.scale // qmllint disable unqualified
             sourceSize: Qt.size(image.screenW, image.screenH)
         }
     }
