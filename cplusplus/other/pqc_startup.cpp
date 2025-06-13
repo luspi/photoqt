@@ -116,7 +116,7 @@ void PQCStartup::exportData(QString path) {
 
         // request input
         std::string choice;
-        std::cin >> choice;
+        std::getline(std::cin, choice);
 
         // convert input to all lowercase
         std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
@@ -132,9 +132,9 @@ void PQCStartup::exportData(QString path) {
     std::cout << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
 
     if(PQCScriptsConfig::get().exportConfigTo(path))
-        std::cout << " >> Done!" << std::endl << std::endl;
+        std::cout << "done! Goodbye." << std::endl << std::endl;
     else
-        std::cout << " >> Failed!" << std::endl << std::endl;
+        std::cout << "failed! Goodbye." << std::endl << std::endl;
 
 }
 
@@ -156,7 +156,7 @@ void PQCStartup::importData(QString path) {
 
     // request input
     std::string choice;
-    std::cin >> choice;
+    std::getline(std::cin, choice);
 
     // convert input to all lowercase
     std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
@@ -168,9 +168,9 @@ void PQCStartup::importData(QString path) {
                   << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
 
         if(PQCScriptsConfig::get().importConfigFrom(path))
-            std::cout << " >> done! Goodbye." << std::endl << std::endl;
+            std::cout << "done! Goodbye." << std::endl << std::endl;
         else
-            std::cout << " >> failed! Goodbye." << std::endl << std::endl;
+            std::cout << "failed! Goodbye." << std::endl << std::endl;
 
         return;
 
@@ -277,7 +277,7 @@ void PQCStartup::resetToDefaults() {
 
     // request input
     std::string choice;
-    std::cin >> choice;
+    std::getline(std::cin, choice);
 
     // convert input to all lowercase
     std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
