@@ -160,26 +160,6 @@ int main(int argc, char *argv[]) {
     // custom message handler for qDebug/qLog/qInfo/etc.
     qInstallMessageHandler(pqcMessageHandler);
 
-    // needs to be set before Q*Application is created
-    QFile opengl(PQCConfigFiles::get().CONFIG_DIR()+"/OpenGL");
-    if(opengl.exists()) {
-        if(opengl.open(QIODevice::ReadOnly)) {
-            QTextStream in (&opengl);
-            QString ogl = in.readAll().trimmed();
-#ifndef Q_OS_WIN
-            // these are not supported on Windows anymore
-            if(ogl == "opengles")
-                QApplication::setAttribute(Qt::AA_UseOpenGLES);
-            else if(ogl == "desktopopengl")
-                QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
-            else if(ogl == "softwareopengl")
-#else
-            if(ogl == "softwareopengl")
-#endif
-                QApplication::setAttribute(Qt::AA_UseSoftwareOpenGL);
-        }
-    }
-
 #ifdef PQMPORTABLETWEAKS
     if(argc > 1) {
         for(int i = 2; i < argc; ++i) {
