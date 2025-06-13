@@ -227,15 +227,9 @@ int main(int argc, char *argv[]) {
     PQCNotify::get().setStartupCheck(checker);
 
     // update or fresh install?
-    if(checker == 1) {
+    if(checker == 1)
         validate.validate();
-    }
 
-
-    // after the checks above we can check for any possible settings update from the cli
-    // TODO !!!
-    // if(PQCNotify::get().getSettingUpdate().length() == 2)
-    //     PQCSettings::get().updateFromCommandLine();
 
     // Get screenshots for fake transparency
     bool success = true;
