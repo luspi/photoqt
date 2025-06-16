@@ -201,7 +201,12 @@ Rectangle {
                         pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width // qmllint disable unqualified
                 }
 
+                view.thumbwidths = []
+                for(var k = 0; k < view.numModel; ++k)
+                    view.thumbwidths.push(0)
+
                 view.cacheBuffer = Math.max(320, pix)
+                view.model = 0
                 view.model = view.numModel
                 view.currentIndex = Qt.binding(function() { return PQCFileFolderModel.currentIndex })
             }
@@ -210,13 +215,65 @@ Rectangle {
         Connections {
             target: PQCSettings // qmllint disable unqualified
             function onThumbnailsSameHeightVaryWidthChanged() {
-                loadCacheBuffer.triggered()
+                if(PQCSettings.thumbnailsSameHeightVaryWidth)
+                    loadCacheBuffer.triggered()
+                else {
+                    view.width = Qt.binding(function() { return view.implicitWidth })
+                    view.height = Qt.binding(function() { return view.implicitHeight })
+                }
             }
         }
 
         // some visual settings
         spacing: PQCSettings.thumbnailsSpacing // qmllint disable unqualified
         boundsBehavior: smallerThanSize ? Flickable.StopAtBounds : Flickable.DragAndOvershootBounds
+
+        /*************************************************************/
+
+        // if thumbnailsSameHeightVaryWidth setting is set, then we need to be a little smarter with the side of the view
+        // otherwise some of the thumbnails will be cut off and either not show at all or require scrolling
+        // this recheck here makes sure that if the size of all thumbnails is smaller than the max size of the bar we reduce its size
+        // (which causes the bar to be centered). Otherwise we keep the bar at maximum size and provide scrolling for the thumbnails
+        property list<int> thumbwidths: []
+        onThumbwidthsChanged: {
+            if(PQCSettings.thumbnailsSameHeightVaryWidth) {
+                recheckSize.restart()
+            }
+        }
+
+        Connections {
+            target: thumbnails_top
+            enabled: PQCSettings.thumbnailsSameHeightVaryWidth
+            onWidthChanged:
+                recheckSize.restart()
+            onHeightChanged:
+                recheckSize.restart()
+        }
+
+        Timer {
+            id: recheckSize
+            interval: 200
+            onTriggered: {
+                var w = view.thumbwidths.reduce((partialSum, a) => partialSum + a, 0)
+                if(view.state == "left" || view.state == "right") {
+                    if(w < thumbnails_top.height) {
+                        view.height = w
+                    } else if(w > thumbnails_top.height)
+                        view.height = thumbnails_top.height
+                } else {
+                    if(w < thumbnails_top.width) {
+                        view.width = w
+                    } else if(w > thumbnails_top.width)
+                        view.width = thumbnails_top.width
+                }
+            }
+        }
+
+        /*************************************************************/
+
+        // make the potential adjustments to its size based on above timer smooth
+        Behavior on width { NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
+        Behavior on height { NumberAnimation { duration: PQCSettings.thumbnailsSameHeightVaryWidth ? 200 : 0 } }
 
         // whether the view is smaller than screen edge
         property bool smallerThanSize: contentWidth<parent.width
@@ -327,7 +384,7 @@ Rectangle {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: view.numModel==0 ? 0 : Math.min(thumbnails_top.width, view.contentWidth)
+                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.width : Math.min(thumbnails_top.width, view.contentWidth))
                     view.implicitHeight: thumbnails_top.height-view.y
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
@@ -340,7 +397,7 @@ Rectangle {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: view.numModel==0 ? 0 : Math.min(thumbnails_top.height, view.contentHeight)
+                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.height : Math.min(thumbnails_top.height, view.contentHeight))
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
@@ -352,7 +409,7 @@ Rectangle {
                     view.x: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
                     view.y: (thumbnails_top.height-view.height)/2
                     view.implicitWidth: thumbnails_top.width
-                    view.implicitHeight: view.numModel==0 ? 0 : Math.min(thumbnails_top.height, view.contentHeight)
+                    view.implicitHeight: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.height : Math.min(thumbnails_top.height, view.contentHeight))
                     view.orientation: Qt.Vertical
                     view.smallerThanSize: view.contentHeight<thumbnails_top.height
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.y >= view.contentY && view.previousItem.y+view.previousItem.height <= view.contentY+view.height)
@@ -363,8 +420,8 @@ Rectangle {
                 PropertyChanges {
                     view.x: (thumbnails_top.width-view.width)/2
                     view.y: Math.max(10,thumbnails_top.effectiveThumbnailLiftup)
-                    view.implicitWidth: PQCConstants.windowWidth
-                    view.implicitHeight: 100
+                    view.implicitWidth: view.numModel==0 ? 0 : (PQCSettings.thumbnailsSameHeightVaryWidth ? thumbnails_top.width : Math.min(thumbnails_top.width, view.contentWidth))
+                    view.implicitHeight: thumbnails_top.height
                     view.orientation: Qt.Horizontal
                     view.smallerThanSize: view.contentWidth<thumbnails_top.width
                     view.previousIndexWithinView: (view.previousItem!==null && view.previousItem.x >= view.contentX && view.previousItem.x+view.previousItem.width <= view.contentX+view.width)
@@ -474,6 +531,17 @@ Rectangle {
                 cache: false
                 fillMode: (PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
                 source: "image://thumb/" + deleg.filepath
+
+                onWidthChanged: {
+                    if(view.state == "left" || view.state == "right") return
+                    if(PQCSettings.thumbnailsSameHeightVaryWidth)
+                        view.thumbwidths[deleg.modelData] = width
+                }
+                onHeightChanged: {
+                    if(view.state == "top" || view.state == "bottom") return
+                    if(PQCSettings.thumbnailsSameHeightVaryWidth)
+                        view.thumbwidths[deleg.modelData] = height
+                }
 
             }
 
