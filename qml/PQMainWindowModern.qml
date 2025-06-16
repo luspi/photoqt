@@ -100,7 +100,7 @@ Window {
 
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
 
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
 
         storeWindowGeometry.restart()
 
