@@ -905,9 +905,11 @@ void PQCFileFolderModel::loadDataMainView() {
     // clear old entries
 
     m_entriesMainView.clear();
+    if(watcherMainView->directories().length())
+        watcherMainView->removePaths(watcherMainView->directories());
+    if(watcherMainView->files().length())
+        watcherMainView->removePaths(watcherMainView->files());
     setCountMainView(0);
-    delete watcherMainView;
-    watcherMainView = new QFileSystemWatcher;
 
     ////////////////////////
     // no new directory
@@ -1014,8 +1016,10 @@ void PQCFileFolderModel::loadDataFileDialog() {
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
     m_countAllFileDialog = 0;
-    delete watcherFileDialog;
-    watcherFileDialog = new QFileSystemWatcher;
+    if(watcherMainView->directories().length())
+        watcherFileDialog->removePaths(watcherMainView->directories());
+    if(watcherMainView->files().length())
+        watcherFileDialog->removePaths(watcherMainView->files());
 
     ////////////////////////
     // no new directory
