@@ -46,6 +46,21 @@ Flickable {
             return
         }
         masonryview.setupData()
+        // same folder reloaded
+        if(PQCFileFolderModel.folderFileDialog === cachePath) {
+
+            // restore position
+            masonryview.contentY = cacheContentY
+
+        // new folder loaded
+        } else {
+
+            // reset position
+            masonryview.contentY = 0
+            cachePath = PQCFileFolderModel.folderFileDialog
+            cacheContentY = 0
+
+        }
     }
 
     visible: isCurrentView
@@ -61,6 +76,17 @@ Flickable {
     }
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
+
+    onContentYChanged: {
+        // this check makes sure that value is not reset when a directory is reloaded due to a change
+        if(contentY > 0)
+            cacheContentY = contentY
+    }
+
+    // this pair stores the current scroll position
+    // this way we can preserve that position when the content of the current directory changes
+    property string cachePath: ""
+    property real cacheContentY: 0.
 
     property bool firstStart: true
 

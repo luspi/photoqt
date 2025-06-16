@@ -38,14 +38,44 @@ ListView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
+    onContentYChanged: {
+        // this check makes sure that value is not reset when a directory is reloaded due to a change
+        if(contentY > 0)
+            cacheContentY = contentY
+    }
+
     visible: isCurrentView
     property bool isCurrentView: PQCSettings.filedialogLayout==="list"
+
+    // this pair stores the current scroll position
+    // this way we can preserve that position when the content of the current directory changes
+    property string cachePath: ""
+    property real cacheContentY: 0.
 
     onCurrentIndexChanged: {
         if(!isCurrentView) return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
         listview.positionViewAtIndex(currentIndex, ListView.Contain)
+    }
+
+    onModelChanged: {
+        // same folder reloaded
+        if(PQCFileFolderModel.folderFileDialog === cachePath) {
+
+            // restore position
+            listview.contentY = cacheContentY
+
+        // new folder loaded
+        } else {
+
+            // reset position
+            listview.contentY = 0
+            cachePath = PQCFileFolderModel.folderFileDialog
+            cacheContentY = 0
+
+        }
+
     }
 
     delegate:
