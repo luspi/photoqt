@@ -76,6 +76,16 @@ Rectangle {
 
     PQShadowEffect { masterItem: thumbnails_top }
 
+    function onWidthChanged() {
+        PQCConstants.thumbnailsBarWidth = thumbnails_top.width
+    }
+    function onHeightChanged() {
+        PQCConstants.thumbnailsBarHeight = thumbnails_top.height
+    }
+    function onOpacityChanged() {
+        PQCConstants.thumbnailsBarOpacity = thumbnails_top.opacity
+    }
+
     // the four states corresponding to screen edges
     states: [
         State {
@@ -244,10 +254,12 @@ Rectangle {
         Connections {
             target: thumbnails_top
             enabled: PQCSettings.thumbnailsSameHeightVaryWidth
-            onWidthChanged:
+            function onWidthChanged() {
                 recheckSize.restart()
-            onHeightChanged:
+            }
+            function onHeightChanged() {
                 recheckSize.restart()
+            }
         }
 
         Timer {

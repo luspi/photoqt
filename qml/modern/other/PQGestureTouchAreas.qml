@@ -252,11 +252,11 @@ Item {
         console.log("args: item =", item)
 
         if(item === "metadata")
-            return loader_metadata.item.opacity > 0
+            return PQCConstants.metadataOpacity > 0
         if(item === "mainmenu")
-            return loader_mainmenu.item.opacity > 0
+            return PQCConstants.mainmenuOpacity > 0
         if(item === "thumbnails")
-            return loader_thumbnails.item.opacity > 0
+            return PQCConstants.thumbnailsBarOpacity > 0
 
         return false
 

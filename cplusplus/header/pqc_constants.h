@@ -85,6 +85,12 @@ public:
         m_currentVisibleAreaHeightRatio = 0;
         m_currentArchiveComboOpen = false;
 
+        m_thumbnailsBarWidth = 0;
+        m_thumbnailsBarHeight = 0;
+        m_thumbnailsBarOpacity = 0;
+        m_metadataOpacity = 0;
+        m_mainmenuOpacity = 0;
+
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoHasAudio = false;
         m_currentlyShowingVideoPlaying = false;
@@ -158,6 +164,12 @@ public:
     Q_PROPERTY(bool statusInfoMovedDown MEMBER m_statusInfoMovedDown NOTIFY statusInfoMovedDownChanged)
     Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
     Q_PROPERTY(bool statusinfoIsVisible MEMBER m_statusinfoIsVisible NOTIFY statusinfoIsVisibleChanged)
+    Q_PROPERTY(int thumbnailsBarWidth MEMBER m_thumbnailsBarWidth NOTIFY thumbnailsBarWidthChanged)
+    Q_PROPERTY(int thumbnailsBarHeight MEMBER m_thumbnailsBarHeight NOTIFY thumbnailsBarHeightChanged)
+    Q_PROPERTY(double thumbnailsBarOpacity MEMBER m_thumbnailsBarOpacity NOTIFY thumbnailsBarOpacityChanged)
+    Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
+    Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
+
 
     /******************************************************/
     // some image properties
@@ -260,6 +272,11 @@ private:
     double m_currentVisibleAreaY;
     double m_currentVisibleAreaWidthRatio;
     double m_currentVisibleAreaHeightRatio;
+    int m_thumbnailsBarWidth;
+    int m_thumbnailsBarHeight;
+    double m_thumbnailsBarOpacity;
+    double m_mainmenuOpacity;
+    double m_metadataOpacity;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -326,6 +343,11 @@ Q_SIGNALS:
     void currentVisibleAreaWidthRatioChanged();
     void currentVisibleAreaHeightRatioChanged();
     void currentArchiveComboOpenChanged();
+    void thumbnailsBarWidthChanged();
+    void thumbnailsBarHeightChanged();
+    void thumbnailsBarOpacityChanged();
+    void mainmenuOpacityChanged();
+    void metadataOpacityChanged();
 
 };
 

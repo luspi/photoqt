@@ -50,9 +50,13 @@ Rectangle {
         }
     }
 
-    onYChanged: {
+    function onYChanged() {
         if(dragmouse.drag.active)
             saveXY.restart()
+    }
+
+    function onOpacityChanged() {
+        PQCConstants.mainmenuOpacity = mainmenu_top.opacity
     }
 
     Timer {
