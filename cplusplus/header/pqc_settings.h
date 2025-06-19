@@ -1141,6 +1141,12 @@ public:
     bool getDefaultForInterfaceWindowButtonsAutoHideTopEdge();
     void setDefaultForInterfaceWindowButtonsAutoHideTopEdge();
 
+    Q_PROPERTY(bool interfaceWindowButtonsFollowAccentColor READ getInterfaceWindowButtonsFollowAccentColor WRITE setInterfaceWindowButtonsFollowAccentColor NOTIFY interfaceWindowButtonsFollowAccentColorChanged)
+    bool getInterfaceWindowButtonsFollowAccentColor();
+    void setInterfaceWindowButtonsFollowAccentColor(bool val);
+    bool getDefaultForInterfaceWindowButtonsFollowAccentColor();
+    void setDefaultForInterfaceWindowButtonsFollowAccentColor();
+
     Q_PROPERTY(QStringList interfaceWindowButtonsItems READ getInterfaceWindowButtonsItems WRITE setInterfaceWindowButtonsItems NOTIFY interfaceWindowButtonsItemsChanged)
     QStringList getInterfaceWindowButtonsItems();
     void setInterfaceWindowButtonsItems(QStringList val);
@@ -1690,7 +1696,7 @@ public:
     int migrate(QString oldversion = "");
     void setupFresh();
 
-    Q_INVOKABLE void updateFromCommandLine();
+    void updateFromCommandLine();
 
 public Q_SLOTS:
     void resetToDefault();
@@ -1885,6 +1891,7 @@ private:
     bool m_interfaceWindowButtonsAutoHide;
     int m_interfaceWindowButtonsAutoHideTimeout;
     bool m_interfaceWindowButtonsAutoHideTopEdge;
+    bool m_interfaceWindowButtonsFollowAccentColor;
     QStringList m_interfaceWindowButtonsItems;
     bool m_interfaceWindowButtonsShow;
     int m_interfaceWindowButtonsSize;
@@ -2190,6 +2197,7 @@ Q_SIGNALS:
     void interfaceWindowButtonsAutoHideChanged();
     void interfaceWindowButtonsAutoHideTimeoutChanged();
     void interfaceWindowButtonsAutoHideTopEdgeChanged();
+    void interfaceWindowButtonsFollowAccentColorChanged();
     void interfaceWindowButtonsItemsChanged();
     void interfaceWindowButtonsShowChanged();
     void interfaceWindowButtonsSizeChanged();

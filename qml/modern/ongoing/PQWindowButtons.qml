@@ -49,6 +49,12 @@ Item {
     width: row.width
     height: row.height
 
+    // this is needed in quite a few places
+    // having it here once simplifies the code below quite a bit
+    property string iconSourcePrefix: "image:/" + (PQCSettings.interfaceWindowButtonsFollowAccentColor ?
+                                                       ("/svgcolor/" + PQCLook.baseColor + ":://::") :
+                                                       "/svg/")
+
     onXChanged: {
         if(!visibleAlways)
             PQCConstants.windowButtonsCurrentRect.x = x
@@ -66,11 +72,12 @@ Item {
             PQCConstants.windowButtonsCurrentRect.height = height
     }
 
-    visible: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0) && !PQCConstants.faceTaggingMode // qmllint disable unqualified
+    visible: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideWindowButtons) && PQCSettings.interfaceWindowButtonsShow && opacity>0)
+             && !PQCConstants.faceTaggingMode
 
     property bool visibleAlways: false
 
-    state: (!PQCSettings.interfaceWindowButtonsAutoHide && PQCSettings.interfaceWindowButtonsShow) ? // qmllint disable unqualified
+    state: (!PQCSettings.interfaceWindowButtonsAutoHide && PQCSettings.interfaceWindowButtonsShow) ?
                "visible" :
                "hidden"
 
@@ -195,13 +202,14 @@ Item {
 
         Image {
             id: leftarrow
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+            source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/" + "leftarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 0.8 : 0.5) : 0.2)
-            visible: opacity > 0 && !PQCConstants.slideshowRunning // qmllint disable unqualified
+            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 1 : 0.8) : 0.5)
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            visible: opacity > 0 && !PQCConstants.slideshowRunning
             mipmap: true
             PQMouseArea {
                 id: left_mouse
@@ -269,12 +277,13 @@ Item {
 
         Image {
             id: rightarrow
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
+            source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/rightarrow.svg"
             enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
-            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 0.8 : 0.5) : 0.2) // qmllint disable unqualified
+            opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 1 : 0.8) : 0.5)
+            Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
             mipmap: true
             PQMouseArea {
@@ -343,12 +352,13 @@ Item {
 
         Image {
             id: mainmenu
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg" // qmllint disable unqualified
+            source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/menu.svg"
 
-            opacity: (PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 0.8 : 0.5) // qmllint disable unqualified
+            opacity: (PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning) ? 0 : (mainmenu_mouse.containsMouse ? 1 : 0.8)
+            Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true
 
@@ -418,12 +428,12 @@ Item {
         id: comp_ontop
 
         Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/keepforeground.svg" // qmllint disable unqualified
+            source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/keepforeground.svg"
 
-            opacity: (fore_mouse.containsMouse ? 0.8 : 0.5)*(PQCSettings.interfaceKeepWindowOnTop ? 1 : 0.3) // qmllint disable unqualified
+            opacity: (fore_mouse.containsMouse ? 1 : 0.5)*(PQCSettings.interfaceKeepWindowOnTop ? 1 : 0.8)
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true
@@ -433,14 +443,14 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: PQCSettings.interfaceKeepWindowOnTop ? qsTranslate("quickinfo", "Click here to not keep window in foreground") : qsTranslate("quickinfo", "Click here to keep window in foreground") // qmllint disable unqualified
+                text: PQCSettings.interfaceKeepWindowOnTop ? qsTranslate("quickinfo", "Click here to not keep window in foreground") : qsTranslate("quickinfo", "Click here to keep window in foreground")
                 acceptedButtons: Qt.AllButtons
                 onClicked: (mouse) => {
                     executeClick(mouse.button)
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop // qmllint disable unqualified
+                        PQCSettings.interfaceKeepWindowOnTop = !PQCSettings.interfaceKeepWindowOnTop
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -492,12 +502,14 @@ Item {
         id: comp_fullscreen
 
         Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCSettings.interfaceWindowMode ? ("image://svg/:/" + PQCLook.iconShade + "/fullscreen_on.svg") : ("image://svg/:/" + PQCLook.iconShade + "/fullscreen_off.svg") // qmllint disable unqualified
+            source: PQCSettings.interfaceWindowMode ?
+                        (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/fullscreen_on.svg") :
+                        (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/fullscreen_off.svg")
 
-            opacity: fullscreen_mouse.containsMouse ? 0.8 : 0.5
+            opacity: fullscreen_mouse.containsMouse ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true
@@ -507,7 +519,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: (PQCSettings.interfaceWindowMode ? // qmllint disable unqualified
+                text: (PQCSettings.interfaceWindowMode ?
                            qsTranslate("quickinfo", "Click here to enter fullscreen mode") :
                            qsTranslate("quickinfo", "Click here to exit fullscreen mode"))
                 acceptedButtons: Qt.AllButtons
@@ -516,7 +528,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode // qmllint disable unqualified
+                        PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -568,12 +580,14 @@ Item {
         id: comp_min
 
         Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCScriptsConfig.amIOnWindows() ? ("image://svg/:/" + PQCLook.iconShade + "/windows-minimize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/minimize.svg") // qmllint disable unqualified
+            source: PQCScriptsConfig.amIOnWindows() ?
+                        (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-minimize.svg") :
+                        (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/minimize.svg")
 
-            opacity: mini_mouse.containsMouse ? 0.8 : 0.5
+            opacity: mini_mouse.containsMouse ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true
@@ -642,14 +656,18 @@ Item {
         id: comp_max
 
         Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: PQCScriptsConfig.amIOnWindows() ? // qmllint disable unqualified
-                        (PQCConstants.windowState===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/windows-maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/windows-restore.svg")) :
-                        (PQCConstants.windowState===Window.Windowed ? ("image://svg/:/" + PQCLook.iconShade + "/maximize.svg") : ("image://svg/:/" + PQCLook.iconShade + "/restore.svg"))
+                        (PQCConstants.windowState===Window.Windowed ?
+                             (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-maximize.svg") :
+                             (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-restore.svg")) :
+                        (PQCConstants.windowState===Window.Windowed ?
+                             (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/maximize.svg") :
+                             (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/restore.svg"))
 
-            opacity: minimaxi_mouse.containsMouse ? 0.8 : 0.5
+            opacity: minimaxi_mouse.containsMouse ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             mipmap: true
@@ -659,7 +677,7 @@ Item {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: (PQCConstants.windowState===Window.Maximized ? // qmllint disable unqualified
+                text: (PQCConstants.windowState===Window.Maximized ?
                            qsTranslate("quickinfo", "Click here to restore window") :
                            qsTranslate("quickinfo", "Click here to maximize window"))
                 acceptedButtons: Qt.AllButtons
@@ -668,7 +686,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton) {
-                        if(PQCConstants.windowState === Window.Windowed) // qmllint disable unqualified
+                        if(PQCConstants.windowState === Window.Windowed)
                             PQCNotify.setWindowState(Window.Maximized)
                         else
                             PQCNotify.setWindowState(Window.Windowed)
@@ -723,9 +741,9 @@ Item {
         id: comp_close
 
         Image {
-            width: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            height: 3*PQCSettings.interfaceWindowButtonsSize // qmllint disable unqualified
-            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+            width: 3*PQCSettings.interfaceWindowButtonsSize
+            height: 3*PQCSettings.interfaceWindowButtonsSize
+            source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/close.svg"
             sourceSize: Qt.size(width, height)
 
             opacity: closemouse.containsMouse ? 1 : 0.8
@@ -814,9 +832,9 @@ Item {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
-                    checked: PQCSettings.interfaceWindowButtonsShow // qmllint disable unqualified
+                    checked: PQCSettings.interfaceWindowButtonsShow
                     onCheckedChanged: {
-                        if(checked !== PQCSettings.interfaceWindowButtonsShow) { // qmllint disable unqualified
+                        if(checked !== PQCSettings.interfaceWindowButtonsShow) {
                             PQCSettings.interfaceWindowButtonsShow = checked
                             checked = Qt.binding(function() {  return PQCSettings.interfaceWindowButtonsShow })
                         }
@@ -836,10 +854,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "always")
                         ButtonGroup.group: grp
-                        checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        checked: !PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHide = false
                                 PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
                             }
                         }
@@ -849,10 +867,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor move")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        checked: PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceWindowButtonsAutoHide = true // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHide = true
                                 PQCSettings.interfaceWindowButtonsAutoHideTopEdge = false
                             }
                         }
@@ -862,10 +880,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor near top edge")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge // qmllint disable unqualified
+                        checked: PQCSettings.interfaceWindowButtonsAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceWindowButtonsAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceWindowButtonsAutoHide = false
                                 PQCSettings.interfaceWindowButtonsAutoHideTopEdge = true
                             }
                         }
@@ -877,7 +895,7 @@ Item {
 
                 PQMenuItem {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     onTriggered: {
                         PQCNotify.onOpenSettingsManagerAt("showSettings", "windowbuttons")
                     }
@@ -905,7 +923,7 @@ Item {
 
         function onMouseMove(posx, posy) {
 
-            if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || PQCConstants.modalWindowOpen) { // qmllint disable unqualified
+            if((!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) || PQCConstants.modalWindowOpen) {
                 resetAutoHide.stop()
                 wb_top.state = "visible"
                 wb_top.nearTopEdge = true
@@ -934,10 +952,10 @@ Item {
 
     Connections {
 
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants
 
         function onModalWindowOpenChanged() {
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen)
                 wb_top.state = "visible"
         }
 
@@ -945,11 +963,11 @@ Item {
 
     Timer {
         id: resetAutoHide
-        interval:  500 + PQCSettings.interfaceWindowButtonsAutoHideTimeout // qmllint disable unqualified
+        interval:  500 + PQCSettings.interfaceWindowButtonsAutoHideTimeout
         repeat: false
         running: false
         onTriggered: {
-            if((!wb_top.nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) && !menu.item.opened) // qmllint disable unqualified
+            if((!wb_top.nearTopEdge || !PQCSettings.interfaceWindowButtonsAutoHideTopEdge) && !menu.item.opened)
                 wb_top.state = "hidden"
         }
     }

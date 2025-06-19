@@ -783,6 +783,18 @@ Flickable {
                             height: 1
                         }
 
+                        PQCheckBox {
+                            id: wb_followaccent
+                            text: qsTranslate("settingsmanager", "Color scheme of buttons follows accent color")
+                            onCheckedChanged:
+                                setting_top.checkDefault()
+                        }
+
+                        Item {
+                            width: 1
+                            height: 1
+                        }
+
                         PQRadioButton {
                             id: autohide_always
                             enforceMaxWidth: set_winbut.rightcol
@@ -833,6 +845,8 @@ Flickable {
                 set_winbut.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsItems");
                 populateModel()
 
+                wb_followaccent.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsFollowAccentColor") == 1)
+
                 var valAutoHide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHide")
                 var valAutoHideTop = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTopEdge")
                 var valAutoHideTimeout = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTimeout")
@@ -854,8 +868,10 @@ Flickable {
             }
 
             function hasChanged() {
-                return (integbut_show.hasChanged() || butsize.hasChanged() || !setting_top.areTwoListsEqual(set_winbut.curEntries, PQCSettings.interfaceWindowButtonsItems) ||
-                        autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() || autohide_timeout.hasChanged())
+                return (integbut_show.hasChanged() || butsize.hasChanged() ||
+                        !setting_top.areTwoListsEqual(set_winbut.curEntries, PQCSettings.interfaceWindowButtonsItems) ||
+                        autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() ||
+                        autohide_timeout.hasChanged() || wb_followaccent.hasChanged())
             }
 
             function load() {
@@ -864,6 +880,8 @@ Flickable {
                 butsize.loadAndSetDefault(PQCSettings.interfaceWindowButtonsSize)
                 set_winbut.curEntries = PQCSettings.interfaceWindowButtonsItems
                 populateModel()
+
+                wb_followaccent.loadAndSetDefault(PQCSettings.interfaceWindowButtonsFollowAccentColor)
 
                 autohide_always.loadAndSetDefault(!PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
                 autohide_anymove.loadAndSetDefault(PQCSettings.interfaceWindowButtonsAutoHide && !PQCSettings.interfaceWindowButtonsAutoHideTopEdge)
@@ -878,12 +896,16 @@ Flickable {
                 PQCSettings.interfaceWindowButtonsItems = set_winbut.curEntries
                 PQCSettings.interfaceWindowButtonsSize = butsize.value
 
+                PQCSettings.interfaceWindowButtonsFollowAccentColor = wb_followaccent.checked
+
                 PQCSettings.interfaceWindowButtonsAutoHide = (autohide_anymove.checked || autohide_topedge.checked)
                 PQCSettings.interfaceWindowButtonsAutoHideTopEdge = autohide_topedge.checked
                 PQCSettings.interfaceWindowButtonsAutoHideTimeout = autohide_timeout.value*1000
 
                 integbut_show.saveDefault()
                 butsize.saveDefault()
+
+                wb_followaccent.saveDefault()
 
                 autohide_always.saveDefault()
                 autohide_anymove.saveDefault()

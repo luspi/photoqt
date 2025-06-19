@@ -55,6 +55,7 @@
 #include <pqc_providerfull.h>
 #include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
+#include <pqc_providersvgcolor.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_location.h>
@@ -297,6 +298,7 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("full", new PQCProviderFull);
     engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
     engine.addImageProvider("svg", new PQCProviderSVG);
+    engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
 
     // if PHOTOSPHERE support is disabled, then this is an empty object
     qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");

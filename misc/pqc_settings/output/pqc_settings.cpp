@@ -363,6 +363,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::interfaceWindowButtonsAutoHideChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHide", m_interfaceWindowButtonsAutoHide); });
     connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTimeoutChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHideTimeout", m_interfaceWindowButtonsAutoHideTimeout); });
     connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTopEdgeChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHideTopEdge", m_interfaceWindowButtonsAutoHideTopEdge); });
+    connect(this, &PQCSettings::interfaceWindowButtonsFollowAccentColorChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsFollowAccentColor", m_interfaceWindowButtonsFollowAccentColor); });
     connect(this, &PQCSettings::interfaceWindowButtonsItemsChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsItems", m_interfaceWindowButtonsItems); });
     connect(this, &PQCSettings::interfaceWindowButtonsShowChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsShow", m_interfaceWindowButtonsShow); });
     connect(this, &PQCSettings::interfaceWindowButtonsSizeChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsSize", m_interfaceWindowButtonsSize); });
@@ -4476,6 +4477,28 @@ void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHideTopEdge() {
     }
 }
 
+bool PQCSettings::getInterfaceWindowButtonsFollowAccentColor() {
+    return m_interfaceWindowButtonsFollowAccentColor;
+}
+
+void PQCSettings::setInterfaceWindowButtonsFollowAccentColor(bool val) {
+    if(val != m_interfaceWindowButtonsFollowAccentColor) {
+        m_interfaceWindowButtonsFollowAccentColor = val;
+        Q_EMIT interfaceWindowButtonsFollowAccentColorChanged();
+    }
+}
+
+bool PQCSettings::getDefaultForInterfaceWindowButtonsFollowAccentColor() {
+        return false;
+}
+
+void PQCSettings::setDefaultForInterfaceWindowButtonsFollowAccentColor() {
+    if(false != m_interfaceWindowButtonsFollowAccentColor) {
+        m_interfaceWindowButtonsFollowAccentColor = false;
+        Q_EMIT interfaceWindowButtonsFollowAccentColorChanged();
+    }
+}
+
 QStringList PQCSettings::getInterfaceWindowButtonsItems() {
     return m_interfaceWindowButtonsItems;
 }
@@ -6844,6 +6867,8 @@ void PQCSettings::readDB() {
                     m_interfaceWindowButtonsAutoHideTimeout = value.toInt();
                 } else if(name == "WindowButtonsAutoHideTopEdge") {
                     m_interfaceWindowButtonsAutoHideTopEdge = value.toInt();
+                } else if(name == "WindowButtonsFollowAccentColor") {
+                    m_interfaceWindowButtonsFollowAccentColor = value.toInt();
                 } else if(name == "WindowButtonsItems") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -8117,6 +8142,7 @@ void PQCSettings::setupFresh() {
     m_interfaceWindowButtonsAutoHide = false;
     m_interfaceWindowButtonsAutoHideTimeout = 1000;
     m_interfaceWindowButtonsAutoHideTopEdge = false;
+    m_interfaceWindowButtonsFollowAccentColor = false;
     m_interfaceWindowButtonsItems = QStringList() << "left_0|0|0" << "right_0|0|0" << "menu_0|0|0" << "ontop_0|1|1" << "fullscreen_0|0|1";
     m_interfaceWindowButtonsShow = true;
     m_interfaceWindowButtonsSize = 10;
@@ -8435,6 +8461,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForInterfaceWindowButtonsAutoHide();
     setDefaultForInterfaceWindowButtonsAutoHideTimeout();
     setDefaultForInterfaceWindowButtonsAutoHideTopEdge();
+    setDefaultForInterfaceWindowButtonsFollowAccentColor();
     setDefaultForInterfaceWindowButtonsItems();
     setDefaultForInterfaceWindowButtonsShow();
     setDefaultForInterfaceWindowButtonsSize();
@@ -9292,6 +9319,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceWindowButtonsAutoHideTopEdge") {
         m_interfaceWindowButtonsAutoHideTopEdge = (val.toInt()==1);
         Q_EMIT interfaceWindowButtonsAutoHideTopEdgeChanged();
+    }
+    if(key == "interfaceWindowButtonsFollowAccentColor") {
+        m_interfaceWindowButtonsFollowAccentColor = (val.toInt()==1);
+        Q_EMIT interfaceWindowButtonsFollowAccentColorChanged();
     }
     if(key == "interfaceWindowButtonsItems") {
         m_interfaceWindowButtonsItems = val.split(":://::");
