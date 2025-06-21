@@ -52,7 +52,7 @@ Image {
         }
     }
 
-    fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
+    fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
     source: visible ? encodeURI("image://thumb/" + deleg.currentPath) : "" // qmllint disable unqualified
     onSourceChanged: {

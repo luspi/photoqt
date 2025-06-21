@@ -29,7 +29,7 @@ Item {
 
     id: folderthumb
 
-    visible: PQCSettings.filedialogFolderContentThumbnails // qmllint disable unqualified
+    visible: PQCSettings.filedialogFolderContentThumbnails
 
     property int curnum: 0
     onCurnumChanged: {
@@ -50,11 +50,10 @@ Item {
             source: "image://folderthumb/" + folder + ":://::" + num
             smooth: true
             mipmap: false
-            fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
+            fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             onStatusChanged: {
                 if(status == Image.Ready) {
-// TODO
-                    if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload)/* && !listmousearea.drag.active*/ && !contextmenu.opened) // qmllint disable unqualified
+                    if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !contextmenu.opened)
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)
                     fileicon.source = ""
@@ -73,18 +72,18 @@ Item {
 
     Timer {
         id: folderthumb_next
-        interval: PQCSettings.filedialogFolderContentThumbnailsSpeed===1 // qmllint disable unqualified
+        interval: PQCSettings.filedialogFolderContentThumbnailsSpeed===1
                         ? 2000
                         : (PQCSettings.filedialogFolderContentThumbnailsSpeed===2
                                 ? 1000
                                 : 500)
-        running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
+        running: false||PQCSettings.filedialogFolderContentThumbnailsAutoload
         onTriggered: {
 
             var fname = PQCFileFolderModel.entriesFileDialog[deleg.modelData]
-            if(!deleg.isFolder)// || handlingFileDir.isExcludeDirFromCaching(filefoldermodel.entriesFileDialog[index]))
+            if(!deleg.isFolder)
                 return
-            if(deleg.numberFilesInsideFolder == 0)
+            if(deleg.numberFilesInsideFolder === 0)
                 return
             if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
                 return
@@ -97,7 +96,7 @@ Item {
     Connections {
         target: view_top
         function onCurrentIndexChanged() {
-            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload) // qmllint disable unqualified
+            if(view_top.currentIndex===deleg.modelData && !PQCSettings.filedialogFolderContentThumbnailsAutoload)
                 folderthumb_next.restart()
         }
     }
