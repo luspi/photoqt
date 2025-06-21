@@ -235,7 +235,7 @@ Item {
 
         var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
         if(PQCExtensionsHandler.getAllowPopout(ele) &&
-                (PQCSettings["extensions"+PQCExtensionsHandler.getPopoutSettingName(ele)] ||
+                (PQCSettings.extensions[PQCExtensionsHandler.getPopoutSettingName(ele)] ||
                  minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight))
             src = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
         else

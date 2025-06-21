@@ -123,7 +123,7 @@ Loader {
                     var checks = PQCExtensionsHandler.getDoAtStartup(ext)
                     for(var i in checks) {
                         var entry = checks[i]
-                        if(entry[0] === "" || PQCSettings["extensions"+entry[0]]) {
+                        if(entry[0] === "" || PQCSettings.extensions[entry[0]]) {
                             if(entry[1] === "show") {
                                 PQCNotify.loaderShowExtension(ext)
                             } else if(entry[1] === "setup") {

@@ -458,6 +458,10 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
+    connect(m_extensions, &QQmlPropertyMap::valueChanged, this, &PQCSettings::saveChangedExtensionValue);
+
+    /******************************************************/
+
     connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
     connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
     connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
@@ -7286,6 +7290,78 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
 }
 
+void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &value) {
+
+    qDebug() << "args: key =" << key;
+    qDebug() << "args: value =" << value;
+    qDebug() << "readonly =" << readonly;
+
+    if(readonly) return;
+
+    dbCommitTimer->stop();
+
+    QSqlQuery query(db);
+
+    if(!dbIsTransaction) {
+        db.transaction();
+        dbIsTransaction = true;
+    }
+
+    // Using a placeholder also for table name causes an sqlite 'parameter count mismatch' error
+    // the 'on conflict' cause performs an update if the value already exists and the insert thus failed
+    query.prepare("INSERT INTO 'extensions' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:valupdate");
+
+    query.bindValue(":nme", key);
+
+    // we convert the value to a string
+    QString val = "";
+    if(value.typeId() == QMetaType::Bool) {
+        val = QString::number(value.toInt());
+        query.bindValue(":dat", "bool");
+    } else if(value.typeId() == QMetaType::Int) {
+        val = QString::number(value.toInt());
+        query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::QStringList) {
+        val = value.toStringList().join(":://::");
+        query.bindValue(":dat", "list");
+    } else if(value.typeId() == QMetaType::QPoint) {
+        val = QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y());
+        query.bindValue(":dat", "point");
+    } else if(value.typeId() == QMetaType::QPointF) {
+        val = QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y());
+        query.bindValue(":dat", "point");
+    } else if(value.typeId() == QMetaType::QSize) {
+        val = QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height());
+        query.bindValue(":dat", "size");
+    } else if(value.typeId() == QMetaType::QSizeF) {
+        val = QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height());
+        query.bindValue(":dat", "size");
+    } else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
+        QStringList ret;
+        QJSValue _val = value.value<QJSValue>();
+        const int length = _val.property("length").toInt();
+        for(int i = 0; i < length; ++i)
+            ret << _val.property(i).toString();
+        val = ret.join(":://::");
+        query.bindValue(":dat", "list");
+    } else {
+        val = value.toString();
+        query.bindValue(":dat", "string");
+    }
+
+    query.bindValue(":val", val);
+    query.bindValue(":valupdate", val);
+
+    // and update database
+    if(!query.exec()) {
+        qWarning() << "SQL Error:" << query.lastError().text();
+        qWarning() << "Executed query:" << query.lastQuery();
+    }
+
+    dbCommitTimer->start();
+
+}
+
 void PQCSettings::setDefault() {
 
     qDebug() << "readonly =" << readonly;
@@ -7926,8 +8002,6 @@ void PQCSettings::setupFresh() {
 
     qDebug() << "";
 
-    
-
     // table: filedialog
     m_filedialogDetailsTooltip = true;
     m_filedialogDevices = false;
@@ -8250,6 +8324,53 @@ void PQCSettings::setupFresh() {
     m_thumbnailsSpacing = 2;
     m_thumbnailsTooltip = true;
     m_thumbnailsVisibility = 0;
+
+    // enter default extensions settings
+    const QStringList ext = PQCExtensionsHandler::get().getExtensions();
+    for(const QString &e : ext) {
+
+        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
+        for(const QStringList &s : sets) {
+
+            if(s[2] == "int")
+                m_extensions->insert(s[0], s[3].toInt());
+            else if(s[2] == "double")
+                m_extensions->insert(s[0], s[3].toDouble());
+            else if(s[2] == "bool")
+                m_extensions->insert(s[0], static_cast<bool>(s[3].toInt()));
+            else if(s[2] == "list") {
+                if(s[3].contains(":://::"))
+                    m_extensions->insert(s[0], s[3].split(":://::"));
+                else if(s[3] != "")
+                    m_extensions->insert(s[0], QStringList() << s[3]);
+                else
+                    m_extensions->insert(s[0], QStringList());
+            } else if(s[2] == "point") {
+                const QStringList parts = s[3].split(",");
+                if(parts.length() == 2)
+                    m_extensions->insert(s[0], QPoint(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
+                    m_extensions->insert(s[0], QPoint(0,0));
+                }
+            } else if(s[2] == "size") {
+                const QStringList parts = s[3].split(",");
+                if(parts.length() == 2)
+                    m_extensions->insert(s[0], QSize(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
+                    m_extensions->insert(s[0], QSize(0,0));
+                }
+            } else if(s[2] == "string")
+                m_extensions->insert(s[0], s[3]);
+            else if(s[2] != "")
+                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
+            else
+                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
+
+        }
+
+    }
 
 #ifdef Q_OS_WIN
     // these defaults are different on Windows as on Linux

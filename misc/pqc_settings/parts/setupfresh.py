@@ -46,9 +46,7 @@ def get(duplicateSettings, duplicateSettingsSignal):
     cont = """
 void PQCSettings::setupFresh() {
 
-    qDebug() << "";
-
-    """
+    qDebug() << "";"""
 
     for tab in dbtables:
 
@@ -115,6 +113,55 @@ void PQCSettings::setupFresh() {
     if f"{tab}{name}" in duplicateSettingsSignal:
         cont += f"""
     /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
+
+    cont += """
+
+    // enter default extensions settings
+    const QStringList ext = PQCExtensionsHandler::get().getExtensions();
+    for(const QString &e : ext) {
+
+        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
+        for(const QStringList &s : sets) {
+
+            if(s[2] == "int")
+                m_extensions->insert(s[0], s[3].toInt());
+            else if(s[2] == "double")
+                m_extensions->insert(s[0], s[3].toDouble());
+            else if(s[2] == "bool")
+                m_extensions->insert(s[0], static_cast<bool>(s[3].toInt()));
+            else if(s[2] == "list") {
+                if(s[3].contains(":://::"))
+                    m_extensions->insert(s[0], s[3].split(":://::"));
+                else if(s[3] != "")
+                    m_extensions->insert(s[0], QStringList() << s[3]);
+                else
+                    m_extensions->insert(s[0], QStringList());
+            } else if(s[2] == "point") {
+                const QStringList parts = s[3].split(",");
+                if(parts.length() == 2)
+                    m_extensions->insert(s[0], QPoint(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
+                    m_extensions->insert(s[0], QPoint(0,0));
+                }
+            } else if(s[2] == "size") {
+                const QStringList parts = s[3].split(",");
+                if(parts.length() == 2)
+                    m_extensions->insert(s[0], QSize(parts[0].toInt(), parts[1].toInt()));
+                else {
+                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
+                    m_extensions->insert(s[0], QSize(0,0));
+                }
+            } else if(s[2] == "string")
+                m_extensions->insert(s[0], s[3]);
+            else if(s[2] != "")
+                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
+            else
+                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
+
+        }
+
+    }"""
 
     cont += """
 

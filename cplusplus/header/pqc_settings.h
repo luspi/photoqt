@@ -1999,6 +1999,7 @@ private:
 
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
+    void saveChangedExtensionValue(const QString &key, const QVariant &value);
 
     void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
     QVariant migrationHelperGetOldValue(QString table, QString setting);

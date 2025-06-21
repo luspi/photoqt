@@ -539,14 +539,20 @@ PQTemplateFloating {
 
     Connections {
 
-        target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings.extensions
 
-        function onExtensionsQuickActionsChanged() {
+        function onQuickActionsChanged() {
             if(PQCSettings.extensions.QuickActions)
                 quickactions_top.show()
             else
                 quickactions_top.hide()
         }
+
+    }
+
+    Connections {
+
+        target: PQCSettings
 
         function onInterfaceEdgeTopActionChanged() {
             quickactions_top.reposition()
