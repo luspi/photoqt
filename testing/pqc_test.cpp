@@ -26,6 +26,7 @@
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsfilemanagement.h>
 #include <scripts/pqc_scriptsimages.h>
+#include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodel.h>
 #include "pqc_test.h"
@@ -34,6 +35,9 @@
 /********************************************************/
 
 void PQCTest::init() {
+
+    // we just need to instantiate this to populate current settings to PQCSettingsCPP
+    PQCSettings set;
 
     QDir dir;
     dir.mkpath(PQCConfigFiles::get().CONFIG_DIR());
@@ -356,13 +360,14 @@ void PQCTest::testListArchiveContentZip() {
 
     QFile::copy(":/testing/testarchive.zip", QDir::tempPath()+"/photoqt_test/testarchive.zip");
 
-    qDebug() << "QDir::tempPath():" << QDir::tempPath();
-
     QStringList expected;
     expected << QString("black.png::ARC::%1/photoqt_test/testarchive.zip").arg(QDir::tempPath());
     expected << QString("blue.png::ARC::%1/photoqt_test/testarchive.zip").arg(QDir::tempPath());
     expected << QString("green.png::ARC::%1/photoqt_test/testarchive.zip").arg(QDir::tempPath());
     expected << QString("orange.png::ARC::%1/photoqt_test/testarchive.zip").arg(QDir::tempPath());
+
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
 
     QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.zip"));
 
@@ -378,6 +383,9 @@ void PQCTest::testListArchiveContentTarGz() {
     expected << QString("green.png::ARC::%1/photoqt_test/testarchive.tar.gz").arg(QDir::tempPath());
     expected << QString("orange.png::ARC::%1/photoqt_test/testarchive.tar.gz").arg(QDir::tempPath());
 
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
+
     QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.tar.gz"));
 
 }
@@ -392,6 +400,9 @@ void PQCTest::testListArchiveContent7z() {
     expected << QString("green.png::ARC::%1/photoqt_test/testarchive.7z").arg(QDir::tempPath());
     expected << QString("orange.png::ARC::%1/photoqt_test/testarchive.7z").arg(QDir::tempPath());
 
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
+
     QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.7z"));
 
 }
@@ -405,6 +416,9 @@ void PQCTest::testListArchiveContentRar() {
     expected << QString("blue.png::ARC::%1/photoqt_test/testarchive.rar").arg(QDir::tempPath());
     expected << QString("green.png::ARC::%1/photoqt_test/testarchive.rar").arg(QDir::tempPath());
     expected << QString("orange.png::ARC::%1/photoqt_test/testarchive.rar").arg(QDir::tempPath());
+
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
 
     QCOMPARE(expected, PQCScriptsImages::get().listArchiveContent(QDir::tempPath()+"/photoqt_test/testarchive.rar"));
 
@@ -437,12 +451,16 @@ void PQCTest::testModelFileDialog() {
     QCOMPARE(1, PQCFileFolderModel::get().getCountFoldersFileDialog());
 
     QStringList expected;
-    expected << QDir::tempPath() + "/photoqt_test/subdir";
     expected << QDir::tempPath() + "/photoqt_test/blue1.png";
     expected << QDir::tempPath() + "/photoqt_test/blue2.png";
     expected << QDir::tempPath() + "/photoqt_test/blue3.png";
     expected << QDir::tempPath() + "/photoqt_test/blue4.png";
     expected << QDir::tempPath() + "/photoqt_test/blue5";
+
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
+
+    expected.push_front(QDir::tempPath() + "/photoqt_test/subdir");
 
     QCOMPARE(expected, PQCFileFolderModel::get().getEntriesFileDialog());
 
@@ -473,9 +491,16 @@ void PQCTest::testModelMainView() {
     expected << QDir::tempPath() + "/photoqt_test/blue4.png";
     expected << QDir::tempPath() + "/photoqt_test/blue5";
 
+    if(!PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        std::reverse(expected.begin(), expected.end());
+
     QCOMPARE(expected, PQCFileFolderModel::get().getEntriesMainView());
     QCOMPARE(QDir::tempPath() + "/photoqt_test/blue2.png", PQCFileFolderModel::get().getCurrentFile());
-    QCOMPARE(1, PQCFileFolderModel::get().getCurrentIndex());
+
+    if(PQCSettingsCPP::get().getImageviewSortImagesAscending())
+        QCOMPARE(1, PQCFileFolderModel::get().getCurrentIndex());
+    else
+        QCOMPARE(3, PQCFileFolderModel::get().getCurrentIndex());
 
 }
 

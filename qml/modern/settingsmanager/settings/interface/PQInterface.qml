@@ -785,6 +785,7 @@ Flickable {
 
                         PQCheckBox {
                             id: wb_followaccent
+                            //: These buttons are the WINDOW BUTTONS specifically!
                             text: qsTranslate("settingsmanager", "Color scheme of buttons follows accent color")
                             onCheckedChanged:
                                 setting_top.checkDefault()
