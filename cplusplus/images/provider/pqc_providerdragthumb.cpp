@@ -23,7 +23,7 @@
 #include <pqc_providerdragthumb.h>
 #include <pqc_providerthumb.h>
 #include <pqc_providericon.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
@@ -33,7 +33,7 @@
 QQuickImageResponse *PQCAsyncImageProviderDragThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseDragThumb *response = new PQCAsyncImageResponseDragThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettings::get()["thumbnailsMaxNumberThreads"].toInt()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
     return response;
 }

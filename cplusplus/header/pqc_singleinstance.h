@@ -40,6 +40,22 @@ class PQCSingleInstance : public QApplication {
 
     Q_OBJECT
 
+    enum class Actions {
+        File = Qt::UserRole+1,
+        Open,
+        Show,
+        Hide,
+        Quit,
+        Toggle,
+        StartInTray,
+        Tray,
+        NoTray,
+        Shortcut,
+        Debug,
+        NoDebug,
+        Setting
+    };
+
 public:
     explicit PQCSingleInstance(int&, char *[]);
     ~PQCSingleInstance();
@@ -54,7 +70,7 @@ public:
     QVector<void*> qmlWindowAddresses;
 
 protected:
-    virtual bool eventFilter(QObject *obj, QEvent *e) override;
+    virtual bool notify(QObject *obj, QEvent *e) override;
 
 Q_SIGNALS:
     // Interact with application
@@ -68,8 +84,12 @@ private:
     QLocalSocket *socket;
     QLocalServer *server;
 
+    QString m_receivedFile;
+    QString m_receivedShortcut;
+    QString m_receivedSetting[2];
+
     // This one is used in main process, handling the message sent by sub-instances
-    void handleMessage(QString msg);
+    void handleMessage(const QList<Actions> msg);
 
 };
 

@@ -1,47 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg
-   width="512"
-   height="512"
-   fill="none"
-   version="1.1"
-   viewBox="0 0 512 512"
-   id="svg1"
-   sodipodi:docname="keepforeground.svg"
-   inkscape:version="1.4 (e7c3feb100, 2024-10-09)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1" />
-  <sodipodi:namedview
-     id="namedview1"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="true"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:zoom="1.4138609"
-     inkscape:cx="191.67374"
-     inkscape:cy="281.14506"
-     inkscape:window-width="1920"
-     inkscape:window-height="1130"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="svg1" />
-  <path
-     d="m 256.00137,246.021 18.5637,-19.35798 -18.5637,-19.35799 -18.5637,19.35799 z M 432.08538,390.9201 274.57015,226.66528 237.44276,265.38125 394.95799,429.63606 Z M 237.43985,226.66528 79.924617,390.9201 117.05202,429.63606 274.56724,265.38125 Z"
-     fill="#ffffff"
-     stroke-width="26.809"
-     id="path1"
-     style="fill:#ffffff" />
-  <path
-     d="m 256.00137,111.46893 18.5637,-19.357986 -18.5637,-19.357982 -18.5637,19.357982 z M 432.08538,256.36803 274.57015,92.113215 237.44276,130.82917 394.95799,295.084 Z M 237.43985,92.113215 79.924617,256.36803 117.05202,295.084 274.56724,130.82917 Z"
-     fill="#ffffff"
-     stroke-width="26.809"
-     id="path1-5"
-     style="fill:#ffffff" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" version="1.1" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+ <path d="m256 246.02 18.564-19.358-18.564-19.358-18.564 19.358zm176.08 144.9-157.52-164.25-37.127 38.716 157.52 164.25zm-194.65-164.25-157.52 164.25 37.127 38.716 157.52-164.25z" fill="#fff" stroke-width="26.809"/>
+ <path d="m256 111.47 18.564-19.358-18.564-19.358-18.564 19.358zm176.08 144.9-157.52-164.25-37.127 38.716 157.52 164.25zm-194.65-164.25-157.52 164.25 37.127 38.716 157.52-164.25z" fill="#fff" stroke-width="26.809"/>
 </svg>

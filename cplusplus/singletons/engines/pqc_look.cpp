@@ -21,12 +21,12 @@
  **************************************************************************/
 
 #include <pqc_look.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
 
-PQCLook::PQCLook() {
+PQCLook::PQCLook() : QObject() {
 
     lightness_threshold = 96;
 
@@ -46,58 +46,60 @@ PQCLook::PQCLook() {
                   QCoreApplication::translate("settingsmanager", "light blue"),
                   QCoreApplication::translate("settingsmanager", "light orange")};
 
-    calculateColors(PQCSettings::get()["interfaceAccentColor"].toString());
+    calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
 
     calculateFontSizes(11);
 
-    m_fontWeightNormal = std::min(900, std::max(100, PQCSettings::get()["interfaceFontNormalWeight"].toInt()));
-    m_fontWeightBold = std::min(900, std::max(100, PQCSettings::get()["interfaceFontBoldWeight"].toInt()));
+    m_fontWeightNormal = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontNormalWeight()));
+    m_fontWeightBold = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontBoldWeight()));
 
-    connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, [=](const QString &key, const QVariant &value) {
-        if(key == "interfaceAccentColor") {
-            const QString val = value.toString();
-            calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
 
-            Q_EMIT iconShadeChanged();
+        const QString val = PQCSettingsCPP::get().getInterfaceAccentColor();
+        calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
 
-            Q_EMIT baseColorChanged();
-            Q_EMIT baseColorAccentChanged();
-            Q_EMIT baseColorHighlightChanged();
-            Q_EMIT baseColorActiveChanged();
+        Q_EMIT iconShadeChanged();
 
-            Q_EMIT inverseColorChanged();
-            Q_EMIT inverseColorAccentChanged();
-            Q_EMIT inverseColorHighlightChanged();
-            Q_EMIT inverseColorActiveChanged();
+        Q_EMIT baseColorChanged();
+        Q_EMIT baseColorAccentChanged();
+        Q_EMIT baseColorHighlightChanged();
+        Q_EMIT baseColorActiveChanged();
 
-            Q_EMIT faintColorChanged();
-            Q_EMIT transColorChanged();
-            Q_EMIT transColorAccentChanged();
-            Q_EMIT transColorHighlightChanged();
-            Q_EMIT transColorActiveChanged();
+        Q_EMIT inverseColorChanged();
+        Q_EMIT inverseColorAccentChanged();
+        Q_EMIT inverseColorHighlightChanged();
+        Q_EMIT inverseColorActiveChanged();
 
-            Q_EMIT transInverseColorChanged();
+        Q_EMIT faintColorChanged();
+        Q_EMIT transColorChanged();
+        Q_EMIT transColorAccentChanged();
+        Q_EMIT transColorHighlightChanged();
+        Q_EMIT transColorActiveChanged();
 
-            Q_EMIT textColorChanged();
-            Q_EMIT textColorDisabledChanged();
+        Q_EMIT transInverseColorChanged();
 
-            Q_EMIT textInverseColorChanged();
-            Q_EMIT textInverseColorHighlightChanged();
-            Q_EMIT textInverseColorActiveChanged();
-        } else if(key == "interfaceFontBoldWeight") {
-            m_fontWeightBold = value.toInt();
-            Q_EMIT fontWeightBoldChanged();
-        } else if(key == "interfaceFontNormalWeight") {
-            m_fontWeightNormal = value.toInt();
-            Q_EMIT fontWeightNormalChanged();
-        }
+        Q_EMIT textColorChanged();
+        Q_EMIT textColorDisabledChanged();
+
+        Q_EMIT textInverseColorChanged();
+        Q_EMIT textInverseColorHighlightChanged();
+        Q_EMIT textInverseColorActiveChanged();
+
     });
 
-}
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontBoldWeightChanged, this, [=]() {
 
-PQCLook &PQCLook::get() {
-    static PQCLook instance;
-    return instance;
+        m_fontWeightBold = PQCSettingsCPP::get().getInterfaceFontBoldWeight();
+        Q_EMIT fontWeightBoldChanged();
+
+    });
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontNormalWeightChanged, this, [=]() {
+
+        m_fontWeightNormal = PQCSettingsCPP::get().getInterfaceFontNormalWeight();
+        Q_EMIT fontWeightNormalChanged();
+
+    });
+
 }
 
 PQCLook::~PQCLook() { }
@@ -198,15 +200,6 @@ QString PQCLook::getIconShade() {
 QString PQCLook::getBaseColor() {
     return m_baseColor;
 }
-QString PQCLook::getBaseColorAccent() {
-    return m_baseColorAccent;
-}
-QString PQCLook::getBaseColorActive() {
-    return m_baseColorActive;
-}
-QString PQCLook::getBaseColorHighlight() {
-    return m_baseColorHighlight;
-}
 
 void PQCLook::setBaseColor(QString val) {
 
@@ -241,57 +234,6 @@ void PQCLook::setBaseColor(QString val) {
 
 /******************************************************/
 
-QString PQCLook::getInverseColor() {
-    return m_inverseColor;
-}
-
-QString PQCLook::getInverseColorAccent() {
-    return m_inverseColorAccent;
-}
-
-QString PQCLook::getInverseColorActive() {
-    return m_inverseColorActive;
-}
-
-QString PQCLook::getInverseColorHighlight() {
-    return m_inverseColorHighlight;
-}
-
-/******************************************************/
-
-QString PQCLook::getTransColor() {
-    return m_transColor;
-}
-QString PQCLook::getFaintColor() {
-    return m_faintColor;
-}
-QString PQCLook::getTransColorAccent() {
-    return m_transColorAccent;
-}
-QString PQCLook::getTransColorActive() {
-    return m_transColorActive;
-}
-QString PQCLook::getTransColorHighlight() {
-    return m_transColorHighlight;
-}
-
-QString PQCLook::getTransInverseColor() {
-    return m_transInverseColor;
-}
-
-/******************************************************/
-
-QString PQCLook::getTextColor() { return m_textColor; }
-QString PQCLook::getTextColorDisabled() { return m_textColorDisabled; }
-
-/******************************************************/
-
-QString PQCLook::getTextInverseColor() { return m_textInverseColor; }
-QString PQCLook::getTextInverseColorActive() { return m_textInverseColorActive; }
-QString PQCLook::getTextInverseColorHighlight() { return m_textInverseColorHighlight; }
-
-/******************************************************/
-
 void PQCLook::setFontSize(int val) {
     if(val != m_fontSize) {
         calculateFontSizes(val);
@@ -306,18 +248,6 @@ void PQCLook::setFontSize(int val) {
 int PQCLook::getFontSize() {
     return m_fontSize;
 }
-int PQCLook::getFontSizeS() {
-    return m_fontSizeS;
-}
-int PQCLook::getFontSizeL() {
-    return m_fontSizeL;
-}
-int PQCLook::getFontSizeXL() {
-    return m_fontSizeXL;
-}
-int PQCLook::getFontSizeXXL() {
-    return m_fontSizeXXL;
-}
 
 void PQCLook::calculateFontSizes(int sze) {
     m_fontSize = sze;
@@ -325,27 +255,6 @@ void PQCLook::calculateFontSizes(int sze) {
     m_fontSizeL = sze+4;
     m_fontSizeXL = sze+9;
     m_fontSizeXXL = sze+14;
-}
-
-/******************************************************/
-
-int PQCLook::getFontWeightBold() {
-    return m_fontWeightBold;
-}
-void PQCLook::setFontWeightBold(int val) {
-    if(val != m_fontWeightBold) {
-        m_fontWeightBold = val;
-        Q_EMIT fontWeightBoldChanged();
-    }
-}
-int PQCLook::getFontWeightNormal() {
-    return m_fontWeightNormal;
-}
-void PQCLook::setFontWeightNormal(int val) {
-    if(val != m_fontWeightNormal) {
-        m_fontWeightNormal = val;
-        Q_EMIT fontWeightNormalChanged();
-    }
 }
 
 /******************************************************/

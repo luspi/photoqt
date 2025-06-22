@@ -1,4 +1,4 @@
-#include "../pqc_configtemplate.h"
+#include <pqc_configtemplate.h>
 
 class PQCExtensionFloatingNavigation : public PQCExtensionConfig {
 
@@ -20,7 +20,7 @@ public:
         };
 
         settings = {
-            {"FloatingNavigation",  "extensions", "int", "0"}
+            {"FloatingNavigation",  "extensions", "bool", "0"}
         };
 
         migrateSettings = {

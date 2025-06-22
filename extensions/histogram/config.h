@@ -1,4 +1,4 @@
-#include "../pqc_configtemplate.h"
+#include <pqc_configtemplate.h>
 
 class PQCExtensionHistogram : public PQCExtensionConfig {
 
@@ -33,7 +33,7 @@ public:
         };
 
         doAtStartup = {
-            {"Histogram", "show", "histogram"}
+            {"Histogram", "setup", "histogram"}
         };
 
         // {"x.x", {{"oldname1", "oldtable1", "newname1", "newtable1"},

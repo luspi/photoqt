@@ -24,8 +24,8 @@ public:
         supportedByThisBuild = true;
         allowPopout = false;
         isModal = false;
-        defaultPopoutWindowSize = QSize(0,0);
-        minimumRequiredWindowSize = QSize(0,0);
+        defaultPopoutWindowSize = QSize(400,300);
+        minimumRequiredWindowSize = QSize(100,100);
         qmlBaseName = "";
         popoutSettingName = "";
         shortcutsActions.clear();

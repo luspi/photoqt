@@ -155,11 +155,11 @@ public:
         return mimetypes_libmpv;
     }
 
-    Q_INVOKABLE QVariantMap getMagick() {
+    Q_INVOKABLE QVariantHash getMagick() {
         return magick;
     }
 
-    Q_INVOKABLE QVariantMap getMagickMimeType() {
+    Q_INVOKABLE QVariantHash getMagickMimeType() {
         return magick_mimetype;
     }
 
@@ -177,7 +177,8 @@ public:
     bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
     bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
-    void closeDatabase();
+    Q_INVOKABLE void closeDatabase();
+    Q_INVOKABLE void reopenDatabase();
 
 public Q_SLOTS:
     Q_INVOKABLE void restoreDefaults();
@@ -223,8 +224,8 @@ private:
     QStringList formats_libmpv;
     QStringList mimetypes_libmpv;
 
-    QVariantMap magick;
-    QVariantMap magick_mimetype;
+    QVariantHash magick;
+    QVariantHash magick_mimetype;
 
     // this is true if reading from the permanent database failed
     // in that case we load the built-in default database but read-only

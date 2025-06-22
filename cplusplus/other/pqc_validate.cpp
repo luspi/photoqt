@@ -24,7 +24,7 @@
 #include <iostream>
 #include <pqc_validate.h>
 #include <pqc_configfiles.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_shortcuts.h>
 #include <scripts/pqc_scriptsimages.h>
 
@@ -39,11 +39,8 @@ bool PQCValidate::validate() {
               << " > Validating configuration... " << std::endl;
 
     QString thumbnails_cache_basedir = "";
-    if(!PQCSettings::get()["thumbnailsCacheBaseDirDefault"].toBool())
-        thumbnails_cache_basedir = PQCSettings::get()["thumbnailsCacheBaseDirLocation"].toString();
-
-    PQCSettings::get().closeDatabase();
-    PQCShortcuts::get().closeDatabase();
+    if(!PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault())
+        thumbnails_cache_basedir = PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation();
 
     bool success = true;
 
@@ -62,12 +59,6 @@ bool PQCValidate::validate() {
     ret = validateContextMenuDatabase();
     if(!ret) {
         std::cout << " >> Failed: context menu db" << std::endl;
-        success = false;
-    }
-
-    ret = validateShortcutsDatabase();
-    if(!ret) {
-        std::cout << " >> Failed: shortcuts db" << std::endl;
         success = false;
     }
 
@@ -94,9 +85,6 @@ bool PQCValidate::validate() {
         std::cout << " >> Failed: imgur history db" << std::endl;
         success = false;
     }
-
-    PQCSettings::get().reopenDatabase();
-    PQCShortcuts::get().reopenDatabase();
 
     std::cout << " >> Done!" << std::endl << std::endl;
     return success;
@@ -589,387 +577,15 @@ bool PQCValidate::validateImageFormatsDatabase() {
 
 bool PQCValidate::validateSettingsDatabase() {
 
-    // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-            qWarning() << "Unable to (re-)create default settings database";
-        else {
-            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-        return true;
-    }
-
-    // first we check all the settings
-    // we do so automatically by loading the default settings database and check that all items there are present in the actual one
-
-    QSqlDatabase dbinstalled;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettings");
-    dbinstalled.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-    if(!dbinstalled.open())
-        qWarning() << "Error opening database:" << dbinstalled.lastError().text();
-
-    QSqlDatabase dbdefault;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbdefault = QSqlDatabase::addDatabase("QSQLITE3", "settingsdefault");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbdefault = QSqlDatabase::addDatabase("QSQLITE", "settingsdefault");
-    else {
-        qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qCritical() << "PhotoQt cannot function without SQLite available.";
-        qApp->quit();
-        return false;
-    }
-
-    // open database
-    QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
-    if(QFileInfo::exists(tmpfile) && !QFile::remove(tmpfile))
-        qWarning() << "Error removing old tmp file";
-    if(!QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
-        qWarning() << "Error copying default db to tmp file";
-    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db",
-                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
-                          QFileDevice::ReadGroup);
-    dbdefault.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
-    if(!dbdefault.open())
-        qWarning() << "Error opening default database:" << dbdefault.lastError().text();
-
-    // read the list of all tables from the default database
-    QStringList tables;
-
-    QSqlQuery queryTables("SELECT name FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY 1;", dbdefault);
-    if(!queryTables.exec()) {
-        qWarning() << "Error getting list of tables:" << queryTables.lastError().text();
-        queryTables.clear();
-        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
-        return false;
-    }
-
-    QStringList whichTablesToAdd;
-
-    // iterate over all tables
-    while(queryTables.next()) {
-        const QString tab = queryTables.value(0).toString();
-        tables << tab;
-
-        // make sure all tables exist in installed db
-
-        QSqlQuery queryTabIns(dbinstalled);
-        if(!queryTabIns.exec(QString("SELECT COUNT(name) as cnt FROM sqlite_master WHERE type='table' AND name='%1'").arg(tab))) {
-            qWarning() << QString("Error checking table '%1' existence:").arg(tab) << queryTabIns.lastError().text();
-            continue;
-        }
-
-        queryTabIns.next();
-
-        int cnt = queryTabIns.value(0).toInt();
-        if(cnt == 0)
-            whichTablesToAdd << tab;
-
-        queryTabIns.clear();
-    }
-
-    queryTables.clear();
-
-    // add missing tables
-    if(whichTablesToAdd.length() > 0) {
-
-        for(const QString &tab : std::as_const(whichTablesToAdd)) {
-
-            QSqlQuery queryTabIns(dbinstalled);
-            if(!queryTabIns.exec(QString("CREATE TABLE %1 ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)").arg(tab)))
-                qWarning() << QString("ERROR adding missing table '%1':").arg(tab) << queryTabIns.lastError().text();
-            queryTabIns.clear();
-        }
-
-    }
-
-    QSqlQuery query(dbdefault);
-
-    for(const auto &table : std::as_const(tables)) {
-
-        // get reference data
-        query.prepare(QString("SELECT `name`,`defaultvalue`,`datatype` FROM '%1'").arg(table));
-        if(!query.exec()) {
-            qWarning() << QString("Error getting default data for table '%1':").arg(table) << query.lastError().text();
-            query.clear();
-            QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
-            return false;
-        }
-
-        // loop over reference data
-        while(query.next()) {
-
-            const QString name = query.value(0).toString();
-            const QString defaultvalue = query.value(1).toString();
-            const QString datatype = query.value(2).toString();
-
-            // check whether an entry with that name exists in the in-production database
-            QSqlQuery check(dbinstalled);
-            check.prepare(QString("SELECT count(name) FROM %1 WHERE name=:name").arg(table));
-            check.bindValue(":name", name);
-            if(!check.exec()) {
-                qWarning() << QString("Error checking entry '%1':").arg(name) << check.lastError().text();
-                continue;
-            }
-            check.next();
-            int count = check.value(0).toInt();
-
-            check.clear();
-
-            // if entry does not exist, add it
-            if(count == 0) {
-
-                QSqlQuery insquery(dbinstalled);
-                insquery.prepare(QString("INSERT INTO %1 (name,value,datatype) VALUES(:nam,:val,:dat)").arg(table));
-                insquery.bindValue(":nam", name);
-                insquery.bindValue(":val", defaultvalue);
-                insquery.bindValue(":dat", datatype);
-
-                if(!insquery.exec()) {
-                    qWarning() << QString("ERROR inserting missing entry %1/%2:").arg(table, name) << insquery.lastError().text();
-                    continue;
-                }
-
-                // new settings that are based on old settings
-                if(name == "PreviewColorIntensity") {
-
-                    // muted colors?
-                    bool muted = false;
-                    QSqlQuery qCheck(dbinstalled);
-                    if(!qCheck.exec("SELECT `value` FROM `filedialog` WHERE `name`='PreviewMuted'")) {
-                        qWarning() << "Error checking PreviewMuted setting:" << qCheck.lastError().text();
-                        continue;
-                    }
-                    if(qCheck.next())
-                        muted = qCheck.value(0).toBool();
-
-                    // full colors?
-                    bool full = false;
-                    qCheck.clear();
-                    if(!qCheck.exec("SELECT `value` FROM `filedialog` WHERE `name`='PreviewFullColors'")) {
-                        qWarning() << "Error checking PreviewFullColors setting:" << qCheck.lastError().text();
-                        continue;
-                    }
-                    if(qCheck.next())
-                       full = qCheck.value(0).toBool();
-                    qCheck.clear();
-
-                    if(full) {
-                        QSqlQuery queryupd(dbinstalled);
-                        if(!queryupd.exec("UPDATE `filedialog` SET `value`=10 WHERE `name`='PreviewColorIntensity'")) {
-                            qWarning() << "Error updating PreviewColorIntensity setting with full colors:" << queryupd.lastError().text();
-                            continue;
-                        }
-                        queryupd.clear();
-                    } else if(muted) {
-                        QSqlQuery queryupd(dbinstalled);
-                        if(!queryupd.exec("UPDATE `filedialog` SET `value`=3 WHERE `name`='PreviewColorIntensity'")) {
-                            qWarning() << "Error updating PreviewColorIntensity setting with muted colors:" << queryupd.lastError().text();
-                            continue;
-                        }
-                        queryupd.clear();
-                    }
-
-                    // delete old setting names
-                    QSqlQuery queryDel(dbinstalled);
-                    if(!queryDel.exec("DELETE FROM `filedialog` WHERE `name`='PreviewMuted' OR `name`='PreviewFullColors'"))
-                        qWarning() << "Error deleting old settings PreviewMuted and PreviewFullColors:" << queryDel.lastError().text();
-                    queryDel.clear();
-                }
-
-            // if entry does exist, make sure datatype is valid
-            } else {
-
-                QSqlQuery check(dbinstalled);
-                check.prepare(QString("UPDATE %1 SET datatype=:dat WHERE name=:nam").arg(table));
-                check.bindValue(":dat", datatype);
-                check.bindValue(":nam", name);
-                if(!check.exec()) {
-                    qWarning() << QString("Error updating datatype '%1':").arg(name) << check.lastError().text();
-                    continue;
-                }
-                check.clear();
-
-            }
-
-        }
-
-        query.clear();
-
-    }
-
-    dbdefault.close();
-
-    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db");
-    if(!file.remove())
-        qWarning() << "ERROR: Unable to remove ref db:" << file.errorString();
-
-    return true;
-
-}
-
-bool PQCValidate::validateShortcutsDatabase() {
-
-    // This is also called in PQStartup::migrateShortcutsToDb()
-    // and PQHandlingExternal::importConfigFrom()
-
-    // the db does not exist -> create it and finish
-    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
-        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
-            qWarning() << "Unable to (re-)create default shortcuts database";
-        else {
-            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-        return true;
-    }
-
-    QSqlDatabase dbinstalled;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validateshortcuts");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validateshortcuts");
-    dbinstalled.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
-
-    if(!dbinstalled.open())
-        qWarning() << "Error opening database:" << dbinstalled.lastError().text();
-
-
-    // we rename 'Escape' to 'Esc' and 'Delete' to 'Del' as this is what they are called internally to Qt
-
-    QSqlQuery query1(dbinstalled);
-    if(!query1.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Escape', 'Esc')")) {
-        qWarning() << "Error renaming Escape to Esc:" << query1.lastError().text();
-        query1.clear();
-        return false;
-    }
-
-    QSqlQuery query2(dbinstalled);
-    if(!query2.exec("Update `shortcuts` SET `combo` = REPLACE(`combo`, 'Delete', 'Del')")) {
-        qWarning() << "Error renaming Delete to Del:" << query2.lastError().text();
-        query2.clear();
-        return false;
-    }
-
-    return true;
+    PQCSettings set(true);
+    return set.validateSettingsDatabase();
 
 }
 
 bool PQCValidate::validateSettingsValues() {
 
-    QSqlDatabase dbinstalled;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE3", "validatesettingsvalues");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbinstalled = QSqlDatabase::addDatabase("QSQLITE", "validatesettingsvalues");
-    dbinstalled.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-    if(!dbinstalled.open())
-        qWarning() << "Error opening database:" << dbinstalled.lastError().text();
-
-    QSqlDatabase dbcheck;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbcheck = QSqlDatabase::addDatabase("QSQLITE", "checksettings");
-    else {
-        qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qCritical() << "PhotoQt cannot function without SQLite available.";
-        qApp->quit();
-        return false;
-    }
-
-    QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    QFile::copy(":/checksettings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db",
-                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
-                          QFileDevice::ReadGroup);
-    dbcheck.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-
-    if(!dbcheck.open())
-        qWarning() << "Error opening default database:" << dbcheck.lastError().text();
-
-    QSqlQuery queryCheck(dbcheck);
-    queryCheck.prepare("SELECT tablename,setting,minvalue,maxvalue FROM 'entries'");
-
-    if(!queryCheck.exec()) {
-        qWarning() << "Error getting default data:" << queryCheck.lastError().text();
-        queryCheck.clear();
-        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-        return false;
-    }
-
-    QList<QList<QVariant> > toUpdate;
-
-    // loop over check data
-    while(queryCheck.next()) {
-
-        const QString table = queryCheck.value(0).toString();
-        const QString setting = queryCheck.value(1).toString();
-        const double minValue = queryCheck.value(2).toDouble();
-        const double maxValue = queryCheck.value(3).toDouble();
-
-        QSqlQuery check(dbinstalled);
-        check.prepare(QString("SELECT value,datatype FROM '%1' WHERE name=:name").arg(table));
-        check.bindValue(":name", setting);
-        if(!check.exec()) {
-            qWarning() << QString("Error checking entry '%1':").arg(setting) << check.lastError().text();
-            continue;
-        }
-        if(check.next()) {
-
-            const QString dt = check.value(1).toString();
-
-            const double value = check.value(0).toDouble();
-
-            if(value < minValue)
-                toUpdate << (QList<QVariant>() << table << setting << dt << minValue);
-            else if(value > maxValue)
-                toUpdate << (QList<QVariant>() << table << setting << dt << maxValue);
-
-        }
-
-        check.clear();
-
-
-    }
-
-    queryCheck.clear();
-
-    // update what needs fixing
-    for(int i = 0; i < toUpdate.size(); ++i) {
-        QList<QVariant> lst = toUpdate.at(i);
-
-        QSqlQuery query(dbinstalled);
-
-        query.prepare(QString("UPDATE %1 SET value=:val WHERE name=:name").arg(lst.at(0).toString()));
-        query.bindValue(":name", lst.at(1).toString());
-        if(lst.at(2).toString() == "double")
-            query.bindValue(":val", lst.at(3).toDouble());
-        if(lst.at(2).toString() == "int")
-            query.bindValue(":val", static_cast<int>(lst.at(3).toDouble()));
-
-        if(!query.exec()) {
-            qWarning() << QString("Error updating entry '%1':").arg(lst.at(1).toString()) << query.lastError().text();
-            continue;
-        }
-
-        query.clear();
-
-     }
-
-    dbcheck.close();
-
-    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    if(!file.remove())
-        qWarning() << "ERROR: Unable to remove check db:" << file.errorString();
-
-    return true;
+    PQCSettings set(true);
+    return set.validateSettingsValues();
 
 }
 

@@ -9,7 +9,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "4.9.1")
+SET(APPVERSION "dev")
 
 ########################################
 ####  SOME SETTINGS/FLAGS FOR CMAKE ####
@@ -476,11 +476,21 @@ endif()
 # set the version number
 target_compile_definitions(photoqt PRIVATE PQMVERSION="${APPVERSION}")
 
+# ensure that the QTP0001 policy is set to NEW otherwise the QML files will not be found on import (on Qt 6.8+)
+if(QT_KNOWN_POLICY_QTP0001)
+    qt_policy(SET QTP0001 "NEW")
+endif()
+# disable warning with this policy not being set (on Qt 6.8+)
+if(QT_KNOWN_POLICY_QTP0004)
+    qt_policy(SET QTP0004 "OLD")
+endif()
+
 # add qml files
-qt_add_qml_module(photoqt URI src VERSION 1.0 QML_FILES ${photoqt_QML} RESOURCE_PREFIX)
+qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})
 
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")
+target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
 target_include_directories(photoqt PRIVATE "extensions")
 
 # set some properties for executable

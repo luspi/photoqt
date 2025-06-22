@@ -29,6 +29,8 @@
 #include <QQmlApplicationEngine>
 #include <QLocalSocket>
 #include <QLocalServer>
+#include <QSqlError>
+#include <QSqlQuery>
 
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>
@@ -43,8 +45,10 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     PQCCommandLineParser parser(*this);
     PQCCommandLineResult result = parser.getResult();
 
-    // This is the message string that we send to a running instance (if it exists
-    QByteArray message = "";
+    QList<Actions> msg;
+    QString receivedFile = "";
+    QString receivedShortcut = "";
+    QString receivedSetting[2] = {"", ""};
 
     socket = nullptr;
     server = nullptr;
@@ -54,45 +58,56 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             QString ff = f;
             if(!QFileInfo(ff).isAbsolute())
                 ff = QDir::currentPath() + "/" + ff;
-            message += ":://::_F_I_L_E_" + QFileInfo(ff).canonicalFilePath().toUtf8();
+            msg << Actions::File;
+            receivedFile = QFileInfo(ff).canonicalFilePath();
         }
     }
 
-    if(result & PQCCommandLineOpen)
-        message += ":://::_O_P_E_N_";
+    if(result & PQCCommandLineOpen) {
+        msg << Actions::Open;
+    }
 
-    if(result & PQCCommandLineShow)
-        message += ":://::_S_H_O_W_";
+    if(result & PQCCommandLineShow) {
+        msg << Actions::Show;
+    }
 
-    if(result & PQCCommandLineHide)
-        message += ":://::_H_I_D_E_";
+    if(result & PQCCommandLineHide) {
+        msg << Actions::Hide;
+    }
 
-    if(result & PQCCommandLineQuit)
-        message += ":://::_Q_U_I_T_";
+    if(result & PQCCommandLineQuit) {
+        msg << Actions::Quit;
+    }
 
-    if(result & PQCCommandLineToggle)
-        message += ":://::_T_O_G_G_L_E_";
+    if(result & PQCCommandLineToggle) {
+        msg << Actions::Toggle;
+    }
 
-    if(result & PQShortcutSequence)
-        message += ":://::_S_H_O_R_T_C_U_T_" + parser.shortcutSequence.toUtf8();
+    if(result & PQShortcutSequence) {
+        msg << Actions::Shortcut;
+        receivedShortcut = parser.shortcutSequence;
+    }
 
     if(result & PQCCommandLineStartInTray)
-        message += ":://::_S_T_A_R_T_I_N_T_R_A_Y_";
+        msg << Actions::StartInTray;
 
     if(result & PQCCommandLineEnableTray)
-        message += ":://::_T_R_A_Y_";
+        msg << Actions::Tray;
 
     if(result & PQCCommandLineDisableTray)
-        message += ":://::_N_O_T_R_A_Y_";
+        msg << Actions::NoTray;
 
     if(result & PQCCommandLineDebug)
-        message += ":://::_D_E_B_U_G_";
+        msg << Actions::Debug;
 
     if(result & PQCCommandLineNoDebug)
-        message += ":://::_N_O_D_E_B_U_G_";
+        msg << Actions::NoDebug;
 
-    if(result & PQCCommandLineSettingUpdate)
-        message += ":://::_S_E_T_T_I_N_G_" + parser.settingUpdate.join(":").toUtf8();
+    if(result & PQCCommandLineSettingUpdate) {
+        receivedSetting[0] = parser.settingUpdate[0];
+        receivedSetting[1] = parser.settingUpdate[1];
+        msg << Actions::Setting;
+    }
 
     // validation requested
     checkConfig = false;
@@ -139,8 +154,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         return;
     }
 
-    this->installEventFilter(this);
-
     // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
     if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
         QSqlDatabase dbtmp;
@@ -160,7 +173,15 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             else {
                 if(query.next()) {
                     if(query.value(0).toBool()) {
-                        handleMessage(message);
+                        if(receivedFile != "")
+                            m_receivedFile = receivedFile;
+                        if(receivedShortcut != "")
+                            m_receivedShortcut = receivedShortcut;
+                        if(receivedSetting[0] != "") {
+                            m_receivedSetting[0] = receivedSetting[0];
+                            m_receivedSetting[1] = receivedSetting[1];
+                        }
+                        handleMessage(msg);
                         query.clear();
                         dbtmp.close();
                         return;
@@ -186,11 +207,23 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     // If this is successful, then an instance is already running
     if(socket->waitForConnected(100)) {
 
-        if(message == "")
-            message = ":://::_S_H_O_W_";
+        if(msg.size() == 0)
+            msg << Actions::Show;
+
+        QStringList _strings;
+        _strings.reserve(msg.size());
+        for(const Actions &i : std::as_const(msg)) {
+            _strings.append(QString::number(static_cast<int>(i)));
+        }
 
         // Send composed message string
-        socket->write(message);
+        if(receivedFile != "")
+            socket->write(QStringLiteral("_F_I_L_E_{%1}").arg(receivedFile).toUtf8());
+        if(receivedShortcut != "")
+            socket->write(QStringLiteral("_S_H_O_R_T_C_U_T_{%1}").arg(receivedShortcut).toUtf8());
+        if(receivedSetting[0] != "")
+            socket->write(QStringLiteral("_S_E_T_T_I_N_G_{%1}:{%2}").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
+        socket->write(QStringLiteral("{%1}").arg(_strings.join('/')).toUtf8());
         socket->flush();
 
         // Inform user
@@ -209,7 +242,11 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         server->listen(server_str);
         connect(server, &QLocalServer::newConnection, this, &PQCSingleInstance::newConnection);
 
-        handleMessage(message);
+        m_receivedFile = receivedFile;
+        m_receivedSetting[0] = receivedSetting[0];
+        m_receivedSetting[1] = receivedSetting[1];
+        m_receivedShortcut = receivedShortcut;
+        handleMessage(msg);
 
     }
 
@@ -217,82 +254,119 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
 void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
-    if(socket->waitForReadyRead(2000))
-        handleMessage(socket->readAll());
+    if(socket->waitForReadyRead(2000)) {
+        QByteArray rep = socket->readAll();
+        if(rep.startsWith("_F_I_L_E_"))
+            m_receivedFile = rep.last(rep.length()-9);
+        else if(rep.startsWith("_S_H_O_R_T_C_U_T_"))
+            m_receivedShortcut = rep.last(rep.length()-17);
+        else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
+            const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
+            m_receivedSetting[0] = tmp[0];
+            m_receivedSetting[1] = tmp[1];
+        } else {
+            QList<Actions> _ints;
+            const QList<QByteArray> _reps = rep.split('/');
+            _ints.reserve(_reps.size());
+            for(const QByteArray &r : _reps) {
+                _ints << static_cast<Actions>(r.toInt());
+            }
+            handleMessage(_ints);
+        }
+    }
     socket->close();
     delete socket;
 }
 
-void PQCSingleInstance::handleMessage(QString msg) {
+void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
-    qDebug() << "args: msg =" << msg;
-
-    QStringList parts = msg.split(":://::");
+    qDebug() << "args: msg";
 
     QStringList allfiles;
     QStringList allfolders;
 
-    for(const QString &m : std::as_const(parts)) {
+    QFileInfo info(m_receivedFile);
 
-        if(m.startsWith("_F_I_L_E_")) {
+    for(const Actions &m : std::as_const(msg)) {
+
+        switch(m) {
+
+        case Actions::File:
 
             // sort by files and folders
             // that way we can make sure to always load the first specified file as initial image
-            QFileInfo info(m.last(m.length()-9));
             if(!info.exists())
                 continue;
             if(info.isFile())
-                allfiles.append(m.last(m.length()-9));
+                allfiles.append(m_receivedFile);
             else if(info.isDir())
-                allfolders.append(m.last(m.length()-9));
+                allfolders.append(m_receivedFile);
+            break;
 
-        } else if(m == "_O_P_E_N_")
+        case Actions::Open:
 
             Q_EMIT PQCNotify::get().cmdOpen();
+            break;
 
-        else if(m == "_S_H_O_W_")
+        case Actions::Show:
 
             Q_EMIT PQCNotify::get().cmdShow();
+            break;
 
-        else if(m == "_H_I_D_E_")
+        case Actions::Hide:
 
             Q_EMIT PQCNotify::get().cmdHide();
+            break;
 
-        else if(m == "_Q_U_I_T_")
+        case Actions::Quit:
 
-        Q_EMIT PQCNotify::get().cmdQuit();
+            Q_EMIT PQCNotify::get().cmdQuit();
+            break;
 
-        else if(m == "_T_O_G_G_L_E_")
+        case Actions::Toggle:
 
             Q_EMIT PQCNotify::get().cmdToggle();
+            break;
 
-        else if(m == "_S_T_A_R_T_I_N_T_R_A_Y_")
+        case Actions::StartInTray:
 
             PQCNotify::get().setStartInTray(true);
+            break;
 
-        else if(m == "_T_R_A_Y_")
+        case Actions::Tray:
 
             Q_EMIT PQCNotify::get().cmdTray(true);
+            break;
 
-        else if(m == "_N_O_T_R_A_Y_")
+        case Actions::NoTray:
 
             Q_EMIT PQCNotify::get().cmdTray(false);
+            break;
 
-        else if(m.startsWith("_S_H_O_R_T_C_U_T_"))
+        case Actions::Shortcut:
 
-            Q_EMIT PQCNotify::get().cmdShortcutSequence(m.last(m.length()-17));
+            Q_EMIT PQCNotify::get().cmdShortcutSequence(m_receivedShortcut);
+            break;
 
-        else if(m == "_D_E_B_U_G_")
+        case Actions::Debug:
 
             PQCNotify::get().setDebug(true);
+            break;
 
-        else if(m == "_N_O_D_E_B_U_G_")
+        case Actions::NoDebug:
 
             PQCNotify::get().setDebug(false);
+            break;
 
-        else if(m.startsWith("_S_E_T_T_I_N_G_"))
+        case Actions::Setting:
 
-            PQCNotify::get().setSettingUpdate(m.last(m.length()-15).split(":"));
+            PQCNotify::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
+            break;
+
+        default:
+            qWarning() << "Unknown action received:" << static_cast<int>(m);
+
+        }
 
     }
 
@@ -308,53 +382,24 @@ void PQCSingleInstance::handleMessage(QString msg) {
 
 }
 
-bool PQCSingleInstance::eventFilter(QObject *obj, QEvent *e) {
+bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
 
-    if(e->type() == QEvent::KeyPress && !PQCNotify::get().getModalFileDialogOpen()) {
-
-        // do not process events
-        if(PQCNotify::get().getIgnoreAllKeys()) {
-            return QApplication::eventFilter(obj, e);
+    const QString cn = obj->metaObject()->className();
+    if(cn == "QQuickRootItem") {
+        if(e->type() == QEvent::KeyPress) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+        } else if(e->type() == QEvent::KeyRelease) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
+        } else if(e->type() == QEvent::Leave) {
+            Q_EMIT PQCNotify::get().mouseWindowExit();
+        } else if(e->type() == QEvent::Enter) {
+            Q_EMIT PQCNotify::get().mouseWindowEnter();
         }
-
-        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-
-        // These events are ignored if a spinbox is focussed:
-        // - numbers
-        // - backspace/delete
-        // - left/right
-        if(PQCNotify::get().getSpinBoxPassKeyEvents() &&
-            (ev->key() == Qt::Key_1 || ev->key() == Qt::Key_2 || ev->key() == Qt::Key_3 || ev->key() == Qt::Key_4 || ev->key() == Qt::Key_5 ||
-             ev->key() == Qt::Key_6 || ev->key() == Qt::Key_7 || ev->key() == Qt::Key_8 || ev->key() == Qt::Key_9 || ev->key() == Qt::Key_0 ||
-             ev->key() == Qt::Key_Backspace || ev->key() == Qt::Key_Delete || ev->key() == Qt::Key_Enter || ev->key() == Qt::Key_Return ||
-             ev->key() == Qt::Key_Left || ev->key() == Qt::Key_Right || ev->key() == Qt::Key_Up || ev->key() == Qt::Key_Down)) {
-
-            return QApplication::eventFilter(obj, e);
-
-        }
-
-        if(PQCNotify::get().getIgnoreKeysExceptEnterEsc() && (ev->key() != Qt::Key_Enter && ev->key() != Qt::Key_Return && ev->key() != Qt::Key_Escape))
-            return QApplication::eventFilter(obj, e);
-
-        if(PQCNotify::get().getIgnoreKeysExceptEsc() && (ev->key() != Qt::Key_Escape && (ev->modifiers() == Qt::NoModifier || ev->modifiers() == Qt::ShiftModifier)))
-            return QApplication::eventFilter(obj, e);
-
-        Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
-        return true;
-
-    // this is to be used very sparingly and carefully to not react to events twice!
-    } else if(e->type() == QEvent::KeyRelease) {
-
-        QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-        Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
-
-    } else if(e->type() == QEvent::Leave) {
-        Q_EMIT PQCNotify::get().mouseWindowExit();
-    } else if(e->type() == QEvent::Enter) {
-        Q_EMIT PQCNotify::get().mouseWindowEnter();
     }
 
-    return QApplication::eventFilter(obj, e);
+    return QApplication::notify(obj, e);
 
 }
 

@@ -28,7 +28,98 @@
 #include <QPoint>
 #include <QKeySequence>
 
-PQCScriptsShortcuts::PQCScriptsShortcuts() {}
+PQCScriptsShortcuts::PQCScriptsShortcuts() {
+    m_lastInternalShortcutExecuted = 0;
+    m_keyStrings.clear();
+    m_mouseStrings.clear();
+
+    m_keyStrings = {
+        //: Refers to a keyboard modifier
+        {"alt", tr("Alt")},
+        //: Refers to a keyboard modifier
+        {"ctrl", tr("Ctrl")},
+        //: Refers to a keyboard modifier
+        {"shift", tr("Shift")},
+        //: Refers to one of the keys on the keyboard
+        {"page up", tr("Page Up")},
+        //: Refers to one of the keys on the keyboard
+        {"page down", tr("Page Down")},
+        //: Refers to the key that usually has the Windows symbol on it
+        {"meta", tr("Meta")},
+        //: Refers to the key that triggers the number block on keyboards
+        {"keypad", tr("Keypad")},
+        //: Refers to one of the keys on the keyboard
+        {"esc", tr("Escape")},
+        //: Refers to one of the arrow keys on the keyboard
+        {"right", tr("Right")},
+        //: Refers to one of the arrow keys on the keyboard
+        {"left", tr("Left")},
+        //: Refers to one of the arrow keys on the keyboard
+        {"up", tr("Up")},
+        //: Refers to one of the arrow keys on the keyboard
+        {"down", tr("Down")},
+        //: Refers to one of the keys on the keyboard
+        {"space", tr("Space")},
+        //: Refers to one of the keys on the keyboard
+        {"delete", tr("Delete")},
+        //: Refers to one of the keys on the keyboard
+        {"backspace", tr("Backspace")},
+        //: Refers to one of the keys on the keyboard
+        {"home", tr("Home")},
+        //: Refers to one of the keys on the keyboard
+        {"end", tr("End")},
+        //: Refers to one of the keys on the keyboard
+        {"insert", tr("Insert")},
+        //: Refers to one of the keys on the keyboard
+        {"tab", tr("Tab")},
+        //: Return refers to the enter key of the number block - please try to make the translations of Return and Enter (the main button) different if possible!
+        {"return", tr("Return")},
+        //: Enter refers to the main enter key - please try to make the translations of Return (in the number block) and Enter different if possible!
+        {"enter", tr("Enter")}
+    };
+
+    m_mouseStrings = {
+        //: Refers to a mouse button
+        {"left button", tr("Left Button")},
+        //: Refers to a mouse button
+        {"right button", tr("Right Button")},
+        //: Refers to a mouse button
+        {"middle button", tr("Middle Button")},
+        //: Refers to a mouse button
+        {"back button", tr("Back Button")},
+        //: Refers to a mouse button
+        {"forward button", tr("Forward Button")},
+        //: Refers to a mouse button
+        {"task button", tr("Task Button")},
+        //: Refers to a mouse button
+        {"button #7", tr("Button #7")},
+        //: Refers to a mouse button
+        {"button #8", tr("Button #8")},
+        //: Refers to a mouse button
+        {"button #9", tr("Button #9")},
+        //: Refers to a mouse button
+        {"button #10", tr("Button #10")},
+        //: Refers to a mouse event
+        {"double click", tr("Double Click")},
+        //: Refers to the mouse wheel
+        {"wheel up", tr("Wheel Up")},
+        //: Refers to the mouse wheel
+        {"wheel down", tr("Wheel Down")},
+        //: Refers to the mouse wheel
+        {"wheel left", tr("Wheel Left")},
+        //: Refers to the mouse wheel
+        {"wheel right", tr("Wheel Right")},
+        //: Refers to a direction of the mouse when performing a mouse gesture
+        {"east", tr("East")},
+        //: Refers to a direction of the mouse when performing a mouse gesture
+        {"south", tr("South")},
+        //: Refers to a direction of the mouse when performing a mouse gesture
+        {"west", tr("West")},
+        //: Refers to a direction of the mouse when performing a mouse gesture
+        {"north", tr("North")}
+    };
+
+}
 
 PQCScriptsShortcuts::~PQCScriptsShortcuts() {}
 
@@ -409,5 +500,90 @@ QString PQCScriptsShortcuts::analyzeKeyPress(Qt::Key key) {
     }
 
     return "";
+
+}
+
+void PQCScriptsShortcuts::setCurrentTimestamp() {
+    m_lastInternalShortcutExecuted = QDateTime::currentMSecsSinceEpoch();
+}
+
+int PQCScriptsShortcuts::getCurrentTimestampDiffLessThan(int threshold) {
+    return (QDateTime::currentMSecsSinceEpoch() - m_lastInternalShortcutExecuted) < threshold;
+}
+
+QString PQCScriptsShortcuts::translateShortcut(QString combo) {
+
+    qDebug() << "args: combo =" << combo;
+
+    if(combo == "")
+        return "";
+
+    combo = combo.replace("++","+PLUS");
+    if(combo == "+") combo = "PLUS";
+
+    QStringList parts = combo.split("+");
+
+    QString dir = "";
+    if(combo.contains(" Button")) {
+        const QStringList checkdir = parts[parts.size()-1].split(QString(), Qt::SkipEmptyParts);
+        bool onlydir = true;
+        for(const QString &d : checkdir) {
+            if(d != 'N' && d != 'S' && d != 'E' && d != 'W') {
+                onlydir = false;
+                break;
+            }
+        }
+        if(onlydir) {
+            dir = parts[parts.size()-1];
+            parts = parts.mid(0, parts.size()-1);
+        }
+    }
+
+    QString ret = "";
+    for(const QString &ele : std::as_const(parts)) {
+        qWarning() << "    " << ele;
+        if(ret != "")
+            ret += " + ";
+        if(ele == "")
+            continue;
+        if(ele == "PLUS")
+            ret += "+";
+        else {
+            QString key_check = ele.toLower();
+            if(m_keyStrings.contains(key_check))
+                ret += m_keyStrings[key_check];
+            else if(m_mouseStrings.contains(key_check))
+                ret += m_mouseStrings[key_check];
+            else
+                ret += ele;
+        }
+    }
+
+    if(dir != "") {
+        if(ret != "")
+            ret += "  ";
+        ret += translateMouseDirection(dir.split(""));
+    }
+
+    return ret;
+
+}
+
+QString PQCScriptsShortcuts::translateMouseDirection(QStringList parts) {
+
+    QString ret = "";
+
+    for(const QString &p : parts) {
+        if(p == "N")
+            ret += "↑";
+        else if(p == "S")
+            ret += "↓";
+        else if(p == "E")
+            ret += "→";
+        else if(p == "W")
+            ret += "←";
+    }
+
+    return ret;
 
 }

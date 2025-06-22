@@ -29,36 +29,29 @@
 class PQCLocalHttpServer;
 class QProcess;
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsChromeCast : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsChromeCast& get() {
-        static PQCScriptsChromeCast instance;
-        return instance;
-    }
+    explicit PQCScriptsChromeCast();
     ~PQCScriptsChromeCast();
 
-    PQCScriptsChromeCast(PQCScriptsChromeCast const&)     = delete;
-    void operator=(PQCScriptsChromeCast const&) = delete;
-
-    Q_PROPERTY(QVariantList availableDevices READ getAvailableDevices WRITE setAvailableDevices NOTIFY availableDevicesChanged)
-    void setAvailableDevices(QVariantList val);
-    QVariantList getAvailableDevices();
-
-    Q_PROPERTY(QString curDeviceName READ getCurDeviceName WRITE setCurDeviceName NOTIFY curDeviceNameChanged)
-    void setCurDeviceName(QString val);
-    QString getCurDeviceName();
-
-    Q_PROPERTY(bool inDiscovery READ getInDiscovery WRITE setInDiscovery NOTIFY inDiscoveryChanged)
-    int getInDiscovery();
-    void setInDiscovery(bool val);
-
-    Q_PROPERTY(bool connected READ getConnected WRITE setConnected NOTIFY connectedChanged)
-    int getConnected();
-    void setConnected(bool val);
+    Q_PROPERTY(QVariantList availableDevices MEMBER m_availableDevices NOTIFY availableDevicesChanged)
+    Q_PROPERTY(QString curDeviceName MEMBER m_curDeviceName NOTIFY curDeviceNameChanged)
+    Q_PROPERTY(bool inDiscovery MEMBER m_inDiscovery NOTIFY inDiscoveryChanged)
+    Q_PROPERTY(bool connected MEMBER m_connected NOTIFY connectedChanged)
 
     Q_INVOKABLE bool startDiscovery();
     Q_INVOKABLE bool connectToDevice(int deviceId);
@@ -66,7 +59,6 @@ public:
     Q_INVOKABLE bool disconnect();
 
 private:
-    PQCScriptsChromeCast();
 
     QProcess *procDiscovery;
     QProcess *procCast;

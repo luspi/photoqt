@@ -22,7 +22,7 @@
 
 #include <pqc_loadimage_poppler.h>
 #include <pqc_imagecache.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify.h>
@@ -60,7 +60,7 @@ QSize PQCLoadImagePoppler::loadSize(QString filename) {
         return QSize();
     }
 
-    return p->pageSize()*(PQCSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
+    return p->pageSize()*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
 
 #endif
 
@@ -100,7 +100,7 @@ QString PQCLoadImagePoppler::load(QString filename, QSize maxSize, QSize &origSi
         return errormsg;
     }
 
-    const double quality = PQCSettings::get()["filetypesPDFQuality"].toDouble();
+    const double quality = PQCSettingsCPP::get().getFiletypesPDFQuality();
     double useQuality = quality;
     if(maxSize.width() != -1 && maxSize.height() != -1) {
         double factor1 = maxSize.width()/p->pageSizeF().width();

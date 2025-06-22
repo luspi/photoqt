@@ -46,20 +46,6 @@ qint64 PQCScriptsOther::getTimestamp() {
     return QDateTime::currentMSecsSinceEpoch();
 }
 
-bool PQCScriptsOther::takeScreenshots() {
-    qDebug() << "";
-    for(int i = 0; i < QApplication::screens().count(); ++i) {
-        QScreen *screen = QApplication::screens().at(i);
-        QRect r = screen->geometry();
-        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
-            qDebug() << "Error taking screenshot for screen #" << i;
-            return false;
-        }
-    }
-    return true;
-}
-
 void PQCScriptsOther::deleteScreenshots() {
     qDebug() << "";
     int count = 0;

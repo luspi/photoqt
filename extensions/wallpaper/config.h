@@ -1,4 +1,4 @@
-#include "../pqc_configtemplate.h"
+#include <pqc_configtemplate.h>
 
 class PQCExtensionWallpaper : public PQCExtensionConfig {
 

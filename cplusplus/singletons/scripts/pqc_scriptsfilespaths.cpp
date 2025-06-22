@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_notify.h>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
@@ -294,28 +294,28 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-    if(PQCSettings::get()["thumbnailsExcludeDropBox"].toString() != "") {
-        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeDropBox"].toString())== 0)
+    if(PQCSettingsCPP::get().getThumbnailsExcludeDropBox() != "") {
+        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeDropBox())== 0)
             return true;
     }
 
-    if(PQCSettings::get()["thumbnailsExcludeNextcloud"].toString() != "") {
-        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeNextcloud"].toString())== 0)
+    if(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud() != "") {
+        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud())== 0)
             return true;
     }
 
-    if(PQCSettings::get()["thumbnailsExcludeOwnCloud"].toString() != "") {
-        if(filename.indexOf(PQCSettings::get()["thumbnailsExcludeOwnCloud"].toString())== 0)
+    if(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud() != "") {
+        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud())== 0)
             return true;
     }
 
-    const QStringList str = PQCSettings::get()["thumbnailsExcludeFolders"].toStringList();
+    const QStringList str = PQCSettingsCPP::get().getThumbnailsExcludeFolders();
     for(const QString &dir: str) {
         if(dir != "" && filename.indexOf(dir) == 0)
             return true;
     }
 
-    if(PQCSettings::get()["thumbnailsExcludeNetworkShares"].toBool()) {
+    if(PQCSettingsCPP::get().getThumbnailsExcludeNetworkShares()) {
         return isOnNetwork(filename);
     }
 

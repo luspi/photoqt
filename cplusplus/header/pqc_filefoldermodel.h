@@ -142,6 +142,7 @@ public:
     Q_PROPERTY(int currentIndex READ getCurrentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
     int getCurrentIndex();
     void setCurrentIndex(int val);
+    Q_INVOKABLE int getIndexOf(QString file);
 
     Q_PROPERTY(int currentIndexNoDelay READ getCurrentIndexNoDelay NOTIFY currentIndexNoDelayChanged)
     int getCurrentIndexNoDelay();
@@ -263,8 +264,6 @@ private Q_SLOTS:
     void loadDataMainView();
     void loadDataFileDialog();
     void handleNewDataLoadedMainView();
-
-    void handleSettingsChanges(const QString &key, const QVariant &value);
 
 Q_SIGNALS:
     void newDataLoadedMainView();

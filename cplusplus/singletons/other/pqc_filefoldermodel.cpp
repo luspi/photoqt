@@ -35,10 +35,9 @@
 #include <pqc_loadimage.h>
 #include <pqc_notify.h>
 #include <pqc_resolutioncache.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsimages.h>
-#include <pqc_constants.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -141,7 +140,12 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     connect(this, &PQCFileFolderModel::newDataLoadedMainView, this, &PQCFileFolderModel::handleNewDataLoadedMainView);
 
-    connect(&PQCSettings::get(), &PQCSettings::valueChanged, this, &PQCFileFolderModel::handleSettingsChanges);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::imageviewSortImagesAscendingChanged, this, &PQCFileFolderModel::loadDataFileDialog);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::imageviewSortImagesAscendingChanged, this, &PQCFileFolderModel::loadDataMainView);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::imageviewSortImagesByChanged, this, &PQCFileFolderModel::loadDataFileDialog);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::imageviewSortImagesByChanged, this, &PQCFileFolderModel::loadDataMainView);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataFileDialog);
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataMainView);
 
     connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCFileFolderModel::resetModel);
 
@@ -154,15 +158,6 @@ PQCFileFolderModel::~PQCFileFolderModel() {
 
     delete watcherMainView;
     delete watcherFileDialog;
-
-}
-
-void PQCFileFolderModel::handleSettingsChanges(const QString &key, const QVariant &value) {
-
-    if(key == "imageviewSortImagesAscending" || key == "imageviewSortImagesBy" || key == "filedialogShowHiddenFilesFolders") {
-        loadDataFileDialog();
-        loadDataMainView();
-    }
 
 }
 
@@ -206,8 +201,14 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
     Q_EMIT folderFileDialogChanged();
     loadDelayFileDialog->start();
 
-    if(val != "")
-        PQCScriptsFileDialog::get().setLastLocation(val);
+    if(val != "") {
+        QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
+        if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+            QTextStream out(&file);
+            out << val;
+            file.close();
+        }
+    }
 
 }
 
@@ -221,7 +222,6 @@ void PQCFileFolderModel::setCountMainView(int c) {
     if(m_countMainView == c)
         return;
     m_countMainView = c;
-    PQCConstants::get().setProperty("howManyFiles", c);
     Q_EMIT countMainViewChanged();
 }
 
@@ -427,9 +427,9 @@ void PQCFileFolderModel::advancedSortMainView() {
     // if nothing changed, reload folder
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName
-        && PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == cacheAdvancedSortCriteria
+        && PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == cacheAdvancedSortCriteria
         && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified
-        && PQCSettings::get()["imageviewAdvancedSortAscending"].toBool() == cacheAdvancedSortAscending) {
+        && PQCSettingsCPP::get().getImageviewAdvancedSortAscending() == cacheAdvancedSortAscending) {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
@@ -464,7 +464,7 @@ void PQCFileFolderModel::advancedSortMainView() {
             // depending on the criteria, it is computed in different ways
             qint64 key = 0;
 
-            if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "resolution") {
+            if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "resolution") {
 
                 QSize size = PQCResolutionCache::get().getResolution(fn);
                 if(!size.isValid()) {
@@ -475,12 +475,12 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = size.width()+size.height();
 
-            } else if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "luminosity") {
+            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "luminosity") {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
+                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
+                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -514,9 +514,9 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = val;
 
-            } else if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "exifdate") {
+            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "exifdate") {
 
-                QStringList order = PQCSettings::get()["imageviewAdvancedSortDateCriteria"].toStringList();
+                QStringList order = PQCSettingsCPP::get().getImageviewAdvancedSortDateCriteria();
 
                 bool foundvalue = false;
 
@@ -626,9 +626,9 @@ void PQCFileFolderModel::advancedSortMainView() {
             } else {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettings::get()["imageviewAdvancedSortQuality"].toString() == "medium")
+                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettings::get()["imageviewAdvancedSortQuality"].toString() == "high")
+                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -674,7 +674,7 @@ void PQCFileFolderModel::advancedSortMainView() {
                 qint64 green_val = 0;
                 qint64 blue_val = 0;
 
-                if(PQCSettings::get()["imageviewAdvancedSortCriteria"].toString() == "dominantcolor") {
+                if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "dominantcolor") {
 
                     QVector<qint64> redSteps(26);
                     QVector<qint64> greenSteps(26);
@@ -716,7 +716,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         if(!advancedSortKeepGoing) return;
 
         QList<qint64> allKeys = sortedWithKey.keys();
-        if(PQCSettings::get()["imageviewAdvancedSortAscending"].toBool())
+        if(PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
             std::sort(allKeys.begin(), allKeys.end(), std::less<int>());
         else
             std::sort(allKeys.begin(), allKeys.end(), std::greater<int>());
@@ -725,7 +725,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         for(auto entry : std::as_const(allKeys)) {
             QStringList curVals = sortedWithKey[entry];
             curVals.sort(Qt::CaseInsensitive);
-            if(!PQCSettings::get()["imageviewAdvancedSortAscending"].toBool())
+            if(!PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
                 std::reverse(curVals.begin(), curVals.end());
             for(const auto &e : std::as_const(curVals))
                 cacheAdvancedSortFolder << e;
@@ -750,8 +750,8 @@ void PQCFileFolderModel::advancedSortMainView() {
         QFileInfo info(m_fileInFolderMainView);
         cacheAdvancedSortFolderName = info.absolutePath();
         cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
-        cacheAdvancedSortCriteria = PQCSettings::get()["imageviewAdvancedSortCriteria"].toString();
-        cacheAdvancedSortAscending = PQCSettings::get()["imageviewAdvancedSortAscending"].toBool();
+        cacheAdvancedSortCriteria = PQCSettingsCPP::get().getImageviewAdvancedSortCriteria();
+        cacheAdvancedSortAscending = PQCSettingsCPP::get().getImageviewAdvancedSortAscending();
 
     });
 
@@ -857,6 +857,10 @@ void PQCFileFolderModel::setCurrentIndex(int val) {
 
 }
 
+int PQCFileFolderModel::getIndexOf(QString file) {
+    return m_entriesMainView.indexOf(file);
+}
+
 QString PQCFileFolderModel::getCurrentFile() {
     return m_currentFile;
 }
@@ -901,9 +905,11 @@ void PQCFileFolderModel::loadDataMainView() {
     // clear old entries
 
     m_entriesMainView.clear();
+    if(watcherMainView->directories().length())
+        watcherMainView->removePaths(watcherMainView->directories());
+    if(watcherMainView->files().length())
+        watcherMainView->removePaths(watcherMainView->files());
     setCountMainView(0);
-    delete watcherMainView;
-    watcherMainView = new QFileSystemWatcher;
 
     ////////////////////////
     // no new directory
@@ -1010,8 +1016,10 @@ void PQCFileFolderModel::loadDataFileDialog() {
     m_countFoldersFileDialog = 0;
     m_countFilesFileDialog = 0;
     m_countAllFileDialog = 0;
-    delete watcherFileDialog;
-    watcherFileDialog = new QFileSystemWatcher;
+    if(watcherMainView->directories().length())
+        watcherFileDialog->removePaths(watcherMainView->directories());
+    if(watcherMainView->files().length())
+        watcherFileDialog->removePaths(watcherMainView->files());
 
     ////////////////////////
     // no new directory
@@ -1058,9 +1066,9 @@ QStringList PQCFileFolderModel::getAllFolders(QString folder, bool forceShowHidd
 
     QStringList ret;
 
-    const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
-    QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
-    const bool showHidden = (PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool() || forceShowHidden);
+    const bool sortReversed = !PQCSettingsCPP::get().getImageviewSortImagesAscending();
+    QString sortBy = PQCSettingsCPP::get().getImageviewSortImagesBy();
+    const bool showHidden = (PQCSettingsCPP::get().getFiledialogShowHiddenFilesFolders() || forceShowHidden);
 
 #ifdef PQMWITHOUTICU
     if(sortBy == "naturalname")
@@ -1124,9 +1132,9 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     QStringList ret;
 
-    const bool sortReversed = !PQCSettings::get()["imageviewSortImagesAscending"].toBool();
-    QString sortBy = PQCSettings::get()["imageviewSortImagesBy"].toString();
-    const bool showHidden = PQCSettings::get()["filedialogShowHiddenFilesFolders"].toBool();
+    const bool sortReversed = !PQCSettingsCPP::get().getImageviewSortImagesAscending();
+    QString sortBy = PQCSettingsCPP::get().getImageviewSortImagesBy();
+    const bool showHidden = PQCSettingsCPP::get().getFiledialogShowHiddenFilesFolders();
 
 #ifdef PQMWITHOUTICU
     if(sortBy == "naturalname")
@@ -1194,7 +1202,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
             if(m_nameFilters.size() == 0 && m_restrictToSuffixes.size() == 0 && m_restrictToMimeTypes.size() == 0 && m_imageResolutionFilter.isNull() && m_fileSizeFilter == 0) {
                 const QFileInfoList lst = dir.entryInfoList();
-                if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool()) {
+                if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos()) {
                     for(const auto &f: lst) {
                         QFileInfo info(f);
                         // we need to exclude video files connected to Apple Live Videos (if support enabled)
@@ -1250,12 +1258,12 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
                     if((m_nameFilters.size() == 0 || (!ignoreFiltersExceptDefault && m_nameFilters.contains(suffix))) && (m_restrictToSuffixes.size() == 0 || m_restrictToSuffixes.contains(suffix))) {
                         if(m_filenameFilters.length() == 0 || ignoreFiltersExceptDefault) {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             ret_cur << f.absoluteFilePath();
                         } else {
                             // we need to exclude video files connected to Apple Live Videos (if support enabled)
-                            if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
+                            if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos() && suffix == "mov" && QFileInfo::exists(f.absolutePath()+"/"+f.baseName()+".heic"))
                                 continue;
                             for(const QString &fil : std::as_const(m_filenameFilters)) {
                                 if(f.baseName().contains(fil)) {

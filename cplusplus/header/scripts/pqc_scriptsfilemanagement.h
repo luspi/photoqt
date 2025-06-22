@@ -26,20 +26,24 @@
 #include <QObject>
 #include <QtQmlIntegration>
 
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsFileManagement : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsFileManagement& get() {
-        static PQCScriptsFileManagement instance;
-        return instance;
-    }
+    PQCScriptsFileManagement();
     ~PQCScriptsFileManagement();
-
-    PQCScriptsFileManagement(PQCScriptsFileManagement const&)     = delete;
-    void operator=(PQCScriptsFileManagement const&) = delete;
 
     Q_INVOKABLE bool copyFileToHere(QString filename, QString targetdir);
     Q_INVOKABLE bool deletePermanent(QString filename);
@@ -55,9 +59,6 @@ public:
 
     Q_INVOKABLE void cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight);
     Q_INVOKABLE bool canThisBeCropped(QString filename);
-
-private:
-    PQCScriptsFileManagement();
 
 Q_SIGNALS:
     void exportCompleted(bool success);

@@ -83,14 +83,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool ignoreKeysExceptEnterEsc READ getIgnoreKeysExceptEnterEsc WRITE setIgnoreKeysExceptEnterEsc NOTIFY ignoreKeysExceptEnterEscChanged)
-    void setIgnoreKeysExceptEnterEsc(bool val);
-    Q_INVOKABLE bool getIgnoreKeysExceptEnterEsc();
-
-    Q_PROPERTY(bool ignoreKeysExceptEsc READ getIgnoreKeysExceptEsc WRITE setIgnoreKeysExceptEsc NOTIFY ignoreKeysExceptEscChanged)
-    void setIgnoreKeysExceptEsc(bool val);
-    Q_INVOKABLE bool getIgnoreKeysExceptEsc();
-
     Q_PROPERTY(bool ignoreAllKeys READ getIgnoreAllKeys WRITE setIgnoreAllKeys NOTIFY ignoreAllKeysChanged)
     void setIgnoreAllKeys(bool val);
     Q_INVOKABLE bool getIgnoreAllKeys();
@@ -101,12 +93,6 @@ public:
     void setDebugLogMessages(QString val);
     Q_INVOKABLE QString getDebugLogMessages();
     void addDebugLogMessages(QString val);
-
-    /******************************************************/
-
-    Q_PROPERTY(bool slideshowRunning READ getSlideshowRunning WRITE setSlideshowRunning NOTIFY slideshowRunningChanged)
-    void setSlideshowRunning(bool val);
-    Q_INVOKABLE bool getSlideshowRunning();
 
     /******************************************************/
 
@@ -152,13 +138,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(QStringList whichContextMenusOpen READ getWhichContextMenusOpen NOTIFY whichContextMenusOpenChanged)
-    Q_INVOKABLE void addToWhichContextMenusOpen(QString val);
-    Q_INVOKABLE void removeFromWhichContextMenusOpen(QString val);
-    Q_INVOKABLE QStringList getWhichContextMenusOpen();
-
-    /******************************************************/
-
     void setColorProfileFor(QString path, QString val);
     Q_INVOKABLE QString getColorProfileFor(QString path);
 
@@ -173,11 +152,8 @@ private:
         m_thumbs = 2;
         m_modalFileDialogOpen = false;
         m_spinBoxPassKeyEvents = false;
-        m_ignoreKeysExceptEnterEsc = false;
-        m_ignoreKeysExceptEsc = false;
         m_ignoreAllKeys = false;
         m_debugLogMessages = "";
-        m_slideshowRunning = false;
         m_faceTagging = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
@@ -186,7 +162,6 @@ private:
         m_showingPhotoSphere = false;
         m_barcodeDisplayed = false;
         m_colorProfiles.clear();
-        m_whichContextMenusOpen.clear();
     }
     // these are used at startup
     // afterwards we only listen to the signals
@@ -201,11 +176,8 @@ private:
 
     bool m_modalFileDialogOpen;
     bool m_spinBoxPassKeyEvents;
-    bool m_ignoreKeysExceptEnterEsc;
-    bool m_ignoreKeysExceptEsc;
     bool m_ignoreAllKeys;
 
-    bool m_slideshowRunning;
     bool m_faceTagging;
 
     bool m_haveScreenshots;
@@ -218,11 +190,12 @@ private:
 
     bool m_barcodeDisplayed;
 
-    QStringList m_whichContextMenusOpen;
-
     QMap<QString, QString> m_colorProfiles;
 
 Q_SIGNALS:
+
+    // some c++ specific signals
+    void disableColorSpaceSupport();
 
     // startup properties changes
     void filePathChanged();
@@ -236,8 +209,6 @@ Q_SIGNALS:
     // some window states control from QML
     void modalFileDialogOpenChanged();
     void spinBoxPassKeyEventsChanged();
-    void ignoreKeysExceptEnterEscChanged();
-    void ignoreKeysExceptEscChanged();
     void ignoreAllKeysChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
@@ -248,14 +219,25 @@ Q_SIGNALS:
     void photoQtQuit();
 
     // actions happening that block the interface in some way
-    void slideshowRunningChanged();
     void faceTaggingChanged();
     void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
     void barcodeDisplayedChanged();
 
+    // some image signals
+    void currentImageFinishedLoading(QString src);
+    void enterPhotoSphere();
+    void exitPhotoSphere();
+    void currentViewFlick(QString direction);
+    void currentViewMove(QString direction);
+    void currentImageDetectBarCodes();
+    void currentArchiveCloseCombo();
+    void currentVideoJump(int s);
+    void currentAnimatedJump(int leftright);
+    void currentDocumentJump(int leftright);
+    void currentArchiveJump(int leftright);
+
     // context menu properties
-    void whichContextMenusOpenChanged();
     void closeAllContextMenus();
 
     // command line signals
@@ -293,6 +275,13 @@ Q_SIGNALS:
     void debugLogMessagesChanged();
     void colorProfilesChanged();
     void openSettingsManagerAt(QString category, QString subcategory);
+    void playPauseAnimationVideo();
+
+    // slideshow
+    void slideshowHideHandler();
+    void slideshowToggle();
+    void slideshowNextImage(bool switchedManually = false);
+    void slideshowPrevImage(bool switchedManually = false);
 
     // loader methods
     void loaderShow(QString ele);

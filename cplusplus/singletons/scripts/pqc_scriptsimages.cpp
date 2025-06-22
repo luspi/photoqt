@@ -36,7 +36,7 @@
 #include <QScreen>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_settings.h>
+#include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
 #include <pqc_configfiles.h>
@@ -178,7 +178,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
     qDebug() << "args: insideFilenameOnly =" << insideFilenameOnly;
 
     const QFileInfo info(path);
-    QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettings::get()["imageviewSortImagesAscending"].toBool()).arg(insideFilenameOnly);
+    QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
 
     if(archiveContentCache.contains(cacheKey))
         return archiveContentCache[cacheKey];
@@ -188,7 +188,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
 
 #ifndef Q_OS_WIN
 
-    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());
@@ -301,7 +301,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
     collator.setNumericMode(true);
 #endif
 
-    if(PQCSettings::get()["imageviewSortImagesAscending"].toBool())
+    if(PQCSettingsCPP::get().getImageviewSortImagesAscending())
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
     else
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
@@ -460,7 +460,7 @@ bool PQCScriptsImages::isMpvVideo(QString path) {
 
 #ifdef PQMVIDEOQT
     if(supported) {
-        if(!PQCSettings::get()["filetypesVideoPreferLibmpv"].toBool())
+        if(!PQCSettingsCPP::get().getFiletypesVideoPreferLibmpv())
             supported = false;
     }
 #endif
@@ -596,7 +596,7 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
         /***********************************/
         // check for Apply Live Photos
 
-        if(PQCSettings::get()["filetypesLoadAppleLivePhotos"].toBool()) {
+        if(PQCSettingsCPP::get().getFiletypesLoadAppleLivePhotos()) {
 
             QString videopath = QString("%1/%2.mov").arg(info.absolutePath(), info.baseName());
             QFileInfo videoinfo(videopath);
@@ -605,7 +605,7 @@ int PQCScriptsImages::isMotionPhoto(QString path) {
 
         }
 
-        if(!PQCSettings::get()["filetypesLoadMotionPhotos"].toBool())
+        if(!PQCSettingsCPP::get().getFiletypesLoadMotionPhotos())
             return 0;
 
         /***********************************/
@@ -917,7 +917,7 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
     const QString suffix = info.suffix().toLower();
 
 #ifndef Q_OS_WIN
-    if(PQCSettings::get()["filetypesExternalUnrar"].toBool() && (suffix == "cbr" || suffix == "rar")) {
+    if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
 
         QProcess which;
         which.setStandardOutputFile(QProcess::nullDevice());
@@ -1067,7 +1067,7 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
         return "";
     }
 
-    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCSettings::get()["filetypesPDFQuality"].toDouble()/72.0);
+    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
     QSize origSize = QSize(_pageSize.width(), _pageSize.height());
 
     QImage p = doc.render(page, origSize);
@@ -1119,7 +1119,7 @@ QString PQCScriptsImages::extractDocumentPageToTempLocation(QString path) {
         return "";
     }
 
-    const double quality = PQCSettings::get()["filetypesPDFQuality"].toDouble();
+    const double quality = PQCSettingsCPP::get().getFiletypesPDFQuality();
 
     QImage img = p->renderToImage(quality, quality);
 

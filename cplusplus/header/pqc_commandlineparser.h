@@ -69,7 +69,7 @@ public:
     QString importFileName;
     QStringList filenames;
     QString shortcutSequence;
-    QStringList settingUpdate;
+    QString settingUpdate[2];
 
 private:
     QTranslator trans;

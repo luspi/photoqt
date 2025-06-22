@@ -97,26 +97,6 @@ bool PQCNotify::getSpinBoxPassKeyEvents() {
     return m_spinBoxPassKeyEvents;
 }
 
-void PQCNotify::setIgnoreKeysExceptEnterEsc(bool val) {
-    if(val != m_ignoreKeysExceptEnterEsc) {
-        m_ignoreKeysExceptEnterEsc = val;
-        Q_EMIT ignoreKeysExceptEnterEscChanged();
-    }
-}
-bool PQCNotify::getIgnoreKeysExceptEnterEsc() {
-    return m_ignoreKeysExceptEnterEsc;
-}
-
-void PQCNotify::setIgnoreKeysExceptEsc(bool val) {
-    if(val != m_ignoreKeysExceptEsc) {
-        m_ignoreKeysExceptEsc = val;
-        Q_EMIT ignoreKeysExceptEscChanged();
-    }
-}
-bool PQCNotify::getIgnoreKeysExceptEsc() {
-    return m_ignoreKeysExceptEsc;
-}
-
 void PQCNotify::setIgnoreAllKeys(bool val) {
     if(val != m_ignoreAllKeys) {
         m_ignoreAllKeys = val;
@@ -142,16 +122,6 @@ void PQCNotify::addDebugLogMessages(QString val) {
     m_debugLogMessages.append(val);
     addDebugLogMessageMutex.unlock();
     Q_EMIT debugLogMessagesChanged();
-}
-
-void PQCNotify::setSlideshowRunning(bool val) {
-    if(val != m_slideshowRunning) {
-        m_slideshowRunning = val;
-        Q_EMIT slideshowRunningChanged();
-    }
-}
-bool PQCNotify::getSlideshowRunning() {
-    return m_slideshowRunning;
 }
 
 void PQCNotify::setFaceTagging(bool val) {
@@ -232,20 +202,4 @@ void PQCNotify::setColorProfileFor(QString path, QString val) {
 }
 QString PQCNotify::getColorProfileFor(QString path) {
     return m_colorProfiles.value(path, "");
-}
-
-QStringList PQCNotify::getWhichContextMenusOpen() {
-    return m_whichContextMenusOpen;
-}
-void PQCNotify::addToWhichContextMenusOpen(QString val) {
-    if(!m_whichContextMenusOpen.contains(val)) {
-        m_whichContextMenusOpen.append(val);
-        Q_EMIT whichContextMenusOpenChanged();
-    }
-}
-void PQCNotify::removeFromWhichContextMenusOpen(QString val) {
-    if(m_whichContextMenusOpen.contains(val)) {
-        m_whichContextMenusOpen.remove(m_whichContextMenusOpen.indexOf(val));
-        Q_EMIT whichContextMenusOpenChanged();
-    }
 }
