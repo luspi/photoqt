@@ -52,6 +52,12 @@ AnimatedImage {
     property bool myMirrorH: false
     property bool myMirrorV: false
 
+    // This needs to be set to false!
+    // For large (animated) images this leads to excessive memory usage causing all kinds of crashed!
+    // These images are typically very quick to load anyways with no noticable improvement when using caching.
+    // Also see: https://gitlab.com/lspies/photoqt/-/issues/340
+    cache: false
+
     onMyMirrorHChanged:
         loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
     onMyMirrorVChanged:
