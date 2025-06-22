@@ -22,7 +22,6 @@
 
 #include <pqc_providersvgcolor.h>
 #include <pqc_providersvg.h>
-#include <scripts/pqc_scriptscpp.h>
 
 PQCProviderSVGColor::PQCProviderSVGColor() : QQuickImageProvider(QQuickImageProvider::Image) {}
 
