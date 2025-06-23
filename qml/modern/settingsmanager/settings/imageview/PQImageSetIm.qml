@@ -64,6 +64,8 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    PQScrollManager { flickable: setting_top }
+
     property list<string> colorprofiles: []
     property list<string> colorprofiledescs: []
     property list<string> colorprofiles_contextmenu: []

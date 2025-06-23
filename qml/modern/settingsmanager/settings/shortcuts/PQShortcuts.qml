@@ -41,6 +41,8 @@ Flickable {
     anchors.fill: parent
     anchors.margins: 10
 
+    PQScrollManager { flickable: setting_top }
+
     property bool settingChanged: false
     property bool settingsLoaded: false
 
@@ -353,6 +355,8 @@ Flickable {
             model: ListModel { id: shmodel }
 
             ScrollBar.vertical: PQVerticalScrollBar {}
+
+            PQScrollManager { flickable: listview }
 
             property bool delegContextMenu: false
             signal closeMenus()

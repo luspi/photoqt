@@ -47,6 +47,8 @@ GridView {
             cacheContentY = contentY
     }
 
+    PQScrollManager { flickable: gridview }
+
     visible: isCurrentView
     property bool isCurrentView: PQCSettings.filedialogLayout==="grid"
 
@@ -59,6 +61,8 @@ GridView {
         if(!isCurrentView) return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
+        if(!gridview.flicking)
+            gridview.positionViewAtIndex(currentIndex, GridView.Contain)
     }
 
     onModelChanged: {

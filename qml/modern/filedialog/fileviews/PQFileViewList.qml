@@ -44,6 +44,8 @@ ListView {
             cacheContentY = contentY
     }
 
+    PQScrollManager { flickable: listview }
+
     visible: isCurrentView
     property bool isCurrentView: PQCSettings.filedialogLayout==="list"
 
@@ -56,7 +58,8 @@ ListView {
         if(!isCurrentView) return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
-        listview.positionViewAtIndex(currentIndex, ListView.Contain)
+        if(!listview.flicking)
+            listview.positionViewAtIndex(currentIndex, ListView.Contain)
     }
 
     onModelChanged: {

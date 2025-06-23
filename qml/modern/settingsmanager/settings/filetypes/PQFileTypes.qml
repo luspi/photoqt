@@ -213,6 +213,8 @@ Item {
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
+            PQScrollManager { flickable: listview }
+
             delegate:
                 Rectangle {
 

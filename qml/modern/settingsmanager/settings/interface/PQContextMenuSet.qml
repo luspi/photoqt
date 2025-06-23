@@ -63,6 +63,8 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    PQScrollManager { flickable: setting_top }
+
     MouseArea {
         width: parent.width
         height: parent.parent.height

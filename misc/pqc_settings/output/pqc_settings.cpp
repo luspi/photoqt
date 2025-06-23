@@ -312,13 +312,14 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::interfaceEdgeLeftActionChanged, this, [=]() { saveChangedValue("interfaceEdgeLeftAction", m_interfaceEdgeLeftAction); });
     connect(this, &PQCSettings::interfaceEdgeRightActionChanged, this, [=]() { saveChangedValue("interfaceEdgeRightAction", m_interfaceEdgeRightAction); });
     connect(this, &PQCSettings::interfaceEdgeTopActionChanged, this, [=]() { saveChangedValue("interfaceEdgeTopAction", m_interfaceEdgeTopAction); });
+    connect(this, &PQCSettings::interfaceFlickAdjustSpeedChanged, this, [=]() { saveChangedValue("interfaceFlickAdjustSpeed", m_interfaceFlickAdjustSpeed); });
+    connect(this, &PQCSettings::interfaceFlickAdjustSpeedSpeedupChanged, this, [=]() { saveChangedValue("interfaceFlickAdjustSpeedSpeedup", m_interfaceFlickAdjustSpeedSpeedup); });
     connect(this, &PQCSettings::interfaceFontBoldWeightChanged, this, [=]() { saveChangedValue("interfaceFontBoldWeight", m_interfaceFontBoldWeight); });
     connect(this, &PQCSettings::interfaceFontNormalWeightChanged, this, [=]() { saveChangedValue("interfaceFontNormalWeight", m_interfaceFontNormalWeight); });
     connect(this, &PQCSettings::interfaceHotEdgeSizeChanged, this, [=]() { saveChangedValue("interfaceHotEdgeSize", m_interfaceHotEdgeSize); });
     connect(this, &PQCSettings::interfaceKeepWindowOnTopChanged, this, [=]() { saveChangedValue("interfaceKeepWindowOnTop", m_interfaceKeepWindowOnTop); });
     connect(this, &PQCSettings::interfaceLanguageChanged, this, [=]() { saveChangedValue("interfaceLanguage", m_interfaceLanguage); });
     connect(this, &PQCSettings::interfaceMinimapPopoutChanged, this, [=]() { saveChangedValue("interfaceMinimapPopout", m_interfaceMinimapPopout); });
-    connect(this, &PQCSettings::interfaceMouseWheelSensitivityChanged, this, [=]() { saveChangedValue("interfaceMouseWheelSensitivity", m_interfaceMouseWheelSensitivity); });
     connect(this, &PQCSettings::interfaceNavigateOnEmptyBackgroundChanged, this, [=]() { saveChangedValue("interfaceNavigateOnEmptyBackground", m_interfaceNavigateOnEmptyBackground); });
     connect(this, &PQCSettings::interfaceNavigationFloatingChanged, this, [=]() { saveChangedValue("interfaceNavigationFloating", m_interfaceNavigationFloating); });
     connect(this, &PQCSettings::interfaceNotificationDistanceFromEdgeChanged, this, [=]() { saveChangedValue("interfaceNotificationDistanceFromEdge", m_interfaceNotificationDistanceFromEdge); });
@@ -3345,6 +3346,50 @@ void PQCSettings::setDefaultForInterfaceEdgeTopAction() {
     }
 }
 
+bool PQCSettings::getInterfaceFlickAdjustSpeed() {
+    return m_interfaceFlickAdjustSpeed;
+}
+
+void PQCSettings::setInterfaceFlickAdjustSpeed(bool val) {
+    if(val != m_interfaceFlickAdjustSpeed) {
+        m_interfaceFlickAdjustSpeed = val;
+        Q_EMIT interfaceFlickAdjustSpeedChanged();
+    }
+}
+
+bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() {
+        return false;
+}
+
+void PQCSettings::setDefaultForInterfaceFlickAdjustSpeed() {
+    if(false != m_interfaceFlickAdjustSpeed) {
+        m_interfaceFlickAdjustSpeed = false;
+        Q_EMIT interfaceFlickAdjustSpeedChanged();
+    }
+}
+
+int PQCSettings::getInterfaceFlickAdjustSpeedSpeedup() {
+    return m_interfaceFlickAdjustSpeedSpeedup;
+}
+
+void PQCSettings::setInterfaceFlickAdjustSpeedSpeedup(int val) {
+    if(val != m_interfaceFlickAdjustSpeedSpeedup) {
+        m_interfaceFlickAdjustSpeedSpeedup = val;
+        Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
+    }
+}
+
+int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
+        return 2;
+}
+
+void PQCSettings::setDefaultForInterfaceFlickAdjustSpeedSpeedup() {
+    if(2 != m_interfaceFlickAdjustSpeedSpeedup) {
+        m_interfaceFlickAdjustSpeedSpeedup = 2;
+        Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
+    }
+}
+
 int PQCSettings::getInterfaceFontBoldWeight() {
     return m_interfaceFontBoldWeight;
 }
@@ -3484,28 +3529,6 @@ void PQCSettings::setDefaultForInterfaceMinimapPopout() {
     if(false != m_interfaceMinimapPopout) {
         m_interfaceMinimapPopout = false;
         Q_EMIT interfaceMinimapPopoutChanged();
-    }
-}
-
-int PQCSettings::getInterfaceMouseWheelSensitivity() {
-    return m_interfaceMouseWheelSensitivity;
-}
-
-void PQCSettings::setInterfaceMouseWheelSensitivity(int val) {
-    if(val != m_interfaceMouseWheelSensitivity) {
-        m_interfaceMouseWheelSensitivity = val;
-        Q_EMIT interfaceMouseWheelSensitivityChanged();
-    }
-}
-
-int PQCSettings::getDefaultForInterfaceMouseWheelSensitivity() {
-        return 1;
-}
-
-void PQCSettings::setDefaultForInterfaceMouseWheelSensitivity() {
-    if(1 != m_interfaceMouseWheelSensitivity) {
-        m_interfaceMouseWheelSensitivity = 1;
-        Q_EMIT interfaceMouseWheelSensitivityChanged();
     }
 }
 
@@ -6751,6 +6774,10 @@ void PQCSettings::readDB() {
                     m_interfaceEdgeRightAction = value.toString();
                 } else if(name == "EdgeTopAction") {
                     m_interfaceEdgeTopAction = value.toString();
+                } else if(name == "FlickAdjustSpeed") {
+                    m_interfaceFlickAdjustSpeed = value.toInt();
+                } else if(name == "FlickAdjustSpeedSpeedup") {
+                    m_interfaceFlickAdjustSpeedSpeedup = value.toInt();
                 } else if(name == "FontBoldWeight") {
                     m_interfaceFontBoldWeight = value.toInt();
                     /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = value.toInt();
@@ -6768,8 +6795,6 @@ void PQCSettings::readDB() {
                     /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = value.toString();
                 } else if(name == "MinimapPopout") {
                     m_interfaceMinimapPopout = value.toInt();
-                } else if(name == "MouseWheelSensitivity") {
-                    m_interfaceMouseWheelSensitivity = value.toInt();
                 } else if(name == "NavigateOnEmptyBackground") {
                     m_interfaceNavigateOnEmptyBackground = value.toInt();
                 } else if(name == "NavigationFloating") {
@@ -8161,6 +8186,8 @@ void PQCSettings::setupFresh() {
     m_interfaceEdgeLeftAction = "metadata";
     m_interfaceEdgeRightAction = "mainmenu";
     m_interfaceEdgeTopAction = "";
+    m_interfaceFlickAdjustSpeed = false;
+    m_interfaceFlickAdjustSpeedSpeedup = 2;
     m_interfaceFontBoldWeight = 700;
     /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
     m_interfaceFontNormalWeight = 400;
@@ -8170,7 +8197,6 @@ void PQCSettings::setupFresh() {
     m_interfaceLanguage = "en";
     /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = "en";
     m_interfaceMinimapPopout = false;
-    m_interfaceMouseWheelSensitivity = 1;
     m_interfaceNavigateOnEmptyBackground = false;
     m_interfaceNavigationFloating = false;
     m_interfaceNotificationDistanceFromEdge = 40;
@@ -8531,13 +8557,14 @@ void PQCSettings::resetToDefault() {
     setDefaultForInterfaceEdgeLeftAction();
     setDefaultForInterfaceEdgeRightAction();
     setDefaultForInterfaceEdgeTopAction();
+    setDefaultForInterfaceFlickAdjustSpeed();
+    setDefaultForInterfaceFlickAdjustSpeedSpeedup();
     setDefaultForInterfaceFontBoldWeight();
     setDefaultForInterfaceFontNormalWeight();
     setDefaultForInterfaceHotEdgeSize();
     setDefaultForInterfaceKeepWindowOnTop();
     setDefaultForInterfaceLanguage();
     setDefaultForInterfaceMinimapPopout();
-    setDefaultForInterfaceMouseWheelSensitivity();
     setDefaultForInterfaceNavigateOnEmptyBackground();
     setDefaultForInterfaceNavigationFloating();
     setDefaultForInterfaceNotificationDistanceFromEdge();
@@ -9231,6 +9258,14 @@ void PQCSettings::updateFromCommandLine() {
         m_interfaceEdgeTopAction = val;
         Q_EMIT interfaceEdgeTopActionChanged();
     }
+    if(key == "interfaceFlickAdjustSpeed") {
+        m_interfaceFlickAdjustSpeed = (val.toInt()==1);
+        Q_EMIT interfaceFlickAdjustSpeedChanged();
+    }
+    if(key == "interfaceFlickAdjustSpeedSpeedup") {
+        m_interfaceFlickAdjustSpeedSpeedup = val.toInt();
+        Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
+    }
     if(key == "interfaceFontBoldWeight") {
         m_interfaceFontBoldWeight = val.toInt();
         Q_EMIT interfaceFontBoldWeightChanged();
@@ -9259,10 +9294,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceMinimapPopout") {
         m_interfaceMinimapPopout = (val.toInt()==1);
         Q_EMIT interfaceMinimapPopoutChanged();
-    }
-    if(key == "interfaceMouseWheelSensitivity") {
-        m_interfaceMouseWheelSensitivity = val.toInt();
-        Q_EMIT interfaceMouseWheelSensitivityChanged();
     }
     if(key == "interfaceNavigateOnEmptyBackground") {
         m_interfaceNavigateOnEmptyBackground = (val.toInt()==1);

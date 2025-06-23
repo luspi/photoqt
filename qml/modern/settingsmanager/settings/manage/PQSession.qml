@@ -47,6 +47,8 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    PQScrollManager { flickable: setting_top }
+
     property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: false

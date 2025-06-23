@@ -74,6 +74,8 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    PQScrollManager { flickable: setting_top }
+
     //: Used as identifying name for one of the elements in the interface
     property list<var> pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager", "File dialog")],
                         //: Used as identifying name for one of the elements in the interface

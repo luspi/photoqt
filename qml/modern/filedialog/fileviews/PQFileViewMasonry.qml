@@ -72,7 +72,8 @@ Flickable {
             return
         if(view_top.currentIndex !== currentIndex)
             view_top.currentIndex = currentIndex
-        ensureCurrentItemIsVisible()
+        if(!masonryview.flicking)
+            ensureCurrentItemIsVisible()
     }
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
@@ -82,6 +83,8 @@ Flickable {
         if(contentY > 0)
             cacheContentY = contentY
     }
+
+    PQScrollManager { flickable: masonryview }
 
     // this pair stores the current scroll position
     // this way we can preserve that position when the content of the current directory changes

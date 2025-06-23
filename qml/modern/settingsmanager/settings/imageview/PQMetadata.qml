@@ -57,6 +57,8 @@ Flickable {
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
+    PQScrollManager { flickable: setting_top }
+
         //: Part of the meta information about the current image.
     property list<var> labels: [["Filename", qsTranslate("settingsmanager", "file name")],
         //: Part of the meta information about the current image.

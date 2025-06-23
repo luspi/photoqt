@@ -835,6 +835,18 @@ public:
     QString getDefaultForInterfaceEdgeTopAction();
     void setDefaultForInterfaceEdgeTopAction();
 
+    Q_PROPERTY(bool interfaceFlickAdjustSpeed READ getInterfaceFlickAdjustSpeed WRITE setInterfaceFlickAdjustSpeed NOTIFY interfaceFlickAdjustSpeedChanged)
+    bool getInterfaceFlickAdjustSpeed();
+    void setInterfaceFlickAdjustSpeed(bool val);
+    bool getDefaultForInterfaceFlickAdjustSpeed();
+    void setDefaultForInterfaceFlickAdjustSpeed();
+
+    Q_PROPERTY(int interfaceFlickAdjustSpeedSpeedup READ getInterfaceFlickAdjustSpeedSpeedup WRITE setInterfaceFlickAdjustSpeedSpeedup NOTIFY interfaceFlickAdjustSpeedSpeedupChanged)
+    int getInterfaceFlickAdjustSpeedSpeedup();
+    void setInterfaceFlickAdjustSpeedSpeedup(int val);
+    int getDefaultForInterfaceFlickAdjustSpeedSpeedup();
+    void setDefaultForInterfaceFlickAdjustSpeedSpeedup();
+
     Q_PROPERTY(int interfaceFontBoldWeight READ getInterfaceFontBoldWeight WRITE setInterfaceFontBoldWeight NOTIFY interfaceFontBoldWeightChanged)
     int getInterfaceFontBoldWeight();
     void setInterfaceFontBoldWeight(int val);
@@ -870,12 +882,6 @@ public:
     void setInterfaceMinimapPopout(bool val);
     bool getDefaultForInterfaceMinimapPopout();
     void setDefaultForInterfaceMinimapPopout();
-
-    Q_PROPERTY(int interfaceMouseWheelSensitivity READ getInterfaceMouseWheelSensitivity WRITE setInterfaceMouseWheelSensitivity NOTIFY interfaceMouseWheelSensitivityChanged)
-    int getInterfaceMouseWheelSensitivity();
-    void setInterfaceMouseWheelSensitivity(int val);
-    int getDefaultForInterfaceMouseWheelSensitivity();
-    void setDefaultForInterfaceMouseWheelSensitivity();
 
     Q_PROPERTY(bool interfaceNavigateOnEmptyBackground READ getInterfaceNavigateOnEmptyBackground WRITE setInterfaceNavigateOnEmptyBackground NOTIFY interfaceNavigateOnEmptyBackgroundChanged)
     bool getInterfaceNavigateOnEmptyBackground();
@@ -1840,13 +1846,14 @@ private:
     QString m_interfaceEdgeLeftAction;
     QString m_interfaceEdgeRightAction;
     QString m_interfaceEdgeTopAction;
+    bool m_interfaceFlickAdjustSpeed;
+    int m_interfaceFlickAdjustSpeedSpeedup;
     int m_interfaceFontBoldWeight;
     int m_interfaceFontNormalWeight;
     int m_interfaceHotEdgeSize;
     bool m_interfaceKeepWindowOnTop;
     QString m_interfaceLanguage;
     bool m_interfaceMinimapPopout;
-    int m_interfaceMouseWheelSensitivity;
     bool m_interfaceNavigateOnEmptyBackground;
     bool m_interfaceNavigationFloating;
     int m_interfaceNotificationDistanceFromEdge;
@@ -2147,13 +2154,14 @@ Q_SIGNALS:
     void interfaceEdgeLeftActionChanged();
     void interfaceEdgeRightActionChanged();
     void interfaceEdgeTopActionChanged();
+    void interfaceFlickAdjustSpeedChanged();
+    void interfaceFlickAdjustSpeedSpeedupChanged();
     void interfaceFontBoldWeightChanged();
     void interfaceFontNormalWeightChanged();
     void interfaceHotEdgeSizeChanged();
     void interfaceKeepWindowOnTopChanged();
     void interfaceLanguageChanged();
     void interfaceMinimapPopoutChanged();
-    void interfaceMouseWheelSensitivityChanged();
     void interfaceNavigateOnEmptyBackgroundChanged();
     void interfaceNavigationFloatingChanged();
     void interfaceNotificationDistanceFromEdgeChanged();

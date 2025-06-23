@@ -37,7 +37,8 @@ import PhotoQt
 // - imageviewUseMouseWheelForImageMove
 // - imageviewUseMouseLeftButtonForImageMove
 // - interfaceDoubleClickThreshold
-// - interfaceMouseWheelSensitivity
+// - interfaceFlickAdjustSpeed
+// - interfaceFlickAdjustSpeedSpeedup
 // - imageviewHideCursorTimeout
 // - imageviewEscapeExitDocument
 // - imageviewEscapeExitArchive
@@ -61,6 +62,8 @@ Flickable {
                                hidetimeout.contextMenuOpen || hidetimeout.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
+
+    PQScrollManager { flickable: setting_top }
 
     Column {
 
@@ -183,50 +186,60 @@ Flickable {
             id: set_whl
 
             //: Settings title
-            title: qsTranslate("settingsmanager", "Mouse wheel")
+            title: qsTranslate("settingsmanager", "Mouse Wheel")
 
-            helptext: qsTranslate("settingsmanager", "Depending on any particular hardware, the mouse wheel moves either a set amount each time it is moved, or relative to how long/fast it is moved. The sensitivity allows to account for very sensitive hardware to decrease the likelihood of accidental/multiple triggers caused by wheel movement.")
+            helptext: qsTranslate("settingsmanager", "The speed of scrolling is determined by a variety of factors. A touchpad typically allows for near pixel-perfect movements, whereas physical mice typically move the wheel in fixed steps. With certain hardware this can result in the physical mouse wheel to register a slow scrolling speed. Thus, the speed of scrolling with a mouse wheel can be scaled up here.")
 
             content: [
 
-                Flow {
-                    width: set_whl.rightcol
-                    PQText {
-                        //: used as in: very sensitive mouse wheel
-                        text: qsTranslate("settingsmanager", "very sensitive")
-                    }
-                    PQSlider {
-                        id: whl_sens
-                        from: 0
-                        to: 10
-                        onValueChanged: setting_top.checkDefault()
-                    }
-                    PQText {
-                        //: used as in: not at all sensitive mouse wheel
-                        text: qsTranslate("settingsmanager", "not sensitive")
+                PQCheckBox {
+                    id: scrollspeed
+                    text: qsTranslate("settingsmanager", "Increase scroll speed")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                Item {
+                    width: scrollspeed_value.width
+                    height: scrollspeed_value.enabled ? scrollspeed_value.height : 0
+                    Behavior on height { NumberAnimation { duration: 200 } }
+                    PQSliderSpinBox {
+                        id: scrollspeed_value
+                        width: set_whl.rightcol
+                        minval: 1
+                        maxval: 10
+                        title: "Scaling factor"
+                        suffix: ""
+                        enabled: scrollspeed.checked
+                        animateWidth: true
+                        onValueChanged:
+                            setting_top.checkDefault()
                     }
                 }
 
             ]
 
             onResetToDefaults: {
-                whl_sens.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceMouseWheelSensitivity"))
+                scrollspeed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFlickAdjustSpeed") == 1)
+                scrollspeed_value.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFlickAdjustSpeedSpeedup"))
             }
 
             function handleEscape() {
             }
 
             function hasChanged() {
-                return whl_sens.hasChanged()
+                return scrollspeed.hasChanged() || scrollspeed_value.hasChanged()
             }
 
             function load() {
-                whl_sens.loadAndSetDefault(PQCSettings.interfaceMouseWheelSensitivity)
+                scrollspeed.loadAndSetDefault(PQCSettings.interfaceFlickAdjustSpeed)
+                scrollspeed_value.loadAndSetDefault(PQCSettings.interfaceFlickAdjustSpeedSpeedup)
             }
 
             function applyChanges() {
-                PQCSettings.interfaceMouseWheelSensitivity = whl_sens.value
-                whl_sens.saveDefault()
+                PQCSettings.interfaceFlickAdjustSpeed = scrollspeed.checked
+                PQCSettings.interfaceFlickAdjustSpeedSpeedup = scrollspeed_value.value
+                scrollspeed.saveDefault()
+                scrollspeed_value.saveDefault()
             }
 
         }
