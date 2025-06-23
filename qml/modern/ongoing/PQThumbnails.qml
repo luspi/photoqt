@@ -39,14 +39,14 @@ Rectangle {
     Behavior on y { NumberAnimation { duration: 200 } }
 
     // visibility status
-    opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0 // qmllint disable unqualified
+    opacity: ((setVisible||holdVisible) && windowSizeOkay) ? 1 : 0
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
     property int radius:0
 
     // which edge the bar should be shown at
-    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ? // qmllint disable unqualified
+    state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ?
                "bottom" :
                (PQCSettings.interfaceEdgeLeftAction==="thumbnails" ?
                     "left" :
@@ -59,16 +59,16 @@ Rectangle {
     property bool holdVisible: (PQCSettings.thumbnailsVisibility===1 ||
                                  (PQCSettings.thumbnailsVisibility===2 &&
                                    (Math.abs(PQCConstants.currentImageScale-PQCConstants.currentImageDefaultScale) < 1e-6 ||
-                                     PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale))) // qmllint disable unqualified
+                                     PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale)))
     property bool setVisible: false
     property var visiblePos: [0,0]      // changing these from var to list<int>
     property var invisiblePos: [0, 0]   // causes a crash for some reason
 
     // which area triggers the bar to be shown
-    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
 
-    property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0 // qmllint disable unqualified
+    property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
@@ -223,7 +223,7 @@ Rectangle {
         }
 
         Connections {
-            target: PQCSettings // qmllint disable unqualified
+            target: PQCSettings
             function onThumbnailsSameHeightVaryWidthChanged() {
                 if(PQCSettings.thumbnailsSameHeightVaryWidth)
                     loadCacheBuffer.triggered()
@@ -235,7 +235,7 @@ Rectangle {
         }
 
         // some visual settings
-        spacing: PQCSettings.thumbnailsSpacing // qmllint disable unqualified
+        spacing: PQCSettings.thumbnailsSpacing
         boundsBehavior: smallerThanSize ? Flickable.StopAtBounds : Flickable.DragAndOvershootBounds
 
         /*************************************************************/
@@ -341,7 +341,7 @@ Rectangle {
                                : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
         highlightRangeMode: PQCSettings.thumbnailsCenterOnActive ? ListView.StrictlyEnforceRange : ListView.ApplyRange
 
-        maximumFlickVelocity: 5000 * Math.max(1, PQCSettings/250)
+        maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
 
         // bottom scroll bar
         PQHorizontalScrollBar {
