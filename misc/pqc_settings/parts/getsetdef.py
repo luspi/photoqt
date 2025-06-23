@@ -94,7 +94,7 @@ void PQCSettings::set{tab.capitalize()}{name}({qtdatatpe} val) {{
     }}
 }}
 
-{qtdatatpe} PQCSettings::getDefaultFor{tab.capitalize()}{name}() {{"""
+const {qtdatatpe} PQCSettings::getDefaultFor{tab.capitalize()}{name}() {{"""
 
             if datatype == "string":
                 cont += f"""
@@ -226,6 +226,18 @@ void PQCSettings::setDefaultFor{tab.capitalize()}{name}() {{"""
 
 
             cont += """
+}
+"""
+
+    cont += """
+QVariant PQCSettings::getDefaultForExtension(const QString &key) {
+
+    if(m_extensions_defaults.contains(key))
+        return m_extensions_defaults.value(key, "");
+
+    qWarning() << "Extension setting with this key not found:" << key;
+    return "";
+
 }
 """
 

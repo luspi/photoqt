@@ -152,7 +152,7 @@ Flickable {
 
             onResetToDefaults: {
 
-                var val = PQCScriptsConfig.getDefaultSettingValueFor("interfaceLanguage")
+                var val = PQCSettings.getDefaultForInterfaceLanguage()
 
                 var setindex = availableLanguages.indexOf("en")
                 if(availableLanguages.indexOf(val) !== -1)
@@ -283,17 +283,17 @@ Flickable {
 
             onResetToDefaults: {
 
-                var wmmode_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowMode")
-                var keeptop_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceKeepWindowOnTop")
-                var rememgeo_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceSaveWindowGeometry")
-                var wmdeco_val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowDecoration")
+                var wmmode_val = PQCSettings.getDefaultForInterfaceWindowMode()
+                var keeptop_val = PQCSettings.getDefaultForInterfaceKeepWindowOnTop()
+                var rememgeo_val = PQCSettings.getDefaultForInterfaceSaveWindowGeometry()
+                var wmdeco_val = PQCSettings.getDefaultForInterfaceWindowDecoration()
 
-                fsmode.checked = (wmmode_val==0)
-                wmmode.checked = (wmmode_val==1)
+                fsmode.checked = (wmmode_val===0)
+                wmmode.checked = (wmmode_val===1)
 
-                keeptop.checked = (keeptop_val==1)
-                rememgeo.checked = (rememgeo_val==1)
-                wmdeco_show.checked = (wmdeco_val==1)
+                keeptop.checked = (keeptop_val===1)
+                rememgeo.checked = (rememgeo_val===1)
+                wmdeco_show.checked = (wmdeco_val===1)
 
             }
 
@@ -843,19 +843,19 @@ Flickable {
 
             onResetToDefaults: {
 
-                integbut_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsShow") == 1)
-                butsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsSize"))
-                set_winbut.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsItems");
+                integbut_show.checked = PQCSettings.getDefaultForInterfaceWindowButtonsShow()
+                butsize.setValue(PQCSettings.getDefaultForInterfaceWindowButtonsSize())
+                set_winbut.curEntries = PQCSettings.getDefaultForInterfaceWindowButtonsItems()
                 populateModel()
 
-                wb_followaccent.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsFollowAccentColor") == 1)
+                wb_followaccent.checked = PQCSettings.getDefaultForInterfaceWindowButtonsFollowAccentColor()
 
-                var valAutoHide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHide")
-                var valAutoHideTop = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTopEdge")
-                var valAutoHideTimeout = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowButtonsAutoHideTimeout")
-                autohide_always.checked = (valAutoHide==0 && valAutoHideTop==0)
-                autohide_anymove.checked = (valAutoHide==1 && valAutoHideTop==0)
-                autohide_topedge.checked = (valAutoHideTop==1)
+                var valAutoHide = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHide()
+                var valAutoHideTop = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTopEdge()
+                var valAutoHideTimeout = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTimeout()
+                autohide_always.checked = (valAutoHide===0 && valAutoHideTop===0)
+                autohide_anymove.checked = (valAutoHide===1 && valAutoHideTop===0)
+                autohide_topedge.checked = (valAutoHideTop===1)
                 autohide_timeout.setValue(valAutoHideTimeout/1000)
 
             }
@@ -1106,16 +1106,16 @@ Flickable {
 
             onResetToDefaults: {
 
-                var valCol = PQCScriptsConfig.getDefaultSettingValueFor("interfaceAccentColor")+""
+                var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
 
                 accentcustom.color = valCol
                 var index = accentcolor.hexes.indexOf(valCol)
                 if(index === -1) index = accentcolor.options.length-1
                 accentcolor.currentIndex = index
 
-                var valOver = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundCustomOverlay")
-                bgaccentusecheck.checked = (valOver == 0)
-                bgcustomusecheck.checked = (valOver == 1)
+                var valOver = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
+                bgaccentusecheck.checked = (valOver === 0)
+                bgcustomusecheck.checked = (valOver === 1)
 
             }
 
@@ -1274,8 +1274,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                fw_normalslider.value = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFontNormalWeight")
-                fw_boldslider.value = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFontBoldWeight")
+                fw_normalslider.value = PQCSettings.getDefaultForInterfaceFontNormalWeight()
+                fw_boldslider.value = PQCSettings.getDefaultForInterfaceFontBoldWeight()
             }
 
             function handleEscape() {
@@ -1605,9 +1605,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                notif_grid.loc =  PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationLocation").toString()
-                notif_external.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationTryNative") == 1)
-                notif_dist.setValue(PQCScriptsConfig.getDefaultSettingValueFor("interfaceNotificationDistanceFromEdge"))
+                notif_grid.loc = PQCSettings.getDefaultForInterfaceNotificationLocation()
+                notif_external.checked = PQCSettings.getDefaultForInterfaceNotificationTryNative()
+                notif_dist.setValue(PQCSettings.getDefaultForInterfaceNotificationDistanceFromEdge())
             }
 
             function handleEscape() {

@@ -90,7 +90,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                spacing_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSpacing"))
+                spacing_slider.setValue(PQCSettings.getDefaultForThumbnailsSpacing())
             }
 
             function handleEscape() {
@@ -192,13 +192,13 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var val = PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimation").toString()
+                var val = PQCSettings.getDefaultForThumbnailsHighlightAnimation()
                 highlight_invertbg.checked = (val.includes("invertbg"))
                 highlight_invertlabel.checked = (val.includes("invertlabel"))
                 highlight_line.checked = (val.includes("line"))
                 highlight_magnify.checked = (val.includes("magnify"))
                 highlight_liftup_check.checked = (val.includes("liftup"))
-                highlight_liftup_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsHighlightAnimationLiftUp"))
+                highlight_liftup_slider.setValue(PQCSettings.getDefaultForThumbnailsHighlightAnimationLiftUp())
             }
 
             function handleEscape() {
@@ -270,7 +270,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                thumb_center.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCenterOnActive")==1)
+                thumb_center.checked = PQCSettings.getDefaultForThumbnailsCenterOnActive()
             }
 
             function handleEscape() {
@@ -333,7 +333,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsVisibility")
+                var val = PQCSettings.getDefaultForThumbnailsVisibility()
                 vis_needed.checked = (val===0)
                 vis_always.checked = (val===1)
                 vis_zoomed.checked = (val===2)

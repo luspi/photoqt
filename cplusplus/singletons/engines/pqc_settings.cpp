@@ -487,7 +487,7 @@ void PQCSettings::setFiledialogDetailsTooltip(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDetailsTooltip() {
+const bool PQCSettings::getDefaultForFiledialogDetailsTooltip() {
         return true;
 }
 
@@ -509,7 +509,7 @@ void PQCSettings::setFiledialogDevices(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDevices() {
+const bool PQCSettings::getDefaultForFiledialogDevices() {
         return false;
 }
 
@@ -532,7 +532,7 @@ void PQCSettings::setFiledialogDevicesShowTmpfs(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDevicesShowTmpfs() {
+const bool PQCSettings::getDefaultForFiledialogDevicesShowTmpfs() {
         return false;
 }
 
@@ -555,7 +555,7 @@ void PQCSettings::setFiledialogDragDropFileviewGrid(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDragDropFileviewGrid() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewGrid() {
         return false;
 }
 
@@ -577,7 +577,7 @@ void PQCSettings::setFiledialogDragDropFileviewList(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDragDropFileviewList() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewList() {
         return true;
 }
 
@@ -599,7 +599,7 @@ void PQCSettings::setFiledialogDragDropFileviewMasonry(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDragDropFileviewMasonry() {
+const bool PQCSettings::getDefaultForFiledialogDragDropFileviewMasonry() {
         return false;
 }
 
@@ -621,7 +621,7 @@ void PQCSettings::setFiledialogDragDropPlaces(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogDragDropPlaces() {
+const bool PQCSettings::getDefaultForFiledialogDragDropPlaces() {
         return true;
 }
 
@@ -643,7 +643,7 @@ void PQCSettings::setFiledialogElementPadding(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiledialogElementPadding() {
+const int PQCSettings::getDefaultForFiledialogElementPadding() {
         return 1;
 }
 
@@ -665,7 +665,7 @@ void PQCSettings::setFiledialogFolderContentThumbnails(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogFolderContentThumbnails() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnails() {
         return true;
 }
 
@@ -687,7 +687,7 @@ void PQCSettings::setFiledialogFolderContentThumbnailsAutoload(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsAutoload() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsAutoload() {
         return false;
 }
 
@@ -709,7 +709,7 @@ void PQCSettings::setFiledialogFolderContentThumbnailsLoop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsLoop() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsLoop() {
         return true;
 }
 
@@ -731,7 +731,7 @@ void PQCSettings::setFiledialogFolderContentThumbnailsScaleCrop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForFiledialogFolderContentThumbnailsScaleCrop() {
         return true;
 }
 
@@ -753,7 +753,7 @@ void PQCSettings::setFiledialogFolderContentThumbnailsSpeed(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
+const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
         return 2;
 }
 
@@ -775,7 +775,7 @@ void PQCSettings::setFiledialogKeepLastLocation(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogKeepLastLocation() {
+const bool PQCSettings::getDefaultForFiledialogKeepLastLocation() {
         return true;
 }
 
@@ -797,7 +797,7 @@ void PQCSettings::setFiledialogLabelsShowGrid(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogLabelsShowGrid() {
+const bool PQCSettings::getDefaultForFiledialogLabelsShowGrid() {
         return true;
 }
 
@@ -819,7 +819,7 @@ void PQCSettings::setFiledialogLabelsShowMasonry(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogLabelsShowMasonry() {
+const bool PQCSettings::getDefaultForFiledialogLabelsShowMasonry() {
         return false;
 }
 
@@ -841,7 +841,7 @@ void PQCSettings::setFiledialogLayout(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForFiledialogLayout() {
+const QString PQCSettings::getDefaultForFiledialogLayout() {
         return "grid";
 }
 
@@ -863,7 +863,7 @@ void PQCSettings::setFiledialogPlaces(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPlaces() {
+const bool PQCSettings::getDefaultForFiledialogPlaces() {
         return true;
 }
 
@@ -885,7 +885,7 @@ void PQCSettings::setFiledialogPlacesWidth(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiledialogPlacesWidth() {
+const int PQCSettings::getDefaultForFiledialogPlacesWidth() {
         return 290;
 }
 
@@ -907,7 +907,7 @@ void PQCSettings::setFiledialogPreview(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPreview() {
+const bool PQCSettings::getDefaultForFiledialogPreview() {
         return false;
 }
 
@@ -929,7 +929,7 @@ void PQCSettings::setFiledialogPreviewBlur(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPreviewBlur() {
+const bool PQCSettings::getDefaultForFiledialogPreviewBlur() {
         return false;
 }
 
@@ -951,7 +951,7 @@ void PQCSettings::setFiledialogPreviewColorIntensity(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() {
+const int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() {
         return 50;
 }
 
@@ -973,7 +973,7 @@ void PQCSettings::setFiledialogPreviewCropToFit(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPreviewCropToFit() {
+const bool PQCSettings::getDefaultForFiledialogPreviewCropToFit() {
         return true;
 }
 
@@ -995,7 +995,7 @@ void PQCSettings::setFiledialogPreviewHigherResolution(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPreviewHigherResolution() {
+const bool PQCSettings::getDefaultForFiledialogPreviewHigherResolution() {
         return false;
 }
 
@@ -1017,7 +1017,7 @@ void PQCSettings::setFiledialogPreviewMuted(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogPreviewMuted() {
+const bool PQCSettings::getDefaultForFiledialogPreviewMuted() {
         return false;
 }
 
@@ -1039,7 +1039,7 @@ void PQCSettings::setFiledialogRememberSelection(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogRememberSelection() {
+const bool PQCSettings::getDefaultForFiledialogRememberSelection() {
         return false;
 }
 
@@ -1063,7 +1063,7 @@ void PQCSettings::setFiledialogShowHiddenFilesFolders(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogShowHiddenFilesFolders() {
+const bool PQCSettings::getDefaultForFiledialogShowHiddenFilesFolders() {
         return false;
 }
 
@@ -1087,7 +1087,7 @@ void PQCSettings::setFiledialogSingleClickSelect(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogSingleClickSelect() {
+const bool PQCSettings::getDefaultForFiledialogSingleClickSelect() {
         return false;
 }
 
@@ -1109,7 +1109,7 @@ void PQCSettings::setFiledialogThumbnails(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogThumbnails() {
+const bool PQCSettings::getDefaultForFiledialogThumbnails() {
         return true;
 }
 
@@ -1131,7 +1131,7 @@ void PQCSettings::setFiledialogThumbnailsScaleCrop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiledialogThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForFiledialogThumbnailsScaleCrop() {
         return true;
 }
 
@@ -1153,7 +1153,7 @@ void PQCSettings::setFiledialogZoom(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiledialogZoom() {
+const int PQCSettings::getDefaultForFiledialogZoom() {
         return 40;
 }
 
@@ -1175,7 +1175,7 @@ void PQCSettings::setFiletypesAnimatedControls(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesAnimatedControls() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedControls() {
         return true;
 }
 
@@ -1197,7 +1197,7 @@ void PQCSettings::setFiletypesAnimatedLeftRight(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesAnimatedLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedLeftRight() {
         return false;
 }
 
@@ -1219,7 +1219,7 @@ void PQCSettings::setFiletypesAnimatedSpacePause(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesAnimatedSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesAnimatedSpacePause() {
         return true;
 }
 
@@ -1241,7 +1241,7 @@ void PQCSettings::setFiletypesArchiveControls(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesArchiveControls() {
+const bool PQCSettings::getDefaultForFiletypesArchiveControls() {
         return true;
 }
 
@@ -1263,7 +1263,7 @@ void PQCSettings::setFiletypesArchiveLeftRight(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesArchiveLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesArchiveLeftRight() {
         return false;
 }
 
@@ -1285,7 +1285,7 @@ void PQCSettings::setFiletypesDocumentControls(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesDocumentControls() {
+const bool PQCSettings::getDefaultForFiletypesDocumentControls() {
         return true;
 }
 
@@ -1307,7 +1307,7 @@ void PQCSettings::setFiletypesDocumentLeftRight(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesDocumentLeftRight() {
+const bool PQCSettings::getDefaultForFiletypesDocumentLeftRight() {
         return false;
 }
 
@@ -1330,7 +1330,7 @@ void PQCSettings::setFiletypesExternalUnrar(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesExternalUnrar() {
+const bool PQCSettings::getDefaultForFiletypesExternalUnrar() {
         return false;
 }
 
@@ -1354,7 +1354,7 @@ void PQCSettings::setFiletypesLoadAppleLivePhotos(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesLoadAppleLivePhotos() {
+const bool PQCSettings::getDefaultForFiletypesLoadAppleLivePhotos() {
         return true;
 }
 
@@ -1378,7 +1378,7 @@ void PQCSettings::setFiletypesLoadMotionPhotos(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesLoadMotionPhotos() {
+const bool PQCSettings::getDefaultForFiletypesLoadMotionPhotos() {
         return true;
 }
 
@@ -1401,7 +1401,7 @@ void PQCSettings::setFiletypesMotionAutoPlay(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesMotionAutoPlay() {
+const bool PQCSettings::getDefaultForFiletypesMotionAutoPlay() {
         return true;
 }
 
@@ -1423,7 +1423,7 @@ void PQCSettings::setFiletypesMotionPhotoPlayPause(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesMotionPhotoPlayPause() {
+const bool PQCSettings::getDefaultForFiletypesMotionPhotoPlayPause() {
         return true;
 }
 
@@ -1445,7 +1445,7 @@ void PQCSettings::setFiletypesMotionSpacePause(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesMotionSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesMotionSpacePause() {
         return true;
 }
 
@@ -1468,7 +1468,7 @@ void PQCSettings::setFiletypesPDFQuality(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiletypesPDFQuality() {
+const int PQCSettings::getDefaultForFiletypesPDFQuality() {
         return 150;
 }
 
@@ -1491,7 +1491,7 @@ void PQCSettings::setFiletypesPhotoSphereArrowKeys(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesPhotoSphereArrowKeys() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereArrowKeys() {
         return false;
 }
 
@@ -1513,7 +1513,7 @@ void PQCSettings::setFiletypesPhotoSphereAutoLoad(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesPhotoSphereAutoLoad() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereAutoLoad() {
         return true;
 }
 
@@ -1535,7 +1535,7 @@ void PQCSettings::setFiletypesPhotoSphereBigButton(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesPhotoSphereBigButton() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereBigButton() {
         return false;
 }
 
@@ -1557,7 +1557,7 @@ void PQCSettings::setFiletypesPhotoSphereControls(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesPhotoSphereControls() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSphereControls() {
         return false;
 }
 
@@ -1579,7 +1579,7 @@ void PQCSettings::setFiletypesPhotoSpherePanOnLoad(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesPhotoSpherePanOnLoad() {
+const bool PQCSettings::getDefaultForFiletypesPhotoSpherePanOnLoad() {
         return true;
 }
 
@@ -1602,7 +1602,7 @@ void PQCSettings::setFiletypesRAWUseEmbeddedIfAvailable(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
+const bool PQCSettings::getDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
         return true;
 }
 
@@ -1625,7 +1625,7 @@ void PQCSettings::setFiletypesVideoAutoplay(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesVideoAutoplay() {
+const bool PQCSettings::getDefaultForFiletypesVideoAutoplay() {
         return true;
 }
 
@@ -1647,7 +1647,7 @@ void PQCSettings::setFiletypesVideoLeftRightJumpVideo(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesVideoLeftRightJumpVideo() {
+const bool PQCSettings::getDefaultForFiletypesVideoLeftRightJumpVideo() {
         return false;
 }
 
@@ -1669,7 +1669,7 @@ void PQCSettings::setFiletypesVideoLoop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesVideoLoop() {
+const bool PQCSettings::getDefaultForFiletypesVideoLoop() {
         return false;
 }
 
@@ -1692,7 +1692,7 @@ void PQCSettings::setFiletypesVideoPreferLibmpv(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesVideoPreferLibmpv() {
+const bool PQCSettings::getDefaultForFiletypesVideoPreferLibmpv() {
         return true;
 }
 
@@ -1715,7 +1715,7 @@ void PQCSettings::setFiletypesVideoSpacePause(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForFiletypesVideoSpacePause() {
+const bool PQCSettings::getDefaultForFiletypesVideoSpacePause() {
         return true;
 }
 
@@ -1738,7 +1738,7 @@ void PQCSettings::setFiletypesVideoThumbnailer(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForFiletypesVideoThumbnailer() {
+const QString PQCSettings::getDefaultForFiletypesVideoThumbnailer() {
         return "ffmpegthumbnailer";
 }
 
@@ -1761,7 +1761,7 @@ void PQCSettings::setFiletypesVideoVolume(int val) {
     }
 }
 
-int PQCSettings::getDefaultForFiletypesVideoVolume() {
+const int PQCSettings::getDefaultForFiletypesVideoVolume() {
         return 100;
 }
 
@@ -1783,7 +1783,7 @@ void PQCSettings::setGeneralAutoSaveSettings(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForGeneralAutoSaveSettings() {
+const bool PQCSettings::getDefaultForGeneralAutoSaveSettings() {
         return false;
 }
 
@@ -1805,7 +1805,7 @@ void PQCSettings::setGeneralCompactSettings(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForGeneralCompactSettings() {
+const bool PQCSettings::getDefaultForGeneralCompactSettings() {
         return false;
 }
 
@@ -1827,7 +1827,7 @@ void PQCSettings::setGeneralVersion(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForGeneralVersion() {
+const QString PQCSettings::getDefaultForGeneralVersion() {
         return "";
 }
 
@@ -1850,7 +1850,7 @@ void PQCSettings::setImageviewAdvancedSortAscending(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewAdvancedSortAscending() {
+const bool PQCSettings::getDefaultForImageviewAdvancedSortAscending() {
         return true;
 }
 
@@ -1874,7 +1874,7 @@ void PQCSettings::setImageviewAdvancedSortCriteria(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForImageviewAdvancedSortCriteria() {
+const QString PQCSettings::getDefaultForImageviewAdvancedSortCriteria() {
         return "resolution";
 }
 
@@ -1898,7 +1898,7 @@ void PQCSettings::setImageviewAdvancedSortDateCriteria(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForImageviewAdvancedSortDateCriteria() {
+const QStringList PQCSettings::getDefaultForImageviewAdvancedSortDateCriteria() {
         return QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
 }
 
@@ -1923,7 +1923,7 @@ void PQCSettings::setImageviewAdvancedSortQuality(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForImageviewAdvancedSortQuality() {
+const QString PQCSettings::getDefaultForImageviewAdvancedSortQuality() {
         return "medium";
 }
 
@@ -1946,7 +1946,7 @@ void PQCSettings::setImageviewAlwaysActualSize(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewAlwaysActualSize() {
+const bool PQCSettings::getDefaultForImageviewAlwaysActualSize() {
         return false;
 }
 
@@ -1968,7 +1968,7 @@ void PQCSettings::setImageviewAnimationDuration(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewAnimationDuration() {
+const int PQCSettings::getDefaultForImageviewAnimationDuration() {
         return 3;
 }
 
@@ -1990,7 +1990,7 @@ void PQCSettings::setImageviewAnimationType(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForImageviewAnimationType() {
+const QString PQCSettings::getDefaultForImageviewAnimationType() {
         return "opacity";
 }
 
@@ -2013,7 +2013,7 @@ void PQCSettings::setImageviewCache(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewCache() {
+const int PQCSettings::getDefaultForImageviewCache() {
         return 512;
 }
 
@@ -2036,7 +2036,7 @@ void PQCSettings::setImageviewColorSpaceContextMenu(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForImageviewColorSpaceContextMenu() {
+const QStringList PQCSettings::getDefaultForImageviewColorSpaceContextMenu() {
         return QStringList() << "::0" << "::1" << "::2" << "::3" << "::4";
 }
 
@@ -2060,7 +2060,7 @@ void PQCSettings::setImageviewColorSpaceDefault(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForImageviewColorSpaceDefault() {
+const QString PQCSettings::getDefaultForImageviewColorSpaceDefault() {
         return "";
 }
 
@@ -2084,7 +2084,7 @@ void PQCSettings::setImageviewColorSpaceEnable(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewColorSpaceEnable() {
+const bool PQCSettings::getDefaultForImageviewColorSpaceEnable() {
         return true;
 }
 
@@ -2108,7 +2108,7 @@ void PQCSettings::setImageviewColorSpaceLoadEmbedded(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewColorSpaceLoadEmbedded() {
+const bool PQCSettings::getDefaultForImageviewColorSpaceLoadEmbedded() {
         return true;
 }
 
@@ -2131,7 +2131,7 @@ void PQCSettings::setImageviewEscapeExitArchive(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewEscapeExitArchive() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitArchive() {
         return true;
 }
 
@@ -2153,7 +2153,7 @@ void PQCSettings::setImageviewEscapeExitBarcodes(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewEscapeExitBarcodes() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitBarcodes() {
         return true;
 }
 
@@ -2175,7 +2175,7 @@ void PQCSettings::setImageviewEscapeExitDocument(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewEscapeExitDocument() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitDocument() {
         return true;
 }
 
@@ -2197,7 +2197,7 @@ void PQCSettings::setImageviewEscapeExitFilter(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewEscapeExitFilter() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitFilter() {
         return true;
 }
 
@@ -2219,7 +2219,7 @@ void PQCSettings::setImageviewEscapeExitSphere(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewEscapeExitSphere() {
+const bool PQCSettings::getDefaultForImageviewEscapeExitSphere() {
         return true;
 }
 
@@ -2242,7 +2242,7 @@ void PQCSettings::setImageviewFitInWindow(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewFitInWindow() {
+const bool PQCSettings::getDefaultForImageviewFitInWindow() {
         return false;
 }
 
@@ -2265,7 +2265,7 @@ void PQCSettings::setImageviewHideCursorTimeout(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewHideCursorTimeout() {
+const int PQCSettings::getDefaultForImageviewHideCursorTimeout() {
         return 1;
 }
 
@@ -2287,7 +2287,7 @@ void PQCSettings::setImageviewInterpolationDisableForSmallImages(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewInterpolationDisableForSmallImages() {
+const bool PQCSettings::getDefaultForImageviewInterpolationDisableForSmallImages() {
         return true;
 }
 
@@ -2309,7 +2309,7 @@ void PQCSettings::setImageviewInterpolationThreshold(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewInterpolationThreshold() {
+const int PQCSettings::getDefaultForImageviewInterpolationThreshold() {
         return 100;
 }
 
@@ -2331,7 +2331,7 @@ void PQCSettings::setImageviewLoopThroughFolder(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewLoopThroughFolder() {
+const bool PQCSettings::getDefaultForImageviewLoopThroughFolder() {
         return true;
 }
 
@@ -2353,7 +2353,7 @@ void PQCSettings::setImageviewMargin(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewMargin() {
+const int PQCSettings::getDefaultForImageviewMargin() {
         return 5;
 }
 
@@ -2375,7 +2375,7 @@ void PQCSettings::setImageviewMinimapSizeLevel(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewMinimapSizeLevel() {
+const int PQCSettings::getDefaultForImageviewMinimapSizeLevel() {
         return 0;
 }
 
@@ -2397,7 +2397,7 @@ void PQCSettings::setImageviewMirrorAnimate(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewMirrorAnimate() {
+const bool PQCSettings::getDefaultForImageviewMirrorAnimate() {
         return true;
 }
 
@@ -2419,7 +2419,7 @@ void PQCSettings::setImageviewPreloadInBackground(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewPreloadInBackground() {
+const int PQCSettings::getDefaultForImageviewPreloadInBackground() {
         return 1;
 }
 
@@ -2441,7 +2441,7 @@ void PQCSettings::setImageviewPreserveMirror(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewPreserveMirror() {
+const bool PQCSettings::getDefaultForImageviewPreserveMirror() {
         return false;
 }
 
@@ -2463,7 +2463,7 @@ void PQCSettings::setImageviewPreserveRotation(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewPreserveRotation() {
+const bool PQCSettings::getDefaultForImageviewPreserveRotation() {
         return false;
 }
 
@@ -2485,7 +2485,7 @@ void PQCSettings::setImageviewPreserveZoom(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewPreserveZoom() {
+const bool PQCSettings::getDefaultForImageviewPreserveZoom() {
         return false;
 }
 
@@ -2507,7 +2507,7 @@ void PQCSettings::setImageviewRememberZoomRotationMirror(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewRememberZoomRotationMirror() {
+const bool PQCSettings::getDefaultForImageviewRememberZoomRotationMirror() {
         return false;
 }
 
@@ -2529,7 +2529,7 @@ void PQCSettings::setImageviewResetViewAutoHideTimeout(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() {
+const int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() {
         return 1000;
 }
 
@@ -2551,7 +2551,7 @@ void PQCSettings::setImageviewResetViewShow(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewResetViewShow() {
+const bool PQCSettings::getDefaultForImageviewResetViewShow() {
         return false;
 }
 
@@ -2574,7 +2574,7 @@ void PQCSettings::setImageviewRespectDevicePixelRatio(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewRespectDevicePixelRatio() {
+const bool PQCSettings::getDefaultForImageviewRespectDevicePixelRatio() {
         return true;
 }
 
@@ -2597,7 +2597,7 @@ void PQCSettings::setImageviewShowMinimap(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewShowMinimap() {
+const bool PQCSettings::getDefaultForImageviewShowMinimap() {
         return true;
 }
 
@@ -2621,7 +2621,7 @@ void PQCSettings::setImageviewSortImagesAscending(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewSortImagesAscending() {
+const bool PQCSettings::getDefaultForImageviewSortImagesAscending() {
         return true;
 }
 
@@ -2647,7 +2647,7 @@ void PQCSettings::setImageviewSortImagesBy(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForImageviewSortImagesBy() {
+const QString PQCSettings::getDefaultForImageviewSortImagesBy() {
         return "naturalname";
 }
 
@@ -2671,7 +2671,7 @@ void PQCSettings::setImageviewTransparencyMarker(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewTransparencyMarker() {
+const bool PQCSettings::getDefaultForImageviewTransparencyMarker() {
         return false;
 }
 
@@ -2693,7 +2693,7 @@ void PQCSettings::setImageviewUseMouseLeftButtonForImageMove(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewUseMouseLeftButtonForImageMove() {
+const bool PQCSettings::getDefaultForImageviewUseMouseLeftButtonForImageMove() {
         return true;
 }
 
@@ -2715,7 +2715,7 @@ void PQCSettings::setImageviewUseMouseWheelForImageMove(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewUseMouseWheelForImageMove() {
+const bool PQCSettings::getDefaultForImageviewUseMouseWheelForImageMove() {
         return false;
 }
 
@@ -2737,7 +2737,7 @@ void PQCSettings::setImageviewZoomMax(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewZoomMax() {
+const int PQCSettings::getDefaultForImageviewZoomMax() {
         return 500;
 }
 
@@ -2759,7 +2759,7 @@ void PQCSettings::setImageviewZoomMaxEnabled(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewZoomMaxEnabled() {
+const bool PQCSettings::getDefaultForImageviewZoomMaxEnabled() {
         return true;
 }
 
@@ -2781,7 +2781,7 @@ void PQCSettings::setImageviewZoomMin(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewZoomMin() {
+const int PQCSettings::getDefaultForImageviewZoomMin() {
         return 20;
 }
 
@@ -2803,7 +2803,7 @@ void PQCSettings::setImageviewZoomMinEnabled(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewZoomMinEnabled() {
+const bool PQCSettings::getDefaultForImageviewZoomMinEnabled() {
         return true;
 }
 
@@ -2825,7 +2825,7 @@ void PQCSettings::setImageviewZoomSpeed(int val) {
     }
 }
 
-int PQCSettings::getDefaultForImageviewZoomSpeed() {
+const int PQCSettings::getDefaultForImageviewZoomSpeed() {
         return 20;
 }
 
@@ -2847,7 +2847,7 @@ void PQCSettings::setImageviewZoomSpeedRelative(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewZoomSpeedRelative() {
+const bool PQCSettings::getDefaultForImageviewZoomSpeedRelative() {
         return true;
 }
 
@@ -2869,7 +2869,7 @@ void PQCSettings::setImageviewZoomToCenter(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForImageviewZoomToCenter() {
+const bool PQCSettings::getDefaultForImageviewZoomToCenter() {
         return false;
 }
 
@@ -2893,7 +2893,7 @@ void PQCSettings::setInterfaceAccentColor(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceAccentColor() {
+const QString PQCSettings::getDefaultForInterfaceAccentColor() {
         return "#222222";
 }
 
@@ -2917,7 +2917,7 @@ void PQCSettings::setInterfaceAllowMultipleInstances(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceAllowMultipleInstances() {
+const bool PQCSettings::getDefaultForInterfaceAllowMultipleInstances() {
         return false;
 }
 
@@ -2939,7 +2939,7 @@ void PQCSettings::setInterfaceBackgroundCustomOverlay(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundCustomOverlay() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundCustomOverlay() {
         return false;
 }
 
@@ -2961,7 +2961,7 @@ void PQCSettings::setInterfaceBackgroundCustomOverlayColor(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceBackgroundCustomOverlayColor() {
+const QString PQCSettings::getDefaultForInterfaceBackgroundCustomOverlayColor() {
         return "";
 }
 
@@ -2983,7 +2983,7 @@ void PQCSettings::setInterfaceBackgroundFullyTransparent(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundFullyTransparent() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundFullyTransparent() {
         return false;
 }
 
@@ -3005,7 +3005,7 @@ void PQCSettings::setInterfaceBackgroundImageCenter(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageCenter() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageCenter() {
         return false;
 }
 
@@ -3027,7 +3027,7 @@ void PQCSettings::setInterfaceBackgroundImagePath(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceBackgroundImagePath() {
+const QString PQCSettings::getDefaultForInterfaceBackgroundImagePath() {
         return "";
 }
 
@@ -3049,7 +3049,7 @@ void PQCSettings::setInterfaceBackgroundImageScale(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageScale() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScale() {
         return true;
 }
 
@@ -3071,7 +3071,7 @@ void PQCSettings::setInterfaceBackgroundImageScaleCrop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageScaleCrop() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScaleCrop() {
         return false;
 }
 
@@ -3093,7 +3093,7 @@ void PQCSettings::setInterfaceBackgroundImageScreenshot(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageScreenshot() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageScreenshot() {
         return false;
 }
 
@@ -3115,7 +3115,7 @@ void PQCSettings::setInterfaceBackgroundImageStretch(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageStretch() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageStretch() {
         return false;
 }
 
@@ -3137,7 +3137,7 @@ void PQCSettings::setInterfaceBackgroundImageTile(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageTile() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageTile() {
         return false;
 }
 
@@ -3159,7 +3159,7 @@ void PQCSettings::setInterfaceBackgroundImageUse(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundImageUse() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundImageUse() {
         return false;
 }
 
@@ -3181,7 +3181,7 @@ void PQCSettings::setInterfaceBackgroundSolid(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBackgroundSolid() {
+const bool PQCSettings::getDefaultForInterfaceBackgroundSolid() {
         return false;
 }
 
@@ -3203,7 +3203,7 @@ void PQCSettings::setInterfaceBlurElementsInBackground(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceBlurElementsInBackground() {
+const bool PQCSettings::getDefaultForInterfaceBlurElementsInBackground() {
         return true;
 }
 
@@ -3225,7 +3225,7 @@ void PQCSettings::setInterfaceCloseOnEmptyBackground(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceCloseOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceCloseOnEmptyBackground() {
         return false;
 }
 
@@ -3247,7 +3247,7 @@ void PQCSettings::setInterfaceDoubleClickThreshold(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() {
+const int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() {
         return 300;
 }
 
@@ -3269,7 +3269,7 @@ void PQCSettings::setInterfaceEdgeBottomAction(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceEdgeBottomAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeBottomAction() {
         return "thumbnails";
 }
 
@@ -3291,7 +3291,7 @@ void PQCSettings::setInterfaceEdgeLeftAction(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceEdgeLeftAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeLeftAction() {
         return "metadata";
 }
 
@@ -3313,7 +3313,7 @@ void PQCSettings::setInterfaceEdgeRightAction(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceEdgeRightAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeRightAction() {
         return "mainmenu";
 }
 
@@ -3335,7 +3335,7 @@ void PQCSettings::setInterfaceEdgeTopAction(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceEdgeTopAction() {
+const QString PQCSettings::getDefaultForInterfaceEdgeTopAction() {
         return "";
 }
 
@@ -3357,7 +3357,7 @@ void PQCSettings::setInterfaceFlickAdjustSpeed(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() {
+const bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() {
         return false;
 }
 
@@ -3379,7 +3379,7 @@ void PQCSettings::setInterfaceFlickAdjustSpeedSpeedup(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
+const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
         return 2;
 }
 
@@ -3403,7 +3403,7 @@ void PQCSettings::setInterfaceFontBoldWeight(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceFontBoldWeight() {
+const int PQCSettings::getDefaultForInterfaceFontBoldWeight() {
         return 700;
 }
 
@@ -3429,7 +3429,7 @@ void PQCSettings::setInterfaceFontNormalWeight(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceFontNormalWeight() {
+const int PQCSettings::getDefaultForInterfaceFontNormalWeight() {
         return 400;
 }
 
@@ -3453,7 +3453,7 @@ void PQCSettings::setInterfaceHotEdgeSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceHotEdgeSize() {
+const int PQCSettings::getDefaultForInterfaceHotEdgeSize() {
         return 4;
 }
 
@@ -3475,7 +3475,7 @@ void PQCSettings::setInterfaceKeepWindowOnTop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceKeepWindowOnTop() {
+const bool PQCSettings::getDefaultForInterfaceKeepWindowOnTop() {
         return false;
 }
 
@@ -3498,7 +3498,7 @@ void PQCSettings::setInterfaceLanguage(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceLanguage() {
+const QString PQCSettings::getDefaultForInterfaceLanguage() {
         return "en";
 }
 
@@ -3521,7 +3521,7 @@ void PQCSettings::setInterfaceMinimapPopout(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceMinimapPopout() {
+const bool PQCSettings::getDefaultForInterfaceMinimapPopout() {
         return false;
 }
 
@@ -3543,7 +3543,7 @@ void PQCSettings::setInterfaceNavigateOnEmptyBackground(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceNavigateOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceNavigateOnEmptyBackground() {
         return false;
 }
 
@@ -3565,7 +3565,7 @@ void PQCSettings::setInterfaceNavigationFloating(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceNavigationFloating() {
+const bool PQCSettings::getDefaultForInterfaceNavigationFloating() {
         return false;
 }
 
@@ -3587,7 +3587,7 @@ void PQCSettings::setInterfaceNotificationDistanceFromEdge(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() {
+const int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() {
         return 40;
 }
 
@@ -3609,7 +3609,7 @@ void PQCSettings::setInterfaceNotificationLocation(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceNotificationLocation() {
+const QString PQCSettings::getDefaultForInterfaceNotificationLocation() {
         return "center";
 }
 
@@ -3631,7 +3631,7 @@ void PQCSettings::setInterfaceNotificationTryNative(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceNotificationTryNative() {
+const bool PQCSettings::getDefaultForInterfaceNotificationTryNative() {
         return true;
 }
 
@@ -3653,7 +3653,7 @@ void PQCSettings::setInterfacePopoutAbout(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutAbout() {
+const bool PQCSettings::getDefaultForInterfacePopoutAbout() {
         return false;
 }
 
@@ -3675,7 +3675,7 @@ void PQCSettings::setInterfacePopoutAdvancedSort(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutAdvancedSort() {
+const bool PQCSettings::getDefaultForInterfacePopoutAdvancedSort() {
         return true;
 }
 
@@ -3697,7 +3697,7 @@ void PQCSettings::setInterfacePopoutChromecast(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutChromecast() {
+const bool PQCSettings::getDefaultForInterfacePopoutChromecast() {
         return true;
 }
 
@@ -3719,7 +3719,7 @@ void PQCSettings::setInterfacePopoutExport(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutExport() {
+const bool PQCSettings::getDefaultForInterfacePopoutExport() {
         return true;
 }
 
@@ -3741,7 +3741,7 @@ void PQCSettings::setInterfacePopoutFileDelete(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutFileDelete() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDelete() {
         return false;
 }
 
@@ -3763,7 +3763,7 @@ void PQCSettings::setInterfacePopoutFileDialog(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutFileDialog() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDialog() {
         return false;
 }
 
@@ -3785,7 +3785,7 @@ void PQCSettings::setInterfacePopoutFileDialogNonModal(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutFileDialogNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileDialogNonModal() {
         return false;
 }
 
@@ -3807,7 +3807,7 @@ void PQCSettings::setInterfacePopoutFileRename(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutFileRename() {
+const bool PQCSettings::getDefaultForInterfacePopoutFileRename() {
         return false;
 }
 
@@ -3829,7 +3829,7 @@ void PQCSettings::setInterfacePopoutFilter(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutFilter() {
+const bool PQCSettings::getDefaultForInterfacePopoutFilter() {
         return false;
 }
 
@@ -3851,7 +3851,7 @@ void PQCSettings::setInterfacePopoutImgur(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutImgur() {
+const bool PQCSettings::getDefaultForInterfacePopoutImgur() {
         return true;
 }
 
@@ -3873,7 +3873,7 @@ void PQCSettings::setInterfacePopoutMainMenu(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutMainMenu() {
+const bool PQCSettings::getDefaultForInterfacePopoutMainMenu() {
         return false;
 }
 
@@ -3895,7 +3895,7 @@ void PQCSettings::setInterfacePopoutMapExplorer(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutMapExplorer() {
+const bool PQCSettings::getDefaultForInterfacePopoutMapExplorer() {
         return true;
 }
 
@@ -3917,7 +3917,7 @@ void PQCSettings::setInterfacePopoutMapExplorerNonModal(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutMapExplorerNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutMapExplorerNonModal() {
         return false;
 }
 
@@ -3939,7 +3939,7 @@ void PQCSettings::setInterfacePopoutMetadata(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutMetadata() {
+const bool PQCSettings::getDefaultForInterfacePopoutMetadata() {
         return false;
 }
 
@@ -3961,7 +3961,7 @@ void PQCSettings::setInterfacePopoutSettingsManager(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutSettingsManager() {
+const bool PQCSettings::getDefaultForInterfacePopoutSettingsManager() {
         return false;
 }
 
@@ -3983,7 +3983,7 @@ void PQCSettings::setInterfacePopoutSettingsManagerNonModal(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutSettingsManagerNonModal() {
+const bool PQCSettings::getDefaultForInterfacePopoutSettingsManagerNonModal() {
         return false;
 }
 
@@ -4005,7 +4005,7 @@ void PQCSettings::setInterfacePopoutSlideshowControls(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutSlideshowControls() {
+const bool PQCSettings::getDefaultForInterfacePopoutSlideshowControls() {
         return false;
 }
 
@@ -4027,7 +4027,7 @@ void PQCSettings::setInterfacePopoutSlideshowSetup(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutSlideshowSetup() {
+const bool PQCSettings::getDefaultForInterfacePopoutSlideshowSetup() {
         return true;
 }
 
@@ -4050,7 +4050,7 @@ void PQCSettings::setInterfacePopoutWhenWindowIsSmall(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfacePopoutWhenWindowIsSmall() {
+const bool PQCSettings::getDefaultForInterfacePopoutWhenWindowIsSmall() {
         return true;
 }
 
@@ -4073,7 +4073,7 @@ void PQCSettings::setInterfaceQuickActions(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceQuickActions() {
+const bool PQCSettings::getDefaultForInterfaceQuickActions() {
         return false;
 }
 
@@ -4095,7 +4095,7 @@ void PQCSettings::setInterfaceQuickActionsHeight(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceQuickActionsHeight() {
+const int PQCSettings::getDefaultForInterfaceQuickActionsHeight() {
         return 40;
 }
 
@@ -4117,7 +4117,7 @@ void PQCSettings::setInterfaceQuickActionsItems(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForInterfaceQuickActionsItems() {
+const QStringList PQCSettings::getDefaultForInterfaceQuickActionsItems() {
         return QStringList() << "rename" << "delete" << "|" << "rotateleft" << "rotateright" << "mirrorhor" << "mirrorver" << "|" << "crop" << "scale" << "|" << "close";
 }
 
@@ -4140,7 +4140,7 @@ void PQCSettings::setInterfaceRememberLastImage(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceRememberLastImage() {
+const bool PQCSettings::getDefaultForInterfaceRememberLastImage() {
         return false;
 }
 
@@ -4162,7 +4162,7 @@ void PQCSettings::setInterfaceSaveWindowGeometry(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceSaveWindowGeometry() {
+const bool PQCSettings::getDefaultForInterfaceSaveWindowGeometry() {
         return false;
 }
 
@@ -4184,7 +4184,7 @@ void PQCSettings::setInterfaceStatusInfoAutoHide(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHide() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHide() {
         return false;
 }
 
@@ -4206,7 +4206,7 @@ void PQCSettings::setInterfaceStatusInfoAutoHideTimeout(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() {
+const int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() {
         return 1000;
 }
 
@@ -4228,7 +4228,7 @@ void PQCSettings::setInterfaceStatusInfoAutoHideTopEdge(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTopEdge() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTopEdge() {
         return false;
 }
 
@@ -4250,7 +4250,7 @@ void PQCSettings::setInterfaceStatusInfoFontSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() {
+const int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() {
         return 10;
 }
 
@@ -4272,7 +4272,7 @@ void PQCSettings::setInterfaceStatusInfoList(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForInterfaceStatusInfoList() {
+const QStringList PQCSettings::getDefaultForInterfaceStatusInfoList() {
         return QStringList() << "counter" << "filename" << "zoom" << "rotation";
 }
 
@@ -4295,7 +4295,7 @@ void PQCSettings::setInterfaceStatusInfoManageWindow(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceStatusInfoManageWindow() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoManageWindow() {
         return false;
 }
 
@@ -4317,7 +4317,7 @@ void PQCSettings::setInterfaceStatusInfoPosition(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForInterfaceStatusInfoPosition() {
+const QString PQCSettings::getDefaultForInterfaceStatusInfoPosition() {
         return "left";
 }
 
@@ -4339,7 +4339,7 @@ void PQCSettings::setInterfaceStatusInfoShow(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceStatusInfoShow() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoShow() {
         return true;
 }
 
@@ -4361,7 +4361,7 @@ void PQCSettings::setInterfaceStatusInfoShowImageChange(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceStatusInfoShowImageChange() {
+const bool PQCSettings::getDefaultForInterfaceStatusInfoShowImageChange() {
         return true;
 }
 
@@ -4383,7 +4383,7 @@ void PQCSettings::setInterfaceTrayIcon(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceTrayIcon() {
+const int PQCSettings::getDefaultForInterfaceTrayIcon() {
         return 0;
 }
 
@@ -4405,7 +4405,7 @@ void PQCSettings::setInterfaceTrayIconHideReset(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceTrayIconHideReset() {
+const bool PQCSettings::getDefaultForInterfaceTrayIconHideReset() {
         return false;
 }
 
@@ -4427,7 +4427,7 @@ void PQCSettings::setInterfaceTrayIconMonochrome(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceTrayIconMonochrome() {
+const bool PQCSettings::getDefaultForInterfaceTrayIconMonochrome() {
         return true;
 }
 
@@ -4449,7 +4449,7 @@ void PQCSettings::setInterfaceWindowButtonsAutoHide(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHide() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHide() {
         return false;
 }
 
@@ -4471,7 +4471,7 @@ void PQCSettings::setInterfaceWindowButtonsAutoHideTimeout(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() {
+const int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() {
         return 1000;
 }
 
@@ -4493,7 +4493,7 @@ void PQCSettings::setInterfaceWindowButtonsAutoHideTopEdge(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTopEdge() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTopEdge() {
         return false;
 }
 
@@ -4515,7 +4515,7 @@ void PQCSettings::setInterfaceWindowButtonsFollowAccentColor(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowButtonsFollowAccentColor() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsFollowAccentColor() {
         return false;
 }
 
@@ -4537,7 +4537,7 @@ void PQCSettings::setInterfaceWindowButtonsItems(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForInterfaceWindowButtonsItems() {
+const QStringList PQCSettings::getDefaultForInterfaceWindowButtonsItems() {
         return QStringList() << "left_0|0|0" << "right_0|0|0" << "menu_0|0|0" << "ontop_0|1|1" << "fullscreen_0|0|1";
 }
 
@@ -4560,7 +4560,7 @@ void PQCSettings::setInterfaceWindowButtonsShow(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowButtonsShow() {
+const bool PQCSettings::getDefaultForInterfaceWindowButtonsShow() {
         return true;
 }
 
@@ -4582,7 +4582,7 @@ void PQCSettings::setInterfaceWindowButtonsSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForInterfaceWindowButtonsSize() {
+const int PQCSettings::getDefaultForInterfaceWindowButtonsSize() {
         return 10;
 }
 
@@ -4604,7 +4604,7 @@ void PQCSettings::setInterfaceWindowDecoration(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowDecoration() {
+const bool PQCSettings::getDefaultForInterfaceWindowDecoration() {
         return true;
 }
 
@@ -4626,7 +4626,7 @@ void PQCSettings::setInterfaceWindowDecorationOnEmptyBackground(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowDecorationOnEmptyBackground() {
+const bool PQCSettings::getDefaultForInterfaceWindowDecorationOnEmptyBackground() {
         return false;
 }
 
@@ -4648,7 +4648,7 @@ void PQCSettings::setInterfaceWindowMode(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForInterfaceWindowMode() {
+const bool PQCSettings::getDefaultForInterfaceWindowMode() {
         return true;
 }
 
@@ -4670,7 +4670,7 @@ void PQCSettings::setMainmenuElementHeightDynamic(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMainmenuElementHeightDynamic() {
+const bool PQCSettings::getDefaultForMainmenuElementHeightDynamic() {
         return true;
 }
 
@@ -4692,7 +4692,7 @@ void PQCSettings::setMainmenuElementPosition(QPoint val) {
     }
 }
 
-QPoint PQCSettings::getDefaultForMainmenuElementPosition() {
+const QPoint PQCSettings::getDefaultForMainmenuElementPosition() {
         return QPoint(100, 100);
 }
 
@@ -4714,7 +4714,7 @@ void PQCSettings::setMainmenuElementSize(QSize val) {
     }
 }
 
-QSize PQCSettings::getDefaultForMainmenuElementSize() {
+const QSize PQCSettings::getDefaultForMainmenuElementSize() {
         return QSize(450, 900);
 }
 
@@ -4736,7 +4736,7 @@ void PQCSettings::setMainmenuElementWidth(int val) {
     }
 }
 
-int PQCSettings::getDefaultForMainmenuElementWidth() {
+const int PQCSettings::getDefaultForMainmenuElementWidth() {
         return 450;
 }
 
@@ -4758,7 +4758,7 @@ void PQCSettings::setMainmenuShowExternal(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMainmenuShowExternal() {
+const bool PQCSettings::getDefaultForMainmenuShowExternal() {
         return false;
 }
 
@@ -4780,7 +4780,7 @@ void PQCSettings::setMapviewCurrentPosition(QPoint val) {
     }
 }
 
-QPoint PQCSettings::getDefaultForMapviewCurrentPosition() {
+const QPoint PQCSettings::getDefaultForMapviewCurrentPosition() {
         return QPoint(200, 200);
 }
 
@@ -4802,7 +4802,7 @@ void PQCSettings::setMapviewCurrentSize(QSize val) {
     }
 }
 
-QSize PQCSettings::getDefaultForMapviewCurrentSize() {
+const QSize PQCSettings::getDefaultForMapviewCurrentSize() {
         return QSize(400, 300);
 }
 
@@ -4824,7 +4824,7 @@ void PQCSettings::setMapviewCurrentVisible(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMapviewCurrentVisible() {
+const bool PQCSettings::getDefaultForMapviewCurrentVisible() {
         return false;
 }
 
@@ -4846,7 +4846,7 @@ void PQCSettings::setMapviewExplorerThumbnailsScaleCrop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMapviewExplorerThumbnailsScaleCrop() {
+const bool PQCSettings::getDefaultForMapviewExplorerThumbnailsScaleCrop() {
         return true;
 }
 
@@ -4868,7 +4868,7 @@ void PQCSettings::setMapviewExplorerThumbnailsZoomLevel(int val) {
     }
 }
 
-int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() {
+const int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() {
         return 20;
 }
 
@@ -4891,7 +4891,7 @@ void PQCSettings::setMetadataAutoRotation(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataAutoRotation() {
+const bool PQCSettings::getDefaultForMetadataAutoRotation() {
         return true;
 }
 
@@ -4914,7 +4914,7 @@ void PQCSettings::setMetadataCopyright(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataCopyright() {
+const bool PQCSettings::getDefaultForMetadataCopyright() {
         return false;
 }
 
@@ -4936,7 +4936,7 @@ void PQCSettings::setMetadataDimensions(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataDimensions() {
+const bool PQCSettings::getDefaultForMetadataDimensions() {
         return true;
 }
 
@@ -4958,7 +4958,7 @@ void PQCSettings::setMetadataElementFloating(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataElementFloating() {
+const bool PQCSettings::getDefaultForMetadataElementFloating() {
         return false;
 }
 
@@ -4980,7 +4980,7 @@ void PQCSettings::setMetadataElementHeightDynamic(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataElementHeightDynamic() {
+const bool PQCSettings::getDefaultForMetadataElementHeightDynamic() {
         return true;
 }
 
@@ -5002,7 +5002,7 @@ void PQCSettings::setMetadataElementPosition(QPoint val) {
     }
 }
 
-QPoint PQCSettings::getDefaultForMetadataElementPosition() {
+const QPoint PQCSettings::getDefaultForMetadataElementPosition() {
         return QPoint(100, 100);
 }
 
@@ -5024,7 +5024,7 @@ void PQCSettings::setMetadataElementSize(QSize val) {
     }
 }
 
-QSize PQCSettings::getDefaultForMetadataElementSize() {
+const QSize PQCSettings::getDefaultForMetadataElementSize() {
         return QSize(400, 700);
 }
 
@@ -5046,7 +5046,7 @@ void PQCSettings::setMetadataElementVisible(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataElementVisible() {
+const bool PQCSettings::getDefaultForMetadataElementVisible() {
         return false;
 }
 
@@ -5068,7 +5068,7 @@ void PQCSettings::setMetadataExposureTime(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataExposureTime() {
+const bool PQCSettings::getDefaultForMetadataExposureTime() {
         return true;
 }
 
@@ -5090,7 +5090,7 @@ void PQCSettings::setMetadataFLength(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFLength() {
+const bool PQCSettings::getDefaultForMetadataFLength() {
         return true;
 }
 
@@ -5112,7 +5112,7 @@ void PQCSettings::setMetadataFNumber(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFNumber() {
+const bool PQCSettings::getDefaultForMetadataFNumber() {
         return true;
 }
 
@@ -5134,7 +5134,7 @@ void PQCSettings::setMetadataFaceTagsBorder(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFaceTagsBorder() {
+const bool PQCSettings::getDefaultForMetadataFaceTagsBorder() {
         return false;
 }
 
@@ -5156,7 +5156,7 @@ void PQCSettings::setMetadataFaceTagsBorderColor(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForMetadataFaceTagsBorderColor() {
+const QString PQCSettings::getDefaultForMetadataFaceTagsBorderColor() {
         return "#44ff0000";
 }
 
@@ -5178,7 +5178,7 @@ void PQCSettings::setMetadataFaceTagsBorderWidth(int val) {
     }
 }
 
-int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() {
+const int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() {
         return 3;
 }
 
@@ -5200,7 +5200,7 @@ void PQCSettings::setMetadataFaceTagsEnabled(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFaceTagsEnabled() {
+const bool PQCSettings::getDefaultForMetadataFaceTagsEnabled() {
         return true;
 }
 
@@ -5222,7 +5222,7 @@ void PQCSettings::setMetadataFaceTagsFontSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForMetadataFaceTagsFontSize() {
+const int PQCSettings::getDefaultForMetadataFaceTagsFontSize() {
         return 10;
 }
 
@@ -5244,7 +5244,7 @@ void PQCSettings::setMetadataFaceTagsVisibility(int val) {
     }
 }
 
-int PQCSettings::getDefaultForMetadataFaceTagsVisibility() {
+const int PQCSettings::getDefaultForMetadataFaceTagsVisibility() {
         return 1;
 }
 
@@ -5266,7 +5266,7 @@ void PQCSettings::setMetadataFileSize(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFileSize() {
+const bool PQCSettings::getDefaultForMetadataFileSize() {
         return true;
 }
 
@@ -5288,7 +5288,7 @@ void PQCSettings::setMetadataFileType(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFileType() {
+const bool PQCSettings::getDefaultForMetadataFileType() {
         return true;
 }
 
@@ -5310,7 +5310,7 @@ void PQCSettings::setMetadataFilename(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFilename() {
+const bool PQCSettings::getDefaultForMetadataFilename() {
         return true;
 }
 
@@ -5332,7 +5332,7 @@ void PQCSettings::setMetadataFlash(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataFlash() {
+const bool PQCSettings::getDefaultForMetadataFlash() {
         return true;
 }
 
@@ -5354,7 +5354,7 @@ void PQCSettings::setMetadataGps(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataGps() {
+const bool PQCSettings::getDefaultForMetadataGps() {
         return true;
 }
 
@@ -5376,7 +5376,7 @@ void PQCSettings::setMetadataGpsMap(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForMetadataGpsMap() {
+const QString PQCSettings::getDefaultForMetadataGpsMap() {
         return "openstreetmap.org";
 }
 
@@ -5398,7 +5398,7 @@ void PQCSettings::setMetadataImageNumber(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataImageNumber() {
+const bool PQCSettings::getDefaultForMetadataImageNumber() {
         return true;
 }
 
@@ -5420,7 +5420,7 @@ void PQCSettings::setMetadataIso(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataIso() {
+const bool PQCSettings::getDefaultForMetadataIso() {
         return true;
 }
 
@@ -5442,7 +5442,7 @@ void PQCSettings::setMetadataKeywords(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataKeywords() {
+const bool PQCSettings::getDefaultForMetadataKeywords() {
         return false;
 }
 
@@ -5464,7 +5464,7 @@ void PQCSettings::setMetadataLightSource(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataLightSource() {
+const bool PQCSettings::getDefaultForMetadataLightSource() {
         return false;
 }
 
@@ -5486,7 +5486,7 @@ void PQCSettings::setMetadataLocation(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataLocation() {
+const bool PQCSettings::getDefaultForMetadataLocation() {
         return false;
 }
 
@@ -5508,7 +5508,7 @@ void PQCSettings::setMetadataMake(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataMake() {
+const bool PQCSettings::getDefaultForMetadataMake() {
         return true;
 }
 
@@ -5530,7 +5530,7 @@ void PQCSettings::setMetadataModel(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataModel() {
+const bool PQCSettings::getDefaultForMetadataModel() {
         return true;
 }
 
@@ -5552,7 +5552,7 @@ void PQCSettings::setMetadataSceneType(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataSceneType() {
+const bool PQCSettings::getDefaultForMetadataSceneType() {
         return true;
 }
 
@@ -5574,7 +5574,7 @@ void PQCSettings::setMetadataSoftware(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataSoftware() {
+const bool PQCSettings::getDefaultForMetadataSoftware() {
         return true;
 }
 
@@ -5596,7 +5596,7 @@ void PQCSettings::setMetadataTime(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForMetadataTime() {
+const bool PQCSettings::getDefaultForMetadataTime() {
         return true;
 }
 
@@ -5618,7 +5618,7 @@ void PQCSettings::setSlideshowHideLabels(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowHideLabels() {
+const bool PQCSettings::getDefaultForSlideshowHideLabels() {
         return true;
 }
 
@@ -5640,7 +5640,7 @@ void PQCSettings::setSlideshowHideWindowButtons(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowHideWindowButtons() {
+const bool PQCSettings::getDefaultForSlideshowHideWindowButtons() {
         return false;
 }
 
@@ -5662,7 +5662,7 @@ void PQCSettings::setSlideshowImageTransition(int val) {
     }
 }
 
-int PQCSettings::getDefaultForSlideshowImageTransition() {
+const int PQCSettings::getDefaultForSlideshowImageTransition() {
         return 4;
 }
 
@@ -5684,7 +5684,7 @@ void PQCSettings::setSlideshowIncludeSubFolders(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowIncludeSubFolders() {
+const bool PQCSettings::getDefaultForSlideshowIncludeSubFolders() {
         return false;
 }
 
@@ -5706,7 +5706,7 @@ void PQCSettings::setSlideshowLoop(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowLoop() {
+const bool PQCSettings::getDefaultForSlideshowLoop() {
         return true;
 }
 
@@ -5728,7 +5728,7 @@ void PQCSettings::setSlideshowMusic(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowMusic() {
+const bool PQCSettings::getDefaultForSlideshowMusic() {
         return false;
 }
 
@@ -5750,7 +5750,7 @@ void PQCSettings::setSlideshowMusicFile(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForSlideshowMusicFile() {
+const QString PQCSettings::getDefaultForSlideshowMusicFile() {
         return "";
 }
 
@@ -5772,7 +5772,7 @@ void PQCSettings::setSlideshowMusicFiles(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForSlideshowMusicFiles() {
+const QStringList PQCSettings::getDefaultForSlideshowMusicFiles() {
         return QStringList() << "";
 }
 
@@ -5795,7 +5795,7 @@ void PQCSettings::setSlideshowMusicShuffle(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowMusicShuffle() {
+const bool PQCSettings::getDefaultForSlideshowMusicShuffle() {
         return false;
 }
 
@@ -5817,7 +5817,7 @@ void PQCSettings::setSlideshowMusicVolumeVideos(int val) {
     }
 }
 
-int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() {
+const int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() {
         return 1;
 }
 
@@ -5839,7 +5839,7 @@ void PQCSettings::setSlideshowShuffle(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForSlideshowShuffle() {
+const bool PQCSettings::getDefaultForSlideshowShuffle() {
         return false;
 }
 
@@ -5861,7 +5861,7 @@ void PQCSettings::setSlideshowTime(int val) {
     }
 }
 
-int PQCSettings::getDefaultForSlideshowTime() {
+const int PQCSettings::getDefaultForSlideshowTime() {
         return 5;
 }
 
@@ -5883,7 +5883,7 @@ void PQCSettings::setSlideshowTypeAnimation(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForSlideshowTypeAnimation() {
+const QString PQCSettings::getDefaultForSlideshowTypeAnimation() {
         return "opacity";
 }
 
@@ -5906,7 +5906,7 @@ void PQCSettings::setThumbnailsCache(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsCache() {
+const bool PQCSettings::getDefaultForThumbnailsCache() {
         return true;
 }
 
@@ -5930,7 +5930,7 @@ void PQCSettings::setThumbnailsCacheBaseDirDefault(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsCacheBaseDirDefault() {
+const bool PQCSettings::getDefaultForThumbnailsCacheBaseDirDefault() {
         return true;
 }
 
@@ -5954,7 +5954,7 @@ void PQCSettings::setThumbnailsCacheBaseDirLocation(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForThumbnailsCacheBaseDirLocation() {
+const QString PQCSettings::getDefaultForThumbnailsCacheBaseDirLocation() {
         return "";
 }
 
@@ -5977,7 +5977,7 @@ void PQCSettings::setThumbnailsCenterOnActive(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsCenterOnActive() {
+const bool PQCSettings::getDefaultForThumbnailsCenterOnActive() {
         return false;
 }
 
@@ -5999,7 +5999,7 @@ void PQCSettings::setThumbnailsCropToFit(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsCropToFit() {
+const bool PQCSettings::getDefaultForThumbnailsCropToFit() {
         return true;
 }
 
@@ -6021,7 +6021,7 @@ void PQCSettings::setThumbnailsDisable(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsDisable() {
+const bool PQCSettings::getDefaultForThumbnailsDisable() {
         return false;
 }
 
@@ -6044,7 +6044,7 @@ void PQCSettings::setThumbnailsExcludeDropBox(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForThumbnailsExcludeDropBox() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeDropBox() {
         return "";
 }
 
@@ -6068,7 +6068,7 @@ void PQCSettings::setThumbnailsExcludeFolders(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForThumbnailsExcludeFolders() {
+const QStringList PQCSettings::getDefaultForThumbnailsExcludeFolders() {
         return QStringList() << "";
 }
 
@@ -6093,7 +6093,7 @@ void PQCSettings::setThumbnailsExcludeNetworkShares(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsExcludeNetworkShares() {
+const bool PQCSettings::getDefaultForThumbnailsExcludeNetworkShares() {
         return true;
 }
 
@@ -6117,7 +6117,7 @@ void PQCSettings::setThumbnailsExcludeNextcloud(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForThumbnailsExcludeNextcloud() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeNextcloud() {
         return "";
 }
 
@@ -6141,7 +6141,7 @@ void PQCSettings::setThumbnailsExcludeOwnCloud(QString val) {
     }
 }
 
-QString PQCSettings::getDefaultForThumbnailsExcludeOwnCloud() {
+const QString PQCSettings::getDefaultForThumbnailsExcludeOwnCloud() {
         return "";
 }
 
@@ -6164,7 +6164,7 @@ void PQCSettings::setThumbnailsFilename(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsFilename() {
+const bool PQCSettings::getDefaultForThumbnailsFilename() {
         return true;
 }
 
@@ -6186,7 +6186,7 @@ void PQCSettings::setThumbnailsFontSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsFontSize() {
+const int PQCSettings::getDefaultForThumbnailsFontSize() {
         return 7;
 }
 
@@ -6208,7 +6208,7 @@ void PQCSettings::setThumbnailsHighlightAnimation(QStringList val) {
     }
 }
 
-QStringList PQCSettings::getDefaultForThumbnailsHighlightAnimation() {
+const QStringList PQCSettings::getDefaultForThumbnailsHighlightAnimation() {
         return QStringList() << "liftup";
 }
 
@@ -6231,7 +6231,7 @@ void PQCSettings::setThumbnailsHighlightAnimationLiftUp(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() {
+const int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() {
         return 15;
 }
 
@@ -6254,7 +6254,7 @@ void PQCSettings::setThumbnailsIconsOnly(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsIconsOnly() {
+const bool PQCSettings::getDefaultForThumbnailsIconsOnly() {
         return false;
 }
 
@@ -6277,7 +6277,7 @@ void PQCSettings::setThumbnailsInactiveTransparent(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsInactiveTransparent() {
+const bool PQCSettings::getDefaultForThumbnailsInactiveTransparent() {
         return true;
 }
 
@@ -6300,7 +6300,7 @@ void PQCSettings::setThumbnailsMaxNumberThreads(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() {
+const int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() {
         return 4;
 }
 
@@ -6323,7 +6323,7 @@ void PQCSettings::setThumbnailsSameHeightVaryWidth(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsSameHeightVaryWidth() {
+const bool PQCSettings::getDefaultForThumbnailsSameHeightVaryWidth() {
         return false;
 }
 
@@ -6345,7 +6345,7 @@ void PQCSettings::setThumbnailsSize(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsSize() {
+const int PQCSettings::getDefaultForThumbnailsSize() {
         return 120;
 }
 
@@ -6367,7 +6367,7 @@ void PQCSettings::setThumbnailsSmallThumbnailsKeepSmall(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsSmallThumbnailsKeepSmall() {
+const bool PQCSettings::getDefaultForThumbnailsSmallThumbnailsKeepSmall() {
         return true;
 }
 
@@ -6389,7 +6389,7 @@ void PQCSettings::setThumbnailsSpacing(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsSpacing() {
+const int PQCSettings::getDefaultForThumbnailsSpacing() {
         return 2;
 }
 
@@ -6411,7 +6411,7 @@ void PQCSettings::setThumbnailsTooltip(bool val) {
     }
 }
 
-bool PQCSettings::getDefaultForThumbnailsTooltip() {
+const bool PQCSettings::getDefaultForThumbnailsTooltip() {
         return true;
 }
 
@@ -6433,7 +6433,7 @@ void PQCSettings::setThumbnailsVisibility(int val) {
     }
 }
 
-int PQCSettings::getDefaultForThumbnailsVisibility() {
+const int PQCSettings::getDefaultForThumbnailsVisibility() {
         return 0;
 }
 
@@ -6442,6 +6442,16 @@ void PQCSettings::setDefaultForThumbnailsVisibility() {
         m_thumbnailsVisibility = 0;
         Q_EMIT thumbnailsVisibilityChanged();
     }
+}
+
+QVariant PQCSettings::getDefaultForExtension(const QString &key) {
+
+    if(m_extensions_defaults.contains(key))
+        return m_extensions_defaults.value(key, "");
+
+    qWarning() << "Extension setting with this key not found:" << key;
+    return "";
+
 }
 
 void PQCSettings::readDB() {
@@ -8358,38 +8368,48 @@ void PQCSettings::setupFresh() {
         const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
         for(const QStringList &s : sets) {
 
-            if(s[2] == "int")
-                m_extensions->insert(s[0], s[3].toInt());
-            else if(s[2] == "double")
-                m_extensions->insert(s[0], s[3].toDouble());
-            else if(s[2] == "bool")
-                m_extensions->insert(s[0], static_cast<bool>(s[3].toInt()));
-            else if(s[2] == "list") {
+            if(s[2] == "int") {
+                const int val = s[3].toInt();
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "double") {
+                const int val = s[3].toDouble();
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "bool") {
+                const int val = static_cast<bool>(s[3].toInt());
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "list") {
+                QStringList val;
                 if(s[3].contains(":://::"))
-                    m_extensions->insert(s[0], s[3].split(":://::"));
+                    val = s[3].split(":://::");
                 else if(s[3] != "")
-                    m_extensions->insert(s[0], QStringList() << s[3]);
-                else
-                    m_extensions->insert(s[0], QStringList());
+                    val = QStringList() << s[3];
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "point") {
                 const QStringList parts = s[3].split(",");
+                QPoint val(0,0);
                 if(parts.length() == 2)
-                    m_extensions->insert(s[0], QPoint(parts[0].toInt(), parts[1].toInt()));
-                else {
+                    val = QPoint(parts[0].toInt(), parts[1].toInt());
+                else
                     qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
-                    m_extensions->insert(s[0], QPoint(0,0));
-                }
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "size") {
                 const QStringList parts = s[3].split(",");
+                QSize val(0,0);
                 if(parts.length() == 2)
-                    m_extensions->insert(s[0], QSize(parts[0].toInt(), parts[1].toInt()));
-                else {
+                    val = QSize(parts[0].toInt(), parts[1].toInt());
+                else
                     qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
-                    m_extensions->insert(s[0], QSize(0,0));
-                }
-            } else if(s[2] == "string")
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "string") {
                 m_extensions->insert(s[0], s[3]);
-            else if(s[2] != "")
+                m_extensions_defaults.insert(s[0], s[3]);
+            } else if(s[2] != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
             else
                 qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);

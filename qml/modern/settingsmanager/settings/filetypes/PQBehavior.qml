@@ -101,8 +101,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                pdf_quality.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPDFQuality")) // qmllint disable unqualified
-                pdf_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitDocument") == 1)
+                pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality()) // qmllint disable unqualified
+                pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
             }
 
             function handleEscape() {
@@ -189,10 +189,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                arc_extunrar.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesExternalUnrar") == 1)
-                archivecontrols.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesArchiveControls") == 1)
-                archiveleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesArchiveLeftRight") == 1)
-                archive_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitArchive") == 1)
+                arc_extunrar.checked = PQCSettings.getDefaultForFiletypesExternalUnrar()
+                archivecontrols.checked = PQCSettings.getDefaultForFiletypesArchiveControls()
+                archiveleftright.checked = PQCSettings.getDefaultForFiletypesArchiveLeftRight()
+                archive_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
             }
 
             function handleEscape() {
@@ -306,13 +306,13 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                vid_autoplay.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoAutoplay") == 1)
-                vid_loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLoop") == 1)
-                vid_qtmult.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 0)
-                vid_libmpv.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoPreferLibmpv") == 1)
-                videothumb.currentIndex = (PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoThumbnailer").toString()==="" ? 0 : 1)
-                videojump.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoLeftRightJumpVideo") == 1)
-                videospace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesVideoSpacePause") == 1)
+                vid_autoplay.checked = PQCSettings.getDefaultForFiletypesVideoAutoplay()
+                vid_loop.checked = PQCSettings.getDefaultForFiletypesVideoLoop()
+                vid_qtmult.checked = !PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
+                vid_libmpv.checked = PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
+                videothumb.currentIndex = (PQCSettings.getDefaultForFiletypesVideoThumbnailer()==="" ? 0 : 1)
+                videojump.checked = PQCSettings.getDefaultForFiletypesVideoLeftRightJumpVideo()
+                videospace.checked = PQCSettings.getDefaultForFiletypesVideoSpacePause()
             }
 
             function handleEscape() {
@@ -392,9 +392,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                animatedcontrol.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedControls") == 1)
-                animatedleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedLeftRight") == 1)
-                animspace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesAnimatedSpacePause") == 1)
+                animatedcontrol.checked = PQCSettings.getDefaultForFiletypesAnimatedControls()
+                animatedleftright.checked = PQCSettings.getDefaultForFiletypesAnimatedLeftRight()
+                animspace.checked = PQCSettings.getDefaultForFiletypesAnimatedSpacePause()
             }
 
             function handleEscape() {
@@ -444,7 +444,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                rawembed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesRAWUseEmbeddedIfAvailable") == 1)
+                rawembed.checked = PQCSettings.getDefaultForFiletypesRAWUseEmbeddedIfAvailable()
             }
 
             function handleEscape() {
@@ -497,8 +497,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                documentcontrols.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesDocumentControls") == 1)
-                documentleftright.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesDocumentLeftRight") == 1)
+                documentcontrols.checked = PQCSettings.getDefaultForFiletypesDocumentControls()
+                documentleftright.checked = PQCSettings.getDefaultForFiletypesDocumentLeftRight()
             }
 
             function handleEscape() {

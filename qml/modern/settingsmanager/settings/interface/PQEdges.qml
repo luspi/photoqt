@@ -242,10 +242,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                current["top"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeTopAction").toString()
-                current["left"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeLeftAction").toString()
-                current["right"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeRightAction").toString()
-                current["bottom"] = PQCScriptsConfig.getDefaultSettingValueFor("interfaceEdgeBottomAction").toString()
+                current["top"] = PQCSettings.getDefaultForInterfaceEdgeTopAction()
+                current["left"] = PQCSettings.getDefaultForInterfaceEdgeLeftAction()
+                current["right"] = PQCSettings.getDefaultForInterfaceEdgeRightAction()
+                current["bottom"] = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
                 currentChanged()
             }
 
@@ -305,7 +305,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                sensitivity.setValue(PQCScriptsConfig.getDefaultSettingValueFor("interfaceHotEdgeSize")*5)
+                sensitivity.setValue(PQCSettings.getDefaultForInterfaceHotEdgeSize()*5)
             }
 
             function handleEscape() {

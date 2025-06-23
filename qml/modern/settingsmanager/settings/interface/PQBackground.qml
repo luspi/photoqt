@@ -354,26 +354,26 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var valBIS = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScreenshot")
-                var valBISo = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundSolid")
-                var valBIU = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageUse")
-                var valBIT = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundFullyTransparent")
-                radio_real.checked = (valBIS==0 && valBIU==0 && valBIT==0)
+                var valBIS = PQCSettings.getDefaultForInterfaceBackgroundImageScreenshot()
+                var valBISo = PQCSettings.getDefaultForInterfaceBackgroundSolid()
+                var valBIU = PQCSettings.getDefaultForInterfaceBackgroundImageUse()
+                var valBIT = PQCSettings.getDefaultForInterfaceBackgroundFullyTransparent()
+                radio_real.checked = (valBIS===0 && valBIU===0 && valBIT===0)
                 radio_fake.checked = valBIS
                 radio_solid.checked = valBISo
                 radio_nobg.checked = valBIT
                 radio_custom.checked = valBIU
 
-                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundCustomOverlay")
-                accentusecheck.checked = (val == 0)
-                customusecheck.checked = (val == 1)
+                var val = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
+                accentusecheck.checked = (val === 0)
+                customusecheck.checked = (val === 1)
 
-                previewimage.source = PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImagePath").toString()
-                radio_bg_scaletofit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScale") == 1)
-                radio_bg_scaleandcrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageScaleCrop") == 1)
-                radio_bg_stretch.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageStretch") == 1)
-                radio_bg_center.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageCenter") == 1)
-                radio_bg_tile.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBackgroundImageTile") == 1)
+                previewimage.source = PQCSettings.getDefaultForInterfaceBackgroundImagePath()
+                radio_bg_scaletofit.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScale()
+                radio_bg_scaleandcrop.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScaleCrop()
+                radio_bg_stretch.checked = PQCSettings.getDefaultForInterfaceBackgroundImageStretch()
+                radio_bg_center.checked = PQCSettings.getDefaultForInterfaceBackgroundImageCenter()
+                radio_bg_tile.checked = PQCSettings.getDefaultForInterfaceBackgroundImageTile()
             }
 
             function handleEscape() {
@@ -511,9 +511,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                radio_closeclick.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceCloseOnEmptyBackground") == 1)
-                radio_navclick.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceNavigateOnEmptyBackground") == 1)
-                radio_toggledeco.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceWindowDecorationOnEmptyBackground") == 1)
+                radio_closeclick.checked = PQCSettings.getDefaultForInterfaceCloseOnEmptyBackground()
+                radio_navclick.checked = PQCSettings.getDefaultForInterfaceNavigateOnEmptyBackground()
+                radio_toggledeco.checked = PQCSettings.getDefaultForInterfaceWindowDecorationOnEmptyBackground()
                 radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
             }
 
@@ -571,7 +571,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                check_blurbg.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceBlurElementsInBackground") == 1)
+                check_blurbg.checked = PQCSettings.getDefaultForInterfaceBlurElementsInBackground()
             }
 
             function handleEscape() {

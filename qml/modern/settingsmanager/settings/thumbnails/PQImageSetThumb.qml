@@ -93,7 +93,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                thumb_size.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSize"))
+                thumb_size.setValue(PQCSettings.getDefaultForThumbnailsSize())
             }
 
             function handleEscape() {
@@ -167,13 +167,13 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var valCropToFit = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCropToFit")
-                var valSameHeight = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSameHeightVaryWidth")
-                var valKeepSmall = 1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsSmallThumbnailsKeepSmall")
-                thumb_fit.checked = (valCropToFit==0 && valSameHeight==0)
-                thumb_crop.checked = (valCropToFit==1)
-                thumb_sameheight.checked = (valSameHeight==1)
-                thumb_small.checked = (valKeepSmall==1)
+                var valCropToFit = PQCSettings.getDefaultForThumbnailsCropToFit()
+                var valSameHeight = PQCSettings.getDefaultForThumbnailsSameHeightVaryWidth()
+                var valKeepSmall = PQCSettings.getDefaultForThumbnailsSmallThumbnailsKeepSmall()
+                thumb_fit.checked = (valCropToFit===0 && valSameHeight===0)
+                thumb_crop.checked = (valCropToFit===1)
+                thumb_sameheight.checked = (valSameHeight===1)
+                thumb_small.checked = (valKeepSmall===1)
             }
 
             function handleEscape() {
@@ -235,7 +235,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                thumb_actual.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsIconsOnly")==0)
+                thumb_actual.checked = PQCSettings.getDefaultForThumbnailsIconsOnly()
                 thumb_icon.checked = !thumb_actual.checked
             }
 
@@ -327,9 +327,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                label_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsFilename")==1)
-                label_fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsFontSize"))
-                thumb_opaque.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsInactiveTransparent")==1)
+                label_enable.checked = PQCSettings.getDefaultForThumbnailsFilename()
+                label_fontsize.setValue(PQCSettings.getDefaultForThumbnailsFontSize())
+                thumb_opaque.checked = PQCSettings.getDefaultForThumbnailsInactiveTransparent()
             }
 
             function handleEscape() {
@@ -380,7 +380,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                tooltips_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsTooltip")==1)
+                tooltips_show.checked = PQCSettings.getDefaultForThumbnailsTooltip()
             }
 
             function handleEscape() {

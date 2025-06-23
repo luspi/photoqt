@@ -107,7 +107,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                marginslider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMargin"))
+                marginslider.setValue(PQCSettings.getDefaultForImageviewMargin())
             }
 
             function handleEscape() {
@@ -201,11 +201,11 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                large_fit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAlwaysActualSize") == 0)
-                large_full.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAlwaysActualSize") == 1)
-                small_fit.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewFitInWindow") == 1)
-                small_asis.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewFitInWindow") == 0)
-                scale_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewRespectDevicePixelRatio") == 1)
+                large_fit.checked = (PQCSettings.getDefaultForImageviewAlwaysActualSize() === 0)
+                large_full.checked = (PQCSettings.getDefaultForImageviewAlwaysActualSize() === 1)
+                small_fit.checked = (PQCSettings.getDefaultForImageviewFitInWindow() === 1)
+                small_asis.checked = (PQCSettings.getDefaultForImageviewFitInWindow() === 0)
+                scale_check.checked = PQCSettings.getDefaultForImageviewRespectDevicePixelRatio()
             }
 
             function handleEscape() {
@@ -260,7 +260,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                checkerboard.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewTransparencyMarker") == 1)
+                checkerboard.checked = PQCSettings.getDefaultForImageviewTransparencyMarker()
             }
 
             function handleEscape() {
@@ -320,7 +320,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                interp_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewInterpolationDisableForSmallImages") == 1)
+                interp_check.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForSmallImages()
             }
 
             function handleEscape() {
@@ -374,7 +374,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                cache_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewCache"))
+                cache_slider.setValue(PQCSettings.getDefaultForImageviewCache())
             }
 
             function handleEscape() {
@@ -747,13 +747,13 @@ Flickable {
 
             onResetToDefaults: {
 
-                setting_top.colorprofiles_contextmenu_default = PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceContextMenu")
+                setting_top.colorprofiles_contextmenu_default = PQCSettings.getDefaultForImageviewColorSpaceContextMenu()
                 setting_top.colorProfileLoadDefault()
                 setDefaultAfterReset.restart()
 
-                color_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceEnable") == 1)
-                color_embed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceLoadEmbedded") == 1)
-                if(PQCScriptsConfig.getDefaultSettingValueFor("imageviewColorSpaceDefault").toString() === "") {
+                color_enable.checked = PQCSettings.getDefaultForImageviewColorSpaceEnable()
+                color_embed.checked = PQCSettings.getDefaultForImageviewColorSpaceLoadEmbedded()
+                if(PQCSettings.getDefaultForImageviewColorSpaceDefault() === "") {
                     color_defaultcombo.currentIndex = 0
                     color_default.checked = false
                 } else {

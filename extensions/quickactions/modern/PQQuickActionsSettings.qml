@@ -322,9 +322,9 @@ PQSetting {
 
     onResetToDefaults: {
 
-        quick_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActions") == 1) // qmllint disable unqualified
+        quick_show.checked = PQCSettings.getDefaultForExtension("QuickActions")
 
-        settop.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceQuickActionsItems")
+        settop.curEntries = PQCSettings.getDefaultForExtension("QuickActionsItems")
         populateModel()
 
         // this is needed to check for model changes

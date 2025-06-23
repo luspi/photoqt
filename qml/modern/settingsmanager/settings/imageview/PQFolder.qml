@@ -86,7 +86,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewLoopThroughFolder") == 1)
+                loop.checked = PQCSettings.getDefaultForImageviewLoopThroughFolder()
             }
 
             function handleEscape() {
@@ -168,7 +168,7 @@ Flickable {
 
             onResetToDefaults: {
                 sortcriteria.currentIndex = 0
-                sortasc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewSortImagesAscending") == 1)
+                sortasc.checked = PQCSettings.getDefaultForImageviewSortImagesAscending()
                 sortdesc.checked = !sortasc.checked
             }
 
@@ -308,9 +308,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                anispeed_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAnimationDuration") > 0)
+                anispeed_check.checked = (PQCSettings.getDefaultForImageviewAnimationDuration() > 0)
                 anicombo.currentIndex = 0
-                anispeed.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewAnimationDuration"))
+                anispeed.setValue(PQCSettings.getDefaultForImageviewAnimationDuration())
             }
 
             function handleEscape() {
@@ -400,7 +400,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                preload.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreloadInBackground"))
+                preload.setValue(PQCSettings.getDefaultForImageviewPreloadInBackground())
             }
 
             function handleEscape() {

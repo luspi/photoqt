@@ -261,7 +261,33 @@ Flickable {
                                         target: setting_top
 
                                         function onLabelsResetDefault() {
-                                            check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadata"+setting_top.labels[deleg.modelData][0]) == 1)// qmllint disable unqualified
+
+                                            var m = setting_top.labels[deleg.modelData][0]
+
+                                            if(m === "Filename") check.checked = PQCSettings.getDefaultForMetadataFilename()
+                                            else if(m === "FileType") check.checked = PQCSettings.getDefaultForMetadataFileType()
+                                            else if(m === "FileSize") check.checked = PQCSettings.getDefaultForMetadataFileSize()
+                                            else if(m === "ImageNumber") check.checked = PQCSettings.getDefaultForMetadataImageNumber()
+                                            else if(m === "Dimensions") check.checked = PQCSettings.getDefaultForMetadataDimensions()
+
+                                            else if(m === "Copyright") check.checked = PQCSettings.getDefaultForMetadataCopyright()
+                                            else if(m === "ExposureTime") check.checked = PQCSettings.getDefaultForMetadataExposureTime()
+                                            else if(m === "Flash") check.checked = PQCSettings.getDefaultForMetadataFlash()
+                                            else if(m === "FLength") check.checked = PQCSettings.getDefaultForMetadataFLength()
+                                            else if(m === "FNumber") check.checked = PQCSettings.getDefaultForMetadataFNumber()
+
+                                            else if(m === "Gps") check.checked = PQCSettings.getDefaultForMetadataGps()
+                                            else if(m === "Iso") check.checked = PQCSettings.getDefaultForMetadataIso()
+                                            else if(m === "Keywords") check.checked = PQCSettings.getDefaultForMetadataKeywords()
+                                            else if(m === "LightSource") check.checked = PQCSettings.getDefaultForMetadataLightSource()
+                                            else if(m === "Location") check.checked = PQCSettings.getDefaultForMetadataLocation()
+
+                                            else if(m === "Make") check.checked = PQCSettings.getDefaultForMetadataMake()
+                                            else if(m === "Model") check.checked = PQCSettings.getDefaultForMetadataModel()
+                                            else if(m === "SceneType") check.checked = PQCSettings.getDefaultForMetadataSceneType()
+                                            else if(m === "Software") check.checked = PQCSettings.getDefaultForMetadataSoftware()
+                                            else if(m === "Time") check.checked = PQCSettings.getDefaultForMetadataTime()
+
                                         }
 
                                         function onLabelsLoadDefault() {
@@ -395,7 +421,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                autorot.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataAutoRotation") == 1) // qmllint disable unqualified
+                autorot.checked = PQCSettings.getDefaultForMetadataAutoRotation()
             }
 
             function handleEscape() {
@@ -453,7 +479,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                var val = PQCScriptsConfig.getDefaultSettingValueFor("metadataGpsMap").toString()
+                var val = PQCSettings.getDefaultForMetadataGpsMap()
                 google.checked = (val === "maps.google.com")
                 bing.checked = (val === "bing.com/maps")
                 osm.checked = (val === "openstreetmap.org" || (!google.checked && !bing.checked))
@@ -520,8 +546,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                screenegde.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataElementFloating") == 0)
-                floating.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataElementFloating") == 1)
+                screenegde.checked = PQCSettings.getDefaultForMetadataElementFloating()
+                floating.checked = PQCSettings.getDefaultForMetadataElementFloating()
             }
 
             function handleEscape() {
@@ -607,8 +633,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                facetags_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsEnabled") == 1)
-                var val = 1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsVisibility")
+                facetags_show.checked = PQCSettings.getDefaultForMetadataFaceTagsEnabled()
+                var val = PQCSettings.getDefaultForMetadataFaceTagsVisibility()
                 tags_always.checked = (val === 1)
                 tags_one.checked = (val === 2)
                 tags_all.checked = (val === 3)
@@ -744,10 +770,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsFontSize"))
-                border_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorder") == 1)
-                border_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderWidth"))
-                border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCScriptsConfig.getDefaultSettingValueFor("metadataFaceTagsBorderColor").toString())
+                fontsize.setValue(PQCSettings.getDefaultForMetadataFaceTagsFontSize())
+                border_show.checked = PQCSettings.getDefaultForMetadataFaceTagsBorder()
+                border_slider.setValue(PQCSettings.getDefaultForMetadataFaceTagsBorderWidth())
+                border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCSettings.getDefaultForMetadataFaceTagsBorderColor())
             }
 
             function handleEscape() {

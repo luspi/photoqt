@@ -123,38 +123,48 @@ void PQCSettings::setupFresh() {
         const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
         for(const QStringList &s : sets) {
 
-            if(s[2] == "int")
-                m_extensions->insert(s[0], s[3].toInt());
-            else if(s[2] == "double")
-                m_extensions->insert(s[0], s[3].toDouble());
-            else if(s[2] == "bool")
-                m_extensions->insert(s[0], static_cast<bool>(s[3].toInt()));
-            else if(s[2] == "list") {
+            if(s[2] == "int") {
+                const int val = s[3].toInt();
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "double") {
+                const int val = s[3].toDouble();
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "bool") {
+                const int val = static_cast<bool>(s[3].toInt());
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "list") {
+                QStringList val;
                 if(s[3].contains(":://::"))
-                    m_extensions->insert(s[0], s[3].split(":://::"));
+                    val = s[3].split(":://::");
                 else if(s[3] != "")
-                    m_extensions->insert(s[0], QStringList() << s[3]);
-                else
-                    m_extensions->insert(s[0], QStringList());
+                    val = QStringList() << s[3];
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "point") {
                 const QStringList parts = s[3].split(",");
+                QPoint val(0,0);
                 if(parts.length() == 2)
-                    m_extensions->insert(s[0], QPoint(parts[0].toInt(), parts[1].toInt()));
-                else {
+                    val = QPoint(parts[0].toInt(), parts[1].toInt());
+                else
                     qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
-                    m_extensions->insert(s[0], QPoint(0,0));
-                }
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "size") {
                 const QStringList parts = s[3].split(",");
+                QSize val(0,0);
                 if(parts.length() == 2)
-                    m_extensions->insert(s[0], QSize(parts[0].toInt(), parts[1].toInt()));
-                else {
+                    val = QSize(parts[0].toInt(), parts[1].toInt());
+                else
                     qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
-                    m_extensions->insert(s[0], QSize(0,0));
-                }
-            } else if(s[2] == "string")
+                m_extensions->insert(s[0], val);
+                m_extensions_defaults.insert(s[0], val);
+            } else if(s[2] == "string") {
                 m_extensions->insert(s[0], s[3]);
-            else if(s[2] != "")
+                m_extensions_defaults.insert(s[0], s[3]);
+            } else if(s[2] != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
             else
                 qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);

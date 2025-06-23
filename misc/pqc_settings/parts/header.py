@@ -129,11 +129,12 @@ public:
     Q_PROPERTY({qtdatatpe} {tab}{name} READ get{tab.capitalize()}{name} WRITE set{tab.capitalize()}{name} NOTIFY {tab}{name}Changed)
     {qtdatatpe} get{tab.capitalize()}{name}();
     void set{tab.capitalize()}{name}({qtdatatpe} val);
-    {qtdatatpe} getDefaultFor{tab.capitalize()}{name}();
-    void setDefaultFor{tab.capitalize()}{name}();"""
+    Q_INVOKABLE const {qtdatatpe} getDefaultFor{tab.capitalize()}{name}();
+    Q_INVOKABLE void setDefaultFor{tab.capitalize()}{name}();"""
         cont_HEADER += "\n"
 
     cont_HEADER += """
+    Q_INVOKABLE QVariant getDefaultForExtension(const QString &key);
 
     void setDefault();
     void setDefaultFor(QString key);
@@ -200,6 +201,7 @@ private:"""
     QTimer *dbCommitTimer;
 
     QQmlPropertyMap *m_extensions;
+    QVariantHash m_extensions_defaults;
 
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);

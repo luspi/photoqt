@@ -372,7 +372,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                check_dupl.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("mainmenuShowExternal")==1)
+                check_dupl.checked = PQCSettings.getDefaultForMainmenuShowExternal()
             }
 
         }

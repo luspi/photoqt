@@ -138,9 +138,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                cache_enable.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCache")==1) // qmllint disable unqualified
-                cache_dir_default.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCacheBaseDirDefault")==1)
-                cache_dir_custom.customdir = PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsCacheBaseDirLocation").toString()
+                cache_enable.checked = PQCSettings.getDefaultForThumbnailsCache
+                cache_dir_default.checked = PQCSettings.getDefaultForThumbnailsCacheBaseDirDefault()
+                cache_dir_custom.customdir = PQCSettings.getDefaultForThumbnailsCacheBaseDirLocation()
             }
 
             function handleEscape() {
@@ -273,7 +273,7 @@ Flickable {
 
             onResetToDefaults: {
 
-                excludenetwork.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsExcludeNetworkShares") == 1)
+                excludenetwork.checked = PQCSettings.getDefaultForThumbnailsExcludeNetworkShares()
 
                 nextcloud.folder = PQCScriptsFilesPaths.findNextcloudFolder()
                 nextcloud.checked = false
@@ -284,7 +284,7 @@ Flickable {
                 dropbox.folder = PQCScriptsFilesPaths.findDropBoxFolder()
                 dropbox.checked = false
 
-                exclude_folders.text = PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsExcludeFolders").join("\n")
+                exclude_folders.text = PQCSettings.getDefaultForThumbnailsExcludeFolders()
             }
 
             function handleEscape() {
@@ -388,7 +388,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                threads.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("thumbnailsMaxNumberThreads"))
+                threads.setValue(PQCSettings.getDefaultForThumbnailsMaxNumberThreads())
             }
 
             function handleEscape() {

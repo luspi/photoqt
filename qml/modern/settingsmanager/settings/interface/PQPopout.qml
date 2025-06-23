@@ -285,10 +285,68 @@ Flickable {
                                         target: setting_top
 
                                         function onPopoutLoadDefault() {
-                                            check.checked = PQCSettings[setting_top.pops[deleg.modelData][0]] // qmllint disable unqualified
+
+                                            var p = setting_top.pops[deleg.modelData][0]
+
+                                            if(p === "interfacePopoutFileDialog") check.checked = PQCSettings.interfacePopoutFileDialog
+                                            else if(p === "interfacePopoutMapExplorer") check.checked = PQCSettings.interfacePopoutMapExplorer
+                                            else if(p === "interfacePopoutSettingsManager") check.checked = PQCSettings.interfacePopoutSettingsManager
+                                            else if(p === "interfacePopoutMainMenu") check.checked = PQCSettings.interfacePopoutMainMenu
+                                            else if(p === "interfacePopoutMetadata") check.checked = PQCSettings.interfacePopoutMetadata
+
+                                            else if(p === "extensionsHistogramPopout") check.checked = PQCSettings.extensions["HistogramPopout"]
+                                            else if(p === "extensionsMapCurrentPopout") check.checked = PQCSettings.extensions["MapCurrentPopout"]
+                                            else if(p === "extensionsScaleImagePopout") check.checked = PQCSettings.extensions["ScaleImagePopout"]
+                                            else if(p === "interfacePopoutSlideshowSetup") check.checked = PQCSettings.interfacePopoutSlideshowSetup
+                                            else if(p === "interfacePopoutSlideshowControls") check.checked = PQCSettings.interfacePopoutSlideshowControls
+
+                                            else if(p === "interfacePopoutFileRename") check.checked = PQCSettings.interfacePopoutFileRename
+                                            else if(p === "interfacePopoutFileDelete") check.checked = PQCSettings.interfacePopoutFileDelete
+                                            else if(p === "extensionsExportImagePopout") check.checked = PQCSettings.extensions["ExportImagePopout"]
+                                            else if(p === "interfacePopoutAbout") check.checked = PQCSettings.interfacePopoutAbout
+                                            else if(p === "extensionsImgurComPopout") check.checked = PQCSettings.extensions["ImgurComPopout"]
+
+                                            else if(p === "extensionsWallpaperPopout") check.checked = PQCSettings.extensions["WallpaperPopout"]
+                                            else if(p === "interfacePopoutFilter") check.checked = PQCSettings.interfacePopoutFilter
+                                            else if(p === "interfacePopoutAdvancedSort") check.checked = PQCSettings.interfacePopoutAdvancedSort
+                                            else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.interfacePopoutChromecast
+                                            else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.interfaceMinimapPopout
+
+                                            else if(p === "extensionsCropImagePopout") check.checked = PQCSettings.extensions["CropImagePopout"]
+                                            else if(p === "extensionsQuickActionsPopout") check.checked = PQCSettings.extensions["QuickActionsPopout"]
+
                                         }
                                         function onPopoutResetToDefault() {
-                                            check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor(setting_top.pops[deleg.modelData][0]) == 1) // qmllint disable unqualified
+
+                                            var p = setting_top.pops[deleg.modelData][0]
+
+                                            if(p === "interfacePopoutFileDialog") check.checked = PQCSettings.getDefaultForInterfacePopoutFileDialog()
+                                            else if(p === "interfacePopoutMapExplorer") check.checked = PQCSettings.getDefaultForInterfacePopoutMapExplorer()
+                                            else if(p === "interfacePopoutSettingsManager") check.checked = PQCSettings.getDefaultForInterfacePopoutSettingsManager()
+                                            else if(p === "interfacePopoutMainMenu") check.checked = PQCSettings.getDefaultForInterfacePopoutMainMenu()
+                                            else if(p === "interfacePopoutMetadata") check.checked = PQCSettings.getDefaultForInterfacePopoutMetadata()
+
+                                            else if(p === "extensionsHistogramPopout") check.checked = PQCSettings.getDefaultForExtension("HistogramPopout")
+                                            else if(p === "extensionsMapCurrentPopout") check.checked = PQCSettings.getDefaultForExtension("MapCurrentPopout")
+                                            else if(p === "extensionsScaleImagePopout") check.checked = PQCSettings.getDefaultForExtension("ScaleImagePopout")
+                                            else if(p === "interfacePopoutSlideshowSetup") check.checked = PQCSettings.getDefaultForInterfacePopoutSlideshowSetup()
+                                            else if(p === "interfacePopoutSlideshowControls") check.checked = PQCSettings.getDefaultForInterfacePopoutSlideshowControls()
+
+                                            else if(p === "interfacePopoutFileRename") check.checked = PQCSettings.getDefaultForInterfacePopoutFileRename()
+                                            else if(p === "interfacePopoutFileDelete") check.checked = PQCSettings.getDefaultForInterfacePopoutFileDelete()
+                                            else if(p === "extensionsExportImagePopout") check.checked = PQCSettings.getDefaultForExtension("ExportImagePopout")
+                                            else if(p === "interfacePopoutAbout") check.checked = PQCSettings.getDefaultForInterfacePopoutAbout()
+                                            else if(p === "extensionsImgurComPopout") check.checked = PQCSettings.getDefaultForExtension("ImgurComPopout")
+
+                                            else if(p === "extensionsWallpaperPopout") check.checked = PQCSettings.getDefaultForExtension("WallpaperPopout")
+                                            else if(p === "interfacePopoutFilter") check.checked = PQCSettings.getDefaultForInterfacePopoutFilter()
+                                            else if(p === "interfacePopoutAdvancedSort") check.checked = PQCSettings.getDefaultForInterfacePopoutAdvancedSort()
+                                            else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.getDefaultForInterfacePopoutChromecast()
+                                            else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.getDefaultForInterfaceMinimapPopout()
+
+                                            else if(p === "extensionsCropImagePopout") check.checked = PQCSettings.getDefaultForExtension("CropImagePopout")
+                                            else if(p === "extensionsQuickActionsPopout") check.checked = PQCSettings.getDefaultForExtension("QuickActionsPopout")
+
                                         }
 
                                         function onPopoutSaveChanges() {
@@ -428,9 +486,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                keepopen_fd_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutFileDialogNonModal")==1) // qmllint disable unqualified
-                keepopen_me_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutMapExplorerNonModal")==1)
-                keepopen_sm_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutSettingsManagerNonModal")==1)
+                keepopen_fd_check.checked = PQCSettings.getDefaultForInterfacePopoutFileDialogNonModal()
+                keepopen_me_check.checked = PQCSettings.getDefaultForInterfacePopoutMapExplorerNonModal()
+                keepopen_sm_check.checked = PQCSettings.getDefaultForInterfacePopoutSettingsManagerNonModal()
             }
 
             function handleEscape() {
@@ -491,7 +549,7 @@ Flickable {
             }
 
             onResetToDefaults: {
-                checksmall.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfacePopoutWhenWindowIsSmall")==1)
+                checksmall.checked = PQCSettings.getDefaultForInterfacePopoutWhenWindowIsSmall()
             }
 
             function handleEscape() {

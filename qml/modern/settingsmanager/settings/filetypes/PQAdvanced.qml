@@ -118,10 +118,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                applelive.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesLoadAppleLivePhotos") == 1) // qmllint disable unqualified
-                motionmicro.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesLoadMotionPhotos") == 1)
-                motionplaypause.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesMotionPhotoPlayPause") == 1)
-                motionspace.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesMotionSpacePause") == 1)
+                applelive.checked = PQCSettings.getDefaultForFiletypesLoadAppleLivePhotos()
+                motionmicro.checked = PQCSettings.getDefaultForFiletypesLoadMotionPhotos()
+                motionplaypause.checked = PQCSettings.getDefaultForFiletypesMotionPhotoPlayPause()
+                motionspace.checked = PQCSettings.getDefaultForFiletypesMotionSpacePause()
             }
 
             function handleEscape() {
@@ -234,15 +234,15 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                ps_entering.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereAutoLoad")==1 ?
+                ps_entering.currentIndex = (PQCSettings.getDefaultForFiletypesPhotoSphereAutoLoad() ?
                                                 0 :
-                                                (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereBigButton")==1 ?
+                                                (PQCSettings.getDefaultForFiletypesPhotoSphereBigButton() ?
                                                      1 :
                                                      2))
-                ps_controls.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereControls") == 1)
-                ps_arrows.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSphereArrowKeys") == 1)
-                ps_pan.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filetypesPhotoSpherePanOnLoad") == 1)
-                ps_escape.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitSphere") == 1)
+                ps_controls.checked = PQCSettings.getDefaultForFiletypesPhotoSphereControls()
+                ps_arrows.checked = PQCSettings.getDefaultForFiletypesPhotoSphereArrowKeys()
+                ps_pan.checked = PQCSettings.getDefaultForFiletypesPhotoSpherePanOnLoad()
+                ps_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
             }
 
             function handleEscape() {

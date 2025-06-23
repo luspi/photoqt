@@ -340,12 +340,12 @@ Flickable {
 
             onResetToDefaults: {
 
-                status_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShow") == 1) // qmllint disable unqualified
+                status_show.checked = PQCSettings.getDefaultForInterfaceStatusInfoShow()
 
-                set_status.curEntries = PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoList")
+                set_status.curEntries = PQCSettings.getDefaultForInterfaceStatusInfoList()
                 populateModel()
 
-                fontsize.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoFontSize"))
+                fontsize.setValue(PQCSettings.getDefaultForInterfaceStatusInfoFontSize())
 
                 // this is needed to check for model changes
                 setting_top.checkDefault()
@@ -475,16 +475,16 @@ Flickable {
 
             onResetToDefaults: {
 
-                var val_hide = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHide")
-                var val_topedge = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHideTopEdge")
-                var val_timeout = 1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoAutoHideTimeout")/1000
+                var val_hide = PQCSettings.getDefaultForInterfaceStatusInfoAutoHide()
+                var val_topedge = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTopEdge()
+                var val_timeout = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTimeout()/1000
 
-                autohide_always.checked = (val_hide == 0 && val_topedge == 0)
-                autohide_anymove.checked = (val_hide == 1 && val_topedge == 0)
-                autohide_topedge.checked = (val_topedge == 1)
+                autohide_always.checked = (val_hide === 0 && val_topedge === 0)
+                autohide_anymove.checked = (val_hide === 1 && val_topedge === 0)
+                autohide_topedge.checked = (val_topedge === 1)
                 autohide_timeout.setValue(val_timeout)
 
-                imgchange.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoShowImageChange") == 1)
+                imgchange.checked = PQCSettings.getDefaultForInterfaceStatusInfoShowImageChange()
 
             }
 
@@ -553,7 +553,7 @@ Flickable {
 
             onResetToDefaults: {
                 var opts = ["left", "center", "right"]
-                infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoPosition").toString()))
+                infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCSettings.getDefaultForInterfaceStatusInfoPosition()))
             }
 
             function handleEscape() {
@@ -600,7 +600,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                managewindow.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceStatusInfoManageWindow")==1)
+                managewindow.checked = PQCSettings.getDefaultForInterfaceStatusInfoManageWindow()
             }
 
             function handleEscape() {

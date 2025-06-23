@@ -122,7 +122,7 @@ Flickable {
 
             onResetToDefaults: {
                 sortcriteria.currentIndex = 0
-                sortasc.checked = (PQCScriptsConfig.getDefaultSettingValueFor("imageviewSortImagesAscending") == 1)
+                sortasc.checked = PQCSettings.getDefaultForImageviewSortImagesAscending()
                 sortdesc.checked = !sortasc.checked
             }
 
@@ -196,8 +196,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                layout_icon.checked = (PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout").toString() === "grid")
-                layout_masonry.checked = (PQCScriptsConfig.getDefaultSettingValueFor("filedialogLayout").toString() === "masonry")
+                layout_icon.checked = (PQCSettings.getDefaultForFiledialogLayout()==="grid")
+                layout_masonry.checked = (PQCSettings.getDefaultForFiledialogLayout() === "masonry")
                 layout_list.checked = !layout_icon.checked&&!layout_masonry.checked
             }
 
@@ -247,7 +247,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                hiddencheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogShowHiddenFilesFolders") == 1)
+                hiddencheck.checked = PQCSettings.getDefaultForFiledialogShowHiddenFilesFolders()
             }
 
             function handleEscape() {
@@ -291,7 +291,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                tooltipcheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDetailsTooltip") == 1)
+                tooltipcheck.checked = PQCSettings.getDefaultForFiledialogDetailsTooltip()
             }
 
             function handleEscape() {
@@ -336,7 +336,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                remembercheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogKeepLastLocation") == 1)
+                remembercheck.checked = PQCSettings.getDefaultForFiledialogKeepLastLocation()
             }
 
             function handleEscape() {
@@ -388,7 +388,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                singlecheck.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogSingleClickSelect") == 1)
+                singlecheck.checked = PQCSettings.getDefaultForFiledialogSingleClickSelect()
                 singleexec.checked = !singlecheck.checked
             }
 
@@ -436,7 +436,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                selremem.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogRememberSelection") == 1)
+                selremem.checked = PQCSettings.getDefaultForFiledialogRememberSelection()
             }
 
             function handleEscape() {
@@ -495,9 +495,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                sect_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPlaces") == 1)
-                sect_devices.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDevices") == 1)
-                sect_devicestmpfs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDevicesShowTmpfs") == 1)
+                sect_bookmarks.checked = PQCSettings.getDefaultForFiledialogPlaces()
+                sect_devices.checked = PQCSettings.getDefaultForFiledialogDevices()
+                sect_devicestmpfs.checked = PQCSettings.getDefaultForFiledialogDevicesShowTmpfs()
             }
 
             function handleEscape() {
@@ -566,10 +566,10 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                drag_icon.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewGrid") == 1)
-                drag_list.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewList") == 1)
-                drag_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropFileviewMasonry") == 1)
-                drag_bookmarks.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogDragDropPlaces") == 1)
+                drag_icon.checked = PQCSettings.getDefaultForFiledialogDragDropFileviewGrid()
+                drag_list.checked = PQCSettings.getDefaultForFiledialogDragDropFileviewList()
+                drag_masonry.checked = PQCSettings.getDefaultForFiledialogDragDropFileviewMasonry()
+                drag_bookmarks.checked = PQCSettings.getDefaultForFiledialogDragDropPlaces()
             }
 
             function handleEscape() {
@@ -639,8 +639,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                thumb_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogThumbnails") == 1)
-                thumb_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogThumbnailsScaleCrop") == 1)
+                thumb_show.checked = PQCSettings.getDefaultForFiledialogThumbnails()
+                thumb_scalecrop.checked = PQCSettings.getDefaultForFiledialogThumbnailsScaleCrop()
             }
 
             function handleEscape() {
@@ -692,7 +692,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                padding.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogElementPadding"))
+                padding.setValue(PQCSettings.getDefaultForFiledialogElementPadding())
             }
 
             function handleEscape() {
@@ -747,8 +747,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                labels_grid.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowGrid") == 1)
-                labels_masonry.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogLabelsShowMasonry") == 1)
+                labels_grid.checked = PQCSettings.getDefaultForFiledialogLabelsShowGrid()
+                labels_masonry.checked = PQCSettings.getDefaultForFiledialogLabelsShowMasonry()
             }
 
             function handleEscape() {
@@ -859,11 +859,11 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                folderthumb_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnails") == 1)
-                folderthumb_timeout.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsSpeed")-1)
-                folderthumb_loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsLoop") == 1)
-                folderthumb_autoload.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsAutoload") == 1)
-                folderthumb_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogFolderContentThumbnailsScaleCrop") == 1)
+                folderthumb_check.checked = PQCSettings.getDefaultForFiledialogFolderContentThumbnails()
+                folderthumb_timeout.currentIndex = PQCSettings.getDefaultForFiledialogFolderContentThumbnailsSpeed()
+                folderthumb_loop.checked = PQCSettings.getDefaultForFiledialogFolderContentThumbnailsLoop()
+                folderthumb_autoload.checked = PQCSettings.getDefaultForFiledialogFolderContentThumbnailsAutoload()
+                folderthumb_scalecrop.checked = PQCSettings.getDefaultForFiledialogFolderContentThumbnailsScaleCrop()
             }
 
             function handleEscape() {
@@ -993,12 +993,12 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                preview_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreview") == 1)
-                preview_blur.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewBlur") == 1)
-                preview_mute.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewMuted") == 1)
-                preview_colintspin.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewColorIntensity"))
-                preview_resolution.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewHigherResolution") == 1)
-                preview_scalecrop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("filedialogPreviewCropToFit") == 1)
+                preview_check.checked = PQCSettings.getDefaultForFiledialogPreview()
+                preview_blur.checked = PQCSettings.getDefaultForFiledialogPreviewBlur()
+                preview_mute.checked = PQCSettings.getDefaultForFiledialogPreviewMuted()
+                preview_colintspin.setValue(PQCSettings.getDefaultForFiledialogPreviewColorIntensity())
+                preview_resolution.checked = PQCSettings.getDefaultForFiledialogPreviewHigherResolution()
+                preview_scalecrop.checked = PQCSettings.getDefaultForFiledialogPreviewCropToFit()
             }
 
             function handleEscape() {

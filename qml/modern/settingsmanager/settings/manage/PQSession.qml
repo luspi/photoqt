@@ -89,7 +89,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                mult.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceAllowMultipleInstances") == 1)
+                mult.checked = PQCSettings.getDefaultForInterfaceAllowMultipleInstances()
                 sing.checked = !mult.checked
             }
 
@@ -145,7 +145,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                reopenlast.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceRememberLastImage") == 1)
+                reopenlast.checked = PQCSettings.getDefaultForInterfaceRememberLastImage()
                 blanksession.checked = !reopenlast.checked
             }
 
@@ -234,12 +234,12 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                remember.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewRememberZoomRotationMirror") == 1)
+                remember.checked = PQCSettings.getDefaultForImageviewRememberZoomRotationMirror()
                 forget.checked = !remember.checked
 
-                reuse_zoom.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveZoom") == 1)
-                reuse_rotation.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveRotation") == 1)
-                reuse_mirror.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewPreserveMirror") == 1)
+                reuse_zoom.checked = PQCSettings.getDefaultForImageviewPreserveZoom()
+                reuse_rotation.checked = PQCSettings.getDefaultForImageviewPreserveRotation()
+                reuse_mirror.checked = PQCSettings.getDefaultForImageviewPreserveMirror()
                 reuse.checked = (reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
             }
 
@@ -331,9 +331,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                trayicon_show.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIcon") > 0)
-                trayicon_hide.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIcon") === 1)
-                trayicon_mono.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIconMonochrome") == 1)
+                trayicon_show.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
+                trayicon_hide.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
+                trayicon_mono.checked = PQCSettings.getDefaultForInterfaceTrayIconMonochrome()
             }
 
             function handleEscape() {
@@ -392,7 +392,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                trayicon_reset.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceTrayIconHideReset") == 1)
+                trayicon_reset.checked = PQCSettings.getDefaultForInterfaceTrayIconHideReset()
             }
 
             function handleEscape() {

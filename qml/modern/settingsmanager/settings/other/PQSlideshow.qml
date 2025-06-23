@@ -198,13 +198,13 @@ Flickable {
 
             onResetToDefaults: {
 
-                anim_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition")<15) // qmllint disable unqualified
+                anim_check.checked = (PQCSettings.getDefaultForSlideshowImageTransition() < 15)
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-                anicombo.currentIndex = animArray.indexOf(PQCScriptsConfig.getDefaultSettingValueFor("slideshowTypeAnimation").toString())
+                anicombo.currentIndex = animArray.indexOf(PQCSettings.getDefaultForSlideshowTypeAnimation())
                 if(anicombo.currentIndex === -1) anicombo.currentIndex = 0
 
-                anispeed.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowImageTransition"))
+                anispeed.value = PQCSettings.getDefaultForSlideshowImageTransition()
 
             }
 
@@ -270,7 +270,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                interval.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowTime"))
+                interval.setValue(PQCSettings.getDefaultForSlideshowTime())
             }
 
             function handleEscape() {
@@ -317,7 +317,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                loop.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowLoop") == 1)
+                loop.checked = PQCSettings.getDefaultForSlideshowLoop()
             }
 
             function handleEscape() {
@@ -362,7 +362,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                shuffle.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowShuffle") == 1)
+                shuffle.checked = PQCSettings.getDefaultForSlideshowShuffle()
             }
 
             function handleEscape() {
@@ -414,8 +414,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                hidewindowbuttons.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowHideWindowButtons") == 1)
-                hidestatusinfo.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowHideLabels") == 1)
+                hidewindowbuttons.checked = PQCSettings.getDefaultForSlideshowHideWindowButtons()
+                hidestatusinfo.checked = PQCSettings.getDefaultForSlideshowHideLabels()
             }
 
             function handleEscape() {
@@ -463,7 +463,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                includesub.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowIncludeSubFolders") == 1)
+                includesub.checked = PQCSettings.getDefaultForSlideshowIncludeSubFolders()
             }
 
             function handleEscape() {
@@ -723,9 +723,9 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                music_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusic") == 1)
-                music_volumevideos.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusicVolumeVideos"))
-                music_shuffle.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("slideshowMusicShuffle") == 1)
+                music_check.checked = PQCSettings.getDefaultForSlideshowMusic()
+                music_volumevideos.currentIndex = PQCSettings.getDefaultForSlideshowMusicVolumeVideos()
+                music_shuffle.checked = PQCSettings.getDefaultForSlideshowMusicShuffle()
                 set_music.musicfiles = []
             }
 

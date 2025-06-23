@@ -193,15 +193,15 @@ Flickable {
 
             onResetToDefaults: {
 
-                zoomspeed.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeed")) // qmllint disable unqualified
-                zoom_rel.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeedRelative") == 1)
-                zoom_abs.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomSpeedRelative") == 0)
-                minzoom_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMinEnabled") == 1)
-                minzoom_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMin"))
-                maxzoom_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMaxEnabled") == 1)
-                maxzoom_slider.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomMax"))
-                zoom_mousepos.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomToCenter") == 0)
-                zoom_imcent.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewZoomToCenter") == 1)
+                zoomspeed.setValue(PQCSettings.getDefaultForImageviewZoomSpeed())
+                zoom_rel.checked = PQCSettings.getDefaultForImageviewZoomSpeedRelative()===1
+                zoom_abs.checked = PQCSettings.getDefaultForImageviewZoomSpeedRelative()===0
+                minzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMinEnabled()
+                minzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMin())
+                maxzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMaxEnabled()
+                maxzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMax())
+                zoom_mousepos.checked = PQCSettings.getDefaultForImageviewZoomToCenter()===0
+                zoom_imcent.checked = PQCSettings.getDefaultForImageviewZoomToCenter()===1
 
             }
 
@@ -299,8 +299,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                minimap.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewShowMinimap")==1)
-                minimapsizelevel.currentIndex = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMinimapSizeLevel"))
+                minimap.checked = PQCSettings.getDefaultForImageviewShowMinimap()
+                minimapsizelevel.currentIndex = PQCSettings.getDefaultForImageviewMinimapSizeLevel()
             }
 
             function handleEscape() {
@@ -348,7 +348,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                mirroranim.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewMirrorAnimate") == 1)
+                mirroranim.checked = PQCSettings.getDefaultForImageviewMirrorAnimate()
             }
 
             function handleEscape() {
@@ -401,7 +401,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }

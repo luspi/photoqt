@@ -101,8 +101,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                movewhl.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewUseMouseWheelForImageMove") == 1) // qmllint disable unqualified
-                movebut.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewUseMouseLeftButtonForImageMove") == 1)
+                movewhl.checked = PQCSettings.getDefaultForImageviewUseMouseWheelForImageMove()
+                movebut.checked = PQCSettings.getDefaultForImageviewUseMouseLeftButtonForImageMove()
             }
 
             function handleEscape() {
@@ -154,7 +154,7 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                dblclk.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceDoubleClickThreshold"))
+                dblclk.setValue(PQCSettings.getDefaultForInterfaceDoubleClickThreshold())
             }
 
             function handleEscape() {
@@ -219,8 +219,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                scrollspeed.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFlickAdjustSpeed") == 1)
-                scrollspeed_value.value = (1*PQCScriptsConfig.getDefaultSettingValueFor("interfaceFlickAdjustSpeedSpeedup"))
+                scrollspeed.checked = PQCSettings.getDefaultForInterfaceFlickAdjustSpeed()
+                scrollspeed_value.value = PQCSettings.getDefaultForInterfaceFlickAdjustSpeedSpeedup()
             }
 
             function handleEscape() {
@@ -282,8 +282,8 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                hidetimeout_check.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewHideCursorTimeout") > 0)
-                hidetimeout.setValue(1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewHideCursorTimeout"))
+                hidetimeout_check.checked = (PQCSettings.getDefaultForImageviewHideCursorTimeout() > 0)
+                hidetimeout.setValue(PQCSettings.getDefaultForImageviewHideCursorTimeout())
             }
 
             function handleEscape() {
@@ -357,11 +357,11 @@ Flickable {
             ]
 
             onResetToDefaults: {
-                escape_doc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitDocument") == 1)
-                escape_arc.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitArchive") == 1)
-                escape_bar.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitBarcodes") == 1)
-                escape_flt.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitFilter") == 1)
-                escape_sph.checked = (1*PQCScriptsConfig.getDefaultSettingValueFor("imageviewEscapeExitSphere") == 1)
+                escape_doc.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
+                escape_arc.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
+                escape_bar.checked = PQCSettings.getDefaultForImageviewEscapeExitBarcodes()
+                escape_flt.checked = PQCSettings.getDefaultForImageviewEscapeExitFilter()
+                escape_sph.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
             }
 
             function handleEscape() {
