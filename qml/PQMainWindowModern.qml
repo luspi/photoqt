@@ -352,7 +352,7 @@ Window {
 
         function onFilePathChanged() : void {
             console.log("")
-            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath // qmllint disable unqualified
+            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
             if(!toplevel.visible)
                 toplevel.visible = true
             if(toplevel.visibility === Window.Minimized)

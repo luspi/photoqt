@@ -218,12 +218,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
         // Send composed message string
         if(receivedFile != "")
-            socket->write(QStringLiteral("_F_I_L_E_{%1}").arg(receivedFile).toUtf8());
+            socket->write(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
         if(receivedShortcut != "")
-            socket->write(QStringLiteral("_S_H_O_R_T_C_U_T_{%1}").arg(receivedShortcut).toUtf8());
+            socket->write(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
         if(receivedSetting[0] != "")
-            socket->write(QStringLiteral("_S_E_T_T_I_N_G_{%1}:{%2}").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
-        socket->write(QStringLiteral("{%1}").arg(_strings.join('/')).toUtf8());
+            socket->write(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
+        socket->write(QStringLiteral("%1\n").arg(_strings.join('/')).toUtf8());
         socket->flush();
 
         // Inform user
@@ -255,15 +255,19 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {
-        QByteArray rep = socket->readAll();
-        if(rep.startsWith("_F_I_L_E_"))
+        QByteArray rep = socket->readAll().split('\n')[0];
+        qWarning() << "RECEIVED NEW CONNECTION:" << rep;
+        if(rep.startsWith("_F_I_L_E_")) {
             m_receivedFile = rep.last(rep.length()-9);
-        else if(rep.startsWith("_S_H_O_R_T_C_U_T_"))
+            handleMessage({Actions::File});
+        } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
             m_receivedShortcut = rep.last(rep.length()-17);
-        else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
+            handleMessage({Actions::Shortcut});
+        } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
             const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
             m_receivedSetting[0] = tmp[0];
             m_receivedSetting[1] = tmp[1];
+            handleMessage({Actions::Setting});
         } else {
             QList<Actions> _ints;
             const QList<QByteArray> _reps = rep.split('/');
