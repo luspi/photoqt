@@ -66,13 +66,13 @@ Item {
             return
         }
 
-        // if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
-        //     loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
-        //     return
-        // } else if(ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
-        //     loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
-        //     return
-        // }
+        if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
+            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
+            return
+        } else if(ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
+            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
+            return
+        }
 
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
@@ -167,7 +167,6 @@ Item {
                 showWhenReady.start()
                 return
             }
-            console.warn(">>> SHOW:", args)
             PQCNotify.loaderPassOn("show", args)
             args = []
         }
@@ -184,7 +183,6 @@ Item {
                 showWhenReady2.start()
                 return
             }
-            console.warn(">>> SHOW:", args)
             PQCNotify.loaderPassOn("show", args)
             args = []
         }
@@ -214,6 +212,10 @@ Item {
 
         console.log("args: ele =", ele)
         console.log("args: config =", config)
+
+        if((ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) ||
+                (ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()))
+            return
 
         var src
         if(config[4] || config[5])
