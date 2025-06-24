@@ -30,6 +30,9 @@ Loader {
     // this is the flickable to attach to
     property Flickable flickable: parent
 
+    // changing the cursor shape if desired
+    property int cursorShape: Qt.ArrowCursor
+
     active: PQCSettings.interfaceFlickAdjustSpeed
 
     asynchronous: true
@@ -84,6 +87,8 @@ Loader {
 
                 // this is only enabled when a flick is currently happening and no touchpad has been used
                 enabled: ldrtop.flickable.flicking && managertop.likelyTouchPad < 5
+
+                cursorShape: ldrtop.cursorShape
 
                 onWheel: (wheel) => {
 

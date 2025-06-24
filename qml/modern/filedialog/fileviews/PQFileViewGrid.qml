@@ -47,7 +47,10 @@ GridView {
             cacheContentY = contentY
     }
 
-    PQScrollManager { flickable: gridview }
+    PQScrollManager {
+        flickable: gridview
+        cursorShape: Qt.PointingHandCursor
+    }
 
     visible: isCurrentView
     property bool isCurrentView: PQCSettings.filedialogLayout==="grid"

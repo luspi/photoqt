@@ -233,6 +233,9 @@ Flickable {
                     opt.push("line")
                 if(highlight_magnify.checked)
                     opt.push("magnify")
+                // a line like this is needed. it seems like opt needs to be accessed for the value passed
+                // on to PQCSettings to not be empty on older versions of Qt.
+                console.log("thumbnails highlights:", opt)
                 PQCSettings.thumbnailsHighlightAnimation = opt
 
                 PQCSettings.thumbnailsHighlightAnimationLiftUp = highlight_liftup_slider.value

@@ -44,7 +44,10 @@ ListView {
             cacheContentY = contentY
     }
 
-    PQScrollManager { flickable: listview }
+    PQScrollManager {
+        flickable: listview
+        cursorShape: Qt.PointingHandCursor
+    }
 
     visible: isCurrentView
     property bool isCurrentView: PQCSettings.filedialogLayout==="list"

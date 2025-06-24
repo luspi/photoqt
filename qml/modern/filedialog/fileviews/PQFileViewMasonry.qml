@@ -84,7 +84,10 @@ Flickable {
             cacheContentY = contentY
     }
 
-    PQScrollManager { flickable: masonryview }
+    PQScrollManager {
+        flickable: masonryview
+        cursorShape: Qt.PointingHandCursor
+    }
 
     // this pair stores the current scroll position
     // this way we can preserve that position when the content of the current directory changes

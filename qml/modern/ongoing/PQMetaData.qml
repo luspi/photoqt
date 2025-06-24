@@ -722,14 +722,14 @@ Rectangle {
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:
-                PQCNotify.addToWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                PQCConstants.addToWhichContextMenusOpen("metadata") // qmllint disable unqualified
 
             Timer {
                 id: recordAsClosed
                 interval: 200
                 onTriggered: {
                     if(!themenu.visible)
-                        PQCNotify.removeFromWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                        PQCConstants.removeFromWhichContextMenusOpen("metadata") // qmllint disable unqualified
                 }
             }
 

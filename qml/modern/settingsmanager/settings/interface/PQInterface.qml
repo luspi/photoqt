@@ -555,7 +555,7 @@ Flickable {
                                         chk_fs.checked = deleg.fullscreenonly
                                         chk_wm.checked = deleg.windowedonly
                                         chk_ot.checked = deleg.alwaysontop
-                                        PQCNotify.addToWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
                                     }
 
                                     Connections {
@@ -570,7 +570,7 @@ Flickable {
                                         interval: 200
                                         onTriggered: {
                                             if(!itemmenu.opened)
-                                                PQCNotify.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
                                         }
                                     }
 

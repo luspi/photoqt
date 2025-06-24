@@ -66,7 +66,7 @@ Item {
     }
 
     // possible values: counter, filename, filepathname, resolution, zoom, rotation
-    property list<string> info: PQCSettings.interfaceStatusInfoList // qmllint disable unqualified
+    property list<string> info: PQCSettings.interfaceStatusInfoList
 
     property int distanceFromEdge: 20
 

@@ -76,13 +76,13 @@ Rectangle {
 
     PQShadowEffect { masterItem: thumbnails_top }
 
-    function onWidthChanged() {
+    onWidthChanged: {
         PQCConstants.thumbnailsBarWidth = thumbnails_top.width
     }
-    function onHeightChanged() {
+    onHeightChanged: {
         PQCConstants.thumbnailsBarHeight = thumbnails_top.height
     }
-    function onOpacityChanged() {
+    onOpacityChanged: {
         PQCConstants.thumbnailsBarOpacity = thumbnails_top.opacity
     }
 

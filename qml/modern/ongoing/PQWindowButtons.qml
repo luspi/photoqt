@@ -904,14 +904,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCNotify.addToWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menucomponent.visible)
-                            PQCNotify.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
                     }
                 }
             }
