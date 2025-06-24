@@ -256,7 +256,6 @@ void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {
         QByteArray rep = socket->readAll().split('\n')[0];
-        qWarning() << "RECEIVED NEW CONNECTION:" << rep;
         if(rep.startsWith("_F_I_L_E_")) {
             m_receivedFile = rep.last(rep.length()-9);
             handleMessage({Actions::File});

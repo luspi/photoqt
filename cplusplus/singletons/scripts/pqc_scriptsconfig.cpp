@@ -281,7 +281,7 @@ bool PQCScriptsConfig::exportConfigTo(QString path) {
                 archive_entry_free(entry);
 
             } else
-                qWarning() <<  QString("PQHandlingExternal::exportConfig(): ERROR: Unable to read config file '%1'... Skipping!").arg(iter.value());
+                qWarning() <<  QString("ERROR: Unable to read config file '%1'... Skipping!").arg(iter.value());
         }
         ++iter;
     }

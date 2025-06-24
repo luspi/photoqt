@@ -541,7 +541,6 @@ QString PQCScriptsShortcuts::translateShortcut(QString combo) {
 
     QString ret = "";
     for(const QString &ele : std::as_const(parts)) {
-        qWarning() << "    " << ele;
         if(ret != "")
             ret += " + ";
         if(ele == "")

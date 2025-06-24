@@ -87,8 +87,6 @@ void PQCScriptsChromeCast::readDiscoveryOutput() {
 
     }
 
-    qWarning() << m_availableDevices;
-
     m_inDiscovery = false;
     inDiscoveryChanged();
     Q_EMIT availableDevicesChanged();

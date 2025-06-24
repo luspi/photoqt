@@ -91,7 +91,7 @@ bool PQCScriptsFileManagement::deletePermanent(QString filename) {
     if(info.isDir()) {
         QDir dir(filename);
         if(!dir.removeRecursively()) {
-            qWarning() << "PQHandlingFileDir::deleteFile(): Failed to delete folder recursively!";
+            qWarning() << "Failed to delete folder recursively!";
             return false;
         }
         return true;
