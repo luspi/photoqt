@@ -43,7 +43,16 @@ PQCScriptsContextMenu::PQCScriptsContextMenu() {
 
     QFileInfo infodb(PQCConfigFiles::get().CONTEXTMENU_DB());
 
-    if(!infodb.exists() || !db.open()) {
+    if(!infodb.exists()) {
+        if(!QFile::copy(":/contextmenu.db", PQCConfigFiles::get().CONTEXTMENU_DB()))
+            qWarning() << "Unable to (re-)create default contextmenu database";
+        else {
+            QFile file(PQCConfigFiles::get().CONTEXTMENU_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+
+    if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
         qWarning() << "no context menu entries will be available";

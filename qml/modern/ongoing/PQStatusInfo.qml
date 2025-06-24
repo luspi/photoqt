@@ -472,7 +472,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round((PQCNotify.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" // qmllint disable unqualified
+            text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" // qmllint disable unqualified
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }

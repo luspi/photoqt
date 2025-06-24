@@ -97,7 +97,7 @@ Loader {
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/scale.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Scale image")
-                enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
                     PQCNotify.executeInternalCommand("__scale") // qmllint disable unqualified
             }
@@ -105,7 +105,7 @@ Loader {
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/crop.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Crop image")
-                enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
                     PQCNotify.executeInternalCommand("__crop") // qmllint disable unqualified
             }
@@ -113,7 +113,7 @@ Loader {
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Tag faces")
-                enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
                     PQCNotify.executeInternalCommand("__tagFaces") // qmllint disable unqualified
             }
@@ -137,7 +137,7 @@ Loader {
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Export to different format")
-                enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
                     PQCNotify.executeInternalCommand("__export") // qmllint disable unqualified
             }
@@ -145,7 +145,7 @@ Loader {
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Set as wallpaper")
-                enabled: !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
                     PQCNotify.executeInternalCommand("__wallpaper") // qmllint disable unqualified
             }
@@ -154,7 +154,7 @@ Loader {
                 model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0 // qmllint disable unqualified
                 PQMenuItem {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" // qmllint disable unqualified
-                    text: PQCNotify.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
+                    text: PQCConstants.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
                     onTriggered:
                         PQCNotify.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
                 }
@@ -340,7 +340,7 @@ Loader {
                                        !PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFile) &&
                                        !PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFile) &&
                                        !PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFile) &&
-                                       !PQCNotify.showingPhotoSphere)
+                                       !PQCConstants.showingPhotoSphere)
             }
         }
 

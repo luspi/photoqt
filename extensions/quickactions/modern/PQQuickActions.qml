@@ -133,7 +133,7 @@ PQTemplateFloating {
         "clipboard" :   [qsTranslate("quickactions", "Copy to clipboard"),               "clipboard",      "__clipboard",   false],
         "export" :      [qsTranslate("quickactions", "Export to different format"),      "convert",        "__export",      false],
         "wallpaper" :   [qsTranslate("quickactions", "Set as wallpaper"),                "wallpaper",      "__wallpaper",   false],
-        "qr" :          [(PQCNotify.barcodeDisplayed ?
+        "qr" :          [(PQCConstants.barcodeDisplayed ?
                               qsTranslate("quickactions", "Hide QR/barcodes") :
                               qsTranslate("quickactions", "Detect QR/barcodes")),   "qrcode",         "__detectBarCodes", false],
         "close" :       [qsTranslate("quickactions", "Close window"),               "quit",           "__close",          true],

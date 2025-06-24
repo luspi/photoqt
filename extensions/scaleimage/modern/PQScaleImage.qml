@@ -109,11 +109,6 @@ PQTemplateFullscreen {
                     minval: 1
                     maxval: 99999
                     showSlider: false
-                    onEditModeChanged: {
-                        if(!editMode && spin_h.editMode) {
-                            PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
-                        }
-                    }
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
@@ -133,11 +128,6 @@ PQTemplateFullscreen {
                     minval: 1
                     maxval: 99999
                     showSlider: false
-                    onEditModeChanged: {
-                        if(!editMode && spin_w.editMode) {
-                            PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
-                        }
-                    }
                     property bool reactToValueChanged: true
                     onValueChanged: {
                         if(scale_top.opacity < 1) return
@@ -431,7 +421,7 @@ PQTemplateFullscreen {
             return
         }
 
-        var canBeScaled = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
+        var canBeScaled = !PQCConstants.showingPhotoSphere && PQCScriptsFileManagement.canThisBeScaled(PQCFileFolderModel.currentFile)
 
         if(!canBeScaled) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be scaled."))

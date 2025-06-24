@@ -51,17 +51,17 @@ Rectangle {
         }
     }
 
-    function onYChanged() {
+    onYChanged: {
         if(dragmouse.drag.active)
             saveXY.restart()
     }
 
-    function onXChanged() {
+    onXChanged: {
         if(dragmouse.drag.active)
             saveXY.restart()
     }
 
-    function onOpacityChanged() {
+    onOpacityChanged: {
         PQCConstants.metadataOpacity = metadata_top.opacity
     }
 

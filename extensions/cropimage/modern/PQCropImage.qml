@@ -320,7 +320,7 @@ PQTemplateFullscreen {
 
     Connections {
         target: PQCScriptsFileManagement // qmllint disable unqualified
-        function onCropCompleted(success) {
+        function onCropCompleted(success : bool) {
             if(success) {
                 errorlabel.hide()
                 cropbusy.showSuccess()
@@ -402,7 +402,7 @@ PQTemplateFullscreen {
             return
         }
 
-        var canBeCropped = !PQCNotify.showingPhotoSphere && PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
+        var canBeCropped = !PQCConstants.showingPhotoSphere && PQCScriptsFileManagement.canThisBeCropped(PQCFileFolderModel.currentFile)
 
         if(!canBeCropped) {
             PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Action not available"), qsTranslate("filemanagement", "This image can not be cropped."))

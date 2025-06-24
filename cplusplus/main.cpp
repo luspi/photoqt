@@ -102,12 +102,7 @@
 #include <gio/gio.h>
 #endif
 
-#include <pqc_plain.h>
-
 int main(int argc, char *argv[]) {
-
-    PQCScriptsPlain::get().setInitTime(QDateTime::currentMSecsSinceEpoch());
-
 
 #ifdef Q_OS_WIN
 
@@ -170,13 +165,8 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-    auto t0 = std::chrono::steady_clock::now();
-
     // only a single instance
     PQCSingleInstance app(argc, argv);
-
-    auto t1 = std::chrono::steady_clock::now();
-    qWarning() << "|| prelim:" << std::chrono::duration<double, std::milli>(t1-t0).count();
 
 #ifdef PQMVIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
@@ -283,8 +273,6 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
-
-    qmlRegisterSingletonInstance("PQCScriptsPlain", 1, 0, "PQCScriptsPlain", &PQCScriptsPlain::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere
     engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());

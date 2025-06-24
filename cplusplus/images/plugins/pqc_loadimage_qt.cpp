@@ -123,6 +123,15 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
 
+#ifdef Q_OS_UNIX
+    QStringList faulty = {"jpx", "icns", "j2k", "jpc"};
+    if(faulty.contains(suffix)) {
+        errormsg = QString("The %1 Qt plugin is currently (June 2025) unstable on Linux.").arg(suffix.toUpper());
+        qWarning() << errormsg;
+        return errormsg;
+    }
+#endif
+
     if(suffix == "svg" || suffix == "svgz") {
 
         // For reading SVG files
@@ -157,11 +166,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         // For all other supported file types
         QImageReader reader;
 
-        // disable allocation limit check
-        // there is a bug in Qt 6.6 with a disabled allocation limit and ICNS files:
-        // https://bugreports.qt.io/browse/QTBUG-118797
-        if(suffix != "icns")
-            reader.setAllocationLimit(0);
+        reader.setAllocationLimit(0);
 
         // Setting QImageReader
         reader.setFileName(filename);

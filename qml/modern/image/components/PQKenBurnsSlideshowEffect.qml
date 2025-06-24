@@ -325,7 +325,7 @@ Item {
 
             if(PQCConstants.slideshowRunning) {
 
-                if(!PQCConstants.currentlyShowingVideo && !PQCNotify.showingPhotoSphere)
+                if(!PQCConstants.currentlyShowingVideo && !PQCConstants.showingPhotoSphere)
                     loader_top.zoomInForKenBurns()
                 flickable.returnToBounds()
                 aniDeleg.manageAni()
@@ -342,7 +342,7 @@ Item {
 
         var index = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageSource)
 
-        if(PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+        if(PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
             image_top.animatePhotoSpheres(index%2)
             return
         }

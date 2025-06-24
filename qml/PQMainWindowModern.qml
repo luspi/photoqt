@@ -26,8 +26,6 @@ import PQCScriptsFilesPaths
 import PQCScriptsConfig
 import PhotoQt
 
-import PQCScriptsPlain
-
 Window {
 
     id: toplevel
@@ -110,6 +108,8 @@ Window {
             PQCConstants.windowMaxAndNotWindowed = true
         else if(visibility === Window.Windowed)
             PQCConstants.windowMaxAndNotWindowed = false
+
+        PQCConstants.windowFullScreen = (visibility === Window.FullScreen)
 
     }
 
@@ -244,14 +244,12 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
             showOpacity.restart()
 
-        if(PQCConstants.startupFileLoad == "")
+        if(PQCConstants.startupFileLoad === "")
             loadAppInBackgroundTimer.triggered()
         else
             loadAppInBackgroundTimer.start()
 
         setVersion.start()
-
-        console.warn(">>> set up:", PQCScriptsOther.getTimestamp()-PQCScriptsPlain.getInitTime())
 
     }
 

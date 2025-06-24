@@ -84,13 +84,6 @@ Loader {
         }
 
         Loader {
-            id: loader_windowhandles
-            asynchronous: true
-            active: masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
-            source: "../ongoing/PQWindowHandles.qml"
-        }
-
-        Loader {
             id: statusinfo
             active: masteritem.readyToContinueLoading
             asynchronous: true
@@ -168,6 +161,13 @@ Loader {
         }
 
         /******************************************/
+
+        Loader {
+            id: loader_windowhandles
+            asynchronous: true
+            active: masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
+            source: "../ongoing/PQWindowHandles.qml"
+        }
 
         Loader {
             id: contextmenu

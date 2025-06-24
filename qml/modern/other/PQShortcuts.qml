@@ -253,7 +253,7 @@ Item {
             }
 
             // Escape when bar/QR codes are displayed hides those bar codes
-            if(PQCNotify.barcodeDisplayed && PQCSettings.imageviewEscapeExitBarcodes) {
+            if(PQCConstants.barcodeDisplayed && PQCSettings.imageviewEscapeExitBarcodes) {
                 PQCNotify.currentImageDetectBarCodes()
                 return
             }
@@ -330,7 +330,7 @@ Item {
         }
 
         // Space when motion photo is loaded might have special actions
-        if(combo === "Space" && PQCNotify.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
+        if(combo === "Space" && PQCConstants.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
 
             PQCNotify.playPauseAnimationVideo()
             return
@@ -376,7 +376,7 @@ Item {
         }
 
         // Left/Right when archive is loaded might have special actions
-        if(PQCNotify.showingPhotoSphere) {
+        if(PQCConstants.showingPhotoSphere) {
             if(PQCSettings.filetypesPhotoSphereArrowKeys &&
                     (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
 

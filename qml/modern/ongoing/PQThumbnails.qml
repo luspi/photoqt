@@ -959,7 +959,7 @@ Rectangle {
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
-    property int ignoreRightMotion: state==="bottom"&&PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0 // qmllint disable unqualified
+    property int ignoreRightMotion: state==="bottom"&&PQCConstants.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0 // qmllint disable unqualified
 
     Timer {
         id: hideElementWithDelay

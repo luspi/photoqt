@@ -69,18 +69,18 @@ AnimatedImage {
         loader_top.imageResolution = sourceSize // qmllint disable unqualified
 
     Connections {
-        target: image_top // qmllint disable unqualified
-        function onMirrorH() {
-            image.myMirrorH = !image.myMirrorH
+        target: PQCScriptsShortcuts
+        function onSendShortcutMirrorHorizontal() {
+            if(visible) image.myMirrorH = !image.myMirrorH
         }
-        function onMirrorV() {
-            image.myMirrorV = !image.myMirrorV
+        function onSendShortcutMirrorVertical() {
+            if(visible) image.myMirrorV = !image.myMirrorV
         }
-        function onMirrorReset() {
+        function onSendShortcutMirrorReset() {
+            if(!visible) return
             image.myMirrorH = false
             image.myMirrorV = false
         }
-
     }
 
     transform: [

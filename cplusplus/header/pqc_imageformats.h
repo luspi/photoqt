@@ -189,6 +189,8 @@ Q_SIGNALS:
 private:
     PQCImageFormats();
 
+    int checkForUpdateOrNew();
+
     void readFromDatabase();
     void writeToDatabase(QVariantList f);
 

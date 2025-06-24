@@ -31,6 +31,7 @@
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
+#include <pqc_validate.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -38,8 +39,6 @@
 #endif
 
 PQCImageFormats::PQCImageFormats() {
-
-    auto t0 = std::chrono::steady_clock::now();
 
     // connect to database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -50,7 +49,16 @@ PQCImageFormats::PQCImageFormats() {
 
     QFileInfo infodb(PQCConfigFiles::get().IMAGEFORMATS_DB());
 
-    if(!infodb.exists() || !db.open()) {
+    if(!infodb.exists()) {
+        if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB()))
+            qWarning() << "Unable to (re-)create default imageformats database";
+        else {
+            QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+    }
+
+    if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
         qWarning() << "Will load built-in read-only database of imageformats";
@@ -85,22 +93,110 @@ PQCImageFormats::PQCImageFormats() {
             return;
         }
 
-        readFromDatabase();
-
     } else {
 
         readonly = false;
         if(!infodb.permission(QFileDevice::WriteOwner))
             readonly = true;
 
-        readFromDatabase();
-
     }
 
     connect(&PQCNotify::get(), &PQCNotify::resetFormatsToDefault, this, &PQCImageFormats::restoreDefaults);
 
-    auto t1 = std::chrono::steady_clock::now();
-    qWarning() << "|| formats:" << std::chrono::duration<double, std::milli>(t1-t0).count();
+    // on updates we validate database
+    int chk = checkForUpdateOrNew();
+    if(chk == 1) {
+        PQCValidate val;
+        val.validateImageFormatsDatabase();
+    }
+    readFromDatabase();
+
+}
+
+int PQCImageFormats::checkForUpdateOrNew() {
+
+    // 0 := no update
+    // 1 := update
+    // 2 := new install
+    int updateornew = 0;
+
+    // make sure db exists
+    QFileInfo info(PQCConfigFiles::get().IMAGEFORMATS_DB());
+    if(!info.exists()) {
+        updateornew = 2;
+        if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().IMAGEFORMATS_DB()))
+            qWarning() << "Unable to (re-)create default imageformats database";
+        else {
+            QFile file(PQCConfigFiles::get().IMAGEFORMATS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            QSqlQuery queryEnter(db);
+            queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+            queryEnter.bindValue(":ver", PQMVERSION);
+            if(!queryEnter.exec()) {
+                qCritical() << "Unable to enter version in new config table";
+            }
+        }
+    }
+
+    if(updateornew != 2) {
+
+        // ensure config table exists
+        QSqlQuery query(db);
+        // check if config table exists
+        if(!query.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='config';")) {
+            qCritical() << "Unable to verify existince of config table";
+        } else {
+            // the table does not exist
+            if(!query.next()) {
+                updateornew = 1;
+                QSqlQuery queryNew(db);
+                if(!queryNew.exec("CREATE TABLE 'config' ('name' TEXT UNIQUE, 'value' TEXT)")) {
+                    qCritical() << "Unable to create config table";
+                } else {
+                    QSqlQuery queryEnter(db);
+                    queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+                    queryEnter.bindValue(":ver", PQMVERSION);
+                    if(!queryEnter.exec()) {
+                        qCritical() << "Unable to enter version in new config table";
+                    }
+                }
+            }
+        }
+
+    }
+
+    // this means the db existed already AND the config table exists already
+    if(updateornew == 0) {
+
+        QSqlQuery query(db);
+        if(!query.exec("SELECT `value` FROM `config` WHERE `name`='version'")) {
+            qCritical() << "Unable to retrieve existing version number";
+        } else {
+            if(!query.next()) {
+                QSqlQuery queryEnter(db);
+                queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', :ver)");
+                queryEnter.bindValue(":ver", PQMVERSION);
+                if(!queryEnter.exec()) {
+                    qCritical() << "Unable to enter version in new config table";
+                }
+            } else {
+                const QString value = query.value(0).toString();
+                const QString curver = PQMVERSION;
+                if(curver != value) {
+                    updateornew = 1;
+                    QSqlQuery queryEnter(db);
+                    queryEnter.prepare("UPDATE 'config' SET `value`=:ver WHERE `name`='version'");
+                    queryEnter.bindValue(":ver", PQMVERSION);
+                    if(!queryEnter.exec()) {
+                        qCritical() << "Unable to enter version in new config table";
+                    }
+                }
+            }
+        }
+
+    }
+
+    return updateornew;
 
 }
 

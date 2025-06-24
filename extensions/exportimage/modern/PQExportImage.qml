@@ -451,7 +451,7 @@ PQTemplateFullscreen {
 
         target: PQCNotify // qmllint disable unqualified
 
-        function onLoaderPassOn(what : string, param : list<var>) {
+        function onLoaderPassOn(what : string, param : list<var>) : void {
 
             console.log("args: what =", what)
             console.log("args: param =", param)

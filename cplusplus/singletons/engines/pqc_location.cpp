@@ -49,10 +49,12 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
     QFileInfo infodb(PQCConfigFiles::get().LOCATION_DB());
 
     if(!infodb.exists()) {
-        qWarning() << "ERROR: database file does not exist, attempting to create";
         if(!QFile::copy(":/location.db", PQCConfigFiles::get().LOCATION_DB())) {
             qWarning() << "Unable to create new location database, location caching will be unavailable";
             return;
+        } else {
+            QFile file(PQCConfigFiles::get().LOCATION_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
     }
 

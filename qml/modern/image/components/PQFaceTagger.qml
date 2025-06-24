@@ -333,7 +333,7 @@ Item {
                     if(!PQCScriptsMetaData.areFaceTagsSupported(PQCFileFolderModel.currentFile)) {
                         PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags."))
                         return
-                    } else if(PQCNotify.showingPhotoSphere) {
+                    } else if(PQCConstants.showingPhotoSphere) {
                         PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere."))
                         return
                     } else

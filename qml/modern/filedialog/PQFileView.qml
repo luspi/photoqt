@@ -109,6 +109,18 @@ Item {
 
     }
 
+    PinchHandler {
+
+        target: null
+
+        onScaleChanged: (delta) => {
+            var newval = Math.round(PQCSettings.filedialogZoom*delta)
+            if(newval !== PQCSettings.filedialogZoom)
+                PQCSettings.filedialogZoom = newval
+        }
+
+    }
+
     function getCurrentViewId() {
         if(PQCSettings.filedialogLayout === "grid")
             return gridfileview
@@ -803,6 +815,22 @@ Item {
                 PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
         }
 
+        onAboutToHide: {
+            recordAsClosed.restart()
+        }
+        onAboutToShow: {
+            PQCConstants.addToWhichContextMenusOpen("filedialogcontextmenu")
+        }
+
+        Timer {
+            id: recordAsClosed
+            interval: 200
+            onTriggered: {
+                if(!contextmenu.visible)
+                    PQCConstants.removeFromWhichContextMenusOpen("filedialogcontextmenu")
+            }
+        }
+
 
     }
 
@@ -841,7 +869,7 @@ Item {
             currentSelection = []
             return
         }
-        currentSelection = [...Array(model).keys()]
+        currentSelection = [...Array(getCurrentViewId().model).keys()]
     }
 
     function copyFiles(forceSelection = false) {

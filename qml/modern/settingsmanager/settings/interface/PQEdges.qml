@@ -319,7 +319,6 @@ Flickable {
 
             function load() {
                 sensitivity.loadAndSetDefault(PQCSettings.interfaceHotEdgeSize*5)
-                PQCNotify.spinBoxPassKeyEvents = false
             }
 
             function applyChanges() {

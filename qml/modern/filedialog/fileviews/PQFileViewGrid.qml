@@ -383,6 +383,16 @@ GridView {
 
             }
 
+            // detect Ctrl+scroll for zooming
+            onWheel: (wheel) => {
+                if(wheel.modifiers === Qt.ControlModifier) {
+                    PQCSettings.filedialogZoom += (wheel.angleDelta.y < 0 ? -2 : 2)
+                    wheel.accepted = true
+                    return
+                }
+                wheel.accepted = false
+            }
+
         }
 
         /************************************************************/

@@ -64,7 +64,6 @@ Item {
 
     onVisibleChanged: {
         if(!visible) {
-            PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
             txt.visible = true
             editMode = false
         }
@@ -128,8 +127,6 @@ Item {
                 width: 120
                 tooltipSuffix: control.suffix
                 visible: control.editMode
-                Component.onDestruction:
-                    PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 Keys.onEnterPressed:
                     acceptbut.clicked()
                 Keys.onReturnPressed:
@@ -148,7 +145,6 @@ Item {
                 //: Tooltip, used as in: Click to edit this value
                 tooltip: qsTranslate("settingsmanager", "Click to edit")
                 onClicked: {
-                    PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
                     txt.visible = false
                     control.editMode = true
                 }
@@ -163,7 +159,6 @@ Item {
             height: spinbox.height
             visible: control.editMode
             onClicked: {
-                PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
                 txt.visible = true
                 control.editMode = false
             }
@@ -199,7 +194,6 @@ Item {
     }
 
     function acceptValue() {
-        PQCNotify.spinBoxPassKeyEvents = false // qmllint disable unqualified
         txt.visible = true
         control.editMode = false
     }

@@ -222,7 +222,7 @@ Item {
 
     function show() {
 
-        backupAnimType = PQCSettings.imageviewAnimationType // qmllint disable unqualified
+        backupAnimType = PQCSettings.imageviewAnimationType
         backupAnimSpeed = PQCSettings.imageviewAnimationDuration
 
         PQCSettings.imageviewAnimationType = PQCSettings.slideshowTypeAnimation
@@ -274,9 +274,13 @@ Item {
             loader_audioplayer.item.source = encodeURI("file:" + musicFileOrder[currentMusicIndex])
         }
 
-        PQCScriptsShortcuts.sendShortcutZoomReset()
-        PQCScriptsShortcuts.sendShortcutRotateReset()
-        PQCScriptsShortcuts.sendShortcutMirrorReset()
+        if(PQCSettings.slideshowTypeAnimation === "kenburns") {
+            PQCScriptsShortcuts.sendShortcutZoomKenBurns()
+            PQCScriptsShortcuts.sendShortcutRotateReset()
+            PQCScriptsShortcuts.sendShortcutMirrorReset()
+        } else {
+            PQCScriptsShortcuts.sendShortcutZoomReset()
+        }
 
     }
 

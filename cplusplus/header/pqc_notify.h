@@ -77,28 +77,10 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool spinBoxPassKeyEvents READ getSpinBoxPassKeyEvents WRITE setSpinBoxPassKeyEvents NOTIFY spinBoxPassKeyEventsChanged)
-    void setSpinBoxPassKeyEvents(bool val);
-    Q_INVOKABLE bool getSpinBoxPassKeyEvents();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool ignoreAllKeys READ getIgnoreAllKeys WRITE setIgnoreAllKeys NOTIFY ignoreAllKeysChanged)
-    void setIgnoreAllKeys(bool val);
-    Q_INVOKABLE bool getIgnoreAllKeys();
-
-    /******************************************************/
-
     Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
     void setDebugLogMessages(QString val);
     Q_INVOKABLE QString getDebugLogMessages();
     void addDebugLogMessages(QString val);
-
-    /******************************************************/
-
-    Q_PROPERTY(bool faceTagging READ getFaceTagging WRITE setFaceTagging NOTIFY faceTaggingChanged)
-    void setFaceTagging(bool val);
-    Q_INVOKABLE bool getFaceTagging();
 
     /******************************************************/
 
@@ -120,24 +102,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(bool showingPhotoSphere READ getShowingPhotoSphere WRITE setShowingPhotoSphere NOTIFY showingPhotoSphereChanged)
-    void setShowingPhotoSphere(bool val);
-    Q_INVOKABLE bool getShowingPhotoSphere ();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool isMotionPhoto READ getIsMotionPhoto WRITE setIsMotionPhoto NOTIFY isMotionPhotoChanged)
-    void setIsMotionPhoto(bool val);
-    Q_INVOKABLE bool getIsMotionPhoto();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool barcodeDisplayed READ getBarcodeDisplayed WRITE setBarcodeDisplayed NOTIFY barcodeDisplayedChanged)
-    void setBarcodeDisplayed(bool val);
-    Q_INVOKABLE bool getBarcodeDisplayed();
-
-    /******************************************************/
-
     void setColorProfileFor(QString path, QString val);
     Q_INVOKABLE QString getColorProfileFor(QString path);
 
@@ -151,16 +115,10 @@ private:
         m_startInTray = false;
         m_thumbs = 2;
         m_modalFileDialogOpen = false;
-        m_spinBoxPassKeyEvents = false;
-        m_ignoreAllKeys = false;
         m_debugLogMessages = "";
-        m_faceTagging = false;
         m_haveScreenshots = false;
         m_settingUpdate.clear();
         m_startupCheck = 0;
-        m_isMotionPhoto = false;
-        m_showingPhotoSphere = false;
-        m_barcodeDisplayed = false;
         m_colorProfiles.clear();
     }
     // these are used at startup
@@ -175,20 +133,11 @@ private:
     QMutex addDebugLogMessageMutex;
 
     bool m_modalFileDialogOpen;
-    bool m_spinBoxPassKeyEvents;
-    bool m_ignoreAllKeys;
-
-    bool m_faceTagging;
 
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
 
     int m_startupCheck;
-
-    bool m_showingPhotoSphere;
-    bool m_isMotionPhoto;
-
-    bool m_barcodeDisplayed;
 
     QMap<QString, QString> m_colorProfiles;
 
@@ -208,8 +157,6 @@ Q_SIGNALS:
 
     // some window states control from QML
     void modalFileDialogOpenChanged();
-    void spinBoxPassKeyEventsChanged();
-    void ignoreAllKeysChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
     void windowClose();
@@ -217,12 +164,6 @@ Q_SIGNALS:
     void windowStartSystemMove();
     void windowStartSystemResize(int edge);
     void photoQtQuit();
-
-    // actions happening that block the interface in some way
-    void faceTaggingChanged();
-    void showingPhotoSphereChanged();
-    void isMotionPhotoChanged();
-    void barcodeDisplayedChanged();
 
     // some image signals
     void currentImageFinishedLoading(QString src);

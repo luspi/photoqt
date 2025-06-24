@@ -31,7 +31,7 @@ Item {
 
     Loader {
 
-        active: PQCSettings.filetypesPhotoSphereControls && PQCNotify.showingPhotoSphere // qmllint disable unqualified
+        active: PQCSettings.filetypesPhotoSphereControls && PQCConstants.showingPhotoSphere // qmllint disable unqualified
 
         sourceComponent:
         Rectangle {

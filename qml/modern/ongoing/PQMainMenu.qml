@@ -50,12 +50,12 @@ Rectangle {
         }
     }
 
-    function onYChanged() {
+    onYChanged: {
         if(dragmouse.drag.active)
             saveXY.restart()
     }
 
-    function onOpacityChanged() {
+    onOpacityChanged: {
         PQCConstants.mainmenuOpacity = mainmenu_top.opacity
     }
 
@@ -1112,7 +1112,7 @@ Rectangle {
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the main menu
-    property int ignoreBottomMotion: PQCNotify.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0 // qmllint disable unqualified
+    property int ignoreBottomMotion: PQCConstants.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 100 : 0 // qmllint disable unqualified
 
     Timer {
         id: hideElementWithDelay

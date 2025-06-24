@@ -34,7 +34,7 @@ Item {
 
     anchors.fill: parent
 
-    visible: loader_top.isMainImage && !PQCConstants.slideshowRunning && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+    visible: loader_top.isMainImage && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere // qmllint disable unqualified
 
     Repeater {
 
@@ -188,7 +188,7 @@ Item {
     function loadData() {
         repeatermodel.clear()
 
-        if(!PQCSettings.metadataFaceTagsEnabled || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+        if(!PQCSettings.metadataFaceTagsEnabled || PQCConstants.showingPhotoSphere) // qmllint disable unqualified
             return
 
         faceTags = PQCScriptsMetaData.getFaceTags(imageloaderitem.imageSource)

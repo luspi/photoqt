@@ -81,6 +81,7 @@ Q_SIGNALS:
     void sendShortcutZoomOut(QPoint mousePos, QPoint wheelDelta);
     void sendShortcutZoomReset();
     void sendShortcutZoomActual();
+    void sendShortcutZoomKenBurns();
 
     void sendShortcutRotateClock();
     void sendShortcutRotateAntiClock();

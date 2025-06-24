@@ -599,6 +599,17 @@ PQTemplateFullscreen {
                     clip: true
                     asynchronous: true
                     source: "settings/" + sm_category.selectedCategories[0] + "/" + settingsmanager_top.categories[sm_category.selectedCategories[0]][1][sm_category.selectedCategories[1]][1] + ".qml"
+                    onStatusChanged: {
+                        if(status === Loader.Ready)
+                            loadingsettings.hide()
+                        else
+                            loadingsettings.showBusy()
+                    }
+                }
+
+                PQWorking {
+                    id: loadingsettings
+                    anchors.fill: parent
                 }
 
                 Rectangle {
@@ -939,7 +950,6 @@ PQTemplateFullscreen {
         PQCNotify.loaderRegisterClose(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false
-        PQCNotify.spinBoxPassKeyEvents = false
         fullscreenitem.forceActiveFocus()
     }
 

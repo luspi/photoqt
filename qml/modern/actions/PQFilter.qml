@@ -67,17 +67,6 @@ PQTemplateFullscreen {
     property int countOpenSpin: 0
     signal closeAllSpinExcept(var senderid)
 
-    Timer {
-        id: resetSpinProperty
-        interval: 500
-        repeat: true
-        running: filter_top.countOpenSpin>0
-        onTriggered: {
-            if(filter_top.countOpenSpin > 0)
-                PQCNotify.spinBoxPassKeyEvents = true // qmllint disable unqualified
-        }
-    }
-
     content: [
 
         PQTextL {

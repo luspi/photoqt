@@ -95,7 +95,7 @@ Rectangle {
         z: image_top.curZ // qmllint disable unqualified
     }
 
-    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) && !PQCConstants.slideshowRunning && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere // qmllint disable unqualified
     property bool minimapActive: false
     property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
 

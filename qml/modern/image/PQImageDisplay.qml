@@ -153,7 +153,7 @@ Loader {
             function onSendShortcutZoomIn(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -165,7 +165,7 @@ Loader {
             function onSendShortcutZoomOut(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -176,7 +176,7 @@ Loader {
             }
             function onSendShortcutZoomReset() {
 
-                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
@@ -184,15 +184,23 @@ Loader {
             }
             function onSendShortcutZoomActual() {
 
-                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = 1/PQCConstants.devicePixelRatio
 
             }
+            function onSendShortcutZoomKenBurns() {
+
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+
+                if(loader_top.isMainImage)
+                    loader_top.zoomInForKenBurns()
+
+            }
             function onSendShortcutRotateClock() {
 
-                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -210,7 +218,7 @@ Loader {
             }
             function onSendShortcutRotateAntiClock() {
 
-                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -228,7 +236,7 @@ Loader {
             }
             function onSendShortcutRotateReset() {
 
-                if(PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
 
 
                 if(loader_top.isMainImage) {
@@ -257,7 +265,7 @@ Loader {
             target: PQCNotify
 
             function onEnterPhotoSphere() {
-                if(PQCNotify.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
+                if(PQCConstants.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
                     return
                 loader_top.doEnterPhotoSphere()
             }
@@ -287,7 +295,7 @@ Loader {
                 PQCConstants.currentFileInsideNum = 0
                 PQCConstants.currentFileInsideName = ""
                 PQCConstants.currentFileInsideTotal = 0
-                PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere
+                PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere
                 PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
                 PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
                 PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
@@ -355,7 +363,7 @@ Loader {
 
                         // compute zoom factor based on wheel movement (if done by mouse)
                         if(wheelDelta !== undefined && wheelDelta.y !== 0)
-                            fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
+                            fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.max(0.002, (0.3/wheelDelta.y))*PQCSettings.imageviewZoomSpeed)))
                         else
                             fact = Math.max(1.01, Math.min(1.3, 1+(PQCSettings.imageviewZoomSpeed*0.01)))
 
@@ -380,7 +388,7 @@ Loader {
                     if(PQCSettings.imageviewZoomSpeedRelative) {
 
                         if(wheelDelta !== undefined && wheelDelta.y !== 0)
-                            fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.min(0.002, (0.3/Math.abs(wheelDelta.y)))*PQCSettings.imageviewZoomSpeed)))
+                            fact = Math.max(1.01, Math.min(1.3, 1+Math.abs(Math.max(0.002, (0.3/Math.abs(wheelDelta.y)))*PQCSettings.imageviewZoomSpeed)))
                         else
                             fact = Math.max(1.01, Math.min(1.3, 1+PQCSettings.imageviewZoomSpeed*0.01))
 
@@ -512,7 +520,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
+            interactive: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -530,7 +538,7 @@ Loader {
                 target: PQCNotify // qmllint disable unqualified
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
-                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                         return
                     flickable.interactive = false
                     reEnableInteractive.restart()
@@ -538,7 +546,7 @@ Loader {
 
                 function onMousePressed(mods : int, button : string, pos : point) {
 
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.stop()
                         flickable.interactive = false
                     }
@@ -571,7 +579,7 @@ Loader {
                 }
 
                 function onMouseReleased() {
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
                         reEnableInteractive.restart()
                     }
                 }
@@ -583,7 +591,7 @@ Loader {
                 interval: 100
                 repeat: false
                 onTriggered:
-                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning })
+                    flickable.interactive = Qt.binding(function() { return !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning })
             }
 
             // the container for the content
@@ -995,7 +1003,7 @@ Loader {
 
                     Loader {
                         id: minimap_loader
-                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCNotify.showingPhotoSphere // qmllint disable unqualified
+                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                         asynchronous: true
                         source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml") // qmllint disable unqualified
                     }
@@ -1200,7 +1208,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if(direction === "left") {
@@ -1288,7 +1296,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if(direction === "left") {
@@ -1354,7 +1362,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             scaleAnimation.stop()
@@ -1372,7 +1380,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             scaleAnimation.stop()
@@ -1392,7 +1400,7 @@ Loader {
                             if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight) // qmllint disable unqualified
                                 return
 
-                            if(PQCNotify.showingPhotoSphere)
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             scaleAnimation.stop()
@@ -1433,7 +1441,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges)) ||
@@ -1504,7 +1512,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCNotify.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
                                 return
 
                             if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
@@ -1633,7 +1641,7 @@ Loader {
 
                 }
 
-                if(PQCNotify.barcodeDisplayed && mouse.button === Qt.LeftButton)
+                if(PQCConstants.barcodeDisplayed && mouse.button === Qt.LeftButton)
                     image_top.barcodeClick()
                 if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCConstants.faceTaggingMode) {
                     mouse.accepted = false
@@ -1685,7 +1693,7 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCConstants.faceTaggingMode && !PQCNotify.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
+            enabled: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
 
             property list<point> initialPts: []
             property real initialScale
@@ -1989,7 +1997,7 @@ Loader {
             // this needs to be checked for early as we set currentlyVisibleSource in a few lines
             var noPreviousImage = (image_top.currentlyVisibleSource==="") // qmllint disable unqualified
 
-            PQCNotify.barcodeDisplayed = false
+            PQCConstants.barcodeDisplayed = false
 
             image_top.currentlyVisibleSource = imageloaderitem.imageSource
             PQCNotify.currentImageFinishedLoading(imageloaderitem.imageSource)
@@ -2003,13 +2011,13 @@ Loader {
             PQCConstants.currentVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
             PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
 
-            PQCNotify.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
+            PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
 
             // if a slideshow is running with the ken burns effect
             // then we need to do some special handling
             if(PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns") {
 
-                if(!PQCNotify.showingPhotoSphere && !loader_top.videoLoaded) {
+                if(!PQCConstants.showingPhotoSphere && !loader_top.videoLoaded) {
                     loader_top.resetToDefaults()
                     loader_top.zoomInForKenBurns()
                 }
@@ -2115,11 +2123,11 @@ Loader {
             if(PQCSettings.imageviewAnimationType === "random")
                 selectNewRandomAnimation.restart()
 
-            loader_top.loadScaleRotation()
-            loader_top.resetToDefaults()
-
             // these are only done if we are not in a slideshow with the ken burns effect
             if(!PQCConstants.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns") {
+
+                loader_top.loadScaleRotation()
+                loader_top.resetToDefaults()
 
                 if(PQCSettings.imageviewAlwaysActualSize) {
                     loader_top.zoomActualWithoutAnimation()
@@ -2138,6 +2146,8 @@ Loader {
 
                 }
 
+            } else {
+                loader_top.zoomInForKenBurns()
             }
 
             PQCConstants.imageInitiallyLoaded = true

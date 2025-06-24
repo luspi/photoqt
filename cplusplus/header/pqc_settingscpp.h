@@ -92,7 +92,52 @@ public:
     bool getMetadataAutoRotation() { return m_metadataAutoRotation; }
 
 private:
-    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {}
+    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
+
+            m_imageviewFitInWindow = false;
+            m_imageviewSortImagesAscending = false;
+            m_imageviewSortImagesBy = "";
+            m_imageviewCache = 0;
+            m_imageviewColorSpaceEnable = false;
+            m_imageviewColorSpaceLoadEmbedded = false;
+            m_imageviewColorSpaceDefault = "";
+            m_imageviewAdvancedSortCriteria = "";
+            m_imageviewAdvancedSortAscending = false;
+            m_imageviewAdvancedSortQuality = "";
+            m_imageviewAdvancedSortDateCriteria = QStringList();
+            m_imageviewRespectDevicePixelRatio = false;
+
+            m_filedialogDevicesShowTmpfs = false;
+            m_filedialogShowHiddenFilesFolders = false;
+
+            m_filetypesLoadAppleLivePhotos = false;
+            m_filetypesLoadMotionPhotos = false;
+            m_filetypesExternalUnrar = false;
+            m_filetypesVideoThumbnailer = "";
+            m_filetypesRAWUseEmbeddedIfAvailable = false;
+            m_filetypesPDFQuality = 0.0;
+            m_filetypesVideoPreferLibmpv = false;
+
+            m_interfaceAccentColor = "";
+            m_interfaceFontNormalWeight = 0;
+            m_interfaceFontBoldWeight = 0;
+            m_interfacePopoutWhenWindowIsSmall = false;
+            m_interfaceLanguage = "";
+
+            m_thumbnailsExcludeDropBox = "";
+            m_thumbnailsExcludeNextcloud = "";
+            m_thumbnailsExcludeOwnCloud = "";
+            m_thumbnailsExcludeFolders = QStringList();
+            m_thumbnailsExcludeNetworkShares = false;
+            m_thumbnailsCacheBaseDirDefault = false;
+            m_thumbnailsCacheBaseDirLocation = "";
+            m_thumbnailsMaxNumberThreads = 0;
+            m_thumbnailsCache = false;
+            m_thumbnailsIconsOnly = false;
+
+            m_metadataAutoRotation = false;
+
+    }
 
     bool m_imageviewFitInWindow;
     bool m_imageviewSortImagesAscending;

@@ -91,7 +91,35 @@ public:
     cont += """
 
 private:
-    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {}
+    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
+"""
+
+    for setting in duplicateSettings:
+        if setting[0] == "":
+            cont += "\n"
+            continue
+
+        if setting[0] == "bool":
+            cont += f"""
+            m_{setting[1]} = false;"""
+        elif setting[0] == "QString":
+            cont += f"""
+            m_{setting[1]} = \"\";"""
+        elif setting[0] == "int":
+            cont += f"""
+            m_{setting[1]} = 0;"""
+        elif setting[0] == "double":
+            cont += f"""
+            m_{setting[1]} = 0.0;"""
+        elif setting[0] == "QStringList":
+            cont += f"""
+            m_{setting[1]} = QStringList();"""
+        else:
+            print(f"CPP HEADER: UNHANDLED DUPLICATE DATATYPE: {setting[0]}")
+
+    cont += """
+
+    }
 """
 
     for setting in duplicateSettings:

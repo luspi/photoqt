@@ -84,6 +84,9 @@ public:
         m_currentVisibleAreaWidthRatio = 0;
         m_currentVisibleAreaHeightRatio = 0;
         m_currentArchiveComboOpen = false;
+        m_showingPhotoSphere = false;
+        m_isMotionPhoto = false;
+        m_barcodeDisplayed = false;
 
         m_thumbnailsBarWidth = 0;
         m_thumbnailsBarHeight = 0;
@@ -196,6 +199,10 @@ public:
     Q_PROPERTY(double currentVisibleAreaWidthRatio MEMBER m_currentVisibleAreaWidthRatio NOTIFY currentVisibleAreaWidthRatioChanged)
     Q_PROPERTY(double currentVisibleAreaHeightRatio MEMBER m_currentVisibleAreaHeightRatio NOTIFY currentVisibleAreaHeightRatioChanged)
 
+    Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
+    Q_PROPERTY(bool isMotionPhoto MEMBER m_isMotionPhoto NOTIFY isMotionPhotoChanged)
+    Q_PROPERTY(bool barcodeDisplayed MEMBER m_barcodeDisplayed NOTIFY barcodeDisplayedChanged)
+
     /******************************************************/
     // some slideshow properties
 
@@ -282,6 +289,10 @@ private:
     bool m_currentlyShowingVideoHasAudio;
     bool m_currentlyShowingVideoPlaying;
 
+    bool m_showingPhotoSphere;
+    bool m_isMotionPhoto;
+    bool m_barcodeDisplayed;
+
     QRect m_statusInfoCurrentRect;
     QRect m_quickActionsCurrentRect;
     QRect m_windowButtonsCurrentRect;
@@ -348,6 +359,9 @@ Q_SIGNALS:
     void thumbnailsBarOpacityChanged();
     void mainmenuOpacityChanged();
     void metadataOpacityChanged();
+    void showingPhotoSphereChanged();
+    void isMotionPhotoChanged();
+    void barcodeDisplayedChanged();
 
 };
 

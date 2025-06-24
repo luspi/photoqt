@@ -87,26 +87,6 @@ bool PQCNotify::getModalFileDialogOpen() {
     return m_modalFileDialogOpen;
 }
 
-void PQCNotify::setSpinBoxPassKeyEvents(bool val) {
-    if(val != m_spinBoxPassKeyEvents) {
-        m_spinBoxPassKeyEvents = val;
-        Q_EMIT spinBoxPassKeyEventsChanged();
-    }
-}
-bool PQCNotify::getSpinBoxPassKeyEvents() {
-    return m_spinBoxPassKeyEvents;
-}
-
-void PQCNotify::setIgnoreAllKeys(bool val) {
-    if(val != m_ignoreAllKeys) {
-        m_ignoreAllKeys = val;
-        Q_EMIT ignoreAllKeysChanged();
-    }
-}
-bool PQCNotify::getIgnoreAllKeys() {
-    return m_ignoreAllKeys;
-}
-
 void PQCNotify::setDebugLogMessages(QString val) {
     if(val != m_debugLogMessages) {
         m_debugLogMessages = val;
@@ -122,16 +102,6 @@ void PQCNotify::addDebugLogMessages(QString val) {
     m_debugLogMessages.append(val);
     addDebugLogMessageMutex.unlock();
     Q_EMIT debugLogMessagesChanged();
-}
-
-void PQCNotify::setFaceTagging(bool val) {
-    if(val != m_faceTagging) {
-        m_faceTagging = val;
-        Q_EMIT faceTaggingChanged();
-    }
-}
-bool PQCNotify::getFaceTagging() {
-    return m_faceTagging;
 }
 
 void PQCNotify::setHaveScreenshots(bool val) {
@@ -162,36 +132,6 @@ void PQCNotify::setStartupCheck(int val) {
 }
 int PQCNotify::getStartupCheck() {
     return m_startupCheck;
-}
-
-void PQCNotify::setShowingPhotoSphere(bool val) {
-    if(val != m_showingPhotoSphere) {
-        m_showingPhotoSphere = val;
-        Q_EMIT showingPhotoSphereChanged();
-    }
-}
-bool PQCNotify::getShowingPhotoSphere() {
-    return m_showingPhotoSphere;
-}
-
-void PQCNotify::setIsMotionPhoto(bool val) {
-    if(val != m_isMotionPhoto) {
-        m_isMotionPhoto = val;
-        Q_EMIT isMotionPhotoChanged();
-    }
-}
-bool PQCNotify::getIsMotionPhoto() {
-    return m_isMotionPhoto;
-}
-
-void PQCNotify::setBarcodeDisplayed(bool val) {
-    if(val != m_barcodeDisplayed) {
-        m_barcodeDisplayed = val;
-        Q_EMIT barcodeDisplayedChanged();
-    }
-}
-bool PQCNotify::getBarcodeDisplayed() {
-    return m_barcodeDisplayed;
 }
 
 void PQCNotify::setColorProfileFor(QString path, QString val) {

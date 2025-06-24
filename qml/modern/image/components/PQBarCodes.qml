@@ -52,7 +52,7 @@ Item {
 
         function onCurrentImageDetectBarCodes() {
             if(loader_top.isMainImage) { // qmllint disable unqualified
-                if(!PQCNotify.barcodeDisplayed) {
+                if(!PQCConstants.barcodeDisplayed) {
                     bartop.barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
                     if(bartop.barcodes.length === 0) {
                         PQCNotify.showNotificationMessage(qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found."))
@@ -61,9 +61,9 @@ Item {
                     } else if(bartop.barcodes.length/3 > 1) {
                         PQCNotify.showNotificationMessage(qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(bartop.barcodes.length/3))
                     }
-                    PQCNotify.barcodeDisplayed = bartop.barcodes.length>0
+                    PQCConstants.barcodeDisplayed = bartop.barcodes.length>0
                 } else {
-                    PQCNotify.barcodeDisplayed = false
+                    PQCConstants.barcodeDisplayed = false
                     bartop.barcodes = []
                 }
             }
