@@ -188,7 +188,7 @@ Flickable {
             //: Settings title
             title: qsTranslate("settingsmanager", "Mouse Wheel")
 
-            helptext: qsTranslate("settingsmanager", "The speed of scrolling is determined by a variety of factors. A touchpad typically allows for near pixel-perfect movements, whereas physical mice typically move the wheel in fixed steps. With certain hardware this can result in the physical mouse wheel to register a slow scrolling speed. Thus, the speed of scrolling with a mouse wheel can be scaled up here.")
+            helptext: qsTranslate("settingsmanager", "The speed of scrolling is determined by a variety of factors. A touchpad typically allows for near pixel-perfect movements, whereas physical mice typically move the wheel in fixed steps. With certain hardware this can result in the physical mouse wheel to register a slow scrolling speed. Thus, the speed of scrolling with a mouse wheel can be scaled up here. Note that this setting does not affect the zoom speed!")
 
             content: [
 
