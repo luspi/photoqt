@@ -37,6 +37,11 @@ Loader {
         asynchronous = (PQCConstants.startupFileLoad === "")
     }
 
+    // this tells us when the background message is ready
+    // that way we can have an active mouse area to register clicks right away
+    // this will make the UI appear more responsive
+    property bool backgroundMessageReady: false
+
     sourceComponent:
     Item {
 
@@ -48,11 +53,14 @@ Loader {
 
         PQLoader { id: masterloader }
 
-
         Loader {
             id: bgmessage
             asynchronous: true
             source: "PQBackgroundMessage.qml"
+            onStatusChanged: (status) => {
+                if(status === Loader.Ready)
+                    masteritemloader.backgroundMessageReady = true
+            }
         }
 
         // The tray icon loads right away WITHOUT any delay.

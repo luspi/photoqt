@@ -118,6 +118,18 @@ Window {
         anchors.fill: parent
     }
 
+    // we register clicks right away (if no image was passed on)
+    MouseArea {
+        anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton
+        enabled: !masteritemattop.backgroundMessageReady && PQCConstants.startupFileLoad===""
+        onClicked: {
+            PQCNotify.loaderShow("filedialog")
+        }
+    }
+
     /****************************************************/
 
     // very cheap to set up, many properties needed everywhere -> no loader
@@ -154,7 +166,7 @@ Window {
 
     Connections {
         target: PQCConstants
-        enabled: PQCConstants.startupFileLoad!=""
+        enabled: PQCConstants.startupFileLoad!==""
         function onImageInitiallyLoadedChanged() {
             if(PQCConstants.imageInitiallyLoaded)
                 masteritemattop.active = true
