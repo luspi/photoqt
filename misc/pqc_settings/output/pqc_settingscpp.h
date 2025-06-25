@@ -71,6 +71,9 @@ public:
     bool getFiletypesRAWUseEmbeddedIfAvailable() { return m_filetypesRAWUseEmbeddedIfAvailable; }
     double getFiletypesPDFQuality() { return m_filetypesPDFQuality; }
     bool getFiletypesVideoPreferLibmpv() { return m_filetypesVideoPreferLibmpv; }
+    bool getFiletypesArchiveAlwaysEnterAutomatically() { return m_filetypesArchiveAlwaysEnterAutomatically; }
+    bool getFiletypesComicBookAlwaysEnterAutomatically() { return m_filetypesComicBookAlwaysEnterAutomatically; }
+    bool getFiletypesDocumentAlwaysEnterAutomatically() { return m_filetypesDocumentAlwaysEnterAutomatically; }
 
     QString getInterfaceAccentColor() { return m_interfaceAccentColor; }
     int getInterfaceFontNormalWeight() { return m_interfaceFontNormalWeight; }
@@ -117,6 +120,9 @@ private:
             m_filetypesRAWUseEmbeddedIfAvailable = false;
             m_filetypesPDFQuality = 0.0;
             m_filetypesVideoPreferLibmpv = false;
+            m_filetypesArchiveAlwaysEnterAutomatically = false;
+            m_filetypesComicBookAlwaysEnterAutomatically = false;
+            m_filetypesDocumentAlwaysEnterAutomatically = false;
 
             m_interfaceAccentColor = "";
             m_interfaceFontNormalWeight = 0;
@@ -162,6 +168,9 @@ private:
     bool m_filetypesRAWUseEmbeddedIfAvailable;
     double m_filetypesPDFQuality;
     bool m_filetypesVideoPreferLibmpv;
+    bool m_filetypesArchiveAlwaysEnterAutomatically;
+    bool m_filetypesComicBookAlwaysEnterAutomatically;
+    bool m_filetypesDocumentAlwaysEnterAutomatically;
 
     QString m_interfaceAccentColor;
     int m_interfaceFontNormalWeight;
@@ -206,6 +215,9 @@ Q_SIGNALS:
     void filetypesRAWUseEmbeddedIfAvailableChanged();
     void filetypesPDFQualityChanged();
     void filetypesVideoPreferLibmpvChanged();
+    void filetypesArchiveAlwaysEnterAutomaticallyChanged();
+    void filetypesComicBookAlwaysEnterAutomaticallyChanged();
+    void filetypesDocumentAlwaysEnterAutomaticallyChanged();
 
     void interfaceAccentColorChanged();
     void interfaceFontNormalWeightChanged();

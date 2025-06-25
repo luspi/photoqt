@@ -262,6 +262,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiletypesAnimatedSpacePause();
     Q_INVOKABLE void setDefaultForFiletypesAnimatedSpacePause();
 
+    Q_PROPERTY(bool filetypesArchiveAlwaysEnterAutomatically READ getFiletypesArchiveAlwaysEnterAutomatically WRITE setFiletypesArchiveAlwaysEnterAutomatically NOTIFY filetypesArchiveAlwaysEnterAutomaticallyChanged)
+    bool getFiletypesArchiveAlwaysEnterAutomatically();
+    void setFiletypesArchiveAlwaysEnterAutomatically(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesArchiveAlwaysEnterAutomatically();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveAlwaysEnterAutomatically();
+
     Q_PROPERTY(bool filetypesArchiveControls READ getFiletypesArchiveControls WRITE setFiletypesArchiveControls NOTIFY filetypesArchiveControlsChanged)
     bool getFiletypesArchiveControls();
     void setFiletypesArchiveControls(bool val);
@@ -279,6 +285,18 @@ public:
     void setFiletypesArchiveViewerModeExitButton(bool val);
     Q_INVOKABLE const bool getDefaultForFiletypesArchiveViewerModeExitButton();
     Q_INVOKABLE void setDefaultForFiletypesArchiveViewerModeExitButton();
+
+    Q_PROPERTY(bool filetypesComicBookAlwaysEnterAutomatically READ getFiletypesComicBookAlwaysEnterAutomatically WRITE setFiletypesComicBookAlwaysEnterAutomatically NOTIFY filetypesComicBookAlwaysEnterAutomaticallyChanged)
+    bool getFiletypesComicBookAlwaysEnterAutomatically();
+    void setFiletypesComicBookAlwaysEnterAutomatically(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesComicBookAlwaysEnterAutomatically();
+    Q_INVOKABLE void setDefaultForFiletypesComicBookAlwaysEnterAutomatically();
+
+    Q_PROPERTY(bool filetypesDocumentAlwaysEnterAutomatically READ getFiletypesDocumentAlwaysEnterAutomatically WRITE setFiletypesDocumentAlwaysEnterAutomatically NOTIFY filetypesDocumentAlwaysEnterAutomaticallyChanged)
+    bool getFiletypesDocumentAlwaysEnterAutomatically();
+    void setFiletypesDocumentAlwaysEnterAutomatically(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesDocumentAlwaysEnterAutomatically();
+    Q_INVOKABLE void setDefaultForFiletypesDocumentAlwaysEnterAutomatically();
 
     Q_PROPERTY(bool filetypesDocumentControls READ getFiletypesDocumentControls WRITE setFiletypesDocumentControls NOTIFY filetypesDocumentControlsChanged)
     bool getFiletypesDocumentControls();
@@ -1759,9 +1777,12 @@ private:
     bool m_filetypesAnimatedControls;
     bool m_filetypesAnimatedLeftRight;
     bool m_filetypesAnimatedSpacePause;
+    bool m_filetypesArchiveAlwaysEnterAutomatically;
     bool m_filetypesArchiveControls;
     bool m_filetypesArchiveLeftRight;
     bool m_filetypesArchiveViewerModeExitButton;
+    bool m_filetypesComicBookAlwaysEnterAutomatically;
+    bool m_filetypesDocumentAlwaysEnterAutomatically;
     bool m_filetypesDocumentControls;
     bool m_filetypesDocumentLeftRight;
     bool m_filetypesDocumentViewerModeExitButton;
@@ -2070,9 +2091,12 @@ Q_SIGNALS:
     void filetypesAnimatedControlsChanged();
     void filetypesAnimatedLeftRightChanged();
     void filetypesAnimatedSpacePauseChanged();
+    void filetypesArchiveAlwaysEnterAutomaticallyChanged();
     void filetypesArchiveControlsChanged();
     void filetypesArchiveLeftRightChanged();
     void filetypesArchiveViewerModeExitButtonChanged();
+    void filetypesComicBookAlwaysEnterAutomaticallyChanged();
+    void filetypesDocumentAlwaysEnterAutomaticallyChanged();
     void filetypesDocumentControlsChanged();
     void filetypesDocumentLeftRightChanged();
     void filetypesDocumentViewerModeExitButtonChanged();

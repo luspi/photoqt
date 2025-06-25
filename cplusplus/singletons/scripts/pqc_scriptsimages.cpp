@@ -177,6 +177,9 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
     qDebug() << "args: path =" << path;
     qDebug() << "args: insideFilenameOnly =" << insideFilenameOnly;
 
+    if(path.contains("::ARC::"))
+        path = path.split("::ARC::").at(1);
+
     const QFileInfo info(path);
     QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
 
@@ -255,6 +258,7 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
         // If something went wrong, output error message and stop here
         if(r != ARCHIVE_OK) {
             qWarning() << "ERROR: archive_read_open_filename() returned code of" << r;
+            qWarning() << "Archive:" << info.absoluteFilePath();
             return ret;
         }
 
@@ -504,13 +508,12 @@ bool PQCScriptsImages::isPDFDocument(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsPoppler().contains(suf))
+    if(PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(path).suffix().toLower()) ||
+       PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    QString mimetype = db.mimeTypeForFile(path).name();
-    if(PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(mimetype))
+    if(PQCImageFormats::get().getEnabledMimeTypesPoppler().contains(db.mimeTypeForFile(path).name()))
         return true;
 
     return false;
@@ -521,13 +524,12 @@ bool PQCScriptsImages::isArchive(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    QString suf = QFileInfo(path).suffix().toLower();
-    if(PQCImageFormats::get().getEnabledFormatsLibArchive().contains(suf))
+    if(PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).suffix().toLower()) ||
+       PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(path).completeSuffix().toLower()))
         return true;
 
     QMimeDatabase db;
-    QString mimetype = db.mimeTypeForFile(path).name();
-    if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
+    if(PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(db.mimeTypeForFile(path).name()))
         return true;
 
     return false;

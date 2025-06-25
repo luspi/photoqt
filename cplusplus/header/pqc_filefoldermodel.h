@@ -171,6 +171,8 @@ public:
     Q_PROPERTY(QString arcFile READ getArcFile NOTIFY arcFileChanged)
     QString getArcFile();
 
+    Q_PROPERTY(bool justLeftViewerMode MEMBER m_justLeftViewerMode NOTIFY justLeftViewerModeChanged)
+
     /********************************************/
     /********************************************/
 
@@ -191,8 +193,6 @@ public:
     Q_INVOKABLE void resetModel();
 
     /********************************************/
-
-    QTimer *timerNotifyCurrentIndexChanged;
 
 private:
     PQCFileFolderModel(QObject *parent = 0);
@@ -224,6 +224,7 @@ private:
     QSize m_imageResolutionFilter;
     qint64 m_fileSizeFilter;
     bool m_filterCurrentlyActive;
+    bool m_justLeftViewerMode;
 
     int m_currentIndex;
     int m_currentIndexNoDelay;
@@ -239,6 +240,9 @@ private:
 
     QTimer *loadDelayMainView;
     QTimer *loadDelayFileDialog;
+
+    QTimer *timerNotifyCurrentIndexChanged;
+    QTimer *timerResetJustLeftViewerMode;
 
     QStringList getAllFolders(QString folder, bool forceShowHidden = false);
     QStringList getAllFiles(QString folder, bool ignoreFiltersExceptDefault = false, bool enforceOnlyIncludingThisFolder = false);
@@ -303,6 +307,7 @@ Q_SIGNALS:
     void pdfNumChanged();
     void arcNameChanged();
     void arcFileChanged();
+    void justLeftViewerModeChanged();
 
 };
 

@@ -215,9 +215,12 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filetypesAnimatedControlsChanged, this, [=]() { saveChangedValue("filetypesAnimatedControls", m_filetypesAnimatedControls); });
     connect(this, &PQCSettings::filetypesAnimatedLeftRightChanged, this, [=]() { saveChangedValue("filetypesAnimatedLeftRight", m_filetypesAnimatedLeftRight); });
     connect(this, &PQCSettings::filetypesAnimatedSpacePauseChanged, this, [=]() { saveChangedValue("filetypesAnimatedSpacePause", m_filetypesAnimatedSpacePause); });
+    connect(this, &PQCSettings::filetypesArchiveAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesArchiveAlwaysEnterAutomatically", m_filetypesArchiveAlwaysEnterAutomatically); });
     connect(this, &PQCSettings::filetypesArchiveControlsChanged, this, [=]() { saveChangedValue("filetypesArchiveControls", m_filetypesArchiveControls); });
     connect(this, &PQCSettings::filetypesArchiveLeftRightChanged, this, [=]() { saveChangedValue("filetypesArchiveLeftRight", m_filetypesArchiveLeftRight); });
     connect(this, &PQCSettings::filetypesArchiveViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesArchiveViewerModeExitButton", m_filetypesArchiveViewerModeExitButton); });
+    connect(this, &PQCSettings::filetypesComicBookAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesComicBookAlwaysEnterAutomatically", m_filetypesComicBookAlwaysEnterAutomatically); });
+    connect(this, &PQCSettings::filetypesDocumentAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesDocumentAlwaysEnterAutomatically", m_filetypesDocumentAlwaysEnterAutomatically); });
     connect(this, &PQCSettings::filetypesDocumentControlsChanged, this, [=]() { saveChangedValue("filetypesDocumentControls", m_filetypesDocumentControls); });
     connect(this, &PQCSettings::filetypesDocumentLeftRightChanged, this, [=]() { saveChangedValue("filetypesDocumentLeftRight", m_filetypesDocumentLeftRight); });
     connect(this, &PQCSettings::filetypesDocumentViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesDocumentViewerModeExitButton", m_filetypesDocumentViewerModeExitButton); });
@@ -1232,6 +1235,30 @@ void PQCSettings::setDefaultForFiletypesAnimatedSpacePause() {
     }
 }
 
+bool PQCSettings::getFiletypesArchiveAlwaysEnterAutomatically() {
+    return m_filetypesArchiveAlwaysEnterAutomatically;
+}
+
+void PQCSettings::setFiletypesArchiveAlwaysEnterAutomatically(bool val) {
+    if(val != m_filetypesArchiveAlwaysEnterAutomatically) {
+        m_filetypesArchiveAlwaysEnterAutomatically = val;
+        Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = val;
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
+    if(false != m_filetypesArchiveAlwaysEnterAutomatically) {
+        m_filetypesArchiveAlwaysEnterAutomatically = false;
+        Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
+    }
+}
+
 bool PQCSettings::getFiletypesArchiveControls() {
     return m_filetypesArchiveControls;
 }
@@ -1295,6 +1322,54 @@ void PQCSettings::setDefaultForFiletypesArchiveViewerModeExitButton() {
     if(true != m_filetypesArchiveViewerModeExitButton) {
         m_filetypesArchiveViewerModeExitButton = true;
         Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
+    }
+}
+
+bool PQCSettings::getFiletypesComicBookAlwaysEnterAutomatically() {
+    return m_filetypesComicBookAlwaysEnterAutomatically;
+}
+
+void PQCSettings::setFiletypesComicBookAlwaysEnterAutomatically(bool val) {
+    if(val != m_filetypesComicBookAlwaysEnterAutomatically) {
+        m_filetypesComicBookAlwaysEnterAutomatically = val;
+        Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = val;
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
+    if(false != m_filetypesComicBookAlwaysEnterAutomatically) {
+        m_filetypesComicBookAlwaysEnterAutomatically = false;
+        Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
+    }
+}
+
+bool PQCSettings::getFiletypesDocumentAlwaysEnterAutomatically() {
+    return m_filetypesDocumentAlwaysEnterAutomatically;
+}
+
+void PQCSettings::setFiletypesDocumentAlwaysEnterAutomatically(bool val) {
+    if(val != m_filetypesDocumentAlwaysEnterAutomatically) {
+        m_filetypesDocumentAlwaysEnterAutomatically = val;
+        Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = val;
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
+    if(false != m_filetypesDocumentAlwaysEnterAutomatically) {
+        m_filetypesDocumentAlwaysEnterAutomatically = false;
+        Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     }
 }
 
@@ -6592,12 +6667,21 @@ void PQCSettings::readDB() {
                     m_filetypesAnimatedLeftRight = value.toInt();
                 } else if(name == "AnimatedSpacePause") {
                     m_filetypesAnimatedSpacePause = value.toInt();
+                } else if(name == "ArchiveAlwaysEnterAutomatically") {
+                    m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
+                    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "ArchiveControls") {
                     m_filetypesArchiveControls = value.toInt();
                 } else if(name == "ArchiveLeftRight") {
                     m_filetypesArchiveLeftRight = value.toInt();
                 } else if(name == "ArchiveViewerModeExitButton") {
                     m_filetypesArchiveViewerModeExitButton = value.toInt();
+                } else if(name == "ComicBookAlwaysEnterAutomatically") {
+                    m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
+                    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
+                } else if(name == "DocumentAlwaysEnterAutomatically") {
+                    m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
+                    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "DocumentControls") {
                     m_filetypesDocumentControls = value.toInt();
                 } else if(name == "DocumentLeftRight") {
@@ -8126,9 +8210,15 @@ void PQCSettings::setupFresh() {
     m_filetypesAnimatedControls = true;
     m_filetypesAnimatedLeftRight = false;
     m_filetypesAnimatedSpacePause = true;
+    m_filetypesArchiveAlwaysEnterAutomatically = false;
+    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
     m_filetypesArchiveControls = true;
     m_filetypesArchiveLeftRight = false;
     m_filetypesArchiveViewerModeExitButton = true;
+    m_filetypesComicBookAlwaysEnterAutomatically = false;
+    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
+    m_filetypesDocumentAlwaysEnterAutomatically = false;
+    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     m_filetypesDocumentControls = true;
     m_filetypesDocumentLeftRight = false;
     m_filetypesDocumentViewerModeExitButton = true;
@@ -8529,9 +8619,12 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiletypesAnimatedControls();
     setDefaultForFiletypesAnimatedLeftRight();
     setDefaultForFiletypesAnimatedSpacePause();
+    setDefaultForFiletypesArchiveAlwaysEnterAutomatically();
     setDefaultForFiletypesArchiveControls();
     setDefaultForFiletypesArchiveLeftRight();
     setDefaultForFiletypesArchiveViewerModeExitButton();
+    setDefaultForFiletypesComicBookAlwaysEnterAutomatically();
+    setDefaultForFiletypesDocumentAlwaysEnterAutomatically();
     setDefaultForFiletypesDocumentControls();
     setDefaultForFiletypesDocumentLeftRight();
     setDefaultForFiletypesDocumentViewerModeExitButton();
@@ -8933,6 +9026,11 @@ void PQCSettings::updateFromCommandLine() {
         m_filetypesAnimatedSpacePause = (val.toInt()==1);
         Q_EMIT filetypesAnimatedSpacePauseChanged();
     }
+    if(key == "filetypesArchiveAlwaysEnterAutomatically") {
+        m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
+        Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
+    }
     if(key == "filetypesArchiveControls") {
         m_filetypesArchiveControls = (val.toInt()==1);
         Q_EMIT filetypesArchiveControlsChanged();
@@ -8944,6 +9042,16 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesArchiveViewerModeExitButton") {
         m_filetypesArchiveViewerModeExitButton = (val.toInt()==1);
         Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
+    }
+    if(key == "filetypesComicBookAlwaysEnterAutomatically") {
+        m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
+        Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
+    }
+    if(key == "filetypesDocumentAlwaysEnterAutomatically") {
+        m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
+        Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesDocumentControls") {
         m_filetypesDocumentControls = (val.toInt()==1);

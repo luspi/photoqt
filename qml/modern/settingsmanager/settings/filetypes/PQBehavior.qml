@@ -102,6 +102,12 @@ Flickable {
                     id: pdf_exitbutton
                     text: qsTranslate("settingsmanager", "Show button to exit document viewer")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: pdf_autoenter
+                    text: qsTranslate("settingsmanager", "Automatically enter document viewer")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -110,6 +116,7 @@ Flickable {
                 pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality())
                 pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
                 pdf_exitbutton.checked = PQCSettings.getDefaultForFiletypesDocumentViewerModeExitButton()
+                pdf_autoenter.checked = PQCSettings.getDefaultForFiletypesDocumentAlwaysEnterAutomatically()
             }
 
             function handleEscape() {
@@ -118,22 +125,25 @@ Flickable {
             }
 
             function hasChanged() {
-                return (pdf_quality.hasChanged() || pdf_escape.hasChanged() || pdf_exitbutton.hasChanged())
+                return (pdf_quality.hasChanged() || pdf_escape.hasChanged() || pdf_exitbutton.hasChanged() || pdf_autoenter.hasChanged())
             }
 
             function load() {
                 pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality)
                 pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
                 pdf_exitbutton.loadAndSetDefault(PQCSettings.filetypesDocumentViewerModeExitButton)
+                pdf_autoenter.loadAndSetDefault(PQCSettings.filetypesDocumentAlwaysEnterAutomatically)
             }
 
             function applyChanges() {
                 PQCSettings.filetypesPDFQuality = pdf_quality.value
                 PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
                 PQCSettings.filetypesDocumentViewerModeExitButton = pdf_exitbutton.checked
+                PQCSettings.filetypesDocumentAlwaysEnterAutomatically = pdf_autoenter.checked
                 pdf_quality.saveDefault()
                 pdf_escape.saveDefault()
                 pdf_exitbutton.saveDefault()
+                pdf_autoenter.saveDefault()
             }
 
         }
@@ -200,6 +210,18 @@ Flickable {
                     id: archive_exitbutton
                     text: qsTranslate("settingsmanager", "Show button to exit archive viewer")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: archive_autoenter
+                    text: qsTranslate("settingsmanager", "Automatically enter archive viewer")
+                    onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: archive_comautoenter
+                    text: qsTranslate("settingsmanager", "Automatically enter comic book viewer")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -210,13 +232,16 @@ Flickable {
                 archiveleftright.checked = PQCSettings.getDefaultForFiletypesArchiveLeftRight()
                 archive_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
                 archive_exitbutton.checked = PQCSettings.getDefaultForFiletypesArchiveViewerModeExitButton()
+                archive_autoenter.checked = PQCSettings.getDefaultForFiletypesArchiveAlwaysEnterAutomatically()
+                archive_comautoenter.checked = PQCSettings.getDefaultForFiletypesComicBookAlwaysEnterAutomatically()
             }
 
             function handleEscape() {
             }
 
             function hasChanged() {
-                return (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged() || archive_escape.hasChanged() || archive_exitbutton.hasChanged())
+                return (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged() || archive_escape.hasChanged() ||
+                        archive_exitbutton.hasChanged() || archive_autoenter.hasChanged() || archive_comautoenter.hasChanged())
             }
 
             function load() {
@@ -225,6 +250,8 @@ Flickable {
                 archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
                 archive_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
                 archive_exitbutton.loadAndSetDefault(PQCSettings.filetypesArchiveViewerModeExitButton)
+                archive_autoenter.loadAndSetDefault(PQCSettings.filetypesArchiveAlwaysEnterAutomatically)
+                archive_comautoenter.loadAndSetDefault(PQCSettings.filetypesComicBookAlwaysEnterAutomatically)
             }
 
             function applyChanges() {
@@ -233,11 +260,15 @@ Flickable {
                 PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
                 PQCSettings.imageviewEscapeExitArchive = archive_escape.checked
                 PQCSettings.filetypesArchiveViewerModeExitButton = archive_exitbutton.checked
+                PQCSettings.filetypesArchiveAlwaysEnterAutomatically = archive_autoenter.checked
+                PQCSettings.filetypesComicBookAlwaysEnterAutomatically = archive_comautoenter.checked
                 arc_extunrar.saveDefault()
                 archivecontrols.saveDefault()
                 archiveleftright.saveDefault()
                 archive_escape.saveDefault()
                 archive_exitbutton.saveDefault()
+                archive_autoenter.saveDefault()
+                archive_comautoenter.saveDefault()
             }
 
         }

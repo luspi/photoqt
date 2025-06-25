@@ -192,6 +192,11 @@ QString PQCScriptsFilesPaths::getDir(QString fullpath) {
     if(fullpath == "")
         return "";
 
+    if(fullpath.contains("::ARC::"))
+        return QFileInfo(fullpath.split("::ARC::")[1]).absolutePath();
+    if(fullpath.contains("::PDF::"))
+        return QFileInfo(fullpath.split("::PDF::")[1]).absolutePath();
+
     return QFileInfo(fullpath).absolutePath();
 
 }

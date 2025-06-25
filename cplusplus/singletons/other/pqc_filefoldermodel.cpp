@@ -82,6 +82,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_restrictToMimeTypes = PQCImageFormats::get().getEnabledMimeTypes();
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
+    m_justLeftViewerMode = false;
 
     watcherMainView = new QFileSystemWatcher;
     watcherFileDialog = new QFileSystemWatcher;
@@ -131,6 +132,13 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
         }
     });
 
+    timerResetJustLeftViewerMode = new QTimer;
+    timerResetJustLeftViewerMode->setInterval(100);
+    timerResetJustLeftViewerMode->setSingleShot(true);
+    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=]() {
+        m_justLeftViewerMode = false;
+    });
+
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
@@ -158,6 +166,9 @@ PQCFileFolderModel::~PQCFileFolderModel() {
 
     delete watcherMainView;
     delete watcherFileDialog;
+
+    delete timerNotifyCurrentIndexChanged;
+    delete timerResetJustLeftViewerMode;
 
 }
 
@@ -1411,6 +1422,8 @@ void PQCFileFolderModel::disableViewerMode() {
 
     qDebug() << "";
 
+    m_justLeftViewerMode = true;
+
     QString tmp = getCurrentFile();
     if(tmp.contains("::PDF::"))
         setFileInFolderMainView(tmp.split("::PDF::")[1]);
@@ -1422,6 +1435,8 @@ void PQCFileFolderModel::disableViewerMode() {
     m_isARC = false;
     Q_EMIT isARCChanged();
     Q_EMIT isPDFChanged();
+
+    timerResetJustLeftViewerMode->start();
 
 }
 

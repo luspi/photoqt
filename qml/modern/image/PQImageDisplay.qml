@@ -26,6 +26,7 @@ import QtQuick.Window
 import PQCFileFolderModel
 import PQCScriptsImages
 import PQCScriptsFilesPaths
+import PQCImageFormats
 import PhotoQt
 
 Loader {
@@ -1981,18 +1982,44 @@ Loader {
             }
         }
 
+        function shouldEnableViewerMode() : bool {
+
+            if(PQCFileFolderModel.justLeftViewerMode) return false
+
+            var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
+
+            var comicbookSuffix = ["cbt", "cbr", "cbz", "cb7"]
+            if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically && comicbookSuffix.indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
+               (PQCSettings.filetypesArchiveAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
+               (PQCSettings.filetypesDocumentAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
+                return true
+            }
+
+            return false
+
+        }
+
         function showImage() {
 
             if(imageloaderitem.imageLoadedAndReady) {
-                imageloaderitem.iAmReady()
 
-                if(!imageloaderitem.imageFullyShown)
-                    setUpImageWhenReady()
+                if(shouldEnableViewerMode()) {
+                    PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+                } else {
+                    imageloaderitem.iAmReady()
+                    if(!imageloaderitem.imageFullyShown)
+                        setUpImageWhenReady()
+                }
             }
 
         }
 
         function setUpImageWhenReady() {
+
+            if(shouldEnableViewerMode()) {
+                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+                return
+            }
 
             // this needs to be checked for early as we set currentlyVisibleSource in a few lines
             var noPreviousImage = (image_top.currentlyVisibleSource==="") // qmllint disable unqualified

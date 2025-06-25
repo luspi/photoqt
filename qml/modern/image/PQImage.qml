@@ -378,6 +378,7 @@ Item {
             else
                 PQCFileFolderModel.currentIndex = Math.min(PQCFileFolderModel.currentIndex+1, PQCFileFolderModel.countMainView-1)
         }
+
     }
 
     function showPrev() {
