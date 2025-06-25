@@ -268,7 +268,8 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
             QString filenameinside = QString::fromWCharArray(archive_entry_pathname_w(entry));
 
             // If supported file format, append to temporary list
-            if((PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(filenameinside).suffix().toLower())))
+            const QFileInfo info(filenameinside);
+            if(PQCImageFormats::get().getEnabledFormats().contains(info.suffix().toLower()) || PQCImageFormats::get().getEnabledFormats().contains(info.completeSuffix().toLower()))
                 allfiles.append(filenameinside);
 
         }
