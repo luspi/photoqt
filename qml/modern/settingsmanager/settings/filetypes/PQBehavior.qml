@@ -96,13 +96,20 @@ Flickable {
                     id: pdf_escape
                     text: qsTranslate("settingsmanager", "Escape key leaves document viewer")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: pdf_exitbutton
+                    text: qsTranslate("settingsmanager", "Show button to exit document viewer")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
 
             onResetToDefaults: {
-                pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality()) // qmllint disable unqualified
+                pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality())
                 pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
+                pdf_exitbutton.checked = PQCSettings.getDefaultForFiletypesDocumentViewerModeExitButton()
             }
 
             function handleEscape() {
@@ -111,19 +118,22 @@ Flickable {
             }
 
             function hasChanged() {
-                return (pdf_quality.hasChanged() || pdf_escape.hasChanged())
+                return (pdf_quality.hasChanged() || pdf_escape.hasChanged() || pdf_exitbutton.hasChanged())
             }
 
             function load() {
-                pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality) // qmllint disable unqualified
+                pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality)
                 pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
+                pdf_exitbutton.loadAndSetDefault(PQCSettings.filetypesDocumentViewerModeExitButton)
             }
 
             function applyChanges() {
-                PQCSettings.filetypesPDFQuality = pdf_quality.value // qmllint disable unqualified
+                PQCSettings.filetypesPDFQuality = pdf_quality.value
                 PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
+                PQCSettings.filetypesDocumentViewerModeExitButton = pdf_exitbutton.checked
                 pdf_quality.saveDefault()
                 pdf_escape.saveDefault()
+                pdf_exitbutton.saveDefault()
             }
 
         }
@@ -184,6 +194,12 @@ Flickable {
                     id: archive_escape
                     text: qsTranslate("settingsmanager", "Escape key leaves archive viewer")
                     onCheckedChanged: setting_top.checkDefault()
+                },
+
+                PQCheckBox {
+                    id: archive_exitbutton
+                    text: qsTranslate("settingsmanager", "Show button to exit archive viewer")
+                    onCheckedChanged: setting_top.checkDefault()
                 }
 
             ]
@@ -193,13 +209,14 @@ Flickable {
                 archivecontrols.checked = PQCSettings.getDefaultForFiletypesArchiveControls()
                 archiveleftright.checked = PQCSettings.getDefaultForFiletypesArchiveLeftRight()
                 archive_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
+                archive_exitbutton.checked = PQCSettings.getDefaultForFiletypesArchiveViewerModeExitButton()
             }
 
             function handleEscape() {
             }
 
             function hasChanged() {
-                return (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged())
+                return (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged() || archive_escape.hasChanged() || archive_exitbutton.hasChanged())
             }
 
             function load() {
@@ -207,6 +224,7 @@ Flickable {
                 archivecontrols.loadAndSetDefault(PQCSettings.filetypesArchiveControls)
                 archiveleftright.loadAndSetDefault(PQCSettings.filetypesArchiveLeftRight)
                 archive_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitArchive)
+                archive_exitbutton.loadAndSetDefault(PQCSettings.filetypesArchiveViewerModeExitButton)
             }
 
             function applyChanges() {
@@ -214,10 +232,12 @@ Flickable {
                 PQCSettings.filetypesArchiveControls = archivecontrols.checked
                 PQCSettings.filetypesArchiveLeftRight = archiveleftright.checked
                 PQCSettings.imageviewEscapeExitArchive = archive_escape.checked
+                PQCSettings.filetypesArchiveViewerModeExitButton = archive_exitbutton.checked
                 arc_extunrar.saveDefault()
                 archivecontrols.saveDefault()
                 archiveleftright.saveDefault()
                 archive_escape.saveDefault()
+                archive_exitbutton.saveDefault()
             }
 
         }

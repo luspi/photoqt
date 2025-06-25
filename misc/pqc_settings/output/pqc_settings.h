@@ -274,6 +274,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiletypesArchiveLeftRight();
     Q_INVOKABLE void setDefaultForFiletypesArchiveLeftRight();
 
+    Q_PROPERTY(bool filetypesArchiveViewerModeExitButton READ getFiletypesArchiveViewerModeExitButton WRITE setFiletypesArchiveViewerModeExitButton NOTIFY filetypesArchiveViewerModeExitButtonChanged)
+    bool getFiletypesArchiveViewerModeExitButton();
+    void setFiletypesArchiveViewerModeExitButton(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesArchiveViewerModeExitButton();
+    Q_INVOKABLE void setDefaultForFiletypesArchiveViewerModeExitButton();
+
     Q_PROPERTY(bool filetypesDocumentControls READ getFiletypesDocumentControls WRITE setFiletypesDocumentControls NOTIFY filetypesDocumentControlsChanged)
     bool getFiletypesDocumentControls();
     void setFiletypesDocumentControls(bool val);
@@ -285,6 +291,12 @@ public:
     void setFiletypesDocumentLeftRight(bool val);
     Q_INVOKABLE const bool getDefaultForFiletypesDocumentLeftRight();
     Q_INVOKABLE void setDefaultForFiletypesDocumentLeftRight();
+
+    Q_PROPERTY(bool filetypesDocumentViewerModeExitButton READ getFiletypesDocumentViewerModeExitButton WRITE setFiletypesDocumentViewerModeExitButton NOTIFY filetypesDocumentViewerModeExitButtonChanged)
+    bool getFiletypesDocumentViewerModeExitButton();
+    void setFiletypesDocumentViewerModeExitButton(bool val);
+    Q_INVOKABLE const bool getDefaultForFiletypesDocumentViewerModeExitButton();
+    Q_INVOKABLE void setDefaultForFiletypesDocumentViewerModeExitButton();
 
     Q_PROPERTY(bool filetypesExternalUnrar READ getFiletypesExternalUnrar WRITE setFiletypesExternalUnrar NOTIFY filetypesExternalUnrarChanged)
     bool getFiletypesExternalUnrar();
@@ -1749,8 +1761,10 @@ private:
     bool m_filetypesAnimatedSpacePause;
     bool m_filetypesArchiveControls;
     bool m_filetypesArchiveLeftRight;
+    bool m_filetypesArchiveViewerModeExitButton;
     bool m_filetypesDocumentControls;
     bool m_filetypesDocumentLeftRight;
+    bool m_filetypesDocumentViewerModeExitButton;
     bool m_filetypesExternalUnrar;
     bool m_filetypesLoadAppleLivePhotos;
     bool m_filetypesLoadMotionPhotos;
@@ -2058,8 +2072,10 @@ Q_SIGNALS:
     void filetypesAnimatedSpacePauseChanged();
     void filetypesArchiveControlsChanged();
     void filetypesArchiveLeftRightChanged();
+    void filetypesArchiveViewerModeExitButtonChanged();
     void filetypesDocumentControlsChanged();
     void filetypesDocumentLeftRightChanged();
+    void filetypesDocumentViewerModeExitButtonChanged();
     void filetypesExternalUnrarChanged();
     void filetypesLoadAppleLivePhotosChanged();
     void filetypesLoadMotionPhotosChanged();

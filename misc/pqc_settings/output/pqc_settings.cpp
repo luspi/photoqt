@@ -217,8 +217,10 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filetypesAnimatedSpacePauseChanged, this, [=]() { saveChangedValue("filetypesAnimatedSpacePause", m_filetypesAnimatedSpacePause); });
     connect(this, &PQCSettings::filetypesArchiveControlsChanged, this, [=]() { saveChangedValue("filetypesArchiveControls", m_filetypesArchiveControls); });
     connect(this, &PQCSettings::filetypesArchiveLeftRightChanged, this, [=]() { saveChangedValue("filetypesArchiveLeftRight", m_filetypesArchiveLeftRight); });
+    connect(this, &PQCSettings::filetypesArchiveViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesArchiveViewerModeExitButton", m_filetypesArchiveViewerModeExitButton); });
     connect(this, &PQCSettings::filetypesDocumentControlsChanged, this, [=]() { saveChangedValue("filetypesDocumentControls", m_filetypesDocumentControls); });
     connect(this, &PQCSettings::filetypesDocumentLeftRightChanged, this, [=]() { saveChangedValue("filetypesDocumentLeftRight", m_filetypesDocumentLeftRight); });
+    connect(this, &PQCSettings::filetypesDocumentViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesDocumentViewerModeExitButton", m_filetypesDocumentViewerModeExitButton); });
     connect(this, &PQCSettings::filetypesExternalUnrarChanged, this, [=]() { saveChangedValue("filetypesExternalUnrar", m_filetypesExternalUnrar); });
     connect(this, &PQCSettings::filetypesLoadAppleLivePhotosChanged, this, [=]() { saveChangedValue("filetypesLoadAppleLivePhotos", m_filetypesLoadAppleLivePhotos); });
     connect(this, &PQCSettings::filetypesLoadMotionPhotosChanged, this, [=]() { saveChangedValue("filetypesLoadMotionPhotos", m_filetypesLoadMotionPhotos); });
@@ -1274,6 +1276,28 @@ void PQCSettings::setDefaultForFiletypesArchiveLeftRight() {
     }
 }
 
+bool PQCSettings::getFiletypesArchiveViewerModeExitButton() {
+    return m_filetypesArchiveViewerModeExitButton;
+}
+
+void PQCSettings::setFiletypesArchiveViewerModeExitButton(bool val) {
+    if(val != m_filetypesArchiveViewerModeExitButton) {
+        m_filetypesArchiveViewerModeExitButton = val;
+        Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesArchiveViewerModeExitButton() {
+        return true;
+}
+
+void PQCSettings::setDefaultForFiletypesArchiveViewerModeExitButton() {
+    if(true != m_filetypesArchiveViewerModeExitButton) {
+        m_filetypesArchiveViewerModeExitButton = true;
+        Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
+    }
+}
+
 bool PQCSettings::getFiletypesDocumentControls() {
     return m_filetypesDocumentControls;
 }
@@ -1315,6 +1339,28 @@ void PQCSettings::setDefaultForFiletypesDocumentLeftRight() {
     if(false != m_filetypesDocumentLeftRight) {
         m_filetypesDocumentLeftRight = false;
         Q_EMIT filetypesDocumentLeftRightChanged();
+    }
+}
+
+bool PQCSettings::getFiletypesDocumentViewerModeExitButton() {
+    return m_filetypesDocumentViewerModeExitButton;
+}
+
+void PQCSettings::setFiletypesDocumentViewerModeExitButton(bool val) {
+    if(val != m_filetypesDocumentViewerModeExitButton) {
+        m_filetypesDocumentViewerModeExitButton = val;
+        Q_EMIT filetypesDocumentViewerModeExitButtonChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiletypesDocumentViewerModeExitButton() {
+        return true;
+}
+
+void PQCSettings::setDefaultForFiletypesDocumentViewerModeExitButton() {
+    if(true != m_filetypesDocumentViewerModeExitButton) {
+        m_filetypesDocumentViewerModeExitButton = true;
+        Q_EMIT filetypesDocumentViewerModeExitButtonChanged();
     }
 }
 
@@ -3358,12 +3404,12 @@ void PQCSettings::setInterfaceFlickAdjustSpeed(bool val) {
 }
 
 const bool PQCSettings::getDefaultForInterfaceFlickAdjustSpeed() {
-        return false;
+        return true;
 }
 
 void PQCSettings::setDefaultForInterfaceFlickAdjustSpeed() {
-    if(false != m_interfaceFlickAdjustSpeed) {
-        m_interfaceFlickAdjustSpeed = false;
+    if(true != m_interfaceFlickAdjustSpeed) {
+        m_interfaceFlickAdjustSpeed = true;
         Q_EMIT interfaceFlickAdjustSpeedChanged();
     }
 }
@@ -3380,12 +3426,12 @@ void PQCSettings::setInterfaceFlickAdjustSpeedSpeedup(int val) {
 }
 
 const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
-        return 2;
+        return 1;
 }
 
 void PQCSettings::setDefaultForInterfaceFlickAdjustSpeedSpeedup() {
-    if(2 != m_interfaceFlickAdjustSpeedSpeedup) {
-        m_interfaceFlickAdjustSpeedSpeedup = 2;
+    if(1 != m_interfaceFlickAdjustSpeedSpeedup) {
+        m_interfaceFlickAdjustSpeedSpeedup = 1;
         Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
     }
 }
@@ -6550,10 +6596,14 @@ void PQCSettings::readDB() {
                     m_filetypesArchiveControls = value.toInt();
                 } else if(name == "ArchiveLeftRight") {
                     m_filetypesArchiveLeftRight = value.toInt();
+                } else if(name == "ArchiveViewerModeExitButton") {
+                    m_filetypesArchiveViewerModeExitButton = value.toInt();
                 } else if(name == "DocumentControls") {
                     m_filetypesDocumentControls = value.toInt();
                 } else if(name == "DocumentLeftRight") {
                     m_filetypesDocumentLeftRight = value.toInt();
+                } else if(name == "DocumentViewerModeExitButton") {
+                    m_filetypesDocumentViewerModeExitButton = value.toInt();
                 } else if(name == "ExternalUnrar") {
                     m_filetypesExternalUnrar = value.toInt();
                     /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = value.toInt();
@@ -7495,7 +7545,7 @@ int PQCSettings::migrate(QString oldversion) {
     /*************************************************************************/
 
     QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1";
+    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2";
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
@@ -8078,8 +8128,10 @@ void PQCSettings::setupFresh() {
     m_filetypesAnimatedSpacePause = true;
     m_filetypesArchiveControls = true;
     m_filetypesArchiveLeftRight = false;
+    m_filetypesArchiveViewerModeExitButton = true;
     m_filetypesDocumentControls = true;
     m_filetypesDocumentLeftRight = false;
+    m_filetypesDocumentViewerModeExitButton = true;
     m_filetypesExternalUnrar = false;
     /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = false;
     m_filetypesLoadAppleLivePhotos = true;
@@ -8196,8 +8248,8 @@ void PQCSettings::setupFresh() {
     m_interfaceEdgeLeftAction = "metadata";
     m_interfaceEdgeRightAction = "mainmenu";
     m_interfaceEdgeTopAction = "";
-    m_interfaceFlickAdjustSpeed = false;
-    m_interfaceFlickAdjustSpeedSpeedup = 2;
+    m_interfaceFlickAdjustSpeed = true;
+    m_interfaceFlickAdjustSpeedSpeedup = 1;
     m_interfaceFontBoldWeight = 700;
     /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
     m_interfaceFontNormalWeight = 400;
@@ -8479,8 +8531,10 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiletypesAnimatedSpacePause();
     setDefaultForFiletypesArchiveControls();
     setDefaultForFiletypesArchiveLeftRight();
+    setDefaultForFiletypesArchiveViewerModeExitButton();
     setDefaultForFiletypesDocumentControls();
     setDefaultForFiletypesDocumentLeftRight();
+    setDefaultForFiletypesDocumentViewerModeExitButton();
     setDefaultForFiletypesExternalUnrar();
     setDefaultForFiletypesLoadAppleLivePhotos();
     setDefaultForFiletypesLoadMotionPhotos();
@@ -8887,6 +8941,10 @@ void PQCSettings::updateFromCommandLine() {
         m_filetypesArchiveLeftRight = (val.toInt()==1);
         Q_EMIT filetypesArchiveLeftRightChanged();
     }
+    if(key == "filetypesArchiveViewerModeExitButton") {
+        m_filetypesArchiveViewerModeExitButton = (val.toInt()==1);
+        Q_EMIT filetypesArchiveViewerModeExitButtonChanged();
+    }
     if(key == "filetypesDocumentControls") {
         m_filetypesDocumentControls = (val.toInt()==1);
         Q_EMIT filetypesDocumentControlsChanged();
@@ -8894,6 +8952,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesDocumentLeftRight") {
         m_filetypesDocumentLeftRight = (val.toInt()==1);
         Q_EMIT filetypesDocumentLeftRightChanged();
+    }
+    if(key == "filetypesDocumentViewerModeExitButton") {
+        m_filetypesDocumentViewerModeExitButton = (val.toInt()==1);
+        Q_EMIT filetypesDocumentViewerModeExitButtonChanged();
     }
     if(key == "filetypesExternalUnrar") {
         m_filetypesExternalUnrar = (val.toInt()==1);

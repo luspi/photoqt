@@ -357,7 +357,7 @@ Item {
             color: PQCLook.baseColor // qmllint disable unqualified
             radius: 5
 
-            opacity: (!PQCConstants.slideshowRunning && (currentIsPDF||currentIsARC)) ? 1 : 0 // qmllint disable unqualified
+            opacity: (!PQCConstants.slideshowRunning && ((currentIsPDF && PQCSettings.filetypesDocumentViewerModeExitButton)||(currentIsARC && PQCSettings.filetypesArchiveViewerModeExitButton))) ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 
