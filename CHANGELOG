@@ -1,6 +1,38 @@
 Changelog PhotoQt - Copyright (C) 2011-2025, Lukas Spies (Lukas@photoqt.org), License: GPLv2 (or later)
 ----------------------------------------------------------------------------------------------------------
 
+Release 4.9.2 - 2025-06-26
+----------------------------
+
+- add: window buttons can follow accent color
+- add: option to improve scroll speed in file browser and settings
+- add: option to hide exit button for archive and document viewer
+- add: support for compressed TAR archives
+- add: option to automatically enter archives, comic books and/or documents
+- add: shortcuts to directly jump to the next/previous archive/document
+- improve: delay loading UI for faster and smoother experience
+- improve: more reliable detection of when an image changed
+- improve: file browser preserves its scroll position when folder content changes
+- improve: localize accent colors
+- improve: storing maximized/normal window state
+- improve: restructuring of code
+- improve: better aot statistics
+- improve: turn various c++ classes into proper QML singleton
+- improve: command line parsing and handling at startup
+- fix: don't load image twice at startup
+- fix: remember window geometry
+- fix: don't load folder contents during startup when image passed on
+- fix: Ken Burns slideshow effect
+- fix: localize interfaces of certain actions
+- fix: thumbnail bar not showing all thumbnails when varying widths are used
+- fix: showing scaled down image when not needed (unnecessary interpolation)
+- fix: cache property for animated images
+- fix: janky scrolling in thumbnail bar
+- fix: handling of pinches to control zoom in file browser
+- fix: Ctrl+Wheel zoom in file browser
+- change: remove blur background option - slow and unreliable
+- change: on Linux temporarily disable Qt plugin support for jpx, icns, j2k, jpc files (causes crash)
+
 
 Release 4.9.1 - 2025-05-06
 ----------------------------
