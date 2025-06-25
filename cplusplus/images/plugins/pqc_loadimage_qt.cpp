@@ -123,15 +123,6 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
     // Suffix, for easier access later-on
     QString suffix = QFileInfo(filename).suffix().toLower();
 
-#ifdef Q_OS_UNIX
-    QStringList faulty = {"jpx", "icns", "j2k", "jpc"};
-    if(faulty.contains(suffix)) {
-        errormsg = QString("The %1 Qt plugin is currently (June 2025) unstable on Linux.").arg(suffix.toUpper());
-        qWarning() << errormsg;
-        return errormsg;
-    }
-#endif
-
     if(suffix == "svg" || suffix == "svgz") {
 
         // For reading SVG files
