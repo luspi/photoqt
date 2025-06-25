@@ -1418,11 +1418,12 @@ void PQCFileFolderModel::enableViewerMode(int page) {
     setCurrentIndex(page);
 }
 
-void PQCFileFolderModel::disableViewerMode() {
+void PQCFileFolderModel::disableViewerMode(bool bufferDisabling) {
 
     qDebug() << "";
 
-    m_justLeftViewerMode = true;
+    if(bufferDisabling)
+        m_justLeftViewerMode = true;
 
     QString tmp = getCurrentFile();
     if(tmp.contains("::PDF::"))
@@ -1436,7 +1437,8 @@ void PQCFileFolderModel::disableViewerMode() {
     Q_EMIT isARCChanged();
     Q_EMIT isPDFChanged();
 
-    timerResetJustLeftViewerMode->start();
+    if(bufferDisabling)
+        timerResetJustLeftViewerMode->start();
 
 }
 

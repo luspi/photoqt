@@ -61,6 +61,10 @@ Flickable {
                                  //: Name of shortcut action
         "__goToLast":           [qsTranslate("settingsmanager", "Go to last image"), "viewingimages"],
                                  //: Name of shortcut action
+        "__nextArcDoc":         [qsTranslate("settingsmanager", "Next archive or document"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__prevArcDoc":         [qsTranslate("settingsmanager", "Previous archive or document"), "viewingimages"],
+                                 //: Name of shortcut action
         "__zoomIn":             [qsTranslate("settingsmanager", "Zoom In"), "viewingimages"],
                                  //: Name of shortcut action
         "__zoomOut":            [qsTranslate("settingsmanager", "Zoom Out"), "viewingimages"],

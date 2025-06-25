@@ -162,6 +162,14 @@ Item {
             image_top.showPrev()
         }
 
+        function onSendShortcutShowNextArcDocImage() {
+            image_top.showNextArchiveDocument()
+        }
+
+        function onSendShortcutShowPrevArcDocImage() {
+            image_top.showPreviousArchiveDocument()
+        }
+
         function onSendShortcutShowFirstImage() {
             image_top.showFirst()
         }
@@ -420,6 +428,59 @@ Item {
                 break
         }
         PQCFileFolderModel.currentIndex = ran
+    }
+
+    function showNextArchiveDocument() {
+
+        if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
+            PQCFileFolderModel.disableViewerMode(false)
+
+        var found = -1
+        for(var i = PQCFileFolderModel.currentIndex+1; i < PQCFileFolderModel.countMainView; ++i) {
+            if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
+                found = i
+                break
+            }
+        }
+        if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
+            for(var j = 0; j < PQCFileFolderModel.currentIndex; ++j) {
+                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
+                    found = j
+                    break
+                }
+            }
+        }
+
+        if(found != -1) {
+            PQCFileFolderModel.currentIndex = found
+        }
+
+    }
+
+    function showPreviousArchiveDocument() {
+
+        if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
+            PQCFileFolderModel.disableViewerMode(false)
+
+        var found = -1
+        for(var i = PQCFileFolderModel.currentIndex-1; i >= 0; --i) {
+            if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[i]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[i])) {
+                found = i
+                break
+            }
+        }
+        if(found == -1 && PQCSettings.imageviewLoopThroughFolder) {
+            for(var j = PQCFileFolderModel.countMainView-1; j > PQCFileFolderModel.currentIndex; --j) {
+                if(PQCScriptsImages.isArchive(PQCFileFolderModel.entriesMainView[j]) || PQCScriptsImages.isPDFDocument(PQCFileFolderModel.entriesMainView[j])) {
+                    found = j
+                    break
+                }
+            }
+        }
+
+        if(found != -1)
+            PQCFileFolderModel.currentIndex = found
+
     }
 
 }

@@ -580,6 +580,12 @@ Item {
             case "__prev":
                 PQCScriptsShortcuts.sendShortcutShowPrevImage()
                 break
+            case "__nextArcDoc":
+                PQCScriptsShortcuts.sendShortcutShowNextArcDocImage()
+                break
+            case "__prevArcDoc":
+                PQCScriptsShortcuts.sendShortcutShowPrevArcDocImage()
+                break
             case "__goToFirst":
                 PQCScriptsShortcuts.sendShortcutShowFirstImage()
                 break

@@ -73,6 +73,8 @@ Q_SIGNALS:
 
     void sendShortcutShowNextImage();
     void sendShortcutShowPrevImage();
+    void sendShortcutShowNextArcDocImage();
+    void sendShortcutShowPrevArcDocImage();
     void sendShortcutShowFirstImage();
     void sendShortcutShowLastImage();
     void sendShortcutShowRandomImage();
