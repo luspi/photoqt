@@ -140,13 +140,6 @@ Loader {
 
         /******************************************/
 
-        Loader {
-            id: loader_contextmenu
-            active: masteritem.readyToContinueLoading
-            asynchronous: true
-            source: "../ongoing/PQContextMenu.qml"
-        }
-
         // the thumbnails loader can be asynchronous as it is always integrated and never popped out
         Loader {
             id: loader_thumbnails
@@ -178,7 +171,7 @@ Loader {
         }
 
         Loader {
-            id: contextmenu
+            id: loader_contextmenu
             active: masteritem.readyToContinueLoading
             asynchronous: true
             source: "../ongoing/PQContextMenu.qml"

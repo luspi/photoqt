@@ -149,7 +149,6 @@ Window {
     }
 
     /****************************************************/
-
     /****************************************************/
 
     // This is a Loader that loads the rest of the application in the background after set up
