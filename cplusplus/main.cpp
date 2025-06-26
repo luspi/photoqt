@@ -294,7 +294,8 @@ int main(int argc, char *argv[]) {
     // if MPV support is disabled, then this is an empty object
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 
-    engine.loadFromModule("PhotoQt", "PQMainWindowModern");
+    // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
+    engine.load("qrc:/qt/qml/PhotoQt/qml/PQMainWindowModern.qml");
 
     return app.exec();
 }
