@@ -297,5 +297,16 @@ int main(int argc, char *argv[]) {
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
     engine.load("qrc:/qt/qml/PhotoQt/qml/PQMainWindowModern.qml");
 
-    return app.exec();
+    int ret = app.exec();
+
+#ifdef PQMFREEIMAGE
+    FreeImage_DeInitialise();
+#endif
+
+#ifdef PQMLIBVIPS
+    vips_shutdown();
+#endif
+
+    return ret;
+
 }
