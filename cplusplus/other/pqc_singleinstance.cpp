@@ -395,11 +395,12 @@ bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
         } else if(e->type() == QEvent::KeyRelease) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
             Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
-        } else if(e->type() == QEvent::Leave) {
-            Q_EMIT PQCNotify::get().mouseWindowExit();
-        } else if(e->type() == QEvent::Enter) {
-            Q_EMIT PQCNotify::get().mouseWindowEnter();
         }
+    } else if(cn.startsWith("PQMainWindow")) {
+        if(e->type() == QEvent::Leave) {
+            Q_EMIT PQCNotify::get().mouseWindowExit();
+        } else if(e->type() == QEvent::Enter)
+            Q_EMIT PQCNotify::get().mouseWindowEnter();
     }
 
     return QApplication::notify(obj, e);

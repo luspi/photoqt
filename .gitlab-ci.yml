@@ -59,6 +59,9 @@ appimage:
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for the next run to succeed
     - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
+    - rm -r ./appdir/usr/qml/QtCharts/designer  # Not needed
+    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage. building it twice might also be necessary for location to work properly
     - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
 
   artifacts:
@@ -101,6 +104,9 @@ releaseappimage:
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for the next run to succeed
     - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
+    - rm -r ./appdir/usr/qml/QtCharts/designer  # Not needed
+    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage. building it twice might also be necessary for location to work properly
     - mv ./PhotoQt*.AppImage PhotoQt-latesttag.AppImage
 
   artifacts:

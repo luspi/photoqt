@@ -1422,7 +1422,7 @@ Loader {
                             var rel = image_wrapper.width/image_wrapper.height
                             if(((image_wrapper.width > image_wrapper.height && image_top.height > image_top.width) ||
                                 (image_wrapper.height > image_wrapper.width && image_top.width > image_top.height)) &&
-                                    (rel < 0.75 || rel > 1.25))
+                                    (rel < 0.5 || rel > 1.5))
                                 fac = Math.min(facW, facH)
 
                             // small images are not scaled as much as larger ones
