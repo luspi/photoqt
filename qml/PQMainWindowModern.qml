@@ -244,9 +244,12 @@ Window {
         PQCNotify.loaderShow("metadata")
         PQCNotify.loaderSetup("thumbnails")
 
-        if(PQCNotify.filePath !== "")
+        if(PQCNotify.filePath !== "") {
+            // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
+            if(PQCScriptsFilesPaths.isFolder(PQCNotify.filePath))
+                PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
             PQCConstants.startupFileLoad = PQCNotify.filePath
-        else if(PQCSettings.interfaceRememberLastImage)
+        } else if(PQCSettings.interfaceRememberLastImage)
             PQCConstants.startupFileLoad = PQCScriptsConfig.getLastLoadedImage()
 
         // this comes after the above to make sure we load a potentially passed-on image

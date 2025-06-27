@@ -118,10 +118,14 @@ Item {
 
             var img = repeaterimage.itemAt(0)
 
-            if(img === null) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad) && PQCFileFolderModel.countMainView === 0)) {
+                loadFirstImage.counter = 0
                 loadFirstImage.start()
                 return
             }
+
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad))
+                PQCConstants.startupFileLoad = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
             img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFileLoad)
             img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFileLoad).toLocaleString()
@@ -135,12 +139,17 @@ Item {
     Timer {
         id: loadFirstImage
         interval: 10
+        property int counter: 0
         onTriggered: {
             var img = repeaterimage.itemAt(0)
-            if(img === null) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
+                counter += 1
                 loadFirstImage.restart()
                 return
             }
+
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad))
+                PQCConstants.startupFileLoad = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
             img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFileLoad)
             img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFileLoad).toLocaleString()
