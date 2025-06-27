@@ -93,8 +93,19 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
     PQCCommandLineResult ret = PQCCommandLineNothing;
 
     if(positionalArguments().length() > 0) {
+// if we have portable tweaks enabled on Windows we need to ignore any executable that might be part of the command line
+#if defined(Q_OS_WIN) && defined(PQMPORTABLETWEAKS)
+        filenames.clear();
+        for(auto &f : positionalArguments()) {
+            if(!f.endsWith(".exe"))
+                filenames.append(f);
+        }
+        if(filenames.length())
+            ret = ret|PQCCommandLineFile;
+#else
         ret = ret|PQCCommandLineFile;
         filenames = positionalArguments();
+#endif
     }
 
     if(isSet("o") || isSet("open"))
