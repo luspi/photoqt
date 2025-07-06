@@ -29,7 +29,6 @@ endif()
 
 include(CMake/ListFilesCPlusPlus.cmake)
 include(CMake/ListFilesQML.cmake)
-include(CMake/ListFilesExtensions.cmake)
 
 #############################################
 #### OPTIONS THAT CAN BE SET BY THE USER ####
@@ -491,7 +490,7 @@ qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
-target_include_directories(photoqt PRIVATE "extensions")
+target_include_directories(photoqt PRIVATE "cplusplus/extensions")
 
 # set some properties for executable
 set_target_properties(photoqt PROPERTIES

@@ -120,6 +120,24 @@ void PQCSettings::setupFresh() {
     const QStringList ext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &e : ext) {
 
+        m_extensions->insert(QString("%1").arg(e), false);
+        m_extensions_defaults.insert(QString("%1").arg(e), false);
+
+        m_extensions->insert(QString("%1Position").arg(e), QPoint(100,100));
+        m_extensions_defaults.insert(QString("%1Position").arg(e), QPoint(100,100));
+
+        m_extensions->insert(QString("%1Size").arg(e), QSize(300,200));
+        m_extensions_defaults.insert(QString("%1Size").arg(e), QSize(300,200));
+
+        m_extensions->insert(QString("%1Popout").arg(e), false);
+        m_extensions_defaults.insert(QString("%1Popout").arg(e), false);
+
+        m_extensions->insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
+        m_extensions_defaults.insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
+
+        m_extensions->insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
+        m_extensions_defaults.insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
+
         const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
         for(const QStringList &s : sets) {
 

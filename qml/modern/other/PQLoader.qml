@@ -219,9 +219,9 @@ Item {
 
         var src
         if(config[4] || config[5])
-            src = "../" + config[0] + "/popout/" + config[1] + "Popout.qml"
+            src = "qrc:/qt/qml/PhotoQt/qml/modern/" + config[0] + "/popout/" + config[1] + "Popout.qml"
         else
-            src = "../" + config[0] + "/" + config[1] + ".qml"
+            src = "qrc:/qt/qml/PhotoQt/qml/modern/" + config[0] + "/" + config[1] + ".qml"
 
         if(src !== config[2].source)
             config[2].source = src
@@ -236,12 +236,10 @@ Item {
         var src
 
         var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
-        if(PQCExtensionsHandler.getAllowPopout(ele) &&
-                (PQCSettings.extensions[PQCExtensionsHandler.getPopoutSettingName(ele)] ||
-                 minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight))
-            src = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + "Popout.qml"
+        if(PQCSettings.extensions[ele+"Popout"] || minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
+            src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + "Popout.qml"
         else
-            src = "../../../extensions/" + ele + "/modern/" + PQCExtensionsHandler.getQmlBaseName(ele) + ".qml"
+            src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + ".qml"
 
         if(src !== loader_extensions.itemAt(ind).source)
             loader_extensions.itemAt(ind).source = src
