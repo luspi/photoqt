@@ -247,6 +247,7 @@ PQCSettings::PQCSettings() {
     // table: general
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
+    connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
     connect(this, &PQCSettings::generalVersionChanged, this, [=]() { saveChangedValue("generalVersion", m_generalVersion); });
     // table: imageview
     connect(this, &PQCSettings::imageviewAdvancedSortAscendingChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortAscending", m_imageviewAdvancedSortAscending); });
@@ -1934,6 +1935,31 @@ void PQCSettings::setDefaultForGeneralCompactSettings() {
     if(false != m_generalCompactSettings) {
         m_generalCompactSettings = false;
         Q_EMIT generalCompactSettingsChanged();
+    }
+}
+
+QStringList PQCSettings::getGeneralEnabledExtensions() {
+    return m_generalEnabledExtensions;
+}
+
+void PQCSettings::setGeneralEnabledExtensions(QStringList val) {
+    if(val != m_generalEnabledExtensions) {
+        m_generalEnabledExtensions = val;
+        Q_EMIT generalEnabledExtensionsChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val;
+    }
+}
+
+const QStringList PQCSettings::getDefaultForGeneralEnabledExtensions() {
+        return QStringList() << "";
+}
+
+void PQCSettings::setDefaultForGeneralEnabledExtensions() {
+    QStringList tmp = QStringList() << "";
+    if(tmp != m_generalEnabledExtensions) {
+        m_generalEnabledExtensions = tmp;
+        Q_EMIT generalEnabledExtensionsChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = tmp;
     }
 }
 
@@ -6742,6 +6768,21 @@ void PQCSettings::readDB() {
                     m_generalAutoSaveSettings = value.toInt();
                 } else if(name == "CompactSettings") {
                     m_generalCompactSettings = value.toInt();
+                } else if(name == "EnabledExtensions") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_generalEnabledExtensions = val.split(":://::");
+                    else if(val != "")
+                        m_generalEnabledExtensions = QStringList() << val;
+                    else
+                        m_generalEnabledExtensions = QStringList();
+                    /* duplicate */
+                    if(val.contains(":://::"))
+                        PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
+                    else if(val != "")
+                        PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList() << val;
+                    else
+                        PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
                 } else if(name == "Version") {
                     m_generalVersion = value.toString();
                 }
@@ -7068,13 +7109,13 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_mainmenuElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementPosition = QPoint(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_mainmenuElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementSize = QSize(0,0);
                 } else if(name == "ElementWidth") {
@@ -7087,13 +7128,13 @@ void PQCSettings::readDB() {
                 if(name == "CurrentPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_mapviewCurrentPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentPosition = QPoint(0,0);
                 } else if(name == "CurrentSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_mapviewCurrentSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentSize = QSize(0,0);
                 } else if(name == "CurrentVisible") {
@@ -7119,13 +7160,13 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_metadataElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementPosition = QPoint(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_metadataElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementSize = QSize(0,0);
                 } else if(name == "ElementVisible") {
@@ -7327,7 +7368,7 @@ void PQCSettings::readDB() {
         } else if(datatype == "point") {
             const QStringList parts = value.split(",");
             if(parts.length() == 2)
-                m_extensions->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
+                m_extensions->insert(name, QPoint(parts[0].toDouble(), parts[1].toDouble()));
             else {
                 qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QPoint(0,0));
@@ -7335,7 +7376,7 @@ void PQCSettings::readDB() {
         } else if(datatype == "size") {
             const QStringList parts = value.split(",");
             if(parts.length() == 2)
-                m_extensions->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
+                m_extensions->insert(name, QSize(parts[0].toDouble(), parts[1].toDouble()));
             else {
                 qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QSize(0,0));
@@ -7528,6 +7569,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     }
 
     dbCommitTimer->start();
+
+    Q_EMIT extensionValueChanged(key, val);
 
 }
 
@@ -8253,6 +8296,8 @@ void PQCSettings::setupFresh() {
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
+    m_generalEnabledExtensions = QStringList();
+    /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
     m_generalVersion = PQMVERSION;
 
     // table: imageview
@@ -8507,6 +8552,24 @@ void PQCSettings::setupFresh() {
     const QStringList ext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &e : ext) {
 
+        m_extensions->insert(QString("%1").arg(e), false);
+        m_extensions_defaults.insert(QString("%1").arg(e), false);
+
+        m_extensions->insert(QString("%1Position").arg(e), QPoint(100,100));
+        m_extensions_defaults.insert(QString("%1Position").arg(e), QPoint(100,100));
+
+        m_extensions->insert(QString("%1Size").arg(e), QSize(300,200));
+        m_extensions_defaults.insert(QString("%1Size").arg(e), QSize(300,200));
+
+        m_extensions->insert(QString("%1Popout").arg(e), false);
+        m_extensions_defaults.insert(QString("%1Popout").arg(e), false);
+
+        m_extensions->insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
+        m_extensions_defaults.insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
+
+        m_extensions->insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
+        m_extensions_defaults.insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
+
         const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
         for(const QStringList &s : sets) {
 
@@ -8652,6 +8715,7 @@ void PQCSettings::resetToDefault() {
     // table: general
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
+    setDefaultForGeneralEnabledExtensions();
     setDefaultForGeneralVersion();
 
     // table: imageview
@@ -9159,6 +9223,11 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "generalCompactSettings") {
         m_generalCompactSettings = (val.toInt()==1);
         Q_EMIT generalCompactSettingsChanged();
+    }
+    if(key == "generalEnabledExtensions") {
+        m_generalEnabledExtensions = val.split(":://::");
+        Q_EMIT generalEnabledExtensionsChanged();
+        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
     }
     if(key == "generalVersion") {
         m_generalVersion = val;

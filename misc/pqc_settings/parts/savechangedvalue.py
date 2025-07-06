@@ -201,6 +201,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
 
     dbCommitTimer->start();
 
+    Q_EMIT extensionValueChanged(key, val);
+
 }
 """
 

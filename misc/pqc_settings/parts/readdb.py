@@ -162,14 +162,14 @@ void PQCSettings::readDB() {
                 {prefx}if(name == \"{name}\") {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_{tab}{name} = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_{tab}{name} = QPoint(0,0);"""
                 if f"{tab}{name}" in duplicateSettingsNames:
                     cont_SOURCE += f"""
                     /* duplicate */
                     if(parts.length() == 2)
-                        PQCSettingsCPP::get().m_{tab}{name} = QPoint(parts[0].toInt(), parts[1].toInt());
+                        PQCSettingsCPP::get().m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         PQCSettingsCPP::get().m_{tab}{name} = QPoint(0,0);"""
                     if f"{tab}{name}" in duplicateSettingsSignal:
@@ -181,14 +181,14 @@ void PQCSettings::readDB() {
                 {prefx}if(name == \"{name}\") {{
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_{tab}{name} = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_{tab}{name} = QSize(0,0);"""
                 if f"{tab}{name}" in duplicateSettingsNames:
                     cont_SOURCE += f"""
                     /* duplicate */
                     if(parts.length() == 2)
-                        PQCSettingsCPP::get().m_{tab}{name} = QSize(parts[0].toInt(), parts[1].toInt());
+                        PQCSettingsCPP::get().m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         PQCSettingsCPP::get().m_{tab}{name} = QSize(0,0);"""
                     if f"{tab}{name}" in duplicateSettingsSignal:
@@ -232,7 +232,7 @@ void PQCSettings::readDB() {
         } else if(datatype == "point") {
             const QStringList parts = value.split(",");
             if(parts.length() == 2)
-                m_extensions->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
+                m_extensions->insert(name, QPoint(parts[0].toDouble(), parts[1].toDouble()));
             else {
                 qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QPoint(0,0));
@@ -240,7 +240,7 @@ void PQCSettings::readDB() {
         } else if(datatype == "size") {
             const QStringList parts = value.split(",");
             if(parts.length() == 2)
-                m_extensions->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
+                m_extensions->insert(name, QSize(parts[0].toDouble(), parts[1].toDouble()));
             else {
                 qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QSize(0,0));

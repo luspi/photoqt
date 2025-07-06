@@ -42,6 +42,8 @@ PQCShortcuts::PQCShortcuts() {
 
     QFileInfo infodb(PQCConfigFiles::get().SHORTCUTS_DB());
 
+    bool enterExtensions = false;
+
     // the db does not exist -> create it
     if(!infodb.exists()) {
         if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
@@ -49,6 +51,7 @@ PQCShortcuts::PQCShortcuts() {
         else {
             QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            enterExtensions = true;
         }
     }
 
@@ -108,7 +111,9 @@ PQCShortcuts::PQCShortcuts() {
     connect(&PQCNotify::get(), &PQCNotify::resetShortcutsToDefault, this, &PQCShortcuts::resetToDefault);
 
     // on updates we call migrate() which calls readDB() itself.
-    if(checkForUpdateOrNew() != 1)
+    if(enterExtensions)
+        setupFresh();
+    else if(checkForUpdateOrNew() != 1)
         readDB();
 
 }

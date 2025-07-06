@@ -103,7 +103,7 @@ Loader {
         // These are the extensions loader
         Repeater {
             id: loader_extensions
-            model: PQCExtensionsHandler.getExtensions().length
+            model: PQCExtensionsHandler.numExtensions
             Loader {}
         }
 
@@ -267,6 +267,8 @@ Loader {
         function finishSetup_part2() {
             finishSetupCalled += 1
             PQCNotify.loaderSetup("thumbnails")
+
+            PQCExtensionsHandler.setup()
 
             waitForExtLoaderToBeReady.start()
 

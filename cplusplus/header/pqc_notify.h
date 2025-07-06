@@ -211,6 +211,7 @@ Q_SIGNALS:
     void mouseWindowEnter();
 
     // other
+    void currentImageLoadedAndDisplayed(QString filename);
     void showNotificationMessage(QString title, QString msg);
     void haveScreenshotsChanged();
     void debugLogMessagesChanged();

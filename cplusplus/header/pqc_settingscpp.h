@@ -48,6 +48,8 @@ public:
     PQCSettingsCPP(PQCSettingsCPP const&) = delete;
     void operator=(PQCSettingsCPP const&) = delete;
 
+    QStringList getGeneralEnabledExtensions() { return m_generalEnabledExtensions; }
+
     bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
     bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
     QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
@@ -97,6 +99,8 @@ public:
 private:
     PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
 
+            m_generalEnabledExtensions = QStringList();
+
             m_imageviewFitInWindow = false;
             m_imageviewSortImagesAscending = false;
             m_imageviewSortImagesBy = "";
@@ -145,6 +149,8 @@ private:
 
     }
 
+    QStringList m_generalEnabledExtensions;
+
     bool m_imageviewFitInWindow;
     bool m_imageviewSortImagesAscending;
     QString m_imageviewSortImagesBy;
@@ -192,6 +198,8 @@ private:
     bool m_metadataAutoRotation;
 
 Q_SIGNALS:
+    void generalEnabledExtensionsChanged();
+
     void imageviewFitInWindowChanged();
     void imageviewSortImagesAscendingChanged();
     void imageviewSortImagesByChanged();

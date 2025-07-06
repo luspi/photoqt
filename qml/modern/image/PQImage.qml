@@ -55,6 +55,7 @@ Item {
         visibleSourcePrevCur[1] = visibleSourcePrevCur[0]
         visibleSourcePrevCur[0] = currentlyVisibleSource
         visibleSourcePrevCurChanged()
+        PQCNotify.currentImageLoadedAndDisplayed(currentlyVisibleSource)
     }
 
     property bool isSomeVideoLoaded: false

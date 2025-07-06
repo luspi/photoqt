@@ -451,6 +451,12 @@ public:
     Q_INVOKABLE const bool getDefaultForGeneralCompactSettings();
     Q_INVOKABLE void setDefaultForGeneralCompactSettings();
 
+    Q_PROPERTY(QStringList generalEnabledExtensions READ getGeneralEnabledExtensions WRITE setGeneralEnabledExtensions NOTIFY generalEnabledExtensionsChanged)
+    QStringList getGeneralEnabledExtensions();
+    void setGeneralEnabledExtensions(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
+    Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
+
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
     void setGeneralVersion(QString val);
@@ -1810,6 +1816,7 @@ private:
     // table: general
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
+    QStringList m_generalEnabledExtensions;
     QString m_generalVersion;
 
     // table: imageview
@@ -2053,6 +2060,7 @@ private:
 
 Q_SIGNALS:
     void extensionsChanged();
+    void extensionValueChanged(const QString &key, const QVariant &val);
 
     // table: filedialog
     void filedialogDetailsTooltipChanged();
@@ -2124,6 +2132,7 @@ Q_SIGNALS:
     // table: general
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
+    void generalEnabledExtensionsChanged();
     void generalVersionChanged();
 
     // table: imageview

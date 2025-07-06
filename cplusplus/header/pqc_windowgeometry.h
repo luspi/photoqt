@@ -92,10 +92,10 @@ public:
     Q_PROPERTY(bool filedialogForcePopout MEMBER m_filedialogForcePopout NOTIFY filedialogForcePopoutChanged)
 
     // histogram
-    Q_PROPERTY(QRectF histogramGeometry MEMBER m_histogramGeometry NOTIFY histogramGeometryChanged)
-    Q_PROPERTY(QSize histogramPopoutThreshold MEMBER m_histogramPopoutThreshold NOTIFY histogramPopoutThresholdChanged)
-    Q_PROPERTY(bool histogramMaximized MEMBER m_histogramMaximized NOTIFY histogramMaximizedChanged)
-    Q_PROPERTY(bool histogramForcePopout MEMBER m_histogramForcePopout NOTIFY histogramForcePopoutChanged)
+    Q_PROPERTY(QRectF HistogramGeometry MEMBER m_histogramGeometry NOTIFY histogramGeometryChanged)
+    Q_PROPERTY(QSize HistogramPopoutThreshold MEMBER m_histogramPopoutThreshold NOTIFY histogramPopoutThresholdChanged)
+    Q_PROPERTY(bool HistogramMaximized MEMBER m_histogramMaximized NOTIFY histogramMaximizedChanged)
+    Q_PROPERTY(bool HistogramForcePopout MEMBER m_histogramForcePopout NOTIFY histogramForcePopoutChanged)
 
     // map current
     Q_PROPERTY(QRectF mapcurrentGeometry MEMBER m_mapcurrentGeometry NOTIFY mapcurrentGeometryChanged)

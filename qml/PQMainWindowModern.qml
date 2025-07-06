@@ -24,6 +24,7 @@ import QtQuick
 import PQCFileFolderModel
 import PQCScriptsFilesPaths
 import PQCScriptsConfig
+import PQCExtensionsHandler
 import PhotoQt
 
 Window {

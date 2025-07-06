@@ -214,7 +214,8 @@ private:"""
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
-    void extensionsChanged();"""
+    void extensionsChanged();
+    void extensionValueChanged(const QString &key, const QVariant &val);"""
 
     for tab in dbtables:
 
