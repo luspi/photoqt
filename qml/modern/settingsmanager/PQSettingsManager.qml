@@ -197,13 +197,13 @@ PQTemplateFullscreen {
                                                  "HotEdgeSize"]],
 
                                                 //: A settings subcategory
-                            "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenuSet",
+                            "if_contextmenu" : [qsTranslate("settingsmanager", "Context menu"), "PQContextMenu",
                                                 [qsTranslate("settingsmanager", "Context menu"),
                                                  qsTranslate("settingsmanager", "Duplicate entries in main menu")],
                                                 ["ShowExternal"]],
 
                                                 //: A settings subcategory
-                            "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfoSet",
+                            "if_statusinfo"  : [qsTranslate("settingsmanager", "Status info"),  "PQStatusInfo",
                                                 [qsTranslate("settingsmanager", "Status info"),
                                                  qsTranslate("settingsmanager", "Font size"),
                                                  qsTranslate("settingsmanager", "Hide automatically"),
@@ -228,7 +228,7 @@ PQTemplateFullscreen {
         "imageview" : [qsTranslate("settingsmanager", "Image view"),
                        {
                                                 //: A settings subcategory
-                            "iv_image"       : [qsTranslate("settingsmanager", "Image"),        "PQImageSetIm",
+                            "iv_image"       : [qsTranslate("settingsmanager", "Image"),        "PQImage",
                                                 [qsTranslate("settingsmanager", "Margin"),
                                                  qsTranslate("settingsmanager", "Image size"),
                                                  qsTranslate("settingsmanager", "Transparency marker"),
@@ -327,7 +327,7 @@ PQTemplateFullscreen {
         "thumbnails" : [qsTranslate("settingsmanager", "Thumbnails"),
                         {
                                            //: A settings subcategory
-                            "tb_image"  : [qsTranslate("settingsmanager", "Image"),          "PQImageSetThumb",
+                            "tb_image"  : [qsTranslate("settingsmanager", "Image"),          "PQThumbnailImage",
                                            [qsTranslate("settingsmanager", "Size"),
                                             qsTranslate("settingsmanager", "Scale and crop"),
                                             qsTranslate("settingsmanager", "Icons only"),
@@ -355,7 +355,7 @@ PQTemplateFullscreen {
                                             "Visibility"]],
 
                                            //: A settings subcategory
-                            "tb_manage" : [qsTranslate("settingsmanager", "Manage"),         "PQManage",
+                            "tb_manage" : [qsTranslate("settingsmanager", "Manage"),         "PQThumbnailManage",
                                            [qsTranslate("settingsmanager", "Cache"),
                                             qsTranslate("settingsmanager", "Exclude folders"),
                                             qsTranslate("settingsmanager", "How many threads")],
@@ -425,7 +425,7 @@ PQTemplateFullscreen {
                                              []],
 
                                              //: A settings subcategory
-                           "sc_behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQBehavior",
+                           "sc_behavior"  : [qsTranslate("settingsmanager", "Behavior"),   "PQShortcutsBehavior",
                                              [qsTranslate("settingsmanager", "Move image with mouse"),
                                               qsTranslate("settingsmanager", "Double click"),
                                               qsTranslate("settingsmanager", "Scroll speed"),
@@ -598,7 +598,7 @@ PQTemplateFullscreen {
                     anchors.bottomMargin: 30
                     clip: true
                     asynchronous: true
-                    source: "settings/" + sm_category.selectedCategories[0] + "/" + settingsmanager_top.categories[sm_category.selectedCategories[0]][1][sm_category.selectedCategories[1]][1] + ".qml"
+                    source: "settings/" + sm_category.selectedCategories[0] + "/" + settingsmanager_top.categories[sm_category.selectedCategories[0]][1][sm_category.selectedCategories[1]][1] + "Settings.qml"
                     onStatusChanged: {
                         if(status === Loader.Ready)
                             loadingsettings.hide()
