@@ -317,6 +317,7 @@ int main(int argc, char *argv[]) {
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
     engine.addImportPath(":/");
+
     engine.load("qrc:/PhotoQt/qml/PQMainWindowModern.qml");
 #endif
 
