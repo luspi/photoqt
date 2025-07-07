@@ -9,7 +9,7 @@ project(photoqt LANGUAGES C CXX)
 ####  GLOBAL VERSION STRING FOR ALL FILES (INCLUDING CPP/QML) ####
 ##################################################################
 
-SET(APPVERSION "4.9.2")
+SET(APPVERSION "dev")
 
 ########################################
 ####  SOME SETTINGS/FLAGS FOR CMAKE ####

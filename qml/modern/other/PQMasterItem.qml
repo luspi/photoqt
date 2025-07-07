@@ -111,7 +111,7 @@ Loader {
         // thus we keep checking until the first one is no longer null at which point we'll assume they all are ready.
         Timer {
             id: waitForExtLoaderToBeReady
-            interval: 100
+            interval: 200
             onTriggered: {
                 if(!loader_extensions.itemAt(0)) {
                     waitForExtLoaderToBeReady.restart()
@@ -121,19 +121,8 @@ Loader {
                 var exts = PQCExtensionsHandler.getExtensions()
                 for(var iE in exts) {
                     var ext = exts[iE]
-                    var checks = PQCExtensionsHandler.getDoAtStartup(ext)
-                    for(var i in checks) {
-                        var entry = checks[i]
-                        if(entry[0] === "" || PQCSettings.extensions[entry[0]]) {
-                            if(entry[1] === "show") {
-                                PQCNotify.loaderShowExtension(ext)
-                            } else if(entry[1] === "setup") {
-                                PQCNotify.loaderSetupExtension(ext)
-                            } else {
-                                console.warn("checkAtStartup command for '" + ext + "' not known/implemented:", entry)
-                            }
-                        }
-                    }
+                    if(PQCSettings.extensions[ext])
+                        PQCNotify.loaderShowExtension(ext)
                 }
             }
         }

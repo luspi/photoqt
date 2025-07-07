@@ -55,6 +55,7 @@ public:
     Q_INVOKABLE QString getExtensionLocation(QString id);
     Q_INVOKABLE QStringList getAllExtensionsLocation();
 
+    Q_INVOKABLE int getTargetAPIVersion(QString id);
     Q_INVOKABLE QSize getMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE bool getIsModal(QString id);
 
@@ -62,12 +63,11 @@ public:
     Q_INVOKABLE QString getExtensionAuthor(QString id);
     Q_INVOKABLE QString getExtensionDescription(QString id);
 
-    Q_INVOKABLE QList<QStringList> getSettings(QString id);
-    Q_INVOKABLE QList<QStringList> getDoAtStartup(QString id);
 
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
 
+    Q_INVOKABLE QList<QStringList> getSettings(QString id);
     Q_INVOKABLE QStringList getShortcuts(QString id);
     Q_INVOKABLE QList<QStringList> getShortcutsActions(QString id);
     Q_INVOKABLE QStringList getAllShortcuts();

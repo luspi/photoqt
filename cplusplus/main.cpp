@@ -70,6 +70,7 @@
 #include <scripts/pqc_scriptsundo.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_extensionshandler.h>
+#include <pqc_extensionsettings.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -305,6 +306,9 @@ int main(int argc, char *argv[]) {
 
     // if MPV support is disabled, then this is an empty object
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
+
+    // the extension settings item
+    qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
