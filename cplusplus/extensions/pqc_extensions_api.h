@@ -15,11 +15,10 @@ public:
     virtual bool isModal() = 0;
 
     // initial setup stuff
-    virtual QList<QStringList> shortcutsActions() = 0;
+    virtual QList<QStringList> shortcuts() = 0;
     virtual QList<QStringList> settings() = 0;
     virtual QMap<QString, QList<QStringList> > migrateSettings() = 0;
     virtual QMap<QString, QList<QStringList> > migrateShortcuts() = 0;
-    virtual QList<QStringList> doAtStartup() = 0;
 
     /////////////////////////////////////////
 

@@ -20,74 +20,27 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCSHORTCUTS_H
-#define PQCSHORTCUTS_H
+#pragma once
 
-#include <QObject>
-#include <QtSql/QSqlDatabase>
+#include <QSettings>
 #include <QtQmlIntegration>
+#include <QQmlPropertyMap>
 
-class QTimer;
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
-
-class PQCShortcuts : public QObject {
+class ExtensionSettings : public QQmlPropertyMap {
 
     Q_OBJECT
     QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    explicit PQCShortcuts();
-    ~PQCShortcuts();
-
-    Q_INVOKABLE void setDefault();
-
-    Q_INVOKABLE QVariantList getCommandsForShortcut(QString combo);
-    Q_INVOKABLE QVariantList getAllCurrentShortcuts();
-    Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list);
-    Q_INVOKABLE int getNextCommandInCycle(QString combo, int timeout, int maxCmd);
-    Q_INVOKABLE void resetCommandCycle(QString combo);
-
-    Q_INVOKABLE bool migrate(QString oldversion = "");
-
-    bool backupDatabase();
-    Q_INVOKABLE void closeDatabase();
-    Q_INVOKABLE void reopenDatabase();
-
-    void setupFresh();
-
-public Q_SLOTS:
-    void readDB();
-    void resetToDefault();
+    ExtensionSettings(QObject *parent = nullptr);
+    ~ExtensionSettings();
 
 private:
+    QSettings *set;
+    void setup(QString id);
+    bool m_isSetup;
 
-    int checkForUpdateOrNew();
-
-    QStringList shortcutsOrder;
-    QMap<QString,QVariantList> shortcuts;
-    QMap<QString, QList<qint64>> commandCycle;
-
-    QSqlDatabase db;
-    bool readonly;
-    bool dbIsTransaction;
-    QTimer *dbCommitTimer;
-
-    QString m_version;
-
-    void enterOrMoveExtensionShortcuts();
-
-Q_SIGNALS:
-    void aboutChanged();
+private Q_SLOTS:
+    void saveExtensionValue(const QString &key, const QVariant &value);
 
 };
-
-#endif // PQCSHORTCUTS_H

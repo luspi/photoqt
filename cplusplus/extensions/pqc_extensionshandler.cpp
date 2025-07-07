@@ -121,7 +121,7 @@ void PQCExtensionsHandler::setup() {
                         m_extensionLocation.insert(id, baseDir + "/" + id);
                         m_allExtensionLocation.append(baseDir + "/" + id);
 
-                        const QList<QStringList> actions = interface->shortcutsActions();
+                        const QList<QStringList> actions = interface->shortcuts();
                         QStringList allsh;
                         for(const QStringList &l : actions) {
                             allsh.append(l[0]);
@@ -197,6 +197,13 @@ QStringList PQCExtensionsHandler::getAllExtensionsLocation() {
     return m_allExtensionLocation;
 }
 
+int PQCExtensionsHandler::getTargetAPIVersion(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->targetAPIVersion();
+    qWarning() << "Unknown extension id:" << id;
+    return 1;
+}
+
 QSize PQCExtensionsHandler::getMinimumRequiredWindowSize(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->minimumRequiredWindowSize();
@@ -221,7 +228,7 @@ QStringList PQCExtensionsHandler::getShortcuts(QString id) {
 
 QList<QStringList> PQCExtensionsHandler::getShortcutsActions(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->shortcutsActions();
+        return m_allextensions[id]->shortcuts();
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
@@ -240,7 +247,7 @@ QStringList PQCExtensionsHandler::getAllShortcuts() {
 QString PQCExtensionsHandler::getDescriptionForShortcut(QString sh) {
     QString ret = "";
     for(auto ext : std::as_const(m_allextensions)) {
-        const QList<QStringList> allsh = ext->shortcutsActions();
+        const QList<QStringList> allsh = ext->shortcuts();
         for(int i = 0; i < allsh.length(); ++i) {
             if(allsh[i][0] == sh) {
                 ret = allsh[i][1];
@@ -254,13 +261,6 @@ QString PQCExtensionsHandler::getDescriptionForShortcut(QString sh) {
 
 QString PQCExtensionsHandler::getExtensionForShortcut(QString sh) {
     return m_mapShortcutToExtension.value(sh, "");
-}
-
-QList<QStringList> PQCExtensionsHandler::getDoAtStartup(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->doAtStartup();
-    qWarning() << "Unknown extension id:" << id;
-    return {};
 }
 
 QMap<QString, QList<QStringList> > PQCExtensionsHandler::getMigrateSettings(QString id) {

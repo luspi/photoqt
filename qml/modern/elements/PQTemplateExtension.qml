@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt
+import ExtensionSettings
 import PQCExtensionsHandler
 import PQCScriptsConfig
 
@@ -237,6 +238,7 @@ Rectangle {
         }
 
         Rectangle {
+            visible: floating_top._popoutOpen
             anchors.fill: parent
             anchors.margins: -2
             radius: 2

@@ -43,6 +43,10 @@ public:
         return m_CONFIG_DIR;
     }
 
+    const QString EXTENSION_CONFIG_DIR() {
+        return m_EXTENSION_CONFIG_DIR;
+    }
+
     const QString DATA_DIR() {
         return m_DATA_DIR;
     }
@@ -167,6 +171,7 @@ private:
         m_DATA_DIR = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
         m_CACHE_DIR = QStandardPaths::writableLocation(QStandardPaths::CacheLocation);
 #endif
+        m_EXTENSION_CONFIG_DIR = QString("%1/extensions/").arg(m_CONFIG_DIR);
 
         QDir dir;
         dir.mkpath(m_CONFIG_DIR);
@@ -224,6 +229,7 @@ private:
     }
 
     QString m_CONFIG_DIR;
+    QString m_EXTENSION_CONFIG_DIR;
     QString m_DATA_DIR;
     QString m_CACHE_DIR;
     QString m_USER_TRASH_FILES;
