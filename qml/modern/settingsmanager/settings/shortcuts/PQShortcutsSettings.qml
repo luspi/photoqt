@@ -1177,7 +1177,7 @@ Flickable {
 
     }
 
-    PQNewShortcut {
+    PQNewShortcutSettings {
 
         id: newshortcut
 
@@ -1230,7 +1230,7 @@ Flickable {
 
     }
 
-    PQNewAction {
+    PQNewActionSettings {
 
         id: newaction
 

@@ -295,7 +295,11 @@ int main(int argc, char *argv[]) {
     qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
-    engine.load("qrc:/qt/qml/PhotoQt/qml/PQMainWindowModern.qml");
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    engine.loadFromModule("PhotoQt", "PQMainWindowModern");
+#else
+    engine.load("qrc:/PhotoQt/qml/PQMainWindowModern.qml");
+#endif
 
     int ret = app.exec();
 

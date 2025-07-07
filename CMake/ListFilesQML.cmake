@@ -74,24 +74,24 @@ SET(d "qml/modern/settingsmanager/popout")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsManagerPopout.qml)
 
 SET(d "qml/modern/settingsmanager/settings/filetypes")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypes.qml ${d}/PQBehavior.qml ${d}/PQAdvanced.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileTypesSettings.qml ${d}/PQBehaviorSettings.qml ${d}/PQAdvancedSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/imageview")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnline.qml ${d}/PQImageSetIm.qml ${d}/PQInteraction.qml ${d}/PQFolder.qml ${d}/PQMetadata.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShareOnlineSettings.qml ${d}/PQImageSettings.qml ${d}/PQInteractionSettings.qml ${d}/PQFolderSettings.qml ${d}/PQMetadataSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/interface")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQBackground.qml ${d}/PQContextMenuSet.qml ${d}/PQPopout.qml ${d}/PQInterface.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfoSet.qml ${d}/PQEdges.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQBackgroundSettings.qml ${d}/PQContextMenuSettings.qml ${d}/PQPopoutSettings.qml ${d}/PQInterfaceSettings.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQStatusInfoSettings.qml ${d}/PQEdgesSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/shortcuts")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcuts.qml ${d}/PQNewAction.qml ${d}/PQNewShortcut.qml ${d}/PQBehavior.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQShortcutsSettings.qml ${d}/PQNewActionSettings.qml ${d}/PQNewShortcutSettings.qml ${d}/PQShortcutsBehaviorSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/thumbnails")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQImageSetThumb.qml ${d}/PQAllThumbnails.qml ${d}/PQManage.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQThumbnailImageSettings.qml ${d}/PQAllThumbnailsSettings.qml ${d}/PQThumbnailManageSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/manage")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQSession.qml ${d}/PQConfiguration.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQSessionSettings.qml ${d}/PQConfigurationSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQSlideshow.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml)
 
