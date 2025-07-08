@@ -43,7 +43,7 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    property int radius:0
+    radius: 0
 
     // which edge the bar should be shown at
     state: PQCSettings.interfaceEdgeBottomAction==="thumbnails" ?
