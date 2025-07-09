@@ -22,9 +22,11 @@ public:
 
     /////////////////////////////////////////
 
-    // reaction methods to do stuff
-    virtual QVariant doOnFileLoad(QString filepath, QImage &img) = 0;
-    virtual QVariant doOnFileUnLoad(QString filepath) = 0;
+    virtual QVariant action1(QString filepath) = 0;
+    virtual QVariant action2(QString filepath) = 0;
+
+    virtual QVariant actionWithImage1(QString filepath, QImage &img) = 0;
+    virtual QVariant actionWithImage2(QString filepath, QImage &img) = 0;
 
 
 };

@@ -352,7 +352,6 @@ Rectangle {
         opacity = 1
         PQCSettings.extensions[extensionId] = true
         showing()
-        PQCExtensionsHandler.requestCallOnFileLoad(floating_top.extensionId)
     }
 
     function hide() {
