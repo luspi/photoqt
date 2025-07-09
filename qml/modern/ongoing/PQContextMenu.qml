@@ -206,7 +206,7 @@ Loader {
                     font.bold: true
                     onTriggered: {
                         PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
-                        image.reloadImage()
+                        PQCNotify.currentImageReload()
                         PQCFileFolderModel.currentFileChanged()
                     }
                 }
@@ -223,7 +223,7 @@ Loader {
                         height: visible ? 40 : 0
                         onTriggered: {
                             PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
-                            image.reloadImage()
+                            PQCNotify.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
                     }

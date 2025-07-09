@@ -72,8 +72,6 @@ Item {
 
     signal animatePhotoSpheres(var direction)
 
-    signal reloadImage()
-
     property var rememberChanges: ({})
     property list<var> reuseChanges: []
 
