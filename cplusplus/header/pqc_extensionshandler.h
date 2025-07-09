@@ -42,7 +42,10 @@ public:
     void operator=(PQCExtensionsHandler const&) = delete;
 
 
-    Q_INVOKABLE void requestCallOnFileLoad(QString id);
+    Q_INVOKABLE void requestCallActionWithImage1(QString id);
+    Q_INVOKABLE void requestCallActionWithImage2(QString id);
+    Q_INVOKABLE void requestCallAction1(QString id);
+    Q_INVOKABLE void requestCallAction2(QString id);
 
     Q_PROPERTY(int numFiles MEMBER m_numFiles NOTIFY numFilesChanged)
     Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
@@ -98,16 +101,16 @@ private:
 
     int m_numExtensions;
 
-private Q_SLOTS:
-    void handleFileLoad();
-
 Q_SIGNALS:
     void numFilesChanged();
     void currentIndexChanged();
     void currentFileChanged();
+    void currentImageDisplayed();
 
-    void replyForOnFileLoad(const QString id, QVariant val);
-    void replyForOnFileUnLoad(const QString id, QVariant val);
+    void replyForActionWithImage1(const QString id, QVariant val);
+    void replyForActionWithImage2(const QString id, QVariant val);
+    void replyForAction1(const QString id, QVariant val);
+    void replyForAction2(const QString id, QVariant val);
 
     void numExtensionsChanged();
 

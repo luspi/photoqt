@@ -32,6 +32,8 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         Q_EMIT numFilesChanged();
     });
 
+    connect(&PQCNotify::get(), &PQCNotify::currentImageLoadedAndDisplayed, this, &PQCExtensionsHandler::currentImageDisplayed);
+
     m_numFiles = PQCFileFolderModel::get().getCountMainView();
     m_currentIndex = PQCFileFolderModel::get().getCurrentIndex();
     m_currentFile = PQCFileFolderModel::get().getCurrentFile();
@@ -158,8 +160,6 @@ void PQCExtensionsHandler::setup() {
     else
         qDebug() << "No extensions found.";
 
-    connect(&PQCNotify::get(), &PQCNotify::currentImageLoadedAndDisplayed, this, &PQCExtensionsHandler::handleFileLoad);
-
 }
 
 PQCExtensionsHandler::~PQCExtensionsHandler() {}
@@ -277,50 +277,36 @@ QMap<QString, QList<QStringList> > PQCExtensionsHandler::getMigrateShortcuts(QSt
     return {};
 }
 
-
-void PQCExtensionsHandler::handleFileLoad() {
-
-    const QStringList extEnabled = PQCSettingsCPP::get().getGeneralEnabledExtensions();
-
-    if(previousCurrentFile != "") {
-        for(const QString &ext : std::as_const(m_extensions)) {
-
-            if(!extEnabled.contains(ext))
-                continue;
-
-            QFuture<void> future = QtConcurrent::run([=] {
-                QVariant ret = m_allextensions[ext]->doOnFileUnLoad(previousCurrentFile);
-                Q_EMIT replyForOnFileUnLoad(ext, ret);
-            });
-
-        }
-    }
-
-    previousCurrentFile = PQCFileFolderModel::get().getCurrentFile();
-
-    for(const QString &ext : std::as_const(m_extensions)) {
-
-        if(!extEnabled.contains(ext))
-            continue;
-
-        QFuture<void> future = QtConcurrent::run([=] {
-            QImage img;
-            QSize sze;
-            PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
-            QVariant ret = m_allextensions[ext]->doOnFileLoad(previousCurrentFile, img);
-            Q_EMIT replyForOnFileLoad(ext, ret);
-        });
-
-    }
-
-}
-
-void PQCExtensionsHandler::requestCallOnFileLoad(QString id) {
+void PQCExtensionsHandler::requestCallActionWithImage1(QString id) {
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
-        QVariant ret = m_allextensions[id]->doOnFileLoad(PQCFileFolderModel::get().getCurrentFile(), img);
-        Q_EMIT replyForOnFileLoad(id, ret);
+        QVariant ret = m_allextensions[id]->actionWithImage1(PQCFileFolderModel::get().getCurrentFile(), img);
+        Q_EMIT replyForActionWithImage1(id, ret);
+    });
+}
+
+void PQCExtensionsHandler::requestCallActionWithImage2(QString id) {
+    QFuture<void> future = QtConcurrent::run([=] {
+        QImage img;
+        QSize sze;
+        PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        QVariant ret = m_allextensions[id]->actionWithImage2(PQCFileFolderModel::get().getCurrentFile(), img);
+        Q_EMIT replyForActionWithImage2(id, ret);
+    });
+}
+
+void PQCExtensionsHandler::requestCallAction1(QString id) {
+    QFuture<void> future = QtConcurrent::run([=] {
+        QVariant ret = m_allextensions[id]->action1(PQCFileFolderModel::get().getCurrentFile());
+        Q_EMIT replyForAction1(id, ret);
+    });
+}
+
+void PQCExtensionsHandler::requestCallAction2(QString id) {
+    QFuture<void> future = QtConcurrent::run([=] {
+        QVariant ret = m_allextensions[id]->action2(PQCFileFolderModel::get().getCurrentFile());
+        Q_EMIT replyForAction2(id, ret);
     });
 }
