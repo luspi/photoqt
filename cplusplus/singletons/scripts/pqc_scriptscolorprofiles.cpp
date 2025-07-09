@@ -646,21 +646,8 @@ bool PQCScriptsColorProfiles::applyColorSpaceLCMS2(QImage &img, QString filename
     int lcms2SourceFormat = toLcmsFormat(img.format());
 
     QImage::Format targetFormat = img.format();
-    // this format causes problems with lcms2
-    // no error is caused but the resulting image is fully transparent
-    // removing the alpha channel seems to fix this
-    if(img.format() == QImage::Format_ARGB32)
-        targetFormat = QImage::Format_RGB32;
 
     int lcms2targetFormat = toLcmsFormat(img.format());
-
-    // Outputting an RGBA64 image with LCMS2 results in a blank rectangle.
-    // Reading it seems to work just fine, however.
-    // Thus we make sure to output the image in a working format here.
-    if(img.format() == QImage::Format_RGBA64) {
-        targetFormat = QImage::Format_RGB32;
-        lcms2targetFormat = toLcmsFormat(QImage::Format_RGB32);
-    }
 
     if(lcms2SourceFormat == 0 || lcms2targetFormat == 0) {
         qWarning() << "Unknown image format. Attempting to convert image to format known to LCMS2.";

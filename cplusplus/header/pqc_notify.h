@@ -177,6 +177,7 @@ Q_SIGNALS:
     void currentAnimatedJump(int leftright);
     void currentDocumentJump(int leftright);
     void currentArchiveJump(int leftright);
+    void currentImageReload();
 
     // context menu properties
     void closeAllContextMenus();
