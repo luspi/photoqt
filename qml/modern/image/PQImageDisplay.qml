@@ -279,12 +279,11 @@ Loader {
 
         }
 
-
         Connections {
 
-            target: image_top
+            target: PQCNotify
 
-            function onReloadImage() {
+            function onCurrentImageReload() {
                 if(loader_top.isMainImage)
                     loader_top.reloadTheImage()
             }
