@@ -36,6 +36,7 @@ Window {
     // SOME REQUIRED ENTRIES
 
     property string extensionId: ""
+    property alias settings: extsettings
 
     ///////////////////
 
@@ -47,35 +48,34 @@ Window {
 
     ///////////////////
 
+    ExtensionSettings {
+        id: extsettings
+        extensionId: ele_window.extensionId
+    }
+
+    width: 100
+    height: 100
+
     Component.onCompleted: {
 
-        var pos = PQCSettings.extensions[extensionId + "PopoutPosition"]
-        var sze = PQCSettings.extensions[extensionId + "PopoutSize"]
+        var pos = settings["PopoutPosition"]
+        var sze = settings["PopoutSize"]
 
-        if(pos.x === -1) pos = defaultPopoutPosition
-        if(sze.width === -1) sze = defaultPopoutSize
+        if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
+        if(sze === undefined || sze.width < 1) sze = defaultPopoutSize
 
         ele_window.setX(pos.x)
         ele_window.setY(pos.y)
 
-        if(!setCanBeResized) {
-            minimumHeight = sze.height
-            minimumWidth = sze.width
-            maximumHeight = sze.height
-            maximumWidth = sze.width
-        } else {
+        if(setCanBeResized) {
             ele_window.setWidth(sze.width)
             ele_window.setHeight(sze.height)
         }
 
-        if(PQCSettings.extensions[extensionId]) {
+        if(settings["Show"])
             show()
-            PQCExtensionsHandler.requestCallOnFileLoad(ele_window.extensionId)
-        }
 
         setupCompleted.restart()
-
-
 
     }
 
@@ -103,30 +103,50 @@ Window {
         updateGeometry.restart()
     onWidthChanged: {
         updateGeometry.restart()
-        if(!setCanBeResized) {
-            minimumWidth = width
-            maximumWidth = width
-        }
+        // if(!setCanBeResized) {
+        //     minimumWidth = width
+        //     maximumWidth = width
+        // }
     }
     onHeightChanged: {
         updateGeometry.restart()
-        if(!setCanBeResized) {
-            minimumHeight = height
-            maximumHeight = height
-        }
+        // if(!setCanBeResized) {
+        //     minimumHeight = height
+        //     maximumHeight = height
+        // }
     }
 
     Loader {
         id: curloader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(ele_window.extensionId) + "/modern/PQ" + ele_window.extensionId + ".qml"
+        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(ele_window.extensionId) + "/modern/PQ" + ele_window.extensionId + "Floating.qml"
         onStatusChanged:
             if(status == Loader.Ready) {
-                item.width = Qt.binding(function() { return ele_window.width })
-                item.height = Qt.binding(function() { return ele_window.height })
+                if(ele_window.setCanBeResized) {
+                    item.width = Qt.binding(function() { return ele_window.width })
+                    item.height = Qt.binding(function() { return ele_window.height })
+                }
                 ele_window.visible = true
                 item._popoutOpen = true
                 item.show()
+                if(!ele_window.setCanBeResized) {
+                    ele_window.minimumWidth = Qt.binding(function() { return item.width })
+                    ele_window.maximumWidth = Qt.binding(function() { return item.width })
+                    ele_window.minimumHeight = Qt.binding(function() { return item.height })
+                    ele_window.maximumHeight = Qt.binding(function() { return item.height })
+                }
             }
+        // Connections {
+        //     target: curloader.item
+        //     // enabled: curloader.status===Loader.Ready
+        //     onWidthChanged: {
+        //         ele_window.minimumWidth = width
+        //         ele_window.maximumWidth = width
+        //     }
+        //     onHeightChanged: {
+        //         ele_window.minimumHeight = height
+        //         ele_window.maximumHeight = height
+        //     }
+        // }
     }
 
     Timer {
@@ -135,8 +155,8 @@ Window {
         repeat: false
         onTriggered: {
             if(ele_window.visibility !== Window.Maximized) {
-                PQCSettings.extensions[ele_window.extensionId + "PopoutPosition"] = Qt.point(ele_window.x, ele_window.y)
-                PQCSettings.extensions[ele_window.extensionId + "PopoutSize"] = Qt.size(ele_window.width, ele_window.height)
+                settings["PopoutPosition"] = Qt.point(ele_window.x, ele_window.y)
+                settings["PopoutSize"] = Qt.size(ele_window.width, ele_window.height)
             }
         }
     }
@@ -147,17 +167,19 @@ Window {
 
     Connections {
 
-        target: PQCSettings
+        target: settings
 
         enabled: ele_window.setupHasBeenCompleted
 
-        function onExtensionValueChanged(key, value) {
+        function onValueChanged(key, value) {
             if(key.toLowerCase() === extensionId) {
                 if(1*value) {
                     ele_window.show()
-                    PQCExtensionsHandler.requestCallOnFileLoad(ele_window.extensionId)
-                } else
+                    curloader.item.show()
+                } else {
                     ele_window.close()
+                    curloader.item.hide()
+                }
             }
         }
 
@@ -177,9 +199,10 @@ Window {
             if(what === "show" && args[0] === ele_window.extensionId) {
                 if(ele_window.visible) {
                     ele_window.hide()
+                    curloader.item.hide()
                 } else {
                     ele_window.show()
-                    PQCExtensionsHandler.requestCallOnFileLoad(ele_window.extensionId)
+                    curloader.item.show()
                 }
             }
         }

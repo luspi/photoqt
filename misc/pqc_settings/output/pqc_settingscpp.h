@@ -48,6 +48,9 @@ public:
     PQCSettingsCPP(PQCSettingsCPP const&) = delete;
     void operator=(PQCSettingsCPP const&) = delete;
 
+    QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
+    QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
+
     QStringList getGeneralEnabledExtensions() { return m_generalEnabledExtensions; }
 
     bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
@@ -149,6 +152,9 @@ private:
 
     }
 
+    QVariantHash m_extensions;
+    QVariantHash m_extensions_defaults;
+
     QStringList m_generalEnabledExtensions;
 
     bool m_imageviewFitInWindow;
@@ -198,6 +204,7 @@ private:
     bool m_metadataAutoRotation;
 
 Q_SIGNALS:
+    void extensionsChanged();
     void generalEnabledExtensionsChanged();
 
     void imageviewFitInWindowChanged();

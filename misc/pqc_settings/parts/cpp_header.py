@@ -77,6 +77,9 @@ public:
 
     PQCSettingsCPP(PQCSettingsCPP const&) = delete;
     void operator=(PQCSettingsCPP const&) = delete;
+
+    QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
+    QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
 """
 
     for setting in duplicateSettings:
@@ -120,6 +123,9 @@ private:
     cont += """
 
     }
+
+    QVariantHash m_extensions;
+    QVariantHash m_extensions_defaults;
 """
 
     for setting in duplicateSettings:
@@ -134,7 +140,8 @@ private:
 
     cont += """
 
-Q_SIGNALS:"""
+Q_SIGNALS:
+    void extensionsChanged();"""
 
     for setting in duplicateSettings:
 

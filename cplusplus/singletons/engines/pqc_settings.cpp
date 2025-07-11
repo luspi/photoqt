@@ -7352,38 +7352,56 @@ void PQCSettings::readDB() {
         QString value = queryEXT.value(1).toString();
         QString datatype = queryEXT.value(2).toString();
 
-        if(datatype == "int")
-            m_extensions->insert(name, value.toInt());
-        else if(datatype == "double")
-            m_extensions->insert(name, value.toDouble());
-        else if(datatype == "bool")
-            m_extensions->insert(name, static_cast<bool>(value.toInt()));
-        else if(datatype == "list") {
-            if(value.contains(":://::"))
-                m_extensions->insert(name, value.split(":://::"));
-            else if(value != "")
+        if(datatype == "int") {
+            const int val = value.toInt();
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "double") {
+            const double &val = value.toDouble();
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "bool") {
+            const bool val = static_cast<bool>(value.toInt());
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "list") {
+            if(value.contains(":://::")) {
+                const QStringList val = value.split(":://::");
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else if(value != "") {
                 m_extensions->insert(name, QStringList() << value);
-            else
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList() << value);
+            } else {
                 m_extensions->insert(name, QStringList());
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList());
+            }
         } else if(datatype == "point") {
             const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QPoint(parts[0].toDouble(), parts[1].toDouble()));
-            else {
+            if(parts.length() == 2) {
+                const QPoint val = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else {
                 qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QPoint(0,0));
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QPoint(0,0));
             }
         } else if(datatype == "size") {
             const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QSize(parts[0].toDouble(), parts[1].toDouble()));
-            else {
+            if(parts.length() == 2) {
+                const QSize val = QSize(parts[0].toDouble(), parts[1].toDouble());
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else {
                 qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QSize(0,0));
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QSize(0,0));
             }
-        } else if(datatype == "string")
+        } else if(datatype == "string") {
             m_extensions->insert(name, value);
-        else if(datatype != "")
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, value);
+        } else if(datatype != "")
             qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
         else
             qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
@@ -7458,6 +7476,9 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     } else if(value.typeId() == QMetaType::Int) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::Double) {
+        val = QString::number(value.toDouble());
+        query.bindValue(":dat", "double");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
@@ -7531,6 +7552,9 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     } else if(value.typeId() == QMetaType::Int) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::Double) {
+        val = QString::number(value.toDouble());
+        query.bindValue(":dat", "double");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
@@ -7562,6 +7586,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     query.bindValue(":val", val);
     query.bindValue(":valupdate", val);
 
+    /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(key, val);
+
     // and update database
     if(!query.exec()) {
         qWarning() << "SQL Error:" << query.lastError().text();
@@ -7571,6 +7597,7 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     dbCommitTimer->start();
 
     Q_EMIT extensionValueChanged(key, val);
+    Q_EMIT PQCSettingsCPP::get().extensionsChanged();
 
 }
 
@@ -8552,23 +8579,35 @@ void PQCSettings::setupFresh() {
     const QStringList ext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &e : ext) {
 
-        m_extensions->insert(QString("%1").arg(e), false);
-        m_extensions_defaults.insert(QString("%1").arg(e), false);
+        m_extensions->insert(e, false);
+        m_extensions_defaults.insert(e, false);
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, false);
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, false);
 
         m_extensions->insert(QString("%1Position").arg(e), QPoint(100,100));
         m_extensions_defaults.insert(QString("%1Position").arg(e), QPoint(100,100));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QPoint(100,100));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QPoint(100,100));
 
         m_extensions->insert(QString("%1Size").arg(e), QSize(300,200));
         m_extensions_defaults.insert(QString("%1Size").arg(e), QSize(300,200));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(300,200));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(300,200));
 
         m_extensions->insert(QString("%1Popout").arg(e), false);
         m_extensions_defaults.insert(QString("%1Popout").arg(e), false);
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, false);
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, false);
 
         m_extensions->insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
         m_extensions_defaults.insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QPoint(-1,-1));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QPoint(-1,-1));
 
         m_extensions->insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
         m_extensions_defaults.insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(-1,-1));
+        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(-1,-1));
 
         const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
         for(const QStringList &s : sets) {
@@ -8577,14 +8616,20 @@ void PQCSettings::setupFresh() {
                 const int val = s[3].toInt();
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "double") {
                 const int val = s[3].toDouble();
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "bool") {
                 const int val = static_cast<bool>(s[3].toInt());
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "list") {
                 QStringList val;
                 if(s[3].contains(":://::"))
@@ -8593,6 +8638,8 @@ void PQCSettings::setupFresh() {
                     val = QStringList() << s[3];
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "point") {
                 const QStringList parts = s[3].split(",");
                 QPoint val(0,0);
@@ -8602,6 +8649,8 @@ void PQCSettings::setupFresh() {
                     qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "size") {
                 const QStringList parts = s[3].split(",");
                 QSize val(0,0);
@@ -8611,9 +8660,13 @@ void PQCSettings::setupFresh() {
                     qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
                 m_extensions->insert(s[0], val);
                 m_extensions_defaults.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
             } else if(s[2] == "string") {
                 m_extensions->insert(s[0], s[3]);
                 m_extensions_defaults.insert(s[0], s[3]);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], s[3]);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], s[3]);
             } else if(s[2] != "")
                 qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
             else

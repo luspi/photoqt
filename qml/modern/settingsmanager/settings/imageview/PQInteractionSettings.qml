@@ -373,12 +373,12 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQFloatingNavigationSettings {
-            id: set_float
-            onCheckHasChanged: {
-                setting_top.checkDefault()
-            }
-        }
+        // PQFloatingNavigationSettings {
+        //     id: set_float
+        //     onCheckHasChanged: {
+        //         setting_top.checkDefault()
+        //     }
+        // }
 
         Item {
             width: 1

@@ -42,14 +42,19 @@ public:
     void operator=(PQCExtensionsHandler const&) = delete;
 
 
-    Q_INVOKABLE void requestCallActionWithImage1(QString id);
-    Q_INVOKABLE void requestCallActionWithImage2(QString id);
-    Q_INVOKABLE void requestCallAction1(QString id);
-    Q_INVOKABLE void requestCallAction2(QString id);
+    Q_INVOKABLE void requestCallActionWithImage1(const QString &id);
+    Q_INVOKABLE void requestCallActionWithImage2(const QString &id);
+    Q_INVOKABLE void requestCallAction1(const QString &id);
+    Q_INVOKABLE void requestCallAction2(const QString &id);
+    Q_INVOKABLE void requestExecutionOfInternalShortcut(const QString &cmd);
+    Q_INVOKABLE void requestShowingOf(const QString &id);
 
     Q_PROPERTY(int numFiles MEMBER m_numFiles NOTIFY numFilesChanged)
     Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
     Q_PROPERTY(int currentIndex MEMBER m_currentIndex NOTIFY currentIndexChanged)
+
+    Q_INVOKABLE bool getIsEnabled(const QString &id);
+    Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
 
 
     Q_INVOKABLE void setup();
@@ -63,8 +68,12 @@ public:
     Q_INVOKABLE bool getIsModal(QString id);
 
     Q_INVOKABLE QStringList getDisabledExtensions();
+    Q_INVOKABLE QString getExtensionName(QString id);
     Q_INVOKABLE QString getExtensionAuthor(QString id);
+    Q_INVOKABLE QString getExtensionContact(QString id);
     Q_INVOKABLE QString getExtensionDescription(QString id);
+
+    Q_INVOKABLE bool getHasSettings(const QString &id);
 
 
     Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
