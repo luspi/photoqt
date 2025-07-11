@@ -216,38 +216,56 @@ void PQCSettings::readDB() {
         QString value = queryEXT.value(1).toString();
         QString datatype = queryEXT.value(2).toString();
 
-        if(datatype == "int")
-            m_extensions->insert(name, value.toInt());
-        else if(datatype == "double")
-            m_extensions->insert(name, value.toDouble());
-        else if(datatype == "bool")
-            m_extensions->insert(name, static_cast<bool>(value.toInt()));
-        else if(datatype == "list") {
-            if(value.contains(":://::"))
-                m_extensions->insert(name, value.split(":://::"));
-            else if(value != "")
+        if(datatype == "int") {
+            const int val = value.toInt();
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "double") {
+            const double &val = value.toDouble();
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "bool") {
+            const bool val = static_cast<bool>(value.toInt());
+            m_extensions->insert(name, val);
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+        } else if(datatype == "list") {
+            if(value.contains(":://::")) {
+                const QStringList val = value.split(":://::");
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else if(value != "") {
                 m_extensions->insert(name, QStringList() << value);
-            else
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList() << value);
+            } else {
                 m_extensions->insert(name, QStringList());
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList());
+            }
         } else if(datatype == "point") {
             const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QPoint(parts[0].toDouble(), parts[1].toDouble()));
-            else {
+            if(parts.length() == 2) {
+                const QPoint val = QPoint(parts[0].toDouble(), parts[1].toDouble());
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else {
                 qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QPoint(0,0));
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QPoint(0,0));
             }
         } else if(datatype == "size") {
             const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QSize(parts[0].toDouble(), parts[1].toDouble()));
-            else {
+            if(parts.length() == 2) {
+                const QSize val = QSize(parts[0].toDouble(), parts[1].toDouble());
+                m_extensions->insert(name, val);
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
+            } else {
                 qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
                 m_extensions->insert(name, QSize(0,0));
+                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QSize(0,0));
             }
-        } else if(datatype == "string")
+        } else if(datatype == "string") {
             m_extensions->insert(name, value);
-        else if(datatype != "")
+            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, value);
+        } else if(datatype != "")
             qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
         else
             qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);

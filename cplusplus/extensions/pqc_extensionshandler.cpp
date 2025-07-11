@@ -92,10 +92,8 @@ void PQCExtensionsHandler::setup() {
             }
 
             // minimum required qml files
-            if(!QFile::exists(QString(baseDir + "/" + id + "/modern/PQ%1.qml").arg(id)) ||
-                !QFile::exists(QString(baseDir + "/" + id + "/modern/PQ%1Popout.qml").arg(id)) ||
-                !QFile::exists(QString(baseDir + "/" + id + "/modern/PQ%1Settings.qml").arg(id))) {
-                qWarning() << "Expected QML files not found:" << QString(id + "/modern/PQ%1{/Popout/Settings}.qml").arg(id);
+            if(!QFile::exists(QString(baseDir + "/" + id + "/modern/PQ%1.qml").arg(id))) {
+                qWarning() << "Expected QML file not found:" << QString(id + "/modern/PQ%1.qml").arg(id);
                 qWarning() << "Plugin" << id << "not enabled.";
                 continue;
             }
@@ -172,9 +170,23 @@ QStringList PQCExtensionsHandler::getDisabledExtensions() {
     return m_extensionsDisabled;
 }
 
+QString PQCExtensionsHandler::getExtensionName(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->name();
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
 QString PQCExtensionsHandler::getExtensionAuthor(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->author();
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
+QString PQCExtensionsHandler::getExtensionContact(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->contact();
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
@@ -277,7 +289,14 @@ QMap<QString, QList<QStringList> > PQCExtensionsHandler::getMigrateShortcuts(QSt
     return {};
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage1(QString id) {
+bool PQCExtensionsHandler::getHasSettings(const QString &id) {
+    if(m_allextensions.contains(id))
+        return QFile::exists(QString("%1/modern/PQ%2Settings.qml").arg(m_extensionLocation[id], id));
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id) {
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
@@ -287,7 +306,7 @@ void PQCExtensionsHandler::requestCallActionWithImage1(QString id) {
     });
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage2(QString id) {
+void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id) {
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
@@ -297,16 +316,38 @@ void PQCExtensionsHandler::requestCallActionWithImage2(QString id) {
     });
 }
 
-void PQCExtensionsHandler::requestCallAction1(QString id) {
+void PQCExtensionsHandler::requestCallAction1(const QString &id) {
     QFuture<void> future = QtConcurrent::run([=] {
         QVariant ret = m_allextensions[id]->action1(PQCFileFolderModel::get().getCurrentFile());
         Q_EMIT replyForAction1(id, ret);
     });
 }
 
-void PQCExtensionsHandler::requestCallAction2(QString id) {
+void PQCExtensionsHandler::requestCallAction2(const QString &id) {
     QFuture<void> future = QtConcurrent::run([=] {
         QVariant ret = m_allextensions[id]->action2(PQCFileFolderModel::get().getCurrentFile());
         Q_EMIT replyForAction2(id, ret);
     });
+}
+
+void PQCExtensionsHandler::requestExecutionOfInternalShortcut(const QString &cmd) {
+    Q_EMIT PQCNotify::get().executeInternalCommand(cmd);
+}
+
+void PQCExtensionsHandler::requestShowingOf(const QString &id) {
+    Q_EMIT PQCNotify::get().loaderShowExtension(id);
+}
+
+bool PQCExtensionsHandler::getIsEnabled(const QString &id) {
+    if(m_allextensions.contains(id))
+        return PQCSettingsCPP::get().getExtensionValue(id).toBool();
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+bool PQCExtensionsHandler::getIsEnabledByDefault(const QString &id) {
+    if(m_allextensions.contains(id))
+        return PQCSettingsCPP::get().getExtensionDefaultValue(id).toBool();
+    qWarning() << "Unknown extension id:" << id;
+    return false;
 }

@@ -33,7 +33,7 @@ ToolTip {
     font.pointSize: PQCLook.fontSize // qmllint disable unqualified
     font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
 
-    property bool partialTransparency: true
+    property bool partialTransparency: false
     property bool enforceWidthLimit: true
     property int pw: 0
 

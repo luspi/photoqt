@@ -476,6 +476,9 @@ PQTemplateFullscreen {
 
         "other" : [qsTranslate("settingsmanager", "Other"),
                     {
+                        "ot_extensions" : [qsTranslate("settingamanager", "Extensions"), "PQExtensions",
+                                            [qsTranslate("settingsmanager", "Extensions")],
+                                            ["Extensions"]],
 
                                         //: A settings subcategory
                         "ot_filedialog" : [qsTranslate("settingsmanager", "File dialog"),   "PQFileDialog",

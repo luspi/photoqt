@@ -15,7 +15,8 @@ SET(photoqt_QML ${photoqt_QML} ${d}/PQToolTip.qml ${d}/PQHorizontalScrollBar.qml
 SET(photoqt_QML ${photoqt_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTemplateFullscreen.qml ${d}/PQTemplatePopout.qml ${d}/PQTemplateFloating.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSpinBox.qml ${d}/PQWorking.qml ${d}/PQLineEdit.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml ${d}/PQShadowEffect.qml)
-SET(photoqt_QML ${photoqt_QML} ${d}/PQResizeRect.qml ${d}/PQScrollManager.qml ${d}/PQTemplateExtension.qml ${d}/PQTemplateExtensionPopout.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQResizeRect.qml ${d}/PQScrollManager.qml ${d}/PQTemplateExtension.qml ${d}/PQTemplateExtensionFloating.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQTemplateExtensionPopout.qml ${d}/PQTemplateExtensionSettings.qml)
 
 SET(d "qml/modern/filedialog")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
@@ -93,5 +94,5 @@ SET(d "qml/modern/settingsmanager/settings/manage")
 SET(photoqt_QML ${photoqt_QML} ${d}/PQSessionSettings.qml ${d}/PQConfigurationSettings.qml)
 
 SET(d "qml/modern/settingsmanager/settings/other")
-SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml)
+SET(photoqt_QML ${photoqt_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml ${d}/PQExtensionsSettings.qml)
 

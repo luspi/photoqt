@@ -199,5 +199,9 @@
         <file>light/computer.svg</file>
         <file>light/masonryview.svg</file>
         <file>dark/masonryview.svg</file>
+        <file>light/mirrorhor.svg</file>
+        <file>light/mirrorver.svg</file>
+        <file>dark/mirrorhor.svg</file>
+        <file>dark/mirrorver.svg</file>
     </qresource>
 </RCC>

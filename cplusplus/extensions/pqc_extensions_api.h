@@ -7,6 +7,7 @@ class PQExtensionsAPI {
 public:
     virtual ~PQExtensionsAPI() = default;
 
+    virtual QString name() = 0;
     virtual QString description() = 0;
     virtual QString author() = 0;
     virtual QString contact() = 0;

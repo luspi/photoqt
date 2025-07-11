@@ -1644,12 +1644,12 @@ Flickable {
         PQSettingsSeparator {}
         /**********************************************************************/
 
-        PQQuickActionsSettings {
-            id: set_quick
-            onCheckHasChanged: {
-                setting_top.checkDefault()
-            }
-        }
+        // PQQuickActionsSettings {
+        //     id: set_quick
+        //     onCheckHasChanged: {
+        //         setting_top.checkDefault()
+        //     }
+        // }
 
         Item {
             width: 1
@@ -1689,7 +1689,7 @@ Flickable {
         set_accent.handleEscape()
         set_fontweight.handleEscape()
         set_notif.handleEscape()
-        set_quick.handleEscape()
+        // set_quick.handleEscape()
 
     }
 
@@ -1702,8 +1702,8 @@ Flickable {
         }
 
         if(set_lang.hasChanged() || set_windowmode.hasChanged() || set_winbut.hasChanged() ||
-                set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged() ||
-                set_quick.hasChanged()) {
+                set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged()/* ||
+                set_quick.hasChanged()*/) {
             setting_top.settingChanged = true
             return
         }
@@ -1720,7 +1720,7 @@ Flickable {
         set_accent.load()
         set_fontweight.load()
         set_notif.load()
-        set_quick.load()
+        // set_quick.load()
 
         settingChanged = false
         settingsLoaded = true
@@ -1735,7 +1735,7 @@ Flickable {
         set_accent.applyChanges()
         set_fontweight.applyChanges()
         set_notif.applyChanges()
-        set_quick.applyChanges()
+        // set_quick.applyChanges()
 
         setting_top.settingChanged = false
 

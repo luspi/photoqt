@@ -236,9 +236,9 @@ Item {
         var src
 
         var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
-        if(PQCSettings.extensions[ele+"Popout"] || minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
-            src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + "Popout.qml"
-        else
+        // if(PQCSettings.extensions[ele+"Popout"] || minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
+            // src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + "Popout.qml"
+        // else
             src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + ".qml"
 
         if(src !== loader_extensions.itemAt(ind).source)

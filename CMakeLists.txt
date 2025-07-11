@@ -485,7 +485,9 @@ if(QT_KNOWN_POLICY_QTP0004)
 endif()
 
 # add qml files
-qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML})
+qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
+    RESOURCES img/light/mirrorhor.svg img/light/mirrorver.svg
+    RESOURCES img/dark/mirrorver.svg img/dark/mirrorhor.svg)
 
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")

@@ -89,6 +89,9 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     } else if(value.typeId() == QMetaType::Int) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::Double) {
+        val = QString::number(value.toDouble());
+        query.bindValue(":dat", "double");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
@@ -162,6 +165,9 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     } else if(value.typeId() == QMetaType::Int) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::Double) {
+        val = QString::number(value.toDouble());
+        query.bindValue(":dat", "double");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
@@ -193,6 +199,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     query.bindValue(":val", val);
     query.bindValue(":valupdate", val);
 
+    /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(key, val);
+
     // and update database
     if(!query.exec()) {
         qWarning() << "SQL Error:" << query.lastError().text();
@@ -202,6 +210,7 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     dbCommitTimer->start();
 
     Q_EMIT extensionValueChanged(key, val);
+    Q_EMIT PQCSettingsCPP::get().extensionsChanged();
 
 }
 """

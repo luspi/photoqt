@@ -35,12 +35,35 @@ public:
     ExtensionSettings(QObject *parent = nullptr);
     ~ExtensionSettings();
 
+    Q_PROPERTY(QString extensionId MEMBER m_extensionId NOTIFY extensionIdChanged)
+    Q_INVOKABLE QVariant getDefaultFor(const QString &key);
+
+    Q_PROPERTY(int status MEMBER m_status NOTIFY statusChanged)
+    Q_PROPERTY(int Ready READ getReady CONSTANT)
+    Q_PROPERTY(int Loading READ getLoading CONSTANT)
+    const int getReady() { return 1; }
+    const int getLoading() { return 0; }
+
+    QMap<QString, QVariant> defaultValues;
+
 private:
+    QString m_extensionId;
+
     QSettings *set;
-    void setup(QString id);
-    bool m_isSetup;
+    QString m_setPath;
+    int m_status;
+    int m_Ready;
+    int m_Loading;
+
+    QFileSystemWatcher *watcher;
+    void readFile();
 
 private Q_SLOTS:
+    void setup();
     void saveExtensionValue(const QString &key, const QVariant &value);
+
+Q_SIGNALS:
+    void extensionIdChanged();
+    void statusChanged();
 
 };
