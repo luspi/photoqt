@@ -87,7 +87,7 @@ void ExtensionSettings::setup() {
     this->insert("ExtSize", QSize(-1,-1));
     this->insert("ExtPopout", 0);
     this->insert("ExtPopoutPosition", QPoint(-1,-1));
-    this->insert("ExtPopoutSize", QSize(300,200));
+    this->insert("ExtPopoutSize", QSize(-1,-1));
     this->insert("ExtShortcut", PQCExtensionsHandler::get().getExtensionDefaultShortcut(m_extensionId));
 
     const QList<QStringList> allsets = PQCExtensionsHandler::get().getExtensionSettings(m_extensionId);

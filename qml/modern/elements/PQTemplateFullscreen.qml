@@ -98,7 +98,7 @@ Rectangle {
             PQCNotify.windowTitleOverride("")
     }
 
-    color: PQCLook.baseColorAccent // qmllint disable unqualified
+    color: PQCLook.baseColorAccent
 
     signal close()
 

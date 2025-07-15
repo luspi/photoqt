@@ -46,7 +46,7 @@ public:
         defaultShortcut = "";
         defaultSize = QSize(-1,-1);
         minimumRequiredWindowSize = QSize(0,0);
-        isModal = false;
+        fullscreenModal = false;
         allowIntegrated = true;
         allowPopout = true;
         positionAt = DefaultPosition::TopLeft;
@@ -83,7 +83,7 @@ public:
     QString defaultShortcut;
     QSize defaultSize;
     QSize minimumRequiredWindowSize;
-    bool isModal;
+    bool fullscreenModal;
     bool allowIntegrated;
     bool allowPopout;
     DefaultPosition positionAt;
@@ -169,7 +169,7 @@ public:
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE QSize   getExtensionDefaultSize(QString id);
     Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
-    Q_INVOKABLE bool    getExtensionIsModal(QString id);
+    Q_INVOKABLE bool    getExtensionFullscreenModal(QString id);
     Q_INVOKABLE bool    getExtensionAllowIntegrated(QString id);
     Q_INVOKABLE bool    getExtensionAllowPopout(QString id);
     Q_INVOKABLE PQCExtensionInfo::DefaultPosition getExtensionPositionAt(QString id);

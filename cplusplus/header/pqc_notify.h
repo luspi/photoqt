@@ -232,6 +232,7 @@ Q_SIGNALS:
     void loaderSetup(QString ele);
     void loaderSetupExtension(QString ele);
     void loaderPassOn(QString what, QVariantList args);
+    void loaderRegisterOpen(QString ele);
     void loaderRegisterClose(QString ele);
     void loaderOverrideVisibleItem(QString ele);
     void loaderRestoreVisibleItem();

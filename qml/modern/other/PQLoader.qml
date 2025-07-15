@@ -77,7 +77,7 @@ Item {
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
 
-            if(PQCExtensionsHandler.getExtensionIsModal(ele)) {
+            if(PQCExtensionsHandler.getExtensionFullscreenModal(ele)) {
                 if(visibleItem != "")
                     return
                 else
@@ -188,6 +188,10 @@ Item {
         }
     }
 
+    function elementOpened(ele : string) {
+        visibleItem = ele
+    }
+
     function elementClosed(ele : string) {
 
         if((ele in loadermapping && loadermapping[ele][3] === 1) || PQCExtensionsHandler.getExtensions().indexOf(ele)>-1 || ele === "facetagger") {
@@ -197,7 +201,7 @@ Item {
                     (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                     (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal))) {
 
-                if(visibleItem === ele) {
+                if(visibleItem === ele || visibleItem === "") {
                     console.log("Closing item:", ele)
                     visibleItem = ""
                 } else
@@ -242,7 +246,7 @@ Item {
 
         // modal elements need to be shown on top, above things like mainmenu or metadata
         // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
-        if(PQCExtensionsHandler.getExtensionIsModal(ele))
+        if(PQCExtensionsHandler.getExtensionFullscreenModal(ele))
             loader_extensions.itemAt(ind).z = 888
 
     }
@@ -264,6 +268,10 @@ Item {
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
             loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) // qmllint disable unqualified
             PQCNotify.loaderPassOn("showSettings", [subcategory])
+        }
+
+        function onLoaderRegisterOpen(ele : string) {
+            loader_top.elementOpened(ele)
         }
 
         function onLoaderRegisterClose(ele : string) {
