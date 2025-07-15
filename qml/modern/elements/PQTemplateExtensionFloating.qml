@@ -26,7 +26,7 @@ import ExtensionSettings
 import PQCExtensionsHandler
 import PQCScriptsConfig
 
-Rectangle {
+Item {
 
     id: element_top
 
@@ -36,23 +36,30 @@ Rectangle {
 
     /********************/
 
-    color: PQCLook.transColor
-
     property bool _dragActive: mousearea.drag.active || mouseareaBG.drag.active
     property bool _finishedSetup: false
+    property bool _containsMouse: mousearea.containsMouse || mouseareaBG.containsMouse
 
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
-    visible: opacity>0 &&  !PQCConstants.slideshowRunning
+    visible: opacity>0 && !PQCConstants.slideshowRunning
     enabled: visible
 
     onXChanged: {
         if(_dragActive)
             storeSize.restart()
+        if(_finishedSetup) {
+            element_top.x = element_top.x
+            element_top.y = element_top.y
+        }
     }
     onYChanged: {
         if(_dragActive)
             storeSize.restart()
+        if(_finishedSetup) {
+            element_top.x = element_top.x
+            element_top.y = element_top.y
+        }
     }
     onWidthChanged: {
         if(_dragActive)
@@ -67,8 +74,10 @@ Rectangle {
         id: storeSize
         interval: 200
         onTriggered: {
-            settings["ExtPosition"] = Qt.point(element_top.x, element_top.y)
-            settings["ExtSize"] = Qt.size(element_top.width, element_top.height)
+            if(PQCExtensionsHandler.getExtensionRememberGeometry(element_top.extensionId)) {
+                settings["ExtPosition"] = Qt.point(element_top.x, element_top.y)
+                settings["ExtSize"] = Qt.size(element_top.width, element_top.height)
+            }
         }
     }
 
@@ -78,6 +87,7 @@ Rectangle {
         id: mouseareaBG
         anchors.fill: parent
         hoverEnabled: true
+        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         drag.target: parent
         text: qsTr("Click-and-drag to move.")
@@ -95,14 +105,14 @@ Rectangle {
 
     Loader {
         id: floating_loader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+        source: "file:/" +  PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
     }
 
     PQMouseArea {
         id: mousearea
         anchors.fill: parent
         hoverEnabled: true
-        // enabled: floating_top.setHandleForegroundMouseEvent
+        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         drag.target: parent
         text: qsTr("Click-and-drag to move.")
@@ -122,7 +132,7 @@ Rectangle {
 
         id: resizearea
 
-        // enabled: floating_top.setAllowResizing
+        enabled: !PQCExtensionsHandler.getExtensionFixSizeToContent(element_top.extensionId)
 
         anchors {
             right: parent.right
@@ -130,7 +140,7 @@ Rectangle {
         }
         width: 10
         height: 10
-        cursorShape: /*floating_top.setAllowResizing ? */Qt.SizeFDiagCursor/* : Qt.ArrowCursor*/
+        cursorShape: enabled ? Qt.SizeFDiagCursor : Qt.ArrowCursor
 
         onPositionChanged: (mouse) => {
             if(pressed) {
@@ -150,7 +160,7 @@ Rectangle {
         y: 5-height
         width: 15
         height: 15
-        // visible: floating_top.setCanBePoppedOut
+        visible: PQCExtensionsHandler.getExtensionAllowPopout(element_top.extensionId)
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
@@ -230,16 +240,16 @@ Rectangle {
             return
         }
 
-        var pos = settings["ExtPosition"]
-        if(pos !== undefined) {
-            x = pos.x
-            y = pos.y
-        } else {
-            x = (PQCConstants.windowWidth-element_top.width)/2
-            y: 100
-        }
+        if(PQCExtensionsHandler.getExtensionRememberGeometry(extensionId)) {
 
-        // if(floating_top.setAllowResizing) {
+            var pos = settings["ExtPosition"]
+            if(pos !== undefined) {
+                x = pos.x
+                y = pos.y
+            } else {
+                x = (PQCConstants.windowWidth-element_top.width)/2
+                y = 100
+            }
 
             var sze = settings["ExtSize"]
             if(sze !== undefined) {
@@ -250,12 +260,11 @@ Rectangle {
                 height = 200
             }
 
-        // } else {
-        //     width = Qt.binding(function() { return contentItem.childrenRect.width })
-        //     height = Qt.binding(function() { return contentItem.childrenRect.height })
-        // }
+        } else {
 
-        console.warn("COMPLETED:", element_top.extensionId, settings["ExtShow"])
+            resetPositionAndSize()
+
+        }
 
         if(settings["ExtShow"])
             show()
@@ -291,20 +300,64 @@ Rectangle {
         }
     }
 
+    Connections {
+
+        target: PQCExtensionsHandler
+
+        function onRequestResetGeometry(id : string) {
+            if(id === element_top.extensionId) {
+                element_top.resetPositionAndSize()
+            }
+        }
+
+    }
+
     function show() {
         opacity = 1
         settings["ExtShow"] = true
         floating_loader.item.showing()
-        // if(!_popoutOpen && setAnchorInTopMiddle) {
-            // if(!getIsMovedManually)
-                // _reposition()
-        // }
     }
 
     function hide() {
         opacity = 0
         settings["ExtShow"] = false
         floating_loader.item.hiding()
+    }
+
+    function resetPositionAndSize() {
+
+        _finishedSetup = false;
+
+        // top left
+        if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 0) {
+
+            x = 100
+            y = 100
+
+        // top middle
+        } else if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 1) {
+
+            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
+            y = 50
+
+        // top right
+        } else if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 2) {
+
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-100 })
+            y = 100
+
+        }
+
+        if(PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)) {
+            width = Qt.binding(function() { return floating_loader.item.width } )
+            height = Qt.binding(function() { return floating_loader.item.height } )
+        } else {
+            width = 300
+            height = 200
+        }
+
+        _recordFinishedSetup.restart()
+
     }
 
 }

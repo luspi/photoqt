@@ -49,8 +49,8 @@ Rectangle {
     // property bool setAnchorInTopMiddle: false
     // property string setTooltip: ""
 
-    width: parent.parent.width
-    height: parent.parent.height
+    width: _fixSizeToContent ? contentItem.width : parent.parent.width
+    height: _fixSizeToContent ? contentItem.height : parent.parent.height
 
     ///////////////////
 
@@ -74,6 +74,8 @@ Rectangle {
 
     ///////////////////
 
+    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
+
     // onGetDragActiveChanged: {
         // if(getDragActive)
             // getIsMovedManually = true
@@ -85,8 +87,8 @@ Rectangle {
 
         id: contentItem
 
-        width: extension_top.width
-        height: extension_top.height
+        width: _fixSizeToContent ? childrenRect.width : extension_top.width
+        height: _fixSizeToContent ? childrenRect.height : extension_top.height
 
         clip: true
 
