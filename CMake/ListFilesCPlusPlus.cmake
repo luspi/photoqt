@@ -65,7 +65,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_unrar.cpp ${d}/pqc_loa
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage_resvg.cpp)
 
 SET(d "cplusplus/extensions")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionshandler.cpp ${d}/pqc_extensions_api.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionshandler.cpp ${d}/pqc_extensionactions.h)
 
 
 #########################
