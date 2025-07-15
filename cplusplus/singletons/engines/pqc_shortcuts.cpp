@@ -810,10 +810,6 @@ bool PQCShortcuts::migrate(QString oldversion) {
 
             query2.clear();
 
-        } else if(curVer == "5.0") {
-
-            enterOrMoveExtensionShortcuts();
-
         }
 
     }
@@ -821,81 +817,6 @@ bool PQCShortcuts::migrate(QString oldversion) {
     readDB();
 
     return true;
-
-}
-
-void PQCShortcuts::enterOrMoveExtensionShortcuts() {
-
-    qDebug() << "";
-
-    const QStringList allext = PQCExtensionsHandler::get().getExtensions();
-    for(const QString &ext : allext) {
-
-        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getExtensionShortcutsActions(ext);
-
-        for(const QStringList &sh : shortcuts) {
-
-            if(sh.length() != 4) {
-                qWarning() << "Invalid shortcut detected:" << sh;
-                continue;
-            }
-
-            // no default shortcut
-            if(sh[2] == "")
-                continue;
-
-            QString combo = sh[2];
-            QString cmd = sh[0];
-            int cycle = 1;
-            int cycletimeout = 0;
-            int simultaneous = 0;
-
-            // get extension shortcut from main database
-            QSqlQuery query(db);
-            query.prepare("SELECT `combo`, `cycle`, `cycletimeout`, `simultaneous` FROM `shortcuts` WHERE `commands`=:cmd");
-            query.bindValue(":cmd", cmd);
-            if(!query.exec()) {
-                qWarning() << "Unable to check previous entry for shortcut:" << cmd;
-                query.clear();
-                continue;
-            }
-
-            while(query.next()) {
-
-                combo = query.value(0).toString();
-                cycle = query.value(1).toInt();
-                cycletimeout = query.value(2).toInt();
-                simultaneous = query.value(3).toInt();
-
-                QSqlQuery queryMove(db);
-                queryMove.prepare("INSERT OR IGNORE INTO `extensions` (`extension`, `combo`, `commands`, `cycle`, `cycletimeout`, `simultaneous`) VALUES (:ext, :com, :cmd, :ccl, :cct, :sim)");
-                queryMove.bindValue(":ext", ext);
-                queryMove.bindValue(":com", combo);
-                queryMove.bindValue(":cmd", cmd);
-                queryMove.bindValue(":ccl", cycle);
-                queryMove.bindValue(":cct", cycletimeout);
-                queryMove.bindValue(":sim", simultaneous);
-                if(!queryMove.exec()) {
-                    qWarning() << QString("Unable to move shortcut for '%1' to extensions table.").arg(cmd);
-                    queryMove.clear();
-                    continue;
-                }
-
-                queryMove.clear();
-
-            }
-
-            QSqlQuery queryDel(db);
-            queryDel.prepare("DELETE FROM `shortcuts` WHERE `commands`=:cmd");
-            queryDel.bindValue(":cmd", cmd);
-            if(!queryDel.exec())
-                qWarning() << "Unable to remove old extensions shortcut from old shortcuts table:" << cmd;
-
-            queryDel.clear();
-
-        }
-
-    }
 
 }
 
@@ -912,50 +833,6 @@ void PQCShortcuts::setupFresh() {
     qDebug() << "";
 
     // at this point we can assume that the settings.db has already been copied
-    // we only need to add any setting from the extensions
-
-    db.transaction();
-
-    const QStringList allext = PQCExtensionsHandler::get().getExtensions();
-    for(const QString &ext : allext) {
-
-        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getExtensionShortcutsActions(ext);
-
-        for(const QStringList &sh : shortcuts) {
-
-            if(sh.length() != 4) {
-                qWarning() << "Invalid shortcut detected:" << sh;
-                continue;
-            }
-
-            // no default shortcut
-            if(sh[2] == "")
-                continue;
-
-            const QStringList parts = sh[2].split(":://::");
-
-            for(const QString &p : parts) {
-
-                QSqlQuery query(db);
-                query.prepare("INSERT OR IGNORE INTO extensions (`extension`, `combo`, `commands`, `cycle`, `cycletimeout`, `simultaneous`) VALUES (:ext, :com, :cmd, 1, 0, 0)");
-                query.bindValue(":ext", ext);
-                query.bindValue(":com", p);
-                query.bindValue(":cmd", sh[0]);
-
-                if(!query.exec()) {
-                    qWarning() << "ERROR inserting shortcut:" << query.lastError().text();
-                    qWarning() << "Faulty shortcut:" << sh;
-                }
-
-                query.clear();
-
-            }
-
-        }
-
-    }
-
-    db.commit();
 
     readDB();
 

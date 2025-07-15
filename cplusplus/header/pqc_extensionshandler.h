@@ -41,9 +41,9 @@ public:
         author = "";
         contact = "";
         targetAPI = 0;
-        defaultShortcut = "";
 
         // optional user provided
+        defaultShortcut = "";
         minimumRequiredWindowSize = QSize(0,0);
         isModal = false;
         allowIntegrated = true;
@@ -52,7 +52,6 @@ public:
         rememberGeometry = true;
         fixSizeToContent = false;
         letMeHandleMouseEvents = false;
-        shortcuts = {};
         settings = {};
         haveCPPActions = false;
 
@@ -78,8 +77,8 @@ public:
     QString author;
     QString contact;
     int targetAPI;
-    QString defaultShortcut;
 
+    QString defaultShortcut;
     QSize minimumRequiredWindowSize;
     bool isModal;
     bool allowIntegrated;
@@ -88,7 +87,6 @@ public:
     bool rememberGeometry;
     bool fixSizeToContent;
     bool letMeHandleMouseEvents;
-    QList<QStringList> shortcuts;
     QList<QStringList> settings;
     bool haveCPPActions;
 
@@ -164,6 +162,7 @@ public:
     Q_INVOKABLE QString getExtensionDescription(QString id);
     Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
 
+    Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
     Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE bool    getExtensionIsModal(QString id);
     Q_INVOKABLE bool    getExtensionAllowIntegrated(QString id);
@@ -174,15 +173,7 @@ public:
     Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
 
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
-    Q_INVOKABLE QStringList        getExtensionShortcuts(QString id);
-    Q_INVOKABLE QList<QStringList> getExtensionShortcutsActions(QString id);
-
     Q_INVOKABLE bool getExtensionHasCPPActions(QString id);
-
-    // some other generated properties to find
-    Q_INVOKABLE QStringList getAllShortcuts();
-    Q_INVOKABLE QString getDescriptionForShortcut(QString sh);
-    Q_INVOKABLE QString getWhichExtensionForShortcut(QString sh);
 
     // called when setup is supposed to start
     Q_INVOKABLE void setup();
@@ -202,6 +193,12 @@ public:
     // check whether an extension comes with a settings widget
     Q_INVOKABLE bool getHasSettings(const QString &id);
 
+    // get the respective extension (if any) for a given shortcut
+    Q_INVOKABLE QString getExtensionForShortcut(QString sh);
+    Q_INVOKABLE QString getShortcutForExtension(QString id);
+    Q_INVOKABLE void addShortcut(QString id, QString sh);
+    Q_INVOKABLE void removeShortcut(QString id);
+
     // how many extensions are enabled for which we need to be ready for
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
 
@@ -218,11 +215,10 @@ private:
     QStringList m_extensions;
     QStringList m_extensionsDisabled;
 
-    QMap<QString, QStringList> m_shortcuts;
-    QStringList m_simpleListAllShortcuts;
-    QMap<QString,QString> m_mapShortcutToExtension;
-
     QMap<QString, PQCExtensionActions*> m_actions;
+
+    QMap<QString, QString> m_activeShortcutToExtension;
+    QMap<QString, QString> m_extensionToActiveShortcut;
 
     QString previousCurrentFile;
 

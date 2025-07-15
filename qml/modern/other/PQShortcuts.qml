@@ -396,12 +396,22 @@ Item {
 
         /***************************************/
 
-        // normal shortcut action
-
+        // check if shortcut is set somewhere internally
         var data = PQCShortcuts.getCommandsForShortcut(combo)
 
-        if(data.length !== 4)
+        // if it is not, then check extensions
+        if(data.length !== 4) {
+
+            // check for shortcuts that are enabled for extensions
+            var ext = PQCExtensionsHandler.getExtensionForShortcut(combo)
+            if(ext !== "")
+                PQCNotify.loaderShowExtension(ext)
+
+            // we always stop, no matter what, in this case
             return
+        }
+
+        // normal shortcut action
 
         var commands = data[0]
         var cycle = data[1]*1
@@ -460,31 +470,6 @@ Item {
         console.debug("args: wheelDelta =", wheelDelta)
 
         PQCConstants.lastExecutedShortcutCommand = cmd
-
-        // check if the shortcut is a shortcut of an extension
-        if(PQCExtensionsHandler.getAllShortcuts().indexOf(cmd) > -1) {
-
-            // get the extension for this shortcut
-            var ext = PQCExtensionsHandler.getWhichExtensionForShortcut(cmd)
-            // get all shortcuts for that extension
-            var allsh = PQCExtensionsHandler.getExtensionShortcutsActions(ext)
-            // loop over all shortcuts
-            for(var iSh in allsh) {
-                var sh = allsh[iSh]
-                // if we found the right shortcut, execute it
-                if(sh[0] === cmd) {
-                    var exec = sh[3]
-                    var args = sh[4]
-                    // the 'show' shortcut is a special one
-                    if(exec === "show")
-                        PQCNotify.loaderShowExtension(ext)
-                    else
-                        PQCNotify.loaderPassOn(exec, [args])
-                    return
-                }
-            }
-
-        }
 
         switch(cmd) {
 

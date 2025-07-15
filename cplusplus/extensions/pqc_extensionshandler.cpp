@@ -240,24 +240,6 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
             }
 
-            // shortcuts
-            try {
-
-                extinfo->shortcuts.append({QString("__%1").arg(id), QString("Toggle extension %1").arg(id), extinfo->defaultShortcut, "show"});
-
-                for(const auto &shorts : config["setup"]["shortcuts"]) {
-
-                    QStringList vals;
-                    for(auto const& l : shorts)
-                        vals.append(QString::fromStdString(l.as<std::string>()));
-                    extinfo->shortcuts.append(vals);
-
-                }
-
-            } catch(YAML::Exception &e) {
-                qDebug() << "Optional value for 'shortcuts' invalid or not found, skipping:" << e.what();
-            }
-
             // settings
             try {
 
@@ -335,17 +317,6 @@ void PQCExtensionsHandler::setup() {
 
             m_extensions.append(id);
             m_allextensions.insert(id, extinfo);
-
-            QStringList allsh;
-            allsh.append(extinfo->defaultShortcut);
-            m_mapShortcutToExtension.insert(extinfo->defaultShortcut, id);
-            const QList<QStringList> actions = extinfo->shortcuts;
-            for(const QStringList &l : actions) {
-                allsh.append(l[0]);
-                m_mapShortcutToExtension.insert(l[0], id);
-            }
-            m_shortcuts.insert(id, allsh);
-            m_simpleListAllShortcuts.append(allsh);
 
         }
 
@@ -428,6 +399,13 @@ int PQCExtensionsHandler::getExtensionTargetAPIVersion(QString id) {
 
 /****************************************/
 
+QString PQCExtensionsHandler::getExtensionDefaultShortcut(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->defaultShortcut;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
 QSize PQCExtensionsHandler::getExtensionMinimumRequiredWindowSize(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->minimumRequiredWindowSize;
@@ -486,49 +464,11 @@ bool PQCExtensionsHandler::getExtensionLetMeHandleMouseEvents(QString id) {
 
 /****************************************/
 
-QStringList PQCExtensionsHandler::getExtensionShortcuts(QString id) {
-    if(m_shortcuts.contains(id)) {
-        return m_shortcuts[id];
-    }
-    qWarning() << "Unknown extension id:" << id;
-    return {};
-}
-
-QList<QStringList> PQCExtensionsHandler::getExtensionShortcutsActions(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->shortcuts;
-    qWarning() << "Unknown extension id:" << id;
-    return {};
-}
-
 QList<QStringList> PQCExtensionsHandler::getExtensionSettings(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->settings;
     qWarning() << "Unknown extension id:" << id;
     return {};
-}
-
-QStringList PQCExtensionsHandler::getAllShortcuts() {
-    return m_simpleListAllShortcuts;
-}
-
-QString PQCExtensionsHandler::getDescriptionForShortcut(QString sh) {
-    QString ret = "";
-    for(auto ext : std::as_const(m_allextensions)) {
-        const QList<QStringList> allsh = ext->shortcuts;
-        for(int i = 0; i < allsh.length(); ++i) {
-            if(allsh[i][0] == sh) {
-                ret = allsh[i][1];
-                break;
-            }
-        }
-        if(ret != "") break;
-    }
-    return ret;
-}
-
-QString PQCExtensionsHandler::getWhichExtensionForShortcut(QString sh) {
-    return m_mapShortcutToExtension.value(sh, "");
 }
 
 bool PQCExtensionsHandler::getExtensionHasCPPActions(QString id) {
@@ -543,6 +483,28 @@ bool PQCExtensionsHandler::getHasSettings(const QString &id) {
         return QFile::exists(QString("%1/qml/PQ%2Settings.qml").arg(m_allextensions[id]->location, id));
     qWarning() << "Unknown extension id:" << id;
     return false;
+}
+
+QString PQCExtensionsHandler::getExtensionForShortcut(QString sh) {
+    return m_activeShortcutToExtension.value(sh, "");
+}
+
+QString PQCExtensionsHandler::getShortcutForExtension(QString id) {
+    return m_extensionToActiveShortcut.value(id, "");
+}
+
+void PQCExtensionsHandler::addShortcut(QString id, QString sh) {
+    if(!m_activeShortcutToExtension.contains(sh)) {
+        m_extensionToActiveShortcut.insert(id, sh);
+        m_activeShortcutToExtension.insert(sh, id);
+    }
+}
+
+void PQCExtensionsHandler::removeShortcut(QString id) {
+    if(m_extensionToActiveShortcut.contains(id)) {
+        m_activeShortcutToExtension.remove(m_extensionToActiveShortcut.value(id));
+        m_extensionToActiveShortcut.remove(id);
+    }
 }
 
 bool PQCExtensionsHandler::getHasActions(const QString &id) {
