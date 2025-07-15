@@ -8,6 +8,10 @@
 #include <pqc_loadimage.h>
 #include <QtConcurrent>
 
+#ifdef PQMEXTENSIONS
+#include <yaml-cpp/yaml.h>
+#endif
+
 /****************************************************************/
 /****************************************************************/
 // This is the current/latest version supported by this build!
@@ -42,6 +46,8 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
 
 void PQCExtensionsHandler::setup() {
 
+#ifdef PQMEXTENSIONS
+
 #ifdef Q_OS_UNIX
     const QStringList checkDirs = {"/usr/lib/PhotoQt/extensions",
                                    PQCConfigFiles::get().DATA_DIR() + "/extensions",
@@ -70,80 +76,258 @@ void PQCExtensionsHandler::setup() {
                 continue;
             }
 
-            QDir extDir(baseDir + "/" + id);
-#ifdef Q_OS_UNIX
-            extDir.setNameFilters({"*.so"});
-#else
-            extDir.setNameFilters({"*.dll"});
-#endif
-            QStringList filList = extDir.entryList();
-            if(filList.length() == 0) {
-                qWarning() << "No shared library found at" << baseDir;
-                qWarning() << "Plugin" << id << "not enabled.";
-                continue;
-            }
-            const QString libName = filList.at(0);
+            // if there is a YAML file, then we load that one
+            QString yamlfile = QString("%1/%2/definition.yml").arg(baseDir, id);
+            if(!QFile::exists(yamlfile)) {
 
-            // linker file does not exist
-            if(!QFile::exists(baseDir + "/" + id + "/" + libName)) {
-                qWarning() << "Expected file" << libName << "not found.";
-                qWarning() << "Plugin" << id << "located at" << baseDir << "not enabled.";
+                qWarning() << "Required YAML file not found for extension" << id;
+                qWarning() << "File expected at" << yamlfile;
                 continue;
+
             }
 
-            // minimum required qml files
-            if(!QFile::exists(QString(baseDir + "/" + id + "/qml/PQ%1.qml").arg(id))) {
-                qWarning() << "Expected QML file not found:" << QString(id + "/modern/PQ%1.qml").arg(id);
-                qWarning() << "Plugin" << id << "not enabled.";
+            PQCExtensionInfo *extinfo = new PQCExtensionInfo;
+
+            extinfo->location = QString("%1/%2").arg(baseDir, id);
+
+            YAML::Node config;
+
+            // LOAD yaml file
+            try {
+                config = YAML::LoadFile(yamlfile.toStdString());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to load YAML file:" << e.what();
+                delete extinfo;
                 continue;
             }
 
-            QPluginLoader loader(baseDir + "/" + id + "/" + libName);
-            QObject *plugin = loader.instance();
-            if(plugin) {
+            /***********************************/
+            // REQUIRED PROPERTIES:
 
-                PQExtensionsAPI *interface = qobject_cast<PQExtensionsAPI*>(plugin);
+            // version
+            try {
+                extinfo->version = config["metainfo"]["version"].as<int>();
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'version':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                if(interface) {
+            // name
+            try {
+                extinfo->name = QString::fromStdString(config["metainfo"]["name"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'name':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                    if(interface->targetAPIVersion() > CURRENTAPIVERSION) {
+            // description
+            try {
+                extinfo->description = QString::fromStdString(config["metainfo"]["description"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'description':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                        qWarning() << "Required API version -" << interface->targetAPIVersion() << "- newer than what's supported:" << CURRENTAPIVERSION;
-                        qWarning() << "Plugin" << id << "located at" << baseDir << "not enabled.";
+            // author
+            try {
+                extinfo->author = QString::fromStdString(config["metainfo"]["author"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'author':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                    } else {
+            // contact
+            try {
+                extinfo->contact = QString::fromStdString(config["metainfo"]["contact"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'contact':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                        // SUCCESS
-                        // NOW LETS LOAD IT!
+            // target API
+            try {
+                extinfo->targetAPI = config["metainfo"]["targetAPI"].as<int>();
 
-                        m_extensions.append(id);
-                        m_allextensions.insert(id, interface);
-                        m_extensionLocation.insert(id, baseDir + "/" + id);
+                if(extinfo->targetAPI > CURRENTAPIVERSION) {
+                    qWarning() << "Required API version -" << extinfo->targetAPI << "- newer than what's supported:" << CURRENTAPIVERSION;
+                    qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
+                    delete extinfo;
+                    continue;
+                }
 
-                        const QList<QStringList> actions = interface->shortcuts();
-                        QStringList allsh;
-                        for(const QStringList &l : actions) {
-                            allsh.append(l[0]);
-                            m_mapShortcutToExtension.insert(l[0], id);
-                        }
-                        m_shortcuts.insert(id, allsh);
-                        m_simpleListAllShortcuts.append(allsh);
+            } catch(YAML::Exception &e) {
+                qWarning() << "Failed to read required value for 'targetAPI':" << e.what();
+                delete extinfo;
+                continue;
+            }
 
-                    }
+            /***********************************/
+            // OPTIONAL values
 
-                } else {
+            // default shortcut to toggle element
+            try {
+                extinfo->defaultShortcut = QString::fromStdString(config["setup"]["defaultShortcut"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
+            }
 
-                    qWarning() << "Could not cast plugin to PQExtensionsAPI";
-                    qWarning() << "Plugin" << id << "located at" << baseDir << "not enabled.";
+            // minimum required window size
+            try {
+                std::list<int> vals = config["setup"]["minimumRequiredWindowSize"].as<std::list<int> >();
+                if(vals.size() != 2)
+                    qWarning() << "Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
+                else
+                    extinfo->minimumRequiredWindowSize = QSize(vals.front(), vals.back());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
+            }
+
+            // is modal
+            try {
+                extinfo->isModal = config["setup"]["isModal"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'isModal' invalid or not found, skipping:" << e.what();
+            }
+
+            // position at
+            try {
+                extinfo->positionAt = extinfo->getEnumForPosition(config["setup"]["positionAt"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'isModal' invalid or not found, skipping:" << e.what();
+            }
+
+            // remember geometry
+            try {
+                extinfo->rememberGeometry = config["setup"]["rememberGeometry"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
+            }
+
+            // pass through mouse clicks
+            try {
+                extinfo->passThroughMouseClicks = config["setup"]["passThroughMouseClicks"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'passThroughMouseClicks' invalid or not found, skipping:" << e.what();
+            }
+
+            // pass through mouse wheel
+            try {
+                extinfo->passThroughMouseWheel = config["setup"]["passThroughMouseWheel"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'passThroughMouseWheel' invalid or not found, skipping:" << e.what();
+            }
+
+            // shortcuts
+            try {
+
+                extinfo->shortcuts.append({QString("__%1").arg(id), QString("Toggle extension %1").arg(id), extinfo->defaultShortcut, "show"});
+
+                for(const auto &shorts : config["setup"]["shortcuts"]) {
+
+                    QStringList vals;
+                    for(auto const& l : shorts)
+                        vals.append(QString::fromStdString(l.as<std::string>()));
+                    extinfo->shortcuts.append(vals);
 
                 }
 
-            } else {
-
-                qWarning() << "Plugin failed to load:" << loader.errorString();
-                qWarning() << "Plugin" << id << "located at" << baseDir << "not enabled.";
-
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'shortcuts' invalid or not found, skipping:" << e.what();
             }
+
+            // settings
+            try {
+
+                for(const auto &sets : config["setup"]["settings"]) {
+
+                    QStringList vals;
+                    for(auto const& l : sets)
+                        vals.append(QString::fromStdString(l.as<std::string>()));
+
+                    if(vals.length()) {
+                        qWarning() << ">>> APPENDING:" << vals;
+                        extinfo->settings.append(vals);
+                    }
+
+                }
+
+                // std::list<std::list<std::string> > vals = config["setup"]["shortcuts"].as<std::list<std::list<std::string> >();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'settings' invalid or not found, skipping:" << e.what();
+            }
+
+            // whether CPP actions have been supplied
+            try {
+                extinfo->haveCPPActions = config["setup"]["haveCPPActions"].as<bool>();
+
+                if(extinfo->haveCPPActions) {
+
+                    // make sure we can find and load the actions
+                    QDir extDir(baseDir + "/" + id);
+#ifdef Q_OS_UNIX
+                    extDir.setNameFilters({"*.so"});
+#else
+                    extDir.setNameFilters({"*.dll"});
+#endif
+                    QStringList filList = extDir.entryList();
+
+                    if(filList.length() == 0) {
+
+                        qWarning() << "No shared library found at" << baseDir;
+                        qWarning() << "CPP actions of extension" << id << "have not been enabled!";
+                        extinfo->haveCPPActions = false;
+
+                    } else {
+
+                        const QString libName = QString("%1/%2/%3").arg(baseDir, id, filList.at(0));
+
+                        // linker file does not exist
+                        if(!QFile::exists(libName)) {
+                            qWarning() << "Expected file" << filList.at(0) << "not found.";
+                            qWarning() << "Extension" << id << "located at" << baseDir << "not enabled.";
+                            delete extinfo;
+                            continue;
+                        }
+
+                        QPluginLoader loader(libName);
+                        QObject *plugin = loader.instance();
+                        if(plugin) {
+
+                            PQCExtensionActions *actions = qobject_cast<PQCExtensionActions*>(plugin);
+
+                            if(actions) {
+                                m_actions.insert(id, actions);
+                            }
+                        }
+
+                    }
+
+                }
+
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'haveCPPActions' invalid or not found, skipping:" << e.what();
+            }
+
+            // all good so far, we have what we need
+
+            m_extensions.append(id);
+            m_allextensions.insert(id, extinfo);
+
+            QStringList allsh;
+            allsh.append(extinfo->defaultShortcut);
+            m_mapShortcutToExtension.insert(extinfo->defaultShortcut, id);
+            const QList<QStringList> actions = extinfo->shortcuts;
+            for(const QStringList &l : actions) {
+                allsh.append(l[0]);
+                m_mapShortcutToExtension.insert(l[0], id);
+            }
+            m_shortcuts.insert(id, allsh);
+            m_simpleListAllShortcuts.append(allsh);
 
         }
 
@@ -156,6 +340,10 @@ void PQCExtensionsHandler::setup() {
         qDebug() << "Successfully loaded the following extensions:" << m_extensions.join(", ");
     else
         qDebug() << "No extensions found.";
+
+#else
+    qDebug() << "Extension support has been disabled at compile time.";
+#endif
 
 }
 
@@ -171,44 +359,51 @@ QStringList PQCExtensionsHandler::getDisabledExtensions() {
 
 /****************************************/
 
+QString PQCExtensionsHandler::getExtensionLocation(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->location;
+    qWarning() << "Unknown extension id:" << id;
+    return "";
+}
+
 int PQCExtensionsHandler::getExtensionVersion(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->version();
+        return m_allextensions[id]->version;
     qWarning() << "Unknown extension id:" << id;
     return 0;
 }
 
 QString PQCExtensionsHandler::getExtensionName(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->name();
+        return m_allextensions[id]->name;
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
 
 QString PQCExtensionsHandler::getExtensionAuthor(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->author();
+        return m_allextensions[id]->author;
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
 
 QString PQCExtensionsHandler::getExtensionContact(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->contact();
+        return m_allextensions[id]->contact;
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
 
 QString PQCExtensionsHandler::getExtensionDescription(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->description();
+        return m_allextensions[id]->description;
     qWarning() << "Unknown extension id:" << id;
     return "";
 }
 
 int PQCExtensionsHandler::getExtensionTargetAPIVersion(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->targetAPIVersion();
+        return m_allextensions[id]->targetAPI;
     qWarning() << "Unknown extension id:" << id;
     return 1;
 }
@@ -217,55 +412,47 @@ int PQCExtensionsHandler::getExtensionTargetAPIVersion(QString id) {
 
 QSize PQCExtensionsHandler::getExtensionMinimumRequiredWindowSize(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->minimumRequiredWindowSize();
+        return m_allextensions[id]->minimumRequiredWindowSize;
     qWarning() << "Unknown extension id:" << id;
     return QSize(0,0);
 }
 
 bool PQCExtensionsHandler::getExtensionIsModal(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->isModal();
+        return m_allextensions[id]->isModal;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-PQExtensionsAPI::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(QString id) {
+PQCExtensionInfo::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->positionAt();
+        return m_allextensions[id]->positionAt;
     qWarning() << "Unknown extension id:" << id;
-    return PQExtensionsAPI::TopLeft;
+    return PQCExtensionInfo::TopLeft;
 }
 
-bool PQCExtensionsHandler::getExtensionRememberPosition(QString id) {
+bool PQCExtensionsHandler::getExtensionRememberGeometry(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->rememberPosition();
+        return m_allextensions[id]->rememberGeometry;
     qWarning() << "Unknown extension id:" << id;
     return true;
 }
 
 bool PQCExtensionsHandler::getExtensionPassThroughMouseClicks(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->passThroughMouseClicks();
+        return m_allextensions[id]->passThroughMouseClicks;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
 bool PQCExtensionsHandler::getExtensionPassThroughMouseWheel(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->passThroughMouseWheel();
+        return m_allextensions[id]->passThroughMouseWheel;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
 /****************************************/
-
-
-QString PQCExtensionsHandler::getExtensionLocation(QString id) {
-    if(m_extensionLocation.contains(id))
-        return m_extensionLocation[id];
-    qWarning() << "Unknown extension id:" << id;
-    return "";
-}
 
 QStringList PQCExtensionsHandler::getExtensionShortcuts(QString id) {
     if(m_shortcuts.contains(id)) {
@@ -277,14 +464,14 @@ QStringList PQCExtensionsHandler::getExtensionShortcuts(QString id) {
 
 QList<QStringList> PQCExtensionsHandler::getExtensionShortcutsActions(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->shortcuts();
+        return m_allextensions[id]->shortcuts;
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
 
 QList<QStringList> PQCExtensionsHandler::getExtensionSettings(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->settings();
+        return m_allextensions[id]->settings;
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
@@ -296,7 +483,7 @@ QStringList PQCExtensionsHandler::getAllShortcuts() {
 QString PQCExtensionsHandler::getDescriptionForShortcut(QString sh) {
     QString ret = "";
     for(auto ext : std::as_const(m_allextensions)) {
-        const QList<QStringList> allsh = ext->shortcuts();
+        const QList<QStringList> allsh = ext->shortcuts;
         for(int i = 0; i < allsh.length(); ++i) {
             if(allsh[i][0] == sh) {
                 ret = allsh[i][1];
@@ -312,58 +499,79 @@ QString PQCExtensionsHandler::getWhichExtensionForShortcut(QString sh) {
     return m_mapShortcutToExtension.value(sh, "");
 }
 
-QMap<QString, QList<QStringList> > PQCExtensionsHandler::getExtensionMigrateSettings(QString id) {
+bool PQCExtensionsHandler::getExtensionHasCPPActions(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->migrateSettings();
-    qWarning() << "Unknown extension id:" << id;
-    return {};
-}
-
-QMap<QString, QList<QStringList> > PQCExtensionsHandler::getExtensionMigrateShortcuts(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->migrateShortcuts();
+        return true;
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
 
 bool PQCExtensionsHandler::getHasSettings(const QString &id) {
     if(m_allextensions.contains(id))
-        return QFile::exists(QString("%1/modern/PQ%2Settings.qml").arg(m_extensionLocation[id], id));
+        return QFile::exists(QString("%1/qml/PQ%2Settings.qml").arg(m_allextensions[id]->location, id));
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id) {
+bool PQCExtensionsHandler::getHasActions(const QString &id) {
+    return m_actions.contains(id);
+}
+
+void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id, QVariant additional) {
+    qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
-        QVariant ret = m_allextensions[id]->actionWithImage1(PQCFileFolderModel::get().getCurrentFile(), img);
-        Q_EMIT replyForActionWithImage1(id, ret);
+        if(m_actions.contains(id)) {
+            QVariant ret = m_actions[id]->actionWithImage1(PQCFileFolderModel::get().getCurrentFile(), img, additional);
+            Q_EMIT replyForActionWithImage1(id, ret);
+        } else {
+            qWarning() << "No action provided for extension" << id;
+            Q_EMIT replyForActionWithImage1(id, QVariant(""));
+        }
     });
 }
 
-void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id) {
+void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id, QVariant additional) {
+    qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
-        QVariant ret = m_allextensions[id]->actionWithImage2(PQCFileFolderModel::get().getCurrentFile(), img);
-        Q_EMIT replyForActionWithImage2(id, ret);
+        if(m_actions.contains(id)) {
+            QVariant ret = m_actions[id]->actionWithImage2(PQCFileFolderModel::get().getCurrentFile(), img, additional);
+            Q_EMIT replyForActionWithImage2(id, ret);
+        } else {
+            qWarning() << "No action provided for extension" << id;
+            Q_EMIT replyForActionWithImage1(id, QVariant(""));
+        }
     });
 }
 
-void PQCExtensionsHandler::requestCallAction1(const QString &id) {
+void PQCExtensionsHandler::requestCallAction1(const QString &id, QVariant additional) {
+    qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
-        QVariant ret = m_allextensions[id]->action1(PQCFileFolderModel::get().getCurrentFile());
-        Q_EMIT replyForAction1(id, ret);
+        if(m_actions.contains(id)) {
+            QVariant ret = m_actions[id]->action1(PQCFileFolderModel::get().getCurrentFile(), additional);
+            Q_EMIT replyForAction1(id, ret);
+        } else {
+            qWarning() << "No action provided for extension" << id;
+            Q_EMIT replyForActionWithImage1(id, QVariant(""));
+        }
     });
 }
 
-void PQCExtensionsHandler::requestCallAction2(const QString &id) {
+void PQCExtensionsHandler::requestCallAction2(const QString &id, QVariant additional) {
+    qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
-        QVariant ret = m_allextensions[id]->action2(PQCFileFolderModel::get().getCurrentFile());
-        Q_EMIT replyForAction2(id, ret);
+        if(m_actions.contains(id)) {
+            QVariant ret = m_actions[id]->action2(PQCFileFolderModel::get().getCurrentFile(), additional);
+            Q_EMIT replyForAction2(id, ret);
+        } else {
+            qWarning() << "No action provided for extension" << id;
+            Q_EMIT replyForActionWithImage1(id, QVariant(""));
+        }
     });
 }
 

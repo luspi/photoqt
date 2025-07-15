@@ -25,7 +25,97 @@
 
 #include <QObject>
 #include <QMap>
-#include <pqc_extensions_api.h>
+#include <QSize>
+#include <QtDebug>
+#include <pqc_extensionactions.h>
+
+class PQCExtensionInfo {
+public:
+
+    PQCExtensionInfo() {
+
+        // required user provided
+        version = 0;
+        name = "";
+        description = "";
+        author = "";
+        contact = "";
+        targetAPI = 0;
+        defaultShortcut = "";
+
+        // optional user provided
+        minimumRequiredWindowSize = QSize(0,0);
+        isModal = false;
+        positionAt = DefaultPosition::TopLeft;
+        rememberGeometry = true;
+        passThroughMouseClicks = false;
+        passThroughMouseWheel = false;
+        shortcuts = {};
+        settings = {};
+        haveCPPActions = false;
+
+        // auto generated
+        location = "";
+    }
+
+    enum DefaultPosition {
+        TopLeft = 0,
+        Top,
+        TopRight,
+        Left,
+        Center,
+        Right,
+        BottomLeft,
+        Bottom,
+        BottomRight
+    };
+
+    int version;
+    QString name;
+    QString description;
+    QString author;
+    QString contact;
+    int targetAPI;
+    QString defaultShortcut;
+
+    QSize minimumRequiredWindowSize;
+    bool isModal;
+    DefaultPosition positionAt;
+    bool rememberGeometry;
+    bool passThroughMouseClicks;
+    bool passThroughMouseWheel;
+    QList<QStringList> shortcuts;
+    QList<QStringList> settings;
+    bool haveCPPActions;
+
+    QString location;
+
+    DefaultPosition getEnumForPosition(std::string val) {
+        if(val == "TopLeft")
+            return DefaultPosition::TopLeft;
+        else if(val == "Top")
+            return DefaultPosition::Top;
+        else if(val == "TopRight")
+            return DefaultPosition::TopRight;
+        else if(val == "Left")
+            return DefaultPosition::Left;
+        else if(val == "Center")
+            return DefaultPosition::Center;
+        else if(val == "Right")
+            return DefaultPosition::Right;
+        else if(val == "Bottom")
+            return DefaultPosition::BottomLeft;
+        else if(val == "Bottom")
+            return DefaultPosition::Bottom;
+        else if(val == "Bottom")
+            return DefaultPosition::BottomRight;
+        else {
+            qWarning() << "Invalid enum value found:" << val;
+            return DefaultPosition::TopLeft;
+        }
+    }
+
+};
 
 class PQCExtensionsHandler : public QObject {
 
@@ -42,10 +132,10 @@ public:
     void operator=(PQCExtensionsHandler const&) = delete;
 
     // REQUEST CUSTOM ACTIONS TO BE TAKEN
-    Q_INVOKABLE void requestCallActionWithImage1(const QString &id);
-    Q_INVOKABLE void requestCallActionWithImage2(const QString &id);
-    Q_INVOKABLE void requestCallAction1(const QString &id);
-    Q_INVOKABLE void requestCallAction2(const QString &id);
+    Q_INVOKABLE void requestCallActionWithImage1(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallActionWithImage2(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallAction1(const QString &id, QVariant additional = QVariant());
+    Q_INVOKABLE void requestCallAction2(const QString &id, QVariant additional = QVariant());
 
     // REQUEST SPECIAL ACTIONS
     Q_INVOKABLE void requestExecutionOfInternalShortcut(const QString &cmd);
@@ -72,16 +162,16 @@ public:
 
     Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE bool    getExtensionIsModal(QString id);
-    Q_INVOKABLE PQExtensionsAPI::DefaultPosition getExtensionPositionAt(QString id);
-    Q_INVOKABLE bool    getExtensionRememberPosition(QString id);
+    Q_INVOKABLE PQCExtensionInfo::DefaultPosition getExtensionPositionAt(QString id);
+    Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
     Q_INVOKABLE bool    getExtensionPassThroughMouseClicks(QString id);
     Q_INVOKABLE bool    getExtensionPassThroughMouseWheel(QString id);
 
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
     Q_INVOKABLE QStringList        getExtensionShortcuts(QString id);
     Q_INVOKABLE QList<QStringList> getExtensionShortcutsActions(QString id);
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getExtensionMigrateSettings(QString id);
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getExtensionMigrateShortcuts(QString id);
+
+    Q_INVOKABLE bool getExtensionHasCPPActions(QString id);
 
     // some other generated properties to find
     Q_INVOKABLE QStringList getAllShortcuts();
@@ -94,11 +184,14 @@ public:
     // get a list of all extension ids
     Q_INVOKABLE QStringList getExtensions();
 
-    // get the location of all extensions
-    Q_INVOKABLE QString getExtensionLocation(QString id);
-
     // get a list of all disabled extensions
     Q_INVOKABLE QStringList getDisabledExtensions();
+
+    // get the base dir of the extension
+    Q_INVOKABLE QString getExtensionLocation(QString id);
+
+    // check whether an extension comes with C++ actions
+    Q_INVOKABLE bool getHasActions(const QString &id);
 
     // check whether an extension comes with a settings widget
     Q_INVOKABLE bool getHasSettings(const QString &id);
@@ -113,15 +206,17 @@ private:
     int m_currentIndex;
     QString m_currentFile;
 
-    QMap<QString, PQExtensionsAPI*> m_allextensions;
+    QMap<QString, PQCExtensionInfo*> m_allextensions;
 
     // these are processed ones and then cached as they are needed often
     QStringList m_extensions;
     QStringList m_extensionsDisabled;
-    QMap<QString, QString> m_extensionLocation;
+
     QMap<QString, QStringList> m_shortcuts;
     QStringList m_simpleListAllShortcuts;
     QMap<QString,QString> m_mapShortcutToExtension;
+
+    QMap<QString, PQCExtensionActions*> m_actions;
 
     QString previousCurrentFile;
 

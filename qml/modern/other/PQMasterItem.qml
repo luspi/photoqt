@@ -134,8 +134,9 @@ Loader {
                 var exts = PQCExtensionsHandler.getExtensions()
                 for(var iE in exts) {
                     var ext = exts[iE]
-                    if(PQCSettings.extensions[ext])
+                    if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1) {
                         PQCNotify.loaderSetupExtension(ext)
+                    }
                 }
             }
         }

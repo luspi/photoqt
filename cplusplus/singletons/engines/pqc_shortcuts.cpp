@@ -420,8 +420,10 @@ void PQCShortcuts::readDB() {
 
         if(combo == "Del") combo = "Delete";
 
-        if(shortcuts.contains(combo))
+        if(shortcuts.contains(combo)) {
+            qDebug() << "Skipping extension shortcut due to pre-existing combo:" << combo << "/" << commands;
             continue;
+        }
 
         shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
         shortcutsOrder.push_back(combo);
@@ -813,133 +815,6 @@ bool PQCShortcuts::migrate(QString oldversion) {
             enterOrMoveExtensionShortcuts();
 
         }
-
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        /// EXTENSIONS
-
-        /////////////////////////////////////////////////////
-        // check for migrations for extensions
-
-        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-        for(const QString &e : ext) {
-
-            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getExtensionMigrateShortcuts(e);
-
-            for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
-
-                const QString v = i.key();
-
-                if(v == curVer) {
-
-                    const QList<QStringList> vals = i.value();
-                    for(const QStringList &entry : vals) {
-
-                        if(entry.length() < 2) {
-                            qWarning() << "Invalid shortcuts migration:" << entry;
-                            continue;
-                        }
-
-
-                        // first we rename the shortcut if needed
-                        if(entry[0] != entry[1]) {
-
-                            QSqlQuery query(db);
-
-                            query.prepare("UPDATE `extensions` SET `commands`=:cmdnew WHERE `commands`=:cmdold AND `extension`=:ext");
-                            query.bindValue(":cmdold", entry[0]);
-                            query.bindValue(":cmdnew", entry[1]);
-                            query.bindValue(":ext", e);
-                            if(!query.exec()) {
-                                qWarning() << "Unable to migrate shortcut:" << query.lastError().text();
-                                qWarning() << "Failed migration:" << entry;
-                                continue;
-                            }
-
-                            query.clear();
-
-                        }
-
-                        // in this case we also need to update the shortcut (maybe)
-                        if(entry.length() > 3) {
-
-                            QSqlQuery query(db);
-
-                            // check old key exists
-                            // if not then no migration needs to be done
-                            // we check for existence of all shortcuts later
-                            query.prepare(QString("SELECT `combo` FROM `extensions` WHERE `combo`=:comboold AND `commands`=:cmdnew AND `extension`=:ext"));
-                            query.bindValue(":comboold", entry[2]);
-                            query.bindValue(":cmdnew", entry[1]);
-                            query.bindValue(":ext", e);
-                            if(!query.exec()) {
-                                qWarning() << "Query failed to execute:" << query.lastError().text();
-                                continue;
-                            }
-
-                            // if an entry even exists... this can be false if the shortcut has never been entered before.
-                            // not-yet-entered shortcuts will be entered below
-                            if(query.next()) {
-
-                                for(int i = 3; i < entry.length(); ++i) {
-
-                                    const QString newsh = entry[i];
-
-                                    // check if new shortcut already exists
-                                    QSqlQuery queryExists(db);
-                                    queryExists.prepare("SELECT `combo` as c FROM `extensions` WHERE `combo`=:combonew AND `extension`=:ext");
-                                    queryExists.bindValue(":combonew", newsh);
-                                    queryExists.bindValue(":ext", e);
-                                    if(!queryExists.exec()) {
-                                        qWarning() << "Query failed to execute:" << queryExists.lastError().text();
-                                        continue;
-                                    }
-
-                                    // the new shortcut does not exist yet -> use this one
-                                    if(!queryExists.next()) {
-
-                                        QSqlQuery queryNew(db);
-                                        queryNew.prepare("UPDATE `extensions` SET `combo`=:combonew WHERE `combo`=:comboold AND `commands`=:cmdnew AND `extension`=:ext");
-                                        queryNew.bindValue(":combonew", newsh);
-                                        queryNew.bindValue(":comboold", entry[2]);
-                                        queryNew.bindValue(":cmdnew", entry[1]);
-                                        queryNew.bindValue(":ext", e);
-
-                                        if(!queryNew.exec()) {
-                                            qWarning() << "Query failed to execute:" << queryNew.lastError().text();
-                                            continue;
-                                        }
-
-                                        queryNew.clear();
-
-                                        break;
-
-                                    }
-
-                                    queryExists.clear();
-
-                                }
-
-                            }
-
-                            query.clear();
-
-                        }
-
-                    }
-
-
-                }
-
-            }
-
-        }
-
-        /// END EXTENSIONS
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
 
     }
 

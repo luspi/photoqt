@@ -86,6 +86,9 @@ void ExtensionSettings::setup() {
 
     for(const QStringList &s : allsets) {
 
+        if(s.length() != 3)
+            continue;
+
         if(s[1] == "int") {
             const int val = s[2].toInt();
             this->insert(s[0], val);
