@@ -50,6 +50,7 @@ public:
         allowIntegrated = true;
         allowPopout = true;
         positionAt = DefaultPosition::TopLeft;
+        distanceFromEdge = 50;
         rememberGeometry = true;
         fixSizeToContent = false;
         letMeHandleMouseEvents = false;
@@ -86,6 +87,7 @@ public:
     bool allowIntegrated;
     bool allowPopout;
     DefaultPosition positionAt;
+    int distanceFromEdge;
     bool rememberGeometry;
     bool fixSizeToContent;
     bool letMeHandleMouseEvents;
@@ -171,6 +173,7 @@ public:
     Q_INVOKABLE bool    getExtensionAllowIntegrated(QString id);
     Q_INVOKABLE bool    getExtensionAllowPopout(QString id);
     Q_INVOKABLE PQCExtensionInfo::DefaultPosition getExtensionPositionAt(QString id);
+    Q_INVOKABLE int     getExtensionDistanceFromEdge(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
     Q_INVOKABLE bool    getExtensionFixSizeToContent(QString id);
     Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
