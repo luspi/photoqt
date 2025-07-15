@@ -62,8 +62,22 @@ Item {
     }
 
     function setActive(val) {
-        ldr_popout.active = (val && PQCExtensionsHandler.getExtensionAllowPopout(extensionId))
-        ldr_floating.active = (!val && PQCExtensionsHandler.getExtensionAllowIntegrated(extensionId))
+
+        var ppt = PQCExtensionsHandler.getExtensionAllowPopout(extensionId)
+        var mdl = PQCExtensionsHandler.getExtensionFullscreenModal(extensionId)
+
+        if(mdl) {
+            ldr_floating.active = false
+            ldr_floating_popout.active = false
+            ldr_fullscreen.active = (!val || !ppt)
+            ldr_fullscreen_popout.active = (val && ppt)
+        } else {
+            ldr_fullscreen.active = false
+            ldr_fullscreen_popout.active = false
+            ldr_floating.active = (!val || !ppt)
+            ldr_floating_popout.active = (val && ppt)
+        }
+
     }
 
     Loader {
@@ -81,11 +95,37 @@ Item {
 
     Loader {
 
-        id: ldr_popout
+        id: ldr_fullscreen
         active: false
 
         sourceComponent:
-            PQTemplateExtensionPopout {
+            PQTemplateExtensionModal {
+                extensionId: extension_container.extensionId
+                settings: extsettings
+            }
+
+    }
+
+    Loader {
+
+        id: ldr_floating_popout
+        active: false
+
+        sourceComponent:
+            PQTemplateExtensionFloatingPopout {
+                extensionId: extension_container.extensionId
+                settings: extsettings
+            }
+
+    }
+
+    Loader {
+
+        id: ldr_fullscreen_popout
+        active: false
+
+        sourceComponent:
+            PQTemplateExtensionModalPopout {
                 extensionId: extension_container.extensionId
                 settings: extsettings
             }

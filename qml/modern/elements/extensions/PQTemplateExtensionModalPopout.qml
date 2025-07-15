@@ -40,8 +40,6 @@ Window {
 
     ///////////////////
 
-    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
-
     property size defaultPopoutPosition: Qt.point(150,150)
     property size defaultPopoutSize: Qt.size(500,300)
 
@@ -56,23 +54,28 @@ Window {
         var sze = settings["ExtPopoutSize"]
 
         if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
-        if(sze === undefined || sze.width < 1) sze = defaultPopoutSize
+
+        if(sze === undefined || sze.width < 1)
+            sze = PQCExtensionsHandler.getExtensionDefaultSize(element_top.extensionId)
 
         element_top.setX(pos.x)
         element_top.setY(pos.y)
 
-        if(!_fixSizeToContent) {
-            element_top.setWidth(sze.width)
-            element_top.setHeight(sze.height)
-        }
+        element_top.setWidth(sze.width)
+        element_top.setHeight(sze.height)
 
         if(settings["ExtShow"]) {
+            PQCNotify.loaderRegisterOpen(element_top.extensionId)
             show()
             popout_loader.item.showing()
         }
 
         setupCompleted.restart()
 
+    }
+
+    onClosing: {
+        element_top.hide()
     }
 
     property bool setupHasBeenCompleted: false
@@ -86,7 +89,7 @@ Window {
     minimumWidth: 100
     minimumHeight: 100
 
-    modality: PQCExtensionsHandler.getExtensionIsModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionFullscreenModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -104,23 +107,108 @@ Window {
         updateGeometry.restart()
     }
 
-    Loader {
-        id: popout_loader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
-        onStatusChanged:
-            if(status == Loader.Ready) {
-                if(!element_top._fixSizeToContent) {
+    Rectangle {
+
+        id: toprow
+
+        width: parent.width
+        height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
+        color: PQCLook.baseColor
+
+        PQTextXL {
+            anchors.centerIn: parent
+            text: PQCExtensionsHandler.getExtensionName(element_top.extensionId)
+            font.weight: PQCLook.fontWeightBold
+        }
+
+        Rectangle {
+            x: 0
+            y: parent.height-1
+            width: parent.width
+            height: 1
+            color: PQCLook.baseColorActive
+        }
+
+    }
+
+    Item {
+
+        y: toprow.height
+        width: parent.width
+        height: parent.height-toprow.height-bottomrow.height
+
+        Loader {
+            id: popout_loader
+            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+            onStatusChanged:
+                if(status == Loader.Ready) {
                     item.width = Qt.binding(function() { return element_top.width })
                     item.height = Qt.binding(function() { return element_top.height })
                 }
-                element_top.visible = true
-                if(element_top._fixSizeToContent) {
-                    element_top.minimumWidth = Qt.binding(function() { return item.width })
-                    element_top.maximumWidth = Qt.binding(function() { return item.width })
-                    element_top.minimumHeight = Qt.binding(function() { return item.height })
-                    element_top.maximumHeight = Qt.binding(function() { return item.height })
-                }
+        }
+
+    }
+
+    Rectangle {
+
+        id: bottomrow
+
+        y: (parent.height-height)
+
+        width: parent.width
+        height: 50
+        color: PQCLook.baseColor
+
+        Rectangle {
+            x: 0
+            y: 0
+            width: parent.width
+            height: 1
+            color: PQCLook.baseColorActive
+        }
+
+        Item {
+            id: bottomleftelement
+            x: 0
+            y: 0
+            height: parent.height
+        }
+
+        Row {
+
+            x: (parent.width-width)/2
+
+            height: parent.height
+
+            spacing: 0
+
+            PQButtonElement {
+                id: firstbutton
+                text: genericStringClose
+                font.weight: PQCLook.fontWeightBold
+                y: 1
+                height: parent.height-1
+                onClicked: element_top.hide()
             }
+
+            PQButtonElement {
+                id: secondbutton
+                text: genericStringClose
+                visible: false
+                y: 1
+                height: parent.height-1
+            }
+
+            PQButtonElement {
+                id: thirdbutton
+                text: genericStringClose
+                visible: false
+                y: 1
+                height: parent.height-1
+            }
+
+        }
+
     }
 
     PQMouseArea {
@@ -174,6 +262,8 @@ Window {
             text: qsTranslate("popinpopout", "Merge into main interface")
             onClicked: {
                 settings["ExtPopout"] = false
+                PQCNotify.loaderRegisterClose(element_top.extensionId)
+                PQCNotify.loaderShowExtension(element_top.extensionId)
             }
         }
 
@@ -191,6 +281,8 @@ Window {
 
         x: parent.width-additionalActionItem.width-closeimage.width-5
         y: 5
+
+        visible: !PQCExtensionsHandler.getExtensionFullscreenModal(element_top.extensionId)
 
         Item {
             id: additionalActionItem
@@ -216,8 +308,7 @@ Window {
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
                 onClicked: {
-                    element_top.close()
-                    popout_loader.item.hiding()
+                    element_top.hide()
                 }
             }
 
@@ -242,11 +333,11 @@ Window {
         function onValueChanged(key, value) {
             if(key.toLowerCase() === extensionId) {
                 if(1*value) {
+                    PQCNotify.loaderRegisterOpen(element_top.extensionId)
                     element_top.show()
                     popout_loader.item.showing()
                 } else {
-                    element_top.close()
-                    popout_loader.item.hiding()
+                    element_top.hide()
                 }
             }
         }
@@ -266,9 +357,9 @@ Window {
 
             if(what === "show" && args[0] === element_top.extensionId) {
                 if(element_top.visible) {
-                    element_top.close()
-                    popout_loader.item.hiding()
+                    element_top.hide()
                 } else {
+                    PQCNotify.loaderRegisterOpen(element_top.extensionId)
                     element_top.show()
                     popout_loader.item.showing()
                 }
@@ -277,6 +368,8 @@ Window {
     }
 
     function hide() {
+        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        settings["ExtShow"] = 0
         element_top.close()
         popout_loader.item.hiding()
     }
