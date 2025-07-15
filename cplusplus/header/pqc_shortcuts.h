@@ -83,8 +83,6 @@ private:
 
     QString m_version;
 
-    void enterOrMoveExtensionShortcuts();
-
 Q_SIGNALS:
     void aboutChanged();
 

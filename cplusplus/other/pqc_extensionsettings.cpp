@@ -24,6 +24,7 @@ ExtensionSettings::~ExtensionSettings() {
 }
 
 void ExtensionSettings::saveExtensionValue(const QString &key, const QVariant &value) {
+
     if(m_status == getReady()) {
 
         qDebug() << "args: key =" << key;
@@ -61,6 +62,12 @@ void ExtensionSettings::saveExtensionValue(const QString &key, const QVariant &v
         set->setValue(key, val);
         watcher->addPath(m_setPath);
 
+        if(key == "ExtShortcut") {
+            PQCExtensionsHandler::get().removeShortcut(key);
+            if(value.toString() != "")
+                PQCExtensionsHandler::get().addShortcut(m_extensionId, this->value("ExtShortcut").toString());
+        }
+
     }
 }
 
@@ -81,6 +88,7 @@ void ExtensionSettings::setup() {
     this->insert("ExtPopout", 0);
     this->insert("ExtPopoutPosition", QPoint(-1,-1));
     this->insert("ExtPopoutSize", QSize(300,200));
+    this->insert("ExtShortcut", PQCExtensionsHandler::get().getExtensionDefaultShortcut(m_extensionId));
 
     const QList<QStringList> allsets = PQCExtensionsHandler::get().getExtensionSettings(m_extensionId);
 
@@ -146,6 +154,9 @@ void ExtensionSettings::setup() {
     }
 
     readFile();
+
+    if(this->value("ExtShortcut").toString() != "")
+        PQCExtensionsHandler::get().addShortcut(m_extensionId, this->value("ExtShortcut").toString());
 
     m_status = getReady();
     Q_EMIT statusChanged();
