@@ -40,8 +40,7 @@ Window {
 
     ///////////////////
 
-    property bool setCanBeResized: true
-    property bool setIsModal: false
+    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
 
     property size defaultPopoutPosition: Qt.point(150,150)
     property size defaultPopoutSize: Qt.size(500,300)
@@ -62,7 +61,7 @@ Window {
         element_top.setX(pos.x)
         element_top.setY(pos.y)
 
-        if(setCanBeResized) {
+        if(!_fixSizeToContent) {
             element_top.setWidth(sze.width)
             element_top.setHeight(sze.height)
         }
@@ -87,7 +86,7 @@ Window {
     minimumWidth: 100
     minimumHeight: 100
 
-    modality: setIsModal ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionIsModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -110,12 +109,12 @@ Window {
         source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
         onStatusChanged:
             if(status == Loader.Ready) {
-                if(element_top.setCanBeResized) {
+                if(!element_top._fixSizeToContent) {
                     item.width = Qt.binding(function() { return element_top.width })
                     item.height = Qt.binding(function() { return element_top.height })
                 }
                 element_top.visible = true
-                if(!element_top.setCanBeResized) {
+                if(element_top._fixSizeToContent) {
                     element_top.minimumWidth = Qt.binding(function() { return item.width })
                     element_top.maximumWidth = Qt.binding(function() { return item.width })
                     element_top.minimumHeight = Qt.binding(function() { return item.height })
@@ -129,6 +128,7 @@ Window {
         anchors.fill: parent
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton|Qt.RightButton
+        enabled: !PQCExtensionsHandler.getExtensionLetMeHandleMouseEvents(element_top.extensionId)
         onWheel: (wheel) => {
             wheel.accepted = true
         }

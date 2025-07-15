@@ -46,10 +46,12 @@ public:
         // optional user provided
         minimumRequiredWindowSize = QSize(0,0);
         isModal = false;
+        allowIntegrated = true;
+        allowPopout = true;
         positionAt = DefaultPosition::TopLeft;
         rememberGeometry = true;
-        passThroughMouseClicks = false;
-        passThroughMouseWheel = false;
+        fixSizeToContent = false;
+        letMeHandleMouseEvents = false;
         shortcuts = {};
         settings = {};
         haveCPPActions = false;
@@ -80,10 +82,12 @@ public:
 
     QSize minimumRequiredWindowSize;
     bool isModal;
+    bool allowIntegrated;
+    bool allowPopout;
     DefaultPosition positionAt;
     bool rememberGeometry;
-    bool passThroughMouseClicks;
-    bool passThroughMouseWheel;
+    bool fixSizeToContent;
+    bool letMeHandleMouseEvents;
     QList<QStringList> shortcuts;
     QList<QStringList> settings;
     bool haveCPPActions;
@@ -162,10 +166,12 @@ public:
 
     Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE bool    getExtensionIsModal(QString id);
+    Q_INVOKABLE bool    getExtensionAllowIntegrated(QString id);
+    Q_INVOKABLE bool    getExtensionAllowPopout(QString id);
     Q_INVOKABLE PQCExtensionInfo::DefaultPosition getExtensionPositionAt(QString id);
     Q_INVOKABLE bool    getExtensionRememberGeometry(QString id);
-    Q_INVOKABLE bool    getExtensionPassThroughMouseClicks(QString id);
-    Q_INVOKABLE bool    getExtensionPassThroughMouseWheel(QString id);
+    Q_INVOKABLE bool    getExtensionFixSizeToContent(QString id);
+    Q_INVOKABLE bool    getExtensionLetMeHandleMouseEvents(QString id);
 
     Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
     Q_INVOKABLE QStringList        getExtensionShortcuts(QString id);
@@ -227,6 +233,8 @@ Q_SIGNALS:
     void currentIndexChanged();
     void currentFileChanged();
     void currentImageDisplayed();
+
+    Q_INVOKABLE void requestResetGeometry(QString id);
 
     void replyForActionWithImage1(const QString id, QVariant val);
     void replyForActionWithImage2(const QString id, QVariant val);

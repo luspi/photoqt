@@ -194,6 +194,24 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Optional value for 'isModal' invalid or not found, skipping:" << e.what();
             }
 
+            // allow integrated
+            try {
+                extinfo->allowIntegrated = config["setup"]["allowIntegrated"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'allowIntegrated' invalid or not found, skipping:" << e.what();
+            }
+
+            // allow popout
+            try {
+                extinfo->allowPopout = config["setup"]["allowPopout"].as<bool>();
+                if(!extinfo->allowPopout && !extinfo->allowIntegrated) {
+                    qWarning() << "At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
+                    extinfo->allowIntegrated = true;
+                }
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'allowPopout' invalid or not found, skipping:" << e.what();
+            }
+
             // position at
             try {
                 extinfo->positionAt = extinfo->getEnumForPosition(config["setup"]["positionAt"].as<std::string>());
@@ -208,18 +226,18 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
             }
 
-            // pass through mouse clicks
+            // fix size to content
             try {
-                extinfo->passThroughMouseClicks = config["setup"]["passThroughMouseClicks"].as<bool>();
+                extinfo->fixSizeToContent = config["setup"]["fixSizeToContent"].as<bool>();
             } catch(YAML::Exception &e) {
-                qDebug() << "Optional value for 'passThroughMouseClicks' invalid or not found, skipping:" << e.what();
+                qDebug() << "Optional value for 'fixSizeToContent' invalid or not found, skipping:" << e.what();
             }
 
-            // pass through mouse wheel
+            // pass through mouse events
             try {
-                extinfo->passThroughMouseWheel = config["setup"]["passThroughMouseWheel"].as<bool>();
+                extinfo->letMeHandleMouseEvents = config["setup"]["letMeHandleMouseEvents"].as<bool>();
             } catch(YAML::Exception &e) {
-                qDebug() << "Optional value for 'passThroughMouseWheel' invalid or not found, skipping:" << e.what();
+                qDebug() << "Optional value for 'letMeHandleMouseEvents' invalid or not found, skipping:" << e.what();
             }
 
             // shortcuts
@@ -424,6 +442,20 @@ bool PQCExtensionsHandler::getExtensionIsModal(QString id) {
     return false;
 }
 
+bool PQCExtensionsHandler::getExtensionAllowIntegrated(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->allowIntegrated;
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+bool PQCExtensionsHandler::getExtensionAllowPopout(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->allowPopout;
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
 PQCExtensionInfo::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->positionAt;
@@ -438,16 +470,16 @@ bool PQCExtensionsHandler::getExtensionRememberGeometry(QString id) {
     return true;
 }
 
-bool PQCExtensionsHandler::getExtensionPassThroughMouseClicks(QString id) {
+bool PQCExtensionsHandler::getExtensionFixSizeToContent(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->passThroughMouseClicks;
+        return m_allextensions[id]->fixSizeToContent;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-bool PQCExtensionsHandler::getExtensionPassThroughMouseWheel(QString id) {
+bool PQCExtensionsHandler::getExtensionLetMeHandleMouseEvents(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->passThroughMouseWheel;
+        return m_allextensions[id]->letMeHandleMouseEvents;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }

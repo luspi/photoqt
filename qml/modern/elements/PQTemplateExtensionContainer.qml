@@ -62,8 +62,8 @@ Item {
     }
 
     function setActive(val) {
-        ldr_popout.active = val
-        ldr_floating.active = !val
+        ldr_popout.active = (val && PQCExtensionsHandler.getExtensionAllowPopout(extensionId))
+        ldr_floating.active = (!val && PQCExtensionsHandler.getExtensionAllowIntegrated(extensionId))
     }
 
     Loader {

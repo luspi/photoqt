@@ -176,17 +176,7 @@ if(WITH_WAYLANDSPECIFIC)
 endif()
 
 if(WITH_EXTENSIONS_SUPPORT)
-    find_package(yaml-cpp)
-    if(NOT TARGET yaml-cpp)
-        message(" * yaml-cpp library not found, downloading local copy")
-        include(FetchContent)
-        FetchContent_Declare(
-            yaml-cpp
-            GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-            GIT_TAG 0.8.0
-        )
-        FetchContent_MakeAvailable(yaml-cpp)
-    endif()
+    find_package(yaml-cpp REQUIRED)
 endif()
 
 ######################
