@@ -7956,7 +7956,7 @@ int PQCSettings::migrate(QString oldversion) {
 
         const QStringList ext = PQCExtensionsHandler::get().getExtensions();
         for(const QString &e : ext)
-            migrationHelperChangeSettingsName(PQCExtensionsHandler::get().getMigrateSettings(e), curVer);
+            migrationHelperChangeSettingsName(PQCExtensionsHandler::get().getExtensionMigrateSettings(e), curVer);
 
         /////////////////////////////////////////////////////
         // check for existence of settings for extensions
@@ -7964,7 +7964,7 @@ int PQCSettings::migrate(QString oldversion) {
         // ext is already defined ahead of the for loop above
         for(const QString &e : ext) {
 
-            const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
+            const QList<QStringList> set = PQCExtensionsHandler::get().getExtensionSettings(e);
 
             qDebug() << QString("Entering settings for extension %1:").arg(e) << set;
 
@@ -8609,7 +8609,7 @@ void PQCSettings::setupFresh() {
         /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(-1,-1));
         /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(-1,-1));
 
-        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
+        const QList<QStringList> sets = PQCExtensionsHandler::get().getExtensionSettings(e);
         for(const QStringList &s : sets) {
 
             if(s[2] == "int") {

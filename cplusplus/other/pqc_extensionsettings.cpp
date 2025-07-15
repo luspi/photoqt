@@ -56,7 +56,6 @@ void ExtensionSettings::saveExtensionValue(const QString &key, const QVariant &v
         } else {
             val = "STR_" + value.toString();
         }
-        qWarning() << ">>> val =" << val;
 
         watcher->removePath(m_setPath);
         set->setValue(key, val);
@@ -76,14 +75,14 @@ void ExtensionSettings::setup() {
     watcher->addPath(m_setPath);
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=]() { readFile(); });
 
-    this->insert("Show", 1);
-    this->insert("Position", QPoint(100,100));
-    this->insert("Size", QSize(300,200));
-    this->insert("Popout", 0);
-    this->insert("PopoutPosition", QPoint(-1,-1));
-    this->insert("PopoutSize", QSize(300,200));
+    this->insert("ExtShow", 0);
+    this->insert("ExtPosition", QPoint(100,100));
+    this->insert("ExtSize", QSize(300,200));
+    this->insert("ExtPopout", 0);
+    this->insert("ExtPopoutPosition", QPoint(-1,-1));
+    this->insert("ExtPopoutSize", QSize(300,200));
 
-    const QList<QStringList> allsets = PQCExtensionsHandler::get().getSettings(m_extensionId);
+    const QList<QStringList> allsets = PQCExtensionsHandler::get().getExtensionSettings(m_extensionId);
 
     for(const QStringList &s : allsets) {
 
@@ -205,8 +204,6 @@ void ExtensionSettings::readFile() {
             this->insert(key, val.remove(0,4));
 
     }
-
-    qWarning() << ">>> R: val =" << this->value("Popout");
 
     watcher->addPath(m_setPath);
 

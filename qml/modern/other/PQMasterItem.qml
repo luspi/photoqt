@@ -104,7 +104,24 @@ Loader {
         Repeater {
             id: loader_extensions
             model: PQCExtensionsHandler.numExtensions
-            Loader {}
+            Loader {
+
+                id: ldr
+
+                required property int modelData
+
+                active: false
+                asynchronous: false
+
+                sourceComponent:
+                PQTemplateExtensionContainer {
+
+                    extensionId: PQCExtensionsHandler.getExtensions()[ldr.modelData]
+
+                }
+
+            }
+
         }
 
         // when the component is completed the repeater items will likely not yet be ready
@@ -113,16 +130,12 @@ Loader {
             id: waitForExtLoaderToBeReady
             interval: 200
             onTriggered: {
-                if(!loader_extensions.itemAt(0)) {
-                    waitForExtLoaderToBeReady.restart()
-                    return
-                }
                 // set up extensions if necessary
                 var exts = PQCExtensionsHandler.getExtensions()
                 for(var iE in exts) {
                     var ext = exts[iE]
                     if(PQCSettings.extensions[ext])
-                        PQCNotify.loaderShowExtension(ext)
+                        PQCNotify.loaderSetupExtension(ext)
                 }
             }
         }

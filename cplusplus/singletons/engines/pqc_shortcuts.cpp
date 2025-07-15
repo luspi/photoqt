@@ -825,7 +825,7 @@ bool PQCShortcuts::migrate(QString oldversion) {
         const QStringList ext = PQCExtensionsHandler::get().getExtensions();
         for(const QString &e : ext) {
 
-            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getMigrateShortcuts(e);
+            QMap<QString, QList<QStringList> > mig = PQCExtensionsHandler::get().getExtensionMigrateShortcuts(e);
 
             for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
@@ -956,7 +956,7 @@ void PQCShortcuts::enterOrMoveExtensionShortcuts() {
     const QStringList allext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &ext : allext) {
 
-        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getShortcutsActions(ext);
+        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getExtensionShortcutsActions(ext);
 
         for(const QStringList &sh : shortcuts) {
 
@@ -1044,7 +1044,7 @@ void PQCShortcuts::setupFresh() {
     const QStringList allext = PQCExtensionsHandler::get().getExtensions();
     for(const QString &ext : allext) {
 
-        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getShortcutsActions(ext);
+        const QList<QStringList> shortcuts = PQCExtensionsHandler::get().getExtensionShortcutsActions(ext);
 
         for(const QStringList &sh : shortcuts) {
 

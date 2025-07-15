@@ -465,8 +465,8 @@ Rectangle {
 
             var ext = allext[i]
 
-            var fullsh = PQCExtensionsHandler.getShortcutsActions(ext)
-            var allsh = PQCExtensionsHandler.getShortcuts(ext)
+            var fullsh = PQCExtensionsHandler.getExtensionShortcutsActions(ext)
+            var allsh = PQCExtensionsHandler.getExtensionShortcuts(ext)
 
             for(var iSh in allsh) {
                 var sh = fullsh[iSh]
@@ -492,7 +492,7 @@ Rectangle {
             } else {
                 for(var i in setting_top.extensions) {
                     var ext = setting_top.extensions[i]
-                    if(cur in PQCExtensionsHandler.getShortcuts(ext)) {
+                    if(cur in PQCExtensionsHandler.getExtensionShortcuts(ext)) {
                         selectedCategory = "extensions"
                         break;
                     }

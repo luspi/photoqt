@@ -21,22 +21,22 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Window
-import PQCScriptsConfig
 import PhotoQt
+import ExtensionSettings
 import PQCExtensionsHandler
+import PQCScriptsConfig
 
 Window {
 
-    id: ele_window
+    id: element_top
 
     title: "Popout"
 
     ///////////////////
-    // SOME REQUIRED ENTRIES
 
-    property string extensionId: ""
-    property alias settings: extsettings
+    // set in extension container
+    property string extensionId
+    property ExtensionSettings settings
 
     ///////////////////
 
@@ -48,32 +48,29 @@ Window {
 
     ///////////////////
 
-    ExtensionSettings {
-        id: extsettings
-        extensionId: ele_window.extensionId
-    }
-
     width: 100
     height: 100
 
     Component.onCompleted: {
 
-        var pos = settings["PopoutPosition"]
-        var sze = settings["PopoutSize"]
+        var pos = settings["ExtPopoutPosition"]
+        var sze = settings["ExtPopoutSize"]
 
         if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
         if(sze === undefined || sze.width < 1) sze = defaultPopoutSize
 
-        ele_window.setX(pos.x)
-        ele_window.setY(pos.y)
+        element_top.setX(pos.x)
+        element_top.setY(pos.y)
 
         if(setCanBeResized) {
-            ele_window.setWidth(sze.width)
-            ele_window.setHeight(sze.height)
+            element_top.setWidth(sze.width)
+            element_top.setHeight(sze.height)
         }
 
-        if(settings["Show"])
+        if(settings["ExtShow"]) {
             show()
+            popout_loader.item.showing()
+        }
 
         setupCompleted.restart()
 
@@ -84,7 +81,7 @@ Window {
         id: setupCompleted
         interval: 300
         onTriggered:
-            ele_window.setupHasBeenCompleted = true
+            element_top.setupHasBeenCompleted = true
     }
 
     minimumWidth: 100
@@ -103,50 +100,45 @@ Window {
         updateGeometry.restart()
     onWidthChanged: {
         updateGeometry.restart()
-        // if(!setCanBeResized) {
-        //     minimumWidth = width
-        //     maximumWidth = width
-        // }
     }
     onHeightChanged: {
         updateGeometry.restart()
-        // if(!setCanBeResized) {
-        //     minimumHeight = height
-        //     maximumHeight = height
-        // }
     }
 
     Loader {
-        id: curloader
-        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(ele_window.extensionId) + "/modern/PQ" + ele_window.extensionId + "Floating.qml"
+        id: popout_loader
+        source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
         onStatusChanged:
             if(status == Loader.Ready) {
-                if(ele_window.setCanBeResized) {
-                    item.width = Qt.binding(function() { return ele_window.width })
-                    item.height = Qt.binding(function() { return ele_window.height })
+                if(element_top.setCanBeResized) {
+                    item.width = Qt.binding(function() { return element_top.width })
+                    item.height = Qt.binding(function() { return element_top.height })
                 }
-                ele_window.visible = true
-                item._popoutOpen = true
-                item.show()
-                if(!ele_window.setCanBeResized) {
-                    ele_window.minimumWidth = Qt.binding(function() { return item.width })
-                    ele_window.maximumWidth = Qt.binding(function() { return item.width })
-                    ele_window.minimumHeight = Qt.binding(function() { return item.height })
-                    ele_window.maximumHeight = Qt.binding(function() { return item.height })
+                element_top.visible = true
+                if(!element_top.setCanBeResized) {
+                    element_top.minimumWidth = Qt.binding(function() { return item.width })
+                    element_top.maximumWidth = Qt.binding(function() { return item.width })
+                    element_top.minimumHeight = Qt.binding(function() { return item.height })
+                    element_top.maximumHeight = Qt.binding(function() { return item.height })
                 }
             }
-        // Connections {
-        //     target: curloader.item
-        //     // enabled: curloader.status===Loader.Ready
-        //     onWidthChanged: {
-        //         ele_window.minimumWidth = width
-        //         ele_window.maximumWidth = width
-        //     }
-        //     onHeightChanged: {
-        //         ele_window.minimumHeight = height
-        //         ele_window.maximumHeight = height
-        //     }
-        // }
+    }
+
+    PQMouseArea {
+        id: mousearea
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        onWheel: (wheel) => {
+            wheel.accepted = true
+        }
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                popout_loader.item.rightClicked(mouse)
+            else
+                popout_loader.item.leftClicked(mouse)
+            mouse.accepted = true
+        }
     }
 
     Timer {
@@ -154,31 +146,107 @@ Window {
         interval: 200
         repeat: false
         onTriggered: {
-            if(ele_window.visibility !== Window.Maximized) {
-                settings["PopoutPosition"] = Qt.point(ele_window.x, ele_window.y)
-                settings["PopoutSize"] = Qt.size(ele_window.width, ele_window.height)
+            if(element_top.visibility !== Window.Maximized) {
+                settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
+                settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
             }
         }
     }
 
-    onVisibleChanged: {
-        curloader.item._popoutOpen = visible
+    Image {
+        x: 5
+        y: 5
+        width: 15
+        height: 15
+        // visible: ele_window.setCanBePoppedOut
+        enabled: visible
+        z: 1
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
+        sourceSize: Qt.size(width, height)
+        opacity: popinmouse.containsMouse ? 0.8 : 0.2
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        PQMouseArea {
+            id: popinmouse
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+                  //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+            text: qsTranslate("popinpopout", "Merge into main interface")
+            onClicked: {
+                settings["ExtPopout"] = false
+            }
+        }
+
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -2
+            radius: 2
+            z: -1
+            color: PQCLook.transColor
+            opacity: parent.opacity
+        }
+    }
+
+    Row {
+
+        x: parent.width-additionalActionItem.width-closeimage.width-5
+        y: 5
+
+        Item {
+            id: additionalActionItem
+            width: 25
+            height: 25
+        }
+
+        Image {
+
+            id: closeimage
+            width: 25
+            height: 25
+
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+            sourceSize: Qt.size(width, height)
+
+            opacity: closemouse.containsMouse ? 0.8 : 0.2
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+
+            PQMouseArea {
+                id: closemouse
+                anchors.fill: parent
+                cursorShape: Qt.PointingHandCursor
+                hoverEnabled: true
+                onClicked: {
+                    element_top.close()
+                    popout_loader.item.hiding()
+                }
+            }
+
+            Rectangle {
+                anchors.fill: closeimage
+                radius: width/2
+                z: -1
+                color: PQCLook.transColor
+                opacity: closeimage.opacity
+            }
+
+        }
+
     }
 
     Connections {
 
         target: settings
 
-        enabled: ele_window.setupHasBeenCompleted
+        enabled: element_top.setupHasBeenCompleted
 
         function onValueChanged(key, value) {
             if(key.toLowerCase() === extensionId) {
                 if(1*value) {
-                    ele_window.show()
-                    curloader.item.show()
+                    element_top.show()
+                    popout_loader.item.showing()
                 } else {
-                    ele_window.close()
-                    curloader.item.hide()
+                    element_top.close()
+                    popout_loader.item.hiding()
                 }
             }
         }
@@ -189,27 +257,32 @@ Window {
 
         target: PQCNotify // qmllint disable unqualified
 
-        enabled: ele_window.setupHasBeenCompleted
+        enabled: element_top.setupHasBeenCompleted
 
         function onLoaderPassOn(what : string, args : list<var>) {
 
             console.log("args: what =", what)
             console.log("args: args =", args)
 
-            if(what === "show" && args[0] === ele_window.extensionId) {
-                if(ele_window.visible) {
-                    ele_window.hide()
-                    curloader.item.hide()
+            if(what === "show" && args[0] === element_top.extensionId) {
+                if(element_top.visible) {
+                    element_top.close()
+                    popout_loader.item.hiding()
                 } else {
-                    ele_window.show()
-                    curloader.item.show()
+                    element_top.show()
+                    popout_loader.item.showing()
                 }
             }
         }
     }
 
+    function hide() {
+        element_top.close()
+        popout_loader.item.hiding()
+    }
+
     function handleChangesBottomRowWidth(w) {
-        ele_window.minimumWidth = Math.max(ele_window.minimumWidth, w)
+        element_top.minimumWidth = Math.max(element_top.minimumWidth, w)
     }
 
 }

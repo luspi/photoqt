@@ -22,43 +22,88 @@
 
 import QtQuick
 import PhotoQt
+import PQCScriptsConfig
 import ExtensionSettings
 import PQCExtensionsHandler
 
-Item {
+Rectangle {
 
-    id: exttop
+    id: extension_top
 
-    property string extensionId: ""
+    ///////////////////
 
-    ExtensionSettings {
-        id: extsettings
-        extensionId: exttop.extensionId
-        onValueChanged: (key, value) => {
-            if(key === "Popout") {
-                ldr.setSource()
-            }
-        }
+    property ExtensionSettings settings: element_top.settings
+
+    // will be set automatically
+    property string extensionId: extension_container.extensionId
+
+    ///////////////////
+
+    ///////////////////
+    // these are user facing options
+
+    // property bool setHideDuringSlideshow: true
+    // property bool setAllowResizing: true
+    // property bool setCanBePoppedOut: true
+    // property bool setHandleForegroundMouseEvent: true
+    // property bool setAnchorInTopMiddle: false
+    // property string setTooltip: ""
+
+    width: parent.parent.width
+    height: parent.parent.height
+
+    ///////////////////
+
+    property string getExtensionBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
+    // property bool getDragActive: mousearea.drag.active || mouseareaBG.drag.active
+    // property bool getResizeActive: resizearea.pressed
+    // property bool getIsMovedManually: false
+
+    ///////////////////
+    // user facing accessors
+
+    property alias content: contentItem.children
+
+    ///////////////////
+    // some user facing signals
+
+    signal leftClicked(var mouse)
+    signal rightClicked(var mouse)
+    signal showing()
+    signal hiding()
+
+    ///////////////////
+
+    // onGetDragActiveChanged: {
+        // if(getDragActive)
+            // getIsMovedManually = true
+    // }
+
+    color: PQCLook.baseColor
+
+    Item {
+
+        id: contentItem
+
+        width: extension_top.width
+        height: extension_top.height
+
+        clip: true
+
+        // CONTENT WILL GO HERE
+
     }
+
 
     Component.onCompleted: {
-        console.warn(">>> L:", extsettings["Popout"])
+        if(extensionId == "") {
+            PQCScriptsConfig.inform("Faulty extension!", "An extension was added that is missing its extension id! This is bad and needs to be fixed!")
+            return
+        }
     }
 
-    Loader {
-
-        id: ldr
-
-        Component.onCompleted: {
-            setSource()
-        }
-
-        function setSource() {
-            console.warn(">>>", extsettings["Popout"], exttop.extensionId)
-            source = "file:/" + PQCExtensionsHandler.getExtensionLocation(exttop.extensionId) + "/modern/PQ" + exttop.extensionId +
-                    (extsettings["Popout"] ? "Popout" : "Floating") + ".qml"
-        }
-
+    function hide() {
+        element_top.hide()
     }
 
 }
