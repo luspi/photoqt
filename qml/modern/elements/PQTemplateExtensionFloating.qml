@@ -240,29 +240,21 @@ Item {
             return
         }
 
+        resetPositionAndSize()
+
         if(PQCExtensionsHandler.getExtensionRememberGeometry(extensionId)) {
 
             var pos = settings["ExtPosition"]
-            if(pos !== undefined) {
+            if(pos !== undefined && pos.x !== -1) {
                 x = pos.x
                 y = pos.y
-            } else {
-                x = (PQCConstants.windowWidth-element_top.width)/2
-                y = 100
             }
 
             var sze = settings["ExtSize"]
-            if(sze !== undefined) {
+            if(sze !== undefined && sze.width !== -1) {
                 width = sze.width
                 height = sze.height
-            } else {
-                width = 300
-                height = 200
             }
-
-        } else {
-
-            resetPositionAndSize()
 
         }
 
@@ -345,23 +337,61 @@ Item {
 
         _finishedSetup = false;
 
+        var topos = PQCExtensionsHandler.getExtensionPositionAt(extensionId)
+
         // top left
-        if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 0) {
+        if(topos === 0) {
 
             x = 100
             y = 100
 
         // top middle
-        } else if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 1) {
+        } else if(topos === 1) {
 
             x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
             y = 50
 
         // top right
-        } else if(PQCExtensionsHandler.getExtensionPositionAt(extensionId) === 2) {
+        } else if(topos === 2) {
 
             x = Qt.binding(function() { return PQCConstants.windowWidth-width-100 })
             y = 100
+
+        // left
+        } else if(topos === 3) {
+
+            x = 50
+            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+
+        // center
+        } else if(topos === 4) {
+
+            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
+            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+
+        // right
+        } else if(topos === 5) {
+
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-50 })
+            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+
+        // bottom left
+        } else if(topos === 6) {
+
+            x = 100
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-100 })
+
+        // bottom
+        } else if(topos === 7) {
+
+            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-50 })
+
+        // bottom right
+        } else if(topos === 8) {
+
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-100 })
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-100 })
 
         }
 
@@ -369,8 +399,14 @@ Item {
             width = Qt.binding(function() { return floating_loader.item.width } )
             height = Qt.binding(function() { return floating_loader.item.height } )
         } else {
-            width = 300
-            height = 200
+            var sze = PQCExtensionsHandler.getExtensionDefaultSize(extensionId)
+            if(sze.width !== -1) {
+                width = sze.width
+                height = sze.height
+            } else {
+                width = 300
+                height = 200
+            }
         }
 
         _recordFinishedSetup.restart()
