@@ -44,6 +44,7 @@ public:
 
         // optional user provided
         defaultShortcut = "";
+        defaultSize = QSize(-1,-1);
         minimumRequiredWindowSize = QSize(0,0);
         isModal = false;
         allowIntegrated = true;
@@ -79,6 +80,7 @@ public:
     int targetAPI;
 
     QString defaultShortcut;
+    QSize defaultSize;
     QSize minimumRequiredWindowSize;
     bool isModal;
     bool allowIntegrated;
@@ -105,11 +107,11 @@ public:
             return DefaultPosition::Center;
         else if(val == "Right")
             return DefaultPosition::Right;
-        else if(val == "Bottom")
+        else if(val == "BottomLeft")
             return DefaultPosition::BottomLeft;
         else if(val == "Bottom")
             return DefaultPosition::Bottom;
-        else if(val == "Bottom")
+        else if(val == "BottomRight")
             return DefaultPosition::BottomRight;
         else {
             qWarning() << "Invalid enum value found:" << val;
@@ -163,6 +165,7 @@ public:
     Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
 
     Q_INVOKABLE QString getExtensionDefaultShortcut(QString id);
+    Q_INVOKABLE QSize   getExtensionDefaultSize(QString id);
     Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
     Q_INVOKABLE bool    getExtensionIsModal(QString id);
     Q_INVOKABLE bool    getExtensionAllowIntegrated(QString id);

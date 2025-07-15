@@ -176,6 +176,17 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
             }
 
+            // default element size
+            try {
+                std::list<int> vals = config["setup"]["defaultSize"].as<std::list<int> >();
+                if(vals.size() != 2)
+                    qWarning() << "Expected two values (width, height) for property 'defaultSize', but found" << vals.size();
+                else
+                    extinfo->defaultSize = QSize(vals.front(), vals.back());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'defaultSize' invalid or not found, skipping:" << e.what();
+            }
+
             // minimum required window size
             try {
                 std::list<int> vals = config["setup"]["minimumRequiredWindowSize"].as<std::list<int> >();
@@ -404,6 +415,13 @@ QString PQCExtensionsHandler::getExtensionDefaultShortcut(QString id) {
         return m_allextensions[id]->defaultShortcut;
     qWarning() << "Unknown extension id:" << id;
     return "";
+}
+
+QSize PQCExtensionsHandler::getExtensionDefaultSize(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->defaultSize;
+    qWarning() << "Unknown extension id:" << id;
+    return QSize(-1,-1);
 }
 
 QSize PQCExtensionsHandler::getExtensionMinimumRequiredWindowSize(QString id) {

@@ -83,8 +83,8 @@ void ExtensionSettings::setup() {
     connect(watcher, &QFileSystemWatcher::fileChanged, this, [=]() { readFile(); });
 
     this->insert("ExtShow", 0);
-    this->insert("ExtPosition", QPoint(100,100));
-    this->insert("ExtSize", QSize(300,200));
+    this->insert("ExtPosition", QPoint(-1,-1));
+    this->insert("ExtSize", QSize(-1,-1));
     this->insert("ExtPopout", 0);
     this->insert("ExtPopoutPosition", QPoint(-1,-1));
     this->insert("ExtPopoutSize", QSize(300,200));
