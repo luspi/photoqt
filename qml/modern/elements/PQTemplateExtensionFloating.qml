@@ -338,29 +338,30 @@ Item {
         _finishedSetup = false;
 
         var topos = PQCExtensionsHandler.getExtensionPositionAt(extensionId)
+        var dist  = PQCExtensionsHandler.getExtensionDistanceFromEdge(extensionId)
 
         // top left
         if(topos === 0) {
 
-            x = 100
-            y = 100
+            x = dist
+            y = dist
 
         // top middle
         } else if(topos === 1) {
 
             x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
-            y = 50
+            y = dist
 
         // top right
         } else if(topos === 2) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-100 })
-            y = 100
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
+            y = dist
 
         // left
         } else if(topos === 3) {
 
-            x = 50
+            x = dist
             y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
 
         // center
@@ -372,26 +373,26 @@ Item {
         // right
         } else if(topos === 5) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-50 })
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
             y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
 
         // bottom left
         } else if(topos === 6) {
 
-            x = 100
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-100 })
+            x = dist
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
 
         // bottom
         } else if(topos === 7) {
 
             x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-50 })
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
 
         // bottom right
         } else if(topos === 8) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-100 })
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-100 })
+            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
+            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
 
         }
 

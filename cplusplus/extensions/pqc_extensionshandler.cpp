@@ -230,6 +230,13 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Optional value for 'isModal' invalid or not found, skipping:" << e.what();
             }
 
+            // distance from window edge
+            try {
+                extinfo->distanceFromEdge = config["setup"]["distanceFromEdge"].as<int>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Optional value for 'distanceFromEdge' invalid or not found, skipping:" << e.what();
+            }
+
             // remember geometry
             try {
                 extinfo->rememberGeometry = config["setup"]["rememberGeometry"].as<bool>();
@@ -457,6 +464,13 @@ PQCExtensionInfo::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(Q
         return m_allextensions[id]->positionAt;
     qWarning() << "Unknown extension id:" << id;
     return PQCExtensionInfo::TopLeft;
+}
+
+int PQCExtensionsHandler::getExtensionDistanceFromEdge(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->distanceFromEdge;
+    qWarning() << "Unknown extension id:" << id;
+    return 50;
 }
 
 bool PQCExtensionsHandler::getExtensionRememberGeometry(QString id) {
