@@ -41,51 +41,69 @@ public:
     PQCExtensionsHandler(PQCExtensionsHandler const&)     = delete;
     void operator=(PQCExtensionsHandler const&) = delete;
 
-
+    // REQUEST CUSTOM ACTIONS TO BE TAKEN
     Q_INVOKABLE void requestCallActionWithImage1(const QString &id);
     Q_INVOKABLE void requestCallActionWithImage2(const QString &id);
     Q_INVOKABLE void requestCallAction1(const QString &id);
     Q_INVOKABLE void requestCallAction2(const QString &id);
+
+    // REQUEST SPECIAL ACTIONS
     Q_INVOKABLE void requestExecutionOfInternalShortcut(const QString &cmd);
     Q_INVOKABLE void requestShowingOf(const QString &id);
 
+    // GLOBAL PROPERTIES
     Q_PROPERTY(int numFiles MEMBER m_numFiles NOTIFY numFilesChanged)
     Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
     Q_PROPERTY(int currentIndex MEMBER m_currentIndex NOTIFY currentIndexChanged)
 
+    // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
     Q_INVOKABLE bool getIsEnabledByDefault(const QString &id);
 
+    /**********************************/
 
-    Q_INVOKABLE void setup();
-
-    Q_INVOKABLE QStringList getExtensions();
-    Q_INVOKABLE QString getExtensionLocation(QString id);
-    Q_INVOKABLE QStringList getAllExtensionsLocation();
-
-    Q_INVOKABLE int getTargetAPIVersion(QString id);
-    Q_INVOKABLE QSize getMinimumRequiredWindowSize(QString id);
-    Q_INVOKABLE bool getIsModal(QString id);
-
-    Q_INVOKABLE QStringList getDisabledExtensions();
+    // get some extensions properties
+    Q_INVOKABLE int     getExtensionVersion(QString id);
     Q_INVOKABLE QString getExtensionName(QString id);
     Q_INVOKABLE QString getExtensionAuthor(QString id);
     Q_INVOKABLE QString getExtensionContact(QString id);
     Q_INVOKABLE QString getExtensionDescription(QString id);
+    Q_INVOKABLE int     getExtensionTargetAPIVersion(QString id);
 
-    Q_INVOKABLE bool getHasSettings(const QString &id);
+    Q_INVOKABLE QSize   getExtensionMinimumRequiredWindowSize(QString id);
+    Q_INVOKABLE bool    getExtensionIsModal(QString id);
+    Q_INVOKABLE PQExtensionsAPI::DefaultPosition getExtensionPositionAt(QString id);
+    Q_INVOKABLE bool    getExtensionRememberPosition(QString id);
+    Q_INVOKABLE bool    getExtensionPassThroughMouseClicks(QString id);
+    Q_INVOKABLE bool    getExtensionPassThroughMouseWheel(QString id);
 
+    Q_INVOKABLE QList<QStringList> getExtensionSettings(QString id);
+    Q_INVOKABLE QStringList        getExtensionShortcuts(QString id);
+    Q_INVOKABLE QList<QStringList> getExtensionShortcutsActions(QString id);
+    Q_INVOKABLE QMap<QString, QList<QStringList> > getExtensionMigrateSettings(QString id);
+    Q_INVOKABLE QMap<QString, QList<QStringList> > getExtensionMigrateShortcuts(QString id);
 
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateSettings(QString id);
-    Q_INVOKABLE QMap<QString, QList<QStringList> > getMigrateShortcuts(QString id);
-
-    Q_INVOKABLE QList<QStringList> getSettings(QString id);
-    Q_INVOKABLE QStringList getShortcuts(QString id);
-    Q_INVOKABLE QList<QStringList> getShortcutsActions(QString id);
+    // some other generated properties to find
     Q_INVOKABLE QStringList getAllShortcuts();
     Q_INVOKABLE QString getDescriptionForShortcut(QString sh);
-    Q_INVOKABLE QString getExtensionForShortcut(QString sh);
+    Q_INVOKABLE QString getWhichExtensionForShortcut(QString sh);
 
+    // called when setup is supposed to start
+    Q_INVOKABLE void setup();
+
+    // get a list of all extension ids
+    Q_INVOKABLE QStringList getExtensions();
+
+    // get the location of all extensions
+    Q_INVOKABLE QString getExtensionLocation(QString id);
+
+    // get a list of all disabled extensions
+    Q_INVOKABLE QStringList getDisabledExtensions();
+
+    // check whether an extension comes with a settings widget
+    Q_INVOKABLE bool getHasSettings(const QString &id);
+
+    // how many extensions are enabled for which we need to be ready for
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
 
 private:
@@ -101,7 +119,6 @@ private:
     QStringList m_extensions;
     QStringList m_extensionsDisabled;
     QMap<QString, QString> m_extensionLocation;
-    QStringList m_allExtensionLocation;
     QMap<QString, QStringList> m_shortcuts;
     QStringList m_simpleListAllShortcuts;
     QMap<QString,QString> m_mapShortcutToExtension;

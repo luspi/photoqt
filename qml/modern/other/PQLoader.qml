@@ -77,7 +77,7 @@ Item {
         var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
         if(ind > -1) {
 
-            if(PQCExtensionsHandler.getIsModal(ele)) {
+            if(PQCExtensionsHandler.getExtensionIsModal(ele)) {
                 if(visibleItem != "")
                     return
                 else
@@ -233,20 +233,16 @@ Item {
         console.log("args: ele =", ele)
         console.log("args: ind =", ind)
 
-        var src
+        loader_extensions.itemAt(ind).active = true
 
-        var minreq = PQCExtensionsHandler.getMinimumRequiredWindowSize(ele)
-        // if(PQCSettings.extensions[ele+"Popout"] || minreq.width > PQCConstants.windowWidth || minreq.height > PQCConstants.windowHeight)
-            // src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + "Popout.qml"
-        // else
-            src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + ".qml"
+        // var src = "file:/" + PQCExtensionsHandler.getExtensionLocation(ele) + "/modern/PQ" + ele + "Container.qml"
 
-        if(src !== loader_extensions.itemAt(ind).source)
-            loader_extensions.itemAt(ind).source = src
+        // if(src !== loader_extensions.itemAt(ind).source)
+        //     loader_extensions.itemAt(ind).source = src
 
         // modal elements need to be shown on top, above things like mainmenu or metadata
         // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
-        if(PQCExtensionsHandler.getIsModal(ele))
+        if(PQCExtensionsHandler.getExtensionIsModal(ele))
             loader_extensions.itemAt(ind).z = 888
 
     }

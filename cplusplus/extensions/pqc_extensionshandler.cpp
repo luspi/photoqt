@@ -92,7 +92,7 @@ void PQCExtensionsHandler::setup() {
             }
 
             // minimum required qml files
-            if(!QFile::exists(QString(baseDir + "/" + id + "/modern/PQ%1.qml").arg(id))) {
+            if(!QFile::exists(QString(baseDir + "/" + id + "/qml/PQ%1.qml").arg(id))) {
                 qWarning() << "Expected QML file not found:" << QString(id + "/modern/PQ%1.qml").arg(id);
                 qWarning() << "Plugin" << id << "not enabled.";
                 continue;
@@ -119,7 +119,6 @@ void PQCExtensionsHandler::setup() {
                         m_extensions.append(id);
                         m_allextensions.insert(id, interface);
                         m_extensionLocation.insert(id, baseDir + "/" + id);
-                        m_allExtensionLocation.append(baseDir + "/" + id);
 
                         const QList<QStringList> actions = interface->shortcuts();
                         QStringList allsh;
@@ -170,6 +169,15 @@ QStringList PQCExtensionsHandler::getDisabledExtensions() {
     return m_extensionsDisabled;
 }
 
+/****************************************/
+
+int PQCExtensionsHandler::getExtensionVersion(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->version();
+    qWarning() << "Unknown extension id:" << id;
+    return 0;
+}
+
 QString PQCExtensionsHandler::getExtensionName(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->name();
@@ -198,6 +206,60 @@ QString PQCExtensionsHandler::getExtensionDescription(QString id) {
     return "";
 }
 
+int PQCExtensionsHandler::getExtensionTargetAPIVersion(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->targetAPIVersion();
+    qWarning() << "Unknown extension id:" << id;
+    return 1;
+}
+
+/****************************************/
+
+QSize PQCExtensionsHandler::getExtensionMinimumRequiredWindowSize(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->minimumRequiredWindowSize();
+    qWarning() << "Unknown extension id:" << id;
+    return QSize(0,0);
+}
+
+bool PQCExtensionsHandler::getExtensionIsModal(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->isModal();
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+PQExtensionsAPI::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->positionAt();
+    qWarning() << "Unknown extension id:" << id;
+    return PQExtensionsAPI::TopLeft;
+}
+
+bool PQCExtensionsHandler::getExtensionRememberPosition(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->rememberPosition();
+    qWarning() << "Unknown extension id:" << id;
+    return true;
+}
+
+bool PQCExtensionsHandler::getExtensionPassThroughMouseClicks(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->passThroughMouseClicks();
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+bool PQCExtensionsHandler::getExtensionPassThroughMouseWheel(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->passThroughMouseWheel();
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+/****************************************/
+
+
 QString PQCExtensionsHandler::getExtensionLocation(QString id) {
     if(m_extensionLocation.contains(id))
         return m_extensionLocation[id];
@@ -205,32 +267,7 @@ QString PQCExtensionsHandler::getExtensionLocation(QString id) {
     return "";
 }
 
-QStringList PQCExtensionsHandler::getAllExtensionsLocation() {
-    return m_allExtensionLocation;
-}
-
-int PQCExtensionsHandler::getTargetAPIVersion(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->targetAPIVersion();
-    qWarning() << "Unknown extension id:" << id;
-    return 1;
-}
-
-QSize PQCExtensionsHandler::getMinimumRequiredWindowSize(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->minimumRequiredWindowSize();
-    qWarning() << "Unknown extension id:" << id;
-    return QSize(0,0);
-}
-
-bool PQCExtensionsHandler::getIsModal(QString id) {
-    if(m_allextensions.contains(id))
-        return m_allextensions[id]->isModal();
-    qWarning() << "Unknown extension id:" << id;
-    return false;
-}
-
-QStringList PQCExtensionsHandler::getShortcuts(QString id) {
+QStringList PQCExtensionsHandler::getExtensionShortcuts(QString id) {
     if(m_shortcuts.contains(id)) {
         return m_shortcuts[id];
     }
@@ -238,14 +275,14 @@ QStringList PQCExtensionsHandler::getShortcuts(QString id) {
     return {};
 }
 
-QList<QStringList> PQCExtensionsHandler::getShortcutsActions(QString id) {
+QList<QStringList> PQCExtensionsHandler::getExtensionShortcutsActions(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->shortcuts();
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
 
-QList<QStringList> PQCExtensionsHandler::getSettings(QString id) {
+QList<QStringList> PQCExtensionsHandler::getExtensionSettings(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->settings();
     qWarning() << "Unknown extension id:" << id;
@@ -271,18 +308,18 @@ QString PQCExtensionsHandler::getDescriptionForShortcut(QString sh) {
     return ret;
 }
 
-QString PQCExtensionsHandler::getExtensionForShortcut(QString sh) {
+QString PQCExtensionsHandler::getWhichExtensionForShortcut(QString sh) {
     return m_mapShortcutToExtension.value(sh, "");
 }
 
-QMap<QString, QList<QStringList> > PQCExtensionsHandler::getMigrateSettings(QString id) {
+QMap<QString, QList<QStringList> > PQCExtensionsHandler::getExtensionMigrateSettings(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->migrateSettings();
     qWarning() << "Unknown extension id:" << id;
     return {};
 }
 
-QMap<QString, QList<QStringList> > PQCExtensionsHandler::getMigrateShortcuts(QString id) {
+QMap<QString, QList<QStringList> > PQCExtensionsHandler::getExtensionMigrateShortcuts(QString id) {
     if(m_allextensions.contains(id))
         return m_allextensions[id]->migrateShortcuts();
     qWarning() << "Unknown extension id:" << id;

@@ -465,9 +465,9 @@ Item {
         if(PQCExtensionsHandler.getAllShortcuts().indexOf(cmd) > -1) {
 
             // get the extension for this shortcut
-            var ext = PQCExtensionsHandler.getExtensionForShortcut(cmd)
+            var ext = PQCExtensionsHandler.getWhichExtensionForShortcut(cmd)
             // get all shortcuts for that extension
-            var allsh = PQCExtensionsHandler.getShortcutsActions(ext)
+            var allsh = PQCExtensionsHandler.getExtensionShortcutsActions(ext)
             // loop over all shortcuts
             for(var iSh in allsh) {
                 var sh = allsh[iSh]
