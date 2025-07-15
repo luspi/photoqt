@@ -312,6 +312,23 @@ Item {
 
     }
 
+    Connections {
+
+        target: PQCConstants
+
+        function onWindowWidthChanged() {
+            if(element_top.x+element_top.width > PQCConstants.windowWidth && element_top.width+50 < PQCConstants.windowWidth)
+                element_top.x = PQCConstants.windowWidth-element_top.width
+        }
+
+        function onWindowHeightChanged() {
+            console.warn(">>>", element_top.y, element_top.height, PQCConstants.windowHeight)
+            if(element_top.y+element_top.height> PQCConstants.windowHeight && element_top.height+50 < PQCConstants.windowHeight)
+                element_top.y = PQCConstants.windowHeight-element_top.height
+        }
+
+    }
+
     function show() {
         opacity = 1
         settings["ExtShow"] = true
