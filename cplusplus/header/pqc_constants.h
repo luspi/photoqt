@@ -56,6 +56,7 @@ public:
 
         m_windowWidth = 0;
         m_windowHeight = 0;
+        m_mainWindowBeingResized = false;
         m_windowState = Qt::WindowNoState;
         m_windowFullScreen = false;
         m_windowMaxAndNotWindowed = true;
@@ -152,6 +153,7 @@ public:
 
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
+    Q_PROPERTY(bool mainWindowBeingResized MEMBER m_mainWindowBeingResized NOTIFY mainWindowBeingResizedChanged)
     Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged)
     Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged)
     Q_PROPERTY(bool windowMaxAndNotWindowed MEMBER m_windowMaxAndNotWindowed NOTIFY windowMaxAndNotWindowedChanged)
@@ -247,6 +249,7 @@ private:
 
     int m_windowWidth;
     int m_windowHeight;
+    bool m_mainWindowBeingResized;
 
     bool m_photoQtShuttingDown;
     int m_windowState;
@@ -312,6 +315,7 @@ Q_SIGNALS:
     void startupFileLoadChanged();
     void windowWidthChanged();
     void windowHeightChanged();
+    void mainWindowBeingResizedChanged();
     void windowStateChanged();
     void windowFullScreenChanged();
     void windowMaxAndNotWindowedChanged();

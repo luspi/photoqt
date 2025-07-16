@@ -46,6 +46,8 @@ Item {
     enabled: visible
 
     onXChanged: {
+        if(PQCConstants.mainWindowBeingResized)
+            return
         if(_dragActive)
             storeSize.restart()
         if(_finishedSetup) {
@@ -54,6 +56,8 @@ Item {
         }
     }
     onYChanged: {
+        if(PQCConstants.mainWindowBeingResized)
+            return
         if(_dragActive)
             storeSize.restart()
         if(_finishedSetup) {
@@ -62,10 +66,14 @@ Item {
         }
     }
     onWidthChanged: {
+        if(PQCConstants.mainWindowBeingResized)
+            return
         if(_dragActive)
             storeSize.restart()
     }
     onHeightChanged: {
+        if(PQCConstants.mainWindowBeingResized)
+            return
         if(_dragActive)
             storeSize.restart()
     }
