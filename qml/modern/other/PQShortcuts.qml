@@ -91,7 +91,7 @@ Item {
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
 
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen)
 
                 PQCNotify.loaderPassOn("mouseWheel", [mousePos, angleDelta, modifiers])
 

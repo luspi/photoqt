@@ -165,7 +165,7 @@ Item {
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
+        opacity: popinmouse.containsMouse ? 0.8 : 0.1
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
@@ -182,7 +182,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             anchors.margins: -2
-            radius: 2
+            radius: 4
             z: -1
             color: PQCLook.transColor
             opacity: parent.opacity
@@ -314,7 +314,6 @@ Item {
         }
 
         function onWindowHeightChanged() {
-            console.warn(">>>", element_top.y, element_top.height, PQCConstants.windowHeight)
             if(element_top.y+element_top.height> PQCConstants.windowHeight && element_top.height+50 < PQCConstants.windowHeight)
                 element_top.y = PQCConstants.windowHeight-element_top.height
         }

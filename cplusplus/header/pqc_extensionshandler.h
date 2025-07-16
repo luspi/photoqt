@@ -146,6 +146,12 @@ public:
     // REQUEST SPECIAL ACTIONS
     Q_INVOKABLE void requestExecutionOfInternalShortcut(const QString &cmd);
     Q_INVOKABLE void requestShowingOf(const QString &id);
+    Q_INVOKABLE QString requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
+
+    Q_INVOKABLE QVariantList requestImageFormatAllWritableFormats();
+    Q_INVOKABLE QString requestImageFormatNameForId(int id);
+    Q_INVOKABLE QStringList requestImageFormatEndingsForId(int id);
+    Q_INVOKABLE QVariantMap requestImageFormatInfoForId(int id);
 
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numFiles MEMBER m_numFiles NOTIFY numFilesChanged)

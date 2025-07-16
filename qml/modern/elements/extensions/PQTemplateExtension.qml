@@ -32,40 +32,15 @@ Rectangle {
 
     ///////////////////
 
-    property ExtensionSettings settings: element_top.settings
-
-    // will be set automatically
-    property string extensionId: extension_container.extensionId
-
-    ///////////////////
-
-    ///////////////////
-    // these are user facing options
-
-    // property bool setHideDuringSlideshow: true
-    // property bool setAllowResizing: true
-    // property bool setCanBePoppedOut: true
-    // property bool setHandleForegroundMouseEvent: true
-    // property bool setAnchorInTopMiddle: false
-    // property string setTooltip: ""
-
-    width: _fixSizeToContent ? contentItem.width : parent.parent.width
-    height: _fixSizeToContent ? contentItem.height : parent.parent.height
-
-    ///////////////////
-
-    property string getExtensionBaseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
-    // property bool getDragActive: mousearea.drag.active || mouseareaBG.drag.active
-    // property bool getResizeActive: resizearea.pressed
-    // property bool getIsMovedManually: false
-
-    ///////////////////
-    // user facing accessors
-
     property alias content: contentItem.children
+    property ExtensionSettings settings: element_top.settings
+    property string baseDir: PQCExtensionsHandler.getExtensionLocation(extensionId)
+
+    property string modalButton1Text: "Close"
+    property string modalButton2Text: ""
+    property string modalButton3Text: ""
 
     ///////////////////
-    // some user facing signals
 
     signal leftClicked(var mouse)
     signal rightClicked(var mouse)
@@ -74,14 +49,16 @@ Rectangle {
 
     ///////////////////
 
+    property string extensionId: extension_container.extensionId
+
+    ///////////////////
     property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
 
-    // onGetDragActiveChanged: {
-        // if(getDragActive)
-            // getIsMovedManually = true
-    // }
+    width: _fixSizeToContent ? contentItem.width : parent.parent.width
+    height: _fixSizeToContent ? contentItem.height : parent.parent.height
 
     color: PQCLook.baseColor
+    radius: 5
 
     Item {
 
@@ -102,6 +79,16 @@ Rectangle {
             PQCScriptsConfig.inform("Faulty extension!", "An extension was added that is missing its extension id! This is bad and needs to be fixed!")
             return
         }
+    }
+
+    function modalButton1Action() {
+        hide()
+    }
+
+    function modalButton2Action() {
+    }
+
+    function modalButton3Action() {
     }
 
     function hide() {

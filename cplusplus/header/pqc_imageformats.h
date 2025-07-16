@@ -170,7 +170,7 @@ public:
     Q_INVOKABLE QVariantList getWriteableFormats();
     Q_INVOKABLE QString getFormatName(int uniqueid);
     Q_INVOKABLE QStringList getFormatEndings(int uniqueid);
-    QVariantMap getFormatsInfo(int uniqueid);
+    Q_INVOKABLE QVariantMap getFormatsInfo(int uniqueid);
     Q_INVOKABLE int detectFormatId(QString filename);
     Q_INVOKABLE int getWriteStatus(int uniqueid);
 

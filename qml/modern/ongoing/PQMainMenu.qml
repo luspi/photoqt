@@ -1130,7 +1130,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly)
+            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified

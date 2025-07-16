@@ -86,8 +86,8 @@ Window {
             element_top.setupHasBeenCompleted = true
     }
 
-    minimumWidth: 100
-    minimumHeight: 100
+    minimumWidth: 300
+    minimumHeight: 500
 
     modality: PQCExtensionsHandler.getExtensionFullscreenModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
@@ -140,11 +140,6 @@ Window {
         Loader {
             id: popout_loader
             source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
-            onStatusChanged:
-                if(status == Loader.Ready) {
-                    item.width = Qt.binding(function() { return element_top.width })
-                    item.height = Qt.binding(function() { return element_top.height })
-                }
         }
 
     }
@@ -180,31 +175,48 @@ Window {
 
             height: parent.height
 
-            spacing: 0
+            spacing: 0            
 
             PQButtonElement {
                 id: firstbutton
-                text: genericStringClose
+                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton1Text : genericStringClose
                 font.weight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
-                onClicked: element_top.hide()
+                onClicked: {
+                    if(popout_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        popout_loader.item.modalButton1Action()
+                }
             }
 
             PQButtonElement {
                 id: secondbutton
-                text: genericStringClose
-                visible: false
+                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton2Text : ""
+                visible: text!==""
                 y: 1
                 height: parent.height-1
+                onClicked: {
+                    if(popout_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        popout_loader.item.modalButton2Action()
+                }
             }
 
             PQButtonElement {
                 id: thirdbutton
-                text: genericStringClose
-                visible: false
+                text: popout_loader.status===Loader.Ready ? popout_loader.item.modalButton3Text : ""
+                visible: text!==""
                 y: 1
                 height: parent.height-1
+                onClicked: {
+                    if(popout_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        popout_loader.item.modalButton3Action()
+                }
             }
 
         }
@@ -277,53 +289,6 @@ Window {
         }
     }
 
-    Row {
-
-        x: parent.width-additionalActionItem.width-closeimage.width-5
-        y: 5
-
-        visible: !PQCExtensionsHandler.getExtensionFullscreenModal(element_top.extensionId)
-
-        Item {
-            id: additionalActionItem
-            width: 25
-            height: 25
-        }
-
-        Image {
-
-            id: closeimage
-            width: 25
-            height: 25
-
-            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-            sourceSize: Qt.size(width, height)
-
-            opacity: closemouse.containsMouse ? 0.8 : 0.2
-            Behavior on opacity { NumberAnimation { duration: 150 } }
-
-            PQMouseArea {
-                id: closemouse
-                anchors.fill: parent
-                cursorShape: Qt.PointingHandCursor
-                hoverEnabled: true
-                onClicked: {
-                    element_top.hide()
-                }
-            }
-
-            Rectangle {
-                anchors.fill: closeimage
-                radius: width/2
-                z: -1
-                color: PQCLook.transColor
-                opacity: closeimage.opacity
-            }
-
-        }
-
-    }
-
     Connections {
 
         target: settings
@@ -362,6 +327,12 @@ Window {
                     PQCNotify.loaderRegisterOpen(element_top.extensionId)
                     element_top.show()
                     popout_loader.item.showing()
+                }
+            } else if(element_top.visible) {
+                if(what === "keyEvent") {
+                    if(args[0] === Qt.Key_Escape) {
+                        element_top.hide()
+                    }
                 }
             }
         }

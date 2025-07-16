@@ -7,6 +7,8 @@
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
 #include <QtConcurrent>
+#include <pqc_scriptsfilespaths.h>
+#include <pqc_imageformats.h>
 
 #ifdef PQMEXTENSIONS
 #include <yaml-cpp/yaml.h>
@@ -607,6 +609,23 @@ void PQCExtensionsHandler::requestExecutionOfInternalShortcut(const QString &cmd
 
 void PQCExtensionsHandler::requestShowingOf(const QString &id) {
     Q_EMIT PQCNotify::get().loaderShowExtension(id);
+}
+
+QString PQCExtensionsHandler::requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
+    return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, formatId, confirmOverwrite);
+}
+
+QVariantList PQCExtensionsHandler::requestImageFormatAllWritableFormats() {
+    return PQCImageFormats::get().getWriteableFormats();
+}
+QString PQCExtensionsHandler::requestImageFormatNameForId(int id) {
+    return PQCImageFormats::get().getFormatName(id);
+}
+QStringList PQCExtensionsHandler::requestImageFormatEndingsForId(int id) {
+    return PQCImageFormats::get().getFormatEndings(id);
+}
+QVariantMap PQCExtensionsHandler::requestImageFormatInfoForId(int id) {
+    return PQCImageFormats::get().getFormatsInfo(id);
 }
 
 bool PQCExtensionsHandler::getIsEnabled(const QString &id) {
