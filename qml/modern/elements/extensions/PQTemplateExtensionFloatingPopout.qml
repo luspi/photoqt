@@ -165,7 +165,7 @@ Window {
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 0.8 : 0.2
+        opacity: popinmouse.containsMouse ? 0.8 : 0.1
         Behavior on opacity { NumberAnimation { duration: 200 } }
         PQMouseArea {
             id: popinmouse
@@ -211,7 +211,7 @@ Window {
             source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
             sourceSize: Qt.size(width, height)
 
-            opacity: closemouse.containsMouse ? 0.8 : 0.2
+            opacity: closemouse.containsMouse ? 0.8 : 0.1
             Behavior on opacity { NumberAnimation { duration: 150 } }
 
             PQMouseArea {

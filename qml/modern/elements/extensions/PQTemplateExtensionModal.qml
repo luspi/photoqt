@@ -124,27 +124,44 @@ Rectangle {
 
             PQButtonElement {
                 id: firstbutton
-                text: genericStringClose
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton1Text : genericStringClose
                 font.weight: PQCLook.fontWeightBold
                 y: 1
                 height: parent.height-1
-                onClicked: element_top.hide()
+                onClicked: {
+                    if(fullscreen_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        fullscreen_loader.item.modalButton1Action()
+                }
             }
 
             PQButtonElement {
                 id: secondbutton
-                text: genericStringClose
-                visible: false
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton2Text : ""
+                visible: text!==""
                 y: 1
                 height: parent.height-1
+                onClicked: {
+                    if(fullscreen_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        fullscreen_loader.item.modalButton2Action()
+                }
             }
 
             PQButtonElement {
                 id: thirdbutton
-                text: genericStringClose
-                visible: false
+                text: fullscreen_loader.status===Loader.Ready ? fullscreen_loader.item.modalButton3Text : ""
+                visible: text!==""
                 y: 1
                 height: parent.height-1
+                onClicked: {
+                    if(fullscreen_loader.status !== Loader.Ready)
+                        element_top.hide()
+                    else
+                        fullscreen_loader.item.modalButton3Action()
+                }
             }
 
         }
@@ -212,6 +229,12 @@ Rectangle {
                     element_top.hide()
                 } else {
                     element_top.show()
+                }
+            } else if(element_top.visible) {
+                if(what === "keyEvent") {
+                    if(args[0] === Qt.Key_Escape) {
+                        element_top.hide()
+                    }
                 }
             }
         }

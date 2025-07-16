@@ -975,7 +975,8 @@ Rectangle {
         target: PQCNotify // qmllint disable unqualified
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly) return
+            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
+                return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
                 thumbnails_top.setVisible = false

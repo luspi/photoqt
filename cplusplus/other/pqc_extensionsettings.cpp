@@ -155,6 +155,9 @@ void ExtensionSettings::setup() {
 
     readFile();
 
+    if(PQCExtensionsHandler::get().getExtensionFullscreenModal(m_extensionId))
+        this->insert("ExtShow", false);
+
     if(this->value("ExtShortcut").toString() != "")
         PQCExtensionsHandler::get().addShortcut(m_extensionId, this->value("ExtShortcut").toString());
 
