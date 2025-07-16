@@ -173,7 +173,7 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        visible: PQCExtensionsHandler.getExtensionAllowPopout(element_top.extensionId)
+        visible: PQCExtensionsHandler.getExtensionPopoutAllow(element_top.extensionId)
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
@@ -241,9 +241,22 @@ Rectangle {
     }
 
     function show() {
+
+        settings["ExtShow"] = true
+
+        var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
+        if(PQCConstants.windowWidth < minsize.width || PQCConstants.windowHeight < minsize.height) {
+            PQCNotify.loaderRegisterClose(extensionId)
+            settings["ExtForcePopout"] = true
+            settings["ExtPopout"] = true
+            return
+        } else {
+            settings["ExtForcePopout"] = false
+            settings["ExtPopout"] = false
+        }
+
         PQCNotify.loaderRegisterOpen(element_top.extensionId)
         opacity = 1
-        settings["ExtShow"] = true
         fullscreen_loader.item.showing()
     }
 

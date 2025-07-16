@@ -86,6 +86,7 @@ void ExtensionSettings::setup() {
     this->insert("ExtPosition", QPoint(-1,-1));
     this->insert("ExtSize", QSize(-1,-1));
     this->insert("ExtPopout", 0);
+    this->insert("ExtForcePopout", 0);
     this->insert("ExtPopoutPosition", QPoint(-1,-1));
     this->insert("ExtPopoutSize", QSize(-1,-1));
     this->insert("ExtShortcut", PQCExtensionsHandler::get().getExtensionDefaultShortcut(m_extensionId));
@@ -155,7 +156,13 @@ void ExtensionSettings::setup() {
 
     readFile();
 
-    if(PQCExtensionsHandler::get().getExtensionFullscreenModal(m_extensionId))
+    if(this->value("ExtForcedPopout").toBool() && this->value("ExtPopout").toBool()) {
+        this->insert("ExtForcedPopout", false);
+        this->insert("ExtPopout", false);
+    } else
+        this->insert("ExtForcedPopout", false);
+
+    if(PQCExtensionsHandler::get().getExtensionModalMake(m_extensionId))
         this->insert("ExtShow", false);
 
     if(this->value("ExtShortcut").toString() != "")

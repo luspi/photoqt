@@ -40,7 +40,7 @@ Window {
 
     ///////////////////
 
-    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
+    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)
 
     property size defaultPopoutPosition: Qt.point(150,150)
     property size defaultPopoutSize: Qt.size(500,300)
@@ -58,7 +58,7 @@ Window {
         if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
 
         if(sze === undefined || sze.width < 1)
-            sze = PQCExtensionsHandler.getExtensionDefaultSize(element_top.extensionId)
+            sze = PQCExtensionsHandler.getExtensionPopoutDefaultSize(element_top.extensionId)
 
         element_top.setX(pos.x)
         element_top.setY(pos.y)
@@ -88,7 +88,7 @@ Window {
     minimumWidth: 100
     minimumHeight: 100
 
-    modality: PQCExtensionsHandler.getExtensionFullscreenModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionModalMake(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -194,7 +194,7 @@ Window {
         x: parent.width-additionalActionItem.width-closeimage.width-5
         y: 5
 
-        visible: !PQCExtensionsHandler.getExtensionFullscreenModal(element_top.extensionId)
+        visible: !PQCExtensionsHandler.getExtensionModalMake(element_top.extensionId)
 
         Item {
             id: additionalActionItem
