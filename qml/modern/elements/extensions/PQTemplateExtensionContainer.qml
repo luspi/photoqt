@@ -36,14 +36,14 @@ Item {
         extensionId: extension_container.extensionId
         onValueChanged: (key, value) => {
             if(key === "ExtPopout") {
-                extension_container.setActive(value)
+                extension_container.setActive()
             }
         }
     }
 
     Component.onCompleted: {
         if(extsettings["ExtPopout"] !== undefined) {
-            setActive(extsettings["ExtPopout"])
+            setActive()
         } else {
             loadWhenReady.restart()
         }
@@ -54,27 +54,30 @@ Item {
         interval: 100
         onTriggered: {
             if(extsettings["ExtPopout"] !== undefined) {
-                setActive(extsettings["ExtPopout"])
+                setActive()
             } else {
                 loadWhenReady.restart()
             }
         }
     }
 
-    function setActive(val) {
+    function setActive() {
 
-        var ppt = PQCExtensionsHandler.getExtensionAllowPopout(extensionId)
-        var mdl = PQCExtensionsHandler.getExtensionFullscreenModal(extensionId)
+        var val = extsettings["ExtPopout"]
+
+        var itg = PQCExtensionsHandler.getExtensionIntegratedAllow(extensionId)
+        var ppt = PQCExtensionsHandler.getExtensionPopoutAllow(extensionId)
+        var mdl = PQCExtensionsHandler.getExtensionModalMake(extensionId)
 
         if(mdl) {
             ldr_floating.active = false
             ldr_floating_popout.active = false
-            ldr_fullscreen.active = (!val || !ppt)
+            ldr_fullscreen.active = ((!val || !ppt) && itg)
             ldr_fullscreen_popout.active = (val && ppt)
         } else {
             ldr_fullscreen.active = false
             ldr_fullscreen_popout.active = false
-            ldr_floating.active = (!val || !ppt)
+            ldr_floating.active = ((!val || !ppt) && itg)
             ldr_floating_popout.active = (val && ppt)
         }
 

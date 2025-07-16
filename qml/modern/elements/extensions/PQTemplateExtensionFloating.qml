@@ -132,7 +132,7 @@ Item {
 
         id: resizearea
 
-        enabled: !PQCExtensionsHandler.getExtensionFixSizeToContent(element_top.extensionId)
+        enabled: !PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(element_top.extensionId)
 
         anchors {
             right: parent.right
@@ -160,7 +160,7 @@ Item {
         y: 5-height
         width: 15
         height: 15
-        visible: PQCExtensionsHandler.getExtensionAllowPopout(element_top.extensionId)
+        visible: PQCExtensionsHandler.getExtensionPopoutAllow(element_top.extensionId)
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
@@ -336,8 +336,8 @@ Item {
 
         _finishedSetup = false;
 
-        var topos = PQCExtensionsHandler.getExtensionPositionAt(extensionId)
-        var dist  = PQCExtensionsHandler.getExtensionDistanceFromEdge(extensionId)
+        var topos = PQCExtensionsHandler.getExtensionIntegratedDefaultPosition(extensionId)
+        var dist  = PQCExtensionsHandler.getExtensionIntegratedDefaultDistanceFromEdge(extensionId)
 
         // top left
         if(topos === 0) {
@@ -395,11 +395,11 @@ Item {
 
         }
 
-        if(PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)) {
+        if(PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)) {
             width = Qt.binding(function() { return floating_loader.item.width } )
             height = Qt.binding(function() { return floating_loader.item.height } )
         } else {
-            var sze = PQCExtensionsHandler.getExtensionDefaultSize(extensionId)
+            var sze = PQCExtensionsHandler.getExtensionIntegratedDefaultSize(extensionId)
             if(sze.width !== -1) {
                 width = sze.width
                 height = sze.height

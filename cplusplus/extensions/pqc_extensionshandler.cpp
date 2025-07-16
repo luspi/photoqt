@@ -104,11 +104,11 @@ void PQCExtensionsHandler::setup() {
             }
 
             /***********************************/
-            // REQUIRED PROPERTIES:
+            // REQUIRED PROPERTIES: about
 
             // version
             try {
-                extinfo->version = config["metainfo"]["version"].as<int>();
+                extinfo->version = config["about"]["version"].as<int>();
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'version':" << e.what();
                 delete extinfo;
@@ -117,7 +117,7 @@ void PQCExtensionsHandler::setup() {
 
             // name
             try {
-                extinfo->name = QString::fromStdString(config["metainfo"]["name"].as<std::string>());
+                extinfo->name = QString::fromStdString(config["about"]["name"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'name':" << e.what();
                 delete extinfo;
@@ -126,7 +126,7 @@ void PQCExtensionsHandler::setup() {
 
             // description
             try {
-                extinfo->description = QString::fromStdString(config["metainfo"]["description"].as<std::string>());
+                extinfo->description = QString::fromStdString(config["about"]["description"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'description':" << e.what();
                 delete extinfo;
@@ -135,7 +135,7 @@ void PQCExtensionsHandler::setup() {
 
             // author
             try {
-                extinfo->author = QString::fromStdString(config["metainfo"]["author"].as<std::string>());
+                extinfo->author = QString::fromStdString(config["about"]["author"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'author':" << e.what();
                 delete extinfo;
@@ -144,7 +144,7 @@ void PQCExtensionsHandler::setup() {
 
             // contact
             try {
-                extinfo->contact = QString::fromStdString(config["metainfo"]["contact"].as<std::string>());
+                extinfo->contact = QString::fromStdString(config["about"]["contact"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qWarning() << "Extension:" << id << "- Failed to read required value for 'contact':" << e.what();
                 delete extinfo;
@@ -153,7 +153,7 @@ void PQCExtensionsHandler::setup() {
 
             // target API
             try {
-                extinfo->targetAPI = config["metainfo"]["targetAPI"].as<int>();
+                extinfo->targetAPI = config["about"]["targetAPI"].as<int>();
 
                 if(extinfo->targetAPI > CURRENTAPIVERSION) {
                     qWarning() << "Required API version -" << extinfo->targetAPI << "- newer than what's supported:" << CURRENTAPIVERSION;
@@ -171,72 +171,119 @@ void PQCExtensionsHandler::setup() {
             /***********************************/
             // OPTIONAL values
 
+            //////////////////////
+            // setup/integrated
+
+            // allow integrated
+            try {
+                extinfo->integratedAllow = config["setup"]["integrated"]["allow"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'integrated/allow' invalid or not found, skipping:" << e.what();
+            }
+
+            // minimum required window size
+            try {
+                std::list<int> vals = config["setup"]["integrated"]["minimumRequiredWindowSize"].as<std::list<int> >();
+                if(vals.size() != 2)
+                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
+                else
+                    extinfo->integratedMinimumRequiredWindowSize = QSize(vals.front(), vals.back());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
+            }
+
+            // default position
+            try {
+                extinfo->integratedDefaultPosition = extinfo->getIntegerForPosition(config["setup"]["integrated"]["defaultPosition"].as<std::string>());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'defaultPosition' invalid or not found, skipping:" << e.what();
+            }
+
+            // default distance from window edge
+            try {
+                extinfo->integratedDefaultDistanceFromEdge = config["setup"]["integrated"]["defaultDistanceFromEdge"].as<int>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'defaultDistanceFromEdge' invalid or not found, skipping:" << e.what();
+            }
+
+            // default integrated size
+            try {
+                std::list<int> vals = config["setup"]["integrated"]["defaultSize"].as<std::list<int> >();
+                if(vals.size() != 2)
+                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'integrated/defaultSize', but found" << vals.size();
+                else
+                    extinfo->integratedDefaultSize = QSize(vals.front(), vals.back());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'integrated/defaultSize' invalid or not found, skipping:" << e.what();
+            }
+
+            // fix size to content
+            try {
+                extinfo->integratedFixSizeToContent = config["setup"]["integrated"]["fixSizeToContent"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'integrated/fixSizeToContent' invalid or not found, skipping:" << e.what();
+            }
+
+
+            //////////////////////
+            // setup/popout
+
+            // allow popout
+            try {
+                extinfo->popoutAllow = config["setup"]["popout"]["allow"].as<bool>();
+                if(!extinfo->popoutAllow && !extinfo->integratedAllow) {
+                    qWarning() << "Extension:" << id << "- At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
+                    extinfo->integratedAllow = true;
+                }
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'popout/allow' invalid or not found, skipping:" << e.what();
+            }
+
+            // default popout size
+            try {
+                std::list<int> vals = config["setup"]["popout"]["defaultSize"].as<std::list<int> >();
+                if(vals.size() != 2)
+                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'popout/defaultSize', but found" << vals.size();
+                else
+                    extinfo->popoutDefaultSize = QSize(vals.front(), vals.back());
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'popout/defaultSize' invalid or not found, skipping:" << e.what();
+            }
+
+            // fix size to content
+            try {
+                extinfo->popoutFixSizeToContent = config["setup"]["popout"]["fixSizeToContent"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'popout/fixSizeToContent' invalid or not found, skipping:" << e.what();
+            }
+
+
+            //////////////////////
+            // setup/modal
+
+            // make element modal
+            try {
+                extinfo->modalMake = config["setup"]["modal"]["make"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'modal/make' invalid or not found, skipping:" << e.what();
+            }
+
+            // require loaded file
+            try {
+                extinfo->modalRequireLoadedFile = config["setup"]["modal"]["requireLoadedFile"].as<bool>();
+            } catch(YAML::Exception &e) {
+                qDebug() << "Extension:" << id << "- Optional value for 'modal/requireLoadedFile' invalid or not found, skipping:" << e.what();
+            }
+
+
+            //////////////////////
+            // setup
+
             // default shortcut to toggle element
             try {
                 extinfo->defaultShortcut = QString::fromStdString(config["setup"]["defaultShortcut"].as<std::string>());
             } catch(YAML::Exception &e) {
                 qDebug() << "Extension:" << id << "- Optional value for 'defaultShortcut' invalid or not found, skipping:" << e.what();
-            }
-
-            // default element size
-            try {
-                std::list<int> vals = config["setup"]["defaultSize"].as<std::list<int> >();
-                if(vals.size() != 2)
-                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'defaultSize', but found" << vals.size();
-                else
-                    extinfo->defaultSize = QSize(vals.front(), vals.back());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'defaultSize' invalid or not found, skipping:" << e.what();
-            }
-
-            // minimum required window size
-            try {
-                std::list<int> vals = config["setup"]["minimumRequiredWindowSize"].as<std::list<int> >();
-                if(vals.size() != 2)
-                    qWarning() << "Extension:" << id << "- Expected two values (width, height) for property 'minimumRequiredWindowSize', but found" << vals.size();
-                else
-                    extinfo->minimumRequiredWindowSize = QSize(vals.front(), vals.back());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'minimumRequiredWindowSize' invalid or not found, skipping:" << e.what();
-            }
-
-            // is modal
-            try {
-                extinfo->fullscreenModal = config["setup"]["fullscreenModal"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'fullscreenModal' invalid or not found, skipping:" << e.what();
-            }
-
-            // allow integrated
-            try {
-                extinfo->allowIntegrated = config["setup"]["allowIntegrated"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'allowIntegrated' invalid or not found, skipping:" << e.what();
-            }
-
-            // allow popout
-            try {
-                extinfo->allowPopout = config["setup"]["allowPopout"].as<bool>();
-                if(!extinfo->allowPopout && !extinfo->allowIntegrated) {
-                    qWarning() << "Extension:" << id << "- At least one of integrated or popout needs to be enabled. Force-enabling integrated.";
-                    extinfo->allowIntegrated = true;
-                }
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'allowPopout' invalid or not found, skipping:" << e.what();
-            }
-
-            // position at
-            try {
-                extinfo->positionAt = extinfo->getEnumForPosition(config["setup"]["positionAt"].as<std::string>());
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'positionAt' invalid or not found, skipping:" << e.what();
-            }
-
-            // distance from window edge
-            try {
-                extinfo->distanceFromEdge = config["setup"]["distanceFromEdge"].as<int>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'distanceFromEdge' invalid or not found, skipping:" << e.what();
             }
 
             // remember geometry
@@ -246,14 +293,7 @@ void PQCExtensionsHandler::setup() {
                 qDebug() << "Extension:" << id << "- Optional value for 'rememberGeometry' invalid or not found, skipping:" << e.what();
             }
 
-            // fix size to content
-            try {
-                extinfo->fixSizeToContent = config["setup"]["fixSizeToContent"].as<bool>();
-            } catch(YAML::Exception &e) {
-                qDebug() << "Extension:" << id << "- Optional value for 'fixSizeToContent' invalid or not found, skipping:" << e.what();
-            }
-
-            // pass through mouse events
+            // let me handle mouse events
             try {
                 extinfo->letMeHandleMouseEvents = config["setup"]["letMeHandleMouseEvents"].as<bool>();
             } catch(YAML::Exception &e) {
@@ -269,10 +309,8 @@ void PQCExtensionsHandler::setup() {
                     for(auto const& l : sets)
                         vals.append(QString::fromStdString(l.as<std::string>()));
 
-                    if(vals.length()) {
-                        qWarning() << ">>> APPENDING:" << vals;
+                    if(vals.length() == 3)
                         extinfo->settings.append(vals);
-                    }
 
                 }
 
@@ -426,51 +464,65 @@ QString PQCExtensionsHandler::getExtensionDefaultShortcut(QString id) {
     return "";
 }
 
-QSize PQCExtensionsHandler::getExtensionDefaultSize(QString id) {
+QSize PQCExtensionsHandler::getExtensionIntegratedDefaultSize(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->defaultSize;
+        return m_allextensions[id]->integratedDefaultSize;
     qWarning() << "Unknown extension id:" << id;
     return QSize(-1,-1);
 }
 
-QSize PQCExtensionsHandler::getExtensionMinimumRequiredWindowSize(QString id) {
+QSize PQCExtensionsHandler::getExtensionPopoutDefaultSize(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->minimumRequiredWindowSize;
+        return m_allextensions[id]->popoutDefaultSize;
+    qWarning() << "Unknown extension id:" << id;
+    return QSize(-1,-1);
+}
+
+QSize PQCExtensionsHandler::getExtensionIntegratedMinimumRequiredWindowSize(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->integratedMinimumRequiredWindowSize;
     qWarning() << "Unknown extension id:" << id;
     return QSize(0,0);
 }
 
-bool PQCExtensionsHandler::getExtensionFullscreenModal(QString id) {
+bool PQCExtensionsHandler::getExtensionModalMake(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->fullscreenModal;
+        return m_allextensions[id]->modalMake;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-bool PQCExtensionsHandler::getExtensionAllowIntegrated(QString id) {
+bool PQCExtensionsHandler::getExtensionModalRequireLoadedFile(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->allowIntegrated;
+        return m_allextensions[id]->modalRequireLoadedFile;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-bool PQCExtensionsHandler::getExtensionAllowPopout(QString id) {
+bool PQCExtensionsHandler::getExtensionIntegratedAllow(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->allowPopout;
+        return m_allextensions[id]->integratedAllow;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
 
-PQCExtensionInfo::DefaultPosition PQCExtensionsHandler::getExtensionPositionAt(QString id) {
+bool PQCExtensionsHandler::getExtensionPopoutAllow(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->positionAt;
+        return m_allextensions[id]->popoutAllow;
     qWarning() << "Unknown extension id:" << id;
-    return PQCExtensionInfo::TopLeft;
+    return false;
 }
 
-int PQCExtensionsHandler::getExtensionDistanceFromEdge(QString id) {
+int PQCExtensionsHandler::getExtensionIntegratedDefaultPosition(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->distanceFromEdge;
+        return m_allextensions[id]->integratedDefaultPosition;
+    qWarning() << "Unknown extension id:" << id;
+    return 0;
+}
+
+int PQCExtensionsHandler::getExtensionIntegratedDefaultDistanceFromEdge(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->integratedDefaultDistanceFromEdge;
     qWarning() << "Unknown extension id:" << id;
     return 50;
 }
@@ -482,9 +534,16 @@ bool PQCExtensionsHandler::getExtensionRememberGeometry(QString id) {
     return true;
 }
 
-bool PQCExtensionsHandler::getExtensionFixSizeToContent(QString id) {
+bool PQCExtensionsHandler::getExtensionIntegratedFixSizeToContent(QString id) {
     if(m_allextensions.contains(id))
-        return m_allextensions[id]->fixSizeToContent;
+        return m_allextensions[id]->integratedFixSizeToContent;
+    qWarning() << "Unknown extension id:" << id;
+    return false;
+}
+
+bool PQCExtensionsHandler::getExtensionPopoutFixSizeToContent(QString id) {
+    if(m_allextensions.contains(id))
+        return m_allextensions[id]->popoutFixSizeToContent;
     qWarning() << "Unknown extension id:" << id;
     return false;
 }
@@ -539,10 +598,6 @@ void PQCExtensionsHandler::removeShortcut(QString id) {
         m_activeShortcutToExtension.remove(m_extensionToActiveShortcut.value(id));
         m_extensionToActiveShortcut.remove(id);
     }
-}
-
-bool PQCExtensionsHandler::getHasActions(const QString &id) {
-    return m_actions.contains(id);
 }
 
 void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id, QVariant additional) {

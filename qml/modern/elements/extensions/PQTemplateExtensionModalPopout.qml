@@ -56,7 +56,7 @@ Window {
         if(pos === undefined || pos.x === -1) pos = defaultPopoutPosition
 
         if(sze === undefined || sze.width < 1)
-            sze = PQCExtensionsHandler.getExtensionDefaultSize(element_top.extensionId)
+            sze = PQCExtensionsHandler.getExtensionPopoutDefaultSize(element_top.extensionId)
 
         element_top.setX(pos.x)
         element_top.setY(pos.y)
@@ -65,9 +65,7 @@ Window {
         element_top.setHeight(sze.height)
 
         if(settings["ExtShow"]) {
-            PQCNotify.loaderRegisterOpen(element_top.extensionId)
-            show()
-            popout_loader.item.showing()
+            element_top._show()
         }
 
         setupCompleted.restart()
@@ -89,7 +87,7 @@ Window {
     minimumWidth: 300
     minimumHeight: 500
 
-    modality: PQCExtensionsHandler.getExtensionFullscreenModal(extensionId) ? Qt.ApplicationModal : Qt.NonModal
+    modality: PQCExtensionsHandler.getExtensionModalMake(extensionId) ? Qt.ApplicationModal : Qt.NonModal
 
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
@@ -298,9 +296,7 @@ Window {
         function onValueChanged(key, value) {
             if(key.toLowerCase() === extensionId) {
                 if(1*value) {
-                    PQCNotify.loaderRegisterOpen(element_top.extensionId)
-                    element_top.show()
-                    popout_loader.item.showing()
+                    element_top._show()
                 } else {
                     element_top.hide()
                 }
@@ -324,9 +320,7 @@ Window {
                 if(element_top.visible) {
                     element_top.hide()
                 } else {
-                    PQCNotify.loaderRegisterOpen(element_top.extensionId)
-                    element_top.show()
-                    popout_loader.item.showing()
+                    element_top._show()
                 }
             } else if(element_top.visible) {
                 if(what === "keyEvent") {
@@ -338,9 +332,29 @@ Window {
         }
     }
 
+    function _show() {
+
+        settings["ExtShow"] = true
+
+        if(settings["ExtForcePopout"]) {
+            var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
+            if(PQCConstants.windowWidth > minsize.width && PQCConstants.windowHeight > minsize.height) {
+                PQCNotify.loaderRegisterClose(extensionId)
+                settings["ExtForcePopout"] = false
+                settings["ExtPopout"] = false
+                PQCNotify.loaderShowExtension(extensionId)
+                return
+            }
+        }
+
+        PQCNotify.loaderRegisterOpen(element_top.extensionId)
+        show()
+        popout_loader.item.showing()
+    }
+
     function hide() {
         PQCNotify.loaderRegisterClose(element_top.extensionId)
-        settings["ExtShow"] = 0
+        settings["ExtShow"] = false
         element_top.close()
         popout_loader.item.hiding()
     }

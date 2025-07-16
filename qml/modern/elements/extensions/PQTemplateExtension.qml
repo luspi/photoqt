@@ -52,7 +52,7 @@ Rectangle {
     property string extensionId: extension_container.extensionId
 
     ///////////////////
-    property bool _fixSizeToContent: PQCExtensionsHandler.getExtensionFixSizeToContent(extensionId)
+    property bool _fixSizeToContent: ((settings["ExtPopout"] && PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)) || (!settings["ExtPopout"] && PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)))
 
     width: _fixSizeToContent ? contentItem.width : parent.parent.width
     height: _fixSizeToContent ? contentItem.height : parent.parent.height
