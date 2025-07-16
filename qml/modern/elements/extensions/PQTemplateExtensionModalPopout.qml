@@ -256,7 +256,7 @@ Window {
         y: 5
         width: 15
         height: 15
-        // visible: ele_window.setCanBePoppedOut
+        visible: !element_top.settings["ExtForcePopout"] && PQCExtensionsHandler.getExtensionIntegratedAllow(element_top.extensionId)
         enabled: visible
         z: 1
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
