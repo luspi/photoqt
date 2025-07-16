@@ -50,17 +50,16 @@ Window {
     height: 600
 
     // this signals whether the window is currently being resized or not
-    property bool resizing: false
     onWidthChanged: {
         storeWindowGeometry.restart()
         PQCConstants.windowWidth = width
-        resizing = true
+        PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
         PQCConstants.windowHeight = height
-        resizing = true
+        PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
     onXChanged: {
@@ -74,7 +73,7 @@ Window {
         id: resetResizing
         interval: 500
         onTriggered: {
-            toplevel.resizing = false
+            PQCConstants.mainWindowBeingResized = false
         }
     }
 
