@@ -245,8 +245,8 @@ Window {
         repeat: false
         onTriggered: {
             if(element_top.visibility !== Window.Maximized) {
-                settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
-                settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
+                element_top.settings["ExtPopoutPosition"] = Qt.point(element_top.x, element_top.y)
+                element_top.settings["ExtPopoutSize"] = Qt.size(element_top.width, element_top.height)
             }
         }
     }
@@ -271,7 +271,7 @@ Window {
                   //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
             text: qsTranslate("popinpopout", "Merge into main interface")
             onClicked: {
-                settings["ExtPopout"] = false
+                element_top.settings["ExtPopout"] = false
                 PQCNotify.loaderRegisterClose(element_top.extensionId)
                 PQCNotify.loaderShowExtension(element_top.extensionId)
             }
@@ -289,7 +289,7 @@ Window {
 
     Connections {
 
-        target: settings
+        target: element_top.settings
 
         enabled: element_top.setupHasBeenCompleted
 
