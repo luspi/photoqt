@@ -41,8 +41,6 @@
 #include <pqc_notify.h>
 #include <pqc_extensionshandler.h>
 
-#include <scripts/pqc_scriptsother.h>
-
 PQCSettings::PQCSettings(bool validateonly) {
     if(validateonly) {
         dbCommitTimer = nullptr;

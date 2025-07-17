@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptschromecast.h>
+#include <scripts/qml/pqc_scriptschromecast.h>
 #include <pqc_localhttpserver.h>
 #include <pqc_loadimage.h>
 #include <pqc_settingscpp.h>

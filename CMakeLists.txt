@@ -355,7 +355,8 @@ qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
-target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlwrappers")
+target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qml")
+target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlwrapper")
 target_include_directories(photoqt PRIVATE "cplusplus/extensions")
 
 # set some properties for executable
@@ -441,8 +442,6 @@ if(WITH_IMAGEMAGICK)
             string(REPLACE "ImageMagick-6" "ImageMagick-7" ImageMagick_INCLUDE_DIRS "${ImageMagick_INCLUDE_DIRS}")
         endif()
         target_compile_definitions(photoqt PRIVATE PQMIMAGEMAGICK)
-        target_compile_definitions(photoqt PRIVATE MAGICKCORE_QUANTUM_DEPTH=16)
-        target_compile_definitions(photoqt PRIVATE MAGICKCORE_HDRI_ENABLE=1)
         target_link_libraries(photoqt PRIVATE ImageMagick::Magick++)
         if(WITH_TESTING)
             target_compile_definitions(photoqt_test PRIVATE PQMIMAGEMAGICK)

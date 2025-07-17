@@ -331,7 +331,6 @@ Flickable {
                             onClicked: {
                                 coldiag.currentColor = customuse.color
                                 coldiag.open()
-                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                             }
                         }
 
@@ -340,10 +339,6 @@ Flickable {
                             modality: Qt.ApplicationModal
                             onAccepted: {
                                 customuse.color = coldiag.currentColor
-                                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
-                            }
-                            onRejected: {
-                                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
                             }
                         }
                     }

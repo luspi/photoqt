@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsclipboard.h>
 #include <QMimeData>
 #include <QApplication>
 #include <QClipboard>
@@ -28,7 +27,7 @@
 #include <QTextDocumentFragment>
 #include <pqc_loadimage_archive.h>
 #include <pqc_configfiles.h>
-#include <scripts/pqc_scriptsother.h>
+#include <scripts/qml/pqc_scriptsclipboard.h>
 #include <scripts/pqc_scriptsimages.h>
 
 PQCScriptsClipboard::PQCScriptsClipboard() {

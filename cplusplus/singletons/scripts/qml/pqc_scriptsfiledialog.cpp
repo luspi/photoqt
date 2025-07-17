@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <pqc_configfiles.h>
-#include <scripts/pqc_scriptsfiledialog.h>
+#include <scripts/qml/pqc_scriptsfiledialog.h>
 #include <pqc_imageformats.h>
 #include <QtDebug>
 #include <QStorageInfo>

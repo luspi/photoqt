@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsother.h>
+#include <scripts/qml/pqc_scriptsother.h>
 #include <pqc_notify.h>
 #include <pqc_printtabimageoptions.h>
 #include <pqc_printtabimagepositiontile.h>
@@ -69,8 +69,6 @@ QString PQCScriptsOther::getUniqueId() {
 
 void PQCScriptsOther::printFile(QString filename) {
 
-    PQCNotify::get().setModalFileDialogOpen(true);
-
     QSettings settings;
 
     // Get the image
@@ -94,7 +92,6 @@ void PQCScriptsOther::printFile(QString filename) {
     printDialog.setOptionTabs({imageoptions});
     if(printDialog.exec() != QDialog::Accepted) {
         delete imageoptions;
-        PQCNotify::get().setModalFileDialogOpen(false);
         return;
     }
 
@@ -173,8 +170,6 @@ void PQCScriptsOther::printFile(QString filename) {
 
     // done!
     painter.end();
-
-    PQCNotify::get().setModalFileDialogOpen(false);
 
 }
 

@@ -33,8 +33,7 @@
 #include <pqc_shortcuts.h>
 #include <pqc_validate.h>
 #include <pqc_imageformats.h>
-#include <scripts/pqc_scriptsconfig.h>
-#include <scripts/pqc_scriptscontextmenu.h>
+#include <scripts/qml/pqc_scriptsconfig.h>
 #include <scripts/pqc_scriptsshareimgur.h>
 #include <pqc_startup.h>
 #include <pqc_location.h>

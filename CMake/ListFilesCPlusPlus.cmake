@@ -47,13 +47,17 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.h ${d}/pqc_photosphe
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionshandler.h ${d}/pqc_extensionsettings.h)
 
 SET(d "cplusplus/header/scripts")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scriptsclipboard.h ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptscontextmenu.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscrypt.h ${d}/pqc_scriptsfiledialog.h ${d}/pqc_scriptsfilemanagement.h ${d}/pqc_scriptsfilespaths.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsimages.h ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptsother.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptsshortcuts.h ${d}/pqc_scriptswallpaper.h ${d}/pqc_scriptsundo.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscrypt.h ${d}/pqc_scriptsfilespaths.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsimages.h ${d}/pqc_scriptsmetadata.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptswallpaper.h ${d}/pqc_scriptsundo.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscolorprofiles.h)
 
-SET(d "cplusplus/header/scripts/qmlwrappers")
+SET(d "cplusplus/header/scripts/qml")
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scriptsclipboard.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptscontextmenu.h ${d}/pqc_scriptsfiledialog.h ${d}/pqc_scriptsfilemanagement.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsother.h ${d}/pqc_scriptsshortcuts.h)
+
+SET(d "cplusplus/header/scripts/qmlwrapper")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsfilespaths_qml.h ${d}/pqc_scriptscolorprofiles_qml.h ${d}/pqc_scriptsimages_qml.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata_qml.h)
 

@@ -38,7 +38,6 @@
 #include <pqc_notify.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
-#include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsimages.h>
 
 #ifdef PQMLIBARCHIVE

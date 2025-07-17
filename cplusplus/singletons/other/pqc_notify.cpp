@@ -47,26 +47,6 @@ bool PQCNotify::getDebug() {
     return m_debug;
 }
 
-void PQCNotify::setFreshInstall(bool val) {
-    if(val != m_freshInstall) {
-        m_freshInstall = val;
-        Q_EMIT freshInstallChanged();
-    }
-}
-bool PQCNotify::getFreshInstall() {
-    return m_freshInstall;
-}
-
-void PQCNotify::setThumbs(int val) {
-    if(val != m_thumbs) {
-        m_thumbs = val;
-        Q_EMIT thumbsChanged();
-    }
-}
-int PQCNotify::getThumbs() {
-    return m_thumbs;
-}
-
 void PQCNotify::setStartInTray(bool val) {
     if(val != m_startInTray) {
         m_startInTray = val;
@@ -75,16 +55,6 @@ void PQCNotify::setStartInTray(bool val) {
 }
 bool PQCNotify::getStartInTray() {
     return m_startInTray;
-}
-
-void PQCNotify::setModalFileDialogOpen(bool val) {
-    if(val != m_modalFileDialogOpen) {
-        m_modalFileDialogOpen = val;
-        Q_EMIT modalFileDialogOpenChanged();
-    }
-}
-bool PQCNotify::getModalFileDialogOpen() {
-    return m_modalFileDialogOpen;
 }
 
 void PQCNotify::setDebugLogMessages(QString val) {
@@ -122,16 +92,6 @@ void PQCNotify::setSettingUpdate(QStringList val) {
 }
 QStringList PQCNotify::getSettingUpdate() {
     return m_settingUpdate;
-}
-
-void PQCNotify::setStartupCheck(int val) {
-    if(val != m_startupCheck) {
-        m_startupCheck = val;
-        Q_EMIT startupCheckChanged();
-    }
-}
-int PQCNotify::getStartupCheck() {
-    return m_startupCheck;
 }
 
 void PQCNotify::setColorProfileFor(QString path, QString val) {
