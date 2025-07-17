@@ -60,15 +60,9 @@
 #include <pqc_resolutioncache.h>
 #include <pqc_location.h>
 #include <pqc_photosphere.h>
-#include <scripts/pqc_scriptsconfig.h>
-#include <scripts/pqc_scriptsfilespaths.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptsmetadata.h>
-#include <scripts/pqc_scriptscontextmenu.h>
 #include <scripts/pqc_scriptscrypt.h>
 #include <scripts/pqc_scriptsshareimgur.h>
 #include <scripts/pqc_scriptsundo.h>
-#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 
@@ -274,17 +268,11 @@ int main(int argc, char *argv[]) {
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
     qmlRegisterSingletonInstance("PQCFileFolderModel", 1, 0, "PQCFileFolderModel", &PQCFileFolderModel::get());
-    qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
-    qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
-    qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
-    qmlRegisterSingletonInstance("PQCScriptsMetaData", 1, 0, "PQCScriptsMetaData", &PQCScriptsMetaData::get());
-    qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
     qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
     qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
     qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
-    qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     // these are used pretty much everywhere, this avoids having to import it everywhere

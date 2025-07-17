@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PQCScriptsConfig
 import PhotoQt
 
 // required top level properties for all settings:

@@ -355,6 +355,7 @@ qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
 # set header files as include files
 target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
+target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlwrappers")
 target_include_directories(photoqt PRIVATE "cplusplus/extensions")
 
 # set some properties for executable

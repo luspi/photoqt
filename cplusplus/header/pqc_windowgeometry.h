@@ -25,7 +25,7 @@
 
 #include <QQmlPropertyMap>
 #include <QRectF>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QSettings;
 class QTimer;

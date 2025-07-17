@@ -19,57 +19,32 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSFILEDIALOG_H
-#define PQCSCRIPTSFILEDIALOG_H
+#pragma once
 
 #include <QObject>
-#include <QHash>
 #include <QQmlEngine>
+#include <scripts/pqc_scriptscolorprofiles.h>
 
-class QJSValue;
+class QFile;
 
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
-
-class PQCScriptsFileDialog : public QObject {
+class PQCScriptsColorProfilesQML : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(PQCScriptsColorProfiles)
     QML_SINGLETON
 
 public:
-    PQCScriptsFileDialog();
-    ~PQCScriptsFileDialog();
+    PQCScriptsColorProfilesQML() {}
+    ~PQCScriptsColorProfilesQML() {}
 
-    // get data
-    Q_INVOKABLE QVariantList getDevices();
-    Q_INVOKABLE QVariantList getPlaces(bool performEmptyCheck = true);
-    QString getUniquePlacesId();
-
-    // last location
-    // this value is set in PQCFileFolderModel::setFolderFileDialog()
-    Q_INVOKABLE QString getLastLocation();
-
-    // count folder files
-    unsigned int _getNumberOfFilesInFolder(QString path);
-    Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
-
-    // places methods
-    Q_INVOKABLE void movePlacesEntry(QString id, bool moveDown, int howmany);
-    Q_INVOKABLE void addPlacesEntry(QString path, int pos, QString titlestring = "", QString icon = "folder", bool isSystemItem = false);
-    Q_INVOKABLE void hidePlacesEntry(QString id, bool hidden);
-    Q_INVOKABLE void deletePlacesEntry(QString id);
-
-private:
-    QHash<QString,int> cacheNumberOfFilesInFolder;
+    Q_INVOKABLE QStringList getImportedColorProfiles()               { return PQCScriptsColorProfiles::get().getImportedColorProfiles(); }
+    Q_INVOKABLE QStringList getColorProfiles()                       { return PQCScriptsColorProfiles::get().getColorProfiles(); }
+    Q_INVOKABLE QStringList getColorProfileDescriptions()            { return PQCScriptsColorProfiles::get().getColorProfileDescriptions(); }
+    Q_INVOKABLE QString     getColorProfileID(int index)             { return PQCScriptsColorProfiles::get().getColorProfileID(index); }
+    Q_INVOKABLE void        setColorProfile(QString path, int index) {        PQCScriptsColorProfiles::get().setColorProfile(path, index); }
+    Q_INVOKABLE QString     getColorProfileFor(QString path)         { return PQCScriptsColorProfiles::get().getColorProfileFor(path); }
+    Q_INVOKABLE bool        importColorProfile()                     { return PQCScriptsColorProfiles::get().importColorProfile(); }
+    Q_INVOKABLE bool        removeImportedColorProfile(int index)    { return PQCScriptsColorProfiles::get().removeImportedColorProfile(index); }
+    Q_INVOKABLE QString     detectVideoColorProfile(QString path)    { return PQCScriptsColorProfiles::get().detectVideoColorProfile(path); }
 
 };
-
-#endif

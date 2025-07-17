@@ -24,7 +24,6 @@ import QtQuick
 import PhotoQt
 import ExtensionSettings
 import PQCExtensionsHandler
-import PQCScriptsConfig
 
 Item {
 

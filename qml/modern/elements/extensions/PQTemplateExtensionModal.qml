@@ -25,7 +25,6 @@ import QtQuick.Controls
 import PhotoQt
 import ExtensionSettings
 import PQCExtensionsHandler
-import PQCScriptsConfig
 
 Rectangle {
 

@@ -25,10 +25,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCFileFolderModel
-import PQCScriptsConfig
-import PQCScriptsFilesPaths
 import PQCImageFormats
-import PQCScriptsImages
 import PhotoQt
 
 Item {

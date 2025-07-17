@@ -24,10 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 
 import PQCFileFolderModel
-import PQCScriptsContextMenu
-import PQCScriptsConfig
-import PQCScriptsImages
-import PQCScriptsColorProfiles
 import PhotoQt
 
 Loader {

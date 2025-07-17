@@ -25,10 +25,6 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import PQCFileFolderModel
-import PQCScriptsFilesPaths
-import PQCScriptsImages
-import PQCScriptsConfig
-import PQCScriptsColorProfiles
 import PhotoQt
 
 Item {

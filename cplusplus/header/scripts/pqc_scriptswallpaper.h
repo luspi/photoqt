@@ -24,7 +24,7 @@
 #define PQCSCRIPTSWALLPAPER_H
 
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class PQCScriptsWallpaper : public QObject {
 

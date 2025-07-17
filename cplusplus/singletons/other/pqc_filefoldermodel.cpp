@@ -27,8 +27,10 @@
 #include <QMimeDatabase>
 #include <QSize>
 #include <QTimer>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtDebug>
+#include <QImage>
+#include <QDirIterator>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>

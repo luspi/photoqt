@@ -24,12 +24,19 @@
 #define PQCSCRIPTSMETADATA_H
 
 #include <QObject>
-#include <QtQmlIntegration>
+
+/*************************************************************/
+/*************************************************************/
+//
+// this class is used in both C++ and QML code
+// thus there is a WRAPPER for QML available
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCScriptsMetaData : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
     static PQCScriptsMetaData& get() {
@@ -50,16 +57,19 @@ public:
     QString analyzeLightSource(const QString val);
     QString analyzeGPS(QString latRef, QString lat, QString lonRef, QString lon);
     QPointF convertGPSToDecimal(QString gpsLatRef, QString gpsLat, QString gpsLonRef, QString gpsLon);
+    QPointF convertGPSToPoint(QString gps);
 
-    Q_INVOKABLE int getExifOrientation(QString path);
+    /***************************************************************/
+    // only the following will be called from QML (through wrapper)
 
-    Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps);
-    Q_INVOKABLE QPointF convertGPSToPoint(QString gps);
-    Q_INVOKABLE QString convertGPSDecimalToDegree(double lat, double lon);
+    int getExifOrientation(QString path);
 
-    Q_INVOKABLE bool areFaceTagsSupported(QString filename);
-    Q_INVOKABLE QVariantList getFaceTags(QString filename);
-    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags);
+    QString convertGPSToDecimalForOpenStreetMap(QString gps);
+    QString convertGPSDecimalToDegree(double lat, double lon);
+
+    bool areFaceTagsSupported(QString filename);
+    QVariantList getFaceTags(QString filename);
+    void setFaceTags(QString filename, QVariantList tags);
 
 private:
     PQCScriptsMetaData();

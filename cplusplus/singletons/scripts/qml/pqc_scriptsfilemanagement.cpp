@@ -33,7 +33,7 @@
 #include <QDirIterator>
 #include <QImageWriter>
 #include <QImageReader>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QFileDialog>
 #ifdef WIN32
 #include <thread>

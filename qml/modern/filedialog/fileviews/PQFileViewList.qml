@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import PQCFileFolderModel
-import PQCScriptsFilesPaths
 import PhotoQt
 
 ListView {

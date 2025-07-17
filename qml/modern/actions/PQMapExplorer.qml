@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import PQCLocation
-import PQCScriptsFilesPaths
 import PQCFileFolderModel
 import PhotoQt
 

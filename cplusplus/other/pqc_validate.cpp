@@ -20,7 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
-#include <QtSql>
+#include <QtSql/QSqlDatabase>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
+#include <QCoreApplication>
 #include <iostream>
 #include <pqc_validate.h>
 #include <pqc_configfiles.h>

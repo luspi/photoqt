@@ -29,7 +29,7 @@
 #include <QFutureWatcher>
 #include <QJSValue>
 #include <QJSEngine>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <pqc_settingscpp.h>
 
 #ifdef PQMPUGIXML

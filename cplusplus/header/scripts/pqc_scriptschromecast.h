@@ -24,7 +24,7 @@
 #define PQCSCRIPTSCHROMECAST_H
 
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class PQCLocalHttpServer;
 class QProcess;

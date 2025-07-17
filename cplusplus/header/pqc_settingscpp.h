@@ -24,8 +24,6 @@
 #define PQCREADONLYSETTINGS_H
 
 #include <QObject>
-#include <QtSql>
-#include <QQmlPropertyMap>
 #include <pqc_settings.h>
 
 /********************************************************************************/

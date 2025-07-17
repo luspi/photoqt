@@ -19,57 +19,29 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSFILEDIALOG_H
-#define PQCSCRIPTSFILEDIALOG_H
+#pragma once
 
 #include <QObject>
-#include <QHash>
 #include <QQmlEngine>
+#include <scripts/pqc_scriptsmetadata.h>
 
-class QJSValue;
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
-
-class PQCScriptsFileDialog : public QObject {
+class PQCScriptsMetaDataQML : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
+    QML_NAMED_ELEMENT(PQCScriptsMetaData)
     QML_SINGLETON
 
 public:
-    PQCScriptsFileDialog();
-    ~PQCScriptsFileDialog();
+    PQCScriptsMetaDataQML() {}
+    ~PQCScriptsMetaDataQML() {}
 
-    // get data
-    Q_INVOKABLE QVariantList getDevices();
-    Q_INVOKABLE QVariantList getPlaces(bool performEmptyCheck = true);
-    QString getUniquePlacesId();
+    Q_INVOKABLE int getExifOrientation(QString path) { return PQCScriptsMetaData::get().getExifOrientation(path); }
 
-    // last location
-    // this value is set in PQCFileFolderModel::setFolderFileDialog()
-    Q_INVOKABLE QString getLastLocation();
+    Q_INVOKABLE QString convertGPSToDecimalForOpenStreetMap(QString gps)  { return PQCScriptsMetaData::get().convertGPSToDecimalForOpenStreetMap(gps); }
+    Q_INVOKABLE QString convertGPSDecimalToDegree(double lat, double lon) { return PQCScriptsMetaData::get().convertGPSDecimalToDegree(lat, lon); }
 
-    // count folder files
-    unsigned int _getNumberOfFilesInFolder(QString path);
-    Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
-
-    // places methods
-    Q_INVOKABLE void movePlacesEntry(QString id, bool moveDown, int howmany);
-    Q_INVOKABLE void addPlacesEntry(QString path, int pos, QString titlestring = "", QString icon = "folder", bool isSystemItem = false);
-    Q_INVOKABLE void hidePlacesEntry(QString id, bool hidden);
-    Q_INVOKABLE void deletePlacesEntry(QString id);
-
-private:
-    QHash<QString,int> cacheNumberOfFilesInFolder;
+    Q_INVOKABLE bool areFaceTagsSupported(QString filename)           { return PQCScriptsMetaData::get().areFaceTagsSupported(filename); }
+    Q_INVOKABLE QVariantList getFaceTags(QString filename)            { return PQCScriptsMetaData::get().getFaceTags(filename); }
+    Q_INVOKABLE void setFaceTags(QString filename, QVariantList tags) { return PQCScriptsMetaData::get().setFaceTags(filename, tags); }
 
 };
-
-#endif

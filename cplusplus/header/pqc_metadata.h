@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QtDebug>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QTimer;
 

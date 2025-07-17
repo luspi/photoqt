@@ -25,6 +25,7 @@
 #include <QSqlError>
 #include <QSqlQuery>
 #include <QMessageBox>
+#include <QCoreApplication>
 #include <iostream>
 #include <algorithm>
 #include <pqc_startup.h>
@@ -131,7 +132,8 @@ void PQCStartup::exportData(QString path) {
     // use plain cout as we don't want any log/debug info prepended
     std::cout << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
 
-    if(PQCScriptsConfig::get().exportConfigTo(path))
+    PQCScriptsConfig scr;
+    if(scr.exportConfigTo(path))
         std::cout << "done! Goodbye." << std::endl << std::endl;
     else
         std::cout << "failed! Goodbye." << std::endl << std::endl;
@@ -167,7 +169,8 @@ void PQCStartup::importData(QString path) {
         std::cout << std::endl
                   << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
 
-        if(PQCScriptsConfig::get().importConfigFrom(path))
+        PQCScriptsConfig scr;
+        if(scr.importConfigFrom(path))
             std::cout << "done! Goodbye." << std::endl << std::endl;
         else
             std::cout << "failed! Goodbye." << std::endl << std::endl;
@@ -305,10 +308,12 @@ void PQCStartup::resetToDefaults() {
 
 void PQCStartup::showInfo() {
 
+    PQCScriptsConfig scr;
+
     std::cout << std::endl
               << " ** PhotoQt configuration:"
               << std::endl << std::endl
-              << PQCScriptsConfig::get().getConfigInfo().toStdString()
+              << scr.getConfigInfo().toStdString()
               << std::endl;
 
 }

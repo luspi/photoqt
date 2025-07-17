@@ -33,6 +33,7 @@
 #include <QImageReader>
 #include <QPainter>
 #include <QtDebug>
+#include <QMimeDatabase>
 
 PQCLoadImageQt::PQCLoadImageQt() {
 }

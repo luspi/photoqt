@@ -22,7 +22,6 @@
 
 import QtQuick
 import PQCFileFolderModel
-import PQCScriptsImages
 import PhotoQt
 
 Item {

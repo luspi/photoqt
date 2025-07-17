@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import PQCScriptsConfig
 import PQCImageFormats
 import PhotoQt
 

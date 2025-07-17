@@ -29,11 +29,15 @@
 #include <QProcess>
 #include <QStringConverter>
 #include <QImageReader>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QMediaPlayer>
 #include <QColorSpace>
 #include <QFileDialog>
 #include <QScreen>
+#include <QMimeDatabase>
+#include <QCollator>
+#include <QCryptographicHash>
+
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <pqc_settingscpp.h>

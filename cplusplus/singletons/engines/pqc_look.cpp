@@ -22,6 +22,7 @@
 
 #include <pqc_look.h>
 #include <pqc_settingscpp.h>
+#include <QCoreApplication>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>

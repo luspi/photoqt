@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import PQCFileFolderModel
-import PQCScriptsMetaData
 import PhotoQt
 
 Item {

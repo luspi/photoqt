@@ -27,6 +27,7 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QPainter>
 #include <QImage>
+#include <QCollator>
 
 QQuickImageResponse *PQCAsyncImageProviderFolderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 

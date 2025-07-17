@@ -24,12 +24,10 @@
 #define PQCSCRIPTSUNDO_H
 
 #include <QObject>
-#include <QtQmlIntegration>
 
 class PQCScriptsUndo : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
     static PQCScriptsUndo& get() {

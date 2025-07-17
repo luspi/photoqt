@@ -34,6 +34,7 @@
 #include <QCollator>
 #include <QDesktopServices>
 #include <QFileDialog>
+#include <QProcess>
 
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
     animatedImageTemporaryCounter = 0;

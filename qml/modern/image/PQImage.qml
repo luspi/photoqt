@@ -24,9 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import PQCImageFormats
 import PQCFileFolderModel
-import PQCScriptsConfig
-import PQCScriptsFilesPaths
-import PQCScriptsImages
 import PQCResolutionCache
 import PhotoQt
 

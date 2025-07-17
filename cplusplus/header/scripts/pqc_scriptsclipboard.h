@@ -24,7 +24,7 @@
 #define PQCSCRIPTSCLIPBOARD_H
 
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QClipboard;
 
