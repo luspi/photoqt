@@ -288,8 +288,6 @@ bool PQCScriptsColorProfiles::importColorProfile() {
 
     qDebug() << "";
 
-    PQCNotify::get().setModalFileDialogOpen(true);
-
 #ifdef Q_OS_UNIX
     QString loc = "/usr/share/color/icc";
 #else
@@ -315,8 +313,6 @@ bool PQCScriptsColorProfiles::importColorProfile() {
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
         if(fileNames.length() > 0) {
-
-            PQCNotify::get().setModalFileDialogOpen(false);
 
             QString fn = fileNames[0];
             QFileInfo info(fn);
@@ -347,7 +343,6 @@ bool PQCScriptsColorProfiles::importColorProfile() {
         }
     }
 
-    PQCNotify::get().setModalFileDialogOpen(false);
     return true;
 
 }

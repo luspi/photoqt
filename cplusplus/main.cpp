@@ -222,7 +222,6 @@ int main(int argc, char *argv[]) {
     // perform some startup checks
     // return 1 on updates and 2 on fresh installs
     const int checker = startup.check();
-    PQCNotify::get().setStartupCheck(checker);
 
     // update or fresh install?
     if(checker == 1)

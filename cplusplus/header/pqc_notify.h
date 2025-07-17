@@ -52,28 +52,9 @@ public:
 
     /******************************************************/
 
-    // used to show 'welcome' screen if this seems to be a new install
-    Q_PROPERTY(bool freshInstall READ getFreshInstall WRITE setFreshInstall NOTIFY freshInstallChanged)
-    void setFreshInstall(bool val);
-    Q_INVOKABLE bool getFreshInstall();
-
-    /******************************************************/
-
-    Q_PROPERTY(int thumbs READ getThumbs WRITE setThumbs NOTIFY thumbsChanged)
-    void setThumbs(int val);
-    Q_INVOKABLE int getThumbs();
-
-    /******************************************************/
-
     Q_PROPERTY(bool startInTray READ getStartInTray WRITE setStartInTray NOTIFY startInTrayChanged)
     void setStartInTray(bool val);
     Q_INVOKABLE bool getStartInTray();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool modalFileDialogOpen READ getModalFileDialogOpen WRITE setModalFileDialogOpen NOTIFY modalFileDialogOpenChanged)
-    void setModalFileDialogOpen(bool val);
-    Q_INVOKABLE bool getModalFileDialogOpen();
 
     /******************************************************/
 
@@ -96,12 +77,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(int startupCheck READ getStartupCheck WRITE setStartupCheck NOTIFY startupCheckChanged)
-    void setStartupCheck(int val);
-    Q_INVOKABLE int getStartupCheck();
-
-    /******************************************************/
-
     void setColorProfileFor(QString path, QString val);
     Q_INVOKABLE QString getColorProfileFor(QString path);
 
@@ -111,33 +86,23 @@ private:
     PQCNotify(QObject *parent = 0) : QObject(parent) {
         m_filepath = "";
         m_debug = false;
-        m_freshInstall = false;
         m_startInTray = false;
-        m_thumbs = 2;
-        m_modalFileDialogOpen = false;
         m_debugLogMessages = "";
         m_haveScreenshots = false;
         m_settingUpdate.clear();
-        m_startupCheck = 0;
         m_colorProfiles.clear();
     }
     // these are used at startup
     // afterwards we only listen to the signals
     QString m_filepath;
     bool m_debug;
-    bool m_freshInstall;
-    int m_thumbs;
     bool m_startInTray;
 
     QString m_debugLogMessages;
     QMutex addDebugLogMessageMutex;
 
-    bool m_modalFileDialogOpen;
-
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
-
-    int m_startupCheck;
 
     QMap<QString, QString> m_colorProfiles;
 
@@ -149,14 +114,10 @@ Q_SIGNALS:
     // startup properties changes
     void filePathChanged();
     void debugChanged();
-    void freshInstallChanged();
-    void thumbsChanged();
     void startInTrayChanged();
     void settingUpdateChanged();
-    void startupCheckChanged();
 
     // some window states control from QML
-    void modalFileDialogOpenChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
     void windowClose();

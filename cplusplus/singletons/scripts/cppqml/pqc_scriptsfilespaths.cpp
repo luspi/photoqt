@@ -415,8 +415,6 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
 
     QFileInfo info(preselectFile);
 
-    PQCNotify::get().setModalFileDialogOpen(true);
-
     const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
 
     QFileDialog diag;
@@ -434,7 +432,6 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
         if(fileNames.length() > 0) {
-            PQCNotify::get().setModalFileDialogOpen(false);
             QString fn = fileNames[0];
             QFileInfo newinfo(fn);
             if(newinfo.suffix() == "")
@@ -443,7 +440,6 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
         }
     }
 
-    PQCNotify::get().setModalFileDialogOpen(false);
     return "";
 
 }
@@ -455,7 +451,6 @@ QString PQCScriptsFilesPaths::selectFolderFromDialog(QString buttonlabel, QStrin
 
     QFileInfo info(preselectFolder);
 
-    PQCNotify::get().setModalFileDialogOpen(true);
 
     QFileDialog diag;
     diag.setLabelText(QFileDialog::Accept, buttonlabel);
@@ -468,12 +463,10 @@ QString PQCScriptsFilesPaths::selectFolderFromDialog(QString buttonlabel, QStrin
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
         if(fileNames.length() > 0) {
-            PQCNotify::get().setModalFileDialogOpen(false);
             return fileNames[0];
         }
     }
 
-    PQCNotify::get().setModalFileDialogOpen(false);
     return "";
 
 }
@@ -482,12 +475,9 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
 
     qDebug() << "args: txt.length = " << txt.length();
 
-    PQCNotify::get().setModalFileDialogOpen(true);
-
     QString newfile = QFileDialog::getSaveFileName(nullptr, QString(), QString("%1/photoqt-%2.log").arg(QDir::homePath(), QDateTime::currentDateTime().toString("yyyy-MM-dd_hh-mm")));
 
     if(newfile == "") {
-        PQCNotify::get().setModalFileDialogOpen(false);
         return;
     }
 
@@ -496,8 +486,6 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
     QTextStream out(&file);
     out << txt;
     file.close();
-
-    PQCNotify::get().setModalFileDialogOpen(false);
 
 }
 
@@ -524,8 +512,6 @@ QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QStri
 
     QFileInfo info(preselectFile);
 
-    PQCNotify::get().setModalFileDialogOpen(true);
-
     QFileDialog diag;
     diag.setLabelText(QFileDialog::Accept, buttonlabel);
     diag.setFileMode(QFileDialog::ExistingFiles);
@@ -543,14 +529,11 @@ QStringList PQCScriptsFilesPaths::openFilesFromDialog(QString buttonlabel, QStri
     if(diag.exec()) {
         QStringList fileNames = diag.selectedFiles();
         if(fileNames.length() > 0) {
-            PQCNotify::get().setModalFileDialogOpen(false);
             return fileNames;
         }
     }
 
-    PQCNotify::get().setModalFileDialogOpen(false);
     return QStringList();
-
 
 }
 

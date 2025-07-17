@@ -750,9 +750,7 @@ Flickable {
                                 hoverEnabled: true
                                 cursorShape: Qt.PointingHandCursor
                                 onClicked: {
-                                    PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                                     var newcol = PQCScriptsOther.selectColor(border_color.rgba)
-                                    PQCNotify.modalFileDialogOpen = false
                                     fullscreenitem.forceActiveFocus()
                                     if(newcol.length !== 0) {
                                         border_color.rgba = newcol

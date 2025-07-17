@@ -996,7 +996,6 @@ Flickable {
                                 coldiag.section = "accent"
                                 coldiag.currentColor = accentcustom.color
                                 coldiag.open()
-                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                             }
                         }
                     }
@@ -1093,7 +1092,6 @@ Flickable {
                                 coldiag.section = "bgcustom"
                                 coldiag.currentColor = bgcustomuse.color
                                 coldiag.open()
-                                PQCNotify.modalFileDialogOpen = true // qmllint disable unqualified
                             }
                         }
 
@@ -1177,10 +1175,6 @@ Flickable {
                     accentcustom.color = coldiag.currentColor
                 else
                     bgcustomuse.color = coldiag.currentColor
-                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
-            }
-            onRejected: {
-                PQCNotify.modalFileDialogOpen = false // qmllint disable unqualified
             }
         }
 
