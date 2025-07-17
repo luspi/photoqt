@@ -22,11 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PQCScriptsFilesPaths
-import PQCScriptsImages
 import PQCFileFolderModel
-import PQCScriptsConfig
-import PQCScriptsMetaData
 import QtMultimedia
 import PhotoQt
 

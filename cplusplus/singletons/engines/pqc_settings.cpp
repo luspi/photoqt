@@ -31,6 +31,10 @@
 #include <QJSValue>
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
+#include <QCoreApplication>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
+
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>

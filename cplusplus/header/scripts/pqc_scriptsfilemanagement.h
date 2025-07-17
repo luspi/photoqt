@@ -24,7 +24,7 @@
 #define PQCSCRIPTSFILEMANAGEMENT_H
 
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 /*************************************************************/
 /*************************************************************/

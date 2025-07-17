@@ -25,10 +25,6 @@ import QtQuick
 import QtQuick.Controls
 import QtCore
 
-import PQCScriptsConfig
-import PQCScriptsContextMenu
-import PQCScriptsFilesPaths
-import PQCScriptsImages
 import PQCImageFormats
 import PhotoQt
 

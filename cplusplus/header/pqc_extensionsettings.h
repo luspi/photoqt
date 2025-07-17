@@ -23,8 +23,10 @@
 #pragma once
 
 #include <QSettings>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 #include <QQmlPropertyMap>
+
+class QFileSystemWatcher;
 
 class ExtensionSettings : public QQmlPropertyMap {
 

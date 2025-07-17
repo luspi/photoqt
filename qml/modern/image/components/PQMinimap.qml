@@ -21,9 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsFilesPaths
 import PQCFileFolderModel
-import PQCScriptsConfig
 import PhotoQt
 
 Rectangle {

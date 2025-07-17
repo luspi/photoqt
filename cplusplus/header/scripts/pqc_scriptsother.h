@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QJSValue>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 /*************************************************************/
 /*************************************************************/

@@ -37,6 +37,7 @@
 #include <QPrintDialog>
 #include <QPainter>
 #include <QColorDialog>
+#include <QProcess>
 
 PQCScriptsOther::PQCScriptsOther() {}
 

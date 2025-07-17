@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsConfig
 import PQCExtensionsHandler
 import PhotoQt
 

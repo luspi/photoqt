@@ -1,9 +1,10 @@
 #include <pqc_extensionsettings.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_configfiles.h>
-
+#include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QJSValue>
+#include <QPoint>
 
 ExtensionSettings::ExtensionSettings(QObject *parent) : QQmlPropertyMap(this, parent) {
     set = nullptr;

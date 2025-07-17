@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QTimer;
 

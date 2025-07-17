@@ -2,11 +2,12 @@
 #include <pqc_configfiles.h>
 #include <QDir>
 #include <QPluginLoader>
+#include <QtConcurrent/QtConcurrentRun>
+#include <QImage>
 #include <pqc_notify.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
-#include <QtConcurrent>
 #include <pqc_scriptsfilespaths.h>
 #include <pqc_imageformats.h>
 

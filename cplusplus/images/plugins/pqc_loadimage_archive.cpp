@@ -35,6 +35,7 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QImage>
+#include <QProcess>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>

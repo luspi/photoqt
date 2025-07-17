@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Window
-import PQCScriptsConfig
 import PhotoQt
 
 Window {

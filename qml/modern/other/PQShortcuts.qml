@@ -22,15 +22,11 @@
 
 import QtQuick
 import QtQml
-import PQCScriptsFilesPaths
 import PQCFileFolderModel
-import PQCScriptsImages
 import PQCImageFormats
-import PQCScriptsConfig
 import PQCScriptsUndo
 import PQCExtensionsHandler
 import PQCLocation
-import PQCScriptsContextMenu
 import PQCScriptsShareImgur
 
 import PhotoQt

@@ -28,6 +28,8 @@
 #include <scripts/pqc_scriptsfilespaths.h>
 #include <QSvgRenderer>
 #include <QPainter>
+#include <QCryptographicHash>
+#include <QCoreApplication>
 
 #ifdef WIN32
 #include <Windows.h>

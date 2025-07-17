@@ -35,8 +35,11 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 #include <QQmlPropertyMap>
+#include <QPoint>
+#include <QSize>
+#include <QTimer>
 
 class PQCSettings : public QObject {
 

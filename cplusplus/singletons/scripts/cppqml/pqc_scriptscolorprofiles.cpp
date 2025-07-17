@@ -6,20 +6,22 @@
 
 #include <QFile>
 #include <QFileDialog>
+#include <QCoreApplication>
+#include <QProcess>
 
 PQCScriptsColorProfiles::PQCScriptsColorProfiles() {
 
-    importedICCLastMod = 0;
-    colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
+    m_importedICCLastMod = 0;
+    m_colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     loadColorProfileInfo();
 
-    lcms2CountFailedApplications = 0;
+    m_lcms2CountFailedApplications = 0;
 
 }
 
 PQCScriptsColorProfiles::~PQCScriptsColorProfiles() {
-    delete colorlastlocation;
+    delete m_colorlastlocation;
 }
 
 void PQCScriptsColorProfiles::loadColorProfileInfo() {
@@ -27,13 +29,13 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
 #ifdef PQMLCMS2
 
     QFileInfo info(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
-    if(info.lastModified().toMSecsSinceEpoch() != importedICCLastMod) {
+    if(info.lastModified().toMSecsSinceEpoch() != m_importedICCLastMod) {
 
         // we always check for imported profile changes
-        importedColorProfiles.clear();
-        importedColorProfileDescriptions.clear();
+        m_importedColorProfiles.clear();
+        m_importedColorProfileDescriptions.clear();
 
-        importedICCLastMod = info.lastModified().toMSecsSinceEpoch();
+        m_importedICCLastMod = info.lastModified().toMSecsSinceEpoch();
 
         QDir dir(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
         dir.setFilter(QDir::Files|QDir::NoDotAndDotDot);
@@ -70,8 +72,8 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
                                    buf, bufSize);
 #endif
 
-            importedColorProfiles << fullpath;
-            importedColorProfileDescriptions << QString("%1 <i>(imported)</i>").arg(buf);
+            m_importedColorProfiles << fullpath;
+            m_importedColorProfileDescriptions << QString("%1 <i>(imported)</i>").arg(buf);
 
         }
 
@@ -80,15 +82,15 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
 #endif
 
 
-    if(externalColorProfiles.length() == 0) {
+    if(m_externalColorProfiles.length() == 0) {
 
-        externalColorProfiles.clear();
-        externalColorProfileDescriptions.clear();
+        m_externalColorProfiles.clear();
+        m_externalColorProfileDescriptions.clear();
 
 #ifdef Q_OS_UNIX
 #ifdef PQMLCMS2
 
-        if(externalColorProfiles.length() == 0) {
+        if(m_externalColorProfiles.length() == 0) {
 
             QString basedir = "/usr/share/color/icc";
             QDir dir(basedir);
@@ -126,8 +128,8 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
                                        buf, bufSize);
 #endif
 
-                externalColorProfiles << fullpath;
-                externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(buf);
+                m_externalColorProfiles << fullpath;
+                m_externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(buf);
 
             }
 
@@ -155,19 +157,19 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
 
     }
 
-    if(integratedColorProfileDescriptions.length() == 0) {
+    if(m_integratedColorProfileDescriptions.length() == 0) {
 
-        integratedColorProfiles.clear();
-        integratedColorProfileDescriptions.clear();
+        m_integratedColorProfiles.clear();
+        m_integratedColorProfileDescriptions.clear();
 
-        integratedColorProfiles << QColorSpace::SRgb
+        m_integratedColorProfiles << QColorSpace::SRgb
                                 << QColorSpace::SRgbLinear
                                 << QColorSpace::AdobeRgb
                                 << QColorSpace::DisplayP3
                                 << QColorSpace::ProPhotoRgb;
 
-        for(auto &c : std::as_const(integratedColorProfiles))
-            integratedColorProfileDescriptions << QColorSpace(c).description();
+        for(auto &c : std::as_const(m_integratedColorProfiles))
+            m_integratedColorProfileDescriptions << QColorSpace(c).description();
 
     }
 
@@ -179,9 +181,9 @@ QStringList PQCScriptsColorProfiles::getColorProfileDescriptions() {
 
     QStringList ret;
 
-    ret << importedColorProfileDescriptions;
-    ret << integratedColorProfileDescriptions;
-    ret << externalColorProfileDescriptions;
+    ret << m_importedColorProfileDescriptions;
+    ret << m_integratedColorProfileDescriptions;
+    ret << m_externalColorProfileDescriptions;
 
     return ret;
 
@@ -193,10 +195,10 @@ QStringList PQCScriptsColorProfiles::getColorProfiles() {
 
     QStringList ret;
 
-    ret << importedColorProfiles;
-    for(int i = 0; i < integratedColorProfiles.length(); ++i)
+    ret << m_importedColorProfiles;
+    for(int i = 0; i < m_integratedColorProfiles.length(); ++i)
         ret << QString("::%1").arg(i);
-    ret << externalColorProfiles;
+    ret << m_externalColorProfiles;
 
     return ret;
 
@@ -204,18 +206,18 @@ QStringList PQCScriptsColorProfiles::getColorProfiles() {
 
 QString PQCScriptsColorProfiles::getColorProfileID(int index) {
 
-    if(index < importedColorProfiles.length())
-        return importedColorProfiles[index];
+    if(index < m_importedColorProfiles.length())
+        return m_importedColorProfiles[index];
 
-    index -= importedColorProfiles.length();
+    index -= m_importedColorProfiles.length();
 
-    if(index < integratedColorProfiles.length())
+    if(index < m_integratedColorProfiles.length())
         return QString("::%1").arg(static_cast<int>(index));
 
-    index -= integratedColorProfiles.length();
+    index -= m_integratedColorProfiles.length();
 
-    if(index < externalColorProfiles.length())
-        return externalColorProfiles[index];
+    if(index < m_externalColorProfiles.length())
+        return m_externalColorProfiles[index];
 
     return "";
 
@@ -227,9 +229,9 @@ void PQCScriptsColorProfiles::setColorProfile(QString path, int index) {
     qDebug() << "args: index =" << index;
 
     if(index == -1)
-        iccColorProfiles.remove(path);
+        m_iccColorProfiles.remove(path);
     else
-        iccColorProfiles[path] = getColorProfileID(index);
+        m_iccColorProfiles[path] = getColorProfileID(index);
 
 }
 
@@ -237,66 +239,12 @@ QString PQCScriptsColorProfiles::getColorProfileFor(QString path) {
 
     qDebug() << "args: path =" << path;
 
-    return iccColorProfiles.value(path, "");
+    return m_iccColorProfiles.value(path, "");
 
-}
-
-QString PQCScriptsColorProfiles::getDescriptionForColorSpace(QString path) {
-
-    qDebug() << "args: path =" << path;
-
-    if(!iccColorProfiles.contains(path))
-        return QColorSpace(QColorSpace::SRgb).description();
-
-    QString name = iccColorProfiles[path];
-
-    if(name.startsWith("::")) {
-        int index = name.remove(0,2).toInt();
-        return QColorSpace(integratedColorProfiles[index]).description();
-    }
-
-    int index = importedColorProfiles.indexOf(name);
-    if(index != -1)
-        return importedColorProfileDescriptions[index];
-
-    index = externalColorProfiles.indexOf(name);
-    if(index != -1)
-        return externalColorProfileDescriptions[index];
-
-    return "[unknown color space]";
-
-}
-
-QStringList PQCScriptsColorProfiles::getExternalColorProfiles() {
-    return externalColorProfiles;
-}
-
-QStringList PQCScriptsColorProfiles::getExternalColorProfileDescriptions() {
-    return externalColorProfileDescriptions;
 }
 
 QStringList PQCScriptsColorProfiles::getImportedColorProfiles() {
-    return importedColorProfiles;
-}
-
-QStringList PQCScriptsColorProfiles::getImportedColorProfileDescriptions() {
-    return importedColorProfileDescriptions;
-}
-
-QList<QColorSpace::NamedColorSpace> PQCScriptsColorProfiles::getIntegratedColorProfiles() {
-    return integratedColorProfiles;
-}
-
-int PQCScriptsColorProfiles::getIndexForColorProfile(QString desc) {
-
-    qDebug() << "args: desc =" << desc;
-
-    int index = integratedColorProfileDescriptions.indexOf(desc);
-    if(index > -1)
-        return index;
-
-    return integratedColorProfileDescriptions.length() + externalColorProfileDescriptions.indexOf(desc);
-
+    return m_importedColorProfiles;
 }
 
 #ifdef PQMLCMS2
@@ -347,12 +295,12 @@ bool PQCScriptsColorProfiles::importColorProfile() {
 #else
     QString loc = QDir::homePath();
 #endif
-    if(colorlastlocation->open(QIODevice::ReadOnly)) {
-        QTextStream in(colorlastlocation);
+    if(m_colorlastlocation->open(QIODevice::ReadOnly)) {
+        QTextStream in(m_colorlastlocation);
         QString tmp = in.readAll();
         if(tmp != "" && QFileInfo::exists(tmp))
             loc = tmp;
-        colorlastlocation->close();
+        m_colorlastlocation->close();
     }
 
     QFileDialog diag;
@@ -373,10 +321,10 @@ bool PQCScriptsColorProfiles::importColorProfile() {
             QString fn = fileNames[0];
             QFileInfo info(fn);
 
-            if(colorlastlocation->open(QIODevice::WriteOnly)) {
-                QTextStream out(colorlastlocation);
+            if(m_colorlastlocation->open(QIODevice::WriteOnly)) {
+                QTextStream out(m_colorlastlocation);
                 out << info.absolutePath();
-                colorlastlocation->close();
+                m_colorlastlocation->close();
             }
 
             QDir dir(PQCConfigFiles::get().ICC_COLOR_PROFILE_DIR());
@@ -408,11 +356,11 @@ bool PQCScriptsColorProfiles::removeImportedColorProfile(int index) {
 
     qDebug() << "args: index =" << index;
 
-    if(index < importedColorProfiles.length()) {
+    if(index < m_importedColorProfiles.length()) {
 
-        if(QFile::remove(importedColorProfiles[index])) {
-            importedColorProfiles.remove(index, 1);
-            importedColorProfileDescriptions.remove(index, 1);
+        if(QFile::remove(m_importedColorProfiles[index])) {
+            m_importedColorProfiles.remove(index, 1);
+            m_importedColorProfileDescriptions.remove(index, 1);
             loadColorProfileInfo();
             return true;
         } else
@@ -458,7 +406,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         int index = profileName.remove(0,2).toInt();
 
-        if(index < integratedColorProfiles.length() && applyColorSpaceQt(img, filename, QColorSpace(integratedColorProfiles[index])))
+        if(index < m_integratedColorProfiles.length() && _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index])))
             return true;
         else
             manualSelectionCausedError = true;
@@ -487,8 +435,8 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 #ifdef PQMLCMS2
 
     QStringList lcmsProfileList;
-    lcmsProfileList << importedColorProfiles;
-    lcmsProfileList << externalColorProfiles;
+    lcmsProfileList << m_importedColorProfiles;
+    lcmsProfileList << m_externalColorProfiles;
 
     // if external profile is manually selected
     if(profileName != "" && !profileName.startsWith("::")) {
@@ -507,8 +455,8 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
             attemptedToSetLCMS2Profile = true;
 
-            if(targetProfile && applyColorSpaceLCMS2(img, filename, targetProfile)) {
-                lcms2CountFailedApplications = 0;
+            if(targetProfile && _applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                m_lcms2CountFailedApplications = 0;
                 return true;
             } else
                 manualSelectionCausedError = true;
@@ -527,8 +475,8 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         if(targetProfile) {
             attemptedToSetLCMS2Profile = true;
-            if(applyColorSpaceLCMS2(img, filename, targetProfile)) {
-                lcms2CountFailedApplications = 0;
+            if(_applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                m_lcms2CountFailedApplications = 0;
                 return !manualSelectionCausedError;
             }
         }
@@ -551,7 +499,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
             int index = def.remove(0,2).toInt();
 
-            if(index < integratedColorProfiles.length() && applyColorSpaceQt(img, filename, QColorSpace(integratedColorProfiles[index])))
+            if(index < m_integratedColorProfiles.length() && _applyColorSpaceQt(img, filename, QColorSpace(m_integratedColorProfiles[index])))
                 return !manualSelectionCausedError;
 
 #ifdef PQMLCMS2
@@ -570,8 +518,8 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
                 if(targetProfile ) {
                     attemptedToSetLCMS2Profile = true;
-                    if(applyColorSpaceLCMS2(img, filename, targetProfile)) {
-                        lcms2CountFailedApplications = 0;
+                    if(_applyColorSpaceLCMS2(img, filename, targetProfile)) {
+                        m_lcms2CountFailedApplications = 0;
                         return !manualSelectionCausedError;
                     }
                 }
@@ -604,9 +552,9 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // If the counter passes 5 then we disable support for color spaces.
     if(attemptedToSetLCMS2Profile && profileName == "") {
 
-        lcms2CountFailedApplications += 1;
+        m_lcms2CountFailedApplications += 1;
 
-        if(lcms2CountFailedApplications > 5) {
+        if(m_lcms2CountFailedApplications > 5) {
             Q_EMIT PQCNotify::get().disableColorSpaceSupport();
             Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
             Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
@@ -623,7 +571,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
 }
 
-bool PQCScriptsColorProfiles::applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp) {
+bool PQCScriptsColorProfiles::_applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp) {
 
     QImage ret;
     ret = img.convertedToColorSpace(sp);
@@ -641,7 +589,7 @@ bool PQCScriptsColorProfiles::applyColorSpaceQt(QImage &img, QString filename, Q
 }
 
 #ifdef PQMLCMS2
-bool PQCScriptsColorProfiles::applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile) {
+bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile) {
 
     int lcms2SourceFormat = toLcmsFormat(img.format());
 

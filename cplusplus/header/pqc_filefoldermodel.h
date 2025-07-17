@@ -28,7 +28,7 @@
 #include <QTimer>
 #include <QMimeDatabase>
 #include <QSize>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QSize;
 class QFileSystemWatcher;

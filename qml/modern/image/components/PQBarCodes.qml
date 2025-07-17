@@ -22,8 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PQCScriptsImages
-import PQCScriptsFilesPaths
 import PhotoQt
 
 Item {

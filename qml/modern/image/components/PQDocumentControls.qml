@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCScriptsImages
 import PQCFileFolderModel
 import PhotoQt
 

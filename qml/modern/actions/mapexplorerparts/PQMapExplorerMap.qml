@@ -24,9 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtLocation
 import QtPositioning
-import PQCScriptsFilesPaths
 import PQCLocation
-import PQCScriptsMetaData
 import PhotoQt
 
 Item {

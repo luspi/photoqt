@@ -25,6 +25,7 @@
 #include <QImage>
 #include <QImageReader>
 #include <QProcess>
+#include <QDir>
 
 PQCLoadImageVideo::PQCLoadImageVideo() {}
 

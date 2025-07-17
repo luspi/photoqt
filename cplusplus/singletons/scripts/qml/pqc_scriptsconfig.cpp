@@ -27,6 +27,7 @@
 #include <QImageReader>
 #include <QQmlContext>
 #include <QMessageBox>
+#include <QDirIterator>
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
 #include <pqc_shortcuts.h>

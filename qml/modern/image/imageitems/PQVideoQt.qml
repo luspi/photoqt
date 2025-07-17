@@ -22,8 +22,6 @@
 
 import QtQuick
 import QtMultimedia
-import PQCScriptsFilesPaths
-import PQCScriptsConfig
 import PhotoQt
 
 Item {

@@ -20,6 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
+#include <QCache>
+#include <QCryptographicHash>
+#include <QFileInfo>
+#include <QImage>
 #include <pqc_imagecache.h>
 #include <pqc_settingscpp.h>
 #include <pqc_notify.h>

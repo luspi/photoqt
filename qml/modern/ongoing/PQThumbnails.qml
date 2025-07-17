@@ -23,9 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PQCScriptsFilesPaths
 import PQCFileFolderModel
-import PQCScriptsImages
 import PhotoQt
 
 Rectangle {

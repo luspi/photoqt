@@ -20,29 +20,35 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCSCRIPTS_H
-#define PQCSCRIPTS_H
+#ifndef PQCSCRIPTSCONFIG_H
+#define PQCSCRIPTSCONFIG_H
 
 #include <QObject>
 #include <QTranslator>
 #include <QQmlEngine>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
+
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCScriptsConfig : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsConfig& get() {
-        static PQCScriptsConfig instance;
-        return instance;
-    }
+    PQCScriptsConfig();
     ~PQCScriptsConfig();
 
-    PQCScriptsConfig(PQCScriptsConfig const&)     = delete;
-    void operator=(PQCScriptsConfig const&) = delete;
-
+    // these are also called from C++, BUT only when PhotoQt exists right after
+    // thus in those few spots we create a local instance of this class as we exit right after
     Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false);
     Q_INVOKABLE static bool exportConfigTo(QString path);
     Q_INVOKABLE static bool importConfigFrom(QString path);
@@ -86,7 +92,6 @@ public:
     Q_INVOKABLE bool askForConfirmation(QString title, QString text, QString informativeText);
 
 private:
-    PQCScriptsConfig();
 
     QTranslator *trans;
     QString currentTranslation;

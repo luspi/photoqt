@@ -25,22 +25,26 @@
 
 #include <QSqlDatabase>
 #include <QObject>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
+
+/*************************************************************/
+/*************************************************************/
+//
+//      NOTE: This singleton CANNOT be used from C++.
+//            It can ONLY be used from QML.
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCScriptsContextMenu : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCScriptsContextMenu& get() {
-        static PQCScriptsContextMenu instance;
-        return instance;
-    }
+    PQCScriptsContextMenu();
     ~PQCScriptsContextMenu();
-
-    PQCScriptsContextMenu(PQCScriptsContextMenu const&)     = delete;
-    void operator=(PQCScriptsContextMenu const&) = delete;
 
     Q_INVOKABLE QVariantList getEntries();
     Q_INVOKABLE void setEntries(QVariantList entries);
@@ -50,8 +54,6 @@ public:
     Q_INVOKABLE void closeDatabase();
 
 private:
-    PQCScriptsContextMenu();
-
     QSqlDatabase db;
 
 Q_SIGNALS:
