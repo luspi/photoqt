@@ -283,66 +283,6 @@ int PQCSettings::migrate(QString oldversion) {
 
         migrationHelperChangeSettingsName(migrateNames, curVer);
 
-
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        /// EXTENSIONS
-
-        /////////////////////////////////////////////////////
-        // make sure extensions table exists
-
-        QSqlQuery queryTabIns(db);
-        if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
-            qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
-        queryTabIns.clear();
-
-        /////////////////////////////////////////////////////
-        // check for migrations for extensions
-
-        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-        for(const QString &e : ext)
-            migrationHelperChangeSettingsName(PQCExtensionsHandler::get().getMigrateSettings(e), curVer);
-
-        /////////////////////////////////////////////////////
-        // check for existence of settings for extensions
-
-        // ext is already defined ahead of the for loop above
-        for(const QString &e : ext) {
-
-            const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
-
-            qDebug() << QString("Entering settings for extension %1:").arg(e) << set;
-
-            for(const QStringList &entry : set) {
-
-                if(entry.length() != 4) {
-                    qWarning() << "Wrong settings value length of" << entry.length();
-                    qWarning() << "Faulty settings entry:" << entry;
-                    continue;
-                }
-
-                QSqlQuery query(db);
-                query.prepare(QString("INSERT OR IGNORE INTO '%1' (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(entry[1]));
-                query.bindValue(":nme", entry[0]);
-                query.bindValue(":val", entry[3]);
-                query.bindValue(":dat", entry[2]);
-                if(!query.exec()) {
-                    qWarning() << "ERROR: Failed to enter required setting for extension" << e << ":" << query.lastError().text();
-                    continue;
-                }
-
-                query.clear();
-
-            }
-
-        }
-
-        /// END EXTENSIONS
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-
     }
 
     db.commit();

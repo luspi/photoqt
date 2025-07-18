@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCFileFolderModel
 import PQCExtensionsHandler
 import PhotoQt
 
@@ -124,8 +123,7 @@ Loader {
 
         }
 
-        // when the component is completed the repeater items will likely not yet be ready
-        // thus we keep checking until the first one is no longer null at which point we'll assume they all are ready.
+        // we check for this with a little delay to allow for other things to get ready first
         Timer {
             id: waitForExtLoaderToBeReady
             interval: 200
@@ -134,7 +132,7 @@ Loader {
                 var exts = PQCExtensionsHandler.getExtensions()
                 for(var iE in exts) {
                     var ext = exts[iE]
-                    if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1) {
+                    if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1 && PQCSettings.generalSetupFloatingExtensionsAtStartup.indexOf(ext) > -1) {
                         PQCNotifyQML.loaderSetupExtension(ext)
                     }
                 }

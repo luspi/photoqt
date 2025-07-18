@@ -154,22 +154,12 @@ public:
 
     // GLOBAL PROPERTIES
     Q_PROPERTY(int numExtensions MEMBER m_numExtensions NOTIFY numExtensionsChanged)
-    Q_PROPERTY(int numFiles MEMBER m_numFiles NOTIFY numFilesChanged)
-    Q_PROPERTY(QString currentFile MEMBER m_currentFile NOTIFY currentFileChanged)
-    Q_PROPERTY(int currentIndex MEMBER m_currentIndex NOTIFY currentIndexChanged)
 
     // REQUEST CUSTOM ACTIONS TO BE TAKEN
     Q_INVOKABLE void requestCallActionWithImage1(const QString &id, QVariant additional = QVariant());
     Q_INVOKABLE void requestCallActionWithImage2(const QString &id, QVariant additional = QVariant());
     Q_INVOKABLE void requestCallAction1(const QString &id, QVariant additional = QVariant());
     Q_INVOKABLE void requestCallAction2(const QString &id, QVariant additional = QVariant());
-
-    // REQUEST SPECIAL ACTIONS
-    Q_INVOKABLE QString requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
-    Q_INVOKABLE QVariantList requestImageFormatAllWritableFormats();
-    Q_INVOKABLE QString      requestImageFormatNameForId(int id);
-    Q_INVOKABLE QStringList  requestImageFormatEndingsForId(int id);
-    Q_INVOKABLE QVariantMap  requestImageFormatInfoForId(int id);
 
     // SOME SETTINGS STUFF
     Q_INVOKABLE bool getIsEnabled(const QString &id);
@@ -229,10 +219,6 @@ public:
 private:
     PQCExtensionsHandler();
 
-    int m_numFiles;
-    int m_currentIndex;
-    QString m_currentFile;
-
     QMap<QString, PQCExtensionInfo*> m_allextensions;
 
     // these are processed ones and then cached as they are needed often
@@ -248,11 +234,9 @@ private:
 
     int m_numExtensions;
 
-Q_SIGNALS:
-    void numFilesChanged();
-    void currentIndexChanged();
-    void currentFileChanged();
+    void loadSettingsInBGToLookForShortcuts();
 
+Q_SIGNALS:
     Q_INVOKABLE void requestResetGeometry(QString id);
 
     void replyForActionWithImage1(const QString id, QVariant val);

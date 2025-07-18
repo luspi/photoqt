@@ -330,12 +330,15 @@ Item {
     function show() {
         opacity = 1
         settings["ExtShow"] = true
+        if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
+            PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
         floating_loader.item.showing()
     }
 
     function hide() {
         opacity = 0
         settings["ExtShow"] = false
+        PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
         floating_loader.item.hiding()
     }
 

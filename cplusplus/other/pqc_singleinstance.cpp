@@ -37,7 +37,7 @@
 #include <pqc_notify.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -377,9 +377,9 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
     if(allfiles.length() > 0 || allfolders.length() > 0) {
         allfiles.append(allfolders);
         if(allfiles.length() > 1)
-            PQCFileFolderModel::get().setExtraFoldersToLoad(allfiles.mid(1));
+            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
         else
-            PQCFileFolderModel::get().setExtraFoldersToLoad({});
+            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
         PQCNotify::get().setFilePath(allfiles[0]);
     }
 

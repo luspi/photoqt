@@ -22,8 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-
-import PQCFileFolderModel
 import PhotoQt
 
 Loader {

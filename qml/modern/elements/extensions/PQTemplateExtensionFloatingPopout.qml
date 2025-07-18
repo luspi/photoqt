@@ -269,19 +269,34 @@ Window {
 
             if(what === "show" && args[0] === element_top.extensionId) {
                 if(element_top.visible) {
-                    element_top.close()
-                    popout_loader.item.hiding()
+                    element_top.hide()
                 } else {
                     element_top.show()
-                    popout_loader.item.showing()
                 }
             }
         }
     }
 
+    onVisibleChanged: {
+        if(!visible) {
+            settings["ExtShow"] = false
+            PQCSettings.generalSetupFloatingExtensionsAtStartup = PQCSettings.generalSetupFloatingExtensionsAtStartup.filter(function(entry) { return entry !== extensionId; });
+            popout_loader.item.hiding()
+        } else {
+            settings["ExtShow"] = true
+            if(!PQCSettings.generalSetupFloatingExtensionsAtStartup.includes(extensionId))
+                PQCSettings.generalSetupFloatingExtensionsAtStartup.push(extensionId)
+            popout_loader.item.showing()
+        }
+
+    }
+
+    onClosing: {
+        hide()
+    }
+
     function hide() {
         element_top.close()
-        popout_loader.item.hiding()
     }
 
     function handleChangesBottomRowWidth(w) {

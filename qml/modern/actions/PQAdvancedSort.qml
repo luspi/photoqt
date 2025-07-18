@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
-import PQCFileFolderModel
 import PhotoQt
 
 PQTemplateFullscreen {

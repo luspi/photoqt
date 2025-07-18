@@ -22,7 +22,7 @@
 
 #include <pqc_metadata.h>
 
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 #include <pqc_location.h>
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
@@ -66,7 +66,7 @@ PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
     m_iptcLocation = "";
     m_iptcCopyright = "";
 
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
     connect(loadDelay, &QTimer::timeout, this, [=]() { updateMetadata(); });
 
 }
@@ -101,10 +101,10 @@ void PQCMetaData::updateMetadata() {
     setEmptyData();
 
     // make sure a currentIndex is set
-    if(PQCFileFolderModel::get().getCurrentIndex() == -1)
+    if(PQCFileFolderModelCPP::get().getCurrentIndex() == -1)
         return;
 
-    QString path = PQCFileFolderModel::get().getEntriesMainView()[PQCFileFolderModel::get().getCurrentIndex()];
+    QString path = PQCFileFolderModelCPP::get().getEntriesMainView()[PQCFileFolderModelCPP::get().getCurrentIndex()];
 
     if(path == "") {
         setValidFile(true);

@@ -460,6 +460,12 @@ public:
     Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
     Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
 
+    Q_PROPERTY(QStringList generalSetupFloatingExtensionsAtStartup READ getGeneralSetupFloatingExtensionsAtStartup WRITE setGeneralSetupFloatingExtensionsAtStartup NOTIFY generalSetupFloatingExtensionsAtStartupChanged)
+    QStringList getGeneralSetupFloatingExtensionsAtStartup();
+    void setGeneralSetupFloatingExtensionsAtStartup(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralSetupFloatingExtensionsAtStartup();
+    Q_INVOKABLE void setDefaultForGeneralSetupFloatingExtensionsAtStartup();
+
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
     void setGeneralVersion(QString val);
@@ -1820,6 +1826,7 @@ private:
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
     QStringList m_generalEnabledExtensions;
+    QStringList m_generalSetupFloatingExtensionsAtStartup;
     QString m_generalVersion;
 
     // table: imageview
@@ -2136,6 +2143,7 @@ Q_SIGNALS:
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
     void generalEnabledExtensionsChanged();
+    void generalSetupFloatingExtensionsAtStartupChanged();
     void generalVersionChanged();
 
     // table: imageview

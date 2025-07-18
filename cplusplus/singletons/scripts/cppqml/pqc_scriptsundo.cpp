@@ -22,7 +22,7 @@
 
 #include <scripts/pqc_scriptsundo.h>
 #include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 
 #include <QVariant>
 #include <QFile>
@@ -32,8 +32,8 @@ PQCScriptsUndo::PQCScriptsUndo() {
     curFolder = "";
     trash.clear();
 
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentFileChanged, this, [=]() {
-        QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModel::get().getCurrentFile());
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
+        QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
         if(curFolder != newFolder) {
             curFolder = newFolder;
             clearActions();
@@ -87,7 +87,7 @@ QString PQCScriptsUndo::undoLastAction(QString action) {
 
             qDebug() << QString("Successfully restored file '%1' to '%2'").arg(act.at(1).toString(),act.at(0).toString());
 
-            PQCFileFolderModel::get().setFileInFolderMainView(act.at(0).toString());
+            PQCFileFolderModelCPP::get().setFileInFolderMainView(act.at(0).toString());
 
             if(!infoFile.remove()) {
                 qWarning() << "Failed to remove .trashinfo file";

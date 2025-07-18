@@ -14,12 +14,23 @@ ExtensionSettings::ExtensionSettings(QObject *parent) : QQmlPropertyMap(this, pa
     m_setPath = "";
     connect(this, &QQmlPropertyMap::valueChanged, this, &ExtensionSettings::saveExtensionValue);
     connect(this, &ExtensionSettings::extensionIdChanged, this, &ExtensionSettings::setup);
+}
 
+ExtensionSettings::ExtensionSettings(QString extensionId, QObject* parent) : QQmlPropertyMap(this, parent) {
+    qDebug() << "WARNING: ExtensionSettings are loaded read-only!";
+    set = nullptr;
+    watcher = nullptr;
+    m_status = getLoading();
+    m_extensionId = extensionId;
+    m_setPath = "";
+    setup();
 }
 
 ExtensionSettings::~ExtensionSettings() {
-    if(set != nullptr)
+    if(set != nullptr) {
+        set->sync();
         delete set;
+    }
     if(watcher != nullptr)
         delete watcher;
 }
@@ -66,7 +77,7 @@ void ExtensionSettings::saveExtensionValue(const QString &key, const QVariant &v
         if(key == "ExtShortcut") {
             PQCExtensionsHandler::get().removeShortcut(key);
             if(value.toString() != "")
-                PQCExtensionsHandler::get().addShortcut(m_extensionId, this->value("ExtShortcut").toString());
+                PQCExtensionsHandler::get().addShortcut(m_extensionId, value.toString());
         }
 
     }
