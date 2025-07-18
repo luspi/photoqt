@@ -306,9 +306,6 @@ Flickable {
                     width: Math.min(800, parent.width/2)+10
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
                     placeholderText: qsTranslate("settingsmanager", "Filter key combinations")
-                    onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
-                    }
                 }
 
                 PQLineEdit {
@@ -316,9 +313,6 @@ Flickable {
                     width: (setting_top.width-filter_combo.width)/2-10
                     enabled: (newaction.opacity<1 && newshortcut.opacity<1)
                     placeholderText: qsTranslate("settingsmanager", "Filter shortcut actions")
-                    onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
-                    }
                 }
 
                 PQComboBox {
@@ -1257,9 +1251,6 @@ Flickable {
 
     Component.onCompleted:
         load()
-
-    Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
         addnewgrp.contextmenu.close()

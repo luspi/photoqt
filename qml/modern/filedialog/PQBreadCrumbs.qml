@@ -554,7 +554,6 @@ Item {
                         crumbs.visible = false
                         visible = true
                         setFocus()
-                        PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
                     }
 
                     function hide() {
@@ -562,7 +561,6 @@ Item {
                             return
                         crumbs.visible = true
                         visible = false
-                        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
                     }
 
                     onRightPressed: {

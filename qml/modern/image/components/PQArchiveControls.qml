@@ -148,10 +148,10 @@ Item {
                     model: image.fileList // qmllint disable unqualified
 
                     popup.onOpened: {
-                        PQCNotify.currentArchiveComboOpen = true
+                        PQCConstants.currentArchiveComboOpen = true
                     }
                     popup.onClosed: {
-                        PQCNotify.currentArchiveComboOpen = false
+                        PQCConstants.currentArchiveComboOpen = false
                     }
                     Connections {
                         target: PQCNotifyQML

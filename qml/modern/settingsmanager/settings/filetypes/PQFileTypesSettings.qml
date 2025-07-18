@@ -159,15 +159,12 @@ Item {
                     id: filter_desc
                     width: setting_top.width/2
                     placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
-                    onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
-                    }
                     Keys.onTabPressed: (event) => {
-                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
+                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers])
                     }
                     onPressed: (key, modifiers) => {
                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
                             PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                     }
@@ -177,15 +174,12 @@ Item {
                     id: filter_lib
                     width: setting_top.width/2 -20
                     placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
-                    onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
-                    }
                     Keys.onTabPressed: (event) => {
-                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
+                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers])
                     }
                     onPressed: (key, modifiers) => {
                         if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
                             PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                     }
@@ -337,9 +331,6 @@ Item {
 
     Component.onCompleted:
         load()
-
-    Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
         enableBut.contextmenu.close()

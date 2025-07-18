@@ -241,9 +241,6 @@ Flickable {
                     implicitWidth: Math.min(400, set_excl.rightcol)
                     implicitHeight: 100
                     placeholderText: qsTranslate("settingsmanager", "One folder per line")
-                    onControlActiveFocusChanged: {
-                        PQCNotify.ignoreKeysExceptEsc = controlActiveFocus // qmllint disable unqualified
-                    }
                     onTextChanged: setting_top.checkDefault()
                 },
 
@@ -414,9 +411,6 @@ Flickable {
     Component.onCompleted:
         load()
 
-    Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEsc = false // qmllint disable unqualified
-
     function handleEscape() {
         set_cache.handleEscape()
         set_excl.handleEscape()
@@ -426,7 +420,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }

@@ -324,8 +324,6 @@ Item {
             id: filtertxt
             width: filtercont.width
             placeholderText: qsTranslate("settingsmanager", "Filter")
-            onControlActiveFocusChanged:
-                PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
             onTextChanged:
                 categories_top.filterSettings(filtertxt.text.toLowerCase())
         }

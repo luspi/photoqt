@@ -274,9 +274,6 @@ int main(int argc, char *argv[]) {
     qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
-    // these are used pretty much everywhere, this avoids having to import it everywhere
-    engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
-
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);
     engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
