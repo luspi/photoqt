@@ -77,9 +77,9 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            PQCNotify.windowTitleOverride(qsTranslate("actions", "File Dialog")) // qmllint disable unqualified
+            PQCNotifyQML.windowTitleOverride(qsTranslate("actions", "File Dialog")) // qmllint disable unqualified
         else if(opacity === 0)
-            PQCNotify.windowTitleOverride("")
+            PQCNotifyQML.windowTitleOverride("")
     }
 
     MouseArea {
@@ -151,7 +151,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -249,7 +249,7 @@ Rectangle {
                     filedialog_window.close() // qmllint disable unqualified
                 PQCSettings.interfacePopoutFileDialog = !PQCSettings.interfacePopoutFileDialog
                 filedialog_top.opacityChanged()
-                PQCNotify.executeInternalCommand("__open")
+                PQCScriptsShortcuts.executeInternalCommand("__open")
             }
         }
     }
@@ -400,7 +400,7 @@ Rectangle {
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
 
         // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
-        PQCNotify.loaderRegisterClose(thisis)
+        PQCNotifyQML.loaderRegisterClose(thisis)
 
     }
 

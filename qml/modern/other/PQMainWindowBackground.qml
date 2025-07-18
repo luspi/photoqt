@@ -62,7 +62,7 @@ Item {
                 bgimage.fillMode = Image.Tile
             toplevel.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCScriptsOther.addAlphaToColor(PQCSettings.interfaceBackgroundCustomOverlayColor, 222) : PQCLook.transColor
-        } else if(PQCSettings.interfaceBackgroundImageScreenshot && PQCNotify.haveScreenshots) {
+        } else if(PQCSettings.interfaceBackgroundImageScreenshot && PQCConstants.startupHaveScreenshots) {
             var sc = PQCScriptsOther.getCurrentScreen(fullscreenitem.mapToGlobal(toplevel.x+toplevel.width/2, toplevel.y+toplevel.height/2))
             bgimage.source = "image://full/" + PQCScriptsFilesPaths.getTempDir() + "/photoqt_screenshot_" + sc + ".jpg"
             bgimage.fillMode = Image.PreserveAspectCrop

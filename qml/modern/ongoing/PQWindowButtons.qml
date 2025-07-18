@@ -223,7 +223,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__prev") // qmllint disable unqualified
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -298,7 +298,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__next") // qmllint disable unqualified
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -375,7 +375,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -603,7 +603,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.setWindowState(Window.Minimized)
+                        PQCNotifyQML.setWindowState(Window.Minimized)
                     else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -686,9 +686,9 @@ Item {
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton) {
                         if(PQCConstants.windowState === Window.Windowed)
-                            PQCNotify.setWindowState(Window.Maximized)
+                            PQCNotifyQML.setWindowState(Window.Maximized)
                         else
-                            PQCNotify.setWindowState(Window.Windowed)
+                            PQCNotifyQML.setWindowState(Window.Windowed)
                     } else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -762,7 +762,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.windowClose()
+                        PQCNotifyQML.windowClose()
                     else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -896,7 +896,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     onTriggered: {
-                        PQCNotify.onOpenSettingsManagerAt("showSettings", "windowbuttons")
+                        PQCNotifyQML.openSettingsManagerAt("showSettings", "windowbuttons")
                     }
                 }
 
@@ -918,7 +918,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onMouseMove(posx, posy) {
 

@@ -136,7 +136,7 @@ Item {
             property point mousePressed: Qt.point(-1,-1)
 
             Connections {
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 enabled: !newmarker.visible && PQCConstants.faceTaggingMode // qmllint disable unqualified
 
@@ -284,7 +284,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         enabled: PQCConstants.faceTaggingMode && !whoisthis.visible // qmllint disable unqualified
 
@@ -321,7 +321,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -330,19 +330,19 @@ Item {
                 if(what === "tagFaces") {
 
                     if(!PQCScriptsMetaData.areFaceTagsSupported(PQCFileFolderModel.currentFile)) {
-                        PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags."))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "This file type does not support face tags."))
                         return
                     } else if(PQCConstants.showingPhotoSphere) {
-                        PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere."))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("unavailable", "Unavailable"), qsTranslate("unavailable", "Faces cannot be tagged when inside photo sphere."))
                         return
                     } else
-                        PQCNotify.showNotificationMessage(qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("facetagging", "Tagging faces"), qsTranslate("facetagging", "Face tagging mode activated. Click-and-drag to tag faces."))
 
                     PQCScriptsShortcuts.sendShortcutZoomReset()
                     PQCScriptsShortcuts.sendShortcutRotateReset()
                     PQCScriptsShortcuts.sendShortcutMirrorReset()
 
-                    PQCNotify.loaderOverrideVisibleItem("facetagger")
+                    PQCNotifyQML.loaderOverrideVisibleItem("facetagger")
                     PQCConstants.faceTaggingMode = true
                     facetagger_top.show()
 
@@ -401,7 +401,7 @@ Item {
     function hide() {
         opacity = 0
         PQCConstants.faceTaggingMode = false // qmllint disable unqualified
-        PQCNotify.loaderRegisterClose("facetagger")
+        PQCNotifyQML.loaderRegisterClose("facetagger")
     }
 
 }

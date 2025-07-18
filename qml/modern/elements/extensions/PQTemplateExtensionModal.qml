@@ -216,7 +216,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, args : list<var>) {
 
@@ -245,7 +245,7 @@ Rectangle {
 
         var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
         if(PQCConstants.windowWidth < minsize.width || PQCConstants.windowHeight < minsize.height) {
-            PQCNotify.loaderRegisterClose(extensionId)
+            PQCNotifyQML.loaderRegisterClose(extensionId)
             settings["ExtForcePopout"] = true
             settings["ExtPopout"] = true
             return
@@ -254,13 +254,13 @@ Rectangle {
             settings["ExtPopout"] = false
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.extensionId)
+        PQCNotifyQML.loaderRegisterOpen(element_top.extensionId)
         opacity = 1
         fullscreen_loader.item.showing()
     }
 
     function hide() {
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCNotifyQML.loaderRegisterClose(element_top.extensionId)
         opacity = 0
         settings["ExtShow"] = false
         fullscreen_loader.item.hiding()

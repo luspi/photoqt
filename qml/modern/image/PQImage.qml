@@ -46,13 +46,18 @@ Item {
     property int lessW: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? PQCConstants.thumbnailsBarWidth : 0
     property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? PQCConstants.thumbnailsBarHeight : 0
 
-    property string currentlyVisibleSource: ""
     property list<string> visibleSourcePrevCur: ["",""]
-    onCurrentlyVisibleSourceChanged: {
-        visibleSourcePrevCur[1] = visibleSourcePrevCur[0]
-        visibleSourcePrevCur[0] = currentlyVisibleSource
-        visibleSourcePrevCurChanged()
-        PQCNotify.currentImageLoadedAndDisplayed(currentlyVisibleSource)
+    Connections{
+
+        target: PQCConstants
+
+        function onCurrentImageSourceChanged() {
+            visibleSourcePrevCur[1] = visibleSourcePrevCur[0]
+            visibleSourcePrevCur[0] = PQCConstants.currentImageSource
+            visibleSourcePrevCurChanged()
+            PQCNotifyQML.currentImageLoadedAndDisplayed(PQCConstants.currentImageSource)
+        }
+
     }
 
     property bool isSomeVideoLoaded: false
@@ -65,7 +70,6 @@ Item {
 
     property point extraControlsLocation: Qt.point(-1,-1)
 
-    signal playPauseAnimationVideo()
     signal barcodeClick()
 
     signal animatePhotoSpheres(var direction)
@@ -100,7 +104,7 @@ Item {
                 image_top.newMainImageReady(modelData)
             }
             onImageLoadedAndReadyChanged: {
-                if(image_top.currentlyVisibleSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) { // qmllint disable unqualified
+                if(PQCConstants.currentImageSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) { // qmllint disable unqualified
                     if(image_top.bgOffset < image_top.bgFiles.length)
                         timer_loadbg.restart()
                 }
@@ -110,22 +114,22 @@ Item {
 
     Component.onCompleted: {
 
-        if(PQCConstants.startupFileLoad != "") {
+        if(PQCConstants.startupFilePath != "") {
 
             var img = repeaterimage.itemAt(0)
 
-            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad) && PQCFileFolderModel.countMainView === 0)) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath) && PQCFileFolderModel.countMainView === 0)) {
                 loadFirstImage.counter = 0
                 loadFirstImage.start()
                 return
             }
 
-            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad))
-                PQCConstants.startupFileLoad = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+                PQCConstants.startupFilePath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
-            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFileLoad)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFileLoad).toLocaleString()
-            img.imageSource = PQCConstants.startupFileLoad
+            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
+            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFilePath).toLocaleString()
+            img.imageSource = PQCConstants.startupFilePath
             img.thisIsStartupFile = true
 
         }
@@ -138,18 +142,18 @@ Item {
         property int counter: 0
         onTriggered: {
             var img = repeaterimage.itemAt(0)
-            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
                 counter += 1
                 loadFirstImage.restart()
                 return
             }
 
-            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFileLoad))
-                PQCConstants.startupFileLoad = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+                PQCConstants.startupFilePath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
-            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFileLoad)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFileLoad).toLocaleString()
-            img.imageSource = PQCConstants.startupFileLoad
+            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
+            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFilePath).toLocaleString()
+            img.imageSource = PQCConstants.startupFilePath
             img.thisIsStartupFile = true
 
         }

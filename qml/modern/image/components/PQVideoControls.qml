@@ -138,7 +138,7 @@ Item {
                         acceptedButtons: Qt.LeftButton|Qt.RightButton
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                loader_top.videoTogglePlay() // qmllint disable unqualified
+                                PQCNotifyQML.playPauseAnimationVideo()
                             else
                                 menu.popup()
                         }
@@ -415,7 +415,7 @@ Item {
                     iconSource: loader_top.videoPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     text: loader_top.videoPlaying ? qsTranslate("image", "Pause video") : qsTranslate("image", "Play video")
                     onTriggered: {
-                        loader_top.videoTogglePlay()
+                        PQCNotifyQML.playPauseAnimationVideo()
                     }
                 }
 
@@ -485,7 +485,7 @@ Item {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 enabled: controlitem.enabled
 

@@ -154,7 +154,7 @@ Item {
                         PQCNotify.currentArchiveComboOpen = false
                     }
                     Connections {
-                        target: PQCNotify
+                        target: PQCNotifyQML
                         function onCurrentArchiveCloseCombo() {
                             fileselect.popup.close()
                         }
@@ -193,7 +193,7 @@ Item {
                             text: qsTranslate("image", "Go to first page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    PQCNotify.currentArchiveJump(-image.currentFile)
+                                    PQCNotifyQML.currentArchiveJump(-image.currentFile)
                                 else
                                     menu.popup()
                             }
@@ -223,7 +223,7 @@ Item {
                             text: qsTranslate("image", "Go to previous page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    PQCNotify.currentArchiveJump(-1)
+                                    PQCNotifyQML.currentArchiveJump(-1)
                                 else
                                     menu.popup()
                             }
@@ -253,7 +253,7 @@ Item {
                             text: qsTranslate("image", "Go to next page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    PQCNotify.currentArchiveJump(1)
+                                    PQCNotifyQML.currentArchiveJump(1)
                                 else
                                     menu.popup()
                             }
@@ -284,7 +284,7 @@ Item {
                             text: qsTranslate("image", "Go to last page")
                             onClicked: (mouse) => {
                                 if(mouse.button === Qt.LeftButton)
-                                    PQCNotify.currentArchiveJump(image.fileCount-image.currentFile-1)
+                                    PQCNotifyQML.currentArchiveJump(image.fileCount-image.currentFile-1)
                                 else
                                     menu.popup()
                             }
@@ -532,7 +532,7 @@ Item {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 enabled: controlitem.enabled
 

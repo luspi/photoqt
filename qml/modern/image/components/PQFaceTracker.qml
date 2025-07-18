@@ -112,7 +112,7 @@ Item {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 function onMouseMove(x : int, y : int) {
 

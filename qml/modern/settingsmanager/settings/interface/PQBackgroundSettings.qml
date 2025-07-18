@@ -99,7 +99,7 @@ Flickable {
                 PQRadioButton {
                     id: radio_fake
                     enforceMaxWidth: set_bg.rightcol
-                    visible: PQCNotify.haveScreenshots // qmllint disable unqualified
+                    visible: PQCConstants.startupHaveScreenshots
                     //: How the background of PhotoQt should be
                     text: qsTranslate("settingsmanager", "fake transparency")
                     ButtonGroup.group: bggrp

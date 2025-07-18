@@ -258,7 +258,7 @@ Window {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         enabled: element_top.setupHasBeenCompleted
 

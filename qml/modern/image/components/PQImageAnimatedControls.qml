@@ -116,6 +116,7 @@ Item {
                 cursorShape: Qt.SizeAllCursor
                 propagateComposedEvents: true
                 onWheel: {}
+                onClicked: {}
             }
 
             Row {
@@ -288,7 +289,7 @@ Item {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 enabled: controlitem.enabled
 

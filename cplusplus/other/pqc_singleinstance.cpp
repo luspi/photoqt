@@ -353,12 +353,12 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
         case Actions::Debug:
 
-            PQCNotify::get().setDebug(true);
+            PQCNotify::get().debugChanged(true);
             break;
 
         case Actions::NoDebug:
 
-            PQCNotify::get().setDebug(false);
+            PQCNotify::get().debugChanged(false);
             break;
 
         case Actions::Setting:

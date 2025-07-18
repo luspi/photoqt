@@ -1104,7 +1104,7 @@ Rectangle {
                     PQCSettings.interfacePopoutMainMenu = true
                 else
                     mainmenu_popout.close()
-                PQCNotify.executeInternalCommand("__showMainMenu")
+                PQCScriptsShortcuts.executeInternalCommand("__showMainMenu")
             }
         }
     }
@@ -1124,7 +1124,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onMouseMove(posx : int, posy : int) {
 
@@ -1181,7 +1181,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

@@ -32,7 +32,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -42,7 +42,7 @@ Item {
 
                     error.opacity = 0
                     if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotifyQML.loaderRegisterClose("filecopy")
                         return
                     }
 
@@ -50,13 +50,13 @@ Item {
 
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        PQCNotify.loaderRegisterClose("filemove")
+                        PQCNotifyQML.loaderRegisterClose("filemove")
                     } else {
                         if(!PQCScriptsFileManagement.moveFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else {
                             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                            PQCNotify.loaderRegisterClose("filemove")
+                            PQCNotifyQML.loaderRegisterClose("filemove")
                         }
                     }
 
@@ -68,7 +68,7 @@ Item {
                         errorbut.contextmenu.close()
                     else if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        PQCNotify.loaderRegisterClose("filemove")
+                        PQCNotifyQML.loaderRegisterClose("filemove")
                     }
                 }
             }
@@ -102,7 +102,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    PQCNotify.loaderRegisterClose("filemove") // qmllint disable unqualified
+                    PQCNotifyQML.loaderRegisterClose("filemove") // qmllint disable unqualified
                 }
             }
         }

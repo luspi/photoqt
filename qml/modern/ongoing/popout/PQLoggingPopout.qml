@@ -54,7 +54,7 @@ Window {
 
     visible: false
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.transColor
 
     PQTextL {
         id: title
@@ -71,7 +71,7 @@ Window {
         width: parent.width
         height: logging_top.height-title.height-bottomrow.height-15
 
-        text: PQCNotify.debugLogMessages // qmllint disable unqualified
+        text: PQCNotifyQML.debugLogMessages
 
     }
 
@@ -83,14 +83,14 @@ Window {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorActive
         }
 
         PQCheckBox {
@@ -100,7 +100,7 @@ Window {
             //: Used as in: enable debug message
             text: qsTranslate("logging", "enable")
             onClicked:
-                PQCNotify.debug = checked // qmllint disable unqualified
+                PQCConstants.debugMode = checked
         }
 
         PQButtonElement {
@@ -109,7 +109,7 @@ Window {
             y: 1
             height: parent.height-1
             text: genericStringClose
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold
             onClicked:
                 logging_top.close()
         }
@@ -121,7 +121,7 @@ Window {
             width: height
             height: parent.height-1
             text: "..."
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold
             onClicked:
                 actionsmenu.popup(parent.width-width, -actionsmenu.height)
         }
@@ -132,13 +132,13 @@ Window {
                 //: the thing being copied here are the debug messages
                 text: qsTranslate("logging", "copy to clipboard")
                 onTriggered:
-                    PQCScriptsClipboard.copyTextToClipboard(PQCNotify.debugLogMessages) // qmllint disable unqualified
+                    PQCScriptsClipboard.copyTextToClipboard(PQCConstants.debugLogMessages)
             }
             PQMenuItem {
                 //: the thing saved to files here are the debug messages
                 text: qsTranslate("logging", "save to file")
                 onTriggered:
-                    PQCScriptsFilesPaths.saveLogToFile(PQCNotify.debugLogMessages) // qmllint disable unqualified
+                    PQCScriptsFilesPaths.saveLogToFile(PQCConstants.debugLogMessages)
             }
         }
 
@@ -146,7 +146,7 @@ Window {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -154,7 +154,7 @@ Window {
 
                 if(param[0] === "logging") {
 
-                    if(PQCScriptsConfig.amIOnWindows()) // qmllint disable unqualified
+                    if(PQCScriptsConfig.amIOnWindows())
                         logging_top.opacity = 0
 
                     logging_top.showNormal()
@@ -162,7 +162,7 @@ Window {
                     if(PQCScriptsConfig.amIOnWindows())
                         showOpacity.restart()
 
-                    enabledebug.checked = PQCNotify.debug
+                    enabledebug.checked = PQCConstants.debugMode
 
                 }
 

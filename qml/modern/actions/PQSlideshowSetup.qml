@@ -611,7 +611,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -717,7 +717,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && slideshowsetup_popout.visible)
             slideshowsetup_popout.visible = false // qmllint disable unqualified
         else
-            PQCNotify.loaderRegisterClose(thisis)
+            PQCNotifyQML.loaderRegisterClose(thisis)
     }
 
     function startSlideshow() {
@@ -739,8 +739,8 @@ PQTemplateFullscreen {
         PQCSettings.slideshowMusicFiles = slideshowsettings_top.musicfiles
 
         hide()
-        PQCNotify.loaderShow("slideshowhandler")
-        PQCNotify.loaderShow("slideshowcontrols")
+        PQCNotifyQML.loaderShow("slideshowhandler")
+        PQCNotifyQML.loaderShow("slideshowcontrols")
 
     }
 

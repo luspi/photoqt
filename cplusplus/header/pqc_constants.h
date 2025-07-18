@@ -27,6 +27,7 @@
 #include <pqc_settingscpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_filefoldermodel.h>
+#include <pqc_notify.h>
 
 #include <QObject>
 #include <QStandardPaths>
@@ -53,8 +54,6 @@ public:
 
     explicit PQCConstants() : QObject() {
 
-        m_startupFileLoad = "";
-
         m_windowWidth = 0;
         m_windowHeight = 0;
         m_mainWindowBeingResized = false;
@@ -72,6 +71,7 @@ public:
         m_slideshowRunningAndPlaying = false;
         m_slideshowVolume = 1.0;
 
+        m_currentImageSource = "";
         m_currentImageScale = 1;
         m_currentImageRotation = 0;
         m_currentImageResolution = QSize(0,0);
@@ -129,18 +129,54 @@ public:
         });
         m_updateDevicePixelRatio->start();
 
-        m_initTime = 0;
-
         m_lastInternalShortcutExecuted = 0;
-
         m_whichContextMenusOpen.clear();
+
+        m_colorProfileCache.clear();
+
+        /****************************************/
+
+        // anything picked up from PQCNotify
+
+        connect(&PQCNotify::get(), &PQCNotify::setColorProfileFor, this, [=](QString path, QString val) {
+            m_colorProfileCache[path] = val;
+            Q_EMIT colorProfileCacheChanged();
+        });
+
+        // in order to initialize the startup properties
+        // we check if there is a cached value in PQCNotify
+        // and we react to any changes to those values
+
+        m_debugMode = PQCNotify::get().getDebug();
+        m_debugLogMessages = "";
+        m_startupFilePath = PQCNotify::get().getFilePath();
+        m_startupStartInTray = PQCNotify::get().getStartInTray();
+        m_startupHaveScreenshots = PQCNotify::get().getHaveScreenshots();
+        m_startupHaveSettingUpdate = (PQCNotify::get().getSettingUpdate().length() > 0);
+
+        connect(&PQCNotify::get(), &PQCNotify::filePathChanged, this, [=](QString val) { m_startupFilePath = val; Q_EMIT startupFilePathChanged(); });
+        connect(&PQCNotify::get(), &PQCNotify::debugChanged, this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
+        connect(&PQCNotify::get(), &PQCNotify::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
+        connect(&PQCNotify::get(), &PQCNotify::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
+        connect(&PQCNotify::get(), &PQCNotify::haveScreenshotsChanged, this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
+        connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
 
     }
 
     /******************************************************/
-    // some generic global propertues
+    // some startup properties
 
-    Q_PROPERTY(QString startupFileLoad MEMBER m_startupFileLoad NOTIFY startupFileLoadChanged)
+    Q_PROPERTY(bool debugMode MEMBER m_debugMode NOTIFY debugModeChanged)
+    Q_PROPERTY(QString debugLogMessages MEMBER m_debugLogMessages NOTIFY debugLogMessagesChanged)
+    Q_PROPERTY(QString startupFilePath MEMBER m_startupFilePath NOTIFY startupFilePathChanged)
+    Q_PROPERTY(bool startupStartInTray MEMBER m_startupStartInTray NOTIFY startupStartInTrayChanged)
+    Q_PROPERTY(bool startupHaveScreenshots MEMBER m_startupHaveScreenshots NOTIFY startupHaveScreenshotsChanged)
+    Q_PROPERTY(bool startupHaveSettingUpdate MEMBER m_startupHaveSettingUpdate NOTIFY startupHaveSettingUpdateChanged)
+
+
+    /******************************************************/
+    // some generic global properties
+
     Q_PROPERTY(bool photoQtShuttingDown MEMBER m_photoQtShuttingDown NOTIFY photoQtShuttingDownChanged)
     Q_PROPERTY(bool modalWindowOpen MEMBER m_modalWindowOpen NOTIFY modalWindowOpenChanged)
     Q_PROPERTY(QString idOfVisibleItem MEMBER m_idOfVisibleItem NOTIFY idOfVisibleItemChanged)
@@ -180,6 +216,7 @@ public:
     /******************************************************/
     // some image properties
 
+    Q_PROPERTY(QString currentImageSource MEMBER m_currentImageSource NOTIFY currentImageSourceChanged)
     Q_PROPERTY(double currentImageScale MEMBER m_currentImageScale NOTIFY currentImageScaleChanged)
     Q_PROPERTY(int currentImageRotation MEMBER m_currentImageRotation NOTIFY currentImageRotationChanged)
     Q_PROPERTY(QSize currentImageResolution MEMBER m_currentImageResolution NOTIFY currentImageResolutionChanged)
@@ -205,6 +242,8 @@ public:
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool isMotionPhoto MEMBER m_isMotionPhoto NOTIFY isMotionPhotoChanged)
     Q_PROPERTY(bool barcodeDisplayed MEMBER m_barcodeDisplayed NOTIFY barcodeDisplayedChanged)
+
+    Q_PROPERTY(QVariantMap colorProfileCache MEMBER m_colorProfileCache NOTIFY colorProfileCacheChanged)
 
     /******************************************************/
     // some slideshow properties
@@ -238,15 +277,14 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(qint64 initTime MEMBER m_initTime NOTIFY initTimeChanged)
-
-    void setInitTime(qint64 t) {
-        m_initTime = t;
-        initTimeChanged();
-    }
-
 private:
-    QString m_startupFileLoad;
+    bool m_debugMode;
+    QString m_debugLogMessages;
+    QMutex m_addDebugLogMessageMutex;
+    QString m_startupFilePath;
+    bool m_startupStartInTray;
+    bool m_startupHaveScreenshots;
+    bool m_startupHaveSettingUpdate;
 
     int m_windowWidth;
     int m_windowHeight;
@@ -269,6 +307,7 @@ private:
     bool m_slideshowRunningAndPlaying;
     double m_slideshowVolume;
 
+    QString m_currentImageSource;
     double m_currentImageScale;
     int m_currentImageRotation;
     QSize m_currentImageResolution;
@@ -297,6 +336,8 @@ private:
     bool m_isMotionPhoto;
     bool m_barcodeDisplayed;
 
+    QVariantMap m_colorProfileCache;
+
     QRect m_statusInfoCurrentRect;
     QRect m_quickActionsCurrentRect;
     QRect m_windowButtonsCurrentRect;
@@ -307,13 +348,27 @@ private:
     QTimer *m_updateDevicePixelRatio;
     QString m_lastExecutedShortcutCommand;
 
-    qint64 m_initTime;
     qint64 m_lastInternalShortcutExecuted;
 
     QStringList m_whichContextMenusOpen;
 
+private Q_SLOTS:
+    void addDebugLogMessages(QString val) {
+        // without a mutex a crash can be encountered here when multiple threads write to this variable at the same time
+        m_addDebugLogMessageMutex.lock();
+        m_debugLogMessages.append(val);
+        m_addDebugLogMessageMutex.unlock();
+        Q_EMIT debugLogMessagesChanged();
+    }
+
 Q_SIGNALS:
-    void startupFileLoadChanged();
+    void debugModeChanged();
+    void debugLogMessagesChanged();
+    void startupFilePathChanged();
+    void startupStartInTrayChanged();
+    void startupHaveScreenshotsChanged();
+    void startupHaveSettingUpdateChanged();
+
     void windowWidthChanged();
     void windowHeightChanged();
     void mainWindowBeingResizedChanged();
@@ -333,8 +388,8 @@ Q_SIGNALS:
     void statusInfoMovedManuallyChanged();
     void quickActionsMovedManuallyChanged();
     void statusInfoMovedDownChanged();
-    void initTimeChanged();
     void lastInternalShortcutExecutedChanged();
+    void currentImageSourceChanged();
     void currentImageScaleChanged();
     void currentImageRotationChanged();
     void currentImageResolutionChanged();
@@ -367,6 +422,7 @@ Q_SIGNALS:
     void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
     void barcodeDisplayedChanged();
+    void colorProfileCacheChanged();
 
 };
 

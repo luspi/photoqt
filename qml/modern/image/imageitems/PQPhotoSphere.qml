@@ -184,7 +184,7 @@ PQCPhotoSphere { // qmllint disable
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onCurrentViewMove(direction : string) {
 
@@ -306,11 +306,12 @@ PQCPhotoSphere { // qmllint disable
         }
     }
 
+    // slideshow paused/resumed
     Connections {
 
-        target: image_top // qmllint disable unqualified
+        target: PQCConstants
 
-        function onCurrentlyVisibleSourceChanged() {
+        function onCurrentImageSourceChanged() {
 
             if(!loader_top.isMainImage) { // qmllint disable unqualified
                 if(kb_left.running)
@@ -320,13 +321,6 @@ PQCPhotoSphere { // qmllint disable
             }
 
         }
-
-    }
-
-    // slideshow paused/resumed
-    Connections {
-
-        target: PQCConstants
 
         function onSlideshowRunningAndPlayingChanged() {
             if(PQCConstants.slideshowRunningAndPlaying) { // qmllint disable unqualified
@@ -470,7 +464,7 @@ PQCPhotoSphere { // qmllint disable
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("facetagging", "Click to exit photo sphere")
                         onClicked: {
-                            PQCNotify.exitPhotoSphere()
+                            PQCNotifyQML.exitPhotoSphere()
                         }
                         onEntered: srccomp.hovered = true
                         onExited: srccomp.hovered = false

@@ -271,8 +271,8 @@ Window {
             text: qsTranslate("popinpopout", "Merge into main interface")
             onClicked: {
                 element_top.settings["ExtPopout"] = false
-                PQCNotify.loaderRegisterClose(element_top.extensionId)
-                PQCNotify.loaderShowExtension(element_top.extensionId)
+                PQCNotifyQML.loaderRegisterClose(element_top.extensionId)
+                PQCNotifyQML.loaderShowExtension(element_top.extensionId)
             }
         }
 
@@ -306,7 +306,7 @@ Window {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         enabled: element_top.setupHasBeenCompleted
 
@@ -338,21 +338,21 @@ Window {
         if(settings["ExtForcePopout"]) {
             var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
             if(PQCConstants.windowWidth > minsize.width && PQCConstants.windowHeight > minsize.height) {
-                PQCNotify.loaderRegisterClose(extensionId)
+                PQCNotifyQML.loaderRegisterClose(extensionId)
                 settings["ExtForcePopout"] = false
                 settings["ExtPopout"] = false
-                PQCNotify.loaderShowExtension(extensionId)
+                PQCNotifyQML.loaderShowExtension(extensionId)
                 return
             }
         }
 
-        PQCNotify.loaderRegisterOpen(element_top.extensionId)
+        PQCNotifyQML.loaderRegisterOpen(element_top.extensionId)
         show()
         popout_loader.item.showing()
     }
 
     function hide() {
-        PQCNotify.loaderRegisterClose(element_top.extensionId)
+        PQCNotifyQML.loaderRegisterClose(element_top.extensionId)
         settings["ExtShow"] = false
         element_top.close()
         popout_loader.item.hiding()

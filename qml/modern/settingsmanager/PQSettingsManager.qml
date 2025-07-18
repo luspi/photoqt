@@ -791,7 +791,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -812,7 +812,7 @@ PQTemplateFullscreen {
                     sm_category.loadSpecificCategory("interface","if_interface")
 
                 // we need to call the loader to set all other variables there accordingly
-                PQCNotify.loaderShow("settingsmanager") // qmllint disable unqualified
+                PQCNotifyQML.loaderShow("settingsmanager") // qmllint disable unqualified
 
             } else if(what === "hide") {
 
@@ -950,7 +950,7 @@ PQTemplateFullscreen {
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)
             settingsmanager_window.visible = false // qmllint disable unqualified
-        PQCNotify.loaderRegisterClose(thisis)
+        PQCNotifyQML.loaderRegisterClose(thisis)
         PQCNotify.ignoreKeysExceptEnterEsc = false
         PQCNotify.ignoreKeysExceptEsc = false
         fullscreenitem.forceActiveFocus()

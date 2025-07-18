@@ -45,7 +45,7 @@ PQTemplatePopout {
     onPopoutClosed: {
         PQCSettings.interfacePopoutMetadata = false
         close()
-        PQCNotify.executeInternalCommand("__showMetaData")
+        PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
     }
 
     onPopoutChanged: {

@@ -67,7 +67,7 @@ Item {
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: menuicon.hovered = true
         onExited: menuicon.hovered = false
-        onClicked: PQCNotify.executeInternalCommand(cmd) // qmllint disable unqualified
+        onClicked: PQCScriptsShortcuts.executeInternalCommand(cmd) // qmllint disable unqualified
     }
 
 }

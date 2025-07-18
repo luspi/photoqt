@@ -45,7 +45,7 @@ PQTemplatePopout {
     onPopoutClosed: {
         PQCSettings.interfacePopoutMainMenu = false
         close()
-        PQCNotify.executeInternalCommand("__showMainMenu")
+        PQCScriptsShortcuts.executeInternalCommand("__showMainMenu")
     }
 
     onPopoutChanged: {

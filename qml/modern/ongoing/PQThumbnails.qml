@@ -922,7 +922,7 @@ Rectangle {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
+                    PQCNotifyQML.openSettingsManagerAt("showSettings", ["thumbnails"])
                 }
             }
 
@@ -970,7 +970,9 @@ Rectangle {
     property bool ignoreMouseMoveShortly: false
 
     Connections {
-        target: PQCNotify // qmllint disable unqualified
+
+        target: PQCNotifyQML
+
         function onMouseMove(posx : int, posy : int) {
 
             if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
@@ -1020,7 +1022,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

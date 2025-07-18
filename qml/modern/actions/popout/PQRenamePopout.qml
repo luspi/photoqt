@@ -41,7 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("filerename")
+        PQCNotifyQML.loaderRegisterClose("filerename")
     }
 
     onPopoutChanged: {

@@ -46,28 +46,34 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
-
-        function onCmdShortcutSequence(seq : string) {
-            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(-1,-1), Qt.point(0,0))
-        }
+        target: PQCScriptsShortcuts
 
         function onExecuteInternalCommand(cmd : string) {
             keyshortcuts_top.executeInternalFunction(cmd, Qt.point(-1,-1), Qt.point(0,0))
         }
 
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
+
+        function onCmdShortcutSequence(seq : string) {
+            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(-1,-1), Qt.point(0,0))
+        }
+
         function onKeyPress(key : int, modifiers : int) {
 
-            if(PQCConstants.modalWindowOpen) { // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) {
 
                 // make sure contextmenu is closed on key press
                 PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
 
-                PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
 
             } else if(PQCConstants.currentArchiveComboOpen) {
 
-                PQCNotify.currentArchiveCloseCombo()
+                PQCNotifyQML.currentArchiveCloseCombo()
 
             } else {
 
@@ -89,7 +95,7 @@ Item {
 
             if(PQCConstants.modalWindowOpen)
 
-                PQCNotify.loaderPassOn("mouseWheel", [mousePos, angleDelta, modifiers])
+                PQCNotifyQML.loaderPassOn("mouseWheel", [mousePos, angleDelta, modifiers])
 
             else {
 
@@ -112,7 +118,7 @@ Item {
 
             if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                PQCNotify.loaderPassOn("mousePressed", [modifiers, button, pos])
+                PQCNotifyQML.loaderPassOn("mousePressed", [modifiers, button, pos])
 
             else {
 
@@ -133,7 +139,7 @@ Item {
 
             if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                PQCNotify.loaderPassOn("mouseReleased", [modifiers, button, pos])
+                PQCNotifyQML.loaderPassOn("mouseReleased", [modifiers, button, pos])
 
             else {
 
@@ -154,7 +160,7 @@ Item {
 
             if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
 
-                PQCNotify.loaderPassOn("mouseMove", [x, y])
+                PQCNotifyQML.loaderPassOn("mouseMove", [x, y])
 
             else {
 
@@ -232,7 +238,7 @@ Item {
 
             // a context menu is open -> don't continue
             if(PQCConstants.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
-                PQCNotify.closeAllContextMenus()
+                PQCNotifyQML.closeAllContextMenus()
                 return
             }
 
@@ -250,7 +256,7 @@ Item {
 
             // Escape when bar/QR codes are displayed hides those bar codes
             if(PQCConstants.barcodeDisplayed && PQCSettings.imageviewEscapeExitBarcodes) {
-                PQCNotify.currentImageDetectBarCodes()
+                PQCNotifyQML.currentImageDetectBarCodes()
                 return
             }
 
@@ -276,19 +282,19 @@ Item {
                 if(PQCSettings.filetypesVideoLeftRightJumpVideo) {
 
                     if(combo === "Left") {
-                        PQCNotify.currentVideoJump(-5)
+                        PQCNotifyQML.currentVideoJump(-5)
                         return
                     }
 
                     if(combo === "Right") {
-                        PQCNotify.currentVideoJump(5)
+                        PQCNotifyQML.currentVideoJump(5)
                         return
                     }
 
                 }
 
                 if(PQCSettings.filetypesVideoSpacePause && combo === "Space") {
-                    PQCNotify.playPauseAnimationVideo()
+                    PQCNotifyQML.playPauseAnimationVideo()
                     return
                 }
 
@@ -305,19 +311,20 @@ Item {
                 if(PQCSettings.filetypesAnimatedLeftRight) {
 
                     if(combo === "Left") {
-                        PQCNotify.currentAnimatedJump(-1)
+                        PQCNotifyQML.currentAnimatedJump(-1)
                         return
                     }
 
                     if(combo === "Right") {
-                        PQCNotify.currentAnimatedJump(1)
+                        PQCNotifyQML.currentAnimatedJump(1)
                         return
                     }
 
                 }
 
                 if(combo === "Space" && PQCSettings.filetypesAnimatedSpacePause) {
-                    PQCNotify.playPauseAnimationVideo()
+                    console.warn(">>> PLAY/PAUSE")
+                    PQCNotifyQML.playPauseAnimationVideo()
                     return
                 }
 
@@ -328,7 +335,7 @@ Item {
         // Space when motion photo is loaded might have special actions
         if(combo === "Space" && PQCConstants.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
 
-            PQCNotify.playPauseAnimationVideo()
+            PQCNotifyQML.playPauseAnimationVideo()
             return
 
         }
@@ -339,12 +346,12 @@ Item {
             if(PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile)) {
 
                 if(combo === "Left") {
-                    PQCNotify.currentDocumentJump(-1)
+                    PQCNotifyQML.currentDocumentJump(-1)
                     return
                 }
 
                 if(combo === "Right") {
-                    PQCNotify.currentDocumentJump(1)
+                    PQCNotifyQML.currentDocumentJump(1)
                     return
                 }
 
@@ -358,12 +365,12 @@ Item {
             if(PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile)) {
 
                 if(combo === "Left") {
-                    PQCNotify.currentArchiveJump(-1)
+                    PQCNotifyQML.currentArchiveJump(-1)
                     return
                 }
 
                 if(combo === "Right") {
-                    PQCNotify.currentArchiveJump(1)
+                    PQCNotifyQML.currentArchiveJump(1)
                     return
                 }
 
@@ -376,14 +383,14 @@ Item {
             if(PQCSettings.filetypesPhotoSphereArrowKeys &&
                     (combo === "Left" || combo === "Right" || combo === "Up" || combo === "Down")) {
 
-                PQCNotify.currentViewMove(combo.toLowerCase())
+                PQCNotifyQML.currentViewMove(combo.toLowerCase())
                 return
 
             }
 
             if((!PQCScriptsImages.isPhotoSphere(PQCFileFolderModel.currentFile) || !PQCSettings.filetypesPhotoSphereAutoLoad) && combo === "Esc" && PQCSettings.imageviewEscapeExitSphere) {
 
-                PQCNotify.exitPhotoSphere()
+                PQCNotifyQML.exitPhotoSphere()
                 return
 
             }
@@ -401,7 +408,7 @@ Item {
             // check for shortcuts that are enabled for extensions
             var ext = PQCExtensionsHandler.getExtensionForShortcut(combo)
             if(ext !== "" && (!PQCExtensionsHandler.getExtensionModalMake(ext) || (PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext) && PQCExtensionsHandler.currentFile !== "")))
-                PQCNotify.loaderShowExtension(ext)
+                PQCNotifyQML.loaderShowExtension(ext)
 
             // we always stop, no matter what, in this case
             return
@@ -428,7 +435,7 @@ Item {
                         return
                     PQCScriptsShortcuts.executeExternal(parts[0], parts[1], PQCFileFolderModel.currentFile)
                     if(parts[2]*1 === 1)
-                        PQCNotify.windowClose()
+                        PQCNotifyQML.windowClose()
                 }
             }
 
@@ -446,7 +453,7 @@ Item {
                     return
                 PQCScriptsShortcuts.executeExternal(curparts[0], curparts[1], PQCFileFolderModel.currentFile)
                 if(curparts[2]*1 === 1)
-                    PQCNotify.windowClose()
+                    PQCNotifyQML.windowClose()
             }
 
         }
@@ -473,44 +480,44 @@ Item {
             // elements
 
             case "__open":
-                PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
+                PQCNotifyQML.loaderShow("filedialog") // qmllint disable unqualified
                 break
             case "__showMapExplorer":
-                PQCNotify.loaderShow("mapexplorer")
+                PQCNotifyQML.loaderShow("mapexplorer")
                 break
             case "__settings":
-                PQCNotify.loaderShow("settingsmanager")
+                PQCNotifyQML.loaderShow("settingsmanager")
                 break
             case "__about":
-                PQCNotify.loaderShow("about")
+                PQCNotifyQML.loaderShow("about")
                 break
             case "__slideshow":
-                PQCNotify.loaderShow("slideshowsetup")
+                PQCNotifyQML.loaderShow("slideshowsetup")
                 break
             case "__slideshowQuick":
-                PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
-                PQCNotify.loaderShow("slideshowhandler")
-                PQCNotify.loaderShow("slideshowcontrols")
+                PQCNotifyQML.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
+                PQCNotifyQML.loaderShow("slideshowhandler")
+                PQCNotifyQML.loaderShow("slideshowcontrols")
                 break
             case "__filterImages":
-                PQCNotify.loaderShow("filter")
+                PQCNotifyQML.loaderShow("filter")
                 break
             case "__tagFaces":
-                PQCNotify.loaderPassOn("tagFaces", [])
+                PQCNotifyQML.loaderPassOn("tagFaces", [])
                 break
             case "__chromecast":
-                PQCNotify.loaderShow("chromecastmanager")
+                PQCNotifyQML.loaderShow("chromecastmanager")
                 break
             case "__logging":
-                PQCNotify.loaderShow("logging")
+                PQCNotifyQML.loaderShow("logging")
                 break;
             case "__advancedSort":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
-                    PQCNotify.loaderShow("advancedsort")
+                    PQCNotifyQML.loaderShow("advancedsort")
                 break
             case "__advancedSortQuick":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    PQCNotify.loaderShow("advancedsort")
+                    PQCNotifyQML.loaderShow("advancedsort")
                     loader_advancedsort.item.doSorting()
                 }
                 break
@@ -528,14 +535,14 @@ Item {
                 break
             case "__showMetaData":
             case "__keepMetaData":
-                PQCNotify.loaderPassOn("toggle", ["metadata"])
+                PQCNotifyQML.loaderPassOn("toggle", ["metadata"])
                 break
             case "__showMainMenu":
             case "__toggleMainMenu":
-                PQCNotify.loaderPassOn("toggle", ["mainmenu"])
+                PQCNotifyQML.loaderPassOn("toggle", ["mainmenu"])
                 break
             case "__showThumbnails":
-                PQCNotify.loaderShow("thumbnails")
+                PQCNotifyQML.loaderShow("thumbnails")
                 break
 
 
@@ -543,10 +550,10 @@ Item {
             // interface functions
 
             case "__quit":
-                PQCNotify.photoQtQuit()
+                PQCNotifyQML.photoQtQuit()
                 break
             case "__close":
-                PQCNotify.windowClose()
+                PQCNotifyQML.windowClose()
                 break
             case "__fullscreenToggle":
                 PQCSettings.interfaceWindowMode = !PQCSettings.interfaceWindowMode
@@ -587,9 +594,9 @@ Item {
                 break
             case "__enterPhotoSphere":
                 if(PQCScriptsConfig.isPhotoSphereSupportEnabled())
-                    PQCNotify.enterPhotoSphere()
+                    PQCNotifyQML.enterPhotoSphere()
                 else
-                    PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
+                    PQCNotifyQML.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "Photo spheres are not supported by this build of PhotoQt."))
                 break
 
             /**********************/
@@ -629,7 +636,7 @@ Item {
                 PQCSettings.imageviewFitInWindow = !PQCSettings.imageviewFitInWindow
                 break
             case "__playPauseAni":
-                PQCNotify.playPauseAnimationVideo()
+                PQCNotifyQML.playPauseAnimationVideo()
                 break
             case "__showFaceTags":
                 PQCSettings.metadataFaceTagsEnabled = !PQCSettings.metadataFaceTagsEnabled
@@ -638,83 +645,83 @@ Item {
                 PQCSettings.imageviewAlwaysActualSize = !PQCSettings.imageviewAlwaysActualSize
                 break
             case "__flickViewLeft":
-                PQCNotify.currentViewFlick("left")
+                PQCNotifyQML.currentViewFlick("left")
                 break
             case "__flickViewRight":
-                PQCNotify.currentViewFlick("right")
+                PQCNotifyQML.currentViewFlick("right")
                 break
             case "__flickViewUp":
-                PQCNotify.currentViewFlick("up")
+                PQCNotifyQML.currentViewFlick("up")
                 break
             case "__flickViewDown":
-                PQCNotify.currentViewFlick("down")
+                PQCNotifyQML.currentViewFlick("down")
                 break
             case "__moveViewLeft":
-                PQCNotify.currentViewMove("left")
+                PQCNotifyQML.currentViewMove("left")
                 break
             case "__moveViewRight":
-                PQCNotify.currentViewMove("right")
+                PQCNotifyQML.currentViewMove("right")
                 break
             case "__moveViewUp":
-                PQCNotify.currentViewMove("up")
+                PQCNotifyQML.currentViewMove("up")
                 break
             case "__moveViewDown":
-                PQCNotify.currentViewMove("down")
+                PQCNotifyQML.currentViewMove("down")
                 break
             case "__goToLeftEdge":
-                PQCNotify.currentViewMove("leftedge")
+                PQCNotifyQML.currentViewMove("leftedge")
                 break
             case "__goToRightEdge":
-                PQCNotify.currentViewMove("rightedge")
+                PQCNotifyQML.currentViewMove("rightedge")
                 break
             case "__goToTopEdge":
-                PQCNotify.currentViewMove("topedge")
+                PQCNotifyQML.currentViewMove("topedge")
                 break
             case "__goToBottomEdge":
-                PQCNotify.currentViewMove("bottomedge")
+                PQCNotifyQML.currentViewMove("bottomedge")
                 break
             case "__detectBarCodes":
-                PQCNotify.currentImageDetectBarCodes()
+                PQCNotifyQML.currentImageDetectBarCodes()
                 break
             case "__videoJumpForwards":
-                PQCNotify.currentVideoJump(5)
+                PQCNotifyQML.currentVideoJump(5)
                 break
             case "__videoJumpBackwards":
-                PQCNotify.currentVideoJump(-5)
+                PQCNotifyQML.currentVideoJump(-5)
                 break
 
             /**********************/
             // file actions
 
             case "__rename":
-                PQCNotify.loaderShow("filerename")
+                PQCNotifyQML.loaderShow("filerename")
                 break
             case "__delete":
-                PQCNotify.loaderShow("filedelete")
+                PQCNotifyQML.loaderShow("filedelete")
                 break
             case "__copy":
-                PQCNotify.loaderShow("filecopy")
+                PQCNotifyQML.loaderShow("filecopy")
                 break
             case "__move":
-                PQCNotify.loaderShow("filemove")
+                PQCNotifyQML.loaderShow("filemove")
                 break
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
-                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted"))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully deleted"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file"))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not delete file"))
                     }
                 }
                 break
             case "__deleteTrash":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
                     if(PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
-                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Success"), qsTranslate("filemanagement", "File successfully moved to trash"))
                         PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
                     } else {
-                        PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Failed"), qsTranslate("filemanagement", "Could not move file to trash"))
                     }
                 }
                 break
@@ -737,23 +744,23 @@ Item {
             case "__undoTrash":
                 var ret = PQCScriptsUndo.undoLastAction("trash")
                 if(ret === "")
-                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
+                    PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
                 else if(ret.startsWith("-"))
-                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Error"), ret.substring(1))
+                    PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Error"), ret.substring(1))
                 else
-                    PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Success"), ret)
+                    PQCNotifyQML.showNotificationMessage(qsTranslate("filemanagement", "Success"), ret)
                 break
 
             /**********************/
             // other
 
             case "__resetSessionAndHide":
-                PQCNotify.resetSessionData()
+                PQCNotifyQML.resetSessionData()
                 PQCSettings.interfaceTrayIcon = 1
-                PQCNotify.windowClose()
+                PQCNotifyQML.windowClose()
                 break
             case "__resetSession":
-                PQCNotify.resetSessionData()
+                PQCNotifyQML.resetSessionData()
                 break
             case "__onlineHelp":
                 Qt.openUrlExternally("https://photoqt.org/support")

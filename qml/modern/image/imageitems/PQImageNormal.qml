@@ -220,8 +220,8 @@ Image {
     // the code below takes care of loading special photo actions
 
     Connections {
-        target: image_top // qmllint disable unqualified
-        function onCurrentlyVisibleSourceChanged() {
+        target: PQCConstants
+        function onCurrentImageSourceChanged() {
             if(!loader_top.isMainImage && !image.ignoreSignals) { // qmllint disable unqualified
                 videoloader.active = false
             }
@@ -266,7 +266,7 @@ Image {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Click here to enter photo sphere")
                     onClicked: {
-                        PQCNotify.enterPhotoSphere()
+                        PQCNotifyQML.enterPhotoSphere()
                     }
                 }
 
@@ -422,11 +422,16 @@ Image {
                     if(PQCSettings.filetypesMotionAutoPlay) // qmllint disable unqualified
                         play()
                 }
+
                 Connections {
-                    target: loader_top // qmllint disable unqualified
-                    function onVideoTogglePlay() {
-                        if(!image_top.isMainImage) // qmllint disable unqualified
+
+                    target: PQCNotifyQML
+
+                    function onPlayPauseAnimationVideo() {
+
+                        if(!loader_top.isMainImage)
                             return
+
                         if(mediaplayer.playbackState == MediaPlayer.PausedState)
                             mediaplayer.play()
                         else if(mediaplayer.playbackState == MediaPlayer.StoppedState) {
@@ -434,8 +439,11 @@ Image {
                             mediaplayer.play()
                         } else
                             mediaplayer.pause()
+
                     }
+
                 }
+
             }
 
             Row {

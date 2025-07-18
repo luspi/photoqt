@@ -114,11 +114,11 @@ Item {
             if(entrytop.cmd == "") {
                 entrytop.clicked()
             } else if(!entrytop.customEntry || entrytop.cmd.startsWith("__")) {
-                PQCNotify.executeInternalCommand(entrytop.cmd) // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand(entrytop.cmd) // qmllint disable unqualified
             } else {
                 PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);
                 if(custom_close == "1")
-                    PQCNotify.windowClose()
+                    PQCNotifyQML.windowClose()
             }
 
             if(closeMenu && !PQCSettings.interfacePopoutMainMenu)
