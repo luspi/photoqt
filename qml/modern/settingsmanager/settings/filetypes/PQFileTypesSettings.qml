@@ -163,13 +163,13 @@ Item {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                     Keys.onTabPressed: (event) => {
-                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
+                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
                     }
                     onPressed: (key, modifiers) => {
                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                     }
                 }
 
@@ -181,13 +181,13 @@ Item {
                         PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                     }
                     Keys.onTabPressed: (event) => {
-                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
+                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers]) // qmllint disable unqualified
                     }
                     onPressed: (key, modifiers) => {
                         if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers]) // qmllint disable unqualified
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
                     }
                 }
             }

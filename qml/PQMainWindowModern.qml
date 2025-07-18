@@ -29,9 +29,9 @@ Window {
 
     id: toplevel
 
-    flags: PQCSettings.interfaceWindowDecoration ? // qmllint disable unqualified
-               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint) : Qt.Window) :
-               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window|Qt.WindowMinMaxButtonsHint) : (Qt.FramelessWindowHint|Qt.Window|Qt.WindowMinMaxButtonsHint))
+    flags: PQCSettings.interfaceWindowDecoration ?
+               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : Qt.Window) :
+               (PQCSettings.interfaceKeepWindowOnTop ? (Qt.FramelessWindowHint|Qt.WindowStaysOnTopHint|Qt.Window|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint) : (Qt.FramelessWindowHint|Qt.Window|Qt.WindowMinMaxButtonsHint))
 
     color: "transparent"
 
@@ -122,9 +122,9 @@ Window {
         cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
         acceptedButtons: Qt.LeftButton
-        enabled: !masteritemattop.backgroundMessageReady && PQCConstants.startupFileLoad===""
+        enabled: !masteritemattop.backgroundMessageReady && PQCConstants.startupFilePath===""
         onClicked: {
-            PQCNotify.loaderShow("filedialog")
+            PQCNotifyQML.loaderShow("filedialog")
         }
     }
 
@@ -163,7 +163,7 @@ Window {
 
     Connections {
         target: PQCConstants
-        enabled: PQCConstants.startupFileLoad!==""
+        enabled: PQCConstants.startupFilePath!==""
         function onImageInitiallyLoadedChanged() {
             if(PQCConstants.imageInitiallyLoaded)
                 masteritemattop.active = true
@@ -203,7 +203,7 @@ Window {
 
         PQCScriptsConfig.updateTranslation() // qmllint disable unqualified
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
 
         // show window according to settings
@@ -214,7 +214,7 @@ Window {
                 toplevel.y = geo.y
                 toplevel.width = geo.width
                 toplevel.height = geo.height
-                if(PQCNotify.startInTray) {
+                if(PQCConstants.startupStartInTray) {
                     PQCSettings.interfaceTrayIcon = 1
                     toplevel.hide()
                 } else {
@@ -224,39 +224,38 @@ Window {
                         showNormal()
                 }
             } else {
-                if(PQCNotify.startInTray) {
+                if(PQCConstants.startupStartInTray) {
                     PQCSettings.interfaceTrayIcon = 1
                     toplevel.hide()
                 } else
                     showMaximized()
             }
         } else {
-            if(PQCNotify.startInTray) {
+            if(PQCConstants.startupStartInTray) {
                 PQCSettings.interfaceTrayIcon = 1
                 toplevel.hide()
             } else
                 showFullScreen()
         }
 
-        PQCNotify.loaderShow("mainmenu")
-        PQCNotify.loaderShow("metadata")
-        PQCNotify.loaderSetup("thumbnails")
+        PQCNotifyQML.loaderShow("mainmenu")
+        PQCNotifyQML.loaderShow("metadata")
+        PQCNotifyQML.loaderSetup("thumbnails")
 
-        if(PQCNotify.filePath !== "") {
+        if(PQCConstants.startupFilePath !== "") {
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
-            if(PQCScriptsFilesPaths.isFolder(PQCNotify.filePath))
-                PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
-            PQCConstants.startupFileLoad = PQCNotify.filePath
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
         } else if(PQCSettings.interfaceRememberLastImage)
-            PQCConstants.startupFileLoad = PQCScriptsConfig.getLastLoadedImage()
+            PQCConstants.startupFilePath = PQCScriptsConfig.getLastLoadedImage()
 
         // this comes after the above to make sure we load a potentially passed-on image
         imageloader.active = true
 
-        if(PQCScriptsConfig.amIOnWindows() && !PQCNotify.startInTray)
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             showOpacity.restart()
 
-        if(PQCConstants.startupFileLoad === "")
+        if(PQCConstants.startupFilePath === "")
             loadAppInBackgroundTimer.triggered()
         else
             loadAppInBackgroundTimer.start()
@@ -279,9 +278,43 @@ Window {
 
         target: PQCNotify // qmllint disable unqualified
 
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
+
+        function onStartInTrayChanged() : void {
+
+            console.log("")
+
+            if(PQCConstants.startupStartInTray) // qmllint disable unqualified
+                PQCSettings.interfaceTrayIcon = 1
+            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                PQCSettings.interfaceTrayIcon = 0
+
+        }
+
+        function onFilePathChanged() : void {
+            console.log("")
+            PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+            if(!toplevel.visible)
+                toplevel.visible = true
+            if(toplevel.visibility === Window.Minimized)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
+
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
+
         function onCmdOpen() : void {
             console.log("")
-            PQCNotify.loaderShow("filedialog")
+            PQCNotifyQML.loaderShow("filedialog")
         }
 
         function onCmdShow() : void {
@@ -349,48 +382,22 @@ Window {
 
         }
 
-        function onStartInTrayChanged() : void {
-
-            console.log("")
-
-            if(PQCNotify.startInTray) // qmllint disable unqualified
-                PQCSettings.interfaceTrayIcon = 1
-            else if(!PQCNotify.startInTray && PQCSettings.interfaceTrayIcon === 1)
-                PQCSettings.interfaceTrayIcon = 0
-
-        }
-
-        function onFilePathChanged() : void {
-            console.log("")
-            PQCFileFolderModel.fileInFolderMainView = PQCNotify.filePath
-            if(!toplevel.visible)
-                toplevel.visible = true
-            if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-            toplevel.raise()
-            toplevel.requestActivate()
-        }
-
         function onSetWindowState(state : int) {
             setStateTimer.newstate = state
             setStateTimer.restart()
+        }
+
+        function onWindowRaiseAndFocus() {
+            toplevel.raise()
+            toplevel.requestActivate()
         }
 
         function onWindowClose() {
             toplevel.close()
         }
 
-        function onPhotoQtQuit() {
-            toplevel.quitPhotoQt()
-        }
-
         function onWindowTitleOverride(title : string) {
             toplevel.titleOverride = title
-        }
-
-        function onWindowRaiseAndFocus() {
-            toplevel.raise()
-            toplevel.requestActivate()
         }
 
         function onWindowStartSystemMove() {
@@ -401,8 +408,9 @@ Window {
             toplevel.startSystemResize(edge)
         }
 
-        // this one is handled directly in PQShortcuts class
-        // function onCmdShortcutSequence(seq) {}
+        function onPhotoQtQuit() {
+            toplevel.quitPhotoQt()
+        }
 
     }
 
@@ -427,13 +435,13 @@ Window {
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
         if(PQCConstants.slideshowRunning)
-            PQCNotify.slideshowHideHandler()
+            PQCNotifyQML.slideshowHideHandler()
 
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false
             toplevel.visibility = Window.Hidden
             if(PQCSettings.interfaceTrayIconHideReset)
-                PQCNotify.resetSessionData()
+                PQCNotifyQML.resetSessionData()
             PQCConstants.photoQtShuttingDown = false
         } else {
             close.accepted = true

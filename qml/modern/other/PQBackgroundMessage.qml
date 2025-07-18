@@ -28,9 +28,9 @@ Item {
 
     id: bgmsg
 
-    width: PQCConstants.windowWidth // qmllint disable unqualified
-    height: PQCConstants.windowHeight // qmllint disable unqualified
-    visible: PQCFileFolderModel.countMainView===0 && PQCNotify.filePath==="" // qmllint disable unqualified
+    width: PQCConstants.windowWidth
+    height: PQCConstants.windowHeight
+    visible: PQCFileFolderModel.countMainView===0 && PQCConstants.startupFilePath===""
 
     property var entries: {
                        //: Label shown at startup before a file is loaded
@@ -591,21 +591,21 @@ Item {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
             if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
                 holdTrigger = false
-            PQCNotify.mouseMove(pos.x, pos.y)
+            PQCNotifyQML.mouseMove(pos.x, pos.y)
         }
         onWheel: (wheel) => {
             wheel.accepted = true
-            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
+            PQCNotifyQML.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
         }
         onPressed: (mouse) => {
             holdTrigger = false
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
             touchPos = pos
-            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+            PQCNotifyQML.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onMouseDoubleClicked: (mouse) => {
             var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
-            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+            PQCNotifyQML.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
             if(holdTrigger) {
@@ -614,16 +614,16 @@ Item {
             }
 
             // a context menu is open -> don't continue
-            if(PQCConstants.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
-                PQCNotify.closeAllContextMenus()
+            if(PQCConstants.whichContextMenusOpen.length > 0) {
+                PQCNotifyQML.closeAllContextMenus()
                 return
             }
 
             if(mouse.button === Qt.LeftButton)
-                PQCNotify.loaderShow("filedialog")
+                PQCNotifyQML.loaderShow("filedialog")
             else {
                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
-                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+                PQCNotifyQML.mouseReleased(mouse.modifiers, mouse.button, pos)
             }
         }
         onPressAndHold: (mouse) => {
@@ -737,12 +737,12 @@ Item {
 
         function hideElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forcehide", [item])
+            PQCNotifyQML.loaderPassOn("forcehide", [item])
         }
 
         function showElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forceshow", [item])
+            PQCNotifyQML.loaderPassOn("forceshow", [item])
         }
 
         onReleased: (points) => {
@@ -750,7 +750,7 @@ Item {
                 hideElement("metadata")
                 hideElement("mainmenu")
                 hideElement("thumbnails")
-                PQCNotify.loaderShow("filedialog")
+                PQCNotifyQML.loaderShow("filedialog")
             }
 
             reEnableMouseWithDelay.start()

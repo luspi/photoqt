@@ -195,7 +195,7 @@ Rectangle {
                     ele_top.popout = true
                 else
                     ele_window.close() // qmllint disable unqualified
-                PQCNotify.executeInternalCommand(ele_top.shortcut)
+                PQCScriptsShortcuts.executeInternalCommand(ele_top.shortcut)
             }
         }
 

@@ -121,35 +121,29 @@ AnimatedImage {
 
     Connections {
 
-        target: loader_top // qmllint disable unqualified
-        function onVideoTogglePlay() {
-            if(!image.playing) {
-                // without explicitely storing/loading the frame it will restart playing at the start
-                var fr = image.currentFrame
-                image.playing = true
-                image.currentFrame = fr
-            } else
-                image.playing = false
+        target: PQCNotifyQML
+
+        function onPlayPauseAnimationVideo() {
+
+            if(!loader_top.isMainImage)
+                return
+
+            image.playing = !image.playing
+
         }
-
-    }
-
-    Connections {
-
-        target: image_top // qmllint disable unqualified
-
-        function onCurrentlyVisibleSourceChanged() {
-            image.playing = loader_top.isMainImage // qmllint disable unqualified
-        }
-
-    }
-
-    Connections {
-
-        target: PQCNotify
 
         function onCurrentAnimatedJump(leftright : int) {
             image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
+        }
+
+    }
+
+    Connections {
+
+        target: PQCConstants
+
+        function onCurrentImageSourceChanged() {
+            image.playing = loader_top.isMainImage // qmllint disable unqualified
         }
 
     }

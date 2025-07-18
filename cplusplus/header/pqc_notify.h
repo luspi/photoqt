@@ -26,59 +26,38 @@
 #include <QObject>
 #include <QMutex>
 #include <QMap>
-#include <QQmlEngine>
 
 class PQCNotify : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCNotify& get();
+    static PQCNotify &get() {
+        static PQCNotify instance;
+        return instance;
+    }
 
     PQCNotify(PQCNotify const&)     = delete;
     void operator=(PQCNotify const&) = delete;
 
     /******************************************************/
 
-    Q_PROPERTY(QString filePath READ getFilePath WRITE setFilePath NOTIFY filePathChanged)
-    void setFilePath(QString val);
-    Q_INVOKABLE QString getFilePath();
+    // Some startup properties.
+    // These might be set before PQCConstants is set up from QML.
+    // Thus we cache them here so that we can initialize them properly
+    // in its constructor.
 
-    /******************************************************/
+    void setFilePath(QString val) { m_filepath = val; Q_EMIT filePathChanged(val); }
+    void setDebug(bool val) { m_debug = val; Q_EMIT debugChanged(val); }
+    void setStartInTray(bool val) { m_startInTray = val; Q_EMIT startInTrayChanged(val); }
+    void setHaveScreenshots(bool val) { m_haveScreenshots = val; Q_EMIT haveScreenshotsChanged(val); }
+    void setSettingUpdate(QStringList val) { m_settingUpdate = val; Q_EMIT settingUpdateChanged(val); }
 
-    Q_PROPERTY(bool debug READ getDebug WRITE setDebug NOTIFY debugChanged)
-    void setDebug(bool val);
-    Q_INVOKABLE bool getDebug();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool startInTray READ getStartInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    void setStartInTray(bool val);
-    Q_INVOKABLE bool getStartInTray();
-
-    /******************************************************/
-
-    Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
-    void setDebugLogMessages(QString val);
-    Q_INVOKABLE QString getDebugLogMessages();
-    void addDebugLogMessages(QString val);
-
-    /******************************************************/
-
-    Q_PROPERTY(bool haveScreenshots READ getHaveScreenshots WRITE setHaveScreenshots NOTIFY haveScreenshotsChanged)
-    void setHaveScreenshots(bool val);
-    Q_INVOKABLE bool getHaveScreenshots();
-
-    /******************************************************/
-
-    Q_PROPERTY(QStringList settingUpdate READ getSettingUpdate WRITE setSettingUpdate NOTIFY settingUpdateChanged)
-    void setSettingUpdate(QStringList val);
-    Q_INVOKABLE QStringList getSettingUpdate();
-
-    /******************************************************/
-
-    void setColorProfileFor(QString path, QString val);
-    Q_INVOKABLE QString getColorProfileFor(QString path);
+    QString getFilePath() { return m_filepath; }
+    bool getDebug() { return m_debug; }
+    bool getStartInTray() { return m_startInTray; }
+    bool getHaveScreenshots() { return m_haveScreenshots; }
+    QStringList getSettingUpdate() { return m_settingUpdate; }
 
     /******************************************************/
 
@@ -87,61 +66,50 @@ private:
         m_filepath = "";
         m_debug = false;
         m_startInTray = false;
-        m_debugLogMessages = "";
         m_haveScreenshots = false;
         m_settingUpdate.clear();
-        m_colorProfiles.clear();
     }
-    // these are used at startup
-    // afterwards we only listen to the signals
-    QString m_filepath;
+
+    /******************************************************/
+
+    // Some startup properties.
+    // These might be set before PQCConstants is set up from QML.
+    // Thus we cache them here so that we can initialize them properly
+    // in its constructor.
+
     bool m_debug;
+    QString m_filepath;
     bool m_startInTray;
-
-    QString m_debugLogMessages;
-    QMutex addDebugLogMessageMutex;
-
     bool m_haveScreenshots;
     QStringList m_settingUpdate;
 
-    QMap<QString, QString> m_colorProfiles;
+    /******************************************************/
 
 Q_SIGNALS:
 
-    // some c++ specific signals
+    // reset current session to free up as much memory as possible
+    // NOTE: THIS ONE IS PASSED ON FROM PQCNotifyQML
+    void resetSessionData();
+
+    /*************************************************************/
+    // these cached startup property signals are picked up in PQCConstants
+
+    void filePathChanged(QString val);
+    void debugChanged(bool val);
+    void startInTrayChanged(bool val);
+    void haveScreenshotsChanged(bool val);
+    void settingUpdateChanged(QStringList val);
+    void addDebugLogMessages(QString val);
+
+    void setColorProfileFor(QString path, QString val);
+
+    /*************************************************************/
+    // these are signals from C++ to C++, no QML interaction
+
     void disableColorSpaceSupport();
 
-    // startup properties changes
-    void filePathChanged();
-    void debugChanged();
-    void startInTrayChanged();
-    void settingUpdateChanged();
-
-    // some window states control from QML
-    void setWindowState(int state);
-    void windowRaiseAndFocus();
-    void windowClose();
-    void windowTitleOverride(QString title);
-    void windowStartSystemMove();
-    void windowStartSystemResize(int edge);
-    void photoQtQuit();
-
-    // some image signals
-    void currentImageFinishedLoading(QString src);
-    void enterPhotoSphere();
-    void exitPhotoSphere();
-    void currentViewFlick(QString direction);
-    void currentViewMove(QString direction);
-    void currentImageDetectBarCodes();
-    void currentArchiveCloseCombo();
-    void currentVideoJump(int s);
-    void currentAnimatedJump(int leftright);
-    void currentDocumentJump(int leftright);
-    void currentArchiveJump(int leftright);
-    void currentImageReload();
-
-    // context menu properties
-    void closeAllContextMenus();
+    /*************************************************************/
+    // this are picked up by PQCNotifyQML and passed on to QML
 
     // command line signals
     void cmdOpen();
@@ -152,51 +120,14 @@ Q_SIGNALS:
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);
 
-    // reset methods
-    void resetSettingsToDefault();
-    void resetShortcutsToDefault();
-    void resetFormatsToDefault();
-    void resetSessionData();
-
     // key/shortcuts related
     void keyPress(int key, int modifiers);
     void keyRelease(int key, int modifiers);
-    void executeInternalCommand(QString cmd);
 
-    // these are called by various qml elements to trigger mouse shortcuts
-    void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
-    void mousePressed(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
-    void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
-    void mouseMove(double x, double y);
-    void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseWindowExit();
     void mouseWindowEnter();
 
-    // other
-    void currentImageLoadedAndDisplayed(QString filename);
     void showNotificationMessage(QString title, QString msg);
-    void haveScreenshotsChanged();
-    void debugLogMessagesChanged();
-    void colorProfilesChanged();
-    void openSettingsManagerAt(QString category, QString subcategory);
-    void playPauseAnimationVideo();
-
-    // slideshow
-    void slideshowHideHandler();
-    void slideshowToggle();
-    void slideshowNextImage(bool switchedManually = false);
-    void slideshowPrevImage(bool switchedManually = false);
-
-    // loader methods
-    void loaderShow(QString ele);
-    void loaderShowExtension(QString ele);
-    void loaderSetup(QString ele);
-    void loaderSetupExtension(QString ele);
-    void loaderPassOn(QString what, QVariantList args);
-    void loaderRegisterOpen(QString ele);
-    void loaderRegisterClose(QString ele);
-    void loaderOverrideVisibleItem(QString ele);
-    void loaderRestoreVisibleItem();
 
 };
 

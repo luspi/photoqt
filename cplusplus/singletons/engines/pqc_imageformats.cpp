@@ -101,8 +101,6 @@ PQCImageFormats::PQCImageFormats() {
 
     }
 
-    connect(&PQCNotify::get(), &PQCNotify::resetFormatsToDefault, this, &PQCImageFormats::restoreDefaults);
-
     // on updates we validate database
     int chk = checkForUpdateOrNew();
     if(chk == 1) {
@@ -790,7 +788,7 @@ bool PQCImageFormats::updateFormatByEnding(QString endings, QString mimetypes, Q
 
 }
 
-void PQCImageFormats::restoreDefaults() {
+void PQCImageFormats::resetToDefault() {
 
     qDebug() << "readonly =" << readonly;
 

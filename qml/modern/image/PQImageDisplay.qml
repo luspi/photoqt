@@ -91,7 +91,7 @@ Loader {
         property bool videoHasAudio: false
 
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (image_top.currentlyVisibleSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
+        property bool isMainImage: (PQCConstants.currentImageSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
 
         onIsMainImageChanged: setGlobalProperties()
 
@@ -107,7 +107,6 @@ Loader {
         signal moveViewToCenter()
         signal resetToDefaults()
 
-        signal videoTogglePlay()
         signal videoToPos(var s)
         signal imageClicked()
 
@@ -261,7 +260,7 @@ Loader {
 
         Connections {
 
-            target: PQCNotify
+            target: PQCNotifyQML
 
             function onEnterPhotoSphere() {
                 if(PQCConstants.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
@@ -274,12 +273,6 @@ Loader {
                     return
                 loader_top.doExitPhotoSphere()
             }
-
-        }
-
-        Connections {
-
-            target: PQCNotify
 
             function onCurrentImageReload() {
                 if(loader_top.isMainImage)
@@ -533,7 +526,7 @@ Loader {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
                     if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) // qmllint disable unqualified
@@ -556,7 +549,7 @@ Loader {
 
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
                         if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
-                            PQCNotify.windowClose()
+                            PQCNotifyQML.windowClose()
                         return
                     }
 
@@ -1185,21 +1178,7 @@ Loader {
 
                     Connections {
 
-                        target: PQCNotify
-
-                        function onPlayPauseAnimationVideo() {
-
-                            if(!loader_top.isMainImage)
-                                return
-
-                            loader_top.videoTogglePlay()
-                        }
-
-                    }
-
-                    Connections {
-
-                        target: PQCNotify
+                        target: PQCNotifyQML
 
                         function onCurrentViewFlick(direction : string) {
 
@@ -1584,30 +1563,30 @@ Loader {
             hoverEnabled: true
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
-            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold // qmllint disable unqualified
+            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
             enabled: !PQCConstants.touchGestureActive
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotify.mouseMove(pos.x, pos.y) // qmllint disable unqualified
+                PQCNotifyQML.mouseMove(pos.x, pos.y)
             }
             onWheel: (wheel) => {
-                wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove // qmllint disable unqualified
+                wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
                 var pos = imagemouse.mapToItem(fullscreenitem, wheel.x, wheel.y)
-                PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
+                PQCNotifyQML.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
             }
             onPressed: (mouse) => {
 
                 var locpos = flickable_content.mapFromItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
 
-                if(PQCSettings.interfaceCloseOnEmptyBackground && // qmllint disable unqualified
+                if(PQCSettings.interfaceCloseOnEmptyBackground &&
                       (locpos.x < flickable_content.x ||
                        locpos.y < flickable_content.y ||
                        locpos.x > flickable_content.x+flickable_content.width ||
                        locpos.y > flickable_content.y+flickable_content.height)) {
 
-                    PQCNotify.windowClose()
+                    PQCNotifyQML.windowClose()
                     return
 
                 }
@@ -1646,11 +1625,11 @@ Loader {
                     return
                 }
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+                PQCNotifyQML.mousePressed(mouse.modifiers, mouse.button, pos)
             }
             onMouseDoubleClicked: (mouse) => {
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+                PQCNotifyQML.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
             }
 
             onReleased: (mouse) => {
@@ -1658,7 +1637,7 @@ Loader {
                     loader_top.imageClicked()
                 else {
                     var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
+                    PQCNotifyQML.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
                 }
             }
         }
@@ -2018,13 +1997,12 @@ Loader {
                 return
             }
 
-            // this needs to be checked for early as we set currentlyVisibleSource in a few lines
-            var noPreviousImage = (image_top.currentlyVisibleSource==="") // qmllint disable unqualified
+            // this needs to be checked for early as we set PQCConstants.currentImageSource in a few lines
+            var noPreviousImage = (PQCConstants.currentImageSource==="") // qmllint disable unqualified
 
             PQCConstants.barcodeDisplayed = false
 
-            image_top.currentlyVisibleSource = imageloaderitem.imageSource
-            PQCNotify.currentImageFinishedLoading(imageloaderitem.imageSource)
+            PQCConstants.currentImageSource = imageloaderitem.imageSource
 
             PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
             PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying

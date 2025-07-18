@@ -281,7 +281,7 @@ Item {
 
             Connections {
 
-                target: PQCNotify // qmllint disable unqualified
+                target: PQCNotifyQML
 
                 enabled: controlitem.enabled
 
@@ -292,6 +292,12 @@ Item {
                     controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
 
                 }
+
+            }
+
+            Connections {
+
+                target: PQCNotifyQML
 
                 function onCloseAllContextMenus() {
                     menu.dismiss()

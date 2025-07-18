@@ -160,7 +160,7 @@ Image {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotifyQML
 
         function onCurrentArchiveJump(leftright : int) {
             if(loader_top.isMainImage) { // qmllint disable unqualified

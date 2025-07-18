@@ -34,7 +34,7 @@ Loader {
     // If no file has been passed on at startup we don't want to load this item asynchronously.
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
     Component.onCompleted: {
-        asynchronous = (PQCConstants.startupFileLoad === "")
+        asynchronous = (PQCConstants.startupFilePath === "")
     }
 
     // this tells us when the background message is ready
@@ -135,7 +135,7 @@ Loader {
                 for(var iE in exts) {
                     var ext = exts[iE]
                     if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1) {
-                        PQCNotify.loaderSetupExtension(ext)
+                        PQCNotifyQML.loaderSetupExtension(ext)
                     }
                 }
             }
@@ -204,8 +204,8 @@ Loader {
         Component.onCompleted: {
 
             // load files in folder
-            if(PQCConstants.startupFileLoad !== "") {
-                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFileLoad
+            if(PQCConstants.startupFilePath !== "") {
+                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
                 if(PQCConstants.imageInitiallyLoaded) {
                     masteritem.readyToContinueLoading = true
                     finishSetup()
@@ -220,7 +220,7 @@ Loader {
 
         Connections {
             target: PQCConstants
-            enabled: PQCConstants.startupFileLoad!==""
+            enabled: PQCConstants.startupFilePath!==""
             function onImageInitiallyLoadedChanged() {
                 // don't rely on checking whether the timer below is running.
                 // For very small/fast images we might get here BEFORE that timer reports as running!
@@ -263,19 +263,19 @@ Loader {
         function finishSetup_part1() {
             finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
-            PQCNotify.loaderSetup("mainmenu")
-            PQCNotify.loaderSetup("metadata")
+            PQCNotifyQML.loaderSetup("mainmenu")
+            PQCNotifyQML.loaderSetup("metadata")
         }
 
         function finishSetup_part2() {
             finishSetupCalled += 1
-            PQCNotify.loaderSetup("thumbnails")
+            PQCNotifyQML.loaderSetup("thumbnails")
 
             PQCExtensionsHandler.setup()
 
             waitForExtLoaderToBeReady.start()
 
-            if(PQCNotify.getSettingUpdate().length === 2)
+            if(PQCConstants.startupHaveSettingUpdate.length === 2)
                 PQCSettings.updateFromCommandLine();
 
         }

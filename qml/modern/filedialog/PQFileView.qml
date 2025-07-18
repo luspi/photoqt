@@ -833,7 +833,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         enabled: (filedialog_top.opacity > 0) // qmllint disable unqualified
 

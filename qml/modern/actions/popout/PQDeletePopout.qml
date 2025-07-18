@@ -41,7 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("filedelete")
+        PQCNotifyQML.loaderRegisterClose("filedelete")
     }
 
     onPopoutChanged: {

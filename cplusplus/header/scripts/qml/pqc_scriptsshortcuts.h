@@ -71,6 +71,8 @@ Q_SIGNALS:
     void sendShortcutShowGlobalContextMenuAt(QPoint pos);
     void sendShortcutDismissGlobalContextMenu();
 
+    void executeInternalCommand(QString cmd);
+
     void sendShortcutShowNextImage();
     void sendShortcutShowPrevImage();
     void sendShortcutShowNextArcDocImage();

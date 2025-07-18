@@ -55,7 +55,7 @@ Loader {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Rename file")
             onTriggered:
-                PQCNotify.executeInternalCommand("__rename") // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand("__rename") // qmllint disable unqualified
         }
 
         PQMenuItem {
@@ -63,7 +63,7 @@ Loader {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Copy file")
             onTriggered:
-                PQCNotify.executeInternalCommand("__copy") // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand("__copy") // qmllint disable unqualified
         }
 
         PQMenuItem {
@@ -71,7 +71,7 @@ Loader {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Move file")
             onTriggered:
-                PQCNotify.executeInternalCommand("__move") // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand("__move") // qmllint disable unqualified
         }
 
         PQMenuItem {
@@ -79,7 +79,7 @@ Loader {
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" // qmllint disable unqualified
             text: qsTranslate("contextmenu", "Delete file")
             onTriggered:
-                PQCNotify.executeInternalCommand("__deleteTrash") // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand("__deleteTrash") // qmllint disable unqualified
         }
 
         PQMenuSeparator {}
@@ -95,7 +95,7 @@ Loader {
                 text: qsTranslate("contextmenu", "Scale image")
                 enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__scale") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__scale") // qmllint disable unqualified
             }
 
             PQMenuItem {
@@ -103,7 +103,7 @@ Loader {
                 text: qsTranslate("contextmenu", "Crop image")
                 enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__crop") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__crop") // qmllint disable unqualified
             }
 
             PQMenuItem {
@@ -111,7 +111,7 @@ Loader {
                 text: qsTranslate("contextmenu", "Tag faces")
                 enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__tagFaces") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__tagFaces") // qmllint disable unqualified
             }
 
         }
@@ -126,7 +126,7 @@ Loader {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Copy to clipboard")
                 onTriggered: {
-                    PQCNotify.executeInternalCommand("__clipboard") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__clipboard") // qmllint disable unqualified
                 }
             }
 
@@ -135,7 +135,7 @@ Loader {
                 text: qsTranslate("contextmenu", "Export to different format")
                 enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__export") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__export") // qmllint disable unqualified
             }
 
             PQMenuItem {
@@ -143,7 +143,7 @@ Loader {
                 text: qsTranslate("contextmenu", "Set as wallpaper")
                 enabled: !PQCConstants.showingPhotoSphere // qmllint disable unqualified
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__wallpaper") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__wallpaper") // qmllint disable unqualified
             }
 
             Repeater {
@@ -152,7 +152,7 @@ Loader {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" // qmllint disable unqualified
                     text: PQCConstants.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") // qmllint disable unqualified
                     onTriggered:
-                        PQCNotify.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes") // qmllint disable unqualified
                 }
             }
 
@@ -168,7 +168,7 @@ Loader {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Show histogram")
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__histogram") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__histogram") // qmllint disable unqualified
             }
 
             Repeater {
@@ -177,7 +177,7 @@ Loader {
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
                     text: qsTranslate("contextmenu", "Show on map")
                     onTriggered:
-                        PQCNotify.executeInternalCommand("__showMapCurrent") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__showMapCurrent") // qmllint disable unqualified
                 }
             }
 
@@ -202,7 +202,7 @@ Loader {
                     font.bold: true
                     onTriggered: {
                         PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
-                        PQCNotify.currentImageReload()
+                        PQCNotifyQML.currentImageReload()
                         PQCFileFolderModel.currentFileChanged()
                     }
                 }
@@ -219,7 +219,7 @@ Loader {
                         height: visible ? 40 : 0
                         onTriggered: {
                             PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
-                            PQCNotify.currentImageReload()
+                            PQCNotifyQML.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
                     }
@@ -247,28 +247,28 @@ Loader {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/browse.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Browse images")
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__open") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__open") // qmllint disable unqualified
             }
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Map Explorer")
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__showMapExplorer") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer") // qmllint disable unqualified
             }
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Open settings manager")
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__settings") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__settings") // qmllint disable unqualified
             }
 
             PQMenuItem {
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" // qmllint disable unqualified
                 text: qsTranslate("contextmenu", "Quit")
                 onTriggered:
-                    PQCNotify.executeInternalCommand("__quit") // qmllint disable unqualified
+                    PQCScriptsShortcuts.executeInternalCommand("__quit") // qmllint disable unqualified
             }
         }
 
@@ -288,7 +288,7 @@ Loader {
                 text: entry[2]+""
                 onTriggered: {
                     if(entry[1].startsWith("__"))
-                        PQCNotify.executeInternalCommand(entry[1]) // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand(entry[1])
                     else
                         PQCScriptsShortcuts.executeExternal(entry[1], entry[4], PQCFileFolderModel.currentFile)
                 }
@@ -300,7 +300,7 @@ Loader {
             loadertop.opened = false
         }
         onAboutToShow: {
-            PQCConstants.addToWhichContextMenusOpen("globalcontextmenu") // qmllint disable unqualified
+            PQCConstants.addToWhichContextMenusOpen("globalcontextmenu")
             loadertop.opened = true
         }
 
@@ -309,7 +309,7 @@ Loader {
             interval: 200
             onTriggered: {
                 if(!menutop.visible)
-                    PQCConstants.removeFromWhichContextMenusOpen("globalcontextmenu") // qmllint disable unqualified
+                    PQCConstants.removeFromWhichContextMenusOpen("globalcontextmenu")
             }
         }
 
@@ -320,7 +320,7 @@ Loader {
             running: true   // this makes sure the status is evaluated at startup
             onTriggered: {
 
-                renitem.enabled = (PQCFileFolderModel.currentFile !== "") // qmllint disable unqualified
+                renitem.enabled = (PQCFileFolderModel.currentFile !== "")
                 copitem.enabled = (PQCFileFolderModel.currentFile !== "")
                 movitem.enabled = (PQCFileFolderModel.currentFile !== "")
                 delitem.enabled = (PQCFileFolderModel.currentFile !== "")
@@ -341,14 +341,14 @@ Loader {
         }
 
         Connections {
-            target: PQCFileFolderModel // qmllint disable unqualified
+            target: PQCFileFolderModel
             function onCurrentFileChanged() {
                 evaluateEnabledStatus.restart()
             }
         }
 
         Connections {
-            target: PQCNotify // qmllint disable unqualified
+            target: PQCNotifyQML
             function onCloseAllContextMenus() {
                 menutop.dismiss()
             }

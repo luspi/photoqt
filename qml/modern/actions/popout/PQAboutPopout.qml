@@ -42,7 +42,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("about")
+        PQCNotifyQML.loaderRegisterClose("about")
     }
 
     onPopoutChanged: {

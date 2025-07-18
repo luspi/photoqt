@@ -103,9 +103,9 @@ Item {
                     console.error("Unable to set up extension, too few timers available.")
             } else {
                 if(additional === undefined)
-                    PQCNotify.loaderPassOn("show", [ele])
+                    PQCNotifyQML.loaderPassOn("show", [ele])
                 else
-                    PQCNotify.loaderPassOn("show", [ele, additional])
+                    PQCNotifyQML.loaderPassOn("show", [ele, additional])
             }
 
         } else if(!(ele in loadermapping)) {
@@ -146,9 +146,9 @@ Item {
                     console.error("Unable to set up item, too few timers available.")
             } else {
                 if(additional === undefined)
-                    PQCNotify.loaderPassOn("show", [ele])
+                    PQCNotifyQML.loaderPassOn("show", [ele])
                 else
-                    PQCNotify.loaderPassOn("show", [ele, additional])
+                    PQCNotifyQML.loaderPassOn("show", [ele, additional])
             }
 
         }
@@ -166,7 +166,7 @@ Item {
                 showWhenReady.start()
                 return
             }
-            PQCNotify.loaderPassOn("show", args)
+            PQCNotifyQML.loaderPassOn("show", args)
             args = []
         }
     }
@@ -182,7 +182,7 @@ Item {
                 showWhenReady2.start()
                 return
             }
-            PQCNotify.loaderPassOn("show", args)
+            PQCNotifyQML.loaderPassOn("show", args)
             args = []
         }
     }
@@ -253,16 +253,28 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onShowNotificationMessage(title : string, msg : string) {
             loader_top.show("notification", [title, msg])
         }
 
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
+
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
             loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) // qmllint disable unqualified
-            PQCNotify.loaderPassOn("showSettings", [subcategory])
+            PQCNotifyQML.loaderPassOn("showSettings", [subcategory])
         }
+
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
 
         function onLoaderRegisterOpen(ele : string) {
             loader_top.elementOpened(ele)

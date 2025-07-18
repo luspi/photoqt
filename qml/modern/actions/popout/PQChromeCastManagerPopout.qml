@@ -41,7 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("chromecastmanager")
+        PQCNotifyQML.loaderRegisterClose("chromecastmanager")
     }
 
     onPopoutChanged: {

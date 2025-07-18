@@ -204,14 +204,14 @@ Item {
                 }
                 onPressed: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) // qmllint disable unqualified
-                        PQCNotify.windowStartSystemMove()
+                        PQCNotifyQML.windowStartSystemMove()
                 }
                 onDoubleClicked: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) { // qmllint disable unqualified
                         if(PQCConstants.windowState === Window.Maximized)
-                            PQCNotify.setWindowState(Window.Windowed)
+                            PQCNotifyQML.setWindowState(Window.Windowed)
                         else if(PQCConstants.windowState === Window.Windowed)
-                            PQCNotify.setWindowState(Window.Maximized)
+                            PQCNotifyQML.setWindowState(Window.Maximized)
                     }
                 }
 
@@ -429,7 +429,7 @@ Item {
             //: Used in tooltip for the chromecast icon
             text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName // qmllint disable unqualified
             onClicked:
-                PQCNotify.loaderShowExtension("chromecastmanager")
+                PQCNotifyQML.loaderShowExtension("chromecastmanager")
         }
     }
 
@@ -516,8 +516,8 @@ Item {
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
             Behavior on color { ColorAnimation { duration: 200 } }
             Component.onCompleted: {
-                var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
-                if(val !== "") {
+                var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
+                if(val !== undefined) {
                     csptxt.text = val
                     csptxt.color = PQCLook.textColor
                 } else {
@@ -527,10 +527,12 @@ Item {
             }
 
             Connections {
-                target: PQCNotify // qmllint disable unqualified
-                function onColorProfilesChanged() {
-                    var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
-                    if(val !== "") {
+
+                target: PQCConstants
+
+                function onColorProfileCacheChanged() {
+                    var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
+                    if(val !== undefined) {
                         csptxt.text = val
                         csptxt.color = PQCLook.textColor
                     } else {
@@ -549,8 +551,8 @@ Item {
                         csptxt.color = PQCLook.textColor
                         csptxt.text = "sRGB"
                     } else {
-                        var val = PQCNotify.getColorProfileFor(PQCFileFolderModel.currentFileNoDelay)
-                        if(val !== "") {
+                        var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
+                        if(val !== undefined) {
                             csptxt.color = PQCLook.textColor
                             csptxt.text = val
                         } else {
@@ -736,7 +738,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     onTriggered: {
-                        PQCNotify.openSettingsManagerAt("showSettings", ["statusinfo"])
+                        PQCNotifyQML.openSettingsManagerAt("showSettings", ["statusinfo"])
                     }
                 }
 
@@ -760,7 +762,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onMouseMove(posx : int, posy : int) {
 

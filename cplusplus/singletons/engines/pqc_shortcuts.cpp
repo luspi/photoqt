@@ -108,8 +108,6 @@ PQCShortcuts::PQCShortcuts() {
             qCritical() << "ERROR committing database:" << db.lastError().text();
     });
 
-    connect(&PQCNotify::get(), &PQCNotify::resetShortcutsToDefault, this, &PQCShortcuts::resetToDefault);
-
     // on updates we call migrate() which calls readDB() itself.
     if(enterExtensions)
         setupFresh();
@@ -181,7 +179,6 @@ int PQCShortcuts::checkForUpdateOrNew() {
         // ensure extensions table exists
         QSqlQuery queryExt(db);
         // check if extensions table exists
-        qWarning() << ">>> CHECK EXT TABLE EXISTENCE";
         if(!queryExt.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='extensions';")) {
             qCritical() << "Unable to verify existince of extensions table";
         } else {

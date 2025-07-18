@@ -47,9 +47,9 @@ Item {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            PQCNotify.windowTitleOverride(qsTranslate("actions", "Map Explorer")) // qmllint disable unqualified
+            PQCNotifyQML.windowTitleOverride(qsTranslate("actions", "Map Explorer")) // qmllint disable unqualified
         else if(opacity === 0)
-            PQCNotify.windowTitleOverride("")
+            PQCNotifyQML.windowTitleOverride("")
     }
 
     property bool finishShow: false
@@ -163,8 +163,8 @@ Item {
                                  qsTranslate("popinpopout", "Move to its own window")
                     onClicked: {
                         mapexplorer_top.hideExplorer()
-                        PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer // qmllint disable unqualified
-                        PQCNotify.executeInternalCommand("__showMapExplorer")
+                        PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer
+                        PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
                     }
                 }
 
@@ -217,7 +217,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -389,7 +389,7 @@ Item {
 
         isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
 
-        PQCNotify.loaderRegisterClose("mapexplorer")
+        PQCNotifyQML.loaderRegisterClose("mapexplorer")
 
     }
 

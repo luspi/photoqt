@@ -165,8 +165,6 @@ public:
     Q_INVOKABLE void requestCallAction2(const QString &id, QVariant additional = QVariant());
 
     // REQUEST SPECIAL ACTIONS
-    Q_INVOKABLE void    requestExecutionOfInternalShortcut(const QString &cmd);
-    Q_INVOKABLE void    requestShowingOf(const QString &id);
     Q_INVOKABLE QString requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
     Q_INVOKABLE QVariantList requestImageFormatAllWritableFormats();
     Q_INVOKABLE QString      requestImageFormatNameForId(int id);
@@ -254,7 +252,6 @@ Q_SIGNALS:
     void numFilesChanged();
     void currentIndexChanged();
     void currentFileChanged();
-    void currentImageDisplayed();
 
     Q_INVOKABLE void requestResetGeometry(QString id);
 

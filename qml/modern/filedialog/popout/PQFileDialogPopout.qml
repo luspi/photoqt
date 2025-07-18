@@ -43,8 +43,8 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("filedialog")
-        PQCNotify.loaderPassOn("forceClose", [])
+        PQCNotifyQML.loaderRegisterClose("filedialog")
+        PQCNotifyQML.loaderPassOn("forceClose", [])
     }
 
     onGeometryChanged: {

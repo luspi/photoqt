@@ -164,7 +164,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

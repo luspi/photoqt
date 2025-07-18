@@ -264,12 +264,12 @@ Item {
 
     function hideElement(item : string) {
         if(item === "") return
-        PQCNotify.loaderPassOn("forcehide", [item])
+        PQCNotifyQML.loaderPassOn("forcehide", [item])
     }
 
     function showElement(item : string) {
         if(item === "") return
-        PQCNotify.loaderPassOn("forceshow", [item])
+        PQCNotifyQML.loaderPassOn("forceshow", [item])
     }
 
 }

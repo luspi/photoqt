@@ -39,8 +39,6 @@ PQCExtensionsHandler::PQCExtensionsHandler() {
         Q_EMIT numFilesChanged();
     });
 
-    connect(&PQCNotify::get(), &PQCNotify::currentImageLoadedAndDisplayed, this, &PQCExtensionsHandler::currentImageDisplayed);
-
     m_numFiles = PQCFileFolderModel::get().getCountMainView();
     m_currentIndex = PQCFileFolderModel::get().getCurrentIndex();
     m_currentFile = PQCFileFolderModel::get().getCurrentFile();
@@ -657,14 +655,6 @@ void PQCExtensionsHandler::requestCallAction2(const QString &id, QVariant additi
             Q_EMIT replyForActionWithImage1(id, QVariant(""));
         }
     });
-}
-
-void PQCExtensionsHandler::requestExecutionOfInternalShortcut(const QString &cmd) {
-    Q_EMIT PQCNotify::get().executeInternalCommand(cmd);
-}
-
-void PQCExtensionsHandler::requestShowingOf(const QString &id) {
-    Q_EMIT PQCNotify::get().loaderShowExtension(id);
 }
 
 QString PQCExtensionsHandler::requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {

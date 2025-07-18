@@ -66,7 +66,7 @@ public:
 
 public Q_SLOTS:
     void readDB();
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:
 

@@ -98,7 +98,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotifyQML
 
         function onCurrentVideoJump(seconds : int) {
 
@@ -108,19 +108,21 @@ Item {
             if(video.seekable)
                 video.seek(video.position + seconds*1000)
         }
+
+        function onPlayPauseAnimationVideo() {
+
+            if(!loader_top.isMainImage)
+                return
+
+            videotop.toggle()
+        }
+
     }
 
     Connections {
 
         target: loader_top // qmllint disable unqualified
 
-        function onVideoTogglePlay() {
-
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-
-            toggle()
-        }
         function onVideoToPos(pos : int) {
 
             if(!loader_top.isMainImage) // qmllint disable unqualified

@@ -93,9 +93,9 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !popout)
-            PQCNotify.windowTitleOverride(title) // qmllint disable unqualified
+            PQCNotifyQML.windowTitleOverride(title) // qmllint disable unqualified
         else if(opacity === 0)
-            PQCNotify.windowTitleOverride("")
+            PQCNotifyQML.windowTitleOverride("")
     }
 
     color: PQCLook.baseColorAccent
@@ -279,7 +279,7 @@ Rectangle {
                 ele_top.hide()
                 ele_top.popout = !ele_top.popout
                 ele_top.opacityChanged()
-                PQCNotify.executeInternalCommand(ele_top.shortcut) // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand(ele_top.shortcut) // qmllint disable unqualified
             }
         }
     }

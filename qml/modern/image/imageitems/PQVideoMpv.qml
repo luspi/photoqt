@@ -147,14 +147,29 @@ Item {
             videotop.myMirrorV = false
         }
     }
+
     Connections {
 
-        target: PQCNotify
+        target: PQCNotifyQML
 
         function onCurrentVideoJump(seconds : int) {
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return
             video.command(["seek", seconds])
+        }
+
+        function onPlayPauseAnimationVideo() {
+
+            if(!loader_top.isMainImage)
+                return
+
+            if(video.getProperty("eof-reached")) {
+                video.command(["loadfile", videotop.imageSource])
+                loader_top.videoPlaying = true
+            } else {
+                loader_top.videoPlaying = !loader_top.videoPlaying
+            }
+
         }
 
     }
@@ -166,16 +181,6 @@ Item {
             video.command(["set", "pause", (loader_top.videoPlaying ? "no" : "yes")])
         }
 
-        function onVideoTogglePlay() {
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-            if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", videotop.imageSource])
-                loader_top.videoPlaying = true
-            } else {
-                loader_top.videoPlaying = !loader_top.videoPlaying
-            }
-        }
         function onVideoToPos(pos : int) {
             if(!loader_top.isMainImage) // qmllint disable unqualified
                 return

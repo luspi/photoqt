@@ -184,7 +184,7 @@ Rectangle {
                 return
             }
             var pos = minimapmouse.mapToItem(toplevel, wheel.x, wheel.y)
-            PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
+            PQCNotifyQML.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
         }
 
 

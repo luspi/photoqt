@@ -171,7 +171,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -200,6 +200,12 @@ Item {
             }
 
         }
+
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
 
         function onSlideshowHideHandler() {
             slideshowhandler_top.hide()
@@ -291,7 +297,7 @@ Item {
         PQCConstants.slideshowRunningAndPlaying = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        PQCNotify.loaderRegisterClose("slideshowhandler")
+        PQCNotifyQML.loaderRegisterClose("slideshowhandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
         PQCSettings.imageviewAnimationDuration = backupAnimSpeed
@@ -299,7 +305,7 @@ Item {
         PQCScriptsShortcuts.sendShortcutZoomReset()
 
         if(tmp)
-            PQCNotify.playPauseAnimationVideo()
+            PQCNotifyQML.playPauseAnimationVideo()
 
     }
 
@@ -359,7 +365,7 @@ Item {
         PQCConstants.slideshowRunningAndPlaying = !PQCConstants.slideshowRunningAndPlaying
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        PQCNotify.playPauseAnimationVideo()
+        PQCNotifyQML.playPauseAnimationVideo()
     }
 
     /***************************************/

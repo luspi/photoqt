@@ -34,8 +34,8 @@ Item {
     property int barcode_z: 0
 
     Connections {
-        target: image_top // qmllint disable unqualified
-        function onCurrentlyVisibleSourceChanged() {
+        target: PQCConstants
+        function onCurrentImageSourceChanged() {
             if(!loader_top.isMainImage) { // qmllint disable unqualified
                 // videoloader.active = false
                 bartop.barcodes = []
@@ -46,18 +46,18 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCNotifyQML
 
         function onCurrentImageDetectBarCodes() {
             if(loader_top.isMainImage) { // qmllint disable unqualified
                 if(!PQCConstants.barcodeDisplayed) {
                     bartop.barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
                     if(bartop.barcodes.length === 0) {
-                        PQCNotify.showNotificationMessage(qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found."))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found."))
                     } else if(bartop.barcodes.length/3 == 1) {
-                        PQCNotify.showNotificationMessage(qsTranslate("image", "Success"),  qsTranslate("image", "1 bar/QR code found."))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("image", "Success"),  qsTranslate("image", "1 bar/QR code found."))
                     } else if(bartop.barcodes.length/3 > 1) {
-                        PQCNotify.showNotificationMessage(qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(bartop.barcodes.length/3))
+                        PQCNotifyQML.showNotificationMessage(qsTranslate("image", "Success"),  qsTranslate("image", "%1 bar/QR codes found.").arg(bartop.barcodes.length/3))
                     }
                     PQCConstants.barcodeDisplayed = bartop.barcodes.length>0
                 } else {
@@ -184,7 +184,7 @@ Item {
 
                             Connections {
 
-                                target: PQCNotify // qmllint disable unqualified
+                                target: PQCNotifyQML
                                 enabled: loader_top.isMainImage // qmllint disable unqualified
 
                                 function onMouseMove(x : int, y : int) {

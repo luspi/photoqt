@@ -189,7 +189,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotifyQML
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -259,7 +259,7 @@ PQTemplateFullscreen {
             if(popoutWindowUsed)
                 about_popout.visible = false // qmllint disable unqualified
             else
-                PQCNotify.loaderRegisterClose(thisis)
+                PQCNotifyQML.loaderRegisterClose(thisis)
         }
     }
 

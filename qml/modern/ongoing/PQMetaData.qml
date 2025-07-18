@@ -712,7 +712,7 @@ Rectangle {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCNotify.openSettingsManagerAt("showSettings", ["metadata"])
+                    PQCNotifyQML.openSettingsManagerAt("showSettings", ["metadata"])
                 }
             }
 
@@ -762,7 +762,7 @@ Rectangle {
                     PQCSettings.interfacePopoutMetadata = false
                     metadata_popout.close()
                 }
-                PQCNotify.executeInternalCommand("__showMetaData")
+                PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
             }
         }
     }
@@ -778,7 +778,53 @@ Rectangle {
     property bool ignoreMouseMoveShortly: false
 
     Connections {
-        target: PQCNotify // qmllint disable unqualified
+
+        target: PQCNotifyQML
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss() // qmllint disable missing-property
+        }
+
+    }
+
+    Connections {
+        target: PQCConstants
+        function onWindowWidthChanged() {
+            metadata_top.setVisible = false
+        }
+        function onWindowHeightChanged() {
+            metadata_top.setVisible = false
+        }
+    }
+
+    Connections {
+
+        target: PQCNotifyQML
+
+        function onLoaderPassOn(what : string, param : list<var>) {
+
+            if(what === "show") {
+                if(param[0] === "metadata") {
+                    if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
+                        metadata_top.setVisible = !metadata_top.setVisible
+
+                    if(metadata_top.popoutWindowUsed)
+                        metadata_popout.visible = true
+                }
+            } else if(what === "toggle" && param[0] === "metadata") {
+                metadata_top.toggle()
+            } else if(what === "forceshow" && param[0] === "metadata") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = true
+                resetIgnoreMouseMoveShortly.restart()
+            } else if(what === "forcehide" && param[0] === "metadata") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = false
+                resetIgnoreMouseMoveShortly.restart()
+            }
+
+        }
+
         function onMouseMove(posx : int, posy : int) {
 
             if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
@@ -812,50 +858,6 @@ Rectangle {
 
         function onMouseWindowEnter() {
             hideElementWithDelay.stop()
-        }
-
-        function onCloseAllContextMenus() {
-            menu.item.dismiss() // qmllint disable missing-property
-        }
-
-    }
-
-    Connections {
-        target: PQCConstants
-        function onWindowWidthChanged() {
-            metadata_top.setVisible = false
-        }
-        function onWindowHeightChanged() {
-            metadata_top.setVisible = false
-        }
-    }
-
-    Connections {
-
-        target: PQCNotify // qmllint disable unqualified
-
-        function onLoaderPassOn(what : string, param : list<var>) {
-
-            if(what === "show") {
-                if(param[0] === "metadata") {
-                    if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
-                        metadata_top.setVisible = !metadata_top.setVisible
-
-                    if(metadata_top.popoutWindowUsed)
-                        metadata_popout.visible = true
-                }
-            } else if(what === "toggle" && param[0] === "metadata") {
-                metadata_top.toggle()
-            } else if(what === "forceshow" && param[0] === "metadata") {
-                metadata_top.ignoreMouseMoveShortly = true
-                metadata_top.setVisible = true
-                resetIgnoreMouseMoveShortly.restart()
-            } else if(what === "forcehide" && param[0] === "metadata") {
-                metadata_top.ignoreMouseMoveShortly = true
-                metadata_top.setVisible = false
-                resetIgnoreMouseMoveShortly.restart()
-            }
-
         }
 
     }
