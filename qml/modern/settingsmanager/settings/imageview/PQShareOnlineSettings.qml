@@ -134,10 +134,6 @@ Flickable {
 
                     property bool authshow: false
 
-                    onAuthshowChanged: {
-                        PQCNotify.ignoreKeysExceptEnterEsc = authshow // qmllint disable unqualified
-                    }
-
                     Item {
                         id: authspacer
                         width: 1
@@ -158,10 +154,6 @@ Flickable {
                         PQLineEdit {
                             id: pinholder
                             placeholderText: "PIN"
-                            onActiveFocusChanged: {
-                                if(activeFocus)
-                                    PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
-                            }
                         }
                         PQButton {
                             id: butsave
@@ -224,9 +216,6 @@ Flickable {
 
     Component.onCompleted:
         load()
-
-    Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
         butauth.contextmenu.close()

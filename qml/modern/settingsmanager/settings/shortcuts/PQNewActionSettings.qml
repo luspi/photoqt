@@ -519,8 +519,6 @@ Rectangle {
 
     function show(index: int) {
 
-        PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
-
         newaction_top.opacity = 1
         newaction_top.currentShortcutIndex = index
         newaction_top.currentShortcutSubIndex = -1
@@ -534,8 +532,6 @@ Rectangle {
     }
 
     function hide() {
-
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
         settingsmanager_top.passShortcutsToDetector = false
 

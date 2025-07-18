@@ -118,13 +118,6 @@ PQTemplateFullscreen {
                     id: filenameedit
 
                     enabled: filenamecheck.checked&&filter_top.opacity>0
-                    onEnabledChanged: {
-                        if(!enabled)
-                            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
-                    }
-
-                    onControlActiveFocusChanged:
-                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
 
                     width: 300
                     height: 40
@@ -471,7 +464,6 @@ PQTemplateFullscreen {
             filter_popout.visible = false // qmllint disable unqualified
         else
             PQCNotifyQML.loaderRegisterClose(thisis)
-        PQCNotify.ignoreKeysExceptEnterEsc = false
         fullscreenitem.forceActiveFocus()
     }
 

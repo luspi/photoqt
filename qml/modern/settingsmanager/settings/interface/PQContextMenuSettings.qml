@@ -165,9 +165,6 @@ Flickable {
                                         deleg.curDataChanged()
                                     }
                                 }
-                                onControlActiveFocusChanged: {
-                                    PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
-                                }
                             }
                             Row {
                                 PQLineEdit {
@@ -181,8 +178,6 @@ Flickable {
                                             deleg.curDataChanged()
                                         }
                                     }
-                                    onControlActiveFocusChanged:
-                                        PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                                 }
                                 PQButton {
                                     id: selectexe
@@ -235,8 +230,6 @@ Flickable {
                                         deleg.curDataChanged()
                                     }
                                 }
-                                onControlActiveFocusChanged:
-                                    PQCNotify.ignoreKeysExceptEnterEsc = controlActiveFocus // qmllint disable unqualified
                             }
                             PQCheckBox {
                                 y: (addflags.height-height)/2
@@ -440,9 +433,6 @@ Flickable {
 
     Component.onCompleted:
         load()
-
-    Component.onDestruction:
-        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
 
     function handleEscape() {
         closeAllMenus()

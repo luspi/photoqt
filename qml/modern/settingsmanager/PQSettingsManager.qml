@@ -836,7 +836,7 @@ PQTemplateFullscreen {
 
                     if(param[0] === Qt.Key_Escape) {
 
-                        if(settingsloader.item.catchEscape)
+                        if(settingsloader.item !== null && settingsloader.item.catchEscape)
                             settingsloader.item.handleEscape()
                         else if(confirmUnsaved.visible)
                             confirmCancel.clicked()
@@ -945,14 +945,13 @@ PQTemplateFullscreen {
 
     function hide() {
         closeAnyMenu()
-        settingsloader.item.handleEscape() // qmllint disable missing-property
+        if(settingsloader.item !== null)
+            settingsloader.item.handleEscape()
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)
             settingsmanager_window.visible = false // qmllint disable unqualified
         PQCNotifyQML.loaderRegisterClose(thisis)
-        PQCNotify.ignoreKeysExceptEnterEsc = false
-        PQCNotify.ignoreKeysExceptEsc = false
         fullscreenitem.forceActiveFocus()
     }
 

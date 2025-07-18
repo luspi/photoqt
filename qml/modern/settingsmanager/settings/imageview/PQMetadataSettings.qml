@@ -139,25 +139,13 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    border.color: PQCLook.baseColorHighlight
 
                     PQLineEdit {
                         id: labels_filter
                         width: parent.width
                         //: placeholder text in a text edit
                         placeholderText: qsTranslate("settingsmanager", "Filter labels")
-                        onControlActiveFocusChanged: {
-                            if(labels_filter.controlActiveFocus) {
-                                PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
-                            } else {
-                                PQCNotify.ignoreKeysExceptEnterEsc = false
-                                fullscreenitem.forceActiveFocus()
-                            }
-                        }
-                        Component.onDestruction: {
-                            PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
-                            fullscreenitem.forceActiveFocus()
-                        }
                     }
 
                     Flickable {

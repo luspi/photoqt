@@ -493,18 +493,6 @@ Flickable {
                                     width: parent.width
                                     //: placeholder text in a text edit
                                     placeholderText: qsTranslate("settingsmanager", "Filter color profiles")
-                                    onControlActiveFocusChanged: {
-                                        if(color_filter.controlActiveFocus) {
-                                            PQCNotify.ignoreKeysExceptEnterEsc = true // qmllint disable unqualified
-                                        } else {
-                                            PQCNotify.ignoreKeysExceptEnterEsc = false
-                                            fullscreenitem.forceActiveFocus()
-                                        }
-                                    }
-                                    Component.onDestruction: {
-                                        PQCNotify.ignoreKeysExceptEnterEsc = false // qmllint disable unqualified
-                                        fullscreenitem.forceActiveFocus()
-                                    }
                                 }
 
                                 Flickable {
