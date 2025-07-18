@@ -35,6 +35,7 @@ class ExtensionSettings : public QQmlPropertyMap {
 
 public:
     ExtensionSettings(QObject *parent = nullptr);
+    ExtensionSettings(QString extensionId, QObject *parent = nullptr);
     ~ExtensionSettings();
 
     Q_PROPERTY(QString extensionId MEMBER m_extensionId NOTIFY extensionIdChanged)

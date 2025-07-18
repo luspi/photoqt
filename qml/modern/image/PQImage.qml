@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import PQCImageFormats
-import PQCFileFolderModel
 import PQCResolutionCache
 import PhotoQt
 

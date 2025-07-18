@@ -22,7 +22,6 @@
 
 import QtQuick
 import PQCPhotoSphere
-import PQCFileFolderModel
 import PhotoQt
 
 PQCPhotoSphere { // qmllint disable

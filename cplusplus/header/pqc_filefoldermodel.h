@@ -30,20 +30,19 @@
 #include <QSize>
 #include <QQmlEngine>
 
+#include <pqc_filefoldermodelCPP.h>
+
 class QSize;
 class QFileSystemWatcher;
 
 class PQCFileFolderModel : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCFileFolderModel& get();
-
-    PQCFileFolderModel(PQCFileFolderModel const&)     = delete;
-    void operator=(PQCFileFolderModel const&) = delete;
-
+    PQCFileFolderModel(QObject *parent = 0);
     ~PQCFileFolderModel();
 
     /********************************************/
@@ -195,8 +194,6 @@ public:
     /********************************************/
 
 private:
-    PQCFileFolderModel(QObject *parent = 0);
-
     PQCFileFolderModelCache cache;
 
     QFileSystemWatcher *watcherMainView;

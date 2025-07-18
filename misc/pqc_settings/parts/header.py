@@ -159,7 +159,7 @@ public:
     void updateFromCommandLine();
 
 public Q_SLOTS:
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:"""
 

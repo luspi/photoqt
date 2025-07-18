@@ -35,8 +35,11 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 #include <QQmlPropertyMap>
+#include <QPoint>
+#include <QSize>
+#include <QTimer>
 
 class PQCSettings : public QObject {
 
@@ -456,6 +459,12 @@ public:
     void setGeneralEnabledExtensions(QStringList val);
     Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
     Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
+
+    Q_PROPERTY(QStringList generalSetupFloatingExtensionsAtStartup READ getGeneralSetupFloatingExtensionsAtStartup WRITE setGeneralSetupFloatingExtensionsAtStartup NOTIFY generalSetupFloatingExtensionsAtStartupChanged)
+    QStringList getGeneralSetupFloatingExtensionsAtStartup();
+    void setGeneralSetupFloatingExtensionsAtStartup(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralSetupFloatingExtensionsAtStartup();
+    Q_INVOKABLE void setDefaultForGeneralSetupFloatingExtensionsAtStartup();
 
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
@@ -1742,7 +1751,7 @@ public:
     void updateFromCommandLine();
 
 public Q_SLOTS:
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:
 
@@ -1817,6 +1826,7 @@ private:
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
     QStringList m_generalEnabledExtensions;
+    QStringList m_generalSetupFloatingExtensionsAtStartup;
     QString m_generalVersion;
 
     // table: imageview
@@ -2133,6 +2143,7 @@ Q_SIGNALS:
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
     void generalEnabledExtensionsChanged();
+    void generalSetupFloatingExtensionsAtStartupChanged();
     void generalVersionChanged();
 
     // table: imageview

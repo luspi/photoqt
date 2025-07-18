@@ -34,7 +34,6 @@
 #include <QCoreApplication>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
-
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
@@ -250,6 +249,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
     connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
+    connect(this, &PQCSettings::generalSetupFloatingExtensionsAtStartupChanged, this, [=]() { saveChangedValue("generalSetupFloatingExtensionsAtStartup", m_generalSetupFloatingExtensionsAtStartup); });
     connect(this, &PQCSettings::generalVersionChanged, this, [=]() { saveChangedValue("generalVersion", m_generalVersion); });
     // table: imageview
     connect(this, &PQCSettings::imageviewAdvancedSortAscendingChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortAscending", m_imageviewAdvancedSortAscending); });
@@ -1960,6 +1960,29 @@ void PQCSettings::setDefaultForGeneralEnabledExtensions() {
         m_generalEnabledExtensions = tmp;
         Q_EMIT generalEnabledExtensionsChanged();
         /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = tmp;
+    }
+}
+
+QStringList PQCSettings::getGeneralSetupFloatingExtensionsAtStartup() {
+    return m_generalSetupFloatingExtensionsAtStartup;
+}
+
+void PQCSettings::setGeneralSetupFloatingExtensionsAtStartup(QStringList val) {
+    if(val != m_generalSetupFloatingExtensionsAtStartup) {
+        m_generalSetupFloatingExtensionsAtStartup = val;
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
+    }
+}
+
+const QStringList PQCSettings::getDefaultForGeneralSetupFloatingExtensionsAtStartup() {
+        return QStringList() << "";
+}
+
+void PQCSettings::setDefaultForGeneralSetupFloatingExtensionsAtStartup() {
+    QStringList tmp = QStringList() << "";
+    if(tmp != m_generalSetupFloatingExtensionsAtStartup) {
+        m_generalSetupFloatingExtensionsAtStartup = tmp;
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
     }
 }
 
@@ -6783,6 +6806,14 @@ void PQCSettings::readDB() {
                         PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList() << val;
                     else
                         PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
+                } else if(name == "SetupFloatingExtensionsAtStartup") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
+                    else if(val != "")
+                        m_generalSetupFloatingExtensionsAtStartup = QStringList() << val;
+                    else
+                        m_generalSetupFloatingExtensionsAtStartup = QStringList();
                 } else if(name == "Version") {
                     m_generalVersion = value.toString();
                 }
@@ -8265,6 +8296,7 @@ void PQCSettings::setupFresh() {
     m_generalCompactSettings = false;
     m_generalEnabledExtensions = QStringList();
     /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
+    m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
 
     // table: imageview
@@ -8709,6 +8741,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
     setDefaultForGeneralEnabledExtensions();
+    setDefaultForGeneralSetupFloatingExtensionsAtStartup();
     setDefaultForGeneralVersion();
 
     // table: imageview
@@ -9221,6 +9254,10 @@ void PQCSettings::updateFromCommandLine() {
         m_generalEnabledExtensions = val.split(":://::");
         Q_EMIT generalEnabledExtensionsChanged();
         /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
+    }
+    if(key == "generalSetupFloatingExtensionsAtStartup") {
+        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
     }
     if(key == "generalVersion") {
         m_generalVersion = val;

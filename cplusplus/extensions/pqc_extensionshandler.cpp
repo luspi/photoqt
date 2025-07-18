@@ -5,11 +5,12 @@
 #include <QtConcurrent/QtConcurrentRun>
 #include <QImage>
 #include <pqc_notify.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
 #include <pqc_scriptsfilespaths.h>
 #include <pqc_imageformats.h>
+#include <pqc_extensionsettings.h>
 
 #ifdef PQMEXTENSIONS
 #include <yaml-cpp/yaml.h>
@@ -25,24 +26,6 @@
 PQCExtensionsHandler::PQCExtensionsHandler() {
     previousCurrentFile = "";
     m_numExtensions = 0;
-
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentFileChanged, this, [=]() {
-        m_currentFile = PQCFileFolderModel::get().getCurrentFile();
-        Q_EMIT currentFileChanged();
-    });
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::currentIndexChanged, this, [=]() {
-        m_currentIndex = PQCFileFolderModel::get().getCurrentIndex();
-        Q_EMIT currentIndexChanged();
-    });
-    connect(&PQCFileFolderModel::get(), &PQCFileFolderModel::countMainViewChanged, this, [=]() {
-        m_numFiles = PQCFileFolderModel::get().getCountMainView();
-        Q_EMIT numFilesChanged();
-    });
-
-    m_numFiles = PQCFileFolderModel::get().getCountMainView();
-    m_currentIndex = PQCFileFolderModel::get().getCurrentIndex();
-    m_currentFile = PQCFileFolderModel::get().getCurrentFile();
-
 }
 
 void PQCExtensionsHandler::setup() {
@@ -391,6 +374,10 @@ void PQCExtensionsHandler::setup() {
     qDebug() << "Extension support has been disabled at compile time.";
 #endif
 
+    QFuture<void> future = QtConcurrent::run([=] {
+        loadSettingsInBGToLookForShortcuts();
+    });
+
 }
 
 PQCExtensionsHandler::~PQCExtensionsHandler() {}
@@ -604,9 +591,9 @@ void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id, QVaria
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
-        PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
         if(m_actions.contains(id)) {
-            QVariant ret = m_actions[id]->actionWithImage1(PQCFileFolderModel::get().getCurrentFile(), img, additional);
+            QVariant ret = m_actions[id]->actionWithImage1(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
             Q_EMIT replyForActionWithImage1(id, ret);
         } else {
             qWarning() << "No action provided for extension" << id;
@@ -620,9 +607,9 @@ void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id, QVaria
     QFuture<void> future = QtConcurrent::run([=] {
         QImage img;
         QSize sze;
-        PQCLoadImage::get().load(PQCFileFolderModel::get().getCurrentFile(), QSize(-1,-1), sze, img);
+        PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
         if(m_actions.contains(id)) {
-            QVariant ret = m_actions[id]->actionWithImage2(PQCFileFolderModel::get().getCurrentFile(), img, additional);
+            QVariant ret = m_actions[id]->actionWithImage2(PQCFileFolderModelCPP::get().getCurrentFile(), img, additional);
             Q_EMIT replyForActionWithImage2(id, ret);
         } else {
             qWarning() << "No action provided for extension" << id;
@@ -635,7 +622,7 @@ void PQCExtensionsHandler::requestCallAction1(const QString &id, QVariant additi
     qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
         if(m_actions.contains(id)) {
-            QVariant ret = m_actions[id]->action1(PQCFileFolderModel::get().getCurrentFile(), additional);
+            QVariant ret = m_actions[id]->action1(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction1(id, ret);
         } else {
             qWarning() << "No action provided for extension" << id;
@@ -648,30 +635,13 @@ void PQCExtensionsHandler::requestCallAction2(const QString &id, QVariant additi
     qDebug() << "args: id =" << id;
     QFuture<void> future = QtConcurrent::run([=] {
         if(m_actions.contains(id)) {
-            QVariant ret = m_actions[id]->action2(PQCFileFolderModel::get().getCurrentFile(), additional);
+            QVariant ret = m_actions[id]->action2(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction2(id, ret);
         } else {
             qWarning() << "No action provided for extension" << id;
             Q_EMIT replyForActionWithImage1(id, QVariant(""));
         }
     });
-}
-
-QString PQCExtensionsHandler::requestSelectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
-    return PQCScriptsFilesPaths::get().selectFileFromDialog(buttonlabel, preselectFile, formatId, confirmOverwrite);
-}
-
-QVariantList PQCExtensionsHandler::requestImageFormatAllWritableFormats() {
-    return PQCImageFormats::get().getWriteableFormats();
-}
-QString PQCExtensionsHandler::requestImageFormatNameForId(int id) {
-    return PQCImageFormats::get().getFormatName(id);
-}
-QStringList PQCExtensionsHandler::requestImageFormatEndingsForId(int id) {
-    return PQCImageFormats::get().getFormatEndings(id);
-}
-QVariantMap PQCExtensionsHandler::requestImageFormatInfoForId(int id) {
-    return PQCImageFormats::get().getFormatsInfo(id);
 }
 
 bool PQCExtensionsHandler::getIsEnabled(const QString &id) {
@@ -686,4 +656,16 @@ bool PQCExtensionsHandler::getIsEnabledByDefault(const QString &id) {
         return PQCSettingsCPP::get().getExtensionDefaultValue(id).toBool();
     qWarning() << "Unknown extension id:" << id;
     return false;
+}
+
+void PQCExtensionsHandler::loadSettingsInBGToLookForShortcuts() {
+
+    for(const QString &ext : std::as_const(m_extensions)) {
+
+        // we don't need to do more than this, setting up this with the extensionId
+        // like this loads the settings and enters the shortcuts
+        ExtensionSettings set(ext);
+
+    }
+
 }

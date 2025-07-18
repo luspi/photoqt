@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCFileFolderModel
 import PhotoQt
 
 PQTemplateFullscreen {

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCFileFolderModel
 import PQCExtensionsHandler
 import PhotoQt
 
@@ -271,12 +270,6 @@ Window {
         function onInterfaceWindowModeChanged() {
             toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
         }
-
-    }
-
-    Connections {
-
-        target: PQCNotify // qmllint disable unqualified
 
     }
 

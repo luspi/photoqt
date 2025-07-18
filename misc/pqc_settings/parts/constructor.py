@@ -74,13 +74,14 @@ def get():
 #include <QJSValue>
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
+#include <QCoreApplication>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify.h>
 #include <pqc_extensionshandler.h>
-
-#include <scripts/pqc_scriptsother.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
     if(validateonly) {
@@ -267,8 +268,6 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
-    connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
     connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
 }

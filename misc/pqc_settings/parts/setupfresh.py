@@ -150,7 +150,7 @@ void PQCSettings::setupFresh() {
         /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(-1,-1));
         /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(-1,-1));
 
-        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
+        const QList<QStringList> sets = PQCExtensionsHandler::get().getExtensionSettings(e);
         for(const QStringList &s : sets) {
 
             if(s[2] == "int") {

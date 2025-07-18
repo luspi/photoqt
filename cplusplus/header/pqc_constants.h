@@ -26,7 +26,7 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_settingscpp.h>
 #include <pqc_resolutioncache.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 #include <pqc_notify.h>
 
 #include <QObject>
@@ -103,7 +103,7 @@ public:
         // cache any possible resolution change
         connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
             if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
-                PQCResolutionCache::get().saveResolution(PQCFileFolderModel::get().getCurrentFile(), m_currentImageResolution);
+                PQCResolutionCache::get().saveResolution(PQCFileFolderModelCPP::get().getCurrentFile(), m_currentImageResolution);
         });
 
         m_statusInfoCurrentRect = QRect(0,0,0,0);

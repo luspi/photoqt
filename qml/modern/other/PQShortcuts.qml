@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQml
-import PQCFileFolderModel
 import PQCImageFormats
 import PQCScriptsUndo
 import PQCExtensionsHandler
@@ -407,8 +406,11 @@ Item {
 
             // check for shortcuts that are enabled for extensions
             var ext = PQCExtensionsHandler.getExtensionForShortcut(combo)
-            if(ext !== "" && (!PQCExtensionsHandler.getExtensionModalMake(ext) || (PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext) && PQCExtensionsHandler.currentFile !== "")))
+            console.warn(">>> SHOW 1", combo, ext, PQCExtensionsHandler.getExtensionModalMake(ext), PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext), PQCFileFolderModel.currentFile)
+            if(ext !== "" && (!PQCExtensionsHandler.getExtensionModalMake(ext) || (PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext) && PQCFileFolderModel.currentFile !== ""))) {
+                console.warn(">>> SHOW", ext)
                 PQCNotifyQML.loaderShowExtension(ext)
+            }
 
             // we always stop, no matter what, in this case
             return
