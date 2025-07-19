@@ -19,99 +19,77 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCNOTIFY_H
-#define PQCNOTIFY_H
+#pragma once
 
 #include <QObject>
 #include <QMutex>
 #include <QMap>
+#include <QQmlEngine>
+
+#include <pqc_notify_cpp.h>
+
+/********************************************/
+//
+// This class is ONLY available from QML.
+// It is used for two things:
+//
+//  1) QML elements talking to each other
+//  2) signal from PQCNotify are picked up and emitted again from a pure QML context
+//
+// This approach allows for much better AOT compilation and much better performance
+//
+/********************************************/
 
 class PQCNotify : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCNotify &get() {
-        static PQCNotify instance;
-        return instance;
+    PQCNotify() {
+
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, &PQCNotify::keyPress);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyRelease, this, &PQCNotify::keyRelease);
+
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::mouseWindowEnter, this, &PQCNotify::mouseWindowEnter);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::mouseWindowExit, this, &PQCNotify::mouseWindowExit);
+
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::showNotificationMessage, this, &PQCNotify::showNotificationMessage);
+
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdOpen, this, &PQCNotify::cmdOpen);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShow, this, &PQCNotify::cmdShow);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdHide, this, &PQCNotify::cmdHide);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdQuit, this, &PQCNotify::cmdQuit);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdToggle, this, &PQCNotify::cmdToggle);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShortcutSequence, this, &PQCNotify::cmdShortcutSequence);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdTray, this, &PQCNotify::cmdTray);
+
+        connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
+
     }
 
-    PQCNotify(PQCNotify const&)     = delete;
-    void operator=(PQCNotify const&) = delete;
-
-    /******************************************************/
-
-    // Some startup properties.
-    // These might be set before PQCConstants is set up from QML.
-    // Thus we cache them here so that we can initialize them properly
-    // in its constructor.
-
-    void setFilePath(QString val) { m_filepath = val; Q_EMIT filePathChanged(val); }
-    void setDebug(bool val) { m_debug = val; Q_EMIT debugChanged(val); }
-    void setStartInTray(bool val) { m_startInTray = val; Q_EMIT startInTrayChanged(val); }
-    void setHaveScreenshots(bool val) { m_haveScreenshots = val; Q_EMIT haveScreenshotsChanged(val); }
-    void setSettingUpdate(QStringList val) { m_settingUpdate = val; Q_EMIT settingUpdateChanged(val); }
-
-    QString getFilePath() { return m_filepath; }
-    bool getDebug() { return m_debug; }
-    bool getStartInTray() { return m_startInTray; }
-    bool getHaveScreenshots() { return m_haveScreenshots; }
-    QStringList getSettingUpdate() { return m_settingUpdate; }
-
-    /******************************************************/
-
-private:
-    PQCNotify(QObject *parent = 0) : QObject(parent) {
-        m_filepath = "";
-        m_debug = false;
-        m_startInTray = false;
-        m_haveScreenshots = false;
-        m_settingUpdate.clear();
-    }
-
-    /******************************************************/
-
-    // Some startup properties.
-    // These might be set before PQCConstants is set up from QML.
-    // Thus we cache them here so that we can initialize them properly
-    // in its constructor.
-
-    bool m_debug;
-    QString m_filepath;
-    bool m_startInTray;
-    bool m_haveScreenshots;
-    QStringList m_settingUpdate;
-
-    /******************************************************/
+    ~PQCNotify() {}
 
 Q_SIGNALS:
 
-    // reset current session to free up as much memory as possible
-    // NOTE: THIS ONE IS PASSED ON FROM PQCNotifyQML
+    // This signal is THE ONLY ONE that is passed from QML to C++
+    // It is picked up in PQCNotify
     void resetSessionData();
 
-    /*************************************************************/
-    // these cached startup property signals are picked up in PQCConstants
+    /**********************************************************/
+    // These signals are received from C++ via PQCNotify
+    // They are assumed to not to be called from QML.
 
-    void filePathChanged(QString val);
-    void debugChanged(bool val);
-    void startInTrayChanged(bool val);
-    void haveScreenshotsChanged(bool val);
-    void settingUpdateChanged(QStringList val);
-    void addDebugLogMessages(QString val);
+    // key/shortcuts related
+    void keyPress(int key, int modifiers);
+    void keyRelease(int key, int modifiers);
 
-    void setColorProfileFor(QString path, QString val);
+    // enter/leave main window
+    void mouseWindowExit();
+    void mouseWindowEnter();
 
-    /*************************************************************/
-    // these are signals from C++ to C++, no QML interaction
-
-    void disableColorSpaceSupport();
-
-    /*************************************************************/
-    // this are picked up by PQCNotifyQML and passed on to QML
-
-    // command line signals
+    // command line signals, received from C++ via PQCNotify
     void cmdOpen();
     void cmdShow();
     void cmdHide();
@@ -120,16 +98,72 @@ Q_SIGNALS:
     void cmdShortcutSequence(QString seq);
     void cmdTray(bool tray);
 
-    // key/shortcuts related
-    void keyPress(int key, int modifiers);
-    void keyRelease(int key, int modifiers);
+    // there are a few more indicated below that are picked up from PQCNotify
+    // but that also are called from QML to QML
 
-    void mouseWindowExit();
-    void mouseWindowEnter();
+    /**********************************************************/
 
-    void showNotificationMessage(QString title, QString msg);
+    // Q_PROPERTY SIGNALS
+    void filePathChanged();
+    void debugChanged();
+    void debugLogMessagesChanged();
+    void startInTrayChanged();
+    void haveScreenshotsChanged();
+    void haveSettingUpdateChanged();
+
+    // some window states control from QML
+    void setWindowState(int state);
+    void windowRaiseAndFocus();
+    void windowClose();
+    void windowTitleOverride(QString title);
+    void windowStartSystemMove();
+    void windowStartSystemResize(int edge);
+    void photoQtQuit();
+
+    // some image signals
+    void enterPhotoSphere();
+    void exitPhotoSphere();
+    void currentViewFlick(QString direction);
+    void currentViewMove(QString direction);
+    void currentImageDetectBarCodes();
+    void currentArchiveCloseCombo();
+    void currentVideoJump(int s);
+    void currentAnimatedJump(int leftright);
+    void currentDocumentJump(int leftright);
+    void currentArchiveJump(int leftright);
+    void currentImageReload();
+
+    // context menu properties
+    void closeAllContextMenus();
+
+    // these are called by various qml elements to trigger mouse shortcuts
+    void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
+    void mousePressed(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+    void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+    void mouseMove(double x, double y);
+    void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+
+    // other
+    void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify
+    void currentImageLoadedAndDisplayed(QString filename);
+    void openSettingsManagerAt(QString category, QString subcategory);
+    void playPauseAnimationVideo();
+
+    // slideshow
+    void slideshowHideHandler();
+    void slideshowToggle();
+    void slideshowNextImage(bool switchedManually = false);
+    void slideshowPrevImage(bool switchedManually = false);
+
+    // loader methods
+    void loaderShow(QString ele);
+    void loaderShowExtension(QString ele);
+    void loaderSetup(QString ele);
+    void loaderSetupExtension(QString ele);
+    void loaderPassOn(QString what, QVariantList args);
+    void loaderRegisterOpen(QString ele);
+    void loaderRegisterClose(QString ele);
+    void loaderOverrideVisibleItem(QString ele);
+    void loaderRestoreVisibleItem();
 
 };
-
-
-#endif // PQCNotify_H

@@ -38,13 +38,13 @@
 #include <QCollator>
 #include <QCryptographicHash>
 
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 
 #ifdef PQMWAYLANDSPECIFIC
 #include <pqc_wayland.h>

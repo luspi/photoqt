@@ -49,7 +49,7 @@ Rectangle {
         onWheel: (wheel) => { wheel.accepted = true }
         onPositionChanged: (mouse) => {
             var pos = mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
-            PQCNotifyQML.mouseMove(pos.x, pos.y)
+            PQCNotify.mouseMove(pos.x, pos.y)
         }
     }
 

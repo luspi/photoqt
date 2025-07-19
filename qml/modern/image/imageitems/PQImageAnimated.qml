@@ -121,7 +121,7 @@ AnimatedImage {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onPlayPauseAnimationVideo() {
 

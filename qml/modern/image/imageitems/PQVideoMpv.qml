@@ -150,7 +150,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onCurrentVideoJump(seconds : int) {
             if(!loader_top.isMainImage) // qmllint disable unqualified

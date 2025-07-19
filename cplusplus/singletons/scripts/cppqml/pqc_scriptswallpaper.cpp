@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptswallpaper.h>
+#include <scripts/qmlcpp/pqc_scriptswallpaper.h>
 
 #include <QtDebug>
 #include <QApplication>

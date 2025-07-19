@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
 
 class QFile;
 

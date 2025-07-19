@@ -289,7 +289,7 @@ Item {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 enabled: controlitem.enabled
 

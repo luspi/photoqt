@@ -71,7 +71,7 @@ Window {
         width: parent.width
         height: logging_top.height-title.height-bottomrow.height-15
 
-        text: PQCNotifyQML.debugLogMessages
+        text: PQCNotify.debugLogMessages
 
     }
 
@@ -146,7 +146,7 @@ Window {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

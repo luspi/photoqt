@@ -183,7 +183,7 @@ PQCPhotoSphere { // qmllint disable
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onCurrentViewMove(direction : string) {
 
@@ -463,7 +463,7 @@ PQCPhotoSphere { // qmllint disable
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("facetagging", "Click to exit photo sphere")
                         onClicked: {
-                            PQCNotifyQML.exitPhotoSphere()
+                            PQCNotify.exitPhotoSphere()
                         }
                         onEntered: srccomp.hovered = true
                         onExited: srccomp.hovered = false

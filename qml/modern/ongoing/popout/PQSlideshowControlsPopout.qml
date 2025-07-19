@@ -44,7 +44,7 @@ PQTemplatePopout {
 
     onPopoutClosed: {
         close()
-        PQCNotifyQML.slideshowHideHandler()
+        PQCNotify.slideshowHideHandler()
     }
 
     onPopoutChanged: {

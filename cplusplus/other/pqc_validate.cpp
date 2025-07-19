@@ -29,7 +29,7 @@
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
 #include <pqc_shortcuts.h>
-#include <scripts/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
 
 PQCValidate::PQCValidate(QObject *parent) : QObject(parent) {
 

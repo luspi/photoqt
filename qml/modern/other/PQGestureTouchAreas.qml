@@ -263,12 +263,12 @@ Item {
 
     function hideElement(item : string) {
         if(item === "") return
-        PQCNotifyQML.loaderPassOn("forcehide", [item])
+        PQCNotify.loaderPassOn("forcehide", [item])
     }
 
     function showElement(item : string) {
         if(item === "") return
-        PQCNotifyQML.loaderPassOn("forceshow", [item])
+        PQCNotify.loaderPassOn("forceshow", [item])
     }
 
 }

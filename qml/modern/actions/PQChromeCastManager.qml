@@ -179,7 +179,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -225,7 +225,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = true // qmllint disable unqualified
         // we also show the chromecast handler
-        PQCNotifyQML.loaderShow("chromecast")
+        PQCNotify.loaderShow("chromecast")
 
         PQCScriptsChromeCast.startDiscovery()
 
@@ -241,7 +241,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             chromecastmanager_popout.visible = false // qmllint disable unqualified
         else
-            PQCNotifyQML.loaderRegisterClose(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

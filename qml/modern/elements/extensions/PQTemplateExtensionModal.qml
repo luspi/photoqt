@@ -216,7 +216,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, args : list<var>) {
 
@@ -245,7 +245,7 @@ Rectangle {
 
         var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
         if(PQCConstants.windowWidth < minsize.width || PQCConstants.windowHeight < minsize.height) {
-            PQCNotifyQML.loaderRegisterClose(extensionId)
+            PQCNotify.loaderRegisterClose(extensionId)
             settings["ExtForcePopout"] = true
             settings["ExtPopout"] = true
             return
@@ -254,13 +254,13 @@ Rectangle {
             settings["ExtPopout"] = false
         }
 
-        PQCNotifyQML.loaderRegisterOpen(element_top.extensionId)
+        PQCNotify.loaderRegisterOpen(element_top.extensionId)
         opacity = 1
         fullscreen_loader.item.showing()
     }
 
     function hide() {
-        PQCNotifyQML.loaderRegisterClose(element_top.extensionId)
+        PQCNotify.loaderRegisterClose(element_top.extensionId)
         opacity = 0
         settings["ExtShow"] = false
         fullscreen_loader.item.hiding()

@@ -33,11 +33,11 @@
 #include <pqc_shortcuts.h>
 #include <pqc_validate.h>
 #include <pqc_imageformats.h>
-#include <scripts/qml/pqc_scriptsconfig.h>
-#include <scripts/pqc_scriptsshareimgur.h>
+#include <scripts/pqc_scriptsconfig.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <pqc_startup.h>
 #include <pqc_location.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 
 #ifdef WIN32
 #include <WinSock2.h>

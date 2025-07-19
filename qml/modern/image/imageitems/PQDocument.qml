@@ -219,7 +219,7 @@ Image {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onCurrentDocumentJump(leftright : int) {
             loadNewPage.interval = 0

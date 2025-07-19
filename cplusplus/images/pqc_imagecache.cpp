@@ -26,7 +26,7 @@
 #include <QImage>
 #include <pqc_imagecache.h>
 #include <pqc_settingscpp.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 
 PQCImageCache &PQCImageCache::get() {
     static PQCImageCache instance;
@@ -37,7 +37,7 @@ PQCImageCache::PQCImageCache(QObject *parent) : QObject(parent) {
     maxcost = PQCSettingsCPP::get().getImageviewCache();
     cache = new QCache<QString,QImage>;
     cache->setMaxCost(maxcost);
-    connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCImageCache::resetData);
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCImageCache::resetData);
 }
 
 PQCImageCache::~PQCImageCache() {

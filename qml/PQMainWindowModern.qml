@@ -123,7 +123,7 @@ Window {
         acceptedButtons: Qt.LeftButton
         enabled: !masteritemattop.backgroundMessageReady && PQCConstants.startupFilePath===""
         onClicked: {
-            PQCNotifyQML.loaderShow("filedialog")
+            PQCNotify.loaderShow("filedialog")
         }
     }
 
@@ -237,9 +237,9 @@ Window {
                 showFullScreen()
         }
 
-        PQCNotifyQML.loaderShow("mainmenu")
-        PQCNotifyQML.loaderShow("metadata")
-        PQCNotifyQML.loaderSetup("thumbnails")
+        PQCNotify.loaderShow("mainmenu")
+        PQCNotify.loaderShow("metadata")
+        PQCNotify.loaderSetup("thumbnails")
 
         if(PQCConstants.startupFilePath !== "") {
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
@@ -292,7 +292,7 @@ Window {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onStartInTrayChanged() : void {
 
@@ -307,7 +307,7 @@ Window {
 
         function onCmdOpen() : void {
             console.log("")
-            PQCNotifyQML.loaderShow("filedialog")
+            PQCNotify.loaderShow("filedialog")
         }
 
         function onCmdShow() : void {
@@ -428,13 +428,13 @@ Window {
 
         // We stop a running slideshow to make sure all settings are restored to their normal state
         if(PQCConstants.slideshowRunning)
-            PQCNotifyQML.slideshowHideHandler()
+            PQCNotify.slideshowHideHandler()
 
         if(PQCSettings.interfaceTrayIcon === 1) {
             close.accepted = false
             toplevel.visibility = Window.Hidden
             if(PQCSettings.interfaceTrayIconHideReset)
-                PQCNotifyQML.resetSessionData()
+                PQCNotify.resetSessionData()
             PQCConstants.photoQtShuttingDown = false
         } else {
             close.accepted = true

@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
 
 class QFile;
 

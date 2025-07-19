@@ -258,7 +258,7 @@ Window {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         enabled: element_top.setupHasBeenCompleted
 

@@ -203,14 +203,14 @@ Item {
                 }
                 onPressed: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) // qmllint disable unqualified
-                        PQCNotifyQML.windowStartSystemMove()
+                        PQCNotify.windowStartSystemMove()
                 }
                 onDoubleClicked: {
                     if(PQCSettings.interfaceStatusInfoManageWindow) { // qmllint disable unqualified
                         if(PQCConstants.windowState === Window.Maximized)
-                            PQCNotifyQML.setWindowState(Window.Windowed)
+                            PQCNotify.setWindowState(Window.Windowed)
                         else if(PQCConstants.windowState === Window.Windowed)
-                            PQCNotifyQML.setWindowState(Window.Maximized)
+                            PQCNotify.setWindowState(Window.Maximized)
                     }
                 }
 
@@ -428,7 +428,7 @@ Item {
             //: Used in tooltip for the chromecast icon
             text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName // qmllint disable unqualified
             onClicked:
-                PQCNotifyQML.loaderShowExtension("chromecastmanager")
+                PQCNotify.loaderShowExtension("chromecastmanager")
         }
     }
 
@@ -737,7 +737,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                     onTriggered: {
-                        PQCNotifyQML.openSettingsManagerAt("showSettings", ["statusinfo"])
+                        PQCNotify.openSettingsManagerAt("showSettings", ["statusinfo"])
                     }
                 }
 
@@ -761,7 +761,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onMouseMove(posx : int, posy : int) {
 

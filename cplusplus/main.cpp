@@ -43,7 +43,7 @@
 #include <pqc_singleinstance.h>
 #include <pqc_startup.h>
 #include <pqc_validate.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_messagehandler.h>
 #include <pqc_imageformats.h>
 #include <pqc_providericon.h>
@@ -59,9 +59,9 @@
 #include <pqc_resolutioncache.h>
 #include <pqc_location.h>
 #include <pqc_photosphere.h>
-#include <scripts/pqc_scriptscrypt.h>
-#include <scripts/pqc_scriptsshareimgur.h>
-#include <scripts/pqc_scriptsundo.h>
+#include <scripts/qmlcpp/pqc_scriptscrypt.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
+#include <scripts/qmlcpp/pqc_scriptsundo.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 
@@ -239,7 +239,7 @@ int main(int argc, char *argv[]) {
             break;
         }
     }
-    PQCNotify::get().setHaveScreenshots(success);
+    PQCNotifyCPP::get().setHaveScreenshots(success);
 
 // only one of them will be defined at a time
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)

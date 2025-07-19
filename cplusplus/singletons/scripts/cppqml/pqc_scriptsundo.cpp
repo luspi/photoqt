@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsundo.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsundo.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <pqc_filefoldermodelCPP.h>
 
 #include <QVariant>

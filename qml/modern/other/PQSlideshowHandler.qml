@@ -170,7 +170,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -204,7 +204,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onSlideshowHideHandler() {
             slideshowhandler_top.hide()
@@ -296,7 +296,7 @@ Item {
         PQCConstants.slideshowRunningAndPlaying = false
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        PQCNotifyQML.loaderRegisterClose("slideshowhandler")
+        PQCNotify.loaderRegisterClose("slideshowhandler")
 
         PQCSettings.imageviewAnimationType = backupAnimType
         PQCSettings.imageviewAnimationDuration = backupAnimSpeed
@@ -304,7 +304,7 @@ Item {
         PQCScriptsShortcuts.sendShortcutZoomReset()
 
         if(tmp)
-            PQCNotifyQML.playPauseAnimationVideo()
+            PQCNotify.playPauseAnimationVideo()
 
     }
 
@@ -364,7 +364,7 @@ Item {
         PQCConstants.slideshowRunningAndPlaying = !PQCConstants.slideshowRunningAndPlaying
         if(PQCSettings.slideshowMusic)
             loader_audioplayer.item.checkPlayPause()
-        PQCNotifyQML.playPauseAnimationVideo()
+        PQCNotify.playPauseAnimationVideo()
     }
 
     /***************************************/

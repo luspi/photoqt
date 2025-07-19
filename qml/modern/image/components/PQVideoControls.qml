@@ -138,7 +138,7 @@ Item {
                         acceptedButtons: Qt.LeftButton|Qt.RightButton
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCNotifyQML.playPauseAnimationVideo()
+                                PQCNotify.playPauseAnimationVideo()
                             else
                                 menu.popup()
                         }
@@ -415,7 +415,7 @@ Item {
                     iconSource: loader_top.videoPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     text: loader_top.videoPlaying ? qsTranslate("image", "Pause video") : qsTranslate("image", "Play video")
                     onTriggered: {
-                        PQCNotifyQML.playPauseAnimationVideo()
+                        PQCNotify.playPauseAnimationVideo()
                     }
                 }
 
@@ -485,7 +485,7 @@ Item {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 enabled: controlitem.enabled
 

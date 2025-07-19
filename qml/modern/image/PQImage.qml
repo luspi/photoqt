@@ -54,7 +54,7 @@ Item {
             visibleSourcePrevCur[1] = visibleSourcePrevCur[0]
             visibleSourcePrevCur[0] = PQCConstants.currentImageSource
             visibleSourcePrevCurChanged()
-            PQCNotifyQML.currentImageLoadedAndDisplayed(PQCConstants.currentImageSource)
+            PQCNotify.currentImageLoadedAndDisplayed(PQCConstants.currentImageSource)
         }
 
     }

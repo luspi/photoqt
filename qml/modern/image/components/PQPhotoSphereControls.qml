@@ -280,7 +280,7 @@ Item {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 enabled: controlitem.enabled
 
@@ -296,7 +296,7 @@ Item {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 function onCloseAllContextMenus() {
                     menu.dismiss()

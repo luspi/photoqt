@@ -45,7 +45,7 @@ SystemTrayIcon {
         MenuItem {
             text: "Quit PhotoQt"
             onTriggered:
-                PQCNotifyQML.photoQtQuit()
+                PQCNotify.photoQtQuit()
         }
 
         Component.onCompleted:
@@ -61,13 +61,13 @@ SystemTrayIcon {
         PQCSettings.interfaceTrayIcon = 1
         if(PQCConstants.windowState === Window.Hidden) {
             if(PQCConstants.windowMaxAndNotWindowed)
-                PQCNotifyQML.setWindowState(Window.Maximized)
+                PQCNotify.setWindowState(Window.Maximized)
             else
-                PQCNotifyQML.setWindowState(Window.Windowed)
+                PQCNotify.setWindowState(Window.Windowed)
         } else if(PQCConstants.windowState === Window.Minimized) {
-            PQCNotifyQML.windowRaiseAndFocus()
+            PQCNotify.windowRaiseAndFocus()
         } else {
-            PQCNotifyQML.setWindowState(Window.Hidden)
+            PQCNotify.setWindowState(Window.Hidden)
         }
     }
 

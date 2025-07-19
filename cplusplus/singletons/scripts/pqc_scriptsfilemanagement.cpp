@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qml/pqc_scriptsfilemanagement.h>
-#include <scripts/pqc_scriptsundo.h>
+#include <scripts/pqc_scriptsfilemanagement.h>
+#include <scripts/qmlcpp/pqc_scriptsundo.h>
 #include <pqc_configfiles.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>

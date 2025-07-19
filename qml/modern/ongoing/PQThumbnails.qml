@@ -921,7 +921,7 @@ Rectangle {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCNotifyQML.openSettingsManagerAt("showSettings", ["thumbnails"])
+                    PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
                 }
             }
 
@@ -970,7 +970,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onMouseMove(posx : int, posy : int) {
 
@@ -1021,7 +1021,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

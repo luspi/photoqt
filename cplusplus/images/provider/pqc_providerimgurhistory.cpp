@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <pqc_providerimgurhistory.h>
-#include <scripts/pqc_scriptsshareimgur.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 
 QQuickImageResponse *PQCAsyncImageProviderImgurHistory::requestImageResponse(const QString &url, const QSize &requestedSize) {
 

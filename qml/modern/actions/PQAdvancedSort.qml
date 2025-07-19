@@ -700,7 +700,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -822,7 +822,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed)
             advancedsort_popout.visible = false // qmllint disable unqualified
         else
-            PQCNotifyQML.loaderRegisterClose(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
 
     }
 

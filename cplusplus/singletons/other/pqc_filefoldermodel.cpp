@@ -35,10 +35,10 @@
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
-#include <scripts/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -151,7 +151,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataFileDialog);
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataMainView);
 
-    connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCFileFolderModel::resetModel);
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCFileFolderModel::resetModel);
 
     /********************************************/
     /********************************************/

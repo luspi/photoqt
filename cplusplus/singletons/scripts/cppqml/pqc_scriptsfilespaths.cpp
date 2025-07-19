@@ -20,9 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <pqc_settingscpp.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2

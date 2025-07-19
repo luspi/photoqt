@@ -133,7 +133,7 @@ Loader {
                 for(var iE in exts) {
                     var ext = exts[iE]
                     if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1 && PQCSettings.generalSetupFloatingExtensionsAtStartup.indexOf(ext) > -1) {
-                        PQCNotifyQML.loaderSetupExtension(ext)
+                        PQCNotify.loaderSetupExtension(ext)
                     }
                 }
             }
@@ -261,13 +261,13 @@ Loader {
         function finishSetup_part1() {
             finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
-            PQCNotifyQML.loaderSetup("mainmenu")
-            PQCNotifyQML.loaderSetup("metadata")
+            PQCNotify.loaderSetup("mainmenu")
+            PQCNotify.loaderSetup("metadata")
         }
 
         function finishSetup_part2() {
             finishSetupCalled += 1
-            PQCNotifyQML.loaderSetup("thumbnails")
+            PQCNotify.loaderSetup("thumbnails")
 
             PQCExtensionsHandler.setup()
 

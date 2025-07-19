@@ -711,7 +711,7 @@ Rectangle {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
                 iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
                 onTriggered: {
-                    PQCNotifyQML.openSettingsManagerAt("showSettings", ["metadata"])
+                    PQCNotify.openSettingsManagerAt("showSettings", ["metadata"])
                 }
             }
 
@@ -778,7 +778,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onCloseAllContextMenus() {
             menu.item.dismiss() // qmllint disable missing-property
@@ -798,7 +798,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

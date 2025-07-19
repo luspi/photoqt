@@ -149,7 +149,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -238,7 +238,7 @@ PQTemplateFullscreen {
         if(popoutWindowUsed && filerename_popout.visible)
             filerename_popout.visible = false
         else
-            PQCNotifyQML.loaderRegisterClose(thisis)
+            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

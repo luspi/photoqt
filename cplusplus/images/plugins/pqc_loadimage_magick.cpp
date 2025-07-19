@@ -23,9 +23,9 @@
 #include <pqc_loadimage_magick.h>
 #include <pqc_imagecache.h>
 #include <pqc_imageformats.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptscolorprofiles.h>
-#include <pqc_notify.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
+#include <pqc_notify_cpp.h>
 #include <QCoreApplication>
 #include <QSize>
 #include <QImage>

@@ -25,7 +25,7 @@
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QCryptographicHash>
