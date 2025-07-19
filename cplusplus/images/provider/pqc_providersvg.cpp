@@ -22,8 +22,8 @@
 
 #include <pqc_providersvg.h>
 #include <pqc_settings.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <pqc_notify.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_look.h>
 #ifdef PQMRESVG
 #include <pqc_loadimage_resvg.h>

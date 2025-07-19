@@ -34,7 +34,7 @@
 
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_settings.h>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodelCPP.h>
@@ -308,62 +308,62 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
         case Actions::Open:
 
-            Q_EMIT PQCNotify::get().cmdOpen();
+            Q_EMIT PQCNotifyCPP::get().cmdOpen();
             break;
 
         case Actions::Show:
 
-            Q_EMIT PQCNotify::get().cmdShow();
+            Q_EMIT PQCNotifyCPP::get().cmdShow();
             break;
 
         case Actions::Hide:
 
-            Q_EMIT PQCNotify::get().cmdHide();
+            Q_EMIT PQCNotifyCPP::get().cmdHide();
             break;
 
         case Actions::Quit:
 
-            Q_EMIT PQCNotify::get().cmdQuit();
+            Q_EMIT PQCNotifyCPP::get().cmdQuit();
             break;
 
         case Actions::Toggle:
 
-            Q_EMIT PQCNotify::get().cmdToggle();
+            Q_EMIT PQCNotifyCPP::get().cmdToggle();
             break;
 
         case Actions::StartInTray:
 
-            PQCNotify::get().setStartInTray(true);
+            PQCNotifyCPP::get().setStartInTray(true);
             break;
 
         case Actions::Tray:
 
-            Q_EMIT PQCNotify::get().cmdTray(true);
+            Q_EMIT PQCNotifyCPP::get().cmdTray(true);
             break;
 
         case Actions::NoTray:
 
-            Q_EMIT PQCNotify::get().cmdTray(false);
+            Q_EMIT PQCNotifyCPP::get().cmdTray(false);
             break;
 
         case Actions::Shortcut:
 
-            Q_EMIT PQCNotify::get().cmdShortcutSequence(m_receivedShortcut);
+            Q_EMIT PQCNotifyCPP::get().cmdShortcutSequence(m_receivedShortcut);
             break;
 
         case Actions::Debug:
 
-            PQCNotify::get().debugChanged(true);
+            PQCNotifyCPP::get().debugChanged(true);
             break;
 
         case Actions::NoDebug:
 
-            PQCNotify::get().debugChanged(false);
+            PQCNotifyCPP::get().debugChanged(false);
             break;
 
         case Actions::Setting:
 
-            PQCNotify::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
+            PQCNotifyCPP::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
             break;
 
         default:
@@ -380,7 +380,7 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
             Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
         else
             Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
-        PQCNotify::get().setFilePath(allfiles[0]);
+        PQCNotifyCPP::get().setFilePath(allfiles[0]);
     }
 
 }
@@ -391,16 +391,16 @@ bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
     if(cn == "QQuickRootItem") {
         if(e->type() == QEvent::KeyPress) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+            Q_EMIT PQCNotifyCPP::get().keyPress(ev->key(), ev->modifiers());
         } else if(e->type() == QEvent::KeyRelease) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
+            Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());
         }
     } else if(cn.startsWith("PQMainWindow")) {
         if(e->type() == QEvent::Leave) {
-            Q_EMIT PQCNotify::get().mouseWindowExit();
+            Q_EMIT PQCNotifyCPP::get().mouseWindowExit();
         } else if(e->type() == QEvent::Enter)
-            Q_EMIT PQCNotify::get().mouseWindowEnter();
+            Q_EMIT PQCNotifyCPP::get().mouseWindowEnter();
     }
 
     return QApplication::notify(obj, e);

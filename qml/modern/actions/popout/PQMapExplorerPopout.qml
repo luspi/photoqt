@@ -43,7 +43,7 @@ PQTemplatePopout {
     modality: PQCSettings.interfacePopoutMapExplorerNonModal ? Qt.NonModal : Qt.ApplicationModal
 
     onPopoutClosed: {
-        PQCNotifyQML.loaderRegisterClose("mapexplorer")
+        PQCNotify.loaderRegisterClose("mapexplorer")
     }
 
     onPopoutChanged: {

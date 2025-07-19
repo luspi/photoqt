@@ -41,7 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotifyQML.loaderRegisterClose("slideshowsetup")
+        PQCNotify.loaderRegisterClose("slideshowsetup")
     }
 
     onPopoutChanged: {

@@ -117,7 +117,7 @@ Item {
             } else {
                 PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);
                 if(custom_close == "1")
-                    PQCNotifyQML.windowClose()
+                    PQCNotify.windowClose()
             }
 
             if(closeMenu && !PQCSettings.interfacePopoutMainMenu)

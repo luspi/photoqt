@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptscrypt.h>
+#include <scripts/qmlcpp/pqc_scriptscrypt.h>
 
 #include <QDateTime>
 #include <QIODevice>

@@ -160,13 +160,13 @@ Item {
                     width: setting_top.width/2
                     placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
                     Keys.onTabPressed: (event) => {
-                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers])
+                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
                     }
                     onPressed: (key, modifiers) => {
                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
                     }
                 }
 
@@ -175,13 +175,13 @@ Item {
                     width: setting_top.width/2 -20
                     placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
                     Keys.onTabPressed: (event) => {
-                        PQCNotifyQML.loaderPassOn("keyEvent", [event.key, event.modifiers])
+                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
                     }
                     onPressed: (key, modifiers) => {
                         if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
                         else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotifyQML.loaderPassOn("keyEvent", [key, modifiers])
+                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
                     }
                 }
             }

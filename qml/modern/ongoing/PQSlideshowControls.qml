@@ -141,7 +141,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
-                    PQCNotifyQML.slideshowPrevImage(true) // qmllint disable unqualified
+                    PQCNotify.slideshowPrevImage(true) // qmllint disable unqualified
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
@@ -176,7 +176,7 @@ Item {
                            qsTranslate("slideshow", "Click to pause slideshow") :
                            qsTranslate("slideshow", "Click to play slideshow"))
                 onClicked: {
-                    PQCNotifyQML.slideshowToggle()
+                    PQCNotify.slideshowToggle()
                     slideshowcontrols_top.updateState()
                 }
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
@@ -211,7 +211,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the next image")
                 onClicked:
-                    PQCNotifyQML.slideshowNextImage(true)
+                    PQCNotify.slideshowNextImage(true)
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "333"
                 onEntered: {
@@ -243,7 +243,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to exit slideshow")
                 onClicked: {
-                    PQCNotifyQML.slideshowHideHandler()
+                    PQCNotify.slideshowHideHandler()
                 }
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "444"
@@ -341,7 +341,7 @@ Item {
             onClicked: {
                 PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls // qmllint disable unqualified
                 slideshowcontrols_top.hide()
-                PQCNotifyQML.loaderRegisterClose("slideshowcontrols")
+                PQCNotify.loaderRegisterClose("slideshowcontrols")
             }
         }
     }
@@ -371,7 +371,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
@@ -388,10 +388,10 @@ Item {
             } else if(what === "keyEvent") {
 
                 if(param[0] === Qt.Key_Left)
-                    PQCNotifyQML.slideshowPrevImage(true)
+                    PQCNotify.slideshowPrevImage(true)
 
                 else if(param[0] === Qt.Key_Right)
-                    PQCNotifyQML.slideshowNextImage(true)
+                    PQCNotify.slideshowNextImage(true)
 
             }
 
@@ -432,7 +432,7 @@ Item {
         opacity = 0
         if(popoutWindowUsed)
             slideshowcontrols_popout.visible = false // qmllint disable unqualified
-        PQCNotifyQML.loaderRegisterClose("slideshowcontrols")
+        PQCNotify.loaderRegisterClose("slideshowcontrols")
     }
 
     Component.onCompleted: {

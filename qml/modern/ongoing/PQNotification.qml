@@ -164,7 +164,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

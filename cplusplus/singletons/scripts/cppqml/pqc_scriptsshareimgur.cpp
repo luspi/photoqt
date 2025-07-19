@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsshareimgur.h>
-#include <scripts/pqc_scriptscrypt.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
+#include <scripts/qmlcpp/pqc_scriptscrypt.h>
 #include <pqc_configfiles.h>
 #include <pqc_httpreplytimeout.h>
 #include <pqc_loadimage.h>

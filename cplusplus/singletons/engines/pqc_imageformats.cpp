@@ -30,7 +30,7 @@
 #include <QMimeDatabase>
 #include <pqc_imageformats.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_validate.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)

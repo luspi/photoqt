@@ -41,7 +41,7 @@ PQTemplatePopout {
     minimumHeight: 600
 
     onPopoutClosed: {
-        PQCNotifyQML.loaderRegisterClose("advancedsort")
+        PQCNotify.loaderRegisterClose("advancedsort")
     }
 
     onPopoutChanged: {

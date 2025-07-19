@@ -1,7 +1,7 @@
-#include <scripts/pqc_scriptscolorprofiles.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_settingscpp.h>
 
 #include <QFile>
@@ -375,7 +375,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
     // If enabled we do some color profile management now
     if(!PQCSettingsCPP::get().getImageviewColorSpaceEnable()) {
         qDebug() << "Color space handling disabled";
-        PQCNotify::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
+        PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
         return true;
     }
 
@@ -550,17 +550,17 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
         m_lcms2CountFailedApplications += 1;
 
         if(m_lcms2CountFailedApplications > 5) {
-            Q_EMIT PQCNotify::get().disableColorSpaceSupport();
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
+            Q_EMIT PQCNotifyCPP::get().disableColorSpaceSupport();
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
         } else {
-            Q_EMIT PQCNotify::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
         }
 
     }
 
     // no profile (successfully) applied, set default name
-    PQCNotify::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
+    PQCNotifyCPP::get().setColorProfileFor(filename, QColorSpace(QColorSpace::SRgb).description());
     qDebug() << "Using default color profile";
     return !manualSelectionCausedError;
 
@@ -576,7 +576,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceQt(QImage &img, QString filename, 
     } else {
         const QString desc = sp.description();
         qDebug() << "Applying integrated color profile:" << desc;
-        PQCNotify::get().setColorProfileFor(filename, desc);
+        PQCNotifyCPP::get().setColorProfileFor(filename, desc);
         img = ret;
         return true;
     }
@@ -667,7 +667,7 @@ bool PQCScriptsColorProfiles::_applyColorSpaceLCMS2(QImage &img, QString filenam
 
         qDebug() << "Applying external color profile:" << buf;
 
-        PQCNotify::get().setColorProfileFor(filename, buf);
+        PQCNotifyCPP::get().setColorProfileFor(filename, buf);
 
         img = ret;
 

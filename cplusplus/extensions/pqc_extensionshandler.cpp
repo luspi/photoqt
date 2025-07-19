@@ -4,7 +4,7 @@
 #include <QPluginLoader>
 #include <QtConcurrent/QtConcurrentRun>
 #include <QImage>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>

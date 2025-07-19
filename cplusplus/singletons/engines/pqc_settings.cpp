@@ -37,7 +37,7 @@
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_extensionshandler.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
@@ -471,7 +471,7 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 
@@ -8968,7 +8968,7 @@ void PQCSettings::resetToDefault() {
 
 void PQCSettings::updateFromCommandLine() {
 
-    const QStringList update = PQCNotify::get().getSettingUpdate();
+    const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
     if(update.length() != 2)

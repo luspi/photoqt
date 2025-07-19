@@ -111,7 +111,7 @@ Item {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 function onMouseMove(x : int, y : int) {
 

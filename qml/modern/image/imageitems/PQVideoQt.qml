@@ -98,7 +98,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onCurrentVideoJump(seconds : int) {
 

@@ -200,7 +200,7 @@ Loader {
                     font.bold: true
                     onTriggered: {
                         PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) // qmllint disable unqualified
-                        PQCNotifyQML.currentImageReload()
+                        PQCNotify.currentImageReload()
                         PQCFileFolderModel.currentFileChanged()
                     }
                 }
@@ -217,7 +217,7 @@ Loader {
                         height: visible ? 40 : 0
                         onTriggered: {
                             PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) // qmllint disable unqualified
-                            PQCNotifyQML.currentImageReload()
+                            PQCNotify.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
                     }
@@ -346,7 +346,7 @@ Loader {
         }
 
         Connections {
-            target: PQCNotifyQML
+            target: PQCNotify
             function onCloseAllContextMenus() {
                 menutop.dismiss()
             }

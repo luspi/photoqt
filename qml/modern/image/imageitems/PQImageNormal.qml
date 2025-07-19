@@ -265,7 +265,7 @@ Image {
                     cursorShape: Qt.PointingHandCursor
                     text: qsTranslate("image", "Click here to enter photo sphere")
                     onClicked: {
-                        PQCNotifyQML.enterPhotoSphere()
+                        PQCNotify.enterPhotoSphere()
                     }
                 }
 
@@ -424,7 +424,7 @@ Image {
 
                 Connections {
 
-                    target: PQCNotifyQML
+                    target: PQCNotify
 
                     function onPlayPauseAnimationVideo() {
 

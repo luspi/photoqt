@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qml/pqc_scriptsother.h>
-#include <pqc_notify.h>
+#include <scripts/pqc_scriptsother.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_printtabimageoptions.h>
 #include <pqc_printtabimagepositiontile.h>
 #include <pqc_loadimage.h>

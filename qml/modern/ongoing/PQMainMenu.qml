@@ -1123,7 +1123,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onMouseMove(posx : int, posy : int) {
 
@@ -1180,7 +1180,7 @@ Rectangle {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

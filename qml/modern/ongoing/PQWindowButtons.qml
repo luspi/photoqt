@@ -602,7 +602,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotifyQML.setWindowState(Window.Minimized)
+                        PQCNotify.setWindowState(Window.Minimized)
                     else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -685,9 +685,9 @@ Item {
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton) {
                         if(PQCConstants.windowState === Window.Windowed)
-                            PQCNotifyQML.setWindowState(Window.Maximized)
+                            PQCNotify.setWindowState(Window.Maximized)
                         else
-                            PQCNotifyQML.setWindowState(Window.Windowed)
+                            PQCNotify.setWindowState(Window.Windowed)
                     } else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -761,7 +761,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotifyQML.windowClose()
+                        PQCNotify.windowClose()
                     else if(button === Qt.RightButton)
                         menu.item.popup() // qmllint disable missing-property
                 }
@@ -895,7 +895,7 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     onTriggered: {
-                        PQCNotifyQML.openSettingsManagerAt("showSettings", "windowbuttons")
+                        PQCNotify.openSettingsManagerAt("showSettings", "windowbuttons")
                     }
                 }
 
@@ -917,7 +917,7 @@ Item {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCNotify
 
         function onMouseMove(posx, posy) {
 

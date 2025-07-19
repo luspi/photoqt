@@ -23,13 +23,13 @@
 #include <pqc_loadimage.h>
 #include <pqc_loadimage_archive.h>
 #include <pqc_imagecache.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>
 #include <pqc_imageformats.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 
 #include <QSize>
 #include <QtDebug>

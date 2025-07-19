@@ -93,9 +93,9 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !popout)
-            PQCNotifyQML.windowTitleOverride(title) // qmllint disable unqualified
+            PQCNotify.windowTitleOverride(title) // qmllint disable unqualified
         else if(opacity === 0)
-            PQCNotifyQML.windowTitleOverride("")
+            PQCNotify.windowTitleOverride("")
     }
 
     color: PQCLook.baseColorAccent

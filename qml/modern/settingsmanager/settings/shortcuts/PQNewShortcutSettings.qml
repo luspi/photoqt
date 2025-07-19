@@ -419,7 +419,7 @@ Rectangle {
     function show(index: int, subindex: int) {
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) { // qmllint disable unqualified
-            PQCNotifyQML.loaderOverrideVisibleItem("shortcuts")
+            PQCNotify.loaderOverrideVisibleItem("shortcuts")
         }
 
         mouseComboMods = []
@@ -453,7 +453,7 @@ Rectangle {
         settingsmanager_top.passShortcutsToDetector = false // qmllint disable unqualified
 
         if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal)
-            PQCNotifyQML.loaderRestoreVisibleItem()
+            PQCNotify.loaderRestoreVisibleItem()
 
     }
 

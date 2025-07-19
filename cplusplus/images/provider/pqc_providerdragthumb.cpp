@@ -25,7 +25,7 @@
 #include <pqc_providericon.h>
 #include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <QPainter>
 #include <QPainterPath>
 #include <QImage>

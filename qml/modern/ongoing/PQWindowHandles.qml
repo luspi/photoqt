@@ -45,14 +45,14 @@ Item {
         acceptedButtons: Qt.AllButtons
         onWheel: (wheel) => { wheel.accepted = true }
         onPressed: {
-            PQCNotifyQML.windowStartSystemMove()
+            PQCNotify.windowStartSystemMove()
         }
         onDoubleClicked: {
             if(PQCConstants.windowState)
             if(PQCConstants.windowState === Window.Maximized)
-                PQCNotifyQML.setWindowState(Window.Windowed)
+                PQCNotify.setWindowState(Window.Windowed)
             else if(PQCConstants.windowState === Window.Windowed)
-                PQCNotifyQML.setWindowState(Window.Maximized)
+                PQCNotify.setWindowState(Window.Maximized)
         }
 
     }
@@ -66,7 +66,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.LeftEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge)
     }
 
     // RIGHT edge
@@ -78,7 +78,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.RightEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge)
     }
 
     // TOP edge
@@ -90,7 +90,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.TopEdge)
     }
 
     // BOTTOM edge
@@ -102,7 +102,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeVerCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.BottomEdge)
     }
 
     // TOP LEFT corner
@@ -114,7 +114,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.LeftEdge|Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge|Qt.TopEdge)
     }
 
     // TOP RIGHT corner
@@ -126,7 +126,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.RightEdge|Qt.TopEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge|Qt.TopEdge)
     }
 
     // BOTTOM LEFT corner
@@ -138,7 +138,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeBDiagCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.LeftEdge|Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.LeftEdge|Qt.BottomEdge)
     }
 
     // BOTTOM RIGHT corner
@@ -150,7 +150,7 @@ Item {
         hoverEnabled: true
         cursorShape: Qt.SizeFDiagCursor
         onPressed:
-            PQCNotifyQML.windowStartSystemResize(Qt.RightEdge|Qt.BottomEdge)
+            PQCNotify.windowStartSystemResize(Qt.RightEdge|Qt.BottomEdge)
     }
 
 }

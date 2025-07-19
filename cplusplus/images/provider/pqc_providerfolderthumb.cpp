@@ -24,7 +24,7 @@
 #include <pqc_providerthumb.h>
 #include <pqc_settingscpp.h>
 #include <pqc_imageformats.h>
-#include <scripts/pqc_scriptsfilespaths.h>
+#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
 #include <QPainter>
 #include <QImage>
 #include <QCollator>

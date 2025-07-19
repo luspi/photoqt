@@ -259,7 +259,7 @@ Loader {
 
         Connections {
 
-            target: PQCNotifyQML
+            target: PQCNotify
 
             function onEnterPhotoSphere() {
                 if(PQCConstants.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
@@ -525,7 +525,7 @@ Loader {
 
             Connections {
 
-                target: PQCNotifyQML
+                target: PQCNotify
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
                     if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) // qmllint disable unqualified
@@ -548,7 +548,7 @@ Loader {
 
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
                         if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
-                            PQCNotifyQML.windowClose()
+                            PQCNotify.windowClose()
                         return
                     }
 
@@ -1177,7 +1177,7 @@ Loader {
 
                     Connections {
 
-                        target: PQCNotifyQML
+                        target: PQCNotify
 
                         function onCurrentViewFlick(direction : string) {
 
@@ -1568,12 +1568,12 @@ Loader {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotifyQML.mouseMove(pos.x, pos.y)
+                PQCNotify.mouseMove(pos.x, pos.y)
             }
             onWheel: (wheel) => {
                 wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
                 var pos = imagemouse.mapToItem(fullscreenitem, wheel.x, wheel.y)
-                PQCNotifyQML.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
+                PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
             }
             onPressed: (mouse) => {
 
@@ -1585,7 +1585,7 @@ Loader {
                        locpos.x > flickable_content.x+flickable_content.width ||
                        locpos.y > flickable_content.y+flickable_content.height)) {
 
-                    PQCNotifyQML.windowClose()
+                    PQCNotify.windowClose()
                     return
 
                 }
@@ -1624,11 +1624,11 @@ Loader {
                     return
                 }
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotifyQML.mousePressed(mouse.modifiers, mouse.button, pos)
+                PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
             }
             onMouseDoubleClicked: (mouse) => {
                 var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotifyQML.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
             }
 
             onReleased: (mouse) => {
@@ -1636,7 +1636,7 @@ Loader {
                     loader_top.imageClicked()
                 else {
                     var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                    PQCNotifyQML.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
+                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
                 }
             }
         }
