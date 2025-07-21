@@ -464,9 +464,10 @@ Item {
 
     function executeInternalFunction(cmd : string, mousePos : point, wheelDelta : point) {
 
-        // we limit the internal shortcuts to happen at most once every threshold ms
-        // we can't do the math directly here as 64bit integers are not properly supported by QML
-        if(PQCScriptsShortcuts.getCurrentTimestampDiffLessThan(100))
+        // We limit the internal shortcuts to happen at most once every threshold ms
+        // We can't do the math directly here as 64bit integers are not properly supported by QML
+        // The flick/move shortcuts ignore this check as otherwise the scrolling is a bit jarring when the respective shortcut is pressed continuously.
+        if(PQCScriptsShortcuts.getCurrentTimestampDiffLessThan(100) && !cmd.startsWith("__flickView") && !cmd.startsWith("__moveView"))
             return
         PQCScriptsShortcuts.setCurrentTimestamp()
 
