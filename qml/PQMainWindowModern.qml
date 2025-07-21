@@ -275,20 +275,9 @@ Window {
 
     Connections {
 
-        target: PQCNotifyQML
+        target: PQCConstants
 
-        function onStartInTrayChanged() : void {
-
-            console.log("")
-
-            if(PQCConstants.startupStartInTray) // qmllint disable unqualified
-                PQCSettings.interfaceTrayIcon = 1
-            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
-                PQCSettings.interfaceTrayIcon = 0
-
-        }
-
-        function onFilePathChanged() : void {
+        function onStartupFilePathChanged() : void {
             console.log("")
             PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
             if(!toplevel.visible)
@@ -304,6 +293,17 @@ Window {
     Connections {
 
         target: PQCNotifyQML
+
+        function onStartInTrayChanged() : void {
+
+            console.log("")
+
+            if(PQCConstants.startupStartInTray) // qmllint disable unqualified
+                PQCSettings.interfaceTrayIcon = 1
+            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                PQCSettings.interfaceTrayIcon = 0
+
+        }
 
         function onCmdOpen() : void {
             console.log("")

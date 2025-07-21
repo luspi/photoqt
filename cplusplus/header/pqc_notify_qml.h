@@ -104,7 +104,6 @@ Q_SIGNALS:
     /**********************************************************/
 
     // Q_PROPERTY SIGNALS
-    void filePathChanged();
     void debugChanged();
     void debugLogMessagesChanged();
     void startInTrayChanged();
