@@ -33,7 +33,7 @@ void pqcMessageHandler(QtMsgType type, const QMessageLogContext &context, const 
     switch (type) {
     case QtDebugMsg:
 #ifdef NDEBUG
-        if(PQCNotify::get().getDebug()) {
+        if(PQCNotifyCPP::get().getDebug()) {
 #endif
             PQCNotifyCPP::get().addDebugLogMessages(QString("%1 [D] %2::%3::%4: %5\n").arg(date.toString("yyyy-MM-dd HH:mm:ss.zzz")).arg(filename).arg(function).arg(context.line).arg(msg));
             fprintf(stderr, "%s [D] %s::%s::%u: %s\n", date.toString("yyyy-MM-dd HH:mm:ss.zzz").toLatin1().constData(), filename.constData(), function, context.line, msg.toLocal8Bit().constData());
