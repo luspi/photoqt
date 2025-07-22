@@ -8,7 +8,7 @@
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_settingscpp.h>
 #include <pqc_loadimage.h>
-#include <pqc_scriptsfilespaths.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
 #include <pqc_imageformats.h>
 #include <pqc_extensionsettings.h>
 

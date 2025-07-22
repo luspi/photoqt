@@ -36,7 +36,7 @@
 
 // this is an exception here:
 // This class is only used when PhotoQt exits right after, thus it's not messing anything up.
-#include <scripts/pqc_scriptsconfig.h>
+#include <scripts/qml/pqc_scriptsconfig.h>
 
 PQCStartup::PQCStartup(QObject *parent) : QObject(parent) { }
 

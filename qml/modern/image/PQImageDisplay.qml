@@ -37,7 +37,7 @@ Loader {
 
     property bool thisIsStartupFile: false
 
-    property Item access_fullscreen: fullscreenitem // qmllint disable unqualified
+    property Item access_fullscreen: fullscreenitem
 
     signal iAmReady()
 
@@ -52,8 +52,8 @@ Loader {
 
         id: loader_top
 
-        width: image_top.width // qmllint disable unqualified
-        height: image_top.height // qmllint disable unqualified
+        width: image_top.width
+        height: image_top.height
 
         visible: false
 
@@ -70,7 +70,7 @@ Loader {
             if(PQCSettings.imageviewFitInWindow)
                 resetDefaults.triggered()
             if(loader_top.isMainImage)
-                PQCConstants.currentImageResolution = imageResolution // qmllint disable unqualified
+                PQCConstants.currentImageResolution = imageResolution
         }
 
         property int imagePosX: 0
@@ -84,13 +84,10 @@ Loader {
         property real photoSphereDefaultScaleBackup: 1.0
 
         property bool videoLoaded: false
-        property bool videoPlaying: false
-        property real videoDuration: 0.0
-        property real videoPosition: 0.0
         property bool videoHasAudio: false
 
         // when switching images, either one might be set to the current index, eventually (within milliseconds) both will be
-        property bool isMainImage: (PQCConstants.currentImageSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile) // qmllint disable unqualified
+        property bool isMainImage: (PQCConstants.currentImageSource===imageSource || PQCFileFolderModel.currentFile===imageSource || imageloaderitem.thisIsStartupFile)
 
         onIsMainImageChanged: setGlobalProperties()
 
@@ -108,22 +105,19 @@ Loader {
 
         signal videoToPos(var s)
         signal imageClicked()
+        signal barcodeClick()
 
         signal finishSetup()
 
         property bool dontAnimateNextZoom: false
 
-        onVideoPlayingChanged: {
-            if(loader_top.isMainImage)
-                PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying // qmllint disable unqualified
-        }
         onVideoHasAudioChanged: {
             if(loader_top.isMainImage)
-                PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio // qmllint disable unqualified
+                PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
         }
         onVideoLoadedChanged: {
             if(loader_top.isMainImage)
-                PQCConstants.currentlyShowingVideo = loader_top.videoLoaded // qmllint disable unqualified
+                PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
         }
 
         // keeping the shortcut for rotation pressed triggers it repeatedly very quickly
@@ -150,7 +144,7 @@ Loader {
             function onSendShortcutZoomIn(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -162,7 +156,7 @@ Loader {
             function onSendShortcutZoomOut(mousePos : point, wheelDelta : point) {
                 if(loader_top.isMainImage) {
 
-                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                    if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                     if(mousePos.x === -1 || mousePos.y === -1)
                         mousePos = Qt.point(flickable.width/2, flickable.height/2)
@@ -173,7 +167,7 @@ Loader {
             }
             function onSendShortcutZoomReset() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
@@ -181,7 +175,7 @@ Loader {
             }
             function onSendShortcutZoomActual() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                 if(loader_top.isMainImage)
                     loader_top.imageScale = 1/PQCConstants.devicePixelRatio
@@ -189,7 +183,7 @@ Loader {
             }
             function onSendShortcutZoomKenBurns() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                 if(loader_top.isMainImage)
                     loader_top.zoomInForKenBurns()
@@ -197,7 +191,7 @@ Loader {
             }
             function onSendShortcutRotateClock() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -215,7 +209,7 @@ Loader {
             }
             function onSendShortcutRotateAntiClock() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
                 // rate limit rotation
                 if(loader_top.delayImageRotate) {
@@ -233,7 +227,7 @@ Loader {
             }
             function onSendShortcutRotateReset() {
 
-                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return // qmllint disable unqualified
+                if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
 
                 if(loader_top.isMainImage) {
@@ -262,13 +256,13 @@ Loader {
             target: PQCNotify
 
             function onEnterPhotoSphere() {
-                if(PQCConstants.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere)) // qmllint disable unqualified
+                if(PQCConstants.showingPhotoSphere || !loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && loader_top.thisIsAPhotoSphere))
                     return
                 loader_top.doEnterPhotoSphere()
             }
 
             function onExitPhotoSphere() {
-                if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && !loader_top.photoSphereManuallyEntered)) // qmllint disable unqualified
+                if(!loader_top.isMainImage || (PQCSettings.filetypesPhotoSphereAutoLoad && !loader_top.photoSphereManuallyEntered))
                     return
                 loader_top.doExitPhotoSphere()
             }
@@ -287,7 +281,6 @@ Loader {
                 PQCConstants.currentFileInsideTotal = 0
                 PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere
                 PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
-                PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
                 PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
             }
         }
@@ -415,7 +408,7 @@ Loader {
 
         Connections {
 
-            target: PQCSettings // qmllint disable unqualified
+            target: PQCSettings
 
             function onImageviewColorSpaceDefaultChanged() {
                 if(loader_top.isMainImage)
@@ -476,11 +469,11 @@ Loader {
             }
             visibleArea.onWidthRatioChanged: {
                 if(loader_top.isMainImage)
-                    PQCConstants.currentVisibleAreaWidthRatio = visibleArea.widthRatio // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaWidthRatio = visibleArea.widthRatio
             }
             visibleArea.onHeightRatioChanged: {
                 if(loader_top.isMainImage)
-                    PQCConstants.currentVisibleAreaHeightRatio = visibleArea.heightRatio // qmllint disable unqualified
+                    PQCConstants.currentVisibleAreaHeightRatio = visibleArea.heightRatio
             }
 
             // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
@@ -502,7 +495,7 @@ Loader {
                 NumberAnimation {
                     properties: "x,y"
                     // we set this duration to 0 for slideshows as for certain effects (e.g. ken burns) we rather have an immediate return
-                    duration: PQCConstants.slideshowRunning ? 0 : 250 // qmllint disable unqualified
+                    duration: PQCConstants.slideshowRunning ? 0 : 250
                     easing.type: Easing.OutQuad
                 }
                 // Signal that the view was dragged out of bounds
@@ -510,7 +503,7 @@ Loader {
                     flickable.needToRecheckPosition = true
             }
 
-            interactive: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
+            interactive: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning
 
             contentX: loader_top.imagePosX
             onContentXChanged: {
@@ -528,7 +521,7 @@ Loader {
                 target: PQCNotify
 
                 function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {
-                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                    if(PQCSettings.imageviewUseMouseWheelForImageMove || PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere)
                         return
                     flickable.interactive = false
                     reEnableInteractive.restart()
@@ -536,7 +529,7 @@ Loader {
 
                 function onMousePressed(mods : int, button : string, pos : point) {
 
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) {
                         reEnableInteractive.stop()
                         flickable.interactive = false
                     }
@@ -569,7 +562,7 @@ Loader {
                 }
 
                 function onMouseReleased() {
-                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
+                    if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) {
                         reEnableInteractive.restart()
                     }
                 }
@@ -654,13 +647,13 @@ Loader {
                         prevScale = scale
 
                         if(loader_top.isMainImage)
-                            PQCConstants.currentImageScale = scale // qmllint disable unqualified
+                            PQCConstants.currentImageScale = scale
 
                     }
 
                     onRotationChanged: {
                         if(loader_top.isMainImage)
-                            PQCConstants.currentImageRotation = rotation // qmllint disable unqualified
+                            PQCConstants.currentImageRotation = rotation
                     }
 
                     // react to status changes
@@ -677,7 +670,7 @@ Loader {
                                 loader_top.defaultWidth = width*loader_top.defaultScale
                                 loader_top.defaultHeight = height*loader_top.defaultScale
                                 loader_top.defaultScale = 0.99999999*tmp
-                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale // qmllint disable unqualified
+                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                                 imageloaderitem.iAmReady()
                                 loader_top.setUpImageWhenReady()
                             }
@@ -690,7 +683,7 @@ Loader {
                         id: timer_busyloading
                         interval: 500
                         onTriggered: {
-                            if(!PQCConstants.slideshowRunning) // qmllint disable unqualified
+                            if(!PQCConstants.slideshowRunning)
                                 busyloading.showBusy()
                         }
                     }
@@ -698,9 +691,9 @@ Loader {
                     // BUSY indicator
                     PQWorking {
                         id: busyloading
-                        parent: image_top // qmllint disable unqualified
-                        anchors.margins: -PQCSettings.imageviewMargin // qmllint disable unqualified
-                        // z: image_top.curZ+1 // qmllint disable unqualified
+                        parent: image_top
+                        anchors.margins: -PQCSettings.imageviewMargin
+                        z: PQCConstants.currentZValue+1
                     }
 
                     onWidthChanged: {
@@ -719,6 +712,21 @@ Loader {
                     // when there are empty bars left/right or above/below the image being animated
                     PQKenBurnsSlideshowBackground {
                         id: kenburnsBG
+                        loaderTopVisible: loader_top.visible
+                        imageWrapperScale: image_wrapper.scale
+                        flickableSize: Qt.size(flickable.width, flickable.height)
+                        flickableContentSize: Qt.size(flickable.contentWidth, flickable.contentHeight)
+                        imageWrapperSize: Qt.size(image_wrapper.width, image_wrapper.height)
+                        videoLoaded: loader_top.videoLoaded
+                        defaultScale: loader_top.defaultScale
+
+                        Connections {
+                            target: loader_top
+                            function onVisibleChanged() {
+                                kenburnsBG.checkForBG()
+                            }
+                        }
+
                     }
                     /**********************************************************/
 
@@ -731,7 +739,13 @@ Loader {
                         sourceComponent:
                             PQDocument {
 
+                                id: document_item
+
                                 imageSource: imageloaderitem.imageSource
+                                defaultScale: loader_top.defaultScale
+                                currentScale: image_wrapper.scale
+                                isMainImage: loader_top.isMainImage
+                                loaderTop: loader_top
 
                                 onWidthChanged: {
                                     image_wrapper.width = width
@@ -742,6 +756,42 @@ Loader {
                                     image_wrapper.height = height
                                     loader_top.resetToDefaults()
                                     image_wrapper.startupScale = false
+                                }
+
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onSourceSizeChanged: {
+                                    loader_top.imageResolution = sourceSize
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        document_item.setMirrorHV(mirH, mirV)
+                                    }
+                                }
+
+                                Connections {
+                                    target: loader_top
+                                    function onWidthChanged() {
+                                        document_item.restartResetScreenSize()
+                                    }
+                                    function onHeightChanged() {
+                                        document_item.restartResetScreenSize()
+                                    }
+
                                 }
 
                                 // we do not want to have a property binding for this
@@ -759,7 +809,11 @@ Loader {
                         sourceComponent:
                             PQArchive {
 
+                                id: archive_item
+
                                 imageSource: imageloaderitem.imageSource
+                                isMainImage: loader_top.isMainImage
+                                loaderTop: loader_top
 
                                 onWidthChanged: {
                                     image_wrapper.width = width
@@ -770,6 +824,31 @@ Loader {
                                     image_wrapper.height = height
                                     loader_top.resetToDefaults()
                                     image_wrapper.startupScale = false
+                                }
+
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onSourceSizeChanged: {
+                                    loader_top.imageResolution = sourceSize
+                                    loader_top.resetToDefaults()
+                                    image_wrapper.startupScale = false
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        archive_item.setMirrorHV(mirH, mirV)
+                                    }
                                 }
 
                                 // we do not want to have a property binding for this
@@ -787,7 +866,12 @@ Loader {
                         sourceComponent:
                             PQVideoMpv {
 
+                                id: mpv_item
+
                                 imageSource: imageloaderitem.imageSource
+                                isMainImage: loader_top.isMainImage
+                                videoLoaded: loader_top.videoLoaded
+                                loaderTop: loader_top
 
                                 onWidthChanged: {
                                     image_wrapper.width = width
@@ -796,6 +880,48 @@ Loader {
                                 onHeightChanged: {
                                     loader_top.imageResolution.height = height
                                     image_wrapper.height = height
+                                }
+
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onVisibleChanged: {
+                                    if(visible) {
+                                        loader_top.videoLoaded = true
+                                        loader_top.videoHasAudio = true
+                                        loader_top.videoHasAudioChanged()
+                                    }
+                                }
+
+                                onVideoHasAudioChanged: {
+                                    loader_top.videoHasAudio = videoHasAudio
+                                }
+
+                                Connections {
+                                    target: loader_top
+
+                                    function onVideoToPos(pos : int) {
+                                        mpv_item.videoToPos(pos)
+                                    }
+                                    function onImageClicked() {
+                                        mpv_item.videoClicked()
+                                    }
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        mpv_item.setMirrorHV(mirH, mirV)
+                                    }
                                 }
 
                                 // we do not want to have a property binding for this
@@ -813,7 +939,12 @@ Loader {
                         sourceComponent:
                             PQVideoQt {
 
+                                id: videoqt_item
+
                                 imageSource: imageloaderitem.imageSource
+                                isMainImage: loader_top.isMainImage
+                                loaderTop: loader_top
+                                videoLoaded: loader_top.videoLoaded
 
                                 onWidthChanged: {
                                     image_wrapper.width = width
@@ -824,10 +955,65 @@ Loader {
                                     image_wrapper.height = height
                                 }
 
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onVisibleChanged: {
+                                    if(visible) {
+                                        loader_top.videoLoaded = true
+                                        loader_top.videoHasAudio = Qt.binding(function() { return videoqt_item.videoHasAudio })
+                                        loader_top.videoHasAudioChanged()
+                                    }
+                                }
+
+                                onVideoHasAudioChanged: {
+                                    loader_top.videoHasAudio = videoHasAudio
+                                }
+
+                                Connections {
+
+                                    target: loader_top
+
+                                    function onVideoToPos(pos : int) {
+                                        videoqt_item.videoToPos(pos)
+                                    }
+
+                                    function onImageClicked() {
+                                        videoqt_item.videoClicked()
+                                    }
+
+                                    function onStopVideoAndReset() {
+                                        videoqt_item.stopVideoAndReset()
+                                    }
+
+                                    function onRestartVideoIfAutoplay() {
+                                        videoqt_item.restartVideoIfAutoplay()
+                                    }
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        videoqt_item.setMirrorHV(mirH, mirV)
+                                    }
+                                }
+
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
-                                Component.onCompleted:
+                                Component.onCompleted: {
                                     imageSource = imageloaderitem.imageSource
+                                    loader_top.videoHasAudio = Qt.binding(function() { return videoqt_item.videoHasAudio })
+                                    loader_top.videoHasAudioChanged()
+                                }
 
                             }
                     }
@@ -839,12 +1025,40 @@ Loader {
                         sourceComponent:
                             PQImageAnimated {
 
+                                id: image_animated
+
                                 imageSource: imageloaderitem.imageSource
+                                currentScale: image_wrapper.scale
+                                isMainImage: loader_top.isMainImage
+                                loaderTop: loader_top
 
                                 onWidthChanged:
                                     image_wrapper.width = width
                                 onHeightChanged:
                                     image_wrapper.height = height
+
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onSourceSizeChanged: {
+                                    loader_top.imageResolution = sourceSize
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        image_animated.setMirrorHV(mirH, mirV)
+                                    }
+                                }
 
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
@@ -860,12 +1074,46 @@ Loader {
                         sourceComponent:
                             PQSVG {
 
+                                id: svg_item
+
                                 imageSource: imageloaderitem.imageSource
+                                loaderTopOpacity: loader_top.opacity
+                                loaderTopImageScale: loader_top.imageScale
 
                                 onWidthChanged:
                                     image_wrapper.width = width
                                 onHeightChanged:
                                     image_wrapper.height = height
+
+                                onStatusChanged: {
+                                    image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onSourceSizeChanged: {
+                                    loader_top.imageResolution = sourceSize
+                                }
+
+                                Connections {
+                                    target: loader_top
+                                    function onImageScaleChanged() {
+                                        svg_item.restartResetCurrentScale()
+                                    }
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        svgtop.setMirrorHV(mirH, mirV)
+                                    }
+                                }
 
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
@@ -880,11 +1128,15 @@ Loader {
                         asynchronous: true
                         active: false
                         sourceComponent:
-                            PQPhotoSphere { // qmllint disable
+                            PQPhotoSphere {
 
                                 id: sphitem
 
                                 imageSource: imageloaderitem.imageSource
+                                loaderTop: loader_top
+
+                                width: loader_top.width
+                                height: loader_top.height
 
                                 onWidthChanged:
                                     image_wrapper.width = sphitem.width
@@ -893,8 +1145,12 @@ Loader {
 
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
-                                Component.onCompleted:
+                                Component.onCompleted: {
                                     imageSource = imageloaderitem.imageSource
+                                    image_wrapper.status = Image.Ready
+                                    image_wrapper.width = width
+                                    image_wrapper.height = height
+                                }
 
                             }
                     }
@@ -906,7 +1162,14 @@ Loader {
                         sourceComponent:
                             PQImageNormal {
 
+                                id: image_normal
+
                                 imageSource: imageloaderitem.imageSource
+                                defaultScale: loader_top.defaultScale
+                                currentScale: image_wrapper.scale
+                                isMainImage: loader_top.isMainImage
+                                thisIsAPhotoSphere: loader_top.thisIsAPhotoSphere
+                                loaderTop: loader_top
 
                                 onWidthChanged: {
                                     if(!ignoreSignals)
@@ -915,6 +1178,42 @@ Loader {
                                 onHeightChanged: {
                                     if(!ignoreSignals)
                                         image_wrapper.height = height
+                                }
+
+                                onStatusChanged: {
+                                    if(!ignoreSignals)
+                                        image_wrapper.status = status
+                                }
+
+                                onImageMirrorHChanged: {
+                                    loader_top.imageMirrorH = imageMirrorH
+                                }
+
+                                onImageMirrorVChanged: {
+                                    loader_top.imageMirrorV = imageMirrorV
+                                }
+
+                                onSourceSizeChanged: {
+                                    if(!ignoreSignals)
+                                        loader_top.imageResolution = sourceSize
+                                }
+
+                                Connections {
+                                    target: loader_top
+                                    function onWidthChanged() {
+                                        image_normal.restartResetScreenSize()
+                                    }
+                                    function onHeightChanged() {
+                                        image_normal.restartResetScreenSize()
+                                    }
+
+                                }
+
+                                Connections {
+                                    target: image_wrapper
+                                    function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
+                                        image_normal.setMirrorHV(mirH, mirV)
+                                    }
                                 }
 
                                 // we do not want to have a property binding for this
@@ -932,10 +1231,7 @@ Loader {
                         function onFinishSetup() {
 
                             loader_top.listenToClicksOnImage = false
-                            loader_top.videoPlaying = false
                             loader_top.videoLoaded = false
-                            loader_top.videoDuration = 0
-                            loader_top.videoPosition = 0
                             loader_top.videoHasAudio = false
                             loader_top.thisIsAPhotoSphere = false
 
@@ -981,28 +1277,51 @@ Loader {
 
                     PQBarCodes {
                         id: barcodes
+                        isMainImage: loader_top.isMainImage
+                        loaderImageScale: loader_top.imageScale
+                        imageSource: imageloaderitem.imageSource
+
+                        Connections {
+
+                            target: loader_top
+
+                            function onBarcodeClick() {
+                                barcodes.barcodeClicked()
+                            }
+                        }
+
                     }
 
                     PQFaceTracker {
                         id: facetracker
+                        imageRotation: loader_top.imageRotation
+                        isMainImage: loader_top.isMainImage
+                        imageWrapperXY: Qt.point(image_wrapper.x, image_wrapper.y)
+                        imageWrapperSize: Qt.size(image_wrapper.width, image_wrapper.height)
+                        imageSource: imageloaderitem.imageSource
                     }
 
                     PQFaceTagger {
                         id: facetagger
+                        imageRotation: loader_top.imageRotation
+                        isMainImage: loader_top.isMainImage
+                        function onFacetrackerLoadData() {
+                            facetracker.loadData()
+                        }
                     }
 
                     Loader {
                         id: minimap_loader
-                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere // qmllint disable unqualified
+                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
                         asynchronous: true
-                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml") // qmllint disable unqualified
+                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
                     }
 
                     Connections {
 
                         // here we adjust the image position (if enabled) as reaction to scale animation
                         target: image_wrapper
-                        enabled: !PQCSettings.imageviewZoomToCenter&&!rotationAnimation.running // qmllint disable unqualified
+                        enabled: !PQCSettings.imageviewZoomToCenter&&!rotationAnimation.running
 
                         function onScaleChanged() {
 
@@ -1073,7 +1392,7 @@ Loader {
                                 }
                                 loader_top.defaultScale = val
 
-                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) { // qmllint disable unqualified
+                                if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
                                         loader_top.rotationZoomResetWithoutAnimation()
                                     else {
@@ -1111,7 +1430,7 @@ Loader {
                     }
 
                     Connections {
-                        target: imageloaderitem.access_fullscreen // qmllint disable unqualified
+                        target: imageloaderitem.access_fullscreen
 
                         function onWidthChanged() {
 
@@ -1184,7 +1503,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             if(direction === "left") {
@@ -1272,7 +1591,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             if(direction === "left") {
@@ -1338,7 +1657,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             scaleAnimation.stop()
@@ -1356,7 +1675,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             scaleAnimation.stop()
@@ -1373,7 +1692,7 @@ Loader {
 
                             // this function might be called more than once
                             // this check makes sure that we only do this once
-                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight) // qmllint disable unqualified
+                            if(image_top.width < flickable.contentWidth || image_top.height < flickable.contentHeight)
                                 return
 
                             if(PQCConstants.showingPhotoSphere)
@@ -1417,7 +1736,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             if((PQCSettings.imageviewRememberZoomRotationMirror && (imageloaderitem.imageSource in image_top.rememberChanges)) ||
@@ -1479,7 +1798,7 @@ Loader {
                                 loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
                                 if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
                                     loader_top.imageScale = loader_top.defaultScale
-                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale // qmllint disable unqualified
+                                PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                             }
                         }
 
@@ -1488,7 +1807,7 @@ Loader {
                             if(!loader_top.isMainImage)
                                 return
 
-                            if(PQCConstants.showingPhotoSphere) // qmllint disable unqualified
+                            if(PQCConstants.showingPhotoSphere)
                                 return
 
                             if(PQCSettings.imageviewRememberZoomRotationMirror || PQCSettings.imageviewPreserveZoom ||
@@ -1507,7 +1826,7 @@ Loader {
                     }
 
                     Connections {
-                        target: PQCSettings // qmllint disable unqualified
+                        target: PQCSettings
 
                         function onThumbnailsVisibilityChanged() {
                             resetDefaults.restart()
@@ -1525,7 +1844,7 @@ Loader {
 
                     // calculate the default scale based on the current rotation
                     function computeDefaultScale() : real {
-                        var dpr = (loader_top.thisIsAPhotoSphere ? 1 : PQCConstants.devicePixelRatio) // qmllint disable unqualified
+                        var dpr = (loader_top.thisIsAPhotoSphere ? 1 : PQCConstants.devicePixelRatio)
                         if(loader_top.rotatedUpright)
                             return Math.min(1./dpr, Math.min((flickable.width/width), (flickable.height/height)))
                         return Math.min(1./dpr, Math.min((flickable.width/height), (flickable.height/width)))
@@ -1533,11 +1852,11 @@ Loader {
 
                     Timer {
                         id: hidecursor
-                        interval: PQCSettings.imageviewHideCursorTimeout*1000 // qmllint disable unqualified
+                        interval: PQCSettings.imageviewHideCursorTimeout*1000
                         repeat: false
                         running: true
                         onTriggered: {
-                            if(PQCSettings.imageviewHideCursorTimeout === 0) // qmllint disable unqualified
+                            if(PQCSettings.imageviewHideCursorTimeout === 0)
                                 return
                             if(PQCConstants.isContextmenuOpen("globalcontextmenu"))
                                 hidecursor.restart()
@@ -1618,7 +1937,7 @@ Loader {
                 }
 
                 if(PQCConstants.barcodeDisplayed && mouse.button === Qt.LeftButton)
-                    image_top.barcodeClick()
+                    loader_top.barcodeClick()
                 if(PQCSettings.imageviewUseMouseLeftButtonForImageMove && mouse.button === Qt.LeftButton && !PQCConstants.faceTaggingMode) {
                     mouse.accepted = false
                     return
@@ -1636,7 +1955,7 @@ Loader {
                     loader_top.imageClicked()
                 else {
                     var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos) // qmllint disable unqualified
+                    PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
                 }
             }
         }
@@ -1669,7 +1988,7 @@ Loader {
 
             mouseEnabled: false
 
-            enabled: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning // qmllint disable unqualified
+            enabled: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning
 
             property list<point> initialPts: []
             property real initialScale
@@ -1758,7 +2077,7 @@ Loader {
                 interval: 1000
                 property point touchPos: Qt.point(-1,-1)
                 onTriggered: {
-                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos) // qmllint disable unqualified
+                    shortcuts.item.executeInternalFunction("__contextMenuTouch", touchPos)
                 }
             }
 
@@ -1771,7 +2090,7 @@ Loader {
             property: "opacity"
             from: 0
             to: 1
-            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCConstants.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0) // qmllint disable unqualified
+            duration: PQCSettings.imageviewAnimationDuration*100 + (PQCConstants.slideshowRunning&&PQCSettings.slideshowTypeAnimation==="kenburns" ? 500 : 0)
 
             onStarted: {
                 if(loader_top.opacity > 0.9)
@@ -1786,7 +2105,7 @@ Loader {
 
                     // stop any ken burns animations if running
                     if(loader_kenburns.item != null)
-                        loader_kenburns.item.stopAni() // qmllint disable missing-property
+                        loader_kenburns.item.stopAni()
 
                     loader_top.visible = false
 
@@ -1805,7 +2124,7 @@ Loader {
             property: "x"
             from: -loader_top.width
             to: 0
-            duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+            duration: PQCSettings.imageviewAnimationDuration*100
             onStarted: {
                 if(Math.abs(loader_top.x) < 10)
                     imageloaderitem.imageFullyShown = false
@@ -1834,7 +2153,7 @@ Loader {
             property: "y"
             from: -loader_top.height
             to: 0
-            duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+            duration: PQCSettings.imageviewAnimationDuration*100
             onStarted: {
                 if(Math.abs(loader_top.y) < 10)
                     imageloaderitem.imageFullyShown = false
@@ -1865,7 +2184,7 @@ Loader {
                 property: "rotation"
                 from: 0
                 to: 180
-                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+                duration: PQCSettings.imageviewAnimationDuration*100
             }
             PropertyAnimation {
                 id: rotAnimation_opacity
@@ -1873,10 +2192,10 @@ Loader {
                 property: "opacity"
                 from: 0
                 to: 1
-                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+                duration: PQCSettings.imageviewAnimationDuration*100
             }
             onStarted: {
-                loader_top.z = image_top.curZ+1 // qmllint disable unqualified
+                loader_top.z = PQCConstants.currentZValue+1
                 if(loader_top.opacity > 0.9)
                     imageFullyShown = false
             }
@@ -1888,7 +2207,7 @@ Loader {
 
                     loader_top.visible = false
                     loader_top.rotation = 0
-                    loader_top.z = image_top.curZ-5 // qmllint disable unqualified
+                    loader_top.z = PQCConstants.currentZValue-5
 
                     loader_top.handleWhenCompletelyHidden()
 
@@ -1907,7 +2226,7 @@ Loader {
                 property: "scale"
                 from: 1
                 to: 2
-                duration: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+                duration: PQCSettings.imageviewAnimationDuration*100
             }
             PropertyAnimation {
                 id: explosionAnimation_opacity
@@ -1915,10 +2234,10 @@ Loader {
                 property: "opacity"
                 from: 1
                 to: 0
-                duration: PQCSettings.imageviewAnimationDuration*90 // qmllint disable unqualified
+                duration: PQCSettings.imageviewAnimationDuration*90
             }
             onStarted: {
-                loader_top.z = image_top.curZ+1 // qmllint disable unqualified
+                loader_top.z = PQCConstants.currentZValue+1
                 if(loader_top.opacity > 0.9)
                     imageloaderitem.imageFullyShown = false
             }
@@ -1931,7 +2250,7 @@ Loader {
                     loader_top.visible = false
                     loader_top.scale = 1
 
-                    loader_top.z = image_top.curZ-5 // qmllint disable unqualified
+                    loader_top.z = PQCConstants.currentZValue-5
 
                     loader_top.handleWhenCompletelyHidden()
 
@@ -1943,7 +2262,7 @@ Loader {
 
         Loader {
             id: loader_kenburns
-            active: PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns" // qmllint disable unqualified
+            active: PQCConstants.slideshowRunning && PQCSettings.slideshowTypeAnimation === "kenburns"
             sourceComponent:
                 PQKenBurnsSlideshowEffect { }
         }
@@ -1953,7 +2272,7 @@ Loader {
             interval: 50
             onTriggered: {
                 var animValues = ["opacity","x","y","explosion","implosion","rotation"]
-                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)] // qmllint disable unqualified
+                image_top.randomAnimation = animValues[Math.floor(Math.random()*animValues.length)]
             }
         }
 
@@ -1997,14 +2316,13 @@ Loader {
             }
 
             // this needs to be checked for early as we set PQCConstants.currentImageSource in a few lines
-            var noPreviousImage = (PQCConstants.currentImageSource==="") // qmllint disable unqualified
+            var noPreviousImage = (PQCConstants.currentImageSource==="")
 
             PQCConstants.barcodeDisplayed = false
 
             PQCConstants.currentImageSource = imageloaderitem.imageSource
 
             PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
-            PQCConstants.currentlyShowingVideoPlaying = loader_top.videoPlaying
             PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
             PQCConstants.currentVisibleAreaX = flickable.visibleArea.xPosition
@@ -2109,13 +2427,13 @@ Loader {
 
             }
 
-            z = image_top.curZ
+            z = PQCConstants.currentZValue
             loader_top.visible = true
 
             // (re-)start any video
             loader_top.restartVideoIfAutoplay()
 
-            image_top.curZ += 1
+            PQCConstants.currentZValue += 1
 
             PQCConstants.currentImageScale = loader_top.imageScale
             PQCConstants.currentImageRotation = loader_top.imageRotation
@@ -2174,7 +2492,7 @@ Loader {
             imageloaderitem.thisIsStartupFile = false
 
             // ignore anything that happened during a slideshow
-            if(!PQCConstants.slideshowRunning) { // qmllint disable unqualified
+            if(!PQCConstants.slideshowRunning) {
 
                 if(loader_top.isMainImage) {
 

@@ -69,7 +69,7 @@ Flickable {
 
             helptext: qsTranslate("settingsmanager", "Both Apple and Android devices can connect a short video clip to photos. Apple refers to this as Apple Live Photo, and Google refers to it as Motion Photo (or sometimes Micro Video). Apple stores small video files next to the image files that have the same filename but different file ending. Android embeds these video files in the image file. If the former is enabled, PhotoQt will hide the video files from the file list and automatically load them when the connected image file is loaded. If the latter is enabled PhotoQt will try to extract and show the video file once the respective image file is loaded. All of this is done asynchronously and should not cause any slowdown. PhotoQt can also show a small play/pause button in the bottom right corner of the window, and it can force the space bar to always play/pause the detected video.")
 
-            enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled() // qmllint disable unqualified
+            enabled: PQCScriptsConfig.isMotionPhotoSupportEnabled() 
 
             content: [
 
@@ -77,8 +77,8 @@ Flickable {
                     width: set_motion.rightcol
                     text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                    visible: !PQCScriptsConfig.isMotionPhotoSupportEnabled() // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
+                    visible: !PQCScriptsConfig.isMotionPhotoSupportEnabled() 
                 },
 
                 PQCheckBox {
@@ -132,14 +132,14 @@ Flickable {
             }
 
             function load() {
-                applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos) // qmllint disable unqualified
+                applelive.loadAndSetDefault(PQCSettings.filetypesLoadAppleLivePhotos) 
                 motionmicro.loadAndSetDefault(PQCSettings.filetypesLoadMotionPhotos)
                 motionplaypause.loadAndSetDefault(PQCSettings.filetypesMotionPhotoPlayPause)
                 motionspace.loadAndSetDefault(PQCSettings.filetypesMotionSpacePause)
             }
 
             function applyChanges() {
-                PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked // qmllint disable unqualified
+                PQCSettings.filetypesLoadAppleLivePhotos = applelive.checked 
                 PQCSettings.filetypesLoadMotionPhotos = motionmicro.checked
                 PQCSettings.filetypesMotionPhotoPlayPause = motionplaypause.checked
                 PQCSettings.filetypesMotionSpacePause = motionspace.checked
@@ -164,7 +164,7 @@ Flickable {
 
             helptext: qsTranslate("settingsmanager",  "PhotoQt can check whether the current image is a photo sphere by analyzing its metadata. If a equirectangular projection is detected, the photo sphere will be loaded instead of a flat image. In addition, the arrow keys can optionally be forced to be used for moving around the sphere regardless of which shortcut actions they are set to. Both partial photo spheres and 360 degree views are supported.")
 
-            enabled: PQCScriptsConfig.isPhotoSphereSupportEnabled() // qmllint disable unqualified
+            enabled: PQCScriptsConfig.isPhotoSphereSupportEnabled() 
 
             content: [
 
@@ -172,8 +172,8 @@ Flickable {
                     width: set_sph.rightcol
                     text: ">> " + qsTranslate("settingsmanager", "This feature is not supported by your build of PhotoQt.")
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                    visible: !PQCScriptsConfig.isPhotoSphereSupportEnabled() // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
+                    visible: !PQCScriptsConfig.isPhotoSphereSupportEnabled() 
                 },
 
                 Flow {
@@ -292,7 +292,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

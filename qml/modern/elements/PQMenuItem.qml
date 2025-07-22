@@ -25,7 +25,7 @@ import QtQuick.Controls
 import PhotoQt
 
 MenuItem {
-    id: menuItem
+    id: control
     implicitWidth: 250
     implicitHeight: 40
 
@@ -53,25 +53,25 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
-            leftPadding: menuItem.checkable||menuItem.iconSource!=""||menuItem.moveToRightABit ? 30 : 0
+            leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 0
             height: 40
-            text: menuItem.text
-            font: menuItem.font
-            color: menuItem.enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+            text: control.text
+            font: control.font
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
-            elide: menuItem.elide
-            style: menuItem.highlighted||!menuItem.enabled ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
+            elide: control.elide
+            style: control.highlighted||!control.enabled ? Text.Sunken : Text.Normal
+            styleColor: PQCLook.textColorDisabled 
             Timer {
                 id: increaseWidth
-                running: controltxt.truncated&&menuItem.implicitWidth<400
+                running: controltxt.truncated&&control.implicitWidth<400
                 interval: 400
                 repeat: true
                 onTriggered: {
                     if(!controltxt.truncated)
                         stop()
-                    menuItem.implicitWidth += 50
+                    control.implicitWidth += 50
                 }
             }
         }
@@ -79,32 +79,32 @@ MenuItem {
     indicator: Item {
         implicitWidth: 30
         implicitHeight: 40
-        visible: menuItem.checkable||menuItem.iconSource!=""
+        visible: control.checkable||control.iconSource!=""
         Image {
-            visible: menuItem.iconSource!=""
+            visible: control.iconSource!=""
             x: 5
             y: 10
             width: 20
             height: 20
             fillMode: Image.Pad
-            source: menuItem.iconSource
+            source: control.iconSource
             sourceSize: Qt.size(width, height)
         }
         Rectangle {
-            visible: menuItem.iconSource==""
+            visible: control.iconSource==""
             width: 20
             height: 20
             anchors.centerIn: parent
-            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive // qmllint disable unqualified
-            color: PQCLook.baseColorHighlight // qmllint disable unqualified
-            radius: menuItem.checkableLikeRadioButton ? 10 : 2
+            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive 
+            color: PQCLook.baseColorHighlight 
+            radius: control.checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: 10
                 height: 10
                 anchors.centerIn: parent
-                visible: menuItem.checked
-                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive // qmllint disable unqualified
-                radius: menuItem.checkableLikeRadioButton ? 5 : 2
+                visible: control.checked
+                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive 
+                radius: control.checkableLikeRadioButton ? 5 : 2
             }
         }
     }
@@ -113,10 +113,10 @@ MenuItem {
         x: parent.width - width
         implicitWidth: 40
         implicitHeight: 40
-        visible: menuItem.subMenu
+        visible: control.subMenu
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = PQCLook.baseColorActive // qmllint disable unqualified
+            ctx.fillStyle = PQCLook.baseColorActive 
             ctx.moveTo(15, 15)
             ctx.lineTo(width - 15, height / 2)
             ctx.lineTo(15, height - 15)
@@ -128,8 +128,8 @@ MenuItem {
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
-        color: menuItem.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor // qmllint disable unqualified
-        border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+        color: control.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
+        border.color: PQCLook.baseColorAccent 
         border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }
@@ -140,12 +140,12 @@ MenuItem {
         acceptedButtons: Qt.LeftButton
 
         onClicked: function(mouse) {
-            if(menuItem.checkable) {
-                menuItem.checked = (menuItem.checkableLikeRadioButton || !menuItem.checked)
-                if(menuItem.keepOpenWhenCheckedChanges)
+            if(control.checkable) {
+                control.checked = (control.checkableLikeRadioButton || !control.checked)
+                if(control.keepOpenWhenCheckedChanges)
                     return
             }
-            menuItem.triggered()
+            control.triggered()
         }
     }
  }

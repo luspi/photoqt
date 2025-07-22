@@ -102,11 +102,11 @@ Flickable {
             }
 
             function load() {
-                spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) // qmllint disable unqualified
+                spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) 
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsSpacing = spacing_slider.value // qmllint disable unqualified
+                PQCSettings.thumbnailsSpacing = spacing_slider.value 
                 spacing_slider.saveDefault()
             }
 
@@ -168,7 +168,7 @@ Flickable {
                             y: (parent.height-height)/2
                             //: effect for highlighting active thumbnail
                             text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
-                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") // qmllint disable unqualified
+                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") 
                             onCheckedChanged: setting_top.checkDefault()
                         }
                     }
@@ -386,7 +386,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

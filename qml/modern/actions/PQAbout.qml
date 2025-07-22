@@ -29,14 +29,14 @@ PQTemplateFullscreen {
     id: about_top
 
     thisis: "about"
-    popout: PQCSettings.interfacePopoutAbout // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.aboutForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutAbout 
+    forcePopout: PQCWindowGeometry.aboutForcePopout 
     shortcut: "__about"
 
     title: qsTranslate("about", "About")
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutAbout = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutAbout = popout 
 
     button1.onClicked:
         hide()
@@ -61,7 +61,7 @@ PQTemplateFullscreen {
         PQButton {
             id: configbutton
             x: (parent.width-width)/2
-            text: "PhotoQt v" + PQCScriptsConfig.getVersion() // qmllint disable unqualified
+            text: "PhotoQt v" + PQCScriptsConfig.getVersion() 
             //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
             tooltip: qsTranslate("about", "Show configuration overview")
             onClicked:
@@ -118,7 +118,7 @@ PQTemplateFullscreen {
         id: configinfo
 
         anchors.fill: parent
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -155,12 +155,12 @@ PQTemplateFullscreen {
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     text: qsTranslate("about", "Configuration")
                     lineHeight: 1.2
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
                 }
 
                 PQText {
                     id: configinfo_txt
-                    text: PQCScriptsConfig.getConfigInfo(true) // qmllint disable unqualified
+                    text: PQCScriptsConfig.getConfigInfo(true) 
                     lineHeight: 1.2
                 }
 
@@ -171,7 +171,7 @@ PQTemplateFullscreen {
                         id: configclipbut
                         text: qsTranslate("about", "Copy to clipboard")
                         onClicked:
-                            PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true) // qmllint disable unqualified
+                            PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true) 
                     }
                     PQButton {
                         id: configclosebut
@@ -242,10 +242,10 @@ PQTemplateFullscreen {
         return false
     }
 
-    function show() {
+    function show() : void {
         opacity = 1
         if(popoutWindowUsed)
-            about_popout.visible = true // qmllint disable unqualified
+            about_popout.visible = true
     }
 
     function hide() {
@@ -257,7 +257,7 @@ PQTemplateFullscreen {
         else {
             about_top.opacity = 0
             if(popoutWindowUsed)
-                about_popout.visible = false // qmllint disable unqualified
+                about_popout.visible = false
             else
                 PQCNotify.loaderRegisterClose(thisis)
         }

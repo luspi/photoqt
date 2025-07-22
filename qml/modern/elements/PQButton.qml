@@ -33,13 +33,13 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     radius: 5
 
-    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+    border.color: PQCLook.baseColorHighlight 
     border.width: 1
 
-    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
+    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
     Behavior on color { ColorAnimation { duration: 150 } }
 
-    property alias text: txt.text
+    property string text: ""
     property alias font: txt.font
     property alias tooltip: mouseArea.text
     property alias cursorShape: mouseArea.cursorShape
@@ -50,7 +50,7 @@ Rectangle {
     property bool enableContextMenu: true
     property alias contextmenu: menu
 
-    property bool contextmenuVisible: menu.visible
+    property bool contextmenuVisible: false
 
     property int forceWidth: 0
     property bool extraWide: false
@@ -79,14 +79,14 @@ Rectangle {
         y: (parent.height-height)/2
         width: control.forceWidth ? control.forceWidth-20 : undefined
         elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
-        text: ""
-        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL // qmllint disable unqualified
-        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold // qmllint disable unqualified
+        text: control.text
+        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL 
+        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold 
         opacity: enabled ? 1.0 : 0.6
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: PQCLook.textColor // qmllint disable unqualified
+        color: PQCLook.textColor 
     }
 
     PQMouseArea {
@@ -94,10 +94,10 @@ Rectangle {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        text: control.text
+        text: txt.text
         acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
         onClicked: (mouse) => {
-            if(mouse.button == Qt.LeftButton)
+            if(mouse.button === Qt.LeftButton)
                 control.clicked()
             else
                 menu.popup()
@@ -106,10 +106,12 @@ Rectangle {
 
     PQMenu {
         id: menu
+        onVisibleChanged:
+            control.contextmenuVisible = menu.visible
         PQMenuItem {
             enabled: false
             font.italic: true
-            text: mouseArea.text!="" ? mouseArea.text : control.text
+            text: mouseArea.text!=="" ? mouseArea.text : txt.text
         }
         PQMenuItem {
             text: qsTranslate("buttongeneric", "Activate button")

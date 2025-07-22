@@ -92,22 +92,25 @@ GridView {
 
         required property int modelData
 
-        property string currentPath: PQCFileFolderModel.entriesFileDialog[modelData] // qmllint disable unqualified
-        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
+                                    // this check is necessary as some data might be available quicker than other. This avoid errant warnings.
+        property string currentPath: modelData < PQCFileFolderModel.entriesFileDialog.length ? PQCFileFolderModel.entriesFileDialog[modelData] : ""
+        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) 
         property int numberFilesInsideFolder: 0
-        property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
+        property int padding: PQCSettings.filedialogElementPadding 
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
         property bool isHovered: gridview.currentIndex===deleg.modelData
         property bool isSelected: view_top.currentSelection.indexOf(deleg.modelData)>-1
 
+        visible: currentPath!=""
+
         width: gridview.cellWidth
         height: gridview.cellHeight
 
         color: PQCLook.baseColor
         border.width: 1
-        border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+        border.color: PQCLook.baseColorAccent 
 
         Item {
             id: dragHandler
@@ -201,7 +204,7 @@ GridView {
                 height: deleg.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
                 Behavior on height { NumberAnimation { duration: 200 } }
                 y: deleg.height-height
-                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) 
                 Behavior on color { ColorAnimation { duration: 200 } }
 
                 PQText {
@@ -218,12 +221,12 @@ GridView {
                 Image {
                     x: (parent.width-width-5)
                     y: (parent.height-height-5)
-                    source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                    source: "image://svg/:/light/folder.svg" 
                     height: 16
                     mipmap: true
                     width: height
                     opacity: 0.3
-                    visible: deleg.isFolder && folderthumb.curnum>0 // qmllint disable unqualified
+                    visible: deleg.isFolder && folderthumb.curnum>0 
                 }
             }
 
@@ -254,7 +257,7 @@ GridView {
                 id: numberOfFilesInsideFolder
                 x: 10
                 y: (parent.height-height)/2-2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 elide: Text.ElideMiddle
                 text: deleg.numberFilesInsideFolder
             }
@@ -276,7 +279,7 @@ GridView {
                 id: numberThumbInsideFolder
                 x: 5
                 y: (parent.height-height)/2-2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum
             }
@@ -284,19 +287,19 @@ GridView {
 
         // load async for files
         Timer {
-            running: !deleg.isFolder // qmllint disable unqualified
+            running: !deleg.isFolder 
             interval: 1
             onTriggered: {
-                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
+                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) 
             }
         }
 
         // load async for folders
         Timer {
-            running: deleg.isFolder // qmllint disable unqualified
+            running: deleg.isFolder 
             interval: 1
             onTriggered: {
-                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
+                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { 
                     if(count > 0) {
                         deleg.numberFilesInsideFolder = count
                         fileinfo.text = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
@@ -320,7 +323,7 @@ GridView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview // qmllint disable unqualified
+            tooltipReference: fd_splitview 
 
             Connections {
                 target: contextmenu
@@ -332,12 +335,12 @@ GridView {
 
             acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-            drag.target: PQCSettings.filedialogDragDropFileviewGrid ? dragHandler : undefined // qmllint disable unqualified
+            drag.target: PQCSettings.filedialogDragDropFileviewGrid ? dragHandler : undefined 
 
             drag.onActiveChanged: {
                 if(drag.active) {
                     // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                    fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
+                    fd_places.dragItemIndex = deleg.modelData 
                     fd_places.dragReordering = false
                     fd_places.dragItemId = deleg.currentPath
                 }
@@ -414,7 +417,7 @@ GridView {
 
             Image {
                 anchors.fill: parent
-                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
+                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) 
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -448,7 +451,7 @@ GridView {
             } else {
                 var uris = []
                 for(var i in view_top.currentSelection)
-                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) // qmllint disable unqualified
+                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) 
                 return ({"text/uri-list": uris})
             }
         }

@@ -64,8 +64,8 @@ PQTemplateFullscreen {
             width: 400
             height: 300
 
-            color: PQCLook.baseColorAccent // qmllint disable unqualified
-            border.color: PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorAccent 
+            border.color: PQCLook.baseColorActive 
             border.width: 1
 
             ListView {
@@ -97,12 +97,12 @@ PQTemplateFullscreen {
                         required property int modelData
 
                         property string filepath: exist_top.files[modelData]
-                        property string filename: PQCScriptsFilesPaths.getFilename(filepath) // qmllint disable unqualified
+                        property string filename: PQCScriptsFilesPaths.getFilename(filepath) 
 
                         width: view.width
                         height: 40
-                        color: check.checked ? PQCLook.baseColorActive : (view.currentIndex===modelData ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
-                        border.color: PQCLook.baseColor // qmllint disable unqualified
+                        color: check.checked ? PQCLook.baseColorActive : (view.currentIndex===modelData ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) 
+                        border.color: PQCLook.baseColor 
                         border.width: 1
 
                         opacity: check.checked ? 1 : 0.6
@@ -117,14 +117,14 @@ PQTemplateFullscreen {
                                 id: check
                                 y: (parent.height-height)/2
                                 checked: exist_top.checkedFiles.indexOf(deleg.modelData)!==-1
-                                font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
+                                font.pointSize: PQCLook.fontSizeL 
                             }
 
                             PQTextL {
                                 y: (parent.height-height)/2
                                 width: deleg.width-check.width-icon.width-20
                                 elide: Text.ElideMiddle
-                                text: PQCScriptsFilesPaths.getFilename(exist_top.files[deleg.modelData]) // qmllint disable unqualified
+                                text: PQCScriptsFilesPaths.getFilename(exist_top.files[deleg.modelData]) 
                             }
 
                             Item {
@@ -135,7 +135,7 @@ PQTemplateFullscreen {
                                 Image {
                                     anchors.fill: parent
                                     anchors.margins: 5
-                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder" // qmllint disable unqualified
+                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder" 
                                                                                           : "image://thumb/" + deleg.filepath
                                 }
                             }
@@ -205,7 +205,7 @@ PQTemplateFullscreen {
         for(var i in exist_top.checkedFiles) {
             var ind = exist_top.checkedFiles[i]
             var fln = files[ind]
-            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog) 
             if(fd_fileview.cutFiles.indexOf(fln) !== -1)
                     PQCScriptsFileManagement.deletePermanent(fln)
         }

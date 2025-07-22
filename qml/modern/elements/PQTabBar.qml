@@ -32,7 +32,7 @@ Item {
     height: model.length*50
 
     property int currentIndex: 0
-    property var model: []
+    property list<string> model: []
 
     Column {
 
@@ -51,10 +51,10 @@ Item {
                 property bool hovered: false
                 width: control_top.width
                 height: 48
-                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) // qmllint disable unqualified
+                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) 
                 Behavior on color { ColorAnimation { duration: 200 } }
                 border.width: 1
-                border.color: PQCLook.baseColorActive // qmllint disable unqualified
+                border.color: PQCLook.baseColorActive 
 
                 PQText {
                     anchors.fill: parent
@@ -70,9 +70,9 @@ Item {
                     onClicked:
                         control_top.currentIndex = deleg.modelData
                     onEntered:
-                        parent.hovered = true
+                        deleg.hovered = true
                     onExited:
-                        parent.hovered = false
+                        deleg.hovered = false
                 }
 
             }

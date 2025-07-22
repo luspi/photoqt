@@ -28,13 +28,13 @@ Rectangle {
 
 
     // we fall back to top right location if state is invalid
-    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
-    y: PQCSettings.interfaceNotificationDistanceFromEdge // qmllint disable unqualified
+    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge 
+    y: PQCSettings.interfaceNotificationDistanceFromEdge 
 
     width: contcol.width+30
     height: contcol.height+30
 
-    state: PQCSettings.interfaceNotificationLocation // qmllint disable unqualified
+    state: PQCSettings.interfaceNotificationLocation 
 
     states: [
 
@@ -110,7 +110,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.transColor 
 
     property alias titletext: tit.text
     property alias statustext: txt.text
@@ -130,7 +130,7 @@ Rectangle {
             id: tit
             visible: text!==""
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold 
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {
@@ -142,7 +142,7 @@ Rectangle {
         PQText {
             id: txt
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold 
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {

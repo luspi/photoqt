@@ -46,8 +46,8 @@ Item {
         width: leftcol.width+15
         height: parent.height
 
-        color: PQCLook.baseColor // qmllint disable unqualified
-        border.color: PQCLook.baseColorActive // qmllint disable unqualified
+        color: PQCLook.baseColor 
+        border.color: PQCLook.baseColorActive 
         border.width: state==="moveup" ? 1 : 0
 
         Row {
@@ -61,7 +61,7 @@ Item {
             PQText {
                 y: (parent.height-height)/2
                 text: qsTranslate("filedialog", "Zoom:")
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 PQMouseArea {
                     anchors.fill: parent
                     text: qsTranslate("filedialog", "Adjust size of files and folders")
@@ -80,19 +80,19 @@ Item {
                 stepSize: 1
                 wheelStepSize: 1
 
-                value: PQCSettings.filedialogZoom // qmllint disable unqualified
+                value: PQCSettings.filedialogZoom 
                 onValueChanged: {
                     var newval = Math.round(value)
-                    if(newval !== PQCSettings.filedialogZoom) // qmllint disable unqualified
+                    if(newval !== PQCSettings.filedialogZoom) 
                         PQCSettings.filedialogZoom = newval
                 }
 
                 Connections {
 
-                    target: PQCSettings // qmllint disable unqualified
+                    target: PQCSettings 
 
                     function onFiledialogZoomChanged() {
-                        if(zoomslider.value !== PQCSettings.filedialogZoom) // qmllint disable unqualified
+                        if(zoomslider.value !== PQCSettings.filedialogZoom) 
                             zoomslider.value = PQCSettings.filedialogZoom
                     }
                 }
@@ -151,7 +151,7 @@ Item {
             text: genericStringCancel
             tooltip: qsTranslate("filedialog", "Cancel and close")
             onClicked:
-                filedialog_top.hideFileDialog() // qmllint disable unqualified
+                filedialog_top.hideFileDialog() 
         }
     }
 
@@ -205,7 +205,7 @@ Item {
                 onCurrentIndexChanged: {
                     if(!delayAfterSetup) return
                     if(currentIndex === 0)
-                        PQCSettings.imageviewSortImagesBy = "name" // qmllint disable unqualified
+                        PQCSettings.imageviewSortImagesBy = "name" 
                     else if(currentIndex === 1)
                         PQCSettings.imageviewSortImagesBy = "naturalname"
                     else if(currentIndex === 2)
@@ -221,7 +221,7 @@ Item {
                 }
 
                 function setCurrentIndex() {
-                    var sortby = PQCSettings.imageviewSortImagesBy // qmllint disable unqualified
+                    var sortby = PQCSettings.imageviewSortImagesBy 
                     if(sortby === "name" || (sortby === "naturalname" && !PQCScriptsConfig.isICUSupportEnabled()))
                         currentIndex = 0
                     else if(sortby === "naturalname")
@@ -241,8 +241,8 @@ Item {
                 id: filetypes_button
 
                 y: (parent.height-height)/2
-                font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                font.pointSize: PQCLook.fontSize  // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightNormal 
+                font.pointSize: PQCLook.fontSize  
                 horizontalAlignment: Text.AlignLeft
                 width: 300
                 forceWidth: width
@@ -315,8 +315,8 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isImageMagickSupportEnabled()||PQCScriptsConfig.isGraphicsMagickSupportEnabled() // qmllint disable unqualified
-                    text: (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick") // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isImageMagickSupportEnabled()||PQCScriptsConfig.isGraphicsMagickSupportEnabled() 
+                    text: (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick") 
                     onCheckedChanged:
                         filetypes.checkChecked("magick")
                 }
@@ -326,7 +326,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isLibRawSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isLibRawSupportEnabled() 
                     text: "LibRaw"
                     onCheckedChanged:
                         filetypes.checkChecked("libraw")
@@ -337,7 +337,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isDevILSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isDevILSupportEnabled() 
                     text: "DevIL"
                     onCheckedChanged:
                         filetypes.checkChecked("devil")
@@ -348,7 +348,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isFreeImageSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isFreeImageSupportEnabled() 
                     text: "FreeImage"
                     onCheckedChanged:
                         filetypes.checkChecked("freeimage")
@@ -359,7 +359,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isLibVipsSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isLibVipsSupportEnabled() 
                     text: "LibVips"
                     onCheckedChanged:
                         filetypes.checkChecked("libvips")
@@ -370,7 +370,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isLibArchiveSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isLibArchiveSupportEnabled() 
                     text: "LibArchive"
                     onCheckedChanged:
                         filetypes.checkChecked("libarchive")
@@ -380,7 +380,7 @@ Item {
                     id: chk_pdf
                     checkable: true
                     checked: true
-                    visible: PQCScriptsConfig.isPDFSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isPDFSupportEnabled() 
                     text: "PDF/PS"
                     onCheckedChanged:
                         filetypes.checkChecked("pdf")
@@ -391,7 +391,7 @@ Item {
                     checkable: true
                     checked: true
                     implicitHeight: visible ? 40 : 0
-                    visible: PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled() // qmllint disable unqualified
+                    visible: PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled() 
                     text: qsTranslate("filedialog", "Video files")
                     onCheckedChanged:
                         filetypes.checkChecked("video")
@@ -518,7 +518,7 @@ Item {
 
                             filetypes_button.text = qsTranslate("filedialog", "All supported images")
 
-                            PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormats() // qmllint disable unqualified
+                            PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormats() 
                             PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypes()
 
                         } else {
@@ -607,7 +607,7 @@ Item {
         y: 0
         width: parent.width
         height: 1
-        color: PQCLook.baseColorActive // qmllint disable unqualified
+        color: PQCLook.baseColorActive 
     }
 
 }

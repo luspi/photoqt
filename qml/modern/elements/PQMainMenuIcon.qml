@@ -41,7 +41,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+        color: PQCLook.baseColorHighlight 
         radius: 5
         opacity: menuicon.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -54,20 +54,20 @@ Item {
         x: 5
         y: 2
 
-        opacity: parent.active ? 1 : 0.4
+        opacity: menuicon.active ? 1 : 0.4
 
         sourceSize: Qt.size(menuicon.normalEntryHeight*menuicon.scaleFactor, menuicon.normalEntryHeight*menuicon.scaleFactor)
-        source: "image://svg/:/" + PQCLook.iconShade + "/" + menuicon.img // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/" + menuicon.img 
 
     }
     MouseArea {
-        enabled: parent.active
+        enabled: menuicon.active
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
         onEntered: menuicon.hovered = true
         onExited: menuicon.hovered = false
-        onClicked: PQCScriptsShortcuts.executeInternalCommand(cmd) // qmllint disable unqualified
+        onClicked: PQCScriptsShortcuts.executeInternalCommand(menuicon.cmd)
     }
 
 }

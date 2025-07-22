@@ -32,8 +32,8 @@ PQTemplateFullscreen {
     spacing: 20
 
     thisis: "advancedsort"
-    popout: PQCSettings.interfacePopoutAdvancedSort // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.advancedsortForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutAdvancedSort 
+    forcePopout: PQCWindowGeometry.advancedsortForcePopout 
     shortcut: "__advancedSort"
     title: qsTranslate("advancedsort", "Advanced image sort")
 
@@ -43,7 +43,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutAdvancedSort = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutAdvancedSort = popout 
 
     button1.onClicked:
         doSorting()
@@ -99,7 +99,7 @@ PQTemplateFullscreen {
                         var order = ["resolution", "dominantcolor", "averagecolor", "luminosity", "exifdate"]
                         var curindex = 0
                         for(var i = 0; i < order.length; ++i) {
-                            if(order[i] === PQCSettings.imageviewAdvancedSortCriteria) { // qmllint disable unqualified
+                            if(order[i] === PQCSettings.imageviewAdvancedSortCriteria) { 
                                 curindex = i
                                 break;
                             }
@@ -109,7 +109,7 @@ PQTemplateFullscreen {
 
                     function onSaveData() {
                         var order = ["resolution", "dominantcolor", "averagecolor", "luminosity", "exifdate"]
-                        PQCSettings.imageviewAdvancedSortCriteria = order[bar.currentIndex] // qmllint disable unqualified
+                        PQCSettings.imageviewAdvancedSortCriteria = order[bar.currentIndex] 
                     }
                 }
 
@@ -145,7 +145,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by image resolution")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         Item {
@@ -177,13 +177,13 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc1.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
+                            asc1.checked = (PQCSettings.imageviewAdvancedSortAscending) 
                             desc1.checked = (!PQCSettings.imageviewAdvancedSortAscending)
                         }
 
                         function onSaveData() {
                             if(bar.currentIndex === 0) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc1.checked // qmllint disable unqualified
+                                PQCSettings.imageviewAdvancedSortAscending = asc1.checked 
                             }
                         }
 
@@ -212,7 +212,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by dominant color")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         Item {
@@ -262,7 +262,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc2.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
+                            asc2.checked = (PQCSettings.imageviewAdvancedSortAscending) 
                             desc2.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual2.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -274,7 +274,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 1) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc2.checked // qmllint disable unqualified
+                                PQCSettings.imageviewAdvancedSortAscending = asc2.checked 
                                 PQCSettings.imageviewAdvancedSortQuality = (qual2.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual2.currentIndex===1 ?
@@ -308,7 +308,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by average color")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         Item {
@@ -356,7 +356,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc3.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
+                            asc3.checked = (PQCSettings.imageviewAdvancedSortAscending) 
                             desc3.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual3.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -368,7 +368,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 2) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc3.checked // qmllint disable unqualified
+                                PQCSettings.imageviewAdvancedSortAscending = asc3.checked 
                                 PQCSettings.imageviewAdvancedSortQuality = (qual3.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual3.currentIndex===1 ?
@@ -401,7 +401,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by luminosity")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         Item {
@@ -449,7 +449,7 @@ PQTemplateFullscreen {
                         target: advancedsort_top
 
                         function onLoadData() {
-                            asc4.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
+                            asc4.checked = (PQCSettings.imageviewAdvancedSortAscending) 
                             desc4.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             qual4.currentIndex = (PQCSettings.imageviewAdvancedSortQuality==="low" ?
@@ -461,7 +461,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 3) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc4.checked // qmllint disable unqualified
+                                PQCSettings.imageviewAdvancedSortAscending = asc4.checked 
                                 PQCSettings.imageviewAdvancedSortQuality = (qual4.currentIndex === 0 ?
                                                                                 "low" :
                                                                                 qual4.currentIndex===1 ?
@@ -495,7 +495,7 @@ PQTemplateFullscreen {
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             horizontalAlignment: Text.AlignHCenter
                             text: qsTranslate("advancedsort", "Sort by date")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         Item {
@@ -528,7 +528,7 @@ PQTemplateFullscreen {
                             width: 400
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             text: qsTranslate("advancedsort", "Order of priority:")
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                         }
 
                         ListView {
@@ -558,7 +558,7 @@ PQTemplateFullscreen {
 
                                 width: 400
                                 height: 40
-                                color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                color: PQCLook.baseColorHighlight 
 
                                 PQText {
                                     x: 10
@@ -573,7 +573,7 @@ PQTemplateFullscreen {
                                     y: (parent.height-height)/2
                                     width: parent.height*0.6
                                     height: width
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                     sourceSize: Qt.size(width, height)
                                     enabled: deleg.modelData>0
                                     opacity: enabled ? 1 : 0.5
@@ -596,7 +596,7 @@ PQTemplateFullscreen {
                                     width: parent.height*0.6
                                     height: width
                                     rotation: 180
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                     sourceSize: Qt.size(width, height)
                                     enabled: deleg.modelData<3
                                     opacity: enabled ? 1 : 0.5
@@ -631,7 +631,7 @@ PQTemplateFullscreen {
 
                         function onLoadData() {
 
-                            asc5.checked = (PQCSettings.imageviewAdvancedSortAscending) // qmllint disable unqualified
+                            asc5.checked = (PQCSettings.imageviewAdvancedSortAscending) 
                             desc5.checked = (!PQCSettings.imageviewAdvancedSortAscending)
 
                             var neworder = []
@@ -652,7 +652,7 @@ PQTemplateFullscreen {
 
                         function onSaveData() {
                             if(bar.currentIndex === 4) {
-                                PQCSettings.imageviewAdvancedSortAscending = asc5.checked // qmllint disable unqualified
+                                PQCSettings.imageviewAdvancedSortAscending = asc5.checked 
 
                                 var save = []
                                 for(var i = 0; i < exifsort.ordering.length; ++i)
@@ -677,12 +677,12 @@ PQTemplateFullscreen {
         PQText {
             id: progress
             anchors.centerIn: parent
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold 
 
             property int current: 0
             property int total: 0
 
-            text: PQCFileFolderModel.advancedSortDone+"/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
+            text: PQCFileFolderModel.advancedSortDone+"/" + PQCFileFolderModel.countMainView 
         }
 
         PQButton {
@@ -691,7 +691,7 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             y: (parent.height-height)/2 + 200
             onClicked: {
-                PQCFileFolderModel.advancedSortMainViewCANCEL() // qmllint disable unqualified
+                PQCFileFolderModel.advancedSortMainViewCANCEL() 
                 working.hide()
             }
         }
@@ -754,7 +754,7 @@ PQTemplateFullscreen {
 
     Connections {
 
-        target: PQCFileFolderModel // qmllint disable unqualified
+        target: PQCFileFolderModel 
 
         function onAdvancedSortingComplete() {
             working.hide()
@@ -796,14 +796,14 @@ PQTemplateFullscreen {
 
         advancedsort_top.saveData()
 
-        PQCFileFolderModel.advancedSortMainView() // qmllint disable unqualified
+        PQCFileFolderModel.advancedSortMainView() 
         working.showBusy()
 
     }
 
     function show() : void {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
             hide()
             return
         }
@@ -820,7 +820,7 @@ PQTemplateFullscreen {
         closeAnyMenu()
         opacity = 0
         if(popoutWindowUsed)
-            advancedsort_popout.visible = false // qmllint disable unqualified
+            advancedsort_popout.visible = false 
         else
             PQCNotify.loaderRegisterClose(thisis)
 

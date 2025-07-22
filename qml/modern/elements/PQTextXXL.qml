@@ -25,9 +25,9 @@ import PhotoQt
 
 Text {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
     Behavior on color { ColorAnimation { duration: 200 } }
-    font.pointSize: PQCLook.fontSizeXXL // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    font.pointSize: PQCLook.fontSizeXXL 
+    font.weight: PQCLook.fontWeightNormal 
 
 }

@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
 #include <pqc_settingscpp.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_imageformats.h>
@@ -164,6 +164,12 @@ QString PQCScriptsFilesPaths::pathFromNativeSeparators(QString path) {
 QString PQCScriptsFilesPaths::getSuffix(QString path) {
 
     return QFileInfo(path).completeSuffix();
+
+}
+
+QString PQCScriptsFilesPaths::getSuffixLowerCase(QString path) {
+
+    return QFileInfo(path).completeSuffix().toLower();
 
 }
 

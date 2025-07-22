@@ -20,14 +20,13 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsother.h>
+#include <scripts/qml/pqc_scriptsother.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_printtabimageoptions.h>
 #include <pqc_printtabimagepositiontile.h>
 #include <pqc_loadimage.h>
 #include <pqc_settings.h>
 
-#include <sstream>
 #include <QMessageBox>
 #include <QDateTime>
 #include <QApplication>

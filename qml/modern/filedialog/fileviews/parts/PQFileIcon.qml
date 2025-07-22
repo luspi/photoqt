@@ -38,7 +38,7 @@ Image {
     property bool gridlike: false
 
     property string _foldername: gridlike ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
-    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?// qmllint disable unqualified
+    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?
                                         _foldername : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
     source: sourceString

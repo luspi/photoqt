@@ -29,10 +29,10 @@ Rectangle {
 
     width: 300
     height: 40
-    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight) // qmllint disable unqualified
+    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight) 
     Behavior on color { ColorAnimation { duration: 200 } }
     border.width: 1
-    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+    border.color: PQCLook.baseColorHighlight 
     z: -1
 
     property bool highlightBG: false
@@ -59,10 +59,10 @@ Rectangle {
     PQText {
         id: placeholder
         anchors.fill: parent
-        color: PQCLook.textColor // qmllint disable unqualified
+        color: PQCLook.textColor 
         opacity: edit_top.highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
-        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter
         visible: control.text===""||edit_top.keepPlaceholderTextVisible
@@ -80,12 +80,12 @@ Rectangle {
         leftPadding: 5
         rightPadding: 5
 
-        color: PQCLook.textColor // qmllint disable unqualified
-        selectedTextColor: PQCLook.textColor // qmllint disable unqualified
-        selectionColor: edit_top.highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive // qmllint disable unqualified
+        color: PQCLook.textColor 
+        selectedTextColor: PQCLook.textColor 
+        selectionColor: edit_top.highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive 
 
-        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
+        font.pointSize: PQCLook.fontSize 
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
 
         verticalAlignment: TextInput.AlignVCenter
 
@@ -142,7 +142,7 @@ Rectangle {
         control.remove(control.cursorPosition, pos)
     }
 
-    function moveToLeftSeperatorList(alsoselect = false) {
+    function moveToLeftSeperatorList(alsoselect : bool) {
         var txt = control.text
         var pos = 0
         for(var i = Math.max(0, control.cursorPosition-1); i >= 0; --i) {
@@ -165,7 +165,7 @@ Rectangle {
             control.cursorPosition = pos
     }
 
-    function moveToRightSeperatorList(alsoselect = false) {
+    function moveToRightSeperatorList(alsoselect : bool) {
         var txt = control.text
         var pos = control.text.length
         for(var i = control.cursorPosition+1; i < control.text.length; ++i) {
@@ -207,9 +207,9 @@ Rectangle {
 
         // move cursor
         else if(key === Qt.Key_Left && mod === Qt.ControlModifier)
-            moveToLeftSeperatorList()
+            moveToLeftSeperatorList(false)
         else if(key === Qt.Key_Right && mod === Qt.ControlModifier)
-            moveToRightSeperatorList()
+            moveToRightSeperatorList(false)
 
         // move cursor and select
         else if(key === Qt.Key_Left && mod&Qt.ControlModifier && mod&Qt.ShiftModifier)
@@ -249,7 +249,7 @@ Rectangle {
         var cuttxt = getSelectedText()
         if(cuttxt === "")
             return
-        PQCScriptsClipboard.copyTextToClipboard(cuttxt) // qmllint disable unqualified
+        PQCScriptsClipboard.copyTextToClipboard(cuttxt) 
         control.remove(control.selectionStart, control.selectionEnd)
 
     }
@@ -259,13 +259,13 @@ Rectangle {
         var copytxt = getSelectedText()
         if(copytxt === "")
             copytxt = control.text
-        PQCScriptsClipboard.copyTextToClipboard(copytxt) // qmllint disable unqualified
+        PQCScriptsClipboard.copyTextToClipboard(copytxt) 
 
     }
 
     function actionPaste() {
 
-        var pastetxt = PQCScriptsClipboard.getTextFromClipboard() // qmllint disable unqualified
+        var pastetxt = PQCScriptsClipboard.getTextFromClipboard() 
         if(pastetxt === "")
             return
 

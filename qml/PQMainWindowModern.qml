@@ -37,7 +37,7 @@ Window {
     property string titleOverride: ""
     title: titleOverride!="" ?
                (titleOverride + " | PhotoQt") :
-               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt") // qmllint disable unqualified
+               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt")
 
     minimumWidth: 300
     minimumHeight: 200
@@ -95,7 +95,7 @@ Window {
 
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
 
-    onVisibilityChanged: (visibility) => {
+    onVisibilityChanged: {
 
         storeWindowGeometry.restart()
 
@@ -198,21 +198,25 @@ Window {
 
     /****************************************************/
 
+    function setXYWidthHeight(geo : rect) {
+        toplevel.x = geo.x
+        toplevel.y = geo.y
+        toplevel.width = geo.width
+        toplevel.height = geo.height
+    }
+
     Component.onCompleted: {
 
-        PQCScriptsConfig.updateTranslation() // qmllint disable unqualified
+        PQCScriptsConfig.updateTranslation()
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
 
-        // show window according to settings
+        // // show window according to settings
         if(PQCSettings.interfaceWindowMode) {
             if(PQCSettings.interfaceSaveWindowGeometry) {
                 var geo = PQCWindowGeometry.mainWindowGeometry
-                toplevel.x = geo.x
-                toplevel.y = geo.y
-                toplevel.width = geo.width
-                toplevel.height = geo.height
+                setXYWidthHeight(geo)
                 if(PQCConstants.startupStartInTray) {
                     PQCSettings.interfaceTrayIcon = 1
                     toplevel.hide()
@@ -265,10 +269,10 @@ Window {
 
     Connections {
 
-        target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings
 
         function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen) // qmllint disable unqualified
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen)
         }
 
     }
@@ -330,7 +334,7 @@ Window {
 
         function onCmdHide() : void {
             console.log("")
-            PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
+            PQCSettings.interfaceTrayIcon = 1
             toplevel.close()
         }
 
@@ -344,7 +348,7 @@ Window {
             console.log("")
 
             if(toplevel.visible) {
-                PQCSettings.interfaceTrayIcon = 1 // qmllint disable unqualified
+                PQCSettings.interfaceTrayIcon = 1
                 toplevel.close()
             } else {
                 toplevel.visible = true
@@ -360,7 +364,7 @@ Window {
 
             console.log("args: enabled =", enabled)
 
-            if(enabled && PQCSettings.interfaceTrayIcon === 0) // qmllint disable unqualified
+            if(enabled && PQCSettings.interfaceTrayIcon === 0)
                 PQCSettings.interfaceTrayIcon = 2
             else if(!enabled) {
                 PQCSettings.interfaceTrayIcon = 0
@@ -409,7 +413,7 @@ Window {
 
     function handleBeforeClosing() {
 
-        PQCFileFolderModel.advancedSortMainViewCANCEL() // qmllint disable unqualified
+        PQCFileFolderModel.advancedSortMainViewCANCEL()
 
         if(PQCFileFolderModel.currentIndex > -1 && PQCSettings.interfaceRememberLastImage)
             PQCScriptsConfig.setLastLoadedImage(PQCFileFolderModel.currentFile)

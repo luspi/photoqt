@@ -27,6 +27,19 @@ Loader {
     id: kenburnsBG
     asynchronous: false
 
+    /*******************************************/
+    // these values are READONLY
+
+    property size imageWrapperSize
+    property bool loaderTopVisible
+    property real imageWrapperScale
+    property size flickableSize
+    property size flickableContentSize
+    property bool videoLoaded
+    property real defaultScale
+
+    /*******************************************/
+
     active: false
     sourceComponent:
         PQImageNormal {
@@ -40,12 +53,12 @@ Loader {
 
     NumberAnimation {
         id: kenburnsBG_ani
-        running: kenburnsBG.performAni && loader_top.visible && PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideo // qmllint disable unqualified
+        running: kenburnsBG.performAni && kenburnsBG.loaderTopVisible && PQCConstants.slideshowRunningAndPlaying && !PQCConstants.currentlyShowingVideo
         target: kenburnsBG.item
         property: "scale"
         from: kenburnsBG.useScale
         to: kenburnsBG.useScale + duration/(1000*10)
-        duration: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000)) // qmllint disable unqualified
+        duration: Math.max(1000, Math.min(300*1000, PQCSettings.slideshowTime*1000))
     }
 
     Timer {
@@ -63,15 +76,8 @@ Loader {
     }
 
     Connections {
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants
         function onSlideshowRunningChanged() {
-            kenburnsBG.checkForBG()
-        }
-    }
-
-    Connections {
-        target: loader_top // qmllint disable unqualified
-        function onVisibleChanged() {
             kenburnsBG.checkForBG()
         }
     }
@@ -79,13 +85,13 @@ Loader {
     function checkForBG() {
 
         // compute the starting scale factor
-        var sc = 1.1 * 1.0/(image_wrapper.scale * Math.max(flickable.contentWidth/flickable.width, flickable.contentHeight/flickable.height)) // qmllint disable unqualified
+        var sc = 1.1 * 1.0/(kenburnsBG.imageWrapperScale * Math.max(flickableContentSize.width/flickableSize.width, flickableContentSize.height/flickableSize.height))
 
-        if(loader_top.videoLoaded)
-            sc = Math.max(flickable.width/image_wrapper.width, flickable.height/image_wrapper.height)
+        if(videoLoaded)
+            sc = Math.max(flickableSize.width/imageWrapperSize.width, flickableSize.height/imageWrapperSize.height)
 
         // If scale factor is invalid or not needed -> stop
-        if(!PQCConstants.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns" || sc < loader_top.defaultScale*1.1 || sc === Number.POSITIVE_INFINITY) {
+        if(!PQCConstants.slideshowRunning || PQCSettings.slideshowTypeAnimation !== "kenburns" || sc < defaultScale*1.1 || sc === Number.POSITIVE_INFINITY) {
             kenburnsBG.active = false
             waitForItem.stop()
             performAni = false

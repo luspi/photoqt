@@ -56,7 +56,7 @@ Item {
     property bool showSlider: true
     property bool sliderExtraSmall: true
 
-    property int titleWeight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    property int titleWeight: PQCLook.fontWeightNormal 
 
     property bool editMode: false
 

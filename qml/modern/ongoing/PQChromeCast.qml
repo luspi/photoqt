@@ -29,10 +29,10 @@ Item {
 
     Connections {
 
-        target: PQCFileFolderModel // qmllint disable unqualified
+        target: PQCFileFolderModel 
 
         function onCurrentFileChanged() {
-            if(PQCScriptsChromeCast.connected) // qmllint disable unqualified
+            if(PQCScriptsChromeCast.connected) 
                 castCurrent.restart()
 
         }
@@ -43,11 +43,11 @@ Item {
         id: castCurrent
         interval: 0
         onTriggered:
-            PQCScriptsChromeCast.castImage(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+            PQCScriptsChromeCast.castImage(PQCFileFolderModel.currentFile) 
     }
 
     Component.onDestruction: {
-        PQCScriptsChromeCast.disconnect() // qmllint disable unqualified
+        PQCScriptsChromeCast.disconnect() 
     }
 
 }

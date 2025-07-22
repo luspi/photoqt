@@ -32,8 +32,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: PQCConstants.windowWidth // qmllint disable unqualified
-    property int parentHeight: PQCConstants.windowHeight // qmllint disable unqualified
+    property int parentWidth: PQCConstants.windowWidth 
+    property int parentHeight: PQCConstants.windowHeight 
 
     // THESE ARE REQUIRED
     property string thisis
@@ -93,7 +93,7 @@ Rectangle {
 
     onOpacityChanged: {
         if(opacity > 0 && !popout)
-            PQCNotify.windowTitleOverride(title) // qmllint disable unqualified
+            PQCNotify.windowTitleOverride(title) 
         else if(opacity === 0)
             PQCNotify.windowTitleOverride("")
     }
@@ -110,7 +110,7 @@ Rectangle {
         sourceComponent:
         Item {
             Connections {
-                target: ele_window // qmllint disable unqualified
+                target: ele_window 
                 function onPopoutClosed() {
                     ele_top.popoutClosed()
                 }
@@ -136,12 +136,12 @@ Rectangle {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
 
         PQTextXL {
             anchors.centerIn: parent
             text: ele_top.title
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold 
         }
 
         Rectangle {
@@ -149,7 +149,7 @@ Rectangle {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorActive 
         }
 
     }
@@ -194,14 +194,14 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorActive 
         }
 
         Item {
@@ -221,13 +221,13 @@ Rectangle {
 
             onWidthChanged: {
                 if(ele_top.popout)
-                    ele_window.handleChangesBottomRowWidth(width) // qmllint disable unqualified
+                    ele_window.handleChangesBottomRowWidth(width) 
             }
 
             PQButtonElement {
                 id: firstbutton
                 text: genericStringClose
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 y: 1
                 height: parent.height-1
             }
@@ -257,7 +257,7 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" 
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -279,7 +279,7 @@ Rectangle {
                 ele_top.hide()
                 ele_top.popout = !ele_top.popout
                 ele_top.opacityChanged()
-                PQCScriptsShortcuts.executeInternalCommand(ele_top.shortcut) // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand(ele_top.shortcut) 
             }
         }
     }

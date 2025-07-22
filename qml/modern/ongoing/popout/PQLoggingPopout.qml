@@ -71,7 +71,7 @@ Window {
         width: parent.width
         height: logging_top.height-title.height-bottomrow.height-15
 
-        text: PQCNotify.debugLogMessages
+        text: PQCConstants.debugLogMessages
 
     }
 

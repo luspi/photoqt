@@ -85,7 +85,7 @@ Window {
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.transColor 
 
     onXChanged:
         updateGeometry.restart()
@@ -139,7 +139,7 @@ Window {
             ele_window.isMax = (ele_window.visibility==Window.Maximized)
     }
 
-    function handleChangesBottomRowWidth(w) {
+    function handleChangesBottomRowWidth(w : int) {
         ele_window.minimumWidth = Math.max(ele_window.minimumWidth, w)
     }
 

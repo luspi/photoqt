@@ -27,7 +27,7 @@ Row {
 
     id: setctrl
 
-    property int leftcol: Math.max(200, Math.min(300, setting_top.width/3)) // qmllint disable unqualified
+    property int leftcol: Math.max(200, Math.min(300, setting_top.width/3)) 
     property int rightcol: parent.width-leftcol-30
 
     property string helptext: ""
@@ -37,7 +37,7 @@ Row {
 
     property bool showResetButton: true
 
-    property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings // qmllint disable unqualified
+    property bool makeHelpTextVisible: !PQCSettings.generalCompactSettings 
 
     signal resetToDefaults()
 
@@ -63,18 +63,18 @@ Row {
                 opacity: setctrl.makeHelpTextVisible ? 0 : 1
                 Behavior on opacity { NumberAnimation { duration: 150 } }
                 clip: true
-                source: "image://svg/:/" + PQCLook.iconShade + "/help.svg" // qmllint disable unqualified
+                source: "image://svg/:/" + PQCLook.iconShade + "/help.svg" 
                 tooltip: setctrl.helptext
                 tooltipPartialTransparency: false
                 visible: width>0
                 onClicked: {
-                    settinginfomessage.show(setctrl.helptext) // qmllint disable unqualified
+                    settinginfomessage.show(setctrl.helptext) 
                 }
             }
 
             PQTextXL {
                 id: ttl
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 text: setctrl.title
                 font.capitalization: Font.SmallCaps
                 width: setctrl.leftcol - (setctrl.makeHelpTextVisible ? 0 : 40) - resetbutton.width
@@ -147,7 +147,7 @@ Row {
             visible: setctrl.showResetButton
             opacity: mouseOver ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" 
             tooltip: qsTranslate("settingsmanager", "reset to default values")
             onClicked: (pos) => {
                 setctrl.resetToDefaults()

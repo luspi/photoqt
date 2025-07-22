@@ -29,9 +29,25 @@ Image {
 
     id: image
 
-    property string imageSource: ""
+    /*******************************************/
+    // these values are READONLY, they are set in PQImageDisplay as bindings
 
-    source: image.imageSource==="" ? "" : "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageSource) // qmllint disable unqualified
+    property string imageSource: ""
+    property real defaultScale
+    property real currentScale
+    property bool isMainImage
+    property Item loaderTop
+    property bool thisIsAPhotoSphere
+
+    /*******************************************/
+    // these values are WRITEONLY and are picked up in PQImageDisplay
+
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+
+    /*******************************************/
+
+    source: image.imageSource==="" ? "" : "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(imageSource)
 
     asynchronous: true
 
@@ -64,13 +80,15 @@ Image {
         if(ignoreSignals)
             return
 
-        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Ready) {
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
-            if(loader_top.defaultScale < 0.95)
-                loadScaledDown.restart()
         } else if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
+    }
+
+    onDefaultScaleChanged: {
+        if(defaultScale < 0.95)
+            loadScaledDown.restart()
     }
 
     // we use custom mirror properties to be able to animate the mirror process with transforms
@@ -79,45 +97,32 @@ Image {
 
     onMyMirrorHChanged: {
         if(!ignoreSignals)
-            loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+            image.imageMirrorH = myMirrorH
     }
     onMyMirrorVChanged: {
         if(!ignoreSignals)
-            loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
+            image.imageMirrorV = myMirrorV
     }
 
     property bool hasAlpha: false
 
     onSourceSizeChanged: {
         image.initialLoad = false
-        if(!ignoreSignals)
-            loader_top.imageResolution = sourceSize // qmllint disable unqualified
     }
 
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) image.myMirrorH = !image.myMirrorH
+            if(image.visible) image.myMirrorH = !image.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) image.myMirrorV = !image.myMirrorV
+            if(image.visible) image.myMirrorV = !image.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!image.visible) return
             image.myMirrorH = false
             image.myMirrorV = false
         }
-    }
-
-    Connections {
-        target: image_top // qmllint disable unqualified
-        function onWidthChanged() {
-            resetScreenSize.restart()
-        }
-        function onHeightChanged() {
-            resetScreenSize.restart()
-        }
-
     }
 
     transform: [
@@ -126,14 +131,14 @@ Image {
             origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: image.width / 2
             origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
@@ -142,7 +147,7 @@ Image {
         z: parent.z-1
         fillMode: Image.Tile
 
-        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : "" // qmllint disable unqualified
+        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
 
     }
 
@@ -150,16 +155,19 @@ Image {
     Timer {
         id: loadScaledDown
         // this ensures it happens after the animation has stopped
-        interval: (PQCSettings.imageviewAnimationDuration+1)*100 // qmllint disable unqualified
+        interval: (PQCSettings.imageviewAnimationDuration+1)*100
         onTriggered: {
-            if(loader_top.isMainImage) { // qmllint disable unqualified
-                image.screenW = image_top.width
-                image.screenH = image_top.height
+            if(image.isMainImage) {
+                image.screenW = image.loaderTop.width
+                image.screenH = image.loaderTop.height
                 ldl.active = true
             }
         }
     }
 
+    function restartResetScreenSize() {
+        resetScreenSize.restart()
+    }
     property int screenW
     property int screenH
     Timer {
@@ -167,8 +175,8 @@ Image {
         interval: 500
         repeat: false
         onTriggered: {
-            image.screenW = image_top.width
-            image.screenH = image_top.height
+            image.screenW = image.loaderTop.width
+            image.screenH = image.loaderTop.height
         }
     }
 
@@ -182,10 +190,10 @@ Image {
             width: image.width
             height: image.height
             source: visible ? image.source : ""
-            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale // qmllint disable unqualified
+            smooth: image.currentScale < 0.95*image.defaultScale
             mipmap: smooth
             cache: false
-            visible: loader_top.defaultScale >= (1/0.95)*image_wrapper.scale // qmllint disable unqualified
+            visible: image.defaultScale >= (1/0.95)*image.currentScale
             sourceSize: Qt.size(image.screenW, image.screenH)
         }
     }
@@ -203,13 +211,6 @@ Image {
         }
     }
 
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            image.setMirrorHV(mirH, mirV)
-        }
-    }
-
     function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
         image.myMirrorV = mV
@@ -221,7 +222,7 @@ Image {
     Connections {
         target: PQCConstants
         function onCurrentImageSourceChanged() {
-            if(!loader_top.isMainImage && !image.ignoreSignals) { // qmllint disable unqualified
+            if(!image.isMainImage && !image.ignoreSignals) {
                 videoloader.active = false
             }
         }
@@ -234,17 +235,17 @@ Image {
     // a big button in middle of screen to enter photo sphere
     Loader {
 
-        active: !image.ignoreSignals && loader_top.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning // qmllint disable unqualified
+        active: !image.ignoreSignals && image.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning
 
         sourceComponent:
             Rectangle {
-                parent: loader_top // qmllint disable unqualified
+                parent: image.loaderTop
                 id: spherebut
                 x: (parent.width-width)/2
                 y: (parent.height-height)/2
                 width: 150
                 height: 150
-                color: PQCLook.transColor // qmllint disable unqualified
+                color: PQCLook.transColor
                 radius: width/2
                 opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -255,7 +256,7 @@ Image {
                     mipmap: true
                     fillMode: Image.PreserveAspectFit
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg"
                 }
 
                 PQMouseArea {
@@ -278,16 +279,16 @@ Image {
     Timer {
 
         // this is triggered after the image has animated in
-        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+        interval: PQCSettings.imageviewAnimationDuration*100
 
         // we use this trimmed down version whenever we don't use the motion photo stuff below (the photo sphere checks are part of it)
-        running: !image.ignoreSignals && image.visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos) // qmllint disable unqualified
+        running: !image.ignoreSignals && image.visible&&(PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)
         onTriggered: {
 
-            if(PQCConstants.slideshowRunning) // qmllint disable unqualified
+            if(PQCConstants.slideshowRunning)
                 return
 
-            if(!loader_top.isMainImage)
+            if(!image.isMainImage)
                 return
 
             if(PQCScriptsConfig.isMotionPhotoSupportEnabled() && (PQCSettings.filetypesLoadMotionPhotos || PQCSettings.filetypesLoadAppleLivePhotos)) {
@@ -310,7 +311,7 @@ Image {
                         // HEIF/HEIC images are a little trickier with their orientation handling
                         // We need to ignore this value as the Exif orientation might not be correct
                         // See also: https://github.com/Exiv2/exiv2/issues/2958
-                        var suf = PQCScriptsFilesPaths.getSuffix(image.imageSource).toLowerCase()
+                        var suf = PQCScriptsFilesPaths.getSuffixLowerCase(image.imageSource)
                         if(PQCSettings.metadataAutoRotation && suf !== "heic" && suf !== "heif") {
 
                             var orientation = PQCScriptsMetaData.getExifOrientation(image.imageSource)
@@ -418,7 +419,7 @@ Image {
                 anchors.margins: rotation%180==0 ? 0 : -(image.height-image.width)/2
                 source: videoloader.mediaSrc
                 Component.onCompleted: {
-                    if(PQCSettings.filetypesMotionAutoPlay) // qmllint disable unqualified
+                    if(PQCSettings.filetypesMotionAutoPlay)
                         play()
                 }
 
@@ -428,7 +429,7 @@ Image {
 
                     function onPlayPauseAnimationVideo() {
 
-                        if(!loader_top.isMainImage)
+                        if(!image.isMainImage)
                             return
 
                         if(mediaplayer.playbackState == MediaPlayer.PausedState)
@@ -447,13 +448,13 @@ Image {
 
             Row {
 
-                parent: image_top // qmllint disable unqualified
+                parent: image.loaderTop
 
                 x: parent.width-width-10
                 y: parent.height-height-10
-                z: image_top.curZ+1 // qmllint disable unqualified
+                z: PQCConstants.currentZValue+1
 
-                visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo // qmllint disable unqualified
+                visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
 
                 Rectangle {
 
@@ -462,16 +463,16 @@ Image {
                     color: "#88000000"
                     radius: 5
 
-                    opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2 // qmllint disable unqualified
+                    opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     Image {
                         anchors.fill: parent
                         anchors.margins: 5
-                        opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5 // qmllint disable unqualified
+                        opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
                         Behavior on opacity { NumberAnimation { duration: 200 } }
                         sourceSize: Qt.size(width, height)
-                        source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg") // qmllint disable unqualified
+                        source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
                     }
 
                     PQMouseArea {
@@ -481,7 +482,7 @@ Image {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("image", "Toggle autoplay")
                         onClicked: {
-                            PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay // qmllint disable unqualified
+                            PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
                         }
                     }
 
@@ -501,7 +502,7 @@ Image {
                         anchors.fill: parent
                         anchors.margins: 5
                         sourceSize: Qt.size(width, height)
-                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg") // qmllint disable unqualified
+                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     }
 
                     MouseArea {

@@ -356,6 +356,7 @@ qt_add_qml_module(photoqt URI PhotoQt VERSION 1.0 QML_FILES ${photoqt_QML}
 target_include_directories(photoqt PRIVATE "cplusplus/header")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qml")
+target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlcpp")
 target_include_directories(photoqt PRIVATE "cplusplus/header/scripts/qmlwrapper")
 target_include_directories(photoqt PRIVATE "cplusplus/extensions")
 

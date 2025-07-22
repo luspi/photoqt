@@ -115,12 +115,12 @@ Flickable {
                             id: topedge
                             width: 200
                             height: 50
-                            color: topmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: topmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 text: setting_top.labels[setting_top.current["top"]]
                             }
 
@@ -148,13 +148,13 @@ Flickable {
                             id: leftedge
                             width: 50
                             height: 200
-                            color: leftmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: leftmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: -90
                                 font.weight: setting_top.current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 text: setting_top.labels[setting_top.current["left"]]
                             }
                             PQMouseArea {
@@ -177,13 +177,13 @@ Flickable {
                             id: rightedge
                             width: 50
                             height: 200
-                            color: rightmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: rightmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
                                 font.weight: setting_top.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 text: setting_top.labels[setting_top.current["right"]]
                             }
                             PQMouseArea {
@@ -210,12 +210,12 @@ Flickable {
                             id: botedge
                             width: 200
                             height: 50
-                            color: botmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: botmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 text: setting_top.labels[setting_top.current["bottom"]]
                             }
                             PQMouseArea {
@@ -260,7 +260,7 @@ Flickable {
             }
 
             function load() {
-                current["top"] = PQCSettings.interfaceEdgeTopAction // qmllint disable unqualified
+                current["top"] = PQCSettings.interfaceEdgeTopAction 
                 current["left"] = PQCSettings.interfaceEdgeLeftAction
                 current["right"] = PQCSettings.interfaceEdgeRightAction
                 current["bottom"] = PQCSettings.interfaceEdgeBottomAction
@@ -268,7 +268,7 @@ Flickable {
             }
 
             function applyChanges() {
-                PQCSettings.interfaceEdgeTopAction = current["top"] // qmllint disable unqualified
+                PQCSettings.interfaceEdgeTopAction = current["top"] 
                 PQCSettings.interfaceEdgeLeftAction = current["left"]
                 PQCSettings.interfaceEdgeRightAction = current["right"]
                 PQCSettings.interfaceEdgeBottomAction = current["bottom"]
@@ -390,7 +390,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

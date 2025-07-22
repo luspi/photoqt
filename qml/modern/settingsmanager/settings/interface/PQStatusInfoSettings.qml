@@ -103,7 +103,7 @@ Flickable {
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    color: PQCLook.baseColorHighlight 
                     ListView {
 
                         id: avail
@@ -161,15 +161,15 @@ Flickable {
                                 height: deleg.height
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                color: PQCLook.baseColorActive // qmllint disable unqualified
+                                color: PQCLook.baseColorActive 
                                 radius: 5
                                 PQText {
                                     id: txt
                                     x: (parent.width-width)/2
                                     y: (parent.height-height)/2
                                     text: avail.disp[deleg.name]
-                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                                    color: PQCLook.textColor // qmllint disable unqualified
+                                    font.weight: PQCLook.fontWeightBold 
+                                    color: PQCLook.textColor 
                                     onWidthChanged: {
                                         avail.widths.push(width+20)
                                         avail.widthsChanged()
@@ -222,7 +222,7 @@ Flickable {
                                     width: 20
                                     height: 20
 
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
                                     sourceSize: Qt.size(width, height)
 
                                     opacity: closemouse.containsMouse ? 0.8 : 0.2
@@ -366,7 +366,7 @@ Flickable {
 
             function load() {
 
-                status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow) // qmllint disable unqualified
+                status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow) 
 
                 set_status.curEntries = PQCSettings.interfaceStatusInfoList
                 populateModel()
@@ -377,7 +377,7 @@ Flickable {
 
             function applyChanges() {
 
-                PQCSettings.interfaceStatusInfoShow = status_show.checked // qmllint disable unqualified
+                PQCSettings.interfaceStatusInfoShow = status_show.checked 
 
                 var opts = []
                 for(var i = 0; i < model.count; ++i)
@@ -666,7 +666,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

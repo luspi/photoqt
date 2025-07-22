@@ -20,8 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsfilemanagement.h>
-#include <scripts/qmlcpp/pqc_scriptsundo.h>
+#include <scripts/qml/pqc_scriptsfilemanagement.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
+#include <pqc_filefoldermodelCPP.h>
 #include <pqc_configfiles.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
@@ -53,7 +54,20 @@
 #include <gio/gio.h>
 #endif
 
-PQCScriptsFileManagement::PQCScriptsFileManagement() {}
+PQCScriptsFileManagement::PQCScriptsFileManagement() {
+
+    undoCurFolder = "";
+    undoTrash.clear();
+
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
+        QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
+        if(undoCurFolder != newFolder) {
+            undoCurFolder = newFolder;
+            undoTrash.clear();
+        }
+    });
+
+}
 
 PQCScriptsFileManagement::~PQCScriptsFileManagement() {}
 
@@ -122,7 +136,7 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
         std::this_thread::sleep_for(std::chrono::milliseconds(250));
         ++count;
     }
-    PQCScriptsUndo::get().recordAction("trash", {filename, deletedFilename});
+    recordAction("trash", {filename, deletedFilename});
     return ret;
 #else
 
@@ -132,7 +146,7 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
     QString trashFile = "";
     bool rettrash = QFile::moveToTrash(filename, &trashFile);
     if(rettrash)
-        PQCScriptsUndo::get().recordAction("trash", {filename, trashFile});
+        recordAction("trash", {filename, trashFile});
     return rettrash;
 
 #else
@@ -155,123 +169,6 @@ bool PQCScriptsFileManagement::moveFileToTrash(QString filename) {
 #endif
 
 #endif
-
-}
-
-void PQCScriptsFileManagement::exportImage(QString sourceFilename, QString targetFilename, int uniqueid) {
-
-    qDebug() << "args: sourceFilename =" << sourceFilename;
-    qDebug() << "args: targetFilename =" << targetFilename;
-    qDebug() << "args: uniqueid =" << uniqueid;
-
-    QFuture<void> f = QtConcurrent::run([=]() {
-
-        // get info about new file format and source file
-        QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
-
-        // First we load the image...
-        QSize tmp;
-        QImage img;
-        PQCLoadImage::get().load(sourceFilename, QSize(-1,-1), tmp, img);
-
-        // we convert the image to this tmeporary file and then copy it to the right location
-        // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-        QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforexport" + "." + databaseinfo.value("endings").toString().split(",")[0];
-        if(QFile::exists(tmpImagePath))
-            QFile::remove(tmpImagePath);
-
-        // qt might support it
-        if(databaseinfo.value("qt").toInt() == 1) {
-
-            QImageWriter writer;
-
-            // if the QImageWriter supports the format then we're good to go
-            if(writer.supportedImageFormats().contains(databaseinfo.value("qt_formatname").toString())) {
-
-                // ... and then we write it into the new format
-                writer.setFileName(tmpImagePath);
-                writer.setFormat(databaseinfo.value("qt_formatname").toString().toUtf8());
-
-                // if the actual writing succeeds we're done now
-                if(!writer.write(img))
-                    qWarning() << "ERROR:" << writer.errorString();
-                else {
-                    // copy result to target destination
-                    QFile::copy(tmpImagePath, targetFilename);
-                    QFile::remove(tmpImagePath);
-                    Q_EMIT exportCompleted(true);
-                    return;
-                }
-
-            }
-
-        }
-
-    // imagemagick/graphicsmagick might support it
-    #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    #ifdef PQMIMAGEMAGICK
-        if(databaseinfo.value("imagemagick").toInt() == 1) {
-    #else
-        if(databaseinfo.value("graphicsmagick").toInt() == 1) {
-    #endif
-
-            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
-            bool canproceed = false;
-            try {
-                QString magick = databaseinfo.value("im_gm_magick").toString();
-                Magick::CoderInfo magickCoderInfo(magick.toStdString());
-                if(magickCoderInfo.isWritable())
-                    canproceed = true;
-            } catch(...) {
-                // do nothing here
-            }
-
-            // yes, it's supported
-            if(canproceed) {
-
-                try {
-
-                    // first we write the QImage to a temporary file
-                    // then we load it into magick and write it to the target file
-
-                    // find unique temporary path
-                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
-                    if(QFile::exists(tmppath))
-                        QFile::remove(tmppath);
-
-                    img.save(tmppath);
-
-                    // load image and write to target file
-                    Magick::Image image;
-                    image.magick("PPM");
-                    image.read(tmppath.toStdString());
-
-                    image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
-                    image.write(tmpImagePath.toStdString());
-
-                    // remove temporary file
-                    QFile::remove(tmppath);
-
-                    // copy result to target destination
-                    QFile::copy(tmpImagePath, targetFilename);
-                    QFile::remove(tmpImagePath);
-
-                    // success!
-                    Q_EMIT exportCompleted(true);
-                    return;
-
-                } catch(Magick::Exception &) { }
-
-            }
-
-        }
-
-    #endif
-
-        // unsuccessful conversion...
-        Q_EMIT exportCompleted(false);
-
-    });
 
 }
 
@@ -673,5 +570,65 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
         Q_EMIT cropCompleted(success);
 
     });
+
+}
+
+void PQCScriptsFileManagement::recordAction(QString action, QVariantList args) {
+
+    if(action == "trash")
+        undoTrash.push_back(args);
+    else
+        qWarning() << "Unknown action:" << action;
+
+}
+
+QString PQCScriptsFileManagement::undoLastAction(QString action) {
+
+    qDebug() << "args: action =" << action;
+
+    if(action == "trash") {
+
+        if(undoTrash.isEmpty())
+            return "";
+
+        QVariantList act = undoTrash.takeLast();
+
+        QFile origFile(act.at(0).toString());
+        QFile delFile(act.at(1).toString());
+
+        QFileInfo info(act.at(1).toString());
+        QFile infoFile(QDir::cleanPath(info.absolutePath() + "/../info/" + info.fileName() + ".trashinfo"));
+
+        if(origFile.exists()) {
+
+            // re-add action to list
+            undoTrash.push_back(act);
+
+            return QString("-%1").arg(tr("File with original filename exists already", "filemanagement"));
+
+        }
+
+        if(delFile.rename(origFile.fileName())) {
+
+            qDebug() << QString("Successfully restored file '%1' to '%2'").arg(act.at(1).toString(),act.at(0).toString());
+
+            PQCFileFolderModelCPP::get().setFileInFolderMainView(act.at(0).toString());
+
+            if(!infoFile.remove()) {
+                qWarning() << "Failed to remove .trashinfo file";
+            }
+
+            return tr("File restored from Trash", "filemanagement");
+
+        }
+
+        // re-add action to list
+        undoTrash.push_back(act);
+
+        return QString("-%1: %2").arg(tr("Failed to recover file"), act.at(0).toString());
+
+    }
+
+    return QString("-%1: %2").arg(tr("Unknown action"), action);
 
 }

@@ -139,7 +139,7 @@ Flickable {
                     PQCSettings.imageviewSortImagesBy = "name"
 
                 var l = ["naturalname", "name", "time", "size", "type"]
-                sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) // qmllint disable unqualified
+                sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) 
                 sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
                 sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
 
@@ -147,7 +147,7 @@ Flickable {
 
             function applyChanges() {
                 var l = ["naturalname", "name", "time", "size", "type"]
-                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] // qmllint disable unqualified
+                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] 
                 PQCSettings.imageviewSortImagesAscending = sortasc.checked
                 sortcriteria.saveDefault()
                 sortasc.saveDefault()
@@ -484,7 +484,7 @@ Flickable {
                 },
                 PQCheckBox {
                     id: sect_devicestmpfs
-                    visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+                    visible: !PQCScriptsConfig.amIOnWindows() 
                     enabled: sect_devices.checked
                     enforceMaxWidth: set_sort.rightcol-22
                     text: qsTranslate("settingsmanager", "Include temporary devices")
@@ -949,7 +949,7 @@ Flickable {
                                 id: preview_colintspin
                                 width: set_sort.rightcol - 30
                                 title: qsTranslate("settingsmanager", "color intensity:")
-                                titleWeight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                                titleWeight: PQCLook.fontWeightNormal 
                                 minval: 10
                                 maxval: 100
                                 suffix: " %"
@@ -1064,7 +1064,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

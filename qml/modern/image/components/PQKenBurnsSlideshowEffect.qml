@@ -31,7 +31,7 @@ Item {
     property int aniIndex: -1
 
     // the speed is depending on the user settings
-    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*5 // qmllint disable unqualified
+    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*5 
 
     // Animation: left to right
     SequentialAnimation {
@@ -43,32 +43,32 @@ Item {
 
         // this keeps the image vertically centered
         onStarted:
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 }) // qmllint disable unqualified
+            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 }) 
 
         // animate from middle to the right
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)/2 // qmllint disable unqualified
-            to: -(flickable.width-flickable.contentWidth) // qmllint disable unqualified
+            from: -(flickable.width-flickable.contentWidth)/2 
+            to: -(flickable.width-flickable.contentWidth) 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the left
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth) // qmllint disable unqualified
+            from: -(flickable.width-flickable.contentWidth) 
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from right to the middle
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
             from: 0
-            to: -(flickable.width-flickable.contentWidth)/2 // qmllint disable unqualified
+            to: -(flickable.width-flickable.contentWidth)/2 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -84,32 +84,32 @@ Item {
 
         // this keeps the image vertically centered
         onStarted:
-            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 }) // qmllint disable unqualified
+            flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 }) 
 
         // animate from middle to the left
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth)/2 // qmllint disable unqualified
+            from: -(flickable.width-flickable.contentWidth)/2 
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the right
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
             from: 0
-            to: -(flickable.width-flickable.contentWidth) // qmllint disable unqualified
+            to: -(flickable.width-flickable.contentWidth) 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from right to the middle
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentX";
-            from: -(flickable.width-flickable.contentWidth) // qmllint disable unqualified
-            to: -(flickable.width-flickable.contentWidth)/2 // qmllint disable unqualified
+            from: -(flickable.width-flickable.contentWidth) 
+            to: -(flickable.width-flickable.contentWidth)/2 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -125,32 +125,32 @@ Item {
 
         // this keeps the image horizontally centered
         onStarted:
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) // qmllint disable unqualified
+            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) 
 
         // animate from middle to the bottom
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)/2 // qmllint disable unqualified
-            to: -(flickable.height-flickable.contentHeight) // qmllint disable unqualified
+            from: -(flickable.height-flickable.contentHeight)/2 
+            to: -(flickable.height-flickable.contentHeight) 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the top
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight) // qmllint disable unqualified
+            from: -(flickable.height-flickable.contentHeight) 
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from bottom to the middle
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
             from: 0
-            to: -(flickable.height-flickable.contentHeight)/2 // qmllint disable unqualified
+            to: -(flickable.height-flickable.contentHeight)/2 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -166,32 +166,32 @@ Item {
 
         // this keeps the image horizontally centered
         onStarted:
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) // qmllint disable unqualified
+            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) 
 
         // animate from middle to the top
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight)/2 // qmllint disable unqualified
+            from: -(flickable.height-flickable.contentHeight)/2 
             to: 0
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate to the bottom
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
             from: 0
-            to: -(flickable.height-flickable.contentHeight) // qmllint disable unqualified
+            to: -(flickable.height-flickable.contentHeight) 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
         // animate from bottom to the middle
         NumberAnimation {
-            target: flickable; // qmllint disable unqualified
+            target: flickable; 
             property: "contentY";
-            from: -(flickable.height-flickable.contentHeight) // qmllint disable unqualified
-            to: -(flickable.height-flickable.contentHeight)/2 // qmllint disable unqualified
+            from: -(flickable.height-flickable.contentHeight) 
+            to: -(flickable.height-flickable.contentHeight)/2 
             duration: Math.abs(from-to)*aniDeleg.aniSpeed
         }
 
@@ -207,25 +207,25 @@ Item {
 
         // this keeps the image centered
         onStarted: {
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) // qmllint disable unqualified
+            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) 
             flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
         }
 
         // zoom in
         NumberAnimation {
-            target: image_wrapper; // qmllint disable unqualified
+            target: image_wrapper; 
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor // qmllint disable unqualified
-            to: image_wrapper.kenBurnsZoomFactor*1.5 // qmllint disable unqualified
+            from: image_wrapper.kenBurnsZoomFactor 
+            to: image_wrapper.kenBurnsZoomFactor*1.5 
             duration: aniDeleg.aniSpeed*250
         }
 
         // zoom out
         NumberAnimation {
-            target: image_wrapper; // qmllint disable unqualified
+            target: image_wrapper; 
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor*1.5 // qmllint disable unqualified
-            to: image_wrapper.kenBurnsZoomFactor // qmllint disable unqualified
+            from: image_wrapper.kenBurnsZoomFactor*1.5 
+            to: image_wrapper.kenBurnsZoomFactor 
             duration: aniDeleg.aniSpeed*250
         }
 
@@ -240,32 +240,32 @@ Item {
         running: false
 
         onStarted: {
-            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) // qmllint disable unqualified
+            flickable.contentX = Qt.binding(function() { return -(flickable.width-flickable.contentWidth)/2 }) 
             flickable.contentY = Qt.binding(function() { return -(flickable.height-flickable.contentHeight)/2 })
         }
 
         // zoom out
         NumberAnimation {
-            target: image_wrapper; // qmllint disable unqualified
+            target: image_wrapper; 
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor*1.5 // qmllint disable unqualified
-            to: image_wrapper.kenBurnsZoomFactor // qmllint disable unqualified
+            from: image_wrapper.kenBurnsZoomFactor*1.5 
+            to: image_wrapper.kenBurnsZoomFactor 
             duration: aniDeleg.aniSpeed*250
         }
 
         // zoom in
         NumberAnimation {
-            target: image_wrapper; // qmllint disable unqualified
+            target: image_wrapper; 
             property: "scale";
-            from: image_wrapper.kenBurnsZoomFactor // qmllint disable unqualified
-            to: image_wrapper.kenBurnsZoomFactor*1.5 // qmllint disable unqualified
+            from: image_wrapper.kenBurnsZoomFactor 
+            to: image_wrapper.kenBurnsZoomFactor*1.5 
             duration: aniDeleg.aniSpeed*250
         }
 
     }
 
     Connections {
-        target: loader_top // qmllint disable unqualified
+        target: loader_top 
 
         // if we become the current image, make sure an animation is running
         function onIsMainImageChanged() {
@@ -275,7 +275,7 @@ Item {
 
     Connections {
 
-        target: flickable // qmllint disable unqualified
+        target: flickable 
 
         // a change in the content width/height necessitates handling the animation
 
@@ -293,7 +293,7 @@ Item {
         target: PQCConstants
 
         function onSlideshowRunningAndPlayingChanged() {
-            if(PQCConstants.slideshowRunningAndPlaying) // qmllint disable unqualified
+            if(PQCConstants.slideshowRunningAndPlaying) 
                 aniDeleg.manageAni()
             else
                 aniDeleg.stopAni()
@@ -304,7 +304,7 @@ Item {
     // slideshow started/stopped
     Connections {
 
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants 
 
         function onSlideshowRunningChanged() {
             aniDeleg.handleSlideshowStatusChanged()
@@ -320,7 +320,7 @@ Item {
     // handle slideshow status
     function handleSlideshowStatusChanged() {
 
-        if(PQCSettings.slideshowTypeAnimation === "kenburns") { // qmllint disable unqualified
+        if(PQCSettings.slideshowTypeAnimation === "kenburns") { 
 
             if(PQCConstants.slideshowRunning) {
 
@@ -341,7 +341,7 @@ Item {
 
         var index = PQCFileFolderModel.getIndexOfMainView(imageloaderitem.imageSource)
 
-        if(PQCConstants.showingPhotoSphere) { // qmllint disable unqualified
+        if(PQCConstants.showingPhotoSphere) { 
             image_top.animatePhotoSpheres(index%2)
             return
         }
@@ -367,9 +367,9 @@ Item {
     // once it is not we finally stop the animation
     Timer {
         id: stopAfterFadeOut
-        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+        interval: PQCSettings.imageviewAnimationDuration*100 
         onTriggered: {
-            if(loader_top.opacity > 1e-6) // qmllint disable unqualified
+            if(loader_top.opacity > 1e-6) 
                 stopAfterFadeOut.restart()
             else
                 aniDeleg.stopAni()
@@ -380,7 +380,7 @@ Item {
     // If a slideshow is running with this effect then AN animation should always be running
     Timer {
         interval: 250
-        running: PQCConstants.slideshowRunning // qmllint disable unqualified
+        running: PQCConstants.slideshowRunning 
         repeat: true
         onTriggered: {
             if(PQCConstants.slideshowRunningAndPlaying &&
@@ -399,7 +399,7 @@ Item {
     function manageAni() {
 
         // no animation should be running -> stop!
-        if(!loader_top.isMainImage || !PQCConstants.slideshowRunning || // qmllint disable unqualified
+        if(!loader_top.isMainImage || !PQCConstants.slideshowRunning || 
                 PQCSettings.slideshowTypeAnimation!=="kenburns" || loader_top.videoLoaded ||
                 loader_top.defaultScale >= 1 || !PQCConstants.slideshowRunningAndPlaying) {
             stopAfterFadeOut.restart()

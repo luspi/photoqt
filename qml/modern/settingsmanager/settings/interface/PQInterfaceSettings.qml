@@ -102,7 +102,7 @@ Flickable {
                 "zh_TW" : "Chinese (traditional)"
             }
 
-            property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() // qmllint disable unqualified
+            property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() 
 
             property list<string> langkeys: Object.keys(languages)
 
@@ -133,7 +133,7 @@ Flickable {
 
                     model: []
 
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
 
                     onCurrentIndexChanged: setting_top.checkDefault()
 
@@ -142,7 +142,7 @@ Flickable {
                 PQText {
                     width: set_lang.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    visible: PQCSettings.generalCompactSettings // qmllint disable unqualified
+                    visible: PQCSettings.generalCompactSettings 
                     // font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
                 }
@@ -180,7 +180,7 @@ Flickable {
                 }
                 langcombo.model = m
 
-                var code = PQCSettings.interfaceLanguage // qmllint disable unqualified
+                var code = PQCSettings.interfaceLanguage 
 
                 var setindex = availableLanguages.indexOf("en")
 
@@ -200,7 +200,7 @@ Flickable {
             function applyChanges() {
 
                 if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
-                    PQCSettings.interfaceLanguage = "en" // qmllint disable unqualified
+                    PQCSettings.interfaceLanguage = "en" 
                 else
                     PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
                 origIndex = langcombo.currentIndex
@@ -375,7 +375,7 @@ Flickable {
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    color: PQCLook.baseColorHighlight 
                     ListView {
 
                         id: avail
@@ -469,7 +469,7 @@ Flickable {
                                 height: deleg.height
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                color: PQCLook.baseColorActive // qmllint disable unqualified
+                                color: PQCLook.baseColorActive 
                                 radius: 5
                                 Image {
                                     id: txt
@@ -554,7 +554,7 @@ Flickable {
                                         chk_fs.checked = deleg.fullscreenonly
                                         chk_wm.checked = deleg.windowedonly
                                         chk_ot.checked = deleg.alwaysontop
-                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index) 
                                     }
 
                                     Connections {
@@ -569,7 +569,7 @@ Flickable {
                                         interval: 200
                                         onTriggered: {
                                             if(!itemmenu.opened)
-                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) // qmllint disable unqualified
+                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) 
                                         }
                                     }
 
@@ -633,7 +633,7 @@ Flickable {
                                     width: 20
                                     height: 20
 
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
                                     sourceSize: Qt.size(width, height)
 
                                     opacity: closemouse.containsMouse ? 0.8 : 0.2
@@ -948,8 +948,8 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
-                    property list<string> hexes: PQCLook.getColorHexes() // qmllint disable unqualified
-                    property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color")) // qmllint disable unqualified
+                    property list<string> hexes: PQCLook.getColorHexes() 
+                    property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color")) 
                     model: options
                     onCurrentIndexChanged: {
                         setting_top.checkDefault()
@@ -969,22 +969,22 @@ Flickable {
                         width: 200
                         height: 50
                         clip: true
-                        color: PQCSettings.interfaceAccentColor // qmllint disable unqualified
+                        color: PQCSettings.interfaceAccentColor 
                         border.width: 1
-                        border.color: PQCLook.inverseColor // qmllint disable unqualified
+                        border.color: PQCLook.inverseColor 
                         Rectangle {
                             x: (parent.width-width)/2
                             y: (parent.height-height)/2
                             width: accent_coltxt.width+20
                             height: accent_coltxt.height+10
                             radius: 5
-                            color: PQCLook.transInverseColor // qmllint disable unqualified
+                            color: PQCLook.transInverseColor 
                             PQText {
                                 id: accent_coltxt
-                                color: PQCLook.textInverseColor // qmllint disable unqualified
+                                color: PQCLook.textInverseColor 
                                 x: 10
                                 y: 5
-                                text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b]) // qmllint disable unqualified
+                                text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b]) 
                             }
                         }
 
@@ -1009,7 +1009,7 @@ Flickable {
                     property string backupcolor: ""
                     smallerVersion: true
                     onClicked: {
-                        backupcolor = PQCSettings.interfaceAccentColor // qmllint disable unqualified
+                        backupcolor = PQCSettings.interfaceAccentColor 
 
                         if(accentcolor.currentIndex < accentcolor.hexes.length)
                             PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
@@ -1021,7 +1021,7 @@ Flickable {
                     }
 
                     Component.onDestruction: {
-                        if(!testbut.enabled && settingsmanager_top.opacity > 0) { // qmllint disable unqualified
+                        if(!testbut.enabled && settingsmanager_top.opacity > 0) { 
                             PQCSettings.interfaceAccentColor = testbut.backupcolor
                         }
                     }
@@ -1035,7 +1035,7 @@ Flickable {
                                 testtimer.stop()
                                 testbut.secs = 3
                                 testbut.enabled = true
-                                PQCSettings.interfaceAccentColor = testbut.backupcolor // qmllint disable unqualified
+                                PQCSettings.interfaceAccentColor = testbut.backupcolor 
                             } else {
                                 testtimer.restart()
                             }
@@ -1049,13 +1049,13 @@ Flickable {
                     PQRadioButton {
                         id: bgaccentusecheck
                         text: qsTranslate("settingsmanager", "use accent color for background")
-                        checked: !PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        checked: !PQCSettings.interfaceBackgroundCustomOverlay 
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: bgcustomusecheck
                         text: qsTranslate("settingsmanager", "use custom color for background")
-                        checked: PQCSettings.interfaceBackgroundCustomOverlay // qmllint disable unqualified
+                        checked: PQCSettings.interfaceBackgroundCustomOverlay 
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     Rectangle {
@@ -1066,7 +1066,7 @@ Flickable {
                         opacity: bgcustomusecheck.checked ? 1 : 0
                         Behavior on opacity { NumberAnimation { duration: 150 } }
                         clip: true
-                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor // qmllint disable unqualified
+                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor 
                         onColorChanged: setting_top.checkDefault()
                         Rectangle {
                             x: (parent.width-width)/2
@@ -1079,7 +1079,7 @@ Flickable {
                                 id: bgcustomusetxt
                                 x: 10
                                 y: 5
-                                text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b]) // qmllint disable unqualified
+                                text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b]) 
                             }
                         }
 
@@ -1381,14 +1381,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive                     // qmllint disable unqualified
+                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive                     
                                                                      : mouse_tl.containsMouse ? PQCLook.baseColorHighlight
                                                                                               : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_tl
                                         anchors.fill: parent
@@ -1401,14 +1401,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive                     // qmllint disable unqualified
+                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive                     
                                                                  : mouse_t.containsMouse ? PQCLook.baseColorHighlight
                                                                                          : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_t
                                         anchors.fill: parent
@@ -1421,14 +1421,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive                    // qmllint disable unqualified
+                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive                    
                                                                       : mouse_tr.containsMouse ? PQCLook.baseColorHighlight
                                                                                                : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_tr
                                         anchors.fill: parent
@@ -1444,14 +1444,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive                      // qmllint disable unqualified
+                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive                      
                                                                         : mouse_ml.containsMouse ? PQCLook.baseColorHighlight
                                                                                                  : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_ml
                                         anchors.fill: parent
@@ -1464,14 +1464,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive                      // qmllint disable unqualified
+                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive                      
                                                                     : mouse_m.containsMouse ? PQCLook.baseColorHighlight
                                                                                             : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_m
                                         anchors.fill: parent
@@ -1484,14 +1484,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive                     // qmllint disable unqualified
+                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive                     
                                                                          : mouse_mr.containsMouse ? PQCLook.baseColorHighlight
                                                                                                   : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_mr
                                         anchors.fill: parent
@@ -1507,14 +1507,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive                      // qmllint disable unqualified
+                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive                      
                                                                         : mouse_bl.containsMouse ? PQCLook.baseColorHighlight
                                                                                                  : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_bl
                                         anchors.fill: parent
@@ -1527,14 +1527,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive                      // qmllint disable unqualified
+                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive                      
                                                                     : mouse_b.containsMouse ? PQCLook.baseColorHighlight
                                                                                             : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_b
                                         anchors.fill: parent
@@ -1547,14 +1547,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive                         // qmllint disable unqualified
+                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive                         
                                                                          : mouse_br.containsMouse ? PQCLook.baseColorHighlight
                                                                                                   : PQCLook.baseColor
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    border.color: PQCLook.baseColorHighlight 
                                     PQMouseArea {
                                         id: mouse_br
                                         anchors.fill: parent
@@ -1584,7 +1584,7 @@ Flickable {
 
                 PQCheckBox {
                     id: notif_external
-                    visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+                    visible: !PQCScriptsConfig.amIOnWindows() 
                     text: qsTranslate("settingsmanager", "try to show native notification")
                     onCheckedChanged:
                         setting_top.checkDefault()
@@ -1689,7 +1689,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

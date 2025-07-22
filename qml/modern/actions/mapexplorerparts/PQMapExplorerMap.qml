@@ -83,7 +83,7 @@ Item {
         anchors.fill: parent
 
         center: QtPositioning.coordinate(49.01, 8.40)
-        zoomLevel: mapexplorer_top.mapZoomLevel // qmllint disable unqualified
+        zoomLevel: mapexplorer_top.mapZoomLevel 
 
         property int curZ: 0
 
@@ -124,7 +124,7 @@ Item {
         }
 
         onZoomLevelChanged: (zoomLevel) => {
-            if(!mapexplorer_top.finishShow) return // qmllint disable unqualified
+            if(!mapexplorer_top.finishShow) return 
             map_top.computeDetailLevel()
             if(zoomLevel !== mapexplorer_top.mapZoomLevel)
                 mapexplorer_top.mapZoomLevel = zoomLevel
@@ -134,7 +134,7 @@ Item {
             id: updateVisibleRegion
             interval: 500
             repeat: true
-            running: mapexplorer_top.visible // qmllint disable unqualified
+            running: mapexplorer_top.visible 
             onTriggered: {
                 execute()
             }
@@ -183,7 +183,7 @@ Item {
                 id: menuitem_exact
                 text: Math.round(1e2*mapmenu.loc[0])/1e2 + ", " + Math.round(1e2*mapmenu.loc[1])/1e2
                 onTriggered: {
-                    PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    PQCScriptsClipboard.copyTextToClipboard(text) 
                 }
             }
 
@@ -192,14 +192,14 @@ Item {
                 visible: text!=menuitem_exact.text
                 text: Math.round(1e5*mapmenu.loc[0])/1e5 + ", " + Math.round(1e5*mapmenu.loc[1])/1e5
                 onTriggered: {
-                    PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    PQCScriptsClipboard.copyTextToClipboard(text) 
                 }
             }
 
             PQMenuItem {
-                text: PQCScriptsMetaData.convertGPSDecimalToDegree(mapmenu.loc[0], mapmenu.loc[1]) // qmllint disable unqualified
+                text: PQCScriptsMetaData.convertGPSDecimalToDegree(mapmenu.loc[0], mapmenu.loc[1]) 
                 onTriggered: {
-                    PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                    PQCScriptsClipboard.copyTextToClipboard(text) 
                 }
             }
 
@@ -238,7 +238,7 @@ Item {
                     height: 50
                     mipmap: true
                     smooth: false
-                    source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" // qmllint disable unqualified
+                    source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" 
                 }
 
         }
@@ -285,7 +285,7 @@ Item {
                     height: 50
                     mipmap: true
                     smooth: false
-                    source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" // qmllint disable unqualified
+                    source: "qrc:/" + PQCLook.iconShade + "/maplocation.png" 
                 }
 
             function showAt(lat : real, lon : real) {
@@ -354,7 +354,7 @@ Item {
                             mipmap: true
                             cache: true
                             asynchronous: true
-                            source: (!visible && source==="") ? "" : encodeURI("image://thumb/" + deleg.filename) // qmllint disable unqualified
+                            source: (!visible && source==="") ? "" : encodeURI("image://thumb/" + deleg.filename)
                         }
                         Repeater {
                             model: deleg.keys.length
@@ -372,7 +372,7 @@ Item {
                                     id: numlabel
                                     x: 10
                                     y: 2
-                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                    font.weight: PQCLook.fontWeightBold 
                                     anchors.centerIn: parent
                                     text: deleg.labels[deleg.keys[lbldeleg.modelData]]
                                 }
@@ -386,8 +386,8 @@ Item {
                             text: ""
                             onEntered: {
                                 if(!tooltipSetup) {
-                                    text = (image.source=="" ? "" : ("<img src='" + image.source + "'>")) + "<br><br>" +
-                                                                        " <b>" + PQCScriptsFilesPaths.getFilename(deleg.filename) + "</b>" + // qmllint disable unqualified
+                                    text = (image.source===Qt.url("") ? "" : ("<img src='" + image.source + "'>")) + "<br><br>" +
+                                                                        " <b>" + PQCScriptsFilesPaths.getFilename(deleg.filename) + "</b>" + 
                                                                         ((deleg.labels[map_top.detaillevel]>1) ? (" + " + (deleg.labels[map_top.detaillevel]-1) + "") : "")
                                     tooltipSetup = true
                                 }
@@ -439,7 +439,7 @@ Item {
                 y: 3
                 property list<double> loc: [Math.round(1e2*map.center.latitude)/1e2, Math.round(1e2*map.center.longitude)/1e2]
                 text: loc[0] + ", " + loc[1]
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
             }
 
             PQMenu {
@@ -481,7 +481,7 @@ Item {
                     id: menuitem1
                     text: gpspos.loc[0] + ", " + gpspos.loc[1]
                     onTriggered: {
-                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        PQCScriptsClipboard.copyTextToClipboard(text) 
                     }
                 }
 
@@ -490,14 +490,14 @@ Item {
                     visible: text!=menuitem1.text
                     text: Math.round(1e5*gpsmenu.curLatLon[0])/1e5 + ", " + Math.round(1e5*gpsmenu.curLatLon[1])/1e5
                     onTriggered: {
-                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        PQCScriptsClipboard.copyTextToClipboard(text) 
                     }
                 }
 
                 PQMenuItem {
-                    text: PQCScriptsMetaData.convertGPSDecimalToDegree(gpsmenu.curLatLon[0], gpsmenu.curLatLon[1]) // qmllint disable unqualified
+                    text: PQCScriptsMetaData.convertGPSDecimalToDegree(gpsmenu.curLatLon[0], gpsmenu.curLatLon[1]) 
                     onTriggered: {
-                        PQCScriptsClipboard.copyTextToClipboard(text) // qmllint disable unqualified
+                        PQCScriptsClipboard.copyTextToClipboard(text) 
                     }
                 }
             }
@@ -579,7 +579,7 @@ Item {
 
             function onResetMap() {
                 smoothCenterLat.from = map.center.latitude
-                smoothCenterLat.to = (PQCLocation.minimumLocation.x+PQCLocation.maximumLocation.x)/2 // qmllint disable unqualified
+                smoothCenterLat.to = (PQCLocation.minimumLocation.x+PQCLocation.maximumLocation.x)/2 
 
                 smoothCenterLon.from = map.center.longitude
                 smoothCenterLon.to = (PQCLocation.minimumLocation.y+PQCLocation.maximumLocation.y)/2

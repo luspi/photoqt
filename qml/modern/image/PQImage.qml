@@ -30,15 +30,15 @@ Item {
 
     id: image_top
 
-    x: extraX + PQCSettings.imageviewMargin // qmllint disable unqualified
-    y: extraY + PQCSettings.imageviewMargin // qmllint disable unqualified
-    width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW // qmllint disable unqualified
-    height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH // qmllint disable unqualified
+    x: extraX + PQCSettings.imageviewMargin
+    y: extraY + PQCSettings.imageviewMargin
+    width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW
+    height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH
 
     onHeightChanged:
         PQCConstants.imageQMLItemHeight = height
 
-    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale))) // qmllint disable unqualified
+    property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale)))
 
     property int extraX: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeLeftAction==="thumbnails") ? PQCConstants.thumbnailsBarWidth : 0
     property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? PQCConstants.thumbnailsBarHeight : 0
@@ -61,22 +61,18 @@ Item {
 
     property bool isSomeVideoLoaded: false
 
-    property int curZ: 0
-
     property bool imageIsAtDefaultScale: Math.abs(PQCConstants.currentImageScale-PQCConstants.currentImageDefaultScale) < 1e-6
 
     property string randomAnimation: "opacity"
 
     property point extraControlsLocation: Qt.point(-1,-1)
 
-    signal barcodeClick()
-
     signal animatePhotoSpheres(var direction)
 
     property var rememberChanges: ({})
     property list<var> reuseChanges: []
 
-    property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2 // qmllint disable unqualified
+    property int howManyLoaders: 2*PQCSettings.imageviewPreloadInBackground+2
     property int bgOffset: 0
     property list<string> bgFiles: []
 
@@ -103,7 +99,7 @@ Item {
                 image_top.newMainImageReady(modelData)
             }
             onImageLoadedAndReadyChanged: {
-                if(PQCConstants.currentImageSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) { // qmllint disable unqualified
+                if(PQCConstants.currentImageSource !== imageSource && PQCFileFolderModel.currentFile !== imageSource) {
                     if(image_top.bgOffset < image_top.bgFiles.length)
                         timer_loadbg.restart()
                 }
@@ -194,7 +190,7 @@ Item {
 
     Connections {
 
-        target: PQCFileFolderModel // qmllint disable unqualified
+        target: PQCFileFolderModel
 
         function onCurrentIndexChanged() {
 
@@ -203,11 +199,11 @@ Item {
                 return
             }
 
-            if(PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+            if(PQCFileFolderModel.countMainView === 0) {
                 for(var i = 0; i < howManyLoaders; ++i) {
                     var curimg = repeaterimage.itemAt(i)
                     if(curimg.item)
-                        curimg.item.hideImage() // qmllint disable missing-property
+                        curimg.item.hideImage()
                 }
                 return
             }
@@ -299,7 +295,7 @@ Item {
     // we make sure this doesn't start until the main image is fully shown
     Timer {
         id: timer_loadbg
-        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+        interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
 
             var nexttwo = [image_top.bgFiles[image_top.bgOffset], image_top.bgFiles[image_top.bgOffset+1]]
@@ -388,7 +384,7 @@ Item {
     // some global handlers
     function showNext() {
 
-        if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
+        if(PQCFileFolderModel.countMainView !== 0) {
             if(PQCSettings.imageviewLoopThroughFolder && PQCFileFolderModel.currentIndex === PQCFileFolderModel.countMainView-1)
                 PQCFileFolderModel.currentIndex = 0
             else
@@ -399,7 +395,7 @@ Item {
 
     function showPrev() {
 
-        if(PQCFileFolderModel.countMainView !== 0) { // qmllint disable unqualified
+        if(PQCFileFolderModel.countMainView !== 0) {
             if(PQCSettings.imageviewLoopThroughFolder &&PQCFileFolderModel.currentIndex === 0)
                 PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
             else
@@ -408,18 +404,18 @@ Item {
     }
 
     function showFirst() {
-        if(PQCFileFolderModel.countMainView !== 0) // qmllint disable unqualified
+        if(PQCFileFolderModel.countMainView !== 0)
             PQCFileFolderModel.currentIndex = 0
     }
 
     function showLast() {
-        if(PQCFileFolderModel.countMainView !== 0) // qmllint disable unqualified
+        if(PQCFileFolderModel.countMainView !== 0)
             PQCFileFolderModel.currentIndex = PQCFileFolderModel.countMainView-1
     }
 
     function showRandom() {
 
-        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1) // qmllint disable unqualified
+        if(PQCFileFolderModel.countMainView === 0 || PQCFileFolderModel.countMainView === 1)
             return
 
         // special case: load other image

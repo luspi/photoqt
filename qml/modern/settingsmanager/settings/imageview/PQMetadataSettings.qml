@@ -190,7 +190,7 @@ Flickable {
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     property bool delegSetup: false
@@ -208,11 +208,11 @@ Flickable {
                                         width: parent.width-20
                                         elide: Text.ElideRight
                                         text: setting_top.labels[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                                        font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
-                                        color: PQCLook.textColor // qmllint disable unqualified
+                                        font.weight: PQCLook.fontWeightNormal 
+                                        font.pointSize: PQCLook.fontSizeS 
+                                        color: PQCLook.textColor 
                                         extraHovered: tilemouse.containsMouse
-                                        checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] // qmllint disable unqualified
+                                        checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] 
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
@@ -278,11 +278,11 @@ Flickable {
                                         }
 
                                         function onLabelsLoadDefault() {
-                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] // qmllint disable unqualified
+                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] 
                                         }
 
                                         function onLabelsSaveChanges() {
-                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked // qmllint disable unqualified
+                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked 
                                         }
                                     }
 
@@ -309,7 +309,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: PQCLook.baseColorHighlight 
                         }
 
                         Row {
@@ -419,11 +419,11 @@ Flickable {
             }
 
             function load() {
-                autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) // qmllint disable unqualified
+                autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) 
             }
 
             function applyChanges() {
-                PQCSettings.metadataAutoRotation = autorot.checked // qmllint disable unqualified
+                PQCSettings.metadataAutoRotation = autorot.checked 
                 autorot.saveDefault()
             }
 
@@ -518,7 +518,7 @@ Flickable {
                     id: screenegde
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "hide behind screen edge")
-                    checked: !PQCSettings.metadataElementFloating // qmllint disable unqualified
+                    checked: !PQCSettings.metadataElementFloating 
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -526,7 +526,7 @@ Flickable {
                     id: floating
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "use floating element")
-                    checked: PQCSettings.metadataElementFloating // qmllint disable unqualified
+                    checked: PQCSettings.metadataElementFloating 
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -729,7 +729,7 @@ Flickable {
                             id: border_color
                             width: 100
                             height: border_show.height
-                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor) // qmllint disable unqualified
+                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor) 
                             onRgbaChanged: setting_top.checkDefault()
                             color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
 
@@ -814,7 +814,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

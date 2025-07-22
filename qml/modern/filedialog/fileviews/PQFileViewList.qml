@@ -89,10 +89,11 @@ ListView {
 
         required property int modelData
 
-        property string currentPath: PQCFileFolderModel.entriesFileDialog[modelData] // qmllint disable unqualified
-        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
+                                     // this check is necessary as some data might be available quicker than other. This avoid errant warnings.
+        property string currentPath: modelData < PQCFileFolderModel.entriesFileDialog.length ? PQCFileFolderModel.entriesFileDialog[modelData] : ""
+        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) 
         property int numberFilesInsideFolder: 0
-        property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
+        property int padding: PQCSettings.filedialogElementPadding 
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
@@ -103,11 +104,11 @@ ListView {
 
         color: PQCLook.baseColor
         border.width: 1
-        border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+        border.color: PQCLook.baseColorAccent 
 
         Rectangle {
             anchors.fill: parent
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             opacity: deleg.isFolder ? 0.6 : (modelData%2 ? 0.55 : 0.5)
         }
 
@@ -236,19 +237,19 @@ ListView {
 
         // load async for files
         Timer {
-            running: !deleg.isFolder // qmllint disable unqualified
+            running: !deleg.isFolder 
             interval: 1
             onTriggered: {
-                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
+                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) 
             }
         }
 
         // load async for folders
         Timer {
-            running: deleg.isFolder // qmllint disable unqualified
+            running: deleg.isFolder 
             interval: 1
             onTriggered: {
-                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
+                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { 
                     if(count > 0) {
                         deleg.numberFilesInsideFolder = count
                         fileinfo.text = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
@@ -272,12 +273,12 @@ ListView {
             hoverEnabled: true
             cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 
-            drag.target: PQCSettings.filedialogDragDropFileviewList ? dragHandler : undefined // qmllint disable unqualified
+            drag.target: PQCSettings.filedialogDragDropFileviewList ? dragHandler : undefined 
 
             drag.onActiveChanged: {
                 if(drag.active) {
                     // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                    fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
+                    fd_places.dragItemIndex = deleg.modelData 
                     fd_places.dragReordering = false
                     fd_places.dragItemId = deleg.currentPath
                 }
@@ -303,7 +304,7 @@ ListView {
             }
 
             onEntered: {
-                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
+                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) 
                     return
 
                 if(!contextmenu.visible) {
@@ -340,7 +341,7 @@ ListView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview // qmllint disable unqualified
+            tooltipReference: fd_splitview 
 
             Connections {
                 target: contextmenu
@@ -402,7 +403,7 @@ ListView {
 
             Image {
                 anchors.fill: parent
-                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
+                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) 
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -436,7 +437,7 @@ ListView {
             } else {
                 var uris = []
                 for(var i in view_top.currentSelection)
-                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) // qmllint disable unqualified
+                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) 
                 return ({"text/uri-list": uris})
             }
         }

@@ -27,10 +27,10 @@ Item {
 
     id: mastertouch_top
 
-    width: PQCConstants.windowWidth // qmllint disable unqualified
-    height: PQCConstants.windowHeight // qmllint disable unqualified
+    width: PQCConstants.windowWidth 
+    height: PQCConstants.windowHeight 
 
-    visible: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+    visible: PQCFileFolderModel.countMainView>0 
 
     MultiPointTouchArea {
 

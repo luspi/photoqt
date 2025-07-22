@@ -27,19 +27,32 @@ AnimatedImage {
 
     id: image
 
-    property string imageSource: ""
+    /*******************************************/
+    // these values are READONLY
 
-    source: (image.imageSource==="" ? "" : ("file:"+PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))) // qmllint disable unqualified
+    property string imageSource: ""
+    property real currentScale
+    property bool isMainImage
+    property Item loaderTop
+
+    /*******************************************/
+    // these values are WRITEONLY
+
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+
+    /*******************************************/
+
+    source: (image.imageSource==="" ? "" : ("file:"+PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)))
 
     asynchronous: true
 
     property bool noInterpThreshold: sourceSize.width < PQCSettings.imageviewInterpolationThreshold && sourceSize.height < PQCSettings.imageviewInterpolationThreshold
 
-    smooth: Math.abs(image_wrapper.scale-1) < 0.1 ? false : (!PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold)
+    smooth: Math.abs(image.currentScale-1) < 0.1 ? false : (!PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold)
     mipmap: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
 
     onStatusChanged: {
-        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Ready) {
             hasAlpha = PQCScriptsImages.supportsTransparency(image.imageSource)
         } else if(status == Image.Error)
@@ -57,25 +70,22 @@ AnimatedImage {
     cache: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+        image.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
+        image.imageMirrorV = myMirrorV
 
     property bool hasAlpha: false
-
-    onSourceSizeChanged:
-        loader_top.imageResolution = sourceSize // qmllint disable unqualified
 
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) image.myMirrorH = !image.myMirrorH
+            if(image.visible) image.myMirrorH = !image.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) image.myMirrorV = !image.myMirrorV
+            if(image.visible) image.myMirrorV = !image.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!image.visible) return
             image.myMirrorH = false
             image.myMirrorV = false
         }
@@ -87,14 +97,14 @@ AnimatedImage {
             origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: image.width / 2
             origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
@@ -103,15 +113,8 @@ AnimatedImage {
         z: parent.z-1
         fillMode: Image.Tile
 
-        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : "" // qmllint disable unqualified
+        source: PQCSettings.imageviewTransparencyMarker&&image.hasAlpha ? "/other/checkerboard.png" : ""
 
-    }
-
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            image.setMirrorHV(mirH, mirV)
-        }
     }
 
     function setMirrorHV(mH : bool, mV : bool) {
@@ -125,7 +128,7 @@ AnimatedImage {
 
         function onPlayPauseAnimationVideo() {
 
-            if(!loader_top.isMainImage)
+            if(!image.isMainImage)
                 return
 
             image.playing = !image.playing
@@ -143,11 +146,29 @@ AnimatedImage {
         target: PQCConstants
 
         function onCurrentImageSourceChanged() {
-            image.playing = loader_top.isMainImage // qmllint disable unqualified
+            image.playing = image.isMainImage
         }
 
     }
 
-    PQImageAnimatedControls { id: controls }
+    PQImageAnimatedControls {
+        id: controls
+        imageCurrentFrame: image.currentFrame
+        imageFrameCount: image.frameCount
+        imageVisible: image.visible
+        imagePlaying: image.playing
+        imageSource: image.imageSource
+        loaderTop: image.loaderTop
+
+
+        function onSetImagePlaying(playing : bool) {
+            image.playing = playing
+        }
+
+        function onSetImageCurrentFrame(frame : int) {
+            image.currentFrame = frame
+        }
+
+    }
 
 }

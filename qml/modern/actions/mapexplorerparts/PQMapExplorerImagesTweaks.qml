@@ -27,13 +27,13 @@ Rectangle {
 
     id: explorertweaks
 
-    color: PQCLook.baseColor // qmllint disable unqualified
+    color: PQCLook.baseColor 
 
     Row {
 
         id: row
 
-        x: 10+closebutton.width/2 // qmllint disable unqualified
+        x: 10+closebutton.width/2 
         y: (parent.height-height)/2
         spacing: 10
 
@@ -53,10 +53,10 @@ Rectangle {
 
             from: 10
             to: 50
-            value: PQCSettings.mapviewExplorerThumbnailsZoomLevel // qmllint disable unqualified
+            value: PQCSettings.mapviewExplorerThumbnailsZoomLevel 
 
             onValueChanged: {
-                PQCSettings.mapviewExplorerThumbnailsZoomLevel = value // qmllint disable unqualified
+                PQCSettings.mapviewExplorerThumbnailsZoomLevel = value 
             }
         }
 
@@ -67,9 +67,9 @@ Rectangle {
 
         PQCheckBox {
             text: qsTranslate("mapexplorer", "scale and crop thumbnails")
-            checked: PQCSettings.mapviewExplorerThumbnailsScaleCrop // qmllint disable unqualified
+            checked: PQCSettings.mapviewExplorerThumbnailsScaleCrop 
             onCheckedChanged:
-                PQCSettings.mapviewExplorerThumbnailsScaleCrop = checked // qmllint disable unqualified
+                PQCSettings.mapviewExplorerThumbnailsScaleCrop = checked 
         }
 
     }

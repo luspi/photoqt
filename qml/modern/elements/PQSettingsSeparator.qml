@@ -31,9 +31,9 @@ Column {
     Repeater {
         model: control.howManyLines
         Rectangle {
-            width: setting_top.width // qmllint disable unqualified
+            width: setting_top.width 
             height: 1
-            color: PQCLook.baseColorHighlight // qmllint disable unqualified
+            color: PQCLook.baseColorHighlight 
         }
     }
     Item { width: 1; height: 10; }

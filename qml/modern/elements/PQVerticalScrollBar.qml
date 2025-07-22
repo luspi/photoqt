@@ -36,7 +36,7 @@ ScrollBar {
         implicitHeight: 100
         radius: width / 2
         opacity: (control.pressed||control.active) ? 1 : 0.5
-        color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight // qmllint disable unqualified
+        color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight 
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 

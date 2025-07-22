@@ -28,8 +28,8 @@ PQTemplateFullscreen {
     id: rename_top
 
     thisis: "filerename"
-    popout: PQCSettings.interfacePopoutFileRename // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.filerenameForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutFileRename 
+    forcePopout: PQCWindowGeometry.filerenameForcePopout 
     shortcut: "__rename"
 
     title: qsTranslate("filemanagement", "Rename file")
@@ -41,7 +41,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutFileRename = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutFileRename = popout 
 
     button1.onClicked:
         renameFile()
@@ -102,7 +102,7 @@ PQTemplateFullscreen {
                 id: checkExistence
                 interval: 200
                 onTriggered: {
-                    error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text)) // qmllint disable unqualified
+                    error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text)) 
                 }
             }
 
@@ -111,7 +111,7 @@ PQTemplateFullscreen {
                 id: filesuffix
 
                 y: (filenameedit.height-height)/2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 text: ".jpg"
             }
         },
@@ -127,8 +127,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor // qmllint disable unqualified
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            color: PQCLook.textColor 
+            font.weight: PQCLook.fontWeightBold 
             visible: false
             text: qsTranslate("filemanagement", "An error occured, file could not be renamed")
         },
@@ -139,8 +139,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor // qmllint disable unqualified
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            color: PQCLook.textColor 
+            font.weight: PQCLook.fontWeightBold 
             visible: false
             text: qsTranslate("filemanagement", "A file with this filename already exists")
         }
@@ -193,7 +193,7 @@ PQTemplateFullscreen {
 
         PQCConstants.ignoreFileFolderChangesTemporary = true
 
-        var dir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+        var dir = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) 
         if(!PQCScriptsFileManagement.renameFile(dir, filename.text, filenameedit.text+filesuffix.text)) {
             error.visible = true
             PQCConstants.ignoreFileFolderChangesTemporary = false
@@ -212,7 +212,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
             hide()
             return
         }

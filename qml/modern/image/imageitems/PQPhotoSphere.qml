@@ -21,40 +21,39 @@
  **************************************************************************/
 
 import QtQuick
-import PQCPhotoSphere
 import PhotoQt
 
-PQCPhotoSphere { // qmllint disable
+PQCPhotoSphere {
 
     id: thesphere
 
-    property string imageSource: ""
+    /*******************************************/
+    // these values are READONLY
 
-    width: image_top.width   // qmllint disable
-    height: image_top.height // qmllint disable
+    property string imageSource: ""
+    property Item loaderTop
+
+    /*******************************************/
 
     // these need to have a small duration as otherwise touchpad handling is awkward
     // key events are handled with their own animations below
-    Behavior on fieldOfView { NumberAnimation { id: behavior_fov; duration: 0 } }
-    Behavior on azimuth { NumberAnimation { id: behavior_az; duration: 0 } }
-    Behavior on elevation { NumberAnimation { id: behavior_ele; duration: 0 } }
+    Behavior on fieldOfView { NumberAnimation { id: behavior_fov; duration: thesphere.aniDuration } }
+    Behavior on azimuth { NumberAnimation { id: behavior_az; duration: thesphere.aniDuration } }
+    Behavior on elevation { NumberAnimation { id: behavior_ele; duration: thesphere.aniDuration } }
+
+    property int aniDuration: 0
 
     Component.onCompleted: {
-        image_wrapper.status = Image.Ready // qmllint disable unqualified
-        image_wrapper.width = width
-        image_wrapper.height = height
-        behavior_fov.duration = 50
-        behavior_az.duration = 50
-        behavior_ele.duration = 50
+        thesphere.aniDuration = 50
 
         if(!panOnCompleted.running && !PQCConstants.slideshowRunning && PQCSettings.filetypesPhotoSpherePanOnLoad)
             panOnCompleted.start()
     }
 
-    source: thesphere.imageSource // qmllint disable missing-property
-    azimuth: 180 // qmllint disable missing-property
-    elevation: 0 // qmllint disable missing-property
-    fieldOfView: 90 // qmllint disable missing-property
+    source: thesphere.imageSource
+    azimuth: 180
+    elevation: 0
+    fieldOfView: 90
 
     onVisibleChanged: {
 
@@ -71,13 +70,13 @@ PQCPhotoSphere { // qmllint disable
 
     }
 
-    PinchArea { // qmllint disable missing-property
+    PinchArea {
 
         id: pincharea
 
         anchors.fill: parent
 
-        z: image_top.curZ+1 // qmllint disable unqualified
+        z: PQCConstants.currentZValue+1
 
         property real storeFieldOfView
 
@@ -107,9 +106,7 @@ PQCPhotoSphere { // qmllint disable
 
             onPressed: (mouse) => {
                 leftrightani.stop()
-                behavior_fov.duration = 0
-                behavior_az.duration = 0
-                behavior_ele.duration = 0
+                thesphere.aniDuration = 0
                 clickedPos = Qt.point(mouse.x, mouse.y)
                 clickedAzimuth = thesphere.azimuth
                 clickedElevation = thesphere.elevation
@@ -121,9 +118,7 @@ PQCPhotoSphere { // qmllint disable
                 thesphere.elevation = clickedElevation + (((3*256)/PQCConstants.imageQMLItemHeight) * posDiff.y/6) * curTan
             }
             onReleased: {
-                behavior_fov.duration = 50
-                behavior_az.duration = 50
-                behavior_ele.duration = 50
+                thesphere.aniDuration = 50
             }
         }
     }
@@ -165,15 +160,15 @@ PQCPhotoSphere { // qmllint disable
         target: PQCScriptsShortcuts
 
         function onSendShortcutZoomIn(mousePos: point, wheelDelta : point) {
-            if(loader_top.isMainImage) // qmllint disable unqualified
+            if(loader_top.isMainImage)
                 thesphere.zoom("in")
         }
         function onSendShortcutZoomOut(wheelDelta : point) {
-            if(loader_top.isMainImage) // qmllint disable unqualified
+            if(loader_top.isMainImage)
                 thesphere.zoom("out")
         }
         function onSendShortcutZoomReset() {
-            if(loader_top.isMainImage) { // qmllint disable unqualified
+            if(loader_top.isMainImage) {
                 thesphere.zoom("reset")
                 thesphere.moveView("reset")
             }
@@ -187,7 +182,7 @@ PQCPhotoSphere { // qmllint disable
 
         function onCurrentViewMove(direction : string) {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!loader_top.isMainImage)
                 return
 
             if(direction === "left")
@@ -267,18 +262,19 @@ PQCPhotoSphere { // qmllint disable
 
     PQPhotoSphereControls {
         id: controls
+        loaderTop: thesphere.loaderTop
     }
 
-    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30 // qmllint disable unqualified
+    property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
     property bool animationRunning: false
     property int aniDirection: -1
 
     Connections {
-        target: image_top // qmllint disable unqualified
+        target: image_top
 
         function onAnimatePhotoSpheres(direction : int) {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!loader_top.isMainImage)
                 return
 
             thesphere.aniDirection = direction
@@ -312,7 +308,7 @@ PQCPhotoSphere { // qmllint disable
 
         function onCurrentImageSourceChanged() {
 
-            if(!loader_top.isMainImage) { // qmllint disable unqualified
+            if(!loader_top.isMainImage) {
                 if(kb_left.running)
                     kb_left.pause()
                 if(kb_right.running)
@@ -322,7 +318,7 @@ PQCPhotoSphere { // qmllint disable
         }
 
         function onSlideshowRunningAndPlayingChanged() {
-            if(PQCConstants.slideshowRunningAndPlaying) { // qmllint disable unqualified
+            if(PQCConstants.slideshowRunningAndPlaying) {
                 if(aniDirection === 0) {
                     kb_right.stop()
                     if(kb_left.paused)
@@ -427,16 +423,16 @@ PQCPhotoSphere { // qmllint disable
 
     Loader {
 
-        active: (!PQCSettings.filetypesPhotoSphereAutoLoad || loader_top.photoSphereManuallyEntered) && !PQCConstants.slideshowRunning // qmllint disable unqualified
+        active: (!PQCSettings.filetypesPhotoSphereAutoLoad || loader_top.photoSphereManuallyEntered) && !PQCConstants.slideshowRunning
 
         sourceComponent:
             Rectangle {
 
                     id: srccomp
 
-                    parent: image_top // qmllint disable unqualified
-                    x: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.x : 20 // qmllint disable unqualified
-                    y: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.y+PQCConstants.statusInfoCurrentRect.height+20 : 20 // qmllint disable unqualified
+                    parent: image_top
+                    x: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.x : 20
+                    y: PQCConstants.statusinfoIsVisible ? PQCConstants.statusInfoCurrentRect.y+PQCConstants.statusInfoCurrentRect.height+20 : 20
                     width: 42
                     height: 42
                     radius: 21
@@ -454,7 +450,7 @@ PQCPhotoSphere { // qmllint disable
                         width: 32
                         height: 32
                         sourceSize: Qt.size(width, height)
-                        source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+                        source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     }
 
                     PQMouseArea {
@@ -506,7 +502,7 @@ PQCPhotoSphere { // qmllint disable
 
     Timer {
         id: panOnCompleted
-        interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
+        interval: PQCSettings.imageviewAnimationDuration*100
         onTriggered: {
             if(!mousearea.pressed)
                 leftrightani.start()

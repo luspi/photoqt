@@ -27,7 +27,7 @@ Image {
 
     id: filethumb
 
-    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork // qmllint disable unqualified
+    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork 
 
     opacity: view_top.currentFileCut ? 0.3 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -54,7 +54,7 @@ Image {
 
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
-    source: visible ? encodeURI("image://thumb/" + deleg.currentPath) : "" // qmllint disable unqualified
+    source: visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""
     onSourceChanged: {
         if(!visible)
             fileicon.source = fileicon.sourceString

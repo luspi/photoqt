@@ -29,7 +29,7 @@ Item {
 
     id: places_top
 
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height // qmllint disable unqualified
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height 
 
     clip: true
 
@@ -45,7 +45,7 @@ Item {
     property list<int> hoverIndex: [-1,-1,-1]
     property list<int> pressedIndex: [-1,-1,-1]
 
-    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight // qmllint disable unqualified
+    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight 
 
     property bool showHiddenPlaces: false
 
@@ -70,7 +70,7 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: (mouse) => {
-            fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+            fd_breadcrumbs.disableAddressEdit() 
             if(mouse.button === Qt.LeftButton)
                 return
             contextmenu.currentEntryId = ""
@@ -84,7 +84,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        color: PQCLook.textColorDisabled // qmllint disable unqualified
+        color: PQCLook.textColorDisabled 
         font.italic: true
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter
@@ -101,7 +101,7 @@ Item {
         height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - fd_tweaks.zoomMoveUpHeight
 
         clip: true
-        visible: PQCSettings.filedialogPlaces // qmllint disable unqualified
+        visible: PQCSettings.filedialogPlaces 
         orientation: ListView.Vertical
         model: places_top.entries_favorites
 
@@ -116,7 +116,7 @@ Item {
 
             onDropped: {
 
-                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) // qmllint disable unqualified
+                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) 
                     return
 
                 // find the index on which it was dropped
@@ -158,7 +158,7 @@ Item {
 
             onPositionChanged: {
 
-                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) // qmllint disable unqualified
+                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) 
                     return
 
                 var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
@@ -182,7 +182,7 @@ Item {
         height: 1
 
         visible: view_favorites.visible && view_devices.visible
-        color: PQCLook.baseColorActive // qmllint disable unqualified
+        color: PQCLook.baseColorActive 
     }
 
     ListView {
@@ -191,7 +191,7 @@ Item {
         y: view_favorites.visible ? (parent.height-height-fd_tweaks.zoomMoveUpHeight) : 5
         width: parent.width-10
         height: Math.min(300, childrenRect.height)
-        visible: PQCSettings.filedialogDevices // qmllint disable unqualified
+        visible: PQCSettings.filedialogDevices 
         clip: true
         orientation: ListView.Vertical
         model: places_top.entries_devices
@@ -219,10 +219,10 @@ Item {
             opacity: (hidden==="false") ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
-            property int part: mouseArea.drag.active ? 1 : parent.parent.part // qmllint disable missing-property
+            property int part: mouseArea.drag.active ? 1 : parent.parent.part 
 
             color: places_top.hoverIndex[part]===index
-                        ? (places_top.pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) // qmllint disable unqualified
+                        ? (places_top.pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) 
                         : (path===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
             Behavior on color { ColorAnimation { duration: 200 } }
 
@@ -278,9 +278,9 @@ Item {
 
                         // some styling
                         elide: Text.ElideRight
-                        font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
+                        font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
 
-                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder) // qmllint disable unqualified
+                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder) 
 
                     }
 
@@ -294,7 +294,7 @@ Item {
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: deleg.id + " GB" // qmllint disable unqualified
+                        text: deleg.id + " GB" 
 
                     }
 
@@ -315,11 +315,11 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: deleg.index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltipReference: fd_splitview // qmllint disable unqualified
-                text: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : "")) // qmllint disable unqualified
+                tooltipReference: fd_splitview 
+                text: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : "")) 
 
                 onPressed: {
-                    fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                    fd_breadcrumbs.disableAddressEdit() 
                     places_top.pressedIndex[deleg.part] = deleg.index
                     places_top.pressedIndexChanged()
                 }
@@ -331,7 +331,7 @@ Item {
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
 
-                    fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                    fd_breadcrumbs.disableAddressEdit() 
 
                     if(deleg.index == 0)
                         return
@@ -361,7 +361,7 @@ Item {
                 }
 
 
-                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined // qmllint disable unqualified
+                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined 
                 drag.axis: Drag.YAxis
 
                 // if drag is started
@@ -426,7 +426,7 @@ Item {
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false") // qmllint disable unqualified
+                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false") 
                 places_top.loadPlaces()
             }
         }
@@ -444,7 +444,7 @@ Item {
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId) // qmllint disable unqualified
+                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId) 
                 places_top.loadPlaces()
             }
         }
@@ -478,20 +478,20 @@ Item {
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places"))) // qmllint disable unqualified
+            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places"))) 
             onTriggered:
-                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces // qmllint disable unqualified
+                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces 
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices"))) // qmllint disable unqualified
+            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices"))) 
             onTriggered:
-                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices // qmllint disable unqualified
+                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices 
         }
     }
 
     Connections {
-        target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings 
         function onFiledialogDevicesShowTmpfsChanged() {
             places_top.loadDevices()
         }
@@ -509,7 +509,7 @@ Item {
 
     function loadDevices() {
 
-        var s = PQCScriptsFileDialog.getDevices() // qmllint disable unqualified
+        var s = PQCScriptsFileDialog.getDevices() 
 
         entries_devices = []
 
@@ -538,7 +538,7 @@ Item {
 
     function loadPlaces() {
 
-        var upl = PQCScriptsFileDialog.getPlaces() // qmllint disable unqualified
+        var upl = PQCScriptsFileDialog.getPlaces() 
 
         entries_favorites = []
 

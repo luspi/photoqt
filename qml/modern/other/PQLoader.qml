@@ -58,7 +58,7 @@ Item {
         PQCConstants.modalWindowOpen = (visibleItem!="")
     }
 
-    function show(ele : string, additional = undefined) : void {
+    function show(ele : string, additional : list<var>) : void {
 
         if(ele === "chromecast" && visibleItem === "chromecastmanager") {
             ensureItIsReady(ele, loadermapping[ele])
@@ -87,14 +87,14 @@ Item {
             if(!loader_extensions.itemAt(ind).item) {
                 if(showWhenReady.args.length == 0) {
                     showWhenReady.theloader = loader_extensions.itemAt(ind)
-                    if(additional === undefined)
+                    if(additional.length === 0)
                         showWhenReady.args = [ele]
                     else
                         showWhenReady.args = [ele, additional]
                     showWhenReady.start()
                 } else if(showWhenReady2.args.length == 0) {
                     showWhenReady2.theloader = loader_extensions.itemAt(ind)
-                    if(additional === undefined)
+                    if(additional.length === 0)
                         showWhenReady2.args = [ele]
                     else
                         showWhenReady2.args = [ele, additional]
@@ -102,7 +102,7 @@ Item {
                 } else
                     console.error("Unable to set up extension, too few timers available.")
             } else {
-                if(additional === undefined)
+                if(additional.length === 0)
                     PQCNotify.loaderPassOn("show", [ele])
                 else
                     PQCNotify.loaderPassOn("show", [ele, additional])
@@ -130,14 +130,14 @@ Item {
             if(!config[2].item) {
                 if(showWhenReady.args.length == 0) {
                     showWhenReady.theloader = config[2]
-                    if(additional === undefined)
+                    if(additional.length === 0)
                         showWhenReady.args = [ele]
                     else
                         showWhenReady.args = [ele, additional]
                     showWhenReady.start()
                 } else if(showWhenReady2.args.length == 0) {
                     showWhenReady2.theloader = config[2]
-                    if(additional === undefined)
+                    if(additional.length === 0)
                         showWhenReady2.args = [ele]
                     else
                         showWhenReady2.args = [ele, additional]
@@ -145,7 +145,7 @@ Item {
                 } else
                     console.error("Unable to set up item, too few timers available.")
             } else {
-                if(additional === undefined)
+                if(additional.length === 0)
                     PQCNotify.loaderPassOn("show", [ele])
                 else
                     PQCNotify.loaderPassOn("show", [ele, additional])
@@ -157,7 +157,7 @@ Item {
 
     Timer {
         id: showWhenReady
-        property var theloader: Loader
+        property Loader theloader
         property list<var> args: []
         interval: 10
         triggeredOnStart: true
@@ -173,7 +173,7 @@ Item {
 
     Timer {
         id: showWhenReady2
-        property var theloader: Loader
+        property Loader theloader
         property list<var> args: []
         interval: 10
         triggeredOnStart: true
@@ -196,7 +196,7 @@ Item {
         if((ele in loadermapping && loadermapping[ele][3] === 1) || PQCExtensionsHandler.getExtensions().indexOf(ele)>-1 || ele === "facetagger") {
 
             // these are the same checks as above when setting this property
-            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) && // qmllint disable unqualified
+            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) && 
                     (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                     (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal))) {
 
@@ -266,7 +266,7 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) // qmllint disable unqualified
+            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) 
             PQCNotify.loaderPassOn("showSettings", [subcategory])
         }
 
@@ -286,12 +286,12 @@ Item {
 
         function onLoaderShow(ele : string) {
             loader_top.ensureItIsReady(ele, loader_top.loadermapping[ele])
-            loader_top.show(ele)
+            loader_top.show(ele, [])
         }
 
         function onLoaderShowExtension(ele : string) {
             loader_top.ensureExtensionIsReady(ele, PQCExtensionsHandler.getExtensions().indexOf(ele))
-            loader_top.show(ele)
+            loader_top.show(ele, [])
         }
 
         function onLoaderSetup(ele : string) {

@@ -115,7 +115,7 @@ Item {
                             width: categories_top.width
 
                             color: deleg.isSelected ?
-                                       PQCLook.baseColorActive :    // qmllint disable unqualified
+                                       PQCLook.baseColorActive :    
                                        (hovered ?
                                             PQCLook.baseColorHighlight :
                                             PQCLook.baseColorAccent)
@@ -131,7 +131,7 @@ Item {
                                 y: 0
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive  // qmllint disable unqualified
+                                color: PQCLook.baseColorActive  
                                 visible: deleg.modelData>0
                             }
 
@@ -142,9 +142,9 @@ Item {
                                 height: parent.height-10
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideRight
-                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                font.weight: PQCLook.fontWeightBold 
                                 text: categories_top.categories[deleg.cat][0]
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
 
@@ -156,7 +156,7 @@ Item {
                                 height: width
                                 rotation: (deleg.isSelected||filtertxt.text!=="") ? 90 : 0
                                 Behavior on rotation { NumberAnimation { duration: 200 } }
-                                source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
+                                source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" 
                                 sourceSize: Qt.size(width, height)
                             }
 
@@ -165,7 +165,7 @@ Item {
                                 y: parent.height-height
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive // qmllint disable unqualified
+                                color: PQCLook.baseColorActive 
                             }
 
                             PQMouseArea {
@@ -188,7 +188,7 @@ Item {
                                     heading.hovered = false
                                 onClicked: {
 
-                                    if(!settingsmanager_top.confirmIfUnsavedChanged("main", deleg.modelData))   // qmllint disable unqualified
+                                    if(!settingsmanager_top.confirmIfUnsavedChanged("main", deleg.modelData))   
                                         return
 
                                     if(currentMainIndex[0] !== deleg.modelData)
@@ -238,7 +238,7 @@ Item {
                                     visible: height>0
 
                                     color: isSelected ?
-                                               PQCLook.baseColorHighlight : // qmllint disable unqualified
+                                               PQCLook.baseColorHighlight : 
                                                (hovered ?
                                                     PQCLook.transColorHighlight :
                                                     PQCLook.baseColorAccent)
@@ -264,8 +264,8 @@ Item {
                                         width: parent.width-30
                                         elide: Text.ElideRight
                                         text: subdeleg.curcat
-                                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                                        color: PQCLook.textColor // qmllint disable unqualified
+                                        font.weight: PQCLook.fontWeightBold 
+                                        color: PQCLook.textColor 
                                         Behavior on color { ColorAnimation { duration: 100 } }
                                     }
 
@@ -289,7 +289,7 @@ Item {
                                             subdeleg.hovered = false
                                         onClicked: {
 
-                                            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", subdeleg.modelData)) // qmllint disable unqualified
+                                            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", subdeleg.modelData)) 
                                                 return
 
                                             if(currentMainIndex[0] !== deleg.modelData)
@@ -345,7 +345,7 @@ Item {
             currentMainIndex = [ind, currentMainIndex[0]]
             var tmp = 0
             if(filterSubCategories.length > 0) {
-                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)   // qmllint disable unqualified
+                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)   
                     tmp += 1
             }
             currentSubIndex = [tmp, currentSubIndex[0]]
@@ -465,7 +465,7 @@ Item {
             if(newmain === currentMainIndex[0] || newmain == categoryKeys.length)
                 return
 
-            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) // qmllint disable unqualified
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) 
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -515,7 +515,7 @@ Item {
                 }
             }
 
-            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) // qmllint disable unqualified
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) 
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]

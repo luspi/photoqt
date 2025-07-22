@@ -29,14 +29,14 @@ PQTemplateFullscreen {
     id: chromecastmanager_top
 
     thisis: "chromecastmanager"
-    popout: PQCSettings.interfacePopoutChromecast // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.chromecastmanagerForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutChromecast 
+    forcePopout: PQCWindowGeometry.chromecastmanagerForcePopout 
     shortcut: "__chromecast"
 
     title: qsTranslate("streaming", "Streaming (Chromecast)")
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutChromecast = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutChromecast = popout 
 
     //: Used as in: Connect to chromecast device
     button1.text: qsTranslate("streaming", "Connect")
@@ -48,10 +48,10 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
-    button3.visible: PQCScriptsChromeCast.connected // qmllint disable unqualified
+    button3.visible: PQCScriptsChromeCast.connected 
     //: Used as in: Disconnect from chromecast device
     button3.text: qsTranslate("streaming", "Disconnect")
-    button3.onClicked: PQCScriptsChromeCast.disconnect() // qmllint disable unqualified
+    button3.onClicked: PQCScriptsChromeCast.disconnect() 
 
     content: [
 
@@ -64,7 +64,7 @@ PQTemplateFullscreen {
             width: Math.min(chromecastmanager_top.width, 600)
             height: Math.min(chromecastmanager_top.contentHeight-statusrow.height-10, 400)
 
-            color: PQCLook.baseColor // qmllint disable unqualified
+            color: PQCLook.baseColor 
 
             ListView {
 
@@ -76,7 +76,7 @@ PQTemplateFullscreen {
                 clip: true
                 spacing: 10
 
-                model: PQCScriptsChromeCast.availableDevices.length // qmllint disable unqualified
+                model: PQCScriptsChromeCast.availableDevices.length 
 
                 delegate: Rectangle {
 
@@ -86,7 +86,7 @@ PQTemplateFullscreen {
 
                     width: cont.width
                     height: 50
-                    color: view.currentIndex===modelData ? PQCLook.transColorActive : (hovered ? PQCLook.transColorHighlight : PQCLook.transColorAccent) // qmllint disable unqualified
+                    color: view.currentIndex===modelData ? PQCLook.transColorActive : (hovered ? PQCLook.transColorHighlight : PQCLook.transColorAccent) 
 
                     property bool hovered: false
 
@@ -96,12 +96,12 @@ PQTemplateFullscreen {
                         spacing: 10
                         PQText {
                             y: (parent.height-height)/2
-                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][0] // qmllint disable unqualified
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][0] 
+                            font.weight: PQCLook.fontWeightBold 
                         }
                         PQText {
                             y: (parent.height-height)/2
-                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][1] // qmllint disable unqualified
+                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][1] 
                             font.italic: true
                         }
                     }
@@ -121,9 +121,9 @@ PQTemplateFullscreen {
 
             PQTextL {
                 anchors.centerIn: parent
-                visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0 // qmllint disable unqualified
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                color: PQCLook.textColorDisabled // qmllint disable unqualified
+                visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0 
+                font.weight: PQCLook.fontWeightBold 
+                color: PQCLook.textColorDisabled 
                 //: The devices here are chromecast devices
                 text: qsTranslate("streaming", "No devices found")
             }
@@ -141,12 +141,12 @@ PQTemplateFullscreen {
             x: (parent.width-width)/2
             spacing: 5
             PQText {
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: The status refers to whether the chromecast manager is currently scanning or idle
                 text: qsTranslate("streaming", "Status:")
             }
             PQText {
-                text: PQCScriptsChromeCast.inDiscovery&&busy.visible ? // qmllint disable unqualified
+                text: PQCScriptsChromeCast.inDiscovery&&busy.visible ? 
                           qsTranslate("streaming", "Looking for Chromecast devices") :
                           (PQCScriptsChromeCast.availableDevices.length>0 ?
                                qsTranslate("streaming", "Select which device to connect to") :
@@ -160,14 +160,14 @@ PQTemplateFullscreen {
         id: restartDiscovery
         interval: 5000
         onTriggered: {
-            PQCScriptsChromeCast.startDiscovery() // qmllint disable unqualified
+            PQCScriptsChromeCast.startDiscovery() 
         }
     }
 
     Connections {
-        target: PQCScriptsChromeCast // qmllint disable unqualified
+        target: PQCScriptsChromeCast 
         function onInDiscoveryChanged() {
-            if(PQCScriptsChromeCast.inDiscovery && PQCScriptsChromeCast.availableDevices.length === 0) // qmllint disable unqualified
+            if(PQCScriptsChromeCast.inDiscovery && PQCScriptsChromeCast.availableDevices.length === 0) 
                 busy.showBusy()
             else
                 busy.hide()
@@ -216,14 +216,14 @@ PQTemplateFullscreen {
 
     function connectToDevice() {
         if(button1.enabled)
-            PQCScriptsChromeCast.connectToDevice(view.currentIndex) // qmllint disable unqualified
+            PQCScriptsChromeCast.connectToDevice(view.currentIndex) 
         hide()
     }
 
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            chromecastmanager_popout.visible = true // qmllint disable unqualified
+            chromecastmanager_popout.visible = true 
         // we also show the chromecast handler
         PQCNotify.loaderShow("chromecast")
 
@@ -239,7 +239,7 @@ PQTemplateFullscreen {
 
         opacity = 0
         if(popoutWindowUsed)
-            chromecastmanager_popout.visible = false // qmllint disable unqualified
+            chromecastmanager_popout.visible = false 
         else
             PQCNotify.loaderRegisterClose(thisis)
     }

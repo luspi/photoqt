@@ -26,6 +26,10 @@
 #include <QObject>
 #include <QQmlEngine>
 
+// TODO
+//
+// THIS CLASS WILL BE MOVED TO THE SPECIFIC EXTENSION!
+
 class PQCScriptsWallpaper : public QObject {
 
     Q_OBJECT

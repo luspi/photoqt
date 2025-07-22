@@ -23,7 +23,6 @@
 import QtQuick
 import QtQml
 import PQCImageFormats
-import PQCScriptsUndo
 import PQCExtensionsHandler
 import PQCLocation
 import PQCScriptsShareImgur
@@ -40,7 +39,7 @@ Item {
 
     property bool mouseGesture: false
     property string mouseButton: ""
-    property var mousePath: []
+    property list<string> mousePath: []
     property point mousePreviousPos: Qt.point(-1,-1)
 
     Connections {
@@ -113,9 +112,9 @@ Item {
 
         }
 
-        function onMousePressed(modifiers : int, button : string, pos : point) {
+        function onMousePressed(modifiers : int, button : int, pos : point) {
 
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) 
 
                 PQCNotify.loaderPassOn("mousePressed", [modifiers, button, pos])
 
@@ -134,9 +133,9 @@ Item {
 
         }
 
-        function onMouseReleased(modifiers : int, button : string, pos : point) {
+        function onMouseReleased(modifiers : int, button : int, pos : point) {
 
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) 
 
                 PQCNotify.loaderPassOn("mouseReleased", [modifiers, button, pos])
 
@@ -145,7 +144,7 @@ Item {
                 if(!keyshortcuts_top.mouseGesture)
                     keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton, pos, Qt.point(0,0))
                 else
-                    keyshortcuts_top.checkComboForShortcut(mouseButton + "+" + mousePath.join(""), pos, Qt.point(0,0))
+                    keyshortcuts_top.checkComboForShortcut(keyshortcuts_top.mouseButton + "+" + keyshortcuts_top.mousePath.join(""), pos, Qt.point(0,0))
 
                 keyshortcuts_top.mousePath = []
                 keyshortcuts_top.mouseButton = ""
@@ -157,18 +156,18 @@ Item {
 
         function onMouseMove(x : int, y : int) {
 
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) 
 
                 PQCNotify.loaderPassOn("mouseMove", [x, y])
 
             else {
 
-                var dir = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(x,y), mousePreviousPos)
+                var dir = PQCScriptsShortcuts.analyzeMouseDirection(Qt.point(x,y), keyshortcuts_top.mousePreviousPos)
 
                 if(dir !== "") {
                     keyshortcuts_top.mouseGesture = true
                     keyshortcuts_top.mousePreviousPos = Qt.point(x,y)
-                    if(mousePath[mousePath.length-1] !== dir) {
+                    if(keyshortcuts_top.mousePath[keyshortcuts_top.mousePath.length-1] !== dir) {
                         keyshortcuts_top.mousePath.push(dir)
                         keyshortcuts_top.mousePathChanged()
                     }
@@ -179,7 +178,7 @@ Item {
 
         function onMouseDoubleClicked(modifiers : int, button : string, pos : point) {
 
-            if(!PQCConstants.modalWindowOpen) { // qmllint disable unqualified
+            if(!PQCConstants.modalWindowOpen) { 
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "") combo += "+"
@@ -236,7 +235,7 @@ Item {
         if(combo === "Esc") {
 
             // a context menu is open -> don't continue
-            if(PQCConstants.whichContextMenusOpen.length > 0) { // qmllint disable unqualified
+            if(PQCConstants.whichContextMenusOpen.length > 0) { 
                 PQCNotify.closeAllContextMenus()
                 return
             }
@@ -483,7 +482,7 @@ Item {
             // elements
 
             case "__open":
-                PQCNotify.loaderShow("filedialog") // qmllint disable unqualified
+                PQCNotify.loaderShow("filedialog") 
                 break
             case "__showMapExplorer":
                 PQCNotify.loaderShow("mapexplorer")
@@ -745,7 +744,7 @@ Item {
                     PQCScriptsOther.printFile(PQCFileFolderModel.currentFile)
                 break
             case "__undoTrash":
-                var ret = PQCScriptsUndo.undoLastAction("trash")
+                var ret = PQCScriptsFileManagement.undoLastAction("trash")
                 if(ret === "")
                     PQCNotify.showNotificationMessage(qsTranslate("filemanagement", "Trash"), qsTranslate("filemanagement", "Nothing to restore"))
                 else if(ret.startsWith("-"))

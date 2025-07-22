@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/qmlcpp/pqc_scriptsmetadata.h>
+#include <scripts/cpp/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
 #include <pqc_imageformats.h>
 

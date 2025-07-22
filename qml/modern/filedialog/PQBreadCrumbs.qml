@@ -55,7 +55,7 @@ Item {
 
             id: leftitem
 
-            width: Math.max(filedialog_top.placesWidth, leftrow.width+10) // qmllint disable unqualified
+            width: Math.max(filedialog_top.placesWidth, leftrow.width+10) 
             height: breadcrumbs_top.height
 
             Row {
@@ -74,28 +74,28 @@ Item {
                 }
 
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg" // qmllint disable unqualified
-                    enabled: filedialog_top.historyIndex>0 // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg" 
+                    enabled: filedialog_top.historyIndex>0 
                     enableContextMenu: false
                     onClicked:
-                        filedialog_top.goBackInHistory() // qmllint disable unqualified
+                        filedialog_top.goBackInHistory() 
                     onRightClicked:
                         navmenu.popup()
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                     enableContextMenu: false
                     onClicked:
-                        filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
+                        filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) 
                     onRightClicked:
                         navmenu.popup()
                 }
                 PQButtonIcon {
-                    source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" // qmllint disable unqualified
-                    enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" 
+                    enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 
                     enableContextMenu: false
                     onClicked:
-                        filedialog_top.goForwardsInHistory() // qmllint disable unqualified
+                        filedialog_top.goForwardsInHistory() 
                     onRightClicked:
                         navmenu.popup()
                 }
@@ -104,20 +104,20 @@ Item {
                     id: navmenu
                     PQMenuItem {
                         text: qsTranslate("filedialog", "Go backwards in history")
-                        enabled: filedialog_top.historyIndex>0 // qmllint disable unqualified
+                        enabled: filedialog_top.historyIndex>0 
                         onTriggered:
-                            filedialog_top.goBackInHistory() // qmllint disable unqualified
+                            filedialog_top.goBackInHistory() 
                     }
                     PQMenuItem {
                         text: qsTranslate("filedialog", "Go forwards in history")
-                        enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 // qmllint disable unqualified
+                        enabled: filedialog_top.historyIndex<filedialog_top.history.length-1 
                         onTriggered:
-                            filedialog_top.goForwardsInHistory() // qmllint disable unqualified
+                            filedialog_top.goForwardsInHistory() 
                     }
                     PQMenuItem {
                         text: qsTranslate("filedialog", "Go up a level")
                         onTriggered:
-                            filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
+                            filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) 
                     }
                 }
 
@@ -130,7 +130,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorActive // qmllint disable unqualified
+                        color: PQCLook.baseColorActive 
                     }
 
                 }
@@ -138,11 +138,11 @@ Item {
                 PQButtonIcon {
                     id: iconview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout==="grid" // qmllint disable unqualified
-                    source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout==="grid" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg" 
                     tooltip: qsTranslate("filedialog", "Show files as grid")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                        fd_breadcrumbs.disableAddressEdit() 
                         if(checked) PQCSettings.filedialogLayout = "grid"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="grid" })
                     }
@@ -160,11 +160,11 @@ Item {
                 PQButtonIcon {
                     id: listview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry" // qmllint disable unqualified
-                    source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout!=="grid"&&PQCSettings.filedialogLayout!=="masonry" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg" 
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                        fd_breadcrumbs.disableAddressEdit() 
                         if(checked) PQCSettings.filedialogLayout = "list"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
@@ -182,11 +182,11 @@ Item {
                 PQButtonIcon {
                     id: masonview
                     checkable: true
-                    checked: PQCSettings.filedialogLayout==="masonry" // qmllint disable unqualified
-                    source: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg" // qmllint disable unqualified
+                    checked: PQCSettings.filedialogLayout==="masonry" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg" 
                     tooltip: qsTranslate("filedialog", "Show files in masonry layout")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                        fd_breadcrumbs.disableAddressEdit() 
                         if(checked) PQCSettings.filedialogLayout = "masonry"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="masonry" })
                     }
@@ -210,7 +210,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorActive // qmllint disable unqualified
+                        color: PQCLook.baseColorActive 
                     }
 
                 }
@@ -218,11 +218,11 @@ Item {
                 PQButtonIcon {
                     id: settings
                     checkable: true
-                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
                     tooltip: qsTranslate("filedialog", "Settings")
                     enableContextMenu: false
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+                        fd_breadcrumbs.disableAddressEdit() 
                         if(checked)
                             settingsmenu.popup(0, height)
                     }
@@ -244,14 +244,14 @@ Item {
         Rectangle {
             width: 8
             height: breadcrumbs_top.height
-            color: PQCLook.baseColorAccent // qmllint disable unqualified
+            color: PQCLook.baseColorAccent 
         }
 
         Item {
 
             id: rightitem
 
-            width: Math.min(filedialog_top.fileviewWidth, breadcrumbs_top.width-leftitem.width-8) // qmllint disable unqualified
+            width: Math.min(filedialog_top.fileviewWidth, breadcrumbs_top.width-leftitem.width-8) 
             height: breadcrumbs_top.height
 
             PQMouseArea {
@@ -275,7 +275,7 @@ Item {
                     enabled: false
                     font.italic: true
                     elide: Text.ElideLeft
-                    text: PQCFileFolderModel.folderFileDialog // qmllint disable unqualified
+                    text: PQCFileFolderModel.folderFileDialog 
                 }
 
                 PQMenuItem {
@@ -306,10 +306,10 @@ Item {
 
                     y: (parent.height-height)/2
 
-                    property bool windows: PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
-                    property bool isNetwork: PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+                    property bool windows: PQCScriptsConfig.amIOnWindows() 
+                    property bool isNetwork: PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog) 
 
-                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : ((isNetwork&&windows) ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/")) // qmllint disable unqualified
+                    property list<string> parts: !windows&&PQCFileFolderModel.folderFileDialog==="/" ? ["/"] : ((isNetwork&&windows) ? PQCFileFolderModel.folderFileDialog.substr(1).split("/") : PQCFileFolderModel.folderFileDialog.split("/")) 
 
                     Item { width: 15; height: 1 }
                     Image {
@@ -327,7 +327,7 @@ Item {
                             onClicked: (mouse) => {
                                 if(crumbs.parts.length > 0) {
                                     if(crumbs.windows)
-                                        filedialog_top.loadNewPath(crumbs.parts[0]) // qmllint disable unqualified
+                                        filedialog_top.loadNewPath(crumbs.parts[0]) 
                                     else
                                         filedialog_top.loadNewPath("/")
                                 }
@@ -355,7 +355,7 @@ Item {
                                         if(p != "") p += "/"
                                         p += crumbs.parts[i]
                                     }
-                                    if(PQCFileFolderModel.folderFileDialog.startsWith("//") && !p.startsWith("/")) // qmllint disable unqualified
+                                    if(PQCFileFolderModel.folderFileDialog.startsWith("//") && !p.startsWith("/")) 
                                         p = "//"+p
                                     return p
                                 } else {
@@ -372,7 +372,7 @@ Item {
                             Rectangle {
                                 height: breadcrumbs_top.height
                                 width: folder.text==="" ? 0 : (folder.width+foldertypeicon.width+20)
-                                color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
+                                color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 Image {
                                     id: foldertypeicon
@@ -386,7 +386,7 @@ Item {
                                     id: folder
                                     x: foldertypeicon.width+10
                                     y: (parent.height-height)/2
-                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                    font.weight: PQCLook.fontWeightBold 
                                     text: deleg.modelData>0 ? crumbs.parts[deleg.modelData] : ""
                                 }
                                 PQMouseArea {
@@ -396,7 +396,7 @@ Item {
                                     text: deleg.subdir
                                     onClicked: (mouse) => {
                                         if(mouse.button === Qt.LeftButton)
-                                            filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
+                                            filedialog_top.loadNewPath(deleg.subdir) 
                                         else
                                             pathmenu.popup()
                                     }
@@ -415,7 +415,7 @@ Item {
                                         //: The location here is a folder path
                                         text: qsTranslate("filedialog", "Navigate to this location")
                                         onTriggered: {
-                                            filedialog_top.loadNewPath(deleg.subdir) // qmllint disable unqualified
+                                            filedialog_top.loadNewPath(deleg.subdir) 
                                         }
                                     }
                                     onAboutToShow: {
@@ -424,9 +424,9 @@ Item {
                                     onAboutToHide:
                                         breadcrumbs_top.folderListMenuOpen = false
                                     Connections {
-                                        target: filedialog_top // qmllint disable unqualified
+                                        target: filedialog_top 
                                         function onOpacityChanged() {
-                                            if(filedialog_top.opacity<1) // qmllint disable unqualified
+                                            if(filedialog_top.opacity<1) 
                                                 pathmenu.close()
                                         }
                                     }
@@ -443,7 +443,7 @@ Item {
                                 height: breadcrumbs_top.height
                                 width: height*2/3
                                 property bool down: folderlist.visible
-                                color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) // qmllint disable unqualified
+                                color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 Image {
                                     property real fact: 3
@@ -453,7 +453,7 @@ Item {
                                     width: height
                                     smooth: false
                                     fillMode: Image.PreserveAspectFit
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/breadcrumb.svg" // qmllint disable unqualified
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/breadcrumb.svg" 
                                     sourceSize: Qt.size(width, height)
                                 }
                                 PQMouseArea {
@@ -485,7 +485,7 @@ Item {
                                             id: menuItem
                                             required property string modelData
                                             text: modelData
-                                            onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text)) // qmllint disable unqualified
+                                            onTriggered: filedialog_top.loadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text)) 
                                         }
 
                                         onObjectAdded: (index, object) => folderlist.insertItem(index, object)
@@ -494,7 +494,7 @@ Item {
                                     }
                                     onAboutToShow: {
                                         if(inst.model === 0 || inst.currentParentFolder != deleg.subdir) {
-                                            subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir) // qmllint disable unqualified
+                                            subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir) 
                                             inst.model = subfolders
                                             inst.currentParentFolder = deleg.subdir
                                         }
@@ -503,9 +503,9 @@ Item {
                                     onAboutToHide:
                                         breadcrumbs_top.folderListMenuOpen = false
                                     Connections {
-                                        target: filedialog_top // qmllint disable unqualified
+                                        target: filedialog_top 
                                         function onOpacityChanged() {
-                                            if(filedialog_top.opacity<1) // qmllint disable unqualified
+                                            if(filedialog_top.opacity<1) 
                                                 folderlist.close()
                                         }
                                     }
@@ -548,7 +548,7 @@ Item {
                         if(addressedit.visible)
                             return
                         completedPath = ""
-                        text = PQCScriptsFilesPaths.pathWithNativeSeparators(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+                        text = PQCScriptsFilesPaths.pathWithNativeSeparators(PQCFileFolderModel.folderFileDialog) 
                         breadcrumbs_top.checkValidEditPath()
                         crumbs.visible = false
                         visible = true
@@ -565,14 +565,14 @@ Item {
                     onRightPressed: {
                         if(completedPath !== "" && isCursorAtEnd()) {
                             var txt = text
-                            var missing = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath.substring(txt.length)) // qmllint disable unqualified
+                            var missing = PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath.substring(txt.length)) 
                             lineedit.insert(text.length, missing[0])
                         }
                     }
 
                     onEndPressed: {
                         if(completedPath !== "" && isCursorAtEnd())
-                            lineedit.insert(text.length, PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath).replace(text, "")) // qmllint disable unqualified
+                            lineedit.insert(text.length, PQCScriptsFilesPaths.pathWithNativeSeparators(completedPath).replace(text, "")) 
                     }
 
                     onTextChanged:
@@ -589,15 +589,15 @@ Item {
                     id: contextmenu
 
                     Connections {
-                        target: filedialog_top // qmllint disable unqualified
+                        target: filedialog_top 
                         function onOpacityChanged() {
-                            if(filedialog_top.opacity<1) // qmllint disable unqualified
+                            if(filedialog_top.opacity<1) 
                                 contextmenu.close()
                         }
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateleft.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateleft.svg" 
                         text: "Undo"
                         enabled: addressedit.lineedit.canUndo
                         onTriggered:
@@ -605,7 +605,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateright.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateright.svg" 
                         text: "Redo"
                         enabled: addressedit.lineedit.canRedo
                         onTriggered:
@@ -615,7 +615,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/cut.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/cut.svg" 
                         text: "Cut"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onTriggered:
@@ -624,7 +624,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" 
                         text: "Copy"
                         enabled: addressedit.lineedit.selectedText.length>0
                         onTriggered:
@@ -632,7 +632,7 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" 
                         text: "Paste"
                         enabled: addressedit.lineedit.canPaste
                         onTriggered:
@@ -640,14 +640,14 @@ Item {
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" 
                         text: "Delete"
                         onTriggered:
                             addressedit.actionDelete()
                     }
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" 
                         text: "Clear"
                         onTriggered:
                             addressedit.lineedit.remove(0,addressedit.text.length)
@@ -656,7 +656,7 @@ Item {
                     PQMenuSeparator {}
 
                     PQMenuItem {
-                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/leftrightarrow.svg" // qmllint disable unqualified
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/leftrightarrow.svg" 
                         text: "Select all"
                         onTriggered:
                             addressedit.setFocus()
@@ -677,7 +677,7 @@ Item {
                     height: rightitem.height-20
                     //: The location here is a folder path
                     tooltip: qsTranslate("filedialog", "Click to edit location")
-                    source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg") // qmllint disable unqualified
+                    source: addressedit.visible ? ("image://svg/:/" + PQCLook.iconShade + "/checkmark.svg") : ("image://svg/:/" + PQCLook.iconShade + "/editpath.svg") 
                     onClicked: {
                         if(!addressedit.visible)
                             addressedit.show()
@@ -708,14 +708,14 @@ Item {
         y: parent.height-1
         width: parent.width
         height: 1
-        color: PQCLook.baseColorActive // qmllint disable unqualified
+        color: PQCLook.baseColorActive 
     }
 
     function checkValidEditPath() {
 
         var completeWithoutFolder = false
 
-        var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text)) // qmllint disable unqualified
+        var path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text)) 
         if(PQCScriptsFilesPaths.getFilename(path) === path) {
             completeWithoutFolder = true
             path = PQCFileFolderModel.folderFileDialog + "/" + path
@@ -748,7 +748,7 @@ Item {
 
         var path = ""
         if(addressedit.completedPath !== "")
-            path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.completedPath)) // qmllint disable unqualified
+            path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.completedPath)) 
         else
             path = PQCScriptsFilesPaths.cleanPath(PQCScriptsFilesPaths.pathFromNativeSeparators(addressedit.text))
 

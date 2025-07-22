@@ -216,7 +216,7 @@ Flickable {
                         PQCSettings.closeDatabase()
                         PQCImageFormats.closeDatabase()
 
-                        PQCScriptsConfig.exportConfigTo("") // qmllint disable unqualified
+                        PQCScriptsConfig.exportConfigTo("") 
 
                         PQCShortcuts.reopenDatabase()
                         PQCSettings.reopenDatabase()
@@ -235,7 +235,7 @@ Flickable {
                         PQCSettings.closeDatabase()
                         PQCImageFormats.closeDatabase()
 
-                        if(PQCScriptsConfig.importConfigFrom("")) { // qmllint disable unqualified
+                        if(PQCScriptsConfig.importConfigFrom("")) { 
                             PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                                     qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
                             PQCNotify.photoQtQuit()

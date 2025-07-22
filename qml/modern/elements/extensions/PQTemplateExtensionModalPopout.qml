@@ -39,7 +39,7 @@ Window {
 
     ///////////////////
 
-    property size defaultPopoutPosition: Qt.point(150,150)
+    property point defaultPopoutPosition: Qt.point(150,150)
     property size defaultPopoutSize: Qt.size(500,300)
 
     ///////////////////
@@ -292,8 +292,8 @@ Window {
 
         enabled: element_top.setupHasBeenCompleted
 
-        function onValueChanged(key, value) {
-            if(key.toLowerCase() === extensionId) {
+        function onValueChanged(key : string, value : var) {
+            if(key === element_top.extensionId) {
                 if(1*value) {
                     element_top._show()
                 } else {
@@ -358,7 +358,7 @@ Window {
         popout_loader.item.hiding()
     }
 
-    function handleChangesBottomRowWidth(w) {
+    function handleChangesBottomRowWidth(w : int) {
         element_top.minimumWidth = Math.max(element_top.minimumWidth, w)
     }
 

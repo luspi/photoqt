@@ -22,8 +22,8 @@
 
 #include <pqc_providerfull.h>
 #include <pqc_loadimage.h>
-#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
-#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
+#include <scripts/cpp/pqc_scriptsimages.h>
 #include <pqc_settings.h>
 #include <QFileInfo>
 #include <QCoreApplication>

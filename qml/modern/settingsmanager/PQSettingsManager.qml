@@ -30,14 +30,14 @@ PQTemplateFullscreen {
     id: settingsmanager_top
 
     thisis: "settingsmanager"
-    popout: PQCSettings.interfacePopoutSettingsManager      // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutSettingsManager      
     shortcut: "__settings"
     noGapsAnywhere: true
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 
     onPopoutChanged: {
-        PQCSettings.interfacePopoutSettingsManager = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutSettingsManager = popout 
     }
 
     function onPopoutClosed() {
@@ -49,17 +49,17 @@ PQTemplateFullscreen {
     }
 
     button1.text: qsTranslate("settingsmanager", "Apply changes")
-    button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false  // qmllint disable missing-property
-    button1.onClicked: settingsloader.item.applyChanges()   // qmllint disable missing-property
+    button1.enabled: settingsloader.status===Loader.Ready ? settingsloader.item.settingChanged : false  
+    button1.onClicked: settingsloader.item.applyChanges()   
 
     button2.text: qsTranslate("settingsmanager", "Revert changes")
     button2.visible: true
     button2.enabled: button1.enabled
-    button2.onClicked: settingsloader.item.revertChanges()  // qmllint disable missing-property
+    button2.onClicked: settingsloader.item.revertChanges()  
 
     button3.visible: true
     button3.text: genericStringClose
-    button3.font.weight: PQCLook.fontWeightNormal   // qmllint disable unqualified
+    button3.font.weight: PQCLook.fontWeightNormal   
     button3.onClicked: {
         if(button1.enabled) {
             confirmUnsaved.cat = "-"
@@ -75,24 +75,24 @@ PQTemplateFullscreen {
             y: (parent.height-height)/2
             PQCheckBox {
                 text: qsTranslate("settingsmanager", "auto-save")
-                font.pointSize: PQCLook.fontSizeS                   // qmllint disable unqualified
-                checked: PQCSettings.generalAutoSaveSettings        // qmllint disable unqualified
+                font.pointSize: PQCLook.fontSizeS                   
+                checked: PQCSettings.generalAutoSaveSettings        
                 onCheckedChanged: {
-                    PQCSettings.generalAutoSaveSettings = checked   // qmllint disable unqualified
+                    PQCSettings.generalAutoSaveSettings = checked   
                 }
             }
             PQCheckBox {
                 text: qsTranslate("settingsmanager", "compact")
-                font.pointSize: PQCLook.fontSizeS                   // qmllint disable unqualified
-                checked: PQCSettings.generalCompactSettings         // qmllint disable unqualified
+                font.pointSize: PQCLook.fontSizeS                   
+                checked: PQCSettings.generalCompactSettings         
                 onCheckedChanged: {
-                    PQCSettings.generalCompactSettings = checked    // qmllint disable unqualified
+                    PQCSettings.generalCompactSettings = checked    
                 }
             }
         }
     ]
 
-    showPopinPopout: !popout || !PQCWindowGeometry.settingsmanagerForcePopout   // qmllint disable unqualified
+    showPopinPopout: !popout || !PQCWindowGeometry.settingsmanagerForcePopout   
 
     property bool passShortcutsToDetector: false
     signal passOnShortcuts(var mods, var keys)
@@ -553,14 +553,14 @@ PQTemplateFullscreen {
             handle: Rectangle {
                 implicitWidth: 5
                 implicitHeight: 5
-                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight   // qmllint disable unqualified
+                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight   
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Image {
                     y: (parent.height-height)/2
                     width: parent.implicitWidth
                     height: parent.implicitHeight
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" 
                 }
             }
 
@@ -577,7 +577,7 @@ PQTemplateFullscreen {
 
                 selectedCategories: ["interface", "if_interface"]
                 onSelectedCategoriesChanged: {
-                    fullscreenitem.forceActiveFocus()   // qmllint disable unqualified
+                    fullscreenitem.forceActiveFocus()   
                 }
 
                 function callConfirmIfUnsavedChanged(cat: string, index: int) : bool {
@@ -619,7 +619,7 @@ PQTemplateFullscreen {
                     width: parent.width
                     height: 1
                     y: parent.height-29
-                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    color: PQCLook.baseColorHighlight 
                 }
 
                 PQTextS {
@@ -627,7 +627,7 @@ PQTemplateFullscreen {
                     y: parent.height-29
                     height: 29
                     verticalAlignment: Text.AlignVCenter
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
                     text: qsTranslate("settingsmanager", "Ctrl+S = Apply changes, Ctrl+R = Revert changes, Esc = Close")
                 }
 
@@ -640,7 +640,7 @@ PQTemplateFullscreen {
     Rectangle {
         id: settinginfomessage
         anchors.fill: parent
-        color: PQCLook.transColor // qmllint disable unqualified
+        color: PQCLook.transColor 
         visible: opacity>0
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -657,7 +657,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width)
             height: settinginfomessage_col.height+30
             radius: 10
-            color: PQCLook.baseColor // qmllint disable unqualified
+            color: PQCLook.baseColor 
 
             MouseArea {
                 anchors.fill: parent
@@ -705,7 +705,7 @@ PQTemplateFullscreen {
         id: confirmUnsaved
 
         anchors.fill: parent
-        color: PQCLook.transColor // qmllint disable unqualified
+        color: PQCLook.transColor 
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -723,7 +723,7 @@ PQTemplateFullscreen {
 
             PQTextXL {
                 x: (parent.width-width)/2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 text: qsTranslate("settingsmanager", "Unsaved changes")
             }
 
@@ -746,7 +746,7 @@ PQTemplateFullscreen {
                     //: written on button, used as in: apply changes
                     text: qsTranslate("settingsmanager", "Apply")
                     onClicked: {
-                        settingsloader.item.applyChanges() // qmllint disable missing-property
+                        settingsloader.item.applyChanges() 
 
                         if(confirmUnsaved.cat == "-") {
                             settingsmanager_top.hide()
@@ -812,7 +812,7 @@ PQTemplateFullscreen {
                     sm_category.loadSpecificCategory("interface","if_interface")
 
                 // we need to call the loader to set all other variables there accordingly
-                PQCNotify.loaderShow("settingsmanager") // qmllint disable unqualified
+                PQCNotify.loaderShow("settingsmanager") 
 
             } else if(what === "hide") {
 
@@ -831,7 +831,7 @@ PQTemplateFullscreen {
                         return
                     }
 
-                    if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) // qmllint disable unqualified
+                    if(settingsmanager_top.popoutWindowUsed && PQCSettings.interfacePopoutSettingsManagerNonModal) 
                         return
 
                     if(param[0] === Qt.Key_Escape) {
@@ -917,7 +917,7 @@ PQTemplateFullscreen {
         if(settingsloader.status !== Loader.Ready)
             return true
 
-        if(!settingsloader.item.settingChanged) // qmllint disable missing-property
+        if(!settingsloader.item.settingChanged) 
             return true
 
         if(PQCSettings.generalAutoSaveSettings) {
@@ -936,7 +936,7 @@ PQTemplateFullscreen {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            settingsmanager_window.visible = true // qmllint disable unqualified
+            settingsmanager_window.visible = true 
 
         if(settingsloader.status === Loader.Ready)
             settingsloader.item.revertChanges()
@@ -950,7 +950,7 @@ PQTemplateFullscreen {
         confirmUnsaved.opacity = 0
         settingsmanager_top.opacity = 0
         if(popoutWindowUsed)
-            settingsmanager_window.visible = false // qmllint disable unqualified
+            settingsmanager_window.visible = false 
         PQCNotify.loaderRegisterClose(thisis)
         fullscreenitem.forceActiveFocus()
     }

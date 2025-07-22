@@ -28,8 +28,8 @@ PQTemplateFullscreen {
     id: filter_top
 
     thisis: "filter"
-    popout: PQCSettings.interfacePopoutFilter // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.filterForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutFilter 
+    forcePopout: PQCWindowGeometry.filterForcePopout 
     shortcut: "__filterImages"
     title: qsTranslate("filter", "Filter images in current directory")
 
@@ -42,10 +42,10 @@ PQTemplateFullscreen {
     button3.visible: true
     //: Written on a clickable button - please keep short
     button3.text: qsTranslate("filter", "Remove filter")
-    button3.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    button3.font.weight: PQCLook.fontWeightNormal 
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutFilter = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutFilter = popout 
 
     button1.onClicked: {
         if(!filenamecheck.checked && !rescheck.checked && !filesizecheck.checked)
@@ -149,8 +149,8 @@ PQTemplateFullscreen {
                     enabled: rescheck.checked
                     property bool greater: true
                     text: greater ? ">" : "<"
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                    font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
+                    font.pointSize: PQCLook.fontSizeL 
                     tooltip: greater ?
                                  //: used as tooltip in the sense of 'image resolution GREATER THAN 123x123'
                                  qsTranslate("filter", "greater than") :
@@ -186,7 +186,7 @@ PQTemplateFullscreen {
                 PQText {
                     y: (resheight.height-height)/2
                     enabled: rescheck.checked
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
                     text: "x"
                 }
                 PQSliderSpinBox {
@@ -236,8 +236,8 @@ PQTemplateFullscreen {
                     enabled: filesizecheck.checked
                     property bool greater: true
                     text: greater ? ">" : "<"
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-                    font.pointSize: PQCLook.fontSizeL // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
+                    font.pointSize: PQCLook.fontSizeL 
                     tooltip: greater ?
                                  //: used as tooltip in the sense of 'file size GREATER THAN 123 KB/MB'
                                  qsTranslate("filter", "greater than") :
@@ -390,7 +390,7 @@ PQTemplateFullscreen {
     }
 
     function show() {
-        if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) { // qmllint disable unqualified
+        if((PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) && !PQCFileFolderModel.filterCurrentlyActive) { 
             hide()
             return
         }
@@ -460,7 +460,7 @@ PQTemplateFullscreen {
         closePopupMenuSpin()
         filter_top.opacity = 0
         if(popoutWindowUsed && filter_popout.visible)
-            filter_popout.visible = false // qmllint disable unqualified
+            filter_popout.visible = false 
         else
             PQCNotify.loaderRegisterClose(thisis)
         fullscreenitem.forceActiveFocus()
@@ -482,7 +482,7 @@ PQTemplateFullscreen {
                 }
             }
         }
-        PQCFileFolderModel.nameFilters = fileEndingFilter // qmllint disable unqualified
+        PQCFileFolderModel.nameFilters = fileEndingFilter 
         PQCFileFolderModel.filenameFilters = fileNameFilter
 
         if(rescheck.checked)
@@ -503,7 +503,7 @@ PQTemplateFullscreen {
         rescheck.checked = false
         filesizecheck.checked = false
 
-        PQCFileFolderModel.removeAllUserFilter() // qmllint disable unqualified
+        PQCFileFolderModel.removeAllUserFilter() 
 
     }
 

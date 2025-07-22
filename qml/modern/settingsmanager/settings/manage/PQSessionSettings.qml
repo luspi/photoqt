@@ -100,12 +100,12 @@ Flickable {
             }
 
             function load() {
-                sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) // qmllint disable unqualified
+                sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) 
                 mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
             }
 
             function applyChanges() {
-                PQCSettings.interfaceAllowMultipleInstances = mult.checked // qmllint disable unqualified
+                PQCSettings.interfaceAllowMultipleInstances = mult.checked 
                 mult.saveDefault()
                 sing.saveDefault()
             }
@@ -321,7 +321,7 @@ Flickable {
                         enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
-                        checked: (PQCSettings.interfaceTrayIcon===1) // qmllint disable unqualified
+                        checked: (PQCSettings.interfaceTrayIcon===1) 
                         onCheckedChanged: setting_top.checkDefault()
                     }
 
@@ -428,7 +428,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

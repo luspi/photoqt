@@ -22,7 +22,7 @@
 
 #include <pqc_location.h>
 #include <pqc_configfiles.h>
-#include <scripts/qmlcpp/pqc_scriptsmetadata.h>
+#include <scripts/cpp/pqc_scriptsmetadata.h>
 
 #include <QFileInfo>
 #include <QTimer>
