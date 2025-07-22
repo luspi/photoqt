@@ -216,7 +216,7 @@ Flickable {
 
             function load() {
 
-                anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) // qmllint disable unqualified
+                anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) 
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
                 anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
@@ -229,7 +229,7 @@ Flickable {
             function applyChanges() {
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-                PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] // qmllint disable unqualified
+                PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] 
                 PQCSettings.slideshowImageTransition = anispeed.value
 
                 anim_check.saveDefault()
@@ -563,7 +563,7 @@ Flickable {
 
                         color: "transparent"
                         border.width: 1
-                        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                        border.color: PQCLook.baseColorHighlight 
 
                         width: Math.min(500, set_ani.rightcol)
                         height: 300
@@ -574,7 +574,7 @@ Flickable {
                             width: parent.width-20
                             opacity: set_music.musicfiles.length===0 ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             enabled: false
@@ -604,12 +604,12 @@ Flickable {
 
                                     required property int modelData
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData]) // qmllint disable unqualified
-                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData]) // qmllint disable unqualified
+                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData]) 
+                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData]) 
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    color: PQCLook.baseColorHighlight 
 
                                     Column {
                                         x: 5
@@ -640,7 +640,7 @@ Flickable {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData>0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
@@ -658,7 +658,7 @@ Flickable {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData < music_view.model-1
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
@@ -674,7 +674,7 @@ Flickable {
                                             height: 40
                                             iconScale: 0.35
                                             radius: 0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {
@@ -697,7 +697,7 @@ Flickable {
                         id: filesbut
                         text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",                             // qmllint disable unqualified
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",                             
                                                                                   (set_music.musicfiles.length===0 ?
                                                                                        PQCScriptsFilesPaths.getHomeDir() :
                                                                                        PQCScriptsFilesPaths.getDir(set_music.musicfiles[set_music.musicfiles.length-1])),
@@ -799,7 +799,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

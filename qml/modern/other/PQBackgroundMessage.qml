@@ -74,7 +74,7 @@ Item {
                     opacity: 1 - (width-20)/40
                     border {
                         width: 5
-                        color: PQCLook.textColor // qmllint disable unqualified
+                        color: PQCLook.textColor 
                     }
 
                     NumberAnimation {
@@ -85,7 +85,7 @@ Item {
                         to: 50
                         duration: 1000
                         loops: Animation.Infinite
-                        running: clickhere.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                        running: clickhere.visible&&!PQCConstants.modalWindowOpen 
                         easing.type: Easing.OutCirc
                     }
                 }
@@ -99,7 +99,7 @@ Item {
                     height: 40
                     smooth: false
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/" + PQCLook.iconShade + "/mouse.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/mouse.svg" 
 
                 }
 
@@ -115,12 +115,12 @@ Item {
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
-                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80)) // qmllint disable unqualified
+                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80)) 
                 font.bold: true
-                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
+                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
-                color: PQCLook.textColor // qmllint disable unqualified
+                color: PQCLook.textColor 
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -138,23 +138,23 @@ Item {
             id: arrleft
             x: extraSpace
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0 
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
 
             property int extraSpace: (PQCSettings.interfaceEdgeLeftAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
                 id: seqleft
 
-                running: arrleft.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: arrleft.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
@@ -190,20 +190,20 @@ Item {
             y: (parent.height-height)/2
             width: ltx.width+20
             height: ltx.height+10
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             border.width: 1
-            border.color: PQCLook.transInverseColor // qmllint disable unqualified
+            border.color: PQCLook.transInverseColor 
             radius: 5
             visible: arrleft.visible&&ltx.text!=""&&opacity>0
 
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: ltx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeLeftAction] // qmllint disable unqualified
+                text: bgmsg.entries[PQCSettings.interfaceEdgeLeftAction] 
                 font.bold: true
             }
 
@@ -211,7 +211,7 @@ Item {
 
                 id: seqleft_txt
 
-                running: rectleft.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: rectleft.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
@@ -245,29 +245,29 @@ Item {
             id: arrright
             x: parent.width-width-10-extraSpace
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0 
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" 
 
             property int extraSpace: (PQCSettings.interfaceEdgeRightAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
                 id: seqright
 
-                running: arrright.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: arrright.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-110-arrright.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-130-arrright.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-110-arrright.extraSpace 
+                    to: PQCConstants.windowWidth-130-arrright.extraSpace 
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -276,8 +276,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-130-arrright.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-110-arrright.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-130-arrright.extraSpace 
+                    to: PQCConstants.windowWidth-110-arrright.extraSpace 
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -297,19 +297,19 @@ Item {
             y: (parent.height-height)/2
             width: rtx.width+20
             height: rtx.height+10
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             border.width: 1
-            border.color: PQCLook.transInverseColor // qmllint disable unqualified
+            border.color: PQCLook.transInverseColor 
             radius: 5
             visible: arrright.visible&&rtx.text!=""&&opacity>0
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: rtx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeRightAction] // qmllint disable unqualified
+                text: bgmsg.entries[PQCSettings.interfaceEdgeRightAction] 
                 font.bold: true
             }
 
@@ -317,13 +317,13 @@ Item {
 
                 id: seqright_txt
 
-                running: right_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: right_txt.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace 
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace 
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -332,8 +332,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace 
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace 
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -357,25 +357,25 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0 
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
             rotation: -90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
                 id: seqdown
 
-                running: arrdown.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: arrdown.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-110-arrdown.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-130-arrdown.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-110-arrdown.extraSpace 
+                    to: PQCConstants.windowHeight-130-arrdown.extraSpace 
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -384,8 +384,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-130-arrdown.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-110-arrdown.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-130-arrdown.extraSpace 
+                    to: PQCConstants.windowHeight-110-arrdown.extraSpace 
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -405,19 +405,19 @@ Item {
             y: parent.height-arrdown.height-height-20 - arrdown.extraSpace
             width: btx.width+20
             height: btx.height+10
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             border.width: 1
-            border.color: PQCLook.transInverseColor // qmllint disable unqualified
+            border.color: PQCLook.transInverseColor 
             radius: 5
             visible: arrdown.visible&&btx.text!=""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: btx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeBottomAction] // qmllint disable unqualified
+                text: bgmsg.entries[PQCSettings.interfaceEdgeBottomAction] 
                 font.bold: true
             }
 
@@ -425,13 +425,13 @@ Item {
 
                 id: seqdown_txt
 
-                running: bottom_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: bottom_txt.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace 
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace 
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -440,8 +440,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace // qmllint disable unqualified
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace // qmllint disable unqualified
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace 
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace 
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -461,22 +461,22 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0 // qmllint disable unqualified
+            visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0 
 
             property int extraSpace: (PQCSettings.interfaceEdgeTopAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
             rotation: 90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
                 id: sequp
 
-                running: arrup.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: arrup.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
@@ -512,19 +512,19 @@ Item {
             y: arrup.height+20+arrup.extraSpace
             width: utx.width+20
             height: utx.height+10
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             border.width: 1
-            border.color: PQCLook.transInverseColor // qmllint disable unqualified
+            border.color: PQCLook.transInverseColor 
             radius: 5
             visible: arrup.visible&&utx.text!=""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 // qmllint disable unqualified
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: utx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeTopAction] // qmllint disable unqualified
+                text: bgmsg.entries[PQCSettings.interfaceEdgeTopAction] 
                 font.bold: true
             }
 
@@ -532,7 +532,7 @@ Item {
 
                 id: sequp_txt
 
-                running: up_txt.visible&&!PQCConstants.modalWindowOpen // qmllint disable unqualified
+                running: up_txt.visible&&!PQCConstants.modalWindowOpen 
                 loops: Animation.Infinite
 
                 // move out quick
@@ -564,11 +564,11 @@ Item {
     }
 
     PQText {
-        visible: PQCScriptsConfig.isBetaVersion() // qmllint disable unqualified
+        visible: PQCScriptsConfig.isBetaVersion() 
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 10
-        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+        font.weight: PQCLook.fontWeightBold 
         text: "This is a beta release and might still contains bugs."
     }
 
@@ -577,33 +577,33 @@ Item {
         id: imagemouse
 
         anchors.fill: parent
-        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0 // qmllint disable unqualified
+        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0 
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.AllButtons
-        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold // qmllint disable unqualified
+        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold 
 
         property bool holdTrigger: false
         property point touchPos: Qt.point(-1,-1)
 
         onPositionChanged: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
             if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
                 holdTrigger = false
             PQCNotify.mouseMove(pos.x, pos.y)
         }
         onWheel: (wheel) => {
             wheel.accepted = true
-            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers) // qmllint disable unqualified
+            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers)
         }
         onPressed: (mouse) => {
             holdTrigger = false
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             touchPos = pos
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onMouseDoubleClicked: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
@@ -627,7 +627,7 @@ Item {
         }
         onPressAndHold: (mouse) => {
             holdTrigger = true
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
             if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
                 shortcuts.item.executeInternalFunction("__contextMenuTouch", pos, Qt.point(0,0))
         }

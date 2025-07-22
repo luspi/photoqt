@@ -29,9 +29,9 @@ PQMenu {
     id: settingsmenu
 
     Connections {
-        target: filedialog_top // qmllint disable unqualified
+        target: filedialog_top 
         function onOpacityChanged() {
-            if(filedialog_top.opacity<1) // qmllint disable unqualified
+            if(filedialog_top.opacity<1) 
                 settingsmenu.close()
         }
     }
@@ -52,9 +52,9 @@ PQMenu {
             text: qsTranslate("filedialog", "list view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="list" // qmllint disable unqualified
+            checked: PQCSettings.filedialogLayout==="list" 
             onCheckedChanged: {
-                if(checked) PQCSettings.filedialogLayout = "list" // qmllint disable unqualified
+                if(checked) PQCSettings.filedialogLayout = "list" 
                 checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="list") })
             }
         }
@@ -63,9 +63,9 @@ PQMenu {
             text: qsTranslate("filedialog", "grid view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="grid" // qmllint disable unqualified
+            checked: PQCSettings.filedialogLayout==="grid" 
             onCheckedChanged: {
-                if(checked) PQCSettings.filedialogLayout = "grid" // qmllint disable unqualified
+                if(checked) PQCSettings.filedialogLayout = "grid" 
                 checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="grid") })
             }
         }
@@ -74,9 +74,9 @@ PQMenu {
             text: qsTranslate("filedialog", "masonry view")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogLayout==="masonry" // qmllint disable unqualified
+            checked: PQCSettings.filedialogLayout==="masonry" 
             onCheckedChanged: {
-                if(checked) PQCSettings.filedialogLayout = "masonry" // qmllint disable unqualified
+                if(checked) PQCSettings.filedialogLayout = "masonry" 
                 checked = Qt.binding(function() { return (PQCSettings.filedialogLayout==="masonry") })
             }
         }
@@ -94,9 +94,9 @@ PQMenu {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for list view")
             checkable: true
-            checked: PQCSettings.filedialogDragDropFileviewList // qmllint disable unqualified
+            checked: PQCSettings.filedialogDragDropFileviewList 
             onCheckedChanged: {
-                PQCSettings.filedialogDragDropFileviewList = checked // qmllint disable unqualified
+                PQCSettings.filedialogDragDropFileviewList = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewList })
             }
         }
@@ -104,9 +104,9 @@ PQMenu {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for grid view")
             checkable: true
-            checked: PQCSettings.filedialogDragDropFileviewGrid // qmllint disable unqualified
+            checked: PQCSettings.filedialogDragDropFileviewGrid 
             onCheckedChanged: {
-                PQCSettings.filedialogDragDropFileviewGrid = checked // qmllint disable unqualified
+                PQCSettings.filedialogDragDropFileviewGrid = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewGrid })
             }
         }
@@ -114,9 +114,9 @@ PQMenu {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for masonry view")
             checkable: true
-            checked: PQCSettings.filedialogDragDropFileviewMasonry // qmllint disable unqualified
+            checked: PQCSettings.filedialogDragDropFileviewMasonry 
             onCheckedChanged: {
-                PQCSettings.filedialogDragDropFileviewMasonry = checked // qmllint disable unqualified
+                PQCSettings.filedialogDragDropFileviewMasonry = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDragDropFileviewMasonry })
             }
         }
@@ -124,9 +124,9 @@ PQMenu {
             //: file manager settings popdown: the thing to enable here is drag-and-drop
             text: qsTranslate("filedialog", "enable for bookmarks")
             checkable: true
-            checked: PQCSettings.filedialogDragDropPlaces // qmllint disable unqualified
+            checked: PQCSettings.filedialogDragDropPlaces 
             onCheckedChanged: {
-                PQCSettings.filedialogDragDropPlaces = checked // qmllint disable unqualified
+                PQCSettings.filedialogDragDropPlaces = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDragDropPlaces })
             }
         }
@@ -144,10 +144,10 @@ PQMenu {
                     text: modelData + " px"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: PQCSettings.filedialogElementPadding===modelData // qmllint disable unqualified
+                    checked: PQCSettings.filedialogElementPadding===modelData 
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.filedialogElementPadding = modelData // qmllint disable unqualified
+                            PQCSettings.filedialogElementPadding = modelData 
                         checked = Qt.binding(function() { return (PQCSettings.filedialogElementPadding===modelData); })
                     }
                 }
@@ -165,9 +165,9 @@ PQMenu {
                 //: file manager settings popdown: scale and crop the thumbnails
                 text: qsTranslate("filedialog", "grid view")
                 checkable: true
-                checked: PQCSettings.filedialogLabelsShowGrid // qmllint disable unqualified
+                checked: PQCSettings.filedialogLabelsShowGrid 
                 onCheckedChanged: {
-                    PQCSettings.filedialogLabelsShowGrid = checked // qmllint disable unqualified
+                    PQCSettings.filedialogLabelsShowGrid = checked 
                     checked = Qt.binding(function() { return PQCSettings.filedialogLabelsShowGrid })
                 }
             }
@@ -176,9 +176,9 @@ PQMenu {
                 //: file manager settings popdown: scale and crop the thumbnails
                 text: qsTranslate("filedialog", "masonry view")
                 checkable: true
-                checked: PQCSettings.filedialogLabelsShowMasonry // qmllint disable unqualified
+                checked: PQCSettings.filedialogLabelsShowMasonry 
                 onCheckedChanged: {
-                    PQCSettings.filedialogLabelsShowMasonry = checked // qmllint disable unqualified
+                    PQCSettings.filedialogLabelsShowMasonry = checked 
                     checked = Qt.binding(function() { return PQCSettings.filedialogLabelsShowMasonry })
                 }
             }
@@ -189,9 +189,9 @@ PQMenu {
             //: file manager settings popdown: how to select files
             text: qsTranslate("filedialog", "select with single click")
             checkable: true
-            checked: PQCSettings.filedialogSingleClickSelect // qmllint disable unqualified
+            checked: PQCSettings.filedialogSingleClickSelect 
             onCheckedChanged: {
-                PQCSettings.filedialogSingleClickSelect = checked // qmllint disable unqualified
+                PQCSettings.filedialogSingleClickSelect = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogSingleClickSelect })
             }
         }
@@ -199,27 +199,27 @@ PQMenu {
             //: file manager settings popdown: how to select files
             text: qsTranslate("filedialog", "remember selections")
             checkable: true
-            checked: PQCSettings.filedialogRememberSelection // qmllint disable unqualified
+            checked: PQCSettings.filedialogRememberSelection 
             onCheckedChanged: {
-                PQCSettings.filedialogRememberSelection = checked // qmllint disable unqualified
+                PQCSettings.filedialogRememberSelection = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogRememberSelection })
             }
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "hidden files")
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders // qmllint disable unqualified
+            checked: PQCSettings.filedialogShowHiddenFilesFolders 
             onCheckedChanged: {
-                PQCSettings.filedialogShowHiddenFilesFolders = checked // qmllint disable unqualified
+                PQCSettings.filedialogShowHiddenFilesFolders = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogShowHiddenFilesFolders })
             }
         }
         PQMenuItem {
             text: qsTranslate("filedialog", "tooltips")
             checkable: true
-            checked: PQCSettings.filedialogDetailsTooltip // qmllint disable unqualified
+            checked: PQCSettings.filedialogDetailsTooltip 
             onCheckedChanged: {
-                PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
+                PQCSettings.filedialogDetailsTooltip = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDetailsTooltip })
             }
         }
@@ -227,9 +227,9 @@ PQMenu {
             //: The location here is a folder path
             text: qsTranslate("filedialog", "Remember last location")
             checkable: true
-            checked: PQCSettings.filedialogKeepLastLocation // qmllint disable unqualified
+            checked: PQCSettings.filedialogKeepLastLocation 
             onCheckedChanged: {
-                PQCSettings.filedialogKeepLastLocation = checked // qmllint disable unqualified
+                PQCSettings.filedialogKeepLastLocation = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogKeepLastLocation })
             }
         }
@@ -242,9 +242,9 @@ PQMenu {
             //: file manager settings popdown: show thumbnails
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogThumbnails // qmllint disable unqualified
+            checked: PQCSettings.filedialogThumbnails 
             onCheckedChanged: {
-                PQCSettings.filedialogThumbnails = checked // qmllint disable unqualified
+                PQCSettings.filedialogThumbnails = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogThumbnails })
             }
         }
@@ -253,9 +253,9 @@ PQMenu {
             text: qsTranslate("filedialog", "scale and crop")
             enabled: thumbnailsshow.checked
             checkable: true
-            checked: PQCSettings.filedialogThumbnailsScaleCrop // qmllint disable unqualified
+            checked: PQCSettings.filedialogThumbnailsScaleCrop 
             onCheckedChanged: {
-                PQCSettings.filedialogThumbnailsScaleCrop = checked // qmllint disable unqualified
+                PQCSettings.filedialogThumbnailsScaleCrop = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogThumbnailsScaleCrop })
             }
         }
@@ -272,9 +272,9 @@ PQMenu {
             //: file manager settings popdown: show folder thumbnails
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnails // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnails 
             onCheckedChanged: {
-                PQCSettings.filedialogFolderContentThumbnails = checked // qmllint disable unqualified
+                PQCSettings.filedialogFolderContentThumbnails = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnails })
             }
         }
@@ -283,9 +283,9 @@ PQMenu {
             text: qsTranslate("filedialog", "scale and crop")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsScaleCrop 
             onCheckedChanged: {
-                PQCSettings.filedialogFolderContentThumbnailsScaleCrop = checked // qmllint disable unqualified
+                PQCSettings.filedialogFolderContentThumbnailsScaleCrop = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsScaleCrop })
             }
         }
@@ -294,9 +294,9 @@ PQMenu {
             text: qsTranslate("filedialog", "autoload")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsAutoload // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsAutoload 
             onCheckedChanged: {
-                PQCSettings.filedialogFolderContentThumbnailsAutoload = checked // qmllint disable unqualified
+                PQCSettings.filedialogFolderContentThumbnailsAutoload = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsAutoload })
             }
         }
@@ -305,9 +305,9 @@ PQMenu {
             text: qsTranslate("filedialog", "loop")
             enabled: folderthumbshow.checked
             checkable: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsLoop // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsLoop 
             onCheckedChanged: {
-                PQCSettings.filedialogFolderContentThumbnailsLoop = checked // qmllint disable unqualified
+                PQCSettings.filedialogFolderContentThumbnailsLoop = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogFolderContentThumbnailsLoop })
             }
         }
@@ -326,15 +326,15 @@ PQMenu {
             text: "2 seconds"
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1 // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===1 
             onCheckedChanged: {
                 if(checked)
-                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 1 // qmllint disable unqualified
+                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 1 
             }
             Connections {
-                target: PQCSettings // qmllint disable unqualified
+                target: PQCSettings 
                 function onFiledialogFolderContentThumbnailsSpeedChanged() {
-                    foldthumb2.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===1) // qmllint disable unqualified
+                    foldthumb2.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===1) 
                 }
             }
         }
@@ -344,15 +344,15 @@ PQMenu {
             text: qsTranslate("filedialog", "1 second")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2 // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===2 
             onCheckedChanged: {
                 if(checked)
-                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 2 // qmllint disable unqualified
+                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 2 
             }
             Connections {
-                target: PQCSettings // qmllint disable unqualified
+                target: PQCSettings 
                 function onFiledialogFolderContentThumbnailsSpeedChanged() {
-                    foldthumb1.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===2) // qmllint disable unqualified
+                    foldthumb1.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===2) 
                 }
             }
         }
@@ -362,15 +362,15 @@ PQMenu {
             text: qsTranslate("filedialog", "half a second")
             checkable: true
             checkableLikeRadioButton: true
-            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3 // qmllint disable unqualified
+            checked: PQCSettings.filedialogFolderContentThumbnailsSpeed===3 
             onCheckedChanged: {
                 if(checked)
-                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 3 // qmllint disable unqualified
+                    PQCSettings.filedialogFolderContentThumbnailsSpeed = 3 
             }
             Connections {
-                target: PQCSettings // qmllint disable unqualified
+                target: PQCSettings 
                 function onFiledialogFolderContentThumbnailsSpeedChanged() {
-                    foldthumb05.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===3) // qmllint disable unqualified
+                    foldthumb05.checked = (PQCSettings.filedialogFolderContentThumbnailsSpeed===3) 
                 }
             }
         }
@@ -381,9 +381,9 @@ PQMenu {
         PQMenuItem {
             text: qsTranslate("filedialog", "show bookmarks")
             checkable: true
-            checked: PQCSettings.filedialogPlaces // qmllint disable unqualified
+            checked: PQCSettings.filedialogPlaces 
             onCheckedChanged: {
-                PQCSettings.filedialogPlaces = checked // qmllint disable unqualified
+                PQCSettings.filedialogPlaces = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPlaces })
             }
         }
@@ -391,9 +391,9 @@ PQMenu {
             //: file manager settings popdown: the devices here are the storage devices
             text: qsTranslate("filedialog", "show devices")
             checkable: true
-            checked: PQCSettings.filedialogDevices // qmllint disable unqualified
+            checked: PQCSettings.filedialogDevices 
             onCheckedChanged: {
-                PQCSettings.filedialogDevices = checked // qmllint disable unqualified
+                PQCSettings.filedialogDevices = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDevices })
             }
         }
@@ -402,10 +402,10 @@ PQMenu {
             text: qsTranslate("filedialog", "show temporary devices")
             checkable: true
             implicitHeight: visible ? 40 : 0
-            visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
-            checked: PQCSettings.filedialogDevicesShowTmpfs // qmllint disable unqualified
+            visible: !PQCScriptsConfig.amIOnWindows() 
+            checked: PQCSettings.filedialogDevicesShowTmpfs 
             onCheckedChanged: {
-                PQCSettings.filedialogDevicesShowTmpfs = checked // qmllint disable unqualified
+                PQCSettings.filedialogDevicesShowTmpfs = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogDevicesShowTmpfs })
             }
         }
@@ -418,9 +418,9 @@ PQMenu {
             //: file manager settings popdown: show image previews
             text: qsTranslate("filedialog", "show")
             checkable: true
-            checked: PQCSettings.filedialogPreview // qmllint disable unqualified
+            checked: PQCSettings.filedialogPreview 
             onCheckedChanged: {
-                PQCSettings.filedialogPreview = checked // qmllint disable unqualified
+                PQCSettings.filedialogPreview = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPreview })
             }
         }
@@ -429,9 +429,9 @@ PQMenu {
             text: qsTranslate("filedialog", "higher resolution")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewHigherResolution // qmllint disable unqualified
+            checked: PQCSettings.filedialogPreviewHigherResolution 
             onCheckedChanged: {
-                PQCSettings.filedialogPreviewHigherResolution = checked // qmllint disable unqualified
+                PQCSettings.filedialogPreviewHigherResolution = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPreviewHigherResolution })
             }
         }
@@ -440,9 +440,9 @@ PQMenu {
             text: qsTranslate("filedialog", "blur")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewBlur // qmllint disable unqualified
+            checked: PQCSettings.filedialogPreviewBlur 
             onCheckedChanged: {
-                PQCSettings.filedialogPreviewBlur = checked // qmllint disable unqualified
+                PQCSettings.filedialogPreviewBlur = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPreviewBlur })
             }
         }
@@ -451,9 +451,9 @@ PQMenu {
             text: qsTranslate("filedialog", "mute colors")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewMuted // qmllint disable unqualified
+            checked: PQCSettings.filedialogPreviewMuted 
             onCheckedChanged: {
-                PQCSettings.filedialogPreviewMuted = checked // qmllint disable unqualified
+                PQCSettings.filedialogPreviewMuted = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPreviewMuted })
             }
         }
@@ -462,9 +462,9 @@ PQMenu {
             text: qsTranslate("filedialog", "scale and crop")
             enabled: previewshow.checked
             checkable: true
-            checked: PQCSettings.filedialogPreviewCropToFit // qmllint disable unqualified
+            checked: PQCSettings.filedialogPreviewCropToFit 
             onCheckedChanged: {
-                PQCSettings.filedialogPreviewCropToFit = checked // qmllint disable unqualified
+                PQCSettings.filedialogPreviewCropToFit = checked 
                 checked = Qt.binding(function() { return PQCSettings.filedialogPreviewCropToFit })
             }
         }
@@ -482,10 +482,10 @@ PQMenu {
                     text: (10-modelData)*10 + "%"
                     checkable: true
                     checkableLikeRadioButton: true
-                    checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-modelData) // qmllint disable unqualified
+                    checked: Math.round(PQCSettings.filedialogPreviewColorIntensity/10)===(10-modelData) 
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.filedialogPreviewColorIntensity = 10*(10-modelData) // qmllint disable unqualified
+                            PQCSettings.filedialogPreviewColorIntensity = 10*(10-modelData) 
                     }
                     ButtonGroup.group: colgrp
                 }
@@ -500,6 +500,6 @@ PQMenu {
         id: resetChecked
         interval: 100
         onTriggered:
-            settings.checked = false // qmllint disable unqualified
+            settings.checked = false 
     }
 }

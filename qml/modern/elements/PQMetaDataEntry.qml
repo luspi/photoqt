@@ -48,9 +48,9 @@ Column {
 
     PQText {
         id: which
-        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+        font.weight: PQCLook.fontWeightBold 
         opacity: entry.fadeout ? 0.4 : 1
-        visible: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+        visible: PQCFileFolderModel.countMainView>0 
     }
 
     Row {
@@ -61,7 +61,7 @@ Column {
             id: val
             text: "  " + (entry.valtxt=="" ? "--" : entry.valtxt)
             opacity: entry.fadeout ? 0.4 : 1
-            visible: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+            visible: PQCFileFolderModel.countMainView>0 
 
             PQMouseArea {
                 anchors.fill: parent
@@ -73,7 +73,7 @@ Column {
                     if(entry.signalClicks)
                         entry.clicked(mouse)
                     else
-                        PQCScriptsClipboard.copyTextToClipboard(valtxt) // qmllint disable unqualified
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt) 
                 }
             }
         }

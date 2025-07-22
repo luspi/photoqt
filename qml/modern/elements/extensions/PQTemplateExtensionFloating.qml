@@ -182,7 +182,7 @@ Item {
                   //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
             text: qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                settings["ExtPopout"] = true
+                element_top.settings["ExtPopout"] = true
             }
         }
 

@@ -30,8 +30,8 @@ ToolTip {
     text: ""
     delay: 500
 
-    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    font.pointSize: PQCLook.fontSize 
+    font.weight: PQCLook.fontWeightNormal 
 
     property bool partialTransparency: false
     property bool enforceWidthLimit: true
@@ -60,8 +60,8 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor // qmllint disable unqualified
-        border.color: PQCLook.inverseColorHighlight // qmllint disable unqualified
+        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor 
+        border.color: PQCLook.inverseColorHighlight 
     }
 
 }

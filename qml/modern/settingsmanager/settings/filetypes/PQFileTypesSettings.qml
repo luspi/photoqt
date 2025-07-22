@@ -224,7 +224,7 @@ Item {
                     height: filterPass ? 50 : 0
                     Behavior on height { NumberAnimation { duration: 50 } }
 
-                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor // qmllint disable unqualified
+                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor 
                     visible: height > 0
 
                     PQCheckBox {
@@ -397,7 +397,7 @@ Item {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }
@@ -407,14 +407,14 @@ Item {
     }
 
     function load() {
-        listview.ft = PQCImageFormats.getAllFormats() // qmllint disable unqualified
+        listview.ft = PQCImageFormats.getAllFormats() 
         defaultSettings = composeChecker()
         settingChanged = false
         settingsLoaded = true
     }
 
     function applyChanges() {
-        PQCImageFormats.setAllFormats(listview.ft) // qmllint disable unqualified
+        PQCImageFormats.setAllFormats(listview.ft) 
         defaultSettings = composeChecker()
         settingChanged = false
     }

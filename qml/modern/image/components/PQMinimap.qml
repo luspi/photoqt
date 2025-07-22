@@ -27,14 +27,14 @@ Rectangle {
 
     id: minimap_top
 
-    property int sl: PQCSettings.imageviewMinimapSizeLevel // qmllint disable unqualified
+    property int sl: PQCSettings.imageviewMinimapSizeLevel
 
     Rectangle {
         id: containerItemForAnchors
         x: (parent.width-width)/2
         y: (parent.height-height)/2
-        width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6) // qmllint disable unqualified
-        height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6) // qmllint disable unqualified
+        width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
+        height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     }
 
     states: [
@@ -83,28 +83,28 @@ Rectangle {
         }
     ]
 
-    color: PQCScriptsConfig.isQtAtLeast6_5() ? PQCLook.faintColor : PQCLook.transColor // qmllint disable unqualified
-    border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0 // qmllint disable unqualified
-    border.color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCScriptsConfig.isQtAtLeast6_5() ? PQCLook.faintColor : PQCLook.transColor
+    border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
+    border.color: PQCLook.transColor
 
     PQShadowEffect {
         masterItem: minimap_top
-        z: image_top.curZ // qmllint disable unqualified
+        z: PQCConstants.currentZValue
     }
 
-    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere // qmllint disable unqualified
+    property bool minimapNeeded: (loader_top.imageScale > loader_top.defaultScale*1.01 && (flickable_content.width > image_top.width || flickable_content.height > image_top.height)) && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere
     property bool minimapActive: false
     property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
 
     Connections {
-        target: loader_top // qmllint disable unqualified
+        target: loader_top
         function onImageScaleChanged() {
             minimap_top.minimapActive = true
             minimapMakeDeactive.start()
         }
     }
     Connections {
-        target: flickable.visibleArea // qmllint disable unqualified
+        target: flickable.visibleArea
         function onXPositionChanged() {
             minimap_top.minimapActive = true
             minimapMakeDeactive.start()
@@ -123,9 +123,9 @@ Rectangle {
         }
     }
 
-    state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal" // qmllint disable unqualified
+    state: PQCSettings.interfaceMinimapPopout ? "popout" : "normal"
 
-    z: image_top.curZ // qmllint disable unqualified
+    z: PQCConstants.currentZValue
 
 
     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -133,25 +133,25 @@ Rectangle {
 
     PQText {
         anchors.centerIn: containerItemForAnchors
-        visible: (img.source===""||img.status!=Image.Ready) && PQCSettings.interfaceMinimapPopout // qmllint disable unqualified
+        visible: (img.source===""||img.status!=Image.Ready) && PQCSettings.interfaceMinimapPopout
         text: qsTranslate("image", "Minimap")
     }
 
     MouseArea {
         id: movemouse
         anchors.fill: containerItemForAnchors
-        enabled: !PQCScriptsConfig.isQtAtLeast6_5() // qmllint disable unqualified
+        enabled: !PQCScriptsConfig.isQtAtLeast6_5()
         hoverEnabled: true
-        cursorShape: PQCSettings.interfaceMinimapPopout ? Qt.ArrowCursor : Qt.SizeAllCursor // qmllint disable unqualified
-        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent // qmllint disable unqualified
+        cursorShape: PQCSettings.interfaceMinimapPopout ? Qt.ArrowCursor : Qt.SizeAllCursor
+        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
     }
 
     MouseArea {
         id: minimapmouse
         anchors.fill: containerItemForAnchors
-        anchors.margins: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
+        anchors.margins: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
         hoverEnabled: true
-        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent // qmllint disable unqualified
+        drag.target: PQCSettings.interfaceMinimapPopout ? undefined : parent
         acceptedButtons: Qt.AllButtons
         cursorShape: Qt.PointingHandCursor
         onClicked: (mouse) => {
@@ -164,7 +164,7 @@ Rectangle {
                 xanim.stop()
                 yanim.stop()
 
-                xanim.from = flickable.contentX // qmllint disable unqualified
+                xanim.from = flickable.contentX
                 yanim.from = flickable.contentY
 
                 xanim.to = flickable.contentWidth*propX - flickable.width/2
@@ -178,7 +178,7 @@ Rectangle {
             }
         }
         onWheel: (wheel) => {
-            if(!PQCSettings.interfaceMinimapPopout) { // qmllint disable unqualified
+            if(!PQCSettings.interfaceMinimapPopout) {
                 wheel.accepted = false
                 return
             }
@@ -196,25 +196,25 @@ Rectangle {
         PQMenuItem {
             text: qsTranslate("image", "Small minimap")
             onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 0 // qmllint disable unqualified
+                PQCSettings.imageviewMinimapSizeLevel = 0
         }
 
         PQMenuItem {
             text: qsTranslate("image", "Normal minimap")
             onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 1 // qmllint disable unqualified
+                PQCSettings.imageviewMinimapSizeLevel = 1
         }
 
         PQMenuItem {
             text: qsTranslate("image", "Large minimap")
             onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 2 // qmllint disable unqualified
+                PQCSettings.imageviewMinimapSizeLevel = 2
         }
 
         PQMenuItem {
             text: qsTranslate("image", "Very large minimap")
             onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 3 // qmllint disable unqualified
+                PQCSettings.imageviewMinimapSizeLevel = 3
         }
 
         PQMenuSeparator {}
@@ -222,7 +222,7 @@ Rectangle {
         PQMenuItem {
             text: qsTranslate("image", "Hide minimap")
             onTriggered:
-                PQCSettings.imageviewShowMinimap = false // qmllint disable unqualified
+                PQCSettings.imageviewShowMinimap = false
         }
 
     }
@@ -238,14 +238,14 @@ Rectangle {
         clip: true
 
         Rectangle {
-            x: parent.width*flickable.visibleArea.xPosition // qmllint disable unqualified
-            y: parent.height*flickable.visibleArea.yPosition // qmllint disable unqualified
-            width: parent.width*flickable.visibleArea.widthRatio // qmllint disable unqualified
-            height: parent.height*flickable.visibleArea.heightRatio // qmllint disable unqualified
+            x: parent.width*flickable.visibleArea.xPosition
+            y: parent.height*flickable.visibleArea.yPosition
+            width: parent.width*flickable.visibleArea.widthRatio
+            height: parent.height*flickable.visibleArea.heightRatio
             opacity: 0.7
-            color: PQCLook.baseColorAccent // qmllint disable unqualified
+            color: PQCLook.baseColorAccent
             border.width: 2
-            border.color: PQCLook.baseColor // qmllint disable unqualified
+            border.color: PQCLook.baseColor
             visible: minimap_top.minimapNeeded
             radius: 2
             MouseArea {
@@ -258,7 +258,7 @@ Rectangle {
                     if(!drag.active) {
                         x = Qt.binding(function() { return parent.width*flickable.visibleArea.xPosition } )
                         y = Qt.binding(function() { return parent.height*flickable.visibleArea.yPosition } )
-                        flickable.returnToBounds() // qmllint disable unqualified
+                        flickable.returnToBounds()
                     } else {
                         x = x
                         y = y
@@ -267,23 +267,23 @@ Rectangle {
             }
             onXChanged: {
                 if(navmouse.drag.active) {
-                    flickable.contentX = flickable.contentWidth*(x/img.width) // qmllint disable unqualified
+                    flickable.contentX = flickable.contentWidth*(x/img.width)
                 }
             }
             onYChanged: {
                 if(navmouse.drag.active) {
-                    flickable.contentY = flickable.contentHeight*(y/img.height) // qmllint disable unqualified
+                    flickable.contentY = flickable.contentHeight*(y/img.height)
                 }
             }
         }
 
         Timer {
-            interval: PQCSettings.imageviewAnimationDuration*100 // qmllint disable unqualified
-            running: loader_top.visible && !hasBeenTriggered // qmllint disable unqualified
+            interval: PQCSettings.imageviewAnimationDuration*100
+            running: loader_top.visible && !hasBeenTriggered
             property bool hasBeenTriggered: false
             onTriggered: {
                 hasBeenTriggered = true
-                var cl = PQCScriptsFilesPaths.cleanPath(imageloaderitem.imageSource) // qmllint disable unqualified
+                var cl = PQCScriptsFilesPaths.cleanPath(imageloaderitem.imageSource)
                 if(cl !== "")
                     img.source = encodeURI("image://thumb/" + cl)
             }
@@ -292,9 +292,9 @@ Rectangle {
     }
 
     Connections {
-        target: imageloaderitem // qmllint disable unqualified
+        target: imageloaderitem
         function onImageSourceChanged(source : string) {
-            var cl = PQCScriptsFilesPaths.cleanPath(source) // qmllint disable unqualified
+            var cl = PQCScriptsFilesPaths.cleanPath(source)
             if(cl !== "")
                 img.source = encodeURI("image://thumb/" + cl)
         }
@@ -302,12 +302,12 @@ Rectangle {
 
     // the pop in/out button
     Image {
-        x: PQCSettings.interfaceMinimapPopout ? 4 : -7 // qmllint disable unqualified
-        y: PQCSettings.interfaceMinimapPopout ? 4 : -7 // qmllint disable unqualified
+        x: PQCSettings.interfaceMinimapPopout ? 4 : -7
+        y: PQCSettings.interfaceMinimapPopout ? 4 : -7
         width: 15
         height: 15
         z: 1
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -316,13 +316,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfaceMinimapPopout ? // qmllint disable unqualified
+            text: PQCSettings.interfaceMinimapPopout ?
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                PQCSettings.interfaceMinimapPopout = !PQCSettings.interfaceMinimapPopout // qmllint disable unqualified
+                PQCSettings.interfaceMinimapPopout = !PQCSettings.interfaceMinimapPopout
             }
         }
 
@@ -331,26 +331,26 @@ Rectangle {
             anchors.margins: -2
             radius: 4
             z: -1
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor
             opacity: parent.opacity
         }
     }
 
     NumberAnimation {
         id: xanim
-        target: flickable // qmllint disable unqualified
+        target: flickable
         property: "contentX"
         duration: 200
         onStopped:
-            flickable.returnToBounds() // qmllint disable unqualified
+            flickable.returnToBounds()
     }
     NumberAnimation {
         id: yanim
-        target: flickable // qmllint disable unqualified
+        target: flickable
         property: "contentY"
         duration: 200
         onStopped:
-            flickable.returnToBounds() // qmllint disable unqualified
+            flickable.returnToBounds()
     }
 
 }

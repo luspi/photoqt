@@ -61,7 +61,7 @@ PQTemplatePopout {
     }
 
     function doSorting() {
-        return loaderitem.doSorting() // qmllint disable missing-property
+        return loaderitem.doSorting() 
     }
 
 }

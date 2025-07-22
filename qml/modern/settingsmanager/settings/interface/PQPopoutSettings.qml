@@ -162,7 +162,7 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    border.color: PQCLook.baseColorHighlight 
 
                     PQLineEdit {
                         id: popout_filter
@@ -215,7 +215,7 @@ Flickable {
 
                                     property bool hovered: false
 
-                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     ToolTip {
@@ -231,10 +231,10 @@ Flickable {
                                         width: deleg.width-20
                                         y: (parent.height-height)/2
                                         text: setting_top.pops[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-                                        font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                        font.weight: PQCLook.fontWeightNormal 
+                                        font.pointSize: PQCLook.fontSizeS 
                                         elide: Text.ElideRight
-                                        color: PQCLook.textColor // qmllint disable unqualified
+                                        color: PQCLook.textColor 
                                         onCheckedChanged: {
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
                                             setting_top.currentCheckBoxStatesChanged()
@@ -337,7 +337,7 @@ Flickable {
                                         }
 
                                         function onPopoutSaveChanges() {
-                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked // qmllint disable unqualified
+                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked 
                                         }
                                     }
 
@@ -364,7 +364,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: PQCLook.baseColorHighlight 
                         }
 
                         Row {
@@ -486,13 +486,13 @@ Flickable {
             }
 
             function load() {
-                keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) // qmllint disable unqualified
+                keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) 
                 keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
                 keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
             }
 
             function applyChanges() {
-                PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked // qmllint disable unqualified
+                PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked 
                 PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
                 PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
                 keepopen_fd_check.saveDefault()
@@ -577,7 +577,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

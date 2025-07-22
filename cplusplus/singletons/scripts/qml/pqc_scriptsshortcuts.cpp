@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsshortcuts.h>
+#include <scripts/qml/pqc_scriptsshortcuts.h>
 #include <QtDebug>
 #include <QFileInfo>
 #include <QProcess>

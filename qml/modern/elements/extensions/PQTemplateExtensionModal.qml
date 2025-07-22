@@ -96,14 +96,14 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive // qmllint disable unqualified
+            color: PQCLook.baseColorActive 
         }
 
         Item {
@@ -187,7 +187,7 @@ Rectangle {
                   //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
             text: qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                settings["ExtPopout"] = true
+                element_top.settings["ExtPopout"] = true
             }
         }
 

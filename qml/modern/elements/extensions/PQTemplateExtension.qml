@@ -63,8 +63,8 @@ Rectangle {
 
         id: contentItem
 
-        width: _fixSizeToContent ? childrenRect.width : extension_top.width
-        height: _fixSizeToContent ? childrenRect.height : extension_top.height
+        width: extension_top._fixSizeToContent ? childrenRect.width : extension_top.width
+        height: extension_top._fixSizeToContent ? childrenRect.height : extension_top.height
 
         clip: true
 

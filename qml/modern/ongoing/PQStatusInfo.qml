@@ -32,9 +32,9 @@ Item {
 
     x: computeDefaultX()
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } } // qmllint disable unqualified
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } } 
 
-    opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 // qmllint disable unqualified
+    opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
@@ -76,17 +76,17 @@ Item {
         acceptedButtons: Qt.AllButtons
         onPressed: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() // qmllint disable missing-property
+                menu.item.popup() 
         }
     }
 
-    state: (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge && PQCSettings.interfaceStatusInfoShow) ? // qmllint disable unqualified
+    state: (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge && PQCSettings.interfaceStatusInfoShow) ? 
                "visible" :
                "hidden"
 
     onStateChanged: {
         if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss() 
     }
 
     states: [
@@ -114,12 +114,12 @@ Item {
 
             id: maincontainer
 
-            color: PQCLook.baseColor // qmllint disable unqualified
+            color: PQCLook.baseColor 
 
             width: row.width+40
             height: row.height+20
 
-            radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
+            radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 
 
             Row {
 
@@ -132,7 +132,7 @@ Item {
 
                 Repeater {
 
-                    model: PQCFileFolderModel.countMainView===0 ? 1 : statusinfo_top.info.length // qmllint disable unqualified
+                    model: PQCFileFolderModel.countMainView===0 ? 1 : statusinfo_top.info.length 
 
                     Item {
 
@@ -150,7 +150,7 @@ Item {
                             Loader {
                                 id: ldr
                                 property string t: statusinfo_top.info[deleg.modelData]
-                                sourceComponent: PQCFileFolderModel.countMainView===0 ? // qmllint disable unqualified
+                                sourceComponent: PQCFileFolderModel.countMainView===0 ? 
                                                    rectNoImages :
                                                    t=="counter" ?
                                                        rectCounter :
@@ -174,8 +174,8 @@ Item {
                             Rectangle {
                                 height: ldr.height
                                 width: 1
-                                color: PQCLook.textColorDisabled // qmllint disable unqualified
-                                visible: deleg.modelData<statusinfo_top.info.length-1 && PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+                                color: PQCLook.textColorDisabled 
+                                visible: deleg.modelData<statusinfo_top.info.length-1 && PQCFileFolderModel.countMainView>0 
                             }
 
                         }
@@ -188,25 +188,25 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top // qmllint disable unqualified
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
                 drag.onActiveChanged: {
                     if(drag.active)
                         PQCConstants.statusInfoMovedManually = true
                 }
 
                 hoverEnabled: true
-                text: PQCSettings.interfaceStatusInfoManageWindow ? // qmllint disable unqualified
+                text: PQCSettings.interfaceStatusInfoManageWindow ? 
                           qsTranslate("statusinfo", "Click and drag to move window around") :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
                 onPressed: {
-                    if(PQCSettings.interfaceStatusInfoManageWindow) // qmllint disable unqualified
+                    if(PQCSettings.interfaceStatusInfoManageWindow) 
                         PQCNotify.windowStartSystemMove()
                 }
                 onDoubleClicked: {
-                    if(PQCSettings.interfaceStatusInfoManageWindow) { // qmllint disable unqualified
+                    if(PQCSettings.interfaceStatusInfoManageWindow) { 
                         if(PQCConstants.windowState === Window.Maximized)
                             PQCNotify.setWindowState(Window.Windowed)
                         else if(PQCConstants.windowState === Window.Windowed)
@@ -224,7 +224,7 @@ Item {
 
             property bool filterset: false
 
-            color: PQCLook.baseColor // qmllint disable unqualified
+            color: PQCLook.baseColor 
 
             width: filterrow.width+30
             height: filterrow.height+20
@@ -237,9 +237,9 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top // qmllint disable unqualified
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
                 hoverEnabled: true
-                text: PQCSettings.interfaceStatusInfoManageWindow ? // qmllint disable unqualified
+                text: PQCSettings.interfaceStatusInfoManageWindow ? 
                           "" :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
@@ -264,7 +264,7 @@ Item {
                     y: (parent.height-height)/2
                     width: filtertxt.height/2
                     height: width
-                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
+                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
                     sourceSize: Qt.size(width, height)
                     PQMouseArea {
                         anchors.fill: parent
@@ -272,7 +272,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("statusinfo", "Click to remove filter")
                         onClicked: {
-                            PQCFileFolderModel.removeAllUserFilter() // qmllint disable unqualified
+                            PQCFileFolderModel.removeAllUserFilter() 
                         }
                     }
                 }
@@ -281,7 +281,7 @@ Item {
                     id: filtertxt
 
                     Connections {
-                        target: PQCFileFolderModel // qmllint disable unqualified
+                        target: PQCFileFolderModel 
                         function onFilenameFiltersChanged() {
                             filtertxt.composeText()
                         }
@@ -300,7 +300,7 @@ Item {
 
                         var txt = []
 
-                        var txt1 = PQCFileFolderModel.filenameFilters.join(" ") // qmllint disable unqualified
+                        var txt1 = PQCFileFolderModel.filenameFilters.join(" ") 
                         if(txt1 !== "") txt.push(txt1)
 
                         var txt2 = ""
@@ -349,7 +349,7 @@ Item {
 
             width: 50
             height: width
-            color: PQCLook.baseColor // qmllint disable unqualified
+            color: PQCLook.baseColor 
             radius: 5
 
             opacity: (!PQCConstants.slideshowRunning && ((currentIsPDF && PQCSettings.filetypesDocumentViewerModeExitButton)||(currentIsARC && PQCSettings.filetypesArchiveViewerModeExitButton))) ? 1 : 0
@@ -363,23 +363,23 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
                 sourceSize: Qt.size(width, height)
-                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? ("image://svg/:/" + PQCLook.iconShade + "/viewermode_off.svg") : ("image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg") // qmllint disable unqualified
+                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? ("image://svg/:/" + PQCLook.iconShade + "/viewermode_off.svg") : ("image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg") 
                 mipmap: true
             }
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top // qmllint disable unqualified
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: PQCSettings.interfaceStatusInfoManageWindow ? // qmllint disable unqualified
+                text: PQCSettings.interfaceStatusInfoManageWindow ? 
                           "" :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
                 onClicked: {
-                    if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) // qmllint disable unqualified
+                    if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) 
                         PQCFileFolderModel.disableViewerMode()
                     else {
                         PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
@@ -392,11 +392,11 @@ Item {
             }
 
             Connections {
-                target: PQCFileFolderModel // qmllint disable unqualified
+                target: PQCFileFolderModel 
 
                 function onCurrentFileChanged() {
 
-                    viewermode.currentIsPDF = (PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) && // qmllint disable unqualified
+                    viewermode.currentIsPDF = (PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) && 
                                                (PQCFileFolderModel.isPDF || PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile)))
 
                     viewermode.currentIsARC = (PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
@@ -413,7 +413,7 @@ Item {
         source: "image://svg/:/other/chromecastactive.svg"
         width: 32
         height: 32
-        opacity: PQCScriptsChromeCast.connected ? 1 : 0 // qmllint disable unqualified
+        opacity: PQCScriptsChromeCast.connected ? 1 : 0 
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
         sourceSize: Qt.size(width, height)
@@ -426,7 +426,7 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             //: Used in tooltip for the chromecast icon
-            text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName // qmllint disable unqualified
+            text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName 
             onClicked:
                 PQCNotify.loaderShowExtension("chromecastmanager")
         }
@@ -443,7 +443,7 @@ Item {
     Component {
         id: rectCounter
         PQText {
-            text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView // qmllint disable unqualified
+            text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView 
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -451,7 +451,7 @@ Item {
     Component {
         id: rectFilename
         PQText {
-            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay) 
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -459,7 +459,7 @@ Item {
     Component {
         id: rectFilepath
         PQText {
-            text: PQCFileFolderModel.currentFileNoDelay // qmllint disable unqualified
+            text: PQCFileFolderModel.currentFileNoDelay 
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -467,7 +467,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" // qmllint disable unqualified
+            text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" 
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -503,7 +503,7 @@ Item {
     Component {
         id: rectFilesize
         PQText {
-            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay) 
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -541,9 +541,9 @@ Item {
                 }
             }
             Connections {
-                target: PQCFileFolderModel // qmllint disable unqualified
+                target: PQCFileFolderModel 
                 function onCurrentFileChanged() {
-                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) { // qmllint disable unqualified
+                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) { 
                         csptxt.color = PQCLook.textColorDisabled
                         loadVideoColorInfo.restart()
                     } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFileNoDelay)) {
@@ -565,7 +565,7 @@ Item {
                 id: loadVideoColorInfo
                 interval: 1
                 onTriggered: {
-                    var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) // qmllint disable unqualified
+                    var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) 
                     csptxt.color = PQCLook.textColor
                     if(val === "")
                         val = qsTranslate("statusinfo", "unknown color profile")
@@ -641,9 +641,9 @@ Item {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
-                    checked: PQCSettings.interfaceStatusInfoShow // qmllint disable unqualified
+                    checked: PQCSettings.interfaceStatusInfoShow 
                     onCheckedChanged: {
-                        PQCSettings.interfaceStatusInfoShow = checked // qmllint disable unqualified
+                        PQCSettings.interfaceStatusInfoShow = checked 
                         if(!checked)
                             menuitem.dismiss()
                     }
@@ -651,9 +651,9 @@ Item {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "manage window")
-                    checked: PQCSettings.interfaceStatusInfoManageWindow // qmllint disable unqualified
+                    checked: PQCSettings.interfaceStatusInfoManageWindow 
                     onCheckedChanged:
-                        PQCSettings.interfaceStatusInfoManageWindow = checked // qmllint disable unqualified
+                        PQCSettings.interfaceStatusInfoManageWindow = checked 
                 }
 
                 PQMenu {
@@ -665,10 +665,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "always")
                         ButtonGroup.group: grp
-                        checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge 
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHide = false 
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
                             }
                         }
@@ -678,10 +678,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor move")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge 
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = true // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHide = true 
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
                             }
                         }
@@ -691,10 +691,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor near top edge")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge // qmllint disable unqualified
+                        checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge 
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = false // qmllint disable unqualified
+                                PQCSettings.interfaceStatusInfoAutoHide = false 
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = true
                             }
                         }
@@ -710,7 +710,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top left")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "left" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = "left" 
                         }
                     }
 
@@ -718,7 +718,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top center")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "center" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = "center" 
                         }
                     }
 
@@ -726,7 +726,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top right")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "right" // qmllint disable unqualified
+                            PQCSettings.interfaceStatusInfoPosition = "right" 
                         }
                     }
                 }
@@ -735,7 +735,7 @@ Item {
 
                 PQMenuItem {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
                     onTriggered: {
                         PQCNotify.openSettingsManagerAt("showSettings", ["statusinfo"])
                     }
@@ -744,14 +744,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCConstants.addToWhichContextMenusOpen("statusinfo") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("statusinfo") 
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menuitem.visible)
-                            PQCConstants.removeFromWhichContextMenusOpen("statusinfo") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("statusinfo") 
                     }
                 }
             }
@@ -765,7 +765,7 @@ Item {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || PQCConstants.modalWindowOpen) { // qmllint disable unqualified
+            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || PQCConstants.modalWindowOpen) { 
                 resetAutoHide.stop()
                 statusinfo_top.state = "visible"
                 statusinfo_top.nearTopEdge = true
@@ -787,7 +787,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss() 
         }
 
     }
@@ -806,11 +806,11 @@ Item {
 
     Connections {
 
-        target: PQCFileFolderModel // qmllint disable unqualified
+        target: PQCFileFolderModel 
 
         function onCurrentIndexChanged() {
 
-            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 || // qmllint disable unqualified
+            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 || 
                     (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) ||
                     !PQCSettings.interfaceStatusInfoShowImageChange)
                 return
@@ -824,10 +824,10 @@ Item {
 
     Connections {
 
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants 
 
         function onModalWindowOpenChanged() {
-            if(PQCConstants.modalWindowOpen) // qmllint disable unqualified
+            if(PQCConstants.modalWindowOpen) 
                 statusinfo_top.state = "visible"
         }
 
@@ -860,11 +860,11 @@ Item {
 
     Timer {
         id: resetAutoHide
-        interval:  500 + PQCSettings.interfaceStatusInfoAutoHideTimeout // qmllint disable unqualified
+        interval:  500 + PQCSettings.interfaceStatusInfoAutoHideTimeout 
         repeat: false
         running: false
         onTriggered: {
-            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened) // qmllint disable unqualified
+            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened) 
                 statusinfo_top.state = "hidden"
         }
     }

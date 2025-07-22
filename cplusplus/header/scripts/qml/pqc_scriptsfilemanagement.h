@@ -49,7 +49,6 @@ public:
     Q_INVOKABLE bool deletePermanent(QString filename);
     Q_INVOKABLE bool moveFileToTrash(QString filename);
 
-    Q_INVOKABLE void exportImage(QString sourceFilename, QString targetFilename, int uniqueid);
     Q_INVOKABLE bool canThisBeScaled(QString filename);
     Q_INVOKABLE void scaleImage(QString sourceFilename, QString targetFilename, int uniqueid, QSize targetSize, int targetQuality);
 
@@ -60,8 +59,16 @@ public:
     Q_INVOKABLE void cropImage(QString sourceFilename, QString targetFilename, int uniqueid, QPointF topLeft, QPointF botRight);
     Q_INVOKABLE bool canThisBeCropped(QString filename);
 
+    Q_INVOKABLE QString undoLastAction(QString action);
+    void recordAction(QString actions, QVariantList args);
+
+private:
+    QString undoCurFolder;
+    QList<QVariantList> undoTrash;
+
+private Q_SLOTS:
+
 Q_SIGNALS:
-    void exportCompleted(bool success);
     void scaleCompleted(bool success);
     void cropCompleted(bool success);
 

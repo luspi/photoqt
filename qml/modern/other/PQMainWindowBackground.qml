@@ -44,7 +44,7 @@ Item {
     }
 
     function setBackground() {
-        if(PQCSettings.interfaceBackgroundSolid) { // qmllint disable unqualified
+        if(PQCSettings.interfaceBackgroundSolid) { 
             bgimage.source = ""
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
         } else if(PQCSettings.interfaceBackgroundImageUse) {
@@ -86,7 +86,7 @@ Item {
     }
 
     Connections {
-        target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings 
 
         function onInterfaceAccentColorChanged() {
             resetBG.restart()

@@ -27,7 +27,7 @@ Rectangle {
 
     id: explorertweaks
 
-    color: PQCLook.baseColor // qmllint disable unqualified
+    color: PQCLook.baseColor 
 
     property real minZoomLevel: 0
     property real maxZoomLevel: 1
@@ -57,10 +57,10 @@ Rectangle {
             from: explorertweaks.minZoomLevel
             to: explorertweaks.maxZoomLevel
             stepSize: 0.1
-            value: mapexplorer_top.mapZoomLevel // qmllint disable unqualified
+            value: mapexplorer_top.mapZoomLevel 
 
             onValueChanged: {
-                mapexplorer_top.mapZoomLevel = value // qmllint disable unqualified
+                mapexplorer_top.mapZoomLevel = value 
             }
         }
 
@@ -68,13 +68,13 @@ Rectangle {
 
     PQButtonIcon {
         id: resetbutton
-        x: parent.width-width-mapexplorer_top.closebuttonWidth/2 // qmllint disable unqualified
+        x: parent.width-width-mapexplorer_top.closebuttonWidth/2 
         y: (parent.height-height)/2
-        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" 
         //: The view here is the map layout in the map explorer
         tooltip: qsTranslate("mapexplorer", "Reset view")
         onClicked: {
-            mapexplorer_top.resetMap() // qmllint disable unqualified
+            mapexplorer_top.resetMap() 
             mapexplorer_top.resetWidth()
         }
     }

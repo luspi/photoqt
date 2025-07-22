@@ -93,7 +93,7 @@ Flickable {
                     PQRadioButton {
                         id: zoom_rel
                         text: qsTranslate("settingsmanager", "relative zoom speed")
-                        checked: PQCSettings.imageviewZoomSpeedRelative // qmllint disable unqualified
+                        checked: PQCSettings.imageviewZoomSpeedRelative 
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
@@ -220,7 +220,7 @@ Flickable {
             }
 
             function load() {
-                zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) // qmllint disable unqualified
+                zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) 
                 zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
                 zoom_abs.loadAndSetDefault(!PQCSettings.imageviewZoomSpeedRelative)
                 minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
@@ -233,7 +233,7 @@ Flickable {
 
             function applyChanges() {
 
-                PQCSettings.imageviewZoomSpeed = zoomspeed.value // qmllint disable unqualified
+                PQCSettings.imageviewZoomSpeed = zoomspeed.value 
                 PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
                 PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
                 PQCSettings.imageviewZoomMin = minzoom_slider.value

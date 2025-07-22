@@ -28,22 +28,39 @@ Image {
 
     id: image
 
+    /*******************************************/
+    // these values are READONLY.
+
     property string imageSource: ""
+    property real defaultScale
+    property real currentScale
+    property bool isMainImage
+    property Item loaderTop
+
+
+    /*******************************************/
+    // these values are WRITEONLY and are picked up in PQImageDisplay
+
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+
+    /*******************************************/
+
+    source: ""
+
     onImageSourceChanged: {
         if(imageSource === "") {
             image.source = ""
         } else if(imageSource.includes("::PDF::")) {
-            image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(imageSource.split("::PDF::")[1])) // qmllint disable unqualified
+            image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(imageSource.split("::PDF::")[1]))
         } else {
             image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(imageSource))
         }
     }
 
-    source: ""
-
     Component.onCompleted: {
         if(image.imageSource.includes("::PDF::"))
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource) // qmllint disable unqualified
+            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
         else
             source = "image://full/%1::PDF::%2".arg(currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
     }
@@ -68,16 +85,9 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+        image.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
-
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            image.setMirrorHV(mirH, mirV)
-        }
-    }
+        image.imageMirrorV = myMirrorV
 
     function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
@@ -87,25 +97,15 @@ Image {
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) image.myMirrorH = !image.myMirrorH
+            if(image.visible) image.myMirrorH = !image.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) image.myMirrorV = !image.myMirrorV
+            if(image.visible) image.myMirrorV = !image.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!image.visible) return
             image.myMirrorH = false
             image.myMirrorV = false
-        }
-    }
-
-    Connections {
-        target: image_top // qmllint disable unqualified
-        function onWidthChanged() {
-            resetScreenSize.restart()
-        }
-        function onHeightChanged() {
-            resetScreenSize.restart()
         }
     }
 
@@ -115,14 +115,14 @@ Image {
             origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: image.width / 2
             origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
@@ -130,16 +130,19 @@ Image {
     Timer {
         id: loadScaledDown
         // this ensures it happens after the animation has stopped
-        interval: (PQCSettings.imageviewAnimationDuration+1)*100 // qmllint disable unqualified
+        interval: (PQCSettings.imageviewAnimationDuration+1)*100
         onTriggered: {
-            if(loader_top.isMainImage) { // qmllint disable unqualified
-                image.screenW = image_top.width
-                image.screenH = image_top.height
+            if(image.isMainImage) {
+                image.screenW = image.loaderTop.width
+                image.screenH = image.loaderTop.height
                 ldl.active = true
             }
         }
     }
 
+    function restartResetScreenSize() {
+        resetScreenSize.restart()
+    }
     property int screenW
     property int screenH
     Timer {
@@ -147,8 +150,8 @@ Image {
         interval: 500
         repeat: false
         onTriggered: {
-            image.screenW = image_top.width // qmllint disable unqualified
-            image.screenH = image_top.height
+            image.screenW = image.loaderTop.width
+            image.screenH = image.loaderTop.height
         }
     }
 
@@ -162,16 +165,16 @@ Image {
             width: image.width
             height: image.height
             source: visible ? image.source : ""
-            smooth: image_wrapper.scale < 0.95*loader_top.defaultScale // qmllint disable unqualified
+            smooth: image.currentScale < 0.95*image.defaultScale
             mipmap: smooth
             cache: false
-            visible: loader_top.defaultScale >= (1/0.95)*image_wrapper.scale // qmllint disable unqualified
+            visible: image.defaultScale >= (1/0.95)*image.currentScale
             sourceSize: Qt.size(image.screenW, image.screenH)
         }
     }
 
     property int currentPage: 0
-    property int pageCount: PQCScriptsImages.getDocumentPageCount(image.imageSource) // qmllint disable unqualified
+    property int pageCount: PQCScriptsImages.getDocumentPageCount(image.imageSource)
 
     onCurrentPageChanged: {
         PQCConstants.currentFileInsideNum = currentPage
@@ -179,7 +182,7 @@ Image {
     }
 
     onPageCountChanged: {
-        PQCConstants.currentFileInsideTotal = pageCount // qmllint disable unqualified
+        PQCConstants.currentFileInsideTotal = pageCount
     }
 
     Timer {
@@ -192,7 +195,7 @@ Image {
             } else {
                 image.asynchronous = false
                 if(image.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource.split("::PDF::")[1])) // qmllint disable unqualified
+                    image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource.split("::PDF::")[1]))
                 } else {
                     image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
                 }
@@ -202,19 +205,12 @@ Image {
     }
 
     onStatusChanged: {
-        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
         else if(status == Image.Ready) {
-            if(loader_top.defaultScale < 0.95)
+            if(image.defaultScale < 0.95)
                 loadScaledDown.restart()
         }
-    }
-
-    onSourceSizeChanged: {
-        loader_top.imageResolution = sourceSize // qmllint disable unqualified
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
     }
 
     Connections {
@@ -230,6 +226,9 @@ Image {
 
     PQDocumentControls {
         id: controls
+        pageCount: image.pageCount
+        currentPage: image.currentPage
+        loaderTop: image.loaderTop
     }
 
 }

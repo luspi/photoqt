@@ -26,8 +26,8 @@ import PhotoQt
 
 Item {
 
-    width: PQCConstants.windowWidth // qmllint disable unqualified
-    height: PQCConstants.windowHeight // qmllint disable unqualified
+    width: PQCConstants.windowWidth 
+    height: PQCConstants.windowHeight 
 
     Connections {
 
@@ -40,7 +40,7 @@ Item {
                 if(param[0] === "filemove") {
 
                     error.opacity = 0
-                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
                         PQCNotify.loaderRegisterClose("filecopy")
                         return
                     }
@@ -77,7 +77,7 @@ Item {
     Rectangle {
         id: error
         anchors.fill: parent
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
@@ -88,12 +88,12 @@ Item {
             PQTextXXL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "An error occured")
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
             }
             PQTextL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "File could not be moved")
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
             }
             PQButton {
                 id: errorbut
@@ -101,7 +101,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    PQCNotify.loaderRegisterClose("filemove") // qmllint disable unqualified
+                    PQCNotify.loaderRegisterClose("filemove") 
                 }
             }
         }

@@ -81,7 +81,7 @@ Item {
 
     onStateChanged: {
         if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss() 
     }
 
     states: [
@@ -116,7 +116,7 @@ Item {
         acceptedButtons: Qt.AllButtons
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() // qmllint disable missing-property
+                menu.item.popup() 
         }
     }
 
@@ -204,7 +204,7 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/" + "leftarrow.svg"
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+            enabled: PQCFileFolderModel.countMainView>0 
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 1 : 0.8) : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0 && !PQCConstants.slideshowRunning
@@ -222,7 +222,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCScriptsShortcuts.executeInternalCommand("__prev") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__prev") 
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -279,7 +279,7 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/rightarrow.svg"
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+            enabled: PQCFileFolderModel.countMainView>0 
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 1 : 0.8) : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -297,7 +297,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCScriptsShortcuts.executeInternalCommand("__next") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__next") 
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -374,7 +374,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCScriptsShortcuts.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__toggleMainMenu") 
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -604,7 +604,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.setWindowState(Window.Minimized)
                     else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup() 
                 }
             }
 
@@ -657,7 +657,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCScriptsConfig.amIOnWindows() ? // qmllint disable unqualified
+            source: PQCScriptsConfig.amIOnWindows() ? 
                         (PQCConstants.windowState===Window.Windowed ?
                              (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-maximize.svg") :
                              (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-restore.svg")) :
@@ -689,7 +689,7 @@ Item {
                         else
                             PQCNotify.setWindowState(Window.Windowed)
                     } else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup() 
                 }
             }
 
@@ -763,7 +763,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.windowClose()
                     else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup() 
                 }
             }
 
@@ -902,14 +902,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCConstants.addToWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("windowbuttons") 
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menucomponent.visible)
-                            PQCConstants.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("windowbuttons") 
                     }
                 }
             }
@@ -943,7 +943,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss() 
         }
 
     }

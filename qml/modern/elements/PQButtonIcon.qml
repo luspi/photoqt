@@ -49,7 +49,7 @@ Rectangle {
 
     property alias contextmenu: menu
 
-    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : overrideBaseColor)) // qmllint disable unqualified
+    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : overrideBaseColor)) 
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)

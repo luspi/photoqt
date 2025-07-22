@@ -23,8 +23,8 @@
 #include <pqc_loadimage.h>
 #include <pqc_loadimage_archive.h>
 #include <pqc_imagecache.h>
-#include <scripts/qmlcpp/pqc_scriptsimages.h>
-#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
+#include <scripts/cpp/pqc_scriptsimages.h>
+#include <scripts/cpp/pqc_scriptscolorprofiles.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
 #include <pqc_loadimage.h>

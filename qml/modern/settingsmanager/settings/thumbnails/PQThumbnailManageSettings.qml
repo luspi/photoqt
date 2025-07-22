@@ -121,7 +121,7 @@ Flickable {
                             tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
 
                             onClicked: {
-                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir)) // qmllint disable unqualified
+                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir)) 
                                 if(path !== "") {
                                     cache_dir_custom.customdir = path
                                     setting_top.checkDefault()
@@ -150,13 +150,13 @@ Flickable {
             }
 
             function load() {
-                cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache) // qmllint disable unqualified
+                cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache) 
                 cache_dir_default.loadAndSetDefault(PQCSettings.thumbnailsCacheBaseDirDefault)
                 cache_dir_custom.customdir = PQCSettings.thumbnailsCacheBaseDirLocation
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsCache = cache_enable.checked // qmllint disable unqualified
+                PQCSettings.thumbnailsCache = cache_enable.checked 
                 PQCSettings.thumbnailsCacheBaseDirDefault = cache_dir_default.checked
                 PQCSettings.thumbnailsCacheBaseDirLocation = cache_dir_custom.customdir
                 PQCScriptsFilesPaths.setThumbnailBaseCacheDir(cache_dir_default.checked ? "" : cache_dir_custom.customdir)
@@ -203,7 +203,7 @@ Flickable {
                 PQCheckBox {
                     id: nextcloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeNextcloud // qmllint disable unqualified
+                    property string folder: PQCSettings.thumbnailsExcludeNextcloud 
                     visible: folder!=""
                     text: "Nextcloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -212,7 +212,7 @@ Flickable {
                 PQCheckBox {
                     id: owncloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud // qmllint disable unqualified
+                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud 
                     visible: folder!=""
                     text: "ownCloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -221,7 +221,7 @@ Flickable {
                 PQCheckBox {
                     id: dropbox
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeDropBox // qmllint disable unqualified
+                    property string folder: PQCSettings.thumbnailsExcludeDropBox 
                     visible: folder!=""
                     text: "DropBox: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -249,7 +249,7 @@ Flickable {
                     //: Written on a button
                     text: qsTranslate("settingsmanager", "Add folder")
                     onClicked: {
-                        var newdir = PQCScriptsFilesPaths.getExistingDirectory() // qmllint disable unqualified
+                        var newdir = PQCScriptsFilesPaths.getExistingDirectory() 
                         if(newdir !== "") {
                             if(exclude_folders.text === "")
                                 exclude_folders.text = newdir+"\n"

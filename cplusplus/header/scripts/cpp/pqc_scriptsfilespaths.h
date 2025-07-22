@@ -58,6 +58,7 @@ public:
     Q_INVOKABLE QString        toPercentEncoding(QString str);
     Q_INVOKABLE QString        handleAnimatedImagePathAndEncode(QString path);
     Q_INVOKABLE QString        getSuffix(QString path);
+    Q_INVOKABLE QString        getSuffixLowerCase(QString path);
     Q_INVOKABLE QString        getBasename(QString fullpath);
     Q_INVOKABLE QString        getFilename(QString fullpath);
     Q_INVOKABLE QString        getDir(QString fullpath);

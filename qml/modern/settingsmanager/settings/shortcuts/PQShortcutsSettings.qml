@@ -241,7 +241,7 @@ Flickable {
             spacing: 10
 
             PQTextXL {
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: Settings title
                 text: qsTranslate("settingsmanager", "Shortcuts")
                 font.capitalization: Font.SmallCaps
@@ -438,12 +438,12 @@ Flickable {
 
                 clip: true
 
-                color: PQCLook.baseColorAccent // qmllint disable unqualified
+                color: PQCLook.baseColorAccent 
                 Behavior on color {
                     SequentialAnimation {
                         loops: 4
-                        ColorAnimation { from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } // qmllint disable unqualified
-                        ColorAnimation { from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } // qmllint disable unqualified
+                        ColorAnimation { from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } 
+                        ColorAnimation { from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } 
                     }
                 }
 
@@ -528,7 +528,7 @@ Flickable {
                                         width: delrect.width+combolabel.width+35
                                         radius: 10
 
-                                        color: combomouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                                        color: combomouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                                         Behavior on color { ColorAnimation { duration: 200 } }
 
                                         // deletion 'x' for shortcut
@@ -544,7 +544,7 @@ Flickable {
                                             Behavior on opacity { NumberAnimation { duration: 200 } }
                                             Text {
                                                 anchors.centerIn: parent
-                                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                                font.weight: PQCLook.fontWeightBold 
                                                 color: "white"
                                                 text: "x"
                                             }
@@ -554,9 +554,9 @@ Flickable {
                                             id: combolabel
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
-                                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                            font.weight: PQCLook.fontWeightBold 
                                             text: PQCScriptsShortcuts.translateShortcut(deleg.combos[combodeleg.index])
-                                            color: PQCLook.textColor // qmllint disable unqualified
+                                            color: PQCLook.textColor 
                                             Behavior on color { ColorAnimation { duration: 200 } }
                                         }
 
@@ -604,7 +604,7 @@ Flickable {
                                 y: (parent.height-height)/2
                                 width: addcombo.width+6
                                 height: addcombo.height+6
-                                color: addmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                                color: addmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 radius: 5
                                 PQTextS {
@@ -613,7 +613,7 @@ Flickable {
                                     y: 3
                                     //: Written on small button, used as in: add new key combination. Please keep short!
                                     text: qsTranslate("settingsmanager", "ADD")
-                                    color: PQCLook.textColor // qmllint disable unqualified
+                                    color: PQCLook.textColor 
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
 
@@ -643,7 +643,7 @@ Flickable {
 
                         width: parent.width
                         height: exstre_col.height+20
-                        color: PQCLook.baseColorAccent // qmllint disable unqualified
+                        color: PQCLook.baseColorAccent 
 
                         opacity: 0
                         visible: opacity>0
@@ -652,8 +652,8 @@ Flickable {
                         SequentialAnimation {
                             loops: Animation.Infinite
                             running: exstre.visible
-                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } // qmllint disable unqualified
-                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } // qmllint disable unqualified
+                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorAccent; to: PQCLook.baseColorHighlight; duration: 400 } 
+                            PropertyAnimation { target: exstre; property: "color"; from: PQCLook.baseColorHighlight; to: PQCLook.baseColorAccent; duration: 400 } 
                         }
 
                         Connections {
@@ -678,7 +678,7 @@ Flickable {
 
                             PQText {
                                 width: parent.width
-                                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                font.weight: PQCLook.fontWeightBold 
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 text: qsTranslate("settingsmanager", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
                             }
@@ -736,7 +736,7 @@ Flickable {
                     x: ontheleft.width
                     width: 1
                     height: Math.max(ontheleft.height, ontheright.height)
-                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    color: PQCLook.baseColorHighlight 
                 }
 
                 /************************/
@@ -792,7 +792,7 @@ Flickable {
                             height: c2.height+10
                             radius: 5
 
-                            color: actmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: actmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -829,7 +829,7 @@ Flickable {
                                                cmddeleg.cmd.split(":/:/:")[0] + " " + cmddeleg.cmd.split(":/:/:")[1] +
                                                //: This is used for listing external commands for shortcuts, showing if the quit after checkbox has been checked
                                                (cmddeleg.cmd.split(":/:/:")[2]*1==1 ? " (" + qsTranslate("settingsmanager", "quit after") + ")" : ""))
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 
@@ -856,7 +856,7 @@ Flickable {
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
                                 Text {
                                     anchors.centerIn: parent
-                                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                                    font.weight: PQCLook.fontWeightBold 
                                     color: "white"
                                     text: "x"
                                 }
@@ -891,7 +891,7 @@ Flickable {
                             y: 3
                             width: addaction.width+6
                             height: addaction.height+6
-                            color: addactmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                            color: addactmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                             Behavior on color { ColorAnimation { duration: 200 } }
                             radius: 5
                             PQTextS {
@@ -900,7 +900,7 @@ Flickable {
                                 y: 3
                                 //: Written on small button, used as in: add new shortcut action. Please keep short!
                                 text: qsTranslate("settingsmanager", "ADD")
-                                color: PQCLook.textColor // qmllint disable unqualified
+                                color: PQCLook.textColor 
                                 Behavior on color { ColorAnimation { duration: 200 } }
                             }
 
@@ -961,7 +961,7 @@ Flickable {
                                 id: radio_cycle
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "cycle through actions one by one")
-                                font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                font.pointSize: PQCLook.fontSizeS 
                                 checked: deleg.cycling
                                 ButtonGroup.group: radioGroup
                                 onCheckedChanged: {
@@ -980,7 +980,7 @@ Flickable {
                                     checked: deleg.cycletimeout>0
                                     //: The cycle here is the act of cycling through shortcut actions one by one
                                     text: qsTranslate("settingsmanager", "timeout for resetting cycle:")
-                                    font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                    font.pointSize: PQCLook.fontSizeS 
                                     onCheckedChanged: {
                                         cycletimeout_slider.value = 0
                                     }
@@ -1026,7 +1026,7 @@ Flickable {
                                 x: 40
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "run all actions at once")
-                                font.pointSize: PQCLook.fontSizeS // qmllint disable unqualified
+                                font.pointSize: PQCLook.fontSizeS 
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
                                 onCheckedChanged: {
@@ -1045,7 +1045,7 @@ Flickable {
                     y: parent.height-1
                     width: parent.width
                     height: 1
-                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                    color: PQCLook.baseColorHighlight 
                 }
 
                 Connections {
@@ -1071,7 +1071,7 @@ Flickable {
                     target: setting_top
                     function onHighlightEntry(idx: int) {
                         if(idx === deleg.index) {
-                            deleg.color = PQCLook.baseColorHighlight // qmllint disable unqualified
+                            deleg.color = PQCLook.baseColorHighlight 
                         }
                     }
                 }
@@ -1201,7 +1201,7 @@ Flickable {
 
             // reassign shortcut, save reassignment data, and show undo button
             if(usedIndex != -1) {
-                var newid = PQCScriptsOther.getUniqueId() // qmllint disable unqualified
+                var newid = PQCScriptsOther.getUniqueId() 
                 setting_top.handleExisting[newid] = [usedIndex, index, combo]
                 var val = shmodel.get(usedIndex).combosstr.split(":://::")
                 val.splice(val.indexOf(combo), 1)
@@ -1286,7 +1286,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }
@@ -1346,7 +1346,7 @@ Flickable {
 
     function applyChanges() {
 
-        PQCShortcuts.saveAllCurrentShortcuts(currentEntries) // qmllint disable unqualified
+        PQCShortcuts.saveAllCurrentShortcuts(currentEntries) 
         defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
         settingChanged = false
     }

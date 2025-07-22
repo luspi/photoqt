@@ -29,6 +29,15 @@
 #include <QObject>
 #include <QRandomGenerator>
 
+/*************************************************************/
+/*************************************************************/
+//
+// this class is ONLY used by C++ at the moment
+// if this ever changes then a qml wrapper might have to be created
+//
+/*************************************************************/
+/*************************************************************/
+
 class PQCScriptsCrypt : public QObject {
 
     Q_OBJECT

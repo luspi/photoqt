@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
 
 // this class is heavily used in both C++ and QML code
 // thus there is a wrapper for QML available
@@ -46,6 +46,7 @@ public:
     Q_INVOKABLE QString        toPercentEncoding(QString str)                 { return PQCScriptsFilesPaths::get().toPercentEncoding(str); }
     Q_INVOKABLE QString        handleAnimatedImagePathAndEncode(QString path) { return PQCScriptsFilesPaths::get().handleAnimatedImagePathAndEncode(path); }
     Q_INVOKABLE QString        getSuffix(QString path)                        { return PQCScriptsFilesPaths::get().getSuffix(path); }
+    Q_INVOKABLE QString        getSuffixLowerCase(QString path)               { return PQCScriptsFilesPaths::get().getSuffixLowerCase(path); }
     Q_INVOKABLE QString        getBasename(QString fullpath)                  { return PQCScriptsFilesPaths::get().getBasename(fullpath); }
     Q_INVOKABLE QString        getFilename(QString fullpath)                  { return PQCScriptsFilesPaths::get().getFilename(fullpath); }
     Q_INVOKABLE QString        getDir(QString fullpath)                       { return PQCScriptsFilesPaths::get().getDir(fullpath); }

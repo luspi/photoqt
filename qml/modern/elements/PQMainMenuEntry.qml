@@ -55,7 +55,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+        color: PQCLook.baseColorHighlight 
         radius: 5
         opacity: entrytop.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -72,7 +72,7 @@ Item {
         Image {
             visible: entrytop.img!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : "") // qmllint disable unqualified
+            source: entrytop.img.startsWith("data:image/png;base64") ? entrytop.img : (entrytop.img!="" ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img) : "") 
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
@@ -87,7 +87,7 @@ Item {
         Image {
             visible: entrytop.img_end!=""
             sourceSize: Qt.size(entry.height, entry.height)
-            source: (entrytop.img_end!="") ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img_end) : "" // qmllint disable unqualified
+            source: (entrytop.img_end!="") ? ("image://svg/:/" + PQCLook.iconShade + "/" + entrytop.img_end) : "" 
             opacity: entrytop.active ? (entrytop.hovered ? 1 : 0.8) : 0.4
             Behavior on opacity { NumberAnimation { duration: 200 } }
         }
@@ -96,7 +96,7 @@ Item {
 
     PQMouseArea {
         id: mousearea
-        enabled: parent.active
+        enabled: entrytop.active
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
@@ -113,7 +113,7 @@ Item {
             if(entrytop.cmd == "") {
                 entrytop.clicked()
             } else if(!entrytop.customEntry || entrytop.cmd.startsWith("__")) {
-                PQCScriptsShortcuts.executeInternalCommand(entrytop.cmd) // qmllint disable unqualified
+                PQCScriptsShortcuts.executeInternalCommand(entrytop.cmd) 
             } else {
                 PQCScriptsShortcuts.executeExternal(cmd, custom_args, PQCFileFolderModel.currentFile);
                 if(custom_close == "1")

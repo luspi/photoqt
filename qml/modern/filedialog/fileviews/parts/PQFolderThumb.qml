@@ -83,7 +83,7 @@ Item {
                 return
             if(deleg.numberFilesInsideFolder === 0)
                 return
-            if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) // qmllint disable unqualified
+            if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) 
                 return
             if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                 folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1

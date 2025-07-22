@@ -104,11 +104,11 @@ Flickable {
             }
 
             function load() {
-                thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) // qmllint disable unqualified
+                thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) 
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsSize = thumb_size.value // qmllint disable unqualified
+                PQCSettings.thumbnailsSize = thumb_size.value 
                 thumb_size.saveDefault()
             }
 
@@ -416,7 +416,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

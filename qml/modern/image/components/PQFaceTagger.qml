@@ -28,7 +28,17 @@ Item {
 
     id: facetagger_top
 
-    property list<var> faceTags: []
+    /*******************************************/
+    // these values are READONLY
+
+    property int imageRotation
+    property bool isMainImage
+
+    /*******************************************/
+
+    signal facetrackerLoadData()
+
+    /*******************************************/
 
     anchors.fill: parent
 
@@ -36,20 +46,21 @@ Item {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    property list<var> faceTags: []
     property int threshold: 5
 
     Rectangle {
 
-        parent: fullscreenitem_foreground // qmllint disable unqualified
+        parent: fullscreenitem_foreground
         x: 20
         y: 20
         width: 42
         height: 42
         radius: 21
 
-        visible: PQCConstants.faceTaggingMode // qmllint disable unqualified
+        visible: PQCConstants.faceTaggingMode
 
-        color: PQCLook.transColor // qmllint disable unqualified
+        color: PQCLook.transColor
 
         Image {
             x: 5
@@ -57,7 +68,7 @@ Item {
             width: 32
             height: 32
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
         }
 
         PQMouseArea {
@@ -94,10 +105,10 @@ Item {
             Rectangle {
                 id: bg
                 anchors.fill: parent
-                color: PQCLook.transColor // qmllint disable unqualified
+                color: PQCLook.transColor
                 radius: Math.min(width/2, 2)
                 border.width: 5
-                border.color: PQCLook.baseColorActive // qmllint disable unqualified
+                border.color: PQCLook.baseColorActive
                 opacity: facedeleg.hovered ? 1 : 0.5
                 Behavior on opacity { NumberAnimation { duration: 200 } }
             }
@@ -118,15 +129,15 @@ Item {
                 width: faceLabel.width+14
                 height: faceLabel.height+10
                 radius: 10
-                color: PQCLook.transColor // qmllint disable unqualified
-                rotation: -loader_top.imageRotation // qmllint disable unqualified
+                color: PQCLook.transColor
+                rotation: -facetagger_top.imageRotation
 
                 // This holds the person's name
                 PQText {
                     id: faceLabel
                     x: 7
                     y: 5
-                    font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale // qmllint disable unqualified
+                    font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale
                     text: " "+facedeleg.curdata[5]+" "
                 }
 
@@ -137,15 +148,15 @@ Item {
             Connections {
                 target: PQCNotify
 
-                enabled: !newmarker.visible && PQCConstants.faceTaggingMode // qmllint disable unqualified
+                enabled: !newmarker.visible && PQCConstants.faceTaggingMode
 
                 function onMouseMove(x : int, y : int) {
-                    var pos = facedeleg.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
+                    var pos = facedeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
                     facedeleg.hovered = (pos.x >= 0 && pos.x <= facedeleg.width && pos.y >= 0 && pos.y <= facedeleg.height)
                 }
 
                 function onMouseReleased(modifiers : int, button : int, pos : point) {
-                    pos = facedeleg.mapFromItem(fullscreenitem, pos) // qmllint disable unqualified
+                    pos = facedeleg.mapFromItem(fullscreenitem, pos)
                     if(Math.abs(facedeleg.mousePressed.x - pos.x) < facetagger_top.threshold && Math.abs(facedeleg.mousePressed.y-pos.y) < facetagger_top.threshold) {
                         if(facedeleg.hovered) {
                             facetagger_top.deleteFaceTag(facedeleg.curdata[0])
@@ -154,7 +165,7 @@ Item {
                 }
 
                 function onMousePressed(modifiers : int, button : int, pos : point) {
-                    facedeleg.mousePressed = facedeleg.mapFromItem(fullscreenitem, pos) // qmllint disable unqualified
+                    facedeleg.mousePressed = facedeleg.mapFromItem(fullscreenitem, pos)
                 }
 
             }
@@ -165,10 +176,10 @@ Item {
 
     Rectangle {
         id: newmarker
-        color: PQCLook.transColor // qmllint disable unqualified
+        color: PQCLook.transColor
         radius: Math.min(width/2, 2)
         border.width: 5
-        border.color: PQCLook.baseColorActive // qmllint disable unqualified
+        border.color: PQCLook.baseColorActive
         opacity: 0.5
         visible: false
 
@@ -207,9 +218,9 @@ Item {
 
     Rectangle {
         id: whoisthis
-        parent: fullscreenitem_foreground // qmllint disable unqualified
+        parent: fullscreenitem_foreground
         anchors.fill: parent
-        color: PQCLook.transColor // qmllint disable unqualified
+        color: PQCLook.transColor
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -222,7 +233,7 @@ Item {
 
             PQTextXL {
                 x: (parent.width-width)/2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold
                 text: qsTranslate("facetagging", "Who is this?")
             }
 
@@ -259,7 +270,7 @@ Item {
 
         function hide() {
             opacity = 0
-            mouseDown = false
+            facetagger_top.mouseDown = false
             newmarker.visible = false
         }
 
@@ -271,9 +282,9 @@ Item {
             facetagger_top.faceTags.push(newmarker.height/facetagger_top.height)
             facetagger_top.faceTags.push(whoisthis_name.text)
             facetagger_top.faceTagsChanged()
-            PQCScriptsMetaData.setFaceTags(PQCFileFolderModel.currentFile, facetagger_top.faceTags) // qmllint disable unqualified
+            PQCScriptsMetaData.setFaceTags(PQCFileFolderModel.currentFile, facetagger_top.faceTags)
             facetagger_top.loadData()
-            facetracker.loadData()
+            facetagger_top.facetrackerLoadData()
             whoisthis.hide()
         }
     }
@@ -285,11 +296,11 @@ Item {
 
         target: PQCNotify
 
-        enabled: PQCConstants.faceTaggingMode && !whoisthis.visible // qmllint disable unqualified
+        enabled: PQCConstants.faceTaggingMode && !whoisthis.visible
 
         function onMouseMove(x : int, y : int) {
             if(!facetagger_top.mouseDown) return
-            var pos = facetagger_top.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
+            var pos = facetagger_top.mapFromItem(fullscreenitem, Qt.point(x,y))
             if(Math.abs(facetagger_top.mousePressed.x - pos.x) >= facetagger_top.threshold || Math.abs(facetagger_top.mousePressed.y-pos.y) >= facetagger_top.threshold) {
                 newmarker.newX = facetagger_top.mousePressed.x
                 newmarker.newY = facetagger_top.mousePressed.y
@@ -302,7 +313,7 @@ Item {
         }
 
         function onMouseReleased(modifiers : int, button : int, pos : point) {
-            pos = facetagger_top.mapFromItem(fullscreenitem, pos) // qmllint disable unqualified
+            pos = facetagger_top.mapFromItem(fullscreenitem, pos)
             if(Math.abs(facetagger_top.mousePressed.x - pos.x) >= facetagger_top.threshold || Math.abs(facetagger_top.mousePressed.y-pos.y) >= facetagger_top.threshold) {
                 whoisthis.show()
             } else {
@@ -313,7 +324,7 @@ Item {
 
         function onMousePressed(modifiers : int, button : int, pos : point) {
             facetagger_top.mouseDown = true
-            facetagger_top.mousePressed = facetagger_top.mapFromItem(fullscreenitem, pos) // qmllint disable unqualified
+            facetagger_top.mousePressed = facetagger_top.mapFromItem(fullscreenitem, pos)
         }
 
     }
@@ -324,7 +335,7 @@ Item {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(loader_top.isMainImage) { // qmllint disable unqualified
+            if(facetagger_top.isMainImage) {
 
                 if(what === "tagFaces") {
 
@@ -369,7 +380,7 @@ Item {
 
     function deleteFaceTag(number : int) {
 
-        if(!PQCConstants.faceTaggingMode) return // qmllint disable unqualified
+        if(!PQCConstants.faceTaggingMode) return
 
         for(var i = 0; i < faceTags.length/6; ++i) {
             if(faceTags[6*i] === number) {
@@ -379,7 +390,7 @@ Item {
         }
         PQCScriptsMetaData.setFaceTags(PQCFileFolderModel.currentFile, faceTags)
         loadData()
-        facetracker.loadData()
+        facetrackerLoadData()
 
     }
 
@@ -392,14 +403,14 @@ Item {
     function loadData() {
         repeatermodel.clear()
 
-        faceTags = PQCScriptsMetaData.getFaceTags(PQCFileFolderModel.currentFile) // qmllint disable unqualified
+        faceTags = PQCScriptsMetaData.getFaceTags(PQCFileFolderModel.currentFile)
         for(var i = 0; i < faceTags.length/6; ++i)
             repeatermodel.append({"index" : i})
     }
 
     function hide() {
         opacity = 0
-        PQCConstants.faceTaggingMode = false // qmllint disable unqualified
+        PQCConstants.faceTaggingMode = false
         PQCNotify.loaderRegisterClose("facetagger")
     }
 

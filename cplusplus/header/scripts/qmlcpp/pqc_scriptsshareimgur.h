@@ -27,6 +27,10 @@
 #include <QNetworkReply>
 #include <QSqlDatabase>
 
+// TODO
+//
+// THIS CLASS WILL BE MOVED TO THE SPECIFIC EXTENSION!
+
 class QNetworkAccessManager;
 
 class PQCScriptsShareImgur : public QObject {

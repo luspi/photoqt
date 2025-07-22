@@ -174,10 +174,10 @@ Flickable {
             required property int offsetY
             required property real itemHeight
 
-            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) // qmllint disable unqualified
+            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) 
             property int numberFilesInsideFolder: 0
             property string fileinfoString: ""
-            property int padding: PQCSettings.filedialogElementPadding // qmllint disable unqualified
+            property int padding: PQCSettings.filedialogElementPadding 
             property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
             property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
@@ -196,7 +196,7 @@ Flickable {
             clip: true
             color: PQCLook.baseColor
             border.width: PQCSettings.filedialogElementPadding
-            border.color: PQCLook.baseColorAccent // qmllint disable unqualified
+            border.color: PQCLook.baseColorAccent 
 
             Item {
                 id: dragHandler
@@ -302,7 +302,7 @@ Flickable {
                             id: numberOfFilesInsideFolder
                             x: 10
                             y: (parent.height-height)/2-2
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                             elide: Text.ElideMiddle
                             text: deleg.numberFilesInsideFolder
                         }
@@ -324,7 +324,7 @@ Flickable {
                             id: numberThumbInsideFolder
                             x: 5
                             y: (parent.height-height)/2-2
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                             elide: Text.ElideMiddle
                             text: "#"+folderthumb.curnum
                         }
@@ -332,10 +332,10 @@ Flickable {
 
                     // load async for folders
                     Timer {
-                        running: true // qmllint disable unqualified
+                        running: true 
                         interval: 1
                         onTriggered: {
-                            PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { // qmllint disable unqualified
+                            PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { 
                                 if(count > 0) {
                                     deleg.numberFilesInsideFolder = count
                                     deleg.fileinfoString = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
@@ -353,10 +353,10 @@ Flickable {
 
             // load async for files
             Timer {
-                running: !deleg.isFolder // qmllint disable unqualified
+                running: !deleg.isFolder 
                 interval: 1
                 onTriggered: {
-                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) // qmllint disable unqualified
+                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) 
                 }
             }
 
@@ -406,7 +406,7 @@ Flickable {
                                 (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
                     Behavior on height { NumberAnimation { duration: 200 } }
                     y: deleg.height-height
-                    color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) // qmllint disable unqualified
+                    color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) 
                     Behavior on color { ColorAnimation { duration: 200 } }
                     clip: true
 
@@ -424,12 +424,12 @@ Flickable {
                     Image {
                         x: (parent.width-width-5)
                         y: (parent.height-height-5)
-                        source: "image://svg/:/light/folder.svg" // qmllint disable unqualified
+                        source: "image://svg/:/light/folder.svg" 
                         height: 16
                         mipmap: true
                         width: height
                         opacity: 0.3
-                        visible: deleg.isFolder && deleg.folderthumbCurNum>0 // qmllint disable unqualified
+                        visible: deleg.isFolder && deleg.folderthumbCurNum>0 
                     }
 
                 }
@@ -448,7 +448,7 @@ Flickable {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltipReference: fd_splitview // qmllint disable unqualified
+                tooltipReference: fd_splitview 
 
                 Connections {
                     target: contextmenu
@@ -460,12 +460,12 @@ Flickable {
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-                drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined // qmllint disable unqualified
+                drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined 
 
                 drag.onActiveChanged: {
                     if(drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        fd_places.dragItemIndex = deleg.modelData // qmllint disable unqualified
+                        fd_places.dragItemIndex = deleg.modelData 
                         fd_places.dragReordering = false
                         fd_places.dragItemId = deleg.currentPath
                     }
@@ -533,7 +533,7 @@ Flickable {
 
                 Image {
                     anchors.fill: parent
-                    source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) // qmllint disable unqualified
+                    source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) 
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -567,7 +567,7 @@ Flickable {
                 } else {
                     var uris = []
                     for(var i in view_top.currentSelection)
-                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) // qmllint disable unqualified
+                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) 
                     return ({"text/uri-list": uris})
                 }
             }

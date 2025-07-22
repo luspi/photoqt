@@ -36,10 +36,10 @@ Item {
 
         anchors.fill: parent
 
-        sourceSize: PQCSettings.filedialogPreviewHigherResolution ? Qt.size(width, height) : Qt.size(256,256) // qmllint disable unqualified
+        sourceSize: PQCSettings.filedialogPreviewHigherResolution ? Qt.size(width, height) : Qt.size(256,256) 
         asynchronous: false
-        fillMode: PQCSettings.filedialogPreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
-        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 // qmllint disable unqualified
+        fillMode: PQCSettings.filedialogPreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit 
+        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 
 
         Timer {
             id: setBG
@@ -49,7 +49,7 @@ Item {
         }
 
         Connections {
-            target: view_top // qmllint disable unqualified
+            target: view_top 
             function onCurrentIndexChanged(currentIndex : int) {
                 setBG.restart()
             }
@@ -59,7 +59,7 @@ Item {
         }
 
         function setCurrentBG() {
-            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex == -1)) { // qmllint disable unqualified
+            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex == -1)) { 
                 preview.source = ""
                 return
             }
@@ -84,17 +84,17 @@ Item {
         source: preview
         blurEnabled: true
         blurMax: 32
-        blur: PQCSettings.filedialogPreviewBlur ? 1.0 : 0.0 // qmllint disable unqualified
+        blur: PQCSettings.filedialogPreviewBlur ? 1.0 : 0.0 
         autoPaddingEnabled: false
-        saturation: -1 + 0.01*PQCSettings.filedialogPreviewColorIntensity // qmllint disable unqualified
-        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 // qmllint disable unqualified
+        saturation: -1 + 0.01*PQCSettings.filedialogPreviewColorIntensity 
+        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 
     }
 
     // pre Qt 6.4 the MultiEffect is not available yet
     Rectangle {
-        visible: !PQCScriptsConfig.isQtAtLeast6_5() // qmllint disable unqualified
+        visible: !PQCScriptsConfig.isQtAtLeast6_5() 
         anchors.fill: preview
         color: "#000000"
-        opacity: 0.3+0.005*(100-PQCSettings.filedialogPreviewColorIntensity) // qmllint disable unqualified
+        opacity: 0.3+0.005*(100-PQCSettings.filedialogPreviewColorIntensity) 
     }
 }

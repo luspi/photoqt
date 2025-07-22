@@ -23,7 +23,8 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <QSize>
+#include <scripts/cpp/pqc_scriptsimages.h>
 
 class QFile;
 
@@ -34,10 +35,7 @@ class PQCScriptsImagesQML : public QObject {
     QML_SINGLETON
 
 public:
-    PQCScriptsImagesQML() {
-        connect(&PQCScriptsImages::get(), &PQCScriptsImages::histogramDataLoaded, this, &PQCScriptsImagesQML::histogramDataLoaded);
-        connect(&PQCScriptsImages::get(), &PQCScriptsImages::histogramDataLoadedFailed, this, &PQCScriptsImagesQML::histogramDataLoadedFailed);
-    }
+    PQCScriptsImagesQML() {}
     ~PQCScriptsImagesQML() {}
 
     // check for what kind of image this is
@@ -54,7 +52,6 @@ public:
     // info about image
     Q_INVOKABLE QSize  getCurrentImageResolution(QString filename)    { return PQCScriptsImages::get().getCurrentImageResolution(filename); }
     Q_INVOKABLE bool   isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
-    Q_INVOKABLE void   loadHistogramData(QString filepath, int index) { return PQCScriptsImages::get().loadHistogramData(filepath, index); }
     Q_INVOKABLE bool   supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
     Q_INVOKABLE double getPixelDensity()                              { return PQCScriptsImages::get().getPixelDensity(); }
 
@@ -65,11 +62,12 @@ public:
     Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) { return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber); }
 
     // archive/document methods
-    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false) { return PQCScriptsImages::get().listArchiveContent(path, insideFilenameOnly); }
-    Q_INVOKABLE int         getNumberDocumentPages(QString path)                              { return PQCScriptsImages::get().getNumberDocumentPages(path); }
-    Q_INVOKABLE int         getDocumentPageCount(QString path)                                { return PQCScriptsImages::get().getDocumentPageCount(path); }
-    Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path)                    { return PQCScriptsImages::get().extractArchiveFileToTempLocation(path); }
-    Q_INVOKABLE QString     extractDocumentPageToTempLocation(QString path)                   { return PQCScriptsImages::get().extractDocumentPageToTempLocation(path); }
+    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false) {
+                                                                              return PQCScriptsImages::get().listArchiveContent(path, insideFilenameOnly); }
+    Q_INVOKABLE int         getNumberDocumentPages(QString path)            { return PQCScriptsImages::get().getNumberDocumentPages(path); }
+    Q_INVOKABLE int         getDocumentPageCount(QString path)              { return PQCScriptsImages::get().getDocumentPageCount(path); }
+    Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path)  { return PQCScriptsImages::get().extractArchiveFileToTempLocation(path); }
+    Q_INVOKABLE QString     extractDocumentPageToTempLocation(QString path) { return PQCScriptsImages::get().extractDocumentPageToTempLocation(path); }
 
     // icon and thumbnail methods
     Q_INVOKABLE QString getIconPathFromTheme(QString binary) { return PQCScriptsImages::get().getIconPathFromTheme(binary); }

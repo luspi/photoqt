@@ -73,12 +73,12 @@ Slider {
         width: control._horizontal ? control.availableWidth : implicitWidth
         height: control._horizontal ? implicitHeight : control.availableHeight
         radius: 2
-        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+        color: PQCLook.baseColorHighlight 
 
         Rectangle {
             width: control._horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
             height: control._horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
-            color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight // qmllint disable unqualified
+            color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight 
             radius: 2
         }
 
@@ -121,8 +121,8 @@ Slider {
         implicitWidth: control._horizontal ? control.implicitHeight : control.implicitWidth
         implicitHeight: control._horizontal ? control.implicitHeight : control.implicitWidth
         radius: control.implicitHeight/2
-        color: PQCLook.inverseColor // qmllint disable unqualified
-        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+        color: PQCLook.inverseColor 
+        border.color: PQCLook.baseColorHighlight 
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
@@ -155,7 +155,7 @@ Slider {
         id: ttip
         delay: 500
         timeout: 5000
-        visible: control.hovered && text != ""
+        visible: control.hovered && text !== ""
         text: control.tooltip
     }
 
@@ -168,16 +168,16 @@ Slider {
         _defaultValue = value
     }
 
-    function setDefault(val) {
+    function setDefault(val : int) {
         _defaultValue = val
     }
 
-    function loadAndSetDefault(val) {
+    function loadAndSetDefault(val : int) {
         value = val
         _defaultValue = val
     }
 
-    function hasChanged() {
+    function hasChanged() : bool {
         return _defaultValue!==value
     }
 

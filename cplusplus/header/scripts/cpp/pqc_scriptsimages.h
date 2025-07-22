@@ -65,8 +65,6 @@ public:
     // info about image
     QSize getCurrentImageResolution(QString filename);
     bool isItAnimated(QString filename);
-    void loadHistogramData(QString filepath, int index);
-    void _loadHistogramData(QString filepath, int index);
     bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
     double getPixelDensity();
@@ -101,10 +99,6 @@ private:
 
     double devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;
-
-Q_SIGNALS:
-    void histogramDataLoaded(QVariantList data, int index);
-    void histogramDataLoadedFailed(int index);
 
 };
 

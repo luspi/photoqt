@@ -32,7 +32,7 @@ Item {
     id: view_top
 
     y: 1
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2 // qmllint disable unqualified
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2 
 
     // alias
     property alias fileviewContextMenu: contextmenu
@@ -117,7 +117,7 @@ Item {
 
     }
 
-    function getCurrentViewId() {
+    function getCurrentViewId() : var {
         if(PQCSettings.filedialogLayout === "grid")
             return gridfileview
         else if(PQCSettings.filedialogLayout === "list")
@@ -137,7 +137,7 @@ Item {
                                      isFolder : bool, numberFilesInsideFolder : int, currentFolderThumbNum : int) : string {
 
 
-        if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
+        if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) 
             return ""
 
         var ret = ""
@@ -236,7 +236,7 @@ Item {
     function handleEntriesMouseClick(index : int, currentPath : string, isFolder : bool,
                                      mouseModifiers : int, mouseButton : int) {
 
-        fd_breadcrumbs.disableAddressEdit() // qmllint disable unqualified
+        fd_breadcrumbs.disableAddressEdit() 
 
         if(!contextmenu.visible)
             view_top.currentIndex = index
@@ -350,7 +350,7 @@ Item {
     // we need to do all the below as otherwise loading a folder with the same number of items as the previous one would not reload the model
     Connections {
 
-        target: PQCFileFolderModel // qmllint disable unqualified
+        target: PQCFileFolderModel 
 
         function onNewDataLoadedFileDialog() {
 
@@ -360,6 +360,12 @@ Item {
     }
 
     function setupNewData() {
+
+        // This check is necessary, otherwise this function MIGHT get called BEFORE everything is accessible to QML
+        // resulting in a bunch of undefined warnings before the function is called AGAIN seting everything up properly
+        if((PQCFileFolderModel.folderFileDialog === "" && PQCFileFolderModel.countAllFileDialog > 0) ||
+                PQCFileFolderModel.countAllFileDialog > PQCFileFolderModel.entriesFileDialog.length)
+            return
 
         if(PQCSettings.filedialogRememberSelection) {
 
@@ -388,7 +394,7 @@ Item {
 
         getCurrentViewId().model = 0
 
-        view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) // qmllint disable unqualified
+        view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) 
         view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
 
         getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
@@ -400,15 +406,15 @@ Item {
     }
 
     Component.onCompleted: {
-        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog // qmllint disable unqualified
+        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog 
     }
 
     Connections {
-        target: PQCImageFormats // qmllint disable unqualified
+        target: PQCImageFormats 
         function onFormatsUpdated() {
-            getCurrentViewId().model = 0
-            PQCFileFolderModel.forceReloadFileDialog() // qmllint disable unqualified
-            getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+            view_top.getCurrentViewId().model = 0
+            PQCFileFolderModel.forceReloadFileDialog() 
+            view_top.getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
         }
     }
 
@@ -457,7 +463,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         enabled: false
-        visible: PQCFileFolderModel.countAllFileDialog===0 // qmllint disable unqualified
+        visible: PQCFileFolderModel.countAllFileDialog===0 
         text: qsTranslate("filedialog", "no supported files/folders found")
     }
 
@@ -480,10 +486,10 @@ Item {
         onClicked: (mouse) => {
 
             if(mouse.button === Qt.BackButton) {
-                filedialog_top.goBackInHistory() // qmllint disable unqualified
+                filedialog_top.goBackInHistory() 
                 return
             } else if(mouse.button === Qt.ForwardButton) {
-                filedialog_top.goForwardsInHistory() // qmllint disable unqualified
+                filedialog_top.goForwardsInHistory() 
                 return
             }
 
@@ -505,7 +511,7 @@ Item {
             enableAnyways = false
         }
         onPositionChanged: {
-            if(fd_breadcrumbs.topSettingsMenu.visible) // qmllint disable unqualified
+            if(fd_breadcrumbs.topSettingsMenu.visible) 
                 return
 
             var ind = getCurrentViewId().indexAt(mouseX, getCurrentViewId().contentY+mouseY)
@@ -526,7 +532,7 @@ Item {
         width: floatingStringLabel.width+20
         height: floatingStringLabel.height+10
 
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
         radius: 5
 
         opacity: 0
@@ -561,7 +567,7 @@ Item {
             y: 5
 
             verticalAlignment: Text.AlignVCenter
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold 
 
             text: ""
 
@@ -604,7 +610,7 @@ Item {
                 isFolder = false
                 isFile = false
             } else {
-                isFolder = PQCScriptsFilesPaths.isFolder(path) // qmllint disable unqualified
+                isFolder = PQCScriptsFilesPaths.isFolder(path) 
                 isFile = !isFolder
             }
         }
@@ -618,9 +624,9 @@ Item {
         }
 
         Connections {
-            target: filedialog_top // qmllint disable unqualified
+            target: filedialog_top 
             function onOpacityChanged() {
-                if(filedialog_top.opacity<1) // qmllint disable unqualified
+                if(filedialog_top.opacity<1) 
                     contextmenu.close()
             }
         }
@@ -630,7 +636,7 @@ Item {
             visible: contextmenu.isFile
             text: qsTranslate("thumbnails","Reload thumbnail")
             onTriggered: {
-                PQCScriptsImages.removeThumbnailFor(contextmenu.path) // qmllint disable unqualified
+                PQCScriptsImages.removeThumbnailFor(contextmenu.path) 
                 view_top.refreshCurrentThumbnail()
             }
         }
@@ -640,16 +646,16 @@ Item {
             visible: contextmenu.isFolder
             text: qsTranslate("filedialog", "Open this folder")
             onTriggered: {
-                filedialog_top.loadNewPath(contextmenu.path) // qmllint disable unqualified
+                filedialog_top.loadNewPath(contextmenu.path) 
             }
         }
         PQMenuItem {
             implicitHeight: visible ? 40 : 0
             visible: (view_top.currentSelection.length===1 && view_top.currentFileSelected) || !view_top.currentFileSelected
-            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled() // qmllint disable unqualified
+            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled() 
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
-                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length) // qmllint disable unqualified
+                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length) 
                 fd_places.loadPlaces()
             }
         }
@@ -660,7 +666,7 @@ Item {
             enabled: contextmenu.isFile || contextmenu.isFolder
             text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
-                PQCFileFolderModel.extraFoldersToLoad = [] // qmllint disable unqualified
+                PQCFileFolderModel.extraFoldersToLoad = [] 
                 PQCFileFolderModel.fileInFolderMainView = contextmenu.path
                 filedialog_top.hideFileDialog()
             }
@@ -681,7 +687,7 @@ Item {
                     var havefolder = false
                     var havefile = false
                     for(var i in view_top.currentSelection) {
-                        var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] // qmllint disable unqualified
+                        var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] 
                         if(PQCScriptsFilesPaths.isFolder(cur)) {
                             havefolder = true
                         } else {
@@ -700,7 +706,7 @@ Item {
                 var allfiles = []
                 var allfolders = []
                 for(var i in view_top.currentSelection) {
-                    var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] // qmllint disable unqualified
+                    var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] 
                     if(PQCScriptsFilesPaths.isFolder(cur))
                         allfolders.push(cur)
                     else
@@ -744,9 +750,9 @@ Item {
         PQMenuSeparator { }
         PQMenuItem {
             implicitHeight: visible ? 40 : 0
-            visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+            visible: !PQCScriptsConfig.amIOnWindows() 
             enabled: visible && (contextmenu.isFile || contextmenu.isFolder || view_top.currentSelection.length)
-            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal // qmllint disable unqualified
+            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
             text: (view_top.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view_top.currentSelection.length))
                         ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete selection permanently") : qsTranslate("filedialog", "Delete selection"))
                         : (contextmenu.isFile ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete file permanently") : qsTranslate("filedialog", "Delete file"))
@@ -763,7 +769,7 @@ Item {
                                               : (contextmenu.isFolder ? qsTranslate("filedialog", "Cut folder")
                                                                       : qsTranslate("filedialog", "Cut file/folder")))
             onTriggered:
-                view_top.cutFiles()
+                view_top.cutFiles(false)
         }
         PQMenuItem {
             enabled: (contextmenu.isFile || contextmenu.isFolder || view_top.currentSelection.length)
@@ -773,7 +779,7 @@ Item {
                                               : (contextmenu.isFolder ? qsTranslate("filedialog", "Copy folder")
                                                                       : qsTranslate("filedialog", "Copy file/folder")))
             onTriggered:
-                view_top.copyFiles()
+                view_top.copyFiles(false)
         }
         PQMenuItem {
             id: menuitem_paste
@@ -782,12 +788,12 @@ Item {
                 view_top.pasteFiles()
 
             Component.onCompleted: {
-                enabled = PQCScriptsClipboard.areFilesInClipboard() // qmllint disable unqualified
+                enabled = PQCScriptsClipboard.areFilesInClipboard() 
             }
             Connections {
-                target: PQCScriptsClipboard // qmllint disable unqualified
+                target: PQCScriptsClipboard 
                 function onClipboardUpdated() {
-                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard() // qmllint disable unqualified
+                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard() 
                 }
             }
         }
@@ -796,19 +802,19 @@ Item {
 
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders // qmllint disable unqualified
+            checked: PQCSettings.filedialogShowHiddenFilesFolders 
             text: qsTranslate("filedialog", "Show hidden files")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogShowHiddenFilesFolders = checked // qmllint disable unqualified
+                PQCSettings.filedialogShowHiddenFilesFolders = checked 
         }
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogDetailsTooltip // qmllint disable unqualified
+            checked: PQCSettings.filedialogDetailsTooltip 
             text: qsTranslate("filedialog", "Show tooltip with image details")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogDetailsTooltip = checked // qmllint disable unqualified
+                PQCSettings.filedialogDetailsTooltip = checked 
         }
 
         onAboutToHide: {
@@ -834,7 +840,7 @@ Item {
 
         target: PQCNotify
 
-        enabled: (filedialog_top.opacity > 0) // qmllint disable unqualified
+        enabled: (filedialog_top.opacity > 0) 
 
         function onKeyRelease(key: int, modifiers: int) {
             if(key < 16770000 || modifiers !== Qt.ShiftModifier)
@@ -846,7 +852,7 @@ Item {
     // this has been pulled out of the delegate to allow clicks at startup without moving the mouse to be handled
     function loadOnClick(index : int) {
 
-        if(index < PQCFileFolderModel.countFoldersFileDialog) // qmllint disable unqualified
+        if(index < PQCFileFolderModel.countFoldersFileDialog) 
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.extraFoldersToLoad = []
@@ -868,7 +874,7 @@ Item {
         currentSelection = [...Array(getCurrentViewId().model).keys()]
     }
 
-    function copyFiles(forceSelection = false) {
+    function copyFiles(forceSelection : bool) {
         currentCuts = []
         if(currentFileSelected || (view_top.currentIndex===-1 && currentSelection.length) || (forceSelection && currentSelection.length>0)) {
             var urls = []
@@ -881,7 +887,7 @@ Item {
         currentSelection = []
     }
 
-    function cutFiles(forceSelection = false) {
+    function cutFiles(forceSelection : bool) {
 
         var urls = []
 
@@ -904,7 +910,7 @@ Item {
 
         currentSelection = []
 
-        var lst = PQCScriptsClipboard.getListOfFilesInClipboard() // qmllint disable unqualified
+        var lst = PQCScriptsClipboard.getListOfFilesInClipboard() 
 
         var nonexisting = []
         var existing = []
@@ -940,7 +946,7 @@ Item {
 
     function deleteFiles() {
 
-        modal.button2.visible = true // qmllint disable unqualified
+        modal.button2.visible = true 
 
         if(contextmenu.shiftPressed) {
 
@@ -986,7 +992,7 @@ Item {
         if(key === Qt.Key_Up) {
 
             if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
-                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) // qmllint disable unqualified
+                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) 
             else
                 getCurrentViewId().goUpARow()
 

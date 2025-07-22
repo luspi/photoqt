@@ -28,7 +28,22 @@ Item {
 
     id: videotop
 
+    /*******************************************/
+    // these values are READONLY, they are set in PQImageDisplay as bindings
+
     property string imageSource: ""
+    property bool isMainImage
+    property bool videoLoaded
+    property Item loaderTop
+
+    /*******************************************/
+    // these values are WRITEONLY and are picked up in PQImageDisplay
+
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+    property bool videoHasAudio: video.hasAudio
+
+    /*******************************************/
 
     width: video.width
     height: video.height
@@ -36,22 +51,24 @@ Item {
     // avoid warning message as we listen to changes for this item in different places
     property string source: ""
 
+    property int status: Image.Loading
+
     Video {
 
         id: video
 
-        source: "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource) // qmllint disable unqualified
+        source: "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource)
 
-        volume: PQCConstants.slideshowRunning ? PQCConstants.slideshowVolume : PQCSettings.filetypesVideoVolume/100 // qmllint disable unqualified
+        volume: PQCConstants.slideshowRunning ? PQCConstants.slideshowVolume : PQCSettings.filetypesVideoVolume/100
 
-        width: PQCSettings.imageviewFitInWindow ? image_top.width : undefined // qmllint disable unqualified
-        height: PQCSettings.imageviewFitInWindow ? image_top.height : undefined // qmllint disable unqualified
+        width: PQCSettings.imageviewFitInWindow ? videotop.loaderTop.width : undefined
+        height: PQCSettings.imageviewFitInWindow ? videotop.loaderTop.height : undefined
 
         fillMode: VideoOutput.PreserveAspectFit
 
         onPositionChanged: {
             if(position >= duration-100) {
-                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning) // qmllint disable unqualified
+                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning)
                     video.seek(0)
                 else
                     video.pause()
@@ -63,13 +80,17 @@ Item {
 
                 video.source = "file:" + PQCScriptsFilesPaths.toPercentEncoding(videotop.imageSource)
 
-                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning) { // qmllint disable unqualified
+                if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning) {
                     video.play()
                 } else {
                     video.pause()
                     video.seek(video.duration-100)
                 }
             }
+
+            if(videotop.isMainImage)
+                PQCConstants.currentlyShowingVideoPlaying = (video.playbackState===MediaPlayer.PlayingState)
+
         }
 
     }
@@ -78,22 +99,11 @@ Item {
         if(!visible) {
             video.pause()
             video.seek(0)
-        } else {
-            loader_top.videoLoaded = true // qmllint disable unqualified
-            loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); })
-            loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
-            loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
-            loader_top.videoHasAudio = Qt.binding(function() { return video.hasAudio })
-            loader_top.videoHasAudioChanged()
         }
     }
 
     Component.onCompleted: {
-        loader_top.videoDuration = Qt.binding(function() { return Math.round(video.duration/1000); }) // qmllint disable unqualified
-        loader_top.videoPosition = Qt.binding(function() { return Math.round(video.position/1000); })
-        loader_top.videoPlaying = Qt.binding(function() { return (video.playbackState===MediaPlayer.PlayingState) })
-        loader_top.videoHasAudio = Qt.binding(function() { return video.hasAudio })
-        image_wrapper.status = Image.Ready
+        videotop.status = Image.Ready
     }
 
     Connections {
@@ -102,7 +112,7 @@ Item {
 
         function onCurrentVideoJump(seconds : int) {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
 
             if(video.seekable)
@@ -111,7 +121,7 @@ Item {
 
         function onPlayPauseAnimationVideo() {
 
-            if(!loader_top.isMainImage)
+            if(!videotop.isMainImage)
                 return
 
             videotop.toggle()
@@ -119,64 +129,59 @@ Item {
 
     }
 
-    Connections {
+    function videoToPos(pos : int) {
 
-        target: loader_top // qmllint disable unqualified
+        if(!videotop.isMainImage)
+            return
 
-        function onVideoToPos(pos : int) {
+        video.seek(pos*1000)
+    }
+    function videoClicked() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
+        if(!videotop.isMainImage)
+            return
 
-            video.seek(pos*1000)
+        videotop.toggle()
+    }
+
+    function stopVideoAndReset() {
+
+        if(!videotop.isMainImage)
+            return
+
+        if(video.playbackState === MediaPlayer.PlayingState) {
+            video.pause()
+            video.seek(0)
         }
-        function onImageClicked() {
+    }
+    function restartVideoIfAutoplay() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
+        if(!videotop.isMainImage)
+            return
 
-            toggle()
-        }
+        if(video.playbackState === MediaPlayer.PlayingState) {
 
-        function onStopVideoAndReset() {
-
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-
-            if(loader_top.videoPlaying) {
+            if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
                 video.pause()
+            } else
                 video.seek(0)
-            }
+
+        } else {
+            video.seek(0)
+            video.pause()
+            if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning)
+                video.play()
         }
-        function onRestartVideoIfAutoplay() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-
-            if(loader_top.videoPlaying) {
-
-                if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
-                    video.pause()
-                } else
-                    video.seek(0)
-
-            } else {
-                video.seek(0)
-                video.pause()
-                if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning)
-                    video.play()
-            }
-
-        }
     }
 
     Connections {
 
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants
 
         function onSlideshowRunningChanged() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
 
             if(PQCConstants.slideshowRunning) {
@@ -189,10 +194,10 @@ Item {
 
     function toggle() {
 
-        if(!loader_top.isMainImage) // qmllint disable unqualified
+        if(!videotop.isMainImage)
             return
 
-        if(loader_top.videoPlaying)
+        if(video.playbackState === MediaPlayer.PlayingState)
             video.pause()
         else {
             if(video.position > video.duration-150)
@@ -206,29 +211,22 @@ Item {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+        videotop.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
+        videotop.imageMirrorV = myMirrorV
 
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) videotop.myMirrorH = !videotop.myMirrorH
+            if(videotop.visible) videotop.myMirrorH = !videotop.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) videotop.myMirrorV = !videotop.myMirrorV
+            if(videotop.visible) videotop.myMirrorV = !videotop.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!videotop.visible) return
             videotop.myMirrorH = false
             videotop.myMirrorV = false
-        }
-    }
-
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            videotop.setMirrorHV(mirH, mirV)
         }
     }
 
@@ -243,19 +241,32 @@ Item {
             origin.y: videotop.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: videotop.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: videotop.width / 2
             origin.y: videotop.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: videotop.myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
     PQVideoControls {
+
         id: controls
+
+        loaderTop: videotop.loaderTop
+        videoLoaded: videotop.videoLoaded
+        videoPlaying: video.playbackState===MediaPlayer.PlayingState
+        videoPosition: video.position/1000
+        videoDuration: video.duration/1000
+        videoHasAudio: videotop.videoHasAudio
+
+        onVideoToPos: (pos) => {
+            videotop.videoToPos(pos)
+        }
+
     }
 
 }

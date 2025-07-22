@@ -33,8 +33,8 @@ ComboBox {
     property bool firstItemEmphasized: false
     property var lineBelowItem: []
 
-    font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    font.pointSize: PQCLook.fontSize 
+    font.weight: PQCLook.fontWeightNormal 
 
     property list<int> hideEntries: []
 
@@ -56,14 +56,14 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
-            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: deleg.highlighted ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
+            styleColor: PQCLook.textColorDisabled
             PQToolTip {
-                visible: deleg.highlighted
+                visible: deleg.hovered
                 text: contitem.text
                 timeout: 3000
             }
@@ -72,14 +72,14 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: (deleg.highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)) // qmllint disable unqualified
+            color: (deleg.highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)) 
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
                 width: parent.width
                 height: 1
                 y: parent.height-1
-                color: PQCLook.inverseColorHighlight // qmllint disable unqualified
+                color: PQCLook.inverseColorHighlight 
                 visible: control.lineBelowItem.indexOf(deleg.index)!==-1
             }
         }
@@ -106,7 +106,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = PQCLook.inverseColor // qmllint disable unqualified
+            context.fillStyle = PQCLook.inverseColor 
             context.fill();
         }
     }
@@ -117,9 +117,9 @@ ComboBox {
 
         text: control.prefix+control.displayText
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
         style: control.highlighted ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorDisabled // qmllint disable unqualified
+        styleColor: PQCLook.textColorDisabled 
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
@@ -127,8 +127,8 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor) // qmllint disable unqualified
-        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor) 
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 2
     }
@@ -152,8 +152,8 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: PQCLook.baseColor // qmllint disable unqualified
-            border.color: PQCLook.inverseColorHighlight // qmllint disable unqualified
+            color: PQCLook.baseColor 
+            border.color: PQCLook.inverseColorHighlight 
             border.width: 1
             radius: 2
         }

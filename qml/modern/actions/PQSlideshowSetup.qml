@@ -30,8 +30,8 @@ PQTemplateFullscreen {
     id: slideshowsettings_top
 
     thisis: "slideshowsetup"
-    popout: PQCSettings.interfacePopoutSlideshowSetup // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.slideshowsetupForcePopout // qmllint disable unqualified
+    popout: PQCSettings.interfacePopoutSlideshowSetup 
+    forcePopout: PQCWindowGeometry.slideshowsetupForcePopout 
     shortcut: "__slideshow"
     title: qsTranslate("slideshow", "Slideshow setup")
 
@@ -42,7 +42,7 @@ PQTemplateFullscreen {
     button2.text: genericStringCancel
 
     onPopoutChanged:
-        PQCSettings.interfacePopoutSlideshowSetup = popout // qmllint disable unqualified
+        PQCSettings.interfacePopoutSlideshowSetup = popout 
 
     button1.onClicked:
         startSlideshow()
@@ -72,7 +72,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 id: interval_txt
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: The interval between images in a slideshow
                 text: qsTranslate("slideshow", "interval") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -103,7 +103,7 @@ PQTemplateFullscreen {
             PQTextL {
                 id: animtype_txt
                 y: (animtype_combo.height-height)/2
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: This is referring to the in/out animation of images during a slideshow
                 text: qsTranslate("slideshow", "animation") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -150,7 +150,7 @@ PQTemplateFullscreen {
             PQTextL {
                 id: trans_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: The speed of transitioning from one image to another during slideshows
                 text: qsTranslate("slideshow", "animation speed") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -224,7 +224,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 id: loop_txt
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 text: qsTranslate("slideshow", "looping") + ":"
                 horizontalAlignment: Text.AlignRight
                 Component.onCompleted: {
@@ -252,7 +252,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 id: shuffle_txt
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: during slideshows shuffle the order of all images
                 text: qsTranslate("slideshow", "shuffle") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -281,7 +281,7 @@ PQTemplateFullscreen {
 
             PQTextL {
                 id: subfolders_txt
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: also include images in subfolders during slideshows
                 text: qsTranslate("slideshow", "subfolders") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -311,7 +311,7 @@ PQTemplateFullscreen {
             PQTextL {
                 id: quick_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: What to do with the file details during slideshows
                 text: qsTranslate("slideshow", "status info") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -341,7 +341,7 @@ PQTemplateFullscreen {
             PQTextL {
                 id: winbut_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: What to do with the window buttons during slideshows
                 text: qsTranslate("slideshow", "window buttons") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -371,7 +371,7 @@ PQTemplateFullscreen {
             PQTextL {
                 id: music_txt
                 verticalAlignment: Text.AlignTop
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold 
                 //: The music that is to be played during slideshows
                 text: qsTranslate("slideshow", "music") + ":"
                 horizontalAlignment: Text.AlignRight
@@ -442,7 +442,7 @@ PQTemplateFullscreen {
 
                         color: "transparent"
                         border.width: 2
-                        border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                        border.color: PQCLook.baseColorHighlight 
 
                         width: Math.min(500, slideshowsettings_top.width-slideshowsettings_top.leftcolwidth - contentrow.x - contentrow.spacing-10)
                         height: 200
@@ -453,7 +453,7 @@ PQTemplateFullscreen {
                             width: parent.width-20
                             opacity: slideshowsettings_top.musicfiles.length===0 ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                            font.weight: PQCLook.fontWeightBold 
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             enabled: false
@@ -483,8 +483,8 @@ PQTemplateFullscreen {
 
                                     required property int modelData
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
-                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData]) // qmllint disable unqualified
+                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData]) 
+                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData]) 
 
                                     property bool delegButContextmenuOpen: delegbutup.contextmenu.visible||delegbutdown.contextmenu.visible||delegbutdel.contextmenu.visible
                                     onDelegButContextmenuOpenChanged: {
@@ -501,7 +501,7 @@ PQTemplateFullscreen {
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                                    color: PQCLook.baseColorHighlight 
 
                                     Column {
                                         x: 5
@@ -533,7 +533,7 @@ PQTemplateFullscreen {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData>0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
@@ -549,7 +549,7 @@ PQTemplateFullscreen {
                                             iconScale: 0.5
                                             radius: 0
                                             enabled: musicdeleg.modelData < music_view.model-1
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
@@ -563,7 +563,7 @@ PQTemplateFullscreen {
                                             height: 40
                                             iconScale: 0.35
                                             radius: 0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {
@@ -583,7 +583,7 @@ PQTemplateFullscreen {
                         id: filesbut
                         text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select", // qmllint disable unqualified
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select", 
                                                                                   (slideshowsettings_top.musicfiles.length===0 ?
                                                                                        PQCScriptsFilesPaths.getHomeDir() :
                                                                                        PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[slideshowsettings_top.musicfiles.length-1])),
@@ -646,7 +646,7 @@ PQTemplateFullscreen {
         }
     }
 
-    function closeAnyMenu() {
+    function closeAnyMenu() : bool {
         for(var j in allcombos) {
             if(allcombos[j].popup.visible) {
                 allcombos[j].popup.close()
@@ -674,7 +674,7 @@ PQTemplateFullscreen {
 
     function show() {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
+        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
             hide()
             return
         }
@@ -714,7 +714,7 @@ PQTemplateFullscreen {
         closePopupMenuSpin()
         opacity = 0
         if(popoutWindowUsed && slideshowsetup_popout.visible)
-            slideshowsetup_popout.visible = false // qmllint disable unqualified
+            slideshowsetup_popout.visible = false 
         else
             PQCNotify.loaderRegisterClose(thisis)
     }
@@ -722,7 +722,7 @@ PQTemplateFullscreen {
     function startSlideshow() {
 
         var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-        PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex] // qmllint disable unqualified
+        PQCSettings.slideshowTypeAnimation = animArray[animtype_combo.currentIndex] 
 
         PQCSettings.slideshowTime = interval_slider.value
         PQCSettings.slideshowImageTransition = transition_slider.value

@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/qmlcpp/pqc_scriptsmetadata.h>
+#include <scripts/cpp/pqc_scriptsmetadata.h>
 
 class PQCScriptsMetaDataQML : public QObject {
 

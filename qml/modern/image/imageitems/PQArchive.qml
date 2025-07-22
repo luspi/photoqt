@@ -27,16 +27,26 @@ Image {
 
     id: image
 
+    /*******************************************/
+    // these values are WRITEONLY and are picked up in PQImageDisplay
+
     property string imageSource: ""
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+    property Item loaderTop
+    property bool isMainImage: false
+
+    /*******************************************/
+
+    source: ""
+
     onImageSourceChanged: {
         setSource()
     }
 
-    source: ""
-
     Component.onCompleted: {
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true) // qmllint disable unqualified
+            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true)
         if(image.imageSource.includes("::ARC::") || currentFile > fileCount-1)
             source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
         else
@@ -67,16 +77,9 @@ Image {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+        image.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
-
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            image.setMirrorHV(mirH, mirV)
-        }
-    }
+        image.imageMirrorV = myMirrorV
 
     function setMirrorHV(mH : bool, mV : bool) {
         image.myMirrorH = mH
@@ -86,13 +89,13 @@ Image {
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
-            if(visible) image.myMirrorH = !image.myMirrorH
+            if(image.visible) image.myMirrorH = !image.myMirrorH
         }
         function onSendShortcutMirrorVertical() {
-            if(visible) image.myMirrorV = !image.myMirrorV
+            if(image.visible) image.myMirrorV = !image.myMirrorV
         }
         function onSendShortcutMirrorReset() {
-            if(!visible) return
+            if(!image.visible) return
             image.myMirrorH = false
             image.myMirrorV = false
         }
@@ -104,19 +107,19 @@ Image {
             origin.y: image.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: image.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: image.width / 2
             origin.y: image.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: image.myMirrorV ? -180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
     onFileCountChanged: {
-        PQCConstants.currentFileInsideTotal = fileCount // qmllint disable unqualified
+        PQCConstants.currentFileInsideTotal = fileCount
     }
 
     onCurrentFileChanged: {
@@ -136,7 +139,7 @@ Image {
         image.asynchronous = false
 
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true) // qmllint disable unqualified
+            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true)
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
@@ -147,15 +150,8 @@ Image {
     }
 
     onStatusChanged: {
-        image_wrapper.status = status // qmllint disable unqualified
         if(status == Image.Error)
             source = "image://svg/:/other/errorimage.svg"
-    }
-
-    onSourceSizeChanged: {
-        loader_top.imageResolution = sourceSize // qmllint disable unqualified
-        loader_top.resetToDefaults()
-        image_wrapper.startupScale = false
     }
 
     Connections {
@@ -163,7 +159,7 @@ Image {
         target: PQCNotify
 
         function onCurrentArchiveJump(leftright : int) {
-            if(loader_top.isMainImage) { // qmllint disable unqualified
+            if(image.isMainImage) {
                 image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
                 image.setSource()
             }
@@ -172,7 +168,21 @@ Image {
     }
 
     PQArchiveControls {
+
         id: controls
+
+        loaderTop: image.loaderTop
+        imageSource: image.imageSource
+        fileCount: image.fileCount
+        isMainImage: image.isMainImage
+        currentFile: image.currentFile
+        fileList: image.fileList
+
+        function onSetCurrentImage(index: int) {
+            image.currentFile = index
+            image.setSource()
+        }
+
     }
 
 }

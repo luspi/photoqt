@@ -58,10 +58,7 @@
 #include <pqc_providersvgcolor.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_location.h>
-#include <pqc_photosphere.h>
-#include <scripts/qmlcpp/pqc_scriptscrypt.h>
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
-#include <scripts/qmlcpp/pqc_scriptsundo.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 
@@ -76,8 +73,6 @@
 #ifdef PQMLIBVIPS
 #include <vips/vips8>
 #endif
-
-#include <pqc_mpvobject.h>
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -266,10 +261,8 @@ int main(int argc, char *argv[]) {
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
     qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-    qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
     qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
     qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
-    qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
@@ -282,12 +275,6 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
-
-    // if PHOTOSPHERE support is disabled, then this is an empty object
-    qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");
-
-    // if MPV support is disabled, then this is an empty object
-    qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
 
     // the extension settings item
     qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");

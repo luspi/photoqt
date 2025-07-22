@@ -30,14 +30,24 @@ Item {
 
     anchors.fill: parent
 
+    /*******************************************/
+    // these values are READONLY
+
+    property real loaderImageScale
+    property bool isMainImage
+    property string imageSource
+
+    /*******************************************/
+
     property list<var> barcodes: []
     property int barcode_z: 0
+
+    signal barcodeClicked()
 
     Connections {
         target: PQCConstants
         function onCurrentImageSourceChanged() {
-            if(!loader_top.isMainImage) { // qmllint disable unqualified
-                // videoloader.active = false
+            if(!bartop.isMainImage) {
                 bartop.barcodes = []
             }
         }
@@ -49,9 +59,9 @@ Item {
         target: PQCNotify
 
         function onCurrentImageDetectBarCodes() {
-            if(loader_top.isMainImage) { // qmllint disable unqualified
+            if(bartop.isMainImage) {
                 if(!PQCConstants.barcodeDisplayed) {
-                    bartop.barcodes = PQCScriptsImages.getZXingData(imageloaderitem.imageSource)
+                    bartop.barcodes = PQCScriptsImages.getZXingData(bartop.imageSource)
                     if(bartop.barcodes.length === 0) {
                         PQCNotify.showNotificationMessage(qsTranslate("image", "Nothing found"), qsTranslate("image", "No bar/QR codes found."))
                     } else if(bartop.barcodes.length/3 == 1) {
@@ -105,7 +115,7 @@ Item {
 
                         spacing: 1
 
-                        scale: 1/loader_top.imageScale // qmllint disable unqualified
+                        scale: 1/bartop.loaderImageScale
                         Behavior on scale { NumberAnimation { duration: 200 } }
 
                         Rectangle {
@@ -158,7 +168,7 @@ Item {
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                                visible: PQCScriptsFilesPaths.isUrl(bardeleg.val) // qmllint disable unqualified
+                                visible: PQCScriptsFilesPaths.isUrl(bardeleg.val)
                                 enabled: visible
                                 Image {
                                     anchors.fill: parent
@@ -171,11 +181,11 @@ Item {
 
                             Connections {
 
-                                target: image_top // qmllint disable unqualified
+                                target: bartop
 
-                                function onBarcodeClick() {
+                                function onBarcodeClicked() {
                                     if(copycont.hovered)
-                                        PQCScriptsClipboard.copyTextToClipboard(bardeleg.val) // qmllint disable unqualified
+                                        PQCScriptsClipboard.copyTextToClipboard(bardeleg.val)
                                     else if(linkcont.hovered)
                                         Qt.openUrlExternally(bardeleg.val)
                                 }
@@ -185,11 +195,11 @@ Item {
                             Connections {
 
                                 target: PQCNotify
-                                enabled: loader_top.isMainImage // qmllint disable unqualified
+                                enabled: bartop.isMainImage
 
                                 function onMouseMove(x : int, y : int) {
 
-                                    var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
+                                    var local = copycont.mapFromItem(fullscreenitem, Qt.point(x,y))
                                     copycont.hovered = (local.x > 0 && local.y > 0 && local.x < copycont.width && local.y < copycont.height)
 
                                     local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))

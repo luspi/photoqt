@@ -83,7 +83,7 @@ Rectangle {
     visible: opacity>0
     enabled: visible
 
-    color: PQCLook.baseColor // qmllint disable unqualified
+    color: PQCLook.baseColor 
 
     PQMouseArea {
         id: mouseareaBG
@@ -173,7 +173,7 @@ Rectangle {
         visible: ele_top.showPopinPopout && !ele_top.forcePopout
         enabled: visible
         z: 1
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" 
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -194,7 +194,7 @@ Rectangle {
                 if(!ele_top.popout)
                     ele_top.popout = true
                 else
-                    ele_window.close() // qmllint disable unqualified
+                    ele_window.close() 
                 PQCScriptsShortcuts.executeInternalCommand(ele_top.shortcut)
             }
         }
@@ -205,7 +205,7 @@ Rectangle {
             radius: 2
             z: -1
             visible: ele_top.darkBackgroundManageIcons
-            color: PQCLook.transColor // qmllint disable unqualified
+            color: PQCLook.transColor 
             opacity: parent.opacity
         }
     }
@@ -229,7 +229,7 @@ Rectangle {
 
             visible: !ele_top.popout
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
             sourceSize: Qt.size(width, height)
 
             opacity: closemouse.containsMouse ? 0.8 : 0.1
@@ -249,7 +249,7 @@ Rectangle {
                 radius: width/2
                 z: -1
                 visible: ele_top.darkBackgroundManageIcons
-                color: PQCLook.transColor // qmllint disable unqualified
+                color: PQCLook.transColor 
                 opacity: closeimage.opacity
             }
 

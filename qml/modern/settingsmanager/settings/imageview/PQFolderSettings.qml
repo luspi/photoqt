@@ -96,11 +96,11 @@ Flickable {
             }
 
             function load() {
-                loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) // qmllint disable unqualified
+                loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) 
             }
 
             function applyChanges() {
-                PQCSettings.imageviewLoopThroughFolder = loop.checked // qmllint disable unqualified
+                PQCSettings.imageviewLoopThroughFolder = loop.checked 
                 loop.saveDefault()
             }
 
@@ -437,7 +437,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

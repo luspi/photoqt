@@ -30,9 +30,9 @@ CheckBox {
     text: ""
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
-    font.pointSize: PQCLook.fontSize      // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
-    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled // qmllint disable unqualified
+    font.pointSize: PQCLook.fontSize      
+    font.weight: PQCLook.fontWeightNormal 
+    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
 
     property string tooltip: text
 
@@ -49,15 +49,15 @@ CheckBox {
         opacity: enabled ? 1.0 : 0.3
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        border.color: PQCLook.inverseColor // qmllint disable unqualified
-        color: PQCLook.baseColorHighlight  // qmllint disable unqualified
+        border.color: PQCLook.inverseColor 
+        color: PQCLook.baseColorHighlight  
         radius: 2
         Rectangle {
             width: 10
             height: 10
             anchors.centerIn: parent
             visible: control.checked
-            color: PQCLook.inverseColor // qmllint disable unqualified
+            color: PQCLook.inverseColor 
             radius: 2
         }
     }
@@ -66,7 +66,6 @@ CheckBox {
         id: ttip
         delay: 500
         timeout: 5000
-        visible: control.hovered||control.extraHovered
         text: control.tooltip
     }
 

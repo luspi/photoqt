@@ -20,9 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptscontextmenu.h>
+#include <scripts/qml/pqc_scriptscontextmenu.h>
 #include <pqc_configfiles.h>
-#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/cpp/pqc_scriptsimages.h>
 
 #include <QtDebug>
 #include <QFileInfo>

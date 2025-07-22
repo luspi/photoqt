@@ -25,10 +25,11 @@ import QtQuick.Controls
 import PhotoQt
 
 MenuSeparator {
+    id: sep_top
     property bool lighterColor: false
     contentItem: Rectangle {
         implicitWidth: 200
         implicitHeight: 1
-        color: lighterColor ? PQCLook.baseColorHighlight : PQCLook.inverseColorHighlight // qmllint disable unqualified
+        color: sep_top.lighterColor ? PQCLook.baseColorHighlight : PQCLook.inverseColorHighlight
     }
 }

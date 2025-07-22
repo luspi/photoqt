@@ -33,7 +33,7 @@ Rectangle {
 
     anchors.fill: parent
 
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.transColor 
 
     opacity: 0
     visible: opacity > 0
@@ -110,7 +110,7 @@ Rectangle {
         id: titletxt
         y: insidecont.y-2*height
         width: parent.width
-        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+        font.weight: PQCLook.fontWeightBold 
         horizontalAlignment: Text.AlignHCenter
         text: qsTranslate("settingsmanager", "Shortcut actions")
     }
@@ -124,7 +124,7 @@ Rectangle {
         width: Math.min(800, parent.width)
         height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: PQCLook.baseColor 
 
         MouseArea {
             anchors.fill: parent
@@ -158,11 +158,11 @@ Rectangle {
 
                     border {
                         width: 1
-                        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                        color: PQCLook.baseColorHighlight 
                     }
 
                     color: newaction_top.selectedCategory===modelData
-                                ? PQCLook.baseColorActive // qmllint disable unqualified
+                                ? PQCLook.baseColorActive 
                                 : (mouse.containsPress||mouse.containsMouse)
                                    ? PQCLook.baseColorHighlight
                                    : PQCLook.baseColorAccent
@@ -172,9 +172,9 @@ Rectangle {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold 
                         text: newaction_top.categoryTitles[newaction_top.categories[deleg.modelData]]
-                        color: PQCLook.textColor // qmllint disable unqualified
+                        color: PQCLook.textColor 
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
                     PQMouseArea {
@@ -195,9 +195,9 @@ Rectangle {
             width: parent.width-cattabs.width
             height: parent.height
 
-            color: PQCLook.baseColorAccent // qmllint disable unqualified
+            color: PQCLook.baseColorAccent 
             border.width: 1
-            border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+            border.color: PQCLook.baseColorHighlight 
 
             PQText {
                 id: desclabel
@@ -233,7 +233,7 @@ Rectangle {
                         height: dsclabel.height+10
                         radius: 5
                         opacity: (actionmouse.containsMouse||newaction_top.currentShortcutAction===newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][0]) ? 1 : 0.5
-                        color: actionmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight // qmllint disable unqualified
+                        color: actionmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
                         Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
                             id: dsclabel
@@ -241,7 +241,7 @@ Rectangle {
                             y: 5
                             width: parent.width-10
                             text: newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][1]
-                            color: PQCLook.textColor // qmllint disable unqualified
+                            color: PQCLook.textColor 
                         }
                         PQMouseArea {
                             id: actionmouse
@@ -288,7 +288,7 @@ Rectangle {
 
                     PQText {
                         text: qsTranslate("settingsmanager", "Select an executable")
-                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold 
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
 
@@ -309,7 +309,7 @@ Rectangle {
                             onClicked: {
 
                                 var p = "/usr/bin/"
-                                if(PQCScriptsConfig.amIOnWindows()) // qmllint disable unqualified
+                                if(PQCScriptsConfig.amIOnWindows()) 
                                     p = PQCScriptsFilesPaths.getHomeDir()
                                 else if(ext_exe.text.slice(0,1) === "/")
                                     p = PQCScriptsFilesPaths.getDir(ext_exe.text)
@@ -340,7 +340,7 @@ Rectangle {
                     PQText {
                         width: parent.width
                         text: qsTranslate("settingsmanager", "Additional flags and options to pass on:")
-                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold 
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
 
@@ -424,7 +424,7 @@ Rectangle {
 
     Connections {
 
-        target: settingsmanager_top // qmllint disable unqualified
+        target: settingsmanager_top 
 
         function onPassOnShortcuts(mods: string, keys: int) {
 
@@ -480,7 +480,7 @@ Rectangle {
 
     function change(index: int, subindex: int, uniqueid: string) {
 
-        var cur = setting_top.entries[setting_top.idToEntr[uniqueid]][1][subindex] // qmllint disable unqualified
+        var cur = setting_top.entries[setting_top.idToEntr[uniqueid]][1][subindex] 
 
         if(cur.startsWith("__")) {
 

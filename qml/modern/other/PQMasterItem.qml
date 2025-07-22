@@ -222,11 +222,11 @@ Loader {
             function onImageInitiallyLoadedChanged() {
                 // don't rely on checking whether the timer below is running.
                 // For very small/fast images we might get here BEFORE that timer reports as running!
-                if(PQCConstants.imageInitiallyLoaded && finishSetupCalled < 2) {
+                if(PQCConstants.imageInitiallyLoaded && masteritem.finishSetupCalled < 2) {
                     checkForFileFinished.stop()
-                    if(finishSetupCalled == 0)
+                    if(masteritem.finishSetupCalled == 0)
                         masteritem.finishSetup()
-                    else if(finishSetupCalled == 1)
+                    else if(masteritem.finishSetupCalled == 1)
                         masteritem.finishSetup_part2()
                 }
             }
@@ -247,7 +247,7 @@ Loader {
                     checkForFileFinished.restart()
                     return
                 }
-                finishSetup()
+                masteritem.finishSetup()
             }
         }
 

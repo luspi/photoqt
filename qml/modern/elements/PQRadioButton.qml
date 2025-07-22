@@ -30,8 +30,8 @@ RadioButton {
     text: ""
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
-    font.pointSize: PQCLook.fontSize      // qmllint disable unqualified
-    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+    font.pointSize: PQCLook.fontSize      
+    font.weight: PQCLook.fontWeightNormal 
 
     property string tooltip: text
 
@@ -44,9 +44,9 @@ RadioButton {
         x: control.leftPadding
         y: parent.height / 2 - height / 2
 
-        border.color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight // qmllint disable unqualified
+        border.color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight 
         Behavior on border.color { ColorAnimation { duration: 200 } }
-        color: enabled ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent // qmllint disable unqualified
+        color: enabled ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent 
         Behavior on color { ColorAnimation { duration: 200 } }
         Rectangle {
             width: 10
@@ -54,7 +54,7 @@ RadioButton {
             radius: 5
             anchors.centerIn: parent
             visible: control.checked
-            color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight // qmllint disable unqualified
+            color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight 
             Behavior on color { ColorAnimation { duration: 200 } }
         }
     }
@@ -73,7 +73,6 @@ RadioButton {
         id: ttip
         delay: 500
         timeout: 5000
-        visible: control.hovered
         text: control.tooltip
     }
 
@@ -86,7 +85,7 @@ RadioButton {
         _defaultChecked = checked
     }
 
-    function setDefault(chk) {
+    function setDefault(chk : bool) {
         _defaultChecked = chk
     }
 

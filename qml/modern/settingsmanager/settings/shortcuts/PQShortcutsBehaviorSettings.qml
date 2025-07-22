@@ -112,12 +112,12 @@ Flickable {
             }
 
             function load() {
-                movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) // qmllint disable unqualified
+                movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) 
                 movebut.loadAndSetDefault(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
             }
 
             function applyChanges() {
-                PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked // qmllint disable unqualified
+                PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked 
                 PQCSettings.imageviewUseMouseLeftButtonForImageMove = movebut.checked
                 movewhl.saveDefault()
                 movebut.saveDefault()
@@ -262,7 +262,7 @@ Flickable {
                     id: hidetimeout_check
                     enforceMaxWidth: set_hidemouse.rightcol
                     text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
-                    checked: PQCSettings.imageviewHideCursorTimeout===0 // qmllint disable unqualified
+                    checked: PQCSettings.imageviewHideCursorTimeout===0 
                 },
 
                 PQSliderSpinBox {
@@ -417,7 +417,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }

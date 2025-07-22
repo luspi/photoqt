@@ -1,5 +1,5 @@
-#include <scripts/qmlcpp/pqc_scriptscolorprofiles.h>
-#include <scripts/qmlcpp/pqc_scriptsfilespaths.h>
+#include <scripts/cpp/pqc_scriptscolorprofiles.h>
+#include <scripts/cpp/pqc_scriptsfilespaths.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_settingscpp.h>

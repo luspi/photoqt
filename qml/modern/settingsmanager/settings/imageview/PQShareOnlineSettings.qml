@@ -108,7 +108,7 @@ Flickable {
                               qsTranslate("settingsmanager", "Forget account")
                     onClicked: {
                         if(account.acc == "") {
-                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin()) // qmllint disable unqualified
+                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin()) 
                             authcol.authshow = true
                             error.err = ""
                         } else {
@@ -161,7 +161,7 @@ Flickable {
                             cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                             onClicked: {
                                 authpinrow.enabled = false
-                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text) // qmllint disable unqualified
+                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text) 
                                 if(ret !== 0) {
                                     authpinrow.enabled = true
                                     error.err = ret
@@ -182,7 +182,7 @@ Flickable {
                     width: set_imgur.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     horizontalAlignment: Text.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightBold 
                     color: "red"
                     property string err: ""
                     visible: err!=""
@@ -204,7 +204,7 @@ Flickable {
         id: loadBG
         interval: 200
         onTriggered: {
-            PQCScriptsShareImgur.authAccount() // qmllint disable unqualified
+            PQCScriptsShareImgur.authAccount() 
             if(PQCScriptsShareImgur.isAuthenticated()) {
                 account.acc = PQCScriptsShareImgur.getAccountUsername()
             } else {

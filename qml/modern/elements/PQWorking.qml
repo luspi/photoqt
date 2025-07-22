@@ -33,7 +33,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { id: opacityAny; duration: 200 } }
 
     anchors.fill: parent
-    color: PQCLook.transColor // qmllint disable unqualified
+    color: PQCLook.transColor 
 
     property int circleHeight: 206
     property bool animationRunning: true
@@ -48,7 +48,7 @@ Rectangle {
         onClicked: (mouse) => { mouse.accepted = true }
         onWheel: (wheel) => { wheel.accepted = true }
         onPositionChanged: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y) // qmllint disable unqualified
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y) 
             PQCNotify.mouseMove(pos.x, pos.y)
         }
     }
@@ -104,10 +104,10 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg" 
         sourceSize: Qt.size(width, height)
         Timer {
-            running: parent.visible
+            running: exportsuccess.visible
             interval: 1000
             onTriggered: {
                 exportfailure.opacity = 0
@@ -128,7 +128,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
         sourceSize: Qt.size(width, height)
         Timer {
             id: failuretimer

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCMPVObject
 import PhotoQt
 
 // The MPV object needs to be wrapped in an item
@@ -31,7 +30,23 @@ Item {
 
     id: videotop
 
+    /*******************************************/
+    // these values are READONLY, they are set in PQImageDisplay as bindings
+
     property string imageSource: ""
+    property bool isMainImage
+    property Item loaderTop
+    property bool videoLoaded
+
+    /*******************************************/
+    // these values are WRITEONLY and are picked up in PQImageDisplay
+
+    property bool imageMirrorH: false
+    property bool imageMirrorV: false
+    property bool videoHasAudio
+    property int status: Image.Loading
+
+    /*******************************************/
 
     width: 100
     height: 100
@@ -39,23 +54,29 @@ Item {
     // avoid warning message as we listen to changes for this item in different places
     property string source: ""
 
+    property bool videoPlaying: false
+    property int videoDuration: 0
+    property int videoPosition: 0
+
+    onVideoPlayingChanged: {
+        video.command(["set", "pause", (videotop.videoPlaying ? "no" : "yes")])
+        if(isMainImage)
+            PQCConstants.currentlyShowingVideoPlaying = videoPlaying
+    }
+
     onVisibleChanged: {
         if(!visible) {
-            loader_top.videoPlaying = false // qmllint disable unqualified
+            videotop.videoPlaying = false
             video.command(["seek", 0, "absolute"])
-        } else {
-            loader_top.videoLoaded = true
-            loader_top.videoHasAudio = true
-            loader_top.videoHasAudioChanged()
         }
     }
 
-    PQCMPVObject { // qmllint disable
+    PQCMPVObject {
 
         id: video
 
-        width: videotop.width // qmllint disable missing-property
-        height: videotop.height // qmllint disable missing-property
+        width: videotop.width
+        height: videotop.height
 
     }
 
@@ -66,7 +87,7 @@ Item {
         onTriggered: {
             video.command(["loadfile", videotop.imageSource])
             if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
-                loader_top.videoPlaying = false
+                videotop.videoPlaying = false
                 video.command(["set", "pause", "yes"])
             }
             getProps.restart()
@@ -88,36 +109,36 @@ Item {
             }
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
-            loader_top.videoDuration = video.getProperty("duration")
+            videotop.videoDuration = video.getProperty("duration")
             var tracklist = video.getProperty(["track-list"])
             var countaudio = 0
             for(var i in tracklist) {
                 if(tracklist[i].type === "audio")
                     countaudio += 1
             }
-            loader_top.videoHasAudio = (countaudio>0)
+            videotop.videoHasAudio = (countaudio>0)
             video.setProperty("volume", PQCSettings.filetypesVideoVolume)
-            image_wrapper.status = Image.Ready
+            videotop.status = Image.Ready
             getPosition.restart()
         }
     }
 
     Timer {
         id: getPosition
-        interval: loader_top.videoPlaying ? 250 : 500 // qmllint disable unqualified
+        interval: videotop.videoPlaying ? 250 : 500
         repeat: true
         running: false
         property bool restarting: false
         onTriggered: {
-            PQCSettings.filetypesVideoVolume = video.getProperty("volume") // qmllint disable unqualified
-            loader_top.videoPlaying = !video.getProperty("core-idle")
+            PQCSettings.filetypesVideoVolume = video.getProperty("volume")
+            videotop.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
                 if(PQCSettings.filetypesVideoLoop && !restarting && !PQCConstants.slideshowRunning) {
                     video.command(["loadfile", videotop.imageSource])
                     restarting = true
                 }
             } else {
-                loader_top.videoPosition = video.getProperty("time-pos")
+                videotop.videoPosition = video.getProperty("time-pos")
                 restarting = false
             }
 
@@ -129,9 +150,9 @@ Item {
     property bool myMirrorV: false
 
     onMyMirrorHChanged:
-        loader_top.imageMirrorH = myMirrorH // qmllint disable unqualified
+        videotop.imageMirrorH = myMirrorH
     onMyMirrorVChanged:
-        loader_top.imageMirrorV = myMirrorV // qmllint disable unqualified
+        videotop.imageMirrorV = myMirrorV
 
     Connections {
         target: PQCScriptsShortcuts
@@ -153,55 +174,25 @@ Item {
         target: PQCNotify
 
         function onCurrentVideoJump(seconds : int) {
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
             video.command(["seek", seconds])
         }
 
         function onPlayPauseAnimationVideo() {
 
-            if(!loader_top.isMainImage)
+            if(!videotop.isMainImage)
                 return
 
             if(video.getProperty("eof-reached")) {
                 video.command(["loadfile", videotop.imageSource])
-                loader_top.videoPlaying = true
+                videotop.videoPlaying = true
             } else {
-                loader_top.videoPlaying = !loader_top.videoPlaying
+                videotop.videoPlaying = !videotop.videoPlaying
             }
 
         }
 
-    }
-
-    Connections {
-        target: loader_top // qmllint disable unqualified
-
-        function onVideoPlayingChanged() {
-            video.command(["set", "pause", (loader_top.videoPlaying ? "no" : "yes")])
-        }
-
-        function onVideoToPos(pos : int) {
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-            if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", videotop.imageSource])
-                loader_top.videoPlaying = false
-                setPosTimeout.pos = pos
-                setPosTimeout.restart()
-            } else
-                video.command(["seek", pos, "absolute"])
-        }
-        function onImageClicked() {
-            if(!loader_top.isMainImage) // qmllint disable unqualified
-                return
-            if(video.getProperty("eof-reached")) {
-                video.command(["loadfile", videotop.imageSource])
-                loader_top.videoPlaying = true
-            } else {
-                loader_top.videoPlaying = !loader_top.videoPlaying
-            }
-        }
     }
 
     Timer {
@@ -214,32 +205,32 @@ Item {
 
     Connections {
 
-        target: loader_top // qmllint disable unqualified
+        target: loader_top
 
         function onStopVideoAndReset() {
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
-            if(loader_top.videoPlaying) {
-                loader_top.videoPlaying = false
+            if(videotop.videoPlaying) {
+                videotop.videoPlaying = false
                 video.command(["seek", 0, "absolute"])
             }
         }
         function onRestartVideoIfAutoplay() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
 
-            if(loader_top.videoPlaying) {
+            if(videotop.videoPlaying) {
 
                 if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
-                    loader_top.videoPlaying = false
+                    videotop.videoPlaying = false
                 } else
                     video.command(["seek", 0, "absolute"])
 
             } else {
                 if(PQCSettings.filetypesVideoAutoplay || PQCConstants.slideshowRunning) {
                     video.command(["seek", 0, "absolute"])
-                    loader_top.videoPlaying = true
+                    videotop.videoPlaying = true
                 }
             }
 
@@ -248,32 +239,49 @@ Item {
 
     Connections {
 
-        target: PQCConstants // qmllint disable unqualified
+        target: PQCConstants
 
         function onSlideshowRunningChanged() {
 
-            if(!loader_top.isMainImage) // qmllint disable unqualified
+            if(!videotop.isMainImage)
                 return
 
             if(PQCConstants.slideshowRunning) {
                 video.command(["seek", 0, "absolute"])
-                loader_top.videoPlaying = true
+                videotop.videoPlaying = true
             }
         }
 
     }
 
     Connections {
-        target: PQCSettings // qmllint disable unqualified
+        target: PQCSettings
         function onFiletypesVideoVolumeChanged() {
             video.setProperty("volume", PQCSettings.filetypesVideoVolume)
         }
     }
 
-    Connections {
-        target: image_wrapper // qmllint disable unqualified
-        function onSetMirrorHVToImage(mirH : bool, mirV : bool) {
-            videotop.setMirrorHV(mirH, mirV)
+    function videoToPos(pos : int) {
+        console.warn(">>> videoToPos():", pos)
+        if(!videotop.isMainImage)
+            return
+        if(video.getProperty("eof-reached")) {
+            video.command(["loadfile", videotop.imageSource])
+            videotop.videoPlaying = false
+            setPosTimeout.pos = pos
+            setPosTimeout.restart()
+        } else
+            video.command(["seek", pos, "absolute"])
+    }
+
+    function videoClicked() {
+        if(!videotop.isMainImage)
+            return
+        if(video.getProperty("eof-reached")) {
+            video.command(["loadfile", videotop.imageSource])
+            videotop.videoPlaying = true
+        } else {
+            videotop.videoPlaying = !videotop.videoPlaying
         }
     }
 
@@ -288,19 +296,32 @@ Item {
             origin.y: videotop.height / 2
             axis { x: 0; y: 1; z: 0 }
             angle: videotop.myMirrorH ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         },
         Rotation {
             origin.x: videotop.width / 2
             origin.y: videotop.height / 2
             axis { x: 1; y: 0; z: 0 }
             angle: videotop.myMirrorV ? 180 : 0
-            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } } // qmllint disable unqualified
+            Behavior on angle { NumberAnimation { duration: PQCSettings.imageviewMirrorAnimate ? 200 : 0 } }
         }
     ]
 
     PQVideoControls {
+
         id: controls
+
+        loaderTop: videotop.loaderTop
+        videoLoaded: videotop.videoLoaded
+        videoPlaying: videotop.videoPlaying
+        videoPosition: videotop.videoPosition
+        videoDuration: videotop.videoDuration
+        videoHasAudio: videotop.videoHasAudio
+
+        onVideoToPos: (pos) => {
+            videotop.videoToPos(pos)
+        }
+
     }
 
 }

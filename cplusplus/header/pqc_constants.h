@@ -23,7 +23,7 @@
 #ifndef PQCCONSTANTS_H
 #define PQCCONSTANTS_H
 
-#include <scripts/qmlcpp/pqc_scriptsimages.h>
+#include <scripts/cpp/pqc_scriptsimages.h>
 #include <pqc_settingscpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_filefoldermodelCPP.h>
@@ -89,6 +89,8 @@ public:
         m_showingPhotoSphere = false;
         m_isMotionPhoto = false;
         m_barcodeDisplayed = false;
+        m_currentZValue = 1;
+        m_extraControlsLocation = QPoint(-1,-1);
 
         m_thumbnailsBarWidth = 0;
         m_thumbnailsBarHeight = 0;
@@ -242,6 +244,8 @@ public:
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool isMotionPhoto MEMBER m_isMotionPhoto NOTIFY isMotionPhotoChanged)
     Q_PROPERTY(bool barcodeDisplayed MEMBER m_barcodeDisplayed NOTIFY barcodeDisplayedChanged)
+    Q_PROPERTY(int currentZValue MEMBER m_currentZValue NOTIFY currentZValueChanged)
+    Q_PROPERTY(QPoint extraControlsLocation MEMBER m_extraControlsLocation NOTIFY extraControlsLocationChanged)
 
     Q_PROPERTY(QVariantMap colorProfileCache MEMBER m_colorProfileCache NOTIFY colorProfileCacheChanged)
 
@@ -335,6 +339,8 @@ private:
     bool m_showingPhotoSphere;
     bool m_isMotionPhoto;
     bool m_barcodeDisplayed;
+    int m_currentZValue;
+    QPoint m_extraControlsLocation;
 
     QVariantMap m_colorProfileCache;
 
@@ -422,7 +428,9 @@ Q_SIGNALS:
     void showingPhotoSphereChanged();
     void isMotionPhotoChanged();
     void barcodeDisplayedChanged();
+    void currentZValueChanged();
     void colorProfileCacheChanged();
+    void extraControlsLocationChanged();
 
 };
 

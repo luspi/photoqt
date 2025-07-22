@@ -94,8 +94,8 @@ Flickable {
                     visible: setting_top.entries.length==0
                     height: 50
                     verticalAlignment: Text.AlignVCenter
-                    color: PQCLook.textColorDisabled // qmllint disable unqualified
-                    font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                    color: PQCLook.textColorDisabled 
+                    font.weight: PQCLook.fontWeightBold 
                     //: The custom entries here are the custom entries in the context menu
                     text: qsTranslate("settingsmanager", "No custom entries exists yet")
                 },
@@ -120,7 +120,7 @@ Flickable {
                         height: 50
                         radius: 5
 
-                        color: PQCLook.baseColorHighlight // qmllint disable unqualified
+                        color: PQCLook.baseColorHighlight 
 
                         Row {
                             spacing: 5
@@ -129,12 +129,12 @@ Flickable {
 
                             PQButtonIcon {
                                 id: appicon
-                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) // qmllint disable unqualified
+                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) 
                                 onSourceChanged:
                                     setting_top.checkDefault()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog
-                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt()); // qmllint disable unqualified
+                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt()); 
                                     if(newicn !== "")
                                         deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                                     else
@@ -186,7 +186,7 @@ Flickable {
                                     width: height
                                     onClicked: {
                                         //: written on button for selecting a file from the file dialog
-                                        var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []); // qmllint disable unqualified
+                                        var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []); 
 
                                         if(newexe === "")
                                             return
@@ -254,7 +254,7 @@ Flickable {
                             Image {
                                 id: delicn
                                 y: (addflags.height-height)/2
-                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" // qmllint disable unqualified
+                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
                                 height: 15
                                 width: 15
                                 sourceSize: Qt.size(width, height)
@@ -283,7 +283,7 @@ Flickable {
                     //: The entry here is a custom entry in the context menu
                     text: qsTranslate("settingsmanager", "Add new entry")
                     forceWidth: Math.min(parent.width, 500)
-                    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightNormal 
                     onClicked: setting_top.addNewEntry()
                     contextmenu.onVisibleChanged: {
                         setting_top.catchEscape = visible
@@ -298,12 +298,12 @@ Flickable {
                 PQButton {
                     id: addsysbut
                     forceWidth: Math.min(parent.width, 500)
-                    visible: !PQCScriptsConfig.amIOnWindows() // qmllint disable unqualified
+                    visible: !PQCScriptsConfig.amIOnWindows() 
                     //: The system applications here refers to any image related applications that can be found automatically on your system
                     text: qsTranslate("settingsmanager", "Add system applications")
-                    font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+                    font.weight: PQCLook.fontWeightNormal 
                     onClicked: {
-                        var newentries = PQCScriptsContextMenu.detectSystemEntries() // qmllint disable unqualified
+                        var newentries = PQCScriptsContextMenu.detectSystemEntries() 
                         for(var i = 0; i < newentries.length; ++i) {
 
                             var cur = newentries[i]
@@ -397,7 +397,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { // qmllint disable unqualified
+        if(PQCSettings.generalAutoSaveSettings) { 
             applyChanges()
             return
         }
@@ -423,7 +423,7 @@ Flickable {
         interval: 100
         onTriggered: {
             // these need to be completely disconnected otherwise the changed check doesn't work
-            setting_top.entries = PQCScriptsContextMenu.getEntries() // qmllint disable unqualified
+            setting_top.entries = PQCScriptsContextMenu.getEntries() 
             setting_top.defaultentries = PQCScriptsContextMenu.getEntries()
             check_dupl.loadAndSetDefault(PQCSettings.mainmenuShowExternal)
             setting_top.settingChanged = false
@@ -443,7 +443,7 @@ Flickable {
     }
 
     function applyChanges() {
-        PQCScriptsContextMenu.setEntries(entries) // qmllint disable unqualified
+        PQCScriptsContextMenu.setEntries(entries) 
         defaultentries = PQCScriptsContextMenu.getEntries()
         PQCSettings.mainmenuShowExternal = check_dupl.checked
         check_dupl.saveDefault()

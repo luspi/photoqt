@@ -42,7 +42,7 @@ ScrollView {
     ScrollBar.vertical:
         PQVerticalScrollBar {
             id: scrollver
-            x: parent.width - width
+            x: control.width - width
             height: control.availableHeight
         }
 
@@ -58,16 +58,16 @@ ScrollView {
 
         id: textarea
 
-        color: PQCLook.textColor // qmllint disable unqualified
+        color: PQCLook.textColor 
 
-        font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-        font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+        font.pointSize: PQCLook.fontSize 
+        font.weight: PQCLook.fontWeightNormal 
 
         background: Rectangle {
             implicitWidth: control.implicitWidth - scrollver.width
             implicitHeight: control.implicitHeight - scrollhor.height
-            color: PQCLook.baseColor // qmllint disable unqualified
-            border.color: PQCLook.baseColorHighlight // qmllint disable unqualified
+            color: PQCLook.baseColor 
+            border.color: PQCLook.baseColorHighlight 
         }
     }
 

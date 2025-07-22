@@ -28,7 +28,7 @@ Loader {
     id: ldrtop
 
     // this is the flickable to attach to
-    property Flickable flickable: parent
+    property Flickable flickable
 
     // changing the cursor shape if desired
     property int cursorShape: Qt.ArrowCursor

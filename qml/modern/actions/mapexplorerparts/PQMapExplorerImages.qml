@@ -27,15 +27,42 @@ import PhotoQt
 
 Rectangle {
 
-    id: visibleimages
+    id: visibleimages_top
 
-    color: PQCLook.baseColor // qmllint disable unqualified
+    color: PQCLook.baseColor 
 
     clip: true
 
-    property var visibleImagesWithLocation: []
+    property list<var> allImagesWithLocation: []
+    property list<var> visibleImagesWithLocation: []
+
+    // this will be set to duplicate values from PQMapExplorerMap by PQMapExplorer
+    property real mapVisibleLatitudeLeft: -180
+    property real mapVisibleLatitudeRight: 180
+    property real mapVisibleLongitudeLeft: -180
+    property real mapVisibleLongitudeRight: 180
+
+    onMapVisibleLatitudeLeftChanged: {
+        timerLoadImages.restart()
+    }
+
+    onMapVisibleLatitudeRightChanged: {
+        timerLoadImages.restart()
+    }
+
+    onMapVisibleLongitudeLeftChanged: {
+        timerLoadImages.restart()
+    }
+
+    onMapVisibleLongitudeRightChanged: {
+        timerLoadImages.restart()
+    }
 
     property alias imageContextMenu: contextmenu
+
+    signal mapHideHighlightMarker()
+    signal clickOnImage(var lat, var lon)
+    signal hideExplorer()
 
     GridView {
 
@@ -44,7 +71,7 @@ Rectangle {
         anchors.fill: parent
         anchors.topMargin: 1
 
-        model: visibleimages.visibleImagesWithLocation.length // qmllint disable unqualified
+        model: visibleimages_top.visibleImagesWithLocation.length
 
         ScrollBar.vertical: PQVerticalScrollBar { id: scroll }
 
@@ -61,7 +88,7 @@ Rectangle {
             onTriggered: {
                 if(oldIndex === gridview.currentIndex) {
                     gridview.currentIndex = -1
-                    map.hideHightlightMarker() // qmllint disable unqualified
+                    visibleimages_top.mapHideHighlightMarker()
                 }
             }
         }
@@ -75,10 +102,11 @@ Rectangle {
             width: gridview.cellWidth
             height: gridview.cellHeight
 
-            readonly property string fpath: visibleimages.visibleImagesWithLocation[modelData][0] // qmllint disable unqualified
-            readonly property real latitude: visibleimages.visibleImagesWithLocation[modelData][1] // qmllint disable unqualified
-            readonly property real longitude: visibleimages.visibleImagesWithLocation[modelData][2] // qmllint disable unqualified
-            readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath) // qmllint disable unqualified
+            readonly property list<var> dat: visibleimages_top.visibleImagesWithLocation[modelData]
+            readonly property string fpath: dat[0]
+            readonly property real latitude: dat[1]
+            readonly property real longitude: dat[2]
+            readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath) 
 
             Rectangle {
 
@@ -100,8 +128,8 @@ Rectangle {
 
                     x: (parent.width-width)/2
                     y: (parent.height-height)/2
-                    width: parent.width-2*PQCSettings.filedialogElementPadding // qmllint disable unqualified
-                    height: parent.height-2*PQCSettings.filedialogElementPadding // qmllint disable unqualified
+                    width: parent.width-2*PQCSettings.filedialogElementPadding 
+                    height: parent.height-2*PQCSettings.filedialogElementPadding 
 
                     asynchronous: true
 
@@ -114,7 +142,7 @@ Rectangle {
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     // if we do not cache this image, then we keep the generic icon here
-                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname) // qmllint disable unqualified
+                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname) 
 
                     Image {
 
@@ -125,7 +153,7 @@ Rectangle {
 
                         sourceSize: Qt.size(256, 256)
 
-                        fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit // qmllint disable unqualified
+                        fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit 
 
                         // mipmap does not look good, use only smooth
                         smooth: true
@@ -148,7 +176,7 @@ Rectangle {
 
                     Behavior on height { NumberAnimation { duration: 100 } }
 
-                    color: maindeleg.fpath===PQCFileFolderModel.currentFile ? PQCLook.transColor : PQCLook.transColor // qmllint disable unqualified
+                    color: maindeleg.fpath===PQCFileFolderModel.currentFile ? PQCLook.transColor : PQCLook.transColor 
 
                     PQTextS {
 
@@ -158,7 +186,7 @@ Rectangle {
                         horizontalAlignment: Text.AlignHCenter
                         text: decodeURIComponent(maindeleg.fname)
                         elide: Text.ElideMiddle
-                        font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                        font.weight: PQCLook.fontWeightBold 
 
                     }
 
@@ -183,7 +211,7 @@ Rectangle {
                     resetCurrentIndex.stop()
                     gridview.currentIndex = maindeleg.modelData
 
-                    map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
+                    map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude) 
 
                     if(!tooltipSetup) {
 
@@ -222,12 +250,12 @@ Rectangle {
                 }
 
                 onPressAndHold: (mouse) => {
-                    contextmenu.popup(delegmouse.mapToItem(visibleimages, mouse.x, mouse.y))
+                    contextmenu.popup(delegmouse.mapToItem(visibleimages_top, mouse.x, mouse.y))
                 }
 
                 onClicked: (mouse) => {
                     if(mouse.button === Qt.LeftButton)
-                        mapexplorer_top.clickOnImage(maindeleg.latitude, maindeleg.longitude) // qmllint disable unqualified
+                        visibleimages_top.clickOnImage(maindeleg.latitude, maindeleg.longitude)
                     else if(mouse.button === Qt.RightButton) {
                         contextmenu.activeIndex = gridview.currentIndex
                         contextmenu.popup()
@@ -236,9 +264,9 @@ Rectangle {
 
                 doubleClickThreshold: 200
                 onMouseDoubleClicked: {
-                    PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath // qmllint disable unqualified
+                    PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath 
                     if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
-                        mapexplorer_top.hideExplorer()
+                        visibleimages_top.hideExplorer()
                     }
                 }
 
@@ -271,14 +299,14 @@ Rectangle {
             text: qsTranslate("mapexplorer", "Zoom to location")
             onTriggered: {
                 if(contextmenu.activeIndex != -1)
-                    mapexplorer_top.clickOnImage(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1], visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2]) // qmllint disable unqualified
+                    mapexplorer_top.clickOnImage(visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][1], visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][2])
             }
         }
 
         PQMenuItem {
             text: qsTranslate("mapexplorer", "Load image")
             onTriggered: {
-                PQCFileFolderModel.fileInFolderMainView = visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][0] // qmllint disable unqualified
+                PQCFileFolderModel.fileInFolderMainView = visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][0]
                 if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
                     mapexplorer_top.hideExplorer()
                 }
@@ -289,7 +317,7 @@ Rectangle {
             //: The location here is the GPS location
             text: qsTranslate("mapexplorer", "Copy location to clipboard")
             onTriggered: {
-                PQCScriptsClipboard.copyTextToClipboard(visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages.visibleImagesWithLocation[contextmenu.activeIndex][2])
+                PQCScriptsClipboard.copyTextToClipboard(visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][1] + " " + visibleimages_top.visibleImagesWithLocation[contextmenu.activeIndex][2])
             }
         }
 
@@ -300,7 +328,7 @@ Rectangle {
         y: (parent.height-height)/2
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        opacity: (visibleimages.visibleImagesWithLocation.length===0&&!nolocation.visible) ? 0.75 : 0 // qmllint disable unqualified
+        opacity: (visibleimages_top.visibleImagesWithLocation.length===0&&!nolocation.visible) ? 0.75 : 0
         visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
@@ -313,7 +341,7 @@ Rectangle {
         y: (parent.height-height)/2
         width: parent.width
         horizontalAlignment: Text.AlignHCenter
-        opacity: mapexplorer_top.imagesWithLocation.length===0 ? 0.75 : 0 // qmllint disable unqualified
+        opacity: visibleimages_top.allImagesWithLocation.length===0 ? 0.75 : 0
         visible: opacity>0
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         font.italic: true
@@ -325,7 +353,7 @@ Rectangle {
         id: timerLoadImages
         interval: 500
         onTriggered: {
-            loadImages()
+            visibleimages_top.loadImages()
         }
     }
 
@@ -337,42 +365,21 @@ Rectangle {
 
         var m = []
 
-        for(var i in mapexplorer_top.imagesWithLocation) {
+        for(var i in visibleimages_top.allImagesWithLocation) {
 
-            var im = mapexplorer_top.imagesWithLocation[i]
+            var im = visibleimages_top.allImagesWithLocation[i]
 
-            if(im[1] >= map.visibleLatitudeRight-0.001 &&
-                    im[1] <= map.visibleLatitudeLeft+0.001 &&
-                    im[2] >= map.visibleLongitudeLeft-0.001 &&
-                    im[2] <= map.visibleLongitudeRight+0.001)
+            if(im[1] >= mapVisibleLatitudeRight-0.001 &&
+                    im[1] <= mapVisibleLatitudeLeft+0.001 &&
+                    im[2] >= mapVisibleLongitudeLeft-0.001 &&
+                    im[2] <= mapVisibleLongitudeRight+0.001)
                 m.push(im)
 
         }
 
-        visibleimages.visibleImagesWithLocation = m
+        visibleimages_top.visibleImagesWithLocation = m
         gridview.currentIndex = -1
 
-    }
-
-    Connections {
-
-        target: map
-
-        function onVisibleLatitudeLeftChanged() {
-            timerLoadImages.restart()
-        }
-
-        function onVisibleLatitudeRightChanged() {
-            timerLoadImages.restart()
-        }
-
-        function onVisibleLongitudeLeftChanged() {
-            timerLoadImages.restart()
-        }
-
-        function onVisibleLongitudeRightChanged() {
-            timerLoadImages.restart()
-        }
     }
 
 }

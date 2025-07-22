@@ -25,283 +25,289 @@ import PhotoQt
 
 Item {
 
-    id: top
+    id: control_top
 
-    Loader {
+    /*******************************************/
+    // these values are READONLY
 
-        active: PQCSettings.filetypesPhotoSphereControls && PQCConstants.showingPhotoSphere // qmllint disable unqualified
+    property Item loaderTop
 
-        sourceComponent:
+    /*******************************************/
+
+    signal facetrackerLoadData()
+
+    /*******************************************/
+
+    visible: PQCSettings.filetypesPhotoSphereControls && PQCConstants.showingPhotoSphere
+
+    Rectangle {
+
+        id: controlitem
+
+        parent: control_top.loaderTop
+
+        x: (control_top.loaderTop.width-width)/2
+        y: 0.9*control_top.loaderTop.height
+        z: PQCConstants.currentZValue
+        width: leftrightlock.width
+        height: 30
+        radius: 5
+        color: PQCLook.transColor
+
+        property bool manuallyDragged: false
+
+        Connections {
+            target: control_top.loaderTop
+            enabled: controlitem.manuallyDragged
+            function onWidthChanged() {
+                controlitem.x = Math.min(controlitem.x, control_top.loaderTop.width-controlitem.width-5)
+            }
+            function onHeightChanged() {
+                controlitem.y = Math.min(controlitem.y, control_top.loaderTop.height-controlitem.height-5)
+            }
+        }
+
+        onXChanged: {
+            if(x !== (parent.width-width)/2) {
+                if(controlitem.manuallyDragged) {
+                    PQCConstants.extraControlsLocation.x = x
+                    x = x
+                }
+            }
+        }
+        onYChanged: {
+            if(y !== 0.9*parent.height) {
+                if(controlitem.manuallyDragged) {
+                    PQCConstants.extraControlsLocation.y = y
+                    y = y
+                }
+            }
+        }
+
+        Component.onCompleted: {
+            if(PQCConstants.extraControlsLocation.x !== -1) {
+                controlitem.x = PQCConstants.extraControlsLocation.x
+                controlitem.y = PQCConstants.extraControlsLocation.y
+                controlitem.manuallyDragged = true
+            }
+        }
+
+        // only show when needed
+        opacity: (hovered ? 1 : 0.3)
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+
+        // the first property is set by PCNotify signals for everything else not caught with the elements below
+        property bool emptyAreaHovered: false
+        property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||
+                               emptyAreaHovered||controlclosemouse.containsMouse||controlresetmouse.containsMouse||
+                               menu.visible
+
+        // drag and catch wheel events
+        MouseArea {
+            id: controldrag
+            anchors.fill: parent
+            drag.target: parent
+            drag.minimumX: 5
+            drag.minimumY: 5
+            drag.maximumX: control_top.loaderTop.width-controlitem.width-5
+            drag.maximumY: control_top.loaderTop.height-controlitem.height-5
+            hoverEnabled: true
+            cursorShape: Qt.SizeAllCursor
+            propagateComposedEvents: true
+            acceptedButtons: Qt.LeftButton|Qt.RightButton
+            onWheel: {}
+            drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
+            onClicked: (mouse) => {
+                if(mouse.button === Qt.RightButton)
+                    menu.popup()
+            }
+        }
+
         Rectangle {
 
-            id: controlitem
+            id: leftrightlock
 
-            parent: loader_top // qmllint disable unqualified
-
-            x: (loader_top.width-width)/2
-            y: 0.9*loader_top.height
-            z: image_top.curZ // qmllint disable unqualified
-            width: leftrightlock.width
-            height: 30
+            x: 0
+            y: (parent.height-height)/2
+            width: lockrow.width+10
+            height: lockrow.height+10
             radius: 5
-            color: PQCLook.transColor // qmllint disable unqualified
 
-            property bool manuallyDragged: false
-
-            Connections {
-                target: image_top // qmllint disable unqualified
-                enabled: controlitem.manuallyDragged
-                function onWidthChanged() {
-                    controlitem.x = Math.min(controlitem.x, image_top.width-controlitem.width-5) // qmllint disable unqualified
-                }
-                function onHeightChanged() {
-                    controlitem.y = Math.min(controlitem.y, image_top.height-controlitem.height-5) // qmllint disable unqualified
-                }
-            }
-
-            onXChanged: {
-                if(x !== (parent.width-width)/2) {
-                    if(controlitem.manuallyDragged) {
-                        image_top.extraControlsLocation.x = x // qmllint disable unqualified
-                        x = x
-                    }
-                }
-            }
-            onYChanged: {
-                if(y !== 0.9*parent.height) {
-                    if(controlitem.manuallyDragged) {
-                        image_top.extraControlsLocation.y = y // qmllint disable unqualified
-                        y = y
-                    }
-                }
-            }
-
-            Component.onCompleted: {
-                if(image_top.extraControlsLocation.x !== -1) { // qmllint disable unqualified
-                    controlitem.x = image_top.extraControlsLocation.x
-                    controlitem.y = image_top.extraControlsLocation.y
-                    controlitem.manuallyDragged = true
-                }
-            }
-
-            // only show when needed
-            opacity: (hovered ? 1 : 0.3)
+            opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
-            // the first property is set by PCNotify signals for everything else not caught with the elements below
-            property bool emptyAreaHovered: false
-            property bool hovered: controldrag.containsMouse||leftrightmouse.containsMouse||
-                                   emptyAreaHovered||controlclosemouse.containsMouse||controlresetmouse.containsMouse||
-                                   menu.visible
+            color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent")
+            Behavior on color { ColorAnimation { duration: 200 } }
 
-            // drag and catch wheel events
-            MouseArea {
-                id: controldrag
+            Row {
+                id: lockrow
+                x: 5
+                y: 5
+                spacing: 5
+
+                Image {
+                    y: (parent.height-height)/2
+                    height: leftrighttxt.height/1.2
+                    width: height
+                    source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
+                    sourceSize: Qt.size(width, height)
+                }
+
+                PQText {
+                    id: leftrighttxt
+                    text: "←/→"
+                }
+
+            }
+
+            PQMouseArea {
+                id: leftrightmouse
                 anchors.fill: parent
-                drag.target: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                acceptedButtons: Qt.RightButton|Qt.LeftButton
+                drag.target: controlitem
                 drag.minimumX: 5
                 drag.minimumY: 5
-                drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
-                drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
-                hoverEnabled: true
-                cursorShape: Qt.SizeAllCursor
-                propagateComposedEvents: true
-                acceptedButtons: Qt.LeftButton|Qt.RightButton
-                onWheel: {}
-                drag.onActiveChanged: if(active) controlitem.manuallyDragged = true
+                drag.maximumX: control_top.loaderTop.width-controlitem.width-5
+                drag.maximumY: control_top.loaderTop.height-controlitem.height-5
+                drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
+                text: qsTranslate("image", "Lock arrow keys to moving photo sphere")
                 onClicked: (mouse) => {
-                    if(mouse.button === Qt.RightButton)
+                    if(mouse.button === Qt.LeftButton)
+                        PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
+                    else
                         menu.popup()
                 }
             }
 
-            Rectangle {
+        }
 
-                id: leftrightlock
-
-                x: 0
-                y: (parent.height-height)/2
-                width: lockrow.width+10
-                height: lockrow.height+10
-                radius: 5
-
-                opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3 // qmllint disable unqualified
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                color: leftrightmouse.containsPress ? PQCLook.baseColorActive : (leftrightmouse.containsMouse ? PQCLook.baseColorAccent : "transparent") // qmllint disable unqualified
-                Behavior on color { ColorAnimation { duration: 200 } }
-
-                Row {
-                    id: lockrow
-                    x: 5
-                    y: 5
-                    spacing: 5
-
-                    Image {
-                        y: (parent.height-height)/2
-                        height: leftrighttxt.height/1.2
-                        width: height
-                        source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg" // qmllint disable unqualified
-                        sourceSize: Qt.size(width, height)
-                    }
-
-                    PQText {
-                        id: leftrighttxt
-                        text: "←/→"
-                    }
-
-                }
-
-                PQMouseArea {
-                    id: leftrightmouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    acceptedButtons: Qt.RightButton|Qt.LeftButton
-                    drag.target: controlitem
-                    drag.minimumX: 5
-                    drag.minimumY: 5
-                    drag.maximumX: image_top.width-controlitem.width-5 // qmllint disable unqualified
-                    drag.maximumY: image_top.height-controlitem.height-5 // qmllint disable unqualified
-                    drag.onActiveChanged: if(active) controlitem.manuallyDragged = true
-                    text: qsTranslate("image", "Lock arrow keys to moving photo sphere")
-                    onClicked: (mouse) => {
-                        if(mouse.button === Qt.LeftButton)
-                            PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys // qmllint disable unqualified
-                        else
-                            menu.popup()
-                    }
-                }
-
-            }
-
-            // the close button is only visible when hovered
-            Image {
-                x: parent.width-width+10
-                y: -10
-                width: 20
-                height: 20
-                opacity: controlclosemouse.containsMouse ? 0.75 : 0
-                Behavior on opacity { NumberAnimation { duration: 300 } }
-                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" // qmllint disable unqualified
-                sourceSize: Qt.size(width, height)
-                PQMouseArea {
-                    id: controlclosemouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("image", "Hide controls")
-                    onClicked: (mouse) => {
-                        PQCSettings.filetypesPhotoSphereControls = false // qmllint disable unqualified
-                    }
+        // the close button is only visible when hovered
+        Image {
+            x: parent.width-width+10
+            y: -10
+            width: 20
+            height: 20
+            opacity: controlclosemouse.containsMouse ? 0.75 : 0
+            Behavior on opacity { NumberAnimation { duration: 300 } }
+            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+            sourceSize: Qt.size(width, height)
+            PQMouseArea {
+                id: controlclosemouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: qsTranslate("image", "Hide controls")
+                onClicked: (mouse) => {
+                    PQCSettings.filetypesPhotoSphereControls = false
                 }
             }
+        }
 
-            // the reset position button is only visible when hovered
-            Image {
-                x: -10
-                y: -10
-                width: 20
-                height: 20
-                opacity: controlresetmouse.containsMouse ? 0.75 : 0
-                Behavior on opacity { NumberAnimation { duration: 300 } }
-                source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
-                sourceSize: Qt.size(width, height)
-                PQMouseArea {
-                    id: controlresetmouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("image", "Reset position")
-                    onClicked: (mouse) => {
-                        controlitem.manuallyDragged = false
-                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
-                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
-                    }
+        // the reset position button is only visible when hovered
+        Image {
+            x: -10
+            y: -10
+            width: 20
+            height: 20
+            opacity: controlresetmouse.containsMouse ? 0.75 : 0
+            Behavior on opacity { NumberAnimation { duration: 300 } }
+            source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+            sourceSize: Qt.size(width, height)
+            PQMouseArea {
+                id: controlresetmouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: qsTranslate("image", "Reset position")
+                onClicked: (mouse) => {
+                    controlitem.manuallyDragged = false
+                    controlitem.x = Qt.binding(function() { return (control_top.loaderTop.width-controlitem.width)/2 })
+                    controlitem.y = Qt.binding(function() { return (0.9*control_top.loaderTop.height) })
                 }
             }
+        }
 
-            PQMenu {
-                id: menu
+        PQMenu {
+            id: menu
 
-                property bool resetPosAfterHide: false
+            property bool resetPosAfterHide: false
 
-                PQMenuItem {
-                    checkable: true
-                    checked: PQCSettings.filetypesPhotoSphereArrowKeys
-                    text: qsTranslate("image", "Arrow keys")
-                    onCheckedChanged: {
-                        PQCSettings.filetypesPhotoSphereArrowKeys = checked
-                        checked = Qt.binding(function() { return PQCSettings.filetypesPhotoSphereArrowKeys })
-                        menu.dismiss()
-                    }
-                }
-
-                PQMenuSeparator {}
-
-                PQMenuItem {
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
-                    text: qsTranslate("image", "Reset position")
-                    onTriggered: {
-                        menu.resetPosAfterHide = true
-                    }
-                }
-
-                PQMenuItem {
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-                    text: qsTranslate("image", "Hide controls")
-                    onTriggered:
-                        PQCSettings.filetypesPhotoSphereControls = false // qmllint disable unqualified
-                }
-
-                onVisibleChanged: {
-                    if(!visible && resetPosAfterHide) {
-                        resetPosAfterHide = false
-                        controlitem.manuallyDragged = false
-                        controlitem.x = Qt.binding(function() { return (loader_top.width-controlitem.width)/2 })
-                        controlitem.y = Qt.binding(function() { return (0.9*loader_top.height) })
-                    }
-                }
-
-                onAboutToHide:
-                    recordAsClosed.restart()
-                onAboutToShow:
-                    PQCConstants.addToWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
-
-                Timer {
-                    id: recordAsClosed
-                    interval: 200
-                    onTriggered: {
-                        if(!menu.visible)
-                            PQCConstants.removeFromWhichContextMenusOpen("spherecontrols") // qmllint disable unqualified
-                    }
-                }
-            }
-
-            Connections {
-
-                target: PQCNotify
-
-                enabled: controlitem.enabled
-
-                function onMouseMove(x : int, y : int) {
-
-                    // check if the control item is hovered anywhere not caught by the elements above
-                    var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y)) // qmllint disable unqualified
-                    controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
-
-                }
-
-            }
-
-            Connections {
-
-                target: PQCNotify
-
-                function onCloseAllContextMenus() {
+            PQMenuItem {
+                checkable: true
+                checked: PQCSettings.filetypesPhotoSphereArrowKeys
+                text: qsTranslate("image", "Arrow keys")
+                onCheckedChanged: {
+                    PQCSettings.filetypesPhotoSphereArrowKeys = checked
+                    checked = Qt.binding(function() { return PQCSettings.filetypesPhotoSphereArrowKeys })
                     menu.dismiss()
                 }
+            }
 
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+                text: qsTranslate("image", "Reset position")
+                onTriggered: {
+                    menu.resetPosAfterHide = true
+                }
+            }
+
+            PQMenuItem {
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                text: qsTranslate("image", "Hide controls")
+                onTriggered:
+                    PQCSettings.filetypesPhotoSphereControls = false
+            }
+
+            onVisibleChanged: {
+                if(!visible && resetPosAfterHide) {
+                    resetPosAfterHide = false
+                    controlitem.manuallyDragged = false
+                    controlitem.x = Qt.binding(function() { return (control_top.loaderTop.width-controlitem.width)/2 })
+                    controlitem.y = Qt.binding(function() { return (0.9*control_top.loaderTop.height) })
+                }
+            }
+
+            onAboutToHide:
+                recordAsClosed.restart()
+            onAboutToShow:
+                PQCConstants.addToWhichContextMenusOpen("spherecontrols")
+
+            Timer {
+                id: recordAsClosed
+                interval: 200
+                onTriggered: {
+                    if(!menu.visible)
+                        PQCConstants.removeFromWhichContextMenusOpen("spherecontrols")
+                }
+            }
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            enabled: controlitem.enabled
+
+            function onMouseMove(x : int, y : int) {
+
+                // check if the control item is hovered anywhere not caught by the elements above
+                var local = controlitem.mapFromItem(fullscreenitem, Qt.point(x,y))
+                controlitem.emptyAreaHovered = (local.x > 0 && local.y > 0 && local.x < controlitem.width && local.y < controlitem.height)
+
+            }
+
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onCloseAllContextMenus() {
+                menu.dismiss()
             }
 
         }
