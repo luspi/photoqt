@@ -48,7 +48,7 @@ def get(duplicateSettings, duplicateSettingsSignal):
     cont = """
 void PQCSettings::updateFromCommandLine() {
 
-    const QStringList update = PQCNotify::get().getSettingUpdate();
+    const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
     if(update.length() != 2)

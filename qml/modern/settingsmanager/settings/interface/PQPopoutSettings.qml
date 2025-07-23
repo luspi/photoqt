@@ -86,12 +86,6 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutMetadata", qsTranslate("settingsmanager", "Metadata")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["extensionsHistogramPopout", qsTranslate("settingsmanager", "Histogram")],
-                        //: Used as identifying name for one of the elements in the interface
-                        ["extensionsMapCurrentPopout", qsTranslate("settingsmanager", "Map (current image)")],
-                        //: Used as identifying name for one of the elements in the interface
-                        ["extensionsScaleImagePopout", qsTranslate("settingsmanager", "Scale")],
-                        //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutSlideshowSetup", qsTranslate("settingsmanager", "Slideshow setup")],
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutSlideshowControls", qsTranslate("settingsmanager", "Slideshow controls")],
@@ -100,13 +94,7 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFileDelete", qsTranslate("settingsmanager", "Delete file")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["extensionsExportImagePopout", qsTranslate("settingsmanager", "Export file")],
-                        //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutAbout", qsTranslate("settingsmanager", "About")],
-                        //: Used as identifying name for one of the elements in the interface
-                        ["extensionsImgurComPopout", qsTranslate("settingsmanager", "Imgur")],
-                        //: Used as identifying name for one of the elements in the interface
-                        ["extensionsWallpaperPopout", qsTranslate("settingsmanager", "Wallpaper")],
                         //: Noun, not a verb. Used as identifying name for one of the elements in the interface
                         ["interfacePopoutFilter", qsTranslate("settingsmanager", "Filter")],
                         //: Used as identifying name for one of the elements in the interface
@@ -114,11 +102,7 @@ Flickable {
                         //: Used as identifying name for one of the elements in the interface
                         ["interfacePopoutChromecast", qsTranslate("settingsmanager", "Streaming (Chromecast)")],
                         //: Used as identifying name for one of the elements in the interface
-                        ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")],
-                         //: Used as identifying name for one of the elements in the interface
-                        ["extensionsCropImagePopout", qsTranslate("settingsmanager", "Crop")],
-                         //: Used as identifying name for one of the elements in the interface
-                        ["extensionsQuickActionsPopout", qsTranslate("settingsmanager", "Quick Actions")]]
+                        ["interfaceMinimapPopout", qsTranslate("settingsmanager", "Minimap")]]
 
     property list<string> currentCheckBoxStates: ["0","0","0","0","0",
                                                   "0","0","0","0","0",
@@ -281,26 +265,17 @@ Flickable {
                                             else if(p === "interfacePopoutMainMenu") check.checked = PQCSettings.interfacePopoutMainMenu
                                             else if(p === "interfacePopoutMetadata") check.checked = PQCSettings.interfacePopoutMetadata
 
-                                            else if(p === "extensionsHistogramPopout") check.checked = PQCSettings.extensions["HistogramPopout"]
-                                            else if(p === "extensionsMapCurrentPopout") check.checked = PQCSettings.extensions["MapCurrentPopout"]
-                                            else if(p === "extensionsScaleImagePopout") check.checked = PQCSettings.extensions["ScaleImagePopout"]
                                             else if(p === "interfacePopoutSlideshowSetup") check.checked = PQCSettings.interfacePopoutSlideshowSetup
                                             else if(p === "interfacePopoutSlideshowControls") check.checked = PQCSettings.interfacePopoutSlideshowControls
 
                                             else if(p === "interfacePopoutFileRename") check.checked = PQCSettings.interfacePopoutFileRename
                                             else if(p === "interfacePopoutFileDelete") check.checked = PQCSettings.interfacePopoutFileDelete
-                                            else if(p === "extensionsExportImagePopout") check.checked = PQCSettings.extensions["ExportImagePopout"]
                                             else if(p === "interfacePopoutAbout") check.checked = PQCSettings.interfacePopoutAbout
-                                            else if(p === "extensionsImgurComPopout") check.checked = PQCSettings.extensions["ImgurComPopout"]
 
-                                            else if(p === "extensionsWallpaperPopout") check.checked = PQCSettings.extensions["WallpaperPopout"]
                                             else if(p === "interfacePopoutFilter") check.checked = PQCSettings.interfacePopoutFilter
                                             else if(p === "interfacePopoutAdvancedSort") check.checked = PQCSettings.interfacePopoutAdvancedSort
                                             else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.interfacePopoutChromecast
                                             else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.interfaceMinimapPopout
-
-                                            else if(p === "extensionsCropImagePopout") check.checked = PQCSettings.extensions["CropImagePopout"]
-                                            else if(p === "extensionsQuickActionsPopout") check.checked = PQCSettings.extensions["QuickActionsPopout"]
 
                                         }
                                         function onPopoutResetToDefault() {
@@ -313,26 +288,17 @@ Flickable {
                                             else if(p === "interfacePopoutMainMenu") check.checked = PQCSettings.getDefaultForInterfacePopoutMainMenu()
                                             else if(p === "interfacePopoutMetadata") check.checked = PQCSettings.getDefaultForInterfacePopoutMetadata()
 
-                                            else if(p === "extensionsHistogramPopout") check.checked = PQCSettings.getDefaultForExtension("HistogramPopout")
-                                            else if(p === "extensionsMapCurrentPopout") check.checked = PQCSettings.getDefaultForExtension("MapCurrentPopout")
-                                            else if(p === "extensionsScaleImagePopout") check.checked = PQCSettings.getDefaultForExtension("ScaleImagePopout")
                                             else if(p === "interfacePopoutSlideshowSetup") check.checked = PQCSettings.getDefaultForInterfacePopoutSlideshowSetup()
                                             else if(p === "interfacePopoutSlideshowControls") check.checked = PQCSettings.getDefaultForInterfacePopoutSlideshowControls()
 
                                             else if(p === "interfacePopoutFileRename") check.checked = PQCSettings.getDefaultForInterfacePopoutFileRename()
                                             else if(p === "interfacePopoutFileDelete") check.checked = PQCSettings.getDefaultForInterfacePopoutFileDelete()
-                                            else if(p === "extensionsExportImagePopout") check.checked = PQCSettings.getDefaultForExtension("ExportImagePopout")
                                             else if(p === "interfacePopoutAbout") check.checked = PQCSettings.getDefaultForInterfacePopoutAbout()
-                                            else if(p === "extensionsImgurComPopout") check.checked = PQCSettings.getDefaultForExtension("ImgurComPopout")
 
-                                            else if(p === "extensionsWallpaperPopout") check.checked = PQCSettings.getDefaultForExtension("WallpaperPopout")
                                             else if(p === "interfacePopoutFilter") check.checked = PQCSettings.getDefaultForInterfacePopoutFilter()
                                             else if(p === "interfacePopoutAdvancedSort") check.checked = PQCSettings.getDefaultForInterfacePopoutAdvancedSort()
                                             else if(p === "interfacePopoutChromecast") check.checked = PQCSettings.getDefaultForInterfacePopoutChromecast()
                                             else if(p === "interfaceMinimapPopout") check.checked = PQCSettings.getDefaultForInterfaceMinimapPopout()
-
-                                            else if(p === "extensionsCropImagePopout") check.checked = PQCSettings.getDefaultForExtension("CropImagePopout")
-                                            else if(p === "extensionsQuickActionsPopout") check.checked = PQCSettings.getDefaultForExtension("QuickActionsPopout")
 
                                         }
 

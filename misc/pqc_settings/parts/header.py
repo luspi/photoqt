@@ -91,10 +91,7 @@ class PQCSettings : public QObject {
 public:
     explicit PQCSettings(bool validateonly);
     explicit PQCSettings();
-    ~PQCSettings();
-
-    // extensions settings
-    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)"""
+    ~PQCSettings();"""
 
     cont_HEADER += "\n"
 
@@ -137,8 +134,6 @@ public:
         cont_HEADER += "\n"
 
     cont_HEADER += """
-    Q_INVOKABLE QVariant getDefaultForExtension(const QString &key);
-
     void setDefault();
     void setDefaultFor(QString key);
 
@@ -201,12 +196,8 @@ private:"""
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
-    QQmlPropertyMap *m_extensions;
-    QVariantHash m_extensions_defaults;
-
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
-    void saveChangedExtensionValue(const QString &key, const QVariant &value);
 
     void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
     QVariant migrationHelperGetOldValue(QString table, QString setting);
@@ -214,9 +205,7 @@ private:"""
     void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
-Q_SIGNALS:
-    void extensionsChanged();
-    void extensionValueChanged(const QString &key, const QVariant &val);"""
+Q_SIGNALS:"""
 
     for tab in dbtables:
 

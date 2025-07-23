@@ -52,9 +52,6 @@ public:
     explicit PQCSettings();
     ~PQCSettings();
 
-    // extensions settings
-    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)
-
     /**************************************/
     // table: filedialog
 
@@ -1729,8 +1726,6 @@ public:
     Q_INVOKABLE const int getDefaultForThumbnailsVisibility();
     Q_INVOKABLE void setDefaultForThumbnailsVisibility();
 
-    Q_INVOKABLE QVariant getDefaultForExtension(const QString &key);
-
     void setDefault();
     void setDefaultFor(QString key);
 
@@ -2050,17 +2045,11 @@ private:
     int m_thumbnailsVisibility;
 
     QStringList dbtables;
-    QSqlDatabase db;
-    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
-    QQmlPropertyMap *m_extensions;
-    QVariantHash m_extensions_defaults;
-
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
-    void saveChangedExtensionValue(const QString &key, const QVariant &value);
 
     void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
     QVariant migrationHelperGetOldValue(QString table, QString setting);
@@ -2069,8 +2058,6 @@ private:
     void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
-    void extensionsChanged();
-    void extensionValueChanged(const QString &key, const QVariant &val);
 
     // table: filedialog
     void filedialogDetailsTooltipChanged();

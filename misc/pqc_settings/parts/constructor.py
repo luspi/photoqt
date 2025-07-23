@@ -80,7 +80,7 @@ def get():
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_extensionshandler.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
@@ -125,8 +125,7 @@ PQCSettings::PQCSettings() {
                             << "filetypes"
                             << "filedialog"
                             << "slideshow"
-                            << "mapview"
-                            << "extensions";
+                            << "mapview";
 
     readonly = false;
 
@@ -199,10 +198,6 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    m_extensions = new QQmlPropertyMap();
-
-    /******************************************************/
-
     // set up with all defaults
     setupFresh();
 
@@ -267,11 +262,7 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(m_extensions, &QQmlPropertyMap::valueChanged, this, &PQCSettings::saveChangedExtensionValue);
-
-    /******************************************************/
-
-    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 
@@ -280,7 +271,6 @@ PQCSettings::~PQCSettings() {{
     QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
-        delete m_extensions;
     }}
 }}
 """
