@@ -39,11 +39,8 @@ class PQCScriptsMetaData : public QObject {
     Q_OBJECT
 
 public:
-    static PQCScriptsMetaData& get() {
-        static PQCScriptsMetaData instance;
-        return instance;
-    }
-    ~PQCScriptsMetaData();
+    static PQCScriptsMetaData& get();
+    virtual ~PQCScriptsMetaData();
 
     PQCScriptsMetaData(PQCScriptsMetaData const&)     = delete;
     void operator=(PQCScriptsMetaData const&) = delete;

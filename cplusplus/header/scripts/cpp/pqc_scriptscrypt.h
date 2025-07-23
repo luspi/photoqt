@@ -43,11 +43,8 @@ class PQCScriptsCrypt : public QObject {
     Q_OBJECT
 
 public:
-    static PQCScriptsCrypt& get() {
-        static PQCScriptsCrypt instance;
-        return instance;
-    }
-    ~PQCScriptsCrypt();
+    static PQCScriptsCrypt& get();
+    virtual ~PQCScriptsCrypt();
 
     PQCScriptsCrypt(PQCScriptsCrypt const&)     = delete;
     void operator=(PQCScriptsCrypt const&) = delete;

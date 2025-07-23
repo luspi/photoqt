@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCCOMMANDLINEPARSER_H
-#define PQCCOMMANDLINEPARSER_H
+#pragma once
 
 #include <QObject>
 #include <QCommandLineParser>
@@ -75,6 +73,3 @@ private:
     QTranslator trans;
 
 };
-
-
-#endif // PQCCommandLINEPARSER_H

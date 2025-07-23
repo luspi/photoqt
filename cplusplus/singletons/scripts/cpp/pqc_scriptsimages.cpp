@@ -80,6 +80,11 @@
 #include <lcms2.h>
 #endif
 
+PQCScriptsImages &PQCScriptsImages::get() {
+    static PQCScriptsImages instance;
+    return instance;
+}
+
 PQCScriptsImages::PQCScriptsImages() {
     // importedICCLastMod = 0;
     // colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
@@ -96,9 +101,7 @@ PQCScriptsImages::PQCScriptsImages() {
 
 }
 
-PQCScriptsImages::~PQCScriptsImages() {
-    // delete colorlastlocation;
-}
+PQCScriptsImages::~PQCScriptsImages() {}
 
 QSize PQCScriptsImages::getCurrentImageResolution(QString filename) {
 

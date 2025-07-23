@@ -50,6 +50,8 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
+    QSqlDatabase db, dbDefault;
+
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
@@ -145,6 +147,7 @@ PQCSettings::PQCSettings() {
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
     connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+        QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
@@ -476,6 +479,8 @@ PQCSettings::PQCSettings() {
 }
 
 PQCSettings::~PQCSettings() {{
+    QSqlDatabase::removeDatabase("defaultsettings");
+    QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
         delete m_extensions;
@@ -6630,7 +6635,7 @@ void PQCSettings::readDB() {
 
     for(const auto &table : std::as_const(dbtables)) {
 
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database("settings"));
         query.prepare(QString("SELECT `name`,`value` FROM '%1'").arg(table));
         if(!query.exec())
             qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
@@ -7372,7 +7377,7 @@ void PQCSettings::readDB() {
 
     }
 
-    QSqlQuery queryEXT(db);
+    QSqlQuery queryEXT(QSqlDatabase::database("settings"));
     queryEXT.prepare("SELECT `name`,`value`,`datatype` FROM 'extensions'");
     if(!queryEXT.exec())
         qCritical() << "SQL Query error (extensions):" << queryEXT.lastError().text();
@@ -7445,6 +7450,7 @@ bool PQCSettings::backupDatabase() {
 
     // make sure all changes are written to db
     if(dbIsTransaction) {
+        QSqlDatabase db = QSqlDatabase::database("settings");
         dbCommitTimer->stop();
         db.commit();
         dbIsTransaction = false;
@@ -7467,6 +7473,8 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 
@@ -7560,6 +7568,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
 
     if(readonly) return;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     QSqlQuery query(db);
@@ -7638,6 +7648,8 @@ void PQCSettings::setDefault() {
 
     if(readonly) return;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     backupDatabase();
 
     dbCommitTimer->stop();
@@ -7661,6 +7673,8 @@ void PQCSettings::closeDatabase() {
 
     qDebug() << "";
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
@@ -7678,7 +7692,7 @@ void PQCSettings::reopenDatabase() {
 
     qDebug() << "";
 
-    if(!db.open())
+    if(!QSqlDatabase::database("settings").open())
         qWarning() << "Unable to reopen database";
 
 }
@@ -7690,6 +7704,8 @@ void PQCSettings::reopenDatabase() {
 int PQCSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 
@@ -7984,6 +8000,8 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
     qDebug() << "args: mig =" << mig;
     qDebug() << "args: curVer =" << curVer;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
         const QString v = i.key();
@@ -8095,7 +8113,7 @@ QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting)
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("SELECT `value` FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -8118,7 +8136,7 @@ void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -8137,7 +8155,7 @@ void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(table));
     query.bindValue(":nme", setting);
@@ -8158,7 +8176,7 @@ void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
     query.prepare(QString("UPDATE `%1` SET `value`=:val WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
     query.bindValue(":val", value);
@@ -8187,9 +8205,9 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
 
     settingname = name.last(name.size()-tablename.size());
 
-    QSqlQuery query(dbDefault);
+    QSqlQuery query(QSqlDatabase::database("defaultsettings"));
     if(name.startsWith("extensions"))
-        query = QSqlQuery(db);
+        query = QSqlQuery(QSqlDatabase::database("settings"));
     query.prepare(QString("SELECT datatype FROM `%1` WHERE `name`=:nme").arg(tablename));
     query.bindValue(":nme", settingname);
     if(!query.exec()) {
@@ -10147,6 +10165,8 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbDefault;
+
     if(!skipDBHandling) {
 
         // the db does not exist -> create it and finish
@@ -10170,7 +10190,6 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
             qWarning() << "Error opening database:" << db.lastError().text();
             return false;
         }
-
 
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
             dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
@@ -10251,6 +10270,8 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbcheck;
+
     if(!skipDBHandling) {
 
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -10264,7 +10285,6 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     }
 
-    QSqlDatabase dbcheck;
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))

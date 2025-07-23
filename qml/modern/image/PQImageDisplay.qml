@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Window
 import PQCImageFormats
-import PhotoQt
+import PhotoQt.Modern
 
 Loader {
     id: imageloaderitem
@@ -1585,6 +1585,11 @@ Loader {
                             }
 
                         }
+
+                        // PropertyAnimation {
+                        //     id: aniMoveDown
+                        //     duration:
+                        // }
 
                         function onCurrentViewMove(direction : string) {
 

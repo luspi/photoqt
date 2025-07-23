@@ -281,7 +281,8 @@ int main(int argc, char *argv[]) {
 
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    engine.loadFromModule("PhotoQt", "PQMainWindowModern");
+    engine.loadFromModule("PhotoQt.Modern", "PQMainWindowModern");
+    // engine.loadFromModule("PhotoQt.Integrated", "PQMainWindowIntegrated");
 #else
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
@@ -289,6 +290,11 @@ int main(int argc, char *argv[]) {
 
     engine.load("qrc:/PhotoQt/qml/PQMainWindowModern.qml");
 #endif
+
+    QImage img(":/light/reset.svg");
+    img.save("/home/luspi/test.jpg");
+    QFileInfo inf(":/");
+    qWarning() << ">>> requestImage:" << inf.absoluteDir().entryList();
 
     int ret = app.exec();
 

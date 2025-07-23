@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt
+import PhotoQt.Modern
 
 Rectangle {
     id: notification_top

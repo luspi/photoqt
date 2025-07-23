@@ -48,6 +48,8 @@ void PQCSettings::setDefault() {
 
     if(readonly) return;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     backupDatabase();
 
     dbCommitTimer->stop();

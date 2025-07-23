@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick.Effects
-import PhotoQt
+import PhotoQt.Modern
 
 MultiEffect {
     anchors.fill: source

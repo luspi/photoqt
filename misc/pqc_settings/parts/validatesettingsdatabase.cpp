@@ -5,6 +5,8 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbDefault;
+
     if(!skipDBHandling) {
 
         // the db does not exist -> create it and finish

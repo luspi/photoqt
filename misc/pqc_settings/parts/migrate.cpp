@@ -6,6 +6,8 @@ int PQCSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
@@ -299,6 +301,8 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
     qDebug() << "args: mig =" << mig;
     qDebug() << "args: curVer =" << curVer;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
         const QString v = i.key();
@@ -410,7 +414,7 @@ QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting)
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("SELECT `value` FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -433,7 +437,7 @@ void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -452,7 +456,7 @@ void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(table));
     query.bindValue(":nme", setting);
@@ -473,7 +477,7 @@ void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
     query.prepare(QString("UPDATE `%1` SET `value`=:val WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
     query.bindValue(":val", value);

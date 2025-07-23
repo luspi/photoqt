@@ -23,7 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls.Basic
-import PhotoQt
+import PhotoQt.Modern
 
 ComboBox {
 

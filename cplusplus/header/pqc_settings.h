@@ -2050,8 +2050,6 @@ private:
     int m_thumbnailsVisibility;
 
     QStringList dbtables;
-    QSqlDatabase db;
-    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 

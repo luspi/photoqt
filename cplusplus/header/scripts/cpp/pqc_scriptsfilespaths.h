@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSFILESPATHS_H
-#define PQCSCRIPTSFILESPATHS_H
+#pragma once
 
 #include <QObject>
 #include <QDir>
@@ -41,28 +39,25 @@ class PQCScriptsFilesPaths : public QObject {
     Q_OBJECT
 
 public:
-    static PQCScriptsFilesPaths& get() {
-        static PQCScriptsFilesPaths instance;
-        return instance;
-    }
-    ~PQCScriptsFilesPaths();
+    static PQCScriptsFilesPaths& get();
+    virtual ~PQCScriptsFilesPaths();
 
     PQCScriptsFilesPaths(PQCScriptsFilesPaths const&)     = delete;
     void operator=(PQCScriptsFilesPaths const&) = delete;
 
     // path methods
-    Q_INVOKABLE static QString cleanPath(QString path);
-    Q_INVOKABLE static QString cleanPath_windows(QString path);
-    Q_INVOKABLE QString        pathWithNativeSeparators(QString path);
-    Q_INVOKABLE QString        pathFromNativeSeparators(QString path);
-    Q_INVOKABLE QString        toPercentEncoding(QString str);
-    Q_INVOKABLE QString        handleAnimatedImagePathAndEncode(QString path);
-    Q_INVOKABLE QString        getSuffix(QString path);
-    Q_INVOKABLE QString        getSuffixLowerCase(QString path);
-    Q_INVOKABLE QString        getBasename(QString fullpath);
-    Q_INVOKABLE QString        getFilename(QString fullpath);
-    Q_INVOKABLE QString        getDir(QString fullpath);
-    Q_INVOKABLE bool           isUrl(QString path);
+    Q_INVOKABLE QString cleanPath(QString path);
+    Q_INVOKABLE QString cleanPath_windows(QString path);
+    Q_INVOKABLE QString pathWithNativeSeparators(QString path);
+    Q_INVOKABLE QString pathFromNativeSeparators(QString path);
+    Q_INVOKABLE QString toPercentEncoding(QString str);
+    Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
+    Q_INVOKABLE QString getSuffix(QString path);
+    Q_INVOKABLE QString getSuffixLowerCase(QString path);
+    Q_INVOKABLE QString getBasename(QString fullpath);
+    Q_INVOKABLE QString getFilename(QString fullpath);
+    Q_INVOKABLE QString getDir(QString fullpath);
+    Q_INVOKABLE bool    isUrl(QString path);
 
     // folder methods
     Q_INVOKABLE bool        isFolder(QString path);
@@ -114,5 +109,3 @@ private Q_SLOTS:
     void detectNetworkShares();
 
 };
-
-#endif

@@ -42,11 +42,8 @@ class PQCScriptsImages : public QObject {
     Q_OBJECT
 
 public:
-    static PQCScriptsImages& get() {
-        static PQCScriptsImages instance;
-        return instance;
-    }
-    ~PQCScriptsImages();
+    static PQCScriptsImages& get();
+    virtual ~PQCScriptsImages();
 
     PQCScriptsImages(PQCScriptsImages const&)     = delete;
     void operator=(PQCScriptsImages const&) = delete;

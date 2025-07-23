@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import PhotoQt
+import PhotoQt.Modern
 
 Item {
 

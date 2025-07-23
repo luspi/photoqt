@@ -9,6 +9,11 @@
 #include <QCoreApplication>
 #include <QProcess>
 
+PQCScriptsColorProfiles &PQCScriptsColorProfiles::get() {
+    static PQCScriptsColorProfiles instance;
+    return instance;
+}
+
 PQCScriptsColorProfiles::PQCScriptsColorProfiles() {
 
     m_importedICCLastMod = 0;
@@ -146,8 +151,8 @@ void PQCScriptsColorProfiles::loadColorProfileInfo() {
             if(iccfile.open(QIODevice::ReadOnly)) {
                 QColorSpace sp = QColorSpace::fromIccProfile(iccfile.readAll());
                 if(sp.isValid()) {
-                    externalColorProfiles << QString("%1/%2").arg(basedir, f);
-                    externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
+                    m_externalColorProfiles << QString("%1/%2").arg(basedir, f);
+                    m_externalColorProfileDescriptions << QString("%1 <i>(system)</i>").arg(sp.description());
                 }
             }
         }
@@ -418,7 +423,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
         if(f.open(QIODevice::ReadOnly))
             sp = QColorSpace::fromIccProfile(f.readAll());
 
-        if(applyColorSpaceQt(img, filename, sp))
+        if(_applyColorSpaceQt(img, filename, sp))
             return true;
         else
             manualSelectionCausedError = true;
@@ -533,7 +538,7 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
             if(f.open(QIODevice::ReadOnly))
                 sp = QColorSpace::fromIccProfile(f.readAll());
 
-            if(applyColorSpaceQt(img, filename, sp))
+            if(_applyColorSpaceQt(img, filename, sp))
                 return !manualSelectionCausedError;
 
 #endif

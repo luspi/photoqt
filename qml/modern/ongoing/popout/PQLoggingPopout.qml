@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Window
-import PhotoQt
+import PhotoQt.Modern
 
 Window {
 

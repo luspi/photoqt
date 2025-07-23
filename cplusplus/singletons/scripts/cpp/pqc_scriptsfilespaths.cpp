@@ -36,6 +36,11 @@
 #include <QFileDialog>
 #include <QProcess>
 
+PQCScriptsFilesPaths &PQCScriptsFilesPaths::get() {
+    static PQCScriptsFilesPaths instance;
+    return instance;
+}
+
 PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
     animatedImageTemporaryCounter = 0;
 
@@ -44,9 +49,7 @@ PQCScriptsFilesPaths::PQCScriptsFilesPaths() {
     detectNetworkShares();
 }
 
-PQCScriptsFilesPaths::~PQCScriptsFilesPaths() {
-
-}
+PQCScriptsFilesPaths::~PQCScriptsFilesPaths() { }
 
 void PQCScriptsFilesPaths::detectNetworkShares() {
     networkshares.clear();

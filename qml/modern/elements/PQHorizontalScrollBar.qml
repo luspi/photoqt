@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls.Basic
-import PhotoQt
+import PhotoQt.Modern
 
 ScrollBar {
     id: control

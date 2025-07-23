@@ -23,7 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PQCScriptsShareImgur
-import PhotoQt
+import PhotoQt.Modern
 
 // required top level properties for all settings:
 //

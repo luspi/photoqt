@@ -22,7 +22,7 @@
 
 import QtQuick
 import PQCExtensionsHandler
-import PhotoQt
+import PhotoQt.Modern
 
 Loader {
 
