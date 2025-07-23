@@ -31,7 +31,6 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
             return false;
         }
 
-
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
             dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
         else if(QSqlDatabase::isDriverAvailable("QSQLITE"))

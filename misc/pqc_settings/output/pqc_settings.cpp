@@ -37,7 +37,7 @@
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_extensionshandler.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
@@ -49,6 +49,8 @@ PQCSettings::PQCSettings(bool validateonly) {
 }
 
 PQCSettings::PQCSettings() {
+
+    QSqlDatabase db, dbDefault;
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -80,8 +82,7 @@ PQCSettings::PQCSettings() {
                             << "filetypes"
                             << "filedialog"
                             << "slideshow"
-                            << "mapview"
-                            << "extensions";
+                            << "mapview";
 
     readonly = false;
 
@@ -145,15 +146,12 @@ PQCSettings::PQCSettings() {
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
     connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+        QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
     });
-
-    /******************************************************/
-
-    m_extensions = new QQmlPropertyMap();
 
     /******************************************************/
 
@@ -467,18 +465,15 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(m_extensions, &QQmlPropertyMap::valueChanged, this, &PQCSettings::saveChangedExtensionValue);
-
-    /******************************************************/
-
-    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 
 PQCSettings::~PQCSettings() {{
+    QSqlDatabase::removeDatabase("defaultsettings");
+    QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
-        delete m_extensions;
     }}
 }}
 
@@ -6614,23 +6609,13 @@ void PQCSettings::setDefaultForThumbnailsVisibility() {
     }
 }
 
-QVariant PQCSettings::getDefaultForExtension(const QString &key) {
-
-    if(m_extensions_defaults.contains(key))
-        return m_extensions_defaults.value(key, "");
-
-    qWarning() << "Extension setting with this key not found:" << key;
-    return "";
-
-}
-
 void PQCSettings::readDB() {
 
     qDebug() << "";
 
     for(const auto &table : std::as_const(dbtables)) {
 
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database("settings"));
         query.prepare(QString("SELECT `name`,`value` FROM '%1'").arg(table));
         if(!query.exec())
             qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
@@ -7372,79 +7357,13 @@ void PQCSettings::readDB() {
 
     }
 
-    QSqlQuery queryEXT(db);
-    queryEXT.prepare("SELECT `name`,`value`,`datatype` FROM 'extensions'");
-    if(!queryEXT.exec())
-        qCritical() << "SQL Query error (extensions):" << queryEXT.lastError().text();
-
-    while(queryEXT.next()) {
-
-        QString name = queryEXT.value(0).toString();
-        QString value = queryEXT.value(1).toString();
-        QString datatype = queryEXT.value(2).toString();
-
-        if(datatype == "int") {
-            const int val = value.toInt();
-            m_extensions->insert(name, val);
-            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-        } else if(datatype == "double") {
-            const double &val = value.toDouble();
-            m_extensions->insert(name, val);
-            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-        } else if(datatype == "bool") {
-            const bool val = static_cast<bool>(value.toInt());
-            m_extensions->insert(name, val);
-            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-        } else if(datatype == "list") {
-            if(value.contains(":://::")) {
-                const QStringList val = value.split(":://::");
-                m_extensions->insert(name, val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-            } else if(value != "") {
-                m_extensions->insert(name, QStringList() << value);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList() << value);
-            } else {
-                m_extensions->insert(name, QStringList());
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QStringList());
-            }
-        } else if(datatype == "point") {
-            const QStringList parts = value.split(",");
-            if(parts.length() == 2) {
-                const QPoint val = QPoint(parts[0].toDouble(), parts[1].toDouble());
-                m_extensions->insert(name, val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-            } else {
-                qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
-                m_extensions->insert(name, QPoint(0,0));
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QPoint(0,0));
-            }
-        } else if(datatype == "size") {
-            const QStringList parts = value.split(",");
-            if(parts.length() == 2) {
-                const QSize val = QSize(parts[0].toDouble(), parts[1].toDouble());
-                m_extensions->insert(name, val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, val);
-            } else {
-                qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
-                m_extensions->insert(name, QSize(0,0));
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, QSize(0,0));
-            }
-        } else if(datatype == "string") {
-            m_extensions->insert(name, value);
-            /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(name, value);
-        } else if(datatype != "")
-            qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
-        else
-            qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
-
-    }
-
 }
 
 bool PQCSettings::backupDatabase() {
 
     // make sure all changes are written to db
     if(dbIsTransaction) {
+        QSqlDatabase db = QSqlDatabase::database("settings");
         dbCommitTimer->stop();
         db.commit();
         dbIsTransaction = false;
@@ -7467,6 +7386,8 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 
@@ -7552,91 +7473,13 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
 }
 
-void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &value) {
-
-    qDebug() << "args: key =" << key;
-    qDebug() << "args: value =" << value;
-    qDebug() << "readonly =" << readonly;
-
-    if(readonly) return;
-
-    dbCommitTimer->stop();
-
-    QSqlQuery query(db);
-
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
-    }
-
-    // Using a placeholder also for table name causes an sqlite 'parameter count mismatch' error
-    // the 'on conflict' cause performs an update if the value already exists and the insert thus failed
-    query.prepare("INSERT INTO 'extensions' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:valupdate");
-
-    query.bindValue(":nme", key);
-
-    // we convert the value to a string
-    QString val = "";
-    if(value.typeId() == QMetaType::Bool) {
-        val = QString::number(value.toInt());
-        query.bindValue(":dat", "bool");
-    } else if(value.typeId() == QMetaType::Int) {
-        val = QString::number(value.toInt());
-        query.bindValue(":dat", "int");
-    } else if(value.typeId() == QMetaType::Double) {
-        val = QString::number(value.toDouble());
-        query.bindValue(":dat", "double");
-    } else if(value.typeId() == QMetaType::QStringList) {
-        val = value.toStringList().join(":://::");
-        query.bindValue(":dat", "list");
-    } else if(value.typeId() == QMetaType::QPoint) {
-        val = QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y());
-        query.bindValue(":dat", "point");
-    } else if(value.typeId() == QMetaType::QPointF) {
-        val = QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y());
-        query.bindValue(":dat", "point");
-    } else if(value.typeId() == QMetaType::QSize) {
-        val = QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height());
-        query.bindValue(":dat", "size");
-    } else if(value.typeId() == QMetaType::QSizeF) {
-        val = QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height());
-        query.bindValue(":dat", "size");
-    } else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
-        QStringList ret;
-        QJSValue _val = value.value<QJSValue>();
-        const int length = _val.property("length").toInt();
-        for(int i = 0; i < length; ++i)
-            ret << _val.property(i).toString();
-        val = ret.join(":://::");
-        query.bindValue(":dat", "list");
-    } else {
-        val = value.toString();
-        query.bindValue(":dat", "string");
-    }
-
-    query.bindValue(":val", val);
-    query.bindValue(":valupdate", val);
-
-    /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(key, val);
-
-    // and update database
-    if(!query.exec()) {
-        qWarning() << "SQL Error:" << query.lastError().text();
-        qWarning() << "Executed query:" << query.lastQuery();
-    }
-
-    dbCommitTimer->start();
-
-    Q_EMIT extensionValueChanged(key, val);
-    Q_EMIT PQCSettingsCPP::get().extensionsChanged();
-
-}
-
 void PQCSettings::setDefault() {
 
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     backupDatabase();
 
@@ -7661,6 +7504,8 @@ void PQCSettings::closeDatabase() {
 
     qDebug() << "";
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
@@ -7678,7 +7523,7 @@ void PQCSettings::reopenDatabase() {
 
     qDebug() << "";
 
-    if(!db.open())
+    if(!QSqlDatabase::database("settings").open())
         qWarning() << "Unable to reopen database";
 
 }
@@ -7690,6 +7535,8 @@ void PQCSettings::reopenDatabase() {
 int PQCSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 
@@ -7984,6 +7831,8 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
     qDebug() << "args: mig =" << mig;
     qDebug() << "args: curVer =" << curVer;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
 
         const QString v = i.key();
@@ -8095,7 +7944,7 @@ QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting)
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("SELECT `value` FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -8118,7 +7967,7 @@ void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
@@ -8137,7 +7986,7 @@ void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
 
     query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(table));
     query.bindValue(":nme", setting);
@@ -8158,7 +8007,7 @@ void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVa
     qDebug() << "args: setting =" << setting;
     qDebug() << "args: value =" << value;
 
-    QSqlQuery query(db);
+    QSqlQuery query(QSqlDatabase::database("settings"));
     query.prepare(QString("UPDATE `%1` SET `value`=:val WHERE `name`=:nme").arg(table));
     query.bindValue(":nme", setting);
     query.bindValue(":val", value);
@@ -8187,9 +8036,7 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
 
     settingname = name.last(name.size()-tablename.size());
 
-    QSqlQuery query(dbDefault);
-    if(name.startsWith("extensions"))
-        query = QSqlQuery(db);
+    QSqlQuery query(QSqlDatabase::database("defaultsettings"));
     query.prepare(QString("SELECT datatype FROM `%1` WHERE `name`=:nme").arg(tablename));
     query.bindValue(":nme", settingname);
     if(!query.exec()) {
@@ -8547,107 +8394,6 @@ void PQCSettings::setupFresh() {
     m_thumbnailsTooltip = true;
     m_thumbnailsVisibility = 0;
 
-    // enter default extensions settings
-    const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-    for(const QString &e : ext) {
-
-        m_extensions->insert(e, false);
-        m_extensions_defaults.insert(e, false);
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, false);
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, false);
-
-        m_extensions->insert(QString("%1Position").arg(e), QPoint(100,100));
-        m_extensions_defaults.insert(QString("%1Position").arg(e), QPoint(100,100));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QPoint(100,100));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QPoint(100,100));
-
-        m_extensions->insert(QString("%1Size").arg(e), QSize(300,200));
-        m_extensions_defaults.insert(QString("%1Size").arg(e), QSize(300,200));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(300,200));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(300,200));
-
-        m_extensions->insert(QString("%1Popout").arg(e), false);
-        m_extensions_defaults.insert(QString("%1Popout").arg(e), false);
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, false);
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, false);
-
-        m_extensions->insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
-        m_extensions_defaults.insert(QString("%1PopoutPosition").arg(e), QPoint(-1,-1));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QPoint(-1,-1));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QPoint(-1,-1));
-
-        m_extensions->insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
-        m_extensions_defaults.insert(QString("%1PopoutSize").arg(e), QSize(-1,-1));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(e, QSize(-1,-1));
-        /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(e, QSize(-1,-1));
-
-        const QList<QStringList> sets = PQCExtensionsHandler::get().getExtensionSettings(e);
-        for(const QStringList &s : sets) {
-
-            if(s[2] == "int") {
-                const int val = s[3].toInt();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "double") {
-                const int val = s[3].toDouble();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "bool") {
-                const int val = static_cast<bool>(s[3].toInt());
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "list") {
-                QStringList val;
-                if(s[3].contains(":://::"))
-                    val = s[3].split(":://::");
-                else if(s[3] != "")
-                    val = QStringList() << s[3];
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "point") {
-                const QStringList parts = s[3].split(",");
-                QPoint val(0,0);
-                if(parts.length() == 2)
-                    val = QPoint(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "size") {
-                const QStringList parts = s[3].split(",");
-                QSize val(0,0);
-                if(parts.length() == 2)
-                    val = QSize(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], val);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "string") {
-                m_extensions->insert(s[0], s[3]);
-                m_extensions_defaults.insert(s[0], s[3]);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions.insert(s[0], s[3]);
-                /* duplicate */ PQCSettingsCPP::get().m_extensions_defaults.insert(s[0], s[3]);
-            } else if(s[2] != "")
-                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
-            else
-                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
-
-        }
-
-    }
-
 #ifdef Q_OS_WIN
     // these defaults are different on Windows as on Linux
     m_filedialogDevices = true;
@@ -8968,7 +8714,7 @@ void PQCSettings::resetToDefault() {
 
 void PQCSettings::updateFromCommandLine() {
 
-    const QStringList update = PQCNotify::get().getSettingUpdate();
+    const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
     if(update.length() != 2)
@@ -10147,6 +9893,8 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbDefault;
+
     if(!skipDBHandling) {
 
         // the db does not exist -> create it and finish
@@ -10170,7 +9918,6 @@ bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
             qWarning() << "Error opening database:" << db.lastError().text();
             return false;
         }
-
 
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
             dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
@@ -10251,6 +9998,8 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbcheck;
+
     if(!skipDBHandling) {
 
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -10264,7 +10013,6 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     }
 
-    QSqlDatabase dbcheck;
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))

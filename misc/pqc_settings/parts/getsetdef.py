@@ -229,16 +229,4 @@ void PQCSettings::setDefaultFor{tab.capitalize()}{name}() {{"""
 }
 """
 
-    cont += """
-QVariant PQCSettings::getDefaultForExtension(const QString &key) {
-
-    if(m_extensions_defaults.contains(key))
-        return m_extensions_defaults.value(key, "");
-
-    qWarning() << "Extension setting with this key not found:" << key;
-    return "";
-
-}
-"""
-
     return cont

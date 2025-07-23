@@ -582,26 +582,6 @@ Rectangle {
 
                 }
 
-                // Histogram/Map
-
-                PQMainMenuEntry {
-                    img: "histogram.svg"
-                    txt: PQCSettings.extensions.Histogram ? qsTranslate("MainMenu", "Hide histogram") : qsTranslate("MainMenu", "Show histogram") 
-                    cmd: "__histogram"
-                    menuColWidth: mainmenu_top.colwidth
-                }
-
-                PQMainMenuEntry {
-                    img: "mapmarker.svg"
-                    txt: PQCSettings.extensions.MapCurrent ?
-                             //: The location here is the GPS location
-                             qsTranslate("MainMenu", "Hide current location") : 
-                             //: The location here is the GPS location
-                             qsTranslate("MainMenu", "Show current location")
-                    cmd: "__showMapCurrent"
-                    menuColWidth: mainmenu_top.colwidth
-                }
-
             }
 
 
