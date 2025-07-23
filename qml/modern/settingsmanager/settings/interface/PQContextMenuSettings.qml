@@ -26,7 +26,7 @@ import QtQuick.Controls
 import QtCore
 
 import PQCImageFormats
-import PhotoQt
+import PhotoQt.Modern
 
 // required top level properties for all settings:
 //

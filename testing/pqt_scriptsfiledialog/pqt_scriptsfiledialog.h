@@ -1,5 +1,5 @@
 /**************************************************************************
- * *                                                                      **
+ **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,57 +19,21 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-#include <pqc_test.h>
-#include <pqc_validate.h>
+#include <QObject>
+#include <QTest>
 
-#ifdef PQMGRAPHICSMAGICK
-#include <GraphicsMagick/Magick++.h>
-#endif
+class PQTScriptsFileDialog : public QObject {
 
-#ifdef PQMIMAGEMAGICK
-#include <Magick++.h>
-#endif
+    Q_OBJECT
 
-#ifdef PQMDEVIL
-#include <IL/il.h>
-#endif
+private Q_SLOTS:
 
-#ifdef PQMLIBVIPS
-#include <vips/vips8>
-#endif
+    void init();
+    void cleanup();
 
-#ifdef PQMFREEIMAGE
-#include <FreeImage.h>
-#endif
+    void testGetNumberFilesInFolder();
+    void testGetSetLastLocation();
 
-int main(int argc, char **argv) {
-
-    QApplication app(argc, argv);
-
-// only one of them will be defined at a time
-#if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
-    // Initialise Magick as early as possible
-    // this needs to happen BEFORE startup check as this might call into Magick
-    Magick::InitializeMagick(*argv);
-#endif
-
-#ifdef PQMDEVIL
-    ilInit();
-#endif
-
-#ifdef PQMFREEIMAGE
-    FreeImage_Initialise();
-#endif
-
-#ifdef PQMLIBVIPS
-    VIPS_INIT(argv[0]);
-#endif
-
-    PQCValidate val;
-    val.validateDirectories("");
-
-    PQCTest tc;
-    return QTest::qExec(&tc, argc, argv);
-
-}
+};

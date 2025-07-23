@@ -25,7 +25,7 @@ import QtQuick
 import QtLocation
 import QtPositioning
 import PQCLocation
-import PhotoQt
+import PhotoQt.Modern
 
 Item {
 

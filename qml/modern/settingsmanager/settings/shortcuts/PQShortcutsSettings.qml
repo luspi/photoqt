@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCExtensionsHandler
-import PhotoQt
+import PhotoQt.Modern
 
 // required top level properties for all settings:
 //

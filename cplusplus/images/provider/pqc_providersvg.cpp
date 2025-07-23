@@ -32,6 +32,8 @@
 #include <QSvgRenderer>
 #include <QPainter>
 
+#include <QDir>
+
 PQCProviderSVG::PQCProviderSVG() : QQuickImageProvider(QQuickImageProvider::Image) {}
 
 PQCProviderSVG::~PQCProviderSVG() {}

@@ -5,6 +5,8 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     qDebug() << "";
 
+    QSqlDatabase db, dbcheck;
+
     if(!skipDBHandling) {
 
         if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -18,7 +20,6 @@ bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
 
     }
 
-    QSqlDatabase dbcheck;
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
     else if(QSqlDatabase::isDriverAvailable("QSQLITE"))

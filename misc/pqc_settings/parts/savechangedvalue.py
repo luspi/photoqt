@@ -50,6 +50,8 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
     if(readonly) return;
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     QString key = _key;
@@ -141,6 +143,8 @@ void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 

@@ -33,13 +33,13 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-PQCScriptsMetaData::PQCScriptsMetaData() {
-
+PQCScriptsMetaData &PQCScriptsMetaData::get() {
+    static PQCScriptsMetaData instance;
+    return instance;
 }
 
-PQCScriptsMetaData::~PQCScriptsMetaData() {
-
-}
+PQCScriptsMetaData::PQCScriptsMetaData() {}
+PQCScriptsMetaData::~PQCScriptsMetaData() {}
 
 QString PQCScriptsMetaData::analyzeDateTimeOriginal(const QString val) {
 

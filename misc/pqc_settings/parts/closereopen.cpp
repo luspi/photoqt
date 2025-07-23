@@ -2,6 +2,8 @@ void PQCSettings::closeDatabase() {
 
     qDebug() << "";
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
@@ -19,7 +21,7 @@ void PQCSettings::reopenDatabase() {
 
     qDebug() << "";
 
-    if(!db.open())
+    if(!QSqlDatabase::database("settings").open())
         qWarning() << "Unable to reopen database";
 
 }

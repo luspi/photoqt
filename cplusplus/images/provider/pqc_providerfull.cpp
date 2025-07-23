@@ -43,7 +43,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     qDebug() << "args: url =" << url;
     qDebug() << "args: requestedSize =" << requestedSize;
 
-    QString filename = PQCScriptsFilesPaths::cleanPath(QByteArray::fromPercentEncoding(url.toUtf8()));
+    QString filename = PQCScriptsFilesPaths::get().cleanPath(QByteArray::fromPercentEncoding(url.toUtf8()));
 
     QString filenameForChecking = filename;
     if(filenameForChecking.contains("::PDF::"))

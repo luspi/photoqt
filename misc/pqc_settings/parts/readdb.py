@@ -56,7 +56,7 @@ void PQCSettings::readDB() {
 
     for(const auto &table : std::as_const(dbtables)) {
 
-        QSqlQuery query(db);
+        QSqlQuery query(QSqlDatabase::database("settings"));
         query.prepare(QString("SELECT `name`,`value` FROM '%1'").arg(table));
         if(!query.exec())
             qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();
@@ -205,7 +205,7 @@ void PQCSettings::readDB() {
 
     }
 
-    QSqlQuery queryEXT(db);
+    QSqlQuery queryEXT(QSqlDatabase::database("settings"));
     queryEXT.prepare("SELECT `name`,`value`,`datatype` FROM 'extensions'");
     if(!queryEXT.exec())
         qCritical() << "SQL Query error (extensions):" << queryEXT.lastError().text();

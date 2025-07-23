@@ -93,6 +93,8 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
+    QSqlDatabase db, dbDefault;
+
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
         dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
@@ -188,6 +190,7 @@ PQCSettings::PQCSettings() {
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
     connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+        QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
@@ -273,6 +276,8 @@ PQCSettings::PQCSettings() {
 }
 
 PQCSettings::~PQCSettings() {{
+    QSqlDatabase::removeDatabase("defaultsettings");
+    QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
         delete m_extensions;

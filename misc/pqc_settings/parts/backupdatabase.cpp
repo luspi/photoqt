@@ -2,6 +2,7 @@ bool PQCSettings::backupDatabase() {
 
     // make sure all changes are written to db
     if(dbIsTransaction) {
+        QSqlDatabase db = QSqlDatabase::database("settings");
         dbCommitTimer->stop();
         db.commit();
         dbIsTransaction = false;

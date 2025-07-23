@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCCONSTANTS_H
-#define PQCCONSTANTS_H
+#pragma once
 
 #include <scripts/cpp/pqc_scriptsimages.h>
 #include <pqc_settingscpp.h>
@@ -433,5 +431,3 @@ Q_SIGNALS:
     void extraControlsLocationChanged();
 
 };
-
-#endif

@@ -25,7 +25,7 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 import PQCExtensionsHandler
-import PhotoQt
+import PhotoQt.Modern
 
 Rectangle {
 

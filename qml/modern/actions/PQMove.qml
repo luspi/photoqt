@@ -22,7 +22,7 @@
 
 import QtQuick
 import PQCImageFormats
-import PhotoQt
+import PhotoQt.Modern
 
 Item {
 

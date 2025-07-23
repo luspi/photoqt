@@ -198,8 +198,6 @@ private:"""
     cont_HEADER += """
 
     QStringList dbtables;
-    QSqlDatabase db;
-    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 

@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt
+import PhotoQt.Modern
 
 // The MPV object needs to be wrapped in an item
 // and be as empty as shown below

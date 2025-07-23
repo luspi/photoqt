@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt
+import PhotoQt.Modern
 import ExtensionSettings
 import PQCExtensionsHandler
 

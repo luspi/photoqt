@@ -48,11 +48,8 @@ class PQCScriptsColorProfiles : public QObject {
     Q_OBJECT
 
 public:
-    static PQCScriptsColorProfiles& get() {
-        static PQCScriptsColorProfiles instance;
-        return instance;
-    }
-    ~PQCScriptsColorProfiles();
+    static PQCScriptsColorProfiles& get();
+    virtual ~PQCScriptsColorProfiles();
 
     PQCScriptsColorProfiles(PQCScriptsColorProfiles const&)     = delete;
     void operator=(PQCScriptsColorProfiles const&) = delete;

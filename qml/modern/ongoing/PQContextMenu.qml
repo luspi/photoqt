@@ -22,7 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PhotoQt
+import PhotoQt.Modern
 
 Loader {
 
