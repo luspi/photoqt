@@ -27,6 +27,8 @@
 #include <QSettings>
 #include <QScreen>
 #include <clocale>
+#include <QSqlError>
+#include <QSqlQuery>
 
 #ifdef PQMEXIV2
 #ifdef PQMEXIV2_ENABLE_BMFF
@@ -279,16 +281,52 @@ int main(int argc, char *argv[]) {
     // the extension settings item
     qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 
+    /***************************************/
+    // figure out modern vs integrated without use of PQCSettings
+
+    bool useModernInterface = true;
+    if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+        QSqlDatabase dbtmp;
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant");
+        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+        dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+        if(!dbtmp.open()) {
+            qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
+            qWarning() << "Assuming modern interface.";
+        } else {
+            QSqlQuery query(dbtmp);
+            if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
+                qWarning() << "Unable to check for generalInterfaceVariant setting";
+            else {
+                if(query.next()) {
+                    const QString var = query.value(0).toString();
+                    useModernInterface = (var=="modern");
+                }
+            }
+            query.clear();
+            dbtmp.close();
+        }
+    }
+
+    /***************************************/
+
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    engine.loadFromModule("PhotoQt.Modern", "PQMainWindowModern");
-    // engine.loadFromModule("PhotoQt.Integrated", "PQMainWindowIntegrated");
+    if(useModernInterface)
+        engine.loadFromModule("PhotoQt.Modern", "PQMainWindowModern");
+    else
+        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindowIntegrated");
 #else
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
     engine.addImportPath(":/");
-
-    engine.load("qrc:/PhotoQt/qml/PQMainWindowModern.qml");
+    if(useModernInterface)
+        engine.load("qrc:/PhotoQt/Modern/qml/PQMainWindowModern.qml");
+    else
+        engine.load("qrc:/PhotoQt/Integrated/qml/PQMainWindowIntegrated.qml");
 #endif
 
     QImage img(":/light/reset.svg");
