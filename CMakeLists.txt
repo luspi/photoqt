@@ -24,7 +24,8 @@ endif()
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
-include(CMake/ListFilesQML.cmake)
+include(CMake/ListFilesQMLModern.cmake)
+include(CMake/ListFilesQMLIntegrated.cmake)
 
 #############################################
 #### OPTIONS THAT CAN BE SET BY THE USER ####

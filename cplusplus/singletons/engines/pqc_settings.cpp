@@ -247,6 +247,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
     connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
+    connect(this, &PQCSettings::generalInterfaceVariantChanged, this, [=]() { saveChangedValue("generalInterfaceVariant", m_generalInterfaceVariant); });
     connect(this, &PQCSettings::generalSetupFloatingExtensionsAtStartupChanged, this, [=]() { saveChangedValue("generalSetupFloatingExtensionsAtStartup", m_generalSetupFloatingExtensionsAtStartup); });
     connect(this, &PQCSettings::generalVersionChanged, this, [=]() { saveChangedValue("generalVersion", m_generalVersion); });
     // table: imageview
@@ -1955,6 +1956,28 @@ void PQCSettings::setDefaultForGeneralEnabledExtensions() {
         m_generalEnabledExtensions = tmp;
         Q_EMIT generalEnabledExtensionsChanged();
         /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = tmp;
+    }
+}
+
+QString PQCSettings::getGeneralInterfaceVariant() {
+    return m_generalInterfaceVariant;
+}
+
+void PQCSettings::setGeneralInterfaceVariant(QString val) {
+    if(val != m_generalInterfaceVariant) {
+        m_generalInterfaceVariant = val;
+        Q_EMIT generalInterfaceVariantChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForGeneralInterfaceVariant() {
+        return "modern";
+}
+
+void PQCSettings::setDefaultForGeneralInterfaceVariant() {
+    if("modern" != m_generalInterfaceVariant) {
+        m_generalInterfaceVariant = "modern";
+        Q_EMIT generalInterfaceVariantChanged();
     }
 }
 
@@ -6791,6 +6814,8 @@ void PQCSettings::readDB() {
                         PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList() << val;
                     else
                         PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
+                } else if(name == "InterfaceVariant") {
+                    m_generalInterfaceVariant = value.toString();
                 } else if(name == "SetupFloatingExtensionsAtStartup") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -8143,6 +8168,7 @@ void PQCSettings::setupFresh() {
     m_generalCompactSettings = false;
     m_generalEnabledExtensions = QStringList();
     /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
+    m_generalInterfaceVariant = "modern";
     m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
 
@@ -8487,6 +8513,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
     setDefaultForGeneralEnabledExtensions();
+    setDefaultForGeneralInterfaceVariant();
     setDefaultForGeneralSetupFloatingExtensionsAtStartup();
     setDefaultForGeneralVersion();
 
@@ -9000,6 +9027,10 @@ void PQCSettings::updateFromCommandLine() {
         m_generalEnabledExtensions = val.split(":://::");
         Q_EMIT generalEnabledExtensionsChanged();
         /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
+    }
+    if(key == "generalInterfaceVariant") {
+        m_generalInterfaceVariant = val;
+        Q_EMIT generalInterfaceVariantChanged();
     }
     if(key == "generalSetupFloatingExtensionsAtStartup") {
         m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
