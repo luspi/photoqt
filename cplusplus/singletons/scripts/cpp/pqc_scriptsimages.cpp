@@ -754,8 +754,30 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     QImage img;
     PQCLoadImage::get().load(path, QSize(-1,-1), origSize, img);
 
-    // convert to gray scale
-    img.convertTo(QImage::Format_Grayscale8);
+    ZXing::ImageFormat frmt;
+    switch (img.format()) {
+        case QImage::Format_ARGB32:
+        case QImage::Format_RGB32:
+#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
+            frmt = ZXing::ImageFormat::BGRA;
+#else
+            frmt = ZXing::ImageFormat::ARGB;
+#endif
+            break;
+        case QImage::Format_RGB888:
+            frmt = ZXing::ImageFormat::RGB;
+            break;
+        case QImage::Format_RGBX8888:
+        case QImage::Format_RGBA8888:
+            frmt = ZXing::ImageFormat::RGBA;
+            break;
+        case QImage::Format_Grayscale8:
+            frmt = ZXing::ImageFormat::Lum;
+            break;
+        default:
+            img.convertTo(QImage::Format_Grayscale8);
+            frmt = ZXing::ImageFormat::Lum;
+    }
 
 #if ZXING_VERSION_MAJOR == 1 && ZXING_VERSION_MINOR <= 2
 
@@ -772,8 +794,12 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 #else
 
     // Read all bar codes
-    const ZXing::ReaderOptions hints = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any);
-    const std::vector<ZXing::Result> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), ZXing::ImageFormat::Lum}, hints);
+    auto hints = ZXing::ReaderOptions().setFormats(ZXing::BarcodeFormat::Any)
+                                                             .setTryHarder(true)
+                                                             .setTryInvert(true)
+                                                             .setTextMode(ZXing::TextMode::HRI)
+                                                             .setMaxNumberOfSymbols(10);
+    std::vector<ZXing::Barcode> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())}, hints);
 
 #endif
 
@@ -786,7 +812,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
 #else // ZXing 1.3 and up
 
-    for(const auto& r : results) {
+    for(const ZXing::Barcode& r : results) {
 
 #endif
 
