@@ -87,6 +87,7 @@ public:
         m_currentImageIsPhotoSphere = false;
         m_currentImageIsMotionPhoto = false;
         m_currentImageIsAnimated = false;
+        m_currentImageIsDocument = false;
         m_showingPhotoSphere = false;
         m_motionPhotoIsPlaying = false;
         m_animatedImageIsPlaying = false;
@@ -246,6 +247,7 @@ public:
     Q_PROPERTY(bool currentImageIsPhotoSphere MEMBER m_currentImageIsPhotoSphere NOTIFY currentImageIsPhotoSphereChanged)
     Q_PROPERTY(bool currentImageIsMotionPhoto MEMBER m_currentImageIsMotionPhoto NOTIFY currentImageIsMotionPhotoChanged)
     Q_PROPERTY(bool currentImageIsAnimated MEMBER m_currentImageIsAnimated NOTIFY currentImageIsAnimatedChanged)
+    Q_PROPERTY(bool currentImageIsDocument MEMBER m_currentImageIsDocument NOTIFY currentImageIsDocumentChanged)
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool motionPhotoIsPlaying MEMBER m_motionPhotoIsPlaying NOTIFY motionPhotoIsPlayingChanged)
     Q_PROPERTY(bool animatedImageIsPlaying MEMBER m_animatedImageIsPlaying NOTIFY animatedImageIsPlayingChanged)
@@ -345,6 +347,7 @@ private:
     bool m_currentImageIsPhotoSphere;
     bool m_currentImageIsMotionPhoto;
     bool m_currentImageIsAnimated;
+    bool m_currentImageIsDocument;
     bool m_showingPhotoSphere;
     bool m_motionPhotoIsPlaying;
     bool m_animatedImageIsPlaying;
@@ -441,6 +444,7 @@ Q_SIGNALS:
     void currentImageIsPhotoSphereChanged();
     void currentImageIsMotionPhotoChanged();
     void currentImageIsAnimatedChanged();
+    void currentImageIsDocumentChanged();
     void barcodeDisplayedChanged();
     void currentZValueChanged();
     void colorProfileCacheChanged();

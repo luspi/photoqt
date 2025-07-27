@@ -14,16 +14,10 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQSlider.qml ${d}/PQCo
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQShadowEffect.qml ${d}/PQToolTip.qml ${d}/PQMultiEffect.qml)
 
 SET(d "qml/integrated/image")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageOverlay.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageControls.qml)
 
-SET(d "qml/integrated/image/overlays")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMotionPhotoControls.qml ${d}/PQAnimatedImageControls.qml)
-
-SET(d "qml/integrated/image/components")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQVideoControls.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQBarCodes.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageAnimatedControls.qml ${d}/PQDocumentControls.qml ${d}/PQArchiveControls.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMinimap.qml ${d}/PQMinimapPopout.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQPhotoSphereControls.qml)
+SET(d "qml/integrated/image/controls")
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMotionPhotoControls.qml ${d}/PQAnimatedImageControls.qml ${d}/PQDocumentControls.qml)
 
 SET(d "qml/integrated/other")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml)

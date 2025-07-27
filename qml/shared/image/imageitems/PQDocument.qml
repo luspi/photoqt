@@ -74,8 +74,12 @@ Image {
     mipmap: !PQCSettings.imageviewInterpolationDisableForSmallImages || !noInterpThreshold
 
     onVisibleChanged: {
-        if(!image.visible)
+        if(!image.visible) {
             currentPage = 0
+        } else {
+            PQCConstants.currentFileInsideNum = currentPage
+            PQCConstants.currentFileInsideTotal = pageCount
+        }
     }
 
     fillMode: Image.Pad
@@ -190,17 +194,13 @@ Image {
         interval: 200
         onTriggered: {
             interval = 200
-            if(controls.pressed) {
-                loadNewPage.restart()
+            image.asynchronous = false
+            if(image.imageSource.includes("::PDF::")) {
+                image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource.split("::PDF::")[1]))
             } else {
-                image.asynchronous = false
-                if(image.imageSource.includes("::PDF::")) {
-                    image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource.split("::PDF::")[1]))
-                } else {
-                    image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
-                }
-                image.asynchronous = true
+                image.source = "image://full/%1::PDF::%2".arg(image.currentPage).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
             }
+            image.asynchronous = true
         }
     }
 

@@ -116,7 +116,6 @@ ApplicationWindow {
 
     /****************************************************/
 
-    // very cheap to set up, many properties needed everywhere -> no loader
     Loader {
         id: imageloader
         asynchronous: true
@@ -124,7 +123,7 @@ ApplicationWindow {
         sourceComponent: PQImage {
             toplevelItem: fullscreenitem
 
-            PQImageOverlay {}
+            PQImageControls {}
 
         }
     }
