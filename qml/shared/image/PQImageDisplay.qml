@@ -2344,6 +2344,7 @@ Loader {
 
             PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
             PQCConstants.currentImageIsAnimated = image_loader_ani.active
+            PQCConstants.currentImageIsDocument = image_loader_pdf.active
 
             // if a slideshow is running with the ken burns effect
             // then we need to do some special handling

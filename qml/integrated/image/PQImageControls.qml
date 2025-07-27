@@ -34,5 +34,6 @@ Item {
     // PQPhotoSphereEnterButton {}
     PQMotionPhotoControls {}
     PQAnimatedImageControls {}
+    PQDocumentControls {}
 
 }

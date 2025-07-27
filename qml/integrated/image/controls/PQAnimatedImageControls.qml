@@ -45,10 +45,6 @@ Loader {
         color: "#88000000"
         radius: 3
 
-        Component.onCompleted: {
-            console.warn(">>> ANI CTRL")
-        }
-
         Row {
 
             id: cont_row
@@ -57,8 +53,6 @@ Loader {
 
                 width: 30
                 height: 30
-                // color: "#88000000"
-                // radius: 5
 
                 opacity: playpausemouse.containsMouse ? 1 : 0.2
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -86,9 +80,8 @@ Loader {
             // save frame button
             Item {
                 y: (parent.height-height)/2
-                height: width
                 width: cont_row.height/1.75 + 6
-                // radius: 5
+                height: width
                 Image {
                     x: 3
                     y: 3
@@ -120,10 +113,6 @@ Loader {
                 y: (parent.height-height)/2
                 width: lockrow.width+6
                 height: lockrow.height+6
-                // radius: 5
-
-                // color: leftrightmouse.containsPress ? PQCLook.transColorActive : (leftrightmouse.containsMouse ? PQCLook.transColorAccent : "transparent")
-                // Behavior on color { ColorAnimation { duration: 200 } }
 
                 opacity: PQCSettings.filetypesAnimatedLeftRight ? 1 : 0.3
                 Behavior on opacity { NumberAnimation { duration: 200 } }

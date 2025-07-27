@@ -27,7 +27,9 @@ import PhotoQt.Integrated
 import PhotoQt.Shared
 
 ToolBar {
-    // height: 25
+
+    id: ftr
+
     RowLayout {
 
         anchors.fill: parent
@@ -89,4 +91,5 @@ ToolBar {
         }
 
     }
+
 }
