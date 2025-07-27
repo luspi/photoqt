@@ -306,7 +306,7 @@ Image {
 
                     if(src != "") {
 
-                        PQCConstants.isMotionPhoto = true
+                        PQCConstants.currentImageIsMotionPhoto = true
 
                         // HEIF/HEIC images are a little trickier with their orientation handling
                         // We need to ignore this value as the Exif orientation might not be correct

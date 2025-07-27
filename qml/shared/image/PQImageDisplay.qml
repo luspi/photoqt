@@ -1236,6 +1236,11 @@ Loader {
                             loader_top.videoHasAudio = false
                             loader_top.thisIsAPhotoSphere = false
 
+                            if(loader_top.isMainImage) {
+                                PQCConstants.currentImageIsMotionPhoto = false
+                                PQCConstants.animatedImageIsPlaying = false
+                            }
+
                             image_loader_pdf.active = false
                             image_loader_arc.active = false
                             image_loader_mpv.active = false
@@ -2338,6 +2343,7 @@ Loader {
             PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
 
             PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
+            PQCConstants.currentImageIsAnimated = image_loader_ani.active
 
             // if a slideshow is running with the ken burns effect
             // then we need to do some special handling
