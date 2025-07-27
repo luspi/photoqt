@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 
@@ -83,7 +84,7 @@ Rectangle {
         }
     ]
 
-    color: PQCScriptsConfig.isQtAtLeast6_5() ? PQCLook.faintColor : PQCLook.transColor
+    color: PQCLook.transColor
     border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
     border.color: PQCLook.transColor
 

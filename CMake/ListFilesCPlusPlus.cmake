@@ -16,51 +16,15 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionsettings.cpp)
 SET(d "cplusplus/other/wayland-specific")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_xdg-output-unstable-v1-protocol.c ${d}/pqc_get-wayland-device-pixel-ratio.cpp)
 
-SET(d "cplusplus/singletons/other")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.cpp ${d}/pqc_metadata.cpp ${d}/pqc_resolutioncache.cpp)
-
-SET(d "cplusplus/singletons/engines")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settings.cpp ${d}/pqc_shortcuts.cpp ${d}/pqc_look.cpp ${d}/pqc_imageformats.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_location.cpp ${d}/pqc_windowgeometry.cpp)
-
-SET(d "cplusplus/singletons/scripts/cpp")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscolorprofiles.cpp ${d}/pqc_scriptsfilespaths.cpp ${d}/pqc_scriptsimages.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.cpp ${d}/pqc_scriptscrypt.cpp)
-
-SET(d "cplusplus/singletons/scripts/qml")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.cpp ${d}/pqc_scriptsclipboard.cpp ${d}/pqc_scriptsfiledialog.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsfilemanagement.cpp ${d}/pqc_scriptsother.cpp ${d}/pqc_scriptsshortcuts.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscontextmenu.cpp ${d}/pqc_scriptsconfig.cpp)
-
-SET(d "cplusplus/singletons/scripts/qmlcpp")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.cpp ${d}/pqc_scriptswallpaper.cpp)
-
 SET(d "cplusplus/header")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h ${d}/pqc_shortcuts.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_notify.h ${d}/pqc_settings.h ${d}/pqc_settingscpp.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_look.h ${d}/pqc_mpvobject.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodel.h ${d}/pqc_filefoldermodelcache.h ${d}/pqc_imageformats.h ${d}/pqc_providerfolderthumb.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_metadata.h ${d}/pqc_location.h ${d}/pqc_resolutioncache.h ${d}/pqc_windowgeometry.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settingscpp.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_startup.h ${d}/pqc_mpvobject.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodelcache.h ${d}/pqc_providerfolderthumb.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_constants.h ${d}/pqc_filefoldermodelCPP.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_filefoldermodelCPP.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.h ${d}/pqc_photosphereitem.h ${d}/pqc_photosphererenderer.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionshandler.h ${d}/pqc_extensionsettings.h ${d}/pqc_notify_cpp.h)
-
-SET(d "cplusplus/header/scripts/cpp")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscolorprofiles.h ${d}/pqc_scriptsfilespaths.h ${d}/pqc_scriptsimages.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptscrypt.h)
-
-SET(d "cplusplus/header/scripts/qmlcpp")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptswallpaper.h)
-
-SET(d "cplusplus/header/scripts/qml")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.h ${d}/pqc_scriptsclipboard.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsconfig.h ${d}/pqc_scriptscontextmenu.h ${d}/pqc_scriptsfiledialog.h ${d}/pqc_scriptsfilemanagement.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsother.h ${d}/pqc_scriptsshortcuts.h)
-
-SET(d "cplusplus/header/scripts/qmlwrapper")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsfilespaths_qml.h ${d}/pqc_scriptscolorprofiles_qml.h ${d}/pqc_scriptsimages_qml.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata_qml.h)
 
 SET(d "cplusplus/images")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_loadimage.cpp ${d}/pqc_imagecache.cpp)

@@ -53,6 +53,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     socket = nullptr;
     server = nullptr;
 
+    forceModernInterface = false;
+    forceIntegratedInterface = false;
+
     if(result & PQCCommandLineFile) {
         for(const auto &f : std::as_const(parser.filenames)) {
             QString ff = f;
@@ -102,6 +105,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineNoDebug)
         msg << Actions::NoDebug;
+
+    if(result & PQCCommandLineModernInterface)
+        forceModernInterface = true;
+
+    if(result & PQCCommandLineIntegratedInterface)
+        forceIntegratedInterface = true;
 
     if(result & PQCCommandLineSettingUpdate) {
         receivedSetting[0] = parser.settingUpdate[0];

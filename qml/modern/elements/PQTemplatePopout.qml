@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Window
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Window {
 
@@ -85,7 +86,7 @@ Window {
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
-    color: PQCLook.transColor 
+    color: PQCLook.transColor
 
     onXChanged:
         updateGeometry.restart()

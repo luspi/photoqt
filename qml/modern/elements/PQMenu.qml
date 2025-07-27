@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Menu {
 
@@ -48,8 +49,8 @@ Menu {
     background: Rectangle {
         implicitWidth: 250
         implicitHeight: 40
-        color: PQCLook.baseColor 
-        border.color: PQCLook.inverseColorHighlight 
+        color: PQCLook.baseColor
+        border.color: PQCLook.inverseColorHighlight
         border.width: 1
         radius: 2
     }

@@ -93,7 +93,7 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
-    QSqlDatabase db, dbDefault;
+    QSqlDatabase dbDefault;
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -110,11 +110,17 @@ PQCSettings::PQCSettings() {
         return;
     }
 
-    // connect to user database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
+    bool doSetupDb = false;
+    if(!db.isValid()) {
+        doSetupDb = true;
+        // connect to user database
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    }
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -129,19 +135,23 @@ PQCSettings::PQCSettings() {
 
     readonly = false;
 
-    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(doSetupDb) {
 
-    // the db does not exist -> create it
-    if(!infodb.exists()) {
-        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-            qWarning() << "Unable to (re-)create default user settings database";
-        else {
-            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+
+        // the db does not exist -> create it
+        if(!infodb.exists()) {
+            if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+                qWarning() << "Unable to (re-)create default user settings database";
+            else {
+                QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+                file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            }
         }
-    }
 
-    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+        db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+    }
 
     if(!db.open()) {
 
@@ -177,6 +187,8 @@ PQCSettings::PQCSettings() {
         }
 
     } else {
+
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
         readonly = false;
         if(!infodb.permission(QFileDevice::WriteOwner))

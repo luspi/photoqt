@@ -26,9 +26,7 @@ import sqlite3
 
 def get(duplicateSettings, duplicateSettingsSignal):
 
-    duplicateSettingsNames = []
-    for i in duplicateSettings:
-        duplicateSettingsNames.append(i[1])
+    duplicateSettingsNames = duplicateSettings
 
     conn = sqlite3.connect('../defaultsettings.db')
 
@@ -105,14 +103,6 @@ void PQCSettings::setupFresh() {
 
             cont += valuestring
             cont += ";"
-
-            if f"{tab}{name}" in duplicateSettingsNames:
-                cont += f"""
-    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = {valuestring};"""
-
-    if f"{tab}{name}" in duplicateSettingsSignal:
-        cont += f"""
-    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
     cont += """
 

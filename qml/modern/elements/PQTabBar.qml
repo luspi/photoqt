@@ -22,6 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import PhotoQt.Shared
 import PhotoQt.Modern
 
 Item {
@@ -51,10 +52,10 @@ Item {
                 property bool hovered: false
                 width: control_top.width
                 height: 48
-                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) 
+                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
                 Behavior on color { ColorAnimation { duration: 200 } }
                 border.width: 1
-                border.color: PQCLook.baseColorActive 
+                border.color: PQCLook.baseColorActive
 
                 PQText {
                     anchors.fill: parent

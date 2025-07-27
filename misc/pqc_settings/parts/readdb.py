@@ -28,9 +28,7 @@ import os
 
 def get(duplicateSettings, duplicateSettingsSignal):
 
-    duplicateSettingsNames = []
-    for i in duplicateSettings:
-        duplicateSettingsNames.append(i[1])
+    duplicateSettingsNames = duplicateSettings
 
     conn = sqlite3.connect('../defaultsettings.db')
 
@@ -94,45 +92,21 @@ void PQCSettings::readDB() {
                 cont_SOURCE += f"""
                 {prefx}if(name == \"{name}\") {{
                     m_{tab}{name} = value.toString();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = value.toString();"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "int":
                 cont_SOURCE += f"""
                 {prefx}if(name == \"{name}\") {{
                     m_{tab}{name} = value.toInt();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = value.toInt();"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "double":
                 cont_SOURCE += f"""
                 {prefx}if(name == \"{name}\") {{
                     m_{tab}{name} = value.toDouble();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = value.toDouble();"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "bool":
                 cont_SOURCE += f"""
                 {prefx}if(name == \"{name}\") {{
                     m_{tab}{name} = value.toInt();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = value.toInt();"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "list":
                 cont_SOURCE += f"""
@@ -144,18 +118,6 @@ void PQCSettings::readDB() {
                         m_{tab}{name} = QStringList() << val;
                     else
                         m_{tab}{name} = QStringList();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_{tab}{name} = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_{tab}{name} = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_{tab}{name} = QStringList();"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "point":
                 cont_SOURCE += f"""
@@ -165,16 +127,6 @@ void PQCSettings::readDB() {
                         m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_{tab}{name} = QPoint(0,0);"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */
-                    if(parts.length() == 2)
-                        PQCSettingsCPP::get().m_{tab}{name} = QPoint(parts[0].toDouble(), parts[1].toDouble());
-                    else
-                        PQCSettingsCPP::get().m_{tab}{name} = QPoint(0,0);"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
 
             elif datatype == "size":
                 cont_SOURCE += f"""
@@ -184,17 +136,6 @@ void PQCSettings::readDB() {
                         m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_{tab}{name} = QSize(0,0);"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont_SOURCE += f"""
-                    /* duplicate */
-                    if(parts.length() == 2)
-                        PQCSettingsCPP::get().m_{tab}{name} = QSize(parts[0].toDouble(), parts[1].toDouble());
-                    else
-                        PQCSettingsCPP::get().m_{tab}{name} = QSize(0,0);"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont_SOURCE += f"""
-                    Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-
 
             prefx = "} else "
 

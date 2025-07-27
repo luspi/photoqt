@@ -21,16 +21,56 @@
  **************************************************************************/
 
 import QtQuick
+import PhotoQt.Integrated
+import PhotoQt.Shared
 
-Item {
-    property var source
-    property bool blurEnabled
-    property int blurMax
-    property int blur
-    property bool autoPaddingEnabled
-    property real saturation
-    property bool shadowEnabled
-    property bool maskEnabled
-    property Item maskSource
-    property real shadowVerticalOffset
+Loader {
+
+    id: ldr_top
+
+    SystemPalette { id: pqtPalette }
+
+    active: PQCConstants.currentImageIsPhotoSphere && !PQCConstants.showingPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning
+
+    sourceComponent:
+        Item {
+            parent: ldr_top.parent
+            id: spherebut
+            x: (parent.width-width)/2
+            y: (parent.height-height)/2
+            width: 150
+            height: 150
+            Rectangle {
+                anchors.fill: parent
+                opacity: 0.8
+                color: pqtPalette.base
+                radius: width/2
+                border.width: 1
+                border.color: pqtPalette.text
+            }
+            opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+
+            Image {
+                anchors.fill: parent
+                anchors.margins: 20
+                mipmap: true
+                fillMode: Image.PreserveAspectFit
+                sourceSize: Qt.size(width, height)
+                source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg"
+            }
+
+            PQMouseArea {
+                id: spheremouse
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: qsTranslate("image", "Click here to enter photo sphere")
+                onClicked: {
+                    PQCNotify.enterPhotoSphere()
+                }
+            }
+
+        }
+
 }

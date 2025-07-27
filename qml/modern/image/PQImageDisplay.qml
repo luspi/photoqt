@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Window
 import PQCImageFormats
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 Loader {
     id: imageloaderitem
@@ -37,9 +37,11 @@ Loader {
 
     property bool thisIsStartupFile: false
 
-    property Item access_fullscreen: fullscreenitem
+    property Item toplevelItem
 
     signal iAmReady()
+
+    signal onCurrentImageIs(var cat)
 
     onImageSourceChanged: {
         imageLoadedAndReady = false
@@ -286,6 +288,7 @@ Loader {
         }
 
         function doEnterPhotoSphere() {
+            PQCConstants.showingPhotoSphere = true
             loader_top.photoSphereDefaultScaleBackup = loader_top.defaultScale
             loader_top.photoSphereManuallyEntered = true
             loader_top.finishSetup()
@@ -294,6 +297,7 @@ Loader {
         }
 
         function doExitPhotoSphere() {
+            PQCConstants.showingPhotoSphere = false
             loader_top.photoSphereManuallyEntered = false
             loader_top.finishSetup()
             image_wrapper.scale = loader_top.photoSphereDefaultScaleBackup
@@ -537,7 +541,7 @@ Loader {
                     if(!loader_top.isMainImage)
                         return
 
-                    var locpos = flickable_content.mapFromItem(imageloaderitem.access_fullscreen, pos.x, pos.y)
+                    var locpos = flickable_content.mapFromItem(imageloaderitem.toplevelItem, pos.x, pos.y)
 
                     if(PQCSettings.interfaceCloseOnEmptyBackground) {
                         if(locpos.x < 0 || locpos.y < 0 || locpos.x > flickable_content.width || locpos.y > flickable_content.height)
@@ -663,7 +667,7 @@ Loader {
                             imageloaderitem.imageLoadedAndReady = true
                             if(loader_top.isMainImage) {
                                 timer_busyloading.stop()
-                                busyloading.hide()
+                                // busyloading.hide()
                                 var tmp = image_wrapper.computeDefaultScale()
                                 if(Math.abs(tmp-1) > 1e-6)
                                     image_wrapper.startupScale = true
@@ -683,18 +687,18 @@ Loader {
                         id: timer_busyloading
                         interval: 500
                         onTriggered: {
-                            if(!PQCConstants.slideshowRunning)
-                                busyloading.showBusy()
+                            // if(!PQCConstants.slideshowRunning)
+                                // busyloading.showBusy()
                         }
                     }
 
                     // BUSY indicator
-                    PQWorking {
-                        id: busyloading
-                        parent: image_top
-                        anchors.margins: -PQCSettings.imageviewMargin
-                        z: PQCConstants.currentZValue+1
-                    }
+                    // PQWorking {
+                    //     id: busyloading
+                    //     parent: image_top
+                    //     anchors.margins: -PQCSettings.imageviewMargin
+                    //     z: PQCConstants.currentZValue+1
+                    // }
 
                     onWidthChanged: {
                         if(imageloaderitem.imageLoadedAndReady) {
@@ -1275,47 +1279,48 @@ Loader {
 
                     }
 
-                    PQBarCodes {
-                        id: barcodes
-                        isMainImage: loader_top.isMainImage
-                        loaderImageScale: loader_top.imageScale
-                        imageSource: imageloaderitem.imageSource
+                    // PQBarCodes {
+                    //     id: barcodes
+                    //     isMainImage: loader_top.isMainImage
+                    //     loaderImageScale: loader_top.imageScale
+                    //     imageSource: imageloaderitem.imageSource
 
-                        Connections {
+                    //     Connections {
 
-                            target: loader_top
+                    //         target: loader_top
 
-                            function onBarcodeClick() {
-                                barcodes.barcodeClicked()
-                            }
-                        }
+                    //         function onBarcodeClick() {
+                    //             barcodes.barcodeClicked()
+                    //         }
+                    //     }
 
-                    }
+                    // }
 
-                    PQFaceTracker {
-                        id: facetracker
-                        imageRotation: loader_top.imageRotation
-                        isMainImage: loader_top.isMainImage
-                        imageWrapperXY: Qt.point(image_wrapper.x, image_wrapper.y)
-                        imageWrapperSize: Qt.size(image_wrapper.width, image_wrapper.height)
-                        imageSource: imageloaderitem.imageSource
-                    }
+                    // PQFaceTracker {
+                    //     id: facetracker
+                    //     imageRotation: loader_top.imageRotation
+                    //     isMainImage: loader_top.isMainImage
+                    //     imageWrapperXY: Qt.point(image_wrapper.x, image_wrapper.y)
+                    //     imageWrapperSize: Qt.size(image_wrapper.width, image_wrapper.height)
+                    //     imageSource: imageloaderitem.imageSource
+                    // }
 
-                    PQFaceTagger {
-                        id: facetagger
-                        imageRotation: loader_top.imageRotation
-                        isMainImage: loader_top.isMainImage
-                        function onFacetrackerLoadData() {
-                            facetracker.loadData()
-                        }
-                    }
+                    // PQFaceTagger {
+                    //     id: facetagger
+                    //     imageRotation: loader_top.imageRotation
+                    //     isMainImage: loader_top.isMainImage
+                    //     toplevelItem: imageloaderitem.toplevelItem
+                    //     function onFacetrackerLoadData() {
+                    //         facetracker.loadData()
+                    //     }
+                    // }
 
-                    Loader {
-                        id: minimap_loader
-                        active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
-                        asynchronous: true
-                        source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
-                    }
+                    // Loader {
+                    //     id: minimap_loader
+                    //     active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
+                    //     asynchronous: true
+                    //     source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
+                    // }
 
                     Connections {
 
@@ -1430,7 +1435,7 @@ Loader {
                     }
 
                     Connections {
-                        target: imageloaderitem.access_fullscreen
+                        target: imageloaderitem.toplevelItem
 
                         function onWidthChanged() {
 
@@ -1876,7 +1881,7 @@ Loader {
 
         }
 
-        PQMouseArea {
+        MouseArea {
             id: imagemouse
             anchors.fill: parent
             anchors.leftMargin: -PQCSettings.imageviewMargin
@@ -1886,22 +1891,22 @@ Loader {
             hoverEnabled: true
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
-            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+            // doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
             enabled: !PQCConstants.touchGestureActive
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
                 hidecursor.restart()
-                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mouseMove(pos.x, pos.y)
             }
             onWheel: (wheel) => {
                 wheel.accepted = !PQCSettings.imageviewUseMouseWheelForImageMove
-                var pos = imagemouse.mapToItem(fullscreenitem, wheel.x, wheel.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, wheel.x, wheel.y)
                 PQCNotify.mouseWheel(pos, wheel.angleDelta, wheel.modifiers)
             }
             onPressed: (mouse) => {
 
-                var locpos = flickable_content.mapFromItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                var locpos = flickable_content.mapFromItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
 
                 if(PQCSettings.interfaceCloseOnEmptyBackground &&
                       (locpos.x < flickable_content.x ||
@@ -1947,19 +1952,19 @@ Loader {
                     mouse.accepted = false
                     return
                 }
-                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
             }
-            onMouseDoubleClicked: (mouse) => {
-                var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
-                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
-            }
+            // onMouseDoubleClicked: (mouse) => {
+            //     var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+            //     PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+            // }
 
             onReleased: (mouse) => {
                 if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)
                     loader_top.imageClicked()
                 else {
-                    var pos = imagemouse.mapToItem(imageloaderitem.access_fullscreen, mouse.x, mouse.y)
+                    var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
                     PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
                 }
             }

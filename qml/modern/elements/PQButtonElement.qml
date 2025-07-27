@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Button {
 
@@ -30,8 +31,8 @@ Button {
 
     implicitHeight: 40
 
-    font.pointSize: PQCLook.fontSize    
-    font.weight: PQCLook.fontWeightBold 
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightBold
 
     flat: true
     opacity: enabled ? 1 : 0.5
@@ -54,7 +55,7 @@ Button {
         text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: PQCLook.textColor 
+        color: PQCLook.textColor
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -64,7 +65,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: (control.down ? PQCLook.baseColorActive : (control.hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)) 
+        color: (control.down ? PQCLook.baseColorActive : (control.hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 
@@ -72,14 +73,14 @@ Button {
         x: 0
         width: 1
         height: parent.height
-        color: PQCLook.baseColorActive 
+        color: PQCLook.baseColorActive
     }
 
     Rectangle {
         x: parent.width-1
         width: 1
         height: parent.height
-        color: PQCLook.baseColorActive 
+        color: PQCLook.baseColorActive
     }
 
     PQMouseArea {

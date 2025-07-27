@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Shared
 import PhotoQt.Modern
 
 ScrollView {
@@ -58,16 +59,16 @@ ScrollView {
 
         id: textarea
 
-        color: PQCLook.textColor 
+        color: PQCLook.textColor
 
-        font.pointSize: PQCLook.fontSize 
-        font.weight: PQCLook.fontWeightNormal 
+        font.pointSize: PQCLook.fontSize
+        font.weight: PQCLook.fontWeightNormal
 
         background: Rectangle {
             implicitWidth: control.implicitWidth - scrollver.width
             implicitHeight: control.implicitHeight - scrollhor.height
-            color: PQCLook.baseColor 
-            border.color: PQCLook.baseColorHighlight 
+            color: PQCLook.baseColor
+            border.color: PQCLook.baseColorHighlight
         }
     }
 

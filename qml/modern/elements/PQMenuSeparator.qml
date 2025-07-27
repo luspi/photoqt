@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Shared
 import PhotoQt.Modern
 
 MenuSeparator {

@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 ToolTip {
 
@@ -30,8 +31,8 @@ ToolTip {
     text: ""
     delay: 500
 
-    font.pointSize: PQCLook.fontSize 
-    font.weight: PQCLook.fontWeightNormal 
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
 
     property bool partialTransparency: false
     property bool enforceWidthLimit: true
@@ -60,8 +61,8 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor 
-        border.color: PQCLook.inverseColorHighlight 
+        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor
+        border.color: PQCLook.inverseColorHighlight
     }
 
 }

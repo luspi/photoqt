@@ -23,6 +23,7 @@
 import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Window {
 
@@ -134,7 +135,9 @@ Window {
         id: imageloader
         asynchronous: true
         active: false
-        source: "modern/image/PQImage.qml"
+        sourceComponent: PQImage {
+            toplevelItem: fullscreenitem
+        }
     }
 
     /****************************************************/
@@ -142,7 +145,7 @@ Window {
     Loader {
         id: shortcuts
         asynchronous: true
-        source: "modern/other/PQShortcuts.qml"
+        sourceComponent: PQShortcuts {}
     }
 
     /****************************************************/
@@ -212,7 +215,7 @@ Window {
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
 
-        // // show window according to settings
+        // show window according to settings
         if(PQCSettings.interfaceWindowMode) {
             if(PQCSettings.interfaceSaveWindowGeometry) {
                 var geo = PQCWindowGeometry.mainWindowGeometry

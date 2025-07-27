@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Shared
 import PhotoQt.Modern
 
 MenuItem {
@@ -62,7 +63,7 @@ MenuItem {
             verticalAlignment: Text.AlignVCenter
             elide: control.elide
             style: control.highlighted||!control.enabled ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled 
+            styleColor: PQCLook.textColorDisabled
             Timer {
                 id: increaseWidth
                 running: controltxt.truncated&&control.implicitWidth<400
@@ -95,15 +96,15 @@ MenuItem {
             width: 20
             height: 20
             anchors.centerIn: parent
-            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive 
-            color: PQCLook.baseColorHighlight 
+            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
+            color: PQCLook.baseColorHighlight
             radius: control.checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: 10
                 height: 10
                 anchors.centerIn: parent
                 visible: control.checked
-                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive 
+                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
                 radius: control.checkableLikeRadioButton ? 5 : 2
             }
         }
@@ -116,7 +117,7 @@ MenuItem {
         visible: control.subMenu
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = PQCLook.baseColorActive 
+            ctx.fillStyle = PQCLook.baseColorActive
             ctx.moveTo(15, 15)
             ctx.lineTo(width - 15, height / 2)
             ctx.lineTo(15, height - 15)
@@ -129,7 +130,7 @@ MenuItem {
         implicitWidth: 200
         implicitHeight: 40
         color: control.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
-        border.color: PQCLook.baseColorAccent 
+        border.color: PQCLook.baseColorAccent
         border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }

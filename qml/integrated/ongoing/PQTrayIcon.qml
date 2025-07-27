@@ -20,8 +20,55 @@
  **                                                                      **
  **************************************************************************/
 
-import QtQuick.Effects
+import QtQuick
+import QtQuick.Window
+import Qt.labs.platform
+import PhotoQt.Shared
 
-MultiEffect {
-    anchors.fill: source
+SystemTrayIcon {
+
+    id: trayicon
+
+    visible: PQCSettings.interfaceTrayIcon>0
+
+    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg"
+
+    menu: Menu {
+        id: mn
+
+        MenuItem {
+            text: (PQCConstants.windowState===Window.Hidden ? qsTranslate("trayicon", "Show PhotoQt") : qsTranslate("trayicon", "Hide PhotoQt"))
+            onTriggered:
+                trayicon.triggerVisibility()
+        }
+
+        MenuItem {
+            text: "Quit PhotoQt"
+            onTriggered:
+                PQCNotify.photoQtQuit()
+        }
+
+        Component.onCompleted:
+            mn.visible = false
+
+    }
+
+    onActivated: {
+        trayicon.triggerVisibility()
+    }
+
+    function triggerVisibility() {
+        PQCSettings.interfaceTrayIcon = 1
+        if(PQCConstants.windowState === Window.Hidden) {
+            if(PQCConstants.windowMaxAndNotWindowed)
+                PQCNotify.setWindowState(Window.Maximized)
+            else
+                PQCNotify.setWindowState(Window.Windowed)
+        } else if(PQCConstants.windowState === Window.Minimized) {
+            PQCNotify.windowRaiseAndFocus()
+        } else {
+            PQCNotify.setWindowState(Window.Hidden)
+        }
+    }
+
 }

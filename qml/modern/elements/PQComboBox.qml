@@ -24,6 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls.Basic
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 ComboBox {
 
@@ -33,8 +34,8 @@ ComboBox {
     property bool firstItemEmphasized: false
     property var lineBelowItem: []
 
-    font.pointSize: PQCLook.fontSize 
-    font.weight: PQCLook.fontWeightNormal 
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
 
     property list<int> hideEntries: []
 
@@ -56,7 +57,7 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
-            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+            color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
@@ -72,14 +73,14 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: (deleg.highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight)) 
+            color: (deleg.highlighted ? PQCLook.baseColorHighlight : (enabled ? PQCLook.baseColor : PQCLook.baseColorHighlight))
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Rectangle {
                 width: parent.width
                 height: 1
                 y: parent.height-1
-                color: PQCLook.inverseColorHighlight 
+                color: PQCLook.inverseColorHighlight
                 visible: control.lineBelowItem.indexOf(deleg.index)!==-1
             }
         }
@@ -106,7 +107,7 @@ ComboBox {
             context.lineTo(width, 0);
             context.lineTo(width / 2, height);
             context.closePath();
-            context.fillStyle = PQCLook.inverseColor 
+            context.fillStyle = PQCLook.inverseColor
             context.fill();
         }
     }
@@ -117,9 +118,9 @@ ComboBox {
 
         text: control.prefix+control.displayText
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
         style: control.highlighted ? Text.Sunken : Text.Normal
-        styleColor: PQCLook.textColorDisabled 
+        styleColor: PQCLook.textColorDisabled
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
     }
@@ -127,8 +128,8 @@ ComboBox {
     background: Rectangle {
         implicitWidth: 120
         implicitHeight: 40
-        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor) 
-        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+        color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseColorActive : PQCLook.baseColor)
+        border.color: control.pressed ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
         radius: 2
     }
@@ -152,8 +153,8 @@ ComboBox {
         }
 
         background: Rectangle {
-            color: PQCLook.baseColor 
-            border.color: PQCLook.inverseColorHighlight 
+            color: PQCLook.baseColor
+            border.color: PQCLook.inverseColorHighlight
             border.width: 1
             radius: 2
         }

@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Column {
     id: control
@@ -31,9 +32,9 @@ Column {
     Repeater {
         model: control.howManyLines
         Rectangle {
-            width: setting_top.width 
+            width: setting_top.width
             height: 1
-            color: PQCLook.baseColorHighlight 
+            color: PQCLook.baseColorHighlight
         }
     }
     Item { width: 1; height: 10; }

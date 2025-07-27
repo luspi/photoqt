@@ -21,15 +21,13 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Integrated
+import QtQuick.Controls
 
-Window {
-
-    id: toplevel
-
-    width: 800
-    height: 600
-
-    visible: true
-
+MenuItem {
+    property bool keepOpenWhenCheckedChanges
+    property string iconSource: ""
+    onIconSourceChanged:
+        icon.source = iconSource
+    Component.onCompleted:
+        icon.source = iconSource
 }

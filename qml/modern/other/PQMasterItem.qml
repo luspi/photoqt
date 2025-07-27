@@ -23,6 +23,8 @@
 import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
+import PhotoQt.Shared
+import PhotoQt.Shared
 
 Loader {
 
@@ -55,7 +57,7 @@ Loader {
         Loader {
             id: bgmessage
             asynchronous: true
-            source: "PQBackgroundMessage.qml"
+            sourceComponent: PQBackgroundMessage {}
             onStatusChanged: (status) => {
                 if(status === Loader.Ready)
                     masteritemloader.backgroundMessageReady = true
@@ -66,20 +68,20 @@ Loader {
         Loader {
             id: loader_trayicon
             asynchronous: true
-            source: "../ongoing/PQTrayIcon.qml"
+            sourceComponent: PQTrayIcon {}
         }
 
         Loader {
             id: windowbuttons
             asynchronous: true
             active: masteritem.readyToContinueLoading
-            source: "../ongoing/PQWindowButtons.qml"
+            sourceComponent: PQWindowButtons {}
         }
         Loader {
             id: windowbuttons_ontop
             asynchronous: true
             active: masteritem.readyToContinueLoading
-            source: "../ongoing/PQWindowButtons.qml"
+            sourceComponent: PQWindowButtons {}
             visible: opacity>0
             opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -94,7 +96,7 @@ Loader {
             id: statusinfo
             active: masteritem.readyToContinueLoading
             asynchronous: true
-            source: "../ongoing/PQStatusInfo.qml"
+            sourceComponent: PQStatusInfo {}
         }
 
         /******************************************/
@@ -275,6 +277,8 @@ Loader {
 
             if(PQCConstants.startupHaveSettingUpdate.length === 2)
                 PQCSettings.updateFromCommandLine();
+
+            PQCSettings.generalInterfaceVariant = "modern"
 
         }
 

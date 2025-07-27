@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 
@@ -33,7 +34,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { id: opacityAny; duration: 200 } }
 
     anchors.fill: parent
-    color: PQCLook.transColor 
+    color: PQCLook.transColor
 
     property int circleHeight: 206
     property bool animationRunning: true
@@ -48,7 +49,7 @@ Rectangle {
         onClicked: (mouse) => { mouse.accepted = true }
         onWheel: (wheel) => { wheel.accepted = true }
         onPositionChanged: (mouse) => {
-            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y) 
+            var pos = mapToItem(fullscreenitem, mouse.x, mouse.y)
             PQCNotify.mouseMove(pos.x, pos.y)
         }
     }
@@ -104,7 +105,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg" 
+        source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             running: exportsuccess.visible
@@ -128,7 +129,7 @@ Rectangle {
         opacity: 0
         visible: opacity>0
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
+        source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
         sourceSize: Qt.size(width, height)
         Timer {
             id: failuretimer

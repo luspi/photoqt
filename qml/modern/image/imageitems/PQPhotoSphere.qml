@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 PQCPhotoSphere {
 
@@ -260,10 +260,10 @@ PQCPhotoSphere {
 
     }
 
-    PQPhotoSphereControls {
-        id: controls
-        loaderTop: thesphere.loaderTop
-    }
+    // PQPhotoSphereControls {
+    //     id: controls
+    //     loaderTop: thesphere.loaderTop
+    // }
 
     property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
     property bool animationRunning: false
@@ -453,11 +453,11 @@ PQCPhotoSphere {
                         source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                     }
 
-                    PQMouseArea {
+                    MouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("facetagging", "Click to exit photo sphere")
+                        // text: qsTranslate("facetagging", "Click to exit photo sphere")
                         onClicked: {
                             PQCNotify.exitPhotoSphere()
                         }

@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 // required top level properties for all settings:
 //

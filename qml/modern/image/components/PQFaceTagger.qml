@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 
@@ -33,6 +34,7 @@ Item {
 
     property int imageRotation
     property bool isMainImage
+    property Item toplevelItem
 
     /*******************************************/
 
@@ -51,7 +53,7 @@ Item {
 
     Rectangle {
 
-        parent: fullscreenitem_foreground
+        parent: facetagger_top.toplevelItem
         x: 20
         y: 20
         width: 42
@@ -218,7 +220,7 @@ Item {
 
     Rectangle {
         id: whoisthis
-        parent: fullscreenitem_foreground
+        parent: facetagger_top.toplevelItem
         anchors.fill: parent
         color: PQCLook.transColor
         opacity: 0
