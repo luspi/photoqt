@@ -28,7 +28,9 @@ Loader {
 
     id: ldr_top
 
-    active: PQCConstants.currentImageIsArchive && PQCSettings.filetypesArchiveControls && PQCConstants.currentFileInsideTotal>1 && !PQCFileFolderModel.isARC
+    active: PQCConstants.currentImageIsArchive && PQCSettings.filetypesArchiveControls && PQCConstants.currentFileInsideTotal>1 && !PQCFileFolderModel.activeViewerMode
+
+    asynchronous: true
 
     sourceComponent:
     Item {
@@ -194,13 +196,13 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/first.svg"
                     }
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: mousefirst
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        // text: qsTranslate("image", "Go to first page")
+                        tooltip: qsTranslate("image", "Go to first page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentArchiveJump(-PQCConstants.currentFileInsideNum)
@@ -227,13 +229,13 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     }
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: mouseprev
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        // text: qsTranslate("image", "Go to previous page")
+                        tooltip: qsTranslate("image", "Go to previous page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentArchiveJump(-1)
@@ -260,13 +262,13 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     }
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: mousenext
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        // text: qsTranslate("image", "Go to next page")
+                        tooltip: qsTranslate("image", "Go to next page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentArchiveJump(1)
@@ -294,13 +296,13 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/last.svg"
                     }
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: mouselast
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        // text: qsTranslate("image", "Go to last page")
+                        tooltip: qsTranslate("image", "Go to last page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentArchiveJump(PQCConstants.currentFileInsideTotal-PQCConstants.currentFileInsideNum-1)
@@ -375,13 +377,13 @@ Loader {
                     height: parent.height-10
                     sourceSize: Qt.size(width, height)
                     source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: viewermodemouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton|Qt.RightButton
-                        // text: qsTranslate("image", "Click to enter viewer mode")
+                        tooltip: qsTranslate("image", "Click to enter viewer mode")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
@@ -425,13 +427,13 @@ Loader {
 
                 }
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
-                    // text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
+                    tooltip: qsTranslate("image", "Lock left/right arrow keys to page navigation")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight

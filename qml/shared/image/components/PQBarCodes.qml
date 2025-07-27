@@ -81,6 +81,7 @@ Item {
     Loader {
 
         active: bartop.barcodes.length>0
+        asynchronous: true
 
         Item {
             // id: barcodes

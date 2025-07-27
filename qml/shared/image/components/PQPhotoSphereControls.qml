@@ -29,6 +29,8 @@ Loader {
 
     active: PQCConstants.showingPhotoSphere && PQCSettings.filetypesPhotoSphereControls
 
+    asynchronous: true
+
     sourceComponent:
     Rectangle {
 
@@ -81,12 +83,12 @@ Loader {
 
                 }
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    // text: qsTranslate("image", "Lock arrow keys to moving photo sphere")
+                    tooltip: qsTranslate("image", "Lock arrow keys to moving photo sphere")
                     onClicked:
                         PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
                 }
