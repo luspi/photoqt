@@ -64,6 +64,7 @@ public:
         m_lastExecutedShortcutCommand = "";
         m_ignoreFileFolderChangesTemporary = false;
         m_statusinfoIsVisible = true;
+        m_imageDisplaySize = QSize(0,0);
 
         m_slideshowRunning = false;
         m_slideshowRunningAndPlaying = false;
@@ -78,12 +79,15 @@ public:
         m_currentFileInsideTotal = 0;
         m_currentFileInsideName = "";
         m_currentFileInsideList = {};
-        m_imageQMLItemHeight = 0;
         m_imageInitiallyLoaded = false;
+
+        m_currentVisibleContentPos = QPoint(-1,-1);
+        m_currentVisibleContentSize = QSize(-1,-1);
         m_currentVisibleAreaX = 0;
         m_currentVisibleAreaY = 0;
         m_currentVisibleAreaWidthRatio = 0;
         m_currentVisibleAreaHeightRatio = 0;
+
         m_currentArchiveComboOpen = false;
         m_currentImageIsPhotoSphere = false;
         m_currentImageIsMotionPhoto = false;
@@ -215,6 +219,7 @@ public:
     Q_PROPERTY(bool statusInfoMovedDown MEMBER m_statusInfoMovedDown NOTIFY statusInfoMovedDownChanged)
     Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
     Q_PROPERTY(bool statusinfoIsVisible MEMBER m_statusinfoIsVisible NOTIFY statusinfoIsVisibleChanged)
+    Q_PROPERTY(QSize imageDisplaySize MEMBER m_imageDisplaySize NOTIFY imageDisplaySizeChanged)
     Q_PROPERTY(int thumbnailsBarWidth MEMBER m_thumbnailsBarWidth NOTIFY thumbnailsBarWidthChanged)
     Q_PROPERTY(int thumbnailsBarHeight MEMBER m_thumbnailsBarHeight NOTIFY thumbnailsBarHeightChanged)
     Q_PROPERTY(double thumbnailsBarOpacity MEMBER m_thumbnailsBarOpacity NOTIFY thumbnailsBarOpacityChanged)
@@ -234,7 +239,6 @@ public:
     Q_PROPERTY(int currentFileInsideTotal MEMBER m_currentFileInsideTotal NOTIFY currentFileInsideTotalChanged)
     Q_PROPERTY(QString currentFileInsideName MEMBER m_currentFileInsideName NOTIFY currentFileInsideNameChanged)
     Q_PROPERTY(QStringList currentFileInsideList MEMBER m_currentFileInsideList NOTIFY currentFileInsideListChanged)
-    Q_PROPERTY(int imageQMLItemHeight MEMBER m_imageQMLItemHeight NOTIFY imageQMLItemHeightChanged)
     Q_PROPERTY(bool currentArchiveComboOpen MEMBER m_currentArchiveComboOpen NOTIFY currentArchiveComboOpenChanged)
 
     // this signals that an image (any image) has been fully loaded. Only then do we start, e.g., loading thumbnails
@@ -246,6 +250,8 @@ public:
     Q_PROPERTY(int currentlyShowingVideoDuration MEMBER m_currentlyShowingVideoDuration NOTIFY currentlyShowingVideoDurationChanged)
     Q_PROPERTY(int currentlyShowingVideoPosition MEMBER m_currentlyShowingVideoPosition NOTIFY currentlyShowingVideoPositionChanged)
 
+    Q_PROPERTY(QPoint currentVisibleContentPos MEMBER m_currentVisibleContentPos NOTIFY currentVisibleContentPosChanged)
+    Q_PROPERTY(QSize currentVisibleContentSize MEMBER m_currentVisibleContentSize NOTIFY currentVisibleContentSizeChanged)
     Q_PROPERTY(double currentVisibleAreaX MEMBER m_currentVisibleAreaX NOTIFY currentVisibleAreaXChanged)
     Q_PROPERTY(double currentVisibleAreaY MEMBER m_currentVisibleAreaY NOTIFY currentVisibleAreaYChanged)
     Q_PROPERTY(double currentVisibleAreaWidthRatio MEMBER m_currentVisibleAreaWidthRatio NOTIFY currentVisibleAreaWidthRatioChanged)
@@ -323,6 +329,7 @@ private:
     bool m_touchGestureActive;
     bool m_ignoreFileFolderChangesTemporary;
     bool m_statusinfoIsVisible;
+    QSize m_imageDisplaySize;
 
     bool m_slideshowRunning;
     bool m_slideshowRunningAndPlaying;
@@ -338,8 +345,9 @@ private:
     QString m_currentFileInsideName;
     QStringList m_currentFileInsideList;
     bool m_imageInitiallyLoaded;
-    int m_imageQMLItemHeight;
     bool m_currentArchiveComboOpen;
+    QPoint m_currentVisibleContentPos;
+    QSize m_currentVisibleContentSize;
     double m_currentVisibleAreaX;
     double m_currentVisibleAreaY;
     double m_currentVisibleAreaWidthRatio;
@@ -442,8 +450,10 @@ Q_SIGNALS:
     void slideshowRunningChanged();
     void slideshowRunningAndPlayingChanged();
     void slideshowVolumeChanged();
-    void imageQMLItemHeightChanged();
     void statusinfoIsVisibleChanged();
+    void imageDisplaySizeChanged();
+    void currentVisibleContentPosChanged();
+    void currentVisibleContentSizeChanged();
     void currentVisibleAreaXChanged();
     void currentVisibleAreaYChanged();
     void currentVisibleAreaWidthRatioChanged();

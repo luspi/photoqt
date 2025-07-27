@@ -35,10 +35,12 @@ Item {
     width: toplevelItem.width-2*PQCSettings.imageviewMargin// - lessW
     height: toplevelItem.height-2*PQCSettings.imageviewMargin// - lessH
 
-    property Item toplevelItem
-
+    onWidthChanged:
+        PQCConstants.imageDisplaySize.width = width
     onHeightChanged:
-        PQCConstants.imageQMLItemHeight = height
+        PQCConstants.imageDisplaySize.height = height
+
+    property Item toplevelItem
 
     property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale)))
 
@@ -109,6 +111,14 @@ Item {
                 }
             }
         }
+    }
+
+    Loader {
+        id: minimap_loader
+        active: PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
+        asynchronous: true
+        sourceComponent:
+            PQMinimap {}
     }
 
     Component.onCompleted: {

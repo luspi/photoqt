@@ -24,18 +24,54 @@ import QtQuick
 import PhotoQt.Integrated
 import PhotoQt.Shared
 
-PQMultiEffect {
+Item {
 
-    property Item masterItem
+    PQMenu {
 
-    parent: masterItem.parent
+        id: rightclickmenu
 
-    anchors.fill: masterItem
-    opacity: masterItem.opacity
-    visible: masterItem.visible
+        PQMenuItem {
+            text: qsTranslate("image", "Small minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 0
+        }
 
-    source: masterItem
-    shadowEnabled: true
-    shadowVerticalOffset: 5
+        PQMenuItem {
+            text: qsTranslate("image", "Normal minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 1
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 2
+        }
+
+        PQMenuItem {
+            text: qsTranslate("image", "Very large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 3
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            text: qsTranslate("image", "Hide minimap")
+            onTriggered:
+                PQCSettings.imageviewShowMinimap = false
+        }
+
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onShowMinimapContextMenu() {
+            rightclickmenu.popup()
+        }
+
+    }
 
 }
