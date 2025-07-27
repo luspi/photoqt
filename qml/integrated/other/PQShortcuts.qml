@@ -264,6 +264,11 @@ Item {
                 return
             }
 
+            if(PQCConstants.faceTaggingMode) {
+                PQCNotify.stopFaceTagging()
+                return
+            }
+
         }
 
         // Left/Right/Space when video is loaded might have special actions

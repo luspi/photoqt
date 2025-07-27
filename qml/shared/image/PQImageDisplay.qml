@@ -761,11 +761,6 @@ Loader {
                     //     z: PQCConstants.currentZValue+1
                     // }
 
-                    PQFaceTracker {
-                        isMainImage: loader_top.isMainImage
-                        imageSource: imageloaderitem.imageSource
-                    }
-
                     onWidthChanged: {
                         if(imageloaderitem.imageLoadedAndReady) {
                             resetDefaults.triggered()
@@ -1370,24 +1365,15 @@ Loader {
 
                     }
 
-                    // PQFaceTracker {
-                    //     id: facetracker
-                    //     imageRotation: loader_top.imageRotation
-                    //     isMainImage: loader_top.isMainImage
-                    //     imageWrapperXY: Qt.point(image_wrapper.x, image_wrapper.y)
-                    //     imageWrapperSize: Qt.size(image_wrapper.width, image_wrapper.height)
-                    //     imageSource: imageloaderitem.imageSource
-                    // }
+                    PQFaceTracker {
+                        isMainImage: loader_top.isMainImage
+                        imageSource: imageloaderitem.imageSource
+                    }
 
-                    // PQFaceTagger {
-                    //     id: facetagger
-                    //     imageRotation: loader_top.imageRotation
-                    //     isMainImage: loader_top.isMainImage
-                    //     toplevelItem: imageloaderitem.toplevelItem
-                    //     function onFacetrackerLoadData() {
-                    //         facetracker.loadData()
-                    //     }
-                    // }
+                    PQFaceTagger {
+                        isMainImage: loader_top.isMainImage
+                        imageSource: imageloaderitem.imageSource
+                    }
 
                     Connections {
 

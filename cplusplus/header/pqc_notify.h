@@ -143,6 +143,8 @@ Q_SIGNALS:
     void currentArchiveControlsResetPosition();
     void currentImageReload();
     void currentAnimatedSaveFrame();
+    void currentFaceTagsReload();
+    void stopFaceTagging();
 
     // context menu properties
     void closeAllContextMenus();
