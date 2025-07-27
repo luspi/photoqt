@@ -205,6 +205,20 @@ Loader {
                 facetracker_top.loadData()
         }
 
+        Connections {
+
+            target: PQCNotify
+
+            function onCurrentFaceTagsReload() {
+                facetracker_top.loadData()
+            }
+
+            function onStopFaceTagging() {
+                facetracker_top.loadData()
+            }
+
+        }
+
         function loadData() {
             repeatermodel.clear()
 
