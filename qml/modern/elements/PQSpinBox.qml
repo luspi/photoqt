@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 SpinBox {
     id: control
@@ -53,10 +54,10 @@ SpinBox {
             control.value = value
         }
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
         Behavior on color { ColorAnimation { duration: 200 } }
-        selectionColor: PQCLook.baseColorActive 
-        selectedTextColor: PQCLook.textColor 
+        selectionColor: PQCLook.baseColorActive
+        selectedTextColor: PQCLook.textColor
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
@@ -70,15 +71,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent 
+        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight 
+        border.color: PQCLook.baseColorHighlight
         border.width: 1
 
         Text {
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -92,15 +93,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent 
+        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight 
+        border.color: PQCLook.baseColorHighlight
         border.width: 1
 
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -111,7 +112,7 @@ SpinBox {
 
     background: Rectangle {
         implicitWidth: 140
-        color: PQCLook.baseColorHighlight 
+        color: PQCLook.baseColorHighlight
     }
 
     PQToolTip {

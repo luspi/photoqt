@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 
@@ -29,10 +30,10 @@ Rectangle {
 
     width: 300
     height: 40
-    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight) 
+    color: warning ? "red" : (enabled ? (highlightBG ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorHighlight)
     Behavior on color { ColorAnimation { duration: 200 } }
     border.width: 1
-    border.color: PQCLook.baseColorHighlight 
+    border.color: PQCLook.baseColorHighlight
     z: -1
 
     property bool highlightBG: false
@@ -59,10 +60,10 @@ Rectangle {
     PQText {
         id: placeholder
         anchors.fill: parent
-        color: PQCLook.textColor 
+        color: PQCLook.textColor
         opacity: edit_top.highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
-        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter
         visible: control.text===""||edit_top.keepPlaceholderTextVisible
@@ -80,12 +81,12 @@ Rectangle {
         leftPadding: 5
         rightPadding: 5
 
-        color: PQCLook.textColor 
-        selectedTextColor: PQCLook.textColor 
-        selectionColor: edit_top.highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive 
+        color: PQCLook.textColor
+        selectedTextColor: PQCLook.textColor
+        selectionColor: edit_top.highlightBG ? PQCLook.baseColorAccent : PQCLook.baseColorActive
 
-        font.pointSize: PQCLook.fontSize 
-        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
+        font.pointSize: PQCLook.fontSize
+        font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
         verticalAlignment: TextInput.AlignVCenter
 
@@ -249,7 +250,7 @@ Rectangle {
         var cuttxt = getSelectedText()
         if(cuttxt === "")
             return
-        PQCScriptsClipboard.copyTextToClipboard(cuttxt) 
+        PQCScriptsClipboard.copyTextToClipboard(cuttxt)
         control.remove(control.selectionStart, control.selectionEnd)
 
     }
@@ -259,13 +260,13 @@ Rectangle {
         var copytxt = getSelectedText()
         if(copytxt === "")
             copytxt = control.text
-        PQCScriptsClipboard.copyTextToClipboard(copytxt) 
+        PQCScriptsClipboard.copyTextToClipboard(copytxt)
 
     }
 
     function actionPaste() {
 
-        var pastetxt = PQCScriptsClipboard.getTextFromClipboard() 
+        var pastetxt = PQCScriptsClipboard.getTextFromClipboard()
         if(pastetxt === "")
             return
 

@@ -50,7 +50,14 @@ public:
 
     Q_PROPERTY(QString iconShade READ getIconShade NOTIFY iconShadeChanged)
     QString getIconShade();
+    /******************************************************/
+    /******************************************************/
 
+    Q_PROPERTY(QString tooltipText MEMBER m_tooltipText NOTIFY tooltipTextChanged)
+    Q_PROPERTY(QString tooltipBase MEMBER m_tooltipBase NOTIFY tooltipBaseChanged)
+    Q_PROPERTY(QString tooltipBorder MEMBER m_tooltipBorder NOTIFY tooltipBorderChanged)
+
+    /******************************************************/
     /******************************************************/
 
     Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
@@ -69,7 +76,6 @@ public:
 
     /******************************************************/
 
-    Q_PROPERTY(QString faintColor MEMBER m_faintColor NOTIFY faintColorChanged)
     Q_PROPERTY(QString transColor MEMBER m_transColor NOTIFY transColorChanged)
     Q_PROPERTY(QString transColorAccent MEMBER m_transColorAccent NOTIFY transColorAccentChanged)
     Q_PROPERTY(QString transColorHighlight MEMBER m_transColorHighlight NOTIFY transColorHighlightChanged)
@@ -115,6 +121,9 @@ private:
     int lightness_threshold;
 
     QString m_iconShade;
+    QString m_tooltipText;
+    QString m_tooltipBase;
+    QString m_tooltipBorder;
 
     QString m_baseColor;
     QString m_baseColorAccent;
@@ -126,7 +135,6 @@ private:
     QString m_inverseColorHighlight;
     QString m_inverseColorActive;
 
-    QString m_faintColor;
     QString m_transColor;
     QString m_transColorAccent;
     QString m_transColorHighlight;
@@ -153,6 +161,8 @@ private:
     QStringList colorNames;
     QStringList colorHexes;
 
+    bool m_interfaceModernVariant;
+
 Q_SIGNALS:
     void baseColorChanged();
     void baseColorAccentChanged();
@@ -164,7 +174,6 @@ Q_SIGNALS:
     void inverseColorHighlightChanged();
     void inverseColorActiveChanged();
 
-    void faintColorChanged();
     void transColorChanged();
     void transColorAccentChanged();
     void transColorHighlightChanged();
@@ -189,6 +198,9 @@ Q_SIGNALS:
     void fontWeightNormalChanged();
 
     void iconShadeChanged();
+    void tooltipTextChanged();
+    void tooltipBaseChanged();
+    void tooltipBorderChanged();
 
 };
 

@@ -24,6 +24,13 @@
 #define PQCREADONLYSETTINGS_H
 
 #include <QObject>
+#include <QFile>
+#include <QMessageBox>
+#include <QApplication>
+#include <QFileSystemWatcher>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <pqc_configfiles.h>
 #include <pqc_settings.h>
 
 /********************************************************************************/
@@ -35,7 +42,6 @@
 class PQCSettingsCPP : public QObject {
 
     Q_OBJECT
-    friend class PQCSettings;
 
 public:
     static PQCSettingsCPP& get() {
@@ -49,162 +55,491 @@ public:
     QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
     QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
 
-    QStringList getGeneralEnabledExtensions() { return m_generalEnabledExtensions; }
-
-    bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
-    bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
-    QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
-    int getImageviewCache() { return m_imageviewCache; }
-    bool getImageviewColorSpaceEnable() { return m_imageviewColorSpaceEnable; }
-    bool getImageviewColorSpaceLoadEmbedded() { return m_imageviewColorSpaceLoadEmbedded; }
-    QString getImageviewColorSpaceDefault() { return m_imageviewColorSpaceDefault; }
-    QString getImageviewAdvancedSortCriteria() { return m_imageviewAdvancedSortCriteria; }
-    bool getImageviewAdvancedSortAscending() { return m_imageviewAdvancedSortAscending; }
-    QString getImageviewAdvancedSortQuality() { return m_imageviewAdvancedSortQuality; }
-    QStringList getImageviewAdvancedSortDateCriteria() { return m_imageviewAdvancedSortDateCriteria; }
-    bool getImageviewRespectDevicePixelRatio() { return m_imageviewRespectDevicePixelRatio; }
-
     bool getFiledialogDevicesShowTmpfs() { return m_filedialogDevicesShowTmpfs; }
     bool getFiledialogShowHiddenFilesFolders() { return m_filedialogShowHiddenFilesFolders; }
-
-    bool getFiletypesLoadAppleLivePhotos() { return m_filetypesLoadAppleLivePhotos; }
-    bool getFiletypesLoadMotionPhotos() { return m_filetypesLoadMotionPhotos; }
-    bool getFiletypesExternalUnrar() { return m_filetypesExternalUnrar; }
-    QString getFiletypesVideoThumbnailer() { return m_filetypesVideoThumbnailer; }
-    bool getFiletypesRAWUseEmbeddedIfAvailable() { return m_filetypesRAWUseEmbeddedIfAvailable; }
-    double getFiletypesPDFQuality() { return m_filetypesPDFQuality; }
-    bool getFiletypesVideoPreferLibmpv() { return m_filetypesVideoPreferLibmpv; }
     bool getFiletypesArchiveAlwaysEnterAutomatically() { return m_filetypesArchiveAlwaysEnterAutomatically; }
     bool getFiletypesComicBookAlwaysEnterAutomatically() { return m_filetypesComicBookAlwaysEnterAutomatically; }
     bool getFiletypesDocumentAlwaysEnterAutomatically() { return m_filetypesDocumentAlwaysEnterAutomatically; }
-
+    bool getFiletypesExternalUnrar() { return m_filetypesExternalUnrar; }
+    bool getFiletypesLoadAppleLivePhotos() { return m_filetypesLoadAppleLivePhotos; }
+    bool getFiletypesLoadMotionPhotos() { return m_filetypesLoadMotionPhotos; }
+    int getFiletypesPDFQuality() { return m_filetypesPDFQuality; }
+    bool getFiletypesRAWUseEmbeddedIfAvailable() { return m_filetypesRAWUseEmbeddedIfAvailable; }
+    bool getFiletypesVideoPreferLibmpv() { return m_filetypesVideoPreferLibmpv; }
+    QString getFiletypesVideoThumbnailer() { return m_filetypesVideoThumbnailer; }
+    QStringList getGeneralEnabledExtensions() { return m_generalEnabledExtensions; }
+    QString getGeneralInterfaceVariant() { return m_generalInterfaceVariant; }
+    bool getImageviewAdvancedSortAscending() { return m_imageviewAdvancedSortAscending; }
+    QString getImageviewAdvancedSortCriteria() { return m_imageviewAdvancedSortCriteria; }
+    QStringList getImageviewAdvancedSortDateCriteria() { return m_imageviewAdvancedSortDateCriteria; }
+    QString getImageviewAdvancedSortQuality() { return m_imageviewAdvancedSortQuality; }
+    int getImageviewCache() { return m_imageviewCache; }
+    QString getImageviewColorSpaceDefault() { return m_imageviewColorSpaceDefault; }
+    bool getImageviewColorSpaceEnable() { return m_imageviewColorSpaceEnable; }
+    bool getImageviewColorSpaceLoadEmbedded() { return m_imageviewColorSpaceLoadEmbedded; }
+    bool getImageviewFitInWindow() { return m_imageviewFitInWindow; }
+    bool getImageviewRespectDevicePixelRatio() { return m_imageviewRespectDevicePixelRatio; }
+    bool getImageviewSortImagesAscending() { return m_imageviewSortImagesAscending; }
+    QString getImageviewSortImagesBy() { return m_imageviewSortImagesBy; }
     QString getInterfaceAccentColor() { return m_interfaceAccentColor; }
-    int getInterfaceFontNormalWeight() { return m_interfaceFontNormalWeight; }
     int getInterfaceFontBoldWeight() { return m_interfaceFontBoldWeight; }
-    bool getInterfacePopoutWhenWindowIsSmall() { return m_interfacePopoutWhenWindowIsSmall; }
+    int getInterfaceFontNormalWeight() { return m_interfaceFontNormalWeight; }
     QString getInterfaceLanguage() { return m_interfaceLanguage; }
-
-    QString getThumbnailsExcludeDropBox() { return m_thumbnailsExcludeDropBox; }
-    QString getThumbnailsExcludeNextcloud() { return m_thumbnailsExcludeNextcloud; }
-    QString getThumbnailsExcludeOwnCloud() { return m_thumbnailsExcludeOwnCloud; }
-    QStringList getThumbnailsExcludeFolders() { return m_thumbnailsExcludeFolders; }
-    bool getThumbnailsExcludeNetworkShares() { return m_thumbnailsExcludeNetworkShares; }
+    bool getInterfacePopoutWhenWindowIsSmall() { return m_interfacePopoutWhenWindowIsSmall; }
+    bool getMetadataAutoRotation() { return m_metadataAutoRotation; }
+    bool getThumbnailsCache() { return m_thumbnailsCache; }
     bool getThumbnailsCacheBaseDirDefault() { return m_thumbnailsCacheBaseDirDefault; }
     QString getThumbnailsCacheBaseDirLocation() { return m_thumbnailsCacheBaseDirLocation; }
-    int getThumbnailsMaxNumberThreads() { return m_thumbnailsMaxNumberThreads; }
-    bool getThumbnailsCache() { return m_thumbnailsCache; }
+    QString getThumbnailsExcludeDropBox() { return m_thumbnailsExcludeDropBox; }
+    QStringList getThumbnailsExcludeFolders() { return m_thumbnailsExcludeFolders; }
+    bool getThumbnailsExcludeNetworkShares() { return m_thumbnailsExcludeNetworkShares; }
+    QString getThumbnailsExcludeNextcloud() { return m_thumbnailsExcludeNextcloud; }
+    QString getThumbnailsExcludeOwnCloud() { return m_thumbnailsExcludeOwnCloud; }
     bool getThumbnailsIconsOnly() { return m_thumbnailsIconsOnly; }
-
-    bool getMetadataAutoRotation() { return m_metadataAutoRotation; }
+    int getThumbnailsMaxNumberThreads() { return m_thumbnailsMaxNumberThreads; }
 
 private:
     PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
 
-            m_generalEnabledExtensions = QStringList();
+        m_filedialogDevicesShowTmpfs = false;
+        m_filedialogShowHiddenFilesFolders = false;
+        m_filetypesArchiveAlwaysEnterAutomatically = false;
+        m_filetypesComicBookAlwaysEnterAutomatically = false;
+        m_filetypesDocumentAlwaysEnterAutomatically = false;
+        m_filetypesExternalUnrar = false;
+        m_filetypesLoadAppleLivePhotos = true;
+        m_filetypesLoadMotionPhotos = true;
+        m_filetypesPDFQuality = 150;
+        m_filetypesRAWUseEmbeddedIfAvailable = true;
+        m_filetypesVideoPreferLibmpv = true;
+        m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
+        m_generalEnabledExtensions = QStringList();
+        m_generalInterfaceVariant = "modern";
+        m_imageviewAdvancedSortAscending = true;
+        m_imageviewAdvancedSortCriteria = "resolution";
+        m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
+        m_imageviewAdvancedSortQuality = "medium";
+        m_imageviewCache = 512;
+        m_imageviewColorSpaceDefault = "";
+        m_imageviewColorSpaceEnable = true;
+        m_imageviewColorSpaceLoadEmbedded = true;
+        m_imageviewFitInWindow = false;
+        m_imageviewRespectDevicePixelRatio = true;
+        m_imageviewSortImagesAscending = true;
+        m_imageviewSortImagesBy = "naturalname";
+        m_interfaceAccentColor = "#222222";
+        m_interfaceFontBoldWeight = 700;
+        m_interfaceFontNormalWeight = 400;
+        m_interfaceLanguage = "en";
+        m_interfacePopoutWhenWindowIsSmall = true;
+        m_metadataAutoRotation = true;
+        m_thumbnailsCache = true;
+        m_thumbnailsCacheBaseDirDefault = true;
+        m_thumbnailsCacheBaseDirLocation = "";
+        m_thumbnailsExcludeDropBox = "";
+        m_thumbnailsExcludeFolders = QStringList();
+        m_thumbnailsExcludeNetworkShares = true;
+        m_thumbnailsExcludeNextcloud = "";
+        m_thumbnailsExcludeOwnCloud = "";
+        m_thumbnailsIconsOnly = false;
+        m_thumbnailsMaxNumberThreads = 4;
 
-            m_imageviewFitInWindow = false;
-            m_imageviewSortImagesAscending = false;
-            m_imageviewSortImagesBy = "";
-            m_imageviewCache = 0;
-            m_imageviewColorSpaceEnable = false;
-            m_imageviewColorSpaceLoadEmbedded = false;
-            m_imageviewColorSpaceDefault = "";
-            m_imageviewAdvancedSortCriteria = "";
-            m_imageviewAdvancedSortAscending = false;
-            m_imageviewAdvancedSortQuality = "";
-            m_imageviewAdvancedSortDateCriteria = QStringList();
-            m_imageviewRespectDevicePixelRatio = false;
+        QSqlDatabase db = QSqlDatabase::database("settings");
 
-            m_filedialogDevicesShowTmpfs = false;
-            m_filedialogShowHiddenFilesFolders = false;
+        // connect to user database
+        if(!db.isValid()) {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
 
-            m_filetypesLoadAppleLivePhotos = false;
-            m_filetypesLoadMotionPhotos = false;
-            m_filetypesExternalUnrar = false;
-            m_filetypesVideoThumbnailer = "";
-            m_filetypesRAWUseEmbeddedIfAvailable = false;
-            m_filetypesPDFQuality = 0.0;
-            m_filetypesVideoPreferLibmpv = false;
-            m_filetypesArchiveAlwaysEnterAutomatically = false;
-            m_filetypesComicBookAlwaysEnterAutomatically = false;
-            m_filetypesDocumentAlwaysEnterAutomatically = false;
+            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
-            m_interfaceAccentColor = "";
-            m_interfaceFontNormalWeight = 0;
-            m_interfaceFontBoldWeight = 0;
-            m_interfacePopoutWhenWindowIsSmall = false;
-            m_interfaceLanguage = "";
+            // the db does not exist -> create it
+            if(!infodb.exists()) {
+                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+                    qWarning() << "Unable to (re-)create default user settings database";
+                else {
+                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+                }
+            }
 
-            m_thumbnailsExcludeDropBox = "";
-            m_thumbnailsExcludeNextcloud = "";
-            m_thumbnailsExcludeOwnCloud = "";
-            m_thumbnailsExcludeFolders = QStringList();
-            m_thumbnailsExcludeNetworkShares = false;
-            m_thumbnailsCacheBaseDirDefault = false;
-            m_thumbnailsCacheBaseDirLocation = "";
-            m_thumbnailsMaxNumberThreads = 0;
-            m_thumbnailsCache = false;
-            m_thumbnailsIconsOnly = false;
+            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
-            m_metadataAutoRotation = false;
+        }
+
+        readDB();
+
+        watcher = new QFileSystemWatcher;
+        watcher->addPath(PQCConfigFiles::get().USERSETTINGS_DB());
+        connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString path) { readDB(); });
 
     }
+
+    ~PQCSettingsCPP() {
+        delete watcher;
+    }
+
+    QFileSystemWatcher *watcher;
 
     QVariantHash m_extensions;
     QVariantHash m_extensions_defaults;
 
-    QStringList m_generalEnabledExtensions;
-
-    bool m_imageviewFitInWindow;
-    bool m_imageviewSortImagesAscending;
-    QString m_imageviewSortImagesBy;
-    int m_imageviewCache;
-    bool m_imageviewColorSpaceEnable;
-    bool m_imageviewColorSpaceLoadEmbedded;
-    QString m_imageviewColorSpaceDefault;
-    QString m_imageviewAdvancedSortCriteria;
-    bool m_imageviewAdvancedSortAscending;
-    QString m_imageviewAdvancedSortQuality;
-    QStringList m_imageviewAdvancedSortDateCriteria;
-    bool m_imageviewRespectDevicePixelRatio;
-
     bool m_filedialogDevicesShowTmpfs;
     bool m_filedialogShowHiddenFilesFolders;
-
-    bool m_filetypesLoadAppleLivePhotos;
-    bool m_filetypesLoadMotionPhotos;
-    bool m_filetypesExternalUnrar;
-    QString m_filetypesVideoThumbnailer;
-    bool m_filetypesRAWUseEmbeddedIfAvailable;
-    double m_filetypesPDFQuality;
-    bool m_filetypesVideoPreferLibmpv;
     bool m_filetypesArchiveAlwaysEnterAutomatically;
     bool m_filetypesComicBookAlwaysEnterAutomatically;
     bool m_filetypesDocumentAlwaysEnterAutomatically;
-
+    bool m_filetypesExternalUnrar;
+    bool m_filetypesLoadAppleLivePhotos;
+    bool m_filetypesLoadMotionPhotos;
+    int m_filetypesPDFQuality;
+    bool m_filetypesRAWUseEmbeddedIfAvailable;
+    bool m_filetypesVideoPreferLibmpv;
+    QString m_filetypesVideoThumbnailer;
+    QStringList m_generalEnabledExtensions;
+    QString m_generalInterfaceVariant;
+    bool m_imageviewAdvancedSortAscending;
+    QString m_imageviewAdvancedSortCriteria;
+    QStringList m_imageviewAdvancedSortDateCriteria;
+    QString m_imageviewAdvancedSortQuality;
+    int m_imageviewCache;
+    QString m_imageviewColorSpaceDefault;
+    bool m_imageviewColorSpaceEnable;
+    bool m_imageviewColorSpaceLoadEmbedded;
+    bool m_imageviewFitInWindow;
+    bool m_imageviewRespectDevicePixelRatio;
+    bool m_imageviewSortImagesAscending;
+    QString m_imageviewSortImagesBy;
     QString m_interfaceAccentColor;
-    int m_interfaceFontNormalWeight;
     int m_interfaceFontBoldWeight;
-    bool m_interfacePopoutWhenWindowIsSmall;
+    int m_interfaceFontNormalWeight;
     QString m_interfaceLanguage;
-
-    QString m_thumbnailsExcludeDropBox;
-    QString m_thumbnailsExcludeNextcloud;
-    QString m_thumbnailsExcludeOwnCloud;
-    QStringList m_thumbnailsExcludeFolders;
-    bool m_thumbnailsExcludeNetworkShares;
+    bool m_interfacePopoutWhenWindowIsSmall;
+    bool m_metadataAutoRotation;
+    bool m_thumbnailsCache;
     bool m_thumbnailsCacheBaseDirDefault;
     QString m_thumbnailsCacheBaseDirLocation;
-    int m_thumbnailsMaxNumberThreads;
-    bool m_thumbnailsCache;
+    QString m_thumbnailsExcludeDropBox;
+    QStringList m_thumbnailsExcludeFolders;
+    bool m_thumbnailsExcludeNetworkShares;
+    QString m_thumbnailsExcludeNextcloud;
+    QString m_thumbnailsExcludeOwnCloud;
     bool m_thumbnailsIconsOnly;
+    int m_thumbnailsMaxNumberThreads;
 
-    bool m_metadataAutoRotation;
+private Q_SLOTS:
+
+    void readDB() {
+
+        QSqlDatabase db = QSqlDatabase::database("duplicatesettings");
+
+        if(!db.open()) {
+            qCritical() << "ERROR: Unable to open settings database. This should never happen...";
+            return;
+        }
+
+        const QStringList dbtables = {"general",
+                                      "interface",
+                                      "imageview",
+                                      "thumbnails",
+                                      "metadata",
+                                      "filetypes",
+                                      "filedialog"};
+
+        for(const QString &table : dbtables) {
+
+            QSqlQuery query(db);
+            query.prepare(QString("SELECT `name`,`value`,`datatype` FROM '%1'").arg(table));
+            if(!query.exec()) {
+                qWarning() << "ERROR: Getting data for table" << table << "failed:" << query.lastError().text();
+                continue;
+            }
+
+            while(query.next()) {
+
+                QString name = query.value(0).toString();
+                QVariant value = query.value(1).toString();
+            
+                if(table == "filedialog" && name == "DevicesShowTmpfs") {
+                    const bool val = value.toInt();
+                    if(m_filedialogDevicesShowTmpfs != val) {
+                        m_filedialogDevicesShowTmpfs = value.toInt();
+                        Q_EMIT filedialogDevicesShowTmpfsChanged();
+                    }
+                } else if(table == "filedialog" && name == "ShowHiddenFilesFolders") {
+                    const bool val = value.toInt();
+                    if(m_filedialogShowHiddenFilesFolders != val) {
+                        m_filedialogShowHiddenFilesFolders = value.toInt();
+                        Q_EMIT filedialogShowHiddenFilesFoldersChanged();
+                    }
+                } else if(table == "filetypes" && name == "ArchiveAlwaysEnterAutomatically") {
+                    const bool val = value.toInt();
+                    if(m_filetypesArchiveAlwaysEnterAutomatically != val) {
+                        m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
+                        Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
+                    }
+                } else if(table == "filetypes" && name == "ComicBookAlwaysEnterAutomatically") {
+                    const bool val = value.toInt();
+                    if(m_filetypesComicBookAlwaysEnterAutomatically != val) {
+                        m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
+                        Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
+                    }
+                } else if(table == "filetypes" && name == "DocumentAlwaysEnterAutomatically") {
+                    const bool val = value.toInt();
+                    if(m_filetypesDocumentAlwaysEnterAutomatically != val) {
+                        m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
+                        Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
+                    }
+                } else if(table == "filetypes" && name == "ExternalUnrar") {
+                    const bool val = value.toInt();
+                    if(m_filetypesExternalUnrar != val) {
+                        m_filetypesExternalUnrar = value.toInt();
+                        Q_EMIT filetypesExternalUnrarChanged();
+                    }
+                } else if(table == "filetypes" && name == "LoadAppleLivePhotos") {
+                    const bool val = value.toInt();
+                    if(m_filetypesLoadAppleLivePhotos != val) {
+                        m_filetypesLoadAppleLivePhotos = value.toInt();
+                        Q_EMIT filetypesLoadAppleLivePhotosChanged();
+                    }
+                } else if(table == "filetypes" && name == "LoadMotionPhotos") {
+                    const bool val = value.toInt();
+                    if(m_filetypesLoadMotionPhotos != val) {
+                        m_filetypesLoadMotionPhotos = value.toInt();
+                        Q_EMIT filetypesLoadMotionPhotosChanged();
+                    }
+                } else if(table == "filetypes" && name == "PDFQuality") {
+                    const int val = value.toInt();
+                    if(m_filetypesPDFQuality != val) {
+                        m_filetypesPDFQuality = value.toInt();
+                        Q_EMIT filetypesPDFQualityChanged();
+                    }
+                } else if(table == "filetypes" && name == "RAWUseEmbeddedIfAvailable") {
+                    const bool val = value.toInt();
+                    if(m_filetypesRAWUseEmbeddedIfAvailable != val) {
+                        m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
+                        Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
+                    }
+                } else if(table == "filetypes" && name == "VideoPreferLibmpv") {
+                    const bool val = value.toInt();
+                    if(m_filetypesVideoPreferLibmpv != val) {
+                        m_filetypesVideoPreferLibmpv = value.toInt();
+                        Q_EMIT filetypesVideoPreferLibmpvChanged();
+                    }
+                } else if(table == "filetypes" && name == "VideoThumbnailer") {
+                    const QString val = value.toString();
+                    if(m_filetypesVideoThumbnailer != val) {
+                        m_filetypesVideoThumbnailer = val;
+                        Q_EMIT filetypesVideoThumbnailerChanged();
+                    }
+                } else if(table == "general" && name == "EnabledExtensions") {
+                    const QString val = value.toString();
+                    QStringList valToSet = QStringList();
+                    if(val.contains(":://::"))
+                        valToSet = val.split(":://::");
+                    else if(val != "")
+                        valToSet = QStringList() << val;
+                    if(m_generalEnabledExtensions != valToSet) {
+                        m_generalEnabledExtensions = valToSet;
+                        Q_EMIT generalEnabledExtensionsChanged();
+                    }
+                } else if(table == "general" && name == "InterfaceVariant") {
+                    const QString val = value.toString();
+                    if(m_generalInterfaceVariant != val) {
+                        m_generalInterfaceVariant = val;
+                        Q_EMIT generalInterfaceVariantChanged();
+                    }
+                } else if(table == "imageview" && name == "AdvancedSortAscending") {
+                    const bool val = value.toInt();
+                    if(m_imageviewAdvancedSortAscending != val) {
+                        m_imageviewAdvancedSortAscending = value.toInt();
+                        Q_EMIT imageviewAdvancedSortAscendingChanged();
+                    }
+                } else if(table == "imageview" && name == "AdvancedSortCriteria") {
+                    const QString val = value.toString();
+                    if(m_imageviewAdvancedSortCriteria != val) {
+                        m_imageviewAdvancedSortCriteria = val;
+                        Q_EMIT imageviewAdvancedSortCriteriaChanged();
+                    }
+                } else if(table == "imageview" && name == "AdvancedSortDateCriteria") {
+                    const QString val = value.toString();
+                    QStringList valToSet = QStringList();
+                    if(val.contains(":://::"))
+                        valToSet = val.split(":://::");
+                    else if(val != "")
+                        valToSet = QStringList() << val;
+                    if(m_imageviewAdvancedSortDateCriteria != valToSet) {
+                        m_imageviewAdvancedSortDateCriteria = valToSet;
+                        Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
+                    }
+                } else if(table == "imageview" && name == "AdvancedSortQuality") {
+                    const QString val = value.toString();
+                    if(m_imageviewAdvancedSortQuality != val) {
+                        m_imageviewAdvancedSortQuality = val;
+                        Q_EMIT imageviewAdvancedSortQualityChanged();
+                    }
+                } else if(table == "imageview" && name == "Cache") {
+                    const int val = value.toInt();
+                    if(m_imageviewCache != val) {
+                        m_imageviewCache = value.toInt();
+                        Q_EMIT imageviewCacheChanged();
+                    }
+                } else if(table == "imageview" && name == "ColorSpaceDefault") {
+                    const QString val = value.toString();
+                    if(m_imageviewColorSpaceDefault != val) {
+                        m_imageviewColorSpaceDefault = val;
+                        Q_EMIT imageviewColorSpaceDefaultChanged();
+                    }
+                } else if(table == "imageview" && name == "ColorSpaceEnable") {
+                    const bool val = value.toInt();
+                    if(m_imageviewColorSpaceEnable != val) {
+                        m_imageviewColorSpaceEnable = value.toInt();
+                        Q_EMIT imageviewColorSpaceEnableChanged();
+                    }
+                } else if(table == "imageview" && name == "ColorSpaceLoadEmbedded") {
+                    const bool val = value.toInt();
+                    if(m_imageviewColorSpaceLoadEmbedded != val) {
+                        m_imageviewColorSpaceLoadEmbedded = value.toInt();
+                        Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
+                    }
+                } else if(table == "imageview" && name == "FitInWindow") {
+                    const bool val = value.toInt();
+                    if(m_imageviewFitInWindow != val) {
+                        m_imageviewFitInWindow = value.toInt();
+                        Q_EMIT imageviewFitInWindowChanged();
+                    }
+                } else if(table == "imageview" && name == "RespectDevicePixelRatio") {
+                    const bool val = value.toInt();
+                    if(m_imageviewRespectDevicePixelRatio != val) {
+                        m_imageviewRespectDevicePixelRatio = value.toInt();
+                        Q_EMIT imageviewRespectDevicePixelRatioChanged();
+                    }
+                } else if(table == "imageview" && name == "SortImagesAscending") {
+                    const bool val = value.toInt();
+                    if(m_imageviewSortImagesAscending != val) {
+                        m_imageviewSortImagesAscending = value.toInt();
+                        Q_EMIT imageviewSortImagesAscendingChanged();
+                    }
+                } else if(table == "imageview" && name == "SortImagesBy") {
+                    const QString val = value.toString();
+                    if(m_imageviewSortImagesBy != val) {
+                        m_imageviewSortImagesBy = val;
+                        Q_EMIT imageviewSortImagesByChanged();
+                    }
+                } else if(table == "interface" && name == "AccentColor") {
+                    const QString val = value.toString();
+                    if(m_interfaceAccentColor != val) {
+                        m_interfaceAccentColor = val;
+                        Q_EMIT interfaceAccentColorChanged();
+                    }
+                } else if(table == "interface" && name == "FontBoldWeight") {
+                    const int val = value.toInt();
+                    if(m_interfaceFontBoldWeight != val) {
+                        m_interfaceFontBoldWeight = value.toInt();
+                        Q_EMIT interfaceFontBoldWeightChanged();
+                    }
+                } else if(table == "interface" && name == "FontNormalWeight") {
+                    const int val = value.toInt();
+                    if(m_interfaceFontNormalWeight != val) {
+                        m_interfaceFontNormalWeight = value.toInt();
+                        Q_EMIT interfaceFontNormalWeightChanged();
+                    }
+                } else if(table == "interface" && name == "Language") {
+                    const QString val = value.toString();
+                    if(m_interfaceLanguage != val) {
+                        m_interfaceLanguage = val;
+                        Q_EMIT interfaceLanguageChanged();
+                    }
+                } else if(table == "interface" && name == "PopoutWhenWindowIsSmall") {
+                    const bool val = value.toInt();
+                    if(m_interfacePopoutWhenWindowIsSmall != val) {
+                        m_interfacePopoutWhenWindowIsSmall = value.toInt();
+                        Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
+                    }
+                } else if(table == "metadata" && name == "AutoRotation") {
+                    const bool val = value.toInt();
+                    if(m_metadataAutoRotation != val) {
+                        m_metadataAutoRotation = value.toInt();
+                        Q_EMIT metadataAutoRotationChanged();
+                    }
+                } else if(table == "thumbnails" && name == "Cache") {
+                    const bool val = value.toInt();
+                    if(m_thumbnailsCache != val) {
+                        m_thumbnailsCache = value.toInt();
+                        Q_EMIT thumbnailsCacheChanged();
+                    }
+                } else if(table == "thumbnails" && name == "CacheBaseDirDefault") {
+                    const bool val = value.toInt();
+                    if(m_thumbnailsCacheBaseDirDefault != val) {
+                        m_thumbnailsCacheBaseDirDefault = value.toInt();
+                        Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
+                    }
+                } else if(table == "thumbnails" && name == "CacheBaseDirLocation") {
+                    const QString val = value.toString();
+                    if(m_thumbnailsCacheBaseDirLocation != val) {
+                        m_thumbnailsCacheBaseDirLocation = val;
+                        Q_EMIT thumbnailsCacheBaseDirLocationChanged();
+                    }
+                } else if(table == "thumbnails" && name == "ExcludeDropBox") {
+                    const QString val = value.toString();
+                    if(m_thumbnailsExcludeDropBox != val) {
+                        m_thumbnailsExcludeDropBox = val;
+                        Q_EMIT thumbnailsExcludeDropBoxChanged();
+                    }
+                } else if(table == "thumbnails" && name == "ExcludeFolders") {
+                    const QString val = value.toString();
+                    QStringList valToSet = QStringList();
+                    if(val.contains(":://::"))
+                        valToSet = val.split(":://::");
+                    else if(val != "")
+                        valToSet = QStringList() << val;
+                    if(m_thumbnailsExcludeFolders != valToSet) {
+                        m_thumbnailsExcludeFolders = valToSet;
+                        Q_EMIT thumbnailsExcludeFoldersChanged();
+                    }
+                } else if(table == "thumbnails" && name == "ExcludeNetworkShares") {
+                    const bool val = value.toInt();
+                    if(m_thumbnailsExcludeNetworkShares != val) {
+                        m_thumbnailsExcludeNetworkShares = value.toInt();
+                        Q_EMIT thumbnailsExcludeNetworkSharesChanged();
+                    }
+                } else if(table == "thumbnails" && name == "ExcludeNextcloud") {
+                    const QString val = value.toString();
+                    if(m_thumbnailsExcludeNextcloud != val) {
+                        m_thumbnailsExcludeNextcloud = val;
+                        Q_EMIT thumbnailsExcludeNextcloudChanged();
+                    }
+                } else if(table == "thumbnails" && name == "ExcludeOwnCloud") {
+                    const QString val = value.toString();
+                    if(m_thumbnailsExcludeOwnCloud != val) {
+                        m_thumbnailsExcludeOwnCloud = val;
+                        Q_EMIT thumbnailsExcludeOwnCloudChanged();
+                    }
+                } else if(table == "thumbnails" && name == "IconsOnly") {
+                    const bool val = value.toInt();
+                    if(m_thumbnailsIconsOnly != val) {
+                        m_thumbnailsIconsOnly = value.toInt();
+                        Q_EMIT thumbnailsIconsOnlyChanged();
+                    }
+                } else if(table == "thumbnails" && name == "MaxNumberThreads") {
+                    const int val = value.toInt();
+                    if(m_thumbnailsMaxNumberThreads != val) {
+                        m_thumbnailsMaxNumberThreads = value.toInt();
+                        Q_EMIT thumbnailsMaxNumberThreadsChanged();
+                    }
+                }
+            }
+
+        }
+
+    }
 
 Q_SIGNALS:
     void extensionsChanged();
     void generalEnabledExtensionsChanged();
-
+    void generalInterfaceVariantChanged();
     void imageviewFitInWindowChanged();
     void imageviewSortImagesAscendingChanged();
     void imageviewSortImagesByChanged();
@@ -217,10 +552,8 @@ Q_SIGNALS:
     void imageviewAdvancedSortQualityChanged();
     void imageviewAdvancedSortDateCriteriaChanged();
     void imageviewRespectDevicePixelRatioChanged();
-
     void filedialogDevicesShowTmpfsChanged();
     void filedialogShowHiddenFilesFoldersChanged();
-
     void filetypesLoadAppleLivePhotosChanged();
     void filetypesLoadMotionPhotosChanged();
     void filetypesExternalUnrarChanged();
@@ -231,13 +564,11 @@ Q_SIGNALS:
     void filetypesArchiveAlwaysEnterAutomaticallyChanged();
     void filetypesComicBookAlwaysEnterAutomaticallyChanged();
     void filetypesDocumentAlwaysEnterAutomaticallyChanged();
-
     void interfaceAccentColorChanged();
     void interfaceFontNormalWeightChanged();
     void interfaceFontBoldWeightChanged();
     void interfacePopoutWhenWindowIsSmallChanged();
     void interfaceLanguageChanged();
-
     void thumbnailsExcludeDropBoxChanged();
     void thumbnailsExcludeNextcloudChanged();
     void thumbnailsExcludeOwnCloudChanged();
@@ -248,7 +579,6 @@ Q_SIGNALS:
     void thumbnailsMaxNumberThreadsChanged();
     void thumbnailsCacheChanged();
     void thumbnailsIconsOnlyChanged();
-
     void metadataAutoRotationChanged();
 
 };

@@ -23,6 +23,7 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 CheckBox {
 
@@ -30,9 +31,9 @@ CheckBox {
     text: ""
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
-    font.pointSize: PQCLook.fontSize      
-    font.weight: PQCLook.fontWeightNormal 
-    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
+    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
 
     property string tooltip: text
 
@@ -49,15 +50,15 @@ CheckBox {
         opacity: enabled ? 1.0 : 0.3
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        border.color: PQCLook.inverseColor 
-        color: PQCLook.baseColorHighlight  
+        border.color: PQCLook.inverseColor
+        color: PQCLook.baseColorHighlight
         radius: 2
         Rectangle {
             width: 10
             height: 10
             anchors.centerIn: parent
             visible: control.checked
-            color: PQCLook.inverseColor 
+            color: PQCLook.inverseColor
             radius: 2
         }
     }

@@ -26,6 +26,7 @@ import QtQuick.Controls
 import Qt.labs.platform
 import PQCExtensionsHandler
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 

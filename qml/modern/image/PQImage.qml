@@ -24,7 +24,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import PQCImageFormats
 import PQCResolutionCache
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 
@@ -34,6 +34,8 @@ Item {
     y: extraY + PQCSettings.imageviewMargin
     width: PQCConstants.windowWidth-2*PQCSettings.imageviewMargin - lessW
     height: PQCConstants.windowHeight-2*PQCSettings.imageviewMargin - lessH
+
+    property Item toplevelItem
 
     onHeightChanged:
         PQCConstants.imageQMLItemHeight = height
@@ -76,6 +78,8 @@ Item {
     property int bgOffset: 0
     property list<string> bgFiles: []
 
+    signal onCurrentImageIs(var cat)
+
     Repeater {
 
         id: repeaterimage
@@ -90,6 +94,8 @@ Item {
         PQImageDisplay {
 
             required property int modelData
+
+            toplevelItem: image_top.toplevelItem
 
             onActiveChanged: {
                 repeaterimage.allactive[modelData] = active

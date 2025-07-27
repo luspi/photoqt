@@ -28,9 +28,7 @@ import os
 
 def get(duplicateSettings, duplicateSettingsSignal):
 
-    duplicateSettingsNames = []
-    for i in duplicateSettings:
-        duplicateSettingsNames.append(i[1])
+    duplicateSettingsNames = duplicateSettings
 
     cont = ""
 
@@ -81,16 +79,7 @@ def get(duplicateSettings, duplicateSettingsSignal):
 void PQCSettings::set{tab.capitalize()}{name}({qtdatatpe} val) {{
     if(val != m_{tab}{name}) {{
         m_{tab}{name} = val;
-        Q_EMIT {tab}{name}Changed();"""
-
-            if f"{tab}{name}" in duplicateSettingsNames:
-                cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = val;"""
-                if f"{tab}{name}" in duplicateSettingsSignal:
-                    cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-
-            cont += f"""
+        Q_EMIT {tab}{name}Changed();
     }}
 }}
 
@@ -135,43 +124,21 @@ void PQCSettings::setDefaultFor{tab.capitalize()}{name}() {{"""
                 cont += f"""
     if(\"{defaultvalue}\" != m_{tab}{name}) {{
         m_{tab}{name} = \"{defaultvalue}\";
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = \"{defaultvalue}\";"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+        Q_EMIT {tab}{name}Changed();
+    }}"""
 
             elif datatype == "int" or datatype == "double":
                 cont += f"""
     if({defaultvalue} != m_{tab}{name}) {{
         m_{tab}{name} = {defaultvalue};
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = {defaultvalue};"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+    }}"""
 
             elif datatype == "bool":
                 cont += f"""
     if({"true" if defaultvalue=="1" else "false"} != m_{tab}{name}) {{
         m_{tab}{name} = {"true" if defaultvalue=="1" else "false"};
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = {"true" if defaultvalue=="1" else "false"};"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+        Q_EMIT {tab}{name}Changed();
+    }}"""
 
             elif datatype == "list":
 
@@ -183,45 +150,24 @@ void PQCSettings::setDefaultFor{tab.capitalize()}{name}() {{"""
                 cont += f""";
     if(tmp != m_{tab}{name}) {{
         m_{tab}{name} = tmp;
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = tmp;"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+        Q_EMIT {tab}{name}Changed();
+    }}"""
 
             elif datatype == "point":
                 parts = defaultvalue.split(",")
                 cont += f"""
     if(QPoint({parts[0]}, {parts[1]}) != m_{tab}{name}) {{
         m_{tab}{name} = QPoint({parts[0]}, {parts[1]});
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = QPoint({parts[0]}, {parts[1]});"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+        Q_EMIT {tab}{name}Changed();
+    }}"""
 
             elif datatype == "size":
                 parts = defaultvalue.split(",")
                 cont += f"""
     if(QSize({parts[0]}, {parts[1]}) != m_{tab}{name}) {{
         m_{tab}{name} = QSize({parts[0]}, {parts[1]});
-        Q_EMIT {tab}{name}Changed();"""
-                if f"{tab}{name}" in duplicateSettingsNames:
-                    cont += f"""
-        /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = QSize({parts[0]}, {parts[1]});"""
-                    if f"{tab}{name}" in duplicateSettingsSignal:
-                        cont += f"""
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-                cont += """
-    }"""
+        Q_EMIT {tab}{name}Changed();
+    }}"""
 
 
 

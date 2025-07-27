@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 
@@ -41,7 +42,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: PQCLook.baseColorHighlight 
+        color: PQCLook.baseColorHighlight
         radius: 5
         opacity: menuicon.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -57,7 +58,7 @@ Item {
         opacity: menuicon.active ? 1 : 0.4
 
         sourceSize: Qt.size(menuicon.normalEntryHeight*menuicon.scaleFactor, menuicon.normalEntryHeight*menuicon.scaleFactor)
-        source: "image://svg/:/" + PQCLook.iconShade + "/" + menuicon.img 
+        source: "image://svg/:/" + PQCLook.iconShade + "/" + menuicon.img
 
     }
     MouseArea {

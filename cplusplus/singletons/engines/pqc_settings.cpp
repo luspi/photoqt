@@ -50,7 +50,7 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
-    QSqlDatabase db, dbDefault;
+    QSqlDatabase dbDefault;
 
     // create and connect to default database
     if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
@@ -67,11 +67,17 @@ PQCSettings::PQCSettings() {
         return;
     }
 
-    // connect to user database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
+    bool doSetupDb = false;
+    if(!db.isValid()) {
+        doSetupDb = true;
+        // connect to user database
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    }
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -86,19 +92,23 @@ PQCSettings::PQCSettings() {
 
     readonly = false;
 
-    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(doSetupDb) {
 
-    // the db does not exist -> create it
-    if(!infodb.exists()) {
-        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-            qWarning() << "Unable to (re-)create default user settings database";
-        else {
-            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+
+        // the db does not exist -> create it
+        if(!infodb.exists()) {
+            if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+                qWarning() << "Unable to (re-)create default user settings database";
+            else {
+                QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+                file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+            }
         }
-    }
 
-    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+        db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+    }
 
     if(!db.open()) {
 
@@ -134,6 +144,8 @@ PQCSettings::PQCSettings() {
         }
 
     } else {
+
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
         readonly = false;
         if(!infodb.permission(QFileDevice::WriteOwner))
@@ -530,7 +542,6 @@ void PQCSettings::setFiledialogDevicesShowTmpfs(bool val) {
     if(val != m_filedialogDevicesShowTmpfs) {
         m_filedialogDevicesShowTmpfs = val;
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = val;
     }
 }
 
@@ -542,7 +553,6 @@ void PQCSettings::setDefaultForFiledialogDevicesShowTmpfs() {
     if(false != m_filedialogDevicesShowTmpfs) {
         m_filedialogDevicesShowTmpfs = false;
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = false;
     }
 }
 
@@ -652,7 +662,6 @@ const int PQCSettings::getDefaultForFiledialogElementPadding() {
 void PQCSettings::setDefaultForFiledialogElementPadding() {
     if(1 != m_filedialogElementPadding) {
         m_filedialogElementPadding = 1;
-        Q_EMIT filedialogElementPaddingChanged();
     }
 }
 
@@ -762,7 +771,6 @@ const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
 void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSpeed() {
     if(2 != m_filedialogFolderContentThumbnailsSpeed) {
         m_filedialogFolderContentThumbnailsSpeed = 2;
-        Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
 }
 
@@ -894,7 +902,6 @@ const int PQCSettings::getDefaultForFiledialogPlacesWidth() {
 void PQCSettings::setDefaultForFiledialogPlacesWidth() {
     if(290 != m_filedialogPlacesWidth) {
         m_filedialogPlacesWidth = 290;
-        Q_EMIT filedialogPlacesWidthChanged();
     }
 }
 
@@ -960,7 +967,6 @@ const int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() {
 void PQCSettings::setDefaultForFiledialogPreviewColorIntensity() {
     if(50 != m_filedialogPreviewColorIntensity) {
         m_filedialogPreviewColorIntensity = 50;
-        Q_EMIT filedialogPreviewColorIntensityChanged();
     }
 }
 
@@ -1060,8 +1066,6 @@ void PQCSettings::setFiledialogShowHiddenFilesFolders(bool val) {
     if(val != m_filedialogShowHiddenFilesFolders) {
         m_filedialogShowHiddenFilesFolders = val;
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
 }
 
@@ -1073,8 +1077,6 @@ void PQCSettings::setDefaultForFiledialogShowHiddenFilesFolders() {
     if(false != m_filedialogShowHiddenFilesFolders) {
         m_filedialogShowHiddenFilesFolders = false;
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = false;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
 }
 
@@ -1162,7 +1164,6 @@ const int PQCSettings::getDefaultForFiledialogZoom() {
 void PQCSettings::setDefaultForFiledialogZoom() {
     if(40 != m_filedialogZoom) {
         m_filedialogZoom = 40;
-        Q_EMIT filedialogZoomChanged();
     }
 }
 
@@ -1240,7 +1241,6 @@ void PQCSettings::setFiletypesArchiveAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesArchiveAlwaysEnterAutomatically) {
         m_filetypesArchiveAlwaysEnterAutomatically = val;
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1252,7 +1252,6 @@ void PQCSettings::setDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
     if(false != m_filetypesArchiveAlwaysEnterAutomatically) {
         m_filetypesArchiveAlwaysEnterAutomatically = false;
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1330,7 +1329,6 @@ void PQCSettings::setFiletypesComicBookAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesComicBookAlwaysEnterAutomatically) {
         m_filetypesComicBookAlwaysEnterAutomatically = val;
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1342,7 +1340,6 @@ void PQCSettings::setDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
     if(false != m_filetypesComicBookAlwaysEnterAutomatically) {
         m_filetypesComicBookAlwaysEnterAutomatically = false;
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1354,7 +1351,6 @@ void PQCSettings::setFiletypesDocumentAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesDocumentAlwaysEnterAutomatically) {
         m_filetypesDocumentAlwaysEnterAutomatically = val;
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1366,7 +1362,6 @@ void PQCSettings::setDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
     if(false != m_filetypesDocumentAlwaysEnterAutomatically) {
         m_filetypesDocumentAlwaysEnterAutomatically = false;
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1444,7 +1439,6 @@ void PQCSettings::setFiletypesExternalUnrar(bool val) {
     if(val != m_filetypesExternalUnrar) {
         m_filetypesExternalUnrar = val;
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = val;
     }
 }
 
@@ -1456,7 +1450,6 @@ void PQCSettings::setDefaultForFiletypesExternalUnrar() {
     if(false != m_filetypesExternalUnrar) {
         m_filetypesExternalUnrar = false;
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = false;
     }
 }
 
@@ -1468,7 +1461,6 @@ void PQCSettings::setFiletypesLoadAppleLivePhotos(bool val) {
     if(val != m_filetypesLoadAppleLivePhotos) {
         m_filetypesLoadAppleLivePhotos = val;
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = val;
     }
 }
 
@@ -1480,7 +1472,6 @@ void PQCSettings::setDefaultForFiletypesLoadAppleLivePhotos() {
     if(true != m_filetypesLoadAppleLivePhotos) {
         m_filetypesLoadAppleLivePhotos = true;
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = true;
     }
 }
 
@@ -1492,7 +1483,6 @@ void PQCSettings::setFiletypesLoadMotionPhotos(bool val) {
     if(val != m_filetypesLoadMotionPhotos) {
         m_filetypesLoadMotionPhotos = val;
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = val;
     }
 }
 
@@ -1504,7 +1494,6 @@ void PQCSettings::setDefaultForFiletypesLoadMotionPhotos() {
     if(true != m_filetypesLoadMotionPhotos) {
         m_filetypesLoadMotionPhotos = true;
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = true;
     }
 }
 
@@ -1582,7 +1571,6 @@ void PQCSettings::setFiletypesPDFQuality(int val) {
     if(val != m_filetypesPDFQuality) {
         m_filetypesPDFQuality = val;
         Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = val;
     }
 }
 
@@ -1593,8 +1581,6 @@ const int PQCSettings::getDefaultForFiletypesPDFQuality() {
 void PQCSettings::setDefaultForFiletypesPDFQuality() {
     if(150 != m_filetypesPDFQuality) {
         m_filetypesPDFQuality = 150;
-        Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = 150;
     }
 }
 
@@ -1716,7 +1702,6 @@ void PQCSettings::setFiletypesRAWUseEmbeddedIfAvailable(bool val) {
     if(val != m_filetypesRAWUseEmbeddedIfAvailable) {
         m_filetypesRAWUseEmbeddedIfAvailable = val;
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = val;
     }
 }
 
@@ -1728,7 +1713,6 @@ void PQCSettings::setDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
     if(true != m_filetypesRAWUseEmbeddedIfAvailable) {
         m_filetypesRAWUseEmbeddedIfAvailable = true;
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = true;
     }
 }
 
@@ -1806,7 +1790,6 @@ void PQCSettings::setFiletypesVideoPreferLibmpv(bool val) {
     if(val != m_filetypesVideoPreferLibmpv) {
         m_filetypesVideoPreferLibmpv = val;
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = val;
     }
 }
 
@@ -1818,7 +1801,6 @@ void PQCSettings::setDefaultForFiletypesVideoPreferLibmpv() {
     if(true != m_filetypesVideoPreferLibmpv) {
         m_filetypesVideoPreferLibmpv = true;
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = true;
     }
 }
 
@@ -1852,7 +1834,6 @@ void PQCSettings::setFiletypesVideoThumbnailer(QString val) {
     if(val != m_filetypesVideoThumbnailer) {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = val;
     }
 }
 
@@ -1864,7 +1845,6 @@ void PQCSettings::setDefaultForFiletypesVideoThumbnailer() {
     if("ffmpegthumbnailer" != m_filetypesVideoThumbnailer) {
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
     }
 }
 
@@ -1886,7 +1866,6 @@ const int PQCSettings::getDefaultForFiletypesVideoVolume() {
 void PQCSettings::setDefaultForFiletypesVideoVolume() {
     if(100 != m_filetypesVideoVolume) {
         m_filetypesVideoVolume = 100;
-        Q_EMIT filetypesVideoVolumeChanged();
     }
 }
 
@@ -1942,7 +1921,6 @@ void PQCSettings::setGeneralEnabledExtensions(QStringList val) {
     if(val != m_generalEnabledExtensions) {
         m_generalEnabledExtensions = val;
         Q_EMIT generalEnabledExtensionsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val;
     }
 }
 
@@ -1955,7 +1933,6 @@ void PQCSettings::setDefaultForGeneralEnabledExtensions() {
     if(tmp != m_generalEnabledExtensions) {
         m_generalEnabledExtensions = tmp;
         Q_EMIT generalEnabledExtensionsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = tmp;
     }
 }
 
@@ -2034,7 +2011,6 @@ void PQCSettings::setImageviewAdvancedSortAscending(bool val) {
     if(val != m_imageviewAdvancedSortAscending) {
         m_imageviewAdvancedSortAscending = val;
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = val;
     }
 }
 
@@ -2046,7 +2022,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortAscending() {
     if(true != m_imageviewAdvancedSortAscending) {
         m_imageviewAdvancedSortAscending = true;
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = true;
     }
 }
 
@@ -2058,7 +2033,6 @@ void PQCSettings::setImageviewAdvancedSortCriteria(QString val) {
     if(val != m_imageviewAdvancedSortCriteria) {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = val;
     }
 }
 
@@ -2070,7 +2044,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortCriteria() {
     if("resolution" != m_imageviewAdvancedSortCriteria) {
         m_imageviewAdvancedSortCriteria = "resolution";
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = "resolution";
     }
 }
 
@@ -2082,7 +2055,6 @@ void PQCSettings::setImageviewAdvancedSortDateCriteria(QStringList val) {
     if(val != m_imageviewAdvancedSortDateCriteria) {
         m_imageviewAdvancedSortDateCriteria = val;
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val;
     }
 }
 
@@ -2095,7 +2067,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortDateCriteria() {
     if(tmp != m_imageviewAdvancedSortDateCriteria) {
         m_imageviewAdvancedSortDateCriteria = tmp;
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = tmp;
     }
 }
 
@@ -2107,7 +2078,6 @@ void PQCSettings::setImageviewAdvancedSortQuality(QString val) {
     if(val != m_imageviewAdvancedSortQuality) {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = val;
     }
 }
 
@@ -2119,7 +2089,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortQuality() {
     if("medium" != m_imageviewAdvancedSortQuality) {
         m_imageviewAdvancedSortQuality = "medium";
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = "medium";
     }
 }
 
@@ -2163,7 +2132,6 @@ const int PQCSettings::getDefaultForImageviewAnimationDuration() {
 void PQCSettings::setDefaultForImageviewAnimationDuration() {
     if(3 != m_imageviewAnimationDuration) {
         m_imageviewAnimationDuration = 3;
-        Q_EMIT imageviewAnimationDurationChanged();
     }
 }
 
@@ -2197,7 +2165,6 @@ void PQCSettings::setImageviewCache(int val) {
     if(val != m_imageviewCache) {
         m_imageviewCache = val;
         Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = val;
     }
 }
 
@@ -2208,8 +2175,6 @@ const int PQCSettings::getDefaultForImageviewCache() {
 void PQCSettings::setDefaultForImageviewCache() {
     if(512 != m_imageviewCache) {
         m_imageviewCache = 512;
-        Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = 512;
     }
 }
 
@@ -2244,7 +2209,6 @@ void PQCSettings::setImageviewColorSpaceDefault(QString val) {
     if(val != m_imageviewColorSpaceDefault) {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = val;
     }
 }
 
@@ -2256,7 +2220,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceDefault() {
     if("" != m_imageviewColorSpaceDefault) {
         m_imageviewColorSpaceDefault = "";
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = "";
     }
 }
 
@@ -2268,7 +2231,6 @@ void PQCSettings::setImageviewColorSpaceEnable(bool val) {
     if(val != m_imageviewColorSpaceEnable) {
         m_imageviewColorSpaceEnable = val;
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = val;
     }
 }
 
@@ -2280,7 +2242,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceEnable() {
     if(true != m_imageviewColorSpaceEnable) {
         m_imageviewColorSpaceEnable = true;
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = true;
     }
 }
 
@@ -2292,7 +2253,6 @@ void PQCSettings::setImageviewColorSpaceLoadEmbedded(bool val) {
     if(val != m_imageviewColorSpaceLoadEmbedded) {
         m_imageviewColorSpaceLoadEmbedded = val;
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = val;
     }
 }
 
@@ -2304,7 +2264,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceLoadEmbedded() {
     if(true != m_imageviewColorSpaceLoadEmbedded) {
         m_imageviewColorSpaceLoadEmbedded = true;
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = true;
     }
 }
 
@@ -2426,7 +2385,6 @@ void PQCSettings::setImageviewFitInWindow(bool val) {
     if(val != m_imageviewFitInWindow) {
         m_imageviewFitInWindow = val;
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = val;
     }
 }
 
@@ -2438,7 +2396,6 @@ void PQCSettings::setDefaultForImageviewFitInWindow() {
     if(false != m_imageviewFitInWindow) {
         m_imageviewFitInWindow = false;
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = false;
     }
 }
 
@@ -2460,7 +2417,6 @@ const int PQCSettings::getDefaultForImageviewHideCursorTimeout() {
 void PQCSettings::setDefaultForImageviewHideCursorTimeout() {
     if(1 != m_imageviewHideCursorTimeout) {
         m_imageviewHideCursorTimeout = 1;
-        Q_EMIT imageviewHideCursorTimeoutChanged();
     }
 }
 
@@ -2504,7 +2460,6 @@ const int PQCSettings::getDefaultForImageviewInterpolationThreshold() {
 void PQCSettings::setDefaultForImageviewInterpolationThreshold() {
     if(100 != m_imageviewInterpolationThreshold) {
         m_imageviewInterpolationThreshold = 100;
-        Q_EMIT imageviewInterpolationThresholdChanged();
     }
 }
 
@@ -2548,7 +2503,6 @@ const int PQCSettings::getDefaultForImageviewMargin() {
 void PQCSettings::setDefaultForImageviewMargin() {
     if(5 != m_imageviewMargin) {
         m_imageviewMargin = 5;
-        Q_EMIT imageviewMarginChanged();
     }
 }
 
@@ -2570,7 +2524,6 @@ const int PQCSettings::getDefaultForImageviewMinimapSizeLevel() {
 void PQCSettings::setDefaultForImageviewMinimapSizeLevel() {
     if(0 != m_imageviewMinimapSizeLevel) {
         m_imageviewMinimapSizeLevel = 0;
-        Q_EMIT imageviewMinimapSizeLevelChanged();
     }
 }
 
@@ -2614,7 +2567,6 @@ const int PQCSettings::getDefaultForImageviewPreloadInBackground() {
 void PQCSettings::setDefaultForImageviewPreloadInBackground() {
     if(1 != m_imageviewPreloadInBackground) {
         m_imageviewPreloadInBackground = 1;
-        Q_EMIT imageviewPreloadInBackgroundChanged();
     }
 }
 
@@ -2724,7 +2676,6 @@ const int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() {
 void PQCSettings::setDefaultForImageviewResetViewAutoHideTimeout() {
     if(1000 != m_imageviewResetViewAutoHideTimeout) {
         m_imageviewResetViewAutoHideTimeout = 1000;
-        Q_EMIT imageviewResetViewAutoHideTimeoutChanged();
     }
 }
 
@@ -2758,7 +2709,6 @@ void PQCSettings::setImageviewRespectDevicePixelRatio(bool val) {
     if(val != m_imageviewRespectDevicePixelRatio) {
         m_imageviewRespectDevicePixelRatio = val;
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = val;
     }
 }
 
@@ -2770,7 +2720,6 @@ void PQCSettings::setDefaultForImageviewRespectDevicePixelRatio() {
     if(true != m_imageviewRespectDevicePixelRatio) {
         m_imageviewRespectDevicePixelRatio = true;
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = true;
     }
 }
 
@@ -2804,8 +2753,6 @@ void PQCSettings::setImageviewSortImagesAscending(bool val) {
     if(val != m_imageviewSortImagesAscending) {
         m_imageviewSortImagesAscending = val;
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
 }
 
@@ -2817,8 +2764,6 @@ void PQCSettings::setDefaultForImageviewSortImagesAscending() {
     if(true != m_imageviewSortImagesAscending) {
         m_imageviewSortImagesAscending = true;
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = true;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
 }
 
@@ -2830,8 +2775,6 @@ void PQCSettings::setImageviewSortImagesBy(QString val) {
     if(val != m_imageviewSortImagesBy) {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
 }
 
@@ -2843,8 +2786,6 @@ void PQCSettings::setDefaultForImageviewSortImagesBy() {
     if("naturalname" != m_imageviewSortImagesBy) {
         m_imageviewSortImagesBy = "naturalname";
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = "naturalname";
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
 }
 
@@ -2932,7 +2873,6 @@ const int PQCSettings::getDefaultForImageviewZoomMax() {
 void PQCSettings::setDefaultForImageviewZoomMax() {
     if(500 != m_imageviewZoomMax) {
         m_imageviewZoomMax = 500;
-        Q_EMIT imageviewZoomMaxChanged();
     }
 }
 
@@ -2976,7 +2916,6 @@ const int PQCSettings::getDefaultForImageviewZoomMin() {
 void PQCSettings::setDefaultForImageviewZoomMin() {
     if(20 != m_imageviewZoomMin) {
         m_imageviewZoomMin = 20;
-        Q_EMIT imageviewZoomMinChanged();
     }
 }
 
@@ -3020,7 +2959,6 @@ const int PQCSettings::getDefaultForImageviewZoomSpeed() {
 void PQCSettings::setDefaultForImageviewZoomSpeed() {
     if(20 != m_imageviewZoomSpeed) {
         m_imageviewZoomSpeed = 20;
-        Q_EMIT imageviewZoomSpeedChanged();
     }
 }
 
@@ -3076,8 +3014,6 @@ void PQCSettings::setInterfaceAccentColor(QString val) {
     if(val != m_interfaceAccentColor) {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
 }
 
@@ -3089,8 +3025,6 @@ void PQCSettings::setDefaultForInterfaceAccentColor() {
     if("#222222" != m_interfaceAccentColor) {
         m_interfaceAccentColor = "#222222";
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = "#222222";
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
 }
 
@@ -3442,7 +3376,6 @@ const int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() {
 void PQCSettings::setDefaultForInterfaceDoubleClickThreshold() {
     if(300 != m_interfaceDoubleClickThreshold) {
         m_interfaceDoubleClickThreshold = 300;
-        Q_EMIT interfaceDoubleClickThresholdChanged();
     }
 }
 
@@ -3574,7 +3507,6 @@ const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
 void PQCSettings::setDefaultForInterfaceFlickAdjustSpeedSpeedup() {
     if(1 != m_interfaceFlickAdjustSpeedSpeedup) {
         m_interfaceFlickAdjustSpeedSpeedup = 1;
-        Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
     }
 }
 
@@ -3586,8 +3518,6 @@ void PQCSettings::setInterfaceFontBoldWeight(int val) {
     if(val != m_interfaceFontBoldWeight) {
         m_interfaceFontBoldWeight = val;
         Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
 }
 
@@ -3598,9 +3528,6 @@ const int PQCSettings::getDefaultForInterfaceFontBoldWeight() {
 void PQCSettings::setDefaultForInterfaceFontBoldWeight() {
     if(700 != m_interfaceFontBoldWeight) {
         m_interfaceFontBoldWeight = 700;
-        Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
 }
 
@@ -3612,8 +3539,6 @@ void PQCSettings::setInterfaceFontNormalWeight(int val) {
     if(val != m_interfaceFontNormalWeight) {
         m_interfaceFontNormalWeight = val;
         Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
 }
 
@@ -3624,9 +3549,6 @@ const int PQCSettings::getDefaultForInterfaceFontNormalWeight() {
 void PQCSettings::setDefaultForInterfaceFontNormalWeight() {
     if(400 != m_interfaceFontNormalWeight) {
         m_interfaceFontNormalWeight = 400;
-        Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = 400;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
 }
 
@@ -3648,7 +3570,6 @@ const int PQCSettings::getDefaultForInterfaceHotEdgeSize() {
 void PQCSettings::setDefaultForInterfaceHotEdgeSize() {
     if(4 != m_interfaceHotEdgeSize) {
         m_interfaceHotEdgeSize = 4;
-        Q_EMIT interfaceHotEdgeSizeChanged();
     }
 }
 
@@ -3682,7 +3603,6 @@ void PQCSettings::setInterfaceLanguage(QString val) {
     if(val != m_interfaceLanguage) {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = val;
     }
 }
 
@@ -3694,7 +3614,6 @@ void PQCSettings::setDefaultForInterfaceLanguage() {
     if("en" != m_interfaceLanguage) {
         m_interfaceLanguage = "en";
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = "en";
     }
 }
 
@@ -3782,7 +3701,6 @@ const int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() {
 void PQCSettings::setDefaultForInterfaceNotificationDistanceFromEdge() {
     if(40 != m_interfaceNotificationDistanceFromEdge) {
         m_interfaceNotificationDistanceFromEdge = 40;
-        Q_EMIT interfaceNotificationDistanceFromEdgeChanged();
     }
 }
 
@@ -4234,7 +4152,6 @@ void PQCSettings::setInterfacePopoutWhenWindowIsSmall(bool val) {
     if(val != m_interfacePopoutWhenWindowIsSmall) {
         m_interfacePopoutWhenWindowIsSmall = val;
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = val;
     }
 }
 
@@ -4246,7 +4163,6 @@ void PQCSettings::setDefaultForInterfacePopoutWhenWindowIsSmall() {
     if(true != m_interfacePopoutWhenWindowIsSmall) {
         m_interfacePopoutWhenWindowIsSmall = true;
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = true;
     }
 }
 
@@ -4290,7 +4206,6 @@ const int PQCSettings::getDefaultForInterfaceQuickActionsHeight() {
 void PQCSettings::setDefaultForInterfaceQuickActionsHeight() {
     if(40 != m_interfaceQuickActionsHeight) {
         m_interfaceQuickActionsHeight = 40;
-        Q_EMIT interfaceQuickActionsHeightChanged();
     }
 }
 
@@ -4401,7 +4316,6 @@ const int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() {
 void PQCSettings::setDefaultForInterfaceStatusInfoAutoHideTimeout() {
     if(1000 != m_interfaceStatusInfoAutoHideTimeout) {
         m_interfaceStatusInfoAutoHideTimeout = 1000;
-        Q_EMIT interfaceStatusInfoAutoHideTimeoutChanged();
     }
 }
 
@@ -4445,7 +4359,6 @@ const int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() {
 void PQCSettings::setDefaultForInterfaceStatusInfoFontSize() {
     if(10 != m_interfaceStatusInfoFontSize) {
         m_interfaceStatusInfoFontSize = 10;
-        Q_EMIT interfaceStatusInfoFontSizeChanged();
     }
 }
 
@@ -4578,7 +4491,6 @@ const int PQCSettings::getDefaultForInterfaceTrayIcon() {
 void PQCSettings::setDefaultForInterfaceTrayIcon() {
     if(0 != m_interfaceTrayIcon) {
         m_interfaceTrayIcon = 0;
-        Q_EMIT interfaceTrayIconChanged();
     }
 }
 
@@ -4666,7 +4578,6 @@ const int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() {
 void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHideTimeout() {
     if(1000 != m_interfaceWindowButtonsAutoHideTimeout) {
         m_interfaceWindowButtonsAutoHideTimeout = 1000;
-        Q_EMIT interfaceWindowButtonsAutoHideTimeoutChanged();
     }
 }
 
@@ -4777,7 +4688,6 @@ const int PQCSettings::getDefaultForInterfaceWindowButtonsSize() {
 void PQCSettings::setDefaultForInterfaceWindowButtonsSize() {
     if(10 != m_interfaceWindowButtonsSize) {
         m_interfaceWindowButtonsSize = 10;
-        Q_EMIT interfaceWindowButtonsSizeChanged();
     }
 }
 
@@ -4931,7 +4841,6 @@ const int PQCSettings::getDefaultForMainmenuElementWidth() {
 void PQCSettings::setDefaultForMainmenuElementWidth() {
     if(450 != m_mainmenuElementWidth) {
         m_mainmenuElementWidth = 450;
-        Q_EMIT mainmenuElementWidthChanged();
     }
 }
 
@@ -5063,7 +4972,6 @@ const int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() {
 void PQCSettings::setDefaultForMapviewExplorerThumbnailsZoomLevel() {
     if(20 != m_mapviewExplorerThumbnailsZoomLevel) {
         m_mapviewExplorerThumbnailsZoomLevel = 20;
-        Q_EMIT mapviewExplorerThumbnailsZoomLevelChanged();
     }
 }
 
@@ -5075,7 +4983,6 @@ void PQCSettings::setMetadataAutoRotation(bool val) {
     if(val != m_metadataAutoRotation) {
         m_metadataAutoRotation = val;
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = val;
     }
 }
 
@@ -5087,7 +4994,6 @@ void PQCSettings::setDefaultForMetadataAutoRotation() {
     if(true != m_metadataAutoRotation) {
         m_metadataAutoRotation = true;
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = true;
     }
 }
 
@@ -5373,7 +5279,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() {
 void PQCSettings::setDefaultForMetadataFaceTagsBorderWidth() {
     if(3 != m_metadataFaceTagsBorderWidth) {
         m_metadataFaceTagsBorderWidth = 3;
-        Q_EMIT metadataFaceTagsBorderWidthChanged();
     }
 }
 
@@ -5417,7 +5322,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsFontSize() {
 void PQCSettings::setDefaultForMetadataFaceTagsFontSize() {
     if(10 != m_metadataFaceTagsFontSize) {
         m_metadataFaceTagsFontSize = 10;
-        Q_EMIT metadataFaceTagsFontSizeChanged();
     }
 }
 
@@ -5439,7 +5343,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsVisibility() {
 void PQCSettings::setDefaultForMetadataFaceTagsVisibility() {
     if(1 != m_metadataFaceTagsVisibility) {
         m_metadataFaceTagsVisibility = 1;
-        Q_EMIT metadataFaceTagsVisibilityChanged();
     }
 }
 
@@ -5857,7 +5760,6 @@ const int PQCSettings::getDefaultForSlideshowImageTransition() {
 void PQCSettings::setDefaultForSlideshowImageTransition() {
     if(4 != m_slideshowImageTransition) {
         m_slideshowImageTransition = 4;
-        Q_EMIT slideshowImageTransitionChanged();
     }
 }
 
@@ -6012,7 +5914,6 @@ const int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() {
 void PQCSettings::setDefaultForSlideshowMusicVolumeVideos() {
     if(1 != m_slideshowMusicVolumeVideos) {
         m_slideshowMusicVolumeVideos = 1;
-        Q_EMIT slideshowMusicVolumeVideosChanged();
     }
 }
 
@@ -6056,7 +5957,6 @@ const int PQCSettings::getDefaultForSlideshowTime() {
 void PQCSettings::setDefaultForSlideshowTime() {
     if(5 != m_slideshowTime) {
         m_slideshowTime = 5;
-        Q_EMIT slideshowTimeChanged();
     }
 }
 
@@ -6090,7 +5990,6 @@ void PQCSettings::setThumbnailsCache(bool val) {
     if(val != m_thumbnailsCache) {
         m_thumbnailsCache = val;
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = val;
     }
 }
 
@@ -6102,7 +6001,6 @@ void PQCSettings::setDefaultForThumbnailsCache() {
     if(true != m_thumbnailsCache) {
         m_thumbnailsCache = true;
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = true;
     }
 }
 
@@ -6114,7 +6012,6 @@ void PQCSettings::setThumbnailsCacheBaseDirDefault(bool val) {
     if(val != m_thumbnailsCacheBaseDirDefault) {
         m_thumbnailsCacheBaseDirDefault = val;
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = val;
     }
 }
 
@@ -6126,7 +6023,6 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirDefault() {
     if(true != m_thumbnailsCacheBaseDirDefault) {
         m_thumbnailsCacheBaseDirDefault = true;
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = true;
     }
 }
 
@@ -6138,7 +6034,6 @@ void PQCSettings::setThumbnailsCacheBaseDirLocation(QString val) {
     if(val != m_thumbnailsCacheBaseDirLocation) {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = val;
     }
 }
 
@@ -6150,7 +6045,6 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirLocation() {
     if("" != m_thumbnailsCacheBaseDirLocation) {
         m_thumbnailsCacheBaseDirLocation = "";
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = "";
     }
 }
 
@@ -6228,7 +6122,6 @@ void PQCSettings::setThumbnailsExcludeDropBox(QString val) {
     if(val != m_thumbnailsExcludeDropBox) {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = val;
     }
 }
 
@@ -6240,7 +6133,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeDropBox() {
     if("" != m_thumbnailsExcludeDropBox) {
         m_thumbnailsExcludeDropBox = "";
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = "";
     }
 }
 
@@ -6252,7 +6144,6 @@ void PQCSettings::setThumbnailsExcludeFolders(QStringList val) {
     if(val != m_thumbnailsExcludeFolders) {
         m_thumbnailsExcludeFolders = val;
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val;
     }
 }
 
@@ -6265,7 +6156,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeFolders() {
     if(tmp != m_thumbnailsExcludeFolders) {
         m_thumbnailsExcludeFolders = tmp;
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = tmp;
     }
 }
 
@@ -6277,7 +6167,6 @@ void PQCSettings::setThumbnailsExcludeNetworkShares(bool val) {
     if(val != m_thumbnailsExcludeNetworkShares) {
         m_thumbnailsExcludeNetworkShares = val;
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = val;
     }
 }
 
@@ -6289,7 +6178,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeNetworkShares() {
     if(true != m_thumbnailsExcludeNetworkShares) {
         m_thumbnailsExcludeNetworkShares = true;
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = true;
     }
 }
 
@@ -6301,7 +6189,6 @@ void PQCSettings::setThumbnailsExcludeNextcloud(QString val) {
     if(val != m_thumbnailsExcludeNextcloud) {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = val;
     }
 }
 
@@ -6313,7 +6200,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeNextcloud() {
     if("" != m_thumbnailsExcludeNextcloud) {
         m_thumbnailsExcludeNextcloud = "";
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = "";
     }
 }
 
@@ -6325,7 +6211,6 @@ void PQCSettings::setThumbnailsExcludeOwnCloud(QString val) {
     if(val != m_thumbnailsExcludeOwnCloud) {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = val;
     }
 }
 
@@ -6337,7 +6222,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeOwnCloud() {
     if("" != m_thumbnailsExcludeOwnCloud) {
         m_thumbnailsExcludeOwnCloud = "";
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = "";
     }
 }
 
@@ -6381,7 +6265,6 @@ const int PQCSettings::getDefaultForThumbnailsFontSize() {
 void PQCSettings::setDefaultForThumbnailsFontSize() {
     if(7 != m_thumbnailsFontSize) {
         m_thumbnailsFontSize = 7;
-        Q_EMIT thumbnailsFontSizeChanged();
     }
 }
 
@@ -6426,7 +6309,6 @@ const int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() {
 void PQCSettings::setDefaultForThumbnailsHighlightAnimationLiftUp() {
     if(15 != m_thumbnailsHighlightAnimationLiftUp) {
         m_thumbnailsHighlightAnimationLiftUp = 15;
-        Q_EMIT thumbnailsHighlightAnimationLiftUpChanged();
     }
 }
 
@@ -6438,7 +6320,6 @@ void PQCSettings::setThumbnailsIconsOnly(bool val) {
     if(val != m_thumbnailsIconsOnly) {
         m_thumbnailsIconsOnly = val;
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = val;
     }
 }
 
@@ -6450,7 +6331,6 @@ void PQCSettings::setDefaultForThumbnailsIconsOnly() {
     if(false != m_thumbnailsIconsOnly) {
         m_thumbnailsIconsOnly = false;
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = false;
     }
 }
 
@@ -6484,7 +6364,6 @@ void PQCSettings::setThumbnailsMaxNumberThreads(int val) {
     if(val != m_thumbnailsMaxNumberThreads) {
         m_thumbnailsMaxNumberThreads = val;
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = val;
     }
 }
 
@@ -6495,8 +6374,6 @@ const int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() {
 void PQCSettings::setDefaultForThumbnailsMaxNumberThreads() {
     if(4 != m_thumbnailsMaxNumberThreads) {
         m_thumbnailsMaxNumberThreads = 4;
-        Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = 4;
     }
 }
 
@@ -6540,7 +6417,6 @@ const int PQCSettings::getDefaultForThumbnailsSize() {
 void PQCSettings::setDefaultForThumbnailsSize() {
     if(120 != m_thumbnailsSize) {
         m_thumbnailsSize = 120;
-        Q_EMIT thumbnailsSizeChanged();
     }
 }
 
@@ -6584,7 +6460,6 @@ const int PQCSettings::getDefaultForThumbnailsSpacing() {
 void PQCSettings::setDefaultForThumbnailsSpacing() {
     if(2 != m_thumbnailsSpacing) {
         m_thumbnailsSpacing = 2;
-        Q_EMIT thumbnailsSpacingChanged();
     }
 }
 
@@ -6628,7 +6503,6 @@ const int PQCSettings::getDefaultForThumbnailsVisibility() {
 void PQCSettings::setDefaultForThumbnailsVisibility() {
     if(0 != m_thumbnailsVisibility) {
         m_thumbnailsVisibility = 0;
-        Q_EMIT thumbnailsVisibilityChanged();
     }
 }
 
@@ -6656,7 +6530,6 @@ void PQCSettings::readDB() {
                     m_filedialogDevices = value.toInt();
                 } else if(name == "DevicesShowTmpfs") {
                     m_filedialogDevicesShowTmpfs = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = value.toInt();
                 } else if(name == "DragDropFileviewGrid") {
                     m_filedialogDragDropFileviewGrid = value.toInt();
                 } else if(name == "DragDropFileviewList") {
@@ -6705,8 +6578,6 @@ void PQCSettings::readDB() {
                     m_filedialogRememberSelection = value.toInt();
                 } else if(name == "ShowHiddenFilesFolders") {
                     m_filedialogShowHiddenFilesFolders = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
                 } else if(name == "SingleClickSelect") {
                     m_filedialogSingleClickSelect = value.toInt();
                 } else if(name == "Thumbnails") {
@@ -6726,7 +6597,6 @@ void PQCSettings::readDB() {
                     m_filetypesAnimatedSpacePause = value.toInt();
                 } else if(name == "ArchiveAlwaysEnterAutomatically") {
                     m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "ArchiveControls") {
                     m_filetypesArchiveControls = value.toInt();
                 } else if(name == "ArchiveLeftRight") {
@@ -6735,10 +6605,8 @@ void PQCSettings::readDB() {
                     m_filetypesArchiveViewerModeExitButton = value.toInt();
                 } else if(name == "ComicBookAlwaysEnterAutomatically") {
                     m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "DocumentAlwaysEnterAutomatically") {
                     m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "DocumentControls") {
                     m_filetypesDocumentControls = value.toInt();
                 } else if(name == "DocumentLeftRight") {
@@ -6747,13 +6615,10 @@ void PQCSettings::readDB() {
                     m_filetypesDocumentViewerModeExitButton = value.toInt();
                 } else if(name == "ExternalUnrar") {
                     m_filetypesExternalUnrar = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = value.toInt();
                 } else if(name == "LoadAppleLivePhotos") {
                     m_filetypesLoadAppleLivePhotos = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = value.toInt();
                 } else if(name == "LoadMotionPhotos") {
                     m_filetypesLoadMotionPhotos = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = value.toInt();
                 } else if(name == "MotionAutoPlay") {
                     m_filetypesMotionAutoPlay = value.toInt();
                 } else if(name == "MotionPhotoPlayPause") {
@@ -6762,7 +6627,6 @@ void PQCSettings::readDB() {
                     m_filetypesMotionSpacePause = value.toInt();
                 } else if(name == "PDFQuality") {
                     m_filetypesPDFQuality = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = value.toInt();
                 } else if(name == "PhotoSphereArrowKeys") {
                     m_filetypesPhotoSphereArrowKeys = value.toInt();
                 } else if(name == "PhotoSphereAutoLoad") {
@@ -6775,7 +6639,6 @@ void PQCSettings::readDB() {
                     m_filetypesPhotoSpherePanOnLoad = value.toInt();
                 } else if(name == "RAWUseEmbeddedIfAvailable") {
                     m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
                 } else if(name == "VideoAutoplay") {
                     m_filetypesVideoAutoplay = value.toInt();
                 } else if(name == "VideoLeftRightJumpVideo") {
@@ -6784,12 +6647,10 @@ void PQCSettings::readDB() {
                     m_filetypesVideoLoop = value.toInt();
                 } else if(name == "VideoPreferLibmpv") {
                     m_filetypesVideoPreferLibmpv = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = value.toInt();
                 } else if(name == "VideoSpacePause") {
                     m_filetypesVideoSpacePause = value.toInt();
                 } else if(name == "VideoThumbnailer") {
                     m_filetypesVideoThumbnailer = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = value.toString();
                 } else if(name == "VideoVolume") {
                     m_filetypesVideoVolume = value.toInt();
                 }
@@ -6807,13 +6668,6 @@ void PQCSettings::readDB() {
                         m_generalEnabledExtensions = QStringList() << val;
                     else
                         m_generalEnabledExtensions = QStringList();
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
                 } else if(name == "InterfaceVariant") {
                     m_generalInterfaceVariant = value.toString();
                 } else if(name == "SetupFloatingExtensionsAtStartup") {
@@ -6831,10 +6685,8 @@ void PQCSettings::readDB() {
             } else if(table == "imageview") {
                 if(name == "AdvancedSortAscending") {
                     m_imageviewAdvancedSortAscending = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = value.toInt();
                 } else if(name == "AdvancedSortCriteria") {
                     m_imageviewAdvancedSortCriteria = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = value.toString();
                 } else if(name == "AdvancedSortDateCriteria") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -6843,16 +6695,8 @@ void PQCSettings::readDB() {
                         m_imageviewAdvancedSortDateCriteria = QStringList() << val;
                     else
                         m_imageviewAdvancedSortDateCriteria = QStringList();
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList();
                 } else if(name == "AdvancedSortQuality") {
                     m_imageviewAdvancedSortQuality = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = value.toString();
                 } else if(name == "AlwaysActualSize") {
                     m_imageviewAlwaysActualSize = value.toInt();
                 } else if(name == "AnimationDuration") {
@@ -6861,7 +6705,6 @@ void PQCSettings::readDB() {
                     m_imageviewAnimationType = value.toString();
                 } else if(name == "Cache") {
                     m_imageviewCache = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = value.toInt();
                 } else if(name == "ColorSpaceContextMenu") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -6872,13 +6715,10 @@ void PQCSettings::readDB() {
                         m_imageviewColorSpaceContextMenu = QStringList();
                 } else if(name == "ColorSpaceDefault") {
                     m_imageviewColorSpaceDefault = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = value.toString();
                 } else if(name == "ColorSpaceEnable") {
                     m_imageviewColorSpaceEnable = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = value.toInt();
                 } else if(name == "ColorSpaceLoadEmbedded") {
                     m_imageviewColorSpaceLoadEmbedded = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = value.toInt();
                 } else if(name == "EscapeExitArchive") {
                     m_imageviewEscapeExitArchive = value.toInt();
                 } else if(name == "EscapeExitBarcodes") {
@@ -6891,7 +6731,6 @@ void PQCSettings::readDB() {
                     m_imageviewEscapeExitSphere = value.toInt();
                 } else if(name == "FitInWindow") {
                     m_imageviewFitInWindow = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = value.toInt();
                 } else if(name == "HideCursorTimeout") {
                     m_imageviewHideCursorTimeout = value.toInt();
                 } else if(name == "InterpolationDisableForSmallImages") {
@@ -6922,17 +6761,12 @@ void PQCSettings::readDB() {
                     m_imageviewResetViewShow = value.toInt();
                 } else if(name == "RespectDevicePixelRatio") {
                     m_imageviewRespectDevicePixelRatio = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = value.toInt();
                 } else if(name == "ShowMinimap") {
                     m_imageviewShowMinimap = value.toInt();
                 } else if(name == "SortImagesAscending") {
                     m_imageviewSortImagesAscending = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
                 } else if(name == "SortImagesBy") {
                     m_imageviewSortImagesBy = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = value.toString();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
                 } else if(name == "TransparencyMarker") {
                     m_imageviewTransparencyMarker = value.toInt();
                 } else if(name == "UseMouseLeftButtonForImageMove") {
@@ -6958,8 +6792,6 @@ void PQCSettings::readDB() {
             } else if(table == "interface") {
                 if(name == "AccentColor") {
                     m_interfaceAccentColor = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = value.toString();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
                 } else if(name == "AllowMultipleInstances") {
                     m_interfaceAllowMultipleInstances = value.toInt();
                 } else if(name == "BackgroundCustomOverlay") {
@@ -7006,19 +6838,14 @@ void PQCSettings::readDB() {
                     m_interfaceFlickAdjustSpeedSpeedup = value.toInt();
                 } else if(name == "FontBoldWeight") {
                     m_interfaceFontBoldWeight = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
                 } else if(name == "FontNormalWeight") {
                     m_interfaceFontNormalWeight = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
                 } else if(name == "HotEdgeSize") {
                     m_interfaceHotEdgeSize = value.toInt();
                 } else if(name == "KeepWindowOnTop") {
                     m_interfaceKeepWindowOnTop = value.toInt();
                 } else if(name == "Language") {
                     m_interfaceLanguage = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = value.toString();
                 } else if(name == "MinimapPopout") {
                     m_interfaceMinimapPopout = value.toInt();
                 } else if(name == "NavigateOnEmptyBackground") {
@@ -7069,7 +6896,6 @@ void PQCSettings::readDB() {
                     m_interfacePopoutSlideshowSetup = value.toInt();
                 } else if(name == "PopoutWhenWindowIsSmall") {
                     m_interfacePopoutWhenWindowIsSmall = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = value.toInt();
                 } else if(name == "QuickActions") {
                     m_interfaceQuickActions = value.toInt();
                 } else if(name == "QuickActionsHeight") {
@@ -7189,7 +7015,6 @@ void PQCSettings::readDB() {
             } else if(table == "metadata") {
                 if(name == "AutoRotation") {
                     m_metadataAutoRotation = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = value.toInt();
                 } else if(name == "Copyright") {
                     m_metadataCopyright = value.toInt();
                 } else if(name == "Dimensions") {
@@ -7302,13 +7127,10 @@ void PQCSettings::readDB() {
             } else if(table == "thumbnails") {
                 if(name == "Cache") {
                     m_thumbnailsCache = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = value.toInt();
                 } else if(name == "CacheBaseDirDefault") {
                     m_thumbnailsCacheBaseDirDefault = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = value.toInt();
                 } else if(name == "CacheBaseDirLocation") {
                     m_thumbnailsCacheBaseDirLocation = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = value.toString();
                 } else if(name == "CenterOnActive") {
                     m_thumbnailsCenterOnActive = value.toInt();
                 } else if(name == "CropToFit") {
@@ -7317,7 +7139,6 @@ void PQCSettings::readDB() {
                     m_thumbnailsDisable = value.toInt();
                 } else if(name == "ExcludeDropBox") {
                     m_thumbnailsExcludeDropBox = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = value.toString();
                 } else if(name == "ExcludeFolders") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -7326,22 +7147,12 @@ void PQCSettings::readDB() {
                         m_thumbnailsExcludeFolders = QStringList() << val;
                     else
                         m_thumbnailsExcludeFolders = QStringList();
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList();
                 } else if(name == "ExcludeNetworkShares") {
                     m_thumbnailsExcludeNetworkShares = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = value.toInt();
                 } else if(name == "ExcludeNextcloud") {
                     m_thumbnailsExcludeNextcloud = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = value.toString();
                 } else if(name == "ExcludeOwnCloud") {
                     m_thumbnailsExcludeOwnCloud = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = value.toString();
                 } else if(name == "Filename") {
                     m_thumbnailsFilename = value.toInt();
                 } else if(name == "FontSize") {
@@ -7358,12 +7169,10 @@ void PQCSettings::readDB() {
                     m_thumbnailsHighlightAnimationLiftUp = value.toInt();
                 } else if(name == "IconsOnly") {
                     m_thumbnailsIconsOnly = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = value.toInt();
                 } else if(name == "InactiveTransparent") {
                     m_thumbnailsInactiveTransparent = value.toInt();
                 } else if(name == "MaxNumberThreads") {
                     m_thumbnailsMaxNumberThreads = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = value.toInt();
                 } else if(name == "SameHeightVaryWidth") {
                     m_thumbnailsSameHeightVaryWidth = value.toInt();
                 } else if(name == "Size") {
@@ -8088,7 +7897,6 @@ void PQCSettings::setupFresh() {
     m_filedialogDetailsTooltip = true;
     m_filedialogDevices = false;
     m_filedialogDevicesShowTmpfs = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = false;
     m_filedialogDragDropFileviewGrid = false;
     m_filedialogDragDropFileviewList = true;
     m_filedialogDragDropFileviewMasonry = false;
@@ -8113,7 +7921,6 @@ void PQCSettings::setupFresh() {
     m_filedialogPreviewMuted = false;
     m_filedialogRememberSelection = false;
     m_filedialogShowHiddenFilesFolders = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = false;
     m_filedialogSingleClickSelect = false;
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
@@ -8124,82 +7931,62 @@ void PQCSettings::setupFresh() {
     m_filetypesAnimatedLeftRight = false;
     m_filetypesAnimatedSpacePause = true;
     m_filetypesArchiveAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
     m_filetypesArchiveControls = true;
     m_filetypesArchiveLeftRight = false;
     m_filetypesArchiveViewerModeExitButton = true;
     m_filetypesComicBookAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
     m_filetypesDocumentAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     m_filetypesDocumentControls = true;
     m_filetypesDocumentLeftRight = false;
     m_filetypesDocumentViewerModeExitButton = true;
     m_filetypesExternalUnrar = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = false;
     m_filetypesLoadAppleLivePhotos = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = true;
     m_filetypesLoadMotionPhotos = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = true;
     m_filetypesMotionAutoPlay = true;
     m_filetypesMotionPhotoPlayPause = true;
     m_filetypesMotionSpacePause = true;
     m_filetypesPDFQuality = 150;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = 150;
     m_filetypesPhotoSphereArrowKeys = false;
     m_filetypesPhotoSphereAutoLoad = true;
     m_filetypesPhotoSphereBigButton = false;
     m_filetypesPhotoSphereControls = false;
     m_filetypesPhotoSpherePanOnLoad = true;
     m_filetypesRAWUseEmbeddedIfAvailable = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = true;
     m_filetypesVideoAutoplay = true;
     m_filetypesVideoLeftRightJumpVideo = false;
     m_filetypesVideoLoop = false;
     m_filetypesVideoPreferLibmpv = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = true;
     m_filetypesVideoSpacePause = true;
     m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
     m_filetypesVideoVolume = 100;
 
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
     m_generalEnabledExtensions = QStringList();
-    /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = QStringList();
     m_generalInterfaceVariant = "modern";
     m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
 
     // table: imageview
     m_imageviewAdvancedSortAscending = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = true;
     m_imageviewAdvancedSortCriteria = "resolution";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = "resolution";
     m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
     m_imageviewAdvancedSortQuality = "medium";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = "medium";
     m_imageviewAlwaysActualSize = false;
     m_imageviewAnimationDuration = 3;
     m_imageviewAnimationType = "opacity";
     m_imageviewCache = 512;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = 512;
     m_imageviewColorSpaceContextMenu = QStringList() << "::0" << "::1" << "::2" << "::3" << "::4";
     m_imageviewColorSpaceDefault = "";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = "";
     m_imageviewColorSpaceEnable = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = true;
     m_imageviewColorSpaceLoadEmbedded = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = true;
     m_imageviewEscapeExitArchive = true;
     m_imageviewEscapeExitBarcodes = true;
     m_imageviewEscapeExitDocument = true;
     m_imageviewEscapeExitFilter = true;
     m_imageviewEscapeExitSphere = true;
     m_imageviewFitInWindow = false;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = false;
     m_imageviewHideCursorTimeout = 1;
     m_imageviewInterpolationDisableForSmallImages = true;
     m_imageviewInterpolationThreshold = 100;
@@ -8215,12 +8002,9 @@ void PQCSettings::setupFresh() {
     m_imageviewResetViewAutoHideTimeout = 1000;
     m_imageviewResetViewShow = false;
     m_imageviewRespectDevicePixelRatio = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = true;
     m_imageviewShowMinimap = true;
     m_imageviewSortImagesAscending = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = true;
     m_imageviewSortImagesBy = "naturalname";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = "naturalname";
     m_imageviewTransparencyMarker = false;
     m_imageviewUseMouseLeftButtonForImageMove = true;
     m_imageviewUseMouseWheelForImageMove = false;
@@ -8234,7 +8018,6 @@ void PQCSettings::setupFresh() {
 
     // table: interface
     m_interfaceAccentColor = "#222222";
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = "#222222";
     m_interfaceAllowMultipleInstances = false;
     m_interfaceBackgroundCustomOverlay = false;
     m_interfaceBackgroundCustomOverlayColor = "";
@@ -8258,13 +8041,10 @@ void PQCSettings::setupFresh() {
     m_interfaceFlickAdjustSpeed = true;
     m_interfaceFlickAdjustSpeedSpeedup = 1;
     m_interfaceFontBoldWeight = 700;
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
     m_interfaceFontNormalWeight = 400;
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = 400;
     m_interfaceHotEdgeSize = 4;
     m_interfaceKeepWindowOnTop = false;
     m_interfaceLanguage = "en";
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = "en";
     m_interfaceMinimapPopout = false;
     m_interfaceNavigateOnEmptyBackground = false;
     m_interfaceNavigationFloating = false;
@@ -8290,7 +8070,6 @@ void PQCSettings::setupFresh() {
     m_interfacePopoutSlideshowControls = false;
     m_interfacePopoutSlideshowSetup = true;
     m_interfacePopoutWhenWindowIsSmall = true;
-    /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = true;
     m_interfaceQuickActions = true;
     m_interfaceQuickActionsHeight = 40;
     m_interfaceQuickActionsItems = QStringList() << "rename" << "delete" << "|" << "rotateleft" << "rotateright" << "mirrorhor" << "mirrorver" << "|" << "crop" << "scale" << "|" << "close";
@@ -8335,7 +8114,6 @@ void PQCSettings::setupFresh() {
 
     // table: metadata
     m_metadataAutoRotation = true;
-    /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = true;
     m_metadataCopyright = false;
     m_metadataDimensions = true;
     m_metadataElementFloating = false;
@@ -8386,33 +8164,23 @@ void PQCSettings::setupFresh() {
 
     // table: thumbnails
     m_thumbnailsCache = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = true;
     m_thumbnailsCacheBaseDirDefault = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = true;
     m_thumbnailsCacheBaseDirLocation = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = "";
     m_thumbnailsCenterOnActive = false;
     m_thumbnailsCropToFit = true;
     m_thumbnailsDisable = false;
     m_thumbnailsExcludeDropBox = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = "";
     m_thumbnailsExcludeFolders = QStringList();
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList();
     m_thumbnailsExcludeNetworkShares = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = true;
     m_thumbnailsExcludeNextcloud = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = "";
     m_thumbnailsExcludeOwnCloud = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = "";
     m_thumbnailsFilename = true;
     m_thumbnailsFontSize = 7;
     m_thumbnailsHighlightAnimation = QStringList() << "liftup";
     m_thumbnailsHighlightAnimationLiftUp = 15;
     m_thumbnailsIconsOnly = false;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = false;
     m_thumbnailsInactiveTransparent = true;
     m_thumbnailsMaxNumberThreads = 4;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = 4;
     m_thumbnailsSameHeightVaryWidth = false;
     m_thumbnailsSize = 120;
     m_thumbnailsSmallThumbnailsKeepSmall = true;
@@ -8761,7 +8529,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogDevicesShowTmpfs") {
         m_filedialogDevicesShowTmpfs = (val.toInt()==1);
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = (val.toInt()==1);
     }
     if(key == "filedialogDragDropFileviewGrid") {
         m_filedialogDragDropFileviewGrid = (val.toInt()==1);
@@ -8858,8 +8625,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogShowHiddenFilesFolders") {
         m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
     if(key == "filedialogSingleClickSelect") {
         m_filedialogSingleClickSelect = (val.toInt()==1);
@@ -8892,7 +8657,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesArchiveAlwaysEnterAutomatically") {
         m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesArchiveControls") {
         m_filetypesArchiveControls = (val.toInt()==1);
@@ -8909,12 +8673,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesComicBookAlwaysEnterAutomatically") {
         m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesDocumentAlwaysEnterAutomatically") {
         m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesDocumentControls") {
         m_filetypesDocumentControls = (val.toInt()==1);
@@ -8931,17 +8693,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesExternalUnrar") {
         m_filetypesExternalUnrar = (val.toInt()==1);
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = (val.toInt()==1);
     }
     if(key == "filetypesLoadAppleLivePhotos") {
         m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
     }
     if(key == "filetypesLoadMotionPhotos") {
         m_filetypesLoadMotionPhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = (val.toInt()==1);
     }
     if(key == "filetypesMotionAutoPlay") {
         m_filetypesMotionAutoPlay = (val.toInt()==1);
@@ -8958,7 +8717,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesPDFQuality") {
         m_filetypesPDFQuality = val.toInt();
         Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = val.toInt();
     }
     if(key == "filetypesPhotoSphereArrowKeys") {
         m_filetypesPhotoSphereArrowKeys = (val.toInt()==1);
@@ -8983,7 +8741,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesRAWUseEmbeddedIfAvailable") {
         m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
     }
     if(key == "filetypesVideoAutoplay") {
         m_filetypesVideoAutoplay = (val.toInt()==1);
@@ -9000,7 +8757,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesVideoPreferLibmpv") {
         m_filetypesVideoPreferLibmpv = (val.toInt()==1);
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = (val.toInt()==1);
     }
     if(key == "filetypesVideoSpacePause") {
         m_filetypesVideoSpacePause = (val.toInt()==1);
@@ -9009,7 +8765,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesVideoThumbnailer") {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = val;
     }
     if(key == "filetypesVideoVolume") {
         m_filetypesVideoVolume = val.toInt();
@@ -9026,7 +8781,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "generalEnabledExtensions") {
         m_generalEnabledExtensions = val.split(":://::");
         Q_EMIT generalEnabledExtensionsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_generalEnabledExtensions = val.split(":://::");
     }
     if(key == "generalInterfaceVariant") {
         m_generalInterfaceVariant = val;
@@ -9043,22 +8797,18 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewAdvancedSortAscending") {
         m_imageviewAdvancedSortAscending = (val.toInt()==1);
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = (val.toInt()==1);
     }
     if(key == "imageviewAdvancedSortCriteria") {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = val;
     }
     if(key == "imageviewAdvancedSortDateCriteria") {
         m_imageviewAdvancedSortDateCriteria = val.split(":://::");
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val.split(":://::");
     }
     if(key == "imageviewAdvancedSortQuality") {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = val;
     }
     if(key == "imageviewAlwaysActualSize") {
         m_imageviewAlwaysActualSize = (val.toInt()==1);
@@ -9075,7 +8825,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewCache") {
         m_imageviewCache = val.toInt();
         Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = val.toInt();
     }
     if(key == "imageviewColorSpaceContextMenu") {
         m_imageviewColorSpaceContextMenu = val.split(":://::");
@@ -9084,17 +8833,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewColorSpaceDefault") {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = val;
     }
     if(key == "imageviewColorSpaceEnable") {
         m_imageviewColorSpaceEnable = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = (val.toInt()==1);
     }
     if(key == "imageviewColorSpaceLoadEmbedded") {
         m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
     }
     if(key == "imageviewEscapeExitArchive") {
         m_imageviewEscapeExitArchive = (val.toInt()==1);
@@ -9119,7 +8865,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewFitInWindow") {
         m_imageviewFitInWindow = (val.toInt()==1);
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = (val.toInt()==1);
     }
     if(key == "imageviewHideCursorTimeout") {
         m_imageviewHideCursorTimeout = val.toInt();
@@ -9180,7 +8925,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewRespectDevicePixelRatio") {
         m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
     }
     if(key == "imageviewShowMinimap") {
         m_imageviewShowMinimap = (val.toInt()==1);
@@ -9189,14 +8933,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewSortImagesAscending") {
         m_imageviewSortImagesAscending = (val.toInt()==1);
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = (val.toInt()==1);
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
     if(key == "imageviewSortImagesBy") {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
     if(key == "imageviewTransparencyMarker") {
         m_imageviewTransparencyMarker = (val.toInt()==1);
@@ -9241,8 +8981,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceAccentColor") {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
     if(key == "interfaceAllowMultipleInstances") {
         m_interfaceAllowMultipleInstances = (val.toInt()==1);
@@ -9335,14 +9073,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceFontBoldWeight") {
         m_interfaceFontBoldWeight = val.toInt();
         Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = val.toInt();
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
     if(key == "interfaceFontNormalWeight") {
         m_interfaceFontNormalWeight = val.toInt();
         Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = val.toInt();
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
     if(key == "interfaceHotEdgeSize") {
         m_interfaceHotEdgeSize = val.toInt();
@@ -9355,7 +9089,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceLanguage") {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = val;
     }
     if(key == "interfaceMinimapPopout") {
         m_interfaceMinimapPopout = (val.toInt()==1);
@@ -9456,7 +9189,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfacePopoutWhenWindowIsSmall") {
         m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
     }
     if(key == "interfaceQuickActions") {
         m_interfaceQuickActions = (val.toInt()==1);
@@ -9621,7 +9353,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "metadataAutoRotation") {
         m_metadataAutoRotation = (val.toInt()==1);
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = (val.toInt()==1);
     }
     if(key == "metadataCopyright") {
         m_metadataCopyright = (val.toInt()==1);
@@ -9812,17 +9543,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsCache") {
         m_thumbnailsCache = (val.toInt()==1);
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = (val.toInt()==1);
     }
     if(key == "thumbnailsCacheBaseDirDefault") {
         m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
     }
     if(key == "thumbnailsCacheBaseDirLocation") {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = val;
     }
     if(key == "thumbnailsCenterOnActive") {
         m_thumbnailsCenterOnActive = (val.toInt()==1);
@@ -9839,27 +9567,22 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsExcludeDropBox") {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = val;
     }
     if(key == "thumbnailsExcludeFolders") {
         m_thumbnailsExcludeFolders = val.split(":://::");
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val.split(":://::");
     }
     if(key == "thumbnailsExcludeNetworkShares") {
         m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
     }
     if(key == "thumbnailsExcludeNextcloud") {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = val;
     }
     if(key == "thumbnailsExcludeOwnCloud") {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = val;
     }
     if(key == "thumbnailsFilename") {
         m_thumbnailsFilename = (val.toInt()==1);
@@ -9880,7 +9603,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsIconsOnly") {
         m_thumbnailsIconsOnly = (val.toInt()==1);
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = (val.toInt()==1);
     }
     if(key == "thumbnailsInactiveTransparent") {
         m_thumbnailsInactiveTransparent = (val.toInt()==1);
@@ -9889,7 +9611,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsMaxNumberThreads") {
         m_thumbnailsMaxNumberThreads = val.toInt();
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = val.toInt();
     }
     if(key == "thumbnailsSameHeightVaryWidth") {
         m_thumbnailsSameHeightVaryWidth = (val.toInt()==1);

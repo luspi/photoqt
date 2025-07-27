@@ -23,6 +23,7 @@
 import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 

@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 
@@ -56,7 +57,7 @@ Item {
     property bool showSlider: true
     property bool sliderExtraSmall: true
 
-    property int titleWeight: PQCLook.fontWeightNormal 
+    property int titleWeight: PQCLook.fontWeightNormal
 
     property bool editMode: false
 

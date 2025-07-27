@@ -27,7 +27,7 @@ import PQCExtensionsHandler
 import PQCLocation
 import PQCScriptsShareImgur
 
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 

@@ -84,6 +84,7 @@ public:
         m_currentVisibleAreaWidthRatio = 0;
         m_currentVisibleAreaHeightRatio = 0;
         m_currentArchiveComboOpen = false;
+        m_currentImageIsPhotoSphere = false;
         m_showingPhotoSphere = false;
         m_isMotionPhoto = false;
         m_barcodeDisplayed = false;
@@ -239,6 +240,7 @@ public:
     Q_PROPERTY(double currentVisibleAreaWidthRatio MEMBER m_currentVisibleAreaWidthRatio NOTIFY currentVisibleAreaWidthRatioChanged)
     Q_PROPERTY(double currentVisibleAreaHeightRatio MEMBER m_currentVisibleAreaHeightRatio NOTIFY currentVisibleAreaHeightRatioChanged)
 
+    Q_PROPERTY(bool currentImageIsPhotoSphere MEMBER m_currentImageIsPhotoSphere NOTIFY currentImageIsPhotoSphereChanged)
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool isMotionPhoto MEMBER m_isMotionPhoto NOTIFY isMotionPhotoChanged)
     Q_PROPERTY(bool barcodeDisplayed MEMBER m_barcodeDisplayed NOTIFY barcodeDisplayedChanged)
@@ -334,6 +336,7 @@ private:
     bool m_currentlyShowingVideoHasAudio;
     bool m_currentlyShowingVideoPlaying;
 
+    bool m_currentImageIsPhotoSphere;
     bool m_showingPhotoSphere;
     bool m_isMotionPhoto;
     bool m_barcodeDisplayed;
@@ -424,6 +427,7 @@ Q_SIGNALS:
     void mainmenuOpacityChanged();
     void metadataOpacityChanged();
     void showingPhotoSphereChanged();
+    void currentImageIsPhotoSphereChanged();
     void isMotionPhotoChanged();
     void barcodeDisplayedChanged();
     void currentZValueChanged();

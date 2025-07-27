@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 import ExtensionSettings
 import PQCExtensionsHandler
 
@@ -172,7 +173,7 @@ Window {
 
             height: parent.height
 
-            spacing: 0            
+            spacing: 0
 
             PQButtonElement {
                 id: firstbutton

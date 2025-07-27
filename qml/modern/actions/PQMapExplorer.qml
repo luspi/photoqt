@@ -24,6 +24,7 @@ import QtQuick
 import QtQuick.Controls
 import PQCLocation
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 

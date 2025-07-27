@@ -23,7 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtMultimedia
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 Image {
 
@@ -259,12 +259,12 @@ Image {
                     source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg"
                 }
 
-                PQMouseArea {
+                MouseArea {
                     id: spheremouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("image", "Click here to enter photo sphere")
+                    // text: qsTranslate("image", "Click here to enter photo sphere")
                     onClicked: {
                         PQCNotify.enterPhotoSphere()
                     }
@@ -475,12 +475,12 @@ Image {
                         source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
                     }
 
-                    PQMouseArea {
+                    MouseArea {
                         id: autoplaymouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("image", "Toggle autoplay")
+                        // text: qsTranslate("image", "Toggle autoplay")
                         onClicked: {
                             PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
                         }

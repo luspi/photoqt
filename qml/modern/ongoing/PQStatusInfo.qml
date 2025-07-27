@@ -25,6 +25,7 @@ import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 

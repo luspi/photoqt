@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Shared
 import PhotoQt.Modern
 import ExtensionSettings
 import PQCExtensionsHandler
@@ -96,14 +97,14 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor 
+        color: PQCLook.baseColor
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive 
+            color: PQCLook.baseColorActive
         }
 
         Item {

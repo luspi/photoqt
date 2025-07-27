@@ -22,13 +22,14 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Text {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled 
+    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
     Behavior on color { ColorAnimation { duration: animateColorChanged ? 200 : 0 } }
-    font.pointSize: PQCLook.fontSize 
-    font.weight: PQCLook.fontWeightNormal 
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
     property bool animateColorChanged: true
 
 }

@@ -1,0 +1,240 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import PhotoQt.Integrated
+import PhotoQt.Shared
+
+ApplicationWindow {
+
+    id: toplevel
+
+    minimumWidth: 300
+    minimumHeight: 200
+
+    // if last geometry has been remembered that one is set in the show() function below
+    width: 800
+    height: 600
+
+    // this signals whether the window is currently being resized or not
+    onWidthChanged: {
+        storeWindowGeometry.restart()
+        PQCConstants.windowWidth = width
+        PQCConstants.mainWindowBeingResized = true
+        resetResizing.restart()
+    }
+    onHeightChanged: {
+        storeWindowGeometry.restart()
+        PQCConstants.windowHeight = height
+        PQCConstants.mainWindowBeingResized = true
+        resetResizing.restart()
+    }
+    onXChanged: {
+        storeWindowGeometry.restart()
+    }
+    onYChanged: {
+        storeWindowGeometry.restart()
+    }
+
+    Timer {
+        id: resetResizing
+        interval: 500
+        onTriggered: {
+            PQCConstants.mainWindowBeingResized = false
+        }
+    }
+
+    // we store this with a delay to make sure the visibility properyt is properly updated
+    Timer {
+        id: storeWindowGeometry
+        interval: 200
+        onTriggered: {
+
+            if(PQCConstants.photoQtShuttingDown)
+                return
+
+            if(toplevel.visibility === Window.Windowed) {
+                PQCWindowGeometry.mainWindowGeometry = Qt.rect(toplevel.x, toplevel.y, toplevel.width, toplevel.height)
+                PQCWindowGeometry.mainWindowMaximized = false
+            } else if(toplevel.visibility === Window.Maximized)
+                PQCWindowGeometry.mainWindowMaximized = true
+
+        }
+
+    }
+
+    property bool isFullscreen: toplevel.visibility==Window.FullScreen
+
+    onVisibilityChanged: (visibility) => {
+
+        storeWindowGeometry.restart()
+
+        // we keep track of whether a window is maximized or windowed
+        // when restoring the window we then can restore it to the state it was in before
+        if(visibility === Window.Maximized)
+            PQCConstants.windowMaxAndNotWindowed = true
+        else if(visibility === Window.Windowed)
+            PQCConstants.windowMaxAndNotWindowed = false
+
+        PQCConstants.windowFullScreen = (visibility === Window.FullScreen)
+
+    }
+
+    menuBar: PQMenuBar {}
+    footer: PQFooter {}
+
+    Item {
+        id: fullscreenitem
+        anchors.fill: parent
+    }
+
+    Loader {
+        asynchronous: (PQCConstants.startupFilePath!=="")
+        sourceComponent: PQBackgroundMessage {}
+    }
+
+    /****************************************************/
+
+    // very cheap to set up, many properties needed everywhere -> no loader
+    Loader {
+        id: imageloader
+        asynchronous: true
+        active: false
+        sourceComponent: PQImage {
+            toplevelItem: fullscreenitem
+
+            PQImageOverlay {}
+
+        }
+    }
+
+    /****************************************************/
+
+    Loader {
+        id: shortcuts
+        asynchronous: true
+        sourceComponent: PQShortcuts {}
+    }
+
+    /****************************************************/
+
+    // This is a Loader that loads the rest of the application in the background after set up
+    PQMasterItem {
+        id: masteritemattop
+    }
+
+    /****************************************************/
+
+    Timer {
+        id: setVersion
+        interval: 1
+        onTriggered:
+            PQCSettings.generalVersion = PQCScriptsConfig.getVersion()
+    }
+
+    Timer {
+        id: loadAppInBackgroundTimer
+        interval: 100
+        onTriggered:
+            masteritemattop.active = true
+    }
+
+    // on windows there is a white flash when the window is created
+    // thus we set up the window with opacity set to 0
+    // and this animation fades the window without white flash
+    PropertyAnimation {
+        id: showOpacity
+        target: toplevel
+        property: "opacity"
+        from: 0
+        to: 1
+        duration: 100
+    }
+
+    /****************************************************/
+
+    function setXYWidthHeight(geo : rect) {
+        toplevel.x = geo.x
+        toplevel.y = geo.y
+        toplevel.width = geo.width
+        toplevel.height = geo.height
+    }
+
+    Component.onCompleted: {
+
+        PQCScriptsConfig.updateTranslation()
+
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
+            toplevel.opacity = 0
+
+        // show window according to settings
+        if(PQCSettings.interfaceSaveWindowGeometry) {
+            var geo = PQCWindowGeometry.mainWindowGeometry
+            setXYWidthHeight(geo)
+            if(PQCConstants.startupStartInTray) {
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.hide()
+            } else {
+                if(PQCWindowGeometry.mainWindowMaximized)
+                    showMaximized()
+                else
+                    showNormal()
+            }
+        } else {
+            if(PQCConstants.startupStartInTray) {
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.hide()
+            } else
+                showMaximized()
+        }
+
+        // PQCNotify.loaderShow("mainmenu")
+        // PQCNotify.loaderShow("metadata")
+        // PQCNotify.loaderSetup("thumbnails")
+
+        if(PQCConstants.startupFilePath !== "") {
+            // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
+            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+        } else if(PQCSettings.interfaceRememberLastImage)
+            PQCConstants.startupFilePath = PQCScriptsConfig.getLastLoadedImage()
+
+        // this comes after the above to make sure we load a potentially passed-on image
+        imageloader.active = true
+
+        if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
+            showOpacity.restart()
+
+        if(PQCConstants.startupFilePath === "")
+            loadAppInBackgroundTimer.triggered()
+        else
+            loadAppInBackgroundTimer.start()
+
+        setVersion.start()
+
+        // toplevel.update()
+
+    }
+
+}

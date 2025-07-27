@@ -26,6 +26,7 @@ import QtQuick
 import QtQuick.Controls
 import PQCImageFormats
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Item {
 

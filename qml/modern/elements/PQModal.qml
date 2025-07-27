@@ -22,13 +22,14 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 
     id: modal_top
 
     anchors.fill: parent
-    color: PQCLook.transColor 
+    color: PQCLook.transColor
 
     property string action: ""
     property var payload: []
@@ -63,10 +64,10 @@ Rectangle {
         width: col.width+100
         height: col.height+100
 
-        color: PQCLook.baseColor 
+        color: PQCLook.baseColor
 
         border.width: 2
-        border.color: PQCLook.baseColorHighlight 
+        border.color: PQCLook.baseColorHighlight
 
         radius: 5
 
@@ -84,7 +85,7 @@ Rectangle {
                 text: "Are you sure?"
                 width: Math.min(modal_top.width-200, 600)
                 horizontalAlignment: Text.AlignHCenter
-                font.weight: PQCLook.fontWeightBold 
+                font.weight: PQCLook.fontWeightBold
             }
 
             PQTextL {

@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Column {
 
@@ -48,9 +49,9 @@ Column {
 
     PQText {
         id: which
-        font.weight: PQCLook.fontWeightBold 
+        font.weight: PQCLook.fontWeightBold
         opacity: entry.fadeout ? 0.4 : 1
-        visible: PQCFileFolderModel.countMainView>0 
+        visible: PQCFileFolderModel.countMainView>0
     }
 
     Row {
@@ -61,7 +62,7 @@ Column {
             id: val
             text: "  " + (entry.valtxt=="" ? "--" : entry.valtxt)
             opacity: entry.fadeout ? 0.4 : 1
-            visible: PQCFileFolderModel.countMainView>0 
+            visible: PQCFileFolderModel.countMainView>0
 
             PQMouseArea {
                 anchors.fill: parent
@@ -73,7 +74,7 @@ Column {
                     if(entry.signalClicks)
                         entry.clicked(mouse)
                     else
-                        PQCScriptsClipboard.copyTextToClipboard(valtxt) 
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
                 }
             }
         }

@@ -24,8 +24,10 @@ endif()
 #############################
 
 include(CMake/ListFilesCPlusPlus.cmake)
+include(CMake/ListFilesCPlusPlusShared.cmake)
 include(CMake/ListFilesQMLModern.cmake)
 include(CMake/ListFilesQMLIntegrated.cmake)
+include(CMake/ListFilesQMLShared.cmake)
 
 #############################################
 #### OPTIONS THAT CAN BE SET BY THE USER ####
@@ -363,6 +365,13 @@ qt_add_qml_module(photoqt-integrated
     SOURCES ${photoqt_SOURCES} ${ALLHEADERS}
     OUTPUT_DIRECTORY PhotoQt/Integrated)
 
+qt_add_qml_module(photoqt-shared
+    URI PhotoQt.Shared
+    VERSION 1.0
+    QML_FILES ${photoqt_shared_QML}
+    SOURCES ${photoqt_SOURCES} ${photoqt_shared_SOURCES} ${ALLHEADERS}
+    OUTPUT_DIRECTORY PhotoQt/Shared)
+
 ###########################
 # cmake macros
 
@@ -372,10 +381,12 @@ macro(pqt_target_compile_definitions nme)
     if(${val_count} GREATER 0)
         target_compile_definitions(photoqt-modern     PRIVATE ${nme}="${val}")
         target_compile_definitions(photoqt-integrated PRIVATE ${nme}="${val}")
+        target_compile_definitions(photoqt-shared     PRIVATE ${nme}="${val}")
         target_compile_definitions(photoqt            PRIVATE ${nme}="${val}")
     else()
         target_compile_definitions(photoqt-modern     PRIVATE ${nme})
         target_compile_definitions(photoqt-integrated PRIVATE ${nme})
+        target_compile_definitions(photoqt-shared     PRIVATE ${nme})
         target_compile_definitions(photoqt            PRIVATE ${nme})
     endif()
 endmacro()
@@ -386,6 +397,7 @@ macro(pqt_target_include_directories)
     if(${dir_count} GREATER 0)
         target_include_directories(photoqt-modern     PRIVATE ${dir})
         target_include_directories(photoqt-integrated PRIVATE ${dir})
+        target_include_directories(photoqt-shared     PRIVATE ${dir})
         target_include_directories(photoqt            PRIVATE ${dir})
     endif()
 endmacro()
@@ -396,6 +408,7 @@ macro(pqt_target_link_libraries)
     if(${lnk_count} GREATER 0)
         target_link_libraries(photoqt-modern     PRIVATE ${lnk} ${extra_lnk})
         target_link_libraries(photoqt-integrated PRIVATE ${lnk} ${extra_lnk})
+        target_link_libraries(photoqt-shared     PRIVATE ${lnk} ${extra_lnk})
         target_link_libraries(photoqt            PRIVATE ${lnk} ${extra_lnk})
     endif()
 endmacro()
@@ -421,7 +434,7 @@ set_target_properties(photoqt PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(photoqt PRIVATE photoqt-modern photoqt-integrated)
+target_link_libraries(photoqt PRIVATE photoqt-modern photoqt-integrated photoqt-shared)
 
 # link executable
 pqt_target_link_libraries(Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core

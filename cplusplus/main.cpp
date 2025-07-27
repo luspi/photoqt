@@ -285,29 +285,55 @@ int main(int argc, char *argv[]) {
     // figure out modern vs integrated without use of PQCSettings
 
     bool useModernInterface = true;
-    if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-        QSqlDatabase dbtmp;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant");
-        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-        dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-        if(!dbtmp.open()) {
-            qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
-            qWarning() << "Assuming modern interface.";
-        } else {
-            QSqlQuery query(dbtmp);
-            if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
-                qWarning() << "Unable to check for generalInterfaceVariant setting";
-            else {
-                if(query.next()) {
-                    const QString var = query.value(0).toString();
-                    useModernInterface = (var=="modern");
+
+    if(!app.forceModernInterface && !app.forceIntegratedInterface) {
+        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+            QSqlDatabase dbtmp;
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
+            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+            if(!dbtmp.open()) {
+                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
+                qWarning() << "Assuming modern interface.";
+            } else {
+                QSqlQuery query(dbtmp);
+                if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
+                    qWarning() << "Unable to check for generalInterfaceVariant setting";
+                else {
+                    if(query.next()) {
+                        const QString var = query.value(0).toString();
+                        useModernInterface = (var=="modern");
+                    }
                 }
+                query.clear();
+                dbtmp.close();
             }
-            query.clear();
-            dbtmp.close();
+        }
+    } else if(app.forceModernInterface || app.forceIntegratedInterface) {
+        useModernInterface = !app.forceIntegratedInterface;
+        // we need to update this value here as otherwise the styling in PQCLook might be wrong
+        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+            QSqlDatabase dbtmp;
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+            if(!dbtmp.open()) {
+                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
+                qWarning() << "Assuming modern interface.";
+            } else {
+                QSqlQuery query(dbtmp);
+                query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+                query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
+                if(!query.exec())
+                    qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
+                query.clear();
+                dbtmp.close();
+            }
         }
     }
 
@@ -316,23 +342,18 @@ int main(int argc, char *argv[]) {
     // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     if(useModernInterface)
-        engine.loadFromModule("PhotoQt.Modern", "PQMainWindowModern");
+        engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
     else
-        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindowIntegrated");
+        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindow");
 #else
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
     engine.addImportPath(":/");
     if(useModernInterface)
-        engine.load("qrc:/PhotoQt/Modern/qml/PQMainWindowModern.qml");
+        engine.load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
     else
-        engine.load("qrc:/PhotoQt/Integrated/qml/PQMainWindowIntegrated.qml");
+        engine.load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
 #endif
-
-    QImage img(":/light/reset.svg");
-    img.save("/home/luspi/test.jpg");
-    QFileInfo inf(":/");
-    qWarning() << ">>> requestImage:" << inf.absoluteDir().entryList();
 
     int ret = app.exec();
 

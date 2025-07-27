@@ -22,6 +22,7 @@
 
 import QtQuick
 import PhotoQt.Modern
+import PhotoQt.Shared
 
 Rectangle {
 
@@ -33,10 +34,10 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     radius: 5
 
-    border.color: PQCLook.baseColorHighlight 
+    border.color: PQCLook.baseColorHighlight
     border.width: 1
 
-    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
+    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     property string text: ""
@@ -80,13 +81,13 @@ Rectangle {
         width: control.forceWidth ? control.forceWidth-20 : undefined
         elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
         text: control.text
-        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL 
-        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold 
+        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
+        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
         opacity: enabled ? 1.0 : 0.6
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: PQCLook.textColor 
+        color: PQCLook.textColor
     }
 
     PQMouseArea {

@@ -22,71 +22,88 @@
 
 #include <pqc_look.h>
 #include <pqc_settingscpp.h>
+#include <pqc_configfiles.h>
 #include <QCoreApplication>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
+#include <QSqlQuery>
+#include <QFile>
+#include <QSqlError>
+#include <QStyle>
+#include <QStyleHints>
+#include <QApplication>
 
 PQCLook::PQCLook() : QObject() {
 
-    lightness_threshold = 96;
-
-    // we use this to preserve the given order
-    colorHexes = {"#222222",
-                  "#110505", "#051105", "#050b11", "#110b02",
-                  "#dddddd",
-                  "#ff8080", "#a4c4a4", "#a4a4ff", "#ffd7c0"};
-    colorNames = {QCoreApplication::translate("settingsmanager", "dark gray"),
-                  QCoreApplication::translate("settingsmanager", "dark red"),
-                  QCoreApplication::translate("settingsmanager", "dark green"),
-                  QCoreApplication::translate("settingsmanager", "dark blue"),
-                  QCoreApplication::translate("settingsmanager", "dark orange"),
-                  QCoreApplication::translate("settingsmanager", "light gray"),
-                  QCoreApplication::translate("settingsmanager", "light red"),
-                  QCoreApplication::translate("settingsmanager", "light green"),
-                  QCoreApplication::translate("settingsmanager", "light blue"),
-                  QCoreApplication::translate("settingsmanager", "light orange")};
-
-    calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
+    m_interfaceModernVariant = (PQCSettingsCPP::get().getGeneralInterfaceVariant() == "modern");
 
     calculateFontSizes(11);
 
     m_fontWeightNormal = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontNormalWeight()));
     m_fontWeightBold = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontBoldWeight()));
+    qWarning() << ">>> m_fontWeightBold =" << m_fontWeightBold;
 
-    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
+    lightness_threshold = 96;
 
-        const QString val = PQCSettingsCPP::get().getInterfaceAccentColor();
-        calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
+    if(!m_interfaceModernVariant) {
 
-        Q_EMIT iconShadeChanged();
+        calculateColors("");
 
-        Q_EMIT baseColorChanged();
-        Q_EMIT baseColorAccentChanged();
-        Q_EMIT baseColorHighlightChanged();
-        Q_EMIT baseColorActiveChanged();
+    } else {
 
-        Q_EMIT inverseColorChanged();
-        Q_EMIT inverseColorAccentChanged();
-        Q_EMIT inverseColorHighlightChanged();
-        Q_EMIT inverseColorActiveChanged();
+        // we use this to preserve the given order
+        colorHexes = {"#222222",
+                      "#110505", "#051105", "#050b11", "#110b02",
+                      "#dddddd",
+                      "#ff8080", "#a4c4a4", "#a4a4ff", "#ffd7c0"};
+        colorNames = {QCoreApplication::translate("settingsmanager", "dark gray"),
+                      QCoreApplication::translate("settingsmanager", "dark red"),
+                      QCoreApplication::translate("settingsmanager", "dark green"),
+                      QCoreApplication::translate("settingsmanager", "dark blue"),
+                      QCoreApplication::translate("settingsmanager", "dark orange"),
+                      QCoreApplication::translate("settingsmanager", "light gray"),
+                      QCoreApplication::translate("settingsmanager", "light red"),
+                      QCoreApplication::translate("settingsmanager", "light green"),
+                      QCoreApplication::translate("settingsmanager", "light blue"),
+                      QCoreApplication::translate("settingsmanager", "light orange")};
 
-        Q_EMIT faintColorChanged();
-        Q_EMIT transColorChanged();
-        Q_EMIT transColorAccentChanged();
-        Q_EMIT transColorHighlightChanged();
-        Q_EMIT transColorActiveChanged();
+        calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
 
-        Q_EMIT transInverseColorChanged();
+        connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
 
-        Q_EMIT textColorChanged();
-        Q_EMIT textColorDisabledChanged();
+            const QString val = PQCSettingsCPP::get().getInterfaceAccentColor();
+            calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
 
-        Q_EMIT textInverseColorChanged();
-        Q_EMIT textInverseColorHighlightChanged();
-        Q_EMIT textInverseColorActiveChanged();
+            Q_EMIT iconShadeChanged();
 
-    });
+            Q_EMIT baseColorChanged();
+            Q_EMIT baseColorAccentChanged();
+            Q_EMIT baseColorHighlightChanged();
+            Q_EMIT baseColorActiveChanged();
+
+            Q_EMIT inverseColorChanged();
+            Q_EMIT inverseColorAccentChanged();
+            Q_EMIT inverseColorHighlightChanged();
+            Q_EMIT inverseColorActiveChanged();
+
+            Q_EMIT transColorChanged();
+            Q_EMIT transColorAccentChanged();
+            Q_EMIT transColorHighlightChanged();
+            Q_EMIT transColorActiveChanged();
+
+            Q_EMIT transInverseColorChanged();
+
+            Q_EMIT textColorChanged();
+            Q_EMIT textColorDisabledChanged();
+
+            Q_EMIT textInverseColorChanged();
+            Q_EMIT textInverseColorHighlightChanged();
+            Q_EMIT textInverseColorActiveChanged();
+
+        });
+
+    }
 
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontBoldWeightChanged, this, [=]() {
 
@@ -107,86 +124,111 @@ PQCLook::~PQCLook() { }
 
 void PQCLook::calculateColors(QString name) {
 
-    QString base = name;
-    if(!name.startsWith("#"))
-        base = QColor(name).name(QColor::HexArgb);
+    if(!m_interfaceModernVariant) {
 
-#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
-    QColor col = QColor::fromString(base);
+        m_iconShade = "dark";
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+        qWarning() << ">>>" << qApp->styleHints()->colorScheme();
+        if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
+            m_iconShade = "light";
+        else if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Unknown) {
+            const QPalette defaultPalette;
+            const auto text = defaultPalette.color(QPalette::WindowText);
+            const auto window = defaultPalette.color(QPalette::Window);
+            if(text.lightness() > window.lightness())
+                m_iconShade = "light";
+        }
+
 #else
-    QColor col(base);
+        const QPalette defaultPalette;
+        const auto text = defaultPalette.color(QPalette::WindowText);
+        const auto window = defaultPalette.color(QPalette::Window);
+        if(text.lightness() > window.lightness())
+            m_iconShade = "light";
 #endif
 
-    QColor colTrans = col;
-    colTrans.setAlpha(222);
-
-    m_baseColor = base;
-    m_transColor = colTrans.name(QColor::HexArgb);
-
-    colTrans.setAlpha(20);
-    m_faintColor = colTrans.name(QColor::HexArgb);
-
-    int val = qMax(col.red(), qMax(col.green(), col.blue()));
-
-    QColor invcol((255-val), (255-val), (255-val));
-    m_inverseColor = invcol.name(QColor::HexArgb);
-    QColor transinvcol = invcol;
-    transinvcol.setAlpha(222);
-    m_transInverseColor = transinvcol.name(QColor::HexArgb);
-
-    const int accent = 75;
-    const int highlight = 150;
-    const int active = 225;
-
-    if(col.lightness() < lightness_threshold) {
-
-        m_iconShade = "light";
-
-        m_baseColorAccent = col.lighter(accent).name(QColor::HexArgb);
-        m_baseColorHighlight = col.lighter(highlight).name(QColor::HexArgb);
-        m_baseColorActive = col.lighter(active).name(QColor::HexArgb);
-
-        m_transColorAccent = colTrans.lighter(accent).name(QColor::HexArgb);
-        m_transColorHighlight = colTrans.lighter(highlight).name(QColor::HexArgb);
-        m_transColorActive = colTrans.lighter(active).name(QColor::HexArgb);
-
-        QColor coltxt(255,255,255);
-        m_textColor = coltxt.name(QColor::HexArgb);
-        m_textColorDisabled = coltxt.darker(highlight).name(QColor::HexArgb);
-
-        m_inverseColorAccent = invcol.darker(accent).name(QColor::HexArgb);
-        m_inverseColorHighlight = invcol.darker(highlight).name(QColor::HexArgb);
-        m_inverseColorActive = invcol.darker(active).name(QColor::HexArgb);
-
-        QColor invcoltxt(75,75,75);
-        m_textInverseColor = invcoltxt.name(QColor::HexArgb);
-        m_textInverseColorHighlight = invcoltxt.lighter(highlight).name(QColor::HexArgb);
-        m_textInverseColorActive = invcoltxt.lighter(active).name(QColor::HexArgb);
+        m_tooltipBase = qApp->palette().toolTipBase().color().name(QColor::HexArgb);
+        QColor col = qApp->palette().toolTipText().color();
+        m_tooltipText = col.name(QColor::HexArgb);
+        col.setAlpha(175);
+        m_tooltipBorder = col.name(QColor::HexArgb);
 
     } else {
 
-        m_iconShade = "dark";
+        QString base = name;
+        if(!name.startsWith("#"))
+            base = QColor(name).name(QColor::HexArgb);
 
-        m_baseColorAccent = col.darker(accent).name(QColor::HexArgb);
-        m_baseColorHighlight = col.darker(highlight).name(QColor::HexArgb);
-        m_baseColorActive = col.darker(active).name(QColor::HexArgb);
+        QColor col = QColor::fromString(base);
+        QColor colTrans = col;
+        colTrans.setAlpha(222);
 
-        m_transColorAccent = colTrans.darker(accent).name(QColor::HexArgb);
-        m_transColorHighlight = colTrans.darker(highlight).name(QColor::HexArgb);
-        m_transColorActive = colTrans.darker(active).name(QColor::HexArgb);
+        m_baseColor = base;
+        m_transColor = colTrans.name(QColor::HexArgb);
 
-        QColor coltxt(0,0,0);
-        m_textColor = coltxt.name(QColor::HexArgb);
-        m_textColorDisabled = coltxt.lighter(highlight).name(QColor::HexArgb);
+        int val = qMax(col.red(), qMax(col.green(), col.blue()));
 
-        m_inverseColorAccent = invcol.lighter(accent).name(QColor::HexArgb);
-        m_inverseColorHighlight = invcol.lighter(highlight).name(QColor::HexArgb);
-        m_inverseColorActive = invcol.lighter(active).name(QColor::HexArgb);
+        QColor invcol((255-val), (255-val), (255-val));
+        m_inverseColor = invcol.name(QColor::HexArgb);
+        QColor transinvcol = invcol;
+        transinvcol.setAlpha(222);
+        m_transInverseColor = transinvcol.name(QColor::HexArgb);
 
-        QColor invcoltxt(180,180,180);
-        m_textInverseColor = invcoltxt.name(QColor::HexArgb);
-        m_textInverseColorHighlight = invcoltxt.darker(highlight).name(QColor::HexArgb);
-        m_textInverseColorActive = invcoltxt.darker(active).name(QColor::HexArgb);
+        const int accent = 75;
+        const int highlight = 150;
+        const int active = 225;
+
+        if(col.lightness() < lightness_threshold) {
+
+            m_iconShade = "light";
+
+            m_baseColorAccent = col.lighter(accent).name(QColor::HexArgb);
+            m_baseColorHighlight = col.lighter(highlight).name(QColor::HexArgb);
+            m_baseColorActive = col.lighter(active).name(QColor::HexArgb);
+
+            m_transColorAccent = colTrans.lighter(accent).name(QColor::HexArgb);
+            m_transColorHighlight = colTrans.lighter(highlight).name(QColor::HexArgb);
+            m_transColorActive = colTrans.lighter(active).name(QColor::HexArgb);
+
+            QColor coltxt(255,255,255);
+            m_textColor = coltxt.name(QColor::HexArgb);
+            m_textColorDisabled = coltxt.darker(highlight).name(QColor::HexArgb);
+
+            m_inverseColorAccent = invcol.darker(accent).name(QColor::HexArgb);
+            m_inverseColorHighlight = invcol.darker(highlight).name(QColor::HexArgb);
+            m_inverseColorActive = invcol.darker(active).name(QColor::HexArgb);
+
+            QColor invcoltxt(75,75,75);
+            m_textInverseColor = invcoltxt.name(QColor::HexArgb);
+            m_textInverseColorHighlight = invcoltxt.lighter(highlight).name(QColor::HexArgb);
+            m_textInverseColorActive = invcoltxt.lighter(active).name(QColor::HexArgb);
+
+        } else {
+
+            m_iconShade = "dark";
+
+            m_baseColorAccent = col.darker(accent).name(QColor::HexArgb);
+            m_baseColorHighlight = col.darker(highlight).name(QColor::HexArgb);
+            m_baseColorActive = col.darker(active).name(QColor::HexArgb);
+
+            m_transColorAccent = colTrans.darker(accent).name(QColor::HexArgb);
+            m_transColorHighlight = colTrans.darker(highlight).name(QColor::HexArgb);
+            m_transColorActive = colTrans.darker(active).name(QColor::HexArgb);
+
+            QColor coltxt(0,0,0);
+            m_textColor = coltxt.name(QColor::HexArgb);
+            m_textColorDisabled = coltxt.lighter(highlight).name(QColor::HexArgb);
+
+            m_inverseColorAccent = invcol.lighter(accent).name(QColor::HexArgb);
+            m_inverseColorHighlight = invcol.lighter(highlight).name(QColor::HexArgb);
+            m_inverseColorActive = invcol.lighter(active).name(QColor::HexArgb);
+
+            QColor invcoltxt(180,180,180);
+            m_textInverseColor = invcoltxt.name(QColor::HexArgb);
+            m_textInverseColorHighlight = invcoltxt.darker(highlight).name(QColor::HexArgb);
+            m_textInverseColorActive = invcoltxt.darker(active).name(QColor::HexArgb);
+
+        }
 
     }
 

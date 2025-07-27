@@ -23,7 +23,7 @@
 import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
-import PhotoQt.Modern
+import PhotoQt.Shared
 
 SystemTrayIcon {
 
