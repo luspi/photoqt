@@ -31,7 +31,7 @@ Rectangle {
 
     SystemPalette { id: pqtPalette }
 
-    Rectangle {
+    Item {
         id: containerItemForAnchors
         x: (parent.width-width)/2
         y: (parent.height-height)/2
@@ -39,51 +39,12 @@ Rectangle {
         height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     }
 
-    states: [
-        State {
-            name: "popout"
-            PropertyChanges {
-                minimap_top.x: 0
-                minimap_top.y: 0
-                minimap_top.width: minimap_popout.width
-                minimap_top.height: minimap_popout.height
-                minimap_top.opacity: 1
-            }
-            PropertyChanges {
-                img.x: (minimap_top.width-img.width)/2
-                img.y: (minimap_top.height-img.height)/2
-                img.sourceSize: Qt.size(minimap_top.width, minimap_top.height)
-            }
-            PropertyChanges {
-                containerItemForAnchors.color: PQCLook.baseColorAccent
-            }
-        },
-        State {
-            name: "normal"
-            PropertyChanges {
-                minimap_top.x: image_top.width-minimap_top.width-50
-                minimap_top.y: image_top.height-minimap_top.height-50
-                minimap_top.parent: image_top
-                minimap_top.width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
-                minimap_top.height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
-                minimap_top.opacity: minimap_top.minimapNeeded ? ((minimap_top.minimapActive||minimap_top.containsMouse) ? 1 : 0.2) : 0
-            }
-            PropertyChanges {
-                img.x: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
-                img.y: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
-                img.sourceSize: minimap_top.sl == 0 ?
-                                    Qt.size(125,125) :
-                                    (minimap_top.sl == 1 ?
-                                         Qt.size(250, 250) :
-                                         (minimap_top.sl == 2 ?
-                                              Qt.size(450,450) :
-                                              Qt.size(650,650)))
-            }
-            PropertyChanges {
-                containerItemForAnchors.color: "transparent"
-            }
-        }
-    ]
+    x: PQCConstants.imageDisplaySize.width-minimap_top.width-50
+    y: PQCConstants.imageDisplaySize.height-minimap_top.height-50
+    // parent: parent
+    width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
+    height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
+    opacity: minimap_top.minimapNeeded ? ((minimap_top.minimapActive||minimap_top.containsMouse) ? 1 : 0.2) : 0
 
     color: PQCLook.transColor
     border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
@@ -220,6 +181,17 @@ Rectangle {
     Image {
         id: img
 
+        x: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
+        y: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 3
+        sourceSize: minimap_top.sl == 0 ?
+                            Qt.size(125,125) :
+                            (minimap_top.sl == 1 ?
+                                 Qt.size(250, 250) :
+                                 (minimap_top.sl == 2 ?
+                                      Qt.size(450,450) :
+                                      Qt.size(650,650)))
+
+
         fillMode: Image.PreserveAspectFit
         source: ""
         cache: false
@@ -228,14 +200,15 @@ Rectangle {
         clip: true
 
         Rectangle {
+            id: highlight_rect
             x: parent.width*PQCConstants.currentVisibleAreaX
             y: parent.height*PQCConstants.currentVisibleAreaY
             width: parent.width*PQCConstants.currentVisibleAreaWidthRatio
             height: parent.height*PQCConstants.currentVisibleAreaHeightRatio
             opacity: 0.7
-            color: PQCLook.baseColorAccent
+            color: "#BB000000"
             border.width: 2
-            border.color: PQCLook.baseColor
+            border.color: "black"
             visible: minimap_top.minimapNeeded
             radius: 2
             MouseArea {
@@ -246,12 +219,12 @@ Rectangle {
                 cursorShape: Qt.SizeAllCursor
                 drag.onActiveChanged: {
                     if(!drag.active) {
-                        x = Qt.binding(function() { return parent.width*PQCConstants.currentVisibleAreaX } )
-                        y = Qt.binding(function() { return parent.height*PQCConstants.currentVisibleAreaY } )
+                        highlight_rect.x = Qt.binding(function() { return highlight_rect.parent.width*PQCConstants.currentVisibleAreaX } )
+                        highlight_rect.y = Qt.binding(function() { return highlight_rect.parent.height*PQCConstants.currentVisibleAreaY } )
                         PQCNotify.currentFlickableReturnToBounds()
                     } else {
-                        x = x
-                        y = y
+                        highlight_rect.x = highlight_rect.x
+                        highlight_rect.y = highlight_rect.y
                     }
                 }
             }
