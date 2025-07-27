@@ -24,28 +24,64 @@ import QtQuick
 import PhotoQt.Integrated
 import PhotoQt.Shared
 
-Window {
+Item {
 
-    id: minimap_popout
+    PQMenu {
 
-    width: 300
-    height: 200
+        id: rightclickmenu
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
+        property bool resetPosAfterHide: false
 
-    title: qsTranslate("image", "Minimap")
+        PQMenuItem {
+            icon.source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
+            text: qsTranslate("image", PQCSettings.filetypesArchiveLeftRight ? "Unlock arrow keys" : "Lock arrow keys")
+            onTriggered: {
+                PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight
+            }
+        }
 
-    color: PQCLook.transColor 
+        PQMenuItem {
+            icon.source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
+            text: qsTranslate("image", "Viewer mode")
+            onTriggered: {
+                PQCFileFolderModel.enableViewerMode(PQCFileFolderModel.currentFile)
+            }
+        }
 
-    PQMinimap {
-        id: minimap
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+            text: qsTranslate("image", "Reset position")
+            onTriggered: {
+                rightclickmenu.resetPosAfterHide = true
+            }
+        }
+
+        PQMenuItem {
+            icon.source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+            text: qsTranslate("image", "Hide controls")
+            onTriggered:
+                PQCSettings.filetypesArchiveControls = false
+        }
+
+        onVisibleChanged: {
+            if(!visible && resetPosAfterHide) {
+                resetPosAfterHide = false
+                PQCNotify.currentArchiveControlsResetPosition()
+            }
+        }
+
     }
 
-    Component.onCompleted:
-        show()
+    Connections {
 
-    onClosing: {
-        PQCSettings.interfaceMinimapPopout = false 
+        target: PQCNotify
+
+        function onShowArchiveControlsContextMenu() {
+            rightclickmenu.popup()
+        }
+
     }
 
 }

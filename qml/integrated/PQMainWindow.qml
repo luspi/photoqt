@@ -122,9 +122,6 @@ ApplicationWindow {
         active: false
         sourceComponent: PQImage {
             toplevelItem: fullscreenitem
-
-            PQImageControls {}
-
         }
     }
 

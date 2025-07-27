@@ -22,16 +22,13 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Integrated
 import PhotoQt.Shared
 
 Loader {
 
     id: ldr_top
 
-    SystemPalette { id: pqtPalette }
-
-    active: PQCConstants.currentImageIsDocument && PQCSettings.filetypesDocumentControls && PQCConstants.currentFileInsideTotal>1
+    active: PQCConstants.currentImageIsArchive && PQCSettings.filetypesArchiveControls && PQCConstants.currentFileInsideTotal>1 && !PQCFileFolderModel.isARC
 
     sourceComponent:
     Item {
@@ -47,6 +44,8 @@ Loader {
         width: cont_row.width+20
         height: 50
 
+        property bool isComicBook: PQCScriptsImages.isComicBook(PQCFileFolderModel.currentFile)
+
         property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || viewermodemouse.containsMouse ||
                                mouselast.containsMouse || mousenext.containsMouse || mouseprev.containsMouse || mousefirst.containsMouse
         opacity: hovered ? 1 : 0.4
@@ -55,14 +54,27 @@ Loader {
         property bool manuallyDragged: false
 
         Connections {
-            target: ldr_top.parent.parent
+            target: controlitem.parent
             enabled: controlitem.manuallyDragged
             function onWidthChanged() {
-                controlitem.x = Math.min(controlitem.x, ldr_top.parent.parent.width-controlitem.width-5)
+                controlitem.x = Math.min(controlitem.x, controlitem.parent.parent.width-controlitem.width-5)
             }
             function onHeightChanged() {
-                controlitem.y = Math.min(controlitem.y, ldr_top.parent.parent.height-controlitem.height-5)
+                controlitem.y = Math.min(controlitem.y, controlitem.parent.parent.height-controlitem.height-5)
             }
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onCurrentArchiveControlsResetPosition() {
+                controlitem.manuallyDragged = false
+                controlitem.x = Qt.binding(function() { return (controlitem.parent.width-controlitem.width)/2 })
+                controlitem.y = Qt.binding(function() { return controlitem.parent.height-controlitem.height-20 })
+                PQCConstants.extraControlsLocation = Qt.point(-1,-1)
+            }
+
         }
 
         onXChanged: {
@@ -88,7 +100,7 @@ Loader {
 
         Rectangle {
             anchors.fill: parent
-            color: pqtPalette.base
+            color: "#88000000"
             opacity: 0.9
             radius: 5
         }
@@ -99,8 +111,8 @@ Loader {
             drag.target: parent
             drag.minimumX: 5
             drag.minimumY: 5
-            drag.maximumX: ldr_top.parent.parent.width-controlitem.width-5
-            drag.maximumY: ldr_top.parent.parent.height-controlitem.height-5
+            drag.maximumX: controlitem.parent.parent.width-controlitem.width-5
+            drag.maximumY: controlitem.parent.parent.height-controlitem.height-5
             hoverEnabled: true
             cursorShape: Qt.SizeAllCursor
             acceptedButtons: Qt.RightButton|Qt.LeftButton
@@ -109,7 +121,7 @@ Loader {
             drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton)
-                    menu.popup()
+                    PQCNotify.showArchiveControlsContextMenu()
             }
         }
 
@@ -121,8 +133,48 @@ Loader {
             y: (parent.height-height)/2
             spacing: 5
 
-            Row {
+            ComboBox {
+
+                id: fileselect
+
                 y: (parent.height-height)/2
+                width: 400
+
+                // elide: Text.ElideMiddle
+                // transparentBackground: true
+
+                visible: !controlitem.isComicBook
+
+                currentIndex: PQCConstants.currentFileInsideNum
+
+                onCurrentIndexChanged: {
+                    if(currentIndex !== PQCConstants.currentFileInsideNum) {
+                        PQCNotify.currentArchiveJumpTo(currentIndex)
+                    }
+                }
+
+                model: PQCConstants.currentFileInsideList
+
+                popup.onOpened: {
+                    PQCConstants.currentArchiveComboOpen = true
+                }
+                popup.onClosed: {
+                    PQCConstants.currentArchiveComboOpen = false
+                }
+                Connections {
+                    target: PQCNotify
+                    function onCurrentArchiveCloseCombo() {
+                        fileselect.popup.close()
+                    }
+                }
+
+            }
+
+            Row {
+
+                y: (parent.height-height)/2
+
+                visible: controlitem.isComicBook
 
                 Item {
 
@@ -142,18 +194,18 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/first.svg"
                     }
-                    PQMouseArea {
+                    MouseArea {
                         id: mousefirst
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        text: qsTranslate("image", "Go to first page")
+                        // text: qsTranslate("image", "Go to first page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCNotify.currentDocumentJump(-PQCConstants.currentFileInsideNum)
+                                PQCNotify.currentArchiveJump(-PQCConstants.currentFileInsideNum)
                             else
-                                menu.popup()
+                                PQCNotify.showArchiveControlsContextMenu()
                         }
                     }
                 }
@@ -175,18 +227,18 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     }
-                    PQMouseArea {
+                    MouseArea {
                         id: mouseprev
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        text: qsTranslate("image", "Go to previous page")
+                        // text: qsTranslate("image", "Go to previous page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCNotify.currentDocumentJump(-1)
+                                PQCNotify.currentArchiveJump(-1)
                             else
-                                menu.popup()
+                                PQCNotify.showArchiveControlsContextMenu()
                         }
                     }
                 }
@@ -208,18 +260,18 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     }
-                    PQMouseArea {
+                    MouseArea {
                         id: mousenext
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        text: qsTranslate("image", "Go to next page")
+                        // text: qsTranslate("image", "Go to next page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCNotify.currentDocumentJump(1)
+                                PQCNotify.currentArchiveJump(1)
                             else
-                                menu.popup()
+                                PQCNotify.showArchiveControlsContextMenu()
                         }
                     }
                 }
@@ -242,18 +294,18 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/last.svg"
                     }
-                    PQMouseArea {
+                    MouseArea {
                         id: mouselast
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.RightButton|Qt.LeftButton
-                        text: qsTranslate("image", "Go to last page")
+                        // text: qsTranslate("image", "Go to last page")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
-                                PQCNotify.currentDocumentJump(PQCConstants.currentFileInsideTotal-PQCConstants.currentFileInsideNum-1)
+                                PQCNotify.currentArchiveJump(PQCConstants.currentFileInsideTotal-PQCConstants.currentFileInsideNum-1)
                             else
-                                menu.popup()
+                                PQCNotify.showArchiveControlsContextMenu()
                         }
                     }
                 }
@@ -261,36 +313,46 @@ Loader {
             }
 
             Item {
+                visible: controlitem.isComicBook
                 width: 5
                 height: 1
             }
 
-            PQText {
+            Label {
+                visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: "|"
+                font.pointSize: PQCLook.fontSize
             }
 
             Item {
+                visible: controlitem.isComicBook
                 width: 5
                 height: 1
             }
 
-            PQText {
+            Label {
+                visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: qsTranslate("image", "Page %1/%2").arg(PQCConstants.currentFileInsideNum+1).arg(PQCConstants.currentFileInsideTotal)
+                font.pointSize: PQCLook.fontSize
             }
 
             Item {
+                visible: controlitem.isComicBook
                 width: 5
                 height: 1
             }
 
-            PQText {
+            Label {
+                visible: controlitem.isComicBook
                 y: (parent.height-height)/2
                 text: "|"
+                font.pointSize: PQCLook.fontSize
             }
 
             Item {
+                visible: controlitem.isComicBook
                 width: 5
                 height: 1
             }
@@ -304,6 +366,8 @@ Loader {
                 opacity: viewermodemouse.containsMouse ? 1 : 0.5
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
+                visible: controlitem.isComicBook
+
                 Image {
                     x: 5
                     y: 5
@@ -311,18 +375,18 @@ Loader {
                     height: parent.height-10
                     sourceSize: Qt.size(width, height)
                     source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
-                    PQMouseArea {
+                    MouseArea {
                         id: viewermodemouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         acceptedButtons: Qt.LeftButton|Qt.RightButton
-                        text: qsTranslate("image", "Click to enter viewer mode")
+                        // text: qsTranslate("image", "Click to enter viewer mode")
                         onClicked: (mouse) => {
                             if(mouse.button === Qt.LeftButton)
                                 PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
                             else
-                                menu.popup()
+                                PQCNotify.showArchiveControlsContextMenu()
                         }
                     }
                 }
@@ -337,8 +401,10 @@ Loader {
                 width: lockrow.width+6
                 height: lockrow.height+6
 
-                opacity: PQCSettings.filetypesDocumentLeftRight ? 1 : 0.3
+                opacity: PQCSettings.filetypesArchiveLeftRight ? 1 : 0.3
                 Behavior on opacity { NumberAnimation { duration: 200 } }
+
+                visible: controlitem.isComicBook
 
                 Row {
                     id: lockrow
@@ -352,77 +418,28 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    PQText {
+                    Label {
                         text: "←/→"
+                        font.pointSize: PQCLook.fontSize
                     }
 
                 }
 
-                PQMouseArea {
+                MouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
-                    text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
+                    // text: qsTranslate("image", "Lock left/right arrow keys to page navigation")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.LeftButton)
-                            PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
+                            PQCSettings.filetypesArchiveLeftRight = !PQCSettings.filetypesArchiveLeftRight
                         else
-                            menu.popup()
+                            PQCNotify.showArchiveControlsContextMenu()
                     }
                 }
 
-            }
-
-        }
-
-        PQMenu {
-            id: menu
-
-            property bool resetPosAfterHide: false
-
-            PQMenuItem {
-                icon.source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
-                text: qsTranslate("image", PQCSettings.filetypesDocumentLeftRight ? "Unlock arrow keys" : "Lock arrow keys")
-                onTriggered: {
-                    PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
-                }
-            }
-
-            PQMenuItem {
-                icon.source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
-                text: qsTranslate("image", "Viewer mode")
-                onTriggered: {
-                    PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
-                }
-            }
-
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
-                text: qsTranslate("image", "Reset position")
-                onTriggered: {
-                    menu.resetPosAfterHide = true
-                }
-            }
-
-            PQMenuItem {
-                icon.source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-                text: qsTranslate("image", "Hide controls")
-                onTriggered:
-                    PQCSettings.filetypesDocumentControls = false
-            }
-
-            onVisibleChanged: {
-                if(!visible && resetPosAfterHide) {
-                    resetPosAfterHide = false
-                    controlitem.manuallyDragged = false
-                    controlitem.x = Qt.binding(function() { return (controlitem.parent.width-controlitem.width)/2 })
-                    controlitem.y = Qt.binding(function() { return (0.9*ldr_top.parent.parent.height) })
-                    PQCConstants.extraControlsLocation = Qt.point(-1,-1)
-                }
             }
 
         }

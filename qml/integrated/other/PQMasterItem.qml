@@ -151,6 +151,14 @@ Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQMinimapContextMenu {}
         }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQArchiveControlsContextMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQDocumentControlsContextMenu {}
+        }
 
         /*****************************************/
 

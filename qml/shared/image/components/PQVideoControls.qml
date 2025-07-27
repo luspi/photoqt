@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Integrated
+import QtQuick.Controls
 import PhotoQt.Shared
 
 Loader {
@@ -46,7 +46,7 @@ Loader {
         width: cont_row.width+20
         height: 50
 
-        property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || volumeslider.hovered ||
+        property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || volumeslider.hovered || volumebg.containsMouse ||
                                playpausemouse.containsMouse || volumeiconmouse.containsMouse || posslider.hovered
         opacity: hovered ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -62,6 +62,23 @@ Loader {
             function onHeightChanged() {
                 controlitem.y = Math.min(controlitem.y, ldr_top.parent.parent.height-controlitem.height-5)
             }
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onCurrentVideoMuteUnmute() {
+                controlitem.muteUnmute()
+            }
+
+            function onCurrentVideoControlsResetPosition() {
+                controlitem.manuallyDragged = false
+                controlitem.x = Qt.binding(function() { return (controlitem.parent.width-controlitem.width)/2 })
+                controlitem.y = Qt.binding(function() { return (controlitem.parent.height-controlitem.height-20) })
+                PQCConstants.extraControlsLocation = Qt.point(-1,-1)
+            }
+
         }
 
         onXChanged: {
@@ -108,7 +125,7 @@ Loader {
             drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton)
-                    menu.popup()
+                    PQCNotify.showVideoControlsContextMenu()
             }
         }
 
@@ -127,10 +144,10 @@ Loader {
                 width: height
                 source: "image://svg/:/" + PQCLook.iconShade + "/" + (PQCConstants.currentlyShowingVideoPlaying ? "pause" : "play") + ".svg"
                 sourceSize: Qt.size(width, height)
-                PQMouseArea {
+                MouseArea {
                     id: playpausemouse
                     anchors.fill: parent
-                    text: qsTranslate("image", "Click to play/pause")
+                    // text: qsTranslate("image", "Click to play/pause")
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
@@ -138,20 +155,23 @@ Loader {
                         if(mouse.button === Qt.LeftButton)
                             PQCNotify.playPauseAnimationVideo()
                         else
-                            menu.popup()
+                            PQCNotify.showVideoControlsContextMenu()
                     }
                 }
             }
 
-            PQText {
+            Text {
                 id: curtime
                 y: (parent.height-height)/2
+                color: "white"
+                font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoPosition)
             }
 
-            PQSlider {
+            Slider {
                 id: posslider
                 y: (parent.height-height)/2
+                width: 300
                 live: false
                 from: 0
                 to: PQCConstants.currentlyShowingVideoDuration
@@ -180,9 +200,11 @@ Loader {
 
             }
 
-            PQText {
+            Text {
                 id: totaltime
                 y: (parent.height-height)/2
+                color: "white"
+                font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoDuration)
             }
 
@@ -204,7 +226,7 @@ Loader {
                                           ("image://svg/:/" + PQCLook.iconShade + "/volume_medium.svg") :
                                           ("image://svg/:/" + PQCLook.iconShade + "/volume_high.svg")))
 
-                PQMouseArea {
+                MouseArea {
                     id: volumeiconmouse
                     anchors {
                         fill: parent
@@ -218,12 +240,12 @@ Loader {
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                           //: The volume here is referring to SOUND volume
-                    text: qsTranslate("image", "Volume:") + " " +
-                          PQCSettings.filetypesVideoVolume + "%<br>" +
-                          qsTranslate("image", "Click to mute/unmute")
+                    // text: qsTranslate("image", "Volume:") + " " +
+                          // PQCSettings.filetypesVideoVolume + "%<br>" +
+                          // qsTranslate("image", "Click to mute/unmute")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.RightButton) {
-                            menu.popup()
+                            PQCNotify.showVideoControlsContextMenu()
                             return
                         }
                         controlitem.muteUnmute()
@@ -281,25 +303,27 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    PQText {
+                    Text {
                         id: lrtxt
+                        color: "white"
+                        font.pointSize: PQCLook.fontSize
                         text: "←/→"
                     }
 
                 }
 
-                PQMouseArea {
+                MouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
-                    text: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
+                    // text: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
                         else
-                            menu.popup()
+                            PQCNotify.showVideoControlsContextMenu()
                     }
                 }
 
@@ -328,7 +352,7 @@ Loader {
                     hideVolume.restart()
             }
 
-            PQSlider {
+            Slider {
                 id: volumeslider
                 x: (parent.width-width)/2
                 y: 10
@@ -366,58 +390,6 @@ Loader {
                 backupVolume = PQCSettings.filetypesVideoVolume
                 PQCSettings.filetypesVideoVolume = 0
             }
-        }
-
-        PQMenu {
-            id: menu
-
-            property bool resetPosAfterHide: false
-
-            PQMenuItem {
-                iconSource: PQCConstants.currentlyShowingVideoPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
-                text: PQCConstants.currentlyShowingVideoPlaying ? qsTranslate("image", "Pause video") : qsTranslate("image", "Play video")
-                onTriggered: {
-                    PQCNotify.playPauseAnimationVideo()
-                }
-            }
-
-            PQMenuItem {
-                id: volmenuitem
-                //: refers to muting sound
-                text: PQCSettings.filetypesVideoVolume===0 ?qsTranslate("image", "Unmute") : qsTranslate("image", "Mute")
-                onTriggered: {
-                    controlitem.muteUnmute()
-                }
-            }
-
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
-                text: PQCSettings.filetypesVideoLeftRightJumpVideo ? qsTranslate("image", "Unlock arrow keys") : qsTranslate("image", "Lock arrow keys")
-                onTriggered: {
-                    PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
-                }
-            }
-
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
-                text: qsTranslate("image", "Reset position")
-                onTriggered: {
-                    menu.resetPosAfterHide = true
-                }
-            }
-
-            onVisibleChanged: {
-                if(!visible && resetPosAfterHide) {
-                    resetPosAfterHide = false
-                    controlitem.manuallyDragged = false
-                    controlitem.x = Qt.binding(function() { return (controlitem.parent.width-controlitem.width)/2 })
-                    controlitem.y = Qt.binding(function() { return (controlitem.parent.height-controlitem.height-20) })
-                    PQCConstants.extraControlsLocation = Qt.point(-1,-1)
-                }
-            }
-
         }
 
     }

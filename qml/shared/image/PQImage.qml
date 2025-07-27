@@ -113,6 +113,17 @@ Item {
         }
     }
 
+    /*********************************************************/
+    // different controls for various image items
+
+    PQAnimatedImageControls {}
+    PQPhotoSphereControls {}
+    PQArchiveControls {}
+    PQDocumentControls {}
+    PQVideoControls {}
+
+    /*********************************************************/
+
     Loader {
         id: minimap_loader
         active: PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
