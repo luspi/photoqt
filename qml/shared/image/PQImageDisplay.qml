@@ -1281,22 +1281,22 @@ Loader {
 
                     }
 
-                    // PQBarCodes {
-                    //     id: barcodes
-                    //     isMainImage: loader_top.isMainImage
-                    //     loaderImageScale: loader_top.imageScale
-                    //     imageSource: imageloaderitem.imageSource
+                    PQBarCodes {
+                        id: barcodes
+                        isMainImage: loader_top.isMainImage
+                        loaderImageScale: loader_top.imageScale
+                        imageSource: imageloaderitem.imageSource
 
-                    //     Connections {
+                        Connections {
 
-                    //         target: loader_top
+                            target: loader_top
 
-                    //         function onBarcodeClick() {
-                    //             barcodes.barcodeClicked()
-                    //         }
-                    //     }
+                            function onBarcodeClick() {
+                                barcodes.barcodeClicked()
+                            }
+                        }
 
-                    // }
+                    }
 
                     // PQFaceTracker {
                     //     id: facetracker
