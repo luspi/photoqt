@@ -32,6 +32,8 @@ Loader {
 
     active: PQCConstants.currentlyShowingVideo
 
+    asynchronous: true
+
     sourceComponent:
     Item {
 
@@ -144,10 +146,10 @@ Loader {
                 width: height
                 source: "image://svg/:/" + PQCLook.iconShade + "/" + (PQCConstants.currentlyShowingVideoPlaying ? "pause" : "play") + ".svg"
                 sourceSize: Qt.size(width, height)
-                MouseArea {
+                PQGenericMouseArea {
                     id: playpausemouse
                     anchors.fill: parent
-                    // text: qsTranslate("image", "Click to play/pause")
+                    tooltip: qsTranslate("image", "Click to play/pause")
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
@@ -226,7 +228,7 @@ Loader {
                                           ("image://svg/:/" + PQCLook.iconShade + "/volume_medium.svg") :
                                           ("image://svg/:/" + PQCLook.iconShade + "/volume_high.svg")))
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: volumeiconmouse
                     anchors {
                         fill: parent
@@ -239,10 +241,10 @@ Loader {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
-                          //: The volume here is referring to SOUND volume
-                    // text: qsTranslate("image", "Volume:") + " " +
-                          // PQCSettings.filetypesVideoVolume + "%<br>" +
-                          // qsTranslate("image", "Click to mute/unmute")
+                             //: The volume here is referring to SOUND volume
+                    tooltip: qsTranslate("image", "Volume:") + " " +
+                             PQCSettings.filetypesVideoVolume + "%<br>" +
+                             qsTranslate("image", "Click to mute/unmute")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.RightButton) {
                             PQCNotify.showVideoControlsContextMenu()
@@ -312,13 +314,13 @@ Loader {
 
                 }
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     acceptedButtons: Qt.LeftButton|Qt.RightButton
-                    // text: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
+                    tooltip: qsTranslate("image", "Lock left/right arrow keys to jumping forwards/backwards 5 seconds")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo

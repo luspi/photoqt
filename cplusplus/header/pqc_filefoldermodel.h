@@ -171,6 +171,7 @@ public:
     QString getArcFile();
 
     Q_PROPERTY(bool justLeftViewerMode MEMBER m_justLeftViewerMode NOTIFY justLeftViewerModeChanged)
+    Q_PROPERTY(bool activeViewerMode MEMBER m_activeViewerMode NOTIFY activeViewerModeChanged)
 
     /********************************************/
     /********************************************/
@@ -222,6 +223,7 @@ private:
     qint64 m_fileSizeFilter;
     bool m_filterCurrentlyActive;
     bool m_justLeftViewerMode;
+    bool m_activeViewerMode;
 
     int m_currentIndex;
     int m_currentIndexNoDelay;
@@ -305,6 +307,7 @@ Q_SIGNALS:
     void arcNameChanged();
     void arcFileChanged();
     void justLeftViewerModeChanged();
+    void activeViewerModeChanged();
 
 };
 

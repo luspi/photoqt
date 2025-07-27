@@ -15,7 +15,7 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQToolTip.qml ${d}/PQM
 
 SET(d "qml/integrated/other")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQFooter.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQFooter.qml ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/integrated/ongoing")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTrayIcon.qml)

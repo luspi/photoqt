@@ -163,6 +163,8 @@ Q_SIGNALS:
     void currentImageLoadedAndDisplayed(QString filename);
     void openSettingsManagerAt(QString category, QString subcategory);
     void playPauseAnimationVideo();
+    void showToolTip(QString txt, QPoint mouseXY);
+    void hideToolTip(QString txt);
 
     // slideshow
     void slideshowHideHandler();

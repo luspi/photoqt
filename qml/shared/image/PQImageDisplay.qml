@@ -1943,7 +1943,7 @@ Loader {
 
         }
 
-        MouseArea {
+        PQGenericMouseArea {
             id: imagemouse
             anchors.fill: parent
             anchors.leftMargin: -PQCSettings.imageviewMargin
@@ -1953,7 +1953,7 @@ Loader {
             hoverEnabled: true
             propagateComposedEvents: true
             acceptedButtons: Qt.AllButtons
-            // doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+            doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
             enabled: !PQCConstants.touchGestureActive
             onPositionChanged: (mouse) => {
                 cursorShape = Qt.ArrowCursor
@@ -2017,10 +2017,10 @@ Loader {
                 var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
                 PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
             }
-            // onMouseDoubleClicked: (mouse) => {
-            //     var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
-            //     PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
-            // }
+            onMouseDoubleClicked: (mouse) => {
+                var pos = imagemouse.mapToItem(imageloaderitem.toplevelItem, mouse.x, mouse.y)
+                PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+            }
 
             onReleased: (mouse) => {
                 if(mouse.button === Qt.LeftButton && loader_top.listenToClicksOnImage)

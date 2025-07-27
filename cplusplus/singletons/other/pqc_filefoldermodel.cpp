@@ -1432,6 +1432,9 @@ void PQCFileFolderModel::enableViewerMode(int page) {
 
     qDebug() << "args: page =" << page;
 
+    m_activeViewerMode = true;
+    Q_EMIT activeViewerModeChanged();
+
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
         setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
     else {
@@ -1445,6 +1448,9 @@ void PQCFileFolderModel::enableViewerMode(int page) {
 void PQCFileFolderModel::disableViewerMode(bool bufferDisabling) {
 
     qDebug() << "";
+
+    m_activeViewerMode = false;
+    Q_EMIT activeViewerModeChanged();
 
     if(bufferDisabling)
         m_justLeftViewerMode = true;

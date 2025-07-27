@@ -28,6 +28,7 @@ Loader {
     id: ldr_top
 
     active: PQCConstants.currentImageIsAnimated && PQCSettings.filetypesAnimatedControls
+    asynchronous: true
 
     sourceComponent:
     Rectangle {
@@ -63,12 +64,12 @@ Loader {
                     source: PQCConstants.animatedImageIsPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                 }
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: playpausemouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    // text: qsTranslate("image", "Play/Pause motion photo")
+                    tooltip: qsTranslate("image", "Play/Pause motion photo")
                     onClicked: {
                         PQCNotify.playPauseAnimationVideo()
                     }
@@ -91,13 +92,13 @@ Loader {
                     source: "image://svg/:/" + PQCLook.iconShade + "/remember.svg"
                     sourceSize: Qt.size(width, height)
                     enabled: !PQCConstants.animatedImageIsPlaying
-                    MouseArea {
+                    PQGenericMouseArea {
                         id: saveframemouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
                         //: The frame here refers to one of the images making up an animation of a gif or other animated image
-                        // text: qsTranslate("image", "Save current frame to new file")
+                        tooltip: qsTranslate("image", "Save current frame to new file")
                         onClicked: {
                             PQCNotify.currentAnimatedSaveFrame()
                         }
@@ -138,12 +139,12 @@ Loader {
 
                 }
 
-                MouseArea {
+                PQGenericMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    // text: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
+                    tooltip: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
                     onClicked:
                         PQCSettings.filetypesAnimatedLeftRight = !PQCSettings.filetypesAnimatedLeftRight
                 }

@@ -21,35 +21,30 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt.Integrated
 import PhotoQt.Shared
 
-ToolTip {
+PQToolTip {
 
-    id: control
-    text: ""
-    delay: 500
+    id: ttip
 
-    SystemPalette { id: pqtPalette }
+    Connections {
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+        target: PQCNotify
 
-    contentItem: PQText {
-        id: contentText
-        text: control.text
-        font: control.font
-        textFormat: Text.RichText
-        color: PQCLook.tooltipText
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-    }
+        function onShowToolTip(txt : string, pos : point) {
+            ttip.hide()
+            pos = ttip.parent.mapFromGlobal(pos)
+            ttip.x = Qt.binding(function() { return pos.x-ttip.width/2 })
+            ttip.y = Qt.binding(function() { return pos.y-ttip.height })
+            ttip.show(txt, 5000)
+        }
 
-    background: Rectangle {
-        color: PQCLook.tooltipBase
-        border.color: PQCLook.tooltipBorder
-        border.width: 1
-        radius: 3
+        function onHideToolTip(txt : string) {
+            if(ttip.text === txt)
+                ttip.hide()
+        }
+
     }
 
 }

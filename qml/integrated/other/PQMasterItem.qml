@@ -144,6 +144,11 @@ Loader {
         // Loader { id: loader_filedialog }
         // Loader { id: loader_settingsmanager }
 
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQToolTipDisplay {}
+        }
+
         /*****************************************/
         // Context Menus
 

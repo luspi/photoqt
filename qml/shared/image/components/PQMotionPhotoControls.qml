@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Integrated
 import PhotoQt.Shared
 
 Loader {
@@ -29,6 +28,8 @@ Loader {
     id: ldr_top
 
     active: PQCConstants.currentImageIsMotionPhoto && PQCSettings.filetypesMotionPhotoPlayPause
+
+    asynchronous: true
 
     sourceComponent:
         Item {
@@ -65,12 +66,12 @@ Loader {
                         source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
                     }
 
-                    PQMouseArea {
+                    PQGenericMouseArea {
                         id: autoplaymouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("image", "Toggle autoplay")
+                        tooltip: qsTranslate("image", "Toggle autoplay")
                         onClicked: {
                             PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
                         }
@@ -95,12 +96,12 @@ Loader {
                         source: PQCConstants.motionPhotoIsPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     }
 
-                    PQMouseArea {
+                    PQGenericMouseArea {
                         id: playpausemouse
                         anchors.fill: parent
                         hoverEnabled: true
                         cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("image", "Play/Pause motion photo")
+                        tooltip: qsTranslate("image", "Play/Pause motion photo")
                         onClicked: {
                             PQCNotify.playPauseAnimationVideo()
                         }
