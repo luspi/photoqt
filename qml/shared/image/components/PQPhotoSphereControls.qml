@@ -21,14 +21,13 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Integrated
 import PhotoQt.Shared
 
 Loader {
 
     id: ldr_top
 
-    active: PQCConstants.currentImageIsAnimated && PQCSettings.filetypesAnimatedControls
+    active: PQCConstants.showingPhotoSphere && PQCSettings.filetypesPhotoSphereControls
 
     sourceComponent:
     Rectangle {
@@ -51,70 +50,13 @@ Loader {
 
             Item {
 
-                width: 30
-                height: 30
-
-                opacity: playpausemouse.containsMouse ? 1 : 0.2
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                Image {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    sourceSize: Qt.size(width, height)
-                    source: PQCConstants.animatedImageIsPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
-                }
-
-                PQMouseArea {
-                    id: playpausemouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("image", "Play/Pause motion photo")
-                    onClicked: {
-                        PQCNotify.playPauseAnimationVideo()
-                    }
-                }
-
-            }
-
-            // save frame button
-            Item {
-                y: (parent.height-height)/2
-                width: cont_row.height/1.75 + 6
-                height: width
-                Image {
-                    x: 3
-                    y: 3
-                    width: height
-                    height: parent.height-6
-                    opacity: enabled ? 0.75 : 0.25
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
-                    source: "image://svg/:/" + PQCLook.iconShade + "/remember.svg"
-                    sourceSize: Qt.size(width, height)
-                    enabled: !PQCConstants.animatedImageIsPlaying
-                    PQMouseArea {
-                        id: saveframemouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        //: The frame here refers to one of the images making up an animation of a gif or other animated image
-                        text: qsTranslate("image", "Save current frame to new file")
-                        onClicked: {
-                            PQCNotify.currentAnimatedSaveFrame()
-                        }
-                    }
-                }
-            }
-
-            Item {
-
                 id: leftrightlock
 
                 y: (parent.height-height)/2
                 width: lockrow.width+6
                 height: lockrow.height+6
 
-                opacity: PQCSettings.filetypesAnimatedLeftRight ? 1 : 0.3
+                opacity: PQCSettings.filetypesPhotoSphereArrowKeys ? 1 : 0.3
                 Behavior on opacity { NumberAnimation { duration: 200 } }
 
                 Row {
@@ -130,21 +72,23 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    PQText {
+                    Text {
                         y: (parent.height-height)/2
+                        font.pointSize: PQCLook.fontSize
+                        color: "white"
                         text: "←/→"
                     }
 
                 }
 
-                PQMouseArea {
+                MouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("image", "Lock left/right arrow keys to frame navigation")
+                    // text: qsTranslate("image", "Lock arrow keys to moving photo sphere")
                     onClicked:
-                        PQCSettings.filetypesAnimatedLeftRight = !PQCSettings.filetypesAnimatedLeftRight
+                        PQCSettings.filetypesPhotoSphereArrowKeys = !PQCSettings.filetypesPhotoSphereArrowKeys
                 }
 
             }

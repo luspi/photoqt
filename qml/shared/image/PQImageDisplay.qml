@@ -1075,6 +1075,7 @@ Loader {
                                 // we do not want to have a property binding for this
                                 // otherwise we get error messages when the source changes to a different type
                                 Component.onCompleted: {
+                                console.warn(">>> VIDEO QT:", imageloaderitem.imageSource)
                                     imageSource = imageloaderitem.imageSource
                                     loader_top.videoHasAudio = Qt.binding(function() { return videoqt_item.videoHasAudio })
                                     loader_top.videoHasAudioChanged()

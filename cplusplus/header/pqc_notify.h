@@ -134,16 +134,22 @@ Q_SIGNALS:
     void currentVideoJump(int s);
     void currentVideoToPos(int pos);
     void currentVideoMuteUnmute();
+    void currentVideoControlsResetPosition();
     void currentAnimatedJump(int leftright);
     void currentDocumentJump(int leftright);
+    void currentDocumentControlsResetPosition();
     void currentArchiveJump(int leftright);
     void currentArchiveJumpTo(int index);
+    void currentArchiveControlsResetPosition();
     void currentImageReload();
     void currentAnimatedSaveFrame();
 
     // context menu properties
     void closeAllContextMenus();
     void showMinimapContextMenu();
+    void showArchiveControlsContextMenu();
+    void showDocumentControlsContextMenu();
+    void showVideoControlsContextMenu();
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
