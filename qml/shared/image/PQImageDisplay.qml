@@ -761,6 +761,11 @@ Loader {
                     //     z: PQCConstants.currentZValue+1
                     // }
 
+                    PQFaceTracker {
+                        isMainImage: loader_top.isMainImage
+                        imageSource: imageloaderitem.imageSource
+                    }
+
                     onWidthChanged: {
                         if(imageloaderitem.imageLoadedAndReady) {
                             resetDefaults.triggered()
