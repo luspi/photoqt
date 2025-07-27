@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Item {
@@ -108,6 +107,7 @@ Item {
                     radius: 5
 
                     property bool overrideCursorSet: false
+                    property bool hovered: false
 
                     Column {
 
@@ -125,9 +125,15 @@ Item {
                             width: valtxt.width+10
                             height: valtxt.height+10
                             color: "white"
+                            border.width: 1
+                            border.color: "black"
                             radius: 5
-                            PQTextL {
+                            opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
+                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                            Text {
                                 id: valtxt
+                                font.pointSize: PQCLook.fontSize
+                                font.weight: PQCLook.fontWeightBold
                                 x: 5
                                 y: 5
                                 color: "black"
@@ -206,11 +212,16 @@ Item {
                                     local = linkcont.mapFromItem(fullscreenitem, Qt.point(x,y))
                                     linkcont.hovered = (local.x > 0 && local.y > 0 && local.x < linkcont.width && local.y < linkcont.height)
 
-                                    if(copycont.hovered || linkcont.hovered) {
+                                    local = bardeleg.mapFromItem(fullscreenitem, Qt.point(x,y))
+                                    bardeleg.hovered = (local.x > 0 && local.y > 0 && local.x < bardeleg.width && local.y < bardeleg.height)
+
+                                    if(copycont.hovered || linkcont.hovered || bardeleg.hovered) {
                                         bartop.barcode_z += 1
                                         bardeleg.z = bartop.barcode_z
-                                        bardeleg.overrideCursorSet = true
-                                        PQCScriptsOther.setPointingHandCursor()
+                                        if(copycont.hovered || linkcont.hovered) {
+                                            bardeleg.overrideCursorSet = true
+                                            PQCScriptsOther.setPointingHandCursor()
+                                        }
                                     } else if(bardeleg.overrideCursorSet) {
                                         bardeleg.overrideCursorSet = false
                                         PQCScriptsOther.restoreOverrideCursor()
