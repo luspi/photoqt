@@ -68,6 +68,11 @@ Image {
     onVisibleChanged: {
         if(!image.visible)
             currentFile = 0
+        else {
+            PQCConstants.currentFileInsideTotal = fileCount
+            PQCConstants.currentFileInsideNum = currentFile
+            PQCConstants.currentFileInsideList = fileList
+        }
     }
 
     fillMode: Image.Pad
@@ -119,12 +124,20 @@ Image {
     ]
 
     onFileCountChanged: {
-        PQCConstants.currentFileInsideTotal = fileCount
+        if(isMainImage)
+            PQCConstants.currentFileInsideTotal = fileCount
     }
 
     onCurrentFileChanged: {
-        PQCConstants.currentFileInsideNum = currentFile
-        PQCConstants.currentFileInsideName = fileList[currentFile]
+        if(isMainImage) {
+            PQCConstants.currentFileInsideNum = currentFile
+            PQCConstants.currentFileInsideName = fileList[currentFile]
+        }
+    }
+
+    onFileListChanged: {
+        if(isMainImage)
+            PQCConstants.currentFileInsideList = fileList
     }
 
     function setSource() {
@@ -161,6 +174,13 @@ Image {
         function onCurrentArchiveJump(leftright : int) {
             if(image.isMainImage) {
                 image.currentFile = (image.currentFile+leftright+image.fileCount)%image.fileCount
+                image.setSource()
+            }
+        }
+
+        function onCurrentArchiveJumpTo(index : int) {
+            if(image.isMainImage) {
+                image.currentFile = index
                 image.setSource()
             }
         }

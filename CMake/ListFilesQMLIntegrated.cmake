@@ -18,6 +18,7 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageControls.qml)
 
 SET(d "qml/integrated/image/controls")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMotionPhotoControls.qml ${d}/PQAnimatedImageControls.qml ${d}/PQDocumentControls.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQArchiveControls.qml)
 
 SET(d "qml/integrated/other")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/PQBackgroundMessage.qml ${d}/PQShortcuts.qml)
