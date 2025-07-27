@@ -66,7 +66,14 @@ Item {
 
         fillMode: VideoOutput.PreserveAspectFit
 
+        onDurationChanged: {
+            if(videotop.isMainImage)
+                PQCConstants.currentlyShowingVideoDuration = duration/1000
+        }
+
         onPositionChanged: {
+            if(videotop.isMainImage)
+                PQCConstants.currentlyShowingVideoPosition = position/1000
             if(position >= duration-100) {
                 if(PQCSettings.filetypesVideoLoop && !PQCConstants.slideshowRunning)
                     video.seek(0)
@@ -99,6 +106,9 @@ Item {
         if(!visible) {
             video.pause()
             video.seek(0)
+        } else {
+            PQCConstants.currentlyShowingVideoDuration = video.duration/1000
+            PQCConstants.currentlyShowingVideoPosition = video.position/1000
         }
     }
 
@@ -117,6 +127,10 @@ Item {
 
             if(video.seekable)
                 video.seek(video.position + seconds*1000)
+        }
+
+        function onCurrentVideoToPos(pos : int) {
+            videotop.videoToPos(pos)
         }
 
         function onPlayPauseAnimationVideo() {

@@ -29,128 +29,18 @@ Slider {
 
     id: control
 
+    property string tooltip: ""
+
     orientation: Qt.Horizontal
     live: true
 
-    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : (extraSmall ? 150 : 200))
-    implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 150 : 200)) : 20
-
-    stepSize: 1.0
-    property real wheelStepSize: 1.0
-
     property bool _horizontal: (orientation==Qt.Horizontal)
-
-    property bool handleContainsMouse: false
-    property bool sliderContainsMouse: false
-    property bool backgroundContainsMouse: false
-
-    property bool reverseWheelChange: false
 
     property bool extraSmall: false
     property bool extraWide: false
 
-    property string suffix: ""
-    property string tooltip: ""
-
-    snapMode: Slider.SnapAlways
-
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-        z: parent.z-1
-        onEntered: {
-            control.backgroundContainsMouse = true
-        }
-        onExited: {
-            control.backgroundContainsMouse = false
-        }
-    }
-
-    background: Rectangle {
-        x: control._horizontal ? control.leftPadding : (control.leftPadding + control.availableWidth / 2 - width / 2)
-        y: control._horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : control.topPadding
-        implicitWidth: control._horizontal ? 200 : 6
-        implicitHeight: control._horizontal ? 6 : 200
-        width: control._horizontal ? control.availableWidth : implicitWidth
-        height: control._horizontal ? implicitHeight : control.availableHeight
-        radius: 2
-        color: PQCLook.baseColorHighlight 
-
-        Rectangle {
-            width: control._horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
-            height: control._horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
-            color: control.enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight 
-            radius: 2
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            propagateComposedEvents: true
-            onClicked: (mouse) => { mouse.accepted = false }
-            onDoubleClicked: (mouse) => { mouse.accepted = false }
-            onPressAndHold: (mouse) => { mouse.accepted = false }
-            onPressed: (mouse) => { mouse.accepted = false }
-            onEntered: {
-                control.sliderContainsMouse = true
-            }
-            onExited: {
-                control.sliderContainsMouse = false
-            }
-            onWheel: (wheel) => {
-                // if(!control.wheelEnabled) return
-                if(control.reverseWheelChange) {
-                    if(wheel.angleDelta.y > 0)
-                        control.value += control.wheelStepSize
-                    else
-                        control.value -= control.wheelStepSize
-                } else {
-                    if(wheel.angleDelta.y > 0)
-                        control.value -= control.wheelStepSize
-                    else
-                        control.value += control.wheelStepSize
-                }
-            }
-        }
-
-    }
-
-    handle: Rectangle {
-        x: control._horizontal ? (control.leftPadding + control.visualPosition * (control.availableWidth - width)) : (control.leftPadding + control.availableWidth / 2 - width / 2)
-        y: control._horizontal ? (control.topPadding + control.availableHeight / 2 - height / 2) : (control.topPadding + control.visualPosition * (control.availableHeight - height))
-        implicitWidth: control._horizontal ? control.implicitHeight : control.implicitWidth
-        implicitHeight: control._horizontal ? control.implicitHeight : control.implicitWidth
-        radius: control.implicitHeight/2
-        color: PQCLook.inverseColor 
-        border.color: PQCLook.baseColorHighlight 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: control.pressed ? Qt.ClosedHandCursor : Qt.OpenHandCursor
-            propagateComposedEvents: true
-            onClicked: (mouse) => { mouse.accepted = false }
-            onDoubleClicked: (mouse) => { mouse.accepted = false }
-            onPressAndHold: (mouse) => { mouse.accepted = false }
-            onPressed: (mouse) => { mouse.accepted = false }
-            onEntered: control.handleContainsMouse = true
-            onExited: control.handleContainsMouse = false
-            onWheel: (wheel) => {
-                if(!control.wheelEnabled) return
-                if(control.reverseWheelChange) {
-                    if(wheel.angleDelta.y > 0)
-                        control.value += control.wheelStepSize
-                    else
-                        control.value -= control.wheelStepSize
-                } else {
-                    if(wheel.angleDelta.y > 0)
-                        control.value -= control.wheelStepSize
-                    else
-                        control.value += control.wheelStepSize
-                }
-            }
-        }
-    }
+    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : (extraSmall ? 150 : 200))
+    implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 150 : 200)) : 20
 
     PQToolTip {
         id: ttip
@@ -158,28 +48,6 @@ Slider {
         timeout: 5000
         visible: control.hovered && text !== ""
         text: control.tooltip
-    }
-
-    property int _defaultValue
-    Component.onCompleted: {
-        _defaultValue = value
-    }
-
-    function saveDefault() {
-        _defaultValue = value
-    }
-
-    function setDefault(val : int) {
-        _defaultValue = val
-    }
-
-    function loadAndSetDefault(val : int) {
-        value = val
-        _defaultValue = val
-    }
-
-    function hasChanged() : bool {
-        return _defaultValue!==value
     }
 
 }

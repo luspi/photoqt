@@ -104,6 +104,8 @@ public:
         m_mainmenuOpacity = 0;
 
         m_currentlyShowingVideo = false;
+        m_currentlyShowingVideoPosition = 0;
+        m_currentlyShowingVideoDuration = 0;
         m_currentlyShowingVideoHasAudio = false;
         m_currentlyShowingVideoPlaying = false;
 
@@ -241,6 +243,8 @@ public:
     Q_PROPERTY(bool currentlyShowingVideo MEMBER m_currentlyShowingVideo NOTIFY currentlyShowingVideoChanged)
     Q_PROPERTY(bool currentlyShowingVideoHasAudio MEMBER m_currentlyShowingVideoHasAudio NOTIFY currentlyShowingVideoHasAudioChanged)
     Q_PROPERTY(bool currentlyShowingVideoPlaying MEMBER m_currentlyShowingVideoPlaying NOTIFY currentlyShowingVideoPlayingChanged)
+    Q_PROPERTY(int currentlyShowingVideoDuration MEMBER m_currentlyShowingVideoDuration NOTIFY currentlyShowingVideoDurationChanged)
+    Q_PROPERTY(int currentlyShowingVideoPosition MEMBER m_currentlyShowingVideoPosition NOTIFY currentlyShowingVideoPositionChanged)
 
     Q_PROPERTY(double currentVisibleAreaX MEMBER m_currentVisibleAreaX NOTIFY currentVisibleAreaXChanged)
     Q_PROPERTY(double currentVisibleAreaY MEMBER m_currentVisibleAreaY NOTIFY currentVisibleAreaYChanged)
@@ -349,6 +353,8 @@ private:
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
     bool m_currentlyShowingVideoPlaying;
+    int m_currentlyShowingVideoPosition;
+    int m_currentlyShowingVideoDuration;
 
     bool m_currentImageIsPhotoSphere;
     bool m_currentImageIsMotionPhoto;
@@ -431,6 +437,8 @@ Q_SIGNALS:
     void currentlyShowingVideoChanged();
     void currentlyShowingVideoHasAudioChanged();
     void currentlyShowingVideoPlayingChanged();
+    void currentlyShowingVideoPositionChanged();
+    void currentlyShowingVideoDurationChanged();
     void slideshowRunningChanged();
     void slideshowRunningAndPlayingChanged();
     void slideshowVolumeChanged();

@@ -128,6 +128,8 @@ Q_SIGNALS:
     void currentImageDetectBarCodes();
     void currentArchiveCloseCombo();
     void currentVideoJump(int s);
+    void currentVideoToPos(int pos);
+    void currentVideoMuteUnmute();
     void currentAnimatedJump(int leftright);
     void currentDocumentJump(int leftright);
     void currentArchiveJump(int leftright);

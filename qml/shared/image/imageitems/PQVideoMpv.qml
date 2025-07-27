@@ -55,8 +55,6 @@ Item {
     property string source: ""
 
     property bool videoPlaying: false
-    property int videoDuration: 0
-    property int videoPosition: 0
 
     onVideoPlayingChanged: {
         video.command(["set", "pause", (videotop.videoPlaying ? "no" : "yes")])
@@ -83,7 +81,7 @@ Item {
     Timer {
         id: starttimer
         interval: 100
-        running: true
+        running: videotop.isMainImage
         onTriggered: {
             video.command(["loadfile", videotop.imageSource])
             if(!PQCSettings.filetypesVideoAutoplay && !PQCConstants.slideshowRunning) {
@@ -109,7 +107,7 @@ Item {
             }
             videotop.width = video.getProperty("width")
             videotop.height = video.getProperty("height")
-            videotop.videoDuration = video.getProperty("duration")
+            PQCConstants.currentlyShowingVideoDuration = video.getProperty("duration")
             var tracklist = video.getProperty(["track-list"])
             var countaudio = 0
             for(var i in tracklist) {
@@ -138,7 +136,7 @@ Item {
                     restarting = true
                 }
             } else {
-                videotop.videoPosition = video.getProperty("time-pos")
+                PQCConstants.currentlyShowingVideoPosition = video.getProperty("time-pos")
                 restarting = false
             }
 
@@ -177,6 +175,10 @@ Item {
             if(!videotop.isMainImage)
                 return
             video.command(["seek", seconds])
+        }
+
+        function onCurrentVideoToPos(pos : int) {
+            videotop.videoToPos(pos)
         }
 
         function onPlayPauseAnimationVideo() {

@@ -421,6 +421,7 @@ Loader {
                     controlitem.manuallyDragged = false
                     controlitem.x = Qt.binding(function() { return (controlitem.parent.width-controlitem.width)/2 })
                     controlitem.y = Qt.binding(function() { return (0.9*ldr_top.parent.parent.height) })
+                    PQCConstants.extraControlsLocation = Qt.point(-1,-1)
                 }
             }
 
