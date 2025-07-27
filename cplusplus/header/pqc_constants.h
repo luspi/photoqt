@@ -77,6 +77,7 @@ public:
         m_currentFileInsideNum = 0;
         m_currentFileInsideTotal = 0;
         m_currentFileInsideName = "";
+        m_currentFileInsideList = {};
         m_imageQMLItemHeight = 0;
         m_imageInitiallyLoaded = false;
         m_currentVisibleAreaX = 0;
@@ -88,6 +89,7 @@ public:
         m_currentImageIsMotionPhoto = false;
         m_currentImageIsAnimated = false;
         m_currentImageIsDocument = false;
+        m_currentImageIsArchive = false;
         m_showingPhotoSphere = false;
         m_motionPhotoIsPlaying = false;
         m_animatedImageIsPlaying = false;
@@ -229,6 +231,7 @@ public:
     Q_PROPERTY(int currentFileInsideNum MEMBER m_currentFileInsideNum NOTIFY currentFileInsideNumChanged)
     Q_PROPERTY(int currentFileInsideTotal MEMBER m_currentFileInsideTotal NOTIFY currentFileInsideTotalChanged)
     Q_PROPERTY(QString currentFileInsideName MEMBER m_currentFileInsideName NOTIFY currentFileInsideNameChanged)
+    Q_PROPERTY(QStringList currentFileInsideList MEMBER m_currentFileInsideList NOTIFY currentFileInsideListChanged)
     Q_PROPERTY(int imageQMLItemHeight MEMBER m_imageQMLItemHeight NOTIFY imageQMLItemHeightChanged)
     Q_PROPERTY(bool currentArchiveComboOpen MEMBER m_currentArchiveComboOpen NOTIFY currentArchiveComboOpenChanged)
 
@@ -248,6 +251,8 @@ public:
     Q_PROPERTY(bool currentImageIsMotionPhoto MEMBER m_currentImageIsMotionPhoto NOTIFY currentImageIsMotionPhotoChanged)
     Q_PROPERTY(bool currentImageIsAnimated MEMBER m_currentImageIsAnimated NOTIFY currentImageIsAnimatedChanged)
     Q_PROPERTY(bool currentImageIsDocument MEMBER m_currentImageIsDocument NOTIFY currentImageIsDocumentChanged)
+    Q_PROPERTY(bool currentImageIsArchive MEMBER m_currentImageIsArchive NOTIFY currentImageIsArchiveChanged)
+
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
     Q_PROPERTY(bool motionPhotoIsPlaying MEMBER m_motionPhotoIsPlaying NOTIFY motionPhotoIsPlayingChanged)
     Q_PROPERTY(bool animatedImageIsPlaying MEMBER m_animatedImageIsPlaying NOTIFY animatedImageIsPlayingChanged)
@@ -327,6 +332,7 @@ private:
     int m_currentFileInsideNum;
     int m_currentFileInsideTotal;
     QString m_currentFileInsideName;
+    QStringList m_currentFileInsideList;
     bool m_imageInitiallyLoaded;
     int m_imageQMLItemHeight;
     bool m_currentArchiveComboOpen;
@@ -348,6 +354,7 @@ private:
     bool m_currentImageIsMotionPhoto;
     bool m_currentImageIsAnimated;
     bool m_currentImageIsDocument;
+    bool m_currentImageIsArchive;
     bool m_showingPhotoSphere;
     bool m_motionPhotoIsPlaying;
     bool m_animatedImageIsPlaying;
@@ -417,6 +424,7 @@ Q_SIGNALS:
     void currentFileInsideNumChanged();
     void currentFileInsideTotalChanged();
     void currentFileInsideNameChanged();
+    void currentFileInsideListChanged();
     void ignoreFileFolderChangesTemporaryChanged();
     void imageInitiallyLoadedChanged();
     void currentImageDefaultScaleChanged();
@@ -445,6 +453,7 @@ Q_SIGNALS:
     void currentImageIsMotionPhotoChanged();
     void currentImageIsAnimatedChanged();
     void currentImageIsDocumentChanged();
+    void currentImageIsArchiveChanged();
     void barcodeDisplayedChanged();
     void currentZValueChanged();
     void colorProfileCacheChanged();

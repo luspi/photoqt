@@ -131,6 +131,7 @@ Q_SIGNALS:
     void currentAnimatedJump(int leftright);
     void currentDocumentJump(int leftright);
     void currentArchiveJump(int leftright);
+    void currentArchiveJumpTo(int index);
     void currentImageReload();
     void currentAnimatedSaveFrame();
 

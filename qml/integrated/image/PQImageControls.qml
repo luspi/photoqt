@@ -35,5 +35,6 @@ Item {
     PQMotionPhotoControls {}
     PQAnimatedImageControls {}
     PQDocumentControls {}
+    PQArchiveControls {}
 
 }
