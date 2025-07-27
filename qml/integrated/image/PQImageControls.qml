@@ -30,8 +30,6 @@ Item {
 
     anchors.fill: parent
 
-    // a big button in middle of screen to enter photo sphere
-    // PQPhotoSphereEnterButton {}
     PQMotionPhotoControls {}
     PQAnimatedImageControls {}
     PQDocumentControls {}

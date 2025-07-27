@@ -405,9 +405,7 @@ Item {
 
             // check for shortcuts that are enabled for extensions
             var ext = PQCExtensionsHandler.getExtensionForShortcut(combo)
-            console.warn(">>> SHOW 1", combo, ext, PQCExtensionsHandler.getExtensionModalMake(ext), PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext), PQCFileFolderModel.currentFile)
             if(ext !== "" && (!PQCExtensionsHandler.getExtensionModalMake(ext) || (PQCExtensionsHandler.getExtensionModalRequireLoadedFile(ext) && PQCFileFolderModel.currentFile !== ""))) {
-                console.warn(">>> SHOW", ext)
                 PQCNotify.loaderShowExtension(ext)
             }
 
