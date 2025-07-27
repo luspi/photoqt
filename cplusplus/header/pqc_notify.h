@@ -125,6 +125,10 @@ Q_SIGNALS:
     void exitPhotoSphere();
     void currentViewFlick(QString direction);
     void currentViewMove(QString direction);
+    void currentFlickableSetContentX(int x);
+    void currentFlickableSetContentY(int y);
+    void currentFlickableReturnToBounds();
+    void currentFlickableAnimateContentPosChange(double propX, double propY);
     void currentImageDetectBarCodes();
     void currentArchiveCloseCombo();
     void currentVideoJump(int s);
@@ -139,6 +143,7 @@ Q_SIGNALS:
 
     // context menu properties
     void closeAllContextMenus();
+    void showMinimapContextMenu();
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);

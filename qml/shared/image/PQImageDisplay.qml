@@ -476,6 +476,31 @@ Loader {
                     PQCConstants.currentVisibleAreaHeightRatio = visibleArea.heightRatio
             }
 
+            contentX: loader_top.imagePosX
+            contentY: loader_top.imagePosY
+
+            onContentXChanged: {
+                if(loader_top.imagePosX !== contentX)
+                    loader_top.imagePosX = contentX
+                if(loader_top.isMainImage)
+                    PQCConstants.currentVisibleContentPos.x = contentX
+            }
+            onContentYChanged: {
+                if(loader_top.imagePosY !== contentY)
+                    loader_top.imagePosY = contentY
+                if(loader_top.isMainImage)
+                    PQCConstants.currentVisibleContentPos.y = contentY
+            }
+
+            onContentWidthChanged: {
+                if(loader_top.isMainImage)
+                    PQCConstants.currentVisibleContentSize.width = contentWidth
+            }
+            onContentHeightChanged: {
+                if(loader_top.isMainImage)
+                    PQCConstants.currentVisibleContentSize.height = contentHeight
+            }
+
             // When dragging the image out of bounds and it returning, the visibleArea property of Flickable does not tirgger an update
             // This is causing, e.g., the minimap to not update with the actual position of the view
             // This check here makes sure that we force an update to the position, but only if the image was dragged out of bounds
@@ -505,15 +530,21 @@ Loader {
 
             interactive: !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere && !PQCConstants.slideshowRunning
 
-            contentX: loader_top.imagePosX
-            onContentXChanged: {
-                if(loader_top.imagePosX !== contentX)
-                    loader_top.imagePosX = contentX
+            NumberAnimation {
+                id: xanim
+                target: flickable
+                property: "contentX"
+                duration: 200
+                onStopped:
+                    flickable.returnToBounds()
             }
-            contentY: loader_top.imagePosY
-            onContentYChanged: {
-                if(loader_top.imagePosY !== contentY)
-                    loader_top.imagePosY = contentY
+            NumberAnimation {
+                id: yanim
+                target: flickable
+                property: "contentY"
+                duration: 200
+                onStopped:
+                    flickable.returnToBounds()
             }
 
             Connections {
@@ -565,6 +596,40 @@ Loader {
                     if(!PQCSettings.imageviewUseMouseLeftButtonForImageMove && !PQCConstants.faceTaggingMode && !PQCConstants.showingPhotoSphere) {
                         reEnableInteractive.restart()
                     }
+                }
+
+                function onCurrentFlickableSetContentX(x : int) {
+                    if(loader_top.isMainImage)
+                        flickable.contentX = x
+                }
+
+                function onCurrentFlickableSetContentY(y : int) {
+                    if(loader_top.isMainImage)
+                        flickable.contentY = y
+                }
+
+                function onCurrentFlickableReturnToBounds() {
+                    if(loader_top.isMainImage)
+                        flickable.returnToBounds()
+                }
+
+                function onCurrentFlickableAnimateContentPosChange(propX : real, propY: real) {
+
+                    if(!loader_top.isMainImage)
+                        return
+
+                    xanim.stop()
+                    yanim.stop()
+
+                    xanim.from = flickable.contentX
+                    yanim.from = flickable.contentY
+
+                    xanim.to = flickable.contentWidth*propX - flickable.width/2
+                    yanim.to = flickable.contentHeight*propY - flickable.height/2
+
+                    xanim.restart()
+                    yanim.restart()
+
                 }
 
             }
@@ -1147,7 +1212,8 @@ Loader {
                                 // otherwise we get error messages when the source changes to a different type
                                 Component.onCompleted: {
                                     imageSource = imageloaderitem.imageSource
-                                    PQCConstants.showingPhotoSphere = true
+                                    if(loader_top.isMainImage)
+                                        PQCConstants.showingPhotoSphere = true
                                     image_wrapper.status = Image.Ready
                                     image_wrapper.width = width
                                     image_wrapper.height = height
@@ -1315,13 +1381,6 @@ Loader {
                     //     function onFacetrackerLoadData() {
                     //         facetracker.loadData()
                     //     }
-                    // }
-
-                    // Loader {
-                    //     id: minimap_loader
-                    //     active: loader_top.isMainImage && PQCSettings.imageviewShowMinimap && !PQCConstants.showingPhotoSphere
-                    //     asynchronous: true
-                    //     source: "components/" + (PQCSettings.interfaceMinimapPopout ? "PQMinimapPopout.qml" : "PQMinimap.qml")
                     // }
 
                     Connections {
@@ -2346,6 +2405,15 @@ Loader {
             PQCConstants.currentImageIsAnimated = image_loader_ani.active
             PQCConstants.currentImageIsDocument = image_loader_pdf.active
             PQCConstants.currentImageIsArchive = image_loader_arc.active
+
+            PQCConstants.currentVisibleAreaX = flickable.visibleArea.xPosition
+            PQCConstants.currentVisibleAreaY = flickable.visibleArea.yPosition
+            PQCConstants.currentVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
+            PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
+            PQCConstants.currentVisibleContentPos.x = flickable.contentX
+            PQCConstants.currentVisibleContentPos.y = flickable.contentY
+            PQCConstants.currentVisibleContentSize.width = flickable.contentWidth
+            PQCConstants.currentVisibleContentSize.height = flickable.contentHeight
 
             // if a slideshow is running with the ken burns effect
             // then we need to do some special handling

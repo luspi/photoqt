@@ -11,7 +11,7 @@ SET(d "qml/integrated/elements")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMouseArea.qml ${d}/PQWorking.qml ${d}/PQMenu.qml ${d}/PQMenuItem.qml ${d}/PQMenuSeparator.qml)
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQText.qml ${d}/PQTextS.qml ${d}/PQTextL.qml ${d}/PQTextXL.qml ${d}/PQTextXXL.qml)
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQSlider.qml ${d}/PQComboBox.qml ${d}/PQButton.qml ${d}/PQLineEdit.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQShadowEffect.qml ${d}/PQToolTip.qml ${d}/PQMultiEffect.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQToolTip.qml ${d}/PQMultiEffect.qml)
 
 SET(d "qml/integrated/image")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageControls.qml)
@@ -26,3 +26,6 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQF
 
 SET(d "qml/integrated/ongoing")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTrayIcon.qml)
+
+SET(d "qml/integrated/contextmenus")
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMinimapContextMenu.qml)

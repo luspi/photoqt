@@ -37,8 +37,10 @@ Item {
 
     property Item toplevelItem
 
+    onWidthChanged:
+        PQCConstants.imageDisplaySize.width = width
     onHeightChanged:
-        PQCConstants.imageQMLItemHeight = height
+        PQCConstants.imageDisplaySize.height = height
 
     property bool thumbnailsHoldVisible: (PQCSettings.thumbnailsVisibility===1 || (PQCSettings.thumbnailsVisibility===2 && (imageIsAtDefaultScale || PQCConstants.currentImageScale < PQCConstants.currentImageDefaultScale)))
 
