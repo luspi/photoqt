@@ -22,17 +22,6 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloatingPop
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloating.qml ${d}/PQTemplateExtensionContainer.qml ${d}/PQTemplateExtensionModal.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionModalPopout.qml)
 
-SET(d "qml/modern/image")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)
-SET(d "qml/modern/image/imageitems")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQImageNormal.qml ${d}/PQImageAnimated.qml ${d}/PQVideoMpv.qml ${d}/PQVideoQt.qml ${d}/PQArchive.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQPhotoSphere.qml ${d}/PQDocument.qml ${d}/PQSVG.qml)
-SET(d "qml/modern/image/components")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControls.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQBarCodes.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQImageAnimatedControls.qml ${d}/PQDocumentControls.qml ${d}/PQArchiveControls.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMinimap.qml ${d}/PQMinimapPopout.qml ${d}/PQKenBurnsSlideshowEffect.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQKenBurnsSlideshowBackground.qml)
-
 SET(d "qml/modern/filedialog")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml)
@@ -71,6 +60,10 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManagerPopout.qml 
 
 SET(d "qml/modern/actions/mapexplorerparts")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)
+
+SET(d "qml/modern/contextmenus")
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMinimapContextMenu.qml ${d}/PQArchiveControlsContextMenu.qml ${d}/PQDocumentControlsContextMenu.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml)
 
 SET(d "qml/modern/settingsmanager")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)

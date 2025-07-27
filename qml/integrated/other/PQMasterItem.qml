@@ -164,6 +164,10 @@ Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQDocumentControlsContextMenu {}
         }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQVideoControlsContextMenu {}
+        }
 
         /*****************************************/
 
