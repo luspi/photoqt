@@ -58,7 +58,7 @@ Loader {
 
         Item {
 
-            parent: ldr_top.parent.parent
+            parent: facetagger_top.parent.parent.parent
             x: 20
             y: 20
             width: 42

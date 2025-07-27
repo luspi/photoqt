@@ -24,7 +24,6 @@ import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
 import PhotoQt.Shared
-import PhotoQt.Shared
 
 Loader {
 
@@ -194,6 +193,28 @@ Loader {
         Loader { id: loader_chromecastmanager }
         Loader { id: loader_filedialog }
         Loader { id: loader_settingsmanager }
+
+        /*****************************************/
+        // Context Menus
+
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQMinimapContextMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQArchiveControlsContextMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQDocumentControlsContextMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQVideoControlsContextMenu {}
+        }
+
+        /*****************************************/
 
         // If an image has been passed on then we wait with loading the rest of the interface until the image has been loaded
         // After 2s of loading we show some first (and quick to set up) interface elements

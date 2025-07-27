@@ -24,28 +24,54 @@ import QtQuick
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Window {
+Item {
 
-    id: minimap_popout
+    PQMenu {
 
-    width: 300
-    height: 200
+        id: rightclickmenu
 
-    flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
+        PQMenuItem {
+            text: qsTranslate("image", "Small minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 0
+        }
 
-    title: qsTranslate("image", "Minimap")
+        PQMenuItem {
+            text: qsTranslate("image", "Normal minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 1
+        }
 
-    color: PQCLook.transColor 
+        PQMenuItem {
+            text: qsTranslate("image", "Large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 2
+        }
 
-    PQMinimap {
-        id: minimap
+        PQMenuItem {
+            text: qsTranslate("image", "Very large minimap")
+            onTriggered:
+                PQCSettings.imageviewMinimapSizeLevel = 3
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            text: qsTranslate("image", "Hide minimap")
+            onTriggered:
+                PQCSettings.imageviewShowMinimap = false
+        }
+
     }
 
-    Component.onCompleted:
-        show()
+    Connections {
 
-    onClosing: {
-        PQCSettings.interfaceMinimapPopout = false 
+        target: PQCNotify
+
+        function onShowMinimapContextMenu() {
+            rightclickmenu.popup()
+        }
+
     }
 
 }
