@@ -17,7 +17,7 @@ SET(d "qml/integrated/image")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQImageOverlay.qml)
 
 SET(d "qml/integrated/image/overlays")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQPhotoSphereEnterButton.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMotionPhotoControls.qml ${d}/PQAnimatedImageControls.qml)
 
 SET(d "qml/integrated/image/components")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQVideoControls.qml ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml ${d}/PQBarCodes.qml)

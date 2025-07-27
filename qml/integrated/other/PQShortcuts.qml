@@ -114,7 +114,7 @@ Item {
 
         function onMousePressed(modifiers : int, button : int, pos : point) {
 
-            if(PQCConstants.modalWindowOpen) 
+            if(PQCConstants.modalWindowOpen)
 
                 PQCNotify.loaderPassOn("mousePressed", [modifiers, button, pos])
 
@@ -135,7 +135,7 @@ Item {
 
         function onMouseReleased(modifiers : int, button : int, pos : point) {
 
-            if(PQCConstants.modalWindowOpen) 
+            if(PQCConstants.modalWindowOpen)
 
                 PQCNotify.loaderPassOn("mouseReleased", [modifiers, button, pos])
 
@@ -156,7 +156,7 @@ Item {
 
         function onMouseMove(x : int, y : int) {
 
-            if(PQCConstants.modalWindowOpen) 
+            if(PQCConstants.modalWindowOpen)
 
                 PQCNotify.loaderPassOn("mouseMove", [x, y])
 
@@ -178,7 +178,7 @@ Item {
 
         function onMouseDoubleClicked(modifiers : int, button : string, pos : point) {
 
-            if(!PQCConstants.modalWindowOpen) { 
+            if(!PQCConstants.modalWindowOpen) {
 
                 var combo = PQCScriptsShortcuts.analyzeModifier(modifiers).join("+")
                 if(combo !== "") combo += "+"
@@ -235,7 +235,7 @@ Item {
         if(combo === "Esc") {
 
             // a context menu is open -> don't continue
-            if(PQCConstants.whichContextMenusOpen.length > 0) { 
+            if(PQCConstants.whichContextMenusOpen.length > 0) {
                 PQCNotify.closeAllContextMenus()
                 return
             }
@@ -331,7 +331,7 @@ Item {
         }
 
         // Space when motion photo is loaded might have special actions
-        if(combo === "Space" && PQCConstants.isMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
+        if(combo === "Space" && PQCConstants.currentImageIsMotionPhoto && PQCSettings.filetypesMotionSpacePause) {
 
             PQCNotify.playPauseAnimationVideo()
             return

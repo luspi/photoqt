@@ -141,7 +141,7 @@ Rectangle {
 
     onSetVisibleChanged: {
         if(!setVisible)
-            menu.item.dismiss() 
+            menu.item.dismiss()
     }
 
     MouseArea {
@@ -153,7 +153,7 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() 
+                menu.item.popup()
         }
     }
 
@@ -163,9 +163,9 @@ Rectangle {
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("thumbnails", "No file loaded")
-        font.bold: PQCLook.fontWeightBold 
-        color: PQCLook.textColorDisabled 
-        visible: PQCFileFolderModel.countMainView===0 
+        font.bold: PQCLook.fontWeightBold
+        color: PQCLook.textColorDisabled
+        visible: PQCFileFolderModel.countMainView===0
     }
 
     // the view for the actual thumbnails
@@ -174,14 +174,14 @@ Rectangle {
         id: view
 
         // the model is the total image count
-        property int numModel: thumbnails_top.state==="disabled"||!PQCConstants.imageInitiallyLoaded ? 0 : PQCFileFolderModel.countMainView 
+        property int numModel: thumbnails_top.state==="disabled"||!PQCConstants.imageInitiallyLoaded ? 0 : PQCFileFolderModel.countMainView
         onNumModelChanged: {
 
             // if the width of the delegates can vary, then only keeping a few delegates ready makes the view jump back to the beginning when scrolling away from there
             // the only solution is to make sure that all the delegates are set up and thumbnails loaded so that the view can scroll as expected
             // to accomplish that we calculate the total necessary width of the thumbnail bar and adjust the cacheBuffer variable accordingly
 
-            if(PQCSettings.thumbnailsSameHeightVaryWidth) { 
+            if(PQCSettings.thumbnailsSameHeightVaryWidth) {
                 loadCacheBuffer.restart()
             } else {
                 cacheBuffer = 320
@@ -203,10 +203,10 @@ Rectangle {
 
                 if(thumbnails_top.state==="left" || thumbnails_top.state==="right") {
                     for(var i = 0; i < view.numModel; ++i)
-                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).height 
+                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).height
                 } else {
                     for(var i = 0; i < view.numModel; ++i)
-                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width 
+                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width
                 }
 
                 view.thumbwidths = []
@@ -292,14 +292,14 @@ Rectangle {
         state: thumbnails_top.state
 
         // highlight animations
-        property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") 
-        property bool hlMagnify: PQCSettings.thumbnailsHighlightAnimation.includes("magnify") 
-        property bool hlLine: PQCSettings.thumbnailsHighlightAnimation.includes("line") 
-        property bool hlInvertLabel: PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel") 
-        property bool hlInvertBg: PQCSettings.thumbnailsHighlightAnimation.includes("invertbg") 
+        property bool hlLiftUp: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
+        property bool hlMagnify: PQCSettings.thumbnailsHighlightAnimation.includes("magnify")
+        property bool hlLine: PQCSettings.thumbnailsHighlightAnimation.includes("line")
+        property bool hlInvertLabel: PQCSettings.thumbnailsHighlightAnimation.includes("invertlabel")
+        property bool hlInvertBg: PQCSettings.thumbnailsHighlightAnimation.includes("invertbg")
 
         // the current index follows the model
-        currentIndex: PQCFileFolderModel.currentIndex 
+        currentIndex: PQCFileFolderModel.currentIndex
         property list<int> previousIndices: [currentIndex, currentIndex]
         onCurrentIndexChanged: {
             previousIndices[1] = previousIndices[0]
@@ -331,10 +331,10 @@ Rectangle {
         // these follow the currentIndex property
         highlightFollowsCurrentItem: true
         highlightMoveDuration: previousIndexWithinView ? 200 : 0
-        preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive 
+        preferredHighlightBegin: PQCSettings.thumbnailsCenterOnActive
                                  ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2
                                  : PQCSettings.thumbnailsSize/2
-        preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive 
+        preferredHighlightEnd: PQCSettings.thumbnailsCenterOnActive
                                ? ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize)/2+PQCSettings.thumbnailsSize
                                : ((orientation==Qt.Horizontal ? view.width : view.height)-PQCSettings.thumbnailsSize/2)
         highlightRangeMode: PQCSettings.thumbnailsCenterOnActive ? ListView.StrictlyEnforceRange : ListView.ApplyRange
@@ -448,17 +448,17 @@ Rectangle {
 
             // the active property is set when either the current thumbnail corresponds to the main image
             // or when the mouse is hovering the current thumbnail
-            property bool active: modelData===PQCFileFolderModel.currentIndex || 
+            property bool active: modelData===PQCFileFolderModel.currentIndex ||
                                   modelData===thumbnails_top.menuReloadIndex ||
                                   modelData===view.highlightIndex
 
             z: (modelData===PQCFileFolderModel.currentIndex) ? 2 : (active ? 1 : 0)
 
-            property string filepath: PQCFileFolderModel.entriesMainView[modelData] 
-            property string filename: PQCScriptsFilesPaths.getFilename(filepath) 
+            property string filepath: PQCFileFolderModel.entriesMainView[modelData]
+            property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent" 
+            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent"
             Behavior on color { ColorAnimation { duration: 200 } }
 
             state: thumbnails_top.state
@@ -539,7 +539,7 @@ Rectangle {
                 // the width/height is set by the state above
                 asynchronous: true
                 cache: false
-                fillMode: (PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) ? Image.PreserveAspectCrop : Image.PreserveAspectFit 
+                fillMode: (PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) ? Image.PreserveAspectCrop : Image.PreserveAspectFit
                 source: "image://thumb/" + deleg.filepath
 
                 onWidthChanged: {
@@ -573,7 +573,7 @@ Rectangle {
 
                     view.highlightIndex = deleg.modelData
 
-                    if(!tooltipSetup && PQCSettings.thumbnailsTooltip) { 
+                    if(!tooltipSetup && PQCSettings.thumbnailsTooltip) {
 
                         tooltipSetup = true
 
@@ -603,12 +603,12 @@ Rectangle {
                     executeClick()
                 }
                 function executeClick() {
-                    if(PQCConstants.whichContextMenusOpen.length === 0) 
+                    if(PQCConstants.whichContextMenusOpen.length === 0)
                         PQCFileFolderModel.currentIndex = deleg.modelData
                 }
 
                 onWheel: (wheel) => {
-                    if(PQCConstants.whichContextMenusOpen.length === 0) 
+                    if(PQCConstants.whichContextMenusOpen.length === 0)
                         thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
                 }
 
@@ -616,13 +616,13 @@ Rectangle {
 
             Loader {
                 asynchronous: true
-                active: PQCSettings.thumbnailsFilename 
+                active: PQCSettings.thumbnailsFilename
                 Rectangle {
-                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor 
+                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor
                     Behavior on color { ColorAnimation { duration: 200 } }
-                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1 
+                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    visible: PQCSettings.thumbnailsFilename 
+                    visible: PQCSettings.thumbnailsFilename
                     x: (img.x+img.width-width)
                     y: (img.y+img.height-height)
                     width: deleg.width
@@ -632,11 +632,11 @@ Rectangle {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
-                        font.pointSize: PQCSettings.thumbnailsFontSize 
-                        font.weight: PQCLook.fontWeightBold 
+                        font.pointSize: PQCSettings.thumbnailsFontSize
+                        font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
                         text: deleg.filename
-                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor 
+                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor
                     }
                 }
             }
@@ -650,7 +650,7 @@ Rectangle {
                 visible: opacity>0
 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                color: PQCLook.baseColorActive 
+                color: PQCLook.baseColorActive
 
                 // the state follows the global thumbnails state
                 state: view.state
@@ -777,9 +777,9 @@ Rectangle {
             PQMenuItem {
                 visible: thumbnails_top.menuReloadIndexVisible
                 text: qsTranslate("thumbnails", "Reload thumbnail")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg"
                 onTriggered: {
-                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[thumbnails_top.menuReloadIndex]) 
+                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[thumbnails_top.menuReloadIndex])
                     view.reloadThumbnail(thumbnails_top.menuReloadIndex)
                 }
             }
@@ -795,9 +795,9 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "fit thumbnails")
                     ButtonGroup.group: grp1
-                    checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth) 
+                    checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
                     onCheckedChanged: {
-                        if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) { 
+                        if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) {
                             PQCSettings.thumbnailsCropToFit = false
                             PQCSettings.thumbnailsSameHeightVaryWidth = false
                         }
@@ -809,10 +809,10 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "scale and crop thumbnails")
                     ButtonGroup.group: grp1
-                    checked: PQCSettings.thumbnailsCropToFit 
+                    checked: PQCSettings.thumbnailsCropToFit
                     onCheckedChanged: {
                         if(checked) {
-                            PQCSettings.thumbnailsCropToFit = true 
+                            PQCSettings.thumbnailsCropToFit = true
                             PQCSettings.thumbnailsSameHeightVaryWidth = false
                         }
                     }
@@ -823,11 +823,11 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "same height, varying width")
                     ButtonGroup.group: grp1
-                    checked: PQCSettings.thumbnailsSameHeightVaryWidth 
+                    checked: PQCSettings.thumbnailsSameHeightVaryWidth
                     onCheckedChanged: {
                         if(checked) {
                             // See the comment below for why this check is here
-                            if(PQCSettings.thumbnailsCropToFit) { 
+                            if(PQCSettings.thumbnailsCropToFit) {
                                 PQCSettings.thumbnailsCropToFit = false
                                 delayChecking.restart()
                             } else
@@ -841,7 +841,7 @@ Rectangle {
                         id: delayChecking
                         interval: 100
                         onTriggered: {
-                            PQCSettings.thumbnailsSameHeightVaryWidth = true 
+                            PQCSettings.thumbnailsSameHeightVaryWidth = true
                         }
                     }
                 }
@@ -849,9 +849,9 @@ Rectangle {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "keep small thumbnails small")
-                    checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall 
+                    checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall
                     onCheckedChanged:
-                        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked 
+                        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked
                 }
 
             }
@@ -865,10 +865,10 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "hide when not needed")
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===0 
+                    checked: PQCSettings.thumbnailsVisibility===0
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.thumbnailsVisibility = 0 
+                            PQCSettings.thumbnailsVisibility = 0
                     }
                 }
 
@@ -877,10 +877,10 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "always keep visible")
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===1 
+                    checked: PQCSettings.thumbnailsVisibility===1
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.thumbnailsVisibility = 1 
+                            PQCSettings.thumbnailsVisibility = 1
                     }
                 }
 
@@ -889,10 +889,10 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: qsTranslate("settingsmanager", "hide when zoomed in")
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===2 
+                    checked: PQCSettings.thumbnailsVisibility===2
                     onCheckedChanged: {
                         if(checked)
-                            PQCSettings.thumbnailsVisibility = 2 
+                            PQCSettings.thumbnailsVisibility = 2
                     }
                 }
 
@@ -903,24 +903,24 @@ Rectangle {
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("settingsmanager", "show filename labels")
-                checked: PQCSettings.thumbnailsFilename 
+                checked: PQCSettings.thumbnailsFilename
                 onCheckedChanged:
-                    PQCSettings.thumbnailsFilename = checked 
+                    PQCSettings.thumbnailsFilename = checked
             }
 
             PQMenuItem {
                 checkable: true
                 text: qsTranslate("settingsmanager", "show tooltips")
-                checked: PQCSettings.thumbnailsTooltip 
+                checked: PQCSettings.thumbnailsTooltip
                 onCheckedChanged:
-                    PQCSettings.thumbnailsTooltip = checked 
+                    PQCSettings.thumbnailsTooltip = checked
             }
 
             PQMenuSeparator {}
 
             PQMenuItem {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 onTriggered: {
                     PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
                 }
@@ -930,7 +930,7 @@ Rectangle {
                 recordAsClosed.restart()
 
             onAboutToShow: {
-                PQCConstants.addToWhichContextMenusOpen("thumbnails") 
+                PQCConstants.addToWhichContextMenusOpen("thumbnails")
                 thumbnails_top.menuReloadIndex = view.highlightIndex
             }
 
@@ -948,7 +948,7 @@ Rectangle {
                 onTriggered: {
                     if(!menudeleg.visible) {
                         thumbnails_top.menuReloadIndex = -1
-                        PQCConstants.removeFromWhichContextMenusOpen("thumbnails") 
+                        PQCConstants.removeFromWhichContextMenusOpen("thumbnails")
                     }
                 }
             }
@@ -957,7 +957,7 @@ Rectangle {
     }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
-    property int ignoreRightMotion: state==="bottom"&&PQCConstants.isMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0 
+    property int ignoreRightMotion: state==="bottom"&&PQCConstants.currentImageIsMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0
 
     Timer {
         id: hideElementWithDelay
@@ -978,7 +978,7 @@ Rectangle {
             if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
-            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { 
+            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {
                 thumbnails_top.setVisible = false
                 return
             }
@@ -1006,7 +1006,7 @@ Rectangle {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() 
+            menu.item.dismiss()
         }
     }
 

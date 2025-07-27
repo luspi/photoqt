@@ -76,6 +76,19 @@ AnimatedImage {
 
     property bool hasAlpha: false
 
+    onPlayingChanged: {
+        if(image.visible)
+            PQCConstants.animatedImageIsPlaying = playing
+    }
+
+    playing: false
+    onVisibleChanged: {
+        if(image.visible) {
+            playing = true
+            PQCConstants.animatedImageIsPlaying = true
+        }
+    }
+
     Connections {
         target: PQCScriptsShortcuts
         function onSendShortcutMirrorHorizontal() {
@@ -137,6 +150,10 @@ AnimatedImage {
 
         function onCurrentAnimatedJump(leftright : int) {
             image.currentFrame = (image.currentFrame+leftright+image.frameCount)%image.frameCount
+        }
+
+        function onCurrentAnimatedSaveFrame() {
+            PQCScriptsImages.extractFrameAndSave(image.imageSource, image.currentFrame)
         }
 
     }

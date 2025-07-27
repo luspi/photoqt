@@ -85,8 +85,11 @@ public:
         m_currentVisibleAreaHeightRatio = 0;
         m_currentArchiveComboOpen = false;
         m_currentImageIsPhotoSphere = false;
+        m_currentImageIsMotionPhoto = false;
+        m_currentImageIsAnimated = false;
         m_showingPhotoSphere = false;
-        m_isMotionPhoto = false;
+        m_motionPhotoIsPlaying = false;
+        m_animatedImageIsPlaying = false;
         m_barcodeDisplayed = false;
         m_currentZValue = 1;
         m_extraControlsLocation = QPoint(-1,-1);
@@ -241,8 +244,11 @@ public:
     Q_PROPERTY(double currentVisibleAreaHeightRatio MEMBER m_currentVisibleAreaHeightRatio NOTIFY currentVisibleAreaHeightRatioChanged)
 
     Q_PROPERTY(bool currentImageIsPhotoSphere MEMBER m_currentImageIsPhotoSphere NOTIFY currentImageIsPhotoSphereChanged)
+    Q_PROPERTY(bool currentImageIsMotionPhoto MEMBER m_currentImageIsMotionPhoto NOTIFY currentImageIsMotionPhotoChanged)
+    Q_PROPERTY(bool currentImageIsAnimated MEMBER m_currentImageIsAnimated NOTIFY currentImageIsAnimatedChanged)
     Q_PROPERTY(bool showingPhotoSphere MEMBER m_showingPhotoSphere NOTIFY showingPhotoSphereChanged)
-    Q_PROPERTY(bool isMotionPhoto MEMBER m_isMotionPhoto NOTIFY isMotionPhotoChanged)
+    Q_PROPERTY(bool motionPhotoIsPlaying MEMBER m_motionPhotoIsPlaying NOTIFY motionPhotoIsPlayingChanged)
+    Q_PROPERTY(bool animatedImageIsPlaying MEMBER m_animatedImageIsPlaying NOTIFY animatedImageIsPlayingChanged)
     Q_PROPERTY(bool barcodeDisplayed MEMBER m_barcodeDisplayed NOTIFY barcodeDisplayedChanged)
     Q_PROPERTY(int currentZValue MEMBER m_currentZValue NOTIFY currentZValueChanged)
     Q_PROPERTY(QPoint extraControlsLocation MEMBER m_extraControlsLocation NOTIFY extraControlsLocationChanged)
@@ -337,8 +343,11 @@ private:
     bool m_currentlyShowingVideoPlaying;
 
     bool m_currentImageIsPhotoSphere;
+    bool m_currentImageIsMotionPhoto;
+    bool m_currentImageIsAnimated;
     bool m_showingPhotoSphere;
-    bool m_isMotionPhoto;
+    bool m_motionPhotoIsPlaying;
+    bool m_animatedImageIsPlaying;
     bool m_barcodeDisplayed;
     int m_currentZValue;
     QPoint m_extraControlsLocation;
@@ -427,8 +436,11 @@ Q_SIGNALS:
     void mainmenuOpacityChanged();
     void metadataOpacityChanged();
     void showingPhotoSphereChanged();
+    void motionPhotoIsPlayingChanged();
+    void animatedImageIsPlayingChanged();
     void currentImageIsPhotoSphereChanged();
-    void isMotionPhotoChanged();
+    void currentImageIsMotionPhotoChanged();
+    void currentImageIsAnimatedChanged();
     void barcodeDisplayedChanged();
     void currentZValueChanged();
     void colorProfileCacheChanged();

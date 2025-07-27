@@ -235,6 +235,7 @@ Image {
 
 
     // a big button in middle of screen to enter photo sphere
+    // ALSO: closing X was removed
     // Loader {
 
     //     active: !image.ignoreSignals && image.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning
@@ -312,7 +313,7 @@ Image {
 
                     if(src != "") {
 
-                        PQCConstants.isMotionPhoto = true
+                        PQCConstants.currentImageIsMotionPhoto = true
 
                         // HEIF/HEIC images are a little trickier with their orientation handling
                         // We need to ignore this value as the Exif orientation might not be correct
@@ -428,6 +429,9 @@ Image {
                     if(PQCSettings.filetypesMotionAutoPlay)
                         play()
                 }
+                onPlaybackStateChanged: {
+                    PQCConstants.motionPhotoIsPlaying = (mediaplayer.playbackState == MediaPlayer.PlayingState)
+                }
 
                 Connections {
 
@@ -452,81 +456,81 @@ Image {
 
             }
 
-            Row {
+            // Row {
 
-                parent: image.loaderTop
+            //     parent: image.loaderTop
 
-                x: parent.width-width-10
-                y: parent.height-height-10
-                z: PQCConstants.currentZValue+1
+            //     x: parent.width-width-10
+            //     y: parent.height-height-10
+            //     z: PQCConstants.currentZValue+1
 
-                visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
+            //     visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
 
-                Rectangle {
+            //     Rectangle {
 
-                    width: 30
-                    height: 30
-                    color: "#88000000"
-                    radius: 5
+            //         width: 30
+            //         height: 30
+            //         color: "#88000000"
+            //         radius: 5
 
-                    opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+            //         opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
+            //         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    Image {
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
-                        Behavior on opacity { NumberAnimation { duration: 200 } }
-                        sourceSize: Qt.size(width, height)
-                        source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
-                    }
+            //         Image {
+            //             anchors.fill: parent
+            //             anchors.margins: 5
+            //             opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
+            //             Behavior on opacity { NumberAnimation { duration: 200 } }
+            //             sourceSize: Qt.size(width, height)
+            //             source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
+            //         }
 
-                    MouseArea {
-                        id: autoplaymouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        // text: qsTranslate("image", "Toggle autoplay")
-                        onClicked: {
-                            PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
-                        }
-                    }
+            //         MouseArea {
+            //             id: autoplaymouse
+            //             anchors.fill: parent
+            //             hoverEnabled: true
+            //             cursorShape: Qt.PointingHandCursor
+            //             // text: qsTranslate("image", "Toggle autoplay")
+            //             onClicked: {
+            //                 PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
+            //             }
+            //         }
 
-                }
+            //     }
 
-                Rectangle {
+            //     Rectangle {
 
-                    width: 30
-                    height: 30
-                    color: "#88000000"
-                    radius: 5
+            //         width: 30
+            //         height: 30
+            //         color: "#88000000"
+            //         radius: 5
 
-                    opacity: playpausemouse.containsMouse ? 1 : 0.2
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+            //         opacity: playpausemouse.containsMouse ? 1 : 0.2
+            //         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-                    Image {
-                        anchors.fill: parent
-                        anchors.margins: 5
-                        sourceSize: Qt.size(width, height)
-                        source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
-                    }
+            //         Image {
+            //             anchors.fill: parent
+            //             anchors.margins: 5
+            //             sourceSize: Qt.size(width, height)
+            //             source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
+            //         }
 
-                    MouseArea {
-                        id: playpausemouse
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        onClicked: {
-                            if(mediaplayer.playbackState == MediaPlayer.PlayingState)
-                                mediaplayer.pause()
-                            else
-                                mediaplayer.play()
-                        }
-                    }
+            //         MouseArea {
+            //             id: playpausemouse
+            //             anchors.fill: parent
+            //             hoverEnabled: true
+            //             cursorShape: Qt.PointingHandCursor
+            //             onClicked: {
+            //                 if(mediaplayer.playbackState == MediaPlayer.PlayingState)
+            //                     mediaplayer.pause()
+            //                 else
+            //                     mediaplayer.play()
+            //             }
+            //         }
 
-                }
+            //     }
 
-            }
+            // }
 
         }
 
