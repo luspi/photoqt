@@ -758,10 +758,18 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
     switch (img.format()) {
         case QImage::Format_ARGB32:
         case QImage::Format_RGB32:
-#if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
-            frmt = ZXing::ImageFormat::BGRA;
+#if ZXING_VERSION_MAJOR <=2 && ZXING_VERSION_MINOR <= 2
+    #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
+            frmt = ZXing::ImageFormat::BGRX;
+    #else
+            frmt = ZXing::ImageFormat::XRGB;
+    #endif
 #else
+    #if Q_BYTE_ORDER == Q_LITTLE_ENDIAN
+            frmt = ZXing::ImageFormat::BGRA;
+    #else
             frmt = ZXing::ImageFormat::ARGB;
+    #endif
 #endif
             break;
         case QImage::Format_RGB888:
@@ -769,7 +777,11 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
             break;
         case QImage::Format_RGBX8888:
         case QImage::Format_RGBA8888:
+#if ZXING_VERSION_MAJOR <=2 && ZXING_VERSION_MINOR <= 2
+            frmt = ZXing::ImageFormat::RGBX;
+#else
             frmt = ZXing::ImageFormat::RGBA;
+#endif
             break;
         case QImage::Format_Grayscale8:
             frmt = ZXing::ImageFormat::Lum;
@@ -799,7 +811,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
                                                              .setTryInvert(true)
                                                              .setTextMode(ZXing::TextMode::HRI)
                                                              .setMaxNumberOfSymbols(10);
-    std::vector<ZXing::Barcode> results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())}, hints);
+    auto results = ZXing::ReadBarcodes({img.bits(), img.width(), img.height(), frmt, static_cast<int>(img.bytesPerLine())}, hints);
 
 #endif
 
@@ -812,7 +824,7 @@ QVariantList PQCScriptsImages::getZXingData(QString path) {
 
 #else // ZXing 1.3 and up
 
-    for(const ZXing::Barcode& r : results) {
+    for(const auto& r : results) {
 
 #endif
 
