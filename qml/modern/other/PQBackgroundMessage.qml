@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Modern
 import PhotoQt.Shared
 
@@ -31,6 +32,8 @@ Item {
     width: PQCConstants.windowWidth
     height: PQCConstants.windowHeight
     visible: PQCFileFolderModel.countMainView===0 && PQCConstants.startupFilePath===""
+
+    SystemPalette { id: pqtPalette }
 
     property var entries: {
                        //: Label shown at startup before a file is loaded
@@ -75,7 +78,7 @@ Item {
                     opacity: 1 - (width-20)/40
                     border {
                         width: 5
-                        color: PQCLook.textColor 
+                        color: pqtPalette.text
                     }
 
                     NumberAnimation {
@@ -111,17 +114,16 @@ Item {
                 height: 20
             }
 
-            Text {
+            PQText {
                 id: openmessage
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
                 font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80)) 
-                font.bold: true
+                font.weight: PQCLook.fontWeightBold
                 opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
-                color: PQCLook.textColor 
                 wrapMode: Text.WordWrap
                 horizontalAlignment: Text.AlignHCenter
             }
@@ -185,17 +187,21 @@ Item {
 
         }
 
-        Rectangle {
+        Item {
             id: rectleft
             x: arrleft.width+20+arrleft.extraSpace
             y: (parent.height-height)/2
             width: ltx.width+20
             height: ltx.height+10
-            color: PQCLook.transColor 
-            border.width: 1
-            border.color: PQCLook.transInverseColor 
-            radius: 5
-            visible: arrleft.visible&&ltx.text!=""&&opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.8
+                border.width: 1
+                border.color: PQCLook.baseBorder
+                radius: 5
+            }
+            visible: arrleft.visible&&ltx.text!==""&&opacity>0
 
             opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -292,17 +298,21 @@ Item {
 
         }
 
-        Rectangle {
+        Item {
             id: right_txt
             x: arrright.x-width-20-arrright.extraSpace
             y: (parent.height-height)/2
             width: rtx.width+20
             height: rtx.height+10
-            color: PQCLook.transColor 
-            border.width: 1
-            border.color: PQCLook.transInverseColor 
-            radius: 5
-            visible: arrright.visible&&rtx.text!=""&&opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.8
+                border.width: 1
+                border.color: PQCLook.baseBorder
+                radius: 5
+            }
+            visible: arrright.visible&&rtx.text!==""&&opacity>0
             opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -400,17 +410,21 @@ Item {
 
         }
 
-        Rectangle {
+        Item {
             id: bottom_txt
             x: (parent.width-width)/2
             y: parent.height-arrdown.height-height-20 - arrdown.extraSpace
             width: btx.width+20
             height: btx.height+10
-            color: PQCLook.transColor 
-            border.width: 1
-            border.color: PQCLook.transInverseColor 
-            radius: 5
-            visible: arrdown.visible&&btx.text!=""&&opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.8
+                border.width: 1
+                border.color: PQCLook.baseBorder
+                radius: 5
+            }
+            visible: arrdown.visible&&btx.text!==""&&opacity>0
             opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -507,17 +521,21 @@ Item {
 
         }
 
-        Rectangle {
+        Item {
             id: up_txt
             x: (parent.width-width)/2
             y: arrup.height+20+arrup.extraSpace
             width: utx.width+20
             height: utx.height+10
-            color: PQCLook.transColor 
-            border.width: 1
-            border.color: PQCLook.transInverseColor 
-            radius: 5
-            visible: arrup.visible&&utx.text!=""&&opacity>0
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                opacity: 0.8
+                border.width: 1
+                border.color: PQCLook.baseBorder
+                radius: 5
+            }
+            visible: arrup.visible&&utx.text!==""&&opacity>0
             opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
             Behavior on opacity { NumberAnimation { duration: 200 } }
 

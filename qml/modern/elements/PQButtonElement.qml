@@ -37,6 +37,8 @@ Button {
     flat: true
     opacity: enabled ? 1 : 0.5
 
+    SystemPalette { id: pqtPalette }
+
     property bool enableContextMenu: true
     property alias contextmenu: menu
 
@@ -55,7 +57,8 @@ Button {
         text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: PQCLook.textColor
+        color: control.down ? pqtPalette.button : pqtPalette.text
+        Behavior on color { ColorAnimation { duration: 150 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -65,7 +68,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: (control.down ? PQCLook.baseColorActive : (control.hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent))
+        color: (control.down ? pqtPalette.text : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button))
         Behavior on color { ColorAnimation { duration: 150 } }
     }
 
@@ -73,14 +76,14 @@ Button {
         x: 0
         width: 1
         height: parent.height
-        color: PQCLook.baseColorActive
+        color: PQCLook.baseBorder
     }
 
     Rectangle {
         x: parent.width-1
         width: 1
         height: parent.height
-        color: PQCLook.baseColorActive
+        color: PQCLook.baseBorder
     }
 
     PQMouseArea {

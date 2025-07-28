@@ -28,7 +28,9 @@ import PhotoQt.Shared
 Item {
 
     width: PQCConstants.windowWidth 
-    height: PQCConstants.windowHeight 
+    height: PQCConstants.windowHeight
+
+    SystemPalette { id: pqtPalette }
 
     Connections {
 
@@ -78,7 +80,7 @@ Item {
     Rectangle {
         id: error
         anchors.fill: parent
-        color: PQCLook.baseColor 
+        color: pqtPalette.base
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0

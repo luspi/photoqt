@@ -67,6 +67,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     Column {
 
         id: contcol
@@ -174,8 +176,8 @@ Flickable {
 
                         width: custombg_optcol.height
                         height: custombg_optcol.height
-                        color: PQCLook.baseColorHighlight 
-                        border.color: PQCLook.baseColorActive 
+                        color: pqtPalette.alternateBase
+                        border.color: PQCLook.baseBorder
                         border.width: 1
 
                         opacity: radio_custom.checked ? 1 : 0.3
@@ -276,7 +278,7 @@ Flickable {
                 Rectangle {
                     width: set_bg.rightcol
                     height: 1
-                    color: PQCLook.baseColorHighlight 
+                    color: PQCLook.baseBorder
                 },
 
                 Item {
@@ -307,7 +309,7 @@ Flickable {
                         opacity: customusecheck.checked ? 1 : 0
                         Behavior on opacity { NumberAnimation { duration: 150 } }
                         clip: true
-                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor 
+                        color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
                         onColorChanged: setting_top.checkDefault()
                         Rectangle {
                             x: (parent.width-width)/2

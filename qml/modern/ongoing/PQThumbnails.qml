@@ -41,6 +41,9 @@ Rectangle {
     visible: opacity>0
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     radius: 0
 
     // which edge the bar should be shown at
@@ -70,7 +73,7 @@ Rectangle {
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
     property bool windowSizeOkay: true
 
-    color: PQCLook.baseColor
+    color: pqtPalette.base
 
     PQShadowEffect { masterItem: thumbnails_top }
 
@@ -164,7 +167,7 @@ Rectangle {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("thumbnails", "No file loaded")
         font.bold: PQCLook.fontWeightBold
-        color: PQCLook.textColorDisabled
+        color: pqtPaletteDisabled.text
         visible: PQCFileFolderModel.countMainView===0
     }
 
@@ -205,8 +208,8 @@ Rectangle {
                     for(var i = 0; i < view.numModel; ++i)
                         pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).height
                 } else {
-                    for(var i = 0; i < view.numModel; ++i)
-                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[i]).width
+                    for(var j = 0; j < view.numModel; ++j)
+                        pix += PQCScriptsImages.getCurrentImageResolution(PQCFileFolderModel.entriesMainView[j]).width
                 }
 
                 view.thumbwidths = []
@@ -265,7 +268,7 @@ Rectangle {
             interval: 200
             onTriggered: {
                 var w = view.thumbwidths.reduce((partialSum, a) => partialSum + a, 0)
-                if(view.state == "left" || view.state == "right") {
+                if(view.state === "left" || view.state === "right") {
                     if(w < thumbnails_top.height) {
                         view.height = w
                     } else if(w > thumbnails_top.height)
@@ -458,7 +461,7 @@ Rectangle {
             property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
             // set the background color
-            color: (active&&view.hlInvertBg) ? PQCLook.baseColorActive : "transparent"
+            color: (active&&view.hlInvertBg) ? pqtPalette.alternateBase : "transparent"
             Behavior on color { ColorAnimation { duration: 200 } }
 
             state: thumbnails_top.state
@@ -543,12 +546,12 @@ Rectangle {
                 source: "image://thumb/" + deleg.filepath
 
                 onWidthChanged: {
-                    if(view.state == "left" || view.state == "right") return
+                    if(view.state === "left" || view.state === "right") return
                     if(PQCSettings.thumbnailsSameHeightVaryWidth)
                         view.thumbwidths[deleg.modelData] = width
                 }
                 onHeightChanged: {
-                    if(view.state == "top" || view.state == "bottom") return
+                    if(view.state === "top" || view.state === "bottom") return
                     if(PQCSettings.thumbnailsSameHeightVaryWidth)
                         view.thumbwidths[deleg.modelData] = height
                 }
@@ -617,11 +620,14 @@ Rectangle {
             Loader {
                 asynchronous: true
                 active: PQCSettings.thumbnailsFilename
-                Rectangle {
-                    color: view.hlInvertLabel&&deleg.active ? PQCLook.inverseColor : PQCLook.transColor
-                    Behavior on color { ColorAnimation { duration: 200 } }
-                    opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 1
-                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                Item {
+                    Rectangle {
+                        anchors.fill: parent
+                        color: view.hlInvertLabel&&deleg.active ? pqtPalette.text : pqtPalette.base
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                    }
                     visible: PQCSettings.thumbnailsFilename
                     x: (img.x+img.width-width)
                     y: (img.y+img.height-height)
@@ -636,7 +642,10 @@ Rectangle {
                         font.weight: PQCLook.fontWeightBold
                         elide: Text.ElideMiddle
                         text: deleg.filename
-                        color: view.hlInvertLabel&&deleg.active ? PQCLook.textColorDisabled : PQCLook.textColor
+                        color: view.hlInvertLabel&&deleg.active ? pqtPalette.base : pqtPalette.text
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        opacity: (PQCSettings.thumbnailsInactiveTransparent&&!deleg.active) ? 0.5 : 0.8
+                        Behavior on opacity { NumberAnimation { duration: 200 } }
                     }
                 }
             }
@@ -650,7 +659,7 @@ Rectangle {
                 visible: opacity>0
 
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                color: PQCLook.baseColorActive
+                color: pqtPalette.text
 
                 // the state follows the global thumbnails state
                 state: view.state

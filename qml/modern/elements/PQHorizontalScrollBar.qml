@@ -32,12 +32,14 @@ ScrollBar {
     active: false
     orientation: Qt.Horizontal
 
+    SystemPalette { id: pqtPalette }
+
     contentItem: Rectangle {
         implicitWidth: 100
         implicitHeight: 6
         radius: height / 2
         opacity: (control.pressed||control.active) ? 1 : 0.5
-        color: (control.pressed||control.active) ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
+        color: pqtPalette.text
         // Hide the ScrollBar when it's not needed.
         visible: control.size < 1.0
 

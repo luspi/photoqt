@@ -54,6 +54,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     property bool settingChanged: false
     property bool settingsLoaded: false
 
@@ -116,12 +118,12 @@ Flickable {
                             id: topedge
                             width: 200
                             height: 50
-                            color: topmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                            color: topmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor 
+                                color: pqtPalette.text
                                 text: setting_top.labels[setting_top.current["top"]]
                             }
 
@@ -149,13 +151,13 @@ Flickable {
                             id: leftedge
                             width: 50
                             height: 200
-                            color: leftmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                            color: leftmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: -90
                                 font.weight: setting_top.current["left"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor 
+                                color: pqtPalette.text
                                 text: setting_top.labels[setting_top.current["left"]]
                             }
                             PQMouseArea {
@@ -178,13 +180,13 @@ Flickable {
                             id: rightedge
                             width: 50
                             height: 200
-                            color: rightmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                            color: rightmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
                                 font.weight: setting_top.current["right"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor 
+                                color: pqtPalette.text
                                 text: setting_top.labels[setting_top.current["right"]]
                             }
                             PQMouseArea {
@@ -211,12 +213,12 @@ Flickable {
                             id: botedge
                             width: 200
                             height: 50
-                            color: botmouse.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                            color: botmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
                             Behavior on color { ColorAnimation { duration: 200 } }
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
-                                color: PQCLook.textColor 
+                                color: pqtPalette.text
                                 text: setting_top.labels[setting_top.current["bottom"]]
                             }
                             PQMouseArea {

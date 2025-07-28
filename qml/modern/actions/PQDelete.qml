@@ -47,6 +47,8 @@ PQTemplateFullscreen {
     button3.text: genericStringCancel
     button3.font.weight: PQCLook.fontWeightNormal 
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled }
 
     onPopoutChanged:
         PQCSettings.interfacePopoutFileDelete = popout 
@@ -78,7 +80,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
-            color: PQCLook.textColorDisabled 
+            color: pqtPaletteDisabled.text
             text: "this_is_the_filename.jpg"
         },
 

@@ -38,6 +38,8 @@ RadioButton {
 
     property int enforceMaxWidth: 0
 
+    SystemPalette { id: pqtPalette }
+
     indicator: Rectangle {
         implicitWidth: 22
         implicitHeight: 22
@@ -45,18 +47,16 @@ RadioButton {
         x: control.leftPadding
         y: parent.height / 2 - height / 2
 
-        border.color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
-        Behavior on border.color { ColorAnimation { duration: 200 } }
-        color: enabled ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent
-        Behavior on color { ColorAnimation { duration: 200 } }
+        border.color: pqtPalette.text
+        color: pqtPalette.base
+        opacity: enabled ? 1 : 0.6
         Rectangle {
             width: 10
             height: 10
             radius: 5
             anchors.centerIn: parent
             visible: control.checked
-            color: enabled ? PQCLook.inverseColor : PQCLook.inverseColorHighlight
-            Behavior on color { ColorAnimation { duration: 200 } }
+            color: pqtPalette.text
         }
     }
 

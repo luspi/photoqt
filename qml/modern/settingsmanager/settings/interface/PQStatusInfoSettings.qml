@@ -65,6 +65,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     Column {
 
         id: contcol
@@ -104,7 +106,7 @@ Flickable {
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    color: PQCLook.baseColorHighlight 
+                    color: PQCLook.baseBorder
                     ListView {
 
                         id: avail
@@ -162,7 +164,7 @@ Flickable {
                                 height: deleg.height
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                color: PQCLook.baseColorActive 
+                                color: pqtPalette.base
                                 radius: 5
                                 PQText {
                                     id: txt
@@ -170,7 +172,7 @@ Flickable {
                                     y: (parent.height-height)/2
                                     text: avail.disp[deleg.name]
                                     font.weight: PQCLook.fontWeightBold 
-                                    color: PQCLook.textColor 
+                                    color: pqtPalette.text
                                     onWidthChanged: {
                                         avail.widths.push(width+20)
                                         avail.widthsChanged()

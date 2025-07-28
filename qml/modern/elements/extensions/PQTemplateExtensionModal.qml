@@ -37,6 +37,8 @@ Rectangle {
 
     /********************/
 
+    SystemPalette { id: pqtPalette }
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
@@ -44,7 +46,7 @@ Rectangle {
 
     width: PQCConstants.windowWidth
     height: PQCConstants.windowHeight
-    color: PQCLook.baseColorAccent
+    color: pqtPalette.alternateBase
 
     PQMouseArea {
         id: mouseareaBG
@@ -58,7 +60,7 @@ Rectangle {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         PQTextXL {
             anchors.centerIn: parent
@@ -71,7 +73,7 @@ Rectangle {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: pqtPalette.alternateBase
         }
 
     }
@@ -97,14 +99,14 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: pqtPalette.alternateBase
         }
 
         Item {
@@ -197,8 +199,8 @@ Rectangle {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: PQCLook.transColor
-            opacity: parent.opacity
+            color: pqtPalette.base
+            opacity: parent.opacity*0.8
         }
     }
 

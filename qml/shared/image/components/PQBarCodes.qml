@@ -130,7 +130,7 @@ Item {
                             height: valtxt.height+10
                             color: pqtPalette.base
                             border.width: 1
-                            border.color: pqtPalette.text
+                            border.color: PQCLook.baseBorder
                             radius: 5
                             opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -159,7 +159,7 @@ Item {
                                     anchors.fill: parent
                                     color: pqtPalette.base
                                     border.width: 1
-                                    border.color: pqtPalette.text
+                                    border.color: PQCLook.baseBorder
                                     radius: 5
                                 }
                                 property bool hovered: false
@@ -182,7 +182,7 @@ Item {
                                     anchors.fill: parent
                                     color: pqtPalette.base
                                     border.width: 1
-                                    border.color: pqtPalette.text
+                                    border.color: PQCLook.baseBorder
                                     radius: 5
                                 }
                                 property bool hovered: false

@@ -109,7 +109,7 @@ Loader {
             opacity: 0.9
             radius: 5
             border.width: 1
-            border.color: pqtPalette.text
+            border.color: PQCLook.baseBorder
         }
 
         MouseArea {

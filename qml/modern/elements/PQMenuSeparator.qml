@@ -28,9 +28,12 @@ import PhotoQt.Modern
 MenuSeparator {
     id: sep_top
     property bool lighterColor: false
+    bottomPadding: 0
+    topPadding: 0
+    SystemPalette { id: pqtPalette }
     contentItem: Rectangle {
         implicitWidth: 200
         implicitHeight: 1
-        color: sep_top.lighterColor ? PQCLook.baseColorHighlight : PQCLook.inverseColorHighlight
+        color: sep_top.lighterColor ? pqtPalette.alternateBase : pqtPalette.text
     }
 }

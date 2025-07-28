@@ -21,15 +21,15 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Text {
+Label {
 
-    color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
-    Behavior on color { ColorAnimation { duration: animateColorChanged ? 200 : 0 } }
+    SystemPalette { id: pqtPalette }
+    color: pqtPalette.text
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
-    property bool animateColorChanged: true
 
 }

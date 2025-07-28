@@ -28,7 +28,9 @@ Rectangle {
 
     id: explorertweaks
 
-    color: PQCLook.baseColor 
+    color: pqtPalette.base
+
+    SystemPalette { id: pqtPalette }
 
     Row {
 

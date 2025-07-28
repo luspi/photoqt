@@ -37,6 +37,8 @@ PQTemplateFullscreen {
 
     title: qsTranslate("settingsmanager", "Settings Manager")
 
+    SystemPalette { id: pqtPalette }
+
     onPopoutChanged: {
         PQCSettings.interfacePopoutSettingsManager = popout 
     }
@@ -554,7 +556,7 @@ PQTemplateFullscreen {
             handle: Rectangle {
                 implicitWidth: 5
                 implicitHeight: 5
-                color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight   
+                color: SplitHandle.hovered ? pqtPalette.alternateBase : PQCLook.baseBorder
                 Behavior on color { ColorAnimation { duration: 200 } }
                 Image {
                     y: (parent.height-height)/2
@@ -620,7 +622,7 @@ PQTemplateFullscreen {
                     width: parent.width
                     height: 1
                     y: parent.height-29
-                    color: PQCLook.baseColorHighlight 
+                    color: PQCLook.baseBorder
                 }
 
                 PQTextS {
@@ -638,13 +640,18 @@ PQTemplateFullscreen {
 
     ]
 
-    Rectangle {
+    Item {
         id: settinginfomessage
         anchors.fill: parent
-        color: PQCLook.transColor 
         visible: opacity>0
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
+
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0.8
+        }
 
         PQMouseArea {
             anchors.fill: parent
@@ -658,7 +665,7 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width)
             height: settinginfomessage_col.height+30
             radius: 10
-            color: PQCLook.baseColor 
+            color: pqtPalette.base
 
             MouseArea {
                 anchors.fill: parent
@@ -701,12 +708,17 @@ PQTemplateFullscreen {
 
     }
 
-    Rectangle {
+    Item {
 
         id: confirmUnsaved
 
         anchors.fill: parent
-        color: PQCLook.transColor 
+
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0.8
+        }
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }

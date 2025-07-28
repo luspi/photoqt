@@ -37,6 +37,8 @@ ListView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
+    SystemPalette { id: pqtPalette }
+
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
         if(contentY > 0)
@@ -103,14 +105,14 @@ ListView {
         // without the parseInt() the value is taken for some reason as string resulting in a height of "15" + "xx" = "15xx"
         height: 15 + parseInt(PQCSettings.filedialogZoom)
 
-        color: PQCLook.baseColor
+        color: pqtPalette.base
         border.width: 1
-        border.color: PQCLook.baseColorAccent 
+        border.color: PQCLook.baseBorder
 
         Rectangle {
             anchors.fill: parent
-            color: PQCLook.transColor 
-            opacity: deleg.isFolder ? 0.6 : (modelData%2 ? 0.55 : 0.5)
+            color: modelData%2 ? pqtPalette.base : pqtPalette.alternateBase
+            opacity: 0.5
         }
 
         Item {
@@ -169,7 +171,7 @@ ListView {
 
             anchors.fill: parent
             anchors.leftMargin: fileicon.width+2
-            color: PQCLook.inverseColor
+            color: pqtPalette.text
             property bool toShow: listview.currentIndex===deleg.modelData
             opacity: toShow ? 0.6 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -183,8 +185,7 @@ ListView {
             id: rect_selecting
 
             anchors.fill: parent
-            // anchors.leftMargin: fileicon.width+2
-            color: PQCLook.inverseColor
+            color: pqtPalette.text
             property bool toShow: !(view_top.currentSelection.indexOf(deleg.modelData)===-1)
             opacity: toShow ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -206,13 +207,7 @@ ListView {
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: deleg.currentFile
-            animateColorChanged: false
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
-        }
-        PQMultiEffect {
-            shadowEnabled: true
-            shadowColor: PQCLook.textInverseColor
-            source: filename_label
+            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? pqtPalette.text : pqtPalette.base
         }
 
         // the file size/number of images
@@ -224,13 +219,7 @@ ListView {
             height: deleg.height
             verticalAlignment: Text.AlignVCenter
             text: ""
-            animateColorChanged: false
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? PQCLook.textColor : PQCLook.textInverseColor
-        }
-        PQMultiEffect {
-            shadowEnabled: true
-            shadowColor: PQCLook.textInverseColor
-            source: fileinfo
+            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? pqtPalette.text : pqtPalette.base
         }
 
         /************************************************************/

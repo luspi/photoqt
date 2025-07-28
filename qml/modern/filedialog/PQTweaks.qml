@@ -37,6 +37,8 @@ Item {
     property list<PQButtonElement> allbuttons: [cancelbutton]
     property list<PQMenu> allmenus: [filetypes]
 
+    SystemPalette { id: pqtPalette }
+
     Rectangle {
 
         id: leftcolrect
@@ -47,8 +49,8 @@ Item {
         width: leftcol.width+15
         height: parent.height
 
-        color: PQCLook.baseColor 
-        border.color: PQCLook.baseColorActive 
+        color: pqtPalette.base
+        border.color: PQCLook.baseBorder
         border.width: state==="moveup" ? 1 : 0
 
         Row {
@@ -608,7 +610,7 @@ Item {
         y: 0
         width: parent.width
         height: 1
-        color: PQCLook.baseColorActive 
+        color: PQCLook.baseBorder
     }
 
 }

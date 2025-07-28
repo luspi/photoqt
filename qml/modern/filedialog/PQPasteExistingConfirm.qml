@@ -44,7 +44,9 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
-    property list<string> checkedFiles: []
+    property list<int> checkedFiles: []
+
+    SystemPalette { id: pqtPalette }
 
     content: [
 
@@ -65,8 +67,8 @@ PQTemplateFullscreen {
             width: 400
             height: 300
 
-            color: PQCLook.baseColorAccent 
-            border.color: PQCLook.baseColorActive 
+            color: pqtPalette.alternateBase
+            border.color: PQCLook.baseBorder
             border.width: 1
 
             ListView {
@@ -102,8 +104,9 @@ PQTemplateFullscreen {
 
                         width: view.width
                         height: 40
-                        color: check.checked ? PQCLook.baseColorActive : (view.currentIndex===modelData ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent) 
-                        border.color: PQCLook.baseColor 
+                        color: check.checked ? PQCLook.baseBorder : (view.currentIndex===modelData ? pqtPalette.alternateBase : pqtPalette.button)
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                        border.color: PQCLook.baseBorder
                         border.width: 1
 
                         opacity: check.checked ? 1 : 0.6
@@ -159,6 +162,7 @@ PQTemplateFullscreen {
                                     exist_top.checkedFilesChanged()
                                 } else
                                     exist_top.checkedFiles = exist_top.checkedFiles.filter(item => item!==deleg.modelData)
+                                exist_top.checkedFilesChanged
                             }
                         }
 

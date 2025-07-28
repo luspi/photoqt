@@ -51,6 +51,8 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
+    SystemPalette { id: pqtPalette }
+
     property int leftcolwidth: 100
 
     property list<string> musicfiles: []
@@ -443,7 +445,7 @@ PQTemplateFullscreen {
 
                         color: "transparent"
                         border.width: 2
-                        border.color: PQCLook.baseColorHighlight 
+                        border.color: PQCLook.baseBorder
 
                         width: Math.min(500, slideshowsettings_top.width-slideshowsettings_top.leftcolwidth - contentrow.x - contentrow.spacing-10)
                         height: 200
@@ -502,7 +504,7 @@ PQTemplateFullscreen {
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight 
+                                    color: pqtPalette.alternateBase
 
                                     Column {
                                         x: 5
@@ -512,11 +514,21 @@ PQTemplateFullscreen {
                                             width: parent.width-musicbutrow.width
                                             elide: Text.ElideMiddle
                                             text: musicdeleg.fname
+                                            PQMouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                text: musicdeleg.fname
+                                            }
                                         }
                                         PQTextS {
                                             width: parent.width-musicbutrow.width
                                             elide: Text.ElideMiddle
                                             text: musicdeleg.fpath
+                                            PQMouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                text: musicdeleg.fpath
+                                            }
                                         }
                                     }
 

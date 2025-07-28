@@ -24,13 +24,19 @@ import QtQuick
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Rectangle {
+Item {
 
     id: newshortcut_top
 
     anchors.fill: parent
 
-    color: PQCLook.transColor 
+    SystemPalette { id: pqtPalette }
+
+    Rectangle {
+        anchors.fill: parent
+        color: pqtPalette.base
+        opacity: 0.8
+    }
 
     opacity: 0
     visible: opacity > 0
@@ -148,9 +154,9 @@ Rectangle {
         width: Math.min(800, parent.width)
         height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
-        color: PQCLook.baseColor 
+        color: pqtPalette.base
         border.width: 1
-        border.color: PQCLook.baseColorHighlight 
+        border.color: PQCLook.baseBorder
 
         PQText {
             id: instr_txt
@@ -175,7 +181,7 @@ Rectangle {
             y: parent.height-height
             width: parent.width
             height: resetmessagetxt.height+20
-            color: PQCLook.baseColorActive 
+            color: pqtPalette.alternateBase
             opacity: 0
             // this needs to be done this way to avoid a binding loop warning
             onOpacityChanged: {
@@ -189,7 +195,7 @@ Rectangle {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: PQCLook.textColor 
+                color: pqtPalette.text
                 text: qsTranslate("settingsmanager", "This key combination is reserved.") + "<br>\n" +
                       qsTranslate("settingsmanager", "You can use it to reset PhotoQt to its default state.")
             }
@@ -206,7 +212,7 @@ Rectangle {
             y: parent.height-height
             width: parent.width
             height: leftbutmessagetxt.height+20
-            color: PQCLook.baseColorActive 
+            color: pqtPalette.alternateBase
             opacity: 0
             // this needs to be done this way to avoid a binding loop warning
             onOpacityChanged: {
@@ -220,7 +226,7 @@ Rectangle {
                 y: 10
                 width: parent.width
                 horizontalAlignment: Text.AlignHCenter
-                color: PQCLook.textColor 
+                color: pqtPalette.text
                 text: qsTranslate("settingsmanager", "The left button is used for moving the main image around.") + "<br>\n" +
                       qsTranslate("settingsmanager", "It can be used as part of a shortcut only when combined with modifier buttons (Alt, Ctrl, etc.).")
             }

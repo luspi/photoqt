@@ -33,6 +33,8 @@ Item {
     width: parent.width
     height: 50
 
+    SystemPalette { id: pqtPalette }
+
     property alias topSettingsMenu: settingsmenu
     property alias navButtonsMenu: navmenu
     property alias editMenu: editmenu
@@ -131,7 +133,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorActive 
+                        color: PQCLook.baseBorder
                     }
 
                 }
@@ -211,7 +213,7 @@ Item {
                         x: 2
                         width: 1
                         height: 40
-                        color: PQCLook.baseColorActive 
+                        color: PQCLook.baseBorder
                     }
 
                 }
@@ -245,7 +247,7 @@ Item {
         Rectangle {
             width: 8
             height: breadcrumbs_top.height
-            color: PQCLook.baseColorAccent 
+            color: PQCLook.baseBorder
         }
 
         Item {
@@ -370,11 +372,14 @@ Item {
                                 }
                             }
 
-                            Rectangle {
+                            Item {
                                 height: breadcrumbs_top.height
                                 width: folder.text==="" ? 0 : (folder.width+foldertypeicon.width+20)
-                                color: (mousearea2.containsPress ? PQCLook.baseColorActive : (mousearea2.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
-                                Behavior on color { ColorAnimation { duration: 200 } }
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: mousearea2.containsPress ? pqtPalette.text : (mousearea2.containsMouse ? pqtPalette.alternateBase : pqtPalette.base)
+                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                }
                                 Image {
                                     id: foldertypeicon
                                     x: 5
@@ -389,6 +394,8 @@ Item {
                                     y: (parent.height-height)/2
                                     font.weight: PQCLook.fontWeightBold 
                                     text: deleg.modelData>0 ? crumbs.parts[deleg.modelData] : ""
+                                    color: mousearea2.containsPress ? pqtPalette.base : pqtPalette.text
+                                    Behavior on color { ColorAnimation { duration: 200 } }
                                 }
                                 PQMouseArea {
                                     id: mousearea2
@@ -444,7 +451,7 @@ Item {
                                 height: breadcrumbs_top.height
                                 width: height*2/3
                                 property bool down: folderlist.visible
-                                color: (down ? PQCLook.baseColorActive : (mousearea.containsMouse ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
+                                color: (down||mousearea.containsPress ? PQCLook.baseBorder : (mousearea.containsMouse ? pqtPalette.alternateBase : pqtPalette.base))
                                 Behavior on color { ColorAnimation { duration: 200 } }
                                 Image {
                                     property real fact: 3
@@ -709,7 +716,7 @@ Item {
         y: parent.height-1
         width: parent.width
         height: 1
-        color: PQCLook.baseColorActive 
+        color: PQCLook.baseBorder
     }
 
     function checkValidEditPath() {

@@ -54,10 +54,12 @@ Rectangle {
     ///////////////////
     property bool _fixSizeToContent: ((settings["ExtPopout"] && PQCExtensionsHandler.getExtensionPopoutFixSizeToContent(extensionId)) || (!settings["ExtPopout"] && PQCExtensionsHandler.getExtensionIntegratedFixSizeToContent(extensionId)))
 
+    SystemPalette { id: pqtPalette }
+
     width: _fixSizeToContent ? contentItem.width : parent.parent.width
     height: _fixSizeToContent ? contentItem.height : parent.parent.height
 
-    color: PQCLook.baseColor
+    color: pqtPalette.base
     radius: 5
 
     Item {

@@ -24,9 +24,9 @@ import QtQuick
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Rectangle {
-    id: notification_top
+Item {
 
+    id: notification_top
 
     // we fall back to top right location if state is invalid
     x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge 
@@ -35,7 +35,9 @@ Rectangle {
     width: contcol.width+30
     height: contcol.height+30
 
-    state: PQCSettings.interfaceNotificationLocation 
+    state: PQCSettings.interfaceNotificationLocation
+
+    SystemPalette { id: pqtPalette }
 
     states: [
 
@@ -111,12 +113,15 @@ Rectangle {
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
-    color: PQCLook.transColor 
+    Rectangle {
+        anchors.fill: parent
+        color: pqtPalette.base
+        radius: 15
+        opacity: 0.8
+    }
 
     property alias titletext: tit.text
     property alias statustext: txt.text
-
-    radius: 15
 
     Column {
 

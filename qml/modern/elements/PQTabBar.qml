@@ -35,6 +35,8 @@ Item {
     property int currentIndex: 0
     property list<string> model: []
 
+    SystemPalette { id: pqtPalette }
+
     Column {
 
         Repeater {
@@ -52,16 +54,18 @@ Item {
                 property bool hovered: false
                 width: control_top.width
                 height: 48
-                color: active ? PQCLook.baseColorActive : (hovered ? PQCLook.baseColorHighlight : PQCLook.baseColorAccent)
+                color: active ? pqtPalette.text : (hovered ? pqtPalette.alternateBase : pqtPalette.base)
                 Behavior on color { ColorAnimation { duration: 200 } }
                 border.width: 1
-                border.color: PQCLook.baseColorActive
+                border.color: PQCLook.baseBorder
 
                 PQText {
                     anchors.fill: parent
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: control_top.model[deleg.modelData]
+                    color: deleg.active ? pqtPalette.base : pqtPalette.text
+                    Behavior on color { ColorAnimation { duration: 200 } }
                 }
 
                 PQMouseArea {

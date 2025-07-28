@@ -59,6 +59,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
         //: Part of the meta information about the current image.
     property list<var> labels: [["Filename", qsTranslate("settingsmanager", "file name")],
         //: Part of the meta information about the current image.
@@ -140,7 +142,7 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight
+                    border.color: PQCLook.baseBorder
 
                     PQLineEdit {
                         id: labels_filter
@@ -191,7 +193,7 @@ Flickable {
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                                    color: tilemouse.containsMouse||check.checked ? PQCLook.baseBorder : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     property bool delegSetup: false
@@ -211,7 +213,7 @@ Flickable {
                                         text: setting_top.labels[deleg.modelData][1]
                                         font.weight: PQCLook.fontWeightNormal 
                                         font.pointSize: PQCLook.fontSizeS 
-                                        color: PQCLook.textColor 
+                                        color: pqtPalette.text
                                         extraHovered: tilemouse.containsMouse
                                         checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] 
                                         onCheckedChanged: {
@@ -310,7 +312,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight 
+                            color: PQCLook.baseBorder
                         }
 
                         Row {

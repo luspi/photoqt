@@ -109,7 +109,7 @@ Loader {
             color: pqtPalette.base
             opacity: 0.9
             border.width: 1
-            border.color: pqtPalette.text
+            border.color: PQCLook.baseBorder
             radius: 5
         }
 

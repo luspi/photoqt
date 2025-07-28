@@ -45,6 +45,8 @@ Window {
 
     ///////////////////
 
+    SystemPalette { id: pqtPalette }
+
     width: 100
     height: 100
 
@@ -92,7 +94,14 @@ Window {
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
-    color: PQCLook.transColor
+    color: "transparent"
+
+    Rectangle {
+        width: parent.width
+        height: parent.height
+        color: pqtPalette.base
+        opacity: 0.8
+    }
 
     onXChanged:
         updateGeometry.restart()
@@ -111,7 +120,7 @@ Window {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         PQTextXL {
             anchors.centerIn: parent
@@ -124,7 +133,7 @@ Window {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: pqtPalette.alternateBase
         }
 
     }
@@ -150,14 +159,14 @@ Window {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: pqtPalette.alternateBase
         }
 
         Item {
@@ -282,8 +291,8 @@ Window {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: PQCLook.transColor
-            opacity: parent.opacity
+            color: pqtPalette.base
+            opacity: parent.opacity*0.8
         }
     }
 

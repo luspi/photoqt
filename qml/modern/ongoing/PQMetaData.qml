@@ -40,6 +40,8 @@ Rectangle {
             resetAnimateResize.restart()
     }
 
+    SystemPalette { id: pqtPalette }
+
     Timer {
         id: resetAnimateResize
         interval: 250
@@ -77,7 +79,7 @@ Rectangle {
                             PQCConstants.windowHeight-2*gap-statusinfoOffset :
                             Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
 
-    color: PQCLook.baseColor 
+    color: pqtPalette.base
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 
 
@@ -116,7 +118,7 @@ Rectangle {
                              "disabled" ))
 
     property int gap: 40
-    property int statusinfoOffset: statusinfo.item.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 
+    property int statusinfoOffset: statusinfo.item.visible&&state==="left" ? (statusinfo.item.height+statusinfo.item.y) : 0
 
     // the four states corresponding to screen edges
     states: [
@@ -205,11 +207,11 @@ Rectangle {
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("metadata", "No file loaded")
         font.bold: PQCLook.fontWeightBold 
-        color: PQCLook.textColorDisabled 
+        enabled: false
         visible: PQCFileFolderModel.countMainView===0 
     }
 
-    Rectangle {
+    Item {
 
         id: heading
 
@@ -217,8 +219,12 @@ Rectangle {
         y: 10
         width: flickable.width
         height: head_txt.height+10
-        color: PQCLook.transColorHighlight 
-        radius: 5
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.alternateBase
+            opacity: 0.8
+            radius: 5
+        }
 
         PQTextXL {
             id: head_txt

@@ -37,6 +37,8 @@ Window {
 
     title: "Log/Debug" + " | PhotoQt"
 
+    SystemPalette { id: pqtPalette }
+
     /////////
 
     // on windows there is a white flash when the window is created
@@ -55,7 +57,14 @@ Window {
 
     visible: false
 
-    color: PQCLook.transColor
+    color: "transparent"
+
+    Rectangle {
+        width: parent.width
+        height: parent.height
+        color: pqtPalette.base
+        opacity: 0.8
+    }
 
     PQTextL {
         id: title
@@ -84,14 +93,14 @@ Window {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: PQCLook.baseBorder
         }
 
         PQCheckBox {

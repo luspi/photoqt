@@ -35,6 +35,8 @@ Flickable {
 
     contentHeight: mainrow.height
 
+    SystemPalette { id: pqtPalette }
+
     property int model: 0
     onModelChanged: {
         if(model == 0) {
@@ -195,9 +197,9 @@ Flickable {
             property int folderthumbCurNum: 0
 
             clip: true
-            color: PQCLook.baseColor
+            color: pqtPalette.base
             border.width: PQCSettings.filedialogElementPadding
-            border.color: PQCLook.baseColorAccent 
+            border.color: PQCLook.baseBorder
 
             Item {
                 id: dragHandler
@@ -370,8 +372,8 @@ Flickable {
                 id: rect_hovering
 
                 anchors.fill: parent
-                color: PQCLook.inverseColor
-                opacity: deleg.isHovered ? 0.3 : 0
+                color: pqtPalette.text
+                opacity: deleg.isHovered ? 0.35 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
 
@@ -383,7 +385,7 @@ Flickable {
                 id: rect_selecting
 
                 anchors.fill: parent
-                color: PQCLook.inverseColor
+                color: pqtPalette.text
                 opacity: deleg.isSelected ? 0.6 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
@@ -407,8 +409,9 @@ Flickable {
                                 (deleg.isSelected||deleg.isHovered ? Math.min(50, deleg.height) : 0)
                     Behavior on height { NumberAnimation { duration: 200 } }
                     y: deleg.height-height
-                    color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) 
+                    color: deleg.isSelected ? pqtPalette.text : (deleg.isHovered ? pqtPalette.alternateBase : pqtPalette.base )
                     Behavior on color { ColorAnimation { duration: 200 } }
+                    opacity: 0.8
                     clip: true
 
                     PQText {
@@ -420,6 +423,8 @@ Flickable {
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
                         text: deleg.currentFile
+                        color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
+                        Behavior on color { ColorAnimation { duration: 200 } }
                     }
 
                     Image {

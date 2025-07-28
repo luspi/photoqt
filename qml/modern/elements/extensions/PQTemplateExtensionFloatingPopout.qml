@@ -47,6 +47,8 @@ Window {
 
     ///////////////////
 
+    SystemPalette { id: pqtPalette }
+
     width: 100
     height: 100
 
@@ -93,7 +95,14 @@ Window {
     visible: false
     flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
-    color: PQCLook.transColor
+    color: "transparent"
+
+    Rectangle {
+        width: parent.width
+        height: parent.height
+        color: pqtPalette.base
+        opacity: 0.8
+    }
 
     onXChanged:
         updateGeometry.restart()
@@ -184,8 +193,8 @@ Window {
             anchors.margins: -2
             radius: 2
             z: -1
-            color: PQCLook.transColor
-            opacity: parent.opacity
+            color: pqtPalette.base
+            opacity: parent.opacity*0.8
         }
     }
 
@@ -229,8 +238,8 @@ Window {
                 anchors.fill: closeimage
                 radius: width/2
                 z: -1
-                color: PQCLook.transColor
-                opacity: closeimage.opacity
+                color: pqtPalette.base
+                opacity: closeimage.opacity*0.8
             }
 
         }

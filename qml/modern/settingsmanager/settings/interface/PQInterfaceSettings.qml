@@ -58,6 +58,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     Column {
 
         id: contcol
@@ -376,7 +378,7 @@ Flickable {
                     opacity: enabled ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                    color: PQCLook.baseColorHighlight 
+                    color: pqtPalette.alternateBase
                     ListView {
 
                         id: avail
@@ -470,7 +472,7 @@ Flickable {
                                 height: deleg.height
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                color: PQCLook.baseColorActive 
+                                color: pqtPalette.base
                                 radius: 5
                                 Image {
                                     id: txt
@@ -972,17 +974,20 @@ Flickable {
                         clip: true
                         color: PQCSettings.interfaceAccentColor 
                         border.width: 1
-                        border.color: PQCLook.inverseColor 
-                        Rectangle {
+                        border.color: PQCLook.baseBorder
+                        Item {
                             x: (parent.width-width)/2
                             y: (parent.height-height)/2
                             width: accent_coltxt.width+20
                             height: accent_coltxt.height+10
-                            radius: 5
-                            color: PQCLook.transInverseColor 
+                            Rectangle {
+                                color: pqtPalette.text
+                                opacity: 0.8
+                                radius: 5
+                            }
                             PQText {
                                 id: accent_coltxt
-                                color: PQCLook.textInverseColor 
+                                color: pqtPalette.base
                                 x: 10
                                 y: 5
                                 text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b]) 
@@ -1067,7 +1072,7 @@ Flickable {
                         opacity: bgcustomusecheck.checked ? 1 : 0
                         Behavior on opacity { NumberAnimation { duration: 150 } }
                         clip: true
-                        color: PQCSettings.interfaceBackgroundCustomOverlayColor=="" ? PQCLook.baseColor : PQCSettings.interfaceBackgroundCustomOverlayColor 
+                        color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
                         onColorChanged: setting_top.checkDefault()
                         Rectangle {
                             x: (parent.width-width)/2
@@ -1382,14 +1387,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="topleft" ? PQCLook.baseColorActive                     
-                                                                     : mouse_tl.containsMouse ? PQCLook.baseColorHighlight
-                                                                                              : PQCLook.baseColor
+                                    color: notif_grid.loc==="topleft" ? pqtPalette.button
+                                                                     : mouse_tl.containsMouse ? PQCLook.baseBorder
+                                                                                              : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_tl
                                         anchors.fill: parent
@@ -1402,14 +1407,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="top" ? PQCLook.baseColorActive                     
-                                                                 : mouse_t.containsMouse ? PQCLook.baseColorHighlight
-                                                                                         : PQCLook.baseColor
+                                    color: notif_grid.loc==="top" ? pqtPalette.button
+                                                                 : mouse_t.containsMouse ? PQCLook.baseBorder
+                                                                                         : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_t
                                         anchors.fill: parent
@@ -1422,14 +1427,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="topright" ? PQCLook.baseColorActive                    
-                                                                      : mouse_tr.containsMouse ? PQCLook.baseColorHighlight
-                                                                                               : PQCLook.baseColor
+                                    color: notif_grid.loc==="topright" ? pqtPalette.button
+                                                                      : mouse_tr.containsMouse ? PQCLook.baseBorder
+                                                                                               : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_tr
                                         anchors.fill: parent
@@ -1445,14 +1450,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="centerleft" ? PQCLook.baseColorActive                      
-                                                                        : mouse_ml.containsMouse ? PQCLook.baseColorHighlight
-                                                                                                 : PQCLook.baseColor
+                                    color: notif_grid.loc==="centerleft" ? pqtPalette.button
+                                                                        : mouse_ml.containsMouse ? PQCLook.baseBorder
+                                                                                                 : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_ml
                                         anchors.fill: parent
@@ -1465,14 +1470,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="center" ? PQCLook.baseColorActive                      
-                                                                    : mouse_m.containsMouse ? PQCLook.baseColorHighlight
-                                                                                            : PQCLook.baseColor
+                                    color: notif_grid.loc==="center" ? pqtPalette.button
+                                                                    : mouse_m.containsMouse ? PQCLook.baseBorder
+                                                                                            : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_m
                                         anchors.fill: parent
@@ -1485,14 +1490,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="centerright" ? PQCLook.baseColorActive                     
-                                                                         : mouse_mr.containsMouse ? PQCLook.baseColorHighlight
-                                                                                                  : PQCLook.baseColor
+                                    color: notif_grid.loc==="centerright" ? pqtPalette.button
+                                                                         : mouse_mr.containsMouse ? PQCLook.baseBorder
+                                                                                                  : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_mr
                                         anchors.fill: parent
@@ -1508,14 +1513,14 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomleft" ? PQCLook.baseColorActive                      
-                                                                        : mouse_bl.containsMouse ? PQCLook.baseColorHighlight
-                                                                                                 : PQCLook.baseColor
+                                    color: notif_grid.loc==="bottomleft" ? pqtPalette.button
+                                                                        : mouse_bl.containsMouse ? PQCLook.baseBorder
+                                                                                                 : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_bl
                                         anchors.fill: parent
@@ -1528,14 +1533,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottom" ? PQCLook.baseColorActive                      
-                                                                    : mouse_b.containsMouse ? PQCLook.baseColorHighlight
-                                                                                            : PQCLook.baseColor
+                                    color: notif_grid.loc==="bottom" ? pqtPalette.button
+                                                                    : mouse_b.containsMouse ? PQCLook.baseBorder
+                                                                                            : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_b
                                         anchors.fill: parent
@@ -1548,14 +1553,14 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomright" ? PQCLook.baseColorActive                         
-                                                                         : mouse_br.containsMouse ? PQCLook.baseColorHighlight
-                                                                                                  : PQCLook.baseColor
+                                    color: notif_grid.loc==="bottomright" ? pqtPalette.button
+                                                                         : mouse_br.containsMouse ? PQCLook.baseBorder
+                                                                                                  : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                     width: 100
                                     height: 50
                                     border.width: 1
-                                    border.color: PQCLook.baseColorHighlight 
+                                    border.color: PQCLook.baseBorder
                                     PQMouseArea {
                                         id: mouse_br
                                         anchors.fill: parent

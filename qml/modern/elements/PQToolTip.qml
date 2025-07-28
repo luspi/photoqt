@@ -38,6 +38,8 @@ ToolTip {
     property bool enforceWidthLimit: true
     property int pw: 0
 
+    SystemPalette { id: pqtPalette }
+
     contentItem: PQText {
         id: contentText
         text: control.text
@@ -61,8 +63,9 @@ ToolTip {
     }
 
     background: Rectangle {
-        color: control.partialTransparency ? PQCLook.transColor : PQCLook.baseColor
-        border.color: PQCLook.inverseColorHighlight
+        color: pqtPalette.base
+        opacity: control.partialTransparency ? 0.8 : 1
+        border.color: PQCLook.baseBorder
     }
 
 }

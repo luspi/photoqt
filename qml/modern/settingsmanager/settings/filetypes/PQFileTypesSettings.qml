@@ -53,6 +53,8 @@ Item {
 
     property string defaultSettings: ""
 
+    SystemPalette { id: pqtPalette }
+
     Column {
 
         Column {
@@ -206,6 +208,13 @@ Item {
 
             model: ft.length
 
+            Rectangle {
+                anchors.fill: parent
+                color: "transparent"
+                border.color: PQCLook.baseBorder
+                border.width: 1
+            }
+
             ScrollBar.vertical: PQVerticalScrollBar {}
 
             PQScrollManager { flickable: listview }
@@ -225,7 +234,7 @@ Item {
                     height: filterPass ? 50 : 0
                     Behavior on height { NumberAnimation { duration: 50 } }
 
-                    color: entry_rect.modelData%2==0 ? PQCLook.baseColorAccent : PQCLook.baseColor 
+                    color: entry_rect.modelData%2==0 ? pqtPalette.alternateBase : pqtPalette.base
                     visible: height > 0
 
                     PQCheckBox {

@@ -40,6 +40,8 @@ Rectangle {
             resetAnimateResize.restart()
     }
 
+    SystemPalette { id: pqtPalette }
+
     Timer {
         id: resetAnimateResize
         interval: 250
@@ -64,7 +66,7 @@ Rectangle {
             PQCSettings.mainmenuElementPosition = Qt.point(Math.round(mainmenu_top.x),Math.round(mainmenu_top.y))
     }
 
-    color: PQCLook.baseColor
+    color: pqtPalette.base
 
     radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
@@ -259,12 +261,16 @@ Rectangle {
             /*************************/
             // Navigation
 
-            Rectangle {
+            Item {
 
                 width: flickable.width
                 height: nav_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.alternateBase
+                    opacity: 0.8
+                    radius: 5
+                }
 
                 PQTextXL {
                     id: nav_txt
@@ -362,12 +368,16 @@ Rectangle {
             /*************************/
             // image view
 
-            Rectangle {
+            Item {
 
                 width: flickable.width
                 height: view_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.alternateBase
+                    opacity: 0.8
+                    radius: 5
+                }
 
                 PQTextXL {
                     id: view_txt
@@ -590,12 +600,16 @@ Rectangle {
             /*************************/
             // Folder Actions
 
-            Rectangle {
+            Item {
 
                 width: flickable.width
                 height: folder_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.alternateBase
+                    opacity: 0.8
+                    radius: 5
+                }
 
                 PQTextXL {
                     id: folder_txt
@@ -740,12 +754,16 @@ Rectangle {
             /*************************/
             // PhotoQt
 
-            Rectangle {
+            Item {
 
                 width: flickable.width
                 height: photoqt_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.alternateBase
+                    opacity: 0.8
+                    radius: 5
+                }
 
                 PQTextXL {
                     id: photoqt_txt
@@ -813,12 +831,16 @@ Rectangle {
             /*************************/
             // Custom
 
-            Rectangle {
+            Item {
 
                 width: flickable.width
                 height: custom_txt.height+10
-                color: PQCLook.transColorHighlight
-                radius: 5
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.alternateBase
+                    opacity: 0.8
+                    radius: 5
+                }
 
                 visible: PQCSettings.mainmenuShowExternal
 
