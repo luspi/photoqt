@@ -31,6 +31,8 @@ Loader {
 
     asynchronous: true
 
+    SystemPalette { id: pqtPalette }
+
     sourceComponent:
         Item {
 
@@ -43,16 +45,23 @@ Loader {
             width: cont_row.width
             height: cont_row.height
 
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.base
+                border.width: 1
+                border.color: pqtPalette.text
+                opacity: 0.8
+                radius: 5
+            }
+
             Row {
 
                 id: cont_row
 
-                Rectangle {
+                Item {
 
                     width: 30
                     height: 30
-                    color: "#88000000"
-                    radius: 5
 
                     opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -79,12 +88,10 @@ Loader {
 
                 }
 
-                Rectangle {
+                Item {
 
                     width: 30
                     height: 30
-                    color: "#88000000"
-                    radius: 5
 
                     opacity: playpausemouse.containsMouse ? 1 : 0.2
                     Behavior on opacity { NumberAnimation { duration: 200 } }

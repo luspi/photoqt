@@ -22,6 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Shared
 
 Item {
@@ -43,6 +44,8 @@ Item {
     property int barcode_z: 0
 
     signal barcodeClicked()
+
+    SystemPalette { id: pqtPalette }
 
     Connections {
         target: PQCConstants
@@ -125,19 +128,18 @@ Item {
                             x: (parent.width-width)/2
                             width: valtxt.width+10
                             height: valtxt.height+10
-                            color: "white"
+                            color: pqtPalette.base
                             border.width: 1
-                            border.color: "black"
+                            border.color: pqtPalette.text
                             radius: 5
                             opacity: bardeleg.hovered||copycont.hovered||linkcont.hovered||(bartop.barcodes.length<4) ? 1 : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            Text {
+                            Label {
                                 id: valtxt
-                                font.pointSize: PQCLook.fontSize
-                                font.weight: PQCLook.fontWeightBold
                                 x: 5
                                 y: 5
-                                color: "black"
+                                font.pointSize: PQCLook.fontSize
+                                font.weight: PQCLook.fontWeightBold
                                 text: bardeleg.val
                             }
 
@@ -149,12 +151,17 @@ Item {
 
                             spacing: 1
 
-                            Rectangle {
+                            Item {
                                 id: copycont
                                 width: 32
                                 height: 32
-                                color: "#88000000"
-                                radius: 5
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: pqtPalette.base
+                                    border.width: 1
+                                    border.color: pqtPalette.text
+                                    radius: 5
+                                }
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -167,12 +174,17 @@ Item {
                                 }
                             }
 
-                            Rectangle {
+                            Item {
                                 id: linkcont
                                 width: 32
                                 height: 32
-                                color: "#88000000"
-                                radius: 5
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: pqtPalette.base
+                                    border.width: 1
+                                    border.color: pqtPalette.text
+                                    radius: 5
+                                }
                                 property bool hovered: false
                                 opacity: hovered ? 1 : 0.4
                                 Behavior on opacity { NumberAnimation { duration: 200 } }

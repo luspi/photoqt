@@ -22,6 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Shared
 
 Loader {
@@ -120,11 +121,10 @@ Loader {
                     }
 
                     // This holds the person's name
-                    Text {
+                    Label {
                         id: faceLabel
                         x: 7
                         y: 5
-                        color: pqtPalette.text
                         font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale
                         text: " "+facedeleg.curdata[5]+" "
                     }

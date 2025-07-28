@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Shared
 
 Loader {
@@ -30,8 +31,10 @@ Loader {
     active: PQCConstants.currentImageIsAnimated && PQCSettings.filetypesAnimatedControls
     asynchronous: true
 
+    SystemPalette { id: pqtPalette }
+
     sourceComponent:
-    Rectangle {
+    Item {
 
         parent: ldr_top.parent
 
@@ -42,8 +45,15 @@ Loader {
         width: cont_row.width
         height: cont_row.height
 
-        color: "#88000000"
-        radius: 3
+        Rectangle {
+            anchors.fill: parent
+            anchors.margins: -5
+            color: pqtPalette.base
+            opacity: 0.8
+            radius: 5
+            border.width: 1
+            border.color: pqtPalette.text
+        }
 
         Row {
 
@@ -130,11 +140,10 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Text {
+                    Label {
                         y: (parent.height-height)/2
                         text: "←/→"
                         font.pointSize: PQCLook.fontSize
-                        color: "white"
                     }
 
                 }

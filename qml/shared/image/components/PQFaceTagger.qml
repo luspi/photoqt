@@ -56,43 +56,6 @@ Loader {
         property list<var> faceTags: []
         property int threshold: 5
 
-        Item {
-
-            parent: facetagger_top.parent.parent.parent
-            x: 20
-            y: 20
-            width: 42
-            height: 42
-
-            visible: PQCConstants.faceTaggingMode
-
-
-            Rectangle {
-                anchors.fill: parent
-                color: pqtPalette.base
-                radius: 21
-                opacity: 0.8
-            }
-
-            Image {
-                x: 5
-                y: 5
-                width: 32
-                height: 32
-                sourceSize: Qt.size(width, height)
-                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-            }
-
-            PQGenericMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                tooltip: qsTranslate("facetagging", "Click to exit face tagging mode")
-                onClicked: facetagger_top.hide()
-            }
-
-        }
-
         Repeater {
 
             id: repeat
@@ -125,12 +88,13 @@ Loader {
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                 }
 
-                Text {
+                Label {
                     id: del
                     anchors.centerIn: bg
                     text: "x"
                     font.pointSize: PQCLook.fontSizeXL
-                    color: pqtPalette.text
+                    renderType: Text.CurveRendering
+                    renderTypeQuality: Text.VeryHighRenderTypeQuality
                     opacity: facedeleg.hovered ? 1 : 0
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                 }
@@ -152,11 +116,12 @@ Loader {
                     }
 
                     // This holds the person's name
-                    Text {
+                    Label {
                         id: faceLabel
                         x: 7
                         y: 5
-                        color: pqtPalette.text
+                        renderType: Text.CurveRendering
+                        renderTypeQuality: Text.VeryHighRenderTypeQuality
                         font.pointSize: PQCLook.fontSize/PQCConstants.currentImageScale
                         text: " "+facedeleg.curdata[5]+" "
                     }

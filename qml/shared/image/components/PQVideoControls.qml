@@ -108,6 +108,8 @@ Loader {
             anchors.fill: parent
             color: pqtPalette.base
             opacity: 0.9
+            border.width: 1
+            border.color: pqtPalette.text
             radius: 5
         }
 
@@ -162,10 +164,9 @@ Loader {
                 }
             }
 
-            Text {
+            Label {
                 id: curtime
                 y: (parent.height-height)/2
-                color: "white"
                 font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoPosition)
             }
@@ -202,10 +203,9 @@ Loader {
 
             }
 
-            Text {
+            Label {
                 id: totaltime
                 y: (parent.height-height)/2
-                color: "white"
                 font.pointSize: PQCLook.fontSize
                 text: PQCScriptsImages.convertSecondsToPosition(PQCConstants.currentlyShowingVideoDuration)
             }
@@ -305,9 +305,8 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Text {
+                    Label {
                         id: lrtxt
-                        color: "white"
                         font.pointSize: PQCLook.fontSize
                         text: "←/→"
                     }

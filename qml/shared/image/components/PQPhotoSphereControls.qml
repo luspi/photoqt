@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Shared
 
 Loader {
@@ -31,8 +32,10 @@ Loader {
 
     asynchronous: true
 
+    SystemPalette { id: pqtPalette }
+
     sourceComponent:
-    Rectangle {
+    Item {
 
         parent: ldr_top.parent
 
@@ -43,8 +46,14 @@ Loader {
         width: cont_row.width
         height: cont_row.height
 
-        color: "#88000000"
-        radius: 3
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.base
+            opacity: 0.8
+            border.width: 1
+            border.color: pqtPalette.text
+            radius: 3
+        }
 
         Row {
 
@@ -74,10 +83,9 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Text {
+                    Label {
                         y: (parent.height-height)/2
                         font.pointSize: PQCLook.fontSize
-                        color: "white"
                         text: "←/→"
                     }
 
