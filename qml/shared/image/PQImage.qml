@@ -121,6 +121,7 @@ Item {
     PQArchiveControls {}
     PQDocumentControls {}
     PQVideoControls {}
+    PQMotionPhotoControls {}
 
     /*********************************************************/
 
