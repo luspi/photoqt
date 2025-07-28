@@ -50,6 +50,8 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
+    SystemPalette { id: pqtPalette }
+
     content: [
 
         PQText {
@@ -112,7 +114,7 @@ PQTemplateFullscreen {
                 id: filesuffix
 
                 y: (filenameedit.height-height)/2
-                font.weight: PQCLook.fontWeightBold 
+                font.weight: PQCLook.fontWeightBold
                 text: ".jpg"
             }
         },
@@ -128,8 +130,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor 
-            font.weight: PQCLook.fontWeightBold 
+            color: pqtPalette.text
+            font.weight: PQCLook.fontWeightBold
             visible: false
             text: qsTranslate("filemanagement", "An error occured, file could not be renamed")
         },
@@ -140,8 +142,8 @@ PQTemplateFullscreen {
             width: Math.min(600, parent.width-100)
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: PQCLook.textColor 
-            font.weight: PQCLook.fontWeightBold 
+            color: pqtPalette.text
+            font.weight: PQCLook.fontWeightBold
             visible: false
             text: qsTranslate("filemanagement", "A file with this filename already exists")
         }

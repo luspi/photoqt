@@ -33,6 +33,8 @@ Item {
 
     x: computeDefaultX()
 
+    SystemPalette { id: pqtPalette }
+
     Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } } 
 
     opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 
@@ -115,7 +117,7 @@ Item {
 
             id: maincontainer
 
-            color: PQCLook.baseColor 
+            color: pqtPalette.base
 
             width: row.width+40
             height: row.height+20
@@ -175,7 +177,8 @@ Item {
                             Rectangle {
                                 height: ldr.height
                                 width: 1
-                                color: PQCLook.textColorDisabled 
+                                color: pqtPalette.text
+                                opacity: 0.8
                                 visible: deleg.modelData<statusinfo_top.info.length-1 && PQCFileFolderModel.countMainView>0 
                             }
 
@@ -225,7 +228,7 @@ Item {
 
             property bool filterset: false
 
-            color: PQCLook.baseColor 
+            color: pqtPalette.base
 
             width: filterrow.width+30
             height: filterrow.height+20
@@ -350,7 +353,7 @@ Item {
 
             width: 50
             height: width
-            color: PQCLook.baseColor 
+            color: pqtPalette.base
             radius: 5
 
             opacity: (!PQCConstants.slideshowRunning && ((currentIsPDF && PQCSettings.filetypesDocumentViewerModeExitButton)||(currentIsARC && PQCSettings.filetypesArchiveViewerModeExitButton))) ? 1 : 0
@@ -519,10 +522,10 @@ Item {
                 var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
                 if(val !== undefined) {
                     csptxt.text = val
-                    csptxt.color = PQCLook.textColor
+                    csptxt.opacity = 1
                 } else {
                     csptxt.text = "---"
-                    csptxt.color = PQCLook.textColorDisabled
+                    csptxt.opacity = 0.5
                 }
             }
 
@@ -534,10 +537,10 @@ Item {
                     var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
                     if(val !== undefined) {
                         csptxt.text = val
-                        csptxt.color = PQCLook.textColor
+                        csptxt.opacity = 1
                     } else {
                         csptxt.text = "---"
-                        csptxt.color = PQCLook.textColorDisabled
+                        csptxt.opacity = 0.5
                     }
                 }
             }
@@ -545,19 +548,19 @@ Item {
                 target: PQCFileFolderModel 
                 function onCurrentFileChanged() {
                     if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) { 
-                        csptxt.color = PQCLook.textColorDisabled
+                        csptxt.opacity = 0.5
                         loadVideoColorInfo.restart()
                     } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFileNoDelay)) {
-                        csptxt.color = PQCLook.textColor
+                        csptxt.opacity = 1
                         csptxt.text = "sRGB"
                     } else {
                         var val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
                         if(val !== undefined) {
-                            csptxt.color = PQCLook.textColor
+                            csptxt.opacity = 1
                             csptxt.text = val
                         } else {
                             csptxt.text = "---"
-                            csptxt.color = PQCLook.textColorDisabled
+                            csptxt.opacity = 0.5
                         }
                     }
                 }
@@ -567,7 +570,7 @@ Item {
                 interval: 1
                 onTriggered: {
                     var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) 
-                    csptxt.color = PQCLook.textColor
+                    csptxt.opacity = 1
                     if(val === "")
                         val = qsTranslate("statusinfo", "unknown color profile")
                     csptxt.text = val

@@ -83,7 +83,7 @@ Loader {
                     color: pqtPalette.base
                     radius: Math.min(width/2, 2)
                     border.width: 5
-                    border.color: pqtPalette.base
+                    border.color: PQCLook.baseBorder
                     opacity: facedeleg.hovered ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }
                 }
@@ -164,7 +164,7 @@ Loader {
             color: pqtPalette.base
             radius: Math.min(width/2, 2)
             border.width: 5
-            border.color: pqtPalette.alternateBase
+            border.color: PQCLook.baseBorder
             opacity: 0.5
             visible: false
 

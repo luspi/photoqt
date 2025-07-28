@@ -49,7 +49,7 @@ Loader {
                 anchors.fill: parent
                 color: pqtPalette.base
                 border.width: 1
-                border.color: pqtPalette.text
+                border.color: PQCLook.baseBorder
                 opacity: 0.8
                 radius: 5
             }

@@ -44,6 +44,8 @@ Rectangle {
 
     // similarly a hide() and show() function is required
 
+    SystemPalette { id: pqtPalette }
+
     /////////
 
     property alias content: insidecont.children
@@ -99,7 +101,7 @@ Rectangle {
             PQCNotify.windowTitleOverride("")
     }
 
-    color: PQCLook.baseColorAccent
+    color: pqtPalette.alternateBase
 
     signal close()
 
@@ -137,7 +139,7 @@ Rectangle {
 
         width: parent.width
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         PQTextXL {
             anchors.centerIn: parent
@@ -150,7 +152,7 @@ Rectangle {
             y: parent.height-1
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: PQCLook.baseBorder
         }
 
     }
@@ -195,14 +197,14 @@ Rectangle {
 
         width: parent.width
         height: 50
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         Rectangle {
             x: 0
             y: 0
             width: parent.width
             height: 1
-            color: PQCLook.baseColorActive
+            color: PQCLook.baseBorder
         }
 
         Item {

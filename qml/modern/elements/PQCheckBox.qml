@@ -31,9 +31,12 @@ CheckBox {
     text: ""
     property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
-    property string color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+    property string color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
 
     property string tooltip: text
 
@@ -50,15 +53,15 @@ CheckBox {
         opacity: enabled ? 1.0 : 0.3
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
-        border.color: PQCLook.inverseColor
-        color: PQCLook.baseColorHighlight
+        border.color: pqtPalette.text
+        color: pqtPalette.base
         radius: 2
         Rectangle {
             width: 10
             height: 10
             anchors.centerIn: parent
             visible: control.checked
-            color: PQCLook.inverseColor
+            color: pqtPalette.text
             radius: 2
         }
     }

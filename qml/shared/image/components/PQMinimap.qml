@@ -46,9 +46,9 @@ Rectangle {
     height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     opacity: minimap_top.minimapNeeded ? ((minimap_top.minimapActive||minimap_top.containsMouse) ? 1 : 0.2) : 0
 
-    color: PQCLook.transColor
+    color: pqtPalette.base
     border.width: PQCScriptsConfig.isQtAtLeast6_5() ? 1 : 0
-    border.color: PQCLook.transColor
+    border.color: PQCLook.baseBorder
 
     PQShadowEffect {
         masterItem: minimap_top

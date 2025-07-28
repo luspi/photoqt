@@ -52,6 +52,9 @@ Item {
 
     property alias context: contextmenu
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     Timer {
         id: resetHoverIndex
         interval: 50
@@ -85,7 +88,7 @@ Item {
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        color: PQCLook.textColorDisabled 
+        color: pqtPaletteDisabled.text
         font.italic: true
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter
@@ -183,7 +186,7 @@ Item {
         height: 1
 
         visible: view_favorites.visible && view_devices.visible
-        color: PQCLook.baseColorActive 
+        color: pqtPalette.alternateBase
     }
 
     ListView {
@@ -222,9 +225,10 @@ Item {
 
             property int part: mouseArea.drag.active ? 1 : parent.parent.part 
 
-            color: places_top.hoverIndex[part]===index
-                        ? (places_top.pressedIndex[part]===index ? PQCLook.baseColorActive : PQCLook.baseColorHighlight) 
-                        : (path===PQCFileFolderModel.folderFileDialog ? PQCLook.baseColorAccent : PQCLook.baseColor)
+            property bool currentContextMenu: (contextmenu.opened&&contextmenu.currentEntryId===deleg.id)
+            color: places_top.hoverIndex[part]===index||mouseArea.drag.active||currentContextMenu
+                        ? (places_top.pressedIndex[part]===index||mouseArea.drag.active||currentContextMenu ? pqtPalette.text : pqtPalette.alternateBase)
+                        : (path===PQCFileFolderModel.folderFileDialog ? pqtPalette.alternateBase : pqtPalette.base)
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Row {
@@ -276,6 +280,9 @@ Item {
                         verticalAlignment: Qt.AlignVCenter
 
                         enabled: deleg.index>0
+
+                        color: places_top.pressedIndex[deleg.part]===deleg.index||mouseArea.drag.active||deleg.currentContextMenu ? pqtPalette.base : pqtPalette.text
+                        Behavior on color { ColorAnimation { duration: 200 } }
 
                         // some styling
                         elide: Text.ElideRight

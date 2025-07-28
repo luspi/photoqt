@@ -36,6 +36,8 @@ PQTemplateFullscreen {
 
     title: qsTranslate("about", "About")
 
+    SystemPalette { id: pqtPalette }
+
     onPopoutChanged:
         PQCSettings.interfacePopoutAbout = popout 
 
@@ -119,7 +121,7 @@ PQTemplateFullscreen {
         id: configinfo
 
         anchors.fill: parent
-        color: PQCLook.baseColor 
+        color: pqtPalette.base
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }

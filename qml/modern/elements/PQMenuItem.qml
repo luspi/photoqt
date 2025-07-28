@@ -36,6 +36,8 @@ MenuItem {
         }
     }
 
+    SystemPalette { id: pqtPalette }
+
     property string iconSource: ""
     property bool checkableLikeRadioButton: false
     property bool moveToRightABit: false
@@ -58,12 +60,13 @@ MenuItem {
             height: 40
             text: control.text
             font: control.font
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: control.highlighted ? pqtPalette.base : pqtPalette.text
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             elide: control.elide
-            style: control.highlighted||!control.enabled ? Text.Sunken : Text.Normal
-            styleColor: PQCLook.textColorDisabled
+            // style: control.highlighted||!control.enabled ? Text.Sunken : Text.Normal
+            enabled: false
+            styleColor: pqtPalette.text
             Timer {
                 id: increaseWidth
                 running: controltxt.truncated&&control.implicitWidth<400
@@ -96,15 +99,15 @@ MenuItem {
             width: 20
             height: 20
             anchors.centerIn: parent
-            border.color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
-            color: PQCLook.baseColorHighlight
+            border.color: PQCLook.baseBorder
+            color: pqtPalette.alternateBase
             radius: control.checkableLikeRadioButton ? 10 : 2
             Rectangle {
                 width: 10
                 height: 10
                 anchors.centerIn: parent
                 visible: control.checked
-                color: enabled ? PQCLook.inverseColor : PQCLook.baseColorActive
+                color: pqtPalette.text
                 radius: control.checkableLikeRadioButton ? 5 : 2
             }
         }
@@ -117,7 +120,7 @@ MenuItem {
         visible: control.subMenu
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = PQCLook.baseColorActive
+            ctx.fillStyle = pqtPalette.alternateBase
             ctx.moveTo(15, 15)
             ctx.lineTo(width - 15, height / 2)
             ctx.lineTo(15, height - 15)
@@ -129,8 +132,8 @@ MenuItem {
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
-        color: control.highlighted ? PQCLook.baseColorHighlight : PQCLook.baseColor
-        border.color: PQCLook.baseColorAccent
+        color: control.highlighted ? pqtPalette.text : pqtPalette.base
+        border.color: PQCLook.baseBorder
         border.width: 1
         Behavior on color { ColorAnimation { duration: 200 } }
     }

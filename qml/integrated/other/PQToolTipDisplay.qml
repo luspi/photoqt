@@ -46,7 +46,7 @@ PQToolTip {
     function showToolTip(txt : string, pos : point) {
         ttip.hide()
         pos = ttip.parent.mapFromGlobal(pos)
-        ttip.x = Qt.binding(function() { return pos.x-ttip.width/2 })
+        ttip.x = Qt.binding(function() { return pos.x })
         ttip.y = Qt.binding(function() { return pos.y-ttip.height })
         ttip.show(txt, 5000)
     }

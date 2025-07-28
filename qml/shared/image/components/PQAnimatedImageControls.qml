@@ -52,7 +52,7 @@ Loader {
             opacity: 0.8
             radius: 5
             border.width: 1
-            border.color: pqtPalette.text
+            border.color: PQCLook.baseBorder
         }
 
         Row {

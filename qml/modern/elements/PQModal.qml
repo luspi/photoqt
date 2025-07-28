@@ -24,12 +24,19 @@ import QtQuick
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Rectangle {
+Item {
 
     id: modal_top
 
     anchors.fill: parent
-    color: PQCLook.transColor
+
+    Rectangle {
+        anchors.fill: parent
+        color: pqtPalette.base
+        opacity: 0.8
+    }
+
+    SystemPalette { id: pqtPalette }
 
     property string action: ""
     property var payload: []
@@ -64,10 +71,10 @@ Rectangle {
         width: col.width+100
         height: col.height+100
 
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         border.width: 2
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseBorder
 
         radius: 5
 

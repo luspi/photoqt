@@ -33,6 +33,9 @@ SpinBox {
     width: 160
     height: 30
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     property alias liveValue: txtinp.value
 
     property string tooltip: liveValue + tooltipSuffix
@@ -54,10 +57,10 @@ SpinBox {
             control.value = value
         }
         font: control.font
-        color: enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
         Behavior on color { ColorAnimation { duration: 200 } }
-        selectionColor: PQCLook.baseColorActive
-        selectedTextColor: PQCLook.textColor
+        selectionColor: PQCLook.highlight
+        selectedTextColor: PQCLook.highlightedText
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
 
@@ -71,15 +74,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.up.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        color: control.enabled ? (control.up.pressed ? pqtPalette.text : pqtPalette.base) : pqtPalette.button
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseBorder
         border.width: 1
 
         Text {
             text: "+"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: control.up.pressed ? pqtPalette.base : (control.enabled ? pqtPalette.text : pqtPaletteDisabled.text)
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -93,15 +96,15 @@ SpinBox {
         z: 3
         implicitWidth: 40
         implicitHeight: parent.height
-        color: control.enabled ? (control.down.pressed ? PQCLook.baseColorActive : PQCLook.baseColorAccent) : PQCLook.baseColorAccent
+        color: control.enabled ? (control.down.pressed ? pqtPalette.text : pqtPalette.base) : pqtPalette.button
         Behavior on color { ColorAnimation { duration: 200 } }
-        border.color: PQCLook.baseColorHighlight
+        border.color: PQCLook.baseBorder
         border.width: 1
 
         Text {
             text: "-"
             font.pixelSize: control.font.pixelSize * 2
-            color: control.enabled ? PQCLook.textColor : PQCLook.textColorDisabled
+            color: control.down.pressed ? pqtPalette.base : (control.enabled ? pqtPalette.text : pqtPaletteDisabled.text)
             Behavior on color { ColorAnimation { duration: 200 } }
             anchors.fill: parent
             fontSizeMode: Text.Fit
@@ -112,7 +115,7 @@ SpinBox {
 
     background: Rectangle {
         implicitWidth: 140
-        color: PQCLook.baseColorHighlight
+        color: pqtPalette.base
     }
 
     PQToolTip {

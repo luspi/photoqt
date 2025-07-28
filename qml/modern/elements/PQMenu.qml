@@ -29,6 +29,8 @@ Menu {
 
     id: control
 
+    SystemPalette { id: pqtPalette }
+
     // setting the inset and padding properties are necessary in particular on Windows
     // See: https://bugreports.qt.io/browse/QTBUG-131499
 
@@ -49,8 +51,8 @@ Menu {
     background: Rectangle {
         implicitWidth: 250
         implicitHeight: 40
-        color: PQCLook.baseColor
-        border.color: PQCLook.inverseColorHighlight
+        color: pqtPalette.base
+        border.color: PQCLook.baseBorder
         border.width: 1
         radius: 2
     }

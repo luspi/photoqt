@@ -42,7 +42,7 @@ Item {
 
     Rectangle {
         anchors.fill: parent
-        color: PQCLook.baseColorHighlight
+        color: PQCLook.baseBorder
         radius: 5
         opacity: menuicon.hovered ? 0.4 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }

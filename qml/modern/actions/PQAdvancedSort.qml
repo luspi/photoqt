@@ -52,6 +52,8 @@ PQTemplateFullscreen {
     button2.onClicked:
         hide()
 
+    SystemPalette { id: pqtPalette }
+
     signal loadData()
     signal saveData()
 
@@ -559,7 +561,7 @@ PQTemplateFullscreen {
 
                                 width: 400
                                 height: 40
-                                color: PQCLook.baseColorHighlight 
+                                color: pqtPalette.alternateBase
 
                                 PQText {
                                     x: 10

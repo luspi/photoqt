@@ -52,6 +52,8 @@ Item {
             PQCNotify.windowTitleOverride("")
     }
 
+    SystemPalette { id: pqtPalette }
+
     property bool finishShow: false
 
     property list<var> folderLoaded: []
@@ -92,7 +94,7 @@ Item {
             id: hndl
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight
+            color: SplitHandle.hovered ? pqtPalette.alternateBase : PQCLook.baseBorder
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Image {
@@ -145,7 +147,7 @@ Item {
                 height: 50
             }
 
-            Rectangle {
+            Item {
 
                 x: 0
                 y: 0
@@ -155,7 +157,11 @@ Item {
                 visible: !PQCWindowGeometry.mapexplorerForcePopout 
                 enabled: visible
 
-                color: PQCLook.transColor 
+                Rectangle {
+                    anchors.fill: parent
+                    color: pqtPalette.base
+                    opacity: 0.8
+                }
 
                 opacity: popinmouse.containsMouse ? 1 : 0.2
                 Behavior on opacity { NumberAnimation { duration: 200 } }

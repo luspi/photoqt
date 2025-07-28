@@ -79,12 +79,14 @@ Rectangle {
 
     /////////
 
+    SystemPalette { id: pqtPalette }
+
     opacity: 0
     Behavior on opacity { NumberAnimation { duration: ele_top.popout ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
-    color: PQCLook.baseColor
+    color: pqtPalette.base
 
     PQMouseArea {
         id: mouseareaBG
@@ -206,8 +208,8 @@ Rectangle {
             radius: 2
             z: -1
             visible: ele_top.darkBackgroundManageIcons
-            color: PQCLook.transColor
-            opacity: parent.opacity
+            color: pqtPalette.base
+            opacity: parent.opacity*0.8
         }
     }
 
@@ -250,8 +252,8 @@ Rectangle {
                 radius: width/2
                 z: -1
                 visible: ele_top.darkBackgroundManageIcons
-                color: PQCLook.transColor
-                opacity: closeimage.opacity
+                color: pqtPalette.base
+                opacity: closeimage.opacity*0.8
             }
 
         }

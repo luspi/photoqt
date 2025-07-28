@@ -64,6 +64,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     property list<string> colorprofiles: []
     property list<string> colorprofiledescs: []
     property list<string> colorprofiles_contextmenu: []
@@ -487,7 +489,7 @@ Flickable {
                                 clip: true
                                 color: "transparent"
                                 border.width: 1
-                                border.color: PQCLook.baseColorHighlight 
+                                border.color: PQCLook.baseBorder
 
                                 PQLineEdit {
                                     id: color_filter
@@ -538,7 +540,7 @@ Flickable {
                                                 Behavior on height { NumberAnimation { duration: 200 } }
                                                 Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                                color: tilemouse.containsMouse||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                                                color: tilemouse.containsMouse||check.checked ? PQCLook.baseBorder : pqtPalette.base
                                                 Behavior on color { ColorAnimation { duration: 200 } }
 
                                                 property bool delegSetup: false
@@ -558,7 +560,7 @@ Flickable {
                                                     text: setting_top.colorprofiledescs[deleg.modelData]
                                                     font.weight: PQCLook.fontWeightNormal 
                                                     font.pointSize: PQCLook.fontSizeS 
-                                                    color: PQCLook.textColor 
+                                                    color: pqtPalette.text
                                                     extraHovered: tilemouse.containsMouse
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
@@ -663,7 +665,7 @@ Flickable {
                                     Rectangle {
                                         width: parent.width
                                         height: 1
-                                        color: PQCLook.baseColorHighlight 
+                                        color: PQCLook.baseBorder
                                     }
 
                                     Row {

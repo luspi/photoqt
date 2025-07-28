@@ -33,8 +33,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: PQCConstants.windowWidth 
-    property int parentHeight: PQCConstants.windowHeight 
+    property int parentWidth: PQCConstants.windowWidth
+    property int parentHeight: PQCConstants.windowHeight
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -52,9 +52,11 @@ Rectangle {
 
     property bool splitDividerHovered: false
 
-    property bool isPopout: PQCSettings.interfacePopoutFileDialog 
+    property bool isPopout: PQCSettings.interfacePopoutFileDialog
 
-    color: PQCLook.baseColor 
+    SystemPalette { id: pqtPalette }
+
+    color: pqtPalette.base
 
     state: isPopout ?
                "popout" :
@@ -105,7 +107,7 @@ Rectangle {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+            color: SplitHandle.hovered ? pqtPalette.alternateBase : PQCLook.baseBorder
             Behavior on color { ColorAnimation { duration: 200 } }
             onColorChanged:
                 filedialog_top.splitDividerHovered = SplitHandle.hovered

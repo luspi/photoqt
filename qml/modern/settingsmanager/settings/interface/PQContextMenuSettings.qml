@@ -62,6 +62,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisable; colorGroup: SystemPalette.Disabled }
+
     MouseArea {
         width: parent.width
         height: parent.parent.height
@@ -95,7 +98,7 @@ Flickable {
                     visible: setting_top.entries.length==0
                     height: 50
                     verticalAlignment: Text.AlignVCenter
-                    color: PQCLook.textColorDisabled 
+                    color: pqtPaletteDisable.text
                     font.weight: PQCLook.fontWeightBold 
                     //: The custom entries here are the custom entries in the context menu
                     text: qsTranslate("settingsmanager", "No custom entries exists yet")
@@ -121,7 +124,7 @@ Flickable {
                         height: 50
                         radius: 5
 
-                        color: PQCLook.baseColorHighlight 
+                        color: pqtPalette.base
 
                         Row {
                             spacing: 5

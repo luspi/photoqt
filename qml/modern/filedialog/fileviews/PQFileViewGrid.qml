@@ -40,6 +40,8 @@ GridView {
 
     ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
 
+    SystemPalette { id: pqtPalette }
+
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
         if(contentY > 0)
@@ -109,9 +111,9 @@ GridView {
         width: gridview.cellWidth
         height: gridview.cellHeight
 
-        color: PQCLook.baseColor
+        color: pqtPalette.base
         border.width: 1
-        border.color: PQCLook.baseColorAccent 
+        border.color: PQCLook.baseBorder
 
         Item {
             id: dragHandler
@@ -170,7 +172,7 @@ GridView {
             id: rect_hovering
 
             anchors.fill: parent
-            color: PQCLook.inverseColor
+            color: pqtPalette.text
             opacity: deleg.isHovered ? 0.3 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
@@ -183,7 +185,7 @@ GridView {
             id: rect_selecting
 
             anchors.fill: parent
-            color: PQCLook.inverseColor
+            color: pqtPalette.text
             opacity: deleg.isSelected ? 0.6 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
@@ -199,14 +201,17 @@ GridView {
             active: PQCSettings.filedialogLabelsShowGrid||deleg.isFolder
 
             sourceComponent:
-            Rectangle {
+            Item {
                 id: filename_label
                 width: deleg.width
                 height: deleg.height/4 + (deleg.isSelected||deleg.isHovered ? 10 : 0)
                 Behavior on height { NumberAnimation { duration: 200 } }
                 y: deleg.height-height
-                color: deleg.isSelected ? PQCLook.baseColorHighlight : (deleg.isHovered ? PQCLook.baseColorAccent : PQCLook.transColor ) 
-                Behavior on color { ColorAnimation { duration: 200 } }
+                Rectangle {
+                    anchors.fill: parent
+                    color: deleg.isSelected ? pqtPalette.text : (deleg.isHovered ? pqtPalette.alternateBase : pqtPalette.base)
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                }
 
                 PQText {
                     id: filename
@@ -217,6 +222,8 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     text: deleg.currentFile
+                    color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
+                    Behavior on color { ColorAnimation { duration: 200 } }
                 }
 
                 Image {

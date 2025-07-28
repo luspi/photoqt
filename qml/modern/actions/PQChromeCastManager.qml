@@ -54,6 +54,9 @@ PQTemplateFullscreen {
     button3.text: qsTranslate("streaming", "Disconnect")
     button3.onClicked: PQCScriptsChromeCast.disconnect() 
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     content: [
 
         Rectangle {
@@ -65,7 +68,7 @@ PQTemplateFullscreen {
             width: Math.min(chromecastmanager_top.width, 600)
             height: Math.min(chromecastmanager_top.contentHeight-statusrow.height-10, 400)
 
-            color: PQCLook.baseColor 
+            color: pqtPalette.base
 
             ListView {
 
@@ -77,9 +80,9 @@ PQTemplateFullscreen {
                 clip: true
                 spacing: 10
 
-                model: PQCScriptsChromeCast.availableDevices.length 
+                model: PQCScriptsChromeCast.availableDevices.length
 
-                delegate: Rectangle {
+                delegate: Item {
 
                     id: deleg
 
@@ -87,7 +90,12 @@ PQTemplateFullscreen {
 
                     width: cont.width
                     height: 50
-                    color: view.currentIndex===modelData ? PQCLook.transColorActive : (hovered ? PQCLook.transColorHighlight : PQCLook.transColorAccent) 
+
+                    Rectangle {
+                        anchors.fill: parent
+                        color: view.currentIndex===modelData ? pqtPalette.text : (hovered ? pqtPalette.alternateBase : pqtPalette.base)
+                        Behavior on color { ColorAnimation { duration: 200 } }
+                    }
 
                     property bool hovered: false
 
@@ -97,13 +105,17 @@ PQTemplateFullscreen {
                         spacing: 10
                         PQText {
                             y: (parent.height-height)/2
-                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][0] 
-                            font.weight: PQCLook.fontWeightBold 
+                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][0]
+                            font.weight: PQCLook.fontWeightBold
+                            color: view.currentIndex===modelData ? pqtPalette.base : pqtPalette.text
+                            Behavior on color { ColorAnimation { duration: 200 } }
                         }
                         PQText {
                             y: (parent.height-height)/2
-                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][1] 
+                            text: PQCScriptsChromeCast.availableDevices[deleg.modelData][1]
                             font.italic: true
+                            color: view.currentIndex===modelData ? pqtPalette.base : pqtPalette.text
+                            Behavior on color { ColorAnimation { duration: 200 } }
                         }
                     }
 
@@ -122,9 +134,9 @@ PQTemplateFullscreen {
 
             PQTextL {
                 anchors.centerIn: parent
-                visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0 
+                visible: !busy.visible && PQCScriptsChromeCast.availableDevices.length === 0
                 font.weight: PQCLook.fontWeightBold 
-                color: PQCLook.textColorDisabled 
+                color: pqtPaletteDisabled.text
                 //: The devices here are chromecast devices
                 text: qsTranslate("streaming", "No devices found")
             }
@@ -168,7 +180,7 @@ PQTemplateFullscreen {
     Connections {
         target: PQCScriptsChromeCast 
         function onInDiscoveryChanged() {
-            if(PQCScriptsChromeCast.inDiscovery && PQCScriptsChromeCast.availableDevices.length === 0) 
+            if(PQCScriptsChromeCast.inDiscovery && PQCScriptsChromeCast.availableDevices.length === 0)
                 busy.showBusy()
             else
                 busy.hide()

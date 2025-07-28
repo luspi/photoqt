@@ -37,6 +37,8 @@ Row {
 
     property bool _showSetting: false
 
+    SystemPalette { id: pqtPalette }
+
     signal hasChanged()
     signal resetToDefaults()
 
@@ -56,7 +58,7 @@ Row {
             id: heading
             width: parent.width
             height: 50
-            color: PQCLook.baseColorHighlight
+            color: pqtPalette.alternateBase
             radius: 5
             Row {
                 id: headingrow
@@ -100,7 +102,7 @@ Row {
             opacity: height > 0 ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: (opacity>0)
-            color: PQCLook.baseColorActive
+            color: pqtPalette.alternateBase
             Flickable {
                 id: flick
                 width: parent.width

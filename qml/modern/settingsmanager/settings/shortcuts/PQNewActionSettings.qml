@@ -28,13 +28,19 @@ import PQCExtensionsHandler
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Rectangle {
+Item {
 
     id: newaction_top
 
     anchors.fill: parent
 
-    color: PQCLook.transColor 
+    SystemPalette { id: pqtPalette }
+
+    Rectangle {
+        anchors.fill: parent
+        color: pqtPalette.base
+        opacity: 0.8
+    }
 
     opacity: 0
     visible: opacity > 0
@@ -125,7 +131,7 @@ Rectangle {
         width: Math.min(800, parent.width)
         height: Math.min(600, parent.height-2*titletxt.height-2*butcont.height-40)
 
-        color: PQCLook.baseColor 
+        color: pqtPalette.base
 
         MouseArea {
             anchors.fill: parent
@@ -159,14 +165,14 @@ Rectangle {
 
                     border {
                         width: 1
-                        color: PQCLook.baseColorHighlight 
+                        color: pqtPalette.alternateBase
                     }
 
                     color: newaction_top.selectedCategory===modelData
-                                ? PQCLook.baseColorActive 
+                                ? pqtPalette.text
                                 : (mouse.containsPress||mouse.containsMouse)
-                                   ? PQCLook.baseColorHighlight
-                                   : PQCLook.baseColorAccent
+                                   ? pqtPalette.alternateBase
+                                   : pqtPalette.base
                     Behavior on color { ColorAnimation { duration: 200 } }
 
                     PQText {
@@ -175,7 +181,7 @@ Rectangle {
                         verticalAlignment: Text.AlignVCenter
                         font.weight: PQCLook.fontWeightBold 
                         text: newaction_top.categoryTitles[newaction_top.categories[deleg.modelData]]
-                        color: PQCLook.textColor 
+                        color: newaction_top.selectedCategory===modelData ? pqtPalette.base : pqtPalette.text
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
                     PQMouseArea {
@@ -196,9 +202,9 @@ Rectangle {
             width: parent.width-cattabs.width
             height: parent.height
 
-            color: PQCLook.baseColorAccent 
+            color: pqtPalette.alternateBase
             border.width: 1
-            border.color: PQCLook.baseColorHighlight 
+            border.color: PQCLook.baseBorder
 
             PQText {
                 id: desclabel
@@ -234,7 +240,7 @@ Rectangle {
                         height: dsclabel.height+10
                         radius: 5
                         opacity: (actionmouse.containsMouse||newaction_top.currentShortcutAction===newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][0]) ? 1 : 0.5
-                        color: actionmouse.containsMouse ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                        color: actionmouse.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                         Behavior on color { ColorAnimation { duration: 200 } }
                         PQText {
                             id: dsclabel
@@ -242,7 +248,7 @@ Rectangle {
                             y: 5
                             width: parent.width-10
                             text: newaction_top.actionsByCategory[newaction_top.selectedCategory][actionsdeleg.modelData][1]
-                            color: PQCLook.textColor 
+                            color: pqtPalette.text
                         }
                         PQMouseArea {
                             id: actionmouse
@@ -481,7 +487,7 @@ Rectangle {
 
     function change(index: int, subindex: int, uniqueid: string) {
 
-        var cur = setting_top.entries[setting_top.idToEntr[uniqueid]][1][subindex] 
+        var cur = setting_top.currentEntries[setting_top.idToEntr[uniqueid]][1][subindex]
 
         if(cur.startsWith("__")) {
 

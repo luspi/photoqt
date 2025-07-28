@@ -34,7 +34,7 @@ Column {
         Rectangle {
             width: setting_top.width
             height: 1
-            color: PQCLook.baseColorHighlight
+            color: PQCLook.baseBorder
         }
     }
     Item { width: 1; height: 10; }

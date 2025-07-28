@@ -63,6 +63,7 @@
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
+#include <pqc_look.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>

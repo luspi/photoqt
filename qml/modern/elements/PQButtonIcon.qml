@@ -34,7 +34,9 @@ Rectangle {
     opacity: enabled ? 1 : 0.5
     radius: 5
 
-    property string overrideBaseColor: PQCLook.baseColor
+    SystemPalette { id: pqtPalette }
+
+    property string overrideBaseColor: pqtPalette.base
 
     property alias source: icon.source
     property bool mouseOver: mousearea.containsMouse
@@ -50,7 +52,7 @@ Rectangle {
 
     property alias contextmenu: menu
 
-    color: ((down||checked)&&enabled ? PQCLook.baseColorActive : (mouseOver&&enabled ? PQCLook.baseColorHighlight : overrideBaseColor))
+    color: ((down||checked)&&enabled ? PQCLook.baseBorder : (mouseOver&&enabled ? pqtPalette.alternateBase : overrideBaseColor))
     Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)

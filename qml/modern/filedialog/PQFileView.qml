@@ -33,7 +33,9 @@ Item {
     id: view_top
 
     y: 1
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2 
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height-2
+
+    SystemPalette { id: pqtPalette }
 
     // alias
     property alias fileviewContextMenu: contextmenu
@@ -533,7 +535,7 @@ Item {
         width: floatingStringLabel.width+20
         height: floatingStringLabel.height+10
 
-        color: PQCLook.baseColor 
+        color: pqtPalette.base
         radius: 5
 
         opacity: 0
@@ -938,10 +940,8 @@ Item {
                 currentCuts = []
         }
 
-        if(existing.length == 0 && nonexisting.length == 0) {
-            modal.button2.visible = false
-            modal.show("Nothing found", "There are no files/folders in the clipboard.", "", [])
-        }
+        if(existing.length == 0 && nonexisting.length == 0)
+            PQCNotify.showNotificationMessage("Nothing found", "There are no supported files/folders in the clipboard.")
 
     }
 

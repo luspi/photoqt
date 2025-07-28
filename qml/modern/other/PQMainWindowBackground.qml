@@ -30,6 +30,8 @@ Item {
 
     anchors.fill: parent
 
+    SystemPalette { id: pqtPalette }
+
     Image {
         id: bgimage
         anchors.fill: parent
@@ -47,7 +49,8 @@ Item {
     function setBackground() {
         if(PQCSettings.interfaceBackgroundSolid) { 
             bgimage.source = ""
-            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
+            overlay.opacity = 1
         } else if(PQCSettings.interfaceBackgroundImageUse) {
             if(PQCSettings.interfaceBackgroundImagePath !== "")
                 bgimage.source = "image://full/" + PQCSettings.interfaceBackgroundImagePath
@@ -61,20 +64,23 @@ Item {
                 bgimage.fillMode = Image.Pad
             else
                 bgimage.fillMode = Image.Tile
-            toplevel.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : PQCLook.baseColor
-            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCScriptsOther.addAlphaToColor(PQCSettings.interfaceBackgroundCustomOverlayColor, 222) : PQCLook.transColor
+            toplevel.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
+            overlay.opacity = 0.8
         } else if(PQCSettings.interfaceBackgroundImageScreenshot && PQCConstants.startupHaveScreenshots) {
             var sc = PQCScriptsOther.getCurrentScreen(fullscreenitem.mapToGlobal(toplevel.x+toplevel.width/2, toplevel.y+toplevel.height/2))
             bgimage.source = "image://full/" + PQCScriptsFilesPaths.getTempDir() + "/photoqt_screenshot_" + sc + ".jpg"
             bgimage.fillMode = Image.PreserveAspectCrop
+            overlay.opacity = 1
         } else if(PQCSettings.interfaceBackgroundFullyTransparent) {
             console.warn("Window background set to full transparency!")
             bgimage.source = ""
-            overlay.color = "transparent"
+            overlay.opacity = 0
             toplevel.color = "transparent"
         } else {
             bgimage.source = ""
-            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCScriptsOther.addAlphaToColor(PQCSettings.interfaceBackgroundCustomOverlayColor, 222) : PQCLook.transColor
+            overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
+            overlay.opacity = 0.8
             toplevel.color = "transparent"
         }
     }

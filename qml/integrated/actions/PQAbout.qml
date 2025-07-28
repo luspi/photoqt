@@ -35,6 +35,8 @@ ApplicationWindow {
     width: 640
     height: 640
 
+    SystemPalette { id: pqtPalette }
+
     Flickable {
 
         anchors.fill: parent
@@ -137,7 +139,7 @@ ApplicationWindow {
         id: configinfo
 
         anchors.fill: parent
-        color: PQCLook.baseColor
+        color: pqtPalette.base
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }

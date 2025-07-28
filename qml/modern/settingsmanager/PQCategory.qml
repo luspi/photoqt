@@ -45,6 +45,8 @@ Item {
     property list<string> filterSubCategories: []
     /*2on_Qt65+*/
 
+    SystemPalette { id: pqtPalette }
+
     property list<string> selectedCategories: []
 
     property list<string> categoryKeys: Object.keys(categories)
@@ -116,10 +118,10 @@ Item {
                             width: categories_top.width
 
                             color: deleg.isSelected ?
-                                       PQCLook.baseColorActive :    
+                                       pqtPalette.text :
                                        (hovered ?
-                                            PQCLook.baseColorHighlight :
-                                            PQCLook.baseColorAccent)
+                                            pqtPalette.alternateBase :
+                                            pqtPalette.base)
                             Behavior on color { ColorAnimation { duration: 200 } }
 
                             opacity: deleg.passingFilter ? 1 : 0.4
@@ -132,7 +134,7 @@ Item {
                                 y: 0
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive  
+                                color: PQCLook.baseBorder
                                 visible: deleg.modelData>0
                             }
 
@@ -145,7 +147,7 @@ Item {
                                 elide: Text.ElideRight
                                 font.weight: PQCLook.fontWeightBold 
                                 text: categories_top.categories[deleg.cat][0]
-                                color: PQCLook.textColor 
+                                color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
 
@@ -166,7 +168,7 @@ Item {
                                 y: parent.height-height
                                 width: parent.width
                                 height: 1
-                                color: PQCLook.baseColorActive 
+                                color: PQCLook.baseBorder
                             }
 
                             PQMouseArea {
@@ -239,10 +241,10 @@ Item {
                                     visible: height>0
 
                                     color: isSelected ?
-                                               PQCLook.baseColorHighlight : 
+                                               pqtPalette.text :
                                                (hovered ?
-                                                    PQCLook.transColorHighlight :
-                                                    PQCLook.baseColorAccent)
+                                                    pqtPalette.alternateBase :
+                                                    pqtPalette.base)
 
                                     opacity: subdeleg.passingFilter ? 1 : 0.4
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -266,7 +268,7 @@ Item {
                                         elide: Text.ElideRight
                                         text: subdeleg.curcat
                                         font.weight: PQCLook.fontWeightBold 
-                                        color: PQCLook.textColor 
+                                        color: subdeleg.isSelected ? pqtPalette.base : pqtPalette.text
                                         Behavior on color { ColorAnimation { duration: 100 } }
                                     }
 

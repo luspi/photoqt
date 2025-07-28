@@ -49,6 +49,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     property bool settingChanged: false
     property bool settingsLoaded: false
 
@@ -564,7 +566,7 @@ Flickable {
 
                         color: "transparent"
                         border.width: 1
-                        border.color: PQCLook.baseColorHighlight 
+                        border.color: PQCLook.baseBorder
 
                         width: Math.min(500, set_ani.rightcol)
                         height: 300
@@ -610,7 +612,7 @@ Flickable {
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
-                                    color: PQCLook.baseColorHighlight 
+                                    color: pqtPalette.alternateBase
 
                                     Column {
                                         x: 5
@@ -620,11 +622,21 @@ Flickable {
                                             width: parent.width-musicbutrow.width
                                             elide: Text.ElideMiddle
                                             text: musicdeleg.fname
+                                            PQMouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                text: musicdeleg.fname
+                                            }
                                         }
                                         PQTextS {
                                             width: parent.width-musicbutrow.width
                                             elide: Text.ElideMiddle
                                             text: musicdeleg.fpath
+                                            PQMouseArea {
+                                                anchors.fill: parent
+                                                hoverEnabled: true
+                                                text: musicdeleg.fpath
+                                            }
                                         }
                                     }
 

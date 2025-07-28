@@ -76,6 +76,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
+    SystemPalette { id: pqtPalette }
+
     //: Used as identifying name for one of the elements in the interface
     property list<var> pops: [["interfacePopoutFileDialog", qsTranslate("settingsmanager", "File dialog")],
                         //: Used as identifying name for one of the elements in the interface
@@ -147,7 +149,7 @@ Flickable {
                     height: 350
                     color: "transparent"
                     border.width: 1
-                    border.color: PQCLook.baseColorHighlight 
+                    border.color: PQCLook.baseBorder
 
                     PQLineEdit {
                         id: popout_filter
@@ -200,7 +202,7 @@ Flickable {
 
                                     property bool hovered: false
 
-                                    color: hovered||check.checked ? PQCLook.baseColorActive : PQCLook.baseColorHighlight 
+                                    color: hovered||check.checked ? PQCLook.baseBorder : pqtPalette.base
                                     Behavior on color { ColorAnimation { duration: 200 } }
 
                                     ToolTip {
@@ -219,7 +221,7 @@ Flickable {
                                         font.weight: PQCLook.fontWeightNormal 
                                         font.pointSize: PQCLook.fontSizeS 
                                         elide: Text.ElideRight
-                                        color: PQCLook.textColor 
+                                        color: pqtPalette.text
                                         onCheckedChanged: {
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
                                             setting_top.currentCheckBoxStatesChanged()
@@ -331,7 +333,7 @@ Flickable {
                         Rectangle {
                             width: parent.width
                             height: 1
-                            color: PQCLook.baseColorHighlight 
+                            color: PQCLook.baseBorder
                         }
 
                         Row {

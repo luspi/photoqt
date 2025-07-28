@@ -60,7 +60,7 @@ Item {
         }
 
         function setCurrentBG() {
-            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex == -1)) { 
+            if(view_top.currentIndex === -1 || !PQCSettings.filedialogPreview || (view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog && view_top.currentFolderThumbnailIndex === -1)) {
                 preview.source = ""
                 return
             }

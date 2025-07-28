@@ -30,7 +30,7 @@ Rectangle {
 
     id: visibleimages_top
 
-    color: PQCLook.baseColor 
+    color: pqtPalette.base
 
     clip: true
 
@@ -60,6 +60,8 @@ Rectangle {
     }
 
     property alias imageContextMenu: contextmenu
+
+    SystemPalette { id: pqtPalette }
 
     signal mapHideHighlightMarker()
     signal clickOnImage(var lat, var lon)
@@ -167,7 +169,7 @@ Rectangle {
 
                 }
 
-                Rectangle {
+                Item {
 
                     id: icn
 
@@ -177,7 +179,11 @@ Rectangle {
 
                     Behavior on height { NumberAnimation { duration: 100 } }
 
-                    color: maindeleg.fpath===PQCFileFolderModel.currentFile ? PQCLook.transColor : PQCLook.transColor 
+                    Rectangle {
+                        anchors.fill: parent
+                        color: pqtPalette.base
+                        opacity: 0.8
+                    }
 
                     PQTextS {
 
