@@ -65,9 +65,12 @@ ToolBar {
 
         ToolButton {
             id: specialaction
+
             property string whatisit
+
             visible: false
             text: "Special Action"
+
             onClicked: {
                 if(whatisit == "photosphere") {
                     if(PQCConstants.showingPhotoSphere)
@@ -79,24 +82,55 @@ ToolBar {
                         PQCFileFolderModel.disableViewerMode()
                     else
                         PQCFileFolderModel.enableViewerMode()
+                } else if(whatisit == "facetagging") {
+                    PQCNotify.stopFaceTagging()
                 }
             }
         }
 
         Connections {
-            target: PQCNotify
-            function onNewImageHasBeenDisplayed() {
-                specialaction.visible = false
-                if(PQCConstants.currentImageIsPhotoSphere && !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCConstants.slideshowRunning) {
-                    specialaction.whatisit = "photosphere"
-                    specialaction.text = Qt.binding(function() { return (PQCConstants.showingPhotoSphere ? "Exit photo sphere" : "Enter photo sphere") })
-                    specialaction.visible = true
-                } else if(PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) {
-                    specialaction.whatisit = "viewermode"
-                    specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ? "Exit viewer mode" : "Enter viewer mode") })
-                    specialaction.visible = true
-                }
+
+            target: PQCConstants
+
+            function onFaceTaggingModeChanged() {
+                ftr.checkFooterSpecialAction()
             }
+
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onNewImageHasBeenDisplayed() {
+                ftr.checkFooterSpecialAction()
+            }
+        }
+
+    }
+
+    function checkFooterSpecialAction() {
+
+        specialaction.visible = false
+
+        if(PQCConstants.faceTaggingMode) {
+
+            specialaction.whatisit = "facetagging"
+            specialaction.text = "Exit face tagging mode"
+            specialaction.visible = true
+
+        } else if(PQCConstants.currentImageIsPhotoSphere && !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCConstants.slideshowRunning) {
+
+            specialaction.whatisit = "photosphere"
+            specialaction.text = Qt.binding(function() { return (PQCConstants.showingPhotoSphere ? "Exit photo sphere" : "Enter photo sphere") })
+            specialaction.visible = true
+
+        } else if(PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) {
+
+            specialaction.whatisit = "viewermode"
+            specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ? "Exit viewer mode" : "Enter viewer mode") })
+            specialaction.visible = true
+
         }
 
     }
