@@ -309,21 +309,4 @@ Item {
         }
     ]
 
-    // PQVideoControls {
-
-    //     id: controls
-
-    //     loaderTop: videotop.loaderTop
-    //     videoLoaded: videotop.videoLoaded
-    //     videoPlaying: videotop.videoPlaying
-    //     videoPosition: videotop.videoPosition
-    //     videoDuration: videotop.videoDuration
-    //     videoHasAudio: videotop.videoHasAudio
-
-    //     onVideoToPos: (pos) => {
-    //         videotop.videoToPos(pos)
-    //     }
-
-    // }
-
 }

@@ -5,7 +5,7 @@
 SET(photoqt_shared_QML "")
 
 SET(d "qml/shared/elements")
-SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQShadowEffect.qml ${d}/PQGenericMouseArea.qml)
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQShadowEffect.qml ${d}/PQGenericMouseArea.qml ${d}/PQWorking.qml)
 
 SET(d "qml/shared/image")
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)

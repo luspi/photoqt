@@ -728,7 +728,7 @@ Loader {
                             imageloaderitem.imageLoadedAndReady = true
                             if(loader_top.isMainImage) {
                                 timer_busyloading.stop()
-                                // busyloading.hide()
+                                busyloading.hide()
                                 var tmp = image_wrapper.computeDefaultScale()
                                 if(Math.abs(tmp-1) > 1e-6)
                                     image_wrapper.startupScale = true
@@ -748,18 +748,18 @@ Loader {
                         id: timer_busyloading
                         interval: 500
                         onTriggered: {
-                            // if(!PQCConstants.slideshowRunning)
-                                // busyloading.showBusy()
+                            if(!PQCConstants.slideshowRunning)
+                                busyloading.showBusy()
                         }
                     }
 
                     // BUSY indicator
-                    // PQWorking {
-                    //     id: busyloading
-                    //     parent: image_top
-                    //     anchors.margins: -PQCSettings.imageviewMargin
-                    //     z: PQCConstants.currentZValue+1
-                    // }
+                    PQWorking {
+                        id: busyloading
+                        parent: image_top
+                        anchors.margins: -PQCSettings.imageviewMargin
+                        z: PQCConstants.currentZValue+1
+                    }
 
                     onWidthChanged: {
                         if(imageloaderitem.imageLoadedAndReady) {
@@ -1643,11 +1643,6 @@ Loader {
                             }
 
                         }
-
-                        // PropertyAnimation {
-                        //     id: aniMoveDown
-                        //     duration:
-                        // }
 
                         function onCurrentViewMove(direction : string) {
 

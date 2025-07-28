@@ -305,7 +305,7 @@ Window {
 
             console.log("")
 
-            if(PQCConstants.startupStartInTray) // qmllint disable unqualified
+            if(PQCConstants.startupStartInTray)
                 PQCSettings.interfaceTrayIcon = 1
             else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
                 PQCSettings.interfaceTrayIcon = 0

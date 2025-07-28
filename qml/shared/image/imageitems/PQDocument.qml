@@ -224,11 +224,4 @@ Image {
 
     }
 
-    // PQDocumentControls {
-    //     id: controls
-    //     pageCount: image.pageCount
-    //     currentPage: image.currentPage
-    //     loaderTop: image.loaderTop
-    // }
-
 }

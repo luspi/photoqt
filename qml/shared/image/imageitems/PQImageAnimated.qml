@@ -168,24 +168,4 @@ AnimatedImage {
 
     }
 
-    // PQImageAnimatedControls {
-    //     id: controls
-    //     imageCurrentFrame: image.currentFrame
-    //     imageFrameCount: image.frameCount
-    //     imageVisible: image.visible
-    //     imagePlaying: image.playing
-    //     imageSource: image.imageSource
-    //     loaderTop: image.loaderTop
-
-
-    //     function onSetImagePlaying(playing : bool) {
-    //         image.playing = playing
-    //     }
-
-    //     function onSetImageCurrentFrame(frame : int) {
-    //         image.currentFrame = frame
-    //     }
-
-    // }
-
 }
