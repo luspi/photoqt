@@ -21,105 +21,21 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Integrated
 import PhotoQt.Shared
 
-Rectangle {
+Button {
 
-    id: control
+    id: but_top
 
-    implicitWidth: forceWidth>0 ? forceWidth : (txt.width + padding)
-    implicitHeight: smallerVersion ? 30 : 40
-    opacity: enabled ? 1 : 0.6
-    Behavior on opacity { NumberAnimation { duration: 200 } }
-    radius: 5
+    property string tooltip: ""
 
-    border.color: PQCLook.baseColorHighlight 
-    border.width: 1
-
-    color: (down ? PQCLook.baseColorActive : ((hovered||forceHovered)&&enabled ? PQCLook.baseColorHighlight : PQCLook.baseColor)) 
-    Behavior on color { ColorAnimation { duration: 150 } }
-
-    property string text: ""
-    property alias font: txt.font
-    property alias tooltip: mouseArea.text
-    property alias cursorShape: mouseArea.cursorShape
-    property alias horizontalAlignment: txt.horizontalAlignment
-
-    property bool forceHovered: false
-
-    property bool enableContextMenu: true
-    property alias contextmenu: menu
-
-    property bool contextmenuVisible: false
-
-    property int forceWidth: 0
-    property bool extraWide: false
-    property bool extraextraWide: false
-    property int padding: extraextraWide ? 300 : (extraWide ? 100 : 40)
-
-    property bool smallerVersion: false
-
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringOk: qsTranslate("buttongeneric", "Ok")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringCancel: qsTranslate("buttongeneric", "Cancel")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringSave: qsTranslate("buttongeneric", "Save")
-    //: This is a generic string written on clickable buttons - please keep short!
-    property string genericStringClose: qsTranslate("buttongeneric", "Close")
-
-    property bool down: mouseArea.containsPress
-    property bool hovered: mouseArea.containsMouse
-
-    signal clicked()
-
-    PQText {
-        id: txt
-        x: (parent.width-width)/2
-        y: (parent.height-height)/2
-        width: control.forceWidth ? control.forceWidth-20 : undefined
-        elide: control.forceWidth ? Text.ElideRight : Text.ElideNone
-        text: control.text
-        font.pointSize: control.smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL 
-        font.weight: control.smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold 
-        opacity: enabled ? 1.0 : 0.6
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        color: PQCLook.textColor 
-    }
-
-    PQMouseArea {
-        id: mouseArea
-        anchors.fill: parent
-        hoverEnabled: true
-        cursorShape: Qt.PointingHandCursor
-        text: txt.text
-        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
-        onClicked: (mouse) => {
-            if(mouse.button === Qt.LeftButton)
-                control.clicked()
-            else
-                menu.popup()
-        }
-    }
-
-    PQMenu {
-        id: menu
-        onVisibleChanged:
-            control.contextmenuVisible = menu.visible
-        PQMenuItem {
-            enabled: false
-            font.italic: true
-            text: mouseArea.text!=="" ? mouseArea.text : txt.text
-        }
-        PQMenuItem {
-            text: qsTranslate("buttongeneric", "Activate button")
-            onTriggered: {
-                control.clicked()
-            }
-        }
+    onHoveredChanged: {
+        if(hovered && tooltip !== "")
+            PQCNotify.showToolTip(tooltip, mapToGlobal(0, -15))
+        else
+            PQCNotify.hideToolTip(tooltip)
     }
 
     function closeContextmenu() {

@@ -37,7 +37,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/modern/other")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQMasterItem.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml ${d}/PQShortcuts.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml)
 
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQThumbnails.qml)
