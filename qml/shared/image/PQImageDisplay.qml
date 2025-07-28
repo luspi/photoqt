@@ -2546,6 +2546,8 @@ Loader {
 
             PQCConstants.imageInitiallyLoaded = true
 
+            PQCNotify.newImageHasBeenDisplayed()
+
         }
 
         // This is done with a slight delay IF the image is to be loaded at full scale

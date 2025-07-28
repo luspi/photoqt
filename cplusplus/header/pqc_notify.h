@@ -145,6 +145,7 @@ Q_SIGNALS:
     void currentAnimatedSaveFrame();
     void currentFaceTagsReload();
     void stopFaceTagging();
+    void newImageHasBeenDisplayed();
 
     // context menu properties
     void closeAllContextMenus();
