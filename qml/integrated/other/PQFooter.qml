@@ -74,17 +74,26 @@ ToolBar {
                         PQCNotify.exitPhotoSphere()
                     else
                         PQCNotify.enterPhotoSphere()
+                } else if(whatisit == "viewermode") {
+                    if(PQCFileFolderModel.isARC || PQCFileFolderModel.isPDF)
+                        PQCFileFolderModel.disableViewerMode()
+                    else
+                        PQCFileFolderModel.enableViewerMode()
                 }
             }
         }
 
         Connections {
-            target: PQCFileFolderModel
-            function onCurrentFileChanged() {
+            target: PQCNotify
+            function onNewImageHasBeenDisplayed() {
                 specialaction.visible = false
                 if(PQCConstants.currentImageIsPhotoSphere && !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCConstants.slideshowRunning) {
                     specialaction.whatisit = "photosphere"
                     specialaction.text = Qt.binding(function() { return (PQCConstants.showingPhotoSphere ? "Exit photo sphere" : "Enter photo sphere") })
+                    specialaction.visible = true
+                } else if(PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) {
+                    specialaction.whatisit = "viewermode"
+                    specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ? "Exit viewer mode" : "Enter viewer mode") })
                     specialaction.visible = true
                 }
             }

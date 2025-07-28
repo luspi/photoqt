@@ -68,6 +68,9 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_readDocumentOnly = false;
     m_readArchiveOnly = false;
     m_includeFilesInSubFolders = false;
+    m_isARC = false;
+    m_isPDF = false;
+    m_activeViewerMode = false;
 
     m_entriesMainView.clear();
     m_entriesFileDialog.clear();
