@@ -25,20 +25,53 @@ import QtQuick.Controls
 import PhotoQt.Shared
 
 MenuBar {
+
     Menu {
+
+        id: menu_file
+
         title: qsTr("&File")
+
         Action {
             text: qsTr("&Open")
-            onTriggered:
-                PQCScriptsShortcuts.executeInternalCommand("__open")
+            onTriggered: {
+                menu_file.close()
+                PQCNotify.loaderShow("filedialog")
+            }
         }
-        Action { text: qsTr("&Rename") }
-        Action { text: qsTr("&Delete") }
-        MenuSeparator { }
-        Action { text: qsTr("&Quit") }
+
+        Action {
+            text: qsTr("&Rename")
+        }
+
+        Action {
+            text: qsTr("&Delete")
+        }
+
+        MenuSeparator {}
+
+        Action {
+            text: qsTr("&Quit")
+            onTriggered: {
+                PQCNotify.photoQtQuit()
+            }
+        }
+
     }
+
     Menu {
+
+        id: menu_about
+
         title: qsTr("&Help")
-        Action { text: qsTr("&About") }
+
+        Action {
+            text: qsTr("&About")
+            onTriggered: {
+                PQCNotify.loaderShow("about")
+                menu_about.close()
+            }
+        }
+
     }
 }

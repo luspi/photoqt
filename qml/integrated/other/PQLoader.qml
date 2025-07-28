@@ -23,32 +23,34 @@
 import QtQuick
 import PhotoQt.Integrated
 import PhotoQt.Shared
+import PQCImageFormats
 
-PQToolTip {
+Item {
 
-    id: ttip
+    Loader { id: loader_about }
+    Component { id: component_about; PQAbout {} }
 
     Connections {
 
         target: PQCNotify
 
-        function onShowToolTip(txt : string, pos : point) {
-            ttip.showToolTip(txt, pos)
+        function onLoaderShow(ele : string) {
+
+            if(ele === "filedialog") {
+                PQCConstants.idOfVisibleItem = ele
+                var file = PQCScriptsFilesPaths.openFileFromDialog("Open", PQCFileFolderModel.currentFile, PQCImageFormats.getEnabledFormats())
+                PQCConstants.idOfVisibleItem = ""
+                if(file !== "") {
+                    PQCFileFolderModel.extraFoldersToLoad = []
+                    PQCFileFolderModel.fileInFolderMainView = file
+                }
+            } else if(ele === "about") {
+                if(loader_about.status === Loader.Null)
+                    loader_about.sourceComponent = component_about
+            }
+
         }
 
-        function onHideToolTip(txt : string) {
-            if(ttip.text === txt)
-                ttip.hide()
-        }
-
-    }
-
-    function showToolTip(txt : string, pos : point) {
-        ttip.hide()
-        pos = ttip.parent.mapFromGlobal(pos)
-        ttip.x = Qt.binding(function() { return pos.x-ttip.width/2 })
-        ttip.y = Qt.binding(function() { return pos.y-ttip.height })
-        ttip.show(txt, 5000)
     }
 
 }

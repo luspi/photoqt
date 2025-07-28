@@ -133,6 +133,12 @@ ApplicationWindow {
         sourceComponent: PQShortcuts {}
     }
 
+    Loader {
+        id: masterloader
+        asynchronous: true
+        sourceComponent: PQLoader {}
+    }
+
     /****************************************************/
 
     // This is a Loader that loads the rest of the application in the background after set up
@@ -229,8 +235,165 @@ ApplicationWindow {
 
         setVersion.start()
 
-        // toplevel.update()
+    }
 
+
+
+    Connections {
+
+        target: PQCNotify
+
+        // function onStartInTrayChanged() : void {
+
+        //     console.log("")
+
+        //     if(PQCConstants.startupStartInTray) // qmllint disable unqualified
+        //         PQCSettings.interfaceTrayIcon = 1
+        //     else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+        //         PQCSettings.interfaceTrayIcon = 0
+
+        // }
+
+        // function onCmdOpen() : void {
+        //     console.log("")
+        //     PQCNotify.loaderShow("filedialog")
+        // }
+
+        // function onCmdShow() : void {
+
+        //     console.log("")
+
+        //     if(toplevel.visible) {
+        //         toplevel.raise()
+        //         toplevel.requestActivate()
+        //         return
+        //     }
+
+        //     toplevel.visible = true
+        //     if(toplevel.visibility === Window.Minimized)
+        //         toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+        //     toplevel.raise()
+        //     toplevel.requestActivate()
+
+        // }
+
+        // function onCmdHide() : void {
+        //     console.log("")
+        //     PQCSettings.interfaceTrayIcon = 1
+        //     toplevel.close()
+        // }
+
+        // function onCmdQuit() : void {
+        //     console.log("")
+        //     toplevel.quitPhotoQt()
+        // }
+
+        // function onCmdToggle() : void {
+
+        //     console.log("")
+
+        //     if(toplevel.visible) {
+        //         PQCSettings.interfaceTrayIcon = 1
+        //         toplevel.close()
+        //     } else {
+        //         toplevel.visible = true
+        //         if(toplevel.visibility === Window.Minimized)
+        //             toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+        //         toplevel.raise()
+        //         toplevel.requestActivate()
+        //     }
+
+        // }
+
+        // function onCmdTray(enabled : bool) : void {
+
+        //     console.log("args: enabled =", enabled)
+
+        //     if(enabled && PQCSettings.interfaceTrayIcon === 0)
+        //         PQCSettings.interfaceTrayIcon = 2
+        //     else if(!enabled) {
+        //         PQCSettings.interfaceTrayIcon = 0
+        //         if(!toplevel.visible) {
+        //             toplevel.visible = true
+        //             if(toplevel.visibility === Window.Minimized)
+        //                 toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+        //             toplevel.raise()
+        //             toplevel.requestActivate()
+        //         }
+        //     }
+
+        // }
+
+        // function onSetWindowState(state : int) {
+        //     setStateTimer.newstate = state
+        //     setStateTimer.restart()
+        // }
+
+        function onWindowRaiseAndFocus() {
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
+
+        function onWindowClose() {
+            toplevel.close()
+        }
+
+        // function onWindowTitleOverride(title : string) {
+        //     toplevel.titleOverride = title
+        // }
+
+        function onWindowStartSystemMove() {
+            toplevel.startSystemMove()
+        }
+
+        function onWindowStartSystemResize(edge : int) {
+            toplevel.startSystemResize(edge)
+        }
+
+        function onPhotoQtQuit() {
+            toplevel.quitPhotoQt()
+        }
+
+    }
+
+    function handleBeforeClosing() {
+
+        PQCFileFolderModel.advancedSortMainViewCANCEL()
+
+        if(PQCFileFolderModel.currentIndex > -1 && PQCSettings.interfaceRememberLastImage)
+            PQCScriptsConfig.setLastLoadedImage(PQCFileFolderModel.currentFile)
+        else
+            PQCScriptsConfig.deleteLastLoadedImage()
+
+        PQCScriptsFilesPaths.cleanupTemporaryFiles()
+
+        PQCScriptsOther.deleteScreenshots()
+
+    }
+
+    onClosing: (close) => {
+
+        PQCConstants.photoQtShuttingDown = true
+
+        // We stop a running slideshow to make sure all settings are restored to their normal state
+        if(PQCConstants.slideshowRunning)
+            PQCNotify.slideshowHideHandler()
+
+        if(PQCSettings.interfaceTrayIcon === 1) {
+            close.accepted = false
+            toplevel.visibility = Window.Hidden
+            if(PQCSettings.interfaceTrayIconHideReset)
+                PQCNotify.resetSessionData()
+            PQCConstants.photoQtShuttingDown = false
+        } else {
+            close.accepted = true
+            quitPhotoQt()
+        }
+    }
+
+    function quitPhotoQt() {
+        handleBeforeClosing()
+        Qt.quit()
     }
 
 }

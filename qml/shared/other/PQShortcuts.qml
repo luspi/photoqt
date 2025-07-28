@@ -62,7 +62,7 @@ Item {
 
         function onKeyPress(key : int, modifiers : int) {
 
-            if(PQCConstants.modalWindowOpen) {
+            if(PQCConstants.modalWindowOpen || PQCConstants.idOfVisibleItem !== "") {
 
                 // make sure contextmenu is closed on key press
                 PQCScriptsShortcuts.sendShortcutDismissGlobalContextMenu()
@@ -198,7 +198,6 @@ Item {
         console.log("args: mousePos =", mousePos)
         console.log("args: wheelDelta =", wheelDelta)
 
-
         if(combo === "Ctrl+Alt+Shift+R") {
 
             console.log("Detected shortcut for resetting PhotoQt")
@@ -326,7 +325,6 @@ Item {
                 }
 
                 if(combo === "Space" && PQCSettings.filetypesAnimatedSpacePause) {
-                    console.warn(">>> PLAY/PAUSE")
                     PQCNotify.playPauseAnimationVideo()
                     return
                 }
@@ -485,11 +483,7 @@ Item {
             // elements
 
             case "__open":
-                var file = PQCScriptsFilesPaths.openFileFromDialog("Open", PQCFileFolderModel.currentFile, PQCImageFormats.getEnabledFormats())
-                if(file !== "") {
-                    PQCFileFolderModel.extraFoldersToLoad = []
-                    PQCFileFolderModel.fileInFolderMainView = file
-                }
+                PQCNotify.loaderShow("filedialog")
                 break
             case "__showMapExplorer":
                 PQCNotify.loaderShow("mapexplorer")
