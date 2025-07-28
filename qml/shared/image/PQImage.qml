@@ -134,7 +134,7 @@ Item {
 
     Component.onCompleted: {
 
-        if(PQCConstants.startupFilePath != "") {
+        if(PQCConstants.startupFilePath !== "") {
 
             var img = repeaterimage.itemAt(0)
 
@@ -242,12 +242,12 @@ Item {
             var newModified = PQCScriptsFilesPaths.getFileModified(newFile).toLocaleString()
 
             // if the current image is already loaded we only need to show it
-            for(var i = 0; i < image_top.howManyLoaders; ++i) {
+            for(var h = 0; h < image_top.howManyLoaders; ++h) {
 
-                var img = repeaterimage.itemAt(i)
+                var img = repeaterimage.itemAt(h)
 
                 if(img.imageSource === newFile && img.containingFolder === newFolder && img.lastModified === newModified) {
-                    showItem = i
+                    showItem = h
                     break;
                 }
 

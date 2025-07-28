@@ -15,7 +15,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQToolTip.qml ${d}/PQHorizonta
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTemplateFullscreen.qml ${d}/PQTemplatePopout.qml ${d}/PQTemplateFloating.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQScrollManager.qml ${d}/PQMouseArea.qml ${d}/PQWorking.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQScrollManager.qml ${d}/PQMouseArea.qml)
 
 SET(d "qml/modern/elements/extensions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloatingPopout.qml ${d}/PQTemplateExtensionSettings.qml ${d}/PQTemplateExtension.qml)

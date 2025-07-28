@@ -260,11 +260,6 @@ PQCPhotoSphere {
 
     }
 
-    // PQPhotoSphereControls {
-    //     id: controls
-    //     loaderTop: thesphere.loaderTop
-    // }
-
     property int aniSpeed: Math.max(15-PQCSettings.slideshowImageTransition,1)*30
     property bool animationRunning: false
     property int aniDirection: -1

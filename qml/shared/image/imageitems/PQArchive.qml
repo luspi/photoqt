@@ -187,22 +187,4 @@ Image {
 
     }
 
-    // PQArchiveControls {
-
-    //     id: controls
-
-    //     loaderTop: image.loaderTop
-    //     imageSource: image.imageSource
-    //     fileCount: image.fileCount
-    //     isMainImage: image.isMainImage
-    //     currentFile: image.currentFile
-    //     fileList: image.fileList
-
-    //     function onSetCurrentImage(index: int) {
-    //         image.currentFile = index
-    //         image.setSource()
-    //     }
-
-    // }
-
 }

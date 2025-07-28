@@ -237,92 +237,117 @@ ApplicationWindow {
 
     }
 
+    Connections {
 
+        target: PQCSettings
+
+        function onInterfaceWindowModeChanged() {
+            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen)
+        }
+
+    }
+
+    Connections {
+
+        target: PQCConstants
+
+        function onStartupFilePathChanged() : void {
+            console.log("")
+            PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+            if(!toplevel.visible)
+                toplevel.visible = true
+            if(toplevel.visibility === Window.Minimized)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+            toplevel.raise()
+            toplevel.requestActivate()
+        }
+
+    }
 
     Connections {
 
         target: PQCNotify
 
-        // function onStartInTrayChanged() : void {
+        function onStartInTrayChanged() : void {
 
-        //     console.log("")
+            console.log("")
 
-        //     if(PQCConstants.startupStartInTray) // qmllint disable unqualified
-        //         PQCSettings.interfaceTrayIcon = 1
-        //     else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
-        //         PQCSettings.interfaceTrayIcon = 0
+            if(PQCConstants.startupStartInTray)
+                PQCSettings.interfaceTrayIcon = 1
+            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                PQCSettings.interfaceTrayIcon = 0
 
-        // }
+        }
 
-        // function onCmdOpen() : void {
-        //     console.log("")
-        //     PQCNotify.loaderShow("filedialog")
-        // }
+        function onCmdOpen() : void {
+            console.log("")
+            PQCNotify.loaderShow("filedialog")
+        }
 
-        // function onCmdShow() : void {
+        function onCmdShow() : void {
 
-        //     console.log("")
+            console.log("")
 
-        //     if(toplevel.visible) {
-        //         toplevel.raise()
-        //         toplevel.requestActivate()
-        //         return
-        //     }
+            if(toplevel.visible) {
+                toplevel.raise()
+                toplevel.requestActivate()
+                return
+            }
 
-        //     toplevel.visible = true
-        //     if(toplevel.visibility === Window.Minimized)
-        //         toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-        //     toplevel.raise()
-        //     toplevel.requestActivate()
+            toplevel.visible = true
+            if(toplevel.visibility === Window.Minimized)
+                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+            toplevel.raise()
+            toplevel.requestActivate()
 
-        // }
+        }
 
-        // function onCmdHide() : void {
-        //     console.log("")
-        //     PQCSettings.interfaceTrayIcon = 1
-        //     toplevel.close()
-        // }
+        function onCmdHide() : void {
+            console.log("")
+            PQCSettings.interfaceTrayIcon = 1
+            toplevel.close()
+        }
 
-        // function onCmdQuit() : void {
-        //     console.log("")
-        //     toplevel.quitPhotoQt()
-        // }
+        function onCmdQuit() : void {
+            console.log("")
+            toplevel.quitPhotoQt()
+        }
 
-        // function onCmdToggle() : void {
+        function onCmdToggle() : void {
 
-        //     console.log("")
+            console.log("")
 
-        //     if(toplevel.visible) {
-        //         PQCSettings.interfaceTrayIcon = 1
-        //         toplevel.close()
-        //     } else {
-        //         toplevel.visible = true
-        //         if(toplevel.visibility === Window.Minimized)
-        //             toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-        //         toplevel.raise()
-        //         toplevel.requestActivate()
-        //     }
+            if(toplevel.visible) {
+                PQCSettings.interfaceTrayIcon = 1
+                toplevel.close()
+            } else {
+                toplevel.visible = true
+                if(toplevel.visibility === Window.Minimized)
+                    toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                toplevel.raise()
+                toplevel.requestActivate()
+            }
 
-        // }
+        }
 
-        // function onCmdTray(enabled : bool) : void {
+        function onCmdTray(enabled : bool) : void {
 
-        //     console.log("args: enabled =", enabled)
+            console.log("args: enabled =", enabled)
 
-        //     if(enabled && PQCSettings.interfaceTrayIcon === 0)
-        //         PQCSettings.interfaceTrayIcon = 2
-        //     else if(!enabled) {
-        //         PQCSettings.interfaceTrayIcon = 0
-        //         if(!toplevel.visible) {
-        //             toplevel.visible = true
-        //             if(toplevel.visibility === Window.Minimized)
-        //                 toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-        //             toplevel.raise()
-        //             toplevel.requestActivate()
-        //         }
-        //     }
+            if(enabled && PQCSettings.interfaceTrayIcon === 0)
+                PQCSettings.interfaceTrayIcon = 2
+            else if(!enabled) {
+                PQCSettings.interfaceTrayIcon = 0
+                if(!toplevel.visible) {
+                    toplevel.visible = true
+                    if(toplevel.visibility === Window.Minimized)
+                        toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                    toplevel.raise()
+                    toplevel.requestActivate()
+                }
+            }
 
-        // }
+        }
 
         // function onSetWindowState(state : int) {
         //     setStateTimer.newstate = state

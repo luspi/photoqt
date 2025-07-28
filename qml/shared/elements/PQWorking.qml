@@ -34,7 +34,7 @@ Rectangle {
     Behavior on opacity { NumberAnimation { id: opacityAny; duration: 200 } }
 
     anchors.fill: parent
-    color: PQCLook.transColor
+    color: "#44000000"
 
     property int circleHeight: 206
     property bool animationRunning: true

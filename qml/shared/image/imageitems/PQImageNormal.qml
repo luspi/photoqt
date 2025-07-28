@@ -230,57 +230,9 @@ Image {
         }
     }
 
+
     /******************************************************************************************/
     // The next block is for photo spheres and motion photos
-
-
-    // a big button in middle of screen to enter photo sphere
-    // ALSO: closing X was removed
-    // Loader {
-
-    //     active: !image.ignoreSignals && image.thisIsAPhotoSphere && PQCSettings.filetypesPhotoSphereBigButton && !PQCConstants.slideshowRunning
-
-    //     sourceComponent:
-    //         Item {
-    //             parent: image.loaderTop
-    //             id: spherebut
-    //             x: (parent.width-width)/2
-    //             y: (parent.height-height)/2
-    //             width: 150
-    //             height: 150
-    //             Rectangle {
-    //                 anchors.fill: parent
-    //                 opacity: 0.8
-    //                 color: pqtPalette.base
-    //                 radius: width/2
-    //             }
-    //             opacity: (spheremouse.containsMouse ? 0.8 : 0.4)
-    //             Behavior on opacity { NumberAnimation { duration: 200 } }
-
-    //             Image {
-    //                 anchors.fill: parent
-    //                 anchors.margins: 20
-    //                 mipmap: true
-    //                 fillMode: Image.PreserveAspectFit
-    //                 sourceSize: Qt.size(width, height)
-    //                 source: "image://svg/:/" + PQCLook.iconShade + "/photosphere.svg"
-    //             }
-
-    //             PQMouseArea {
-    //                 id: spheremouse
-    //                 anchors.fill: parent
-    //                 hoverEnabled: true
-    //                 cursorShape: Qt.PointingHandCursor
-    //                 text: qsTranslate("image", "Click here to enter photo sphere")
-    //                 onClicked: {
-    //                     PQCNotify.enterPhotoSphere()
-    //                 }
-    //             }
-
-    //         }
-    // }
-
-
 
     // check for photo sphere if enabled
     Timer {
@@ -455,82 +407,6 @@ Image {
                 }
 
             }
-
-            // Row {
-
-            //     parent: image.loaderTop
-
-            //     x: parent.width-width-10
-            //     y: parent.height-height-10
-            //     z: PQCConstants.currentZValue+1
-
-            //     visible: PQCSettings.filetypesMotionPhotoPlayPause && mediaplayer.hasVideo
-
-            //     Rectangle {
-
-            //         width: 30
-            //         height: 30
-            //         color: "#88000000"
-            //         radius: 5
-
-            //         opacity: autoplaymouse.containsMouse ? (PQCSettings.filetypesMotionAutoPlay ? 1 : 0.6) : 0.2
-            //         Behavior on opacity { NumberAnimation { duration: 200 } }
-
-            //         Image {
-            //             anchors.fill: parent
-            //             anchors.margins: 5
-            //             opacity: PQCSettings.filetypesMotionAutoPlay ? 1 : 0.5
-            //             Behavior on opacity { NumberAnimation { duration: 200 } }
-            //             sourceSize: Qt.size(width, height)
-            //             source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
-            //         }
-
-            //         MouseArea {
-            //             id: autoplaymouse
-            //             anchors.fill: parent
-            //             hoverEnabled: true
-            //             cursorShape: Qt.PointingHandCursor
-            //             // text: qsTranslate("image", "Toggle autoplay")
-            //             onClicked: {
-            //                 PQCSettings.filetypesMotionAutoPlay = !PQCSettings.filetypesMotionAutoPlay
-            //             }
-            //         }
-
-            //     }
-
-            //     Rectangle {
-
-            //         width: 30
-            //         height: 30
-            //         color: "#88000000"
-            //         radius: 5
-
-            //         opacity: playpausemouse.containsMouse ? 1 : 0.2
-            //         Behavior on opacity { NumberAnimation { duration: 200 } }
-
-            //         Image {
-            //             anchors.fill: parent
-            //             anchors.margins: 5
-            //             sourceSize: Qt.size(width, height)
-            //             source: mediaplayer.playbackState == MediaPlayer.PlayingState ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
-            //         }
-
-            //         MouseArea {
-            //             id: playpausemouse
-            //             anchors.fill: parent
-            //             hoverEnabled: true
-            //             cursorShape: Qt.PointingHandCursor
-            //             onClicked: {
-            //                 if(mediaplayer.playbackState == MediaPlayer.PlayingState)
-            //                     mediaplayer.pause()
-            //                 else
-            //                     mediaplayer.play()
-            //             }
-            //         }
-
-            //     }
-
-            // }
 
         }
 

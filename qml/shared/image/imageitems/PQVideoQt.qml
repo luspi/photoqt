@@ -266,21 +266,4 @@ Item {
         }
     ]
 
-    // PQVideoControls {
-
-    //     id: controls
-
-    //     loaderTop: videotop.loaderTop
-    //     videoLoaded: videotop.videoLoaded
-    //     videoPlaying: video.playbackState===MediaPlayer.PlayingState
-    //     videoPosition: video.position/1000
-    //     videoDuration: video.duration/1000
-    //     videoHasAudio: videotop.videoHasAudio
-
-    //     onVideoToPos: (pos) => {
-    //         videotop.videoToPos(pos)
-    //     }
-
-    // }
-
 }
