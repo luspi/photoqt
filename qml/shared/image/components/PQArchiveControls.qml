@@ -32,6 +32,8 @@ Loader {
 
     asynchronous: true
 
+    SystemPalette { id: pqtPalette }
+
     sourceComponent:
     Item {
 
@@ -49,7 +51,8 @@ Loader {
         property bool isComicBook: PQCScriptsImages.isComicBook(PQCFileFolderModel.currentFile)
 
         property bool hovered: bgmouse.containsMouse || leftrightmouse.containsMouse || viewermodemouse.containsMouse ||
-                               mouselast.containsMouse || mousenext.containsMouse || mouseprev.containsMouse || mousefirst.containsMouse
+                               mouselast.containsMouse || mousenext.containsMouse || mouseprev.containsMouse || mousefirst.containsMouse ||
+                               fileselect.hovered || fileselect.popup.opened
         opacity: hovered ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
 
@@ -102,9 +105,11 @@ Loader {
 
         Rectangle {
             anchors.fill: parent
-            color: "#88000000"
+            color: pqtPalette.base
             opacity: 0.9
             radius: 5
+            border.width: 1
+            border.color: pqtPalette.text
         }
 
         MouseArea {
@@ -141,9 +146,6 @@ Loader {
 
                 y: (parent.height-height)/2
                 width: 400
-
-                // elide: Text.ElideMiddle
-                // transparentBackground: true
 
                 visible: !controlitem.isComicBook
 

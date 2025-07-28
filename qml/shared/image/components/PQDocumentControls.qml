@@ -105,6 +105,8 @@ Loader {
             color: pqtPalette.base
             opacity: 0.9
             radius: 5
+            border.width: 1
+            border.color: pqtPalette.text
         }
 
         MouseArea {
@@ -279,10 +281,9 @@ Loader {
                 height: 1
             }
 
-            Text {
+            Label {
                 y: (parent.height-height)/2
                 font.pointSize: PQCLook.fontSize
-                color: "white"
                 text: "|"
             }
 
@@ -291,10 +292,9 @@ Loader {
                 height: 1
             }
 
-            Text {
+            Label {
                 y: (parent.height-height)/2
                 font.pointSize: PQCLook.fontSize
-                color: "white"
                 text: qsTranslate("image", "Page %1/%2").arg(PQCConstants.currentFileInsideNum+1).arg(PQCConstants.currentFileInsideTotal)
             }
 
@@ -303,10 +303,9 @@ Loader {
                 height: 1
             }
 
-            Text {
+            Label {
                 y: (parent.height-height)/2
                 font.pointSize: PQCLook.fontSize
-                color: "white"
                 text: "|"
             }
 
@@ -372,10 +371,9 @@ Loader {
                         sourceSize: Qt.size(width, height)
                     }
 
-                    Text {
+                    Label {
                         text: "←/→"
                         font.pointSize: PQCLook.fontSize
-                        color: "white"
                     }
 
                 }
