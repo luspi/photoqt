@@ -98,6 +98,7 @@ Item {
         repeat: false
         running: false
         onTriggered: {
+            if(!videotop.isMainImage) return
             // check whether the file has fully loaded yet
             // depending on the Qt version there will be a comma at the end of the error message string
             var tmp = video.getProperty("width")+""
@@ -128,6 +129,7 @@ Item {
         running: false
         property bool restarting: false
         onTriggered: {
+            if(!videotop.isMainImage) return
             PQCSettings.filetypesVideoVolume = video.getProperty("volume")
             videotop.videoPlaying = !video.getProperty("core-idle")
             if(video.getProperty("eof-reached")) {
