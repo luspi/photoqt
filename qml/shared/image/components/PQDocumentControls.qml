@@ -125,7 +125,7 @@ Loader {
             drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton)
-                    PQCNotify.showDocumentControlsContextMenu()
+                    PQCNotify.showDocumentControlsContextMenu(true)
             }
         }
 
@@ -169,7 +169,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(-PQCConstants.currentFileInsideNum)
                             else
-                                PQCNotify.showDocumentControlsContextMenu()
+                                PQCNotify.showDocumentControlsContextMenu(true)
                         }
                     }
                 }
@@ -202,7 +202,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(-1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu()
+                                PQCNotify.showDocumentControlsContextMenu(true)
                         }
                     }
                 }
@@ -235,7 +235,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu()
+                                PQCNotify.showDocumentControlsContextMenu(true)
                         }
                     }
                 }
@@ -269,7 +269,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(PQCConstants.currentFileInsideTotal-PQCConstants.currentFileInsideNum-1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu()
+                                PQCNotify.showDocumentControlsContextMenu(true)
                         }
                     }
                 }
@@ -341,7 +341,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
                             else
-                                PQCNotify.showDocumentControlsContextMenu()
+                                PQCNotify.showDocumentControlsContextMenu(true)
                         }
                     }
                 }
@@ -389,7 +389,7 @@ Loader {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
                         else
-                            PQCNotify.showDocumentControlsContextMenu()
+                            PQCNotify.showDocumentControlsContextMenu(true)
                     }
                 }
 

@@ -145,7 +145,9 @@ Loader {
         // the thumbnails loader can be asynchronous as it is always integrated and never popped out
         Loader {
             id: loader_thumbnails
-            asynchronous: true;
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            sourceComponent: PQThumbnails {}
         }
 
         Loader { id: loader_metadata }
@@ -212,6 +214,10 @@ Loader {
         Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQVideoControlsContextMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQThumbnailsContextMenu {}
         }
 
         /*****************************************/

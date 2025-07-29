@@ -40,7 +40,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindowBackground.qml ${d
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml)
 
 SET(d "qml/modern/ongoing")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml ${d}/PQThumbnails.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml ${d}/PQTrayIcon.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
 
@@ -63,7 +63,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/P
 
 SET(d "qml/modern/contextmenus")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMinimapContextMenu.qml ${d}/PQArchiveControlsContextMenu.qml ${d}/PQDocumentControlsContextMenu.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml)
 
 SET(d "qml/modern/settingsmanager")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)

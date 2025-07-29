@@ -54,6 +54,7 @@ public:
 
         m_windowWidth = 0;
         m_windowHeight = 0;
+        m_menuBarHeight = 0;
         m_mainWindowBeingResized = false;
         m_windowState = Qt::WindowNoState;
         m_windowFullScreen = false;
@@ -104,6 +105,7 @@ public:
         m_thumbnailsBarWidth = 0;
         m_thumbnailsBarHeight = 0;
         m_thumbnailsBarOpacity = 0;
+        m_thumbnailsMenuReloadIndex = -1;
         m_metadataOpacity = 0;
         m_mainmenuOpacity = 0;
 
@@ -203,6 +205,7 @@ public:
 
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
+    Q_PROPERTY(int menuBarHeight MEMBER m_menuBarHeight NOTIFY menuBarHeightChanged)
     Q_PROPERTY(bool mainWindowBeingResized MEMBER m_mainWindowBeingResized NOTIFY mainWindowBeingResizedChanged)
     Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged)
     Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged)
@@ -223,6 +226,7 @@ public:
     Q_PROPERTY(int thumbnailsBarWidth MEMBER m_thumbnailsBarWidth NOTIFY thumbnailsBarWidthChanged)
     Q_PROPERTY(int thumbnailsBarHeight MEMBER m_thumbnailsBarHeight NOTIFY thumbnailsBarHeightChanged)
     Q_PROPERTY(double thumbnailsBarOpacity MEMBER m_thumbnailsBarOpacity NOTIFY thumbnailsBarOpacityChanged)
+    Q_PROPERTY(int thumbnailsMenuReloadIndex MEMBER m_thumbnailsMenuReloadIndex NOTIFY thumbnailsMenuReloadIndexChanged)
     Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
 
@@ -315,6 +319,7 @@ private:
 
     int m_windowWidth;
     int m_windowHeight;
+    int m_menuBarHeight;
     bool m_mainWindowBeingResized;
 
     bool m_photoQtShuttingDown;
@@ -355,6 +360,7 @@ private:
     int m_thumbnailsBarWidth;
     int m_thumbnailsBarHeight;
     double m_thumbnailsBarOpacity;
+    int m_thumbnailsMenuReloadIndex;
     double m_mainmenuOpacity;
     double m_metadataOpacity;
 
@@ -411,6 +417,7 @@ Q_SIGNALS:
 
     void windowWidthChanged();
     void windowHeightChanged();
+    void menuBarHeightChanged();
     void mainWindowBeingResizedChanged();
     void windowStateChanged();
     void windowFullScreenChanged();
@@ -462,6 +469,7 @@ Q_SIGNALS:
     void thumbnailsBarWidthChanged();
     void thumbnailsBarHeightChanged();
     void thumbnailsBarOpacityChanged();
+    void thumbnailsMenuReloadIndexChanged();
     void mainmenuOpacityChanged();
     void metadataOpacityChanged();
     void showingPhotoSphereChanged();

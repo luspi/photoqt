@@ -96,7 +96,7 @@ Window {
 
     property bool isFullscreen: toplevel.visibility==Window.FullScreen
 
-    onVisibilityChanged: {
+    onVisibilityChanged: (visibility) => {
 
         storeWindowGeometry.restart()
 
@@ -246,7 +246,6 @@ Window {
 
         PQCNotify.loaderShow("mainmenu")
         PQCNotify.loaderShow("metadata")
-        PQCNotify.loaderSetup("thumbnails")
 
         if(PQCConstants.startupFilePath !== "") {
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:

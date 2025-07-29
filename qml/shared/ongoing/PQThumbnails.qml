@@ -23,7 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+// import PhotoQt.Integrated
 import PhotoQt.Shared
 
 Rectangle {
@@ -92,12 +92,12 @@ Rectangle {
         State {
             name: "bottom"
             PropertyChanges {
-                thumbnails_top.visiblePos: [0,PQCConstants.windowHeight-thumbnails_top.height]
-                thumbnails_top.invisiblePos: [0, PQCConstants.windowHeight]
-                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.windowHeight-thumbnails_top.hotAreaSize, PQCConstants.windowWidth, thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.windowWidth
+                thumbnails_top.visiblePos: [0,PQCConstants.imageDisplaySize.height-thumbnails_top.height]
+                thumbnails_top.invisiblePos: [0, PQCConstants.imageDisplaySize.height]
+                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.imageDisplaySize.height-thumbnails_top.hotAreaSize, PQCConstants.imageDisplaySize.width, thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.imageDisplaySize.width
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
+                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.height>500
             }
         },
         State {
@@ -105,21 +105,21 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
-                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.imageDisplaySize.height)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.windowHeight
-                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
+                thumbnails_top.height: PQCConstants.imageDisplaySize.height
+                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.width>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                thumbnails_top.visiblePos: [PQCConstants.windowWidth-thumbnails_top.width,0]
-                thumbnails_top.invisiblePos: [PQCConstants.windowWidth,0]
-                thumbnails_top.hotArea: Qt.rect(PQCConstants.windowWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
+                thumbnails_top.visiblePos: [PQCConstants.imageDisplaySize.width-thumbnails_top.width,0]
+                thumbnails_top.invisiblePos: [PQCConstants.imageDisplaySize.width,0]
+                thumbnails_top.hotArea: Qt.rect(PQCConstants.imageDisplaySize.width-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.imageDisplaySize.height)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.windowHeight
-                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
+                thumbnails_top.height: PQCConstants.imageDisplaySize.height
+                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.width>500
             }
         },
         State {
@@ -127,10 +127,10 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
-                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.windowWidth,thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.windowWidth
+                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.imageDisplaySize.width,thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.imageDisplaySize.width
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
+                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.height>500
             }
         },
         State {
@@ -144,7 +144,7 @@ Rectangle {
 
     onSetVisibleChanged: {
         if(!setVisible)
-            menu.item.dismiss()
+            PQCNotify.showThumbnailsContextMenu(false)
     }
 
     MouseArea {
@@ -155,18 +155,21 @@ Rectangle {
             thumbnails_top.flickView(wheel.angleDelta.x, wheel.angleDelta.y)
         }
         onClicked: (mouse) => {
-            if(mouse.button === Qt.RightButton)
-                menu.item.popup()
+            if(mouse.button === Qt.RightButton) {
+                PQCConstants.thumbnailsMenuReloadIndex = view.highlightIndex
+                PQCNotify.showThumbnailsContextMenu(true)
+            }
         }
     }
 
-    PQTextXL {
+    Label {
         anchors.fill: parent
         horizontalAlignment: Qt.AlignHCenter
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("thumbnails", "No file loaded")
         font.bold: PQCLook.fontWeightBold
+        font.pointSize: PQCLook.fontSizeXL
         color: pqtPaletteDisabled.text
         visible: PQCFileFolderModel.countMainView===0
     }
@@ -311,8 +314,6 @@ Rectangle {
         }
         property bool previousIndexWithinView: false
 
-        signal reloadThumbnail(var index)
-
         // the highlight index is set when hovering thumbnails
         property int highlightIndex: -1
         Timer {
@@ -345,15 +346,17 @@ Rectangle {
         maximumFlickVelocity: 5000 * Math.max(1, PQCSettings.thumbnailsSize/250)
 
         // bottom scroll bar
-        PQHorizontalScrollBar {
+        ScrollBar {
             id: scrollbar_bottom
+            orientation: Qt.Horizontal
             visible: thumbnails_top.state==="bottom"
             anchors.bottomMargin: (thumbnails_top.effectiveThumbnailLiftup-scrollbar_bottom.height)/2
         }
 
         // top scroll bar
-        PQHorizontalScrollBar {
+        ScrollBar {
             id: scrollbar_top
+            orientation: Qt.Horizontal
             parent: view.parent
             visible: thumbnails_top.state==="top"
             anchors.left: parent ? parent.left : undefined
@@ -366,8 +369,9 @@ Rectangle {
         ScrollBar.horizontal: thumbnails_top.state==="bottom" ? scrollbar_bottom : scrollbar_top
 
         // left scroll bar
-        PQVerticalScrollBar {
+        ScrollBar {
             id: scrollbar_left
+            orientation: Qt.Vertical
             parent: view.parent
             visible: thumbnails_top.state==="left"
             anchors.top: parent==null ? undefined : parent.top
@@ -377,8 +381,9 @@ Rectangle {
         }
 
         // right scroll bar
-        PQVerticalScrollBar {
+        ScrollBar {
             id: scrollbar_right
+            orientation: Qt.Vertical
             parent: view.parent
             visible: thumbnails_top.state==="right"
             anchors.top: parent==null ? undefined : parent.top
@@ -452,7 +457,7 @@ Rectangle {
             // the active property is set when either the current thumbnail corresponds to the main image
             // or when the mouse is hovering the current thumbnail
             property bool active: modelData===PQCFileFolderModel.currentIndex ||
-                                  modelData===thumbnails_top.menuReloadIndex ||
+                                  modelData===PQCConstants.thumbnailsMenuReloadIndex ||
                                   modelData===view.highlightIndex
 
             z: (modelData===PQCFileFolderModel.currentIndex) ? 2 : (active ? 1 : 0)
@@ -559,7 +564,7 @@ Rectangle {
             }
 
             // the mouse area for the current thumbnail
-            PQMouseArea {
+            PQGenericMouseArea {
 
                 id: delegmouse
 
@@ -585,12 +590,12 @@ Rectangle {
                                   "<span style='font-size: " + PQCLook.fontSize + "pt'>" + qsTranslate("thumbnails", "File size:")+" <b>" + PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.filepath) + "</b></span><br>" +
                                   "<span style='font-size: " + PQCLook.fontSize + "pt'>" + qsTranslate("thumbnails", "File type:")+" <b>" + PQCScriptsFilesPaths.getFileType(deleg.filepath) + "</b></span>"
 
-                        text = str
+                        tooltip = str
 
                     } else if(!PQCSettings.thumbnailsTooltip) {
 
                         tooltipSetup = false
-                        text = ""
+                        tooltip = ""
 
                     }
 
@@ -634,7 +639,7 @@ Rectangle {
                     width: deleg.width
                     height: Math.min(200, Math.max(30, deleg.height*0.3))
 
-                    PQText {
+                    Label {
                         anchors.fill: parent
                         verticalAlignment: Text.AlignVCenter
                         horizontalAlignment: Text.AlignHCenter
@@ -705,16 +710,14 @@ Rectangle {
             }
 
             Connections {
-                target: view
-                function onReloadThumbnail(ind : int) {
+                target: PQCNotify
+                function onThumbnailReloadImage(ind : int) {
                     if(deleg.modelData === ind) {
                         img.source = ""
                         img.source = "image://thumb/" + deleg.filepath
                     }
                 }
             }
-
-
 
             MultiPointTouchArea {
 
@@ -748,7 +751,8 @@ Rectangle {
                     id: touchShowMenu
                     interval: 1000
                     onTriggered: {
-                        menu.item.popup(toucharea.mapToItem(thumbnails_top, toucharea.touchPos))
+                        PQCConstants.thumbnailsMenuReloadIndex = view.highlightIndex
+                        PQCNotify.showThumbnailsContextMenuAtTouch(toucharea.mapToItem(thumbnails_top, toucharea.touchPos))
                     }
                 }
 
@@ -760,210 +764,6 @@ Rectangle {
 
     ButtonGroup { id: grp1 }
     ButtonGroup { id: grp2 }
-
-    property int menuReloadIndex: -1
-    property bool menuReloadIndexVisible: menuReloadIndex>-1
-
-    Loader {
-
-        id: menu
-        asynchronous: true
-
-        sourceComponent:
-        PQMenu {
-
-            id: menudeleg
-
-            PQMenuItem {
-                enabled: false
-                font.italic: true
-                moveToRightABit: true
-                text: qsTranslate("MainMenu", "Thumbnails")
-            }
-
-            PQMenuSeparator { }
-
-            PQMenuItem {
-                visible: thumbnails_top.menuReloadIndexVisible
-                text: qsTranslate("thumbnails", "Reload thumbnail")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg"
-                onTriggered: {
-                    PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[thumbnails_top.menuReloadIndex])
-                    view.reloadThumbnail(thumbnails_top.menuReloadIndex)
-                }
-            }
-
-            PQMenuSeparator { lighterColor: true; visible: thumbnails_top.menuReloadIndexVisible }
-
-            PQMenu {
-
-                title: "thumbnail image"
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "fit thumbnails")
-                    ButtonGroup.group: grp1
-                    checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
-                    onCheckedChanged: {
-                        if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) {
-                            PQCSettings.thumbnailsCropToFit = false
-                            PQCSettings.thumbnailsSameHeightVaryWidth = false
-                        }
-                    }
-                }
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "scale and crop thumbnails")
-                    ButtonGroup.group: grp1
-                    checked: PQCSettings.thumbnailsCropToFit
-                    onCheckedChanged: {
-                        if(checked) {
-                            PQCSettings.thumbnailsCropToFit = true
-                            PQCSettings.thumbnailsSameHeightVaryWidth = false
-                        }
-                    }
-                }
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "same height, varying width")
-                    ButtonGroup.group: grp1
-                    checked: PQCSettings.thumbnailsSameHeightVaryWidth
-                    onCheckedChanged: {
-                        if(checked) {
-                            // See the comment below for why this check is here
-                            if(PQCSettings.thumbnailsCropToFit) {
-                                PQCSettings.thumbnailsCropToFit = false
-                                delayChecking.restart()
-                            } else
-                                PQCSettings.thumbnailsSameHeightVaryWidth = true
-                        }
-                    }
-                    // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
-                    // If we do then the padding/sourceSize of the images might not cooperate well
-                    // This short delay in that case ensures that everything works just fine
-                    Timer {
-                        id: delayChecking
-                        interval: 100
-                        onTriggered: {
-                            PQCSettings.thumbnailsSameHeightVaryWidth = true
-                        }
-                    }
-                }
-
-                PQMenuItem {
-                    checkable: true
-                    text: qsTranslate("settingsmanager", "keep small thumbnails small")
-                    checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall
-                    onCheckedChanged:
-                        PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked
-                }
-
-            }
-
-            PQMenu {
-
-                title: "visibility"
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "hide when not needed")
-                    ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===0
-                    onCheckedChanged: {
-                        if(checked)
-                            PQCSettings.thumbnailsVisibility = 0
-                    }
-                }
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "always keep visible")
-                    ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===1
-                    onCheckedChanged: {
-                        if(checked)
-                            PQCSettings.thumbnailsVisibility = 1
-                    }
-                }
-
-                PQMenuItem {
-                    checkable: true
-                    checkableLikeRadioButton: true
-                    text: qsTranslate("settingsmanager", "hide when zoomed in")
-                    ButtonGroup.group: grp2
-                    checked: PQCSettings.thumbnailsVisibility===2
-                    onCheckedChanged: {
-                        if(checked)
-                            PQCSettings.thumbnailsVisibility = 2
-                    }
-                }
-
-            }
-
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                checkable: true
-                text: qsTranslate("settingsmanager", "show filename labels")
-                checked: PQCSettings.thumbnailsFilename
-                onCheckedChanged:
-                    PQCSettings.thumbnailsFilename = checked
-            }
-
-            PQMenuItem {
-                checkable: true
-                text: qsTranslate("settingsmanager", "show tooltips")
-                checked: PQCSettings.thumbnailsTooltip
-                onCheckedChanged:
-                    PQCSettings.thumbnailsTooltip = checked
-            }
-
-            PQMenuSeparator {}
-
-            PQMenuItem {
-                text: qsTranslate("settingsmanager", "Manage in settings manager")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
-                onTriggered: {
-                    PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
-                }
-            }
-
-            onAboutToHide:
-                recordAsClosed.restart()
-
-            onAboutToShow: {
-                PQCConstants.addToWhichContextMenusOpen("thumbnails")
-                thumbnails_top.menuReloadIndex = view.highlightIndex
-            }
-
-            Connections {
-                target: view
-                function onHighlightIndexChanged() {
-                    if(!menudeleg.visible)
-                        thumbnails_top.menuReloadIndex = view.highlightIndex
-                }
-            }
-
-            Timer {
-                id: recordAsClosed
-                interval: 200
-                onTriggered: {
-                    if(!menudeleg.visible) {
-                        thumbnails_top.menuReloadIndex = -1
-                        PQCConstants.removeFromWhichContextMenusOpen("thumbnails")
-                    }
-                }
-            }
-
-        }
-    }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
     property int ignoreRightMotion: state==="bottom"&&PQCConstants.currentImageIsMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0
@@ -992,11 +792,6 @@ Rectangle {
                 return
             }
 
-            if(menu.item != null && menu.item.opened) {
-                thumbnails_top.setVisible = true
-                return
-            }
-
             if(thumbnails_top.setVisible) {
                 if(posx < thumbnails_top.x-50 || posx > thumbnails_top.x+thumbnails_top.width+50 || posy < thumbnails_top.y-50 || posy > thumbnails_top.y+thumbnails_top.height+50)
                     thumbnails_top.setVisible = false
@@ -1004,6 +799,7 @@ Rectangle {
                 if(thumbnails_top.hotArea.x <= posx && thumbnails_top.hotArea.x+thumbnails_top.hotArea.width-thumbnails_top.ignoreRightMotion > posx && thumbnails_top.hotArea.y < posy && thumbnails_top.hotArea.height+thumbnails_top.hotArea.y > posy)
                     thumbnails_top.setVisible = true
             }
+
         }
 
         function onMouseWindowExit() {
@@ -1014,9 +810,9 @@ Rectangle {
             hideElementWithDelay.stop()
         }
 
-        function onCloseAllContextMenus() {
-            menu.item.dismiss()
-        }
+        // function onCloseAllContextMenus() {
+            // menu.item.dismiss()
+        // }
     }
 
     Connections {

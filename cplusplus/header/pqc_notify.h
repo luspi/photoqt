@@ -149,10 +149,12 @@ Q_SIGNALS:
 
     // context menu properties
     void closeAllContextMenus();
-    void showMinimapContextMenu();
-    void showArchiveControlsContextMenu();
-    void showDocumentControlsContextMenu();
-    void showVideoControlsContextMenu();
+    void showMinimapContextMenu(bool vis);
+    void showArchiveControlsContextMenu(bool vis);
+    void showDocumentControlsContextMenu(bool vis);
+    void showVideoControlsContextMenu(bool vis);
+    void showThumbnailsContextMenu(bool vis);
+    void showThumbnailsContextMenuAtTouch(bool vis);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
@@ -168,6 +170,7 @@ Q_SIGNALS:
     void playPauseAnimationVideo();
     void showToolTip(QString txt, QPoint mouseXY);
     void hideToolTip(QString txt);
+    void thumbnailReloadImage(int index);
 
     // slideshow
     void slideshowHideHandler();

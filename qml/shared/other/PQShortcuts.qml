@@ -50,6 +50,10 @@ Item {
             keyshortcuts_top.executeInternalFunction(cmd, Qt.point(-1,-1), Qt.point(0,0))
         }
 
+        function onExecuteInternalCommandWithMousePos(cmd : string, pos : point) {
+            keyshortcuts_top.executeInternalFunction(cmd, pos, Qt.point(0,0))
+        }
+
     }
 
     Connections {

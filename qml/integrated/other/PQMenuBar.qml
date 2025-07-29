@@ -26,6 +26,9 @@ import PhotoQt.Shared
 
 MenuBar {
 
+    onHeightChanged:
+        PQCConstants.menuBarHeight = height
+
     Menu {
 
         id: menu_file

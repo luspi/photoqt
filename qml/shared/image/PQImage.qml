@@ -36,9 +36,9 @@ Item {
     height: toplevelItem.height-2*PQCSettings.imageviewMargin// - lessH
 
     onWidthChanged:
-        PQCConstants.imageDisplaySize.width = width
+        PQCConstants.imageDisplaySize.width = width+2*PQCSettings.imageviewMargin
     onHeightChanged:
-        PQCConstants.imageDisplaySize.height = height
+        PQCConstants.imageDisplaySize.height = height+2*PQCSettings.imageviewMargin
 
     property Item toplevelItem
 

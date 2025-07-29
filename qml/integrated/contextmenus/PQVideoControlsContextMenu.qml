@@ -80,8 +80,11 @@ Item {
 
         target: PQCNotify
 
-        function onShowVideoControlsContextMenu() {
-            rightclickmenu.popup()
+        function onShowVideoControlsContextMenu(vis : bool) {
+            if(vis)
+                rightclickmenu.popup()
+            else
+                rightclickmenu.dismiss()
         }
 
     }

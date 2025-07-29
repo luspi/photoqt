@@ -89,7 +89,7 @@ Item {
                         to: 50
                         duration: 1000
                         loops: Animation.Infinite
-                        running: clickhere.visible&&!PQCConstants.modalWindowOpen 
+                        running: clickhere.visible&&!PQCConstants.modalWindowOpen
                         easing.type: Easing.OutCirc
                     }
                 }
@@ -103,7 +103,7 @@ Item {
                     height: 40
                     smooth: false
                     sourceSize: Qt.size(width, height)
-                    source: "image://svg/:/" + PQCLook.iconShade + "/mouse.svg" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/mouse.svg"
 
                 }
 
@@ -119,9 +119,9 @@ Item {
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
-                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80)) 
+                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80))
                 font.weight: PQCLook.fontWeightBold
-                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
+                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 wrapMode: Text.WordWrap
@@ -141,23 +141,23 @@ Item {
             id: arrleft
             x: extraSpace
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0 
+            visible: PQCSettings.interfaceEdgeLeftAction!==""&&opacity>0
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg"
 
             property int extraSpace: (PQCSettings.interfaceEdgeLeftAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
                 id: seqleft
 
-                running: arrleft.visible&&!PQCConstants.modalWindowOpen 
+                running: arrleft.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
@@ -203,14 +203,14 @@ Item {
             }
             visible: arrleft.visible&&ltx.text!==""&&opacity>0
 
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: ltx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeLeftAction] 
+                text: bgmsg.entries[PQCSettings.interfaceEdgeLeftAction]
                 font.bold: true
             }
 
@@ -218,7 +218,7 @@ Item {
 
                 id: seqleft_txt
 
-                running: rectleft.visible&&!PQCConstants.modalWindowOpen 
+                running: rectleft.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
@@ -252,29 +252,29 @@ Item {
             id: arrright
             x: parent.width-width-10-extraSpace
             y: (parent.height-height)/2
-            visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0 
+            visible: PQCSettings.interfaceEdgeRightAction!==""&&opacity>0
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/rightarrow.svg"
 
             property int extraSpace: (PQCSettings.interfaceEdgeRightAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
 
                 id: seqright
 
-                running: arrright.visible&&!PQCConstants.modalWindowOpen 
+                running: arrright.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-110-arrright.extraSpace 
-                    to: PQCConstants.windowWidth-130-arrright.extraSpace 
+                    from: PQCConstants.windowWidth-110-arrright.extraSpace
+                    to: PQCConstants.windowWidth-130-arrright.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -283,8 +283,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-130-arrright.extraSpace 
-                    to: PQCConstants.windowWidth-110-arrright.extraSpace 
+                    from: PQCConstants.windowWidth-130-arrright.extraSpace
+                    to: PQCConstants.windowWidth-110-arrright.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -313,14 +313,14 @@ Item {
                 radius: 5
             }
             visible: arrright.visible&&rtx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0 
+            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: rtx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeRightAction] 
+                text: bgmsg.entries[PQCSettings.interfaceEdgeRightAction]
                 font.bold: true
             }
 
@@ -328,13 +328,13 @@ Item {
 
                 id: seqright_txt
 
-                running: right_txt.visible&&!PQCConstants.modalWindowOpen 
+                running: right_txt.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace 
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace 
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -343,8 +343,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace 
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace 
+                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace
+                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -368,25 +368,25 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0 
+            visible: PQCSettings.interfaceEdgeBottomAction!==""&&opacity>0
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg"
             rotation: -90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
                 id: seqdown
 
-                running: arrdown.visible&&!PQCConstants.modalWindowOpen 
+                running: arrdown.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-110-arrdown.extraSpace 
-                    to: PQCConstants.windowHeight-130-arrdown.extraSpace 
+                    from: PQCConstants.windowHeight-110-arrdown.extraSpace
+                    to: PQCConstants.windowHeight-130-arrdown.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -395,8 +395,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-130-arrdown.extraSpace 
-                    to: PQCConstants.windowHeight-110-arrdown.extraSpace 
+                    from: PQCConstants.windowHeight-130-arrdown.extraSpace
+                    to: PQCConstants.windowHeight-110-arrdown.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -425,14 +425,14 @@ Item {
                 radius: 5
             }
             visible: arrdown.visible&&btx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: btx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeBottomAction] 
+                text: bgmsg.entries[PQCSettings.interfaceEdgeBottomAction]
                 font.bold: true
             }
 
@@ -440,13 +440,13 @@ Item {
 
                 id: seqdown_txt
 
-                running: bottom_txt.visible&&!PQCConstants.modalWindowOpen 
+                running: bottom_txt.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace 
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace 
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -455,8 +455,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace 
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace 
+                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
+                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -476,22 +476,22 @@ Item {
             width: 100
             height: 100
             sourceSize: Qt.size(width, height)
-            visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0 
+            visible: PQCSettings.interfaceEdgeTopAction!==""&&opacity>0
 
             property int extraSpace: (PQCSettings.interfaceEdgeTopAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg"
             rotation: 90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
 
                 id: sequp
 
-                running: arrup.visible&&!PQCConstants.modalWindowOpen 
+                running: arrup.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
@@ -536,14 +536,14 @@ Item {
                 radius: 5
             }
             visible: arrup.visible&&utx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0 
+            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
                 id: utx
                 x: 10
                 y: 5
-                text: bgmsg.entries[PQCSettings.interfaceEdgeTopAction] 
+                text: bgmsg.entries[PQCSettings.interfaceEdgeTopAction]
                 font.bold: true
             }
 
@@ -551,7 +551,7 @@ Item {
 
                 id: sequp_txt
 
-                running: up_txt.visible&&!PQCConstants.modalWindowOpen 
+                running: up_txt.visible&&!PQCConstants.modalWindowOpen
                 loops: Animation.Infinite
 
                 // move out quick
@@ -583,11 +583,11 @@ Item {
     }
 
     PQText {
-        visible: PQCScriptsConfig.isBetaVersion() 
+        visible: PQCScriptsConfig.isBetaVersion()
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 10
-        font.weight: PQCLook.fontWeightBold 
+        font.weight: PQCLook.fontWeightBold
         text: "This is a beta release and might still contains bugs."
     }
 
@@ -596,17 +596,17 @@ Item {
         id: imagemouse
 
         anchors.fill: parent
-        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0 
+        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         acceptedButtons: Qt.AllButtons
-        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold 
+        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
 
         property bool holdTrigger: false
         property point touchPos: Qt.point(-1,-1)
 
         onPositionChanged: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
                 holdTrigger = false
             PQCNotify.mouseMove(pos.x, pos.y)
@@ -622,7 +622,7 @@ Item {
             PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
         }
         onMouseDoubleClicked: (mouse) => {
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
         }
         onReleased: (mouse) => {
@@ -646,7 +646,7 @@ Item {
         }
         onPressAndHold: (mouse) => {
             holdTrigger = true
-            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y) 
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
             if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
                 shortcuts.item.executeInternalFunction("__contextMenuTouch", pos, Qt.point(0,0))
         }
