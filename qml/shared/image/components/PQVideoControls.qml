@@ -129,7 +129,7 @@ Loader {
             drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton)
-                    PQCNotify.showVideoControlsContextMenu()
+                    PQCNotify.showVideoControlsContextMenu(true)
             }
         }
 
@@ -159,7 +159,7 @@ Loader {
                         if(mouse.button === Qt.LeftButton)
                             PQCNotify.playPauseAnimationVideo()
                         else
-                            PQCNotify.showVideoControlsContextMenu()
+                            PQCNotify.showVideoControlsContextMenu(true)
                     }
                 }
             }
@@ -247,7 +247,7 @@ Loader {
                              qsTranslate("image", "Click to mute/unmute")
                     onClicked: (mouse) => {
                         if(mouse.button === Qt.RightButton) {
-                            PQCNotify.showVideoControlsContextMenu()
+                            PQCNotify.showVideoControlsContextMenu(true)
                             return
                         }
                         controlitem.muteUnmute()
@@ -324,7 +324,7 @@ Loader {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesVideoLeftRightJumpVideo = !PQCSettings.filetypesVideoLeftRightJumpVideo
                         else
-                            PQCNotify.showVideoControlsContextMenu()
+                            PQCNotify.showVideoControlsContextMenu(true)
                     }
                 }
 

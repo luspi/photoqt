@@ -38,6 +38,7 @@ Item {
     SystemPalette { id: pqtPalette }
 
     Component.onCompleted: {
+        PQCConstants.imageDisplaySize = Qt.size(width, height)
         if(PQCConstants.startupFilePath === "")
             bgmessage_top.opacity = 1
     }
@@ -127,12 +128,64 @@ Item {
         }
     }
 
-    MouseArea {
+    PQMouseArea {
+
+        id: imagemouse
+
         anchors.fill: parent
+        anchors.topMargin: PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration ? 30 : 0
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        onClicked: {
-            PQCScriptsShortcuts.executeInternalCommand("__open")
+        acceptedButtons: Qt.AllButtons
+        doubleClickThreshold: PQCSettings.interfaceDoubleClickThreshold
+
+        property bool holdTrigger: false
+        property point touchPos: Qt.point(-1,-1)
+
+        onPositionChanged: (mouse) => {
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            if(Math.abs(pos.x - touchPos.x) > 20 || Math.abs(pos.y - touchPos.y) > 20)
+                holdTrigger = false
+            PQCNotify.mouseMove(pos.x, pos.y)
+        }
+        onWheel: (wheel) => {
+            wheel.accepted = true
+            PQCNotify.mouseWheel(Qt.point(wheel.x, wheel.y), wheel.angleDelta, wheel.modifiers)
+        }
+        onPressed: (mouse) => {
+            holdTrigger = false
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            touchPos = pos
+            PQCNotify.mousePressed(mouse.modifiers, mouse.button, pos)
+        }
+        onMouseDoubleClicked: (mouse) => {
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            PQCNotify.mouseDoubleClicked(mouse.modifiers, mouse.button, pos)
+        }
+        onReleased: (mouse) => {
+            if(holdTrigger) {
+                holdTrigger = false
+                return
+            }
+
+            // a context menu is open -> don't continue
+            if(PQCConstants.whichContextMenusOpen.length > 0) {
+                PQCNotify.closeAllContextMenus()
+                return
+            }
+
+            if(mouse.button === Qt.LeftButton)
+                PQCScriptsShortcuts.executeInternalCommand("__open")
+            else {
+                var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+                PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
+            }
+        }
+        onPressAndHold: (mouse) => {
+            holdTrigger = true
+            var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
+            if(Math.abs(pos.x - touchPos.x) < 20 && Math.abs(pos.y - touchPos.y) < 20)
+                PQCScriptsShortcuts.executeInternalCommandWithMousePos("__contextMenuTouch", pos)
         }
     }
 

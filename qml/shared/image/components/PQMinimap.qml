@@ -125,7 +125,7 @@ Rectangle {
                 PQCNotify.currentFlickableAnimateContentPosChange(propX,propY)
 
             } else if(mouse.button === Qt.RightButton) {
-                PQCNotify.showMinimapContextMenu()
+                PQCNotify.showMinimapContextMenu(true)
             }
         }
         onWheel: (wheel) => {
@@ -139,44 +139,6 @@ Rectangle {
 
 
     }
-
-    // PQMenu {
-
-    //     id: rightclickmenu
-
-    //     PQMenuItem {
-    //         text: qsTranslate("image", "Small minimap")
-    //         onTriggered:
-    //             PQCSettings.imageviewMinimapSizeLevel = 0
-    //     }
-
-    //     PQMenuItem {
-    //         text: qsTranslate("image", "Normal minimap")
-    //         onTriggered:
-    //             PQCSettings.imageviewMinimapSizeLevel = 1
-    //     }
-
-    //     PQMenuItem {
-    //         text: qsTranslate("image", "Large minimap")
-    //         onTriggered:
-    //             PQCSettings.imageviewMinimapSizeLevel = 2
-    //     }
-
-    //     PQMenuItem {
-    //         text: qsTranslate("image", "Very large minimap")
-    //         onTriggered:
-    //             PQCSettings.imageviewMinimapSizeLevel = 3
-    //     }
-
-    //     PQMenuSeparator {}
-
-    //     PQMenuItem {
-    //         text: qsTranslate("image", "Hide minimap")
-    //         onTriggered:
-    //             PQCSettings.imageviewShowMinimap = false
-    //     }
-
-    // }
 
     Image {
         id: img

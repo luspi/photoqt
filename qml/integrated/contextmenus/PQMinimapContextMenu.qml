@@ -68,8 +68,11 @@ Item {
 
         target: PQCNotify
 
-        function onShowMinimapContextMenu() {
-            rightclickmenu.popup()
+        function onShowMinimapContextMenu(vis : bool) {
+            if(vis)
+                rightclickmenu.popup()
+            else
+                rightclickmenu.dismiss()
         }
 
     }

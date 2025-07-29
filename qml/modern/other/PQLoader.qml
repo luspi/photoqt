@@ -197,7 +197,7 @@ Item {
         if((ele in loadermapping && loadermapping[ele][3] === 1) || PQCExtensionsHandler.getExtensions().indexOf(ele)>-1 || ele === "facetagger") {
 
             // these are the same checks as above when setting this property
-            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) && 
+            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
                     (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                     (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal))) {
 
@@ -216,6 +216,11 @@ Item {
 
         console.log("args: ele =", ele)
         console.log("args: config =", config)
+
+        if(ele === "thumbnails") {
+            loader_thumbnails.active = true
+            return
+        }
 
         if((ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) ||
                 (ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()))
@@ -267,7 +272,7 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"]) 
+            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"])
             PQCNotify.loaderPassOn("showSettings", [subcategory])
         }
 

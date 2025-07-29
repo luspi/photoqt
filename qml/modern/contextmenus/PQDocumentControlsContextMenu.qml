@@ -78,8 +78,11 @@ Item {
 
         target: PQCNotify
 
-        function onShowDocumentControlsContextMenu() {
-            rightclickmenu.popup()
+        function onShowDocumentControlsContextMenu(vis : bool) {
+            if(vis)
+                rightclickmenu.popup()
+            else
+                rightclickmenu.dismiss()
         }
 
     }

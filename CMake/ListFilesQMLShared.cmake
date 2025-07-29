@@ -18,6 +18,8 @@ SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQMinimap.qml ${d}/PQAnimatedI
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQDocumentControls.qml ${d}/PQMotionPhotoControls.qml)
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml)
 
-
 SET(d "qml/shared/other")
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQShortcuts.qml)
+
+SET(d "qml/shared/ongoing")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQThumbnails.qml)

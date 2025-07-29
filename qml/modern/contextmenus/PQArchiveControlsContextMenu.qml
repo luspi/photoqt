@@ -78,8 +78,11 @@ Item {
 
         target: PQCNotify
 
-        function onShowArchiveControlsContextMenu() {
-            rightclickmenu.popup()
+        function onShowArchiveControlsContextMenu(vis : bool) {
+            if(vis)
+                rightclickmenu.popup()
+            else
+                rightclickmenu.dismiss()
         }
 
     }

@@ -72,6 +72,7 @@ Q_SIGNALS:
     void sendShortcutDismissGlobalContextMenu();
 
     void executeInternalCommand(QString cmd);
+    void executeInternalCommandWithMousePos(QString cmd, QPoint pos);
 
     void sendShortcutShowNextImage();
     void sendShortcutShowPrevImage();
