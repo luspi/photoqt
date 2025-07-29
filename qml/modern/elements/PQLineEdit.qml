@@ -84,8 +84,8 @@ Rectangle {
         rightPadding: 5
 
         color: pqtPalette.text
-        selectedTextColor: PQCLook.highlightedText
-        selectionColor: PQCLook.highlight
+        selectedTextColor: pqtPalette.highlightedText
+        selectionColor: pqtPalette.highlight
 
         font.pointSize: PQCLook.fontSize
         font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal

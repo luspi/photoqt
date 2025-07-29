@@ -101,7 +101,7 @@ Rectangle {
             PQCNotify.windowTitleOverride("")
     }
 
-    color: pqtPalette.alternateBase
+    color: pqtPalette.base
 
     signal close()
 

@@ -37,6 +37,7 @@ MenuItem {
     }
 
     SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     property string iconSource: ""
     property bool checkableLikeRadioButton: false
@@ -60,13 +61,12 @@ MenuItem {
             height: 40
             text: control.text
             font: control.font
-            color: control.highlighted ? pqtPalette.base : pqtPalette.text
+            color: control.enabled ? pqtPalette.text : pqtPaletteDisabled.text
+            opacity: control.enabled ? 1 : 0.6
+            Behavior on opacity { NumberAnimation { duration: 200 } }
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignVCenter
             elide: control.elide
-            // style: control.highlighted||!control.enabled ? Text.Sunken : Text.Normal
-            enabled: false
-            styleColor: pqtPalette.text
             Timer {
                 id: increaseWidth
                 running: controltxt.truncated&&control.implicitWidth<400
@@ -90,6 +90,8 @@ MenuItem {
             y: 10
             width: 20
             height: 20
+            opacity: control.enabled ? 1 : 0.6
+            Behavior on opacity { NumberAnimation { duration: 200 } }
             fillMode: Image.Pad
             source: control.iconSource
             sourceSize: Qt.size(width, height)
@@ -107,7 +109,7 @@ MenuItem {
                 height: 10
                 anchors.centerIn: parent
                 visible: control.checked
-                color: pqtPalette.text
+                color: control.enabled ? pqtPalette.text : PQCLook.baseBorder
                 radius: control.checkableLikeRadioButton ? 5 : 2
             }
         }
@@ -132,10 +134,7 @@ MenuItem {
     background: Rectangle {
         implicitWidth: 200
         implicitHeight: 40
-        color: control.highlighted ? pqtPalette.text : pqtPalette.base
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        Behavior on color { ColorAnimation { duration: 200 } }
+        color: control.highlighted ? PQCLook.baseBorder : pqtPalette.base
     }
     MouseArea {
         id: mouseArea

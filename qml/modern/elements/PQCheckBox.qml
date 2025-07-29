@@ -61,7 +61,7 @@ CheckBox {
             height: 10
             anchors.centerIn: parent
             visible: control.checked
-            color: pqtPalette.text
+            color: control.enabled ? pqtPalette.text : PQCLook.baseBorder
             radius: 2
         }
     }

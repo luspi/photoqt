@@ -39,8 +39,7 @@ Rectangle {
     border.color: PQCLook.baseBorder
     border.width: 1
 
-    color: (down ? pqtPalette.text : ((hovered||forceHovered)&&enabled ? pqtPalette.alternateBase : pqtPalette.button))
-    Behavior on color { ColorAnimation { duration: 150 } }
+    color: (down ? PQCLook.baseBorder : ((hovered||forceHovered)&&enabled ? pqtPalette.alternateBase : pqtPalette.button))
 
     property string text: ""
     property alias font: txt.font
@@ -89,8 +88,7 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 200 } }
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        color: control.down ? pqtPalette.button : pqtPalette.text
-        Behavior on color { ColorAnimation { duration: 150 } }
+        color: pqtPalette.text
     }
 
     PQMouseArea {

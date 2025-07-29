@@ -105,7 +105,7 @@ Flickable {
                 "zh_TW" : "Chinese (traditional)"
             }
 
-            property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations() 
+            property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
 
             property list<string> langkeys: Object.keys(languages)
 
@@ -136,7 +136,7 @@ Flickable {
 
                     model: []
 
-                    font.weight: PQCLook.fontWeightBold 
+                    font.weight: PQCLook.fontWeightBold
 
                     onCurrentIndexChanged: setting_top.checkDefault()
 
@@ -145,7 +145,7 @@ Flickable {
                 PQText {
                     width: set_lang.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    visible: PQCSettings.generalCompactSettings 
+                    visible: PQCSettings.generalCompactSettings
                     // font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
                 }
@@ -183,7 +183,7 @@ Flickable {
                 }
                 langcombo.model = m
 
-                var code = PQCSettings.interfaceLanguage 
+                var code = PQCSettings.interfaceLanguage
 
                 var setindex = availableLanguages.indexOf("en")
 
@@ -203,7 +203,7 @@ Flickable {
             function applyChanges() {
 
                 if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
-                    PQCSettings.interfaceLanguage = "en" 
+                    PQCSettings.interfaceLanguage = "en"
                 else
                     PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
                 origIndex = langcombo.currentIndex
@@ -557,7 +557,7 @@ Flickable {
                                         chk_fs.checked = deleg.fullscreenonly
                                         chk_wm.checked = deleg.windowedonly
                                         chk_ot.checked = deleg.alwaysontop
-                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index) 
+                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index)
                                     }
 
                                     Connections {
@@ -572,7 +572,7 @@ Flickable {
                                         interval: 200
                                         onTriggered: {
                                             if(!itemmenu.opened)
-                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index) 
+                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index)
                                         }
                                     }
 
@@ -636,7 +636,7 @@ Flickable {
                                     width: 20
                                     height: 20
 
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                                     sourceSize: Qt.size(width, height)
 
                                     opacity: closemouse.containsMouse ? 0.8 : 0.2
@@ -951,8 +951,8 @@ Flickable {
 
                 PQComboBox {
                     id: accentcolor
-                    property list<string> hexes: PQCLook.getColorHexes() 
-                    property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color")) 
+                    property list<string> hexes: PQCLook.getColorHexes()
+                    property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color"))
                     model: options
                     onCurrentIndexChanged: {
                         setting_top.checkDefault()
@@ -972,7 +972,7 @@ Flickable {
                         width: 200
                         height: 50
                         clip: true
-                        color: PQCSettings.interfaceAccentColor 
+                        color: PQCSettings.interfaceAccentColor
                         border.width: 1
                         border.color: PQCLook.baseBorder
                         Item {
@@ -990,7 +990,7 @@ Flickable {
                                 color: pqtPalette.base
                                 x: 10
                                 y: 5
-                                text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b]) 
+                                text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b])
                             }
                         }
 
@@ -1015,7 +1015,7 @@ Flickable {
                     property string backupcolor: ""
                     smallerVersion: true
                     onClicked: {
-                        backupcolor = PQCSettings.interfaceAccentColor 
+                        backupcolor = PQCSettings.interfaceAccentColor
 
                         if(accentcolor.currentIndex < accentcolor.hexes.length)
                             PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
@@ -1027,7 +1027,7 @@ Flickable {
                     }
 
                     Component.onDestruction: {
-                        if(!testbut.enabled && settingsmanager_top.opacity > 0) { 
+                        if(!testbut.enabled && settingsmanager_top.opacity > 0) {
                             PQCSettings.interfaceAccentColor = testbut.backupcolor
                         }
                     }
@@ -1041,7 +1041,7 @@ Flickable {
                                 testtimer.stop()
                                 testbut.secs = 3
                                 testbut.enabled = true
-                                PQCSettings.interfaceAccentColor = testbut.backupcolor 
+                                PQCSettings.interfaceAccentColor = testbut.backupcolor
                             } else {
                                 testtimer.restart()
                             }
@@ -1055,13 +1055,13 @@ Flickable {
                     PQRadioButton {
                         id: bgaccentusecheck
                         text: qsTranslate("settingsmanager", "use accent color for background")
-                        checked: !PQCSettings.interfaceBackgroundCustomOverlay 
+                        checked: !PQCSettings.interfaceBackgroundCustomOverlay
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: bgcustomusecheck
                         text: qsTranslate("settingsmanager", "use custom color for background")
-                        checked: PQCSettings.interfaceBackgroundCustomOverlay 
+                        checked: PQCSettings.interfaceBackgroundCustomOverlay
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     Rectangle {
@@ -1085,7 +1085,7 @@ Flickable {
                                 id: bgcustomusetxt
                                 x: 10
                                 y: 5
-                                text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b]) 
+                                text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
                             }
                         }
 
@@ -1387,10 +1387,7 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="topleft" ? pqtPalette.button
-                                                                     : mouse_tl.containsMouse ? PQCLook.baseBorder
-                                                                                              : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="topleft"||mouse_tl.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1407,10 +1404,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="top" ? pqtPalette.button
-                                                                 : mouse_t.containsMouse ? PQCLook.baseBorder
-                                                                                         : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="top"||mouse_t.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1427,10 +1421,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="topright" ? pqtPalette.button
-                                                                      : mouse_tr.containsMouse ? PQCLook.baseBorder
-                                                                                               : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="topright"||mouse_tr.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1450,10 +1441,7 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="centerleft" ? pqtPalette.button
-                                                                        : mouse_ml.containsMouse ? PQCLook.baseBorder
-                                                                                                 : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="centerleft"||mouse_ml.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1470,10 +1458,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="center" ? pqtPalette.button
-                                                                    : mouse_m.containsMouse ? PQCLook.baseBorder
-                                                                                            : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="center"||mouse_m.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1490,10 +1475,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="centerright" ? pqtPalette.button
-                                                                         : mouse_mr.containsMouse ? PQCLook.baseBorder
-                                                                                                  : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="centerright"||mouse_mr.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1513,10 +1495,7 @@ Flickable {
                             Row {
                                 spacing: 5
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomleft" ? pqtPalette.button
-                                                                        : mouse_bl.containsMouse ? PQCLook.baseBorder
-                                                                                                 : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="bottomleft"||mouse_bl.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1533,10 +1512,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottom" ? pqtPalette.button
-                                                                    : mouse_b.containsMouse ? PQCLook.baseBorder
-                                                                                            : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="bottom"||mouse_b.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1553,10 +1529,7 @@ Flickable {
                                     }
                                 }
                                 Rectangle {
-                                    color: notif_grid.loc==="bottomright" ? pqtPalette.button
-                                                                         : mouse_br.containsMouse ? PQCLook.baseBorder
-                                                                                                  : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
+                                    color: notif_grid.loc==="bottomright"||mouse_br.containsMouse ? PQCLook.baseBorder : pqtPalette.base
                                     width: 100
                                     height: 50
                                     border.width: 1
@@ -1590,7 +1563,7 @@ Flickable {
 
                 PQCheckBox {
                     id: notif_external
-                    visible: !PQCScriptsConfig.amIOnWindows() 
+                    visible: !PQCScriptsConfig.amIOnWindows()
                     text: qsTranslate("settingsmanager", "try to show native notification")
                     onCheckedChanged:
                         setting_top.checkDefault()
@@ -1695,7 +1668,7 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }

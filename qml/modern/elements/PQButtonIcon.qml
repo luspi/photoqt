@@ -53,7 +53,6 @@ Rectangle {
     property alias contextmenu: menu
 
     color: ((down||checked)&&enabled ? PQCLook.baseBorder : (mouseOver&&enabled ? pqtPalette.alternateBase : overrideBaseColor))
-    Behavior on color { ColorAnimation { duration: 150 } }
 
     signal clicked(var pos)
     signal rightClicked(var pos)
