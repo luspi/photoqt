@@ -138,7 +138,7 @@ void PQCLook::calculateColors(QString name) {
 
             m_iconShade = "light";
 
-            m_pal.setColor(QPalette::AlternateBase, baseCol.darker(75));
+            m_pal.setColor(QPalette::AlternateBase, baseCol.darker(125));
             m_pal.setColor(QPalette::ToolTipBase, baseCol.darker(30));
 
             QColor coltxt(255,255,255);
@@ -149,7 +149,7 @@ void PQCLook::calculateColors(QString name) {
 
             QColor seltxt(0,0,0);
             m_pal.setColor(QPalette::HighlightedText, seltxt);
-            m_pal.setColor(QPalette::Highlight, baseCol.name(QColor::HexArgb));
+            m_pal.setColor(QPalette::Highlight, coltxt);
 
             m_pal.setColor(QPalette::PlaceholderText, coltxt.darker(100));
             m_pal.setColor(QPalette::ToolTipText, coltxt.darker(30));
@@ -163,7 +163,7 @@ void PQCLook::calculateColors(QString name) {
 
             m_iconShade = "dark";
 
-            m_pal.setColor(QPalette::AlternateBase, baseCol.lighter(75));
+            m_pal.setColor(QPalette::AlternateBase, baseCol.lighter(125));
             m_pal.setColor(QPalette::ToolTipBase, baseCol.lighter(30));
 
             QColor coltxt(0,0,0);
@@ -174,7 +174,7 @@ void PQCLook::calculateColors(QString name) {
 
             QColor seltxt(255,255,255);
             m_pal.setColor(QPalette::HighlightedText, seltxt);
-            m_pal.setColor(QPalette::Highlight, baseCol.name(QColor::HexArgb));
+            m_pal.setColor(QPalette::Highlight, coltxt);
 
             m_pal.setColor(QPalette::PlaceholderText, coltxt.lighter(100));
             m_pal.setColor(QPalette::ToolTipText, coltxt.lighter(30));

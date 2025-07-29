@@ -57,8 +57,7 @@ Button {
         text: "  " + control.text + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: control.down ? pqtPalette.button : pqtPalette.text
-        Behavior on color { ColorAnimation { duration: 150 } }
+        color: pqtPalette.text
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
@@ -68,8 +67,7 @@ Button {
         implicitWidth: 100
         implicitHeight: 40
         opacity: enabled ? 1 : 0.3
-        color: (control.down ? pqtPalette.text : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button))
-        Behavior on color { ColorAnimation { duration: 150 } }
+        color: (control.down ? PQCLook.baseBorder : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button))
     }
 
     Rectangle {

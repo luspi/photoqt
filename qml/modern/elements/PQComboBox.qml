@@ -60,9 +60,7 @@ ComboBox {
         contentItem: Text {
             id: contitem
             text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
-            color: highlighted ?
-                       (enabled ? pqtPalette.base : pqtPaletteDisabled.base) :
-                       (enabled ? pqtPalette.text : pqtPaletteDisabled.text)
+            color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
@@ -78,8 +76,7 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: (deleg.highlighted ? pqtPalette.text : (enabled ? PQCLook.baseBorder : pqtPalette.base))
-            Behavior on color { ColorAnimation { duration: 200 } }
+            color: deleg.highlighted ? PQCLook.baseBorder : pqtPalette.base
 
             Rectangle {
                 width: parent.width

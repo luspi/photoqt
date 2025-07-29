@@ -118,11 +118,10 @@ Item {
                             width: categories_top.width
 
                             color: deleg.isSelected ?
-                                       pqtPalette.text :
+                                       PQCLook.baseBorder :
                                        (hovered ?
                                             pqtPalette.alternateBase :
                                             pqtPalette.base)
-                            Behavior on color { ColorAnimation { duration: 200 } }
 
                             opacity: deleg.passingFilter ? 1 : 0.4
                             Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -145,9 +144,9 @@ Item {
                                 height: parent.height-10
                                 verticalAlignment: Text.AlignVCenter
                                 elide: Text.ElideRight
-                                font.weight: PQCLook.fontWeightBold 
+                                font.weight: PQCLook.fontWeightBold
                                 text: categories_top.categories[deleg.cat][0]
-                                color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
+                                color: pqtPalette.text
                                 Behavior on color { ColorAnimation { duration: 100 } }
                             }
 
@@ -159,7 +158,7 @@ Item {
                                 height: width
                                 rotation: (deleg.isSelected||filtertxt.text!=="") ? 90 : 0
                                 Behavior on rotation { NumberAnimation { duration: 200 } }
-                                source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg" 
+                                source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                                 sourceSize: Qt.size(width, height)
                             }
 
@@ -191,7 +190,7 @@ Item {
                                     heading.hovered = false
                                 onClicked: {
 
-                                    if(!settingsmanager_top.confirmIfUnsavedChanged("main", deleg.modelData))   
+                                    if(!settingsmanager_top.confirmIfUnsavedChanged("main", deleg.modelData))
                                         return
 
                                     if(currentMainIndex[0] !== deleg.modelData)
@@ -222,7 +221,7 @@ Item {
 
                                 model: deleg.catitemskeys.length
 
-                                Rectangle {
+                                Item {
 
                                     id: subdeleg
 
@@ -240,11 +239,15 @@ Item {
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     visible: height>0
 
-                                    color: isSelected ?
-                                               pqtPalette.text :
-                                               (hovered ?
-                                                    pqtPalette.alternateBase :
-                                                    pqtPalette.base)
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        opacity: 0.5
+                                        color: subdeleg.isSelected ?
+                                                   PQCLook.baseBorder :
+                                                   (subdeleg.hovered ?
+                                                        pqtPalette.alternateBase :
+                                                        pqtPalette.base)
+                                    }
 
                                     opacity: subdeleg.passingFilter ? 1 : 0.4
                                     Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -267,9 +270,7 @@ Item {
                                         width: parent.width-30
                                         elide: Text.ElideRight
                                         text: subdeleg.curcat
-                                        font.weight: PQCLook.fontWeightBold 
-                                        color: subdeleg.isSelected ? pqtPalette.base : pqtPalette.text
-                                        Behavior on color { ColorAnimation { duration: 100 } }
+                                        font.weight: PQCLook.fontWeightBold
                                     }
 
                                     PQMouseArea {
@@ -292,7 +293,7 @@ Item {
                                             subdeleg.hovered = false
                                         onClicked: {
 
-                                            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", subdeleg.modelData)) 
+                                            if(!settingsmanager_top.confirmIfUnsavedChanged("sub", subdeleg.modelData))
                                                 return
 
                                             if(currentMainIndex[0] !== deleg.modelData)
@@ -348,7 +349,7 @@ Item {
             currentMainIndex = [ind, currentMainIndex[0]]
             var tmp = 0
             if(filterSubCategories.length > 0) {
-                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)   
+                while(filterSubCategories.indexOf(deleg.catitemskeys[tmp]) == -1 && tmp < filterSubCategories.length)
                     tmp += 1
             }
             currentSubIndex = [tmp, currentSubIndex[0]]
@@ -468,7 +469,7 @@ Item {
             if(newmain === currentMainIndex[0] || newmain == categoryKeys.length)
                 return
 
-            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) 
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain))
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]
@@ -518,7 +519,7 @@ Item {
                 }
             }
 
-            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain)) 
+            if(!settingsmanager_top.confirmIfUnsavedChanged("main", newmain))
                 return
 
             currentMainIndex = [newmain, currentMainIndex[1]]

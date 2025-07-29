@@ -54,8 +54,7 @@ Item {
                 property bool hovered: false
                 width: control_top.width
                 height: 48
-                color: active ? pqtPalette.text : (hovered ? pqtPalette.alternateBase : pqtPalette.base)
-                Behavior on color { ColorAnimation { duration: 200 } }
+                color: active ? PQCLook.baseBorder : (hovered ? pqtPalette.alternateBase : pqtPalette.base)
                 border.width: 1
                 border.color: PQCLook.baseBorder
 
@@ -64,8 +63,7 @@ Item {
                     horizontalAlignment: Text.AlignHCenter
                     verticalAlignment: Text.AlignVCenter
                     text: control_top.model[deleg.modelData]
-                    color: deleg.active ? pqtPalette.base : pqtPalette.text
-                    Behavior on color { ColorAnimation { duration: 200 } }
+                    color: pqtPalette.text
                 }
 
                 PQMouseArea {

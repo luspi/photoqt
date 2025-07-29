@@ -30,7 +30,7 @@ Item {
 
     id: places_top
 
-    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height 
+    height: parent.height-fd_breadcrumbs.height-fd_tweaks.height
 
     clip: true
 
@@ -46,7 +46,7 @@ Item {
     property list<int> hoverIndex: [-1,-1,-1]
     property list<int> pressedIndex: [-1,-1,-1]
 
-    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight 
+    property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
 
     property bool showHiddenPlaces: false
 
@@ -74,7 +74,7 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: (mouse) => {
-            fd_breadcrumbs.disableAddressEdit() 
+            fd_breadcrumbs.disableAddressEdit()
             if(mouse.button === Qt.LeftButton)
                 return
             contextmenu.currentEntryId = ""
@@ -105,7 +105,7 @@ Item {
         height: parent.height - (view_devices.visible ? (view_devices.height+10) : 0) - fd_tweaks.zoomMoveUpHeight
 
         clip: true
-        visible: PQCSettings.filedialogPlaces 
+        visible: PQCSettings.filedialogPlaces
         orientation: ListView.Vertical
         model: places_top.entries_favorites
 
@@ -120,7 +120,7 @@ Item {
 
             onDropped: {
 
-                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) 
+                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering)
                     return
 
                 // find the index on which it was dropped
@@ -162,7 +162,7 @@ Item {
 
             onPositionChanged: {
 
-                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering) 
+                if(!PQCScriptsFilesPaths.isFolder(places_top.dragItemId) && !places_top.dragReordering)
                     return
 
                 var ind = view_favorites.indexAt(droparea.drag.x, droparea.drag.y)
@@ -195,7 +195,7 @@ Item {
         y: view_favorites.visible ? (parent.height-height-fd_tweaks.zoomMoveUpHeight) : 5
         width: parent.width-10
         height: Math.min(300, childrenRect.height)
-        visible: PQCSettings.filedialogDevices 
+        visible: PQCSettings.filedialogDevices
         clip: true
         orientation: ListView.Vertical
         model: places_top.entries_devices
@@ -223,13 +223,15 @@ Item {
             opacity: (hidden==="false") ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
-            property int part: mouseArea.drag.active ? 1 : parent.parent.part 
+            property int part: mouseArea.drag.active ? 1 : parent.parent.part
 
-            property bool currentContextMenu: (contextmenu.opened&&contextmenu.currentEntryId===deleg.id)
-            color: places_top.hoverIndex[part]===index||mouseArea.drag.active||currentContextMenu
-                        ? (places_top.pressedIndex[part]===index||mouseArea.drag.active||currentContextMenu ? pqtPalette.text : pqtPalette.alternateBase)
+            property bool currentContextMenu: contextmenu.requestedOpened && contextmenu.currentEntryId===deleg.id
+            color: markHovered||markDown
+                        ? (markDown ? PQCLook.baseBorder : pqtPalette.alternateBase)
                         : (path===PQCFileFolderModel.folderFileDialog ? pqtPalette.alternateBase : pqtPalette.base)
-            Behavior on color { ColorAnimation { duration: 200 } }
+
+            property bool markHovered: places_top.hoverIndex[part]===index||mouseArea.drag.active||currentContextMenu
+            property bool markDown: places_top.pressedIndex[part]===index||mouseArea.drag.active||currentContextMenu
 
             Row {
 
@@ -281,14 +283,11 @@ Item {
 
                         enabled: deleg.index>0
 
-                        color: places_top.pressedIndex[deleg.part]===deleg.index||mouseArea.drag.active||deleg.currentContextMenu ? pqtPalette.base : pqtPalette.text
-                        Behavior on color { ColorAnimation { duration: 200 } }
-
                         // some styling
                         elide: Text.ElideRight
-                        font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
+                        font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
-                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder) 
+                        text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
 
                     }
 
@@ -302,7 +301,7 @@ Item {
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: deleg.id + " GB" 
+                        text: deleg.id + " GB"
 
                     }
 
@@ -323,11 +322,11 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: deleg.index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltipReference: fd_splitview 
-                text: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : "")) 
+                tooltipReference: fd_splitview
+                text: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : ""))
 
                 onPressed: {
-                    fd_breadcrumbs.disableAddressEdit() 
+                    fd_breadcrumbs.disableAddressEdit()
                     places_top.pressedIndex[deleg.part] = deleg.index
                     places_top.pressedIndexChanged()
                 }
@@ -339,7 +338,7 @@ Item {
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
 
-                    fd_breadcrumbs.disableAddressEdit() 
+                    fd_breadcrumbs.disableAddressEdit()
 
                     if(deleg.index == 0)
                         return
@@ -369,7 +368,7 @@ Item {
                 }
 
 
-                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined 
+                drag.target: (deleg.part==1&&PQCSettings.filedialogDragDropPlaces&&deleg.index>0) ? deleg : undefined
                 drag.axis: Drag.YAxis
 
                 // if drag is started
@@ -421,6 +420,8 @@ Item {
         property string currentEntryHidden: ""
         property string currentEntryId: ""
 
+        property bool requestedOpened: false
+
         PQMenuItem {
             id: entry1
             visible: contextmenu.currentEntryId!==""
@@ -434,7 +435,7 @@ Item {
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false") 
+                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false")
                 places_top.loadPlaces()
             }
         }
@@ -452,7 +453,7 @@ Item {
                 }
             ]
             onTriggered: {
-                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId) 
+                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId)
                 places_top.loadPlaces()
             }
         }
@@ -486,20 +487,29 @@ Item {
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places"))) 
+            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places")))
             onTriggered:
-                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces 
+                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces
         }
 
         PQMenuItem {
-            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices"))) 
+            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
             onTriggered:
-                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices 
+                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
         }
+
+        onAboutToShow: {
+            requestedOpened = true
+        }
+
+        onAboutToHide: {
+            requestedOpened = false
+        }
+
     }
 
     Connections {
-        target: PQCSettings 
+        target: PQCSettings
         function onFiledialogDevicesShowTmpfsChanged() {
             places_top.loadDevices()
         }
@@ -517,7 +527,7 @@ Item {
 
     function loadDevices() {
 
-        var s = PQCScriptsFileDialog.getDevices() 
+        var s = PQCScriptsFileDialog.getDevices()
 
         entries_devices = []
 
@@ -546,7 +556,7 @@ Item {
 
     function loadPlaces() {
 
-        var upl = PQCScriptsFileDialog.getPlaces() 
+        var upl = PQCScriptsFileDialog.getPlaces()
 
         entries_favorites = []
 

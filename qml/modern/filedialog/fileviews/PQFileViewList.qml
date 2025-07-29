@@ -94,9 +94,9 @@ ListView {
 
                                      // this check is necessary as some data might be available quicker than other. This avoid errant warnings.
         property string currentPath: modelData < PQCFileFolderModel.entriesFileDialog.length ? PQCFileFolderModel.entriesFileDialog[modelData] : ""
-        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) 
+        property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
         property int numberFilesInsideFolder: 0
-        property int padding: PQCSettings.filedialogElementPadding 
+        property int padding: PQCSettings.filedialogElementPadding
         property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
@@ -107,7 +107,7 @@ ListView {
 
         color: pqtPalette.base
         border.width: 1
-        border.color: PQCLook.baseBorder
+        border.color: pqtPalette.alternateBase
 
         Rectangle {
             anchors.fill: parent
@@ -227,19 +227,19 @@ ListView {
 
         // load async for files
         Timer {
-            running: !deleg.isFolder 
+            running: !deleg.isFolder
             interval: 1
             onTriggered: {
-                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) 
+                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath)
             }
         }
 
         // load async for folders
         Timer {
-            running: deleg.isFolder 
+            running: deleg.isFolder
             interval: 1
             onTriggered: {
-                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { 
+                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) {
                     if(count > 0) {
                         deleg.numberFilesInsideFolder = count
                         fileinfo.text = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
@@ -263,12 +263,12 @@ ListView {
             hoverEnabled: true
             cursorShape: drag.active ? Qt.ClosedHandCursor : Qt.OpenHandCursor
 
-            drag.target: PQCSettings.filedialogDragDropFileviewList ? dragHandler : undefined 
+            drag.target: PQCSettings.filedialogDragDropFileviewList ? dragHandler : undefined
 
             drag.onActiveChanged: {
                 if(drag.active) {
                     // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                    fd_places.dragItemIndex = deleg.modelData 
+                    fd_places.dragItemIndex = deleg.modelData
                     fd_places.dragReordering = false
                     fd_places.dragItemId = deleg.currentPath
                 }
@@ -294,7 +294,7 @@ ListView {
             }
 
             onEntered: {
-                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) 
+                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
                     return
 
                 if(!contextmenu.visible) {
@@ -331,7 +331,7 @@ ListView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview 
+            tooltipReference: fd_splitview
 
             Connections {
                 target: contextmenu
@@ -393,7 +393,7 @@ ListView {
 
             Image {
                 anchors.fill: parent
-                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) 
+                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
                 Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -427,7 +427,7 @@ ListView {
             } else {
                 var uris = []
                 for(var i in view_top.currentSelection)
-                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) 
+                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]]))
                 return ({"text/uri-list": uris})
             }
         }
