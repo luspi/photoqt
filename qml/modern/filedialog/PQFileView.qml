@@ -140,7 +140,7 @@ Item {
                                      isFolder : bool, numberFilesInsideFolder : int, currentFolderThumbNum : int) : string {
 
 
-        if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible) 
+        if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
             return ""
 
         var ret = ""
@@ -239,7 +239,7 @@ Item {
     function handleEntriesMouseClick(index : int, currentPath : string, isFolder : bool,
                                      mouseModifiers : int, mouseButton : int) {
 
-        fd_breadcrumbs.disableAddressEdit() 
+        fd_breadcrumbs.disableAddressEdit()
 
         if(!contextmenu.visible)
             view_top.currentIndex = index
@@ -353,7 +353,7 @@ Item {
     // we need to do all the below as otherwise loading a folder with the same number of items as the previous one would not reload the model
     Connections {
 
-        target: PQCFileFolderModel 
+        target: PQCFileFolderModel
 
         function onNewDataLoadedFileDialog() {
 
@@ -397,7 +397,7 @@ Item {
 
         getCurrentViewId().model = 0
 
-        view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog) 
+        view_top.currentFolderExcluded = PQCScriptsFilesPaths.isExcludeDirFromCaching(PQCFileFolderModel.folderFileDialog)
         view_top.currentFolderOnNetwork = PQCScriptsFilesPaths.isOnNetwork(PQCFileFolderModel.folderFileDialog)
 
         getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
@@ -409,14 +409,14 @@ Item {
     }
 
     Component.onCompleted: {
-        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog 
+        getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
     }
 
     Connections {
-        target: PQCImageFormats 
+        target: PQCImageFormats
         function onFormatsUpdated() {
             view_top.getCurrentViewId().model = 0
-            PQCFileFolderModel.forceReloadFileDialog() 
+            PQCFileFolderModel.forceReloadFileDialog()
             view_top.getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
         }
     }
@@ -466,7 +466,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         enabled: false
-        visible: PQCFileFolderModel.countAllFileDialog===0 
+        visible: PQCFileFolderModel.countAllFileDialog===0
         text: qsTranslate("filedialog", "no supported files/folders found")
     }
 
@@ -489,10 +489,10 @@ Item {
         onClicked: (mouse) => {
 
             if(mouse.button === Qt.BackButton) {
-                filedialog_top.goBackInHistory() 
+                filedialog_top.goBackInHistory()
                 return
             } else if(mouse.button === Qt.ForwardButton) {
-                filedialog_top.goForwardsInHistory() 
+                filedialog_top.goForwardsInHistory()
                 return
             }
 
@@ -514,7 +514,7 @@ Item {
             enableAnyways = false
         }
         onPositionChanged: {
-            if(fd_breadcrumbs.topSettingsMenu.visible) 
+            if(fd_breadcrumbs.topSettingsMenu.visible)
                 return
 
             var ind = getCurrentViewId().indexAt(mouseX, getCurrentViewId().contentY+mouseY)
@@ -570,7 +570,7 @@ Item {
             y: 5
 
             verticalAlignment: Text.AlignVCenter
-            font.weight: PQCLook.fontWeightBold 
+            font.weight: PQCLook.fontWeightBold
 
             text: ""
 
@@ -613,7 +613,7 @@ Item {
                 isFolder = false
                 isFile = false
             } else {
-                isFolder = PQCScriptsFilesPaths.isFolder(path) 
+                isFolder = PQCScriptsFilesPaths.isFolder(path)
                 isFile = !isFolder
             }
         }
@@ -627,9 +627,9 @@ Item {
         }
 
         Connections {
-            target: filedialog_top 
+            target: filedialog_top
             function onOpacityChanged() {
-                if(filedialog_top.opacity<1) 
+                if(filedialog_top.opacity<1)
                     contextmenu.close()
             }
         }
@@ -639,7 +639,7 @@ Item {
             visible: contextmenu.isFile
             text: qsTranslate("thumbnails","Reload thumbnail")
             onTriggered: {
-                PQCScriptsImages.removeThumbnailFor(contextmenu.path) 
+                PQCScriptsImages.removeThumbnailFor(contextmenu.path)
                 view_top.refreshCurrentThumbnail()
             }
         }
@@ -649,16 +649,16 @@ Item {
             visible: contextmenu.isFolder
             text: qsTranslate("filedialog", "Open this folder")
             onTriggered: {
-                filedialog_top.loadNewPath(contextmenu.path) 
+                filedialog_top.loadNewPath(contextmenu.path)
             }
         }
         PQMenuItem {
             implicitHeight: visible ? 40 : 0
             visible: (view_top.currentSelection.length===1 && view_top.currentFileSelected) || !view_top.currentFileSelected
-            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled() 
+            enabled: contextmenu.isFolder && PQCScriptsConfig.isPugixmlSupportEnabled()
             text: qsTranslate("filedialog", "Add to Favorites")
             onTriggered: {
-                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length) 
+                PQCScriptsFileDialog.addPlacesEntry(contextmenu.path, fd_places.entries_favorites.length)
                 fd_places.loadPlaces()
             }
         }
@@ -669,7 +669,7 @@ Item {
             enabled: contextmenu.isFile || contextmenu.isFolder
             text: (contextmenu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))
             onTriggered: {
-                PQCFileFolderModel.extraFoldersToLoad = [] 
+                PQCFileFolderModel.extraFoldersToLoad = []
                 PQCFileFolderModel.fileInFolderMainView = contextmenu.path
                 filedialog_top.hideFileDialog()
             }
@@ -690,7 +690,7 @@ Item {
                     var havefolder = false
                     var havefile = false
                     for(var i in view_top.currentSelection) {
-                        var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] 
+                        var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]]
                         if(PQCScriptsFilesPaths.isFolder(cur)) {
                             havefolder = true
                         } else {
@@ -709,7 +709,7 @@ Item {
                 var allfiles = []
                 var allfolders = []
                 for(var i in view_top.currentSelection) {
-                    var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]] 
+                    var cur = PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]]
                     if(PQCScriptsFilesPaths.isFolder(cur))
                         allfolders.push(cur)
                     else
@@ -753,9 +753,9 @@ Item {
         PQMenuSeparator { }
         PQMenuItem {
             implicitHeight: visible ? 40 : 0
-            visible: !PQCScriptsConfig.amIOnWindows() 
+            visible: !PQCScriptsConfig.amIOnWindows()
             enabled: visible && (contextmenu.isFile || contextmenu.isFolder || view_top.currentSelection.length)
-            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal 
+            font.weight: contextmenu.shiftPressed ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
             text: (view_top.currentFileSelected || (!contextmenu.isFile && !contextmenu.isFolder && view_top.currentSelection.length))
                         ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete selection permanently") : qsTranslate("filedialog", "Delete selection"))
                         : (contextmenu.isFile ? (contextmenu.shiftPressed ? qsTranslate("filedialog", "Delete file permanently") : qsTranslate("filedialog", "Delete file"))
@@ -791,12 +791,12 @@ Item {
                 view_top.pasteFiles()
 
             Component.onCompleted: {
-                enabled = PQCScriptsClipboard.areFilesInClipboard() 
+                enabled = PQCScriptsClipboard.areFilesInClipboard()
             }
             Connections {
-                target: PQCScriptsClipboard 
+                target: PQCScriptsClipboard
                 function onClipboardUpdated() {
-                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard() 
+                    menuitem_paste.enabled = PQCScriptsClipboard.areFilesInClipboard()
                 }
             }
         }
@@ -805,19 +805,19 @@ Item {
 
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogShowHiddenFilesFolders 
+            checked: PQCSettings.filedialogShowHiddenFilesFolders
             text: qsTranslate("filedialog", "Show hidden files")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogShowHiddenFilesFolders = checked 
+                PQCSettings.filedialogShowHiddenFilesFolders = checked
         }
         PQMenuItem {
             checkable: true
-            checked: PQCSettings.filedialogDetailsTooltip 
+            checked: PQCSettings.filedialogDetailsTooltip
             text: qsTranslate("filedialog", "Show tooltip with image details")
             keepOpenWhenCheckedChanges: false
             onTriggered:
-                PQCSettings.filedialogDetailsTooltip = checked 
+                PQCSettings.filedialogDetailsTooltip = checked
         }
 
         onAboutToHide: {
@@ -843,7 +843,7 @@ Item {
 
         target: PQCNotify
 
-        enabled: (filedialog_top.opacity > 0) 
+        enabled: (filedialog_top.opacity > 0)
 
         function onKeyRelease(key: int, modifiers: int) {
             if(key < 16770000 || modifiers !== Qt.ShiftModifier)
@@ -855,7 +855,7 @@ Item {
     // this has been pulled out of the delegate to allow clicks at startup without moving the mouse to be handled
     function loadOnClick(index : int) {
 
-        if(index < PQCFileFolderModel.countFoldersFileDialog) 
+        if(index < PQCFileFolderModel.countFoldersFileDialog)
             filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[index])
         else {
             PQCFileFolderModel.extraFoldersToLoad = []
@@ -913,7 +913,7 @@ Item {
 
         currentSelection = []
 
-        var lst = PQCScriptsClipboard.getListOfFilesInClipboard() 
+        var lst = PQCScriptsClipboard.getListOfFilesInClipboard()
 
         var nonexisting = []
         var existing = []
@@ -947,7 +947,7 @@ Item {
 
     function deleteFiles() {
 
-        modal.button2.visible = true 
+        modal.button2.visible = true
 
         if(contextmenu.shiftPressed) {
 
@@ -993,7 +993,7 @@ Item {
         if(key === Qt.Key_Up) {
 
             if(modifiers & Qt.AltModifier || modifiers & Qt.ControlModifier)
-                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog)) 
+                filedialog_top.loadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
             else
                 getCurrentViewId().goUpARow()
 
