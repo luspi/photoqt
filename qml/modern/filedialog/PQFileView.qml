@@ -1065,6 +1065,9 @@ Item {
 
         } else if(key === Qt.Key_Enter || key === Qt.Key_Return) {
 
+            // nothing selected yet
+            if(view_top.currentIndex == -1) return
+
             if(view_top.currentIndex < PQCFileFolderModel.countFoldersFileDialog)
                 filedialog_top.loadNewPath(PQCFileFolderModel.entriesFileDialog[view_top.currentIndex])
             else {
