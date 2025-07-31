@@ -367,6 +367,7 @@ Rectangle {
     }
 
     function showFileDialog() {
+
         isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
 
         // check that the correct folder is loaded
@@ -375,6 +376,9 @@ Rectangle {
             if(PQCFileFolderModel.folderFileDialog !== mv_folder)
                 loadNewPath(mv_folder)
         }
+
+        if(PQCFileFolderModel.currentFile !== "")
+            fd_fileview.setCurrentIndexToCurrentFile()
 
         opacity = 1
         if(popoutWindowUsed)
@@ -393,6 +397,9 @@ Rectangle {
             modal.hide()
             return
         }
+
+        // it is possible that some element (slider/...) had key focus -> reset that
+        filedialog_top.forceActiveFocus()
 
         fd_breadcrumbs.disableAddressEdit()
         opacity = 0
