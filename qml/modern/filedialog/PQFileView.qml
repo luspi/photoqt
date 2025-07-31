@@ -865,6 +865,12 @@ Item {
 
     }
 
+    function setCurrentIndexToCurrentFile() {
+
+        view_top.currentIndex = PQCFileFolderModel.entriesFileDialog.indexOf(PQCFileFolderModel.currentFile)
+
+    }
+
     // this has been pulled out of the delegate to allow clicks at startup without moving the mouse to be handled
     function loadOnClick(index : int) {
 

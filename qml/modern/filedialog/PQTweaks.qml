@@ -88,6 +88,7 @@ Item {
                     var newval = Math.round(value)
                     if(newval !== PQCSettings.filedialogZoom) 
                         PQCSettings.filedialogZoom = newval
+                    tweaks_top.forceActiveFocus()
                 }
 
                 Connections {
@@ -235,6 +236,10 @@ Item {
                         currentIndex = 3
                     else if(sortby === "type")
                         currentIndex = 4
+                }
+
+                popup.onClosed: {
+                    tweaks_top.forceActiveFocus()
                 }
 
             }
