@@ -1164,6 +1164,10 @@ Item {
 
             PQCSettings.filedialogLayout = "masonry"
 
+        } else if(key === Qt.Key_Q && modifiers & Qt.ControlModifier) {
+
+            PQCNotify.photoQtQuit()
+
         } else if(key > 16770000 && modifiers === Qt.ShiftModifier) {
 
             contextmenu.shiftPressed = true
