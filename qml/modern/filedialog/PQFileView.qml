@@ -389,8 +389,19 @@ Item {
                 view_top.currentSelection = []
 
         } else
-
             view_top.currentSelection = []
+
+        // we check if we just went up a level
+        // in that case we find the index of the previous child folder and set it as the currentIndex below
+        var setCurrentIndexTo = 0
+        if(view_top.storeCurrentFolderName !== "" &&
+                PQCFileFolderModel.folderFileDialog !== "" &&
+                view_top.storeCurrentFolderName !== PQCFileFolderModel.folderFileDialog &&
+                view_top.storeCurrentFolderName.indexOf(PQCFileFolderModel.folderFileDialog) === 0) {
+
+            setCurrentIndexTo = PQCFileFolderModel.entriesFileDialog.indexOf(view_top.storeCurrentFolderName)
+
+        }
 
         // store new folder name
         view_top.storeCurrentFolderName = PQCFileFolderModel.folderFileDialog
@@ -402,9 +413,11 @@ Item {
 
         getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
 
-        // to have no item pre-selected when a new folder is loaded we need to set the currentIndex to -1 AFTER the model is set
-        // (re-)setting the model will always reset the currentIndex to 0
-        view_top.currentIndex = -1
+        // We set the currentIndex AFTER the model was loaded so that it doesn't mess with this property
+        // By default we pre-select the first entry in the list.
+        // BUT: if we just went up a folder level we set the currentIndex to the index of the child folder
+        // That way it is quick and easy to go back to where we came from without having to do much
+        view_top.currentIndex = setCurrentIndexTo
 
     }
 
