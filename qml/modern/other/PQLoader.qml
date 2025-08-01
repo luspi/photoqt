@@ -226,11 +226,15 @@ Item {
                 (ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()))
             return
 
+        var uicat = "Modern"
+        if(ele === "filedialog")
+            uicat = "Shared"
+
         var src
         if(config[4] || config[5])
-            src = "qrc:/qt/qml/PhotoQt/Modern/qml/modern/" + config[0] + "/popout/" + config[1] + "Popout.qml"
+            src = "qrc:/qt/qml/PhotoQt/" + uicat + "/qml/" + uicat.toLowerCase() + "/" + config[0] + "/popout/" + config[1] + "Popout.qml"
         else
-            src = "qrc:/qt/qml/PhotoQt/Modern/qml/modern/" + config[0] + "/" + config[1] + ".qml"
+            src = "qrc:/qt/qml/PhotoQt/" + uicat + "/qml/" + uicat.toLowerCase() + "/" + config[0] + "/" + config[1] + ".qml"
 
         if(src !== config[2].source)
             config[2].source = src

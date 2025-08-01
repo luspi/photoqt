@@ -66,7 +66,6 @@ Row {
                 clip: true
                 source: "image://svg/:/" + PQCLook.iconShade + "/help.svg"
                 tooltip: setctrl.helptext
-                tooltipPartialTransparency: false
                 visible: width>0
                 onClicked: {
                     settinginfomessage.show(setctrl.helptext)

@@ -92,12 +92,12 @@ Rectangle {
         State {
             name: "bottom"
             PropertyChanges {
-                thumbnails_top.visiblePos: [0,PQCConstants.imageDisplaySize.height-thumbnails_top.height]
-                thumbnails_top.invisiblePos: [0, PQCConstants.imageDisplaySize.height]
-                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.imageDisplaySize.height-thumbnails_top.hotAreaSize, PQCConstants.imageDisplaySize.width, thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.imageDisplaySize.width
+                thumbnails_top.visiblePos: [0,PQCConstants.windowHeight-thumbnails_top.height]
+                thumbnails_top.invisiblePos: [0, PQCConstants.windowHeight]
+                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.windowHeight-thumbnails_top.hotAreaSize, PQCConstants.windowWidth, thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.windowWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.height>500
+                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
             }
         },
         State {
@@ -105,21 +105,21 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
-                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.imageDisplaySize.height)
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.imageDisplaySize.height
-                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.width>500
+                thumbnails_top.height: PQCConstants.windowHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                thumbnails_top.visiblePos: [PQCConstants.imageDisplaySize.width-thumbnails_top.width,0]
-                thumbnails_top.invisiblePos: [PQCConstants.imageDisplaySize.width,0]
-                thumbnails_top.hotArea: Qt.rect(PQCConstants.imageDisplaySize.width-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.imageDisplaySize.height)
+                thumbnails_top.visiblePos: [PQCConstants.windowWidth-thumbnails_top.width,0]
+                thumbnails_top.invisiblePos: [PQCConstants.windowWidth,0]
+                thumbnails_top.hotArea: Qt.rect(PQCConstants.windowWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.imageDisplaySize.height
-                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.width>500
+                thumbnails_top.height: PQCConstants.windowHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
             }
         },
         State {
@@ -127,10 +127,10 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
-                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.imageDisplaySize.width,thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.imageDisplaySize.width
+                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.windowWidth,thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.windowWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.imageDisplaySize.height>500
+                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
             }
         },
         State {

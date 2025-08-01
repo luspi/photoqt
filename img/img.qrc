@@ -203,5 +203,7 @@
         <file>light/mirrorver.svg</file>
         <file>dark/mirrorhor.svg</file>
         <file>dark/mirrorver.svg</file>
+        <file>light/select.svg</file>
+        <file>dark/select.svg</file>
     </qresource>
 </RCC>

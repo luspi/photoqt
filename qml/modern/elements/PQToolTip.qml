@@ -34,8 +34,7 @@ ToolTip {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    property bool partialTransparency: false
-    property bool enforceWidthLimit: true
+    property bool enforceWidthLimit: false
     property int pw: 0
 
     SystemPalette { id: pqtPalette }
@@ -64,7 +63,6 @@ ToolTip {
 
     background: Rectangle {
         color: pqtPalette.base
-        opacity: control.partialTransparency ? 0.8 : 1
         border.color: PQCLook.baseBorder
     }
 

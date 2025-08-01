@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 GridView {
@@ -35,10 +34,13 @@ GridView {
 
     property int baseSize: 50 + PQCSettings.filedialogZoom*3
 
+    property bool ignoreMouseEvents: false
+    interactive: !ignoreMouseEvents
+
     cellWidth: width / Math.floor(width / baseSize)
     cellHeight: baseSize
 
-    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
 
     SystemPalette { id: pqtPalette }
 
@@ -104,7 +106,7 @@ GridView {
         property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
         property bool isHovered: gridview.currentIndex===deleg.modelData
-        property bool isSelected: view_top.currentSelection.indexOf(deleg.modelData)>-1
+        property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)>-1
 
         visible: currentPath!=""
 
@@ -212,10 +214,10 @@ GridView {
                     color: deleg.isSelected ? pqtPalette.text : (deleg.isHovered ? pqtPalette.alternateBase : pqtPalette.base)
                     Behavior on color { ColorAnimation { duration: 200 } }
                     border.width: 1
-                    border.color: PQCLook.baseBorder
+                    border.color: pqtPalette.button
                 }
 
-                PQText {
+                Label {
                     id: filename
                     anchors.fill: parent
                     anchors.margins: 5
@@ -224,6 +226,7 @@ GridView {
                     maximumLineCount: 2
                     elide: Text.ElideMiddle
                     text: deleg.currentFile
+                    font.pointSize: PQCLook.fontSize
                     color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
                     Behavior on color { ColorAnimation { duration: 200 } }
                 }
@@ -263,11 +266,12 @@ GridView {
             opacity: 0.8
             visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
-            PQText {
+            Label {
                 id: numberOfFilesInsideFolder
                 x: 10
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
+                font.pointSize: PQCLook.fontSize
                 elide: Text.ElideMiddle
                 text: deleg.numberFilesInsideFolder
             }
@@ -285,11 +289,12 @@ GridView {
             opacity: 0.6
             visible: folderthumb.curnum>0 && folderthumb.visible
 
-            PQTextS {
+            Label {
                 id: numberThumbInsideFolder
                 x: 5
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
+                font.pointSize: PQCLook.fontSizeS
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum
             }
@@ -324,7 +329,7 @@ GridView {
         /************************************************************/
 
         // mouse area handling general mouse events
-        PQMouseArea {
+        PQGenericMouseArea {
 
             id: gridmousearea
 
@@ -333,12 +338,10 @@ GridView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview
-
             Connections {
-                target: contextmenu
-                function onVisibleChanged() {
-                    if(contextmenu.visible)
+                target: PQCConstants
+                function onWhichContextMenusOpenChanged() {
+                    if(PQCConstants.isContextmenuOpen("fileviewentry"))
                         gridmousearea.closeTooltip()
                 }
             }
@@ -364,20 +367,20 @@ GridView {
 
             onPressed: {
 
-                if(!contextmenu.visible)
+                if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                // else
+                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
-                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? view_top.currentSelection.length : 1)
+                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
             }
 
             onEntered: {
 
-                text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
+                tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
                                         deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
 
             }
@@ -419,7 +422,7 @@ GridView {
             radius: 5
 
             color: "#bbbbbb"
-            opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
+            opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                             ? 0.8
                             : (view_top.currentIndex===deleg.modelData
                                     ? 0.8 : 0)
@@ -427,11 +430,11 @@ GridView {
 
             Image {
                 anchors.fill: parent
-                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
+                source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                PQMouseArea {
+                MouseArea {
                     id: selectmouse
                     anchors.fill: parent
                     hoverEnabled: true
@@ -439,11 +442,11 @@ GridView {
                     onClicked: {
                         if(!view_top.currentFileSelected) {
                             view_top.shiftClickIndexStart = deleg.modelData
-                            view_top.currentSelection.push(deleg.modelData)
-                            view_top.currentSelectionChanged()
+                            PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
+                            PQCConstants.filedialogCurrentSelectionChanged()
                         } else {
                             view_top.shiftClickIndexStart = -1
-                            view_top.currentSelection = view_top.currentSelection.filter(item => item!==deleg.modelData)
+                            PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                         }
                     }
                     onEntered: {
@@ -460,8 +463,8 @@ GridView {
                 return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
             } else {
                 var uris = []
-                for(var i in view_top.currentSelection)
-                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]]))
+                for(var i in PQCConstants.filedialogCurrentSelection)
+                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[PQCConstants.filedialogCurrentSelection[i]]))
                 return ({"text/uri-list": uris})
             }
         }

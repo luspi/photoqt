@@ -55,6 +55,7 @@ public:
         m_windowWidth = 0;
         m_windowHeight = 0;
         m_menuBarHeight = 0;
+        m_footerHeight = 0;
         m_mainWindowBeingResized = false;
         m_windowState = Qt::WindowNoState;
         m_windowFullScreen = false;
@@ -66,6 +67,7 @@ public:
         m_ignoreFileFolderChangesTemporary = false;
         m_statusinfoIsVisible = true;
         m_imageDisplaySize = QSize(0,0);
+        m_shiftKeyPressed = false;
 
         m_slideshowRunning = false;
         m_slideshowRunningAndPlaying = false;
@@ -108,6 +110,14 @@ public:
         m_thumbnailsMenuReloadIndex = -1;
         m_metadataOpacity = 0;
         m_mainmenuOpacity = 0;
+
+        m_filedialogCurrentSelection.clear();
+        m_filedialogCurrentIndex = -1;
+        m_filedialogPlacesCurrentEntryId = "";
+        m_filedialogPlacesCurrentEntryHidden = "false";
+        m_filedialogPlacesShowHidden = false;
+        m_filedialogHistory.clear();
+        m_filedialogHistoryIndex = 0;
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoPosition = 0;
@@ -199,6 +209,7 @@ public:
     Q_PROPERTY(bool touchGestureActive MEMBER m_touchGestureActive NOTIFY touchGestureActiveChanged)
     Q_PROPERTY(QString lastExecutedShortcutCommand MEMBER m_lastExecutedShortcutCommand NOTIFY lastExecutedShortcutCommandChanged)
     Q_PROPERTY(bool ignoreFileFolderChangesTemporary MEMBER m_ignoreFileFolderChangesTemporary NOTIFY ignoreFileFolderChangesTemporaryChanged)
+    Q_PROPERTY(bool shiftKeyPressed MEMBER m_shiftKeyPressed NOTIFY shiftKeyPressedChanged)
 
     /******************************************************/
     // some window properties
@@ -206,6 +217,7 @@ public:
     Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
     Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
     Q_PROPERTY(int menuBarHeight MEMBER m_menuBarHeight NOTIFY menuBarHeightChanged)
+    Q_PROPERTY(int footerHeight MEMBER m_footerHeight NOTIFY footerHeightChanged)
     Q_PROPERTY(bool mainWindowBeingResized MEMBER m_mainWindowBeingResized NOTIFY mainWindowBeingResizedChanged)
     Q_PROPERTY(int windowState MEMBER m_windowState NOTIFY windowStateChanged)
     Q_PROPERTY(bool windowFullScreen MEMBER m_windowFullScreen NOTIFY windowFullScreenChanged)
@@ -229,6 +241,13 @@ public:
     Q_PROPERTY(int thumbnailsMenuReloadIndex MEMBER m_thumbnailsMenuReloadIndex NOTIFY thumbnailsMenuReloadIndexChanged)
     Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
+    Q_PROPERTY(QStringList filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
+    Q_PROPERTY(int filedialogCurrentIndex MEMBER m_filedialogCurrentIndex NOTIFY filedialogCurrentIndexChanged)
+    Q_PROPERTY(QString filedialogPlacesCurrentEntryId MEMBER m_filedialogPlacesCurrentEntryId NOTIFY filedialogPlacesCurrentEntryIdChanged)
+    Q_PROPERTY(QString filedialogPlacesCurrentEntryHidden MEMBER m_filedialogPlacesCurrentEntryHidden NOTIFY filedialogPlacesCurrentEntryHiddenChanged)
+    Q_PROPERTY(bool filedialogPlacesShowHidden MEMBER m_filedialogPlacesShowHidden NOTIFY filedialogPlacesShowHiddenChanged)
+    Q_PROPERTY(QStringList filedialogHistory MEMBER m_filedialogHistory NOTIFY filedialogHistoryChanged)
+    Q_PROPERTY(int filedialogHistoryIndex MEMBER m_filedialogHistoryIndex NOTIFY filedialogHistoryIndexChanged)
 
 
     /******************************************************/
@@ -320,6 +339,7 @@ private:
     int m_windowWidth;
     int m_windowHeight;
     int m_menuBarHeight;
+    int m_footerHeight;
     bool m_mainWindowBeingResized;
 
     bool m_photoQtShuttingDown;
@@ -335,6 +355,7 @@ private:
     bool m_ignoreFileFolderChangesTemporary;
     bool m_statusinfoIsVisible;
     QSize m_imageDisplaySize;
+    bool m_shiftKeyPressed;
 
     bool m_slideshowRunning;
     bool m_slideshowRunningAndPlaying;
@@ -363,6 +384,14 @@ private:
     int m_thumbnailsMenuReloadIndex;
     double m_mainmenuOpacity;
     double m_metadataOpacity;
+
+    QStringList m_filedialogCurrentSelection;
+    int m_filedialogCurrentIndex;
+    QString m_filedialogPlacesCurrentEntryId;
+    QString m_filedialogPlacesCurrentEntryHidden;
+    bool m_filedialogPlacesShowHidden;
+    QStringList m_filedialogHistory;
+    int m_filedialogHistoryIndex;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -418,6 +447,7 @@ Q_SIGNALS:
     void windowWidthChanged();
     void windowHeightChanged();
     void menuBarHeightChanged();
+    void footerHeightChanged();
     void mainWindowBeingResizedChanged();
     void windowStateChanged();
     void windowFullScreenChanged();
@@ -484,5 +514,13 @@ Q_SIGNALS:
     void currentZValueChanged();
     void colorProfileCacheChanged();
     void extraControlsLocationChanged();
+    void shiftKeyPressedChanged();
+    void filedialogCurrentSelectionChanged();
+    void filedialogCurrentIndexChanged();
+    void filedialogPlacesCurrentEntryIdChanged();
+    void filedialogPlacesCurrentEntryHiddenChanged();
+    void filedialogPlacesShowHiddenChanged();
+    void filedialogHistoryChanged();
+    void filedialogHistoryIndexChanged();
 
 };

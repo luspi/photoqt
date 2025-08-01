@@ -196,6 +196,11 @@ Loader {
         Loader { id: loader_filedialog }
         Loader { id: loader_settingsmanager }
 
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQToolTipDisplay {}
+        }
+
         /*****************************************/
         // Context Menus
 
@@ -219,6 +224,18 @@ Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQThumbnailsContextMenu {}
         }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQFileDialogContextMenus {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQFileDialogSettingsMenu {}
+        }
+        Loader {
+            active: masteritem.readyToContinueLoading
+            sourceComponent: PQFileDialogBreadCrumbsMenus {}
+        }
 
         /*****************************************/
 
@@ -241,6 +258,10 @@ Loader {
             } else {
                 masteritem.readyToContinueLoading = true
                 finishSetup()
+            }
+
+            if(PQCConstants.startupFilePath === "") {
+                PQCNotify.loaderShow("filedialog")
             }
 
         }

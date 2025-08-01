@@ -21,69 +21,26 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Image {
 
-    id: filethumb
+    id: fileicon
 
-    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork 
+    sourceSize: Qt.size(width,height)
+
+    smooth: true
+    mipmap: false
 
     opacity: view_top.currentFileCut ? 0.3 : 1
     Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    smooth: true
-    mipmap: false
-    asynchronous: true
-    cache: false
+    property bool gridlike: false
 
-    property bool dontSetSourceSize: false
+    property string _foldername: gridlike ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
+    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?
+                                        _foldername : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
 
-    onWidthChanged:
-        updateSizeDelay.restart()
-    onHeightChanged:
-        updateSizeDelay.restart()
-    Timer {
-        id: updateSizeDelay
-        interval: 1000
-        onTriggered: {
-            if(dontSetSourceSize) return
-            filethumb.sourceSize = Qt.size(width, height)
-        }
-    }
-
-    fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
-
-    source: visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""
-    onSourceChanged: {
-        if(!visible)
-            fileicon.source = fileicon.sourceString
-    }
-
-    onStatusChanged: {
-        if(status == Image.Ready) {
-            fileicon.source = ""
-        }
-    }
-
-    Component.onCompleted: {
-        if(dontSetSourceSize) return
-        sourceSize = Qt.size(width, height)
-    }
-
-    Connections {
-        target: view_top
-        function onRefreshThumbnails() {
-            filethumb.source = ""
-            filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
-        }
-        function onRefreshCurrentThumbnail() {
-            if(deleg.modelData === view_top.currentIndex) {
-                filethumb.source = ""
-                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
-            }
-        }
-    }
+    source: sourceString
 
 }

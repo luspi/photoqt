@@ -87,10 +87,18 @@ Item {
                 if(key !== 16777249)
                     combo += PQCScriptsShortcuts.analyzeKeyPress(key)
 
+                if(combo === "Shift+")
+                    PQCConstants.shiftKeyPressed = true
+
                 keyshortcuts_top.checkComboForShortcut(combo, Qt.point(-1,-1), Qt.point(0,0))
 
             }
 
+        }
+
+        function onKeyRelease(key: int, modifiers: int) {
+            if(key < 16770000 || modifiers !== Qt.ShiftModifier)
+                PQCConstants.shiftKeyPressed = false
         }
 
         function onMouseWheel(mousePos: point, angleDelta : point, modifiers : int) {

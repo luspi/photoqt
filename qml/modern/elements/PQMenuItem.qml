@@ -57,7 +57,7 @@ MenuItem {
     contentItem:
         Text {
             id: controltxt
-            leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 0
+            leftPadding: control.checkable||control.iconSource!=""||control.moveToRightABit ? 30 : 5
             height: 40
             text: control.text
             font: control.font
@@ -122,7 +122,7 @@ MenuItem {
         visible: control.subMenu
         onPaint: {
             var ctx = getContext("2d")
-            ctx.fillStyle = pqtPalette.alternateBase
+            ctx.fillStyle = PQCLook.baseBorder
             ctx.moveTo(15, 15)
             ctx.lineTo(width - 15, height / 2)
             ctx.lineTo(15, height - 15)

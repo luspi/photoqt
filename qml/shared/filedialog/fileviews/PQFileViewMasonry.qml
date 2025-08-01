@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Flickable {
@@ -76,7 +75,7 @@ Flickable {
             ensureCurrentItemIsVisible()
     }
 
-    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
 
     onContentYChanged: {
         // this check makes sure that value is not reset when a directory is reloaded due to a change
@@ -177,15 +176,15 @@ Flickable {
             required property int offsetY
             required property real itemHeight
 
-            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath)) 
+            property string currentFile: decodeURIComponent(PQCScriptsFilesPaths.getFilename(currentPath))
             property int numberFilesInsideFolder: 0
             property string fileinfoString: ""
-            property int padding: PQCSettings.filedialogElementPadding 
+            property int padding: PQCSettings.filedialogElementPadding
             property bool isFolder: modelData < PQCFileFolderModel.countFoldersFileDialog
             property bool onNetwork: isFolder ? PQCScriptsFilesPaths.isOnNetwork(currentPath) : view_top.currentFolderOnNetwork
 
             property bool isHovered: masonryview.currentIndex===deleg.modelData
-            property bool isSelected: view_top.currentSelection.indexOf(deleg.modelData)>-1
+            property bool isSelected: PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)>-1
 
             width: masonryview.columnWidth
             height: filethumbVisible&&filethumbStatus==Image.Ready ? Math.max(30, (filethumbSourceSize.height * (width/filethumbSourceSize.width))) : masonryview.columnWidth
@@ -301,11 +300,13 @@ Flickable {
                         opacity: 0.8
                         visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
-                        PQText {
+                        Label {
                             id: numberOfFilesInsideFolder
                             x: 10
                             y: (parent.height-height)/2-2
-                            font.weight: PQCLook.fontWeightBold 
+                            font.weight: PQCLook.fontWeightBold
+                            font.pointSize: PQCLook.fontSize
+                            color: pqtPalette.text
                             elide: Text.ElideMiddle
                             text: deleg.numberFilesInsideFolder
                         }
@@ -323,11 +324,13 @@ Flickable {
                         opacity: 0.6
                         visible: folderthumb.curnum>0 && folderthumb.visible
 
-                        PQTextS {
+                        Label {
                             id: numberThumbInsideFolder
                             x: 5
                             y: (parent.height-height)/2-2
-                            font.weight: PQCLook.fontWeightBold 
+                            font.weight: PQCLook.fontWeightBold
+                            font.pointSize: PQCLook.fontSizeS
+                            color: pqtPalette.text
                             elide: Text.ElideMiddle
                             text: "#"+folderthumb.curnum
                         }
@@ -335,10 +338,10 @@ Flickable {
 
                     // load async for folders
                     Timer {
-                        running: true 
+                        running: true
                         interval: 1
                         onTriggered: {
-                            PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) { 
+                            PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) {
                                 if(count > 0) {
                                     deleg.numberFilesInsideFolder = count
                                     deleg.fileinfoString = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
@@ -356,10 +359,10 @@ Flickable {
 
             // load async for files
             Timer {
-                running: !deleg.isFolder 
+                running: !deleg.isFolder
                 interval: 1
                 onTriggered: {
-                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath) 
+                    deleg.fileinfoString = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath)
                 }
             }
 
@@ -414,7 +417,7 @@ Flickable {
                     opacity: 0.8
                     clip: true
 
-                    PQText {
+                    Label {
                         id: filename
                         anchors.fill: parent
                         anchors.margins: 5
@@ -423,6 +426,7 @@ Flickable {
                         maximumLineCount: 2
                         elide: Text.ElideMiddle
                         text: deleg.currentFile
+                        font.pointSize: PQCLook.fontSize
                         color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
@@ -430,12 +434,12 @@ Flickable {
                     Image {
                         x: (parent.width-width-5)
                         y: (parent.height-height-5)
-                        source: "image://svg/:/light/folder.svg" 
+                        source: "image://svg/:/light/folder.svg"
                         height: 16
                         mipmap: true
                         width: height
                         opacity: 0.3
-                        visible: deleg.isFolder && deleg.folderthumbCurNum>0 
+                        visible: deleg.isFolder && deleg.folderthumbCurNum>0
                     }
 
                 }
@@ -445,7 +449,7 @@ Flickable {
             /************************************************************/
 
             // mouse area handling general mouse events
-            PQMouseArea {
+            PQGenericMouseArea {
 
                 id: masonrymousearea
 
@@ -454,24 +458,22 @@ Flickable {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                tooltipReference: fd_splitview 
-
                 Connections {
-                    target: contextmenu
-                    function onVisibleChanged() {
-                        if(contextmenu.visible)
+                    target: PQCConstants
+                    function onWhichContextMenusOpenChanged() {
+                        if(PQCConstants.isContextmenuOpen("fileviewentry"))
                             masonrymousearea.closeTooltip()
                     }
                 }
 
                 acceptedButtons: Qt.LeftButton|Qt.RightButton|Qt.BackButton|Qt.ForwardButton
 
-                drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined 
+                drag.target: PQCSettings.filedialogDragDropFileviewMasonry ? dragHandler : undefined
 
                 drag.onActiveChanged: {
                     if(drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
-                        fd_places.dragItemIndex = deleg.modelData 
+                        fd_places.dragItemIndex = deleg.modelData
                         fd_places.dragReordering = false
                         fd_places.dragItemId = deleg.currentPath
                     }
@@ -485,21 +487,21 @@ Flickable {
 
                 onPressed: {
 
-                    if(!contextmenu.visible)
+                    if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                         view_top.currentIndex = deleg.modelData
-                    else
-                        contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                    // else
+                        // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                     // we only need this when a potential drag might occur
                     // otherwise no need to load this drag thumbnail
-                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? view_top.currentSelection.length : 1)
+                    deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
                 }
 
                 onEntered: {
 
-                    text = ""
-                    text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
+                    tooltip = ""
+                    tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, deleg.filethumbStatus, deleg.fileinfoString,
                                             deleg.isFolder, deleg.numberFilesInsideFolder, deleg.folderthumbCurNum)
 
                 }
@@ -531,7 +533,7 @@ Flickable {
                 radius: 5
 
                 color: "#bbbbbb"
-                opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
+                opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                                 ? 0.8
                                 : (view_top.currentIndex===deleg.modelData
                                         ? 0.8 : 0)
@@ -539,11 +541,11 @@ Flickable {
 
                 Image {
                     anchors.fill: parent
-                    source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg")) 
+                    source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    PQMouseArea {
+                    PQGenericMouseArea {
                         id: selectmouse
                         anchors.fill: parent
                         hoverEnabled: true
@@ -551,11 +553,11 @@ Flickable {
                         onClicked: {
                             if(!view_top.currentFileSelected) {
                                 view_top.shiftClickIndexStart = deleg.modelData
-                                view_top.currentSelection.push(deleg.modelData)
-                                view_top.currentSelectionChanged()
+                                PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
+                                PQCConstants.filedialogCurrentSelectionChanged()
                             } else {
                                 view_top.shiftClickIndexStart = -1
-                                view_top.currentSelection = view_top.currentSelection.filter(item => item!==deleg.modelData)
+                                PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                             }
                         }
                         onEntered: {
@@ -572,8 +574,8 @@ Flickable {
                     return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
                 } else {
                     var uris = []
-                    for(var i in view_top.currentSelection)
-                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]])) 
+                    for(var i in PQCConstants.filedialogCurrentSelection)
+                        uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[PQCConstants.filedialogCurrentSelection[i]]))
                     return ({"text/uri-list": uris})
                 }
             }

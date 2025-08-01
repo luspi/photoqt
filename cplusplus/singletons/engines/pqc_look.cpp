@@ -147,9 +147,10 @@ void PQCLook::calculateColors(QString name) {
             m_pal.setColor(QPalette::Disabled, QPalette::Text, coltxt.darker(150));
             m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.darker(150));
 
-            QColor seltxt(0,0,0);
-            m_pal.setColor(QPalette::HighlightedText, seltxt);
-            m_pal.setColor(QPalette::Highlight, coltxt);
+            QColor hightxt = coltxt;
+            hightxt.setAlpha(50);
+            m_pal.setColor(QPalette::HighlightedText, coltxt);
+            m_pal.setColor(QPalette::Highlight, hightxt);
 
             m_pal.setColor(QPalette::PlaceholderText, coltxt.darker(100));
             m_pal.setColor(QPalette::ToolTipText, coltxt.darker(30));
@@ -172,9 +173,10 @@ void PQCLook::calculateColors(QString name) {
             m_pal.setColor(QPalette::Disabled, QPalette::Text, coltxt.lighter(150));
             m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.lighter(150));
 
-            QColor seltxt(255,255,255);
-            m_pal.setColor(QPalette::HighlightedText, seltxt);
-            m_pal.setColor(QPalette::Highlight, coltxt);
+            QColor hightxt = coltxt;
+            hightxt.setAlpha(50);
+            m_pal.setColor(QPalette::HighlightedText, coltxt);
+            m_pal.setColor(QPalette::Highlight, hightxt);
 
             m_pal.setColor(QPalette::PlaceholderText, coltxt.lighter(100));
             m_pal.setColor(QPalette::ToolTipText, coltxt.lighter(30));

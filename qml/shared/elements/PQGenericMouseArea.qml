@@ -71,7 +71,7 @@ MouseArea {
         interval: 250
         onTriggered: {
             if(mouse_top.containsMouse && mouse_top.tooltip !== "")
-                PQCNotify.showToolTip(tooltip, mouse_top.mapToGlobal(mouse_top.mouseX, 0))
+                PQCNotify.showToolTip(tooltip, mouse_top.mapToGlobal(mouse_top.mouseX, mouse_top.mouseY))
         }
     }
 
@@ -80,6 +80,12 @@ MouseArea {
     }
 
     onExited: {
+        showToolTip.stop()
+        if(mouse_top.tooltip !== "")
+            PQCNotify.hideToolTip(mouse_top.tooltip)
+    }
+
+    function closeTooltip() {
         showToolTip.stop()
         if(mouse_top.tooltip !== "")
             PQCNotify.hideToolTip(mouse_top.tooltip)

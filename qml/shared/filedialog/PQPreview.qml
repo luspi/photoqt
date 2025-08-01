@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Item {
@@ -37,10 +36,10 @@ Item {
 
         anchors.fill: parent
 
-        sourceSize: PQCSettings.filedialogPreviewHigherResolution ? Qt.size(width, height) : Qt.size(256,256) 
+        sourceSize: PQCSettings.filedialogPreviewHigherResolution ? Qt.size(width, height) : Qt.size(256,256)
         asynchronous: false
-        fillMode: PQCSettings.filedialogPreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit 
-        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 
+        fillMode: PQCSettings.filedialogPreviewCropToFit ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1
 
         Timer {
             id: setBG
@@ -50,7 +49,7 @@ Item {
         }
 
         Connections {
-            target: view_top 
+            target: view_top
             function onCurrentIndexChanged(currentIndex : int) {
                 setBG.restart()
             }
@@ -85,17 +84,17 @@ Item {
         source: preview
         blurEnabled: true
         blurMax: 32
-        blur: PQCSettings.filedialogPreviewBlur ? 1.0 : 0.0 
+        blur: PQCSettings.filedialogPreviewBlur ? 1.0 : 0.0
         autoPaddingEnabled: false
-        saturation: -1 + 0.01*PQCSettings.filedialogPreviewColorIntensity 
-        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1 
+        saturation: -1 + 0.01*PQCSettings.filedialogPreviewColorIntensity
+        opacity: PQCSettings.filedialogPreviewMuted ? 0.5 : 1
     }
 
     // pre Qt 6.4 the MultiEffect is not available yet
     Rectangle {
-        visible: !PQCScriptsConfig.isQtAtLeast6_5() 
+        visible: !PQCScriptsConfig.isQtAtLeast6_5()
         anchors.fill: preview
         color: "#000000"
-        opacity: 0.3+0.005*(100-PQCSettings.filedialogPreviewColorIntensity) 
+        opacity: 0.3+0.005*(100-PQCSettings.filedialogPreviewColorIntensity)
     }
 }

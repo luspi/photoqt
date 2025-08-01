@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Item {
@@ -52,7 +51,7 @@ Item {
             fillMode: PQCSettings.filedialogFolderContentThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
             onStatusChanged: {
                 if(status == Image.Ready) {
-                    if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !contextmenu.opened)
+                    if((curindex === view_top.currentIndex || PQCSettings.filedialogFolderContentThumbnailsAutoload) && !PQCConstants.isContextmenuOpen("fileviewentry"))
                         folderthumb_next.restart()
                     folderthumb.hideExcept(num)
                     fileicon.source = ""
@@ -84,7 +83,7 @@ Item {
                 return
             if(deleg.numberFilesInsideFolder === 0)
                 return
-            if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname)) 
+            if(!PQCSettings.filedialogFolderContentThumbnails || PQCScriptsFilesPaths.isExcludeDirFromCaching(fname))
                 return
             if((view_top.currentIndex===deleg.modelData || PQCSettings.filedialogFolderContentThumbnailsAutoload) && (PQCSettings.filedialogFolderContentThumbnailsLoop || folderthumb.curnum == 0)) {
                 folderthumb.curnum = folderthumb.curnum%deleg.numberFilesInsideFolder +1

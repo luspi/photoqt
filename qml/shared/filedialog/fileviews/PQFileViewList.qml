@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 ListView {
@@ -35,7 +34,7 @@ ListView {
 
     model: 0
 
-    ScrollBar.vertical: PQVerticalScrollBar { id: view_scroll }
+    ScrollBar.vertical: PQFileDialogScrollBar { id: view_scroll }
 
     SystemPalette { id: pqtPalette }
 
@@ -186,7 +185,7 @@ ListView {
 
             anchors.fill: parent
             color: pqtPalette.text
-            property bool toShow: !(view_top.currentSelection.indexOf(deleg.modelData)===-1)
+            property bool toShow: !(PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)===-1)
             opacity: toShow ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
@@ -197,13 +196,14 @@ ListView {
         // FILE NAME AND SIZE
 
         // the filename
-        PQText {
+        Label {
             id: filename_label
             opacity: view_top.currentFileCut ? 0.3 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             x: fileicon.width+10
             width: deleg.width-fileicon.width-fileinfo.width-10
             height: deleg.height
+            font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: deleg.currentFile
@@ -211,12 +211,13 @@ ListView {
         }
 
         // the file size/number of images
-        PQText {
+        Label {
             id: fileinfo
             opacity: view_top.currentFileCut ? 0.3 : 1
             Behavior on opacity { NumberAnimation { duration: 200 } }
             x: deleg.width-width-10
             height: deleg.height
+            font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             text: ""
             color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? pqtPalette.text : pqtPalette.base
@@ -254,7 +255,7 @@ ListView {
         /************************************************************/
 
         // mouse area handling file icon events
-        PQMouseArea {
+        MouseArea {
 
             id: listthumbmousearea
 
@@ -282,26 +283,26 @@ ListView {
 
             onPressed: {
 
-                if(!contextmenu.visible)
+                if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                // else
+                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
                 // we only need this when a potential drag might occur
                 // otherwise no need to load this drag thumbnail
-                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? view_top.currentSelection.length : 1)
+                deleg.dragImageSource = "image://dragthumb/" + deleg.currentPath + ":://::" + (view_top.currentFileSelected ? PQCConstants.filedialogCurrentSelection.length : 1)
 
             }
 
             onEntered: {
-                if(view_top.ignoreMouseEvents || fd_breadcrumbs.topSettingsMenu.visible)
+                if(view_top.ignoreMouseEvents || PQCConstants.isContextmenuOpen("filedialogsettingsmenu"))
                     return
 
-                if(!contextmenu.visible) {
+                if(!PQCConstants.isContextmenuOpen("fileviewentry")) {
                     view_top.currentIndex = deleg.modelData
                     resetCurrentIndex.stop()
-                } else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                } /*else
+                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData*/
 
             }
 
@@ -321,7 +322,7 @@ ListView {
         }
 
         // mouse area handling general mouse events
-        PQMouseArea {
+        PQGenericMouseArea {
 
             id: listmousearea
 
@@ -331,12 +332,10 @@ ListView {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
 
-            tooltipReference: fd_splitview
-
             Connections {
-                target: contextmenu
-                function onVisibleChanged() {
-                    if(contextmenu.visible)
+                target: PQCConstants
+                function onWhichContextMenusOpenChanged() {
+                    if(PQCConstants.isContextmenuOpen("fileviewentry"))
                         listmousearea.closeTooltip()
                 }
             }
@@ -345,17 +344,17 @@ ListView {
 
             onPressed: {
 
-                if(!contextmenu.visible)
+                if(!PQCConstants.isContextmenuOpen("fileviewentry"))
                     view_top.currentIndex = deleg.modelData
-                else
-                    contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
+                // else
+                    // contextmenu.setCurrentIndexToThisAfterClose = deleg.modelData
 
             }
 
             onEntered: {
 
-                text = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
-                                        deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
+                tooltip = handleEntriesMouseEnter(deleg.modelData, deleg.currentPath, filethumb.status, fileinfo.text,
+                                                  deleg.isFolder, deleg.numberFilesInsideFolder, folderthumb.curnum)
 
             }
 
@@ -385,7 +384,7 @@ ListView {
             radius: 5
 
             color: "#bbbbbb"
-            opacity: (selectmouse.containsMouse||view_top.currentSelection.indexOf(deleg.modelData)!==-1)
+            opacity: (selectmouse.containsMouse||PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1)
                             ? 0.8
                             : (view_top.currentIndex===deleg.modelData
                                     ? 0.4 : 0)
@@ -393,11 +392,11 @@ ListView {
 
             Image {
                 anchors.fill: parent
-                source: (view_top.currentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
+                source: (PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)!==-1 ? ("image://svg/:/" + PQCLook.iconShade + "/deselectfile.svg") : ("image://svg/:/" + PQCLook.iconShade + "/selectfile.svg"))
                 mipmap: true
                 opacity: selectmouse.containsMouse ? 0.8 : 0.4
                 Behavior on opacity { NumberAnimation { duration: 200 } }
-                PQMouseArea {
+                MouseArea {
                     id: selectmouse
                     anchors.fill: parent
                     hoverEnabled: true
@@ -405,11 +404,11 @@ ListView {
                     onClicked: {
                         if(!view_top.currentFileSelected) {
                             view_top.shiftClickIndexStart = deleg.modelData
-                            view_top.currentSelection.push(deleg.modelData)
-                            view_top.currentSelectionChanged()
+                            PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
+                            PQCConstants.filedialogCurrentSelectionChanged()
                         } else {
                             view_top.shiftClickIndexStart = -1
-                            view_top.currentSelection = view_top.currentSelection.filter(item => item!==deleg.modelData)
+                            PQCConstants.filedialogCurrentSelection = PQCConstants.filedialogCurrentSelection.filter(item => item!==deleg.modelData)
                         }
                     }
                     onEntered: {
@@ -426,8 +425,8 @@ ListView {
                 return ({"text/uri-list": encodeURI("file:"+deleg.currentPath)})
             } else {
                 var uris = []
-                for(var i in view_top.currentSelection)
-                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[view_top.currentSelection[i]]))
+                for(var i in PQCConstants.filedialogCurrentSelection)
+                    uris.push(encodeURI("file:" + PQCFileFolderModel.entriesFileDialog[PQCConstants.filedialogCurrentSelection[i]]))
                 return ({"text/uri-list": uris})
             }
         }

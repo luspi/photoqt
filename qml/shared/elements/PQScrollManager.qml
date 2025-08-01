@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Loader {

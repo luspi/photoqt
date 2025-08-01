@@ -34,7 +34,6 @@ MouseArea {
     property bool hovered : false
 
     property var tooltipReference: undefined
-    property alias tooltipPartialTransparency: control.partialTransparency
 
     hoverEnabled: true
 

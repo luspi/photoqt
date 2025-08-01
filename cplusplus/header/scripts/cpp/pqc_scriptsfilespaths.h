@@ -46,55 +46,55 @@ public:
     void operator=(PQCScriptsFilesPaths const&) = delete;
 
     // path methods
-    Q_INVOKABLE QString cleanPath(QString path);
-    Q_INVOKABLE QString cleanPath_windows(QString path);
-    Q_INVOKABLE QString pathWithNativeSeparators(QString path);
-    Q_INVOKABLE QString pathFromNativeSeparators(QString path);
-    Q_INVOKABLE QString toPercentEncoding(QString str);
-    Q_INVOKABLE QString handleAnimatedImagePathAndEncode(QString path);
-    Q_INVOKABLE QString getSuffix(QString path);
-    Q_INVOKABLE QString getSuffixLowerCase(QString path);
-    Q_INVOKABLE QString getBasename(QString fullpath);
-    Q_INVOKABLE QString getFilename(QString fullpath);
-    Q_INVOKABLE QString getDir(QString fullpath);
-    Q_INVOKABLE bool    isUrl(QString path);
+    QString cleanPath(QString path);
+    QString cleanPath_windows(QString path);
+    QString pathWithNativeSeparators(QString path);
+    QString pathFromNativeSeparators(QString path);
+    QString toPercentEncoding(QString str);
+    QString handleAnimatedImagePathAndEncode(QString path);
+    QString getSuffix(QString path);
+    QString getSuffixLowerCase(QString path);
+    QString getBasename(QString fullpath);
+    QString getFilename(QString fullpath);
+    QString getDir(QString fullpath);
+    bool    isUrl(QString path);
 
     // folder methods
-    Q_INVOKABLE bool        isFolder(QString path);
-    Q_INVOKABLE QStringList getFoldersIn(QString path);
-    Q_INVOKABLE QString     goUpOneLevel(QString path);
-    Q_INVOKABLE bool        isExcludeDirFromCaching(QString filename);
+    bool        isFolder(QString path);
+    QStringList getFoldersIn(QString path);
+    QString     goUpOneLevel(QString path);
+    bool        isExcludeDirFromCaching(QString filename);
 
     // file methods
-    Q_INVOKABLE QDateTime getFileModified(QString path);
-    Q_INVOKABLE QString   getFileType(QString path);
-    Q_INVOKABLE QString   getFileSizeHumanReadable(QString path);
-    Q_INVOKABLE QString   createTooltipFilename(QString fname);
-    Q_INVOKABLE void      openInDefaultFileManager(QString filename);
+    QDateTime getFileModified(QString path);
+    QString   getFileType(QString path);
+    QString   getFileSizeHumanReadable(QString path);
+    QString   createTooltipFilename(QString fname);
+    void      openInDefaultFileManager(QString filename);
 
     // folder and file methods
-    Q_INVOKABLE bool doesItExist(QString path);
-    Q_INVOKABLE bool isOnNetwork(QString filename);
+    bool doesItExist(QString path);
+    bool isOnNetwork(QString filename);
 
     // get some fixed directories
-    Q_INVOKABLE QString getHomeDir();
-    Q_INVOKABLE QString getTempDir();
-    Q_INVOKABLE QString findDropBoxFolder();
-    Q_INVOKABLE QString findNextcloudFolder();
-    Q_INVOKABLE QString findOwnCloudFolder();
+    QString getHomeDir();
+    QString getTempDir();
+    QString findDropBoxFolder();
+    QString findNextcloudFolder();
+    QString findOwnCloudFolder();
 
     // windows methods
-    Q_INVOKABLE QString getWindowsDriveLetter(QString path);
+    QString getWindowsDriveLetter(QString path);
 
     // externally related
-    Q_INVOKABLE QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
-    Q_INVOKABLE QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder);
-    Q_INVOKABLE void        saveLogToFile(QString txt);
-    Q_INVOKABLE QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
-    Q_INVOKABLE QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
-    Q_INVOKABLE QString     getExistingDirectory(QString startDir = QDir::homePath());
-    Q_INVOKABLE void        cleanupTemporaryFiles();
-    Q_INVOKABLE void        setThumbnailBaseCacheDir(QString dir);
+    QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
+    QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder);
+    void        saveLogToFile(QString txt);
+    QString     openFileFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
+    QStringList openFilesFromDialog(QString buttonlabel, QString preselectFile, QStringList endings);
+    QString     getExistingDirectory(QString startDir = QDir::homePath());
+    void        cleanupTemporaryFiles();
+    void        setThumbnailBaseCacheDir(QString dir);
 
 
 private:

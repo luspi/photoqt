@@ -30,6 +30,9 @@ ToolBar {
 
     id: ftr
 
+    onHeightChanged:
+        PQCConstants.footerHeight = height
+
     RowLayout {
 
         anchors.fill: parent

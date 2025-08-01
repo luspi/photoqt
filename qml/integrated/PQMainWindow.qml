@@ -46,7 +46,7 @@ ApplicationWindow {
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.windowHeight = height
+        PQCConstants.windowHeight = height-footer.height-menuBar.height
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -111,7 +111,10 @@ ApplicationWindow {
 
     Loader {
         asynchronous: (PQCConstants.startupFilePath!=="")
-        sourceComponent: PQBackgroundMessage {}
+        sourceComponent: PQBackgroundMessage {
+            width: PQCConstants.imageDisplaySize.width
+            height: PQCConstants.imageDisplaySize.height
+        }
     }
 
     /****************************************************/

@@ -29,8 +29,7 @@ Item {
 
     id: bgmessage_top
 
-    width: parent.parent.width
-    height: parent.parent.height
+    // width and height are set where it is set up
 
     opacity: 0
     visible: PQCFileFolderModel.countMainView===0 && opacity>0

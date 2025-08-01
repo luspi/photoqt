@@ -8,36 +8,23 @@ SET(d "qml/modern")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindow.qml)
 
 SET(d "qml/modern/elements")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQText.qml ${d}/PQTextS.qml ${d}/PQTextL.qml ${d}/PQTextXL.qml ${d}/PQButtonIcon.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQText.qml ${d}/PQTextS.qml ${d}/PQTextL.qml ${d}/PQTextXL.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSlider.qml ${d}/PQComboBox.qml ${d}/PQButtonElement.qml ${d}/PQVerticalScrollBar.qml ${d}/PQMenu.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMenuItem.qml ${d}/PQMultiEffect.qml ${d}/PQMenuSeparator.qml ${d}/PQButton.qml ${d}/PQCheckBox.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMenuItem.qml ${d}/PQMenuSeparator.qml ${d}/PQButton.qml ${d}/PQCheckBox.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQToolTip.qml ${d}/PQHorizontalScrollBar.qml ${d}/PQMainMenuEntry.qml ${d}/PQMainMenuIcon.qml ${d}/PQMetaDataEntry.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTemplateFullscreen.qml ${d}/PQTemplatePopout.qml ${d}/PQTemplateFloating.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSpinBox.qml ${d}/PQLineEdit.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSpinBox.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQScrollManager.qml ${d}/PQMouseArea.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQMouseArea.qml ${d}/PQMenuWithGap.qml)
 
 SET(d "qml/modern/elements/extensions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloatingPopout.qml ${d}/PQTemplateExtensionSettings.qml ${d}/PQTemplateExtension.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloating.qml ${d}/PQTemplateExtensionContainer.qml ${d}/PQTemplateExtensionModal.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionModalPopout.qml)
 
-SET(d "qml/modern/filedialog")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQBreadCrumbs.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQSettingsMenu.qml)
-
-SET(d "qml/modern/filedialog/fileviews")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileViewList.qml ${d}/PQFileViewGrid.qml ${d}/PQFileViewMasonry.qml)
-
-SET(d "qml/modern/filedialog/fileviews/parts")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)
-
-SET(d "qml/modern/filedialog/popout")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialogPopout.qml)
-
 SET(d "qml/modern/other")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQMasterItem.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
@@ -63,7 +50,8 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/P
 
 SET(d "qml/modern/contextmenus")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMinimapContextMenu.qml ${d}/PQArchiveControlsContextMenu.qml ${d}/PQDocumentControlsContextMenu.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml ${d}/PQFileDialogContextMenus.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialogSettingsMenu.qml ${d}/PQFileDialogBreadCrumbsMenus.qml)
 
 SET(d "qml/modern/settingsmanager")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)

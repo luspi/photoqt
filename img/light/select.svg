@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   enable-background="new 0 0 40 40"
+   version="1.1"
+   viewBox="0 0 40 40"
+   xml:space="preserve"
+   id="svg5"
+   sodipodi:docname="select.svg"
+   inkscape:version="1.4.2 (ebf0e940d0, 2025-05-08)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs5" /><sodipodi:namedview
+   id="namedview5"
+   pagecolor="#ffffff"
+   bordercolor="#000000"
+   borderopacity="0.25"
+   inkscape:showpageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="true"
+   inkscape:deskcolor="#d1d1d1"
+   inkscape:zoom="1.0975"
+   inkscape:cx="399.54442"
+   inkscape:cy="400"
+   inkscape:window-width="1920"
+   inkscape:window-height="1129"
+   inkscape:window-x="0"
+   inkscape:window-y="0"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g4" />
+<g
+   transform="matrix(2.0307 0 0 2.0307 -20.615 -20.615)"
+   fill="#fff"
+   id="g5"
+   style="stroke-width:1.49209632;stroke-dasharray:none">
+	<g
+   fill="#fff"
+   id="g4"
+   style="stroke-width:2.95464618;stroke-dasharray:none">
+		<g
+   fill="#fff"
+   id="g3"
+   style="stroke-width:2.95218398;stroke-dasharray:none;paint-order:stroke fill markers">
+			
+				<path
+   d="m 24,28.5 h -8 c -1.4,0 -2.5,-1.1 -2.5,-2.5 V 14 c 0,-1.4 1.1,-2.5 2.5,-2.5 h 3.6 c 0.4,0 0.8,0.2 1.1,0.4 l 5.4,5.4 c 0.3,0.3 0.4,0.7 0.4,1.1 V 26 c 0,1.4 -1.1,2.5 -2.5,2.5 z m -8,-16 c -0.8,0 -1.5,0.7 -1.5,1.5 v 12 c 0,0.8 0.7,1.5 1.5,1.5 h 8 c 0.8,0 1.5,-0.7 1.5,-1.5 v -7.6 c 0,-0.1 -0.1,-0.3 -0.1,-0.4 L 20,12.6 c -0.1,-0.1 -0.2,-0.1 -0.4,-0.1 z"
+   id="path1"
+   style="fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-width:0.984882;stroke-dasharray:none;stroke-opacity:1;paint-order:stroke fill markers"
+   sodipodi:nodetypes="sssssscssssssssssscsss" />
+			
+			
+				<path
+   d="m 26,18.5 h -4 c -1.4,0 -2.5,-1.1 -2.5,-2.5 v -4 c 0,-0.3 0.2,-0.5 0.5,-0.5 0.3,0 0.5,0.2 0.5,0.5 v 4 c 0,0.8 0.7,1.5 1.5,1.5 h 4 c 0.3,0 0.5,0.2 0.5,0.5 0,0.3 -0.2,0.5 -0.5,0.5 z"
+   id="path2"
+   style="stroke-width:0.61555129;stroke-dasharray:none;paint-order:normal;stroke:#ffffff;stroke-opacity:1;fill:#ffffff;fill-opacity:1"
+   sodipodi:nodetypes="sssssssssss" />
+			
+		
+		
+			<path
+   d="m19.2 24.8c-0.4 0-0.7-0.1-0.9-0.4l-1.1-1.1c-0.2-0.2-0.2-0.5 0-0.7s0.5-0.2 0.7 0l1.1 1.1c0.1 0.1 0.2 0.1 0.2 0.1 0.1 0 0.2 0 0.2-0.1l2.7-2.7c0.2-0.2 0.5-0.2 0.7 0s0.2 0.5 0 0.7l-2.7 2.7c-0.2 0.2-0.5 0.4-0.9 0.4z"
+   id="path3"
+   style="stroke-width:0.61555129;stroke-dasharray:none;paint-order:stroke fill markers;fill:#ffffff;fill-opacity:1;stroke:#ffffff;stroke-opacity:1" />
+		</g>
+	</g>
+</g>
+</svg>
