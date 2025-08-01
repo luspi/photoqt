@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Rectangle {
@@ -59,13 +58,14 @@ Rectangle {
     signal pressed(var key, var modifiers)
     signal rightClicked()
 
-    PQText {
+    Text {
         id: placeholder
         anchors.fill: parent
         color: pqtPalette.text
         opacity: edit_top.highlightBG ? 0.3 : 0.6
         elide: Text.ElideRight
         font.weight: edit_top.fontBold ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+        font.pointSize: PQCLook.fontSize
         anchors.leftMargin: control.leftPadding
         verticalAlignment: Text.AlignVCenter
         visible: control.text===""||edit_top.keepPlaceholderTextVisible

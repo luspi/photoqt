@@ -155,6 +155,7 @@ Q_SIGNALS:
     void showVideoControlsContextMenu(bool vis);
     void showThumbnailsContextMenu(bool vis);
     void showThumbnailsContextMenuAtTouch(bool vis);
+    void showFileDialogContextMenu(bool vis, QVariant opts);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
@@ -162,6 +163,21 @@ Q_SIGNALS:
     void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseMove(double x, double y);
     void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
+
+    // file dialog methods
+    void filedialogReloadCurrentThumbnail();
+    void filedialogLoadNewPath(QString path);
+    void filedialogReloadPlaces();
+    void filedialogClose();
+    void filedialogSelectAll(bool sel);
+    void filedialogDeleteFiles();
+    void filedialogCutFiles(bool forceSelection);
+    void filedialogCopyFiles(bool forceSelection);
+    void filedialogPasteFiles();
+    void filedialogTweaksSetFiletypesButtonText(QString txt);
+    void filedialogAddressEdit(QString action);
+    void filedialogGoBackInHistory();
+    void filedialogGoForwardsInHistory();
 
     // other
     void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify

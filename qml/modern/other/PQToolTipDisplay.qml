@@ -21,41 +21,34 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-Menu {
+PQToolTip {
 
-    id: control
+    id: ttip
 
-    SystemPalette { id: pqtPalette }
+    Connections {
 
-    // setting the inset and padding properties are necessary in particular on Windows
-    // See: https://bugreports.qt.io/browse/QTBUG-131499
+        target: PQCNotify
 
-    topInset: 0
-    leftInset: 0
-    rightInset: 0
-    bottomInset: 0
+        function onShowToolTip(txt : string, pos : point) {
+            ttip.showToolTip(txt, pos)
+        }
 
-    topPadding: 1
-    leftPadding: 1
-    rightPadding: 1
-    bottomPadding: 1
+        function onHideToolTip(txt : string) {
+            if(ttip.text === txt)
+                ttip.hide()
+        }
 
-    delegate: PQMenuItem {
-        // this cannot be a parameter in the Menu section as its value would be ignored
-        moveToRightABit: false
     }
 
-    background: Rectangle {
-        implicitWidth: 250
-        implicitHeight: 40
-        color: pqtPalette.base
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        radius: 2
+    function showToolTip(txt : string, pos : point) {
+        ttip.hide()
+        pos = ttip.parent.mapFromGlobal(pos)
+        ttip.x = Qt.binding(function() { return pos.x })
+        ttip.y = Qt.binding(function() { return pos.y-ttip.height })
+        ttip.show(txt, 5000)
     }
 
 }

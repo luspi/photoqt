@@ -21,27 +21,42 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
+import PhotoQt.Modern // this one is (currently) only used with the Modern interface
 import PhotoQt.Shared
 
-Image {
+PQTemplatePopout {
 
-    id: fileicon
+    id: filedialog_window
 
-    sourceSize: Qt.size(width,height)
+    //: Window title
+    title: qsTranslate("actions", "File Dialog") + " | PhotoQt"
 
-    smooth: true
-    mipmap: false
+    geometry: PQCWindowGeometry.filedialogGeometry
+    originalGeometry: PQCWindowGeometry.filedialogGeometry
+    isMax: PQCWindowGeometry.filedialogMaximized
+    popout: PQCSettings.interfacePopoutFileDialog
+    sizepopout: PQCWindowGeometry.filedialogForcePopout
+    source: "filedialog/PQFileDialog.qml"
 
-    opacity: view_top.currentFileCut ? 0.3 : 1
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal
 
-    property bool gridlike: false
+    minimumWidth: 400
+    minimumHeight: 600
 
-    property string _foldername: gridlike ? "folder" : (PQCSettings.filedialogZoom<35 ? "folder_listicon_verysmall" : (PQCSettings.filedialogZoom<75 ? "folder_listicon_small" : "folder_listicon"))
-    property string sourceString: ("image://icon/" + (deleg.onNetwork ? "network_" : "") + (deleg.isFolder ?
-                                        _foldername : PQCScriptsFilesPaths.getSuffix(deleg.currentPath).toLowerCase()))
+    onPopoutClosed: {
+        PQCNotify.loaderRegisterClose("filedialog")
+        PQCNotify.loaderPassOn("forceClose", [])
+    }
 
-    source: sourceString
+    onGeometryChanged: {
+        // Note: needs to be handled this way for proper aot compilation
+        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
+            PQCWindowGeometry.filedialogGeometry = geometry
+    }
+
+    onIsMaxChanged: {
+        if(isMax !== PQCWindowGeometry.filedialogMaximized)
+            PQCWindowGeometry.filedialogMaximized = isMax
+    }
 
 }

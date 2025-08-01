@@ -37,13 +37,13 @@ Item {
         function onLoaderShow(ele : string) {
 
             if(ele === "filedialog") {
-                PQCConstants.idOfVisibleItem = ele
-                var file = PQCScriptsFilesPaths.openFileFromDialog("Open", PQCFileFolderModel.currentFile, PQCImageFormats.getEnabledFormats())
-                PQCConstants.idOfVisibleItem = ""
-                if(file !== "") {
-                    PQCFileFolderModel.extraFoldersToLoad = []
-                    PQCFileFolderModel.fileInFolderMainView = file
-                }
+                // PQCConstants.idOfVisibleItem = ele
+                // var file = PQCScriptsFilesPaths.openFileFromDialog("Open", PQCFileFolderModel.currentFile, PQCImageFormats.getEnabledFormats())
+                // PQCConstants.idOfVisibleItem = ""
+                // if(file !== "") {
+                    // PQCFileFolderModel.extraFoldersToLoad = []
+                    // PQCFileFolderModel.fileInFolderMainView = file
+                // }
             } else if(ele === "about") {
                 if(loader_about.status === Loader.Null)
                     loader_about.sourceComponent = component_about

@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Item {
@@ -47,10 +46,6 @@ Item {
     property list<int> pressedIndex: [-1,-1,-1]
 
     property int availableHeight: height - fd_tweaks.zoomMoveUpHeight
-
-    property bool showHiddenPlaces: false
-
-    property alias context: contextmenu
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
@@ -77,19 +72,20 @@ Item {
             fd_breadcrumbs.disableAddressEdit()
             if(mouse.button === Qt.LeftButton)
                 return
-            contextmenu.currentEntryId = ""
-            contextmenu.currentEntryHidden = ""
-            contextmenu.popup()
+            PQCConstants.filedialogPlacesCurrentEntryId = ""
+            PQCConstants.filedialogPlacesCurrentEntryHidden = ""
+            PQCNotify.showFileDialogContextMenu(true, ["fileviewplaces"])
         }
     }
 
-    PQTextL {
+    Label {
         visible: !view_favorites.visible && !view_devices.visible
         anchors.fill: parent
         anchors.margins: 5
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         color: pqtPaletteDisabled.text
         font.italic: true
+        font.pointSize: PQCLook.fontSizeL
         text: qsTranslate("filedialog", "bookmarks and devices disabled")
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignHCenter
@@ -215,17 +211,24 @@ Item {
             required property string folder
             required property string path
             required property string icon
-            required property string id
+            required property string theid
             required property string hidden
 
             width: parent.width
-            height: (hidden==="false"||places_top.showHiddenPlaces) ? 35 : 0
+            height: (hidden==="false"||PQCConstants.filedialogPlacesShowHidden) ? 35 : 0
             opacity: (hidden==="false") ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             property int part: mouseArea.drag.active ? 1 : parent.parent.part
 
-            property bool currentContextMenu: contextmenu.requestedOpened && contextmenu.currentEntryId===deleg.id
+            Connections {
+                target: PQCConstants
+                function onWhichContextMenusOpenChanged() {
+                    deleg.currentContextMenu = PQCConstants.isContextmenuOpen("fileviewplaces") && PQCConstants.filedialogPlacesCurrentEntryId===deleg.theid
+                }
+            }
+
+            property bool currentContextMenu: false
             color: markHovered||markDown
                         ? (markDown ? PQCLook.baseBorder : pqtPalette.alternateBase)
                         : (path===PQCFileFolderModel.folderFileDialog ? pqtPalette.alternateBase : pqtPalette.base)
@@ -271,7 +274,7 @@ Item {
 
                     height: deleg.height
 
-                    PQText {
+                    Label {
 
                         id: entrytext
 
@@ -286,22 +289,27 @@ Item {
                         // some styling
                         elide: Text.ElideRight
                         font.weight: deleg.index===0 ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+                        font.pointSize: PQCLook.fontSize
+                        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
 
                         text: PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.folder)
 
                     }
 
-                    PQText {
+                    Label {
 
                         id: entrysize
 
                         visible: deleg.part==2 && deleg.index>0
                         height: deleg.height
 
+                        font.pointSize: PQCLook.fontSize
+                        color: pqtPalette.text
+
                         // vertically center text
                         verticalAlignment: Qt.AlignVCenter
 
-                        text: deleg.id + " GB"
+                        text: deleg.theid + " GB"
 
                     }
 
@@ -310,7 +318,7 @@ Item {
             }
 
             // mouse area handling clicks
-            PQMouseArea {
+            PQGenericMouseArea {
 
                 id: mouseArea
 
@@ -322,8 +330,7 @@ Item {
                 acceptedButtons: Qt.RightButton|Qt.LeftButton
                 cursorShape: deleg.index > 0 ? Qt.PointingHandCursor : Qt.ArrowCursor
 
-                tooltipReference: fd_splitview
-                text: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : ""))
+                tooltip: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : ""))
 
                 onPressed: {
                     fd_breadcrumbs.disableAddressEdit()
@@ -347,14 +354,13 @@ Item {
                         filedialog_top.loadNewPath(deleg.path)
                     else {
                         if(deleg.part == 1 && deleg.index!==0) {
-                            contextmenu.currentEntryId = deleg.id
-                            contextmenu.currentEntryHidden = deleg.hidden
+                            PQCConstants.filedialogPlacesCurrentEntryId = deleg.theid
+                            PQCConstants.filedialogPlacesCurrentEntryHidden = deleg.hidden
                         } else {
-                            contextmenu.currentEntryId = ""
-                            contextmenu.currentEntryHidden = ""
+                            PQCConstants.filedialogPlacesCurrentEntryId = ""
+                            PQCConstants.filedialogPlacesCurrentEntryHidden = ""
                         }
-
-                        contextmenu.popup()
+                        PQCNotify.showFileDialogContextMenu(true, ["fileviewplaces"])
                     }
                 }
 
@@ -376,7 +382,7 @@ Item {
                     if(mouseArea.drag.active) {
                         // store which index is being dragged and that the entry comes from the userplaces (reordering only)
                         places_top.dragItemIndex = deleg.index
-                        places_top.dragItemId = deleg.id
+                        places_top.dragItemId = deleg.theid
                         places_top.dragReordering = true
                     }
                     deleg.Drag.drop();
@@ -414,104 +420,17 @@ Item {
         }
     }
 
-    PQMenu {
-        id: contextmenu
-
-        property string currentEntryHidden: ""
-        property string currentEntryId: ""
-
-        property bool requestedOpened: false
-
-        PQMenuItem {
-            id: entry1
-            visible: contextmenu.currentEntryId!==""
-            text: (contextmenu.currentEntryHidden=="true" ? qsTranslate("filedialog", "Show entry") : qsTranslate("filedialog", "Hide entry"))
-            states: [
-                State {
-                    when: contextmenu.currentEntryId==""
-                    PropertyChanges {
-                        entry1.height: 0
-                    }
-                }
-            ]
-            onTriggered: {
-                PQCScriptsFileDialog.hidePlacesEntry(contextmenu.currentEntryId, contextmenu.currentEntryHidden==="false")
-                places_top.loadPlaces()
-            }
-        }
-
-        PQMenuItem {
-            id: entry2
-            visible: contextmenu.currentEntryId!==""
-            text: (qsTranslate("filedialog", "Remove entry"))
-            states: [
-                State {
-                    when: contextmenu.currentEntryId==""
-                    PropertyChanges {
-                        entry2.height: 0
-                    }
-                }
-            ]
-            onTriggered: {
-                PQCScriptsFileDialog.deletePlacesEntry(contextmenu.currentEntryId)
-                places_top.loadPlaces()
-            }
-        }
-
-        PQMenuItem {
-            id: entry3
-            visible: contextmenu.currentEntryId!==""
-            text: (places_top.showHiddenPlaces ? (qsTranslate("filedialog", "Hide hidden entries")) : (qsTranslate("filedialog", "Show hidden entries")))
-            states: [
-                State {
-                    when: contextmenu.currentEntryId==""
-                    PropertyChanges {
-                        entry3.height: 0
-                    }
-                }
-            ]
-            onTriggered:
-                places_top.showHiddenPlaces = !places_top.showHiddenPlaces
-        }
-
-        PQMenuSeparator {
-            id: sep1
-            states: [
-                State {
-                    when: contextmenu.currentEntryId==""
-                    PropertyChanges {
-                        sep1.height: 0
-                    }
-                }
-            ]
-        }
-
-        PQMenuItem {
-            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places")))
-            onTriggered:
-                PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces
-        }
-
-        PQMenuItem {
-            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
-            onTriggered:
-                PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
-        }
-
-        onAboutToShow: {
-            requestedOpened = true
-        }
-
-        onAboutToHide: {
-            requestedOpened = false
-        }
-
-    }
-
     Connections {
         target: PQCSettings
         function onFiledialogDevicesShowTmpfsChanged() {
             places_top.loadDevices()
+        }
+    }
+
+    Connections {
+        target: PQCNotify
+        function onFiledialogReloadPlaces() {
+            places_top.loadPlaces()
         }
     }
 
@@ -536,7 +455,7 @@ Item {
                   "folder" : qsTranslate("filedialog", "Storage Devices"),
                   "path" : "",
                   "icon" : "",
-                  "id" : "",
+                  "theid" : "",
                   "hidden" : "false",
                   "part" : 2})
 
@@ -546,7 +465,7 @@ Item {
                       "folder" : s[i],       // folder
                       "path" : s[i+3],     // path
                       "icon" : "drive-harddisk",     // icon
-                      "id" : s[i+2],     // id
+                      "theid" : s[i+2],     // id
                       "hidden" : "false",
                       "part" : 2})    // hidden
 
@@ -565,7 +484,7 @@ Item {
                                 "folder" : qsTranslate("filedialog", "Bookmarks"),
                                 "path" : "",
                                 "icon" : "",
-                                "id" : "",
+                                "theid" : "",
                                 "hidden" : "false",
                                 "part" : 1})
 
@@ -574,7 +493,7 @@ Item {
                                     "folder" : upl[i],       // folder
                                     "path" : upl[i+1],     // path
                                     "icon" : upl[i+2],     // icon
-                                    "id" : upl[i+3],     // id
+                                    "theid" : upl[i+3],     // id
                                     "hidden" : upl[i+4]})    // hidden
         }
 

@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Rectangle {
@@ -43,14 +42,11 @@ Rectangle {
     property bool down: false
     property bool checkable: false
     property bool checked: false
-    property alias tooltip: mousearea.text
-    property alias tooltipPartialTransparency: mousearea.tooltipPartialTransparency
+    property alias tooltip: mousearea.tooltip
     property real iconScale: 0.75
     property bool enableContextMenu: true
     property var dragTarget: undefined
     property bool dragActive: mousearea.drag.active
-
-    property alias contextmenu: menu
 
     color: ((down||checked)&&enabled ? PQCLook.baseBorder : (mouseOver&&enabled ? pqtPalette.alternateBase : overrideBaseColor))
 
@@ -71,13 +67,13 @@ Rectangle {
 
     }
 
-    PQMouseArea {
+    PQGenericMouseArea {
         id: mousearea
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         drag.target: control.dragTarget
-        text: control.tooltip
+        tooltip: control.tooltip
         acceptedButtons: Qt.LeftButton|Qt.RightButton
         onPressed: (mouse) => {
             if(mouse.button === Qt.RightButton)
@@ -92,32 +88,10 @@ Rectangle {
                 control.down = false
         }
         onClicked: (mouse) => {
-            if(control.enableContextMenu && mouse.button === Qt.RightButton) {
-                menu.origPoint = Qt.point(mousearea.mouseX, mousearea.mouseY)
-                menu.popup()
-            } else if(mouse.button === Qt.RightButton)
+            if(mouse.button === Qt.RightButton)
                 control.rightClicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
             else {
                 control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
-            }
-        }
-    }
-
-    PQMenu {
-        id: menu
-        property point origPoint
-        PQMenuItem {
-            visible: text!=""
-            enabled: false
-            font.italic: true
-            text: mousearea.text
-        }
-        PQMenuItem {
-            text: qsTranslate("buttongeneric", "Activate button")
-            onTriggered: {
-                control.clicked(menu.origPoint)
-                if(control.checkable)
-                    control.checked = !control.checked
             }
         }
     }

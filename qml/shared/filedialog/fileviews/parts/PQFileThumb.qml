@@ -21,41 +21,64 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
-import PhotoQt.Modern
 import PhotoQt.Shared
 
-Menu {
+Image {
 
-    id: control
+    id: filethumb
 
-    SystemPalette { id: pqtPalette }
+    visible: !deleg.isFolder && PQCSettings.filedialogThumbnails && !view_top.currentFolderExcluded && !deleg.onNetwork
 
-    // setting the inset and padding properties are necessary in particular on Windows
-    // See: https://bugreports.qt.io/browse/QTBUG-131499
+    opacity: view_top.currentFileCut ? 0.3 : 1
+    Behavior on opacity { NumberAnimation { duration: 200 } }
 
-    topInset: 0
-    leftInset: 0
-    rightInset: 0
-    bottomInset: 0
+    smooth: true
+    mipmap: false
+    asynchronous: true
+    cache: false
 
-    topPadding: 1
-    leftPadding: 1
-    rightPadding: 1
-    bottomPadding: 1
+    property bool dontSetSourceSize: false
 
-    delegate: PQMenuItem {
-        // this cannot be a parameter in the Menu section as its value would be ignored
-        moveToRightABit: false
+    onWidthChanged:
+        updateSizeDelay.restart()
+    onHeightChanged:
+        updateSizeDelay.restart()
+    Timer {
+        id: updateSizeDelay
+        interval: 1000
+        onTriggered: {
+            if(dontSetSourceSize) return
+            filethumb.sourceSize = Qt.size(width, height)
+        }
     }
 
-    background: Rectangle {
-        implicitWidth: 250
-        implicitHeight: 40
-        color: pqtPalette.base
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        radius: 2
+    fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
+
+    source: visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""
+    onSourceChanged: {
+        if(!visible)
+            fileicon.source = fileicon.sourceString
+    }
+
+    onStatusChanged: {
+        if(status == Image.Ready) {
+            fileicon.source = ""
+        }
+    }
+
+    Component.onCompleted: {
+        if(dontSetSourceSize) return
+        sourceSize = Qt.size(width, height)
+    }
+
+    Connections {
+        target: PQCNotify
+        function onFiledialogReloadCurrentThumbnail() {
+            if(deleg.modelData === view_top.currentIndex) {
+                filethumb.source = ""
+                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
+            }
+        }
     }
 
 }

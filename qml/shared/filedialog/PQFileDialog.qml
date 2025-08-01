@@ -23,7 +23,6 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
 import PhotoQt.Shared
 
 Rectangle {
@@ -44,6 +43,8 @@ Rectangle {
     property alias placesWidth: fd_places.width
     property alias fileviewWidth: fd_fileview.width
     property alias splitview: fd_splitview
+
+    property bool dontAnimateFirstStart: PQCConstants.startupFilePath===""
 
     // the first entry of the history list is set in Component.onCompleted
     // we do not want a property binding here!
@@ -75,13 +76,17 @@ Rectangle {
 
     opacity: 0
     visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: dontAnimateFirstStart ? 0 : 200 } }
 
     onOpacityChanged: {
+        if(opacity > 0.99999)
+            dontAnimateFirstStart = false
+
         if(opacity > 0 && !isPopout)
             PQCNotify.windowTitleOverride(qsTranslate("actions", "File Dialog"))
         else if(opacity === 0)
             PQCNotify.windowTitleOverride("")
+
     }
 
     MouseArea {
@@ -187,8 +192,8 @@ Rectangle {
                             fd_breadcrumbs.disableAddressEdit()
 
                         // current selection
-                        else if(fd_fileview.currentSelection.length)
-                            fd_fileview.currentSelection = []
+                        else if(PQCConstants.filedialogCurrentSelection.length)
+                            PQCConstants.filedialogCurrentSelection = []
 
                         // current cut
                         else if(fd_fileview.currentCuts.length)
@@ -222,6 +227,23 @@ Rectangle {
 
             }
         }
+
+        function onFiledialogGoBackInHistory() {
+            filedialog_top.goBackInHistory()
+        }
+
+        function onFiledialogGoForwardsInHistory() {
+            filedialog_top.goForwardsInHistory()
+        }
+
+        function onFiledialogLoadNewPath(path : string) {
+            filedialog_top.loadNewPath(path)
+        }
+
+        function onFiledialogClose() {
+            filedialog_top.hideFileDialog()
+        }
+
     }
 
     Image {
@@ -235,16 +257,16 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
+        PQGenericMouseArea {
             id: popinmouse
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutFileDialog ?
-                      //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                      qsTranslate("popinpopout", "Merge into main interface") :
-                      //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                      qsTranslate("popinpopout", "Move to its own window")
+            tooltip: PQCSettings.interfacePopoutFileDialog ?
+                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
+                         qsTranslate("popinpopout", "Merge into main interface") :
+                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
+                         qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
                 filedialog_top.hideFileDialog()
                 if(PQCSettings.interfacePopoutFileDialog)
@@ -256,23 +278,20 @@ Rectangle {
         }
     }
 
-    PQModal {
+    PQFileDeleteConfirm {
 
         id: modal
-
-        button1.text: button1.genericStringOk
-        button2.text: button1.genericStringCancel
 
         onAccepted: {
             if(action == "trash") {
                 for(var key1 in payload)
                     PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.entriesFileDialog[payload[key1]])
-                fd_fileview.currentSelection = []
+                PQCConstants.filedialogCurrentSelection = []
                 fd_fileview.currentCuts = []
             } else if(action == "permanent") {
                 for(var key2 in payload)
                     PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.entriesFileDialog[payload[key2]])
-                fd_fileview.currentSelection = []
+                PQCConstants.filedialogCurrentSelection = []
                 fd_fileview.currentCuts = []
             }
         }
@@ -288,7 +307,11 @@ Rectangle {
 
         // this needs to come here as we do not want a property binding
         // otherwise the history feature wont work
-        history.push(PQCFileFolderModel.folderFileDialog)
+        PQCConstants.filedialogHistory.push(PQCFileFolderModel.folderFileDialog)
+
+        if(dontAnimateFirstStart)
+            showFileDialog()
+
     }
 
     function closeAnyMenu() {
@@ -308,32 +331,32 @@ Rectangle {
         }
 
         // context menu
-        if(fd_fileview.fileviewContextMenu.visible) {
-            fd_fileview.fileviewContextMenu.close()
+        if(PQCConstants.isContextmenuOpen("fileviewentry")) {
+            PQCNotify.filedialogClose()
             return true
         // placescontext menu
-        } else if(fd_places.context.visible) {
-            fd_places.context.close()
+        } else if(PQCConstants.isContextmenuOpen("fileviewplaces")) {
+            PQCNotify.showFileDialogContextMenu(false, ["fileviewplaces"])
             return true
         // settings menu
-        } else if(fd_breadcrumbs.topSettingsMenu.visible) {
-            fd_breadcrumbs.topSettingsMenu.close()
+        } else if(PQCConstants.isContextmenuOpen("filedialogsettingsmenu")) {
+            PQCNotify.showFileDialogContextMenu(false, ["filedialogsettingsmenu"])
             return true
         // breadcrumbs navigation menu
-        } else if(fd_breadcrumbs.navButtonsMenu.visible) {
-            fd_breadcrumbs.navButtonsMenu.close()
+        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsNavigation")) {
+            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsNavigation"])
             return true
         // address bar location edit menu
-        } else if(fd_breadcrumbs.editMenu.visible) {
-            fd_breadcrumbs.editMenu.close()
+        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsAddressEdit")) {
+            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsAddressEdit"])
             return true
         // address bar location edit text menu
-        } else if(fd_breadcrumbs.editContextMenu.visible) {
-            fd_breadcrumbs.editContextMenu.close()
+        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsAddressEditContextMenu")) {
+            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsAddressEditContextMenu"])
             return true
         // folder list menu
-        } else if(fd_breadcrumbs.folderListMenuOpen) {
-            fd_breadcrumbs.closeFolderListMenu()
+        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsFolderList")) {
+            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsFolderList"])
             return true
         // other context menu
         } else if(fd_breadcrumbs.otherContextMenuOpen) {
@@ -347,26 +370,29 @@ Rectangle {
     function loadNewPath(path : string) {
         fd_breadcrumbs.disableAddressEdit()
         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)
-        if(historyIndex < history.length-1)
-            history.splice(historyIndex+1)
-        if(history[history.length-1] !== path)
-            history.push(path)
-        historyIndex = history.length-1
+        if(PQCConstants.filedialogHistoryIndex < PQCConstants.filedialogHistory.length-1)
+            PQCConstants.filedialogHistory.splice(PQCConstants.filedialogHistoryIndex+1)
+        if(PQCConstants.filedialogHistory[PQCConstants.filedialogHistory.length-1] !== path)
+            PQCConstants.filedialogHistory.push(path)
+        PQCConstants.filedialogHistoryIndex = PQCConstants.filedialogHistory.length-1
     }
 
     function goBackInHistory() {
         fd_breadcrumbs.disableAddressEdit()
-        historyIndex = Math.max(0, historyIndex-1)
-        PQCFileFolderModel.folderFileDialog = history[historyIndex]
+        PQCConstants.filedialogHistoryIndex = Math.max(0, PQCConstants.filedialogHistoryIndex-1)
+        PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
     }
 
     function goForwardsInHistory() {
         fd_breadcrumbs.disableAddressEdit()
-        historyIndex = Math.min(history.length-1, historyIndex+1)
-        PQCFileFolderModel.folderFileDialog = history[historyIndex]
+        PQCConstants.filedialogHistoryIndex = Math.min(PQCConstants.filedialogHistory.length-1, PQCConstants.filedialogHistoryIndex+1)
+        PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
     }
 
     function showFileDialog() {
+
+        PQCConstants.idOfVisibleItem = "filedialog"
+        fd_fileview.ignoreMouseEvents = true
 
         isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
 
@@ -383,6 +409,7 @@ Rectangle {
         opacity = 1
         if(popoutWindowUsed)
             filedialog_window.visible = true
+
     }
 
     function hideFileDialog() {
@@ -410,6 +437,7 @@ Rectangle {
 
         // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
         PQCNotify.loaderRegisterClose(thisis)
+        PQCConstants.idOfVisibleItem = ""
 
     }
 

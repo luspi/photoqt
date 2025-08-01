@@ -21,41 +21,30 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
-import PhotoQt.Modern
+import QtQuick.Controls.Basic
 import PhotoQt.Shared
 
-Menu {
-
+ScrollBar {
     id: control
+    size: 0.3
+    position: 0.2
+    active: false
+    orientation: Qt.Vertical
 
     SystemPalette { id: pqtPalette }
 
-    // setting the inset and padding properties are necessary in particular on Windows
-    // See: https://bugreports.qt.io/browse/QTBUG-131499
+    contentItem: Rectangle {
+        implicitWidth: 6
+        implicitHeight: 100
+        radius: width / 2
+        opacity: (control.pressed||control.active) ? 1 : 0.5
+        color: pqtPalette.text
+        // Hide the ScrollBar when it's not needed.
+        visible: control.size < 1.0
 
-    topInset: 0
-    leftInset: 0
-    rightInset: 0
-    bottomInset: 0
-
-    topPadding: 1
-    leftPadding: 1
-    rightPadding: 1
-    bottomPadding: 1
-
-    delegate: PQMenuItem {
-        // this cannot be a parameter in the Menu section as its value would be ignored
-        moveToRightABit: false
-    }
-
-    background: Rectangle {
-        implicitWidth: 250
-        implicitHeight: 40
-        color: pqtPalette.base
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        radius: 2
+        // Animate the changes in color/opacity
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        Behavior on color { ColorAnimation { duration: 200} }
     }
 
 }

@@ -22,7 +22,8 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTrayIcon.qml)
 
 SET(d "qml/integrated/contextmenus")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMinimapContextMenu.qml ${d}/PQArchiveControlsContextMenu.qml ${d}/PQDocumentControlsContextMenu.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml ${d}/PQFileDialogContextMenus.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQFileDialogSettingsMenu.qml ${d}/PQFileDialogBreadCrumbsMenus.qml)
 
 SET(d "qml/integrated/actions")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml)

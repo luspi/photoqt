@@ -21,42 +21,41 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.Modern
 import PhotoQt.Shared
 
-PQTemplatePopout {
+Menu {
 
-    id: filedialog_window
+    id: control
 
-    //: Window title
-    title: qsTranslate("actions", "File Dialog") + " | PhotoQt"
+    SystemPalette { id: pqtPalette }
 
-    geometry: PQCWindowGeometry.filedialogGeometry
-    originalGeometry: PQCWindowGeometry.filedialogGeometry
-    isMax: PQCWindowGeometry.filedialogMaximized
-    popout: PQCSettings.interfacePopoutFileDialog
-    sizepopout: PQCWindowGeometry.filedialogForcePopout
-    source: "filedialog/PQFileDialog.qml"
+    // setting the inset and padding properties are necessary in particular on Windows
+    // See: https://bugreports.qt.io/browse/QTBUG-131499
 
-    modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal
+    topInset: 0
+    leftInset: 0
+    rightInset: 0
+    bottomInset: 0
 
-    minimumWidth: 400
-    minimumHeight: 600
+    topPadding: 1
+    leftPadding: 1
+    rightPadding: 1
+    bottomPadding: 1
 
-    onPopoutClosed: {
-        PQCNotify.loaderRegisterClose("filedialog")
-        PQCNotify.loaderPassOn("forceClose", [])
+    delegate: PQMenuItem {
+        // this cannot be a parameter in the Menu section as its value would be ignored
+        moveToRightABit: true
     }
 
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.filedialogGeometry = geometry
-    }
-
-    onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.filedialogMaximized)
-            PQCWindowGeometry.filedialogMaximized = isMax
+    background: Rectangle {
+        implicitWidth: 250
+        implicitHeight: 40
+        color: pqtPalette.base
+        border.color: PQCLook.baseBorder
+        border.width: 1
+        radius: 2
     }
 
 }
