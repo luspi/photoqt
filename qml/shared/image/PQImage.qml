@@ -26,6 +26,8 @@ import PQCImageFormats
 import PQCResolutionCache
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Item {
 
     id: image_top

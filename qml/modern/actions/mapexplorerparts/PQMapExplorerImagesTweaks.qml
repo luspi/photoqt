@@ -22,7 +22,6 @@
 
 import QtQuick
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Rectangle {
 
@@ -36,7 +35,7 @@ Rectangle {
 
         id: row
 
-        x: 10+closebutton.width/2 
+        x: 10+closebutton.width/2
         y: (parent.height-height)/2
         spacing: 10
 
@@ -56,10 +55,10 @@ Rectangle {
 
             from: 10
             to: 50
-            value: PQCSettings.mapviewExplorerThumbnailsZoomLevel 
+            value: PQCSettings.mapviewExplorerThumbnailsZoomLevel
 
             onValueChanged: {
-                PQCSettings.mapviewExplorerThumbnailsZoomLevel = value 
+                PQCSettings.mapviewExplorerThumbnailsZoomLevel = value
             }
         }
 
@@ -70,9 +69,9 @@ Rectangle {
 
         PQCheckBox {
             text: qsTranslate("mapexplorer", "scale and crop thumbnails")
-            checked: PQCSettings.mapviewExplorerThumbnailsScaleCrop 
+            checked: PQCSettings.mapviewExplorerThumbnailsScaleCrop
             onCheckedChanged:
-                PQCSettings.mapviewExplorerThumbnailsScaleCrop = checked 
+                PQCSettings.mapviewExplorerThumbnailsScaleCrop = checked
         }
 
     }

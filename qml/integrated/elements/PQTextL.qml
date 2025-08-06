@@ -23,12 +23,11 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 Label {
 
     Behavior on color { ColorAnimation { duration: 200 } }
-    font.pointSize: PQCLook.fontSizeL 
-    font.weight: PQCLook.fontWeightNormal 
+    font.pointSize: PQCLook.fontSizeL
+    font.weight: PQCLook.fontWeightNormal
 
 }

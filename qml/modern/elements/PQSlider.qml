@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Controls.Basic
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Slider {
 

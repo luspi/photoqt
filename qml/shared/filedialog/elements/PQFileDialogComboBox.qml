@@ -22,9 +22,10 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls.Basic
-import PhotoQt.Modern   // the file dialog is loosely based on the Modern interface
+import QtQuick.Controls
 import PhotoQt.Shared
+
+/* :-)) <3 */
 
 ComboBox {
 

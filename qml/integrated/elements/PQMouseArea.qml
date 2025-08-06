@@ -22,13 +22,13 @@
 
 import QtQuick
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 MouseArea {
 
     id: tooltip_top
 
     property alias text: control.text
+    property alias tooltip: control.text
     property alias delay: control.delay
 
     property bool hovered : false

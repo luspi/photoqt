@@ -22,9 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
-
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 ApplicationWindow {
 

@@ -23,6 +23,8 @@
 import QtQuick
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 AnimatedImage {
 
     id: image

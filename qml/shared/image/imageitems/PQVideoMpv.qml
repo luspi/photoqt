@@ -23,6 +23,8 @@
 import QtQuick
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 // The MPV object needs to be wrapped in an item
 // and be as empty as shown below
 // otherwise a separate mpv window will open up

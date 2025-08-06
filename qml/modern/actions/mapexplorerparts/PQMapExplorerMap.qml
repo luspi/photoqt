@@ -26,7 +26,6 @@ import QtLocation
 import QtPositioning
 import PQCLocation
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Item {
 

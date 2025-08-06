@@ -21,60 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
-import PhotoQt.Shared
+import QtQuick.Controls
 
-Item {
-
-    PQMenu {
-
-        id: rightclickmenu
-
-        PQMenuItem {
-            text: qsTranslate("image", "Small minimap")
-            onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 0
-        }
-
-        PQMenuItem {
-            text: qsTranslate("image", "Normal minimap")
-            onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 1
-        }
-
-        PQMenuItem {
-            text: qsTranslate("image", "Large minimap")
-            onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 2
-        }
-
-        PQMenuItem {
-            text: qsTranslate("image", "Very large minimap")
-            onTriggered:
-                PQCSettings.imageviewMinimapSizeLevel = 3
-        }
-
-        PQMenuSeparator {}
-
-        PQMenuItem {
-            text: qsTranslate("image", "Hide minimap")
-            onTriggered:
-                PQCSettings.imageviewShowMinimap = false
-        }
-
-    }
-
-    Connections {
-
-        target: PQCNotify
-
-        function onShowMinimapContextMenu(vis : bool) {
-            if(vis)
-                rightclickmenu.popup()
-            else
-                rightclickmenu.dismiss()
-        }
-
-    }
-
+ScrollBar {
+    orientation: Qt.Vertical
 }

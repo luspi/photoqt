@@ -25,6 +25,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Item {
 
     id: breadcrumbs_top
@@ -51,7 +53,7 @@ Item {
 
             id: leftitem
 
-            width: Math.max(filedialog_top.placesWidth, leftrow.width+10)
+            width: Math.max(PQCConstants.filedialogPlacesWidth, leftrow.width+10)
             height: breadcrumbs_top.height
 
             Row {
@@ -72,28 +74,46 @@ Item {
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex>0
-                    enableContextMenu: false
                     onClicked:
-                        PQCNotify.filedialogGoBackInHistory
+                        PQCNotify.filedialogGoBackInHistory()
                     onRightClicked:
-                        PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsNavigation", mapToGlobal(0, height)])
+                        navmenu.popup()
                 }
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
-                    enableContextMenu: false
                     onClicked:
                         PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
                     onRightClicked:
-                        PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsNavigation", mapToGlobal(0, height)])
+                        navmenu.popup()
                 }
                 PQButtonIcon {
                     source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     enabled: PQCConstants.filedialogHistoryIndex<PQCConstants.filedialogHistory.length-1
-                    enableContextMenu: false
                     onClicked:
                         PQCNotify.filedialogGoForwardsInHistory()
                     onRightClicked:
-                        PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsNavigation", mapToGlobal(0, height)])
+                        navmenu.popup()
+                }
+
+                PQMenu {
+                    id: navmenu
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go backwards in history")
+                        enabled: PQCConstants.filedialogHistoryIndex>0
+                        onTriggered:
+                            PQCNotify.filedialogGoBackInHistory()
+                    }
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go forwards in history")
+                        enabled: PQCConstants.filedialogHistoryIndex<PQCConstants.filedialogHistory.length-1
+                        onTriggered:
+                            PQCNotify.filedialogGoForwardsInHistory()
+                    }
+                    PQMenuItem {
+                        text: qsTranslate("filedialog", "Go up a level")
+                        onTriggered:
+                            PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.goUpOneLevel(PQCFileFolderModel.folderFileDialog))
+                    }
                 }
 
                 Item {
@@ -117,7 +137,7 @@ Item {
                     source: "image://svg/:/" + PQCLook.iconShade + "/iconview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as grid")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit()
+                        breadcrumbs_top.disableAddressEdit()
                         if(checked) PQCSettings.filedialogLayout = "grid"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="grid" })
                     }
@@ -130,7 +150,7 @@ Item {
                     source: "image://svg/:/" + PQCLook.iconShade + "/listview.svg"
                     tooltip: qsTranslate("filedialog", "Show files as list")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit()
+                        breadcrumbs_top.disableAddressEdit()
                         if(checked) PQCSettings.filedialogLayout = "list"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="list" })
                     }
@@ -143,7 +163,7 @@ Item {
                     source: "image://svg/:/" + PQCLook.iconShade + "/masonryview.svg"
                     tooltip: qsTranslate("filedialog", "Show files in masonry layout")
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit()
+                        breadcrumbs_top.disableAddressEdit()
                         if(checked) PQCSettings.filedialogLayout = "masonry"
                         checked = Qt.binding(function() { return PQCSettings.filedialogLayout==="masonry" })
                     }
@@ -168,23 +188,19 @@ Item {
                     checkable: true
                     source: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     tooltip: qsTranslate("filedialog", "Settings")
-                    enableContextMenu: false
                     onCheckedChanged: {
-                        fd_breadcrumbs.disableAddressEdit()
+                        breadcrumbs_top.disableAddressEdit()
                         if(checked)
-                            PQCNotify.showFileDialogContextMenu(true, ["filedialogsettingsmenu", settings.mapToGlobal(0, height)])
+                            settingsmenu.popup(0, height)
                     }
                     onRightClicked: {
                         checked = !checked
                     }
 
-                    Connections {
-                        target: PQCConstants
-                        function onWhichContextMenusOpenChanged() {
-                            console.warn(">>> menu:", PQCConstants.isContextmenuOpen("filedialogsettingsmenu"))
-                            if(!PQCConstants.isContextmenuOpen("filedialogsettingsmenu"))
-                                settings.checked = false
-                        }
+                    PQFileDialogSettingsMenu {
+                        id: settingsmenu
+                        onAboutToHide:
+                            settings.checked = false
                     }
 
                 }
@@ -204,7 +220,7 @@ Item {
 
             id: rightitem
 
-            width: Math.min(filedialog_top.fileviewWidth, breadcrumbs_top.width-leftitem.width-8)
+            width: Math.min(PQCConstants.filedialogFileviewWidth, breadcrumbs_top.width-leftitem.width-8)
             height: breadcrumbs_top.height
 
             MouseArea {
@@ -218,7 +234,23 @@ Item {
                     if(mouse.button === Qt.LeftButton)
                         addressedit.show()
                     else
-                        PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsAddressEdit"])
+                        editmenu.popup()
+                }
+            }
+
+            PQMenu {
+                id: editmenu
+                PQMenuItem {
+                    enabled: false
+                    font.italic: true
+                    text: PQCFileFolderModel.folderFileDialog
+                }
+
+                PQMenuItem {
+                    //: The location here is a folder path
+                    text: qsTranslate("filedialog", "Edit location")
+                    onTriggered:
+                        addressedit.show()
                 }
             }
 
@@ -255,7 +287,7 @@ Item {
                         width: height
                         source: ("image://svg/:/" + PQCLook.iconShade + "/computer.svg")
                         sourceSize: Qt.size(width, height)
-                        PQGenericMouseArea {
+                        PQMouseArea {
                             anchors.fill: parent
                             hoverEnabled: true
                             tooltip: (crumbs.parts.length > 0 ? (crumbs.windows ? crumbs.parts[0] : "/") : "")
@@ -263,9 +295,9 @@ Item {
                             onClicked: (mouse) => {
                                 if(crumbs.parts.length > 0) {
                                     if(crumbs.windows)
-                                        filedialog_top.loadNewPath(crumbs.parts[0])
+                                    PQCNotify.filedialogLoadNewPath(crumbs.parts[0])
                                     else
-                                        filedialog_top.loadNewPath("/")
+                                        PQCNotify.filedialogLoadNewPath("/")
                                 }
                             }
                         }
@@ -330,19 +362,43 @@ Item {
                                     color: pqtPalette.text
                                     Behavior on color { ColorAnimation { duration: 200 } }
                                 }
-                                PQGenericMouseArea {
+                                PQMouseArea {
                                     id: mousearea2
                                     anchors.fill: parent
                                     hoverEnabled: true
-                                    tooltip: deleg.subdir
+                                    text: deleg.subdir
                                     onClicked: (mouse) => {
                                         if(mouse.button === Qt.LeftButton)
-                                            filedialog_top.loadNewPath(deleg.subdir)
+                                            PQCNotify.filedialogLoadNewPath(deleg.subdir)
                                         else
-                                            PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsPathMenu", deleg.subdir])
+                                            pathmenu.popup()
                                     }
                                     cursorShape: Qt.PointingHandCursor
                                     acceptedButtons: Qt.RightButton|Qt.LeftButton
+                                }
+
+                                PQMenu {
+
+                                    id: pathmenu
+
+                                    PQMenuItem {
+                                        enabled: false
+                                        text: deleg.subdir
+                                        font.italic: true
+                                    }
+                                    PQMenuItem {
+                                        //: The location here is a folder path
+                                        text: qsTranslate("filedialog", "Navigate to this location")
+                                        onTriggered: {
+                                            PQCNotify.filedialogLoadNewPath(deleg.subdir)
+                                        }
+                                    }
+                                    onAboutToShow: {
+                                        PQCConstants.addToWhichContextMenusOpen("FileDialogBreadCrumbsPath")
+                                    }
+                                    onAboutToHide:
+                                        PQCConstants.removeFromWhichContextMenusOpen("FileDialogBreadCrumbsPath")
+
                                 }
 
                             }
@@ -383,7 +439,43 @@ Item {
                                     acceptedButtons: Qt.LeftButton|Qt.RightButton
                                     onClicked: (pos) => {
                                         breadcrumbs_top.folderListCurrentMenuSubDir = deleg.subdir
-                                        PQCNotify.showFileDialogContextMenu(!crumbrect.down, ["FileDialogBreadCrumbsFolderList", deleg.subdir, crumbrect.mapToGlobal(0, height)])
+                                        folderlist.popup(0, height)
+                                    }
+                                }
+
+                                PQMenu {
+
+                                    id: folderlist
+
+                                    property var subfolders: []
+
+                                    PQMenuItem {
+                                        text: qsTranslate("filedialog", "no subfolders found")
+                                        font.italic: true
+                                        enabled: false
+                                        visible: folderlist.subfolders.length==0
+                                        height: visible ? 40 : 0
+                                    }
+
+                                    Repeater {
+                                        id: inst
+                                        property string currentParentFolder: ""
+                                        delegate: PQMenuItem {
+                                            required property string modelData
+                                            text: modelData
+                                            onTriggered: PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.cleanPath(deleg.subdir+"/"+text))
+                                        }
+                                    }
+                                    onAboutToShow: {
+                                        if(inst.currentParentFolder !== deleg.subdir) {
+                                            subfolders = PQCScriptsFilesPaths.getFoldersIn(deleg.subdir)
+                                            inst.currentParentFolder = deleg.subdir
+                                            inst.model = subfolders
+                                        }
+                                        PQCConstants.addToWhichContextMenusOpen("FileDialogBreadCrumbsFolderList")
+                                    }
+                                    onAboutToHide: {
+                                        PQCConstants.removeFromWhichContextMenusOpen("FileDialogBreadCrumbsFolderList")
                                     }
                                 }
 
@@ -416,30 +508,20 @@ Item {
                     property string completedPath: ""
 
                     Connections {
+
                         target: PQCNotify
-                        function onFiledialogAddressEdit(action : string) {
-                            if(action === "show")
+
+                        function onFiledialogShowAddressEdit(edit : bool) {
+                            if(edit)
                                 addressedit.show()
-                            else if(action === "undo")
-                                addressedit.lineedit.undo()
-                            else if(action === "redo")
-                                addressedit.lineedit.redo()
-                            else if(action === "cut")
-                                addressedit.actionCut()
-                            else if(action === "copy")
-                                addressedit.actionCopy()
-                            else if(action === "paste")
-                                addressedit.actionPaste()
-                            else if(action === "delete")
-                                addressedit.actionDelete()
-                            else if(action === "clear")
-                                addressedit.lineedit.remove(0,addressedit.text.length)
-                            else if(action === "selectall")
-                                addressedit.setFocus()
+                            else
+                                addressedit.hide()
                         }
+
                     }
 
                     function show() {
+                        PQCConstants.filedialogAddressEditVisible = true
                         if(addressedit.visible)
                             return
                         completedPath = ""
@@ -451,6 +533,7 @@ Item {
                     }
 
                     function hide() {
+                        PQCConstants.filedialogAddressEditVisible = false
                         if(crumbs.visible)
                             return
                         crumbs.visible = true
@@ -474,12 +557,79 @@ Item {
                         breadcrumbs_top.checkValidEditPath()
 
                     onRightClicked: {
-                        PQCNotify.showFileDialogContextMenu(true, ["FileDialogBreadCrumbsAddressEditContextMenu",
-                                                            {"canUndo" : addressedit.lineedit.canUndo,
-                                                             "canRedo" : addressedit.lineedit.canRedo,
-                                                             "canCut"  : addressedit.lineedit.selectedText.length>0,
-                                                             "canCopy" : addressedit.lineedit.selectedText.length>0,
-                                                             "canPaste" : addressedit.lineedit.canPaste}])
+                        editcontextmenu.popup()
+                    }
+
+                }
+
+                PQMenu {
+
+                    id: editcontextmenu
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateleft.svg"
+                        text: "Undo"
+                        enabled: addressedit.lineedit.canUndo
+                        onTriggered:
+                            addressedit.lineedit.undo()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/rotateright.svg"
+                        text: "Redo"
+                        enabled: addressedit.lineedit.canRedo
+                        onTriggered:
+                            addressedit.lineedit.redo()
+                    }
+
+                    PQMenuSeparator {}
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/cut.svg"
+                        text: "Cut"
+                        enabled: addressedit.lineedit.selectedText.length>0
+                        onTriggered:
+                            addressedit.actionCut()
+
+                    }
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
+                        text: "Copy"
+                        enabled: addressedit.lineedit.selectedText.length>0
+                        onTriggered:
+                            addressedit.actionCopy()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg"
+                        text: "Paste"
+                        enabled: addressedit.lineedit.canPaste
+                        onTriggered:
+                            addressedit.actionPaste()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg"
+                        text: "Delete"
+                        onTriggered:
+                            addressedit.actionDelete()
+                    }
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg"
+                        text: "Clear"
+                        onTriggered:
+                            addressedit.lineedit.remove(0,addressedit.text.length)
+                    }
+
+                    PQMenuSeparator {}
+
+                    PQMenuItem {
+                        iconSource: "image://svg/:/" + PQCLook.iconShade + "/leftrightarrow.svg"
+                        text: "Select all"
+                        onTriggered:
+                            addressedit.setFocus()
                     }
 
                 }
@@ -510,7 +660,7 @@ Item {
                     Connections {
                         target: breadcrumbs_top
                         function onCloseMenus() {
-                            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsAddressEditContextMenu"])
+                            editcontextmenu.close()
                         }
                     }
                 }
@@ -576,12 +726,12 @@ Item {
             path = PQCFileFolderModel.folderFileDialog + "/" + path
 
         if(PQCScriptsFilesPaths.isFolder(path))
-            filedialog_top.loadNewPath(path)
+            PQCNotify.filedialogLoadNewPath(path)
         else {
-            filedialog_top.loadNewPath(PQCScriptsFilesPaths.getDir(path))
+            PQCNotify.filedialogLoadNewPath(PQCScriptsFilesPaths.getDir(path))
             PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = path
-            filedialog_top.hideFileDialog()
+            PQCNotify.filedialogClose()
         }
     }
 
@@ -606,10 +756,6 @@ Item {
 
     function disableAddressEdit() {
         addressedit.hide()
-    }
-
-    function enableAddressEdit() {
-        addressedit.show()
     }
 
 }

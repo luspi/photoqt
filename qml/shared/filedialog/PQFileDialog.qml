@@ -25,6 +25,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Rectangle {
 
     id: filedialog_top
@@ -171,9 +173,6 @@ Rectangle {
 
                 if(what === "keyEvent") {
 
-                    if(filedialog_top.closeAnyMenu())
-                        return
-
                     if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal)
                         return
 
@@ -188,8 +187,8 @@ Rectangle {
                         else if(modal.visible)
                             modal.hide()
 
-                        else if(fd_breadcrumbs.isEditVisible())
-                            fd_breadcrumbs.disableAddressEdit()
+                        else if(PQCConstants.filedialogAddressEditVisible)
+                            PQCNotify.filedialogShowAddressEdit(false)
 
                         // current selection
                         else if(PQCConstants.filedialogCurrentSelection.length)
@@ -205,18 +204,13 @@ Rectangle {
 
                     } else {
 
-                        if(fd_breadcrumbs.isEditVisible()) {
-                            fd_breadcrumbs.handleKeyEvent(param[0], param[1])
-                            return
-                        }
-
                         if((param[0] === Qt.Key_Enter || param[0] === Qt.Key_Return) && (pasteExisting.visible || modal.visible)) {
                             if(modal.visible)
                                 modal.button1.clicked()
                             else
                                 pasteExisting.hide()
                         } else if(param[0] === Qt.Key_L && param[1] === Qt.ControlModifier) {
-                            fd_breadcrumbs.enableAddressEdit()
+                            PQCNotify.filedialogShowAddressEdit(true)
                         } else
                             fd_fileview.handleKeyEvent(param[0], param[1])
                     }
@@ -257,7 +251,7 @@ Rectangle {
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQGenericMouseArea {
+        PQMouseArea {
             id: popinmouse
             anchors.fill: parent
             hoverEnabled: true
@@ -314,61 +308,8 @@ Rectangle {
 
     }
 
-    function closeAnyMenu() {
-
-        // tweaks:
-        for(var i in fd_tweaks.allbuttons) {
-            if(fd_tweaks.allbuttons[i].contextmenu.visible) {
-                fd_tweaks.allbuttons[i].contextmenu.close()
-                return true;
-            }
-        }
-        for(var j in fd_tweaks.allmenus) {
-            if(fd_tweaks.allmenus[j].visible) {
-                fd_tweaks.allmenus[j].close()
-                return true;
-            }
-        }
-
-        // context menu
-        if(PQCConstants.isContextmenuOpen("fileviewentry")) {
-            PQCNotify.filedialogClose()
-            return true
-        // placescontext menu
-        } else if(PQCConstants.isContextmenuOpen("fileviewplaces")) {
-            PQCNotify.showFileDialogContextMenu(false, ["fileviewplaces"])
-            return true
-        // settings menu
-        } else if(PQCConstants.isContextmenuOpen("filedialogsettingsmenu")) {
-            PQCNotify.showFileDialogContextMenu(false, ["filedialogsettingsmenu"])
-            return true
-        // breadcrumbs navigation menu
-        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsNavigation")) {
-            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsNavigation"])
-            return true
-        // address bar location edit menu
-        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsAddressEdit")) {
-            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsAddressEdit"])
-            return true
-        // address bar location edit text menu
-        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsAddressEditContextMenu")) {
-            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsAddressEditContextMenu"])
-            return true
-        // folder list menu
-        } else if(PQCConstants.isContextmenuOpen("FileDialogBreadCrumbsFolderList")) {
-            PQCNotify.showFileDialogContextMenu(false, ["FileDialogBreadCrumbsFolderList"])
-            return true
-        // other context menu
-        } else if(fd_breadcrumbs.otherContextMenuOpen) {
-            fd_breadcrumbs.closeMenus()
-            return true
-        }
-        return false
-
-    }
-
     function loadNewPath(path : string) {
-        fd_breadcrumbs.disableAddressEdit()
+        PQCNotify.filedialogShowAddressEdit(false)
         PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.cleanPath(path)
         if(PQCConstants.filedialogHistoryIndex < PQCConstants.filedialogHistory.length-1)
             PQCConstants.filedialogHistory.splice(PQCConstants.filedialogHistoryIndex+1)
@@ -378,13 +319,13 @@ Rectangle {
     }
 
     function goBackInHistory() {
-        fd_breadcrumbs.disableAddressEdit()
+        PQCNotify.filedialogShowAddressEdit(false)
         PQCConstants.filedialogHistoryIndex = Math.max(0, PQCConstants.filedialogHistoryIndex-1)
         PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
     }
 
     function goForwardsInHistory() {
-        fd_breadcrumbs.disableAddressEdit()
+        PQCNotify.filedialogShowAddressEdit(false)
         PQCConstants.filedialogHistoryIndex = Math.min(PQCConstants.filedialogHistory.length-1, PQCConstants.filedialogHistoryIndex+1)
         PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
     }
@@ -414,8 +355,6 @@ Rectangle {
 
     function hideFileDialog() {
 
-        closeAnyMenu()
-
         if(pasteExisting.visible) {
             pasteExisting.hide()
             return
@@ -428,7 +367,7 @@ Rectangle {
         // it is possible that some element (slider/...) had key focus -> reset that
         filedialog_top.forceActiveFocus()
 
-        fd_breadcrumbs.disableAddressEdit()
+        PQCNotify.filedialogShowAddressEdit(false)
         opacity = 0
         if(popoutWindowUsed)
             filedialog_window.visible = false

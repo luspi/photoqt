@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Window
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Window {
 

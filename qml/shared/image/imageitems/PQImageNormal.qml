@@ -25,6 +25,8 @@ import QtQuick
 import QtMultimedia
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Image {
 
     id: image

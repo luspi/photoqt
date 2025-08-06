@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Loader {
 
     id: ldr_top
@@ -125,7 +127,7 @@ Loader {
             drag.onActiveChanged: if(drag.active) controlitem.manuallyDragged = true
             onClicked: (mouse) => {
                 if(mouse.button === Qt.RightButton)
-                    PQCNotify.showDocumentControlsContextMenu(true)
+                    rightclickmenu.popup()
             }
         }
 
@@ -158,7 +160,7 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/first.svg"
                     }
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: mousefirst
                         anchors.fill: parent
                         hoverEnabled: true
@@ -169,7 +171,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(-PQCConstants.currentFileInsideNum)
                             else
-                                PQCNotify.showDocumentControlsContextMenu(true)
+                                rightclickmenu.popup()
                         }
                     }
                 }
@@ -191,7 +193,7 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/backwards.svg"
                     }
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: mouseprev
                         anchors.fill: parent
                         hoverEnabled: true
@@ -202,7 +204,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(-1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu(true)
+                                rightclickmenu.popup()
                         }
                     }
                 }
@@ -224,7 +226,7 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/forwards.svg"
                     }
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: mousenext
                         anchors.fill: parent
                         hoverEnabled: true
@@ -235,7 +237,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu(true)
+                                rightclickmenu.popup()
                         }
                     }
                 }
@@ -258,7 +260,7 @@ Loader {
                         sourceSize: Qt.size(width, height)
                         source: "image://svg/:/" + PQCLook.iconShade + "/last.svg"
                     }
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: mouselast
                         anchors.fill: parent
                         hoverEnabled: true
@@ -269,7 +271,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCNotify.currentDocumentJump(PQCConstants.currentFileInsideTotal-PQCConstants.currentFileInsideNum-1)
                             else
-                                PQCNotify.showDocumentControlsContextMenu(true)
+                                rightclickmenu.popup()
                         }
                     }
                 }
@@ -330,7 +332,7 @@ Loader {
                     height: parent.height-10
                     sourceSize: Qt.size(width, height)
                     source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: viewermodemouse
                         anchors.fill: parent
                         hoverEnabled: true
@@ -341,7 +343,7 @@ Loader {
                             if(mouse.button === Qt.LeftButton)
                                 PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideName)
                             else
-                                PQCNotify.showDocumentControlsContextMenu(true)
+                                rightclickmenu.popup()
                         }
                     }
                 }
@@ -378,7 +380,7 @@ Loader {
 
                 }
 
-                PQGenericMouseArea {
+                PQMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true
@@ -389,10 +391,61 @@ Loader {
                         if(mouse.button === Qt.LeftButton)
                             PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
                         else
-                            PQCNotify.showDocumentControlsContextMenu(true)
+                            rightclickmenu.popup()
                     }
                 }
 
+            }
+
+        }
+
+        PQMenu {
+
+            id: rightclickmenu
+
+            property bool resetPosAfterHide: false
+
+            PQMenuItem {
+                icon.source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
+                text: qsTranslate("image", PQCSettings.filetypesDocumentLeftRight ? "Unlock arrow keys" : "Lock arrow keys")
+                onTriggered: {
+                    PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
+                }
+            }
+
+            PQMenuItem {
+                icon.source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
+                text: qsTranslate("image", "Viewer mode")
+                onTriggered: {
+                    PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
+                }
+            }
+
+            PQMenuSeparator {}
+
+            PQMenuItem {
+                icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+                text: qsTranslate("image", "Reset position")
+                onTriggered: {
+                    rightclickmenu.resetPosAfterHide = true
+                }
+            }
+
+            PQMenuItem {
+                icon.source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                text: qsTranslate("image", "Hide controls")
+                onTriggered:
+                PQCSettings.filetypesDocumentControls = false
+            }
+
+            onVisibleChanged: {
+                if(!visible && resetPosAfterHide) {
+                    resetPosAfterHide = false
+                    controlitem.manuallyDragged = false
+                    controlitem.x = Qt.binding(function() { return (PQCConstants.imageDisplaySize.width-controlitem.width)/2 })
+                    controlitem.y = Qt.binding(function() { return (PQCConstants.imageDisplaySize.height-controlitem.height-20) })
+                    PQCConstants.extraControlsLocation = Qt.point(-1,-1)
+                }
             }
 
         }

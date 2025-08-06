@@ -24,7 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtMultimedia
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Item {
 

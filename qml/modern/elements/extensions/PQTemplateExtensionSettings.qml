@@ -22,7 +22,6 @@
 
 import QtQuick
 import PhotoQt.Modern
-import PhotoQt.Shared
 import PQCExtensionsHandler
 
 Row {

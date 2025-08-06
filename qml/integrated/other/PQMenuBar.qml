@@ -22,7 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Shared
+import PhotoQt.Integrated
 
 MenuBar {
 

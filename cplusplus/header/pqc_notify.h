@@ -140,7 +140,6 @@ Q_SIGNALS:
     void currentDocumentControlsResetPosition();
     void currentArchiveJump(int leftright);
     void currentArchiveJumpTo(int index);
-    void currentArchiveControlsResetPosition();
     void currentImageReload();
     void currentAnimatedSaveFrame();
     void currentFaceTagsReload();
@@ -150,12 +149,7 @@ Q_SIGNALS:
     // context menu properties
     void closeAllContextMenus();
     void showMinimapContextMenu(bool vis);
-    void showArchiveControlsContextMenu(bool vis);
-    void showDocumentControlsContextMenu(bool vis);
     void showVideoControlsContextMenu(bool vis);
-    void showThumbnailsContextMenu(bool vis);
-    void showThumbnailsContextMenuAtTouch(bool vis);
-    void showFileDialogContextMenu(bool vis, QVariant opts);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
@@ -175,9 +169,9 @@ Q_SIGNALS:
     void filedialogCopyFiles(bool forceSelection);
     void filedialogPasteFiles();
     void filedialogTweaksSetFiletypesButtonText(QString txt);
-    void filedialogAddressEdit(QString action);
     void filedialogGoBackInHistory();
     void filedialogGoForwardsInHistory();
+    void filedialogShowAddressEdit(bool edit);
 
     // other
     void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify

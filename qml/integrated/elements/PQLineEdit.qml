@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Shared
+import PhotoQt.Integrated
 
 Rectangle {
 

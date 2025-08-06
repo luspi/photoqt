@@ -21,8 +21,9 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern   // the file dialog is loosely based on the Modern interface
 import PhotoQt.Shared
+
+/* :-)) <3 */
 
 Rectangle {
 

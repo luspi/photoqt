@@ -23,7 +23,6 @@
 import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Loader {
 
@@ -193,48 +192,25 @@ Loader {
         Loader { id: loader_filter }
         Loader { id: loader_slideshowsetup }
         Loader { id: loader_chromecastmanager }
-        Loader { id: loader_filedialog }
+        // Loader { id: loader_filedialog }
         Loader { id: loader_settingsmanager }
+
+        Loader {
+            id: loader_filedialog
+            active: false
+            sourceComponent:
+                PQFileDialog {}
+        }
+        Loader {
+            id: loader_filedialog_popout
+            active: false
+            sourceComponent:
+                PQFileDialogPopout {}
+        }
 
         Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQToolTipDisplay {}
-        }
-
-        /*****************************************/
-        // Context Menus
-
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQMinimapContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQArchiveControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQDocumentControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQVideoControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQThumbnailsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogContextMenus {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogSettingsMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogBreadCrumbsMenus {}
         }
 
         /*****************************************/

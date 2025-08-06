@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Loader {
 
     id: ldr_top
@@ -74,7 +76,7 @@ Loader {
                     source: PQCConstants.animatedImageIsPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                 }
 
-                PQGenericMouseArea {
+                PQMouseArea {
                     id: playpausemouse
                     anchors.fill: parent
                     hoverEnabled: true
@@ -102,7 +104,7 @@ Loader {
                     source: "image://svg/:/" + PQCLook.iconShade + "/remember.svg"
                     sourceSize: Qt.size(width, height)
                     enabled: !PQCConstants.animatedImageIsPlaying
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: saveframemouse
                         anchors.fill: parent
                         hoverEnabled: true
@@ -148,7 +150,7 @@ Loader {
 
                 }
 
-                PQGenericMouseArea {
+                PQMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true

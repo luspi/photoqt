@@ -23,8 +23,9 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-// import PhotoQt.Integrated
 import PhotoQt.Shared
+
+/* :-)) <3 */
 
 Rectangle {
 
@@ -144,7 +145,7 @@ Rectangle {
 
     onSetVisibleChanged: {
         if(!setVisible)
-            PQCNotify.showThumbnailsContextMenu(false)
+            rightclickmenu.dismiss()
     }
 
     MouseArea {
@@ -157,7 +158,7 @@ Rectangle {
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton) {
                 PQCConstants.thumbnailsMenuReloadIndex = view.highlightIndex
-                PQCNotify.showThumbnailsContextMenu(true)
+                rightclickmenu.popup()
             }
         }
     }
@@ -564,7 +565,7 @@ Rectangle {
             }
 
             // the mouse area for the current thumbnail
-            PQGenericMouseArea {
+            PQMouseArea {
 
                 id: delegmouse
 
@@ -578,6 +579,8 @@ Rectangle {
                 property bool tooltipSetup: false
 
                 onEntered: {
+
+                    if(rightclickmenu.opened) return
 
                     view.highlightIndex = deleg.modelData
 
@@ -743,7 +746,7 @@ Rectangle {
 
                 onReleased: {
                     touchShowMenu.stop()
-                    if(!menu.item.opened)
+                    if(!rightclickmenu.opened)
                         delegmouse.executeClick()
                 }
 
@@ -752,7 +755,7 @@ Rectangle {
                     interval: 1000
                     onTriggered: {
                         PQCConstants.thumbnailsMenuReloadIndex = view.highlightIndex
-                        PQCNotify.showThumbnailsContextMenuAtTouch(toucharea.mapToItem(thumbnails_top, toucharea.touchPos))
+                        rightclickmenu.popup(toucharea.mapToItem(thumbnails_top, toucharea.touchPos))
                     }
                 }
 
@@ -764,6 +767,177 @@ Rectangle {
 
     ButtonGroup { id: grp1 }
     ButtonGroup { id: grp2 }
+
+    PQMenu {
+
+        id: rightclickmenu
+
+        PQMenuItem {
+            enabled: false
+            font.italic: true
+            // moveToRightABit: true
+            text: qsTranslate("MainMenu", "Thumbnails")
+        }
+
+        PQMenuSeparator { }
+
+        PQMenuItem {
+            visible: PQCConstants.thumbnailsMenuReloadIndex>-1
+            text: qsTranslate("thumbnails", "Reload thumbnail")
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg"
+            onTriggered: {
+                PQCScriptsImages.removeThumbnailFor(PQCFileFolderModel.entriesMainView[PQCConstants.thumbnailsMenuReloadIndex])
+                PQCNotify.thumbnailReloadImage(PQCConstants.thumbnailsMenuReloadIndex)
+            }
+        }
+
+        PQMenuSeparator { /*lighterColor: true; */visible: PQCConstants.thumbnailsMenuReloadIndex>-1 }
+
+        PQMenu {
+
+            title: "thumbnail image"
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "fit thumbnails")
+                // ButtonGroup.group: grp1
+                checked: (!PQCSettings.thumbnailsCropToFit && !PQCSettings.thumbnailsSameHeightVaryWidth)
+                onCheckedChanged: {
+                    if(checked && (PQCSettings.thumbnailsCropToFit || PQCSettings.thumbnailsSameHeightVaryWidth)) {
+                        PQCSettings.thumbnailsCropToFit = false
+                        PQCSettings.thumbnailsSameHeightVaryWidth = false
+                    }
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "scale and crop thumbnails")
+                // ButtonGroup.group: grp1
+                checked: PQCSettings.thumbnailsCropToFit
+                onCheckedChanged: {
+                    if(checked) {
+                        PQCSettings.thumbnailsCropToFit = true
+                        PQCSettings.thumbnailsSameHeightVaryWidth = false
+                    }
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "same height, varying width")
+                // ButtonGroup.group: grp1
+                checked: PQCSettings.thumbnailsSameHeightVaryWidth
+                onCheckedChanged: {
+                    if(checked) {
+                        // See the comment below for why this check is here
+                        if(PQCSettings.thumbnailsCropToFit) {
+                            PQCSettings.thumbnailsCropToFit = false
+                            delayChecking.restart()
+                        } else
+                            PQCSettings.thumbnailsSameHeightVaryWidth = true
+                    }
+                }
+                // When switching from CropToFit to SameHeightVaryWidth we can't go immediately there
+                // If we do then the padding/sourceSize of the images might not cooperate well
+                // This short delay in that case ensures that everything works just fine
+                Timer {
+                    id: delayChecking
+                    interval: 100
+                    onTriggered: {
+                        PQCSettings.thumbnailsSameHeightVaryWidth = true
+                    }
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                text: qsTranslate("settingsmanager", "keep small thumbnails small")
+                checked: PQCSettings.thumbnailsSmallThumbnailsKeepSmall
+                onCheckedChanged:
+                PQCSettings.thumbnailsSmallThumbnailsKeepSmall = checked
+            }
+
+        }
+
+        PQMenu {
+
+            title: "visibility"
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "hide when not needed")
+                // ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===0
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 0
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "always keep visible")
+                // ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===1
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 1
+                }
+            }
+
+            PQMenuItem {
+                checkable: true
+                // checkableLikeRadioButton: true
+                text: qsTranslate("settingsmanager", "hide when zoomed in")
+                // ButtonGroup.group: grp2
+                checked: PQCSettings.thumbnailsVisibility===2
+                onCheckedChanged: {
+                    if(checked)
+                        PQCSettings.thumbnailsVisibility = 2
+                }
+            }
+
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            checkable: true
+            text: qsTranslate("settingsmanager", "show filename labels")
+            checked: PQCSettings.thumbnailsFilename
+            onCheckedChanged:
+            PQCSettings.thumbnailsFilename = checked
+        }
+
+        PQMenuItem {
+            checkable: true
+            text: qsTranslate("settingsmanager", "show tooltips")
+            checked: PQCSettings.thumbnailsTooltip
+            onCheckedChanged:
+            PQCSettings.thumbnailsTooltip = checked
+        }
+
+        PQMenuSeparator {}
+
+        PQMenuItem {
+            text: qsTranslate("settingsmanager", "Manage in settings manager")
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
+            onTriggered: {
+                PQCNotify.openSettingsManagerAt("showSettings", ["thumbnails"])
+            }
+        }
+
+        onAboutToHide: {
+            PQCConstants.thumbnailsMenuReloadIndex = -1
+        }
+
+    }
 
     // if a small play/pause button is shown then moving the mouse to the screen edge around it does not trigger the thumbnail bar
     property int ignoreRightMotion: state==="bottom"&&PQCConstants.currentImageIsMotionPhoto&&PQCSettings.filetypesMotionPhotoPlayPause ? 150 : 0
@@ -784,7 +958,7 @@ Rectangle {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
+            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen || rightclickmenu.opened)
                 return
 
             if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {
@@ -810,9 +984,9 @@ Rectangle {
             hideElementWithDelay.stop()
         }
 
-        // function onCloseAllContextMenus() {
-            // menu.item.dismiss()
-        // }
+        function onCloseAllContextMenus() {
+            rightclickmenu.dismiss()
+        }
     }
 
     Connections {
