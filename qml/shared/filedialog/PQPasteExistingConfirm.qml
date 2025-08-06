@@ -22,77 +22,145 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PhotoQt.Modern
+import QtQuick.Controls
 import PhotoQt.Shared
 
-PQTemplateFullscreen {
+/* :-)) <3 */
+
+Rectangle {
 
     id: exist_top
 
-    title: "Existing files"
+    width: parent.width
+    height: parent.height
 
     property list<string> files: []
-
-    button1.text: "Continue"
-
-    button2.visible: true
-    button2.text: genericStringCancel
-
-    button1.onClicked:
-        continuePaste()
-
-    button2.onClicked:
-        hide()
-
     property list<int> checkedFiles: []
 
     SystemPalette { id: pqtPalette }
 
-    content: [
+    property string title: "Existing files"
+
+    opacity: 0
+    Behavior on opacity { NumberAnimation { duration: 200 } }
+    visible: opacity>0
+    enabled: visible
+
+    onOpacityChanged: {
+        if(opacity > 0)
+            PQCNotify.windowTitleOverride(title)
+        else if(opacity === 0)
+            PQCNotify.windowTitleOverride("")
+    }
+
+    color: pqtPalette.base
+
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        onWheel: (wheel) => {
+            wheel.accepted = true
+        }
+        onClicked: (mouse) => {
+            mouse.accepted = true
+        }
+    }
+
+
+    Rectangle {
+
+        id: toprow
+
+        width: parent.width
+        height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
+        color: pqtPalette.base
 
         PQTextXL {
-            x: (parent.width-width)/2
-            text: qsTranslate("filedialog", "%1 files already exist in the target directory.").arg(exist_top.files.length)
-        },
-
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("filedialog", "Check the files below that you want to paste anyways. Files left unchecked will not be pasted.")
-        },
+            anchors.centerIn: parent
+            text: exist_top.title
+            font.weight: PQCLook.fontWeightBold
+        }
 
         Rectangle {
+            x: 0
+            y: parent.height-1
+            width: parent.width
+            height: 1
+            color: PQCLook.baseBorder
+        }
 
-            x: (parent.width-width)/2
+    }
 
-            width: 400
-            height: 300
+    Flickable {
 
-            color: pqtPalette.alternateBase
-            border.color: PQCLook.baseBorder
-            border.width: 1
+        id: flickable
 
-            ListView {
+        y: toprow.height + ((parent.height-bottomrow.height-toprow.height-height)/2)
 
-                id: view
+        width: parent.width
+        height: Math.min(parent.height-bottomrow.height-toprow.height, contentHeight)
 
-                anchors.fill: parent
-                anchors.margins: 1
+        clip: true
 
-                model: exist_top.files.length
+        contentHeight: insidecont.height+20
 
-                orientation: ListView.Vertical
-                clip: true
+        ScrollBar.vertical: PQVerticalScrollBar { }
 
-                Timer {
-                    id: resetCurrentIndex
-                    interval: 200
-                    property int oldIndex
-                    onTriggered:
+        Column {
+
+            id: insidecont
+
+            x: ((parent.width-width)/2)
+            y: 10
+
+            width: parent.width-10
+
+            spacing: 10
+
+            PQTextXL {
+                x: (parent.width-width)/2
+                text: qsTranslate("filedialog", "%1 files already exist in the target directory.").arg(exist_top.files.length)
+            }
+
+            PQText {
+                x: (parent.width-width)/2
+                text: qsTranslate("filedialog", "Check the files below that you want to paste anyways. Files left unchecked will not be pasted.")
+            }
+
+            Rectangle {
+
+                x: (parent.width-width)/2
+
+                width: 400
+                height: 300
+
+                color: pqtPalette.alternateBase
+                border.color: PQCLook.baseBorder
+                border.width: 1
+
+                ListView {
+
+                    id: view
+
+                    anchors.fill: parent
+                    anchors.margins: 1
+
+                    model: exist_top.files.length
+
+                    orientation: ListView.Vertical
+                    clip: true
+
+                    Timer {
+                        id: resetCurrentIndex
+                        interval: 200
+                        property int oldIndex
+                        onTriggered:
                         if(view.currentIndex === oldIndex)
                             view.currentIndex = -1
-                }
+                    }
 
-                delegate:
+                    delegate:
                     Rectangle {
 
                         id: deleg
@@ -100,7 +168,7 @@ PQTemplateFullscreen {
                         required property int modelData
 
                         property string filepath: exist_top.files[modelData]
-                        property string filename: PQCScriptsFilesPaths.getFilename(filepath) 
+                        property string filename: PQCScriptsFilesPaths.getFilename(filepath)
 
                         width: view.width
                         height: 40
@@ -121,14 +189,14 @@ PQTemplateFullscreen {
                                 id: check
                                 y: (parent.height-height)/2
                                 checked: exist_top.checkedFiles.indexOf(deleg.modelData)!==-1
-                                font.pointSize: PQCLook.fontSizeL 
+                                font.pointSize: PQCLook.fontSizeL
                             }
 
                             PQTextL {
                                 y: (parent.height-height)/2
                                 width: deleg.width-check.width-icon.width-20
                                 elide: Text.ElideMiddle
-                                text: PQCScriptsFilesPaths.getFilename(exist_top.files[deleg.modelData]) 
+                                text: PQCScriptsFilesPaths.getFilename(exist_top.files[deleg.modelData])
                             }
 
                             Item {
@@ -139,8 +207,8 @@ PQTemplateFullscreen {
                                 Image {
                                     anchors.fill: parent
                                     anchors.margins: 5
-                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder" 
-                                                                                          : "image://thumb/" + deleg.filepath
+                                    source: PQCScriptsFilesPaths.isFolder(deleg.filepath) ? "image://icon/folder"
+                                    : "image://thumb/" + deleg.filepath
                                 }
                             }
 
@@ -151,7 +219,7 @@ PQTemplateFullscreen {
                             hoverEnabled: true
                             cursorShape: Qt.PointingHandCursor
                             onEntered:
-                                view.currentIndex = deleg.modelData
+                            view.currentIndex = deleg.modelData
                             onExited: {
                                 resetCurrentIndex.oldIndex = deleg.modelData
                                 resetCurrentIndex.restart()
@@ -162,7 +230,7 @@ PQTemplateFullscreen {
                                     exist_top.checkedFilesChanged()
                                 } else
                                     exist_top.checkedFiles = exist_top.checkedFiles.filter(item => item!==deleg.modelData)
-                                exist_top.checkedFilesChanged
+                                    exist_top.checkedFilesChanged
                             }
                         }
 
@@ -173,31 +241,83 @@ PQTemplateFullscreen {
 
                     }
 
-            }
-
-        },
-
-        Row {
-
-            x: (parent.width-width)/2
-            spacing: 5
-
-            PQButton {
-                text: qsTranslate("filedialog", "Select all")
-                onClicked: {
-                    exist_top.checkedFiles = [...Array(view.model).keys()]
                 }
+
             }
 
-            PQButton {
-                text: qsTranslate("filedialog", "Select none")
-                onClicked:
+            Row {
+
+                x: (parent.width-width)/2
+                spacing: 5
+
+                PQButton {
+                    text: qsTranslate("filedialog", "Select all")
+                    onClicked: {
+                        exist_top.checkedFiles = [...Array(view.model).keys()]
+                    }
+                }
+
+                PQButton {
+                    text: qsTranslate("filedialog", "Select none")
+                    onClicked:
                     exist_top.checkedFiles = []
+                }
+
             }
 
         }
 
-    ]
+    }
+
+    Rectangle {
+
+        id: bottomrow
+
+        y: (parent.height-height)
+
+        width: parent.width
+        height: 50
+        color: pqtPalette.base
+
+        Rectangle {
+            x: 0
+            y: 0
+            width: parent.width
+            height: 1
+            color: PQCLook.baseBorder
+        }
+
+        Row {
+
+            x: (parent.width-width)/2
+
+            height: parent.height
+
+            spacing: 0
+
+            PQButtonElement {
+                id: firstbutton
+                text: "Continue"
+                font.weight: PQCLook.fontWeightBold
+                y: 1
+                height: parent.height-1
+                onClicked:
+                    exist_top.continuePaste()
+            }
+
+            PQButtonElement {
+                id: secondbutton
+                text: "Cancel"
+                visible: false
+                y: 1
+                height: parent.height-1
+                onClicked:
+                    exist_top.hide()
+            }
+
+        }
+
+    }
 
     function pasteExistingFiles(filelist : list<string>) {
         files = []
@@ -210,9 +330,9 @@ PQTemplateFullscreen {
         for(var i in exist_top.checkedFiles) {
             var ind = exist_top.checkedFiles[i]
             var fln = files[ind]
-            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog) 
+            PQCScriptsFileManagement.copyFileToHere(fln, PQCFileFolderModel.folderFileDialog)
             if(fd_fileview.cutFiles.indexOf(fln) !== -1)
-                    PQCScriptsFileManagement.deletePermanent(fln)
+                PQCScriptsFileManagement.deletePermanent(fln)
         }
 
         hide()
@@ -225,6 +345,11 @@ PQTemplateFullscreen {
 
     function hide() {
         exist_top.opacity = 0
+    }
+
+    function closeContextMenus() {
+        firstbutton.contextmenu.close()
+        secondbutton.contextmenu.close()
     }
 
 }

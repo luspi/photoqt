@@ -24,6 +24,8 @@ import QtQuick
 import QtMultimedia
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Item {
 
     id: videotop

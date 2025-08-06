@@ -25,11 +25,16 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Item {
 
     id: places_top
 
     height: parent.height-fd_breadcrumbs.height-fd_tweaks.height
+
+    onWidthChanged:
+        PQCConstants.filedialogPlacesWidth = width
 
     clip: true
 
@@ -69,12 +74,12 @@ Item {
         anchors.fill: parent
         acceptedButtons: Qt.RightButton|Qt.LeftButton
         onClicked: (mouse) => {
-            fd_breadcrumbs.disableAddressEdit()
+            PQCNotify.filedialogShowAddressEdit(false)
             if(mouse.button === Qt.LeftButton)
                 return
             PQCConstants.filedialogPlacesCurrentEntryId = ""
             PQCConstants.filedialogPlacesCurrentEntryHidden = ""
-            PQCNotify.showFileDialogContextMenu(true, ["fileviewplaces"])
+            places_menu.popup()
         }
     }
 
@@ -318,7 +323,7 @@ Item {
             }
 
             // mouse area handling clicks
-            PQGenericMouseArea {
+            PQMouseArea {
 
                 id: mouseArea
 
@@ -333,7 +338,7 @@ Item {
                 tooltip: deleg.index===0 ? "" : (PQCScriptsFilesPaths.pathWithNativeSeparators(deleg.path) + (deleg.part == 2 ? ("<br>"+entrysize.text + " (" + deleg.hidden + ")") : ""))
 
                 onPressed: {
-                    fd_breadcrumbs.disableAddressEdit()
+                    PQCNotify.filedialogShowAddressEdit(false)
                     places_top.pressedIndex[deleg.part] = deleg.index
                     places_top.pressedIndexChanged()
                 }
@@ -345,7 +350,7 @@ Item {
                 // clicking an entry loads the location or shows a context menu (depends on which button was used)
                 onClicked: (mouse) => {
 
-                    fd_breadcrumbs.disableAddressEdit()
+                    PQCNotify.filedialogShowAddressEdit(false)
 
                     if(deleg.index == 0)
                         return
@@ -360,7 +365,7 @@ Item {
                             PQCConstants.filedialogPlacesCurrentEntryId = ""
                             PQCConstants.filedialogPlacesCurrentEntryHidden = ""
                         }
-                        PQCNotify.showFileDialogContextMenu(true, ["fileviewplaces"])
+                        places_menu.popup()
                     }
                 }
 
@@ -418,6 +423,86 @@ Item {
             ]
 
         }
+    }
+
+    PQMenu {
+
+        id: places_menu
+
+        PQMenuItem {
+            id: entry1
+            visible: PQCConstants.filedialogPlacesCurrentEntryId!==""
+            text: (PQCConstants.filedialogPlacesCurrentEntryHidden==="true" ? qsTranslate("filedialog", "Show entry") : qsTranslate("filedialog", "Hide entry"))
+            states: [
+                State {
+                    when: PQCConstants.filedialogPlacesCurrentEntryId===""
+                    PropertyChanges {
+                        entry1.height: 0
+                    }
+                }
+            ]
+            onTriggered: {
+                PQCScriptsFileDialog.hidePlacesEntry(PQCConstants.filedialogPlacesCurrentEntryId, PQCConstants.filedialogPlacesCurrentEntryHidden==="false")
+                PQCNotify.filedialogReloadPlaces()
+            }
+        }
+
+        PQMenuItem {
+            id: entry2
+            visible: PQCConstants.filedialogPlacesCurrentEntryId!==""
+            text: (qsTranslate("filedialog", "Remove entry"))
+            states: [
+                State {
+                    when: PQCConstants.filedialogPlacesCurrentEntryId===""
+                    PropertyChanges {
+                        entry2.height: 0
+                    }
+                }
+            ]
+            onTriggered: {
+                PQCScriptsFileDialog.deletePlacesEntry(PQCConstants.filedialogPlacesCurrentEntryId)
+                PQCNotify.filedialogReloadPlaces()
+            }
+        }
+
+        PQMenuItem {
+            id: entry3
+            visible: PQCConstants.filedialogPlacesCurrentEntryId!==""
+            text: (PQCConstants.filedialogPlacesShowHidden ? (qsTranslate("filedialog", "Hide hidden entries")) : (qsTranslate("filedialog", "Show hidden entries")))
+            states: [
+                State {
+                    when: PQCConstants.filedialogPlacesCurrentEntryId===""
+                    PropertyChanges {
+                        entry3.height: 0
+                    }
+                }
+            ]
+            onTriggered:
+            PQCConstants.filedialogPlacesShowHidden = !PQCConstants.filedialogPlacesShowHidden
+        }
+
+        PQMenuSeparator { visible: PQCConstants.filedialogPlacesCurrentEntryId!=="" }
+
+        PQMenuItem {
+            text: (PQCSettings.filedialogPlaces ? (qsTranslate("filedialog", "Hide bookmarked places")) : (qsTranslate("filedialog", "Show bookmarked places")))
+            onTriggered:
+            PQCSettings.filedialogPlaces = !PQCSettings.filedialogPlaces
+        }
+
+        PQMenuItem {
+            text: (PQCSettings.filedialogDevices ? (qsTranslate("filedialog", "Hide storage devices")) : (qsTranslate("filedialog", "Show storage devices")))
+            onTriggered:
+            PQCSettings.filedialogDevices = !PQCSettings.filedialogDevices
+        }
+
+        onAboutToShow: {
+            PQCConstants.addToWhichContextMenusOpen("fileviewplaces")
+        }
+
+        onAboutToHide: {
+            PQCConstants.removeFromWhichContextMenusOpen("fileviewplaces")
+        }
+
     }
 
     Connections {

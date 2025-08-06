@@ -22,13 +22,14 @@
 
 import QtQuick
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 Loader {
 
     id: masteritemloader
 
     active: false
+
+    anchors.fill: parent
 
     // If no file has been passed on at startup we don't want to load this item asynchronously.
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
@@ -148,6 +149,7 @@ Loader {
 
         Loader {
             id: loader_filedialog
+            anchors.fill: parent
             active: PQCConstants.startupFilePath===""
             sourceComponent: PQFileDialog {}
             Connections {
@@ -165,42 +167,6 @@ Loader {
         Loader {
             active: masteritem.readyToContinueLoading
             sourceComponent: PQToolTipDisplay {}
-        }
-
-        /*****************************************/
-        // Context Menus
-
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQMinimapContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQArchiveControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQDocumentControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQVideoControlsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQThumbnailsContextMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogContextMenus {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogSettingsMenu {}
-        }
-        Loader {
-            active: masteritem.readyToContinueLoading
-            sourceComponent: PQFileDialogBreadCrumbsMenus {}
         }
 
         /*****************************************/

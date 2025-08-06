@@ -205,6 +205,8 @@ void PQCLook::calculateColors(QString name) {
     col.setAlpha(175);
     m_tooltipBorder = col.name(QColor::HexArgb);
 
+    m_brightText = m_pal.brightText().color().name(QColor::HexArgb);
+
 }
 
 QString PQCLook::getIconShade() {

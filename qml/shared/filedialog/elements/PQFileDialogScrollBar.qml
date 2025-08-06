@@ -21,8 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls.Basic
+import QtQuick.Controls
 import PhotoQt.Shared
+
+/* :-)) <3 */
 
 ScrollBar {
     id: control

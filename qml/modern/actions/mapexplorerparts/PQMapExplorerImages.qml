@@ -24,7 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Rectangle {
 
@@ -109,7 +108,7 @@ Rectangle {
             readonly property string fpath: dat[0]
             readonly property real latitude: dat[1]
             readonly property real longitude: dat[2]
-            readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath) 
+            readonly property string fname: PQCScriptsFilesPaths.getFilename(fpath)
 
             Rectangle {
 
@@ -131,8 +130,8 @@ Rectangle {
 
                     x: (parent.width-width)/2
                     y: (parent.height-height)/2
-                    width: parent.width-2*PQCSettings.filedialogElementPadding 
-                    height: parent.height-2*PQCSettings.filedialogElementPadding 
+                    width: parent.width-2*PQCSettings.filedialogElementPadding
+                    height: parent.height-2*PQCSettings.filedialogElementPadding
 
                     asynchronous: true
 
@@ -145,7 +144,7 @@ Rectangle {
                     Behavior on opacity { NumberAnimation { duration: 200 } }
 
                     // if we do not cache this image, then we keep the generic icon here
-                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname) 
+                    source: filethumb.status==Image.Ready ? "" : "image://icon/"+PQCScriptsFilesPaths.getSuffix(maindeleg.fname)
 
                     Image {
 
@@ -156,7 +155,7 @@ Rectangle {
 
                         sourceSize: Qt.size(256, 256)
 
-                        fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit 
+                        fillMode: PQCSettings.mapviewExplorerThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
                         // mipmap does not look good, use only smooth
                         smooth: true
@@ -193,7 +192,7 @@ Rectangle {
                         horizontalAlignment: Text.AlignHCenter
                         text: decodeURIComponent(maindeleg.fname)
                         elide: Text.ElideMiddle
-                        font.weight: PQCLook.fontWeightBold 
+                        font.weight: PQCLook.fontWeightBold
 
                     }
 
@@ -218,7 +217,7 @@ Rectangle {
                     resetCurrentIndex.stop()
                     gridview.currentIndex = maindeleg.modelData
 
-                    map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude) 
+                    map.showHighlightMarkerAt(maindeleg.latitude, maindeleg.longitude)
 
                     if(!tooltipSetup) {
 
@@ -271,7 +270,7 @@ Rectangle {
 
                 doubleClickThreshold: 200
                 onMouseDoubleClicked: {
-                    PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath 
+                    PQCFileFolderModel.fileInFolderMainView = maindeleg.fpath
                     if(!PQCSettings.interfacePopoutMapExplorerNonModal) {
                         visibleimages_top.hideExplorer()
                     }

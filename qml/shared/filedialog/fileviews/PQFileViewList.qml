@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 ListView {
 
     id: listview
@@ -322,7 +324,7 @@ ListView {
         }
 
         // mouse area handling general mouse events
-        PQGenericMouseArea {
+        PQMouseArea {
 
             id: listmousearea
 

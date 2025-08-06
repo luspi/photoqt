@@ -23,6 +23,8 @@
 import QtQuick
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Loader {
 
     id: ldr_top
@@ -75,7 +77,7 @@ Loader {
                         source: PQCSettings.filetypesMotionAutoPlay ? ("image://svg/:/" + PQCLook.iconShade + "/autoplay.svg") : ("image://svg/:/" + PQCLook.iconShade + "/autoplay_off.svg")
                     }
 
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: autoplaymouse
                         anchors.fill: parent
                         hoverEnabled: true
@@ -103,7 +105,7 @@ Loader {
                         source: PQCConstants.motionPhotoIsPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")
                     }
 
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: playpausemouse
                         anchors.fill: parent
                         hoverEnabled: true

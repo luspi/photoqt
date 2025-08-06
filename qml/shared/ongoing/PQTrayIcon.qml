@@ -21,70 +21,56 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
+import QtQuick.Window
+import Qt.labs.platform
 import PhotoQt.Shared
 
-Item {
+/* :-)) <3 */
 
-    PQMenu {
+SystemTrayIcon {
 
-        id: rightclickmenu
+    id: trayicon
 
-        property bool resetPosAfterHide: false
+    visible: PQCSettings.interfaceTrayIcon>0
 
-        PQMenuItem {
-            icon.source: "image://svg/:/" + PQCLook.iconShade + "/padlock.svg"
-            text: qsTranslate("image", PQCSettings.filetypesDocumentLeftRight ? "Unlock arrow keys" : "Lock arrow keys")
-            onTriggered: {
-                PQCSettings.filetypesDocumentLeftRight = !PQCSettings.filetypesDocumentLeftRight
-            }
-        }
+    icon.source: PQCSettings.interfaceTrayIconMonochrome ? "image://svg/:/other/logo_white.svg" : "image://svg/:/other/logo.svg"
 
-        PQMenuItem {
-            icon.source: "image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg"
-            text: qsTranslate("image", "Viewer mode")
-            onTriggered: {
-                PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
-            }
-        }
+    menu: Menu {
+        id: mn
 
-        PQMenuSeparator {}
-
-        PQMenuItem {
-            icon.source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
-            text: qsTranslate("image", "Reset position")
-            onTriggered: {
-                rightclickmenu.resetPosAfterHide = true
-            }
-        }
-
-        PQMenuItem {
-            icon.source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-            text: qsTranslate("image", "Hide controls")
+        MenuItem {
+            text: (PQCConstants.windowState===Window.Hidden ? qsTranslate("trayicon", "Show PhotoQt") : qsTranslate("trayicon", "Hide PhotoQt"))
             onTriggered:
-                PQCSettings.filetypesDocumentControls = false
+                trayicon.triggerVisibility()
         }
 
-        onVisibleChanged: {
-            if(!visible && resetPosAfterHide) {
-                resetPosAfterHide = false
-                PQCNotify.currentDocumentControlsResetPosition()
-            }
+        MenuItem {
+            text: "Quit PhotoQt"
+            onTriggered:
+                PQCNotify.photoQtQuit()
         }
+
+        Component.onCompleted:
+            mn.visible = false
 
     }
 
-    Connections {
+    onActivated: {
+        trayicon.triggerVisibility()
+    }
 
-        target: PQCNotify
-
-        function onShowDocumentControlsContextMenu(vis : bool) {
-            if(vis)
-                rightclickmenu.popup()
+    function triggerVisibility() {
+        PQCSettings.interfaceTrayIcon = 1
+        if(PQCConstants.windowState === Window.Hidden) {
+            if(PQCConstants.windowMaxAndNotWindowed)
+                PQCNotify.setWindowState(Window.Maximized)
             else
-                rightclickmenu.dismiss()
+                PQCNotify.setWindowState(Window.Windowed)
+        } else if(PQCConstants.windowState === Window.Minimized) {
+            PQCNotify.windowRaiseAndFocus()
+        } else {
+            PQCNotify.setWindowState(Window.Hidden)
         }
-
     }
 
 }

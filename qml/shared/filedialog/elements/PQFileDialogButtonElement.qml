@@ -21,9 +21,10 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls.Basic
-import PhotoQt.Modern   // the file dialog is loosely based on the Modern interface
+import QtQuick.Controls
 import PhotoQt.Shared
+
+/* :-)) <3 */
 
 Button {
 
@@ -40,9 +41,8 @@ Button {
     SystemPalette { id: pqtPalette }
 
     property bool enableContextMenu: true
-    property alias contextmenu: menu
 
-    property alias tooltip: mouseArea.text
+    property alias tooltip: mouseArea.tooltip
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
@@ -89,17 +89,17 @@ Button {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        text: control.text
+        tooltip: control.text
         acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
         onPressed: (mouse) => {
-            if(control.enableContextMenu && mouse.button == Qt.RightButton)
-                menu.popup()
+            if(control.enableContextMenu && mouse.button === Qt.RightButton)
+                themenu.popup()
             mouse.accepted = false
         }
     }
 
     PQMenu {
-        id: menu
+        id: themenu
         PQMenuItem {
             enabled: false
             font.italic: true
@@ -107,9 +107,8 @@ Button {
         }
         PQMenuItem {
             text: qsTranslate("buttongeneric", "Activate button")
-            onTriggered: {
+            onTriggered:
                 control.clicked()
-            }
         }
     }
 

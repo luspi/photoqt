@@ -22,7 +22,6 @@
 
 import QtQuick
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 PQToolTip {
 

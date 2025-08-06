@@ -23,7 +23,6 @@
 import QtQuick
 import PQCExtensionsHandler
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Item {
 
@@ -226,15 +225,27 @@ Item {
                 (ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()))
             return
 
-        var uicat = "Modern"
-        if(ele === "filedialog")
-            uicat = "Shared"
+        if(ele === "filedialog") {
+            if(config[4] || config[5]) {
+                loader_filedialog.active = false
+                loader_filedialog_popout.active = true
+            } else {
+                loader_filedialog_popout.active = false
+                loader_filedialog.active = true
+            }
+            return
+        }
+
+        var basepath = "qrc:/qt/qml/PhotoQt/Modern/qml/modern/"
+        if(ele === "filedialog") {
+            basepath = "qrc:/qt/qml/PhotoQt/Modern/qml/duplicated/.modern/"
+        }
 
         var src
         if(config[4] || config[5])
-            src = "qrc:/qt/qml/PhotoQt/" + uicat + "/qml/" + uicat.toLowerCase() + "/" + config[0] + "/popout/" + config[1] + "Popout.qml"
+            src = basepath + config[0] + "/popout/" + config[1] + "Popout.qml"
         else
-            src = "qrc:/qt/qml/PhotoQt/" + uicat + "/qml/" + uicat.toLowerCase() + "/" + config[0] + "/" + config[1] + ".qml"
+            src = basepath + config[0] + "/" + config[1] + ".qml"
 
         if(src !== config[2].source)
             config[2].source = src

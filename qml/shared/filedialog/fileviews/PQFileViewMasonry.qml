@@ -25,6 +25,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Flickable {
 
     id: masonryview
@@ -449,7 +451,7 @@ Flickable {
             /************************************************************/
 
             // mouse area handling general mouse events
-            PQGenericMouseArea {
+            PQMouseArea {
 
                 id: masonrymousearea
 
@@ -545,7 +547,7 @@ Flickable {
                     mipmap: true
                     opacity: selectmouse.containsMouse ? 0.8 : 0.4
                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                    PQGenericMouseArea {
+                    PQMouseArea {
                         id: selectmouse
                         anchors.fill: parent
                         hoverEnabled: true

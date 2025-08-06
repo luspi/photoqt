@@ -26,6 +26,8 @@ import QtQuick.Window
 import PQCImageFormats
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Loader {
     id: imageloaderitem
 
@@ -1929,7 +1931,7 @@ Loader {
 
         }
 
-        PQGenericMouseArea {
+        PQMouseArea {
             id: imagemouse
             anchors.fill: parent
             anchors.leftMargin: -PQCSettings.imageviewMargin

@@ -118,6 +118,9 @@ public:
         m_filedialogPlacesShowHidden = false;
         m_filedialogHistory.clear();
         m_filedialogHistoryIndex = 0;
+        m_filedialogPlacesWidth = 0;
+        m_filedialogFileviewWidth = 0;
+        m_filedialogAddressEditVisible = false;
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoPosition = 0;
@@ -241,6 +244,7 @@ public:
     Q_PROPERTY(int thumbnailsMenuReloadIndex MEMBER m_thumbnailsMenuReloadIndex NOTIFY thumbnailsMenuReloadIndexChanged)
     Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
+
     Q_PROPERTY(QStringList filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
     Q_PROPERTY(int filedialogCurrentIndex MEMBER m_filedialogCurrentIndex NOTIFY filedialogCurrentIndexChanged)
     Q_PROPERTY(QString filedialogPlacesCurrentEntryId MEMBER m_filedialogPlacesCurrentEntryId NOTIFY filedialogPlacesCurrentEntryIdChanged)
@@ -248,6 +252,9 @@ public:
     Q_PROPERTY(bool filedialogPlacesShowHidden MEMBER m_filedialogPlacesShowHidden NOTIFY filedialogPlacesShowHiddenChanged)
     Q_PROPERTY(QStringList filedialogHistory MEMBER m_filedialogHistory NOTIFY filedialogHistoryChanged)
     Q_PROPERTY(int filedialogHistoryIndex MEMBER m_filedialogHistoryIndex NOTIFY filedialogHistoryIndexChanged)
+    Q_PROPERTY(int filedialogPlacesWidth MEMBER m_filedialogPlacesWidth NOTIFY filedialogPlacesWidthChanged)
+    Q_PROPERTY(int filedialogFileviewWidth MEMBER m_filedialogFileviewWidth NOTIFY filedialogFileviewWidthChanged)
+    Q_PROPERTY(bool filedialogAddressEditVisible MEMBER m_filedialogAddressEditVisible NOTIFY filedialogAddressEditVisibleChanged)
 
 
     /******************************************************/
@@ -392,6 +399,9 @@ private:
     bool m_filedialogPlacesShowHidden;
     QStringList m_filedialogHistory;
     int m_filedialogHistoryIndex;
+    int m_filedialogPlacesWidth;
+    int m_filedialogFileviewWidth;
+    bool m_filedialogAddressEditVisible;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -522,5 +532,8 @@ Q_SIGNALS:
     void filedialogPlacesShowHiddenChanged();
     void filedialogHistoryChanged();
     void filedialogHistoryIndexChanged();
+    void filedialogPlacesWidthChanged();
+    void filedialogFileviewWidthChanged();
+    void filedialogAddressEditVisibleChanged();
 
 };

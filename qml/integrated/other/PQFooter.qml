@@ -24,7 +24,6 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import PhotoQt.Integrated
-import PhotoQt.Shared
 
 ToolBar {
 

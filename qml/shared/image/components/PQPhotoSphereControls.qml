@@ -24,6 +24,8 @@ import QtQuick
 import QtQuick.Controls
 import PhotoQt.Shared
 
+/* :-)) <3 */
+
 Loader {
 
     id: ldr_top
@@ -91,7 +93,7 @@ Loader {
 
                 }
 
-                PQGenericMouseArea {
+                PQMouseArea {
                     id: leftrightmouse
                     anchors.fill: parent
                     hoverEnabled: true

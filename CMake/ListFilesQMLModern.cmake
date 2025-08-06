@@ -10,12 +10,12 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindow.qml)
 SET(d "qml/modern/elements")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQText.qml ${d}/PQTextS.qml ${d}/PQTextL.qml ${d}/PQTextXL.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSlider.qml ${d}/PQComboBox.qml ${d}/PQButtonElement.qml ${d}/PQVerticalScrollBar.qml ${d}/PQMenu.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMenuItem.qml ${d}/PQMenuSeparator.qml ${d}/PQButton.qml ${d}/PQCheckBox.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMenuItem.qml ${d}/PQMenuSeparator.qml ${d}/PQButton.qml ${d}/PQCheckBox.qml ${d}/PQButtonIcon.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQToolTip.qml ${d}/PQHorizontalScrollBar.qml ${d}/PQMainMenuEntry.qml ${d}/PQMainMenuIcon.qml ${d}/PQMetaDataEntry.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQModal.qml ${d}/PQTextXXL.qml ${d}/PQTemplateFullscreen.qml ${d}/PQTemplatePopout.qml ${d}/PQTemplateFloating.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSpinBox.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSliderSpinBox.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQMouseArea.qml ${d}/PQMenuWithGap.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQResizeRect.qml ${d}/PQMouseArea.qml ${d}/PQMenuWithGap.qml ${d}/PQLineEdit.qml)
 
 SET(d "qml/modern/elements/extensions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplateExtensionFloatingPopout.qml ${d}/PQTemplateExtensionSettings.qml ${d}/PQTemplateExtension.qml)
@@ -28,7 +28,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowH
 
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml ${d}/PQTrayIcon.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
 
 SET(d "qml/modern/ongoing/popout")
@@ -47,11 +47,6 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManagerPopout.qml 
 
 SET(d "qml/modern/actions/mapexplorerparts")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)
-
-SET(d "qml/modern/contextmenus")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMinimapContextMenu.qml ${d}/PQArchiveControlsContextMenu.qml ${d}/PQDocumentControlsContextMenu.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQVideoControlsContextMenu.qml ${d}/PQThumbnailsContextMenu.qml ${d}/PQFileDialogContextMenus.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialogSettingsMenu.qml ${d}/PQFileDialogBreadCrumbsMenus.qml)
 
 SET(d "qml/modern/settingsmanager")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)

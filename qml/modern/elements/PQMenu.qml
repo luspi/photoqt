@@ -23,13 +23,13 @@
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Modern
-import PhotoQt.Shared
 
 Menu {
 
     id: control
 
     SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     // setting the inset and padding properties are necessary in particular on Windows
     // See: https://bugreports.qt.io/browse/QTBUG-131499
@@ -53,7 +53,7 @@ Menu {
         implicitWidth: 250
         implicitHeight: 40
         color: pqtPalette.base
-        border.color: PQCLook.baseBorder
+        border.color: PQCLook.brightText
         border.width: 1
         radius: 2
     }
