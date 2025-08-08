@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.filedeleteMaximized
     popout: PQCSettings.interfacePopoutFileDelete
     sizepopout: PQCWindowGeometry.filedeleteForcePopout
-    source: "actions/PQDelete.qml"
+    loaderSourceComponent: PQDelete {}
 
     minimumWidth: 800
     minimumHeight: 600

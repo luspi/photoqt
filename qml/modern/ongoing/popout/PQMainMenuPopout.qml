@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.mainmenuMaximized
     popout: PQCSettings.interfacePopoutMainMenu
     sizepopout: PQCWindowGeometry.mainmenuForcePopout
-    source: "ongoing/PQMainMenu.qml"
+    loaderSourceComponent: PQMainMenu {}
 
     modality: Qt.NonModal
 

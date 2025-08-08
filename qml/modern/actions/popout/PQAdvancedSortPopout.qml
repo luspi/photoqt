@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.advancedsortMaximized
     popout: PQCSettings.interfacePopoutAdvancedSort
     sizepopout: PQCWindowGeometry.advancedsortForcePopout
-    source: "actions/PQAdvancedSort.qml"
+    loaderSourceComponent: PQAdvancedSort {}
 
     minimumWidth: 800
     minimumHeight: 600

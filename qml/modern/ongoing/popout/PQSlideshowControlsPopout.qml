@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.slideshowcontrolsMaximized
     popout: PQCSettings.interfacePopoutSlideshowControls
     sizepopout: PQCWindowGeometry.slideshowcontrolsForcePopout
-    source: "ongoing/PQSlideshowControls.qml"
+    loaderSourceComponent: PQSlideshowControls {}
 
     modality: Qt.NonModal
 

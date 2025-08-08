@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.chromecastmanagerMaximized
     popout: PQCSettings.interfacePopoutChromecast
     sizepopout: PQCWindowGeometry.chromecastmanagerForcePopout
-    source: "actions/PQChromeCastManager.qml"
+    loaderSourceComponent: PQChromeCastManager {}
 
     minimumWidth: 800
     minimumHeight: 600

@@ -32,8 +32,6 @@ Rectangle {
     property real minZoomLevel: 0
     property real maxZoomLevel: 1
 
-    property alias contextmenu: resetbutton.contextmenu
-
     SystemPalette { id: pqtPalette }
 
     Row {

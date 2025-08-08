@@ -28,40 +28,206 @@ Item {
 
     id: loader_top
 
-    // source, loader id, modal, popout, force popout
-    property var loadermapping: {
-        "about"               : ["actions","PQAbout", loader_about, 1, PQCSettings.interfacePopoutAbout, PQCWindowGeometry.aboutForcePopout],
-        "mainmenu"            : ["ongoing", "PQMainMenu", loader_mainmenu, 0, PQCSettings.interfacePopoutMainMenu, PQCWindowGeometry.mainmenuForcePopout],
-        "metadata"            : ["ongoing", "PQMetaData", loader_metadata, 0, PQCSettings.interfacePopoutMetadata, PQCWindowGeometry.metadataForcePopout],
-        "filedialog"          : ["filedialog","PQFileDialog", loader_filedialog, 1, PQCSettings.interfacePopoutFileDialog, PQCWindowGeometry.filedialogForcePopout],
-        "thumbnails"          : ["ongoing", "PQThumbnails", loader_thumbnails, 0, false, false],
-        "filedelete"          : ["actions","PQDelete", loader_filedelete, 1, PQCSettings.interfacePopoutFileDelete, PQCWindowGeometry.filedeleteForcePopout],
-        "filerename"          : ["actions","PQRename", loader_filerename, 1, PQCSettings.interfacePopoutFileRename, PQCWindowGeometry.filerenameForcePopout],
-        "filecopy"            : ["actions","PQCopy", loader_copy, 1, false, false],
-        "filemove"            : ["actions","PQMove", loader_move, 1, false, false],
-        "filter"              : ["actions","PQFilter", loader_filter, 1, PQCSettings.interfacePopoutFilter, PQCWindowGeometry.filterForcePopout],
-        "advancedsort"        : ["actions","PQAdvancedSort", loader_advancedsort, 1, PQCSettings.interfacePopoutAdvancedSort, PQCWindowGeometry.advancedsortForcePopout],
-        "logging"             : ["ongoing","PQLogging", loader_logging, 0, true, true],
-        "slideshowsetup"      : ["actions","PQSlideshowSetup", loader_slideshowsetup, 1, PQCSettings.interfacePopoutSlideshowSetup, PQCWindowGeometry.slideshowsetupForcePopout],
-        "slideshowhandler"    : ["other","PQSlideshowHandler", loader_slideshowhandler, 1, false, false],
-        "slideshowcontrols"   : ["ongoing","PQSlideshowControls", loader_slideshowcontrols, 0, PQCSettings.interfacePopoutSlideshowControls, PQCWindowGeometry.slideshowcontrolsForcePopout],
-        "notification"        : ["ongoing","PQNotification", loader_notification, 0, false, false],
-        "mapexplorer"         : ["actions","PQMapExplorer", loader_mapexplorer, 1, PQCSettings.interfacePopoutMapExplorer, PQCWindowGeometry.mapexplorerForcePopout],
-        "chromecast"          : ["ongoing","PQChromeCast", loader_chromecast, 0, false, false],
-        "chromecastmanager"   : ["actions","PQChromeCastManager", loader_chromecastmanager, 1, PQCSettings.interfacePopoutChromecast, PQCWindowGeometry.chromecastmanagerForcePopout],
-        "settingsmanager"     : ["settingsmanager","PQSettingsManager", loader_settingsmanager, 1, PQCSettings.interfacePopoutSettingsManager, PQCWindowGeometry.settingsmanagerForcePopout],
+    anchors.fill: parent
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_metadata
+        active: false
+        asynchronous: true
+        sourceComponent: ((PQCSettings.interfacePopoutMetadata || PQCWindowGeometry.metadataForcePopout) ? comp_metadata_popout : comp_metadata)
+    }
+    Component { id: comp_metadata; PQMetaData {} }
+    Component { id: comp_metadata_popout; PQMetaDataPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_settingsmanager
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutSettingsManager || PQCWindowGeometry.settingsmanagerForcePopout) ? comp_settingsmanager_popout : comp_settingsmanager)
+    }
+    Component { id: comp_settingsmanager; PQSettingsManager {} }
+    Component { id: comp_settingsmanager_popout; PQSettingsManagerPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_about
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
+    }
+    Component { id: comp_about; PQAbout {} }
+    Component { id: comp_about_popout; PQAboutPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_mainmenu
+        active: false
+        asynchronous: true
+        sourceComponent: ((PQCSettings.interfacePopoutMainMenu|| PQCWindowGeometry.mainmenuForcePopout) ? comp_mainmenu_popout : comp_mainmenu)
+    }
+    Component { id: comp_mainmenu; PQMainMenu {} }
+    Component { id: comp_mainmenu_popout; PQMainMenuPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_filedelete
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutFileDelete || PQCWindowGeometry.filedeleteForcePopout) ? comp_filedelete_popout : comp_filedelete)
+    }
+    Component { id: comp_filedelete; PQDelete {} }
+    Component { id: comp_filedelete_popout; PQDeletePopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_filerename
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutFileRename || PQCWindowGeometry.filerenameForcePopout) ? comp_filerename_popout : comp_filerename)
+    }
+    Component { id: comp_filerename; PQRename {} }
+    Component { id: comp_filerename_popout; PQRenamePopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_filecopy
+        active: false
+        sourceComponent: PQCopy {}
     }
 
-    property string visibleItem: ""
-    onVisibleItemChanged: {
-        PQCConstants.idOfVisibleItem = visibleItem
-        PQCConstants.modalWindowOpen = (visibleItem!="")
+    /*********************************************************************/
+
+    Loader {
+        id: loader_filemove
+        active: false
+        sourceComponent: PQMove {}
     }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_filter
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutFilter || PQCWindowGeometry.filterForcePopout) ? comp_filter_popout : comp_filter)
+    }
+    Component { id: comp_filter; PQFilter {} }
+    Component { id: comp_filter_popout; PQFilterPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_advancedsort
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutAdvancedSort || PQCWindowGeometry.advancedsortForcePopout) ? comp_advancedsort_popout : comp_advancedsort)
+    }
+    Component { id: comp_advancedsort; PQAdvancedSort {} }
+    Component { id: comp_advancedsort_popout; PQAdvancedSortPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_logging
+        active: false
+        sourceComponent: PQLoggingPopout {}
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowsetup
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutSlideshowSetup || PQCWindowGeometry.slideshowsetupForcePopout) ? comp_slideshowsetup_popout : comp_slideshowsetup)
+    }
+    Component { id: comp_slideshowsetup; PQSlideshowSetup {} }
+    Component { id: comp_slideshowsetup_popout; PQSlideshowSetupPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowhandler
+        active: false
+        sourceComponent: PQSlideshowHandler {}
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowcontrols
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutSlideshowControls || PQCWindowGeometry.slideshowcontrolsForcePopout) ? comp_slideshowcontrols_popout : comp_slideshowcontrols)
+    }
+    Component { id: comp_slideshowcontrols; PQSlideshowControls {} }
+    Component { id: comp_slideshowcontrols_popout; PQSlideshowControlsPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_notification
+        active: false
+        sourceComponent: PQNotification {}
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_mapexplorer
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout) ? comp_mapexplorer_popout : comp_mapexplorer)
+    }
+    Component { id: comp_mapexplorer; PQMapExplorer {} }
+    Component { id: comp_mapexplorer_popout; PQMapExplorerPopout {} }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_chromecastmanager
+        active: false
+        sourceComponent: ((PQCSettings.interfacePopoutChromecast || PQCWindowGeometry.chromecastmanagerForcePopout) ? comp_chromecastmanager_popout : comp_chromecastmanager)
+    }
+    Component { id: comp_chromecastmanager; PQChromeCastManager {} }
+    Component { id: comp_chromecastmanager_popout; PQChromeCastManagerPopout {} }
+
+    Loader {
+        id: loader_chromecast
+        active: false
+        sourceComponent: PQChromeCast {}
+    }
+
+    /*********************************************************************/
+
+    property var idToLoader: {
+        "about" :               [loader_about,              true],
+        "metadata" :            [loader_metadata,           false],
+        "mainmenu" :            [loader_mainmenu,           false],
+        "settingsmanager" :     [loader_settingsmanager,    true],
+        "filedelete" :          [loader_filedelete,         true],
+        "filerename" :          [loader_filerename,         true],
+        "filecopy" :            [loader_filecopy,           true],
+        "filemove" :            [loader_filemove,           true],
+        "filter" :              [loader_filter,             true],
+        "advancedsort" :        [loader_advancedsort,       true],
+        "logging" :             [loader_logging,            false],
+        "slideshowsetup" :      [loader_slideshowsetup,     true],
+        "slideshowhandler" :    [loader_slideshowhandler,   true],
+        "slideshowcontrols" :   [loader_slideshowcontrols,  false],
+        "notification" :        [loader_notification,       false],
+        "mapexplorer" :         [loader_mapexplorer,        true],
+        "chromecastmanager" :   [loader_chromecastmanager,  true],
+        "chromecast" :          [loader_chromecast,         false],
+    }
+
+    // source, loader id, modal, popout, force popout
+    property var loadermapping: ({})
 
     function show(ele : string, additional : list<var>) : void {
 
-        if(ele === "chromecast" && visibleItem === "chromecastmanager") {
-            ensureItIsReady(ele, loadermapping[ele])
+        if(ele === "chromecast" && PQCConstants.idOfVisibleItem === "chromecastmanager") {
+            ensureItIsReady(ele)
             return
         }
 
@@ -77,10 +243,10 @@ Item {
         if(ind > -1) {
 
             if(PQCExtensionsHandler.getExtensionModalMake(ele)) {
-                if(visibleItem != "")
+                if(PQCConstants.idOfVisibleItem !== "")
                     return
                 else
-                    visibleItem = ele
+                    PQCConstants.idOfVisibleItem = ele
             }
             ensureExtensionIsReady(ele, ind)
 
@@ -108,35 +274,33 @@ Item {
                     PQCNotify.loaderPassOn("show", [ele, additional])
             }
 
-        } else if(!(ele in loadermapping)) {
+        } else if(!(ele in idToLoader)) {
             console.log("Unknown element encountered:", ele)
             return
         } else {
 
-            var config = loadermapping[ele]
+            var config = idToLoader[ele]
 
-            if(config[3] === 1 && visibleItem != "")
+            if(config[1] && PQCConstants.idOfVisibleItem !== "")
                 return
 
-            // these checks make sure to ignore the blocking value when the interfacePopoutFileDialogNonModal setting is set
-            if(config[3] === 1 &&
-                (ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
+            if(config[1] &&
                 (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                 (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
-                visibleItem = ele
+                PQCConstants.idOfVisibleItem = ele
 
-            ensureItIsReady(ele, config)
+            ensureItIsReady(ele)
 
-            if(!config[2].item) {
+            if(!config[0].item) {
                 if(showWhenReady.args.length == 0) {
-                    showWhenReady.theloader = config[2]
+                    showWhenReady.theloader = config[0]
                     if(additional.length === 0)
                         showWhenReady.args = [ele]
                     else
                         showWhenReady.args = [ele, additional]
                     showWhenReady.start()
                 } else if(showWhenReady2.args.length == 0) {
-                    showWhenReady2.theloader = config[2]
+                    showWhenReady2.theloader = config[0]
                     if(additional.length === 0)
                         showWhenReady2.args = [ele]
                     else
@@ -188,67 +352,19 @@ Item {
     }
 
     function elementOpened(ele : string) {
-        visibleItem = ele
+        PQCConstants.idOfVisibleItem = ele
     }
 
     function elementClosed(ele : string) {
-
-        if((ele in loadermapping && loadermapping[ele][3] === 1) || PQCExtensionsHandler.getExtensions().indexOf(ele)>-1 || ele === "facetagger") {
-
-            // these are the same checks as above when setting this property
-            if((ele !== "filedialog" || !PQCSettings.interfacePopoutFileDialog || (PQCSettings.interfacePopoutFileDialog && !PQCSettings.interfacePopoutFileDialogNonModal)) &&
-                    (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
-                    (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal))) {
-
-                if(visibleItem === ele || visibleItem === "") {
-                    console.log("Closing item:", ele)
-                    visibleItem = ""
-                } else
-                    console.warn("Closed item not item recoreded as open:", ele, "=!=", visibleItem)
-
-            }
-        }
-
+        PQCConstants.idOfVisibleItem = ""
     }
 
-    function ensureItIsReady(ele : string, config : var) {
+    function ensureItIsReady(ele : string) {
 
         console.log("args: ele =", ele)
-        console.log("args: config =", config)
 
-        if(ele === "thumbnails") {
-            loader_thumbnails.active = true
-            return
-        }
-
-        if((ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) ||
-                (ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()))
-            return
-
-        if(ele === "filedialog") {
-            if(config[4] || config[5]) {
-                loader_filedialog.active = false
-                loader_filedialog_popout.active = true
-            } else {
-                loader_filedialog_popout.active = false
-                loader_filedialog.active = true
-            }
-            return
-        }
-
-        var basepath = "qrc:/qt/qml/PhotoQt/Modern/qml/modern/"
-        if(ele === "filedialog") {
-            basepath = "qrc:/qt/qml/PhotoQt/Modern/qml/duplicated/.modern/"
-        }
-
-        var src
-        if(config[4] || config[5])
-            src = basepath + config[0] + "/popout/" + config[1] + "Popout.qml"
-        else
-            src = basepath + config[0] + "/" + config[1] + ".qml"
-
-        if(src !== config[2].source)
-            config[2].source = src
+        if(ele in idToLoader)
+            idToLoader[ele][0].active = true
 
     }
 
@@ -287,7 +403,7 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady("settingsmanager", loader_top.loadermapping["settingsmanager"])
+            loader_top.ensureItIsReady("settingsmanager")
             PQCNotify.loaderPassOn("showSettings", [subcategory])
         }
 
@@ -306,7 +422,7 @@ Item {
         }
 
         function onLoaderShow(ele : string) {
-            loader_top.ensureItIsReady(ele, loader_top.loadermapping[ele])
+            loader_top.ensureItIsReady(ele)
             loader_top.show(ele, [])
         }
 
@@ -316,7 +432,7 @@ Item {
         }
 
         function onLoaderSetup(ele : string) {
-            loader_top.ensureItIsReady(ele, loader_top.loadermapping[ele])
+            loader_top.ensureItIsReady(ele)
         }
 
         function onLoaderSetupExtension(ele : string) {
@@ -324,13 +440,13 @@ Item {
         }
 
         function onLoaderOverrideVisibleItem(ele : string) {
-            loader_top.visibleItemBackup = loader_top.visibleItem
-            loader_top.visibleItem = ele
+            loader_top.visibleItemBackup = PQCConstants.idOfVisibleItem
+            PQCConstants.idOfVisibleItem = ele
         }
 
         function onLoaderRestoreVisibleItem() {
             if(loader_top.visibleItemBackup != "") {
-                loader_top.visibleItem = loader_top.visibleItemBackup
+                PQCConstants.idOfVisibleItem = loader_top.visibleItemBackup
                 loader_top.visibleItemBackup = ""
             }
         }
