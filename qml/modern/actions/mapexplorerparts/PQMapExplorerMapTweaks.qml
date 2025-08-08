@@ -59,10 +59,10 @@ Rectangle {
             from: explorertweaks.minZoomLevel
             to: explorertweaks.maxZoomLevel
             stepSize: 0.1
-            value: mapexplorer_top.mapZoomLevel 
+            value: mapexplorer_top.mapZoomLevel
 
             onValueChanged: {
-                mapexplorer_top.mapZoomLevel = value 
+                mapexplorer_top.mapZoomLevel = value
             }
         }
 
@@ -70,13 +70,13 @@ Rectangle {
 
     PQButtonIcon {
         id: resetbutton
-        x: parent.width-width-mapexplorer_top.closebuttonWidth/2 
+        x: parent.width-width-mapexplorer_top.closebuttonWidth/2
         y: (parent.height-height)/2
-        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" 
+        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
         //: The view here is the map layout in the map explorer
         tooltip: qsTranslate("mapexplorer", "Reset view")
         onClicked: {
-            mapexplorer_top.resetMap() 
+            mapexplorer_top.resetMap()
             mapexplorer_top.resetWidth()
         }
     }

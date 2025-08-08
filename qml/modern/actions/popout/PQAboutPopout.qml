@@ -46,7 +46,7 @@ PQTemplatePopout {
     }
 
     onPopoutChanged: {
-        if(popout !== PQCSettings.interfacePopoutAbout) 
+        if(popout !== PQCSettings.interfacePopoutAbout)
             PQCSettings.interfacePopoutAbout = popout
     }
 

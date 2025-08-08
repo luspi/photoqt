@@ -61,7 +61,7 @@ PQTemplatePopout {
     }
 
     function doSorting() {
-        return loaderitem.doSorting() 
+        return loaderitem.doSorting()
     }
 
 }
