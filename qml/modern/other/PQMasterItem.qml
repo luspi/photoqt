@@ -50,8 +50,6 @@ Loader {
 
         property bool readyToContinueLoading: false
 
-        PQLoader { id: masterloader }
-
         Loader {
             id: bgmessage
             asynchronous: true
@@ -149,19 +147,13 @@ Loader {
             sourceComponent: PQThumbnails {}
         }
 
-        Loader { id: loader_metadata }
-        Loader { id: loader_mainmenu }
-        Loader { id: loader_notification }
-        Loader { id: loader_chromecast }
-        Loader { id: loader_slideshowcontrols }
-        Loader { id: loader_slideshowhandler }
-        Loader { id: loader_logging }
+        PQLoader { id: masterloader }
 
         Loader {
             id: mastertouchareas
             active: masteritem.readyToContinueLoading
             asynchronous: true
-            source: "PQGestureTouchAreas.qml"
+            sourceComponent: PQGestureTouchAreas {}
         }
 
         /******************************************/
@@ -170,43 +162,38 @@ Loader {
             id: loader_windowhandles
             asynchronous: true
             active: masteritem.readyToContinueLoading && PQCSettings.interfaceWindowMode && !PQCSettings.interfaceWindowDecoration
-            source: "../ongoing/PQWindowHandles.qml"
+            sourceComponent: PQWindowHandles {}
         }
 
         Loader {
             id: loader_contextmenu
             active: masteritem.readyToContinueLoading
             asynchronous: true
-            source: "../ongoing/PQContextMenu.qml"
+            sourceComponent: PQContextMenu {}
         }
 
         /******************************************/
 
-        Loader { id: loader_mapexplorer }
-        Loader { id: loader_about }
-        Loader { id: loader_advancedsort }
-        Loader { id: loader_filedelete }
-        Loader { id: loader_copy }
-        Loader { id: loader_move }
-        Loader { id: loader_filerename }
-        Loader { id: loader_filter }
-        Loader { id: loader_slideshowsetup }
-        Loader { id: loader_chromecastmanager }
-        // Loader { id: loader_filedialog }
-        Loader { id: loader_settingsmanager }
-
         Loader {
             id: loader_filedialog
             active: false
-            sourceComponent:
-                PQFileDialog {}
+            sourceComponent: ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ? comp_filedialog_popout : comp_filedialog)
+            Connections {
+                target: PQCNotify
+                function onLoaderShow(ele : string) {
+                    if(ele === "filedialog") {
+                        loader_filedialog.active = true
+                        PQCNotify.loaderPassOn("show", ["filedialog"])
+                        if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
+                            PQCConstants.idOfVisibleItem = "filedialog"
+                    }
+                }
+            }
         }
-        Loader {
-            id: loader_filedialog_popout
-            active: false
-            sourceComponent:
-                PQFileDialogPopout {}
-        }
+        Component { id: comp_filedialog; PQFileDialog {} }
+        Component { id: comp_filedialog_popout; PQFileDialogPopout {} }
+
+        /******************************************/
 
         Loader {
             active: masteritem.readyToContinueLoading

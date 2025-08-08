@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.slideshowsetupMaximized
     popout: PQCSettings.interfacePopoutSlideshowSetup
     sizepopout: PQCWindowGeometry.slideshowsetupForcePopout
-    source: "actions/PQSlideshowSetup.qml"
+    loaderSourceComponent: PQSlideshowSetup {}
 
     minimumWidth: 800
     minimumHeight: 600

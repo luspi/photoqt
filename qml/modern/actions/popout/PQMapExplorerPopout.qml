@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.mapexplorerMaximized
     popout: PQCSettings.interfacePopoutMapExplorer
     sizepopout: PQCWindowGeometry.mapexplorerForcePopout
-    source: "actions/PQMapExplorer.qml"
+    loaderSourceComponent: PQMapExplorer {}
 
     minimumWidth: 800
     minimumHeight: 600

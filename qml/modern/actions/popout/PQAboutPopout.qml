@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.aboutMaximized
     popout: PQCSettings.interfacePopoutAbout
     sizepopout: PQCWindowGeometry.aboutForcePopout
-    source: "actions/PQAbout.qml"
+    loaderSourceComponent: PQAbout {}
 
 
     minimumWidth: 800

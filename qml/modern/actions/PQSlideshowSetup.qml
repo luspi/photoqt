@@ -56,7 +56,6 @@ PQTemplateFullscreen {
 
     property list<string> musicfiles: []
 
-    property bool delegButContextMenuOpen: false
     signal closeDelegButContextMenus()
 
     property list<PQComboBox> allcombos: [animtype_combo, music_volumevideos]
@@ -485,21 +484,8 @@ PQTemplateFullscreen {
 
                                     required property int modelData
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData]) 
-                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData]) 
-
-                                    property bool delegButContextmenuOpen: delegbutup.contextmenu.visible||delegbutdown.contextmenu.visible||delegbutdel.contextmenu.visible
-                                    onDelegButContextmenuOpenChanged: {
-                                        slideshowsettings_top.delegButContextMenuOpen = musicdeleg.delegButContextmenuOpen
-                                    }
-                                    Connections {
-                                        target: slideshowsettings_top
-                                        function onCloseDelegButContextMenus() {
-                                            delegbutup.contextmenu.close()
-                                            delegbutdown.contextmenu.close()
-                                            delegbutdel.contextmenu.close()
-                                        }
-                                    }
+                                    property string fname: PQCScriptsFilesPaths.getBasename(slideshowsettings_top.musicfiles[modelData])
+                                    property string fpath: PQCScriptsFilesPaths.getDir(slideshowsettings_top.musicfiles[modelData])
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
@@ -665,10 +651,7 @@ PQTemplateFullscreen {
                 return true
             }
         }
-        if(delegButContextMenuOpen) {
-            closeDelegButContextMenus()
-            return true
-        } else if(interval_slider.contextMenuOpen) {
+        if(interval_slider.contextMenuOpen) {
             interval_slider.closeContextMenus()
             return true
         } else if(contextMenuOpen) {

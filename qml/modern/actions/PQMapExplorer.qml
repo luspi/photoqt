@@ -303,12 +303,6 @@ Item {
         } else if(visibleimages.imageContextMenu.visible) {
             visibleimages.imageContextMenu.close()
             return true
-        } else if(maptweaks.contextmenu.visible) {
-            maptweaks.contextmenu.close()
-            return true
-        } else if(closebutton.contextmenu.visible) {
-            closebutton.contextmenu.close()
-            return true
         }
         return false
     }

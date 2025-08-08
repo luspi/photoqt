@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.filerenameMaximized
     popout: PQCSettings.interfacePopoutFileRename
     sizepopout: PQCWindowGeometry.filerenameForcePopout
-    source: "actions/PQRename.qml"
+    loaderSourceComponent: PQRename {}
 
     minimumWidth: 800
     minimumHeight: 600

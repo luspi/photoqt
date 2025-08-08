@@ -117,7 +117,7 @@ Rectangle {
                              "disabled" ))
 
     property int gap: 40
-    property int statusinfoOffset: statusinfo.item.visible&&state==="left" ? (statusinfo.item.height+statusinfo.item.y) : 0
+    property int statusinfoOffset: PQCConstants.statusinfoIsVisible&&state==="left" ? (PQCConstants.statusInfoCurrentRect.height+PQCConstants.statusInfoCurrentRect.y) : 0
 
     // the four states corresponding to screen edges
     states: [
@@ -755,19 +755,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutMetadata ? 
+            text: PQCSettings.interfacePopoutMetadata ?
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(!PQCSettings.interfacePopoutMetadata) 
-                    PQCSettings.interfacePopoutMetadata = true
-                else {
-                    PQCSettings.interfacePopoutMetadata = false
-                    metadata_popout.close()
-                }
-                PQCScriptsShortcuts.executeInternalCommand("__showMetaData")
+                PQCSettings.interfacePopoutMetadata = !PQCSettings.interfacePopoutMetadata
             }
         }
     }

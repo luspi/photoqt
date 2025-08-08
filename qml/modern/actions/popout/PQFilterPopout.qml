@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.filterMaximized
     popout: PQCSettings.interfacePopoutFilter
     sizepopout: PQCWindowGeometry.filterForcePopout
-    source: "actions/PQFilter.qml"
+    loaderSourceComponent: PQFilter {}
 
     minimumWidth: 800
     minimumHeight: 600

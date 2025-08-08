@@ -39,6 +39,8 @@ Window {
     property bool sizepopout// tie to PQCWindowGeometry.xxxForcePopout
     property string source  // set to source file using qml/ as base
 
+    property alias loaderSourceComponent: curloader.sourceComponent
+
     /////////
 
     signal popoutOpened()
@@ -119,7 +121,7 @@ Window {
 
     Loader {
         id: curloader
-        source: "../"+ele_window.source
+        source: ele_window.source==="" ? "" : ("../"+ele_window.source)
         onStatusChanged:
             if(status == Loader.Ready) {
                 item.popoutWindowUsed = true

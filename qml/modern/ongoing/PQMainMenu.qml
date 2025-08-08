@@ -110,7 +110,7 @@ Rectangle {
                  : "disabled" ))
 
     property int gap: 40
-    property int statusinfoOffset: statusinfo.item.visible&&state==="left" ? (statusinfo.item.height+statusinfo.item.y) : 0
+    property int statusinfoOffset: PQCConstants.statusinfoIsVisible&&state==="left" ? (PQCConstants.statusInfoCurrentRect.height+PQCConstants.statusInfoCurrentRect.y) : 0
 
     PQShadowEffect { masterItem: mainmenu_top }
 

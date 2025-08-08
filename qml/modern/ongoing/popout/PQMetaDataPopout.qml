@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.metadataMaximized
     popout: PQCSettings.interfacePopoutMetadata
     sizepopout: PQCWindowGeometry.metadataForcePopout
-    source: "ongoing/PQMetaData.qml"
+    loaderSourceComponent: PQMetaData {}
 
     modality: Qt.NonModal
 
