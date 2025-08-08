@@ -38,7 +38,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.filedialogMaximized
     popout: PQCSettings.interfacePopoutFileDialog
     sizepopout: PQCWindowGeometry.filedialogForcePopout
-    source: "filedialog/PQFileDialog.qml"
+    loaderSourceComponent: PQFileDialog {}
 
     modality: PQCSettings.interfacePopoutFileDialogNonModal ? Qt.NonModal : Qt.ApplicationModal
 

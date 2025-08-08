@@ -26,8 +26,19 @@ import PQCImageFormats
 
 Item {
 
-    Loader { id: loader_about }
-    Component { id: component_about; PQAbout {} }
+    anchors.fill: parent
+
+    Loader {
+        id: loader_about
+        active: false
+        sourceComponent: PQAbout {}
+    }
+
+    Loader {
+        id: loader_settingsmanager
+        active: false
+        sourceComponent: PQSettingsManagerPopout {}
+    }
 
     Connections {
 
@@ -35,17 +46,20 @@ Item {
 
         function onLoaderShow(ele : string) {
 
-            if(ele === "filedialog") {
-                // PQCConstants.idOfVisibleItem = ele
-                // var file = PQCScriptsFilesPaths.openFileFromDialog("Open", PQCFileFolderModel.currentFile, PQCImageFormats.getEnabledFormats())
-                // PQCConstants.idOfVisibleItem = ""
-                // if(file !== "") {
-                    // PQCFileFolderModel.extraFoldersToLoad = []
-                    // PQCFileFolderModel.fileInFolderMainView = file
-                // }
-            } else if(ele === "about") {
-                if(loader_about.status === Loader.Null)
-                    loader_about.sourceComponent = component_about
+            console.log("args: ele =", ele)
+
+            if(ele === "about") {
+                if(loader_about.active)
+                    PQCNotify.loaderPassOn("show", ["about"])
+                else
+                    loader_about.active = true
+                PQCConstants.idOfVisibleItem = "about"
+            } else if(ele === "settingsmanager") {
+                if(loader_settingsmanager.active)
+                    PQCNotify.loaderPassOn("show", ["settingsmanager"])
+                else
+                    loader_settingsmanager.active = true
+                PQCConstants.idOfVisibleItem = "settingsmanager"
             }
 
         }
