@@ -38,3 +38,31 @@ SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQKenBurnsSlideshowEffect.qml 
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQMinimap.qml ${d}/PQAnimatedImageControls.qml ${d}/PQArchiveControls.qml ${d}/PQVideoControls.qml)
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQDocumentControls.qml ${d}/PQMotionPhotoControls.qml)
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml)
+
+SET(d "qml/shared/settingsmanager")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
+
+SET(d "qml/shared/settingsmanager/popout")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSettingsManagerPopout.qml)
+
+SET(d "qml/shared/settingsmanager/settings/filetypes")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQFileTypesSettings.qml ${d}/PQBehaviorSettings.qml ${d}/PQAdvancedSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/imageview")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQShareOnlineSettings.qml ${d}/PQImageSettings.qml ${d}/PQInteractionSettings.qml ${d}/PQFolderSettings.qml ${d}/PQMetadataSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/interface")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQBackgroundSettings.qml ${d}/PQContextMenuSettings.qml ${d}/PQPopoutSettings.qml ${d}/PQInterfaceSettings.qml)
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQStatusInfoSettings.qml ${d}/PQEdgesSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/shortcuts")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQShortcutsSettings.qml ${d}/PQNewActionSettings.qml ${d}/PQNewShortcutSettings.qml ${d}/PQShortcutsBehaviorSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/thumbnails")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQThumbnailImageSettings.qml ${d}/PQAllThumbnailsSettings.qml ${d}/PQThumbnailManageSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/manage")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSessionSettings.qml ${d}/PQConfigurationSettings.qml)
+
+SET(d "qml/shared/settingsmanager/settings/other")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml ${d}/PQExtensionsSettings.qml)

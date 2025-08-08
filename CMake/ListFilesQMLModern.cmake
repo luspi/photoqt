@@ -47,32 +47,3 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManagerPopout.qml 
 
 SET(d "qml/modern/actions/mapexplorerparts")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)
-
-SET(d "qml/modern/settingsmanager")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
-
-SET(d "qml/modern/settingsmanager/popout")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSettingsManagerPopout.qml)
-
-SET(d "qml/modern/settingsmanager/settings/filetypes")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileTypesSettings.qml ${d}/PQBehaviorSettings.qml ${d}/PQAdvancedSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/imageview")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQShareOnlineSettings.qml ${d}/PQImageSettings.qml ${d}/PQInteractionSettings.qml ${d}/PQFolderSettings.qml ${d}/PQMetadataSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/interface")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQBackgroundSettings.qml ${d}/PQContextMenuSettings.qml ${d}/PQPopoutSettings.qml ${d}/PQInterfaceSettings.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQStatusInfoSettings.qml ${d}/PQEdgesSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/shortcuts")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQShortcutsSettings.qml ${d}/PQNewActionSettings.qml ${d}/PQNewShortcutSettings.qml ${d}/PQShortcutsBehaviorSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/thumbnails")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQThumbnailImageSettings.qml ${d}/PQAllThumbnailsSettings.qml ${d}/PQThumbnailManageSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/manage")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSessionSettings.qml ${d}/PQConfigurationSettings.qml)
-
-SET(d "qml/modern/settingsmanager/settings/other")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml ${d}/PQExtensionsSettings.qml)
-
