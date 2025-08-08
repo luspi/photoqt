@@ -135,7 +135,6 @@ Loader {
         /******************************************/
 
         // Loader { id: loader_mapexplorer }
-        // Loader { id: loader_about }
         // Loader { id: loader_advancedsort }
         // Loader { id: loader_filedelete }
         // Loader { id: loader_copy }
@@ -147,6 +146,7 @@ Loader {
         // Loader { id: loader_filedialog }
         // Loader { id: loader_settingsmanager }
 
+        // this needs to be out here to be loaded faster if needed
         Loader {
             id: loader_filedialog
             anchors.fill: parent

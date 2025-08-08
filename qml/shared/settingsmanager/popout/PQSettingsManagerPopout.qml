@@ -35,7 +35,7 @@ PQTemplatePopout {
     isMax: PQCWindowGeometry.settingsmanagerMaximized
     popout: PQCSettings.interfacePopoutSettingsManager
     sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
-    source: "settingsmanager/PQSettingsManager.qml"
+    loaderSourceComponent: PQSettingsManager {}
 
     modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal
 

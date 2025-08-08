@@ -33,12 +33,17 @@ ApplicationWindow {
     width: 640
     height: 640
 
+    modality: Qt.ApplicationModal
+
     SystemPalette { id: pqtPalette }
 
     Flickable {
 
         anchors.fill: parent
+        anchors.bottomMargin: closebutton.height+25
         contentHeight: about_col.height+20
+
+        clip: true
 
         ScrollBar.vertical: ScrollBar {}
 
@@ -130,14 +135,15 @@ ApplicationWindow {
 
     }
 
-    PQToolTipDisplay { id: ttip }
-
     Rectangle {
 
         id: configinfo
 
         anchors.fill: parent
+        anchors.bottomMargin: closebutton.height+25
         color: pqtPalette.base
+
+        clip: true
 
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -183,21 +189,12 @@ ApplicationWindow {
                     lineHeight: 1.2
                 }
 
-                Row {
+                PQButton {
                     x: (parent.width-width)/2
-                    spacing: 10
-                    PQButton {
-                        id: configclipbut
-                        text: qsTranslate("about", "Copy to clipboard")
-                        onClicked:
-                            PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true)
-                    }
-                    PQButton {
-                        id: configclosebut
-                        text: "Close"
-                        onClicked:
-                            configinfo.opacity = 0
-                    }
+                    id: configclipbut
+                    text: qsTranslate("about", "Copy to clipboard")
+                    onClicked:
+                        PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true)
                 }
 
             }
@@ -205,6 +202,28 @@ ApplicationWindow {
         }
 
     }
+
+    Rectangle {
+        y: closebutton.y-5
+        width: parent.width
+        height: 1
+        color: pqtPalette.text
+    }
+
+    PQButton {
+        id: closebutton
+        x: (parent.width-width)/2
+        y: (parent.height-height-10)
+        text: "Close"
+        onClicked: {
+            if(configinfo.visible)
+                configinfo.opacity = 0
+            else
+                about_top.hide()
+        }
+    }
+
+    PQToolTipDisplay { id: ttip }
 
     onVisibleChanged: {
         if(visible)
@@ -215,6 +234,9 @@ ApplicationWindow {
 
     Component.onCompleted:
         about_top.show()
+
+    onClosing:
+        configinfo.opacity = 0
 
     Connections {
 
@@ -231,8 +253,12 @@ ApplicationWindow {
             if(about_top.visible) {
 
                 if(what === "keyEvent") {
-                    if(param[0] === Qt.Key_Escape)
-                        about_top.hide()
+                    if(param[0] === Qt.Key_Escape) {
+                        if(configinfo.visible)
+                            configinfo.opacity = 0
+                        else
+                            about_top.hide()
+                    }
                 }
 
             }
