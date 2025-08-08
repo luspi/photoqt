@@ -32,8 +32,8 @@ Item {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: PQCConstants.windowWidth 
-    property int parentHeight: PQCConstants.windowHeight 
+    property int parentWidth: PQCConstants.windowWidth
+    property int parentHeight: PQCConstants.windowHeight
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -46,7 +46,7 @@ Item {
 
     onOpacityChanged: {
         if(opacity > 0 && !isPopout)
-            PQCNotify.windowTitleOverride(qsTranslate("actions", "Map Explorer")) 
+            PQCNotify.windowTitleOverride(qsTranslate("actions", "Map Explorer"))
         else if(opacity === 0)
             PQCNotify.windowTitleOverride("")
     }
@@ -59,7 +59,7 @@ Item {
 
     property real mapZoomLevel: 10
 
-    property bool isPopout: PQCSettings.interfacePopoutMapExplorer 
+    property bool isPopout: PQCSettings.interfacePopoutMapExplorer
 
     property int closebuttonWidth: closebutton.width
 
@@ -101,7 +101,7 @@ Item {
                 width: parent.implicitWidth
                 height: parent.implicitHeight
                 sourceSize: Qt.size(width, height)
-                source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg" 
+                source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg"
             }
 
         }
@@ -153,7 +153,7 @@ Item {
                 width: 25
                 height: 25
 
-                visible: !PQCWindowGeometry.mapexplorerForcePopout 
+                visible: !PQCWindowGeometry.mapexplorerForcePopout
                 enabled: visible
 
                 Rectangle {
@@ -168,7 +168,7 @@ Item {
                 Image {
                     anchors.fill: parent
                     anchors.margins: 5
-                    source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
                     sourceSize: Qt.size(width, height)
                 }
 
@@ -177,7 +177,7 @@ Item {
                     anchors.fill: parent
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
-                    text: PQCSettings.interfacePopoutMapExplorer ? 
+                    text: PQCSettings.interfacePopoutMapExplorer ?
                                  //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                                  qsTranslate("popinpopout", "Merge into main interface") :
                                  //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
@@ -259,7 +259,7 @@ Item {
                     if(mapexplorer_top.closeAnyMenu())
                         return
 
-                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal) 
+                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal)
                         return
 
                     if(param[0] === Qt.Key_Escape) {
@@ -333,7 +333,7 @@ Item {
 
     function loadImages() {
 
-        var items = PQCLocation.imageList 
+        var items = PQCLocation.imageList
         var labels = PQCLocation.labelList
 
         map.clearModel()
@@ -373,7 +373,7 @@ Item {
 
     function showExplorer() {
 
-        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout 
+        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
 
         opacity = 1
         if(popoutWindowUsed)
@@ -415,7 +415,7 @@ Item {
 
         closeAnyMenu()
 
-        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal) 
+        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal)
             return
 
         opacity = 0

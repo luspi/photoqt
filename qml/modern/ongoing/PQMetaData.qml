@@ -30,7 +30,7 @@ Rectangle {
     id: metadata_top
 
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
-    y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) 
+    y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
 
     property bool animateResize: false
@@ -67,20 +67,20 @@ Rectangle {
         id: saveXY
         interval: 200
         onTriggered:
-            PQCSettings.metadataElementPosition = Qt.point(Math.round(metadata_top.x),Math.round(metadata_top.y)) 
+            PQCSettings.metadataElementPosition = Qt.point(Math.round(metadata_top.x),Math.round(metadata_top.y))
     }
 
     property int parentWidth
     property int parentHeight
-    width: Math.max(300, PQCSettings.metadataElementSize.width) 
+    width: Math.max(300, PQCSettings.metadataElementSize.width)
     height: isPopout ? metadata_popout.height :
-                PQCSettings.metadataElementHeightDynamic ? 
+                PQCSettings.metadataElementHeightDynamic ?
                             PQCConstants.windowHeight-2*gap-statusinfoOffset :
                             Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
 
     color: pqtPalette.base
 
-    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 
+    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
@@ -90,7 +90,7 @@ Rectangle {
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
-    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
     property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
@@ -99,13 +99,13 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible && menu.item !== null) 
+        if(!setVisible && menu.item !== null)
             menu.item.dismiss()
     }
 
     PQShadowEffect { masterItem: metadata_top }
 
-    property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout 
+    property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout
     state: isPopout ?
                "popout" :
                PQCSettings.metadataElementFloating ?
@@ -175,7 +175,7 @@ Rectangle {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutMetadata) { 
+        if(PQCSettings.interfacePopoutMetadata) {
             metadata_top.opacity = 1
         }
     }
@@ -189,11 +189,11 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() 
+                menu.item.popup()
         }
     }
 
-    property bool anythingLoaded: PQCFileFolderModel.countMainView>0 
+    property bool anythingLoaded: PQCFileFolderModel.countMainView>0
 
     property int colwidth: width-2*flickable.anchors.margins
 
@@ -205,9 +205,9 @@ Rectangle {
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("metadata", "No file loaded")
-        font.bold: PQCLook.fontWeightBold 
+        font.bold: PQCLook.fontWeightBold
         enabled: false
-        visible: PQCFileFolderModel.countMainView===0 
+        visible: PQCFileFolderModel.countMainView===0
     }
 
     Item {
@@ -231,7 +231,7 @@ Rectangle {
             y: 5
             //: The title of the floating element
             text: qsTranslate("metadata", "Metadata")
-            font.weight: PQCLook.fontWeightBold 
+            font.weight: PQCLook.fontWeightBold
             opacity: 0.8
         }
 
@@ -273,32 +273,32 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File name")
-                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) 
-                prop: PQCSettings.metadataFilename 
+                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFilename
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Dimensions")
-                valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(PQCConstants.currentImageResolution.width).arg(PQCConstants.currentImageResolution.height)) : "" 
-                prop: PQCSettings.metadataDimensions 
+                valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(PQCConstants.currentImageResolution.width).arg(PQCConstants.currentImageResolution.height)) : ""
+                prop: PQCSettings.metadataDimensions
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Image")
-                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : "" 
-                prop: PQCSettings.metadataImageNumber 
+                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : ""
+                prop: PQCSettings.metadataImageNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File size")
-                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile) 
-                prop: PQCSettings.metadataFileSize 
+                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFileSize
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File type")
-                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile) 
-                prop: PQCSettings.metadataFileType 
+                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFileType
             }
 
             Item {
@@ -308,20 +308,20 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Make")
-                valtxt: PQCMetaData.exifMake 
-                prop: PQCSettings.metadataMake 
+                valtxt: PQCMetaData.exifMake
+                prop: PQCSettings.metadataMake
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Model")
-                valtxt: PQCMetaData.exifModel 
-                prop: PQCSettings.metadataModel 
+                valtxt: PQCMetaData.exifModel
+                prop: PQCSettings.metadataModel
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Software")
-                valtxt: PQCMetaData.exifSoftware 
-                prop: PQCSettings.metadataSoftware 
+                valtxt: PQCMetaData.exifSoftware
+                prop: PQCSettings.metadataSoftware
             }
 
             Item {
@@ -331,50 +331,50 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Time Photo was Taken")
-                valtxt: PQCMetaData.exifDateTimeOriginal 
-                prop: PQCSettings.metadataTime 
+                valtxt: PQCMetaData.exifDateTimeOriginal
+                prop: PQCSettings.metadataTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Exposure Time")
-                valtxt: PQCMetaData.exifExposureTime 
-                prop: PQCSettings.metadataExposureTime 
+                valtxt: PQCMetaData.exifExposureTime
+                prop: PQCSettings.metadataExposureTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Flash")
-                valtxt: PQCMetaData.exifFlash 
-                prop: PQCSettings.metadataFlash 
+                valtxt: PQCMetaData.exifFlash
+                prop: PQCSettings.metadataFlash
             }
 
             PQMetaDataEntry {
                 whichtxt: "ISO"
-                valtxt: PQCMetaData.exifISOSpeedRatings 
-                prop: PQCSettings.metadataIso 
+                valtxt: PQCMetaData.exifISOSpeedRatings
+                prop: PQCSettings.metadataIso
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Scene Type")
-                valtxt: PQCMetaData.exifSceneCaptureType 
-                prop: PQCSettings.metadataSceneType 
+                valtxt: PQCMetaData.exifSceneCaptureType
+                prop: PQCSettings.metadataSceneType
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Focal Length")
-                valtxt: PQCMetaData.exifFocalLength 
-                prop: PQCSettings.metadataFLength 
+                valtxt: PQCMetaData.exifFocalLength
+                prop: PQCSettings.metadataFLength
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "F Number")
-                valtxt: PQCMetaData.exifFNumber 
-                prop: PQCSettings.metadataFNumber 
+                valtxt: PQCMetaData.exifFNumber
+                prop: PQCSettings.metadataFNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Light Source")
-                valtxt: PQCMetaData.exifLightSource 
-                prop: PQCSettings.metadataLightSource 
+                valtxt: PQCMetaData.exifLightSource
+                prop: PQCSettings.metadataLightSource
             }
 
             Item {
@@ -384,21 +384,21 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Keywords")
-                valtxt: PQCMetaData.iptcKeywords 
-                prop: PQCSettings.metadataKeywords 
+                valtxt: PQCMetaData.iptcKeywords
+                prop: PQCSettings.metadataKeywords
             }
 
             PQMetaDataEntry {
                 //: The location here is a GPS location
                 whichtxt: qsTranslate("metadata", "Location")
-                valtxt: PQCMetaData.iptcLocation 
-                prop: PQCSettings.metadataLocation 
+                valtxt: PQCMetaData.iptcLocation
+                prop: PQCSettings.metadataLocation
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Copyright")
-                valtxt: PQCMetaData.iptcCopyright 
-                prop: PQCSettings.metadataCopyright 
+                valtxt: PQCMetaData.iptcCopyright
+                prop: PQCSettings.metadataCopyright
             }
 
             Item {
@@ -408,8 +408,8 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "GPS Position")
-                valtxt: PQCMetaData.exifGPS 
-                prop: PQCSettings.metadataGps 
+                valtxt: PQCMetaData.exifGPS
+                prop: PQCSettings.metadataGps
                 //: The location here is a GPS location
                 tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
                 signalClicks: true
@@ -475,7 +475,7 @@ Rectangle {
         enabled: parent.state!=="popout"
 
         property int clickStart: -1
-        property int origHeight: PQCSettings.metadataElementSize.height 
+        property int origHeight: PQCSettings.metadataElementSize.height
         onPressed: (mouse) => {
             clickStart = mouse.y
         }
@@ -489,7 +489,7 @@ Rectangle {
             metadata_top.y = metadata_top.y
             if(!metadata_top.isPopout)
                 metadata_top.height = metadata_top.height
-            PQCSettings.metadataElementPosition.y = metadata_top.y 
+            PQCSettings.metadataElementPosition.y = metadata_top.y
             PQCSettings.metadataElementSize.height = metadata_top.height
             PQCSettings.metadataElementSize.height = Math.round(origHeight+diff)
             metadata_top.height = Qt.binding(function() { return PQCSettings.metadataElementSize.height })
@@ -517,7 +517,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) 
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -543,7 +543,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) 
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -605,9 +605,9 @@ Rectangle {
                         required property int modelData
                         checkable: true
                         text: metadata_top.labels[modelData][1]
-                        checked: PQCSettings["metadata"+metadata_top.labels[modelData][0]] 
+                        checked: PQCSettings["metadata"+metadata_top.labels[modelData][0]]
                         onCheckedChanged: {
-                            PQCSettings["metadata"+metadata_top.labels[modelData][0]] = checked 
+                            PQCSettings["metadata"+metadata_top.labels[modelData][0]] = checked
                         }
                     }
 
@@ -622,27 +622,27 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: "openstreetmap.org"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="openstreetmap.org" 
+                    checked: PQCSettings.metadataGpsMap==="openstreetmap.org"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "openstreetmap.org" 
+                        PQCSettings.metadataGpsMap = "openstreetmap.org"
                 }
                 PQMenuItem {
                     checkable: true
                     checkableLikeRadioButton: true
                     text: "maps.google.com"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="maps.google.com" 
+                    checked: PQCSettings.metadataGpsMap==="maps.google.com"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "maps.google.com" 
+                        PQCSettings.metadataGpsMap = "maps.google.com"
                 }
                 PQMenuItem {
                     checkable: true
                     checkableLikeRadioButton: true
                     text: "bing.com/maps"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="bing.com/maps" 
+                    checked: PQCSettings.metadataGpsMap==="bing.com/maps"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "bing.com/maps" 
+                        PQCSettings.metadataGpsMap = "bing.com/maps"
                 }
             }
 
@@ -653,9 +653,9 @@ Rectangle {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "hide behind screen edge")
                 ButtonGroup.group: grp1
-                checked: !PQCSettings.metadataElementFloating 
+                checked: !PQCSettings.metadataElementFloating
                 onCheckedChanged:
-                    PQCSettings.metadataElementFloating = !checked 
+                    PQCSettings.metadataElementFloating = !checked
             }
 
             PQMenuItem {
@@ -663,9 +663,9 @@ Rectangle {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "use floating element")
                 ButtonGroup.group: grp1
-                checked: PQCSettings.metadataElementFloating 
+                checked: PQCSettings.metadataElementFloating
                 onCheckedChanged: {
-                    PQCSettings.metadataElementFloating = checked 
+                    PQCSettings.metadataElementFloating = checked
                     if(checked)
                         metadata_top.setVisible = true
                 }
@@ -675,7 +675,7 @@ Rectangle {
 
             PQMenuItem {
                 checkable: true
-                checked: PQCSettings.metadataElementHeightDynamic 
+                checked: PQCSettings.metadataElementHeightDynamic
                 text: qsTranslate("metadata", "Adjust height dynamically")
                 onCheckedChanged: {
                     metadata_top.animateResize = true
@@ -683,14 +683,14 @@ Rectangle {
                         metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         if(!metadata_top.isPopout)
                             metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
-                        PQCSettings.metadataElementHeightDynamic = true 
+                        PQCSettings.metadataElementHeightDynamic = true
                     } else {
                         metadata_top.y = metadata_top.y
                         if(!metadata_top.isPopout)
                             metadata_top.height = metadata_top.height
                         PQCSettings.metadataElementPosition.y = metadata_top.y
                         PQCSettings.metadataElementSize.height = metadata_top.height
-                        PQCSettings.metadataElementHeightDynamic = false 
+                        PQCSettings.metadataElementHeightDynamic = false
                     }
                     checked = Qt.binding(function() { return PQCSettings.metadataElementHeightDynamic })
                 }
@@ -698,7 +698,7 @@ Rectangle {
 
             PQMenuItem {
                 text: qsTranslate("metadata", "Reset size to default")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
                     PQCSettings.setDefaultForMetadataElementSize()
                     PQCSettings.setDefaultForMetadataElementPosition()
@@ -715,7 +715,7 @@ Rectangle {
 
             PQMenuItem {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 onTriggered: {
                     PQCNotify.openSettingsManagerAt("showSettings", ["metadata"])
                 }
@@ -724,14 +724,14 @@ Rectangle {
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:
-                PQCConstants.addToWhichContextMenusOpen("metadata") 
+                PQCConstants.addToWhichContextMenusOpen("metadata")
 
             Timer {
                 id: recordAsClosed
                 interval: 200
                 onTriggered: {
                     if(!themenu.visible)
-                        PQCConstants.removeFromWhichContextMenusOpen("metadata") 
+                        PQCConstants.removeFromWhichContextMenusOpen("metadata")
                 }
             }
 
@@ -744,9 +744,9 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        visible: !PQCWindowGeometry.metadataForcePopout 
+        visible: !PQCWindowGeometry.metadataForcePopout
         enabled: visible
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" 
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -787,7 +787,7 @@ Rectangle {
         target: PQCNotify
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() 
+            menu.item.dismiss()
         }
 
     }
@@ -810,7 +810,7 @@ Rectangle {
 
             if(what === "show") {
                 if(param[0] === "metadata") {
-                    if(!PQCSettings.metadataElementFloating) 
+                    if(!PQCSettings.metadataElementFloating)
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)
@@ -835,7 +835,7 @@ Rectangle {
             if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
-            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { 
+            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {
                 metadata_top.setVisible = false
                 return
             }
@@ -877,7 +877,7 @@ Rectangle {
 
     function hideMetaData() {
         if(popoutWindowUsed)
-            metadata_popout.visible = false 
+            metadata_popout.visible = false
         metadata_top.setVisible = false
     }
 
