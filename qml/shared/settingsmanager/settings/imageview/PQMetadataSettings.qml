@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -47,12 +48,9 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: fontsize.contextMenuOpen || fontsize.editMode || border_slider.contextMenuOpen ||
-                               border_slider.editMode || butselall.contextmenu.visible || butselnone.contextmenu.visible ||
-                               butselinv.contextmenu.visible
+    property bool catchEscape: fontsize.editMode || border_slider.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -193,7 +191,6 @@ Flickable {
                                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
                                     color: tilemouse.containsMouse||check.checked ? PQCLook.baseBorder : pqtPalette.base
-                                    Behavior on color { ColorAnimation { duration: 200 } }
 
                                     property bool delegSetup: false
                                     Timer {
@@ -210,11 +207,10 @@ Flickable {
                                         width: parent.width-20
                                         elide: Text.ElideRight
                                         text: setting_top.labels[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal 
-                                        font.pointSize: PQCLook.fontSizeS 
-                                        color: pqtPalette.text
+                                        font.weight: PQCLook.fontWeightNormal
+                                        font.pointSize: PQCLook.fontSizeS
                                         extraHovered: tilemouse.containsMouse
-                                        checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] 
+                                        checked: PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]]
                                         onCheckedChanged: {
                                             if(!deleg.delegSetup) return
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
@@ -280,11 +276,11 @@ Flickable {
                                         }
 
                                         function onLabelsLoadDefault() {
-                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] 
+                                            check.checked = PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]]
                                         }
 
                                         function onLabelsSaveChanges() {
-                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked 
+                                            PQCSettings["metadata"+setting_top.labels[deleg.modelData][0]] = check.checked
                                         }
                                     }
 
@@ -365,11 +361,7 @@ Flickable {
                 setting_top.labelsResetDefault()
             }
 
-            function handleEscape() {
-                butselall.contextmenu.close()
-                butselnone.contextmenu.close()
-                butselinv.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join(""))
@@ -421,11 +413,11 @@ Flickable {
             }
 
             function load() {
-                autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation) 
+                autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
             }
 
             function applyChanges() {
-                PQCSettings.metadataAutoRotation = autorot.checked 
+                PQCSettings.metadataAutoRotation = autorot.checked
                 autorot.saveDefault()
             }
 
@@ -520,7 +512,7 @@ Flickable {
                     id: screenegde
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "hide behind screen edge")
-                    checked: !PQCSettings.metadataElementFloating 
+                    checked: !PQCSettings.metadataElementFloating
                     onCheckedChanged: setting_top.checkDefault()
                 },
 
@@ -528,7 +520,7 @@ Flickable {
                     id: floating
                     enforceMaxWidth: set_labels.rightcol
                     text: qsTranslate("settingsmanager", "use floating element")
-                    checked: PQCSettings.metadataElementFloating 
+                    checked: PQCSettings.metadataElementFloating
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -731,7 +723,7 @@ Flickable {
                             id: border_color
                             width: 100
                             height: border_show.height
-                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor) 
+                            property list<int> rgba: PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
                             onRgbaChanged: setting_top.checkDefault()
                             color: Qt.rgba(rgba[0]/255, rgba[1]/255, rgba[2]/255, rgba[3]/255)
 
@@ -764,9 +756,7 @@ Flickable {
             }
 
             function handleEscape() {
-                fontsize.closeContextMenus()
                 fontsize.acceptValue()
-                border_slider.closeContextMenus()
                 border_slider.acceptValue()
             }
 
@@ -816,13 +806,13 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_labels.hasChanged() || set_autorot.hasChanged() || set_gps.hasChanged() ||
-                          set_float.hasChanged() || set_face.hasChanged() || set_facelook.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_labels.hasChanged() || set_autorot.hasChanged() || set_gps.hasChanged() ||
+                                                      set_float.hasChanged() || set_face.hasChanged() || set_facelook.hasChanged())
 
     }
 
@@ -835,7 +825,7 @@ Flickable {
         set_face.load()
         set_facelook.load()
 
-        setting_top.settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         setting_top.settingsLoaded = true
     }
 
@@ -848,7 +838,7 @@ Flickable {
         set_face.applyChanges()
         set_facelook.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

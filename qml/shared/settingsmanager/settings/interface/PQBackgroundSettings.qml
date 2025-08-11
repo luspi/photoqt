@@ -24,7 +24,8 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 import PQCImageFormats
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -58,7 +59,6 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: false
 
@@ -140,7 +140,7 @@ Flickable {
                             x: radio_nobg.leftPadding
                             width: set_bg.rightcol-radio_nobg.leftPadding
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                            font.weight: PQCLook.fontWeightBold 
+                            font.weight: PQCLook.fontWeightBold
                             text: qsTranslate("settingsmanager", "Warning: This will make the background fully transparent. This is only recommended if there is a different way to mask the area behind the window.")
                         }
                     }
@@ -204,7 +204,7 @@ Flickable {
                             //: Tooltip for a mouse area, a click on which opens a file dialog for selecting an image
                             text: qsTranslate("settingsmanager", "Click to select an image")
                             onClicked: {
-                                var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats()) 
+                                var path = PQCScriptsFilesPaths.openFileFromDialog("Select", PQCScriptsFilesPaths.getHomeDir(), PQCImageFormats.getEnabledFormats())
                                 if(path !== "")
                                     previewimage.source = encodeURI("file:" + path)
                             }
@@ -216,7 +216,7 @@ Flickable {
                             width: 24
                             height: 24
                             sourceSize: Qt.size(width, height)
-                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
+                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                             PQMouseArea {
                                 anchors.fill: parent
                                 hoverEnabled: true
@@ -234,35 +234,35 @@ Flickable {
                             id: radio_bg_scaletofit
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "scale to fit")
-                            checked: PQCSettings.interfaceBackgroundImageScale 
+                            checked: PQCSettings.interfaceBackgroundImageScale
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_scaleandcrop
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "scale and crop to fit")
-                            checked: PQCSettings.interfaceBackgroundImageScaleCrop 
+                            checked: PQCSettings.interfaceBackgroundImageScaleCrop
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_stretch
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "stretch to fit")
-                            checked: PQCSettings.interfaceBackgroundImageStretch 
+                            checked: PQCSettings.interfaceBackgroundImageStretch
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_center
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "center image")
-                            checked: PQCSettings.interfaceBackgroundImageCenter 
+                            checked: PQCSettings.interfaceBackgroundImageCenter
                             onCheckedChanged: setting_top.checkDefault()
                         }
                         PQRadioButton {
                             id: radio_bg_tile
                             //: If an image is set as background of PhotoQt this is one way it can be shown/scaled
                             text: qsTranslate("settingsmanager", "tile image")
-                            checked: PQCSettings.interfaceBackgroundImageTile 
+                            checked: PQCSettings.interfaceBackgroundImageTile
                             onCheckedChanged: setting_top.checkDefault()
                         }
                     }
@@ -291,13 +291,13 @@ Flickable {
                     PQRadioButton {
                         id: accentusecheck
                         text: qsTranslate("settingsmanager", "overlay with accent color")
-                        checked: !PQCSettings.interfaceBackgroundCustomOverlay 
+                        checked: !PQCSettings.interfaceBackgroundCustomOverlay
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
                         id: customusecheck
                         text: qsTranslate("settingsmanager", "overlay with custom color")
-                        checked: PQCSettings.interfaceBackgroundCustomOverlay 
+                        checked: PQCSettings.interfaceBackgroundCustomOverlay
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     Rectangle {
@@ -321,7 +321,7 @@ Flickable {
                                 id: customusetxt
                                 x: 10
                                 y: 5
-                                text: PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b]) 
+                                text: PQCScriptsOther.convertRgbToHex([255*customuse.color.r, 255*customuse.color.g, 255*customuse.color.b])
                             }
                         }
 
@@ -371,8 +371,7 @@ Flickable {
                 radio_bg_tile.checked = PQCSettings.getDefaultForInterfaceBackgroundImageTile()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
 
@@ -395,7 +394,7 @@ Flickable {
 
             function load() {
 
-                radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent) 
+                radio_real.loadAndSetDefault(!PQCSettings.interfaceBackgroundImageScreenshot && !PQCSettings.interfaceBackgroundImageUse && !PQCSettings.interfaceBackgroundFullyTransparent)
                 radio_fake.loadAndSetDefault(PQCSettings.interfaceBackgroundImageScreenshot)
                 radio_solid.loadAndSetDefault(PQCSettings.interfaceBackgroundSolid)
                 radio_nobg.loadAndSetDefault(PQCSettings.interfaceBackgroundFullyTransparent)
@@ -421,7 +420,7 @@ Flickable {
 
             function applyChanges() {
 
-                PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked 
+                PQCSettings.interfaceBackgroundImageScreenshot = radio_fake.checked
                 PQCSettings.interfaceBackgroundImageUse = radio_custom.checked
                 PQCSettings.interfaceBackgroundSolid = radio_solid.checked
                 PQCSettings.interfaceBackgroundFullyTransparent = radio_nobg.checked
@@ -512,8 +511,7 @@ Flickable {
                 radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (radio_closeclick.hasChanged() || radio_navclick.hasChanged() || radio_toggledeco.hasChanged() || radio_noaction.hasChanged())
@@ -540,14 +538,14 @@ Flickable {
         }
 
         /**********************************************************************/
-        PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_5() } 
+        PQSettingsSeparator { visible: PQCScriptsConfig.isQtAtLeast6_5() }
         /**********************************************************************/
 
         PQSetting {
 
             id: set_blur
 
-            visible: PQCScriptsConfig.isQtAtLeast6_5() 
+            visible: PQCScriptsConfig.isQtAtLeast6_5()
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Blurring elements behind other elements")
@@ -556,7 +554,7 @@ Flickable {
             content: [
 
                 PQCheckBox {
-                    visible: PQCScriptsConfig.isQtAtLeast6_5() 
+                    visible: PQCScriptsConfig.isQtAtLeast6_5()
                     id: check_blurbg
                     enforceMaxWidth: set_blur.rightcol
                     text: qsTranslate("settingsmanager", "Blur elements in the back")
@@ -569,8 +567,7 @@ Flickable {
                 check_blurbg.checked = PQCSettings.getDefaultForInterfaceBlurElementsInBackground()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return check_blurbg.hasChanged()
@@ -606,17 +603,17 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
         if(set_bg.hasChanged() || set_emp.hasChanged() || set_blur.hasChanged()) {
-            settingChanged = true
+            PQCConstants.settingsManagerSettingChanged = true
             return
         }
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
@@ -626,7 +623,7 @@ Flickable {
         set_emp.load()
         set_blur.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -637,7 +634,7 @@ Flickable {
         set_emp.applyChanges()
         set_blur.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

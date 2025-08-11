@@ -22,7 +22,8 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 Item {
 

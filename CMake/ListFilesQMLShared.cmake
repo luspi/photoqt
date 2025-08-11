@@ -42,6 +42,9 @@ SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceT
 SET(d "qml/shared/settingsmanager")
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
 
+SET(d "qml/shared/settingsmanager/elements")
+SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml)
+
 SET(d "qml/shared/settingsmanager/popout")
 SET(photoqt_shared_QML ${photoqt_shared_QML} ${d}/PQSettingsManagerPopout.qml)
 

@@ -22,5 +22,50 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Integrated
 
-CheckBox {}
+SpinBox {
+
+    id: control
+
+    property int liveValue: value
+    property string tooltip: liveValue + tooltipSuffix
+    property string tooltipSuffix: ""
+
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered
+        text: control.tooltip
+    }
+
+    property int _defaultValue
+    Component.onCompleted: {
+        _defaultValue = value
+    }
+
+    function saveDefault() {
+        _defaultValue = value
+    }
+
+    function setDefault(val : int) {
+        _defaultValue = val
+    }
+
+    function loadAndSetDefault(val : int) {
+        value = val
+        liveValue = val
+        _defaultValue = val
+    }
+
+    function setValue(val : int) {
+        value = val
+        liveValue = val
+    }
+
+    function hasChanged() : bool {
+        return _defaultValue!==liveValue
+    }
+
+}

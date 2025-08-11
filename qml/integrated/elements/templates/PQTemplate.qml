@@ -21,40 +21,92 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
-import PhotoQt.Modern
+import PhotoQt.Integrated
 
-Menu {
+Rectangle {
 
-    id: control
+    id: action_top
+
+    ///////////////////
+
+    property string elementId: ""
+    property string title: ""
+    property alias content: contentItem.children
+    property bool letMeHandleClosing: false
+
+    property PQButtonElement button1
+    property PQButtonElement button2
+    property PQButtonElement button3
+    property Item bottomLeft
+    property list<Item> bottomLeftContent
+    property Item popInOutButton
+
+    signal showing()
+    signal hiding()
+
+    ///////////////////
+
+    function hide() {
+        if(letMeHandleClosing)
+            PQCNotify.elementSignal(action_top.elementId, "forceHide")
+        else
+            PQCNotify.elementSignal(action_top.elementId, "hide")
+    }
+
+    ///////////////////
+
+    Connections {
+        target: button1
+        function onClicked() {
+            action_top.button1Action()
+        }
+    }
+    Connections {
+        target: button2
+        function onClicked() {
+            action_top.button2Action()
+        }
+    }
+    Connections {
+        target: button3
+        function onClicked() {
+            action_top.button3Action()
+        }
+    }
+
+    function button1Action() {}
+    function button2Action() {}
+    function button3Action() {}
 
     SystemPalette { id: pqtPalette }
 
-    // setting the inset and padding properties are necessary in particular on Windows
-    // See: https://bugreports.qt.io/browse/QTBUG-131499
+    color: pqtPalette.base
+    radius: 5
 
-    topInset: 0
-    leftInset: 0
-    rightInset: 0
-    bottomInset: 0
+    Item {
 
-    topPadding: 1
-    leftPadding: 1
-    rightPadding: 1
-    bottomPadding: 1
+        id: contentItem
 
-    delegate: PQMenuItem {
-        // this cannot be a parameter in the Menu section as its value would be ignored
-        moveToRightABit: true
+        width: action_top.width
+        height: action_top.height
+
+        clip: true
+
+        // CONTENT WILL GO HERE
+
     }
 
-    background: Rectangle {
-        implicitWidth: 250
-        implicitHeight: 40
-        color: pqtPalette.base
-        border.color: PQCLook.baseBorder
-        border.width: 1
-        radius: 2
+
+    Component.onCompleted: {}
+
+    function modalButton1Action() {
+        hide()
+    }
+
+    function modalButton2Action() {
+    }
+
+    function modalButton3Action() {
     }
 
 }

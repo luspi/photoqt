@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -67,9 +68,8 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: butselall.contextmenu.visible || butselnone.contextmenu.visible || butselinv.contextmenu.visible
+    property bool catchEscape: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -217,10 +217,9 @@ Flickable {
                                         width: deleg.width-20
                                         y: (parent.height-height)/2
                                         text: setting_top.pops[deleg.modelData][1]
-                                        font.weight: PQCLook.fontWeightNormal 
-                                        font.pointSize: PQCLook.fontSizeS 
+                                        font.weight: PQCLook.fontWeightNormal
+                                        font.pointSize: PQCLook.fontSizeS
                                         elide: Text.ElideRight
-                                        color: pqtPalette.text
                                         onCheckedChanged: {
                                             setting_top.currentCheckBoxStates[deleg.modelData] = (checked ? "1" : "0")
                                             setting_top.currentCheckBoxStatesChanged()
@@ -305,7 +304,7 @@ Flickable {
                                         }
 
                                         function onPopoutSaveChanges() {
-                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked 
+                                            PQCSettings[setting_top.pops[deleg.modelData][0]] = check.checked
                                         }
                                     }
 
@@ -378,11 +377,7 @@ Flickable {
                 setting_top.popoutResetToDefault()
             }
 
-            function handleEscape() {
-                butselall.contextmenu.close()
-                butselnone.contextmenu.close()
-                butselinv.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join(""))
@@ -446,21 +441,20 @@ Flickable {
                 keepopen_sm_check.checked = PQCSettings.getDefaultForInterfacePopoutSettingsManagerNonModal()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() || keepopen_sm_check.hasChanged())
             }
 
             function load() {
-                keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal) 
+                keepopen_fd_check.loadAndSetDefault(PQCSettings.interfacePopoutFileDialogNonModal)
                 keepopen_me_check.loadAndSetDefault(PQCSettings.interfacePopoutMapExplorerNonModal)
                 keepopen_sm_check.loadAndSetDefault(PQCSettings.interfacePopoutSettingsManagerNonModal)
             }
 
             function applyChanges() {
-                PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked 
+                PQCSettings.interfacePopoutFileDialogNonModal = keepopen_fd_check.checked
                 PQCSettings.interfacePopoutMapExplorerNonModal = keepopen_me_check.checked
                 PQCSettings.interfacePopoutSettingsManagerNonModal = keepopen_sm_check.checked
                 keepopen_fd_check.saveDefault()
@@ -507,8 +501,7 @@ Flickable {
                 checksmall.checked = PQCSettings.getDefaultForInterfacePopoutWhenWindowIsSmall()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return checksmall.hasChanged()
@@ -545,17 +538,17 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
         if(set_popout.hasChanged() || set_keep.hasChanged() || set_small.hasChanged()) {
-            settingChanged = true
+            PQCConstants.settingsManagerSettingChanged = true
             return
         }
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
@@ -568,7 +561,7 @@ Flickable {
             set_keep.load()
             set_small.load()
 
-            settingChanged = false
+            PQCConstants.settingsManagerSettingChanged = false
             settingsLoaded = true
         }
     }
@@ -583,7 +576,7 @@ Flickable {
         set_keep.applyChanges()
         set_small.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

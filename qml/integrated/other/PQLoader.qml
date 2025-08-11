@@ -37,7 +37,36 @@ Item {
     Loader {
         id: loader_settingsmanager
         active: false
-        sourceComponent: PQSettingsManagerPopout {}
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.settingsmanagerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.settingsmanagerMaximized = m
+            }
+            content: PQSettingsManager {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
     }
 
     Connections {
@@ -49,19 +78,25 @@ Item {
             console.log("args: ele =", ele)
 
             if(ele === "about") {
-                if(loader_about.active)
-                    PQCNotify.loaderPassOn("show", ["about"])
-                else
+                if(!loader_about.active)
                     loader_about.active = true
+                PQCNotify.loaderPassOn("show", ["about"])
                 PQCConstants.idOfVisibleItem = "about"
-            } else if(ele === "settingsmanager") {
-                if(loader_settingsmanager.active)
-                    PQCNotify.loaderPassOn("show", ["settingsmanager"])
-                else
+            } else if(ele === "SettingsManager") {
+                if(!loader_settingsmanager.active)
                     loader_settingsmanager.active = true
-                PQCConstants.idOfVisibleItem = "settingsmanager"
+                PQCNotify.loaderPassOn("show", ["SettingsManager"])
+                PQCConstants.idOfVisibleItem = "SettingsManager"
             }
 
+        }
+
+        function onLoaderRegisterOpen(ele : string) {
+            PQCConstants.idOfVisibleItem = ele
+        }
+
+        function onLoaderRegisterClose(ele : string) {
+            PQCConstants.idOfVisibleItem = ""
         }
 
     }

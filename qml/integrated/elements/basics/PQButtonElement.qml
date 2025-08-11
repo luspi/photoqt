@@ -21,8 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls.Basic
-import PhotoQt.Modern
+import QtQuick.Controls
+import PhotoQt.Integrated
 
 Button {
 

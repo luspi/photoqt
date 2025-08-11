@@ -24,7 +24,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCImageFormats
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -44,11 +45,9 @@ Item {
     anchors.fill: parent
     anchors.margins: 10
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: enableBut.contextmenu.visible || disableBut.contextmenu.visible ||
-                               enableallBut.contextmenu.visible || catCombo.popup.visible
+    property bool catchEscape: false
 
     property string defaultSettings: ""
 
@@ -341,12 +340,7 @@ Item {
     Component.onCompleted:
         load()
 
-    function handleEscape() {
-        enableBut.contextmenu.close()
-        disableBut.contextmenu.close()
-        enableallBut.contextmenu.close()
-        catCombo.popup.close()
-    }
+    function handleEscape() {}
 
     function checkAll() {
         checkImg(true)
@@ -406,26 +400,26 @@ Item {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
         var chk = composeChecker()
-        settingChanged = (chk !== defaultSettings)
+        PQCConstants.settingsManagerSettingChanged = (chk !== defaultSettings)
     }
 
     function load() {
-        listview.ft = PQCImageFormats.getAllFormats() 
+        listview.ft = PQCImageFormats.getAllFormats()
         defaultSettings = composeChecker()
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
     }
 
     function applyChanges() {
-        PQCImageFormats.setAllFormats(listview.ft) 
+        PQCImageFormats.setAllFormats(listview.ft)
         defaultSettings = composeChecker()
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
     }
 
     function revertChanges() {

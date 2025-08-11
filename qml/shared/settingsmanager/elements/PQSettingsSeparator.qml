@@ -24,34 +24,18 @@ import QtQuick
 
 /* :-)) <3 */
 
-PQTemplatePopout {
-
-    id: settingsmanager_window
-
-    //: Window title
-    title: qsTranslate("settingsmanager", "Settings Manager") + " | PhotoQt"
-
-    geometry: PQCWindowGeometry.settingsmanagerGeometry
-    originalGeometry: PQCWindowGeometry.settingsmanagerGeometry
-    isMax: PQCWindowGeometry.settingsmanagerMaximized
-    popout: PQCSettings.interfacePopoutSettingsManager
-    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
-    loaderSourceComponent: PQSettingsManager {}
-
-    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal
-
-    minimumWidth: 1000
-    minimumHeight: 800
-
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.settingsmanagerGeometry = geometry
+Column {
+    id: control
+    spacing: 10
+    Item { width: 1; height: 10; }
+    property int howManyLines: 1
+    Repeater {
+        model: control.howManyLines
+        Rectangle {
+            width: setting_top.width
+            height: 1
+            color: PQCLook.baseBorder
+        }
     }
-
-    onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized)
-            PQCWindowGeometry.settingsmanagerMaximized = isMax
-    }
-
+    Item { width: 1; height: 10; }
 }

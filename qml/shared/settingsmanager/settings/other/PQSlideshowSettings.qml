@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -50,14 +51,9 @@ Flickable {
 
     SystemPalette { id: pqtPalette }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: interval.contextMenuOpen || interval.editMode ||
-                               anicombo.popup.visible || music_volumevideos.popup.visible ||
-                               filesbut.contextmenu.visible
-
-    property bool delegButContextMenu: false
+    property bool catchEscape: interval.editMode
 
     Column {
 
@@ -208,9 +204,7 @@ Flickable {
 
             }
 
-            function handleEscape() {
-                anicombo.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (anim_check.hasChanged() || anicombo.hasChanged() || anispeed.hasChanged())
@@ -218,7 +212,7 @@ Flickable {
 
             function load() {
 
-                anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15) 
+                anim_check.loadAndSetDefault(PQCSettings.slideshowImageTransition<15)
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
                 anicombo.loadAndSetDefault(animArray.indexOf(PQCSettings.slideshowTypeAnimation))
@@ -231,7 +225,7 @@ Flickable {
             function applyChanges() {
 
                 var animArray = ["kenburns", "opacity", "x", "y", "rotation", "explosion", "implosion", "random"]
-                PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex] 
+                PQCSettings.slideshowTypeAnimation = animArray[anicombo.currentIndex]
                 PQCSettings.slideshowImageTransition = anispeed.value
 
                 anim_check.saveDefault()
@@ -274,7 +268,6 @@ Flickable {
             }
 
             function handleEscape() {
-                interval.closeContextMenus()
                 interval.acceptValue()
             }
 
@@ -576,7 +569,7 @@ Flickable {
                             width: parent.width-20
                             opacity: set_music.musicfiles.length===0 ? 1 : 0
                             Behavior on opacity { NumberAnimation { duration: 200 } }
-                            font.weight: PQCLook.fontWeightBold 
+                            font.weight: PQCLook.fontWeightBold
                             horizontalAlignment: Text.AlignHCenter
                             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                             enabled: false
@@ -606,8 +599,8 @@ Flickable {
 
                                     required property int modelData
 
-                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData]) 
-                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData]) 
+                                    property string fname: PQCScriptsFilesPaths.getBasename(set_music.musicfiles[modelData])
+                                    property string fpath: PQCScriptsFilesPaths.getDir(set_music.musicfiles[modelData])
 
                                     width: music_view.width-(music_scroll.visible ? music_scroll.width : 0)
                                     height: 40
@@ -650,17 +643,13 @@ Flickable {
                                             width: 40
                                             height: 40
                                             iconScale: 0.5
-                                            radius: 0
                                             enabled: musicdeleg.modelData>0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file up one position")
                                             onClicked: {
                                                 set_music.musicfiles.splice(musicdeleg.modelData-1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
-                                            }
-                                            contextmenu.onVisibleChanged: {
-                                                setting_top.delegButContextMenu = visible
                                             }
                                         }
                                         PQButtonIcon {
@@ -668,33 +657,25 @@ Flickable {
                                             height: 40
                                             rotation: 180
                                             iconScale: 0.5
-                                            radius: 0
                                             enabled: musicdeleg.modelData < music_view.model-1
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg" 
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/upwards.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Move file down one position")
                                             onClicked: {
                                                 set_music.musicfiles.splice(musicdeleg.modelData+1, 0, set_music.musicfiles.splice(musicdeleg.modelData, 1)[0])
                                                 set_music.musicfilesChanged()
                                             }
-                                            contextmenu.onVisibleChanged: {
-                                                setting_top.delegButContextMenu = visible
-                                            }
                                         }
                                         PQButtonIcon {
                                             width: 40
                                             height: 40
                                             iconScale: 0.35
-                                            radius: 0
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
+                                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                             //: This relates to the list of music files for slideshows
                                             tooltip: qsTranslate("settingsmanager", "Delete this file from the list")
                                             onClicked: {
                                                 set_music.musicfiles.splice(musicdeleg.modelData, 1)
                                                 set_music.musicfilesChanged()
-                                            }
-                                            contextmenu.onVisibleChanged: {
-                                                setting_top.delegButContextMenu = visible
                                             }
                                         }
                                     }
@@ -709,7 +690,7 @@ Flickable {
                         id: filesbut
                         text: qsTranslate("settingsmanager", "Add music files")
                         onClicked: {
-                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",                             
+                            var fnames = PQCScriptsFilesPaths.openFilesFromDialog("Select",
                                                                                   (set_music.musicfiles.length===0 ?
                                                                                        PQCScriptsFilesPaths.getHomeDir() :
                                                                                        PQCScriptsFilesPaths.getDir(set_music.musicfiles[set_music.musicfiles.length-1])),
@@ -739,10 +720,7 @@ Flickable {
                 set_music.musicfiles = []
             }
 
-            function handleEscape() {
-                music_volumevideos.popup.close()
-                filesbut.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (music_check.hasChanged() || music_volumevideos.hasChanged() || music_shuffle.hasChanged() ||
@@ -811,14 +789,14 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_ani.hasChanged() || set_interval.hasChanged() || set_loop.hasChanged() ||
-                          set_shuffle.hasChanged() || set_status.hasChanged() || set_sub.hasChanged() ||
-                          set_music.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_ani.hasChanged() || set_interval.hasChanged() || set_loop.hasChanged() ||
+                                                      set_shuffle.hasChanged() || set_status.hasChanged() || set_sub.hasChanged() ||
+                                                      set_music.hasChanged())
 
     }
 
@@ -832,7 +810,7 @@ Flickable {
         set_sub.load()
         set_music.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -847,7 +825,7 @@ Flickable {
         set_sub.applyChanges()
         set_music.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

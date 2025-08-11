@@ -24,7 +24,8 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCExtensionsHandler
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -45,10 +46,9 @@ Flickable {
 
     SystemPalette { id: pqtPalette }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: addnewgrp.contextmenu.visible || listview.delegContextMenu || filter_category.popup.visible
+    property bool catchEscape: false
 
     property var actions: {
 
@@ -243,7 +243,7 @@ Flickable {
             spacing: 10
 
             PQTextXL {
-                font.weight: PQCLook.fontWeightBold 
+                font.weight: PQCLook.fontWeightBold
                 //: Settings title
                 text: qsTranslate("settingsmanager", "Shortcuts")
                 font.capitalization: Font.SmallCaps
@@ -357,9 +357,6 @@ Flickable {
             ScrollBar.vertical: PQVerticalScrollBar {}
 
             PQScrollManager { flickable: listview }
-
-            property bool delegContextMenu: false
-            signal closeMenus()
 
             delegate: Rectangle {
 
@@ -546,7 +543,7 @@ Flickable {
                                             Behavior on opacity { NumberAnimation { duration: 200 } }
                                             Text {
                                                 anchors.centerIn: parent
-                                                font.weight: PQCLook.fontWeightBold 
+                                                font.weight: PQCLook.fontWeightBold
                                                 color: "white"
                                                 text: "x"
                                             }
@@ -556,7 +553,7 @@ Flickable {
                                             id: combolabel
                                             x: delrect.width+20
                                             y: (parent.height-height)/2
-                                            font.weight: PQCLook.fontWeightBold 
+                                            font.weight: PQCLook.fontWeightBold
                                             text: PQCScriptsShortcuts.translateShortcut(deleg.combos[combodeleg.index])
                                             color: pqtPalette.text
                                             Behavior on color { ColorAnimation { duration: 200 } }
@@ -680,7 +677,7 @@ Flickable {
 
                             PQText {
                                 width: parent.width
-                                font.weight: PQCLook.fontWeightBold 
+                                font.weight: PQCLook.fontWeightBold
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 text: qsTranslate("settingsmanager", "The new shortcut was in use by another shortcuts group. It has been reassigned to this group.")
                             }
@@ -701,9 +698,6 @@ Flickable {
                                         oldcombos.splice(deleg.combos.indexOf(dat[2]), 1)
                                         deleg.combosstr = oldcombos.join(":://::")
                                         exstre.opacity = 0
-                                    }
-                                    contextmenu.onVisibleChanged: {
-                                        listview.delegContextMenu = visible
                                     }
                                 }
 
@@ -858,7 +852,7 @@ Flickable {
                                 Behavior on opacity { NumberAnimation { duration: 200 } }
                                 Text {
                                     anchors.centerIn: parent
-                                    font.weight: PQCLook.fontWeightBold 
+                                    font.weight: PQCLook.fontWeightBold
                                     color: "white"
                                     text: "x"
                                 }
@@ -963,7 +957,7 @@ Flickable {
                                 id: radio_cycle
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "cycle through actions one by one")
-                                font.pointSize: PQCLook.fontSizeS 
+                                font.pointSize: PQCLook.fontSizeS
                                 checked: deleg.cycling
                                 ButtonGroup.group: radioGroup
                                 onCheckedChanged: {
@@ -982,7 +976,7 @@ Flickable {
                                     checked: deleg.cycletimeout>0
                                     //: The cycle here is the act of cycling through shortcut actions one by one
                                     text: qsTranslate("settingsmanager", "timeout for resetting cycle:")
-                                    font.pointSize: PQCLook.fontSizeS 
+                                    font.pointSize: PQCLook.fontSizeS
                                     onCheckedChanged: {
                                         cycletimeout_slider.value = 0
                                     }
@@ -1028,7 +1022,7 @@ Flickable {
                                 x: 40
                                 //: The actions here are shortcut actions
                                 text: qsTranslate("settingsmanager", "run all actions at once")
-                                font.pointSize: PQCLook.fontSizeS 
+                                font.pointSize: PQCLook.fontSizeS
                                 ButtonGroup.group: radioGroup
                                 checked: deleg.simultaneous
                                 onCheckedChanged: {
@@ -1203,7 +1197,7 @@ Flickable {
 
             // reassign shortcut, save reassignment data, and show undo button
             if(usedIndex != -1) {
-                var newid = PQCScriptsOther.getUniqueId() 
+                var newid = PQCScriptsOther.getUniqueId()
                 setting_top.handleExisting[newid] = [usedIndex, index, combo]
                 var val = shmodel.get(usedIndex).combosstr.split(":://::")
                 val.splice(val.indexOf(combo), 1)
@@ -1254,11 +1248,7 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function handleEscape() {
-        addnewgrp.contextmenu.close()
-        listview.closeMenus()
-        filter_category.popup.close()
-    }
+    function handleEscape() {}
 
     // do not make this function typed, it will break
     function areTwoListsEqual(l1, l2) {
@@ -1288,12 +1278,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = !areTwoListsEqual(currentEntries, defaultEntries)
+        PQCConstants.settingsManagerSettingChanged = !areTwoListsEqual(currentEntries, defaultEntries)
 
     }
 
@@ -1341,16 +1331,16 @@ Flickable {
                             "uniqueid" : newid})
         }
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
 
     function applyChanges() {
 
-        PQCShortcuts.saveAllCurrentShortcuts(currentEntries) 
+        PQCShortcuts.saveAllCurrentShortcuts(currentEntries)
         defaultEntries = PQCShortcuts.getAllCurrentShortcuts()
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
     }
 
     function revertChanges() {

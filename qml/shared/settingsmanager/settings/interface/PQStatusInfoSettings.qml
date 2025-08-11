@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -53,12 +54,9 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: fontsize.contextMenuOpen || fontsize.editMode ||
-                               autohide_timeout.contextMenuOpen || autohide_timeout.editMode ||
-                               but_add.contextmenu.visible || combo_add.popup.visible || infoalignment.popup.visible
+    property bool catchEscape: fontsize.editMode || autohide_timeout.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -170,7 +168,7 @@ Flickable {
                                     x: (parent.width-width)/2
                                     y: (parent.height-height)/2
                                     text: avail.disp[deleg.name]
-                                    font.weight: PQCLook.fontWeightBold 
+                                    font.weight: PQCLook.fontWeightBold
                                     color: pqtPalette.text
                                     onWidthChanged: {
                                         avail.widths.push(width+20)
@@ -224,7 +222,7 @@ Flickable {
                                     width: 20
                                     height: 20
 
-                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg" 
+                                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
                                     sourceSize: Qt.size(width, height)
 
                                     opacity: closemouse.containsMouse ? 0.8 : 0.2
@@ -354,10 +352,7 @@ Flickable {
             }
 
             function handleEscape() {
-                but_add.contextmenu.close()
-                fontsize.closeContextMenus()
                 fontsize.acceptValue()
-                combo_add.popup.close()
             }
 
             function hasChanged() {
@@ -368,7 +363,7 @@ Flickable {
 
             function load() {
 
-                status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow) 
+                status_show.loadAndSetDefault(PQCSettings.interfaceStatusInfoShow)
 
                 set_status.curEntries = PQCSettings.interfaceStatusInfoList
                 populateModel()
@@ -379,7 +374,7 @@ Flickable {
 
             function applyChanges() {
 
-                PQCSettings.interfaceStatusInfoShow = status_show.checked 
+                PQCSettings.interfaceStatusInfoShow = status_show.checked
 
                 var opts = []
                 for(var i = 0; i < model.count; ++i)
@@ -493,7 +488,6 @@ Flickable {
             }
 
             function handleEscape() {
-                autohide_timeout.closeContextMenus()
                 autohide_timeout.acceptValue()
             }
 
@@ -560,9 +554,7 @@ Flickable {
                 infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCSettings.getDefaultForInterfaceStatusInfoPosition()))
             }
 
-            function handleEscape() {
-                infoalignment.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return infoalignment.hasChanged()
@@ -668,12 +660,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_status.hasChanged() || set_hide.hasChanged() ||
+        PQCConstants.settingsManagerSettingChanged = (set_status.hasChanged() || set_hide.hasChanged() ||
                           set_pos.hasChanged() || set_win.hasChanged())
 
     }
@@ -685,7 +677,7 @@ Flickable {
         set_pos.load()
         set_win.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -697,7 +689,7 @@ Flickable {
         set_pos.applyChanges()
         set_win.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

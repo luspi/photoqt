@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -57,9 +58,7 @@ Flickable {
     property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: zoomspeed.contextMenuOpen || zoomspeed.editMode || minzoom_slider.contextMenuOpen ||
-                               minzoom_slider.editMode || maxzoom_slider.contextMenuOpen || maxzoom_slider.editMode ||
-                               minimapsizelevel.popup.visible
+    property bool catchEscape: zoomspeed.editMode || minzoom_slider.editMode || maxzoom_slider.editMode
 
     Column {
 
@@ -93,7 +92,7 @@ Flickable {
                     PQRadioButton {
                         id: zoom_rel
                         text: qsTranslate("settingsmanager", "relative zoom speed")
-                        checked: PQCSettings.imageviewZoomSpeedRelative 
+                        checked: PQCSettings.imageviewZoomSpeedRelative
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
@@ -205,11 +204,8 @@ Flickable {
             }
 
             function handleEscape() {
-                zoomspeed.closeContextMenus()
                 zoomspeed.acceptValue()
-                minzoom_slider.closeContextMenus()
                 minzoom_slider.acceptValue()
-                maxzoom_slider.closeContextMenus()
                 maxzoom_slider.acceptValue()
             }
 
@@ -220,7 +216,7 @@ Flickable {
             }
 
             function load() {
-                zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed) 
+                zoomspeed.loadAndSetDefault(PQCSettings.imageviewZoomSpeed)
                 zoom_rel.loadAndSetDefault(PQCSettings.imageviewZoomSpeedRelative)
                 zoom_abs.loadAndSetDefault(!PQCSettings.imageviewZoomSpeedRelative)
                 minzoom_check.loadAndSetDefault(PQCSettings.imageviewZoomMinEnabled)
@@ -233,7 +229,7 @@ Flickable {
 
             function applyChanges() {
 
-                PQCSettings.imageviewZoomSpeed = zoomspeed.value 
+                PQCSettings.imageviewZoomSpeed = zoomspeed.value
                 PQCSettings.imageviewZoomSpeedRelative = zoom_rel.checked
                 PQCSettings.imageviewZoomMinEnabled = minzoom_check.checked
                 PQCSettings.imageviewZoomMin = minzoom_slider.value
@@ -302,9 +298,7 @@ Flickable {
                 minimapsizelevel.currentIndex = PQCSettings.getDefaultForImageviewMinimapSizeLevel()
             }
 
-            function handleEscape() {
-                minimapsizelevel.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (minimap.hasChanged() || minimapsizelevel.hasChanged())
@@ -394,7 +388,7 @@ Flickable {
         set_zoom.handleEscape()
         set_mini.handleEscape()
         set_mirflp.handleEscape()
-        set_float.handleEscape()
+        // set_float.handleEscape()
     }
 
     function checkDefault() {
@@ -405,8 +399,7 @@ Flickable {
             return
         }
 
-        settingChanged = (set_zoom.hasChanged() || set_mini.hasChanged() ||
-                          set_mirflp.hasChanged() || set_float.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_zoom.hasChanged() || set_mini.hasChanged() || set_mirflp.hasChanged() || set_float.hasChanged())
 
     }
 
@@ -415,9 +408,9 @@ Flickable {
         set_zoom.load()
         set_mini.load()
         set_mirflp.load()
-        set_float.load()
+        // set_float.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -427,9 +420,9 @@ Flickable {
         set_zoom.applyChanges()
         set_mini.applyChanges()
         set_mirflp.applyChanges()
-        set_float.applyChanges()
+        // set_float.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

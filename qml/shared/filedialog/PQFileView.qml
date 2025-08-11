@@ -196,7 +196,7 @@ Item {
         }
 
         PQMenuItem {
-            visible: PQCConstants.filedialogCurrentSelection.length < 2 || !fileview_entry_menu.isCurrentFileSelected || !menuitemLoadSelection.atLeastOneFolderSelected
+            visible: PQCConstants.filedialogCurrentSelection.length < 2 || !fileview_entry_menu.isCurrentFileSelected || !menuItemLoadSelection.atLeastOneFolderSelected
             enabled: fileview_entry_menu.isFile || fileview_entry_menu.isFolder
             iconSource: "image://svg/:/" + PQCLook.iconShade + "/folder.svg"
             text: (fileview_entry_menu.isFolder ? qsTranslate("filedialog", "Load content of folder") : qsTranslate("filedialog", "Load this file"))

@@ -25,7 +25,8 @@ import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
 import PQCExtensionsHandler
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 Item {
 
@@ -116,7 +117,7 @@ Item {
         id: titletxt
         y: insidecont.y-2*height
         width: parent.width
-        font.weight: PQCLook.fontWeightBold 
+        font.weight: PQCLook.fontWeightBold
         horizontalAlignment: Text.AlignHCenter
         text: qsTranslate("settingsmanager", "Shortcut actions")
     }
@@ -178,7 +179,7 @@ Item {
                         anchors.fill: parent
                         horizontalAlignment: Text.AlignHCenter
                         verticalAlignment: Text.AlignVCenter
-                        font.weight: PQCLook.fontWeightBold 
+                        font.weight: PQCLook.fontWeightBold
                         text: newaction_top.categoryTitles[newaction_top.categories[deleg.modelData]]
                         color: newaction_top.selectedCategory===modelData ? pqtPalette.base : pqtPalette.text
                         Behavior on color { ColorAnimation { duration: 200 } }
@@ -294,7 +295,7 @@ Item {
 
                     PQText {
                         text: qsTranslate("settingsmanager", "Select an executable")
-                        font.weight: PQCLook.fontWeightBold 
+                        font.weight: PQCLook.fontWeightBold
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
 
@@ -315,7 +316,7 @@ Item {
                             onClicked: {
 
                                 var p = "/usr/bin/"
-                                if(PQCScriptsConfig.amIOnWindows()) 
+                                if(PQCScriptsConfig.amIOnWindows())
                                     p = PQCScriptsFilesPaths.getHomeDir()
                                 else if(ext_exe.text.slice(0,1) === "/")
                                     p = PQCScriptsFilesPaths.getDir(ext_exe.text)
@@ -346,7 +347,7 @@ Item {
                     PQText {
                         width: parent.width
                         text: qsTranslate("settingsmanager", "Additional flags and options to pass on:")
-                        font.weight: PQCLook.fontWeightBold 
+                        font.weight: PQCLook.fontWeightBold
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
 
@@ -430,19 +431,11 @@ Item {
 
     Connections {
 
-        target: settingsmanager_top 
+        target: settingsmanager_top
 
         function onPassOnShortcuts(mods: string, keys: int) {
 
             if(!newaction_top.visible) return
-
-            if(exebut.contextmenu.visible) {
-                exebut.contextmenu.close()
-                return
-            } else if(saveext.contextmenu.visible) {
-                saveext.contextmenu.close()
-                return
-            }
 
             if(keys === Qt.Key_Escape)
                 newaction_top.hide()

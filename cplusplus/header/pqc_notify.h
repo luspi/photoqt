@@ -181,6 +181,8 @@ Q_SIGNALS:
     void showToolTip(QString txt, QPoint mouseXY);
     void hideToolTip(QString txt);
     void thumbnailReloadImage(int index);
+    void elementSignal(QString elementId, QString what);
+    void resetActiveFocus();
 
     // slideshow
     void slideshowHideHandler();

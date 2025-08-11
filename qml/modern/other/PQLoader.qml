@@ -46,10 +46,61 @@ Item {
     Loader {
         id: loader_settingsmanager
         active: false
+        anchors.fill: parent
         sourceComponent: ((PQCSettings.interfacePopoutSettingsManager || PQCWindowGeometry.settingsmanagerForcePopout) ? comp_settingsmanager_popout : comp_settingsmanager)
     }
-    Component { id: comp_settingsmanager; PQSettingsManager {} }
-    Component { id: comp_settingsmanager_popout; PQSettingsManagerPopout {} }
+    Component {
+        id: comp_settingsmanager
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQSettingsManager {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_settingsmanager_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.settingsmanagerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.settingsmanagerMaximized = m
+            }
+            content: PQSettingsManager {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
 
     /*********************************************************************/
 
@@ -204,7 +255,7 @@ Item {
         "about" :               [loader_about,              true],
         "metadata" :            [loader_metadata,           false],
         "mainmenu" :            [loader_mainmenu,           false],
-        "settingsmanager" :     [loader_settingsmanager,    true],
+        "SettingsManager" :     [loader_settingsmanager,    true],
         "filedelete" :          [loader_filedelete,         true],
         "filerename" :          [loader_filerename,         true],
         "filecopy" :            [loader_filecopy,           true],
@@ -286,12 +337,11 @@ Item {
 
             if(config[1] &&
                 (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
-                (ele !== "settingsmanager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
+                (ele !== "SettingsManager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
                 PQCConstants.idOfVisibleItem = ele
 
-            ensureItIsReady(ele)
+            if(config[0].status !== Loader.Ready) {
 
-            if(!config[0].item) {
                 if(showWhenReady.args.length == 0) {
                     showWhenReady.theloader = config[0]
                     if(additional.length === 0)
@@ -326,7 +376,7 @@ Item {
         interval: 10
         triggeredOnStart: true
         onTriggered: {
-            if(!theloader.item) {
+            if(theloader.status !== Loader.Ready) {
                 showWhenReady.start()
                 return
             }
@@ -342,7 +392,7 @@ Item {
         interval: 10
         triggeredOnStart: true
         onTriggered: {
-            if(!theloader.item) {
+            if(theloader.status !== Loader.Ready) {
                 showWhenReady2.start()
                 return
             }
@@ -403,7 +453,7 @@ Item {
         target: PQCNotify
 
         function onOpenSettingsManagerAt(category : string, subcategory : string) {
-            loader_top.ensureItIsReady("settingsmanager")
+            loader_top.ensureItIsReady("SettingsManager")
             PQCNotify.loaderPassOn("showSettings", [subcategory])
         }
 

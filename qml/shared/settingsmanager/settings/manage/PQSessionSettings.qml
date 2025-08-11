@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -48,7 +49,6 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: false
 
@@ -100,12 +100,12 @@ Flickable {
             }
 
             function load() {
-                sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances) 
+                sing.loadAndSetDefault(!PQCSettings.interfaceAllowMultipleInstances)
                 mult.loadAndSetDefault(PQCSettings.interfaceAllowMultipleInstances)
             }
 
             function applyChanges() {
-                PQCSettings.interfaceAllowMultipleInstances = mult.checked 
+                PQCSettings.interfaceAllowMultipleInstances = mult.checked
                 mult.saveDefault()
                 sing.saveDefault()
             }
@@ -321,7 +321,7 @@ Flickable {
                         enforceMaxWidth: set_tray.rightcol
                         enabled: trayicon_show.checked
                         text: qsTranslate("settingsmanager", "hide to tray icon instead of closing")
-                        checked: (PQCSettings.interfaceTrayIcon===1) 
+                        checked: (PQCSettings.interfaceTrayIcon===1)
                         onCheckedChanged: setting_top.checkDefault()
                     }
 
@@ -428,13 +428,13 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_single.hasChanged() || set_reopen.hasChanged() || set_rem.hasChanged() ||
-                          set_tray.hasChanged() || set_reset.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_single.hasChanged() || set_reopen.hasChanged() || set_rem.hasChanged() ||
+                                                      set_tray.hasChanged() || set_reset.hasChanged())
 
     }
 
@@ -446,7 +446,7 @@ Flickable {
         set_tray.load()
         set_reset.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -459,7 +459,7 @@ Flickable {
         set_tray.applyChanges()
         set_reset.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
