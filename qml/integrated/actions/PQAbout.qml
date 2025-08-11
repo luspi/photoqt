@@ -35,6 +35,10 @@ ApplicationWindow {
 
     modality: Qt.ApplicationModal
 
+    property bool configShown: false
+    signal showConfig()
+    signal hideConfig()
+
     SystemPalette { id: pqtPalette }
 
     Flickable {
@@ -75,8 +79,12 @@ ApplicationWindow {
                 x: (parent.width-width)/2
                 text: "PhotoQt v" + PQCScriptsConfig.getVersion()
                 //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
-                onClicked:
-                    configinfo.opacity = 1
+                onClicked: {
+                    if(!configloader.active)
+                        configloader.active = true
+                    else
+                        about_top.showConfig()
+                }
                 property string txt: qsTranslate("about", "Show configuration overview")
                 onHoveredChanged: {
                     if(hovered && txt !== "")
@@ -135,72 +143,105 @@ ApplicationWindow {
 
     }
 
-    Rectangle {
+    Loader {
+        id: configloader
+        active: false
+        sourceComponent:
+        ApplicationWindow {
 
-        id: configinfo
+            id: config_window
 
-        anchors.fill: parent
-        anchors.bottomMargin: closebutton.height+25
-        color: pqtPalette.base
+            width: 600
+            height: 400
 
-        clip: true
+            modality: Qt.ApplicationModal
 
-        opacity: 0
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        visible: opacity>0
+            onVisibilityChanged: (visibility) => {
+                if(visibility === Window.Hidden)
+                    about_top.configShown = false
+                else
+                    about_top.configShown = true
+            }
 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-        }
+            Flickable {
 
-        Flickable {
+                anchors.fill: parent
+                anchors.bottomMargin: config_window.height-configcloserow.y+5
 
-            x: (parent.width-width)/2
-            y: (parent.height-height)/2
+                contentHeight: configcol.height+20
+                clip: true
 
-            width: parent.width
-            height: Math.min(parent.height-20, configcol.height)
+                ScrollBar.vertical: ScrollBar { id: scroll }
 
-            contentHeight: configcol.height+20
+                Column {
 
-            ScrollBar.vertical: ScrollBar { id: scroll }
+                    id: configcol
 
-            Column {
+                    x: 5
+                    width: config_window.width-scroll.width-10
 
-                id: configcol
+                    spacing: 10
 
+                    PQTextXL {
+                        x: (parent.width-width)/2
+                        //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+                        text: qsTranslate("about", "Configuration")
+                        lineHeight: 1.2
+                        font.weight: PQCLook.fontWeightBold
+                    }
+
+                    PQText {
+                        id: configinfo_txt
+                        text: PQCScriptsConfig.getConfigInfo(true)
+                        lineHeight: 1.2
+                    }
+
+                }
+
+            }
+
+            Rectangle {
+                y: configcloserow.y-5
+                width: parent.width
+                height: 1
+                color: pqtPalette.text
+            }
+
+            Row {
+                id: configcloserow
                 x: (parent.width-width)/2
-                y: (parent.height-height)/2
-
+                y: (parent.height-height-10)
                 spacing: 10
-
-                PQTextXL {
-                    x: (parent.width-width)/2
-                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
-                    text: qsTranslate("about", "Configuration")
-                    lineHeight: 1.2
-                    font.weight: PQCLook.fontWeightBold
-                }
-
-                PQText {
-                    id: configinfo_txt
-                    text: PQCScriptsConfig.getConfigInfo(true)
-                    lineHeight: 1.2
-                }
-
                 PQButton {
-                    x: (parent.width-width)/2
                     id: configclipbut
                     text: qsTranslate("about", "Copy to clipboard")
                     onClicked:
                         PQCScriptsClipboard.copyTextToClipboard(configinfo_txt.text, true)
                 }
 
+                PQButton {
+                    id: configclosebutton
+                    text: "Close"
+                    onClicked: {
+                        config_window.close()
+                    }
+                }
             }
 
-        }
+            Connections {
+                target: about_top
+                function onShowConfig() {
+                    config_window.show()
+                }
+                function onHideConfig() {
+                    config_window.close()
+                }
+            }
 
+            Component.onCompleted:
+                config_window.show()
+
+        }
     }
 
     Rectangle {
@@ -216,10 +257,7 @@ ApplicationWindow {
         y: (parent.height-height-10)
         text: "Close"
         onClicked: {
-            if(configinfo.visible)
-                configinfo.opacity = 0
-            else
-                about_top.hide()
+            about_top.hide()
         }
     }
 
@@ -234,9 +272,6 @@ ApplicationWindow {
 
     Component.onCompleted:
         about_top.show()
-
-    onClosing:
-        configinfo.opacity = 0
 
     Connections {
 
@@ -254,8 +289,8 @@ ApplicationWindow {
 
                 if(what === "keyEvent") {
                     if(param[0] === Qt.Key_Escape) {
-                        if(configinfo.visible)
-                            configinfo.opacity = 0
+                        if(about_top.configShown)
+                            about_top.hideConfig()
                         else
                             about_top.hide()
                     }
