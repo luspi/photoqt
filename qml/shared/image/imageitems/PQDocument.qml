@@ -22,7 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PhotoQt.Shared
 
 /* :-)) <3 */
 

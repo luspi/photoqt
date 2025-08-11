@@ -25,7 +25,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import PQCImageFormats
-import PhotoQt.Shared
 
 /* :-)) <3 */
 

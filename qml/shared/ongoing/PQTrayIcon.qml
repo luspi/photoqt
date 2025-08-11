@@ -23,7 +23,6 @@
 import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
-import PhotoQt.Shared
 
 /* :-)) <3 */
 

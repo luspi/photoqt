@@ -26,7 +26,6 @@ import PQCImageFormats
 import PQCExtensionsHandler
 import PQCLocation
 import PQCScriptsShareImgur
-import PhotoQt.Shared
 
 /* :-)) <3 */
 
