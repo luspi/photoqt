@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -52,11 +53,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: spacing_slider.contextMenuOpen || spacing_slider.editMode ||
-                               highlight_liftup_slider.contextMenuOpen || highlight_liftup_slider.editMode
+    property bool catchEscape: spacing_slider.editMode || highlight_liftup_slider.editMode
 
     Column {
 
@@ -93,7 +92,6 @@ Flickable {
             }
 
             function handleEscape() {
-                spacing_slider.closeContextMenus()
                 spacing_slider.acceptValue()
             }
 
@@ -102,11 +100,11 @@ Flickable {
             }
 
             function load() {
-                spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing) 
+                spacing_slider.loadAndSetDefault(PQCSettings.thumbnailsSpacing)
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsSpacing = spacing_slider.value 
+                PQCSettings.thumbnailsSpacing = spacing_slider.value
                 spacing_slider.saveDefault()
             }
 
@@ -168,7 +166,7 @@ Flickable {
                             y: (parent.height-height)/2
                             //: effect for highlighting active thumbnail
                             text: qsTranslate("settingsmanager", "lift up") + (checked ? ":" : " ")
-                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") 
+                            checked: PQCSettings.thumbnailsHighlightAnimation.includes("liftup")
                             onCheckedChanged: setting_top.checkDefault()
                         }
                     }
@@ -201,7 +199,6 @@ Flickable {
             }
 
             function handleEscape() {
-                highlight_liftup_slider.closeContextMenus()
                 highlight_liftup_slider.acceptValue()
             }
 
@@ -386,12 +383,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_spacing.hasChanged() || set_high.hasChanged() || set_cent.hasChanged() || set_vis.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_spacing.hasChanged() || set_high.hasChanged() || set_cent.hasChanged() || set_vis.hasChanged())
 
     }
 
@@ -402,7 +399,7 @@ Flickable {
         set_cent.load()
         set_vis.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -414,7 +411,7 @@ Flickable {
         set_cent.applyChanges()
         set_vis.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

@@ -22,12 +22,51 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.Integrated
 
-MenuItem {
-    property bool keepOpenWhenCheckedChanges
-    property string iconSource: ""
-    onIconSourceChanged:
-        icon.source = iconSource
-    Component.onCompleted:
-        icon.source = iconSource
+RadioButton {
+
+    id: control
+
+    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
+
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
+
+    width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
+
+    property string tooltip: text
+
+    property int enforceMaxWidth: 0
+
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered && text !== ""
+        text: control.tooltip
+    }
+
+    property bool _defaultChecked
+    Component.onCompleted: {
+        _defaultChecked = checked
+    }
+
+    function saveDefault() {
+        _defaultChecked = checked
+    }
+
+    function setDefault(chk : bool) {
+        _defaultChecked = chk
+    }
+
+    function loadAndSetDefault(chk : bool) {
+        checked = chk
+        _defaultChecked = chk
+    }
+
+    function hasChanged() : bool {
+        return _defaultChecked!==checked
+    }
+
 }

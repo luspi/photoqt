@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -54,11 +55,9 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: dblclk.contextMenuOpen || dblclk.editMode ||
-                               hidetimeout.contextMenuOpen || hidetimeout.editMode
+    property bool catchEscape: dblclk.editMode || hidetimeout.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -112,12 +111,12 @@ Flickable {
             }
 
             function load() {
-                movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove) 
+                movewhl.loadAndSetDefault(PQCSettings.imageviewUseMouseWheelForImageMove)
                 movebut.loadAndSetDefault(PQCSettings.imageviewUseMouseLeftButtonForImageMove)
             }
 
             function applyChanges() {
-                PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked 
+                PQCSettings.imageviewUseMouseWheelForImageMove = movewhl.checked
                 PQCSettings.imageviewUseMouseLeftButtonForImageMove = movebut.checked
                 movewhl.saveDefault()
                 movebut.saveDefault()
@@ -157,7 +156,6 @@ Flickable {
             }
 
             function handleEscape() {
-                dblclk.closeContextMenus()
                 dblclk.acceptValue()
             }
 
@@ -262,7 +260,7 @@ Flickable {
                     id: hidetimeout_check
                     enforceMaxWidth: set_hidemouse.rightcol
                     text: qsTranslate("settingsmanager", "hide cursor after timeout") + (checked ? ": " : "  ")
-                    checked: PQCSettings.imageviewHideCursorTimeout===0 
+                    checked: PQCSettings.imageviewHideCursorTimeout===0
                 },
 
                 PQSliderSpinBox {
@@ -286,7 +284,6 @@ Flickable {
             }
 
             function handleEscape() {
-                hidetimeout.closeContextMenus()
                 hidetimeout.acceptValue()
             }
 
@@ -417,13 +414,13 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_move.hasChanged() || set_dbl.hasChanged() || set_whl.hasChanged() ||
-                          set_hidemouse.hasChanged() || set_escape.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_move.hasChanged() || set_dbl.hasChanged() || set_whl.hasChanged() ||
+                                                      set_hidemouse.hasChanged() || set_escape.hasChanged())
 
     }
 
@@ -435,7 +432,7 @@ Flickable {
         set_hidemouse.load()
         set_escape.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -448,7 +445,7 @@ Flickable {
         set_hidemouse.applyChanges()
         set_escape.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

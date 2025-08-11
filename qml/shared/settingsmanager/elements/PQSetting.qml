@@ -21,7 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 Row {
 
@@ -144,7 +145,7 @@ Row {
             width: 20
             height: 20
             visible: setctrl.showResetButton
-            opacity: mouseOver ? 1 : 0.5
+            opacity: hovered ? 1 : 0.5
             Behavior on opacity { NumberAnimation { duration: 200 } }
             source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
             tooltip: qsTranslate("settingsmanager", "reset to default values")

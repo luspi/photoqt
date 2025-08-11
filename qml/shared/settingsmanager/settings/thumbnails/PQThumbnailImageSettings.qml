@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -55,11 +56,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: thumb_size.contextMenuOpen || thumb_size.editMode ||
-                               label_fontsize.contextMenuOpen || label_fontsize.editMode
+    property bool catchEscape: thumb_size.editMode || label_fontsize.editMode
 
     Column {
 
@@ -104,11 +103,11 @@ Flickable {
             }
 
             function load() {
-                thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize) 
+                thumb_size.loadAndSetDefault(PQCSettings.thumbnailsSize)
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsSize = thumb_size.value 
+                PQCSettings.thumbnailsSize = thumb_size.value
                 thumb_size.saveDefault()
             }
 
@@ -382,8 +381,7 @@ Flickable {
                 tooltips_show.checked = PQCSettings.getDefaultForThumbnailsTooltip()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return tooltips_show.hasChanged()
@@ -416,13 +414,13 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_size.hasChanged() || set_scale.hasChanged() || set_icn.hasChanged() ||
-                          set_label.hasChanged() || set_ttip.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_size.hasChanged() || set_scale.hasChanged() || set_icn.hasChanged() ||
+                                                      set_label.hasChanged() || set_ttip.hasChanged())
 
     }
 
@@ -434,7 +432,7 @@ Flickable {
         set_label.load()
         set_ttip.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -447,7 +445,7 @@ Flickable {
         set_label.applyChanges()
         set_ttip.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

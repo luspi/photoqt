@@ -20,27 +20,18 @@
  **                                                                      **
  **************************************************************************/
 
-/*1off_Qt64
 import QtQuick
+import QtQuick.Controls
 
-Item {
-    property var source
-    property bool blurEnabled
-    property int blurMax
-    property int blur
-    property bool autoPaddingEnabled
-    property real saturation
-    property bool shadowEnabled
-    property bool maskEnabled
-    property Item maskSource
-    property real shadowVerticalOffset
+MenuItem {
+
+    // not currently used but needed for compatibility with modern style
+    property bool keepOpenWhenCheckedChanges
+    property bool checkableLikeRadioButton
+
+    property string iconSource: ""
+    onIconSourceChanged:
+        icon.source = iconSource
+    Component.onCompleted:
+        icon.source = iconSource
 }
-2off_Qt64*/
-
-/*1on_Qt65+*/
-import QtQuick.Effects
-
-MultiEffect {
-    anchors.fill: source
-}
-/*2on_Qt65+*/

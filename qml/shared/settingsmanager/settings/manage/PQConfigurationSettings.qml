@@ -23,7 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 import PQCImageFormats
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -44,8 +45,7 @@ Flickable {
 
     property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: butresetSet.contextmenu.visible || butresetSh.contextmenu.visible || butresetFf.contextmenu.visible ||
-                               butcancelaction.contextmenu.visible || butexport.contextmenu.visible || butimport.contextmenu.visible
+    property bool catchEscape: false
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -216,7 +216,7 @@ Flickable {
                         PQCSettings.closeDatabase()
                         PQCImageFormats.closeDatabase()
 
-                        PQCScriptsConfig.exportConfigTo("") 
+                        PQCScriptsConfig.exportConfigTo("")
 
                         PQCShortcuts.reopenDatabase()
                         PQCSettings.reopenDatabase()
@@ -235,7 +235,7 @@ Flickable {
                         PQCSettings.closeDatabase()
                         PQCImageFormats.closeDatabase()
 
-                        if(PQCScriptsConfig.importConfigFrom("")) { 
+                        if(PQCScriptsConfig.importConfigFrom("")) {
                             PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                                     qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
                             PQCNotify.photoQtQuit()
@@ -255,14 +255,7 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function handleEscape() {
-        butresetSet.contextmenu.close()
-        butresetSh.contextmenu.close()
-        butresetFf.contextmenu.close()
-        butcancelaction.contextmenu.close()
-        butexport.contextmenu.close()
-        butimport.contextmenu.close()
-    }
+    function handleEscape() {}
 
     function checkDefault() {}
 

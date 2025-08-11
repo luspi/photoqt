@@ -23,7 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 import Qt.labs.platform
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -45,13 +46,9 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: testbut.contextmenu.visible || langcombo.popup.visible || accentcolor.popup.visible ||
-                               butsize.contextMenuOpen || butsize.editMode || autohide_timeout.contextMenuOpen ||
-                               autohide_timeout.editMode || notif_dist.contextMenuOpen || notif_dist.editMode ||
-                               combo_add.popup.visible || set_winbut.itemmenuopened>0
+    property bool catchEscape: butsize.editMode || autohide_timeout.editMode || notif_dist.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -166,9 +163,7 @@ Flickable {
                 langcombo.currentIndex = setindex
             }
 
-            function handleEscape() {
-                langcombo.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (origIndex !== langcombo.currentIndex)
@@ -298,8 +293,7 @@ Flickable {
 
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged())
@@ -353,9 +347,6 @@ Flickable {
 
             //: A settings title
             title: qsTranslate("settingsmanager", "Window buttons")
-
-            property int itemmenuopened: 0
-            signal closeItemMenu()
 
             content: [
 
@@ -547,32 +538,10 @@ Flickable {
                                         }
                                     }
 
-                                    onAboutToHide: {
-                                        set_winbut.itemmenuopened -= 1
-                                        recordAsClosed.restart()
-                                    }
                                     onAboutToShow: {
-                                        set_winbut.itemmenuopened += 1
                                         chk_fs.checked = deleg.fullscreenonly
                                         chk_wm.checked = deleg.windowedonly
                                         chk_ot.checked = deleg.alwaysontop
-                                        PQCConstants.addToWhichContextMenusOpen("settings_windowbuttons"+index)
-                                    }
-
-                                    Connections {
-                                        target: set_winbut
-                                        function onCloseItemMenu() {
-                                            itemmenu.close()
-                                        }
-                                    }
-
-                                    Timer {
-                                        id: recordAsClosed
-                                        interval: 200
-                                        onTriggered: {
-                                            if(!itemmenu.opened)
-                                                PQCConstants.removeFromWhichContextMenusOpen("settings_windowbuttons"+index)
-                                        }
                                     }
 
                                 }
@@ -862,13 +831,8 @@ Flickable {
             }
 
             function handleEscape() {
-                butsize.closeContextMenus()
                 butsize.acceptValue()
-                autohide_timeout.closeContextMenus()
                 autohide_timeout.acceptValue()
-                combo_add.popup.close()
-                set_winbut.closeItemMenu()
-                set_winbut.itemmenuopened = 0
             }
 
             function hasChanged() {
@@ -1121,10 +1085,7 @@ Flickable {
 
             }
 
-            function handleEscape() {
-                testbut.contextmenu.close()
-                accentcolor.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
@@ -1276,8 +1237,7 @@ Flickable {
                 fw_boldslider.value = PQCSettings.getDefaultForInterfaceFontBoldWeight()
             }
 
-            function handleEscape() {
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (fw_normalslider.hasChanged() || fw_boldslider.hasChanged())
@@ -1582,7 +1542,6 @@ Flickable {
             }
 
             function handleEscape() {
-                notif_dist.closeContextMenus()
                 notif_dist.acceptValue()
             }
 
@@ -1675,11 +1634,11 @@ Flickable {
         if(set_lang.hasChanged() || set_windowmode.hasChanged() || set_winbut.hasChanged() ||
                 set_accent.hasChanged() || set_fontweight.hasChanged() || set_notif.hasChanged()/* ||
                 set_quick.hasChanged()*/) {
-            setting_top.settingChanged = true
+            PQCConstants.settingsManagerSettingChanged = true
             return
         }
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
@@ -1693,7 +1652,7 @@ Flickable {
         set_notif.load()
         // set_quick.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -1708,7 +1667,7 @@ Flickable {
         set_notif.applyChanges()
         // set_quick.applyChanges()
 
-        setting_top.settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

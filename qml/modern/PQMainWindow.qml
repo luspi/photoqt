@@ -115,6 +115,13 @@ Window {
         anchors.fill: parent
     }
 
+    Connections {
+        target: PQCNotify
+        function onResetActiveFocus() {
+            fullscreenitem.forceActiveFocus()
+        }
+    }
+
     // we register clicks right away (if no image was passed on)
     MouseArea {
         anchors.fill: parent

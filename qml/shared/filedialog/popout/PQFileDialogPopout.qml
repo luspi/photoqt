@@ -21,10 +21,8 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
-import PhotoQt.Shared
 
-// this one is (currently) only used with the Modern interface
+/* :-)) <3 */
 
 PQTemplatePopout {
 

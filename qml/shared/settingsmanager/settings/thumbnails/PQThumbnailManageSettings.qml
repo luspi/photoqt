@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -53,10 +54,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: cache_dir_custom.contextmenu.visible || butaddfolder.contextmenu.visible || threads.editMode
+    property bool catchEscape: threads.editMode
 
     Column {
 
@@ -121,7 +121,7 @@ Flickable {
                             tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
 
                             onClicked: {
-                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir)) 
+                                var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
                                 if(path !== "") {
                                     cache_dir_custom.customdir = path
                                     setting_top.checkDefault()
@@ -141,22 +141,20 @@ Flickable {
                 cache_dir_custom.customdir = PQCSettings.getDefaultForThumbnailsCacheBaseDirLocation()
             }
 
-            function handleEscape() {
-                cache_dir_custom.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (cache_enable.hasChanged() || cache_dir_default.hasChanged() || cache_dir_custom.customdir !== PQCSettings.thumbnailsCacheBaseDirLocation)
             }
 
             function load() {
-                cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache) 
+                cache_enable.loadAndSetDefault(PQCSettings.thumbnailsCache)
                 cache_dir_default.loadAndSetDefault(PQCSettings.thumbnailsCacheBaseDirDefault)
                 cache_dir_custom.customdir = PQCSettings.thumbnailsCacheBaseDirLocation
             }
 
             function applyChanges() {
-                PQCSettings.thumbnailsCache = cache_enable.checked 
+                PQCSettings.thumbnailsCache = cache_enable.checked
                 PQCSettings.thumbnailsCacheBaseDirDefault = cache_dir_default.checked
                 PQCSettings.thumbnailsCacheBaseDirLocation = cache_dir_custom.customdir
                 PQCScriptsFilesPaths.setThumbnailBaseCacheDir(cache_dir_default.checked ? "" : cache_dir_custom.customdir)
@@ -203,7 +201,7 @@ Flickable {
                 PQCheckBox {
                     id: nextcloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeNextcloud 
+                    property string folder: PQCSettings.thumbnailsExcludeNextcloud
                     visible: folder!=""
                     text: "Nextcloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -212,7 +210,7 @@ Flickable {
                 PQCheckBox {
                     id: owncloud
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud 
+                    property string folder: PQCSettings.thumbnailsExcludeOwnCloud
                     visible: folder!=""
                     text: "ownCloud: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -221,7 +219,7 @@ Flickable {
                 PQCheckBox {
                     id: dropbox
                     enforceMaxWidth: set_excl.rightcol
-                    property string folder: PQCSettings.thumbnailsExcludeDropBox 
+                    property string folder: PQCSettings.thumbnailsExcludeDropBox
                     visible: folder!=""
                     text: "DropBox: " + folder
                     onCheckedChanged: setting_top.checkDefault()
@@ -249,7 +247,7 @@ Flickable {
                     //: Written on a button
                     text: qsTranslate("settingsmanager", "Add folder")
                     onClicked: {
-                        var newdir = PQCScriptsFilesPaths.getExistingDirectory() 
+                        var newdir = PQCScriptsFilesPaths.getExistingDirectory()
                         if(newdir !== "") {
                             if(exclude_folders.text === "")
                                 exclude_folders.text = newdir+"\n"
@@ -282,9 +280,7 @@ Flickable {
                 exclude_folders.text = PQCSettings.getDefaultForThumbnailsExcludeFolders()
             }
 
-            function handleEscape() {
-                butaddfolder.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||
@@ -387,7 +383,6 @@ Flickable {
             }
 
             function handleEscape() {
-                threads.closeContextMenus()
                 threads.acceptValue()
             }
 
@@ -425,7 +420,7 @@ Flickable {
             return
         }
 
-        settingChanged = (set_cache.hasChanged() || set_excl.hasChanged() || set_thrd.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_cache.hasChanged() || set_excl.hasChanged() || set_thrd.hasChanged())
 
     }
 
@@ -435,7 +430,7 @@ Flickable {
         set_excl.load()
         set_thrd.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -446,7 +441,7 @@ Flickable {
         set_excl.applyChanges()
         set_thrd.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

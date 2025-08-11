@@ -19,73 +19,51 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.Integrated
 
-ComboBox {
+ScrollView {
 
     id: control
 
+    clip: true
+
+    property alias text: textarea.text
+    property alias placeholderText: textarea.placeholderText
+    property alias controlFocus: textarea.focus
+    property alias controlActiveFocus: textarea.activeFocus
+    property alias cursorPosition: textarea.cursorPosition
+
+    implicitWidth: 200
+    implicitHeight: 200
+
+    ScrollBar.vertical:
+        PQVerticalScrollBar {
+            id: scrollver
+            x: control.width - width
+            height: control.availableHeight
+        }
+
+    ScrollBar.horizontal:
+        PQHorizontalScrollBar {
+            id: scrollhor
+            y: parent.height - height
+            width: control.availableWidth
+        }
+
     SystemPalette { id: pqtPalette }
 
-    property string prefix: ""
+    TextArea {
 
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+        id: textarea
 
-    property list<int> hideEntries: []
+        color: pqtPalette.text
 
-    implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
+        font.pointSize: PQCLook.fontSize
+        font.weight: PQCLook.fontWeightNormal
 
-    property bool extrawide: false
-    property bool extrasmall: false
-
-    property int elide: Text.ElideRight
-
-    property bool transparentBackground: false
-
-    delegate: ItemDelegate {
-        id: deleg
-        width: control.width
-        required property var model
-        required property int index
-        contentItem: Label {
-            text: control.prefix+deleg.model[control.textRole]
-        }
-        highlighted: control.highlightedIndex === deleg.index
-    }
-
-    contentItem: Label {
-        text: control.prefix+control.displayText
-    }
-
-    background: Rectangle {
-        color: control.transparentBackground ? "transparent" : pqtPalette.alternateBase
-    }
-
-    property int _defaultValue
-    Component.onCompleted: {
-        _defaultValue = currentIndex
-    }
-
-    function saveDefault() {
-        _defaultValue = currentIndex
-    }
-
-    function setDefault(val : int) {
-        _defaultValue = val
-    }
-
-    function loadAndSetDefault(val : int) {
-        currentIndex = val
-        _defaultValue = val
-    }
-
-    function hasChanged() : bool {
-        return _defaultValue!==currentIndex
     }
 
 }

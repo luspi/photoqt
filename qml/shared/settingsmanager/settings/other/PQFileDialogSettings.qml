@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -47,11 +48,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: padding.contextMenuOpen || padding.editMode || preview_colintspin.contextMenuOpen ||
-                               preview_colintspin.editMode || sortcriteria.popup.visible || folderthumb_timeout.popup.visible
+    property bool catchEscape: padding.editMode || preview_colintspin.editMode
 
     Column {
 
@@ -125,9 +124,7 @@ Flickable {
                 sortdesc.checked = !sortasc.checked
             }
 
-            function handleEscape() {
-                sortcriteria.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (sortasc.hasChanged() || sortdesc.hasChanged() || sortcriteria.hasChanged())
@@ -139,7 +136,7 @@ Flickable {
                     PQCSettings.imageviewSortImagesBy = "name"
 
                 var l = ["naturalname", "name", "time", "size", "type"]
-                sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy))) 
+                sortcriteria.loadAndSetDefault(Math.max(0, l.indexOf(PQCSettings.imageviewSortImagesBy)))
                 sortasc.loadAndSetDefault(PQCSettings.imageviewSortImagesAscending)
                 sortdesc.loadAndSetDefault(!PQCSettings.imageviewSortImagesAscending)
 
@@ -147,7 +144,7 @@ Flickable {
 
             function applyChanges() {
                 var l = ["naturalname", "name", "time", "size", "type"]
-                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex] 
+                PQCSettings.imageviewSortImagesBy = l[sortcriteria.currentIndex]
                 PQCSettings.imageviewSortImagesAscending = sortasc.checked
                 sortcriteria.saveDefault()
                 sortasc.saveDefault()
@@ -484,7 +481,7 @@ Flickable {
                 },
                 PQCheckBox {
                     id: sect_devicestmpfs
-                    visible: !PQCScriptsConfig.amIOnWindows() 
+                    visible: !PQCScriptsConfig.amIOnWindows()
                     enabled: sect_devices.checked
                     enforceMaxWidth: set_sort.rightcol-22
                     text: qsTranslate("settingsmanager", "Include temporary devices")
@@ -695,7 +692,6 @@ Flickable {
             }
 
             function handleEscape() {
-                padding.closeContextMenus()
                 padding.acceptValue()
             }
 
@@ -865,9 +861,7 @@ Flickable {
                 folderthumb_scalecrop.checked = PQCSettings.getDefaultForFiledialogFolderContentThumbnailsScaleCrop()
             }
 
-            function handleEscape() {
-                folderthumb_timeout.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (folderthumb_check.hasChanged() || folderthumb_timeout.hasChanged() || folderthumb_loop.hasChanged() ||
@@ -949,7 +943,7 @@ Flickable {
                                 id: preview_colintspin
                                 width: set_sort.rightcol - 30
                                 title: qsTranslate("settingsmanager", "color intensity:")
-                                titleWeight: PQCLook.fontWeightNormal 
+                                titleWeight: PQCLook.fontWeightNormal
                                 minval: 10
                                 maxval: 100
                                 suffix: " %"
@@ -1001,7 +995,6 @@ Flickable {
             }
 
             function handleEscape() {
-                preview_colintspin.closeContextMenus()
                 preview_colintspin.acceptValue()
             }
 
@@ -1064,18 +1057,18 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
         var l = ["naturalname", "name", "time", "size", "type"]
 
-        settingChanged = (set_sort.hasChanged() || set_lay.hasChanged() || set_hid.hasChanged() ||
-                          set_ttp.hasChanged() || set_loc.hasChanged() || set_sin.hasChanged() ||
-                          set_sel.hasChanged() || set_sec.hasChanged() || set_dad.hasChanged() ||
-                          set_thb.hasChanged() || set_pad.hasChanged() || set_fol.hasChanged() ||
-                          set_pre.hasChanged() || set_lab.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_sort.hasChanged() || set_lay.hasChanged() || set_hid.hasChanged() ||
+                                                      set_ttp.hasChanged() || set_loc.hasChanged() || set_sin.hasChanged() ||
+                                                      set_sel.hasChanged() || set_sec.hasChanged() || set_dad.hasChanged() ||
+                                                      set_thb.hasChanged() || set_pad.hasChanged() || set_fol.hasChanged() ||
+                                                      set_pre.hasChanged() || set_lab.hasChanged())
 
     }
 
@@ -1096,7 +1089,7 @@ Flickable {
         set_pre.load()
         set_lab.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -1118,7 +1111,7 @@ Flickable {
         set_pre.applyChanges()
         set_lab.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -55,10 +56,9 @@ Flickable {
 
     SystemPalette { id: pqtPalette }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: themenu.visible || sensitivity.editMode || sensitivity.contextMenuOpen
+    property bool catchEscape: sensitivity.editMode
 
     property var current: {
         "top": "",
@@ -118,7 +118,8 @@ Flickable {
                             width: 200
                             height: 50
                             color: topmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
-                            Behavior on color { ColorAnimation { duration: 200 } }
+                            border.width: 1
+                            border.color: PQCLook.baseBorder
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["top"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
@@ -151,7 +152,8 @@ Flickable {
                             width: 50
                             height: 200
                             color: leftmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
-                            Behavior on color { ColorAnimation { duration: 200 } }
+                            border.width: 1
+                            border.color: PQCLook.baseBorder
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: -90
@@ -180,7 +182,8 @@ Flickable {
                             width: 50
                             height: 200
                             color: rightmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
-                            Behavior on color { ColorAnimation { duration: 200 } }
+                            border.width: 1
+                            border.color: PQCLook.baseBorder
                             PQText {
                                 anchors.centerIn: parent
                                 rotation: 90
@@ -213,7 +216,8 @@ Flickable {
                             width: 200
                             height: 50
                             color: botmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
-                            Behavior on color { ColorAnimation { duration: 200 } }
+                            border.width: 1
+                            border.color: PQCLook.baseBorder
                             PQText {
                                 anchors.centerIn: parent
                                 font.weight: setting_top.current["bottom"]==="" ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold
@@ -262,7 +266,7 @@ Flickable {
             }
 
             function load() {
-                current["top"] = PQCSettings.interfaceEdgeTopAction 
+                current["top"] = PQCSettings.interfaceEdgeTopAction
                 current["left"] = PQCSettings.interfaceEdgeLeftAction
                 current["right"] = PQCSettings.interfaceEdgeRightAction
                 current["bottom"] = PQCSettings.interfaceEdgeBottomAction
@@ -270,7 +274,7 @@ Flickable {
             }
 
             function applyChanges() {
-                PQCSettings.interfaceEdgeTopAction = current["top"] 
+                PQCSettings.interfaceEdgeTopAction = current["top"]
                 PQCSettings.interfaceEdgeLeftAction = current["left"]
                 PQCSettings.interfaceEdgeRightAction = current["right"]
                 PQCSettings.interfaceEdgeBottomAction = current["bottom"]
@@ -311,7 +315,6 @@ Flickable {
 
             function handleEscape() {
                 sensitivity.acceptValue()
-                sensitivity.closeContextMenus()
             }
 
             function hasChanged() {
@@ -392,12 +395,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_edges.hasChanged()||set_sens.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_edges.hasChanged()||set_sens.hasChanged())
 
     }
 
@@ -406,7 +409,7 @@ Flickable {
         set_edges.load()
         set_sens.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -416,7 +419,7 @@ Flickable {
         set_edges.applyChanges()
         set_sens.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

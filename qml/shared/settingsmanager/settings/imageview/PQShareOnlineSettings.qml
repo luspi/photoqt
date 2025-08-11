@@ -23,7 +23,8 @@
 import QtQuick
 import QtQuick.Controls
 import PQCScriptsShareImgur
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -49,9 +50,8 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: butauth.contextmenu.visible || butsave.contextmenu.visible
+    property bool catchEscape: false
 
     Column {
 
@@ -108,7 +108,7 @@ Flickable {
                               qsTranslate("settingsmanager", "Forget account")
                     onClicked: {
                         if(account.acc == "") {
-                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin()) 
+                            Qt.openUrlExternally(PQCScriptsShareImgur.authorizeUrlForPin())
                             authcol.authshow = true
                             error.err = ""
                         } else {
@@ -161,7 +161,7 @@ Flickable {
                             cursorShape: enabled ? Qt.PointingHandCursor : Qt.BusyCursor
                             onClicked: {
                                 authpinrow.enabled = false
-                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text) 
+                                var ret = PQCScriptsShareImgur.authorizeHandlePin(pinholder.text)
                                 if(ret !== 0) {
                                     authpinrow.enabled = true
                                     error.err = ret
@@ -182,7 +182,7 @@ Flickable {
                     width: set_imgur.rightcol
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     horizontalAlignment: Text.AlignHCenter
-                    font.weight: PQCLook.fontWeightBold 
+                    font.weight: PQCLook.fontWeightBold
                     color: "red"
                     property string err: ""
                     visible: err!=""
@@ -204,7 +204,7 @@ Flickable {
         id: loadBG
         interval: 200
         onTriggered: {
-            PQCScriptsShareImgur.authAccount() 
+            PQCScriptsShareImgur.authAccount()
             if(PQCScriptsShareImgur.isAuthenticated()) {
                 account.acc = PQCScriptsShareImgur.getAccountUsername()
             } else {
@@ -217,10 +217,7 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function handleEscape() {
-        butauth.contextmenu.close()
-        butsave.contextmenu.close()
-    }
+    function handleEscape() {}
 
     function load() {
         busy.showBusy()

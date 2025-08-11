@@ -22,7 +22,8 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -52,12 +53,9 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
-    property bool catchEscape: anispeed.contextMenuOpen || anispeed.editMode ||
-                               preload.contextMenuOpen || preload.editMode ||
-                               sortcriteria.popup.visible || anicombo.popup.visible
+    property bool catchEscape: anispeed.editMode || preload.editMode
 
     Column {
 
@@ -96,11 +94,11 @@ Flickable {
             }
 
             function load() {
-                loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder) 
+                loop.loadAndSetDefault(PQCSettings.imageviewLoopThroughFolder)
             }
 
             function applyChanges() {
-                PQCSettings.imageviewLoopThroughFolder = loop.checked 
+                PQCSettings.imageviewLoopThroughFolder = loop.checked
                 loop.saveDefault()
             }
 
@@ -171,9 +169,7 @@ Flickable {
                 sortdesc.checked = !sortasc.checked
             }
 
-            function handleEscape() {
-                sortcriteria.popup.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
                 return (sortcriteria.hasChanged() || sortasc.hasChanged() || sortdesc.hasChanged())
@@ -313,9 +309,7 @@ Flickable {
             }
 
             function handleEscape() {
-                anispeed.closeContextMenus()
                 anispeed.acceptValue()
-                anicombo.popup.close()
             }
 
             function hasChanged() {
@@ -403,7 +397,6 @@ Flickable {
             }
 
             function handleEscape() {
-                preload.closeContextMenus()
                 preload.acceptValue()
             }
 
@@ -437,13 +430,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_loop.hasChanged() || set_sort.hasChanged() ||
-                          set_ani.hasChanged() || set_preload.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_loop.hasChanged() || set_sort.hasChanged() || set_ani.hasChanged() || set_preload.hasChanged())
 
     }
 
@@ -454,7 +446,7 @@ Flickable {
         set_ani.load()
         set_preload.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -466,7 +458,7 @@ Flickable {
         set_ani.applyChanges()
         set_preload.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

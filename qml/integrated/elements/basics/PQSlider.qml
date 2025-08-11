@@ -21,20 +21,58 @@
  **************************************************************************/
 
 import QtQuick
-import PhotoQt.Modern
+import QtQuick.Controls
+import PhotoQt.Integrated
 
-Column {
+Slider {
+
     id: control
-    spacing: 10
-    Item { width: 1; height: 10; }
-    property int howManyLines: 1
-    Repeater {
-        model: control.howManyLines
-        Rectangle {
-            width: setting_top.width
-            height: 1
-            color: PQCLook.baseBorder
-        }
+
+    property string suffix: ""
+    property string tooltip: ""
+
+    orientation: Qt.Horizontal
+    live: true
+
+    property bool _horizontal: (orientation==Qt.Horizontal)
+
+    property bool extraSmall: false
+    property bool extraWide: false
+
+    implicitHeight: _horizontal ? 20 : (extraWide ? 300 : (extraSmall ? 150 : 200))
+    implicitWidth: _horizontal ? (extraWide ? 300 : (extraSmall ? 150 : 200)) : 20
+
+    property real wheelStepSize: 1.0
+    property bool reverseWheelChange: false
+
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered && text !== ""
+        text: control.tooltip + control.suffix
     }
-    Item { width: 1; height: 10; }
+
+    property int _defaultValue
+    Component.onCompleted: {
+        _defaultValue = value
+    }
+
+    function saveDefault() {
+        _defaultValue = value
+    }
+
+    function setDefault(val : int) {
+        _defaultValue = val
+    }
+
+    function loadAndSetDefault(val : int) {
+        value = val
+        _defaultValue = val
+    }
+
+    function hasChanged() : bool {
+        return _defaultValue!==value
+    }
+
 }

@@ -502,7 +502,7 @@ Item {
                 PQCNotify.loaderShow("mapexplorer")
                 break
             case "__settings":
-                PQCNotify.loaderShow("settingsmanager")
+                PQCNotify.loaderShow("SettingsManager")
                 break
             case "__about":
                 PQCNotify.loaderShow("about")

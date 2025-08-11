@@ -23,7 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -51,13 +52,8 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
-    property bool catchEscape: marginslider.contextMenuOpen || marginslider.editMode ||
-                               cache_slider.contextMenuOpen || cache_slider.editMode ||
-                               color_defaultcombo.popup.visible || butselall.contextmenu.visible ||
-                               butselnone.contextmenu.visible || butselinv.contextmenu.visible ||
-                               butlcms2import.contextmenu.visible
+    property bool catchEscape: marginslider.editMode || cache_slider.editMode
 
     ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -110,7 +106,6 @@ Flickable {
             }
 
             function handleEscape() {
-                marginslider.closeContextMenus()
                 marginslider.acceptValue()
             }
 
@@ -119,11 +114,11 @@ Flickable {
             }
 
             function load() {
-                marginslider.loadAndSetDefault(PQCSettings.imageviewMargin) 
+                marginslider.loadAndSetDefault(PQCSettings.imageviewMargin)
             }
 
             function applyChanges() {
-                PQCSettings.imageviewMargin = marginslider.value 
+                PQCSettings.imageviewMargin = marginslider.value
                 marginslider.saveDefault()
             }
 
@@ -162,7 +157,7 @@ Flickable {
                     PQRadioButton {
                         id: large_full
                         text: qsTranslate("settingsmanager", "load at full scale")
-                        checked: PQCSettings.imageviewAlwaysActualSize 
+                        checked: PQCSettings.imageviewAlwaysActualSize
                         onCheckedChanged: setting_top.checkDefault()
                     }
                 },
@@ -181,7 +176,7 @@ Flickable {
                     PQRadioButton {
                         id: small_fit
                         text: qsTranslate("settingsmanager", "fit to view")
-                        checked: PQCSettings.imageviewFitInWindow 
+                        checked: PQCSettings.imageviewFitInWindow
                         onCheckedChanged: setting_top.checkDefault()
                     }
                     PQRadioButton {
@@ -193,7 +188,7 @@ Flickable {
                 PQCheckBox {
                     id: scale_check
                     text: qsTranslate("settingsmanager", "respect scale factor of screen")
-                    checked: PQCSettings.imageviewRespectDevicePixelRatio 
+                    checked: PQCSettings.imageviewRespectDevicePixelRatio
                     onCheckedChanged: setting_top.checkDefault()
                 }
 
@@ -253,7 +248,7 @@ Flickable {
                     id: checkerboard
                     enforceMaxWidth: set_trans.rightcol
                     text: qsTranslate("settingsmanager", "show checkerboard pattern")
-                    checked: PQCSettings.imageviewTransparencyMarker 
+                    checked: PQCSettings.imageviewTransparencyMarker
                     onCheckedChanged: setting_top.checkDefault()
                 }
             ]
@@ -323,7 +318,6 @@ Flickable {
             }
 
             function handleEscape() {
-                interp_spin.closeContextMenus()
                 interp_spin.acceptValue()
             }
 
@@ -378,7 +372,6 @@ Flickable {
 
             function handleEscape() {
                 cache_slider.acceptValue()
-                cache_slider.closeContextMenus()
             }
 
             function hasChanged() {
@@ -540,7 +533,6 @@ Flickable {
                                                 Behavior on opacity { NumberAnimation { duration: 150 } }
 
                                                 color: tilemouse.containsMouse||check.checked ? PQCLook.baseBorder : pqtPalette.base
-                                                Behavior on color { ColorAnimation { duration: 200 } }
 
                                                 property bool delegSetup: false
                                                 Timer {
@@ -557,13 +549,12 @@ Flickable {
                                                     width: parent.width-20  - (delImported.visible ? delImported.width : 0)
                                                     elide: Text.ElideMiddle
                                                     text: setting_top.colorprofiledescs[deleg.modelData]
-                                                    font.weight: PQCLook.fontWeightNormal 
-                                                    font.pointSize: PQCLook.fontSizeS 
-                                                    color: pqtPalette.text
+                                                    font.weight: PQCLook.fontWeightNormal
+                                                    font.pointSize: PQCLook.fontSizeS
                                                     extraHovered: tilemouse.containsMouse
                                                     onCheckedChanged: {
                                                         if(!deleg.delegSetup) return
-                                                        var curid = PQCScriptsColorProfiles.getColorProfileID(deleg.modelData) 
+                                                        var curid = PQCScriptsColorProfiles.getColorProfileID(deleg.modelData)
                                                         var arrayIndex = colorprofiles_contextmenu.indexOf(curid)
                                                         if(checked && arrayIndex == -1)
                                                             setting_top.colorprofiles_contextmenu.push(curid)
@@ -602,10 +593,10 @@ Flickable {
                                                     y: (parent.height-height)/2
                                                     opacity: delmouse.containsMouse ? 1 : 0.2
                                                     Behavior on opacity { NumberAnimation { duration: 200 } }
-                                                    visible: deleg.modelData < PQCScriptsColorProfiles.getImportedColorProfiles().length 
+                                                    visible: deleg.modelData < PQCScriptsColorProfiles.getImportedColorProfiles().length
                                                     text: "x"
                                                     color: "red"
-                                                    font.weight: PQCLook.fontWeightBold 
+                                                    font.weight: PQCLook.fontWeightBold
 
                                                     PQMouseArea {
                                                         id: delmouse
@@ -616,7 +607,7 @@ Flickable {
                                                         text: qsTranslate("settingsmanager", "Remove imported color profile")
                                                         onClicked: {
                                                             check.checked = false
-                                                            if(PQCScriptsColorProfiles.removeImportedColorProfile(deleg.modelData)) { 
+                                                            if(PQCScriptsColorProfiles.removeImportedColorProfile(deleg.modelData)) {
                                                                 setting_top.colorprofiledescs = PQCScriptsColorProfiles.getColorProfileDescriptions()
                                                             }
                                                         }
@@ -638,7 +629,7 @@ Flickable {
                                                 }
 
                                                 function loadDefault() {
-                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsColorProfiles.getColorProfileID(deleg.modelData))>-1) 
+                                                    check.checked = (setting_top.colorprofiles_contextmenu_default.indexOf(PQCScriptsColorProfiles.getColorProfileID(deleg.modelData))>-1)
                                                 }
 
                                             }
@@ -708,10 +699,10 @@ Flickable {
 
                         PQButton {
                             id: butlcms2import
-                            visible: PQCScriptsConfig.isLCMS2SupportEnabled() 
+                            visible: PQCScriptsConfig.isLCMS2SupportEnabled()
                             text: qsTranslate("settingsmanager", "Import color profile")
                             onClicked: {
-                                if(PQCScriptsColorProfiles.importColorProfile()) { 
+                                if(PQCScriptsColorProfiles.importColorProfile()) {
                                     setting_top.colorprofiledescs = PQCScriptsColorProfiles.getColorProfileDescriptions()
                                 }
                             }
@@ -750,13 +741,7 @@ Flickable {
 
             }
 
-            function handleEscape() {
-                color_defaultcombo.popup.close()
-                butselall.contextmenu.close()
-                butselnone.contextmenu.close()
-                butselinv.contextmenu.close()
-                butlcms2import.contextmenu.close()
-            }
+            function handleEscape() {}
 
             function hasChanged() {
 
@@ -840,13 +825,13 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (set_margin.hasChanged() || set_sze.hasChanged() || set_trans.hasChanged() ||
-                          set_interp.hasChanged() || set_cache.hasChanged() || set_col.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (set_margin.hasChanged() || set_sze.hasChanged() || set_trans.hasChanged() ||
+                                                      set_interp.hasChanged() || set_cache.hasChanged() || set_col.hasChanged())
 
     }
 
@@ -859,7 +844,7 @@ Flickable {
         set_cache.load()
         set_col.load()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -873,7 +858,7 @@ Flickable {
         set_cache.applyChanges()
         set_col.applyChanges()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

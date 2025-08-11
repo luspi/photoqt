@@ -122,6 +122,8 @@ public:
         m_filedialogFileviewWidth = 0;
         m_filedialogAddressEditVisible = false;
 
+        m_settingsManagerSettingChanged = false;
+
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoPosition = 0;
         m_currentlyShowingVideoDuration = 0;
@@ -245,7 +247,7 @@ public:
     Q_PROPERTY(double mainmenuOpacity MEMBER m_mainmenuOpacity NOTIFY mainmenuOpacityChanged)
     Q_PROPERTY(double metadataOpacity MEMBER m_metadataOpacity NOTIFY metadataOpacityChanged)
 
-    Q_PROPERTY(QStringList filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
+    Q_PROPERTY(QList<int> filedialogCurrentSelection MEMBER m_filedialogCurrentSelection NOTIFY filedialogCurrentSelectionChanged)
     Q_PROPERTY(int filedialogCurrentIndex MEMBER m_filedialogCurrentIndex NOTIFY filedialogCurrentIndexChanged)
     Q_PROPERTY(QString filedialogPlacesCurrentEntryId MEMBER m_filedialogPlacesCurrentEntryId NOTIFY filedialogPlacesCurrentEntryIdChanged)
     Q_PROPERTY(QString filedialogPlacesCurrentEntryHidden MEMBER m_filedialogPlacesCurrentEntryHidden NOTIFY filedialogPlacesCurrentEntryHiddenChanged)
@@ -255,6 +257,8 @@ public:
     Q_PROPERTY(int filedialogPlacesWidth MEMBER m_filedialogPlacesWidth NOTIFY filedialogPlacesWidthChanged)
     Q_PROPERTY(int filedialogFileviewWidth MEMBER m_filedialogFileviewWidth NOTIFY filedialogFileviewWidthChanged)
     Q_PROPERTY(bool filedialogAddressEditVisible MEMBER m_filedialogAddressEditVisible NOTIFY filedialogAddressEditVisibleChanged)
+
+    Q_PROPERTY(bool settingsManagerSettingChanged MEMBER m_settingsManagerSettingChanged NOTIFY settingsManagerSettingChangedChanged)
 
 
     /******************************************************/
@@ -392,7 +396,7 @@ private:
     double m_mainmenuOpacity;
     double m_metadataOpacity;
 
-    QStringList m_filedialogCurrentSelection;
+    QList<int> m_filedialogCurrentSelection;
     int m_filedialogCurrentIndex;
     QString m_filedialogPlacesCurrentEntryId;
     QString m_filedialogPlacesCurrentEntryHidden;
@@ -402,6 +406,8 @@ private:
     int m_filedialogPlacesWidth;
     int m_filedialogFileviewWidth;
     bool m_filedialogAddressEditVisible;
+
+    bool m_settingsManagerSettingChanged;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -535,5 +541,6 @@ Q_SIGNALS:
     void filedialogPlacesWidthChanged();
     void filedialogFileviewWidthChanged();
     void filedialogAddressEditVisibleChanged();
+    void settingsManagerSettingChangedChanged();
 
 };

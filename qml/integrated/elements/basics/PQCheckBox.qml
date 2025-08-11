@@ -21,37 +21,53 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
+import PhotoQt.Integrated
 
-/* :-)) <3 */
+CheckBox {
 
-PQTemplatePopout {
+    id: control
 
-    id: settingsmanager_window
+    property int elide: enforceMaxWidth==0 ? Text.ElideNone : Text.ElideRight
+    font.pointSize: PQCLook.fontSize
+    font.weight: PQCLook.fontWeightNormal
 
-    //: Window title
-    title: qsTranslate("settingsmanager", "Settings Manager") + " | PhotoQt"
+    width: (enforceMaxWidth===0 ? implicitWidth : Math.min(enforceMaxWidth, implicitWidth))
 
-    geometry: PQCWindowGeometry.settingsmanagerGeometry
-    originalGeometry: PQCWindowGeometry.settingsmanagerGeometry
-    isMax: PQCWindowGeometry.settingsmanagerMaximized
-    popout: PQCSettings.interfacePopoutSettingsManager
-    sizepopout: PQCWindowGeometry.settingsmanagerForcePopout
-    loaderSourceComponent: PQSettingsManager {}
+    property string tooltip: text
 
-    modality: PQCSettings.interfacePopoutSettingsManagerNonModal ? Qt.NonModal : Qt.ApplicationModal
+    property int enforceMaxWidth: 0
 
-    minimumWidth: 1000
-    minimumHeight: 800
+    property bool extraHovered: false
 
-    onGeometryChanged: {
-        // Note: needs to be handled this way for proper aot compilation
-        if(geometry.width !== originalGeometry.width || geometry.height !== originalGeometry.height)
-            PQCWindowGeometry.settingsmanagerGeometry = geometry
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered && text !== ""
+        text: control.tooltip
     }
 
-    onIsMaxChanged: {
-        if(isMax !== PQCWindowGeometry.settingsmanagerMaximized)
-            PQCWindowGeometry.settingsmanagerMaximized = isMax
+    property bool _defaultChecked
+    Component.onCompleted: {
+        _defaultChecked = checked
+    }
+
+    function saveDefault() {
+        _defaultChecked = checked
+    }
+
+    function setDefault(chk : bool) {
+        _defaultChecked = chk
+    }
+
+    function loadAndSetDefault(chk : bool) {
+        checked = chk
+        _defaultChecked = chk
+    }
+
+    function hasChanged() : bool {
+        return _defaultChecked!==checked
     }
 
 }

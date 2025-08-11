@@ -175,7 +175,7 @@ ListView {
             color: pqtPalette.text
             property bool toShow: listview.currentIndex===deleg.modelData
             opacity: toShow ? 0.6 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
+            // Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity>0
 
         }
@@ -404,7 +404,7 @@ ListView {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: {
-                        if(!view_top.currentFileSelected) {
+                        if(PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData) === -1) {
                             view_top.shiftClickIndexStart = deleg.modelData
                             PQCConstants.filedialogCurrentSelection.push(deleg.modelData)
                             PQCConstants.filedialogCurrentSelectionChanged()

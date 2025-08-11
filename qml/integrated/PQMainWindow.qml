@@ -108,6 +108,13 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
+    Connections {
+        target: PQCNotify
+        function onResetActiveFocus() {
+            fullscreenitem.forceActiveFocus()
+        }
+    }
+
     Loader {
         asynchronous: (PQCConstants.startupFilePath!=="")
         sourceComponent: PQBackgroundMessage {

@@ -21,10 +21,9 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
-import PhotoQt.Integrated
+import PhotoQt.Modern
 
-Button {
+Rectangle {
 
     id: control
 
@@ -32,37 +31,69 @@ Button {
     implicitWidth: 40
 
     opacity: enabled ? 1 : 0.5
+    radius: 5
 
-    property string source: ""
-    property alias tooltip: ttip.text
+    SystemPalette { id: pqtPalette }
 
-    flat: true
+    property string overrideBaseColor: pqtPalette.base
 
-    signal rightClicked()
+    property alias source: icon.source
+    property bool hovered: mousearea.containsMouse
+    property bool down: false
+    property bool checkable: false
+    property bool checked: false
+    property alias tooltip: mousearea.tooltip
+    property real iconScale: 0.75
+    property bool enableContextMenu: true
+    property var dragTarget: undefined
+    property bool dragActive: mousearea.drag.active
+
+    color: ((down||checked)&&enabled ? PQCLook.baseBorder : (hovered&&enabled ? pqtPalette.alternateBase : overrideBaseColor))
+
+    signal clicked(var pos)
+    signal rightClicked(var pos)
 
     Image {
-        anchors.fill: parent
-        anchors.margins: 5
-        sourceSize: Qt.size(width, height)
+
+        id: icon
+
         source: control.source
+        smooth: false
+
+        sourceSize: Qt.size(control.height*control.iconScale,control.height*control.iconScale)
+
+        x: (parent.width-width)/2
+        y: (parent.height-height)/2
+
     }
 
-    MouseArea {
+    PQMouseArea {
+        id: mousearea
         anchors.fill: parent
-        acceptedButtons: Qt.RightButton
-        onClicked: (mouse) => {
-            control.rightClicked()
-            mouse.accepted = true
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        drag.target: control.dragTarget
+        tooltip: control.tooltip
+        acceptedButtons: Qt.LeftButton|Qt.RightButton
+        onPressed: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                return
+            if(control.checkable)
+                control.checked = !control.checked
+            else
+                control.down = true
         }
-    }
-
-    PQToolTip {
-
-        id: ttip
-
-        x: (parent != null ? (parent.width-width)/2 : 0)
-        y: -height-5
-
+        onReleased: {
+            if(!control.checkable)
+                control.down = false
+        }
+        onClicked: (mouse) => {
+            if(mouse.button === Qt.RightButton)
+                control.rightClicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+            else {
+                control.clicked(Qt.point(mousearea.mouseX, mousearea.mouseY))
+            }
+        }
     }
 
 }

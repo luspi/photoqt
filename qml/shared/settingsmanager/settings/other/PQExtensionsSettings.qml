@@ -22,8 +22,9 @@
 
 import QtQuick
 import QtQuick.Controls
-import PhotoQt.Modern
 import PQCExtensionsHandler
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -48,7 +49,6 @@ Flickable {
 
     PQScrollManager { flickable: setting_top }
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
 
     signal loadSettings()
@@ -101,7 +101,7 @@ Flickable {
                         if(PQCSettings.generalAutoSaveSettings)
                             setting_top.applyChanges()
                         else
-                            setting_top.settingChanged = true
+                            PQCConstants.settingsManagerSettingChanged = true
                     }
                 }
             }
@@ -120,7 +120,7 @@ Flickable {
 
         setting_top.loadSettings()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
 
     }
@@ -129,7 +129,7 @@ Flickable {
 
         setting_top.saveSettings()
 
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

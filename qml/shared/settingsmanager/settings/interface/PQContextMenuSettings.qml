@@ -24,9 +24,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtCore
-
 import PQCImageFormats
-import PhotoQt.Modern
+
+/* :-)) <3 */
 
 // required top level properties for all settings:
 //
@@ -49,10 +49,8 @@ Flickable {
 
     contentHeight: contcol.height
 
-    property bool settingChanged: false
     property bool settingsLoaded: false
     property bool catchEscape: false
-    signal closeAllMenus()
 
     property var defaultentries: ({})
     property list<var> entries: []
@@ -98,7 +96,7 @@ Flickable {
                     height: 50
                     verticalAlignment: Text.AlignVCenter
                     color: pqtPaletteDisable.text
-                    font.weight: PQCLook.fontWeightBold 
+                    font.weight: PQCLook.fontWeightBold
                     //: The custom entries here are the custom entries in the context menu
                     text: qsTranslate("settingsmanager", "No custom entries exists yet")
                 },
@@ -132,28 +130,18 @@ Flickable {
 
                             PQButtonIcon {
                                 id: appicon
-                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0])) 
+                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + setting_top.entries[deleg.modelData][0]))
                                 onSourceChanged:
                                     setting_top.checkDefault()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog
-                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt()); 
+                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
                                     if(newicn !== "")
                                         deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                                     else
                                         deleg.curData[0] = ""
                                     deleg.curDataChanged()
 
-                                }
-
-                                contextmenu.onVisibleChanged: {
-                                    setting_top.catchEscape = visible
-                                }
-                                Connections {
-                                    target: setting_top
-                                    function onCloseAllMenus() {
-                                        appicon.contextmenu.close()
-                                    }
                                 }
                             }
                             PQLineEdit {
@@ -189,7 +177,7 @@ Flickable {
                                     width: height
                                     onClicked: {
                                         //: written on button for selecting a file from the file dialog
-                                        var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []); 
+                                        var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []);
 
                                         if(newexe === "")
                                             return
@@ -208,16 +196,6 @@ Flickable {
 
                                         deleg.curDataChanged()
 
-                                    }
-
-                                    contextmenu.onVisibleChanged: {
-                                        setting_top.catchEscape = visible
-                                    }
-                                    Connections {
-                                        target: setting_top
-                                        function onCloseAllMenus() {
-                                            selectexe.contextmenu.close()
-                                        }
                                     }
                                 }
                             }
@@ -257,7 +235,7 @@ Flickable {
                             Image {
                                 id: delicn
                                 y: (addflags.height-height)/2
-                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
+                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                                 height: 15
                                 width: 15
                                 sourceSize: Qt.size(width, height)
@@ -286,27 +264,18 @@ Flickable {
                     //: The entry here is a custom entry in the context menu
                     text: qsTranslate("settingsmanager", "Add new entry")
                     forceWidth: Math.min(parent.width, 500)
-                    font.weight: PQCLook.fontWeightNormal 
+                    font.weight: PQCLook.fontWeightNormal
                     onClicked: setting_top.addNewEntry()
-                    contextmenu.onVisibleChanged: {
-                        setting_top.catchEscape = visible
-                    }
-                    Connections {
-                        target: setting_top
-                        function onCloseAllMenus() {
-                            addnewbut.contextmenu.close()
-                        }
-                    }
                 },
                 PQButton {
                     id: addsysbut
                     forceWidth: Math.min(parent.width, 500)
-                    visible: !PQCScriptsConfig.amIOnWindows() 
+                    visible: !PQCScriptsConfig.amIOnWindows()
                     //: The system applications here refers to any image related applications that can be found automatically on your system
                     text: qsTranslate("settingsmanager", "Add system applications")
-                    font.weight: PQCLook.fontWeightNormal 
+                    font.weight: PQCLook.fontWeightNormal
                     onClicked: {
-                        var newentries = PQCScriptsContextMenu.detectSystemEntries() 
+                        var newentries = PQCScriptsContextMenu.detectSystemEntries()
                         for(var i = 0; i < newentries.length; ++i) {
 
                             var cur = newentries[i]
@@ -324,15 +293,6 @@ Flickable {
 
                         }
                         setting_top.entriesChanged()
-                    }
-                    contextmenu.onVisibleChanged: {
-                        setting_top.catchEscape = visible
-                    }
-                    Connections {
-                        target: setting_top
-                        function onCloseAllMenus() {
-                            addsysbut.contextmenu.close()
-                        }
                     }
                 }
 
@@ -400,12 +360,12 @@ Flickable {
     function checkDefault() {
 
         if(!settingsLoaded) return
-        if(PQCSettings.generalAutoSaveSettings) { 
+        if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
         }
 
-        settingChanged = (!areTwoListsEqual(entries, defaultentries) || check_dupl.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (!areTwoListsEqual(entries, defaultentries) || check_dupl.hasChanged())
     }
 
     function addNewEntry() {
@@ -426,10 +386,10 @@ Flickable {
         interval: 100
         onTriggered: {
             // these need to be completely disconnected otherwise the changed check doesn't work
-            setting_top.entries = PQCScriptsContextMenu.getEntries() 
+            setting_top.entries = PQCScriptsContextMenu.getEntries()
             setting_top.defaultentries = PQCScriptsContextMenu.getEntries()
             check_dupl.loadAndSetDefault(PQCSettings.mainmenuShowExternal)
-            setting_top.settingChanged = false
+            PQCConstants.settingsManagerSettingChanged = false
             setting_top.settingsLoaded = true
         }
     }
@@ -437,20 +397,18 @@ Flickable {
     Component.onCompleted:
         load()
 
-    function handleEscape() {
-        closeAllMenus()
-    }
+    function handleEscape() {}
 
     function load() {
         loadtimer.restart()
     }
 
     function applyChanges() {
-        PQCScriptsContextMenu.setEntries(entries) 
+        PQCScriptsContextMenu.setEntries(entries)
         defaultentries = PQCScriptsContextMenu.getEntries()
         PQCSettings.mainmenuShowExternal = check_dupl.checked
         check_dupl.saveDefault()
-        settingChanged = false
+        PQCConstants.settingsManagerSettingChanged = false
     }
 
     function revertChanges() {
