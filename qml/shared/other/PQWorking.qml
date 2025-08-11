@@ -23,6 +23,8 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
+/* :-)) <3 */
+
 Rectangle {
 
     id: exportRunning
