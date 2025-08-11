@@ -22,6 +22,8 @@
 
 import QtQuick
 
+/* :-)) <3 */
+
 PQMultiEffect {
 
     property Item masterItem
