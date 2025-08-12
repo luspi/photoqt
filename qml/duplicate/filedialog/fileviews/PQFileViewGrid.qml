@@ -266,7 +266,7 @@ GridView {
             width: numberOfFilesInsideFolder.width + 20
             height: 30
             radius: 5
-            color: "#000000"
+            color: pqtPalette.text
             opacity: 0.8
             visible: numberOfFilesInsideFolder.text !== "" && numberOfFilesInsideFolder.text !== "0"
 
@@ -276,6 +276,7 @@ GridView {
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSize
+                color: pqtPalette.base
                 elide: Text.ElideMiddle
                 text: deleg.numberFilesInsideFolder
             }
@@ -289,7 +290,7 @@ GridView {
             width: numberThumbInsideFolder.width + 10
             height: 20
             radius: 3
-            color: "#000000"
+            color: pqtPalette.text
             opacity: 0.6
             visible: folderthumb.curnum>0 && folderthumb.visible
 
@@ -299,6 +300,7 @@ GridView {
                 y: (parent.height-height)/2-2
                 font.weight: PQCLook.fontWeightBold
                 font.pointSize: PQCLook.fontSizeS
+                color: pqtPalette.base
                 elide: Text.ElideMiddle
                 text: "#"+folderthumb.curnum
             }
