@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
 Button {

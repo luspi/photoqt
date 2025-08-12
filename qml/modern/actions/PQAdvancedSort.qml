@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Layouts
+import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
 PQTemplateFullscreen {

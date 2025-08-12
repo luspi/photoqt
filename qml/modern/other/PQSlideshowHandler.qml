@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtMultimedia
+import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
 Item {
