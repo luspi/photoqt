@@ -41,6 +41,13 @@ Item {
             bgmessage_top.opacity = 1
     }
 
+    Connections {
+        target: PQCFileFolderModel
+        function onCountMainViewChanged() {
+            bgmessage_top.opacity = (PQCFileFolderModel.countMainView===0 ? 1 : 0)
+        }
+    }
+
     Item {
         id: startmessage
         anchors.fill: parent

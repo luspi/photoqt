@@ -56,6 +56,10 @@ public:
     QString getFolderFileDialog();
     void setFolderFileDialog(QString val);
 
+    Q_PROPERTY(bool firstFolderMainViewLoaded READ getFirstFolderMainViewLoaded WRITE setFirstFolderMainViewLoaded NOTIFY firstFolderMainViewLoadedChanged)
+    bool getFirstFolderMainViewLoaded();
+    void setFirstFolderMainViewLoaded(bool val);
+
     /********************************************/
     /********************************************/
 
@@ -200,8 +204,10 @@ private:
     QFileSystemWatcher *watcherMainView;
     QFileSystemWatcher *watcherFileDialog;
 
+
     QString m_fileInFolderMainView;
     QString m_folderFileDialog;
+    bool m_firstFolderMainViewLoaded;
     int m_countMainView;
     int m_countFoldersFileDialog;
     int m_countFilesFileDialog;
@@ -281,6 +287,7 @@ Q_SIGNALS:
     void entriesMainViewChanged();
     void entriesFileDialogChanged();
     void fileInFolderMainViewChanged();
+    void firstFolderMainViewLoadedChanged();
     void folderFileDialogChanged();
     void nameFiltersChanged();
     void restrictToSuffixesChanged();

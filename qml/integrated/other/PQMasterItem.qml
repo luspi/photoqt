@@ -34,7 +34,7 @@ Loader {
     // If no file has been passed on at startup we don't want to load this item asynchronously.
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
     Component.onCompleted: {
-        asynchronous = (PQCConstants.startupFilePath === "")
+        asynchronous = (PQCConstants.startupFilePath === "" || PQCConstants.startupFileIsFolder)
     }
 
     sourceComponent:
@@ -150,7 +150,7 @@ Loader {
         Loader {
             id: loader_filedialog
             anchors.fill: parent
-            active: PQCConstants.startupFilePath===""
+            active: PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder
             sourceComponent: PQFileDialog {}
             Connections {
                 target: PQCNotify
@@ -181,7 +181,9 @@ Loader {
 
             // load files in folder
             if(PQCConstants.startupFilePath !== "") {
-                PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
+                // if it's a folder then we already set this property in PQMainWindow::onCompleted
+                if(!PQCConstants.startupFileIsFolder)
+                    PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
                 if(PQCConstants.imageInitiallyLoaded) {
                     masteritem.readyToContinueLoading = true
                     finishSetup()
@@ -212,16 +214,16 @@ Loader {
 
         Timer {
             id: checkForFileFinished
-            interval: 2000
-            property bool secondrun: false
+            interval: 200
+            property int numRun: 0
             onTriggered: {
-                if(secondrun) {
-                    masteritem.finishSetup_part2()
+                if(numRun > 9) {
+                    masteritem.finishSetup()
                     return
                 }
                 if(!PQCConstants.imageInitiallyLoaded) {
                     masteritem.finishSetup_part1()
-                    secondrun = true
+                    numRun += 1
                     checkForFileFinished.restart()
                     return
                 }
@@ -232,8 +234,10 @@ Loader {
         property int finishSetupCalled: 0
 
         function finishSetup() {
-            finishSetup_part1()
-            finishSetup_part2()
+            if(finishSetupCalled == 0)
+                finishSetup_part1()
+            if(finishSetupCalled == 1)
+                finishSetup_part2()
         }
 
         function finishSetup_part1() {
