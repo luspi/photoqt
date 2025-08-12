@@ -135,7 +135,6 @@ Rectangle {
             onWidthChanged: {
                 PQCSettings.filedialogPlacesWidth = Math.round(width)
             }
-
         }
 
         PQFileView {
@@ -293,17 +292,47 @@ Rectangle {
 
     Component.onCompleted: {
 
-        if(PQCSettings.filedialogKeepLastLocation)
-            PQCFileFolderModel.folderFileDialog = PQCScriptsFileDialog.getLastLocation()
-        else
-            PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getHomeDir()
+        const nothingHere = (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)
 
-        // this needs to come here as we do not want a property binding
-        // otherwise the history feature wont work
-        PQCConstants.filedialogHistory.push(PQCFileFolderModel.folderFileDialog)
+        if(!nothingHere) {
 
-        if(dontAnimateFirstStart)
+            if(PQCSettings.filedialogKeepLastLocation)
+                PQCFileFolderModel.folderFileDialog = PQCScriptsFileDialog.getLastLocation()
+            else
+                PQCFileFolderModel.folderFileDialog = PQCScriptsFilesPaths.getHomeDir()
+
+            // this needs to come here as we do not want a property binding
+            // otherwise the history feature wont work
+            PQCConstants.filedialogHistory.push(PQCFileFolderModel.folderFileDialog)
+
+        }
+
+        if(dontAnimateFirstStart || nothingHere) {
+
+            if(nothingHere) {
+
+                PQCFileFolderModel.folderFileDialog = PQCFileFolderModel.fileInFolderMainView
+
+                // this needs to come here as we do not want a property binding
+                // otherwise the history feature wont work
+                PQCConstants.filedialogHistory.push(PQCFileFolderModel.folderFileDialog)
+
+            }
+
             showFileDialog()
+
+        }
+
+    }
+
+    Connections {
+
+        target: PQCFileFolderModel
+
+        function onFirstFolderMainViewLoadedChanged() {
+            if(PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)
+                showFileDialog()
+        }
 
     }
 

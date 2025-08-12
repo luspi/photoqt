@@ -29,11 +29,12 @@ Loader {
     id: masteritemloader
 
     active: false
+    anchors.fill: parent
 
     // If no file has been passed on at startup we don't want to load this item asynchronously.
     // Otherwise the UI will seem to not work when, e.g., immediately clicking to open a file.
     Component.onCompleted: {
-        asynchronous = (PQCConstants.startupFilePath === "")
+        asynchronous = (PQCConstants.startupFilePath === "" || PQCConstants.startupFileIsFolder)
     }
 
     // this tells us when the background message is ready
@@ -46,7 +47,7 @@ Loader {
 
         id: masteritem
 
-        anchors.fill: parent
+        anchors.fill: masteritemloader
 
         property bool readyToContinueLoading: false
 
@@ -177,6 +178,7 @@ Loader {
         Loader {
             id: loader_filedialog
             active: false
+            anchors.fill: parent
             sourceComponent: ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ? comp_filedialog_popout : comp_filedialog)
             Connections {
                 target: PQCNotify
@@ -223,7 +225,7 @@ Loader {
                 finishSetup()
             }
 
-            if(PQCConstants.startupFilePath === "") {
+            if(PQCConstants.startupFilePath === "" || (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)) {
                 PQCNotify.loaderShow("filedialog")
             }
 

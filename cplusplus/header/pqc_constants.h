@@ -180,11 +180,25 @@ public:
         m_debugMode = PQCNotifyCPP::get().getDebug();
         m_debugLogMessages = "";
         m_startupFilePath = PQCNotifyCPP::get().getFilePath();
+        if(m_startupFilePath != "") {
+            QFileInfo info(m_startupFilePath);
+            m_startupFileIsFolder = info.isDir();
+        } else
+            m_startupFileIsFolder = false;
         m_startupStartInTray = PQCNotifyCPP::get().getStartInTray();
         m_startupHaveScreenshots = PQCNotifyCPP::get().getHaveScreenshots();
         m_startupHaveSettingUpdate = (PQCNotifyCPP::get().getSettingUpdate().length() > 0);
 
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) { m_startupFilePath = val; Q_EMIT startupFilePathChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) {
+            m_startupFilePath = val;
+            if(m_startupFilePath != "") {
+                QFileInfo info(m_startupFilePath);
+                m_startupFileIsFolder = info.isDir();
+            } else
+                m_startupFileIsFolder = false;
+            Q_EMIT startupFilePathChanged();
+            Q_EMIT startupFileIsFolderChanged();
+        });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged, this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
@@ -199,6 +213,7 @@ public:
     Q_PROPERTY(bool debugMode MEMBER m_debugMode NOTIFY debugModeChanged)
     Q_PROPERTY(QString debugLogMessages MEMBER m_debugLogMessages NOTIFY debugLogMessagesChanged)
     Q_PROPERTY(QString startupFilePath MEMBER m_startupFilePath NOTIFY startupFilePathChanged)
+    Q_PROPERTY(bool startupFileIsFolder MEMBER m_startupFileIsFolder NOTIFY startupFileIsFolderChanged)
     Q_PROPERTY(bool startupStartInTray MEMBER m_startupStartInTray NOTIFY startupStartInTrayChanged)
     Q_PROPERTY(bool startupHaveScreenshots MEMBER m_startupHaveScreenshots NOTIFY startupHaveScreenshotsChanged)
     Q_PROPERTY(bool startupHaveSettingUpdate MEMBER m_startupHaveSettingUpdate NOTIFY startupHaveSettingUpdateChanged)
@@ -343,6 +358,7 @@ private:
     QString m_debugLogMessages;
     QMutex m_addDebugLogMessageMutex;
     QString m_startupFilePath;
+    bool m_startupFileIsFolder;
     bool m_startupStartInTray;
     bool m_startupHaveScreenshots;
     bool m_startupHaveSettingUpdate;
@@ -456,6 +472,7 @@ Q_SIGNALS:
     void debugModeChanged();
     void debugLogMessagesChanged();
     void startupFilePathChanged();
+    void startupFileIsFolderChanged();
     void startupStartInTrayChanged();
     void startupHaveScreenshotsChanged();
     void startupHaveSettingUpdateChanged();

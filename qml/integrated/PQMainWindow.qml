@@ -220,16 +220,14 @@ ApplicationWindow {
                 showMaximized()
         }
 
-        // PQCNotify.loaderShow("mainmenu")
-        // PQCNotify.loaderShow("metadata")
-        // PQCNotify.loaderSetup("thumbnails")
-
         if(PQCConstants.startupFilePath !== "") {
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:
-            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
+            if(PQCConstants.startupFileIsFolder)
                 PQCFileFolderModel.fileInFolderMainView = PQCConstants.startupFilePath
-        } else if(PQCSettings.interfaceRememberLastImage)
+        } else if(PQCSettings.interfaceRememberLastImage) {
             PQCConstants.startupFilePath = PQCScriptsConfig.getLastLoadedImage()
+            PQCConstants.startupFileIsFolder = PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath)
+        }
 
         // this comes after the above to make sure we load a potentially passed-on image
         imageloader.active = true
@@ -243,16 +241,6 @@ ApplicationWindow {
             loadAppInBackgroundTimer.start()
 
         setVersion.start()
-
-    }
-
-    Connections {
-
-        target: PQCSettings
-
-        function onInterfaceWindowModeChanged() {
-            toplevel.visibility = (PQCSettings.interfaceWindowMode ? (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed) : Window.FullScreen)
-        }
 
     }
 

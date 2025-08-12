@@ -59,6 +59,8 @@
 
 PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
+    m_firstFolderMainViewLoaded = false;
+
     m_fileInFolderMainView = "";
     m_folderFileDialog = "";
     m_countMainView = 0;
@@ -232,6 +234,16 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
         }
     }
 
+}
+
+bool PQCFileFolderModel::getFirstFolderMainViewLoaded() {
+    return m_firstFolderMainViewLoaded;
+}
+void PQCFileFolderModel::setFirstFolderMainViewLoaded(bool val) {
+    if(val != m_firstFolderMainViewLoaded) {
+        m_firstFolderMainViewLoaded = val;
+        Q_EMIT firstFolderMainViewLoadedChanged();
+    }
 }
 
 /********************************************/
@@ -959,6 +971,8 @@ void PQCFileFolderModel::loadDataMainView() {
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileNoDelayChanged();
         Q_EMIT currentIndexNoDelayChanged();
+        if(!m_firstFolderMainViewLoaded)
+            setFirstFolderMainViewLoaded(true);
         return;
     }
 
@@ -1040,6 +1054,9 @@ void PQCFileFolderModel::loadDataMainView() {
         Q_EMIT currentFileNoDelayChanged();
 
     }
+
+    if(!m_firstFolderMainViewLoaded)
+        setFirstFolderMainViewLoaded(true);
 
 }
 

@@ -46,7 +46,7 @@ Item {
     }
 
     function setBackground() {
-        if(PQCSettings.interfaceBackgroundSolid) { 
+        if(PQCSettings.interfaceBackgroundSolid) {
             bgimage.source = ""
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
             overlay.opacity = 1
