@@ -721,6 +721,9 @@ Loader {
                     }
 
                     onRotationChanged: {
+                        if(PQCSettings.imageviewFitInWindow && Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
+                            resetDefaults.resetScale()
+                        }
                         if(loader_top.isMainImage)
                             PQCConstants.currentImageRotation = rotation
                     }
@@ -1430,6 +1433,8 @@ Loader {
                     PropertyAnimation {
                         id: rotationAnimation
                         target: image_wrapper
+                        from: 0
+                        to: 0
                         duration: 200
                         property: "rotation"
                         onFinished: {
@@ -1442,17 +1447,10 @@ Loader {
                         id: resetDefaults
                         interval: 50
                         onTriggered: {
-                            var tmp = image_wrapper.computeDefaultScale()
+
                             if(Math.abs(image_wrapper.scale-loader_top.defaultScale) < 1e-6) {
 
-                                var val = 0.99999999*tmp
-                                if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.height > 0 && loader_top.imageResolution.width > 0) {
-                                    var factW = flickable.width/(loader_top.imageResolution.width*val)
-                                    var factH = flickable.height/(loader_top.imageResolution.height*val)
-                                    if(factW > 1 && factH > 1)
-                                        val *= Math.min(factW, factH)
-                                }
-                                loader_top.defaultScale = val
+                                resetDefaults.resetScale()
 
                                 if(!PQCSettings.imageviewRememberZoomRotationMirror || !(imageloaderitem.imageSource in image_top.rememberChanges)) {
                                     if(!PQCSettings.imageviewPreserveZoom && !PQCSettings.imageviewPreserveRotation)
@@ -1467,13 +1465,31 @@ Loader {
 
                             } else {
 
-                                loader_top.defaultScale = 0.99999999*tmp
+                                loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
 
                             }
 
                             if(loader_top.isMainImage) {
                                 PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                             }
+                        }
+                        function resetScale() {
+
+                            var val = 0.99999999*image_wrapper.computeDefaultScale()
+
+                            if(PQCSettings.imageviewFitInWindow && loader_top.imageResolution.height > 0 && loader_top.imageResolution.width > 0) {
+                                var factW, factH
+                                if(rotationAnimation.to%180 == 0) {
+                                    factW = flickable.width/(loader_top.imageResolution.width*val)
+                                    factH = flickable.height/(loader_top.imageResolution.height*val)
+                                } else {
+                                    factW = flickable.width/(loader_top.imageResolution.height*val)
+                                    factH = flickable.height/(loader_top.imageResolution.width*val)
+                                }
+                                if(factW > 1 && factH > 1)
+                                    val *= Math.min(factW, factH)
+                            }
+                            loader_top.defaultScale = val
                         }
                     }
 
@@ -1857,7 +1873,7 @@ Loader {
                                 rotationAnimation.to = loader_top.imageRotation
                                 rotationAnimation.restart()
                                 var oldDefault = loader_top.defaultScale
-                                loader_top.defaultScale = 0.99999999*image_wrapper.computeDefaultScale()
+                                resetDefaults.resetScale()
                                 if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
                                     loader_top.imageScale = loader_top.defaultScale
                                 PQCConstants.currentImageDefaultScale = loader_top.defaultScale
