@@ -181,8 +181,13 @@ Loader {
 
                 if(PQCConstants.faceTaggingMode || PQCConstants.showingPhotoSphere) return
 
-                if(loader_top.isMainImage)
-                    loader_top.imageScale = 1/PQCConstants.devicePixelRatio
+                if(loader_top.isMainImage) {
+                    const fullsize = 1/PQCConstants.devicePixelRatio
+                    if(Math.abs(fullsize-loader_top.imageScale) < 1e-6)
+                        loader_top.imageScale = loader_top.defaultScale
+                    else
+                        loader_top.imageScale = fullsize
+                }
 
             }
             function onSendShortcutZoomKenBurns() {
@@ -1911,7 +1916,8 @@ Loader {
                         }
 
                         function onImageviewFitInWindowChanged() {
-                            resetDefaults.restart()
+                            resetDefaults.resetScale()
+                            loader_top.imageScale = loader_top.defaultScale
                         }
 
                         function onImageviewMarginChanged() {

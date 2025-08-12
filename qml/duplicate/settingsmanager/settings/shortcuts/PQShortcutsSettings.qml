@@ -74,7 +74,9 @@ Flickable {
                                  //: Name of shortcut action
         "__zoomOut":            [qsTranslate("settingsmanager", "Zoom Out"), "viewingimages"],
                                  //: Name of shortcut action
-        "__zoomActual":         [qsTranslate("settingsmanager", "Zoom to Actual Size"), "viewingimages"],
+        "__zoomActual":         [qsTranslate("settingsmanager", "Zoom to Actual Size (toggle)"), "viewingimages"],
+                                 //: Name of shortcut action
+        "__fitInWindow":        [qsTranslate("settingsmanager", "Zoom to Fit Window (toggle)"), "viewingimages"],
                                  //: Name of shortcut action
         "__zoomReset":          [qsTranslate("settingsmanager", "Reset Zoom"), "viewingimages"],
                                  //: Name of shortcut action
@@ -94,9 +96,7 @@ Flickable {
                                  //: Name of shortcut action
         "__showFaceTags":       [qsTranslate("settingsmanager", "Hide/Show face tags (stored in metadata)"), "viewingimages"],
                                  //: Name of shortcut action
-        "__fitInWindow":        [qsTranslate("settingsmanager", "Toggle: Fit in window"), "viewingimages"],
-                                 //: Name of shortcut action
-        "__toggleAlwaysActualSize": [qsTranslate("settingsmanager", "Toggle: Show always actual size by default"), "viewingimages"],
+        "__toggleAlwaysActualSize": [qsTranslate("settingsmanager", "Load image at actual size by default (toggle)"), "viewingimages"],
                                  //: Name of shortcut action
         "__chromecast":         [qsTranslate("settingsmanager", "Stream content to Chromecast device"), "viewingimages"],
                                  //: Name of shortcut action
