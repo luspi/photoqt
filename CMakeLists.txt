@@ -26,7 +26,7 @@ endif()
 include(CMake/ListFilesCPlusPlus.cmake)
 include(CMake/ListFilesQMLModern.cmake)
 include(CMake/ListFilesQMLIntegrated.cmake)
-include(CMake/ListFilesQMLShared.cmake)
+include(CMake/ListFilesQMLDuplicate.cmake)
 
 #############################################
 #### OPTIONS THAT CAN BE SET BY THE USER ####
@@ -208,12 +208,12 @@ endif()
 #### CREATE PROPER DUPLICATES OF SOME QML FILES (IF CHANGED) ####
 #################################################################
 
-set(photoqt_shared_modern_QML "")
-set(photoqt_shared_integrated_QML "")
+set(photoqt_duplicate_modern_QML "")
+set(photoqt_duplicate_integrated_QML "")
 
-SET(ADDITIONAL_CLEAN_FILES "${CMAKE_SOURCE_DIR}/qml/shared/.generated")
+SET(ADDITIONAL_CLEAN_FILES "${CMAKE_SOURCE_DIR}/qml/duplicate/.generated")
 
-foreach(QMLFILE ${photoqt_shared_QML})
+foreach(QMLFILE ${photoqt_duplicate_QML})
 
     # we need the absolute path as otherwise the EXISTS check below fails
     SET(QMLFILE "${CMAKE_SOURCE_DIR}/${QMLFILE}")
@@ -222,11 +222,11 @@ foreach(QMLFILE ${photoqt_shared_QML})
     set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS "${QMLFILE}")
 
     # get relative dir without qml/duplicate prefix
-    file(RELATIVE_PATH GENERICPATH "${CMAKE_SOURCE_DIR}/qml/shared" "${QMLFILE}")
+    file(RELATIVE_PATH GENERICPATH "${CMAKE_SOURCE_DIR}/qml/duplicate" "${QMLFILE}")
 
     # the two target filenames
-    set(FILENAME_MODERN "${CMAKE_SOURCE_DIR}/qml/shared/.generated/modern/${GENERICPATH}")
-    set(FILENAME_INTEGRATED "${CMAKE_SOURCE_DIR}/qml/shared/.generated/integrated/${GENERICPATH}")
+    set(FILENAME_MODERN "${CMAKE_SOURCE_DIR}/qml/duplicate/.generated/modern/${GENERICPATH}")
+    set(FILENAME_INTEGRATED "${CMAKE_SOURCE_DIR}/qml/duplicate/.generated/integrated/${GENERICPATH}")
 
     # if the source file has been updated
     if("${QMLFILE}" IS_NEWER_THAN "${FILENAME_MODERN}" OR "${QMLFILE}" IS_NEWER_THAN "${FILENAME_INTEGRATED}")
@@ -243,17 +243,19 @@ foreach(QMLFILE ${photoqt_shared_QML})
 /****************************************************/
 ")
 
-        string(REPLACE "/* :-)) <3 */\n" "import PhotoQt.Modern\n\n${TXT_NOTE}" FILE_CONTENTS_MODERN "${FILE_CONTENTS}")
+        string(REPLACE "/* :-)) <3 */\n" "${TXT_NOTE}" FILE_CONTENTS_MODERN "${FILE_CONTENTS}")
+        string(REPLACE "import PhotoQt.Integrated" "import PhotoQt.Modern" FILE_CONTENTS_MODERN "${FILE_CONTENTS_MODERN}")
         file(WRITE "${FILENAME_MODERN}" "${FILE_CONTENTS_MODERN}")
 
-        string(REPLACE "/* :-)) <3 */\n" "import PhotoQt.Integrated\n\n${TXT_NOTE}" FILE_CONTENTS_INTEGRATED "${FILE_CONTENTS}")
+        string(REPLACE "/* :-)) <3 */\n" "${TXT_NOTE}" FILE_CONTENTS_INTEGRATED "${FILE_CONTENTS}")
+        string(REPLACE "import PhotoQt.Modern" "import PhotoQt.Integrated" FILE_CONTENTS_INTEGRATED "${FILE_CONTENTS_INTEGRATED}")
         file(WRITE "${FILENAME_INTEGRATED}" "${FILE_CONTENTS_INTEGRATED}")
 
     endif()
 
     # append new file to one of two variables to add to the respective modules below
-    set(photoqt_shared_modern_QML ${photoqt_shared_modern_QML} qml/shared/.generated/modern/${GENERICPATH})
-    set(photoqt_shared_integrated_QML ${photoqt_shared_integrated_QML} qml/shared/.generated/integrated/${GENERICPATH})
+    set(photoqt_duplicate_modern_QML ${photoqt_duplicate_modern_QML} qml/duplicate/.generated/modern/${GENERICPATH})
+    set(photoqt_duplicate_integrated_QML ${photoqt_duplicate_integrated_QML} qml/duplicate/.generated/integrated/${GENERICPATH})
 
 endforeach()
 
@@ -408,16 +410,20 @@ endif()
 qt_add_qml_module(photoqt-modern
     URI PhotoQt.Modern
     VERSION 1.0
-    QML_FILES ${photoqt_modern_QML} ${photoqt_shared_modern_QML}
-    SOURCES ${photoqt_SOURCES} ${ALLHEADERS}
+    QML_FILES ${photoqt_modern_QML} ${photoqt_duplicate_modern_QML}
     OUTPUT_DIRECTORY PhotoQt/Modern)
 
 qt_add_qml_module(photoqt-integrated
     URI PhotoQt.Integrated
     VERSION 1.0
-    QML_FILES ${photoqt_integrated_QML} ${photoqt_shared_integrated_QML}
-    SOURCES ${photoqt_SOURCES} ${ALLHEADERS}
+    QML_FILES ${photoqt_integrated_QML} ${photoqt_duplicate_integrated_QML}
     OUTPUT_DIRECTORY PhotoQt/Integrated)
+
+qt_add_qml_module(photoqt-cplusplus
+    URI PhotoQt.CPlusPlus
+    VERSION 1.0
+    SOURCES ${photoqt_SOURCES} ${ALLHEADERS}
+    OUTPUT_DIRECTORY PhotoQt/CPlusPlus)
 
 ###########################
 # cmake macros
@@ -428,10 +434,12 @@ macro(pqt_target_compile_definitions nme)
     if(${val_count} GREATER 0)
         target_compile_definitions(photoqt-modern     PRIVATE ${nme}="${val}")
         target_compile_definitions(photoqt-integrated PRIVATE ${nme}="${val}")
+        target_compile_definitions(photoqt-cplusplus  PRIVATE ${nme}="${val}")
         target_compile_definitions(photoqt            PRIVATE ${nme}="${val}")
     else()
         target_compile_definitions(photoqt-modern     PRIVATE ${nme})
         target_compile_definitions(photoqt-integrated PRIVATE ${nme})
+        target_compile_definitions(photoqt-cplusplus  PRIVATE ${nme})
         target_compile_definitions(photoqt            PRIVATE ${nme})
     endif()
 endmacro()
@@ -442,6 +450,7 @@ macro(pqt_target_include_directories)
     if(${dir_count} GREATER 0)
         target_include_directories(photoqt-modern     PRIVATE ${dir})
         target_include_directories(photoqt-integrated PRIVATE ${dir})
+        target_include_directories(photoqt-cplusplus  PRIVATE ${dir})
         target_include_directories(photoqt            PRIVATE ${dir})
     endif()
 endmacro()
@@ -452,6 +461,7 @@ macro(pqt_target_link_libraries)
     if(${lnk_count} GREATER 0)
         target_link_libraries(photoqt-modern     PRIVATE ${lnk} ${extra_lnk})
         target_link_libraries(photoqt-integrated PRIVATE ${lnk} ${extra_lnk})
+        target_link_libraries(photoqt-cplusplus  PRIVATE ${lnk} ${extra_lnk})
         target_link_libraries(photoqt            PRIVATE ${lnk} ${extra_lnk})
     endif()
 endmacro()
@@ -477,7 +487,7 @@ set_target_properties(photoqt PROPERTIES
     WIN32_EXECUTABLE TRUE
 )
 
-target_link_libraries(photoqt PRIVATE photoqt-modern photoqt-integrated)
+target_link_libraries(photoqt PRIVATE photoqt-modern photoqt-integrated photoqt-cplusplus)
 
 # link executable
 pqt_target_link_libraries(Qt6::Quick Qt6::Widgets Qt6::Sql Qt6::Core

@@ -23,6 +23,7 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
+import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
 Rectangle {

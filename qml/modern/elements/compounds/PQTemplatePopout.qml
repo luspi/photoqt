@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Window
+import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
 Window {
