@@ -53,7 +53,7 @@ Item {
             onMaximizedUpdated: (m) => {
                 PQCWindowGeometry.settingsmanagerMaximized = m
             }
-            content: PQSettingsManager {
+            content: PQSettingsManager2 {
                 id: tmpl
                 button1: smpop.button1
                 button2: smpop.button2

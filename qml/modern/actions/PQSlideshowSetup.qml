@@ -135,8 +135,6 @@ PQTemplateFullscreen {
                                                   //: This is referring to the in/out animation of images
                                                   qsTranslate("slideshow", "choose one at random")]
                 model: modeldata
-                property list<int> linedata: [0,6]
-                lineBelowItem: linedata
             }
 
         },

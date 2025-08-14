@@ -39,11 +39,23 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQMinimap.qml ${d}/PQAni
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQPhotoSphereControls.qml ${d}/PQDocumentControls.qml ${d}/PQMotionPhotoControls.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml)
 
+
+SET(d "qml/duplicate/settingsmanager2")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager2.qml)
+
+SET(d "qml/duplicate/settingsmanager2/elements")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml)
+
+SET(d "qml/duplicate/settingsmanager2/interface")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceAccentColor.qml ${d}/PQSettingsInterfaceBackground.qml ${d}/PQSettingsInterfaceClicksOnBackground.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceContextMenu.qml ${d}/PQSettingsInterfaceEdges.qml ${d}/PQSettingsInterfaceFontWeight.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceLanguage.qml ${d}/PQSettingsInterfaceNotification.qml ${d}/PQSettingsInterfacePopout.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceStatusInfo.qml ${d}/PQSettingsInterfaceWindowButtons.qml ${d}/PQSettingsInterfaceWindowMode.qml)
+
+
+
 SET(d "qml/duplicate/settingsmanager")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
-
-SET(d "qml/duplicate/settingsmanager/elements")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml)
 
 SET(d "qml/duplicate/settingsmanager/popout")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManagerPopout.qml)

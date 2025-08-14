@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,37 +19,20 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
-TabBar {
+/* :-)) <3 */
 
-    id: control
+Item {
 
-    SystemPalette { id: pqtPalette }
+    width: parent.width
+    height: childrenRect.height
 
-    background: Rectangle {
-        color: pqtPalette.base
-    }
-
-    contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
-
-        spacing: control.spacing
-        orientation: ListView.Vertical
-        boundsBehavior: Flickable.StopAtBounds
-        flickableDirection: Flickable.AutoFlickIfNeeded
-        snapMode: ListView.SnapToItem
-
-        highlightMoveDuration: 0
-        highlightRangeMode: ListView.ApplyRange
-        preferredHighlightBegin: 40
-        preferredHighlightEnd: height - 40
+    PQTextXXL {
+        text: "popout"
     }
 
 }

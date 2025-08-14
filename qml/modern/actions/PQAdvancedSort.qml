@@ -91,7 +91,7 @@ PQTemplateFullscreen {
                                                       //: the average color of the image
                                                       qsTranslate("advancedsort", "Luminosity"),
                                                       qsTranslate("advancedsort", "Exif date")]
-                    model: modeldata
+                    // model: modeldata
                 }
 
                 Connections {

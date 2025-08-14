@@ -116,9 +116,10 @@ Rectangle {
         handle: Rectangle {
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? pqtPalette.alternateBase : PQCLook.baseBorder
-            Behavior on color { ColorAnimation { duration: 200 } }
-            onColorChanged:
+            color: pqtPalette.text
+            opacity: SplitHandle.hovered ? 0.5 : 0.2
+            Behavior on opacity { NumberAnimation { duration: 200 } }
+            onOpacityChanged:
                 filedialog_top.splitDividerHovered = SplitHandle.hovered
 
             Image {

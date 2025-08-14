@@ -19,37 +19,62 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
 
-TabBar {
+TabButton {
 
     id: control
 
+    implicitHeight: 40
+
+    property bool isCurrentTab: false
+    property bool lineBelow: false
+
     SystemPalette { id: pqtPalette }
 
+    contentItem: Text {
+        leftPadding: 20
+        text: control.text
+        font: control.font
+        opacity: enabled ? 1.0 : 0.3
+        color: control.isCurrentTab ? pqtPalette.base : pqtPalette.text
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+    }
+
     background: Rectangle {
+        opacity: enabled ? 1 : 0.3
         color: pqtPalette.base
+        Item {
+            anchors.fill: parent
+            anchors.margins: 5
+            Rectangle {
+                anchors.fill: parent
+                color: pqtPalette.highlight
+                opacity: control.isCurrentTab ? 1 : (control.hovered ? 0.3 : 0)
+                radius: 5
+            }
+            Rectangle {
+                anchors.fill: parent
+                color: "transparent"
+                border.width: 1
+                border.color: pqtPalette.highlight
+                radius: 5
+                visible: control.isCurrentTab||control.hovered
+            }
+        }
+
+        Rectangle {
+            y: (parent.height-height)
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+            visible: control.lineBelow
+            opacity: 0.1
+        }
     }
-
-    contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
-
-        spacing: control.spacing
-        orientation: ListView.Vertical
-        boundsBehavior: Flickable.StopAtBounds
-        flickableDirection: Flickable.AutoFlickIfNeeded
-        snapMode: ListView.SnapToItem
-
-        highlightMoveDuration: 0
-        highlightRangeMode: ListView.ApplyRange
-        preferredHighlightBegin: 40
-        preferredHighlightEnd: height - 40
-    }
-
 }

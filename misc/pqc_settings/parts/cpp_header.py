@@ -70,7 +70,6 @@ def get(duplicateSettings):
 #include <QFile>
 #include <QMessageBox>
 #include <QApplication>
-#include <QFileSystemWatcher>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <pqc_configfiles.h>
@@ -127,134 +126,12 @@ public:
                 cont += f"""
     {dt} get{tab[0].upper()}{tab[1:]}{name}() {{ return m_{tab}{name}; }}"""
 
-    cont += """
-
-private:
-    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
-"""
-
-    for tab in dbtables:
-        c = conn.cursor()
-        c.execute(f"SELECT `name`,`defaultvalue`,`datatype` FROM {tab} ORDER BY `name`")
-        data = c.fetchall()
-
-        for row in data:
-
-            name = row[0]
-            defaultvalue = row[1]
-            datatype = row[2]
-
-            for setting in duplicateSettings:
-
-                if setting == "":
-                    continue
-
-                if setting != f"{tab}{name}":
-                    continue
-
-                cont += f"""
-        m_{tab}{name} = """
-
-                if datatype == "bool":
-                    valuestring = ("false" if defaultvalue == "0" else "true")
-                elif datatype == "string":
-                    valuestring = f"\"{defaultvalue}\""
-                elif datatype == "int":
-                    valuestring = defaultvalue
-                elif datatype == "double":
-                    valuestring = defaultvalue
-                elif datatype == "list":
-                    valuestring = "QStringList()";
-                    if defaultvalue != "":
-                        parts = defaultvalue.split(":://::")
-                        for p in parts:
-                            valuestring += f" << \"{p}\""
-                else:
-                    print(f"CPP HEADER: UNHANDLED DUPLICATE DATATYPE: {datatype}")
-
-                cont += f"{valuestring};"
 
     cont += """
-
-        QSqlDatabase db = QSqlDatabase::database("settings");
-
-        // connect to user database
-        if(!db.isValid()) {
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-
-            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-            // the db does not exist -> create it
-            if(!infodb.exists()) {
-                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                    qWarning() << "Unable to (re-)create default user settings database";
-                else {
-                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-                }
-            }
-
-            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        }
-
-        readDB();
-
-        watcher = new QFileSystemWatcher;
-        watcher->addPath(PQCConfigFiles::get().USERSETTINGS_DB());
-        connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString path) { readDB(); });
-
-    }
-
-    ~PQCSettingsCPP() {
-        delete watcher;
-    }
-
-    QFileSystemWatcher *watcher;
-
-    QVariantHash m_extensions;
-    QVariantHash m_extensions_defaults;
-"""
-
-    for tab in dbtables:
-        c = conn.cursor()
-        c.execute(f"SELECT `name`,`defaultvalue`,`datatype` FROM {tab} ORDER BY `name`")
-        data = c.fetchall()
-
-        for row in data:
-
-            name = row[0]
-            defaultvalue = row[1]
-            datatype = row[2]
-
-            dt = datatype
-            if datatype == "string":
-                dt = "QString"
-            elif datatype == "list":
-                dt = "QStringList"
-
-            for setting in duplicateSettings:
-
-                if setting == "":
-                    continue
-
-                if setting != f"{tab}{name}":
-                    continue
-
-                cont += f"""
-    {dt} m_{setting};"""
-
-
-    cont += """
-
-private Q_SLOTS:
 
     void readDB() {
 
-        QSqlDatabase db = QSqlDatabase::database("duplicatesettings");
+        QSqlDatabase db = QSqlDatabase::database("settings");
 
         if(!db.open()) {
             qCritical() << "ERROR: Unable to open settings database. This should never happen...";
@@ -368,6 +245,118 @@ private Q_SLOTS:
         }
 
     }
+
+private:
+    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
+"""
+
+    for tab in dbtables:
+        c = conn.cursor()
+        c.execute(f"SELECT `name`,`defaultvalue`,`datatype` FROM {tab} ORDER BY `name`")
+        data = c.fetchall()
+
+        for row in data:
+
+            name = row[0]
+            defaultvalue = row[1]
+            datatype = row[2]
+
+            for setting in duplicateSettings:
+
+                if setting == "":
+                    continue
+
+                if setting != f"{tab}{name}":
+                    continue
+
+                cont += f"""
+        m_{tab}{name} = """
+
+                if datatype == "bool":
+                    valuestring = ("false" if defaultvalue == "0" else "true")
+                elif datatype == "string":
+                    valuestring = f"\"{defaultvalue}\""
+                elif datatype == "int":
+                    valuestring = defaultvalue
+                elif datatype == "double":
+                    valuestring = defaultvalue
+                elif datatype == "list":
+                    valuestring = "QStringList()";
+                    if defaultvalue != "":
+                        parts = defaultvalue.split(":://::")
+                        for p in parts:
+                            valuestring += f" << \"{p}\""
+                else:
+                    print(f"CPP HEADER: UNHANDLED DUPLICATE DATATYPE: {datatype}")
+
+                cont += f"{valuestring};"
+
+    cont += """
+
+        QSqlDatabase db = QSqlDatabase::database("settings");
+
+        // connect to user database
+        if(!db.isValid()) {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+
+            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+
+            // the db does not exist -> create it
+            if(!infodb.exists()) {
+                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+                    qWarning() << "Unable to (re-)create default user settings database";
+                else {
+                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+                }
+            }
+
+            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+        }
+
+        readDB();
+
+    }
+
+    ~PQCSettingsCPP() {}
+
+    QVariantHash m_extensions;
+    QVariantHash m_extensions_defaults;
+"""
+
+    for tab in dbtables:
+        c = conn.cursor()
+        c.execute(f"SELECT `name`,`defaultvalue`,`datatype` FROM {tab} ORDER BY `name`")
+        data = c.fetchall()
+
+        for row in data:
+
+            name = row[0]
+            defaultvalue = row[1]
+            datatype = row[2]
+
+            dt = datatype
+            if datatype == "string":
+                dt = "QString"
+            elif datatype == "list":
+                dt = "QStringList"
+
+            for setting in duplicateSettings:
+
+                if setting == "":
+                    continue
+
+                if setting != f"{tab}{name}":
+                    continue
+
+                cont += f"""
+    {dt} m_{setting};"""
+
+    cont += """
 
 Q_SIGNALS:
     void extensionsChanged();"""

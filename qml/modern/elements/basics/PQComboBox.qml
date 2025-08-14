@@ -22,7 +22,7 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
@@ -31,13 +31,12 @@ ComboBox {
     id: control
 
     property string prefix: ""
-    property bool firstItemEmphasized: false
-    property var lineBelowItem: []
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
 
-    property list<int> hideEntries: []
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     implicitWidth: extrawide ? 300 : (extrasmall ? 100 : 200)
 
@@ -48,26 +47,27 @@ ComboBox {
 
     property bool transparentBackground: false
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-
     delegate: ItemDelegate {
+
         id: deleg
+
         width: control.width
-        height: control.hideEntries.indexOf(index)===-1 ? 40 : 0
+        height: 40
+
         required property var model
         required property int index
+
         contentItem: Text {
             id: contitem
-            text: control.prefix+(control.firstItemEmphasized&&deleg.index===0 ? deleg.model[control.textRole] : deleg.model[control.textRole])
-            color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+            text: control.prefix+deleg.model[control.textRole]
+            color: delegate.highlighted ? pqtPalette.base : (enabled ? pqtPalette.text : pqtPaletteDisabled.text)
             font: control.font
             elide: control.elide
             verticalAlignment: Text.AlignVCenter
             style: deleg.highlighted ? Text.Sunken : Text.Normal
             styleColor: pqtPaletteDisabled.text
             PQToolTip {
-                visible: deleg.hovered
+                visible: deleg.highlighted
                 text: contitem.text
                 timeout: 3000
             }
@@ -76,15 +76,7 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: deleg.highlighted ? PQCLook.baseBorder : pqtPalette.base
-
-            Rectangle {
-                width: parent.width
-                height: 1
-                y: parent.height-1
-                color: pqtPalette.text
-                visible: control.lineBelowItem.indexOf(deleg.index)!==-1
-            }
+            color: (deleg.highlighted ? pqtPalette.base : (enabled ? pqtPalette.alternateBase : PQCLook.baseBorder))
         }
 
         highlighted: control.highlightedIndex === deleg.index
@@ -118,9 +110,10 @@ ComboBox {
         leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
-        text: control.prefix+control.displayText
+        text: control.displayText
         font: control.font
         color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        style: control.highlighted ? Text.Sunken : Text.Normal
         styleColor: pqtPaletteDisabled.text
         verticalAlignment: Text.AlignVCenter
         elide: control.elide
@@ -132,16 +125,14 @@ ComboBox {
         color: control.transparentBackground ? "transparent" : ((control.pressed||popup.visible) ? PQCLook.baseBorder : pqtPalette.base)
         border.color: PQCLook.baseBorder
         border.width: control.transparentBackground ? 0 : (control.visualFocus ? 2 : 1)
-        radius: 2
+        radius: 5
     }
 
     popup: Popup {
 
-        id: popup
-
         y: control.height - 1
         width: control.width
-        implicitHeight: contentItem.implicitHeight+control.lineBelowItem.length*2
+        implicitHeight: Math.min(contentItem.implicitHeight+2, control.Window.height - topMargin - bottomMargin)
         padding: 1
 
         contentItem: ListView {

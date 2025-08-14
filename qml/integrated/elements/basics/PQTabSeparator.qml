@@ -19,37 +19,22 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
 
-TabBar {
-
+TabButton {
     id: control
+
+    enabled: false
+    height: 2
+    implicitHeight: 2
+    implicitWidth: parent.width
 
     SystemPalette { id: pqtPalette }
 
-    background: Rectangle {
-        color: pqtPalette.base
-    }
+    contentItem: Item {}
 
-    contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
-
-        spacing: control.spacing
-        orientation: ListView.Vertical
-        boundsBehavior: Flickable.StopAtBounds
-        flickableDirection: Flickable.AutoFlickIfNeeded
-        snapMode: ListView.SnapToItem
-
-        highlightMoveDuration: 0
-        highlightRangeMode: ListView.ApplyRange
-        preferredHighlightBegin: 40
-        preferredHighlightEnd: height - 40
-    }
-
+    background: Item {}
 }
