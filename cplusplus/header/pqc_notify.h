@@ -183,6 +183,7 @@ Q_SIGNALS:
     void thumbnailReloadImage(int index);
     void elementSignal(QString elementId, QString what);
     void resetActiveFocus();
+    void settingsmanagerSendCommand(QString what, QVariantList args);
 
     // slideshow
     void slideshowHideHandler();

@@ -19,37 +19,54 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
-TabBar {
+TabButton {
 
     id: control
 
     SystemPalette { id: pqtPalette }
 
-    background: Rectangle {
-        color: pqtPalette.base
+    implicitHeight: 40
+
+    property bool isCurrentTab: false
+    property bool lineBelow: false
+
+    contentItem: Text {
+        leftPadding: 20
+        text: control.text
+        font: control.font
+        opacity: enabled ? 1.0 : 0.3
+        color: pqtPalette.text
+        horizontalAlignment: Text.AlignLeft
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
     }
 
-    contentItem: ListView {
-        model: control.contentModel
-        currentIndex: control.currentIndex
-
-        spacing: control.spacing
-        orientation: ListView.Vertical
-        boundsBehavior: Flickable.StopAtBounds
-        flickableDirection: Flickable.AutoFlickIfNeeded
-        snapMode: ListView.SnapToItem
-
-        highlightMoveDuration: 0
-        highlightRangeMode: ListView.ApplyRange
-        preferredHighlightBegin: 40
-        preferredHighlightEnd: height - 40
+    background: Rectangle {
+        implicitWidth: control.implicitWidth
+        implicitHeight: control.implicitHeight
+        opacity: enabled ? 1 : 0.3
+        color: (control.down||control.isCurrentTab) ? PQCLook.baseBorder : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button)
+        Rectangle {
+            anchors.fill: parent
+            color: "transparent"
+            opacity: (control.down||control.isCurrentTab) ? 0.5 : 0
+            border.color: PQCLook.highlight
+            border.width: 1
+        }
+        Rectangle {
+            y: (parent.height-height)
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+            opacity: 0.1
+            visible: control.lineBelow
+        }
     }
 
 }

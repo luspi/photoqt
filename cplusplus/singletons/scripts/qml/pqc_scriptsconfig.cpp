@@ -581,13 +581,14 @@ QStringList PQCScriptsConfig::getAvailableTranslations() {
 
 }
 
-void PQCScriptsConfig::updateTranslation() {
+void PQCScriptsConfig::updateTranslation(QString code) {
 
     qDebug() << "";
 
-    QString code = PQCSettingsCPP::get().getInterfaceLanguage();
-    if(code == currentTranslation)
+    if(code == currentTranslation) {
+        qWarning() << ">>>" << code << "//" << currentTranslation;
         return;
+    }
 
     static QTranslator trans;
     qApp->removeTranslator(&trans);
@@ -600,6 +601,8 @@ void PQCScriptsConfig::updateTranslation() {
 
         if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
 
+            qWarning() << ">>> LOADING:" << c;
+
             if(trans.load(":/lang/photoqt_" + c)) {
                 currentTranslation = c;
                 qApp->installTranslator(&trans);
@@ -611,6 +614,8 @@ void PQCScriptsConfig::updateTranslation() {
             const QString cc = c.split("_").at(0);
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
+
+                qWarning() << ">>> LOADING:" << cc;
 
                 if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
@@ -625,6 +630,8 @@ void PQCScriptsConfig::updateTranslation() {
             const QString cc = QString("%1_%2").arg(c, c.toUpper());
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
+
+                qWarning() << ">>> LOADING:" << cc;
 
                 if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;

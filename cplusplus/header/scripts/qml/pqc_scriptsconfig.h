@@ -82,7 +82,7 @@ public:
 
     // other methods
     Q_INVOKABLE QStringList getAvailableTranslations();
-    Q_INVOKABLE void updateTranslation();
+    Q_INVOKABLE void updateTranslation(QString code);
     Q_INVOKABLE QString getLastLoadedImage();
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void deleteLastLoadedImage();

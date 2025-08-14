@@ -19,24 +19,17 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
 
 TabBar {
 
     id: control
 
-    SystemPalette { id: pqtPalette }
-
-    background: Rectangle {
-        color: pqtPalette.base
-    }
-
     contentItem: ListView {
+
         model: control.contentModel
         currentIndex: control.currentIndex
 
@@ -51,5 +44,4 @@ TabBar {
         preferredHighlightBegin: 40
         preferredHighlightEnd: height - 40
     }
-
 }

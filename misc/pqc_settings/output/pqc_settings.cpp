@@ -160,6 +160,7 @@ PQCSettings::PQCSettings() {
     connect(dbCommitTimer, &QTimer::timeout, this, [=](){
         QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7200,6 +7201,7 @@ bool PQCSettings::backupDatabase() {
         QSqlDatabase db = QSqlDatabase::database("settings");
         dbCommitTimer->stop();
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7344,6 +7346,7 @@ void PQCSettings::closeDatabase() {
 
     if(dbIsTransaction) {
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7376,6 +7379,7 @@ int PQCSettings::migrate(QString oldversion) {
 
     if(dbIsTransaction) {
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7652,6 +7656,7 @@ int PQCSettings::migrate(QString oldversion) {
     }
 
     db.commit();
+    PQCSettingsCPP::get().readDB();
 
     validateSettingsDatabase(true);
     validateSettingsValues(true);

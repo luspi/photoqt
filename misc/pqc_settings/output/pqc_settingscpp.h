@@ -27,7 +27,6 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QApplication>
-#include <QFileSystemWatcher>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <pqc_configfiles.h>
@@ -98,142 +97,9 @@ public:
     bool getThumbnailsIconsOnly() { return m_thumbnailsIconsOnly; }
     int getThumbnailsMaxNumberThreads() { return m_thumbnailsMaxNumberThreads; }
 
-private:
-    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
-
-        m_filedialogDevicesShowTmpfs = false;
-        m_filedialogShowHiddenFilesFolders = false;
-        m_filetypesArchiveAlwaysEnterAutomatically = false;
-        m_filetypesComicBookAlwaysEnterAutomatically = false;
-        m_filetypesDocumentAlwaysEnterAutomatically = false;
-        m_filetypesExternalUnrar = false;
-        m_filetypesLoadAppleLivePhotos = true;
-        m_filetypesLoadMotionPhotos = true;
-        m_filetypesPDFQuality = 150;
-        m_filetypesRAWUseEmbeddedIfAvailable = true;
-        m_filetypesVideoPreferLibmpv = true;
-        m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
-        m_generalEnabledExtensions = QStringList();
-        m_generalInterfaceVariant = "modern";
-        m_imageviewAdvancedSortAscending = true;
-        m_imageviewAdvancedSortCriteria = "resolution";
-        m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
-        m_imageviewAdvancedSortQuality = "medium";
-        m_imageviewCache = 512;
-        m_imageviewColorSpaceDefault = "";
-        m_imageviewColorSpaceEnable = true;
-        m_imageviewColorSpaceLoadEmbedded = true;
-        m_imageviewFitInWindow = false;
-        m_imageviewRespectDevicePixelRatio = true;
-        m_imageviewSortImagesAscending = true;
-        m_imageviewSortImagesBy = "naturalname";
-        m_interfaceAccentColor = "#222222";
-        m_interfaceFontBoldWeight = 700;
-        m_interfaceFontNormalWeight = 400;
-        m_interfaceLanguage = "en";
-        m_interfacePopoutWhenWindowIsSmall = true;
-        m_metadataAutoRotation = true;
-        m_thumbnailsCache = true;
-        m_thumbnailsCacheBaseDirDefault = true;
-        m_thumbnailsCacheBaseDirLocation = "";
-        m_thumbnailsExcludeDropBox = "";
-        m_thumbnailsExcludeFolders = QStringList();
-        m_thumbnailsExcludeNetworkShares = true;
-        m_thumbnailsExcludeNextcloud = "";
-        m_thumbnailsExcludeOwnCloud = "";
-        m_thumbnailsIconsOnly = false;
-        m_thumbnailsMaxNumberThreads = 4;
-
-        QSqlDatabase db = QSqlDatabase::database("settings");
-
-        // connect to user database
-        if(!db.isValid()) {
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-
-            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-            // the db does not exist -> create it
-            if(!infodb.exists()) {
-                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                    qWarning() << "Unable to (re-)create default user settings database";
-                else {
-                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-                }
-            }
-
-            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        }
-
-        readDB();
-
-        watcher = new QFileSystemWatcher;
-        watcher->addPath(PQCConfigFiles::get().USERSETTINGS_DB());
-        connect(watcher, &QFileSystemWatcher::fileChanged, this, [=](QString path) { readDB(); });
-
-    }
-
-    ~PQCSettingsCPP() {
-        delete watcher;
-    }
-
-    QFileSystemWatcher *watcher;
-
-    QVariantHash m_extensions;
-    QVariantHash m_extensions_defaults;
-
-    bool m_filedialogDevicesShowTmpfs;
-    bool m_filedialogShowHiddenFilesFolders;
-    bool m_filetypesArchiveAlwaysEnterAutomatically;
-    bool m_filetypesComicBookAlwaysEnterAutomatically;
-    bool m_filetypesDocumentAlwaysEnterAutomatically;
-    bool m_filetypesExternalUnrar;
-    bool m_filetypesLoadAppleLivePhotos;
-    bool m_filetypesLoadMotionPhotos;
-    int m_filetypesPDFQuality;
-    bool m_filetypesRAWUseEmbeddedIfAvailable;
-    bool m_filetypesVideoPreferLibmpv;
-    QString m_filetypesVideoThumbnailer;
-    QStringList m_generalEnabledExtensions;
-    QString m_generalInterfaceVariant;
-    bool m_imageviewAdvancedSortAscending;
-    QString m_imageviewAdvancedSortCriteria;
-    QStringList m_imageviewAdvancedSortDateCriteria;
-    QString m_imageviewAdvancedSortQuality;
-    int m_imageviewCache;
-    QString m_imageviewColorSpaceDefault;
-    bool m_imageviewColorSpaceEnable;
-    bool m_imageviewColorSpaceLoadEmbedded;
-    bool m_imageviewFitInWindow;
-    bool m_imageviewRespectDevicePixelRatio;
-    bool m_imageviewSortImagesAscending;
-    QString m_imageviewSortImagesBy;
-    QString m_interfaceAccentColor;
-    int m_interfaceFontBoldWeight;
-    int m_interfaceFontNormalWeight;
-    QString m_interfaceLanguage;
-    bool m_interfacePopoutWhenWindowIsSmall;
-    bool m_metadataAutoRotation;
-    bool m_thumbnailsCache;
-    bool m_thumbnailsCacheBaseDirDefault;
-    QString m_thumbnailsCacheBaseDirLocation;
-    QString m_thumbnailsExcludeDropBox;
-    QStringList m_thumbnailsExcludeFolders;
-    bool m_thumbnailsExcludeNetworkShares;
-    QString m_thumbnailsExcludeNextcloud;
-    QString m_thumbnailsExcludeOwnCloud;
-    bool m_thumbnailsIconsOnly;
-    int m_thumbnailsMaxNumberThreads;
-
-private Q_SLOTS:
-
     void readDB() {
 
-        QSqlDatabase db = QSqlDatabase::database("duplicatesettings");
+        QSqlDatabase db = QSqlDatabase::database("settings");
 
         if(!db.open()) {
             qCritical() << "ERROR: Unable to open settings database. This should never happen...";
@@ -535,6 +401,129 @@ private Q_SLOTS:
         }
 
     }
+
+private:
+    PQCSettingsCPP(QObject *parent = nullptr) : QObject(parent) {
+
+        m_filedialogDevicesShowTmpfs = false;
+        m_filedialogShowHiddenFilesFolders = false;
+        m_filetypesArchiveAlwaysEnterAutomatically = false;
+        m_filetypesComicBookAlwaysEnterAutomatically = false;
+        m_filetypesDocumentAlwaysEnterAutomatically = false;
+        m_filetypesExternalUnrar = false;
+        m_filetypesLoadAppleLivePhotos = true;
+        m_filetypesLoadMotionPhotos = true;
+        m_filetypesPDFQuality = 150;
+        m_filetypesRAWUseEmbeddedIfAvailable = true;
+        m_filetypesVideoPreferLibmpv = true;
+        m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
+        m_generalEnabledExtensions = QStringList();
+        m_generalInterfaceVariant = "modern";
+        m_imageviewAdvancedSortAscending = true;
+        m_imageviewAdvancedSortCriteria = "resolution";
+        m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
+        m_imageviewAdvancedSortQuality = "medium";
+        m_imageviewCache = 512;
+        m_imageviewColorSpaceDefault = "";
+        m_imageviewColorSpaceEnable = true;
+        m_imageviewColorSpaceLoadEmbedded = true;
+        m_imageviewFitInWindow = false;
+        m_imageviewRespectDevicePixelRatio = true;
+        m_imageviewSortImagesAscending = true;
+        m_imageviewSortImagesBy = "naturalname";
+        m_interfaceAccentColor = "#222222";
+        m_interfaceFontBoldWeight = 700;
+        m_interfaceFontNormalWeight = 400;
+        m_interfaceLanguage = "en";
+        m_interfacePopoutWhenWindowIsSmall = true;
+        m_metadataAutoRotation = true;
+        m_thumbnailsCache = true;
+        m_thumbnailsCacheBaseDirDefault = true;
+        m_thumbnailsCacheBaseDirLocation = "";
+        m_thumbnailsExcludeDropBox = "";
+        m_thumbnailsExcludeFolders = QStringList();
+        m_thumbnailsExcludeNetworkShares = true;
+        m_thumbnailsExcludeNextcloud = "";
+        m_thumbnailsExcludeOwnCloud = "";
+        m_thumbnailsIconsOnly = false;
+        m_thumbnailsMaxNumberThreads = 4;
+
+        QSqlDatabase db = QSqlDatabase::database("settings");
+
+        // connect to user database
+        if(!db.isValid()) {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+
+            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
+
+            // the db does not exist -> create it
+            if(!infodb.exists()) {
+                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+                    qWarning() << "Unable to (re-)create default user settings database";
+                else {
+                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+                }
+            }
+
+            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+
+        }
+
+        readDB();
+
+    }
+
+    ~PQCSettingsCPP() {}
+
+    QVariantHash m_extensions;
+    QVariantHash m_extensions_defaults;
+
+    bool m_filedialogDevicesShowTmpfs;
+    bool m_filedialogShowHiddenFilesFolders;
+    bool m_filetypesArchiveAlwaysEnterAutomatically;
+    bool m_filetypesComicBookAlwaysEnterAutomatically;
+    bool m_filetypesDocumentAlwaysEnterAutomatically;
+    bool m_filetypesExternalUnrar;
+    bool m_filetypesLoadAppleLivePhotos;
+    bool m_filetypesLoadMotionPhotos;
+    int m_filetypesPDFQuality;
+    bool m_filetypesRAWUseEmbeddedIfAvailable;
+    bool m_filetypesVideoPreferLibmpv;
+    QString m_filetypesVideoThumbnailer;
+    QStringList m_generalEnabledExtensions;
+    QString m_generalInterfaceVariant;
+    bool m_imageviewAdvancedSortAscending;
+    QString m_imageviewAdvancedSortCriteria;
+    QStringList m_imageviewAdvancedSortDateCriteria;
+    QString m_imageviewAdvancedSortQuality;
+    int m_imageviewCache;
+    QString m_imageviewColorSpaceDefault;
+    bool m_imageviewColorSpaceEnable;
+    bool m_imageviewColorSpaceLoadEmbedded;
+    bool m_imageviewFitInWindow;
+    bool m_imageviewRespectDevicePixelRatio;
+    bool m_imageviewSortImagesAscending;
+    QString m_imageviewSortImagesBy;
+    QString m_interfaceAccentColor;
+    int m_interfaceFontBoldWeight;
+    int m_interfaceFontNormalWeight;
+    QString m_interfaceLanguage;
+    bool m_interfacePopoutWhenWindowIsSmall;
+    bool m_metadataAutoRotation;
+    bool m_thumbnailsCache;
+    bool m_thumbnailsCacheBaseDirDefault;
+    QString m_thumbnailsCacheBaseDirLocation;
+    QString m_thumbnailsExcludeDropBox;
+    QStringList m_thumbnailsExcludeFolders;
+    bool m_thumbnailsExcludeNetworkShares;
+    QString m_thumbnailsExcludeNextcloud;
+    QString m_thumbnailsExcludeOwnCloud;
+    bool m_thumbnailsIconsOnly;
+    int m_thumbnailsMaxNumberThreads;
 
 Q_SIGNALS:
     void extensionsChanged();

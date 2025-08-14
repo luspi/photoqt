@@ -12,6 +12,7 @@ int PQCSettings::migrate(QString oldversion) {
 
     if(dbIsTransaction) {
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -288,6 +289,7 @@ int PQCSettings::migrate(QString oldversion) {
     }
 
     db.commit();
+    PQCSettingsCPP::get().readDB();
 
     validateSettingsDatabase(true);
     validateSettingsValues(true);

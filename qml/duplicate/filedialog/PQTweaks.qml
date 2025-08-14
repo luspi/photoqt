@@ -182,23 +182,28 @@ Item {
                 color: pqtPalette.text
             }
 
-            PQFileDialogComboBox {
+            PQComboBox {
 
                 id: rightcombo
 
                 y: (parent.height-height)/2
-                property list<int> linedat: [4]
-                lineBelowItem: linedat
 
-                property list<string> modeldata: [qsTranslate("filedialog", "Name"),
-                                                  qsTranslate("filedialog", "Natural Name"),
-                                                  qsTranslate("filedialog", "Time modified"),
-                                                  qsTranslate("filedialog", "File size"),
-                                                  qsTranslate("filedialog", "File type"),
-                                                  "[" + qsTranslate("filedialog", "reverse order") + "]"]
+                property list<string> modeldata_wicu: [qsTranslate("filedialog", "Name"),
+                                                       qsTranslate("filedialog", "Natural Name"),
+                                                       qsTranslate("filedialog", "Time modified"),
+                                                       qsTranslate("filedialog", "File size"),
+                                                       qsTranslate("filedialog", "File type"),
+                                                       "[" + qsTranslate("filedialog", "reverse order") + "]"]
+
+                property list<string> modeldata_woicu: [qsTranslate("filedialog", "Name"),
+                                                        qsTranslate("filedialog", "Time modified"),
+                                                        qsTranslate("filedialog", "File size"),
+                                                        qsTranslate("filedialog", "File type"),
+                                                        "[" + qsTranslate("filedialog", "reverse order") + "]"]
+
+                property list<string> modeldata: PQCScriptsConfig.isICUSupportEnabled() ? modeldata_wicu : modeldata_woicu
+
                 model: modeldata
-
-                hideEntries: PQCScriptsConfig.isICUSupportEnabled() ? [] : [1]
 
                 Component.onCompleted: {
                     setCurrentIndex()
