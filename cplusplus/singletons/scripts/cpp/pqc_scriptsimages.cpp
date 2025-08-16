@@ -179,7 +179,7 @@ QString PQCScriptsImages::loadImageAndConvertToBase64(QString filename) {
 
 }
 
-QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly) {
+void PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly) {
 
     qDebug() << "args: path =" << path;
     qDebug() << "args: insideFilenameOnly =" << insideFilenameOnly;
@@ -190,11 +190,26 @@ QStringList PQCScriptsImages::listArchiveContent(QString path, bool insideFilena
     const QFileInfo info(path);
     QString cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
 
-    if(archiveContentCache.contains(cacheKey))
-        return archiveContentCache[cacheKey];
+    if(archiveContentCache.contains(cacheKey)) {
+        Q_EMIT haveArchiveContentFor(path, archiveContentCache[cacheKey]);
+        return;
+    }
+
+    QFuture<void> f = QtConcurrent::run([=]() {
+        Q_EMIT haveArchiveContentFor(path, PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey, insideFilenameOnly));
+    });
+
+}
+
+QStringList PQCScriptsImages::listArchiveContentWithoutThread(QString path, QString cacheKey, bool insideFilenameOnly) {
 
     QStringList ret;
 
+    const QFileInfo info(path);
+
+    if(cacheKey == "") {
+        cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch()).arg(path, PQCSettingsCPP::get().getImageviewSortImagesAscending()).arg(insideFilenameOnly);
+    }
 
 #ifndef Q_OS_WIN
 

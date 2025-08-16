@@ -46,7 +46,7 @@ QImage PQCLoadImageUNRAR::loadArchiveIntoImage(QString filename) {
         archivefile = parts.at(1);
         compressedFilename = parts.at(0);
     } else {
-        QStringList cont = PQCScriptsImages::get().listArchiveContent(archivefile);
+        QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
             qWarning() << "Unable to list contents of archive file...";
             return QImage();

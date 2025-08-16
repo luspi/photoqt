@@ -35,7 +35,9 @@ class PQCScriptsImagesQML : public QObject {
     QML_SINGLETON
 
 public:
-    PQCScriptsImagesQML() {}
+    PQCScriptsImagesQML() {
+        connect(&PQCScriptsImages::get(), &PQCScriptsImages::haveArchiveContentFor, this, &PQCScriptsImagesQML::haveArchiveContentFor);
+    }
     ~PQCScriptsImagesQML() {}
 
     // check for what kind of image this is
@@ -62,8 +64,7 @@ public:
     Q_INVOKABLE bool         extractFrameAndSave(QString path, int frameNumber) { return PQCScriptsImages::get().extractFrameAndSave(path, frameNumber); }
 
     // archive/document methods
-    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false) {
-                                                                              return PQCScriptsImages::get().listArchiveContent(path, insideFilenameOnly); }
+    Q_INVOKABLE void listArchiveContent(QString path, bool insideFilenameOnly = false) { PQCScriptsImages::get().listArchiveContent(path, insideFilenameOnly); }
     Q_INVOKABLE int         getNumberDocumentPages(QString path)            { return PQCScriptsImages::get().getNumberDocumentPages(path); }
     Q_INVOKABLE int         getDocumentPageCount(QString path)              { return PQCScriptsImages::get().getDocumentPageCount(path); }
     Q_INVOKABLE QString     extractArchiveFileToTempLocation(QString path)  { return PQCScriptsImages::get().extractArchiveFileToTempLocation(path); }
@@ -77,7 +78,6 @@ public:
     Q_INVOKABLE QString convertSecondsToPosition(int t) { return PQCScriptsImages::get().convertSecondsToPosition(t); }
 
 Q_SIGNALS:
-    void histogramDataLoaded(QVariantList data, int index);
-    void histogramDataLoadedFailed(int index);
+    void haveArchiveContentFor(QString filename, QStringList content);
 
 };
