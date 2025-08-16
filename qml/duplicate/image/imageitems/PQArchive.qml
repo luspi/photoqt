@@ -48,15 +48,6 @@ Image {
         setSource()
     }
 
-    Component.onCompleted: {
-        if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true)
-        if(image.imageSource.includes("::ARC::") || currentFile > fileCount-1)
-            source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(image.imageSource)
-        else
-            source = "image://full/%1::ARC::%2".arg(fileList[currentFile]).arg(PQCScriptsFilesPaths.toPercentEncoding(image.imageSource))
-    }
-
     asynchronous: true
     cache: false
 
@@ -156,7 +147,18 @@ Image {
         image.asynchronous = false
 
         if(fileCount == 0)
-            fileList = PQCScriptsImages.listArchiveContent(image.imageSource, true)
+            PQCScriptsImages.listArchiveContent(image.imageSource, true)
+        else
+            finishSettingSource()
+
+    }
+
+    function finishSettingSource() {
+
+        var src = image.imageSource
+        if(src.includes("::ARC::"))
+            src = src.split("::ARC::")[1]
+
         currentFile = Math.max(0, currentFile)
 
         if(currentFile < fileCount)
@@ -164,6 +166,20 @@ Image {
         else
             image.source = "image://full/" + PQCScriptsFilesPaths.toPercentEncoding(src)
         image.asynchronous = true
+
+    }
+
+    Connections {
+
+        target: PQCScriptsImages
+
+        function onHaveArchiveContentFor(filename : string, content : list<string>) {
+            if(filename === image.imageSource) {
+                fileList = content
+                image.finishSettingSource()
+            }
+        }
+
     }
 
     onStatusChanged: {

@@ -56,7 +56,7 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
         archivefile = parts.at(1);
         compressedFilename = parts.at(0);
     } else {
-        QStringList cont = PQCScriptsImages::get().listArchiveContent(archivefile);
+        QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
             qWarning() << "Unable to list contents of archive file...";
             return QSize();
@@ -174,7 +174,7 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
         archivefile = parts.at(1);
         compressedFilename = parts.at(0);
     } else {
-        QStringList cont = PQCScriptsImages::get().listArchiveContent(archivefile);
+        QStringList cont = PQCScriptsImages::get().listArchiveContentWithoutThread(archivefile);
         if(cont.length() == 0) {
             errormsg = "Unable to list contents of archive file...";
             qWarning() << errormsg;

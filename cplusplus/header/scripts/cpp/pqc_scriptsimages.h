@@ -73,7 +73,8 @@ public:
     bool extractFrameAndSave(QString path, int frameNumber);
 
     // archive/document methods
-    QStringList listArchiveContent(QString path, bool insideFilenameOnly = false);
+    void listArchiveContent(QString path, bool insideFilenameOnly = false);
+    QStringList listArchiveContentWithoutThread(QString path, QString cacheKey = "", bool insideFilenameOnly = false);
     int getNumberDocumentPages(QString path);
     int getDocumentPageCount(QString path);
     QString extractArchiveFileToTempLocation(QString path);
@@ -96,6 +97,9 @@ private:
 
     double devicePixelRatioCached;
     qint64 devicePixelRatioCachedWhen;
+
+Q_SIGNALS:
+    void haveArchiveContentFor(QString filename, QStringList content);
 
 };
 

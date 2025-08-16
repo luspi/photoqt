@@ -1458,7 +1458,7 @@ void PQCFileFolderModel::enableViewerMode(int page) {
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
         setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
     else {
-        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContent(getCurrentFile());
+        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContentWithoutThread(getCurrentFile());
         setFileInFolderMainView(QString("%1::ARC::%2").arg(archiveContentPreloaded[page], getCurrentFile()));
     }
     forceReloadMainView();

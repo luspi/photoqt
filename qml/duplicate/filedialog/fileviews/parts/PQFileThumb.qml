@@ -58,6 +58,7 @@ Image {
 
     fillMode: PQCSettings.filedialogThumbnailsScaleCrop ? Image.PreserveAspectCrop : Image.PreserveAspectFit
 
+    // when changing this line also change the line in the Connections below
     source: visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""
     onSourceChanged: {
         if(!visible)
@@ -80,7 +81,8 @@ Image {
         function onFiledialogReloadCurrentThumbnail() {
             if(deleg.modelData === view_top.currentIndex) {
                 filethumb.source = ""
-                filethumb.source = Qt.binding(function() { return (visible ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
+                // when changing the following line also change the line in source: above
+                filethumb.source = Qt.binding(function() { return (visible&&deleg.currentPath!=="" ? encodeURI("image://thumb/" + deleg.currentPath) : ""); })
             }
         }
     }
