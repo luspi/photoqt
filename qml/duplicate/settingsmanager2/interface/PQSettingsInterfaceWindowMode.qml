@@ -26,147 +26,135 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Column {
+PQSetting {
 
-    id: setting_top
+    id: set_windowmode
 
-    width: parent.width
+    helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
 
-    PQSetting {
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Fullscreen or window mode")
 
-        id: set_windowmode
+    content: [
 
-        helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
-
-        //: A settings title
-        title: qsTranslate("settingsmanager", "Fullscreen or window mode")
-
-        content: [
-
-            Flow {
-                width: set_windowmode.width
-                PQRadioButton {
-                    id: fsmode
-                    text: qsTranslate("settingsmanager", "fullscreen mode")
-                    onCheckedChanged: set_windowmode.checkForChanges()
-                }
-
-                PQRadioButton {
-                    id: wmmode
-                    text: qsTranslate("settingsmanager", "window mode")
-                    onCheckedChanged: set_windowmode.checkForChanges()
-                }
-            },
-
-            Item {
-                width: 1
-                height: 5
-            },
-
-            Column {
-
-                spacing: 15
-                width: set_windowmode.width
-
-                enabled: wmmode.checked
-                height: enabled ? (keeptop.height+rememgeo.height+wmdeco_show.height+2*15) : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
-                opacity: enabled ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 150 } }
-
-
-                PQCheckBox {
-                    id: keeptop
-                    enforceMaxWidth: set_windowmode.width
-                    text: qsTranslate("settingsmanager", "keep above other windows")
-                    onCheckedChanged: set_windowmode.checkForChanges()
-                }
-                PQCheckBox {
-                    id: rememgeo
-                    enforceMaxWidth: set_windowmode.width
-                    //: remember the geometry of PhotoQts window between sessions
-                    text: qsTranslate("settingsmanager", "remember its geometry ")
-                    onCheckedChanged: set_windowmode.checkForChanges()
-                }
-                PQCheckBox {
-                    id: wmdeco_show
-                    enforceMaxWidth: set_windowmode.width
-                    text: qsTranslate("settingsmanager", "enable window decoration")
-                    onCheckedChanged: set_windowmode.checkForChanges()
-                }
-
+        Flow {
+            width: set_windowmode.width
+            spacing: 10
+            PQRadioButton {
+                id: fsmode
+                text: qsTranslate("settingsmanager", "fullscreen mode")
+                onCheckedChanged: set_windowmode.checkForChanges()
             }
 
-        ]
+            PQRadioButton {
+                id: wmmode
+                text: qsTranslate("settingsmanager", "window mode")
+                onCheckedChanged: set_windowmode.checkForChanges()
+            }
+        },
 
-        onResetToDefaults: {
+        Item {
+            width: 1
+            height: 5
+        },
 
-            var wmmode_val = PQCSettings.getDefaultForInterfaceWindowMode()
-            var keeptop_val = PQCSettings.getDefaultForInterfaceKeepWindowOnTop()
-            var rememgeo_val = PQCSettings.getDefaultForInterfaceSaveWindowGeometry()
-            var wmdeco_val = PQCSettings.getDefaultForInterfaceWindowDecoration()
+        Column {
 
-            fsmode.checked = (wmmode_val===0)
-            wmmode.checked = (wmmode_val===1)
+            spacing: 15
+            width: set_windowmode.width
 
-            keeptop.checked = (keeptop_val===1)
-            rememgeo.checked = (rememgeo_val===1)
-            wmdeco_show.checked = (wmdeco_val===1)
+            enabled: wmmode.checked
+            height: enabled ? (keeptop.height+rememgeo.height+wmdeco_show.height+2*15) : 0
+            Behavior on height { NumberAnimation { duration: 200 } }
+            opacity: enabled ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
-            thisSettingHasChanged = false
 
-        }
-
-        onThisSettingHasChangedChanged:
-            setting_top.checkForChanges()
-
-        function handleEscape() {}
-
-        function checkForChanges() {
-            if(!settingsLoaded) return
-            thisSettingHasChanged = (wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged())
-        }
-
-        function load() {
-
-            settingsLoaded = false
-
-            fsmode.loadAndSetDefault(!PQCSettings.interfaceWindowMode)
-            wmmode.loadAndSetDefault(!fsmode.checked)
-
-            keeptop.loadAndSetDefault(PQCSettings.interfaceKeepWindowOnTop)
-            rememgeo.loadAndSetDefault(PQCSettings.interfaceSaveWindowGeometry)
-
-            wmdeco_show.loadAndSetDefault(PQCSettings.interfaceWindowDecoration)
-
-            thisSettingHasChanged = false
-            settingsLoaded = true
-
-        }
-
-        function applyChanges() {
-
-            PQCSettings.interfaceWindowMode = wmmode.checked
-
-            PQCSettings.interfaceKeepWindowOnTop = keeptop.checked
-            PQCSettings.interfaceSaveWindowGeometry = rememgeo.checked
-
-            PQCSettings.interfaceWindowDecoration = wmdeco_show.checked
-
-            fsmode.saveDefault()
-            wmmode.saveDefault()
-
-            keeptop.saveDefault()
-            rememgeo.saveDefault()
-
-            wmdeco_show.saveDefault()
+            PQCheckBox {
+                id: keeptop
+                enforceMaxWidth: set_windowmode.width
+                text: qsTranslate("settingsmanager", "keep above other windows")
+                onCheckedChanged: set_windowmode.checkForChanges()
+            }
+            PQCheckBox {
+                id: rememgeo
+                enforceMaxWidth: set_windowmode.width
+                //: remember the geometry of PhotoQts window between sessions
+                text: qsTranslate("settingsmanager", "remember its geometry ")
+                onCheckedChanged: set_windowmode.checkForChanges()
+            }
+            PQCheckBox {
+                id: wmdeco_show
+                enforceMaxWidth: set_windowmode.width
+                text: qsTranslate("settingsmanager", "enable window decoration")
+                onCheckedChanged: set_windowmode.checkForChanges()
+            }
 
         }
+
+    ]
+
+    onResetToDefaults: {
+
+        var wmmode_val = PQCSettings.getDefaultForInterfaceWindowMode()
+        var keeptop_val = PQCSettings.getDefaultForInterfaceKeepWindowOnTop()
+        var rememgeo_val = PQCSettings.getDefaultForInterfaceSaveWindowGeometry()
+        var wmdeco_val = PQCSettings.getDefaultForInterfaceWindowDecoration()
+
+        fsmode.checked = (wmmode_val===0)
+        wmmode.checked = (wmmode_val===1)
+
+        keeptop.checked = (keeptop_val===1)
+        rememgeo.checked = (rememgeo_val===1)
+        wmdeco_show.checked = (wmdeco_val===1)
+
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
+    function handleEscape() {}
+
     function checkForChanges() {
-        PQCConstants.settingsManagerSettingChanged = set_windowmode.thisSettingHasChanged
+        if(!settingsLoaded) return
+        PQCConstants.settingsManagerSettingChanged = (wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged())
+    }
+
+    function load() {
+
+        settingsLoaded = false
+
+        fsmode.loadAndSetDefault(!PQCSettings.interfaceWindowMode)
+        wmmode.loadAndSetDefault(!fsmode.checked)
+
+        keeptop.loadAndSetDefault(PQCSettings.interfaceKeepWindowOnTop)
+        rememgeo.loadAndSetDefault(PQCSettings.interfaceSaveWindowGeometry)
+
+        wmdeco_show.loadAndSetDefault(PQCSettings.interfaceWindowDecoration)
+
+        PQCConstants.settingsManagerSettingChanged = false
+        settingsLoaded = true
+
+    }
+
+    function applyChanges() {
+
+        PQCSettings.interfaceWindowMode = wmmode.checked
+
+        PQCSettings.interfaceKeepWindowOnTop = keeptop.checked
+        PQCSettings.interfaceSaveWindowGeometry = rememgeo.checked
+
+        PQCSettings.interfaceWindowDecoration = wmdeco_show.checked
+
+        fsmode.saveDefault()
+        wmmode.saveDefault()
+
+        keeptop.saveDefault()
+        rememgeo.saveDefault()
+
+        wmdeco_show.saveDefault()
+
+        PQCConstants.settingsManagerSettingChanged = false
+
     }
 
 }

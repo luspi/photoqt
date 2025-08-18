@@ -30,12 +30,13 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 Column {
     id: control
     spacing: 10
+    width: parent.width
     Item { width: 1; height: 10; }
     property int howManyLines: 1
     Repeater {
         model: control.howManyLines
         Rectangle {
-            width: setting_top.width
+            width: control.width
             height: 1
             color: PQCLook.baseBorder
         }

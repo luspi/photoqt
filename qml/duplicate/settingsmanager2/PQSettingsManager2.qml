@@ -217,7 +217,6 @@ PQTemplate {
                         ["acco", qsTranslate("settingsmanager", "Accent color")],
                         ["fowe", qsTranslate("settingsmanager", "Font weight")],
                         ["back", qsTranslate("settingsmanager", "Background")],
-                        ["conb", qsTranslate("settingsmanager", "Clicks on background")],
                         ["noti", qsTranslate("settingsmanager", "Notification")],
                         ["popo", qsTranslate("settingsmanager", "Popout")],
                         ["edge", qsTranslate("settingsmanager", "Edges")],
@@ -228,7 +227,6 @@ PQTemplate {
                         ["lang", qsTranslate("settingsmanager", "Language")],
                         ["fowe", qsTranslate("settingsmanager", "Font weight")],
                         ["back", qsTranslate("settingsmanager", "Background")],
-                        ["conb", qsTranslate("settingsmanager", "Clicks on background")],
                         ["noti", qsTranslate("settingsmanager", "Notification")],
                         ["popo", qsTranslate("settingsmanager", "Popout")],
                         ["edge", qsTranslate("settingsmanager", "Edges")],
@@ -242,7 +240,6 @@ PQTemplate {
                     Component { id: int_acco; PQSettingsInterfaceAccentColor {} }
                     Component { id: int_fowe; PQSettingsInterfaceFontWeight {} }
                     Component { id: int_back; PQSettingsInterfaceBackground {} }
-                    Component { id: int_conb; PQSettingsInterfaceClicksOnBackground {} }
                     Component { id: int_noti; PQSettingsInterfaceNotification {} }
                     Component { id: int_popo; PQSettingsInterfacePopout {} }
                     Component { id: int_edge; PQSettingsInterfaceEdges {} }
@@ -259,7 +256,6 @@ PQTemplate {
                         else if(currentId === "acco") settings_loader.sourceComponent = int_acco
                         else if(currentId === "fowe") settings_loader.sourceComponent = int_fowe
                         else if(currentId === "back") settings_loader.sourceComponent = int_back
-                        else if(currentId === "conb") settings_loader.sourceComponent = int_conb
                         else if(currentId === "noti") settings_loader.sourceComponent = int_noti
                         else if(currentId === "popo") settings_loader.sourceComponent = int_popo
                         else if(currentId === "edge") settings_loader.sourceComponent = int_edge
