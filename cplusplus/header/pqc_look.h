@@ -84,6 +84,7 @@ public:
 
     Q_INVOKABLE QStringList getColorNames();
     Q_INVOKABLE QStringList getColorHexes();
+    Q_INVOKABLE void testColor(QString color);
 
 private:
     int lightness_threshold;

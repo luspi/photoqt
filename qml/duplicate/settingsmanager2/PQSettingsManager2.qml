@@ -207,20 +207,33 @@ PQTemplate {
 
                     width: stacklayout.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "Language"),
-                        qsTranslate("settingsmanager", "Window mode"),
-                        qsTranslate("settingsmanager", "Window buttons"),
-                        qsTranslate("settingsmanager", "Accent color"),
-                        qsTranslate("settingsmanager", "Font weight"),
-                        qsTranslate("settingsmanager", "Background"),
-                        qsTranslate("settingsmanager", "Clicks on background"),
-                        qsTranslate("settingsmanager", "Notification"),
-                        qsTranslate("settingsmanager", "Popout"),
-                        qsTranslate("settingsmanager", "Edges"),
-                        qsTranslate("settingsmanager", "Context Menu"),
-                        qsTranslate("settingsmanager", "Status Info")
+                    property list<var> entries: PQCSettings.generalInterfaceVariant==="modern" ? entries_modern : entries_integrated
+                    property list<var> entries_modern: [
+                        ["lang", qsTranslate("settingsmanager", "Language")],
+                        ["wimo", qsTranslate("settingsmanager", "Window mode")],
+                        ["wibu", qsTranslate("settingsmanager", "Window buttons")],
+                        ["acco", qsTranslate("settingsmanager", "Accent color")],
+                        ["fowe", qsTranslate("settingsmanager", "Font weight")],
+                        ["back", qsTranslate("settingsmanager", "Background")],
+                        ["conb", qsTranslate("settingsmanager", "Clicks on background")],
+                        ["noti", qsTranslate("settingsmanager", "Notification")],
+                        ["popo", qsTranslate("settingsmanager", "Popout")],
+                        ["edge", qsTranslate("settingsmanager", "Edges")],
+                        ["come", qsTranslate("settingsmanager", "Context Menu")],
+                        ["stin", qsTranslate("settingsmanager", "Status Info")]
+                    ]
+                    property list<var> entries_integrated: [
+                        ["lang", qsTranslate("settingsmanager", "Language")],
+                        ["fowe", qsTranslate("settingsmanager", "Font weight")],
+                        ["back", qsTranslate("settingsmanager", "Background")],
+                        ["conb", qsTranslate("settingsmanager", "Clicks on background")],
+                        ["noti", qsTranslate("settingsmanager", "Notification")],
+                        ["popo", qsTranslate("settingsmanager", "Popout")],
+                        ["edge", qsTranslate("settingsmanager", "Edges")],
+                        ["come", qsTranslate("settingsmanager", "Context Menu")],
+                        ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
 
                     Component { id: int_lang; PQSettingsInterfaceLanguage {} }
@@ -236,20 +249,24 @@ PQTemplate {
                     Component { id: int_come; PQSettingsInterfaceContextMenu {} }
                     Component { id: int_stin; PQSettingsInterfaceStatusInfo {} }
 
-                    onCurrentIndexChanged: {
-                             if(currentIndex === 0)  settings_loader.sourceComponent = int_lang
-                        else if(currentIndex === 1)  settings_loader.sourceComponent = int_wimo
-                        else if(currentIndex === 2)  settings_loader.sourceComponent = int_wibu
-                        else if(currentIndex === 3)  settings_loader.sourceComponent = int_acco
-                        else if(currentIndex === 4)  settings_loader.sourceComponent = int_fowe
-                        else if(currentIndex === 5)  settings_loader.sourceComponent = int_back
-                        else if(currentIndex === 6)  settings_loader.sourceComponent = int_conb
-                        else if(currentIndex === 7)  settings_loader.sourceComponent = int_noti
-                        else if(currentIndex === 8)  settings_loader.sourceComponent = int_popo
-                        else if(currentIndex === 9)  settings_loader.sourceComponent = int_edge
-                        else if(currentIndex === 10) settings_loader.sourceComponent = int_come
-                        else if(currentIndex === 11) settings_loader.sourceComponent = int_stin
+                    onCurrentIndexChanged:
+                        subtabbar_interface.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "lang") settings_loader.sourceComponent = int_lang
+                        else if(currentId === "wimo") settings_loader.sourceComponent = int_wimo
+                        else if(currentId === "wibu") settings_loader.sourceComponent = int_wibu
+                        else if(currentId === "acco") settings_loader.sourceComponent = int_acco
+                        else if(currentId === "fowe") settings_loader.sourceComponent = int_fowe
+                        else if(currentId === "back") settings_loader.sourceComponent = int_back
+                        else if(currentId === "conb") settings_loader.sourceComponent = int_conb
+                        else if(currentId === "noti") settings_loader.sourceComponent = int_noti
+                        else if(currentId === "popo") settings_loader.sourceComponent = int_popo
+                        else if(currentId === "edge") settings_loader.sourceComponent = int_edge
+                        else if(currentId === "come") settings_loader.sourceComponent = int_come
+                        else if(currentId === "stin") settings_loader.sourceComponent = int_stin
                     }
+
 
                     Repeater {
 
@@ -259,7 +276,7 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_interface.currentIndex===index
-                            text: subtabbar_interface.entries[index]
+                            text: subtabbar_interface.entries[index][1]
                         }
 
                     }
@@ -442,8 +459,8 @@ PQTemplate {
 
                 Loader {
                     id: settings_loader
-                    x: 5
-                    width: parent.width-10
+                    x: 10
+                    width: parent.width-20
                 }
 
             }
@@ -461,8 +478,6 @@ PQTemplate {
             if(settingsmanager_top.opacity > 0) {
 
                 if(what === "keyEvent") {
-
-                    console.warn(">>> KEY:", param, "|", Qt.Key_Escape)
 
                     if(param[0] === Qt.Key_Escape) {
 
