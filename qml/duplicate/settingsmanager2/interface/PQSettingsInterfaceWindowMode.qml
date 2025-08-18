@@ -30,15 +30,15 @@ PQSetting {
 
     id: set_windowmode
 
-    helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
-
     //: A settings title
     title: qsTranslate("settingsmanager", "Fullscreen or window mode")
+
+    helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
 
     content: [
 
         Flow {
-            width: set_windowmode.width
+            width: set_windowmode.contentWidth
             spacing: 10
             PQRadioButton {
                 id: fsmode
@@ -51,43 +51,43 @@ PQSetting {
                 text: qsTranslate("settingsmanager", "window mode")
                 onCheckedChanged: set_windowmode.checkForChanges()
             }
+
         },
 
-        Item {
-            width: 1
-            height: 5
-        },
+        Row {
 
-        Column {
+            PQSettingSpacer { }
 
-            spacing: 15
-            width: set_windowmode.width
+            Column {
 
-            enabled: wmmode.checked
-            height: enabled ? (keeptop.height+rememgeo.height+wmdeco_show.height+2*15) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+                spacing: 15
+                width: set_windowmode.contentWidth
 
+                enabled: wmmode.checked
+                height: keeptop.height+rememgeo.height+wmdeco_show.height+2*15
+                opacity: enabled ? 1 : 0.8
+                Behavior on opacity { NumberAnimation { duration: 200 } }
 
-            PQCheckBox {
-                id: keeptop
-                enforceMaxWidth: set_windowmode.width
-                text: qsTranslate("settingsmanager", "keep above other windows")
-                onCheckedChanged: set_windowmode.checkForChanges()
-            }
-            PQCheckBox {
-                id: rememgeo
-                enforceMaxWidth: set_windowmode.width
-                //: remember the geometry of PhotoQts window between sessions
-                text: qsTranslate("settingsmanager", "remember its geometry ")
-                onCheckedChanged: set_windowmode.checkForChanges()
-            }
-            PQCheckBox {
-                id: wmdeco_show
-                enforceMaxWidth: set_windowmode.width
-                text: qsTranslate("settingsmanager", "enable window decoration")
-                onCheckedChanged: set_windowmode.checkForChanges()
+                PQCheckBox {
+                    id: keeptop
+                    enforceMaxWidth: parent.width
+                    text: qsTranslate("settingsmanager", "keep above other windows")
+                    onCheckedChanged: set_windowmode.checkForChanges()
+                }
+                PQCheckBox {
+                    id: rememgeo
+                    enforceMaxWidth: parent.width
+                    //: remember the geometry of PhotoQts window between sessions
+                    text: qsTranslate("settingsmanager", "remember its geometry ")
+                    onCheckedChanged: set_windowmode.checkForChanges()
+                }
+                PQCheckBox {
+                    id: wmdeco_show
+                    enforceMaxWidth: parent.width
+                    text: qsTranslate("settingsmanager", "enable window decoration")
+                    onCheckedChanged: set_windowmode.checkForChanges()
+                }
+
             }
 
         }

@@ -36,7 +36,7 @@ Rectangle {
 
     SystemPalette { id: pqtPalette }
 
-    property string overrideBaseColor: pqtPalette.base
+    property string overrideBaseColor: pqtPalette.button
 
     property alias source: icon.source
     property bool hovered: mousearea.containsMouse
@@ -61,7 +61,7 @@ Rectangle {
         source: control.source
         smooth: false
 
-        sourceSize: Qt.size(control.height*control.iconScale,control.height*control.iconScale)
+        sourceSize: Qt.size(control.width*control.iconScale,control.height*control.iconScale)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2

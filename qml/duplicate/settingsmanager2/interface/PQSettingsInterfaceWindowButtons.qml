@@ -32,12 +32,12 @@ PQSetting {
 
     id: set_windowbuttons
 
-    SystemPalette { id: pqtPalette }
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Window buttons")
 
     helptext: qsTranslate("settingsmanager", "PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.")
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Window buttons")
+    SystemPalette { id: pqtPalette }
 
     property list<string> curEntries: []
     property list<string> defaultEntries: []
@@ -46,20 +46,19 @@ PQSetting {
 
         PQCheckBox {
             id: integbut_show
-            enforceMaxWidth: set_windowbuttons.width
+            enforceMaxWidth: set_windowbuttons.contentWidth
             text: qsTranslate("settingsmanager", "enable integrated window buttons")
             onCheckedChanged: set_windowbuttons.checkForChanges()
         },
 
         Rectangle {
             enabled: integbut_show.checked
-            width: parent.width-5
+            width: set_windowbuttons.contentWidth-5
             radius: 5
             clip: true
 
-            height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
+            height: 60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+            opacity: enabled ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 150 } }
 
             color: pqtPalette.alternateBase
@@ -70,8 +69,10 @@ PQSetting {
                 x: 5
                 y: 5
 
-                width: parent.width-10
+                width: set_windowbuttons.contentWidth-10
                 height: parent.height-10
+
+                opacity: enabled ? 1 : 0.1
 
                 clip: true
                 orientation: ListView.Horizontal
@@ -343,30 +344,20 @@ PQSetting {
             }
         },
 
-        Item {
-
+        PQText {
+            id: helpmsg
             enabled: integbut_show.checked
-            clip: true
-            width: helpmsg.width
-            height: enabled ? helpmsg.height+5 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
+            opacity: enabled ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 150 } }
-
-            PQText {
-                id: helpmsg
-                text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
-            }
-
+            text: qsTranslate("settingsmanager", "(a right click on an entry shows more options)")
         },
 
         Row {
             enabled: integbut_show.checked
             spacing: 10
 
-            height: enabled ? combo_add.height : 0
-            opacity: enabled ? 1 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
+            height: combo_add.height
+            opacity: enabled ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 150 } }
 
             PQComboBox {
@@ -415,90 +406,81 @@ PQSetting {
             }
         },
 
-        Item {
+        Column {
 
-            width: parent.width
+            id: winbutcol
+
+            width: set_windowbuttons.contentWidth
+            spacing: 10
 
             enabled: integbut_show.checked
-            height: enabled ? (winbutcol.height) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
+            opacity: enabled ? 1 : 0.8
             Behavior on opacity { NumberAnimation { duration: 150 } }
-            clip: true
 
-            Column {
+            PQSliderSpinBox {
+                id: butsize
+                width: set_windowbuttons.contentWidth
+                minval: 5
+                maxval: 50
+                title: qsTranslate("settingsmanager", "Size:")
+                suffix: " px"
+                onValueChanged:
+                    set_windowbuttons.checkForChanges()
+            }
 
-                id: winbutcol
+            Item {
+                width: 1
+                height: 1
+            }
 
-                width: parent.width
-                spacing: set_windowbuttons.contentSpacing
+            PQCheckBox {
+                id: wb_followaccent
+                //: These buttons are the WINDOW BUTTONS specifically!
+                text: qsTranslate("settingsmanager", "Color scheme of buttons follows accent color")
+                onCheckedChanged:
+                    set_windowbuttons.checkForChanges()
+            }
 
-                PQSliderSpinBox {
-                    id: butsize
-                    width: set_windowbuttons.width
-                    minval: 5
-                    maxval: 50
-                    title: qsTranslate("settingsmanager", "Size:")
-                    suffix: " px"
-                    onValueChanged:
-                        set_windowbuttons.checkForChanges()
-                }
+            PQSettingSubTitle {
+                x: -set_windowbuttons.indentWidth
+                title: qsTranslate("settingsmanager", "Visibility")
+            }
 
-                Item {
-                    width: 1
-                    height: 1
-                }
+            PQRadioButton {
+                id: autohide_always
+                enforceMaxWidth: set_windowbuttons.contentWidth
+                //: visibility status of the window buttons
+                text: qsTranslate("settingsmanager", "keep always visible")
+                onCheckedChanged: set_windowbuttons.checkForChanges()
+            }
 
-                PQCheckBox {
-                    id: wb_followaccent
-                    //: These buttons are the WINDOW BUTTONS specifically!
-                    text: qsTranslate("settingsmanager", "Color scheme of buttons follows accent color")
-                    onCheckedChanged:
-                        set_windowbuttons.checkForChanges()
-                }
+            PQRadioButton {
+                id: autohide_anymove
+                enforceMaxWidth: set_windowbuttons.contentWidth
+                //: visibility status of the window buttons
+                text: qsTranslate("settingsmanager", "only show with any cursor move")
+                onCheckedChanged: set_windowbuttons.checkForChanges()
+            }
 
-                Item {
-                    width: 1
-                    height: 1
-                }
+            PQRadioButton {
+                id: autohide_topedge
+                enforceMaxWidth: set_windowbuttons.contentWidth
+                //: visibility status of the window buttons
+                text: qsTranslate("settingsmanager", "only show when cursor near top edge")
+                onCheckedChanged: set_windowbuttons.checkForChanges()
+            }
 
-                PQRadioButton {
-                    id: autohide_always
-                    enforceMaxWidth: set_windowbuttons.width
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "keep always visible")
-                    onCheckedChanged: set_windowbuttons.checkForChanges()
-                }
-
-                PQRadioButton {
-                    id: autohide_anymove
-                    enforceMaxWidth: set_windowbuttons.width
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "only show with any cursor move")
-                    onCheckedChanged: set_windowbuttons.checkForChanges()
-                }
-
-                PQRadioButton {
-                    id: autohide_topedge
-                    enforceMaxWidth: set_windowbuttons.width
-                    //: visibility status of the window buttons
-                    text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-                    onCheckedChanged: set_windowbuttons.checkForChanges()
-                }
-
-                PQSliderSpinBox {
-                    id: autohide_timeout
-                    width: set_windowbuttons.width
-                    minval: 0
-                    maxval: 10
-                    title: qsTranslate("settingsmanager", "hide again after timeout:")
-                    suffix: " s"
-                    enabled: !autohide_always.checked
-                    animateHeight: true
-                    onValueChanged:
-                        set_windowbuttons.checkForChanges()
-                }
-
+            PQSliderSpinBox {
+                id: autohide_timeout
+                width: set_windowbuttons.contentWidth
+                minval: 0
+                maxval: 10
+                title: qsTranslate("settingsmanager", "hide again after timeout:")
+                suffix: " s"
+                enabled: !autohide_always.checked
+                animateHeight: true
+                onValueChanged:
+                    set_windowbuttons.checkForChanges()
             }
 
         }

@@ -21,16 +21,42 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
-Label {
+/* :-)) <3 */
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-    color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
+Column {
+
+    id: settitle
+
+    // this value needs to match the spacer width in PQSettingSpacer.qml
+    x: -20
+    width: parent.width-x
+    spacing: 5
+
+    property string title: ""
+    property string helptext: ""
+
+    PQSettingsSeparator {}
+
+    PQTextXL {
+        text: settitle.title
+        font.capitalization: Font.SmallCaps
+        font.weight: PQCLook.fontWeightBold
+    }
+
+    Item {
+        width: 1
+        height: 5
+    }
+
+    PQText {
+        visible: text!==""
+        text: settitle.helptext
+        width: parent.width
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    }
 
 }

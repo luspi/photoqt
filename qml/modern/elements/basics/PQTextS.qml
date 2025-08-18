@@ -28,7 +28,8 @@ import PhotoQt.Modern
 Label {
 
     SystemPalette { id: pqtPalette }
-    color: pqtPalette.text
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+    color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
     font.pointSize: PQCLook.fontSizeS
     font.weight: PQCLook.fontWeightNormal
 

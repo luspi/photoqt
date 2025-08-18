@@ -229,7 +229,6 @@ PQTemplate {
                         ["back", qsTranslate("settingsmanager", "Background")],
                         ["noti", qsTranslate("settingsmanager", "Notification")],
                         ["popo", qsTranslate("settingsmanager", "Popout")],
-                        ["edge", qsTranslate("settingsmanager", "Edges")],
                         ["come", qsTranslate("settingsmanager", "Context Menu")],
                         ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
@@ -445,13 +444,14 @@ PQTemplate {
 
                 id: flickable
 
-
                 SplitView.minimumWidth: 300
                 SplitView.fillWidth: true
 
                 height: parent.height
 
                 contentHeight: settings_loader.height
+
+                ScrollBar.vertical: PQVerticalScrollBar {}
 
                 Loader {
                     id: settings_loader
