@@ -30,12 +30,12 @@ PQSetting {
 
     id: set_fowe
 
-    SystemPalette { id: pqtPalette }
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Font weight")
 
     helptext: qsTranslate("settingsmanager", "All text in PhotoQt is shown with one of two weights, either as regular text or in bold face. Here the actual weight used can be adjusted for the two types. The default weight for normal text is 400 and for bold text is 700.")
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Font weight")
+    SystemPalette { id: pqtPalette }
 
     property list<string> values: [
                 //: This refers to a type of font weight (thin is the lightest weight)
@@ -61,7 +61,7 @@ PQSetting {
     content: [
 
         Flow {
-            width: set_fowe.width
+            width: set_fowe.contentWidth
             spacing: 5
             PQText {
                 y: (fw_normalslider.height-height)/2
@@ -88,7 +88,7 @@ PQSetting {
         },
 
         Flow {
-            width: set_fowe.width
+            width: set_fowe.contentWidth
             spacing: 5
             PQText {
                 y: (fw_boldslider.height-height)/2

@@ -36,7 +36,9 @@ Column {
     property string title: ""
     property string helptext: ""
     property alias content: contcol.children
+    property int contentWidth: contcol.width
     property int contentSpacing: contcol.spacing
+    property int indentWidth: spacer.width
 
     property bool showResetButton: true
 
@@ -67,17 +69,28 @@ Column {
 
     Item {
         width: 1
-        height: 10
+        height: 5
     }
 
-    Column {
+    Row {
 
-        id: contcol
+        PQSettingSpacer { id: spacer }
 
-        spacing: 10
+        Column {
 
-        width: parent.width
+            id: contcol
 
+            spacing: 20
+
+            width: setctrl.width-spacer.width
+
+        }
+
+    }
+
+    Item {
+        width: 1
+        height: 40
     }
 
     // PQButtonIcon {

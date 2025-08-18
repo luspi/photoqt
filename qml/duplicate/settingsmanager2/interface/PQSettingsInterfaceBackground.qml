@@ -32,12 +32,12 @@ PQSetting {
 
     id: set_bg
 
-    SystemPalette { id: pqtPalette }
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Background")
 
     helptext: qsTranslate("settingsmanager", "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Background")
+    SystemPalette { id: pqtPalette }
 
     ButtonGroup {
         id: bggrp
@@ -235,13 +235,11 @@ PQSetting {
 
         },
 
-        PQSettingsSeparator {},
+        /**************************************************/
 
-        PQTextXL {
+        PQSettingSubTitle {
             ButtonGroup { id: grp_bgaccent }
-            text: qsTranslate("settingsmanager", "Background accent")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
+            title: qsTranslate("settingsmanager", "Background accent")
         },
 
         PQRadioButton {
@@ -286,19 +284,12 @@ PQSetting {
 
         },
 
-        PQSettingsSeparator {},
+        /**************************************************/
 
-        PQTextXL {
+        PQSettingSubTitle {
             ButtonGroup { id: grp_conb }
-            text: qsTranslate("settingsmanager", "Click on empty background")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
-        },
-
-        PQText {
-            text: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
-            width: parent.width
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            title: qsTranslate("settingsmanager", "Click on empty background")
+            helptext: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
         },
 
         PQRadioButton {

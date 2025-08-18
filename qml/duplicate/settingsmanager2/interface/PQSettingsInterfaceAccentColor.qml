@@ -32,12 +32,12 @@ PQSetting {
 
     id: set_accent
 
-    SystemPalette { id: pqtPalette }
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Accent color")
 
     helptext: qsTranslate("settingsmanager", "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it. After selecting a new color it is recommended to first test the color using the provided button to make sure that the interface is readable with the new color.")
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Accent color")
+    SystemPalette { id: pqtPalette }
 
     property list<string> hexes: PQCLook.getColorHexes()
     property list<string> colnames: PQCLook.getColorNames()
@@ -89,7 +89,7 @@ PQSetting {
         Flow {
 
             x: 50
-            width: set_accent.width-50
+            width: set_accent.contentWidth-50
 
             enabled: color_predefined.checked
 
@@ -149,8 +149,6 @@ PQSetting {
 
         },
 
-
-
         PQRadioButton {
             id: color_custom
             text: "Custom accent color"
@@ -189,12 +187,10 @@ PQSetting {
             }
         },
 
-        PQSettingsSeparator {},
+        /*******************************************/
 
-        PQTextXL {
-            text: qsTranslate("settingsmanager", "Background accent")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
+        PQSettingSubTitle {
+            title: qsTranslate("settingsmanager", "Background accent")
         },
 
         PQRadioButton {

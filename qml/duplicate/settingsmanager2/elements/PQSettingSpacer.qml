@@ -21,16 +21,14 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
-Label {
+/* :-)) <3 */
 
-    SystemPalette { id: pqtPalette }
-    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
-    color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
-    font.pointSize: PQCLook.fontSize
-    font.weight: PQCLook.fontWeightNormal
-
+Item {
+    // when this value is changed also change the negative x value in PQSettingSubTitle.qml
+    width: 20
+    height: 1
 }

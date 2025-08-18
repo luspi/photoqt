@@ -30,12 +30,12 @@ PQSetting {
 
     id: set_lang
 
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Language")
+
     helptext: qsTranslate("settingsmanager",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.") + "<br><br>" +
               "<b>" + qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!") + "</b><br><br>" +
               qsTranslate("settingsmanager", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:") + "<b>https://translate.photoqt.org</b>"
-
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Language")
 
     property int origIndex
 
@@ -93,19 +93,17 @@ PQSetting {
         PQComboBox {
 
             id: langcombo
+            extrawide: true
 
             font.weight: PQCLook.fontWeightBold
 
             onCurrentIndexChanged: set_lang.checkForChanges()
 
-        },
 
-        Item {
-            width: 1
-            height: 10
         },
 
         PQText {
+            x: -set_lang.indentWidth
             width: set_lang.rightcol
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             visible: PQCSettings.generalCompactSettings

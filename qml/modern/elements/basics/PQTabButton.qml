@@ -31,7 +31,7 @@ TabButton {
 
     SystemPalette { id: pqtPalette }
 
-    implicitHeight: 40
+    implicitHeight: 50
 
     property bool isCurrentTab: false
     property bool lineBelow: false
