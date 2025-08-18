@@ -26,177 +26,164 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Column {
+PQSetting {
 
-    id: setting_top
+    id: set_lang
 
-    width: parent.width
+    helptext: qsTranslate("settingsmanager",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.") + "<br><br>" +
+              "<b>" + qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!") + "</b><br><br>" +
+              qsTranslate("settingsmanager", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:") + "<b>https://translate.photoqt.org</b>"
 
-    PQSetting {
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Language")
 
-        id: set_lang
+    property int origIndex
 
-        helptext: qsTranslate("settingsmanager",  "PhotoQt has been translated into a number of different languages. Not all of the languages have a complete translation yet, and new translators are always needed. If you are willing and able to help, that would be greatly appreciated.") + "<br><br>" +
-                  "<b>" + qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!") + "</b><br><br>" +
-                  qsTranslate("settingsmanager", "If you want to help with the translations, either by translating or by reviewing existing translations, head over to the translation page on Crowdin:") + "<b>https://translate.photoqt.org</b>"
+    property var languages: {
+        "en" : "English",
+        "ar" : "عربي ,عربى",
+        "ca_ES" : "Català",
+        "cs" : "Čeština",
+        "de" : "Deutsch",
+        "el" : "Ελληνικά",
+        "es" : "Español",
+        "es_CR" : "Español (Costa Rica)",
+        "fi" : "Suomen kieli",
+        "fr" : "Français",
+        "he" : "עברית",
+        "it" : "Italiano",
+        "lt" : "lietuvių kalba",
+        "nl" : "Nederlands",
+        "pl" : "Polski",
+        "pt" : "Português (Portugal)",
+        "pt_BR" : "Português (Brasil)",
+        "ru" : "Русский",
+        "sk" : "Slovenčina",
+        "tr" : "Türkçe",
+        "uk" : "Українська",
+        "zh" : "Chinese (simplified)",
+        "zh_TW" : "Chinese (traditional)"
+    }
 
-        //: A settings title
-        title: qsTranslate("settingsmanager", "Language")
+    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
 
-        property int origIndex
+    property list<string> langkeys: Object.keys(languages)
 
-        property var languages: {
-            "en" : "English",
-            "ar" : "عربي ,عربى",
-            "ca_ES" : "Català",
-            "cs" : "Čeština",
-            "de" : "Deutsch",
-            "el" : "Ελληνικά",
-            "es" : "Español",
-            "es_CR" : "Español (Costa Rica)",
-            "fi" : "Suomen kieli",
-            "fr" : "Français",
-            "he" : "עברית",
-            "it" : "Italiano",
-            "lt" : "lietuvių kalba",
-            "nl" : "Nederlands",
-            "pl" : "Polski",
-            "pt" : "Português (Portugal)",
-            "pt_BR" : "Português (Brasil)",
-            "ru" : "Русский",
-            "sk" : "Slovenčina",
-            "tr" : "Türkçe",
-            "uk" : "Українська",
-            "zh" : "Chinese (simplified)",
-            "zh_TW" : "Chinese (traditional)"
-        }
+    function getLanguageName(code: string) : string {
 
-        property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
+        if(langkeys.indexOf(code) != -1) {
 
-        property list<string> langkeys: Object.keys(languages)
+            return languages[code]
 
-        function getLanguageName(code: string) : string {
+        } else {
 
-            if(langkeys.indexOf(code) != -1) {
+            var c = code.split("_")[0]
 
-                return languages[code]
-
-            } else {
-
-                var c = code.split("_")[0]
-
-                if(langkeys.indexOf(c) != -1)
-                    return languages[c]
-
-            }
-
-            return code
+            if(langkeys.indexOf(c) != -1)
+                return languages[c]
 
         }
 
-        content: [
-
-            PQComboBox {
-
-                id: langcombo
-
-                font.weight: PQCLook.fontWeightBold
-
-                onCurrentIndexChanged: set_lang.checkForChanges()
-
-            },
-
-            Item {
-                width: 1
-                height: 10
-            },
-
-            PQText {
-                width: set_lang.rightcol
-                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                visible: PQCSettings.generalCompactSettings
-                // font.weight: PQCLook.fontWeightBold
-                text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
-            }
-
-        ]
-
-        onResetToDefaults: {
-
-            var val = PQCSettings.getDefaultForInterfaceLanguage()
-
-            var setindex = availableLanguages.indexOf("en")
-            if(availableLanguages.indexOf(val) !== -1)
-                setindex = availableLanguages.indexOf(val)
-            else {
-                var c = val + "_" + val.toUpperCase()
-                if(availableLanguages.indexOf(c) !== -1)
-                    setindex = availableLanguages.indexOf(c)
-            }
-            langcombo.currentIndex = setindex
-
-            thisSettingHasChanged = false
-
-        }
-
-        onThisSettingHasChangedChanged:
-            setting_top.checkForChanges()
-
-        function handleEscape() {}
-
-        function checkForChanges() {
-            if(!settingsLoaded) return
-            thisSettingHasChanged = (origIndex !== langcombo.currentIndex)
-        }
-
-        function load() {
-
-            settingsLoaded = false
-
-            var m = []
-            for(var i in availableLanguages) {
-                m.push(getLanguageName(availableLanguages[i]))
-            }
-            console.warn(">>> m =", m)
-            langcombo.model = m
-
-            var code = PQCSettings.interfaceLanguage
-
-            var setindex = availableLanguages.indexOf("en")
-
-            if(availableLanguages.indexOf(code) !== -1)
-                setindex = availableLanguages.indexOf(code)
-            else {
-                var c = code + "_" + code.toUpperCase()
-                if(availableLanguages.indexOf(c) !== -1)
-                    setindex = availableLanguages.indexOf(c)
-            }
-
-            origIndex = setindex
-            langcombo.currentIndex = setindex
-
-            thisSettingHasChanged = false
-
-            settingsLoaded = true
-
-        }
-
-        function applyChanges() {
-
-            if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
-                PQCSettings.interfaceLanguage = "en"
-            else
-                PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
-            origIndex = langcombo.currentIndex
-
-            PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
-
-        }
+        return code
 
     }
 
+    content: [
+
+        PQComboBox {
+
+            id: langcombo
+
+            font.weight: PQCLook.fontWeightBold
+
+            onCurrentIndexChanged: set_lang.checkForChanges()
+
+        },
+
+        Item {
+            width: 1
+            height: 10
+        },
+
+        PQText {
+            width: set_lang.rightcol
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            visible: PQCSettings.generalCompactSettings
+            // font.weight: PQCLook.fontWeightBold
+            text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
+        }
+
+    ]
+
+    onResetToDefaults: {
+
+        var val = PQCSettings.getDefaultForInterfaceLanguage()
+
+        var setindex = availableLanguages.indexOf("en")
+        if(availableLanguages.indexOf(val) !== -1)
+            setindex = availableLanguages.indexOf(val)
+        else {
+            var c = val + "_" + val.toUpperCase()
+            if(availableLanguages.indexOf(c) !== -1)
+                setindex = availableLanguages.indexOf(c)
+        }
+        langcombo.currentIndex = setindex
+
+        PQCConstants.settingsManagerSettingChanged = false
+
+    }
+
+    function handleEscape() {}
+
     function checkForChanges() {
-        PQCConstants.settingsManagerSettingChanged = set_lang.thisSettingHasChanged
+        if(!settingsLoaded) return
+        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex)
+    }
+
+    function load() {
+
+        settingsLoaded = false
+
+        var m = []
+        for(var i in availableLanguages) {
+            m.push(getLanguageName(availableLanguages[i]))
+        }
+        console.warn(">>> m =", m)
+        langcombo.model = m
+
+        var code = PQCSettings.interfaceLanguage
+
+        var setindex = availableLanguages.indexOf("en")
+
+        if(availableLanguages.indexOf(code) !== -1)
+            setindex = availableLanguages.indexOf(code)
+        else {
+            var c = code + "_" + code.toUpperCase()
+            if(availableLanguages.indexOf(c) !== -1)
+                setindex = availableLanguages.indexOf(c)
+        }
+
+        origIndex = setindex
+        langcombo.currentIndex = setindex
+
+        PQCConstants.settingsManagerSettingChanged = false
+
+        settingsLoaded = true
+
+    }
+
+    function applyChanges() {
+
+        if(langcombo.currentIndex === -1 || langcombo.currentIndex >= availableLanguages.length)
+            PQCSettings.interfaceLanguage = "en"
+        else
+            PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
+        origIndex = langcombo.currentIndex
+
+        PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
+
+        PQCConstants.settingsManagerSettingChanged = false
+
     }
 
 }

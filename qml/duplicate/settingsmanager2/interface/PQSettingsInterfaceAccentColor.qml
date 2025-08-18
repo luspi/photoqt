@@ -21,371 +21,298 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import Qt.labs.platform
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Column {
+PQSetting {
 
-    id: setting_top
-
-    width: parent.width
+    id: set_accent
 
     SystemPalette { id: pqtPalette }
 
-    PQSetting {
+    helptext: qsTranslate("settingsmanager", "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it. After selecting a new color it is recommended to first test the color using the provided button to make sure that the interface is readable with the new color.")
 
-        id: set_accent
+    //: A settings title
+    title: qsTranslate("settingsmanager", "Accent color")
 
-        helptext: qsTranslate("settingsmanager", "Here an accent color of PhotoQt can be selected, with the whole interface colored with shades of it. After selecting a new color it is recommended to first test the color using the provided button to make sure that the interface is readable with the new color.")
+    property list<string> hexes: PQCLook.getColorHexes()
+    property list<string> colnames: PQCLook.getColorNames()
 
-        //: A settings title
-        title: qsTranslate("settingsmanager", "Accent color")
+    onSelectedColorChanged:
+        checkForChanges()
 
-        property list<string> hexes: PQCLook.getColorHexes()
-        property list<string> colnames: PQCLook.getColorNames()
-
-        property string selectedColor: ""
-        property string testcolor: ""
-        Timer {
-            id: resetTestColor
-            property string oldvalue
-            interval: 200
-            onTriggered: {
-                if(set_accent.testcolor === oldvalue) {
-                    if(PQCSettings.interfaceAccentColor !== set_accent.selectedColor) {
-                        PQCLook.testColor(set_accent.selectedColor)
-                        set_accent.testcolor = set_accent.selectedColor
-                    } else {
-                        PQCLook.testColor("")
-                        set_accent.testcolor = ""
-                    }
+    property string selectedColor: ""
+    property string testcolor: ""
+    Timer {
+        id: resetTestColor
+        property string oldvalue
+        interval: 200
+        onTriggered: {
+            if(set_accent.testcolor === oldvalue) {
+                if(PQCSettings.interfaceAccentColor !== set_accent.selectedColor) {
+                    PQCLook.testColor(set_accent.selectedColor)
+                    set_accent.testcolor = set_accent.selectedColor
+                } else {
+                    PQCLook.testColor("")
+                    set_accent.testcolor = ""
                 }
             }
         }
-        Component.onDestruction: {
-            if(set_accent.testcolor !== "")
-                PQCLook.testColor("")
-        }
+    }
+    Component.onDestruction: {
+        if(set_accent.testcolor !== "")
+            PQCLook.testColor("")
+    }
 
-        content: [
+    ButtonGroup { id: grp_accent }
+    ButtonGroup { id: grp_accentbg }
 
-            PQRadioButton {
-                text: "Pre-defined accent colors"
-            },
+    content: [
 
-            Flow {
-
-                x: 50
-                width: set_accent.width-50
-
-                spacing: 5
-
-                Repeater {
-                    model: set_accent.hexes.length
-                    Rectangle {
-                        id: deleg
-                        required property int index
-                        property string colorhex: set_accent.hexes[index]
-                        property bool isSelected: set_accent.selectedColor===colorhex
-                        width: 100
-                        height: 50
-                        color: colorhex
-                        border.width: deleg.isSelected ? 2 : 1
-                        border.color: deleg.isSelected ? pqtPalette.text : PQCLook.baseBorder
-                        PQMouseArea {
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            cursorShape: Qt.PointingHandCursor
-                            text: set_accent.colnames[deleg.index]
-                            onEntered: {
-                                resetTestColor.stop()
-                                set_accent.testcolor = deleg.colorhex
-                                PQCLook.testColor(deleg.colorhex)
-                            }
-                            onExited: {
-                                resetTestColor.oldvalue = colorhex
-                                resetTestColor.restart()
-                            }
-                            onClicked: {
-                                set_accent.selectedColor = deleg.colorhex
-                            }
-                        }
-                        Rectangle {
-                            x: (parent.width-width)
-                            y: (parent.height-height)
-                            width: 25
-                            height: 25
-                            opacity: 0.8
-                            visible: deleg.isSelected
-                            color: pqtPalette.base
-                            border.width: 2
-                            border.color: pqtPalette.text
-                            Image {
-                                anchors.fill: parent
-                                anchors.margins: 5
-                                sourceSize: Qt.size(width, height)
-                                source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
-                            }
-                        }
-                    }
+        PQRadioButton {
+            id: color_predefined
+            text: "Pre-defined accent colors"
+            onCheckedChanged: {
+                if(checked) {
+                    resetTestColor.stop()
+                    set_accent.testcolor = set_accent.selectedColor
+                    PQCLook.testColor(set_accent.selectedColor)
                 }
+            }
+            ButtonGroup.group: grp_accent
+        },
 
-            },
+        Flow {
 
+            x: 50
+            width: set_accent.width-50
 
+            enabled: color_predefined.checked
 
-            PQRadioButton {
-                text: "Custom accent color"
-            },
+            spacing: 5
 
-            Item {
-                width: 1
-                height: 10
-            },
-
-            PQComboBox {
-                id: accentcolor
-                property list<string> hexes: PQCLook.getColorHexes()
-                property list<string> options: PQCLook.getColorNames().concat(qsTranslate("settingsmanager", "custom color"))
-                model: options
-                onCurrentIndexChanged: {
-                    set_accent.checkForChanges()
-                }
-            },
-
-            Item {
-
-                width: accentcustom.width
-                height: accentcolor.currentIndex<accentcolor.options.length-1 ? 0 : accentcustom.height
-                Behavior on height { NumberAnimation { duration: 200 } }
-
-                clip: true
-
+            Repeater {
+                model: set_accent.hexes.length
                 Rectangle {
-                    id: accentcustom
-                    width: 200
+                    id: deleg
+                    required property int index
+                    property string colorhex: set_accent.hexes[index]
+                    property bool isSelected: set_accent.selectedColor===colorhex
+                    width: 100
                     height: 50
-                    clip: true
-                    color: PQCSettings.interfaceAccentColor
-                    border.width: 1
-                    border.color: PQCLook.baseBorder
-                    Item {
-                        x: (parent.width-width)/2
-                        y: (parent.height-height)/2
-                        width: accent_coltxt.width+20
-                        height: accent_coltxt.height+10
-                        Rectangle {
-                            color: pqtPalette.text
-                            opacity: 0.8
-                            radius: 5
-                        }
-                        PQText {
-                            id: accent_coltxt
-                            color: pqtPalette.base
-                            x: 10
-                            y: 5
-                            text: PQCScriptsOther.convertRgbToHex([255*accentcustom.color.r, 255*accentcustom.color.g, 255*accentcustom.color.b])
-                        }
-                    }
-
+                    color: colorhex
+                    opacity: enabled ? 1 : 0.5
+                    border.width: deleg.isSelected ? 2 : 1
+                    border.color: deleg.isSelected ? pqtPalette.text : PQCLook.baseBorder
                     PQMouseArea {
                         anchors.fill: parent
                         hoverEnabled: true
+                        enabled: color_predefined.checked
                         cursorShape: Qt.PointingHandCursor
+                        text: set_accent.colnames[deleg.index]
+                        onEntered: {
+                            resetTestColor.stop()
+                            set_accent.testcolor = deleg.colorhex
+                            PQCLook.testColor(deleg.colorhex)
+                        }
+                        onExited: {
+                            resetTestColor.oldvalue = colorhex
+                            resetTestColor.restart()
+                        }
                         onClicked: {
-                            coldiag.section = "accent"
-                            coldiag.currentColor = accentcustom.color
-                            coldiag.open()
+                            set_accent.selectedColor = deleg.colorhex
                         }
                     }
-                }
-
-            },
-
-            PQButton {
-                id: testbut
-                property int secs: 3
-                text: qsTranslate("settingsmanager", "Test color for %1 seconds").arg(secs)
-                property string backupcolor: ""
-                smallerVersion: true
-                onClicked: {
-                    backupcolor = PQCSettings.interfaceAccentColor
-
-                    if(accentcolor.currentIndex < accentcolor.hexes.length)
-                        PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
-                    else
-                        PQCSettings.interfaceAccentColor = accent_coltxt.text
-
-                    testtimer.restart()
-                    testbut.enabled = false
-                }
-
-                Component.onDestruction: {
-                    if(!testbut.enabled && settingsmanager_top.opacity > 0) {
-                        PQCSettings.interfaceAccentColor = testbut.backupcolor
-                    }
-                }
-
-                Timer {
-                    id: testtimer
-                    interval: 1000
-                    onTriggered: {
-                        testbut.secs -= 1
-                        if(testbut.secs == 0) {
-                            testtimer.stop()
-                            testbut.secs = 3
-                            testbut.enabled = true
-                            PQCSettings.interfaceAccentColor = testbut.backupcolor
-                        } else {
-                            testtimer.restart()
-                        }
-                    }
-                }
-
-            },
-
-            Flow {
-                width: set_accent.width
-                spacing: 5
-                PQRadioButton {
-                    id: bgaccentusecheck
-                    text: qsTranslate("settingsmanager", "use accent color for background")
-                    checked: !PQCSettings.interfaceBackgroundCustomOverlay
-                    onCheckedChanged: set_accent.checkForChanges()
-                }
-                PQRadioButton {
-                    id: bgcustomusecheck
-                    text: qsTranslate("settingsmanager", "use custom color for background")
-                    checked: PQCSettings.interfaceBackgroundCustomOverlay
-                    onCheckedChanged: set_accent.checkForChanges()
-                }
-                Rectangle {
-                    id: bgcustomuse
-                    height: bgcustomusecheck.height+10
-                    width: bgcustomusecheck.checked ? 200 : 0
-                    Behavior on width { NumberAnimation { duration: 200 } }
-                    opacity: bgcustomusecheck.checked ? 1 : 0
-                    Behavior on opacity { NumberAnimation { duration: 150 } }
-                    clip: true
-                    color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
-                    onColorChanged: set_accent.checkForChanges()
-                    border.width: 1
-                    border.color: PQCLook.baseBorder
                     Rectangle {
-                        x: (parent.width-width)/2
-                        y: (parent.height-height)/2
-                        width: bgcustomusetxt.width+20
-                        height: bgcustomusetxt.height+10
-                        radius: 5
-                        color: "#88000000"
-                        PQText {
-                            id: bgcustomusetxt
-                            x: 10
-                            y: 5
-                            text: PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
+                        x: (parent.width-width)
+                        y: (parent.height-height)
+                        width: 25
+                        height: 25
+                        opacity: 0.8
+                        visible: deleg.isSelected
+                        color: pqtPalette.base
+                        border.width: 2
+                        border.color: pqtPalette.text
+                        Image {
+                            anchors.fill: parent
+                            anchors.margins: 5
+                            sourceSize: Qt.size(width, height)
+                            source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
                         }
                     }
-
-                    PQMouseArea {
-                        anchors.fill: parent
-                        hoverEnabled: true
-                        cursorShape: Qt.PointingHandCursor
-                        text: qsTranslate("settingsmanager", "Click to change color")
-                        onClicked: {
-                            coldiag.section = "bgcustom"
-                            coldiag.currentColor = bgcustomuse.color
-                            coldiag.open()
-                        }
-                    }
-
                 }
-
             }
 
-        ]
+        },
 
-        onResetToDefaults: {
 
-            var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
 
-            accentcustom.color = valCol
-            var index = accentcolor.hexes.indexOf(valCol)
-            if(index === -1) index = accentcolor.options.length-1
-            accentcolor.currentIndex = index
+        PQRadioButton {
+            id: color_custom
+            text: "Custom accent color"
+            onCheckedChanged: {
+                if(checked) {
+                    resetTestColor.stop()
+                    set_accent.testcolor = customrect.colorAsHex
+                    PQCLook.testColor(customrect.colorAsHex)
+                }
+            }
+            ButtonGroup.group: grp_accent
+        },
 
-            var valOver = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
-            bgaccentusecheck.checked = (valOver === 0)
-            bgcustomusecheck.checked = (valOver === 1)
+        Rectangle {
+            id: customrect
+            enabled: color_custom.checked
+            x: 50
+            width: 100
+            height: 50
+            color: "transparent"
+            opacity: enabled ? 1 : 0.5
+            border.width: 2
+            border.color: pqtPalette.text
+            property string colorAsHex: PQCScriptsOther.convertRgbToHex([255*customrect.color.r, 255*customrect.color.g, 255*customrect.color.b])
+            PQMouseArea {
+                anchors.fill: parent
+                enabled: color_custom.checked
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: PQCSettings.interfaceAccentColor
+                onClicked: {
+                    coldiag.section = "accent"
+                    coldiag.currentColor = set_accent.selectedColor
+                    coldiag.open()
+                }
+            }
+        },
 
-            thisSettingHasChanged = false
+        PQSettingsSeparator {},
+
+        PQTextXL {
+            text: qsTranslate("settingsmanager", "Background accent")
+            font.capitalization: Font.SmallCaps
+            font.weight: PQCLook.fontWeightBold
+        },
+
+        PQRadioButton {
+            id: bgaccentusecheck
+            text: qsTranslate("settingsmanager", "use accent color for background")
+            checked: !PQCSettings.interfaceBackgroundCustomOverlay
+            onCheckedChanged: set_accent.checkForChanges()
+            ButtonGroup.group: grp_accentbg
+        },
+
+        PQRadioButton {
+            id: bgcustomusecheck
+            text: qsTranslate("settingsmanager", "use custom color for background")
+            checked: PQCSettings.interfaceBackgroundCustomOverlay
+            onCheckedChanged: set_accent.checkForChanges()
+            ButtonGroup.group: grp_accentbg
+        },
+
+        Rectangle {
+            id: bgcustomuse
+            x: 25
+            height: bgcustomusecheck.checked ? 50 : 0
+            Behavior on height { NumberAnimation { duration: 200 } }
+            width: 200
+            opacity: bgcustomusecheck.checked ? 1 : 0
+            Behavior on opacity { NumberAnimation { duration: 150 } }
+            clip: true
+            color: PQCSettings.interfaceBackgroundCustomOverlayColor==="" ? pqtPalette.base : PQCSettings.interfaceBackgroundCustomOverlayColor
+            onColorChanged: set_accent.checkForChanges()
+            border.width: 1
+            border.color: PQCLook.baseBorder
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                text: qsTranslate("settingsmanager", "Click to change color")
+                onClicked: {
+                    coldiag.section = "bgcustom"
+                    coldiag.currentColor = bgcustomuse.color
+                    coldiag.open()
+                }
+            }
 
         }
 
-        onThisSettingHasChangedChanged:
-            setting_top.checkForChanges()
+    ]
 
-        function handleEscape() {}
+    onResetToDefaults: {
 
-        function checkForChanges() {
-            if(!settingsLoaded) return
-            thisSettingHasChanged = (accentcolor.hasChanged() || bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
-                                     (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor))
-        }
+        var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
 
-        function load() {
+        set_accent.selectedColor = valCol
+        color_predefined.checked = set_accent.hexes.indexOf(set_accent.selectedColor)>-1
+        color_custom.checked = !color_predefined.checked
+        customrect.color = valCol
 
-            settingsLoaded = false
+        var valOver = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
+        bgaccentusecheck.checked = (valOver === 0)
+        bgcustomusecheck.checked = (valOver === 1)
 
-            var index = accentcolor.hexes.indexOf(PQCSettings.interfaceAccentColor)
-            accentcustom.color = PQCSettings.interfaceAccentColor
-            if(index === -1) index = accentcolor.options.length-1
-            accentcolor.loadAndSetDefault(index)
+        PQCConstants.settingsManagerSettingChanged = false
 
-            bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
-            bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
+    }
 
-            thisSettingHasChanged = false
-            settingsLoaded = true
+    function handleEscape() {}
 
-        }
+    function checkForChanges() {
+        if(!settingsLoaded) return
+        PQCConstants.settingsManagerSettingChanged = (selectedColor !== PQCSettings.interfaceAccentColor ||
+                                                      bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
+                                                     (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor))
+    }
 
-        function applyChanges() {
+    function load() {
 
-            if(accentcolor.currentIndex < accentcolor.hexes.length)
-                PQCSettings.interfaceAccentColor = accentcolor.hexes[accentcolor.currentIndex]
-            else
-                PQCSettings.interfaceAccentColor = accent_coltxt.text
+        settingsLoaded = false
 
-            PQCSettings.interfaceBackgroundCustomOverlay = bgcustomusecheck.checked
-            if(bgcustomusecheck.checked)
-                PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
+        set_accent.selectedColor = PQCSettings.interfaceAccentColor
+        color_predefined.checked = set_accent.hexes.indexOf(set_accent.selectedColor)>-1
+        color_custom.checked = !color_predefined.checked
+        customrect.color = PQCSettings.interfaceAccentColor
 
-            accentcolor.saveDefault()
+        bgaccentusecheck.loadAndSetDefault(!PQCSettings.interfaceBackgroundCustomOverlay)
+        bgcustomusecheck.loadAndSetDefault(PQCSettings.interfaceBackgroundCustomOverlay)
 
-            bgcustomusecheck.saveDefault()
-            bgaccentusecheck.saveDefault()
+        PQCConstants.settingsManagerSettingChanged = false
+        settingsLoaded = true
 
-        }
+    }
+
+    function applyChanges() {
+
+        PQCSettings.interfaceAccentColor = set_accent.selectedColor
+
+        PQCSettings.interfaceBackgroundCustomOverlay = bgcustomusecheck.checked
+        if(bgcustomusecheck.checked)
+            PQCSettings.interfaceBackgroundCustomOverlayColor = PQCScriptsOther.convertRgbToHex([255*bgcustomuse.color.r, 255*bgcustomuse.color.g, 255*bgcustomuse.color.b])
+
+        bgcustomusecheck.saveDefault()
+        bgaccentusecheck.saveDefault()
+
+        PQCConstants.settingsManagerSettingChanged = false
 
     }
 
     ColorDialog {
         id: coldiag
         modality: Qt.ApplicationModal
-        property string section: ""
+        property string section
         onAccepted: {
-            if(section == "accent")
-                accentcustom.color = coldiag.currentColor
-            else
+            if(section == "accent") {
+                var col = PQCScriptsOther.convertRgbToHex([255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b])
+                customrect.color = col
+                PQCLook.testColor(col)
+            } else
                 bgcustomuse.color = coldiag.currentColor
         }
-    }
-
-    function checkForChanges() {
-        PQCConstants.settingsManagerSettingChanged = set_accent.thisSettingHasChanged
     }
 
 }

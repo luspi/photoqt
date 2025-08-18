@@ -47,7 +47,7 @@ SET(d "qml/duplicate/settingsmanager2/elements")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml)
 
 SET(d "qml/duplicate/settingsmanager2/interface")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceAccentColor.qml ${d}/PQSettingsInterfaceBackground.qml ${d}/PQSettingsInterfaceClicksOnBackground.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceAccentColor.qml ${d}/PQSettingsInterfaceBackground.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceContextMenu.qml ${d}/PQSettingsInterfaceEdges.qml ${d}/PQSettingsInterfaceFontWeight.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceLanguage.qml ${d}/PQSettingsInterfaceNotification.qml ${d}/PQSettingsInterfacePopout.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceStatusInfo.qml ${d}/PQSettingsInterfaceWindowButtons.qml ${d}/PQSettingsInterfaceWindowMode.qml)

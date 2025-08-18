@@ -26,6 +26,52 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Item {
+PQSetting {
+
+    id: set_come
+
+    SystemPalette { id: pqtPalette }
+
+    helptext: qsTranslate("settingsmanager", "")
+
+    //: A settings title
+    title: qsTranslate("settingsmanager", "")
+
+    content: [
+    ]
+
+    onResetToDefaults: {
+
+        // ...
+
+        PQCConstants.settingsManagerSettingChanged = false
+
+    }
+
+    function handleEscape() {}
+
+    function checkForChanges() {
+        if(!settingsLoaded) return
+        // PQCConstants.settingsManagerSettingChanged = ...
+    }
+
+    function load() {
+
+        settingsLoaded = false
+
+        // ...
+
+        PQCConstants.settingsManagerSettingChanged = false
+        settingsLoaded = true
+
+    }
+
+    function applyChanges() {
+
+        // ...
+
+        PQCConstants.settingsManagerSettingChanged = false
+
+    }
 
 }
