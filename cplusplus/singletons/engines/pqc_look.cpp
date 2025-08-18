@@ -100,6 +100,26 @@ PQCLook::PQCLook() : QObject() {
 
 }
 
+void PQCLook::testColor(QString color) {
+
+    if(color == "") {
+
+        Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
+
+    } else {
+
+        calculateColors(color.startsWith("#") ? color : QColor(color).name(QColor::HexArgb));
+
+        Q_EMIT iconShadeChanged();
+        Q_EMIT baseBorderChanged();
+        Q_EMIT tooltipTextChanged();
+        Q_EMIT tooltipBaseChanged();
+        Q_EMIT tooltipBorderChanged();
+
+    }
+
+}
+
 PQCLook::~PQCLook() { }
 
 void PQCLook::calculateColors(QString name) {

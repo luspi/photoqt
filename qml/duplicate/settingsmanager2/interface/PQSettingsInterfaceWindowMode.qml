@@ -58,11 +58,15 @@ Column {
                 }
             },
 
+            Item {
+                width: 1
+                height: 5
+            },
+
             Column {
 
                 spacing: 15
                 width: set_windowmode.width
-                clip: true
 
                 enabled: wmmode.checked
                 height: enabled ? (keeptop.height+rememgeo.height+wmdeco_show.height+2*15) : 0
@@ -136,7 +140,6 @@ Column {
             wmdeco_show.loadAndSetDefault(PQCSettings.interfaceWindowDecoration)
 
             thisSettingHasChanged = false
-
             settingsLoaded = true
 
         }
