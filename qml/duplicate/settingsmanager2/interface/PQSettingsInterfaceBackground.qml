@@ -35,9 +35,13 @@ PQSetting {
     //: A settings title
     title: qsTranslate("settingsmanager", "Background")
 
-    helptext: qsTranslate("settingsmanager", "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.")
+    helptext: modernInterface ?
+                  qsTranslate("settingsmanager", "The background is the area in the back (no surprise there) behind any image that is currently being viewed. By default, PhotoQt is partially transparent with a dark overlay. This is only possible, though, whenever a compositor is available. On some platforms, PhotoQt can fake a transparent background with screenshots taken at startup. Another option is to show a background image (also with a dark overlay) in the background.") :
+                  qsTranslate("settingsmanager", "The background refers to the area behind any viewed image that is not covered up. Various actions are possible for what should happen when a click occurs somewhere in that area. Some actions differentiate between a click in the left and right half of the window, others do not.")
 
     SystemPalette { id: pqtPalette }
+
+    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
 
     ButtonGroup {
         id: bggrp
@@ -47,7 +51,8 @@ PQSetting {
 
         PQRadioButton {
             id: radio_real
-            enforceMaxWidth: set_bg.width
+            visible: set_bg.modernInterface
+            enforceMaxWidth: set_bg.contentWidth
             //: How the background of PhotoQt should be
             text: qsTranslate("settingsmanager", "real transparency")
             ButtonGroup.group: bggrp
@@ -56,8 +61,8 @@ PQSetting {
 
         PQRadioButton {
             id: radio_fake
-            enforceMaxWidth: set_bg.width
-            visible: PQCConstants.startupHaveScreenshots
+            visible: PQCConstants.startupHaveScreenshots && set_bg.modernInterface
+            enforceMaxWidth: set_bg.contentWidth
             //: How the background of PhotoQt should be
             text: qsTranslate("settingsmanager", "fake transparency")
             ButtonGroup.group: bggrp
@@ -66,7 +71,8 @@ PQSetting {
 
         PQRadioButton {
             id: radio_solid
-            enforceMaxWidth: set_bg.width
+            visible: set_bg.modernInterface
+            enforceMaxWidth: set_bg.contentWidth
             //: How the background of PhotoQt should be
             text: qsTranslate("settingsmanager", "solid background color")
             ButtonGroup.group: bggrp
@@ -75,9 +81,11 @@ PQSetting {
 
         Column {
 
+            visible: set_bg.modernInterface
+
             PQRadioButton {
                 id: radio_nobg
-                enforceMaxWidth: set_bg.width
+                enforceMaxWidth: set_bg.contentWidth
                 //: How the background of PhotoQt should be
                 text: qsTranslate("settingsmanager", "fully transparent background")
                 ButtonGroup.group: bggrp
@@ -95,7 +103,7 @@ PQSetting {
                     id: nobgwarning
                     x: 25
                     y: 10
-                    width: set_bg.width-50
+                    width: set_bg.contentWidth-50
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     font.weight: PQCLook.fontWeightBold
                     text: qsTranslate("settingsmanager", "Warning: This will make the background fully transparent. This is only recommended if there is a different way to mask the area behind the window.")
@@ -107,7 +115,8 @@ PQSetting {
 
         PQRadioButton {
             id: radio_custom
-            enforceMaxWidth: set_bg.width
+            visible: set_bg.modernInterface
+            enforceMaxWidth: set_bg.contentWidth
             //: How the background of PhotoQt should be
             text: qsTranslate("settingsmanager", "custom background image")
             ButtonGroup.group: bggrp
@@ -120,6 +129,8 @@ PQSetting {
 
             x: 25
             enabled: radio_custom.checked
+
+            visible: set_bg.modernInterface
 
             clip: true
             height: enabled ? custombg_optcol.height : 0
@@ -238,12 +249,14 @@ PQSetting {
         /**************************************************/
 
         PQSettingSubTitle {
+            visible: set_bg.modernInterface
             ButtonGroup { id: grp_bgaccent }
             title: qsTranslate("settingsmanager", "Background accent")
         },
 
         PQRadioButton {
             id: bgaccentusecheck
+            visible: set_bg.modernInterface
             text: qsTranslate("settingsmanager", "use accent color for background")
             onCheckedChanged: set_bg.checkForChanges()
             ButtonGroup.group: grp_bgaccent
@@ -251,6 +264,7 @@ PQSetting {
 
         PQRadioButton {
             id: bgcustomusecheck
+            visible: set_bg.modernInterface
             text: qsTranslate("settingsmanager", "use custom color for background")
             onCheckedChanged: set_bg.checkForChanges()
             ButtonGroup.group: grp_bgaccent
@@ -258,6 +272,7 @@ PQSetting {
 
         Rectangle {
             id: bgcustomuse
+            visible: set_bg.modernInterface
             x: 25
             height: bgcustomusecheck.checked ? 50 : 0
             Behavior on height { NumberAnimation { duration: 200 } }
@@ -287,6 +302,8 @@ PQSetting {
         /**************************************************/
 
         PQSettingSubTitle {
+            // If this is not visible, then the main text will be shown
+            visible: set_bg.modernInterface
             ButtonGroup { id: grp_conb }
             title: qsTranslate("settingsmanager", "Click on empty background")
             helptext: qsTranslate("settingsmanager", "The empty background area is the part of the background that is not covered by any image. A click on that area can trigger certain actions, some depending on where exactly the click occured")
@@ -294,7 +311,7 @@ PQSetting {
 
         PQRadioButton {
             id: radio_noaction
-            enforceMaxWidth: set_bg.width
+            enforceMaxWidth: set_bg.contentWidth
             //: what to do when the empty background is clicked
             text: qsTranslate("settingsmanager", "no action")
             onCheckedChanged: set_bg.checkForChanges()
@@ -303,7 +320,7 @@ PQSetting {
 
         PQRadioButton {
             id: radio_closeclick
-            enforceMaxWidth: set_bg.width
+            enforceMaxWidth: set_bg.contentWidth
             //: what to do when the empty background is clicked
             text: qsTranslate("settingsmanager", "close window")
             onCheckedChanged: set_bg.checkForChanges()
@@ -312,7 +329,7 @@ PQSetting {
 
         PQRadioButton {
             id: radio_navclick
-            enforceMaxWidth: set_bg.width
+            enforceMaxWidth: set_bg.contentWidth
             //: what to do when the empty background is clicked
             text: qsTranslate("settingsmanager", "navigate between images")
             onCheckedChanged: set_bg.checkForChanges()
@@ -321,7 +338,7 @@ PQSetting {
 
         PQRadioButton {
             id: radio_toggledeco
-            enforceMaxWidth: set_bg.width
+            enforceMaxWidth: set_bg.contentWidth
             //: what to do when the empty background is clicked
             text: qsTranslate("settingsmanager", "toggle window decoration")
             onCheckedChanged: set_bg.checkForChanges()
