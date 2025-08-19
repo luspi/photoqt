@@ -41,6 +41,8 @@ PQSetting {
 
     property list<string> curEntries: []
 
+    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
+
     content: [
 
         PQCheckBox {
@@ -283,6 +285,7 @@ PQSetting {
         PQSliderSpinBox {
             id: fontsize
             width: set_stin.contentWidth
+            visible: set_stin.modernInterface
             minval: 5
             maxval: 30
             title: qsTranslate("settingsmanager", "Font size:")
@@ -297,6 +300,8 @@ PQSetting {
 
         PQSettingSubTitle {
 
+            visible: set_stin.modernInterface
+
             //: Settings title
             title: qsTranslate("settingsmanager", "Visibility")
 
@@ -304,59 +309,66 @@ PQSetting {
 
         },
 
-        PQRadioButton {
-            id: autohide_always
-            enforceMaxWidth: set_stin.contentWidth
-            //: visibility status of the status information
-            text: qsTranslate("settingsmanager", "keep always visible")
-            onCheckedChanged: set_stin.checkForChanges()
-        },
+        Column {
 
-        PQRadioButton {
-            id: autohide_anymove
-            enforceMaxWidth: set_stin.contentWidth
-            //: visibility status of the status information
-            text: qsTranslate("settingsmanager", "only show with any cursor move")
-            onCheckedChanged: set_stin.checkForChanges()
-        },
+            spacing: set_stin.contentSpacing
+            visible: set_stin.modernInterface
 
-        PQRadioButton {
-            id: autohide_topedge
-            enforceMaxWidth: set_stin.contentWidth
-            //: visibility status of the status information
-            text: qsTranslate("settingsmanager", "only show when cursor near top edge")
-            onCheckedChanged: set_stin.checkForChanges()
-        },
-
-        PQSliderSpinBox {
-            id: autohide_timeout
-            width: set_stin.contentWidth
-            minval: 0
-            maxval: 10
-            title: qsTranslate("settingsmanager", "hide again after timeout:")
-            suffix: " s"
-            enabled: !autohide_always.checked
-            animateHeight: true
-            onValueChanged:
-                set_stin.checkForChanges()
-        },
-
-        Item {
-
-            clip: true
-            width: imgchange.width
-            enabled: !autohide_always.checked
-            height: enabled ? imgchange.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 150 } }
-
-            PQCheckBox {
-                id: imgchange
+            PQRadioButton {
+                id: autohide_always
                 enforceMaxWidth: set_stin.contentWidth
-                //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
-                text: qsTranslate("settingsmanager", "also show when image changes")
+                //: visibility status of the status information
+                text: qsTranslate("settingsmanager", "keep always visible")
                 onCheckedChanged: set_stin.checkForChanges()
+            }
+
+            PQRadioButton {
+                id: autohide_anymove
+                enforceMaxWidth: set_stin.contentWidth
+                //: visibility status of the status information
+                text: qsTranslate("settingsmanager", "only show with any cursor move")
+                onCheckedChanged: set_stin.checkForChanges()
+            }
+
+            PQRadioButton {
+                id: autohide_topedge
+                enforceMaxWidth: set_stin.contentWidth
+                //: visibility status of the status information
+                text: qsTranslate("settingsmanager", "only show when cursor near top edge")
+                onCheckedChanged: set_stin.checkForChanges()
+            }
+
+            PQSliderSpinBox {
+                id: autohide_timeout
+                width: set_stin.contentWidth
+                minval: 0
+                maxval: 10
+                title: qsTranslate("settingsmanager", "hide again after timeout:")
+                suffix: " s"
+                enabled: !autohide_always.checked
+                animateHeight: true
+                onValueChanged:
+                    set_stin.checkForChanges()
+            }
+
+            Item {
+
+                clip: true
+                width: imgchange.width
+                enabled: !autohide_always.checked
+                height: enabled ? imgchange.height : 0
+                Behavior on height { NumberAnimation { duration: 200 } }
+                opacity: enabled ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                PQCheckBox {
+                    id: imgchange
+                    enforceMaxWidth: set_stin.contentWidth
+                    //: Refers to the status information's auto-hide feature, this is an additional case it can be shown
+                    text: qsTranslate("settingsmanager", "also show when image changes")
+                    onCheckedChanged: set_stin.checkForChanges()
+                }
+
             }
 
         },
@@ -364,6 +376,8 @@ PQSetting {
         /*************************************/
 
         PQSettingSubTitle {
+
+            visible: set_stin.modernInterface
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Window management")
@@ -374,6 +388,7 @@ PQSetting {
 
         PQCheckBox {
             id: managewindow
+            visible: set_stin.modernInterface
             enforceMaxWidth: set_stin.contentWidth
             text: qsTranslate("settingsmanager",  "manage window through status info")
             onCheckedChanged: set_stin.checkForChanges()

@@ -44,6 +44,8 @@ PQSetting {
     property var defaultentries: ({})
     property list<var> entries: []
 
+    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
+
     content: [
 
         PQTextL {
@@ -259,6 +261,8 @@ PQSetting {
 
         PQSettingSubTitle {
 
+            visible: set_come.modernInterface
+
             //: The entries here are the custom entries in the context menu
             title: qsTranslate("settingsmanager", "Duplicate entries in main menu")
 
@@ -268,6 +272,7 @@ PQSetting {
 
         PQCheckBox {
             id: check_dupl
+            visible: set_come.modernInterface
             //: Refers to duplicating the custom context menu entries in the main menu
             text: qsTranslate("settingsmanager", "Duplicate in main menu")
             onCheckedChanged:

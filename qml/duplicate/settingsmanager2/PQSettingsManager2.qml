@@ -228,7 +228,6 @@ PQTemplate {
                         ["fowe", qsTranslate("settingsmanager", "Font weight")],
                         ["back", qsTranslate("settingsmanager", "Background")],
                         ["noti", qsTranslate("settingsmanager", "Notification")],
-                        ["popo", qsTranslate("settingsmanager", "Popout")],
                         ["come", qsTranslate("settingsmanager", "Context Menu")],
                         ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
