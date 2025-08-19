@@ -30,11 +30,6 @@ PQSetting {
 
     id: set_edge
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Edges")
-
-    helptext: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which window edge. Note that if the main menu is completely disabled, then the settings manager can still be accessed by shortcut or through the context menu.")
-
     SystemPalette { id: pqtPalette }
 
     property var current: {
@@ -65,6 +60,17 @@ PQSetting {
     }
 
     content: [
+
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Edges")
+
+            helptext: qsTranslate("settingsmanager", "Moving the mouse cursor to the edges of the application window can trigger the visibility of some things, like the main menu, thumbnails, or metadata. Here you can choose what is triggered by which window edge. Note that if the main menu is completely disabled, then the settings manager can still be accessed by shortcut or through the context menu.")
+
+        },
 
         Column {
 
@@ -208,7 +214,7 @@ PQSetting {
 
         /*********************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
 
             //: Settings title
             title: qsTranslate("settingsmanager", "Sensitivity")

@@ -33,11 +33,6 @@ PQSetting {
 
     id: set_come
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Context menu")
-
-    helptext: qsTranslate("settingsmanager", "The context menu contains actions that can be performed related to the currently viewed image. By default is it shown when doing a right click on the background, although it is possible to change that in the shortcuts category. In addition to pre-defined image functions it is also possible to add custom entries to that menu.")
-
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisable; colorGroup: SystemPalette.Disabled }
 
@@ -48,218 +43,236 @@ PQSetting {
 
     content: [
 
-        PQTextL {
-            visible: set_come.entries.length===0
-            height: 50
-            verticalAlignment: Text.AlignVCenter
-            color: pqtPaletteDisable.text
-            font.weight: PQCLook.fontWeightBold
-            //: The custom entries here are the custom entries in the context menu
-            text: qsTranslate("settingsmanager", "No custom entries exists yet")
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Context menu")
+
+            helptext: qsTranslate("settingsmanager", "The context menu contains actions that can be performed related to the currently viewed image. By default is it shown when doing a right click on the background, although it is possible to change that in the shortcuts category. In addition to pre-defined image functions it is also possible to add custom entries to that menu.")
+
         },
 
         Column {
 
-            spacing: 5
+            spacing: set_come.contentSpacing
 
-            Repeater {
+            PQTextL {
+                visible: set_come.entries.length===0
+                height: 50
+                verticalAlignment: Text.AlignVCenter
+                color: pqtPaletteDisable.text
+                font.weight: PQCLook.fontWeightBold
+                //: The custom entries here are the custom entries in the context menu
+                text: qsTranslate("settingsmanager", "No custom entries exists yet")
+            }
 
-                model: set_come.entries.length
+            Column {
 
-                Item {
+                spacing: 5
 
-                    id: deleg
+                Repeater {
 
-                    required property int modelData
+                    model: set_come.entries.length
 
-                    property var curData: (deleg.modelData < set_come.entries.length) ? set_come.entries[deleg.modelData] : ["","","","",""]
-                    onCurDataChanged: {
-                        set_come.entries[deleg.modelData] = curData
-                        set_come.checkForChanges()
-                    }
+                    Item {
 
-                    width: Math.min(800, set_come.contentWidth-delicn.width-10)
-                    height: 50
+                        id: deleg
 
-                    Row {
-                        spacing: 5
-                        x: 5
-                        y: (parent.height-height)/2
+                        required property int modelData
 
-                        PQButtonIcon {
-                            id: appicon
-                            iconScale: 0.5
-                            source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + set_come.entries[deleg.modelData][0]))
-                            onSourceChanged:
-                                set_come.checkForChanges()
-                            onClicked: {
-                                                                                    //: written on button for selecting a file from the file dialog
-                                var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
-                                if(newicn !== "")
-                                    deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
-                                else
-                                    deleg.curData[0] = ""
-                                deleg.curDataChanged()
-
-                            }
+                        property var curData: (deleg.modelData < set_come.entries.length) ? set_come.entries[deleg.modelData] : ["","","","",""]
+                        onCurDataChanged: {
+                            set_come.entries[deleg.modelData] = curData
+                            set_come.checkForChanges()
                         }
-                        PQLineEdit {
-                            id: entryname
-                            width: (deleg.width-appicon.width-quitcheck.width-30)/3
-                            //: The entry here refers to the text that is shown in the context menu for a custom entry
-                            placeholderText: qsTranslate("settingsmanager", "entry name")
-                            text: deleg.curData[2]
-                            onTextChanged: {
-                                if(deleg.curData[2] !== text) {
-                                    deleg.curData[2] = text
+
+                        width: Math.min(800, set_come.contentWidth-delicn.width-10)
+                        height: 50
+
+                        Row {
+                            spacing: 5
+                            x: 5
+                            y: (parent.height-height)/2
+
+                            PQButtonIcon {
+                                id: appicon
+                                iconScale: 0.5
+                                source: (deleg.curData[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + set_come.entries[deleg.modelData][0]))
+                                onSourceChanged:
+                                    set_come.checkForChanges()
+                                onClicked: {
+                                                                                        //: written on button for selecting a file from the file dialog
+                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
+                                    if(newicn !== "")
+                                        deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
+                                    else
+                                        deleg.curData[0] = ""
                                     deleg.curDataChanged()
+
                                 }
                             }
-                        }
-                        Row {
                             PQLineEdit {
-                                id: executable
-                                width: entryname.width
-                                placeholderText: qsTranslate("settingsmanager", "executable")
-                                text: deleg.curData[1]
+                                id: entryname
+                                width: (deleg.width-appicon.width-quitcheck.width-30)/3
+                                //: The entry here refers to the text that is shown in the context menu for a custom entry
+                                placeholderText: qsTranslate("settingsmanager", "entry name")
+                                text: deleg.curData[2]
                                 onTextChanged: {
-                                    if(deleg.curData[1] !== text) {
-                                        deleg.curData[1] = text
+                                    if(deleg.curData[2] !== text) {
+                                        deleg.curData[2] = text
                                         deleg.curDataChanged()
                                     }
                                 }
                             }
-                            PQButton {
-                                id: selectexe
-                                text: "..."
-                                tooltip: qsTranslate("settingsmanager", "Select executable")
-                                width: height
-                                onClicked: {
-                                    //: written on button for selecting a file from the file dialog
-                                    var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []);
-
-                                    if(newexe === "")
-                                        return
-
-                                    var fname = PQCScriptsFilesPaths.getFilename(newexe)
-                                    var icn = PQCScriptsImages.getIconPathFromTheme(fname)
-
-                                    if(PQCScriptsFilesPaths.cleanPath(StandardPaths.findExecutable(fname)) === newexe)
-                                        deleg.curData[1] = fname
-                                    else
-                                        deleg.curData[1] = PQCScriptsFilesPaths.cleanPath(newexe)
-
-                                    if(icn !== "" && deleg.curData[0] === "") {
-                                        deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
+                            Row {
+                                PQLineEdit {
+                                    id: executable
+                                    width: entryname.width
+                                    placeholderText: qsTranslate("settingsmanager", "executable")
+                                    text: deleg.curData[1]
+                                    onTextChanged: {
+                                        if(deleg.curData[1] !== text) {
+                                            deleg.curData[1] = text
+                                            deleg.curDataChanged()
+                                        }
                                     }
+                                }
+                                PQButton {
+                                    id: selectexe
+                                    text: "..."
+                                    tooltip: qsTranslate("settingsmanager", "Select executable")
+                                    width: height
+                                    onClicked: {
+                                        //: written on button for selecting a file from the file dialog
+                                        var newexe = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/bin"), []);
 
-                                    deleg.curDataChanged()
+                                        if(newexe === "")
+                                            return
 
+                                        var fname = PQCScriptsFilesPaths.getFilename(newexe)
+                                        var icn = PQCScriptsImages.getIconPathFromTheme(fname)
+
+                                        if(PQCScriptsFilesPaths.cleanPath(StandardPaths.findExecutable(fname)) === newexe)
+                                            deleg.curData[1] = fname
+                                        else
+                                            deleg.curData[1] = PQCScriptsFilesPaths.cleanPath(newexe)
+
+                                        if(icn !== "" && deleg.curData[0] === "") {
+                                            deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(icn)
+                                        }
+
+                                        deleg.curDataChanged()
+
+                                    }
+                                }
+                            }
+                            PQLineEdit {
+                                id: addflags
+                                width: entryname.width-selectexe.width
+                                //: The flags here are additional parameters that can be passed on to an executable
+                                placeholderText: qsTranslate("settingsmanager", "additional flags")
+                                text: deleg.curData[4]
+                                onTextChanged: {
+                                    if(deleg.curData[4] !== text) {
+                                        deleg.curData[4] = text
+                                        deleg.curDataChanged()
+                                    }
+                                }
+                            }
+                            PQCheckBox {
+                                y: (addflags.height-height)/2
+                                id: quitcheck
+                                //: Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!
+                                text: qsTranslate("settingsmanager", "quit")
+                                checked: (deleg.curData[3]==="1")
+                                onCheckedChanged: {
+                                    var val = (checked ? "1" : "0")
+                                    if(deleg.curData[3] !== val) {
+                                        deleg.curData[3] = val
+                                        deleg.curDataChanged()
+                                    }
+                                }
+                            }
+
+                            Item {
+                                width: 1
+                                height: 1
+                            }
+
+                            Image {
+                                id: delicn
+                                y: (addflags.height-height)/2
+                                source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
+                                height: 15
+                                width: 15
+                                sourceSize: Qt.size(width, height)
+                                property bool hovered: false
+                                opacity: hovered ? 1 : 0.3
+                                Behavior on opacity { NumberAnimation { duration: 200 } }
+                                PQMouseArea {
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    //: The entry here is a custom entry in the context menu
+                                    text: qsTranslate("settingsmanager", "Delete entry")
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: set_come.deleteEntry(deleg.modelData)
+                                    onEntered: delicn.hovered = true
+                                    onExited: delicn.hovered = false
                                 }
                             }
                         }
-                        PQLineEdit {
-                            id: addflags
-                            width: entryname.width-selectexe.width
-                            //: The flags here are additional parameters that can be passed on to an executable
-                            placeholderText: qsTranslate("settingsmanager", "additional flags")
-                            text: deleg.curData[4]
-                            onTextChanged: {
-                                if(deleg.curData[4] !== text) {
-                                    deleg.curData[4] = text
-                                    deleg.curDataChanged()
-                                }
-                            }
-                        }
-                        PQCheckBox {
-                            y: (addflags.height-height)/2
-                            id: quitcheck
-                            //: Quit PhotoQt after executing custom context menu entry. Please keep as short as possible!!
-                            text: qsTranslate("settingsmanager", "quit")
-                            checked: (deleg.curData[3]==="1")
-                            onCheckedChanged: {
-                                var val = (checked ? "1" : "0")
-                                if(deleg.curData[3] !== val) {
-                                    deleg.curData[3] = val
-                                    deleg.curDataChanged()
-                                }
-                            }
-                        }
 
-                        Item {
-                            width: 1
-                            height: 1
-                        }
-
-                        Image {
-                            id: delicn
-                            y: (addflags.height-height)/2
-                            source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
-                            height: 15
-                            width: 15
-                            sourceSize: Qt.size(width, height)
-                            property bool hovered: false
-                            opacity: hovered ? 1 : 0.3
-                            Behavior on opacity { NumberAnimation { duration: 200 } }
-                            PQMouseArea {
-                                anchors.fill: parent
-                                hoverEnabled: true
-                                //: The entry here is a custom entry in the context menu
-                                text: qsTranslate("settingsmanager", "Delete entry")
-                                cursorShape: Qt.PointingHandCursor
-                                onClicked: set_come.deleteEntry(deleg.modelData)
-                                onEntered: delicn.hovered = true
-                                onExited: delicn.hovered = false
-                            }
-                        }
                     }
 
                 }
 
             }
 
-        },
-
-        PQButton {
-            id: addnewbut
-            //: The entry here is a custom entry in the context menu
-            text: qsTranslate("settingsmanager", "Add new entry")
-            forceWidth: Math.min(parent.width, 500)
-            font.weight: PQCLook.fontWeightNormal
-            onClicked: set_come.addNewEntry()
-        },
-        PQButton {
-            id: addsysbut
-            forceWidth: Math.min(parent.width, 500)
-            visible: !PQCScriptsConfig.amIOnWindows()
-            //: The system applications here refers to any image related applications that can be found automatically on your system
-            text: qsTranslate("settingsmanager", "Add system applications")
-            font.weight: PQCLook.fontWeightNormal
-            onClicked: {
-                var newentries = PQCScriptsContextMenu.detectSystemEntries()
-                for(var i = 0; i < newentries.length; ++i) {
-
-                    var cur = newentries[i]
-
-                    var found = false
-                    for(var j = 0; j < set_come.entries.length; ++j) {
-                        if(set_come.entries[j][1] === cur[1]) {
-                            found = true
-                            break
-                        }
-                    }
-
-                    if(!found)
-                        set_come.entries.push(cur)
-
-                }
-                set_come.entriesChanged()
+            PQButton {
+                id: addnewbut
+                //: The entry here is a custom entry in the context menu
+                text: qsTranslate("settingsmanager", "Add new entry")
+                forceWidth: Math.min(parent.width, 500)
+                font.weight: PQCLook.fontWeightNormal
+                onClicked: set_come.addNewEntry()
             }
+
+            PQButton {
+                id: addsysbut
+                forceWidth: Math.min(parent.width, 500)
+                visible: !PQCScriptsConfig.amIOnWindows()
+                //: The system applications here refers to any image related applications that can be found automatically on your system
+                text: qsTranslate("settingsmanager", "Add system applications")
+                font.weight: PQCLook.fontWeightNormal
+                onClicked: {
+                    var newentries = PQCScriptsContextMenu.detectSystemEntries()
+                    for(var i = 0; i < newentries.length; ++i) {
+
+                        var cur = newentries[i]
+
+                        var found = false
+                        for(var j = 0; j < set_come.entries.length; ++j) {
+                            if(set_come.entries[j][1] === cur[1]) {
+                                found = true
+                                break
+                            }
+                        }
+
+                        if(!found)
+                            set_come.entries.push(cur)
+
+                    }
+                    set_come.entriesChanged()
+                }
+            }
+
         },
 
         /******************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
 
             visible: set_come.modernInterface
 

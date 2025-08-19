@@ -30,12 +30,18 @@ PQSetting {
 
     id: set_windowmode
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Fullscreen or window mode")
-
-    helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
-
     content: [
+
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Fullscreen or window mode")
+
+            helptext: qsTranslate("settingsmanager", "There are two main states that the application window can be in. It can either be in fullscreen mode or in window mode. In fullscreen mode, PhotoQt will act more like a floating layer that allows you to quickly look at images. In window mode, PhotoQt can be used in combination with other applications. When in window mode, it can also be set to always be above any other windows, and to remember the window geometry in between sessions.")
+
+        },
 
         Flow {
             width: set_windowmode.contentWidth

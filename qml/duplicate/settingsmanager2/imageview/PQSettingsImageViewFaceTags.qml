@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -21,42 +21,58 @@
  **************************************************************************/
 
 import QtQuick
-
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Column {
+PQSetting {
 
-    id: settitle
+    id: set_fata
 
-    // this value needs to match the spacer width in PQSettingSpacer.qml
-    x: -20
-    width: parent.width-x
-    spacing: 5
+    content: [
 
-    property string title: ""
-    property string helptext: ""
+        PQSettingSubtitle {
 
-    PQSettingsSeparator {}
+            //: A settings title
+            title: qsTranslate("settingsmanager", "")
 
-    PQTextXL {
-        text: settitle.title
-        font.capitalization: Font.SmallCaps
-        font.weight: PQCLook.fontWeightBold
+            helptext: qsTranslate("settingsmanager",  "")
+
+            showLineAbove: false
+
+        }
+
+    ]
+
+    onResetToDefaults: {
+
+
+        PQCConstants.settingsManagerSettingChanged = false
+
     }
 
-    Item {
-        width: 1
-        height: 5
+    function handleEscape() {}
+
+    function checkForChanges() {
+        if(!settingsLoaded) return
     }
 
-    PQText {
-        visible: text!==""
-        text: settitle.helptext
-        width: parent.width
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+    function load() {
+
+        settingsLoaded = false
+
+
+        PQCConstants.settingsManagerSettingChanged = false
+        settingsLoaded = true
+
+    }
+
+    function applyChanges() {
+
+
+        PQCConstants.settingsManagerSettingChanged = false
+
     }
 
 }

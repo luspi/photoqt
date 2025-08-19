@@ -227,7 +227,7 @@ Loader {
             }
 
             if(PQCConstants.startupFilePath === "" || (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)) {
-                PQCNotify.loaderShow("filedialog")
+                // PQCNotify.loaderShow("filedialog")
             }
 
         }

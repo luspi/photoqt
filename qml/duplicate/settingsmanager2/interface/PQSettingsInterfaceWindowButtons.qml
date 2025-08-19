@@ -32,17 +32,23 @@ PQSetting {
 
     id: set_windowbuttons
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Window buttons")
-
-    helptext: qsTranslate("settingsmanager", "PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.")
-
     SystemPalette { id: pqtPalette }
 
     property list<string> curEntries: []
     property list<string> defaultEntries: []
 
     content: [
+
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Window buttons")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can show various integrated window buttons in the top right corner of the window. In addition to all standard window buttons several custom buttons are available, for instance navigation buttons for the current folder. Here the buttons can be arranged in any order. A context menu for each entry offers options to only show a button in fullscreen or when windowed, or to keep it above any other window.")
+
+        },
 
         PQCheckBox {
             id: integbut_show
@@ -441,7 +447,7 @@ PQSetting {
                     set_windowbuttons.checkForChanges()
             }
 
-            PQSettingSubTitle {
+            PQSettingSubtitle {
                 x: -set_windowbuttons.indentWidth
                 title: qsTranslate("settingsmanager", "Visibility")
             }

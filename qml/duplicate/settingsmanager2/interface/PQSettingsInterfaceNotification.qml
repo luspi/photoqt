@@ -30,14 +30,20 @@ PQSetting {
 
     id: set_noti
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Notification")
-
-    helptext: qsTranslate("settingsmanager", "For certain actions a notification is shown. On Linux this notification can be shown as native notification. Alternatively it can also be shown integrated into the main interface.")
-
     SystemPalette { id: pqtPalette }
 
     content: [
+
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Notification")
+
+            helptext: qsTranslate("settingsmanager", "For certain actions a notification is shown. On Linux this notification can be shown as native notification. Alternatively it can also be shown integrated into the main interface.")
+
+        },
 
         Column {
 

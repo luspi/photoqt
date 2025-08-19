@@ -31,11 +31,6 @@ PQSetting {
 
     id: set_popo
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Popout")
-
-    helptext: qsTranslate("settingsmanager", "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
-
     SystemPalette { id: pqtPalette }
 
     //: Used as identifying name for one of the elements in the interface
@@ -85,6 +80,17 @@ PQSetting {
     signal invertPopoutSelection()
 
     content: [
+
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Popout")
+
+            helptext: qsTranslate("settingsmanager", "Almost all of the elements for displaying information or performing actions can either be shown integrated into the main window or shown popped out in their own window. Most of them can also be popped out/in through a small button at the top left corner of each elements.")
+
+        },
 
         Rectangle {
 
@@ -317,7 +323,7 @@ PQSetting {
 
         /****************************************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
             //: Settings title
             title: qsTranslate("settingsmanager", "Non-modal popouts")
             helptext: qsTranslate("settingsmanager", "All popouts by default are modal windows. That means that they block the main interface until they are closed again. Some popouts can be switched to a non-modal behavior, allowing them to stay open while using the main interface.") + "<br><br>" + qsTranslate("settingsmanager", "Please note: If a popout is set to be non-modal then it will not be able to receive any shortcut commands anymore.")
@@ -349,7 +355,7 @@ PQSetting {
 
         /****************************************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
             //: Settings title
             title: qsTranslate("settingsmanager", "Pop out when window is small")
             helptext: qsTranslate("settingsmanager",  "Some elements might not be as usable or function well when the window is too small. Thus it is possible to force such elements to be popped out automatically whenever the application window is too small.")

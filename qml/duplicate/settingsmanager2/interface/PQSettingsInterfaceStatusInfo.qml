@@ -32,11 +32,6 @@ PQSetting {
 
     id: set_stin
 
-    //: A settings title
-    title: qsTranslate("settingsmanager", "Status info")
-
-    helptext: qsTranslate("settingsmanager", "The status information refers to the set of information shown in the top left corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
-
     SystemPalette { id: pqtPalette }
 
     property list<string> curEntries: []
@@ -45,260 +40,277 @@ PQSetting {
 
     content: [
 
-        PQCheckBox {
-            id: status_show
-            enforceMaxWidth: set_stin.contentWidth
-            text: qsTranslate("settingsmanager", "show status information")
-            onCheckedChanged: set_stin.checkForChanges()
+        PQSettingSubtitle {
+
+            showLineAbove: false
+
+            //: A settings title
+            title: qsTranslate("settingsmanager", "Status info")
+
+            helptext: qsTranslate("settingsmanager", "The status information refers to the set of information shown in the top left corner of the screen. This typically includes the filename of the currently viewed image and information like the zoom level, rotation angle, etc. The exact set of information and their order can be adjusted as desired.")
+
         },
 
-        Rectangle {
-            enabled: status_show.checked
-            width: parent.width-5
-            radius: 5
-            clip: true
+        Column {
 
-            height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            opacity: enabled ? 1 : 0
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            spacing: set_stin.contentSpacing
 
-            color: PQCLook.baseBorder
-            ListView {
+            PQCheckBox {
+                id: status_show
+                enforceMaxWidth: set_stin.contentWidth
+                text: qsTranslate("settingsmanager", "show status information")
+                onCheckedChanged: set_stin.checkForChanges()
+            }
 
-                id: avail
-
-                x: 5
-                y: 5
-
-                width: parent.width-10
-                height: parent.height-10
-
+            Rectangle {
+                enabled: status_show.checked
+                width: set_stin.contentWidth-5
+                radius: 5
                 clip: true
-                orientation: ListView.Horizontal
-                spacing: 5
 
-                ScrollBar.horizontal: PQHorizontalScrollBar { id: scrollbar }
+                height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
+                Behavior on height { NumberAnimation { duration: 200 } }
+                opacity: enabled ? 1 : 0
+                Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                property int dragItemIndex: -1
+                color: PQCLook.baseBorder
+                ListView {
 
-                property list<int> widths: []
+                    id: avail
 
-                property var disp: {
-                    //: Please keep short! The counter shows where we are in the folder.
-                    "counter": qsTranslate("settingsmanager", "counter"),
-                    //: Please keep short!
-                    "filename": qsTranslate("settingsmanager", "filename"),
-                    //: Please keep short!
-                    "filepathname": qsTranslate("settingsmanager", "filepath"),
-                    //: Please keep short! This is the image resolution.
-                    "resolution": qsTranslate("settingsmanager", "resolution"),
-                    //: Please keep short! This is the current zoom level.
-                    "zoom": qsTranslate("settingsmanager", "zoom"),
-                    //: Please keep short! This is the rotation of the current image
-                    "rotation": qsTranslate("settingsmanager", "rotation"),
-                    //: Please keep short! This is the filesize of the current image.
-                    "filesize": qsTranslate("settingsmanager", "filesize"),
-                    //: Please keep short! This is the color profile used for the current image
-                    "colorprofile": qsTranslate("settingsmanager", "color profile")
-                }
+                    x: 5
+                    y: 5
 
-                model: ListModel {
-                    id: themodel
-                }
+                    width: parent.width-10
+                    height: parent.height-10
 
-                delegate: Item {
-                    id: deleg
-                    width: Math.max.apply(Math, avail.widths)
-                    height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+                    clip: true
+                    orientation: ListView.Horizontal
+                    spacing: 5
 
-                    required property string name
-                    required property int index
+                    ScrollBar.horizontal: PQHorizontalScrollBar { id: scrollbar }
 
-                    Rectangle {
-                        id: dragRect
-                        width: deleg.width
-                        height: deleg.height
-                        anchors.verticalCenter: parent.verticalCenter
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: pqtPalette.base
-                        radius: 5
-                        PQText {
-                            id: txt
-                            x: (parent.width-width)/2
-                            y: (parent.height-height)/2
-                            text: avail.disp[deleg.name]
-                            font.weight: PQCLook.fontWeightBold
-                            color: pqtPalette.text
-                            onWidthChanged: {
-                                avail.widths.push(width+20)
-                                avail.widthsChanged()
-                            }
-                        }
-                        PQMouseArea {
-                            id: mouseArea
-                            anchors.fill: parent
-                            drag.target: parent
-                            drag.axis: Drag.XAxis
-                            drag.onActiveChanged: {
-                                if (mouseArea.drag.active) {
-                                    avail.dragItemIndex = deleg.index;
-                                }
-                                dragRect.Drag.drop();
-                                if(!mouseArea.drag.active) {
-                                    set_stin.populateModel()
-                                }
-                            }
-                            cursorShape: Qt.OpenHandCursor
-                            onPressed:
-                                cursorShape = Qt.ClosedHandCursor
-                            onReleased:
-                                cursorShape = Qt.OpenHandCursor
-                        }
-                        states: [
-                            State {
-                                when: dragRect.Drag.active
-                                ParentChange {
-                                    target: dragRect
-                                    parent: set_stin.parent
-                                }
+                    property int dragItemIndex: -1
 
-                                AnchorChanges {
-                                    target: dragRect
-                                    anchors.horizontalCenter: undefined
-                                    anchors.verticalCenter: undefined
+                    property list<int> widths: []
+
+                    property var disp: {
+                        //: Please keep short! The counter shows where we are in the folder.
+                        "counter": qsTranslate("settingsmanager", "counter"),
+                        //: Please keep short!
+                        "filename": qsTranslate("settingsmanager", "filename"),
+                        //: Please keep short!
+                        "filepathname": qsTranslate("settingsmanager", "filepath"),
+                        //: Please keep short! This is the image resolution.
+                        "resolution": qsTranslate("settingsmanager", "resolution"),
+                        //: Please keep short! This is the current zoom level.
+                        "zoom": qsTranslate("settingsmanager", "zoom"),
+                        //: Please keep short! This is the rotation of the current image
+                        "rotation": qsTranslate("settingsmanager", "rotation"),
+                        //: Please keep short! This is the filesize of the current image.
+                        "filesize": qsTranslate("settingsmanager", "filesize"),
+                        //: Please keep short! This is the color profile used for the current image
+                        "colorprofile": qsTranslate("settingsmanager", "color profile")
+                    }
+
+                    model: ListModel {
+                        id: themodel
+                    }
+
+                    delegate: Item {
+                        id: deleg
+                        width: Math.max.apply(Math, avail.widths)
+                        height: avail.height-(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)
+
+                        required property string name
+                        required property int index
+
+                        Rectangle {
+                            id: dragRect
+                            width: deleg.width
+                            height: deleg.height
+                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            color: pqtPalette.base
+                            radius: 5
+                            PQText {
+                                id: txt
+                                x: (parent.width-width)/2
+                                y: (parent.height-height)/2
+                                text: avail.disp[deleg.name]
+                                font.weight: PQCLook.fontWeightBold
+                                color: pqtPalette.text
+                                onWidthChanged: {
+                                    avail.widths.push(width+20)
+                                    avail.widthsChanged()
                                 }
                             }
-                        ]
-
-                        Drag.active: mouseArea.drag.active
-                        Drag.hotSpot.x: 0
-                        Drag.hotSpot.y: 0
-
-                        Image {
-
-                            x: parent.width-width
-                            y: 0
-                            width: 20
-                            height: 20
-
-                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-                            sourceSize: Qt.size(width, height)
-
-                            opacity: closemouse.containsMouse ? 0.8 : 0.2
-                            Behavior on opacity { NumberAnimation { duration: 150 } }
-
                             PQMouseArea {
-                                id: closemouse
+                                id: mouseArea
                                 anchors.fill: parent
-                                cursorShape: Qt.PointingHandCursor
-                                hoverEnabled: true
-                                onClicked: {
-                                    set_stin.curEntries.splice(deleg.index, 1)
-                                    set_stin.populateModel()
-                                    set_stin.checkForChanges()
+                                drag.target: parent
+                                drag.axis: Drag.XAxis
+                                drag.onActiveChanged: {
+                                    if (mouseArea.drag.active) {
+                                        avail.dragItemIndex = deleg.index;
+                                    }
+                                    dragRect.Drag.drop();
+                                    if(!mouseArea.drag.active) {
+                                        set_stin.populateModel()
+                                    }
                                 }
+                                cursorShape: Qt.OpenHandCursor
+                                onPressed:
+                                    cursorShape = Qt.ClosedHandCursor
+                                onReleased:
+                                    cursorShape = Qt.OpenHandCursor
+                            }
+                            states: [
+                                State {
+                                    when: dragRect.Drag.active
+                                    ParentChange {
+                                        target: dragRect
+                                        parent: set_stin.parent
+                                    }
+
+                                    AnchorChanges {
+                                        target: dragRect
+                                        anchors.horizontalCenter: undefined
+                                        anchors.verticalCenter: undefined
+                                    }
+                                }
+                            ]
+
+                            Drag.active: mouseArea.drag.active
+                            Drag.hotSpot.x: 0
+                            Drag.hotSpot.y: 0
+
+                            Image {
+
+                                x: parent.width-width
+                                y: 0
+                                width: 20
+                                height: 20
+
+                                source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                                sourceSize: Qt.size(width, height)
+
+                                opacity: closemouse.containsMouse ? 0.8 : 0.2
+                                Behavior on opacity { NumberAnimation { duration: 150 } }
+
+                                PQMouseArea {
+                                    id: closemouse
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    hoverEnabled: true
+                                    onClicked: {
+                                        set_stin.curEntries.splice(deleg.index, 1)
+                                        set_stin.populateModel()
+                                        set_stin.checkForChanges()
+                                    }
+                                }
+
                             }
 
                         }
 
                     }
+                }
 
+                DropArea {
+                    id: dropArea
+                    anchors.fill: parent
+                    onPositionChanged: (drag) => {
+                        var newindex = avail.indexAt(drag.x, drag.y)
+                        if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+
+                            // we move the entry around in the list for the populate call later
+                            var element = set_stin.curEntries[avail.dragItemIndex];
+                            set_stin.curEntries.splice(avail.dragItemIndex, 1);
+                            set_stin.curEntries.splice(newindex, 0, element);
+
+                            avail.model.move(avail.dragItemIndex, newindex, 1)
+                            avail.dragItemIndex = newindex
+                            set_stin.checkForChanges()
+                        }
+                    }
                 }
             }
 
-            DropArea {
-                id: dropArea
-                anchors.fill: parent
-                onPositionChanged: (drag) => {
-                    var newindex = avail.indexAt(drag.x, drag.y)
-                    if(newindex !== -1 && newindex !== avail.dragItemIndex) {
+            Row {
+                enabled: status_show.checked
+                spacing: 10
 
-                        // we move the entry around in the list for the populate call later
-                        var element = set_stin.curEntries[avail.dragItemIndex];
-                        set_stin.curEntries.splice(avail.dragItemIndex, 1);
-                        set_stin.curEntries.splice(newindex, 0, element);
+                height: enabled ? combo_add.height : 0
+                opacity: enabled ? 1 : 0
+                Behavior on height { NumberAnimation { duration: 200 } }
+                Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                        avail.model.move(avail.dragItemIndex, newindex, 1)
-                        avail.dragItemIndex = newindex
+                PQComboBox {
+                    id: combo_add
+                    y: (but_add.height-height)/2
+                    property list<string> statusdata_keys: [
+                        "counter",
+                        "filename",
+                        "filepathname",
+                        "resolution",
+                        "zoom",
+                        "rotation",
+                        "filesize",
+                        "colorprofile"
+                    ]
+                    property list<string> statusdata_vals: [
+                        //: Please keep short! The counter shows where we are in the folder.
+                        qsTranslate("settingsmanager", "counter"),
+                        //: Please keep short!
+                        qsTranslate("settingsmanager", "filename"),
+                        //: Please keep short!
+                        qsTranslate("settingsmanager", "filepath"),
+                        //: Please keep short! This is the image resolution.
+                        qsTranslate("settingsmanager", "resolution"),
+                        //: Please keep short! This is the current zoom level.
+                        qsTranslate("settingsmanager", "zoom"),
+                        //: Please keep short! This is the rotation of the current image
+                        qsTranslate("settingsmanager", "rotation"),
+                        //: Please keep short! This is the filesize of the current image.
+                        qsTranslate("settingsmanager", "filesize"),
+                        //: Please keep short! This is the color profile used for the current image
+                        qsTranslate("settingsmanager", "color profile")
+                    ]
+                    model: statusdata_vals
+                }
+                PQButton {
+                    id: but_add
+                    //: This is written on a button that is used to add a selected block to the status info section.
+                    text: qsTranslate("settingsmanager", "add")
+                    smallerVersion: true
+                    onClicked: {
+                        set_stin.curEntries.push(combo_add.statusdata_keys[combo_add.currentIndex])
+                        set_stin.populateModel()
                         set_stin.checkForChanges()
                     }
                 }
             }
-        },
 
-        Row {
-            enabled: status_show.checked
-            spacing: 10
-
-            height: enabled ? combo_add.height : 0
-            opacity: enabled ? 1 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
-
-            PQComboBox {
-                id: combo_add
-                y: (but_add.height-height)/2
-                property list<string> statusdata_keys: [
-                    "counter",
-                    "filename",
-                    "filepathname",
-                    "resolution",
-                    "zoom",
-                    "rotation",
-                    "filesize",
-                    "colorprofile"
-                ]
-                property list<string> statusdata_vals: [
-                    //: Please keep short! The counter shows where we are in the folder.
-                    qsTranslate("settingsmanager", "counter"),
-                    //: Please keep short!
-                    qsTranslate("settingsmanager", "filename"),
-                    //: Please keep short!
-                    qsTranslate("settingsmanager", "filepath"),
-                    //: Please keep short! This is the image resolution.
-                    qsTranslate("settingsmanager", "resolution"),
-                    //: Please keep short! This is the current zoom level.
-                    qsTranslate("settingsmanager", "zoom"),
-                    //: Please keep short! This is the rotation of the current image
-                    qsTranslate("settingsmanager", "rotation"),
-                    //: Please keep short! This is the filesize of the current image.
-                    qsTranslate("settingsmanager", "filesize"),
-                    //: Please keep short! This is the color profile used for the current image
-                    qsTranslate("settingsmanager", "color profile")
-                ]
-                model: statusdata_vals
-            }
-            PQButton {
-                id: but_add
-                //: This is written on a button that is used to add a selected block to the status info section.
-                text: qsTranslate("settingsmanager", "add")
-                smallerVersion: true
-                onClicked: {
-                    set_stin.curEntries.push(combo_add.statusdata_keys[combo_add.currentIndex])
-                    set_stin.populateModel()
+            PQSliderSpinBox {
+                id: fontsize
+                width: set_stin.contentWidth
+                visible: set_stin.modernInterface
+                minval: 5
+                maxval: 30
+                title: qsTranslate("settingsmanager", "Font size:")
+                suffix: " pt"
+                enabled: status_show.checked
+                animateHeight: true
+                onValueChanged:
                     set_stin.checkForChanges()
-                }
             }
-        },
 
-        PQSliderSpinBox {
-            id: fontsize
-            width: set_stin.contentWidth
-            visible: set_stin.modernInterface
-            minval: 5
-            maxval: 30
-            title: qsTranslate("settingsmanager", "Font size:")
-            suffix: " pt"
-            enabled: status_show.checked
-            animateHeight: true
-            onValueChanged:
-                set_stin.checkForChanges()
         },
 
         /*************************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
 
             visible: set_stin.modernInterface
 
@@ -375,7 +387,7 @@ PQSetting {
 
         /*************************************/
 
-        PQSettingSubTitle {
+        PQSettingSubtitle {
 
             visible: set_stin.modernInterface
 
