@@ -30,6 +30,35 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
+// LOOK
+//     Margin
+//     Image Size
+//     Interpolation
+
+// INTERACTION
+//     Zoom
+//     Mirror/Flip
+//     Minimap
+//     Animate switching images
+
+// FILE LIST
+//     Sorting images
+//     Looping
+
+// IMAGE PROCESSING
+//     Transparency Marker
+//     Color Profiles
+
+// CACHE and PRELOAD
+//     Preloading
+//     Cache
+
+// Share Online
+
+// Meta data
+
+// Face tags
+
 PQTemplate {
 
     id: settingsmanager_top
@@ -201,6 +230,18 @@ PQTemplate {
                 height: parent.height
                 currentIndex: maintabbar.currentIndex
 
+                onCurrentIndexChanged: {
+                    if(currentIndex === 0) {
+                        subtabbar_interface.currentIndex = 0
+                        subtabbar_interface.currentIndexChanged()
+                        subtabbar_interface.currentIdChanged()
+                    } else if(currentIndex === 1) {
+                        subtabbar_imageview.currentIndex = 0
+                        subtabbar_imageview.currentIndexChanged()
+                        subtabbar_imageview.currentIdChanged()
+                    }
+                }
+
                 PQTabBar {
 
                     id: subtabbar_interface
@@ -282,25 +323,47 @@ PQTemplate {
 
                     width: parent.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "Margin"),
-                        qsTranslate("settingsmanager", "Image size"),
-                        qsTranslate("settingsmanager", "Transparency marker"),
-                        qsTranslate("settingsmanager", "Interpolation"),
-                        qsTranslate("settingsmanager", "Cache"),
-                        qsTranslate("settingsmanager", "Color profiles"),
-                        qsTranslate("settingsmanager", "Zoom"),
-                        qsTranslate("settingsmanager", "Minimap"),
-                        qsTranslate("settingsmanager", "Mirror/Flip"),
-                        qsTranslate("settingsmanager", "Looping"),
-                        qsTranslate("settingsmanager", "Sorting images"),
-                        qsTranslate("settingsmanager", "Animate switching images"),
-                        qsTranslate("settingsmanager", "Preloading"),
-                        qsTranslate("settingsmanager", "Share Online"),
-                        qsTranslate("settingsmanager", "Metadata"),
-                        qsTranslate("settingsmanager", "Face tags")
+                    property list<var> entries: [
+                        ["look", qsTranslate("settingsmanager", "Look")],
+                        ["inte", qsTranslate("settingsmanager", "Interaction")],
+
+                        ["fili", qsTranslate("settingsmanager", "File list")],
+                        ["cach", qsTranslate("settingsmanager", "Cache")],
+                        ["copr", qsTranslate("settingsmanager", "Color profiles"), "---"],
+
+                        ["prel", qsTranslate("settingsmanager", "Preloading")],
+                        ["shon", qsTranslate("settingsmanager", "Share Online"), "---"],
+
+                        ["meda", qsTranslate("settingsmanager", "Metadata")],
+                        ["fata", qsTranslate("settingsmanager", "Face tags")]
                     ]
+
+                    Component { id: imv_look; PQSettingsImageViewLook {} }
+                    Component { id: imv_inte; PQSettingsImageViewInteraction {} }
+                    Component { id: imv_fili; PQSettingsImageViewFileList {} }
+                    Component { id: imv_cach; PQSettingsImageViewCache {} }
+                    Component { id: imv_copr; PQSettingsImageViewColorProfiles {} }
+                    Component { id: imv_prel; PQSettingsImageViewPreloading {} }
+                    Component { id: imv_shon; PQSettingsImageViewShareOnline {} }
+                    Component { id: imv_meda; PQSettingsImageViewMetadata {} }
+                    Component { id: imv_fata; PQSettingsImageViewFaceTags {} }
+
+                    onCurrentIndexChanged:
+                        subtabbar_imageview.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "look") settings_loader.sourceComponent = imv_look
+                        else if(currentId === "inte") settings_loader.sourceComponent = imv_inte
+                        else if(currentId === "fili") settings_loader.sourceComponent = imv_fili
+                        else if(currentId === "cach") settings_loader.sourceComponent = imv_cach
+                        else if(currentId === "copr") settings_loader.sourceComponent = imv_copr
+                        else if(currentId === "prel") settings_loader.sourceComponent = imv_prel
+                        else if(currentId === "shon") settings_loader.sourceComponent = imv_shon
+                        else if(currentId === "meda") settings_loader.sourceComponent = imv_meda
+                        else if(currentId === "fata") settings_loader.sourceComponent = imv_fata
+                    }
 
                     Repeater {
 
@@ -310,7 +373,15 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_imageview.currentIndex===index
-                            text: subtabbar_imageview.entries[index]
+                            text: subtabbar_imageview.entries[index][1]
+                            Rectangle {
+                                y: parent.height-height
+                                width: parent.width
+                                height: 1
+                                color: pqtPalette.text
+                                visible: subtabbar_imageview.entries[index].length === 3 && subtabbar_imageview.entries[index][2] === "---"
+                                opacity: 0.1
+                            }
                         }
 
                     }

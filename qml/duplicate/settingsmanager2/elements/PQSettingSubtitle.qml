@@ -29,80 +29,36 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 Column {
 
-    id: setctrl
+    id: settitle
 
-    width: parent.width
+    // this value needs to match the spacer width in PQSettingSpacer.qml
+    x: -20
+    width: parent.width-x
+    spacing: 5
 
-    property alias content: contcol.children
-    property int contentWidth: contcol.width
-    property int contentSpacing: contcol.spacing
-    property int indentWidth: spacer.width
+    property string title: ""
+    property string helptext: ""
 
-    property bool showResetButton: true
+    property bool showLineAbove: true
 
-    property bool settingsLoaded: false
-    property bool thisSettingHasChanged: false
+    PQSettingsSeparator { visible: settitle.showLineAbove }
 
-    signal resetToDefaults()
-
-    spacing: 10
-
-    Row {
-
-        PQSettingSpacer { id: spacer }
-
-        Column {
-
-            id: contcol
-
-            spacing: 20
-
-            width: setctrl.width-spacer.width
-
-        }
-
+    PQTextXL {
+        text: settitle.title
+        font.capitalization: Font.SmallCaps
+        font.weight: PQCLook.fontWeightBold
     }
 
     Item {
         width: 1
-        height: 40
+        height: 5
     }
 
-    // PQButtonIcon {
-    //     id: resetbutton
-    //     x: setctrl.rightcol - width - 10
-    //     width: 20
-    //     height: 20
-    //     visible: setctrl.showResetButton
-    //     opacity: hovered ? 1 : 0.5
-    //     Behavior on opacity { NumberAnimation { duration: 200 } }
-    //     source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
-    //     tooltip: qsTranslate("settingsmanager", "reset to default values")
-    //     onClicked: (pos) => {
-    //         setctrl.resetToDefaults()
-    //     }
-    // }
-
-    Component.onCompleted:
-        load()
-
-    Connections {
-
-        target: PQCNotify
-
-        function onSettingsmanagerSendCommand(what : string, args : list<var>) {
-            if(what === "applychanges")
-                setctrl.applyChanges()
-            else if(what === "loadcurrent")
-                setctrl.load()
-
-        }
+    PQText {
+        visible: text!==""
+        text: settitle.helptext
+        width: parent.width
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
     }
-
-    function handleEscape() {}
-    function checkForChanges() {}
-    function load() {}
-    function applyChanges() {}
-
 
 }
