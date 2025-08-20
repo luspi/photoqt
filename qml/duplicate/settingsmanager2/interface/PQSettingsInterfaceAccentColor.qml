@@ -245,6 +245,20 @@ PQSetting {
 
     ]
 
+    ColorDialog {
+        id: coldiag
+        modality: Qt.ApplicationModal
+        property string section
+        onAccepted: {
+            if(section == "accent") {
+                var col = PQCScriptsOther.convertRgbToHex([255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b])
+                customrect.color = col
+                PQCLook.testColor(col)
+            } else
+                bgcustomuse.color = coldiag.currentColor
+        }
+    }
+
     onResetToDefaults: {
 
         var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
@@ -301,20 +315,6 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = false
 
-    }
-
-    ColorDialog {
-        id: coldiag
-        modality: Qt.ApplicationModal
-        property string section
-        onAccepted: {
-            if(section == "accent") {
-                var col = PQCScriptsOther.convertRgbToHex([255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b])
-                customrect.color = col
-                PQCLook.testColor(col)
-            } else
-                bgcustomuse.color = coldiag.currentColor
-        }
     }
 
 }

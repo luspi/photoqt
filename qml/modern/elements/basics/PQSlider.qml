@@ -55,6 +55,7 @@ Slider {
     snapMode: Slider.SnapAlways
 
     SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     MouseArea {
         anchors.fill: parent
@@ -76,12 +77,13 @@ Slider {
         width: control._horizontal ? control.availableWidth : implicitWidth
         height: control._horizontal ? implicitHeight : control.availableHeight
         radius: 2
+        opacity: enabled ? 1 : 0.8
         color: PQCLook.baseBorder
 
         Rectangle {
             width: control._horizontal ? (control.visualPosition * (parent.width-control.implicitHandleWidth)) : parent.width
             height: control._horizontal ? parent.height : (control.visualPosition * (parent.height-control.implicitHandleHeight))
-            color: pqtPalette.text
+            color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
             opacity: control.enabled ? 1 : 0.6
             radius: 2
         }
@@ -125,7 +127,7 @@ Slider {
         implicitWidth: control._horizontal ? control.implicitHeight : control.implicitWidth
         implicitHeight: control._horizontal ? control.implicitHeight : control.implicitWidth
         radius: control.implicitHeight/2
-        color: pqtPalette.text
+        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
         border.color: pqtPalette.base
         MouseArea {
             anchors.fill: parent

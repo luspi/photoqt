@@ -30,35 +30,6 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-// LOOK
-//     Margin
-//     Image Size
-//     Interpolation
-
-// INTERACTION
-//     Zoom
-//     Mirror/Flip
-//     Minimap
-//     Animate switching images
-
-// FILE LIST
-//     Sorting images
-//     Looping
-
-// IMAGE PROCESSING
-//     Transparency Marker
-//     Color Profiles
-// CACHE and PRELOAD
-//     Preloading
-//     Cache
-// ---> DONE UP TO HERE
-
-// Share Online
-
-// Meta data
-
-// Face tags
-
 PQTemplate {
 
     id: settingsmanager_top
@@ -310,6 +281,7 @@ PQTemplate {
                         PQTabButton {
                             required property int index
                             width: parent.width
+                            implicitHeight: 75
                             isCurrentTab: subtabbar_interface.currentIndex===index
                             text: subtabbar_interface.entries[index][1]
                         }
@@ -329,12 +301,11 @@ PQTemplate {
                         ["look", qsTranslate("settingsmanager", "Look")],
                         ["inte", qsTranslate("settingsmanager", "Interaction")],
                         ["fili", qsTranslate("settingsmanager", "File list")],
-                        ["impr", qsTranslate("settingsmanager", "Image Processing")],
+                        ["impr", qsTranslate("settingsmanager", "Image processing")],
                         ["capr", qsTranslate("settingsmanager", "Cache and Preloading")],
-
-                        ["shon", qsTranslate("settingsmanager", "Share Online"), "---"],
-                        ["meda", qsTranslate("settingsmanager", "Metadata")],
-                        ["fata", qsTranslate("settingsmanager", "Face tags")]
+                        ["meta", qsTranslate("settingsmanager", "Metadata")],
+                        ["fata", qsTranslate("settingsmanager", "Face tags")],
+                        ["shon", qsTranslate("settingsmanager", "Share online")]
                     ]
 
                     Component { id: imv_look; PQSettingsImageViewLook {} }
@@ -342,10 +313,8 @@ PQTemplate {
                     Component { id: imv_fili; PQSettingsImageViewFileList {} }
                     Component { id: imv_impr; PQSettingsImageViewImageProcessing {} }
                     Component { id: imv_capr; PQSettingsImageViewCache {} }
-
-                    Component { id: imv_prel; PQSettingsImageViewPreloading {} }
+                    Component { id: imv_meta; PQSettingsImageViewMetadata {} }
                     Component { id: imv_shon; PQSettingsImageViewShareOnline {} }
-                    Component { id: imv_meda; PQSettingsImageViewMetadata {} }
                     Component { id: imv_fata; PQSettingsImageViewFaceTags {} }
 
                     onCurrentIndexChanged:
@@ -357,10 +326,8 @@ PQTemplate {
                         else if(currentId === "fili") settings_loader.sourceComponent = imv_fili
                         else if(currentId === "impr") settings_loader.sourceComponent = imv_impr
                         else if(currentId === "capr") settings_loader.sourceComponent = imv_capr
-
-                        else if(currentId === "prel") settings_loader.sourceComponent = imv_prel
+                        else if(currentId === "meta") settings_loader.sourceComponent = imv_meta
                         else if(currentId === "shon") settings_loader.sourceComponent = imv_shon
-                        else if(currentId === "meda") settings_loader.sourceComponent = imv_meda
                         else if(currentId === "fata") settings_loader.sourceComponent = imv_fata
                     }
 
@@ -371,6 +338,7 @@ PQTemplate {
                         PQTabButton {
                             required property int index
                             width: parent.width
+                            implicitHeight: 75
                             isCurrentTab: subtabbar_imageview.currentIndex===index
                             text: subtabbar_imageview.entries[index][1]
                             Rectangle {
