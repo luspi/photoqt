@@ -48,10 +48,10 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 // IMAGE PROCESSING
 //     Transparency Marker
 //     Color Profiles
-
 // CACHE and PRELOAD
 //     Preloading
 //     Cache
+// ---> DONE UP TO HERE
 
 // Share Online
 
@@ -328,14 +328,11 @@ PQTemplate {
                     property list<var> entries: [
                         ["look", qsTranslate("settingsmanager", "Look")],
                         ["inte", qsTranslate("settingsmanager", "Interaction")],
-
                         ["fili", qsTranslate("settingsmanager", "File list")],
-                        ["cach", qsTranslate("settingsmanager", "Cache")],
-                        ["copr", qsTranslate("settingsmanager", "Color profiles"), "---"],
+                        ["impr", qsTranslate("settingsmanager", "Image Processing")],
+                        ["capr", qsTranslate("settingsmanager", "Cache and Preloading")],
 
-                        ["prel", qsTranslate("settingsmanager", "Preloading")],
                         ["shon", qsTranslate("settingsmanager", "Share Online"), "---"],
-
                         ["meda", qsTranslate("settingsmanager", "Metadata")],
                         ["fata", qsTranslate("settingsmanager", "Face tags")]
                     ]
@@ -343,8 +340,9 @@ PQTemplate {
                     Component { id: imv_look; PQSettingsImageViewLook {} }
                     Component { id: imv_inte; PQSettingsImageViewInteraction {} }
                     Component { id: imv_fili; PQSettingsImageViewFileList {} }
-                    Component { id: imv_cach; PQSettingsImageViewCache {} }
-                    Component { id: imv_copr; PQSettingsImageViewColorProfiles {} }
+                    Component { id: imv_impr; PQSettingsImageViewImageProcessing {} }
+                    Component { id: imv_capr; PQSettingsImageViewCache {} }
+
                     Component { id: imv_prel; PQSettingsImageViewPreloading {} }
                     Component { id: imv_shon; PQSettingsImageViewShareOnline {} }
                     Component { id: imv_meda; PQSettingsImageViewMetadata {} }
@@ -357,8 +355,9 @@ PQTemplate {
                              if(currentId === "look") settings_loader.sourceComponent = imv_look
                         else if(currentId === "inte") settings_loader.sourceComponent = imv_inte
                         else if(currentId === "fili") settings_loader.sourceComponent = imv_fili
-                        else if(currentId === "cach") settings_loader.sourceComponent = imv_cach
-                        else if(currentId === "copr") settings_loader.sourceComponent = imv_copr
+                        else if(currentId === "impr") settings_loader.sourceComponent = imv_impr
+                        else if(currentId === "capr") settings_loader.sourceComponent = imv_capr
+
                         else if(currentId === "prel") settings_loader.sourceComponent = imv_prel
                         else if(currentId === "shon") settings_loader.sourceComponent = imv_shon
                         else if(currentId === "meda") settings_loader.sourceComponent = imv_meda
