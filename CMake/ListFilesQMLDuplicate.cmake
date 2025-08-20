@@ -53,7 +53,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceLangu
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceStatusInfo.qml ${d}/PQSettingsInterfaceWindowButtons.qml ${d}/PQSettingsInterfaceWindowMode.qml)
 
 SET(d "qml/duplicate/settingsmanager2/imageview")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewAnimate.qml ${d}/PQSettingsImageViewCache.qml ${d}/PQSettingsImageViewColorProfiles.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewAnimate.qml ${d}/PQSettingsImageViewCache.qml ${d}/PQSettingsImageViewImageProcessing.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewFaceTags.qml ${d}/PQSettingsImageViewFileList.qml ${d}/PQSettingsImageViewLook.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewMetadata.qml ${d}/PQSettingsImageViewMinimap.qml ${d}/PQSettingsImageViewPreloading.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewShareOnline.qml ${d}/PQSettingsImageViewTransparencyMarker.qml ${d}/PQSettingsImageViewZoomMirror.qml)
