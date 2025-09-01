@@ -50,13 +50,11 @@ PQTemplate {
         target: button2
         function onClicked() {
             PQCNotify.settingsmanagerSendCommand("loadcurrent", []);
-            // REVERT CHANGES
         }
     }
     Connections {
         target: button3
         function onClicked() {
-            // CLOSE
             settingsmanager_top.hide()
         }
     }
@@ -76,9 +74,9 @@ PQTemplate {
 
     onShowing: {
         PQCNotify.settingsmanagerSendCommand("loadcurrent", [])
-        // HANDLE SHOWING
     }
     onHiding: {
+        PQCNotify.resetActiveFocus()
         // HANDLE HIDING INCLUDING CALLING CLOSE SIGNAL
     }
 
@@ -210,6 +208,22 @@ PQTemplate {
                         subtabbar_imageview.currentIndex = 0
                         subtabbar_imageview.currentIndexChanged()
                         subtabbar_imageview.currentIdChanged()
+                    } else if(currentIndex === 2) {
+                        subtabbar_thumbnails.currentIndex = 0
+                        subtabbar_thumbnails.currentIndexChanged()
+                        subtabbar_thumbnails.currentIdChanged()
+                    } else if(currentIndex === 3) {
+                        subtabbar_filetypes.currentIndex = 0
+                        subtabbar_filetypes.currentIndexChanged()
+                        subtabbar_filetypes.currentIdChanged()
+                    } else if(currentIndex === 4) {
+                        // subtabbar_mousekeys.currentIndex = 0
+                        // subtabbar_mousekeys.currentIndexChanged()
+                        // subtabbar_mousekeys.currentIdChanged()
+                    } else if(currentIndex === 5) {
+                        subtabbar_manage.currentIndex = 0
+                        subtabbar_manage.currentIndexChanged()
+                        subtabbar_manage.currentIdChanged()
                     }
                 }
 
@@ -281,7 +295,6 @@ PQTemplate {
                         PQTabButton {
                             required property int index
                             width: parent.width
-                            implicitHeight: 75
                             isCurrentTab: subtabbar_interface.currentIndex===index
                             text: subtabbar_interface.entries[index][1]
                         }
@@ -338,17 +351,8 @@ PQTemplate {
                         PQTabButton {
                             required property int index
                             width: parent.width
-                            implicitHeight: 75
                             isCurrentTab: subtabbar_imageview.currentIndex===index
                             text: subtabbar_imageview.entries[index][1]
-                            Rectangle {
-                                y: parent.height-height
-                                width: parent.width
-                                height: 1
-                                color: pqtPalette.text
-                                visible: subtabbar_imageview.entries[index].length === 3 && subtabbar_imageview.entries[index][2] === "---"
-                                opacity: 0.1
-                            }
                         }
 
                     }
@@ -361,11 +365,29 @@ PQTemplate {
 
                     width: parent.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "Image"),
-                        qsTranslate("settingsmanager", "Interpolation")
+                    property list<var> entries: [
+                        ["imag", qsTranslate("settingsmanager", "Image")],
+                        ["info", qsTranslate("settingsmanager", "Information")],
+                        ["bar" , qsTranslate("settingsmanager", "Bar")],
+                        ["mana", qsTranslate("settingsmanager", "Manage")]
                     ]
+
+                    Component { id: thb_imag; PQSettingsThumbnailsImage {} }
+                    Component { id: thb_info; PQSettingsThumbnailsInfo {} }
+                    Component { id: thb_bar ; PQSettingsThumbnailsBar {} }
+                    Component { id: thb_mana; PQSettingsThumbnailsManage {} }
+
+                    onCurrentIndexChanged:
+                        subtabbar_thumbnails.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "imag") settings_loader.sourceComponent = thb_imag
+                        else if(currentId === "info") settings_loader.sourceComponent = thb_info
+                        else if(currentId === "bar" ) settings_loader.sourceComponent = thb_bar
+                        else if(currentId === "mana") settings_loader.sourceComponent = thb_mana
+                    }
 
                     Repeater {
 
@@ -375,7 +397,7 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_thumbnails.currentIndex===index
-                            text: subtabbar_thumbnails.entries[index]
+                            text: subtabbar_thumbnails.entries[index][1]
                         }
 
                     }
@@ -388,17 +410,41 @@ PQTemplate {
 
                     width: parent.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "File types"),
-                        qsTranslate("settingsmanager", "Animated images"),
-                        qsTranslate("settingsmanager", "RAW images"),
-                        qsTranslate("settingsmanager", "Archives"),
-                        qsTranslate("settingsmanager", "Documents"),
-                        qsTranslate("settingsmanager", "Videos"),
-                        qsTranslate("settingsmanager", "Motion/Live photos"),
-                        qsTranslate("settingsmanager", "Photo spheres")
+                    property list<var> entries: [
+                        ["list", qsTranslate("settingsmanager", "File types"), "---"],
+                        ["anim", qsTranslate("settingsmanager", "Animated images")],
+                        ["raw" , qsTranslate("settingsmanager", "RAW images")],
+                        ["arch", qsTranslate("settingsmanager", "Archives")],
+                        ["docu", qsTranslate("settingsmanager", "Documents")],
+                        ["vide", qsTranslate("settingsmanager", "Videos")],
+                        ["moti", qsTranslate("settingsmanager", "Motion/Live photos")],
+                        ["sphe", qsTranslate("settingsmanager", "Photo spheres")]
                     ]
+
+                    Component { id: fty_list; PQSettingsFiletypesList { availableHeight: flickable.height; addBlankSpaceBottom: false } }
+                    Component { id: fty_anim; PQSettingsFiletypesAnimated {} }
+                    Component { id: fty_raw ; PQSettingsFiletypesRAW {} }
+                    Component { id: fty_arch; PQSettingsFiletypesArchives {} }
+                    Component { id: fty_docu; PQSettingsFiletypesDocuments {} }
+                    Component { id: fty_vide; PQSettingsFiletypesVideos {} }
+                    Component { id: fty_moti; PQSettingsFiletypesMotion {} }
+                    Component { id: fty_sphe; PQSettingsFiletypesSpheres {} }
+
+                    onCurrentIndexChanged:
+                        subtabbar_filetypes.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "list") settings_loader.sourceComponent = fty_list
+                        else if(currentId === "anim") settings_loader.sourceComponent = fty_anim
+                        else if(currentId === "raw" ) settings_loader.sourceComponent = fty_raw
+                        else if(currentId === "arch") settings_loader.sourceComponent = fty_arch
+                        else if(currentId === "docu") settings_loader.sourceComponent = fty_docu
+                        else if(currentId === "vide") settings_loader.sourceComponent = fty_vide
+                        else if(currentId === "moti") settings_loader.sourceComponent = fty_moti
+                        else if(currentId === "sphe") settings_loader.sourceComponent = fty_sphe
+                    }
 
                     Repeater {
 
@@ -408,7 +454,15 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_filetypes.currentIndex===index
-                            text: subtabbar_filetypes.entries[index]
+                            text: subtabbar_filetypes.entries[index][1]
+                            Rectangle {
+                                y: parent.height-height
+                                width: parent.width
+                                height: 1
+                                color: pqtPalette.text
+                                visible: subtabbar_filetypes.entries[index].length === 3 && subtabbar_filetypes.entries[index][2] === "---"
+                                opacity: 0.1
+                            }
                         }
 
                     }
@@ -451,14 +505,26 @@ PQTemplate {
 
                     width: parent.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "New session handling"),
-                        qsTranslate("settingsmanager", "Remember changes"),
-                        qsTranslate("settingsmanager", "Tray icon"),
-                        qsTranslate("settingsmanager", "Reset PhotoQt"),
-                        qsTranslate("settingsmanager", "Export/Import")
+                    property list<var> entries: [
+                        ["seha", qsTranslate("settingsmanager", "Session handling")],
+                        ["tric", qsTranslate("settingsmanager", "Tray icon")],
+                        ["mana", qsTranslate("settingsmanager", "Manage")]
                     ]
+
+                    Component { id: man_seha; PQSettingsManageSession {} }
+                    Component { id: man_tric; PQSettingsManageTrayIcon {} }
+                    Component { id: man_mana; PQSettingsManageManage {} }
+
+                    onCurrentIndexChanged:
+                        subtabbar_manage.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "seha") settings_loader.sourceComponent = man_seha
+                        else if(currentId === "tric") settings_loader.sourceComponent = man_tric
+                        else if(currentId === "mana") settings_loader.sourceComponent = man_mana
+                    }
 
                     Repeater {
 
@@ -468,7 +534,7 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_manage.currentIndex===index
-                            text: subtabbar_manage.entries[index]
+                            text: subtabbar_manage.entries[index][1]
                         }
 
                     }
@@ -484,7 +550,8 @@ PQTemplate {
                 SplitView.minimumWidth: 300
                 SplitView.fillWidth: true
 
-                height: parent.height
+                y: 10
+                height: parent.height-10
 
                 contentHeight: settings_loader.height
 

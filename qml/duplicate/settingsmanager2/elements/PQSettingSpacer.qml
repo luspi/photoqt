@@ -29,6 +29,7 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 Item {
     // when this value is changed also change the negative x value in PQSettingSubTitle.qml
-    width: 20
+    property bool disabledAutoIndentation: false
+    width: disabledAutoIndentation ? 0 : 20
     height: 1
 }

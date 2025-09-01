@@ -57,6 +57,19 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewCache
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewFaceTags.qml ${d}/PQSettingsImageViewFileList.qml ${d}/PQSettingsImageViewLook.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewShareOnline.qml ${d}/PQSettingsImageViewInteraction.qml)
 
+SET(d "qml/duplicate/settingsmanager2/thumbnails")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsThumbnailsBar.qml ${d}/PQSettingsThumbnailsImage.qml ${d}/PQSettingsThumbnailsInfo.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsThumbnailsManage.qml)
+
+SET(d "qml/duplicate/settingsmanager2/filetypes")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesList.qml ${d}/PQSettingsFiletypesAnimated.qml ${d}/PQSettingsFiletypesArchives.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesDocuments.qml ${d}/PQSettingsFiletypesMotion.qml ${d}/PQSettingsFiletypesRAW.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesSpheres.qml ${d}/PQSettingsFiletypesVideos.qml)
+
+SET(d "qml/duplicate/settingsmanager2/manage")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.qml ${d}/PQSettingsManageTrayIcon.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageManage.qml)
+
 
 SET(d "qml/duplicate/settingsmanager")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)

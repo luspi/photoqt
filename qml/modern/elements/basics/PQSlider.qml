@@ -52,6 +52,9 @@ Slider {
     property string suffix: ""
     property string tooltip: ""
 
+    leftPadding: 10
+    rightPadding: 10
+
     snapMode: Slider.SnapAlways
 
     SystemPalette { id: pqtPalette }

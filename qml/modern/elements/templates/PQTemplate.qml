@@ -84,9 +84,11 @@ Rectangle {
     color: pqtPalette.base
     radius: 5
 
-    Item {
+    Rectangle {
 
         id: contentItem
+
+        color: pqtPalette.alternateBase
 
         width: action_top.width
         height: action_top.height

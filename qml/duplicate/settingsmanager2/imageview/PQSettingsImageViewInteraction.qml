@@ -43,88 +43,90 @@ PQSetting {
 
         },
 
-        PQSliderSpinBox {
-            id: zoomspeed
-            width: set_inte.contentWidth
-            minval: 1
-            maxval: 100
-            title: qsTranslate("settingsmanager", "zoom speed:")
-            suffix: " %"
-            onValueChanged:
-                set_inte.checkForChanges()
-        },
+        Column {
 
-        Flow {
-            PQRadioButton {
-                id: zoom_rel
-                text: qsTranslate("settingsmanager", "relative zoom speed")
-                checked: PQCSettings.imageviewZoomSpeedRelative
-                onCheckedChanged: set_inte.checkForChanges()
-            }
-            PQRadioButton {
-                id: zoom_abs
-                text: qsTranslate("settingsmanager", "absolute zoom speed")
-                checked: !zoom_rel.checked
-                onCheckedChanged: set_inte.checkForChanges()
-            }
-        },
-
-        Item {
-            width: 1
-            height: 5
-        },
-
-        Flow {
-            width: set_inte.contentWidth
-            PQCheckBox {
-                id: minzoom_check
-                text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
-                onCheckedChanged: set_inte.checkForChanges()
-            }
+            spacing: 5
 
             PQSliderSpinBox {
-                id: minzoom_slider
-                width: set_inte.contentWidth - minzoom_check.width - 10
+                id: zoomspeed
+                width: set_inte.contentWidth
                 minval: 1
                 maxval: 100
-                enabled: minzoom_check.checked
-                animateWidth: true
-                title: ""
+                title: qsTranslate("settingsmanager", "zoom speed:")
                 suffix: " %"
                 onValueChanged:
                     set_inte.checkForChanges()
             }
 
-        },
-
-        Flow {
-
-            width: set_inte.contentWidth
-
-            PQCheckBox {
-                id: maxzoom_check
-                text: qsTranslate("settingsmanager", "maximum zoom") + (checked ? ": " : "  ")
-                onCheckedChanged: set_inte.checkForChanges()
-            }
-
-            PQSliderSpinBox {
-                id: maxzoom_slider
-                width: set_inte.contentWidth - maxzoom_check.width - 10
-                minval: 100
-                maxval: 10000
-                enabled: maxzoom_check.checked
-                animateWidth: true
-                title: ""
-                suffix: " %"
-                onValueChanged:
-                    set_inte.checkForChanges()
+            Flow {
+                PQRadioButton {
+                    id: zoom_rel
+                    text: qsTranslate("settingsmanager", "relative zoom speed")
+                    checked: PQCSettings.imageviewZoomSpeedRelative
+                    onCheckedChanged: set_inte.checkForChanges()
+                }
+                PQRadioButton {
+                    id: zoom_abs
+                    text: qsTranslate("settingsmanager", "absolute zoom speed")
+                    checked: !zoom_rel.checked
+                    onCheckedChanged: set_inte.checkForChanges()
+                }
             }
 
         },
 
-        Item {
-            width: 1
-            height: 5
+        Column {
+
+            spacing: 5
+
+            Flow {
+                width: set_inte.contentWidth
+                PQCheckBox {
+                    id: minzoom_check
+                    text: qsTranslate("settingsmanager", "minimum zoom") + (checked ? ": " : "  ")
+                    onCheckedChanged: set_inte.checkForChanges()
+                }
+
+                PQSliderSpinBox {
+                    id: minzoom_slider
+                    width: set_inte.contentWidth - minzoom_check.width - 10
+                    minval: 1
+                    maxval: 100
+                    enabled: minzoom_check.checked
+                    animateWidth: true
+                    title: ""
+                    suffix: " %"
+                    onValueChanged:
+                        set_inte.checkForChanges()
+                }
+
+            }
+
+            Flow {
+
+                width: set_inte.contentWidth
+
+                PQCheckBox {
+                    id: maxzoom_check
+                    text: qsTranslate("settingsmanager", "maximum zoom") + (checked ? ": " : "  ")
+                    onCheckedChanged: set_inte.checkForChanges()
+                }
+
+                PQSliderSpinBox {
+                    id: maxzoom_slider
+                    width: set_inte.contentWidth - maxzoom_check.width - 10
+                    minval: 100
+                    maxval: 10000
+                    enabled: maxzoom_check.checked
+                    animateWidth: true
+                    title: ""
+                    suffix: " %"
+                    onValueChanged:
+                        set_inte.checkForChanges()
+                }
+
+            }
+
         },
 
         Flow {
@@ -196,10 +198,7 @@ PQSetting {
             enabled: anispeed_check.checked
             clip: true
 
-            height: enabled ? (anirow1.height+anirow2.height+spacing) : 0
-            opacity: enabled ? 1 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity { NumberAnimation { duration: 150 } }
+            height: anirow1.height+anirow2.height+spacing
 
             Flow {
                 id: anirow1
@@ -276,24 +275,17 @@ PQSetting {
             text: qsTranslate("settingsmanager", "Show minimap")
             onCheckedChanged: set_inte.checkForChanges()
         },
-        Item {
+
+        PQComboBox {
+            id: minimapsizelevel
             enabled: minimap.checked
-            clip: true
-            width: minimapsizelevel.width
-            height: enabled ? minimapsizelevel.height : 0
-            opacity: enabled ? 1 : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            Behavior on opacity{ NumberAnimation { duration: 150 } }
-            PQComboBox {
-                id: minimapsizelevel
-                property list<string> modeldata: [qsTranslate("settingsmanager", "small minimap"),
-                                                  qsTranslate("settingsmanager", "normal minimap"),
-                                                  qsTranslate("settingsmanager", "large minimap"),
-                                                  qsTranslate("settingsmanager", "very large minimap")]
-                model: modeldata
-                onCurrentIndexChanged:
-                    set_inte.checkForChanges()
-            }
+            property list<string> modeldata: [qsTranslate("settingsmanager", "small minimap"),
+                                              qsTranslate("settingsmanager", "normal minimap"),
+                                              qsTranslate("settingsmanager", "large minimap"),
+                                              qsTranslate("settingsmanager", "very large minimap")]
+            model: modeldata
+            onCurrentIndexChanged:
+                set_inte.checkForChanges()
         }
 
     ]

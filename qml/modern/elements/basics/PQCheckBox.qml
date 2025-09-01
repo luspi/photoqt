@@ -40,6 +40,9 @@ CheckBox {
 
     property string tooltip: text
 
+    topPadding: 5
+    bottomPadding: 5
+
     // if the checkbox is embedded with an outside mouse area, this allows for passing on hovered events
     property bool extraHovered: false
 

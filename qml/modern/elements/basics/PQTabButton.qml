@@ -50,7 +50,7 @@ TabButton {
     background: Rectangle {
         implicitWidth: control.implicitWidth
         implicitHeight: control.implicitHeight
-        opacity: enabled ? 1 : 0.3
+        opacity: enabled ? ((control.down||control.isCurrentTab) ? 0.3 : 1) : 0.3
         color: (control.down||control.isCurrentTab) ? PQCLook.baseBorder : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button)
         Rectangle {
             anchors.fill: parent

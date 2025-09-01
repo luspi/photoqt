@@ -341,22 +341,26 @@ PQSetting {
         },
 
         PQRadioButton {
+            ButtonGroup { id: mapgroup }
             id: osm
             enforceMaxWidth: set_meta.contentWidth
             text: "openstreetmap.org"
             onCheckedChanged: set_meta.checkForChanges()
+            ButtonGroup.group: mapgroup
         },
         PQRadioButton {
             id: google
             enforceMaxWidth: set_meta.contentWidth
             text: "maps.google.com"
             onCheckedChanged: set_meta.checkForChanges()
+            ButtonGroup.group: mapgroup
         },
         PQRadioButton {
             id: bing
             enforceMaxWidth: set_meta.contentWidth
             text: "bing.com/maps"
             onCheckedChanged: set_meta.checkForChanges()
+            ButtonGroup.group: mapgroup
         },
 
         /************************************************/
@@ -436,6 +440,7 @@ PQSetting {
 
         autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
 
+        console.warn(">>>", PQCSettings.metadataGpsMap, "->", PQCSettings.metadataGpsMap==="openstreetmap.org" || (!google.checked && !bing.checked))
         google.loadAndSetDefault(PQCSettings.metadataGpsMap==="maps.google.com")
         bing.loadAndSetDefault(PQCSettings.metadataGpsMap==="bing.com/maps")
         osm.loadAndSetDefault(PQCSettings.metadataGpsMap==="openstreetmap.org" || (!google.checked && !bing.checked))

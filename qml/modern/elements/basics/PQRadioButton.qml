@@ -38,6 +38,9 @@ RadioButton {
 
     property int enforceMaxWidth: 0
 
+    implicitHeight: 30
+    leftPadding: 10
+
     SystemPalette { id: pqtPalette }
 
     indicator: Rectangle {
