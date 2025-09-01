@@ -57,7 +57,7 @@ PQSetting {
         Column {
 
             visible: set_bg.modernInterface
-            spacing: set_bg.contentSpacing
+            spacing: 5
 
             PQRadioButton {
                 id: radio_real
@@ -262,7 +262,7 @@ PQSetting {
         Column {
 
             visible: set_bg.modernInterface
-            spacing: set_bg.contentSpacing
+            spacing: 5
 
             PQRadioButton {
                 id: bgaccentusecheck
@@ -319,7 +319,7 @@ PQSetting {
 
         Column {
 
-            spacing: set_bg.contentSpacing
+            spacing: 5
 
             PQRadioButton {
                 id: radio_noaction

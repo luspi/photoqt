@@ -35,10 +35,14 @@ Column {
 
     property alias content: contcol.children
     property int contentWidth: contcol.width
+    property int availableHeight: 0
     property int contentSpacing: contcol.spacing
     property int indentWidth: spacer.width
 
     property bool showResetButton: true
+
+    property bool disabledAutoIndentation: false
+    property bool addBlankSpaceBottom: true
 
     property bool settingsLoaded: false
     property bool thisSettingHasChanged: false
@@ -49,13 +53,13 @@ Column {
 
     Row {
 
-        PQSettingSpacer { id: spacer }
+        PQSettingSpacer { id: spacer; disabledAutoIndentation: setctrl.disabledAutoIndentation }
 
         Column {
 
             id: contcol
 
-            spacing: 20
+            spacing: 10
 
             width: setctrl.width-spacer.width
 
@@ -63,9 +67,13 @@ Column {
 
     }
 
-    Item {
-        width: 1
-        height: 40
+    Loader {
+        active: setctrl.addBlankSpaceBottom
+        sourceComponent:
+        Item {
+            width: 1
+            height: 40
+        }
     }
 
     // PQButtonIcon {

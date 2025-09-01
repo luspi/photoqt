@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import PQCScriptsShareImgur
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
@@ -44,6 +45,7 @@ PQSetting {
         },
 
         PQText {
+            x: -set_shon.indentWidth
             width: set_shon.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             // font.weight: PQCLook.fontWeightBold
@@ -113,7 +115,7 @@ PQSetting {
 
             PQText {
                 id: authinfotxt
-                width: set_imgur.rightcol
+                width: set_shon.contentWidth
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: qsTranslate("settingsmanager", "Switch to your browser and log into your imgur.com account. Then paste the displayed PIN in the field below. Click on the button above again to reopen the website.")
             }
@@ -150,7 +152,7 @@ PQSetting {
 
         PQText {
             id: error
-            width: set_imgur.rightcol
+            width: set_shon.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             horizontalAlignment: Text.AlignHCenter
             font.weight: PQCLook.fontWeightBold
