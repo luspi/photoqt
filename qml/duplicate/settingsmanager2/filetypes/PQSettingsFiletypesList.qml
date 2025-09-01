@@ -33,6 +33,7 @@ PQSetting {
     id: set_fity
 
     disabledAutoIndentation: true
+    addBlankSpaceBottom: false
 
     property string defaultSettings: ""
 
