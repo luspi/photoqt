@@ -67,8 +67,10 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesDocum
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesSpheres.qml ${d}/PQSettingsFiletypesVideos.qml)
 
 SET(d "qml/duplicate/settingsmanager2/manage")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.qml ${d}/PQSettingsManageTrayIcon.qml)
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageManage.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.qml ${d}/PQSettingsManageTrayIcon.qml ${d}/PQSettingsManageManage.qml)
+
+SET(d "qml/duplicate/settingsmanager2/shortcuts")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsList.qml ${d}/PQSettingsShortcutsExtraMouse.qml ${d}/PQSettingsShortcutsExtraKeys.qml)
 
 
 SET(d "qml/duplicate/settingsmanager")

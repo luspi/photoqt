@@ -77,7 +77,6 @@ PQTemplate {
     }
     onHiding: {
         PQCNotify.resetActiveFocus()
-        // HANDLE HIDING INCLUDING CALLING CLOSE SIGNAL
     }
 
     bottomLeftContent: [
@@ -217,9 +216,9 @@ PQTemplate {
                         subtabbar_filetypes.currentIndexChanged()
                         subtabbar_filetypes.currentIdChanged()
                     } else if(currentIndex === 4) {
-                        // subtabbar_mousekeys.currentIndex = 0
-                        // subtabbar_mousekeys.currentIndexChanged()
-                        // subtabbar_mousekeys.currentIdChanged()
+                        subtabbar_mousekeys.currentIndex = 0
+                        subtabbar_mousekeys.currentIndexChanged()
+                        subtabbar_mousekeys.currentIdChanged()
                     } else if(currentIndex === 5) {
                         subtabbar_manage.currentIndex = 0
                         subtabbar_manage.currentIndexChanged()
@@ -423,7 +422,7 @@ PQTemplate {
                         ["sphe", qsTranslate("settingsmanager", "Photo spheres")]
                     ]
 
-                    Component { id: fty_list; PQSettingsFiletypesList { availableHeight: flickable.height; addBlankSpaceBottom: false } }
+                    Component { id: fty_list; PQSettingsFiletypesList { availableHeight: flickable.height } }
                     Component { id: fty_anim; PQSettingsFiletypesAnimated {} }
                     Component { id: fty_raw ; PQSettingsFiletypesRAW {} }
                     Component { id: fty_arch; PQSettingsFiletypesArchives {} }
@@ -475,14 +474,26 @@ PQTemplate {
 
                     width: parent.width
                     height: parent.height
+                    property string currentId: ""
 
-                    property list<string> entries: [
-                        qsTranslate("settingsmanager", "Shortcuts"),
-                        qsTranslate("settingsmanager", "Mouse buttons"),
-                        qsTranslate("settingsmanager", "Mouse wheel"),
-                        qsTranslate("settingsmanager", "Hide cursor"),
-                        qsTranslate("settingsmanager", "Escape key handling")
+                    property list<var> entries: [
+                        ["list", qsTranslate("settingsmanager", "Shortcuts")],
+                        ["exmo", qsTranslate("settingsmanager", "Extra mouse settings")],
+                        ["exke", qsTranslate("settingsmanager", "Extra keyboard settings")]
                     ]
+
+                    Component { id: sho_list; PQSettingsShortcutsList { availableHeight: flickable.height } }
+                    Component { id: sho_exmo; PQSettingsShortcutsExtraMouse {} }
+                    Component { id: sho_exke; PQSettingsShortcutsExtraKeys {} }
+
+                    onCurrentIndexChanged:
+                        subtabbar_mousekeys.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             if(currentId === "list") settings_loader.sourceComponent = sho_list
+                        else if(currentId === "exmo") settings_loader.sourceComponent = sho_exmo
+                        else if(currentId === "exke") settings_loader.sourceComponent = sho_exke
+                    }
 
                     Repeater {
 
@@ -492,7 +503,7 @@ PQTemplate {
                             required property int index
                             width: parent.width
                             isCurrentTab: subtabbar_mousekeys.currentIndex===index
-                            text: subtabbar_mousekeys.entries[index]
+                            text: subtabbar_mousekeys.entries[index][1]
                         }
 
                     }

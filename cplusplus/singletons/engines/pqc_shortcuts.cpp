@@ -817,6 +817,23 @@ bool PQCShortcuts::migrate(QString oldversion) {
 
 }
 
+QVariantList PQCShortcuts::getShortcutsForCommand(QString cmd) {
+
+    qDebug() << "args: cmd =" << cmd;
+
+    QVariantList ret;
+
+    QMapIterator<QString, QVariantList> iter(shortcuts);
+    while(iter.hasNext()) {
+        iter.next();
+        if(iter.value().toList()[0].toString() == cmd)
+            ret.append(iter.key());
+    }
+
+    return ret;
+
+}
+
 void PQCShortcuts::resetToDefault() {
 
     setDefault();

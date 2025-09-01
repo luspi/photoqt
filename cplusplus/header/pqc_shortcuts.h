@@ -52,6 +52,7 @@ public:
 
     Q_INVOKABLE QVariantList getCommandsForShortcut(QString combo);
     Q_INVOKABLE QVariantList getAllCurrentShortcuts();
+    Q_INVOKABLE QVariantList getShortcutsForCommand(QString cmd);
     Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list);
     Q_INVOKABLE int getNextCommandInCycle(QString combo, int timeout, int maxCmd);
     Q_INVOKABLE void resetCommandCycle(QString combo);
