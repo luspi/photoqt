@@ -219,20 +219,32 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         if(msg.size() == 0)
             msg << Actions::Show;
 
-        QStringList _strings;
-        _strings.reserve(msg.size());
+        QList<QByteArray> writeMessage;
+
+        if(qApp->platformName() == "wayland") {
+
+            writeMessage.reserve(msg.size()+1);
+
+            QString token = qgetenv("XDG_ACTIVATION_TOKEN");
+            if(!token.isEmpty())
+                writeMessage.append(QStringLiteral("_T_O_K_E_N_%1\n").arg(token).toUtf8());
+
+        } else
+            writeMessage.reserve(msg.size());
+
         for(const Actions &i : std::as_const(msg)) {
-            _strings.append(QString::number(static_cast<int>(i)));
+            writeMessage.append(QString::number(static_cast<int>(i)).toUtf8());
         }
 
         // Send composed message string
         if(receivedFile != "")
-            socket->write(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
+            writeMessage.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
         if(receivedShortcut != "")
-            socket->write(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
+            writeMessage.append(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
         if(receivedSetting[0] != "")
-            socket->write(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
-        socket->write(QStringLiteral("%1\n").arg(_strings.join('/')).toUtf8());
+            writeMessage.append(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
+
+        socket->write(writeMessage.join('\n'));
         socket->flush();
 
         // Inform user
@@ -264,26 +276,30 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {
-        QByteArray rep = socket->readAll().split('\n')[0];
-        if(rep.startsWith("_F_I_L_E_")) {
-            m_receivedFile = rep.last(rep.length()-9);
-            handleMessage({Actions::File});
-        } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
-            m_receivedShortcut = rep.last(rep.length()-17);
-            handleMessage({Actions::Shortcut});
-        } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
-            const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
-            m_receivedSetting[0] = tmp[0];
-            m_receivedSetting[1] = tmp[1];
-            handleMessage({Actions::Setting});
-        } else {
-            QList<Actions> _ints;
-            const QList<QByteArray> _reps = rep.split('/');
-            _ints.reserve(_reps.size());
-            for(const QByteArray &r : _reps) {
-                _ints << static_cast<Actions>(r.toInt());
+        const QList<QByteArray> reply = socket->readAll().split('\n');
+        for(const QByteArray &rep : reply) {
+            if(rep.startsWith("_T_O_K_E_N_")) {
+                qputenv("XDG_ACTIVATION_TOKEN", rep.last(rep.length()-11));
+            } else if(rep.startsWith("_F_I_L_E_")) {
+                m_receivedFile = rep.last(rep.length()-9);
+                handleMessage({Actions::File});
+            } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
+                m_receivedShortcut = rep.last(rep.length()-17);
+                handleMessage({Actions::Shortcut});
+            } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
+                const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
+                m_receivedSetting[0] = tmp[0];
+                m_receivedSetting[1] = tmp[1];
+                handleMessage({Actions::Setting});
+            } else {
+                QList<Actions> _ints;
+                const QList<QByteArray> _reps = rep.split('/');
+                _ints.reserve(_reps.size());
+                for(const QByteArray &r : _reps) {
+                    _ints << static_cast<Actions>(r.toInt());
+                }
+                handleMessage(_ints);
             }
-            handleMessage(_ints);
         }
     }
     socket->close();
