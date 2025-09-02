@@ -56,6 +56,14 @@ Rectangle {
 
     ///////////////////
 
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        acceptedButtons: Qt.AllButtons
+        onWheel: {}
+        onClicked: {}
+    }
+
     Connections {
         target: button1
         function onClicked() {

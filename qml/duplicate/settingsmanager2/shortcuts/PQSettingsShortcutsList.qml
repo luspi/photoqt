@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import "../../other/PQCommonFunctions.js" as PQF
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
@@ -40,7 +41,11 @@ PQSetting {
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     property list<var> allcategories: [
-        [qsTranslate("settingsmanager", "Viewing Images"), "Viewing Images"]
+        [qsTranslate("settingsmanager", "Viewing Images"), "Viewing Images"],
+        [qsTranslate("settingsmanager", "Current File"), "Current File"],
+        [qsTranslate("settingsmanager", "Current Folder"), "Current Folder"],
+        [qsTranslate("settingsmanager", "Interface"), "Interface"],
+        [qsTranslate("settingsmanager", "Other"), "Other"]
     ]
 
     // each entry is of the following structure:
@@ -120,11 +125,120 @@ PQSetting {
                                  //: Name of shortcut action
         ["__goToTopEdge",        qsTranslate("settingsmanager", "Go to top edge of image"), "Go to top edge of image", 0],
                                  //: Name of shortcut action
-        ["__goToBottomEdge",     qsTranslate("settingsmanager", "Go to bottom edge of image"), "Go to bottom edge of image", 0]
+        ["__goToBottomEdge",     qsTranslate("settingsmanager", "Go to bottom edge of image"), "Go to bottom edge of image", 0],
+
+
+        /***********************************************************************************/
+        // current file
+
+        ["-",                    allcategories[1][0]],
+
+                                 //: Name of shortcut action
+        ["__viewerMode",         qsTranslate("settingsmanager", "Enter viewer mode"), "Enter viewer mode", 1],
+                                 //: Name of shortcut action
+        ["__rename",             qsTranslate("settingsmanager", "Rename File"), "Rename File", 1],
+                                 //: Name of shortcut action
+        ["__delete",             qsTranslate("settingsmanager", "Delete File"), "Delete File", 1],
+                                 //: Name of shortcut action
+        ["__deletePermanent",    qsTranslate("settingsmanager", "Delete File permanently (without confirmation)"), "Delete File permanently (without confirmation)", 1],
+                                 //: Name of shortcut action
+        ["__deleteTrash",        qsTranslate("settingsmanager", "Move file to trash (without confirmation)"), "Move file to trash (without confirmation)", 1],
+                                 //: Name of shortcut action
+        ["__undoTrash",          qsTranslate("settingsmanager", "Restore file from trash"), "Restore file from trash", 1],
+                                 //: Name of shortcut action
+        ["__copy",               qsTranslate("settingsmanager", "Copy File to a New Location"), "Copy File to a New Location", 1],
+                                 //: Name of shortcut action
+        ["__move",               qsTranslate("settingsmanager", "Move File to a New Location"), "Move File to a New Location", 1],
+                                 //: Name of shortcut action
+        ["__clipboard",          qsTranslate("settingsmanager", "Copy Image to Clipboard"), "Copy Image to Clipboard", 1],
+                                 //: Name of shortcut action
+        ["__saveAs",             qsTranslate("settingsmanager", "Save image in another format"), "Save image in another format", 1],
+                                 //: Name of shortcut action
+        ["__print",              qsTranslate("settingsmanager", "Print current photo"), "Print current photo", 1],
+                                 //: Name of shortcut action
+        ["__imgurAnonym",        qsTranslate("settingsmanager", "Upload to imgur.com (anonymously)"), "Upload to imgur.com (anonymously)", 1],
+                                 //: Name of shortcut action
+        ["__imgur",              qsTranslate("settingsmanager", "Upload to imgur.com user account"), "Upload to imgur.com user account", 1],
+                                 //: Name of shortcut action
+        ["__playPauseAni",       qsTranslate("settingsmanager", "Play/Pause animation/video"), "Play/Pause animation/video", 1],
+                                 //: Name of shortcut action
+        ["__videoJumpForwards",  qsTranslate("settingsmanager", "Go ahead 5 seconds in video"), "Go ahead 5 seconds in video", 1],
+                                 //: Name of shortcut action
+        ["__videoJumpBackwards", qsTranslate("settingsmanager", "Go back 5 seconds in video"), "Go back 5 seconds in video", 1],
+                                 //: Name of shortcut action
+        ["__tagFaces",           qsTranslate("settingsmanager", "Start tagging faces"), "Start tagging faces", 1],
+                                 //: Name of shortcut action
+        ["__enterPhotoSphere",   qsTranslate("settingsmanager", "Enter photo sphere"), "Enter photo sphere", 1],
+                                 //: Name of shortcut action
+        ["__detectBarCodes",     qsTranslate("settingsmanager", "Detect QR and barcodes"), "Detect QR and barcodes", 1],
+                                 //: Name of shortcut action
+        ["__crop",               qsTranslate("settingsmanager", "Crop image"), "Crop image", 1],
+
+
+        /***********************************************************************************/
+        // current folder
+
+        ["-",                    allcategories[2][0]],
+
+                                 //: Name of shortcut action
+        ["__open",               qsTranslate("settingsmanager", "Open file (browse images)"), "Open file (browse images)", 2],
+                                 //: Name of shortcut action
+        ["__showMapExplorer",    qsTranslate("settingsmanager", "Show map explorer"), "Show map explorer", 2],
+                                //: Name of shortcut action
+        ["__filterImages",       qsTranslate("settingsmanager", "Filter images in folder"), "Filter images in folder", 2],
+                                 //: Name of shortcut action
+        ["__advancedSort",       qsTranslate("settingsmanager", "Advanced image sort (Setup)"), "Advanced image sort (Setup)", 2],
+                                 //: Name of shortcut action
+        ["__advancedSortQuick",  qsTranslate("settingsmanager", "Advanced image sort (Quickstart)"), "Advanced image sort (Quickstart)", 2],
+                                 //: Name of shortcut action
+        ["__slideshow",          qsTranslate("settingsmanager", "Start Slideshow (Setup)"), "Start Slideshow (Setup)", 2],
+                                 //: Name of shortcut action
+        ["__slideshowQuick",     qsTranslate("settingsmanager", "Start Slideshow (Quickstart)"), "Start Slideshow (Quickstart)", 2],
+
+
+        /***********************************************************************************/
+        // interface
+
+        ["-",                    allcategories[3][0]],
+
+                                 //: Name of shortcut action
+        ["__contextMenu",        qsTranslate("settingsmanager", "Show Context Menu"), "Show Context Menu", 3],
+                                 //: Name of shortcut action
+        ["__showMainMenu",       qsTranslate("settingsmanager", "Hide/Show main menu"), "Hide/Show main menu", 3],
+                                 //: Name of shortcut action
+        ["__showMetaData",       qsTranslate("settingsmanager", "Hide/Show metadata"), "Hide/Show metadata", 3],
+                                 //: Name of shortcut action
+        ["__showThumbnails",     qsTranslate("settingsmanager", "Hide/Show thumbnails"), "Hide/Show thumbnails", 3],
+                                 //: Name of shortcut action
+        ["__fullscreenToggle",   qsTranslate("settingsmanager", "Toggle fullscreen mode"), "Toggle fullscreen mode", 3],
+                                 //: Name of shortcut action
+        ["__close",              qsTranslate("settingsmanager", "Close window (hides to system tray if enabled)"), "Close window (hides to system tray if enabled)", 3],
+                                 //: Name of shortcut action
+        ["__quit",               qsTranslate("settingsmanager", "Quit PhotoQt"), "Quit PhotoQt", 3],
+
+
+        /***********************************************************************************/
+        // other
+
+        ["-",                    allcategories[4][0]],
+
+                                //: Name of shortcut action
+        ["__settings",           qsTranslate("settingsmanager", "Show Settings"), "Show Settings", 4],
+                                //: Name of shortcut action
+        ["__about",              qsTranslate("settingsmanager", "About PhotoQt"), "About PhotoQt", 4],
+                                //: Name of shortcut action
+        ["__logging",            qsTranslate("settingsmanager", "Show log/debug messages"), "Show log/debug messages", 4],
+                                //: Name of shortcut action
+        ["__resetSession",       qsTranslate("settingsmanager", "Reset current session"), "Reset current session", 4],
+                                //: Name of shortcut action
+        ["__resetSessionAndHide",qsTranslate("settingsmanager", "Reset current session and hide window"), "Reset current session and hide window", 4]
+
     ]
 
     property var defaultData: ({})
     property var currentData: ({})
+
+    property list<string> duplicateCombos: []
 
     content: [
 
@@ -134,9 +248,30 @@ PQSetting {
         },
 
         PQText {
+            id: introtxt
             width: set_shcu.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. By default, these actions are all triggered together, however, this behavior can be adjusted so that PhotoQt cycles through the actions one by one each time the shortcut occurs. This behavior can be adjusted from another subtab that can be found along the left side of the window."
+            text: "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. How this situation is handled can be adjusted from another subtab that can be found along the left side of the window."
+        },
+
+        Row {
+
+            spacing: 5
+
+            Image {
+                y: (parent.height-height)/2
+                width: 12
+                height: 12
+                sourceSize: Qt.size(width, height)
+                source: "image://svgcolor/green:://:::/light/zoomin.svg"
+            }
+
+            PQText {
+                width: set_shcu.contentWidth
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: "This symbol indicates a key or mouse combination that is set for more than one shortcut action."
+            }
+
         },
 
         PQLineEdit {
@@ -155,12 +290,13 @@ PQSetting {
             property int maxHeaderWidth: 500
 
             width: set_shcu.contentWidth
-            height: set_shcu.availableHeight
+            height: set_shcu.availableHeight - masterview.y
+            clip: true
 
             model: list_shortcuts.length
 
             // this ensures all entries are always set up
-            cacheBuffer: list_shortcuts.length*80
+            cacheBuffer: list_shortcuts.length*60
 
             ScrollBar.vertical: PQVerticalScrollBar {}
 
@@ -195,7 +331,7 @@ PQSetting {
                 property bool keepVisible: true
 
                 width: set_shcu.contentWidth
-                height: keepVisible ? 70 : 0
+                height: keepVisible ? ((deleg.cmd === "-") ? 40 : 50) : 0
                 visible: height>0
                 clip: true
 
@@ -208,20 +344,25 @@ PQSetting {
                     active: (deleg.cmd === "-")
 
                     sourceComponent:
-                    Rectangle {
+                    Item {
 
                         y: 5
                         width: deleg.width
-                        height: 60
+                        height: 30
 
-                        color: PQCLook.baseBorder
-                        radius: 5
+                        Rectangle {
+                            anchors.fill: parent
+                            color: pqtPalette.text
+                            opacity: 0.6
+                            radius: 5
+                        }
 
-                        PQTextL {
+                        PQText {
                             x: 10
                             y: (parent.height-height)/2
                             text: deleg.desc
                             font.weight: PQCLook.fontWeightBold
+                            color: pqtPalette.base
                         }
 
                         Connections {
@@ -245,7 +386,7 @@ PQSetting {
 
                         y: 5
                         width: deleg.width
-                        height: 60
+                        height: 40
 
                         border.width: 1
                         border.color: PQCLook.baseBorder
@@ -299,6 +440,7 @@ PQSetting {
 
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 font.weight: PQCLook.fontWeightBold
+                                font.pointSize: (PQCLook.fontSize+PQCLook.fontSizeS)/2
 
                                 text: deleg.desc
 
@@ -329,20 +471,44 @@ PQSetting {
 
                             }
 
+                            PQButtonIcon {
+                                id: addbutton
+                                y: (entrycomp.height-height)/2
+                                implicitWidth: 20
+                                implicitHeight: 20
+                                iconScale: 0.75
+                                source: "image://svg/:/" + PQCLook.iconShade + "/zoomin.svg"
+                                onClicked: {
+                                    PQCNotify.settingsmanagerSendCommand("newShortcut", [deleg.modelData])
+                                }
+                            }
+
                             // all the currently set combos
                             ListView {
 
                                 id: comboview
 
                                 y: 5
-                                width: entrycomp.width-header.width-10
+                                width: entrycomp.width-header.width-addbutton.width-20
                                 height: entrycomp.height-10
 
+                                clip: true
                                 orientation: ListView.Horizontal
+                                boundsBehavior: ListView.StopAtBounds
                                 spacing: 10
+
+                                ScrollBar.horizontal: PQHorizontalScrollBar {}
 
                                 // the combos for this command
                                 property list<string> combos: PQCShortcuts.getShortcutsForCommand(deleg.cmd)
+                                property list<string> default_combos: PQCShortcuts.getShortcutsForCommand(deleg.cmd)
+                                onCombosChanged: {
+                                    if(!PQF.areTwoListsEqual(combos, default_combos)) {
+                                        set_shcu.currentData[deleg.cmd] = comboview.combos
+                                        default_combos = combos
+                                        set_shcu.calculateDuplicates()
+                                    }
+                                }
 
                                 model: combos.length
 
@@ -350,6 +516,21 @@ PQSetting {
                                 Component.onCompleted: {
                                     set_shcu.defaultData[deleg.cmd] = comboview.combos
                                     set_shcu.currentData[deleg.cmd] = comboview.combos
+                                }
+
+                                Connections {
+
+                                    target: PQCNotify
+
+                                    function onSettingsmanagerSendCommand(what : string, args : list<var>) {
+                                        if(what === "newShortcut") {
+                                            if(deleg.modelData === args[0] && args[1] === -1) {
+                                                comboview.combos.push(args[2])
+                                                comboview.combosChanged()
+                                            }
+                                        }
+                                    }
+
                                 }
 
                                 delegate:
@@ -361,56 +542,102 @@ PQSetting {
 
                                     // the current combo
                                     property string combo: comboview.combos[modelData]
+                                    onComboChanged: {
+                                        if(combo !== comboview.combos[modelData]) {
+                                            comboview.combos[modelData] = combo
+                                            comboview.combosChanged()
+                                        }
+                                    }
 
-                                    width: therow.width+12
+                                    width: combotxt.width + del_button.width +14 + (mult_loader.active ? mult_loader.width : 0)
                                     height: parent.height
 
                                     border.width: 1
                                     border.color: PQCLook.baseBorder
                                     radius: 5
 
-                                    color: pqtPalette.alternateBase
+                                    color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
 
-                                    // the combo text and a delete button
-                                    Row {
-
-                                        id: therow
-
-                                        x: 10
-                                        spacing: 5
-
-                                        PQText {
-                                            y: (shdeleg.height-height)/2
-                                            text: PQCScriptsShortcuts.translateShortcut(shdeleg.combo)
-                                        }
-
+                                    Loader {
+                                        id: mult_loader
+                                        active: set_shcu.duplicateCombos.indexOf(shdeleg.combo)>-1
+                                        x: 5
+                                        y: (shdeleg.height-height)/2
+                                        // opacity: 0.2
+                                        width: 8
+                                        height: 8
+                                        sourceComponent:
                                         Image {
-                                            y: 2
-                                            width: 20
-                                            height: 20
-                                            opacity: entrymouse.containsMouse ? 0.3 : 0.1
-                                            Behavior on opacity { NumberAnimation { duration: 200 } }
+                                            width: 8
+                                            height: 8
                                             sourceSize: Qt.size(width, height)
-                                            source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
-                                            Rectangle {
-                                                anchors.fill: parent
-                                                radius: 10
-                                                color: "red"
-                                                z: -1
-                                                opacity: 1
-                                            }
-                                            PQMouseArea {
-                                                id: entrymouse
-                                                anchors.fill: parent
-                                                hoverEnabled: true
-                                                tooltip: qsTranslate("settingsmanager", "Delete?")
-                                                cursorShape: Qt.PointingHandCursor
-                                                onClicked: {
-                                                    console.warn(">>> DELETE ME!")
-                                                }
+                                            source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                                        }
+                                    }
+
+                                    // the combo text
+                                    PQText {
+                                        id: combotxt
+                                        x: 10 + (mult_loader.active ? mult_loader.width : 0)
+                                        y: (shdeleg.height-height)/2
+                                        text: PQCScriptsShortcuts.translateShortcut(shdeleg.combo)
+                                    }
+
+                                    PQMouseArea {
+                                        id: changemouse
+                                        anchors.fill: parent
+                                        tooltip: qsTranslate("settingsmanager", "Click to change shortcut")
+                                        hoverEnabled: true
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: {
+                                            PQCNotify.settingsmanagerSendCommand("changeShortcut", [shdeleg.combo, deleg.modelData, shdeleg.modelData])
+                                        }
+                                    }
+
+                                    Image {
+                                        id: del_button
+                                        x: combotxt.width + (mult_loader.active ? mult_loader.width: 0) + 12
+                                        y: 2
+                                        width: 15
+                                        height: 15
+                                        opacity: entrymouse.containsMouse ? 0.3 : 0.1
+                                        Behavior on opacity { NumberAnimation { duration: 200 } }
+                                        sourceSize: Qt.size(width, height)
+                                        source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                                        Rectangle {
+                                            anchors.fill: parent
+                                            radius: 10
+                                            color: "red"
+                                            z: -1
+                                            opacity: 1
+                                        }
+                                        PQMouseArea {
+                                            id: entrymouse
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            tooltip: qsTranslate("settingsmanager", "Delete?")
+                                            cursorShape: Qt.PointingHandCursor
+                                            onClicked: {
+                                                comboview.combos = comboview.combos.filter(item => item !== shdeleg.combo)
                                             }
                                         }
                                     }
+
+                                    Connections {
+
+                                        target: PQCNotify
+
+                                        function onSettingsmanagerSendCommand(what : string, args : list<var>) {
+                                            if(what === "newShortcut") {
+                                                if(deleg.modelData === args[0] && shdeleg.modelData === args[1]) {
+                                                    shdeleg.combo = args[2]
+                                                    set_shcu.calculateDuplicates()
+                                                }
+                                            }
+                                        }
+
+                                    }
+
                                 }
 
                                 // this is only visible if not combo was set for this action yet
@@ -433,6 +660,30 @@ PQSetting {
 
     ]
 
+    function calculateDuplicates() {
+
+        duplicateCombos = []
+
+        var allsh = []
+
+        for(var cmd in currentData) {
+            var combos = currentData[cmd]
+            for(var i in combos) {
+                var c = combos[i]
+                if(allsh.indexOf(c) > -1) {
+                    if(duplicateCombos.indexOf(c) == -1)
+                        duplicateCombos.push(c)
+                } else
+                    allsh.push(c)
+            }
+        }
+
+        console.warn(" >>> duplicateCombos =", duplicateCombos)
+
+        duplicateCombosChanged()
+
+    }
+
     onResetToDefaults: {
 
 
@@ -454,6 +705,7 @@ PQSetting {
 
         settingsLoaded = false
 
+        calculateDuplicates()
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
