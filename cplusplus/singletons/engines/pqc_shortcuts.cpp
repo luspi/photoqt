@@ -370,6 +370,7 @@ void PQCShortcuts::readDB() {
     qDebug() << "";
 
     shortcuts.clear();
+    m_commands.clear();
     shortcutsOrder.clear();
 
     QSqlQuery query(db);
@@ -390,6 +391,13 @@ void PQCShortcuts::readDB() {
             cycletimeout = 1;
 
         if(combo == "Del") combo = "Delete";
+
+        for(const QString &c : commands) {
+            if(m_commands.contains(c))
+                m_commands[c].append(combo);
+            else
+                m_commands.insert(c, QVariantList() << combo);
+        }
 
         shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
         shortcutsOrder.push_back(combo);
@@ -818,20 +826,11 @@ bool PQCShortcuts::migrate(QString oldversion) {
 }
 
 QVariantList PQCShortcuts::getShortcutsForCommand(QString cmd) {
+    return m_commands[cmd];
+}
 
-    qDebug() << "args: cmd =" << cmd;
-
-    QVariantList ret;
-
-    QMapIterator<QString, QVariantList> iter(shortcuts);
-    while(iter.hasNext()) {
-        iter.next();
-        if(iter.value().toList()[0].toString() == cmd)
-            ret.append(iter.key());
-    }
-
-    return ret;
-
+int PQCShortcuts::getNumberCommandsForShortcut(QString combo) {
+    return shortcuts[combo].toList()[0].toList().count();
 }
 
 void PQCShortcuts::resetToDefault() {

@@ -151,7 +151,7 @@ Loader {
         Loader {
             id: loader_filedialog
             anchors.fill: parent
-            active: PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder
+            active: false//PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder
             sourceComponent: PQFileDialog {}
             Connections {
                 target: PQCNotify

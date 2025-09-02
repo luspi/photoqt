@@ -38,6 +38,8 @@ PQTemplate {
     elementId: "SettingsManager"
     letMeHandleClosing: true
 
+    property list<string> flickableNotInteractiveFor: []
+
     SystemPalette { id: pqtPalette }
 
     Connections {
@@ -226,6 +228,9 @@ PQTemplate {
                     }
                 }
 
+                /*****************************************/
+                // TAB 0: Interface
+
                 PQTabBar {
 
                     id: subtabbar_interface
@@ -257,17 +262,17 @@ PQTemplate {
                         ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
 
-                    Component { id: int_lang; PQSettingsInterfaceLanguage {} }
-                    Component { id: int_wimo; PQSettingsInterfaceWindowMode {} }
-                    Component { id: int_wibu; PQSettingsInterfaceWindowButtons {} }
-                    Component { id: int_acco; PQSettingsInterfaceAccentColor {} }
-                    Component { id: int_fowe; PQSettingsInterfaceFontWeight {} }
-                    Component { id: int_back; PQSettingsInterfaceBackground {} }
-                    Component { id: int_noti; PQSettingsInterfaceNotification {} }
-                    Component { id: int_popo; PQSettingsInterfacePopout {} }
-                    Component { id: int_edge; PQSettingsInterfaceEdges {} }
-                    Component { id: int_come; PQSettingsInterfaceContextMenu {} }
-                    Component { id: int_stin; PQSettingsInterfaceStatusInfo {} }
+                    Component { id: int_lang; PQSettingsInterfaceLanguage { availableHeight: flickable.height } }
+                    Component { id: int_wimo; PQSettingsInterfaceWindowMode { availableHeight: flickable.height } }
+                    Component { id: int_wibu; PQSettingsInterfaceWindowButtons { availableHeight: flickable.height } }
+                    Component { id: int_acco; PQSettingsInterfaceAccentColor { availableHeight: flickable.height } }
+                    Component { id: int_fowe; PQSettingsInterfaceFontWeight { availableHeight: flickable.height } }
+                    Component { id: int_back; PQSettingsInterfaceBackground { availableHeight: flickable.height } }
+                    Component { id: int_noti; PQSettingsInterfaceNotification { availableHeight: flickable.height } }
+                    Component { id: int_popo; PQSettingsInterfacePopout { availableHeight: flickable.height } }
+                    Component { id: int_edge; PQSettingsInterfaceEdges { availableHeight: flickable.height } }
+                    Component { id: int_come; PQSettingsInterfaceContextMenu { availableHeight: flickable.height } }
+                    Component { id: int_stin; PQSettingsInterfaceStatusInfo { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_interface.currentId = entries[currentIndex][0]
@@ -301,6 +306,9 @@ PQTemplate {
                     }
                 }
 
+                /*****************************************/
+                // TAB 1: Image View
+
                 PQTabBar {
 
                     id: subtabbar_imageview
@@ -320,14 +328,14 @@ PQTemplate {
                         ["shon", qsTranslate("settingsmanager", "Share online")]
                     ]
 
-                    Component { id: imv_look; PQSettingsImageViewLook {} }
-                    Component { id: imv_inte; PQSettingsImageViewInteraction {} }
-                    Component { id: imv_fili; PQSettingsImageViewFileList {} }
-                    Component { id: imv_impr; PQSettingsImageViewImageProcessing {} }
-                    Component { id: imv_capr; PQSettingsImageViewCache {} }
-                    Component { id: imv_meta; PQSettingsImageViewMetadata {} }
-                    Component { id: imv_shon; PQSettingsImageViewShareOnline {} }
-                    Component { id: imv_fata; PQSettingsImageViewFaceTags {} }
+                    Component { id: imv_look; PQSettingsImageViewLook { availableHeight: flickable.height } }
+                    Component { id: imv_inte; PQSettingsImageViewInteraction { availableHeight: flickable.height } }
+                    Component { id: imv_fili; PQSettingsImageViewFileList { availableHeight: flickable.height } }
+                    Component { id: imv_impr; PQSettingsImageViewImageProcessing { availableHeight: flickable.height } }
+                    Component { id: imv_capr; PQSettingsImageViewCache { availableHeight: flickable.height } }
+                    Component { id: imv_meta; PQSettingsImageViewMetadata { availableHeight: flickable.height } }
+                    Component { id: imv_shon; PQSettingsImageViewShareOnline { availableHeight: flickable.height } }
+                    Component { id: imv_fata; PQSettingsImageViewFaceTags { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_imageview.currentId = entries[currentIndex][0]
@@ -358,6 +366,9 @@ PQTemplate {
 
                 }
 
+                /*****************************************/
+                // TAB 2: Thumbnails
+
                 PQTabBar {
 
                     id: subtabbar_thumbnails
@@ -373,10 +384,10 @@ PQTemplate {
                         ["mana", qsTranslate("settingsmanager", "Manage")]
                     ]
 
-                    Component { id: thb_imag; PQSettingsThumbnailsImage {} }
-                    Component { id: thb_info; PQSettingsThumbnailsInfo {} }
-                    Component { id: thb_bar ; PQSettingsThumbnailsBar {} }
-                    Component { id: thb_mana; PQSettingsThumbnailsManage {} }
+                    Component { id: thb_imag; PQSettingsThumbnailsImage { availableHeight: flickable.height } }
+                    Component { id: thb_info; PQSettingsThumbnailsInfo { availableHeight: flickable.height } }
+                    Component { id: thb_bar ; PQSettingsThumbnailsBar { availableHeight: flickable.height } }
+                    Component { id: thb_mana; PQSettingsThumbnailsManage { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_thumbnails.currentId = entries[currentIndex][0]
@@ -403,6 +414,9 @@ PQTemplate {
 
                 }
 
+                /*****************************************/
+                // TAB 3: File Types
+
                 PQTabBar {
 
                     id: subtabbar_filetypes
@@ -423,13 +437,13 @@ PQTemplate {
                     ]
 
                     Component { id: fty_list; PQSettingsFiletypesList { availableHeight: flickable.height } }
-                    Component { id: fty_anim; PQSettingsFiletypesAnimated {} }
-                    Component { id: fty_raw ; PQSettingsFiletypesRAW {} }
-                    Component { id: fty_arch; PQSettingsFiletypesArchives {} }
-                    Component { id: fty_docu; PQSettingsFiletypesDocuments {} }
-                    Component { id: fty_vide; PQSettingsFiletypesVideos {} }
-                    Component { id: fty_moti; PQSettingsFiletypesMotion {} }
-                    Component { id: fty_sphe; PQSettingsFiletypesSpheres {} }
+                    Component { id: fty_anim; PQSettingsFiletypesAnimated { availableHeight: flickable.height } }
+                    Component { id: fty_raw ; PQSettingsFiletypesRAW { availableHeight: flickable.height } }
+                    Component { id: fty_arch; PQSettingsFiletypesArchives { availableHeight: flickable.height } }
+                    Component { id: fty_docu; PQSettingsFiletypesDocuments { availableHeight: flickable.height } }
+                    Component { id: fty_vide; PQSettingsFiletypesVideos { availableHeight: flickable.height } }
+                    Component { id: fty_moti; PQSettingsFiletypesMotion { availableHeight: flickable.height } }
+                    Component { id: fty_sphe; PQSettingsFiletypesSpheres { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_filetypes.currentId = entries[currentIndex][0]
@@ -468,6 +482,9 @@ PQTemplate {
 
                 }
 
+                /*****************************************/
+                // TAB 4: Mouse & Keys
+
                 PQTabBar {
 
                     id: subtabbar_mousekeys
@@ -478,19 +495,29 @@ PQTemplate {
 
                     property list<var> entries: [
                         ["list", qsTranslate("settingsmanager", "Shortcuts")],
+                        ["exsh", qsTranslate("settingsmanager", "External Shortcuts")],
+                        ["dush", qsTranslate("settingsmanager", "Duplicate Shortcuts"), "---"],
                         ["exmo", qsTranslate("settingsmanager", "Extra mouse settings")],
                         ["exke", qsTranslate("settingsmanager", "Extra keyboard settings")]
                     ]
 
+                    Component.onCompleted: {
+                        settingsmanager_top.flickableNotInteractiveFor.push("4_0")
+                    }
+
                     Component { id: sho_list; PQSettingsShortcutsList { availableHeight: flickable.height } }
-                    Component { id: sho_exmo; PQSettingsShortcutsExtraMouse {} }
-                    Component { id: sho_exke; PQSettingsShortcutsExtraKeys {} }
+                    Component { id: sho_exsh; PQSettingsShortcutsExternalShortcuts { availableHeight: flickable.height } }
+                    Component { id: sho_dush; PQSettingsShortcutsDuplicateShortcuts { availableHeight: flickable.height } }
+                    Component { id: sho_exmo; PQSettingsShortcutsExtraMouse { availableHeight: flickable.height } }
+                    Component { id: sho_exke; PQSettingsShortcutsExtraKeys { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_mousekeys.currentId = entries[currentIndex][0]
 
                     onCurrentIdChanged: {
                              if(currentId === "list") settings_loader.sourceComponent = sho_list
+                        else if(currentId === "exsh") settings_loader.sourceComponent = sho_exsh
+                        else if(currentId === "dush") settings_loader.sourceComponent = sho_dush
                         else if(currentId === "exmo") settings_loader.sourceComponent = sho_exmo
                         else if(currentId === "exke") settings_loader.sourceComponent = sho_exke
                     }
@@ -504,11 +531,22 @@ PQTemplate {
                             width: parent.width
                             isCurrentTab: subtabbar_mousekeys.currentIndex===index
                             text: subtabbar_mousekeys.entries[index][1]
+                            Rectangle {
+                                y: parent.height-height
+                                width: parent.width
+                                height: 1
+                                color: pqtPalette.text
+                                visible: subtabbar_mousekeys.entries[index].length === 3 && subtabbar_mousekeys.entries[index][2] === "---"
+                                opacity: 0.1
+                            }
                         }
 
                     }
 
                 }
+
+                /*****************************************/
+                // TAB 5: Manage
 
                 PQTabBar {
 
@@ -524,9 +562,9 @@ PQTemplate {
                         ["mana", qsTranslate("settingsmanager", "Manage")]
                     ]
 
-                    Component { id: man_seha; PQSettingsManageSession {} }
-                    Component { id: man_tric; PQSettingsManageTrayIcon {} }
-                    Component { id: man_mana; PQSettingsManageManage {} }
+                    Component { id: man_seha; PQSettingsManageSession { availableHeight: flickable.height } }
+                    Component { id: man_tric; PQSettingsManageTrayIcon { availableHeight: flickable.height } }
+                    Component { id: man_mana; PQSettingsManageManage { availableHeight: flickable.height } }
 
                     onCurrentIndexChanged:
                         subtabbar_manage.currentId = entries[currentIndex][0]
@@ -552,6 +590,47 @@ PQTemplate {
 
                 }
 
+                /*****************************************/
+                // TAB 6: Other
+
+                PQTabBar {
+
+                    id: subtabbar_other
+
+                    width: parent.width
+                    height: parent.height
+                    property string currentId: ""
+
+                    property list<var> entries: [
+                        // ["seha", qsTranslate("settingsmanager", "Session handling")],
+                        // ["tric", qsTranslate("settingsmanager", "Tray icon")],
+                        // ["mana", qsTranslate("settingsmanager", "Manage")]
+                    ]
+
+                    onCurrentIndexChanged:
+                        subtabbar_other.currentId = entries[currentIndex][0]
+
+                    onCurrentIdChanged: {
+                             // if(currentId === "seha") settings_loader.sourceComponent = man_seha
+                        // else if(currentId === "tric") settings_loader.sourceComponent = man_tric
+                        // else if(currentId === "mana") settings_loader.sourceComponent = man_mana
+                    }
+
+                    Repeater {
+
+                        model: subtabbar_other.entries.length
+
+                        PQTabButton {
+                            required property int index
+                            width: parent.width
+                            isCurrentTab: subtabbar_other.currentIndex===index
+                            text: subtabbar_other.entries[index][1]
+                        }
+
+                    }
+
+                }
+
             }
 
             Flickable {
@@ -568,6 +647,12 @@ PQTemplate {
 
                 ScrollBar.vertical: PQVerticalScrollBar {}
 
+                property list<int> allSubIndex: [subtabbar_interface.currentIndex, subtabbar_imageview.currentIndex, subtabbar_thumbnails.currentIndex,
+                                                 subtabbar_filetypes.currentIndex, subtabbar_mousekeys.currentIndex, subtabbar_manage.currentIndex,
+                                                 subtabbar_other.currentIndex]
+
+                interactive: settingsmanager_top.flickableNotInteractiveFor.indexOf(maintabbar.currentIndex+"_"+allSubIndex[maintabbar.currentIndex])===-1
+
                 Loader {
                     id: settings_loader
                     x: 10
@@ -580,6 +665,11 @@ PQTemplate {
 
     ]
 
+    PQSettingsShortcutsDetectNew {
+        id: detectNew
+        parent: settingsmanager_top.parent.parent
+    }
+
     Connections {
 
         target: PQCNotify
@@ -589,6 +679,9 @@ PQTemplate {
             if(settingsmanager_top.opacity > 0) {
 
                 if(what === "keyEvent") {
+
+                    if(detectNew.visible)
+                        return
 
                     if(param[0] === Qt.Key_Escape) {
 

@@ -71,6 +71,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.
 
 SET(d "qml/duplicate/settingsmanager2/shortcuts")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsList.qml ${d}/PQSettingsShortcutsExtraMouse.qml ${d}/PQSettingsShortcutsExtraKeys.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsDetectNew.qml ${d}/PQSettingsShortcutsExternalShortcuts.qml ${d}/PQSettingsShortcutsDuplicateShortcuts.qml)
 
 
 SET(d "qml/duplicate/settingsmanager")
