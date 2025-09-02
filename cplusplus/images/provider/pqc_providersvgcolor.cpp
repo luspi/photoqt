@@ -46,10 +46,9 @@ QImage PQCProviderSVGColor::requestImage(const QString &url, QSize *origSize, co
 
         // extract target color and lighten or darken it
         QColor c(url.split(":://::").at(0));
-        c = (fn.startsWith(":/light") ? c.lighter(600) : c.darker(300));
 
         // create inverse color (half transparent to not be overpowering)
-        QColor invc((255-c.red()), (255-c.green()), (255-c.blue()), 128);
+        QColor invc((255-c.red()), (255-c.green()), (255-c.blue()), 32);
 
         // request image
         PQCProviderSVG prov;
