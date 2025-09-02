@@ -277,30 +277,29 @@ void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {
         const QList<QByteArray> reply = socket->readAll().split('\n');
+        QList<Actions> handleAll;
         for(const QByteArray &rep : reply) {
             if(rep.startsWith("_T_O_K_E_N_")) {
                 qputenv("XDG_ACTIVATION_TOKEN", rep.last(rep.length()-11));
             } else if(rep.startsWith("_F_I_L_E_")) {
                 m_receivedFile = rep.last(rep.length()-9);
-                handleMessage({Actions::File});
+                handleAll.append(Actions::File);
             } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
                 m_receivedShortcut = rep.last(rep.length()-17);
-                handleMessage({Actions::Shortcut});
+                handleAll.append(Actions::Shortcut);
             } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
                 const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
                 m_receivedSetting[0] = tmp[0];
                 m_receivedSetting[1] = tmp[1];
-                handleMessage({Actions::Setting});
+                handleAll.append(Actions::Setting);
             } else {
-                QList<Actions> _ints;
                 const QList<QByteArray> _reps = rep.split('/');
-                _ints.reserve(_reps.size());
                 for(const QByteArray &r : _reps) {
-                    _ints << static_cast<Actions>(r.toInt());
+                    handleAll.append(static_cast<Actions>(r.toInt()));
                 }
-                handleMessage(_ints);
             }
         }
+        handleMessage(handleAll);
     }
     socket->close();
     delete socket;
