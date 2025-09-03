@@ -62,6 +62,30 @@ PQSetting {
                               qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
         },
 
+        Item {
+            width: 1
+            height: 5
+        },
+
+        Row {
+            PQSettingSpacer {}
+            PQButton {
+                text: qsTranslate("settingsmanager", "add new external shortcut action")
+                onClicked: {
+                    var uniqueid = set_exsh.steadyCounter
+                    set_exsh.defaultData[uniqueid] = [[], "", "", 0]
+                    set_exsh.currentData[uniqueid] = [[], "", "", 0]
+                    extmodel.append({"cmd": "", "flags" : "", "quit": 0, "_combos": "", "uniqueId": uniqueid})
+                    set_exsh.steadyCounter += 1
+                }
+            }
+        },
+
+        Item {
+            width: 1
+            height: 5
+        },
+
         ListView {
 
             id: extview
@@ -70,6 +94,7 @@ PQSetting {
             height: set_exsh.availableHeight - extview.y
 
             spacing: 10
+            clip: true
 
             model: ListModel { id: extmodel }
 
@@ -77,6 +102,15 @@ PQSetting {
             cacheBuffer: extmodel.count*60
 
             ScrollBar.vertical: PQVerticalScrollBar {}
+
+            PQTextXL {
+                x: (parent.width-width)/2
+                y: parent.height*0.15
+                visible: extmodel.count===0
+                text: qsTranslate("settingsmanager", "no external shortcuts set")
+                color: pqtPaletteDisabled.text
+                font.weight: PQCLook.fontWeightBold
+            }
 
             delegate:
             Rectangle {
@@ -90,14 +124,14 @@ PQSetting {
                 required property string _combos
                 required property string uniqueId
 
-                property list<string> combos: _combos.split(":://::")
+                property list<string> combos: _combos==="" ? [] : _combos.split(":://::")
 
                 property list<string> default_combos: []
 
                 // the combos for this command
                 onCombosChanged: {
                     if(!PQF.areTwoListsEqual(combos, default_combos)) {
-                        set_exsh.currentData[deleg.uniqueId][0] = comboview.combos
+                        set_exsh.currentData[deleg.uniqueId][0] = deleg.combos
                         set_exsh.currentDataChanged()
                         default_combos = combos
                     }
@@ -332,6 +366,42 @@ PQSetting {
                     }
 
                 }
+
+                Image {
+                    id: del_ext
+                    x: parent.width-width-5
+                    y: 5
+                    width: 25
+                    height: 25
+                    opacity: delextmouse.containsMouse ? 0.3 : 0.1
+                    Behavior on opacity { NumberAnimation { duration: 200 } }
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/" + PQCLook.iconShade + "/close.svg"
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: 10
+                        color: "red"
+                        z: -1
+                        opacity: 1
+                    }
+                    PQMouseArea {
+                        id: delextmouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        tooltip: qsTranslate("settingsmanager", "Delete?")
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: {
+                            var newCurrentData = ({})
+                            for(var key in set_exsh.currentData) {
+                                if(key !== deleg.uniqueId)
+                                    newCurrentData[key] = set_exsh.currentData[key]
+                            }
+                            set_exsh.currentData = newCurrentData
+                            extmodel.remove(deleg.index, 1)
+                        }
+                    }
+                }
+
             }
 
         }
@@ -375,7 +445,7 @@ PQSetting {
                     var uniqueid = allcmd[j]+"_"+steadyCounter
                     defaultData[uniqueid] = [combos, parts[0], parts[1], parseInt(parts[2])]
                     currentData[uniqueid] = [combos, parts[0], parts[1], parseInt(parts[2])]
-                    extmodel.append({"index" : steadyCounter, "cmd": parts[0], "flags" : parts[1], "quit": parseInt(parts[2]), "_combos": combos.join(":://::"), "uniqueId": uniqueid})
+                    extmodel.append({"cmd": parts[0], "flags" : parts[1], "quit": parseInt(parts[2]), "_combos": combos.join(":://::"), "uniqueId": uniqueid})
                     handledCmd.push(allcmd[j])
                     steadyCounter += 1
                 }
