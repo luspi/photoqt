@@ -44,6 +44,12 @@ PQSetting {
     property var defaultData: ({})
     property var currentData: ({})
 
+    onCurrentDataChanged: {
+        checkForChanges()
+    }
+
+    property list<string> duplicateCombos: []
+
     content: [
 
         Item {
@@ -73,9 +79,9 @@ PQSetting {
                 text: qsTranslate("settingsmanager", "add new external shortcut action")
                 onClicked: {
                     var uniqueid = set_exsh.steadyCounter
-                    set_exsh.defaultData[uniqueid] = [[], "", "", 0]
                     set_exsh.currentData[uniqueid] = [[], "", "", 0]
-                    extmodel.append({"cmd": "", "flags" : "", "quit": 0, "_combos": "", "uniqueId": uniqueid})
+                    set_exsh.currentDataChanged()
+                    extmodel.append({"cmd": "", "flags" : "", "quit": 0, "_combos": "", "uniqueId": uniqueid.toString()})
                     set_exsh.steadyCounter += 1
                 }
             }
@@ -134,6 +140,7 @@ PQSetting {
                         set_exsh.currentData[deleg.uniqueId][0] = deleg.combos
                         set_exsh.currentDataChanged()
                         default_combos = combos
+                        set_exsh.calculateDuplicates()
                     }
                 }
 
@@ -279,7 +286,7 @@ PQSetting {
                                     }
                                 }
 
-                                width: combotxt.width + del_button.width +14
+                                width: combotxt.width + del_button.width +14 + (mult_loader.active ? mult_loader.width : 0)
                                 height: parent.height
 
                                 border.width: 1
@@ -288,10 +295,27 @@ PQSetting {
 
                                 color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
 
+                                Loader {
+                                    id: mult_loader
+                                    active: set_exsh.duplicateCombos.indexOf(shdeleg.combo)>-1
+                                    x: 5
+                                    y: (shdeleg.height-height)/2
+                                    // opacity: 0.2
+                                    width: 8
+                                    height: 8
+                                    sourceComponent:
+                                    Image {
+                                        width: 8
+                                        height: 8
+                                        sourceSize: Qt.size(width, height)
+                                        source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                                    }
+                                }
+
                                 // the combo text
                                 PQText {
                                     id: combotxt
-                                    x: 10
+                                    x: 10 + (mult_loader.active ? mult_loader.width : 0)
                                     y: (shdeleg.height-height)/2
                                     text: PQCScriptsShortcuts.translateShortcut(shdeleg.combo)
                                 }
@@ -309,7 +333,7 @@ PQSetting {
 
                                 Image {
                                     id: del_button
-                                    x: combotxt.width + 12
+                                    x: combotxt.width + (mult_loader.active ? mult_loader.width: 0) + 12
                                     y: 2
                                     width: 15
                                     height: 15
@@ -344,6 +368,7 @@ PQSetting {
                                         if(what === "newShortcut") {
                                             if(deleg.index === args[0] && shdeleg.modelData === args[1]) {
                                                 shdeleg.combo = args[2]
+                                                set_exsh.calculateDuplicates()
                                             }
                                         }
                                     }
@@ -408,6 +433,35 @@ PQSetting {
 
     ]
 
+    function calculateDuplicates() {
+
+        duplicateCombos = []
+
+        var allsh = []
+
+        for(var cmd in currentData) {
+            var combos = currentData[cmd][0]
+            for(var i in combos) {
+                var c = combos[i]
+                // if we also have an internal command set for this combo then we have it at least twice (internal and here, external)
+                if(PQCShortcuts.getNumberInternalCommandsForShortcut(c) > 0) {
+                    allsh.push(c)
+                    if(duplicateCombos.indexOf(c) == -1)
+                        duplicateCombos.push(c)
+                } else {
+                    if(allsh.indexOf(c) > -1) {
+                        if(duplicateCombos.indexOf(c) == -1)
+                            duplicateCombos.push(c)
+                    } else
+                        allsh.push(c)
+                }
+            }
+        }
+
+        duplicateCombosChanged()
+
+    }
+
     onResetToDefaults: {
 
 
@@ -421,13 +475,15 @@ PQSetting {
 
         if(!settingsLoaded) return
 
-        // PQCConstants.settingsManagerSettingChanged =
+        PQCConstants.settingsManagerSettingChanged = !PQF.areTwoDictofListsEqual(currentData, defaultData)
 
     }
 
     function load() {
 
         settingsLoaded = false
+
+        extmodel.clear()
 
         var allsh = PQCShortcuts.getAllCurrentShortcuts()
 
