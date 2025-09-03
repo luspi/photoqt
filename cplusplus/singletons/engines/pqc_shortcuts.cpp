@@ -28,7 +28,6 @@
 #include <pqc_shortcuts.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
-#include <pqc_extensionshandler.h>
 
 PQCShortcuts::PQCShortcuts() {
 
@@ -42,8 +41,6 @@ PQCShortcuts::PQCShortcuts() {
 
     QFileInfo infodb(PQCConfigFiles::get().SHORTCUTS_DB());
 
-    bool enterExtensions = false;
-
     // the db does not exist -> create it
     if(!infodb.exists()) {
         if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
@@ -51,7 +48,6 @@ PQCShortcuts::PQCShortcuts() {
         else {
             QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-            enterExtensions = true;
         }
     }
 
@@ -109,9 +105,7 @@ PQCShortcuts::PQCShortcuts() {
     });
 
     // on updates we call migrate() which calls readDB() itself.
-    if(enterExtensions)
-        setupFresh();
-    else if(checkForUpdateOrNew() != 1)
+    if(checkForUpdateOrNew() != 1)
         readDB();
 
 }
@@ -150,7 +144,6 @@ int PQCShortcuts::checkForUpdateOrNew() {
     if(updateornew != 2) {
 
         bool configExists = true;
-        bool extExists = true;
 
         // ensure config table exists
         QSqlQuery query(db);
@@ -176,31 +169,10 @@ int PQCShortcuts::checkForUpdateOrNew() {
             }
         }
 
-        // ensure extensions table exists
-        QSqlQuery queryExt(db);
-        // check if extensions table exists
-        if(!queryExt.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='extensions';")) {
-            qCritical() << "Unable to verify existince of extensions table";
-        } else {
-            // the table does not exist
-            if(!queryExt.next()) {
-                qWarning() << ">>> DOES NOT EXIST";
-                updateornew = 1;
-                extExists = false;
-                QSqlQuery queryNew(db);
-                if(!queryNew.exec("CREATE TABLE 'extensions' ('combo' TEXT UNIQUE, 'extension' TEXT, 'commands' TEXT, 'cycle' INTEGER, 'cycletimeout' INTEGER, 'simultaneous' INTEGER)")) {
-                    qCritical() << "Unable to create extensions table";
-                }
-            }
-        }
-
         if(updateornew == 1) {
             if(!configExists)
                 // This was the last version with NO version number in the shortcuts database
                 migrate("4.9.1");
-            if(!extExists)
-                // This was the last version before the extensions shortcuts were sorted out
-                migrate("4.9.2");
         }
 
     }
@@ -405,37 +377,6 @@ void PQCShortcuts::readDB() {
     }
 
     query.clear();
-
-    QSqlQuery queryExt(db);
-    if(!queryExt.exec("SELECT `combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous` FROM 'extensions'")) {
-        qWarning() << "SQL error:" << queryExt.lastError().text();
-        return;
-    }
-
-    while(queryExt.next()) {
-
-        QString combo = queryExt.value(0).toString();
-        const QStringList commands = queryExt.value(1).toString().split(":://::");
-        const int cycle = queryExt.value(2).toInt();
-        int cycletimeout = queryExt.value(3).toInt();
-        const int simultaneous = queryExt.value(4).toInt();
-
-        if(cycle == 0 && simultaneous == 0)
-            cycletimeout = 1;
-
-        if(combo == "Del") combo = "Delete";
-
-        if(shortcuts.contains(combo)) {
-            qDebug() << "Skipping extension shortcut due to pre-existing combo:" << combo << "/" << commands;
-            continue;
-        }
-
-        shortcuts[combo] = QVariantList() << commands << cycle << cycletimeout << simultaneous;
-        shortcutsOrder.push_back(combo);
-
-    }
-
-    queryExt.clear();
 
 }
 
@@ -829,8 +770,176 @@ QVariantList PQCShortcuts::getShortcutsForCommand(QString cmd) {
     return m_commands[cmd];
 }
 
-int PQCShortcuts::getNumberCommandsForShortcut(QString combo) {
-    return shortcuts[combo].toList()[0].toList().count();
+int PQCShortcuts::getNumberInternalCommandsForShortcut(QString combo) {
+    int num = 0;
+    for(const QString &c : shortcuts.value(combo).toList()[0].toStringList()) {
+        if(c.startsWith("__"))
+            num += 1;
+    }
+    return num;
+}
+
+int PQCShortcuts::getNumberExternalCommandsForShortcut(QString combo) {
+    int num = 0;
+    for(const QString &c : shortcuts.value(combo).toList()[0].toStringList()) {
+        if(!c.startsWith("__"))
+            num += 1;
+    }
+    return num;
+}
+
+void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
+
+    QMap<QString, QStringList> map;
+
+    // first we need to create a map of: combo => all commands
+    for(const QVariant &entry : lst) {
+
+        QVariantList l = entry.toList();
+        const QString cmd = l[0].toString();
+        const QVariantList combos = l[1].toList();
+
+        for(const QVariant &c : combos) {
+            if(map.contains(c.toString()))
+                map[c.toString()].append(cmd);
+            else
+                map.insert(c.toString(), (QStringList() << cmd));
+        }
+
+    }
+
+    QMap<QString, QVariantList> new_shortcuts;
+
+    // then we step through the new map and match it up with the existing map to add in any external shortcuts and to preserve any potentially set order
+
+    QMapIterator<QString, QStringList> iter(map);
+    while(iter.hasNext()) {
+
+        iter.next();
+
+        QString combo = iter.key();
+        QStringList cmds = iter.value();
+
+        // case 1: shortcut exists in old map
+        if(shortcuts.contains(combo)) {
+
+            QStringList oldcmds = shortcuts[combo][0].toStringList();
+
+            // case a: commands are unchanged
+            if(oldcmds == cmds) {
+
+                new_shortcuts.insert(combo, QVariantList() << cmds << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+            // case b: commands are changed
+            } else {
+
+                QStringList newcmds;
+
+                // first we copy over (in the old order) any commands that remained unchanged
+                // we include external commands as these are manipulated in a different place
+                for(const QString &c : oldcmds) {
+                    if(cmds.contains(c) || (c.at(0) != "_" && c.at(1) != "_"))
+                        newcmds.append(c);
+                }
+
+                // then we add at the end any new commands
+                for(const QString &c : cmds) {
+                    if(!newcmds.contains(c))
+                        newcmds.append(c);
+                }
+
+                new_shortcuts.insert(combo, QVariantList() << newcmds << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+            }
+
+        // case 2: shortcut does not exist in old map
+        } else {
+
+            new_shortcuts.insert(combo, QVariantList() << cmds << 1 << 0 << 0);
+
+        }
+
+    }
+
+    // then we step through the original map and check all the combos not in the new map yet that have external shortcuts set
+    // (these would not show up in the passed-on list but need to be preserved)
+
+    QMapIterator<QString, QVariantList> iterExt(shortcuts);
+    while(iterExt.hasNext()) {
+
+        iterExt.next();
+
+        QString combo = iterExt.key();
+
+        // combo not in new map
+        if(!new_shortcuts.contains(combo)) {
+
+            QStringList oldcmds = shortcuts[combo][0].toStringList();
+
+            for(const QString &c : oldcmds) {
+
+                if(!c.startsWith("__")) {
+
+                    if(new_shortcuts.contains(combo)) {
+
+                        new_shortcuts[combo][0].toList().append(c);
+
+                    } else {
+
+                        new_shortcuts.insert(combo, QVariantList() << c << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /**************************************************/
+
+    // now we can write this new map to the database
+
+    // remove old shortcuts
+    QSqlQuery query(db);
+    if(!query.exec("DELETE FROM 'shortcuts'")) {
+        qWarning() << "SQL error:" << query.lastError().text();
+        return;
+    }
+    query.clear();
+
+    QMapIterator<QString, QVariantList> iterEnter(new_shortcuts);
+
+    while(iterEnter.hasNext()) {
+
+        iterEnter.next();
+
+        const QString combo = iterEnter.key();
+        const QStringList cmds = iterEnter.value()[0].toStringList();
+        const int cycle = iterEnter.value()[1].toInt();
+        const int cycletimeout = iterEnter.value()[2].toInt();
+        const int simultaneous = iterEnter.value()[3].toInt();
+
+        QSqlQuery query(db);
+
+        query.prepare("INSERT OR REPLACE INTO 'shortcuts' (`combo`,`commands`,`cycle`,`cycletimeout`,`simultaneous`) VALUES (:combo, :cmds, :cycle, :cycletimeout, :simultaneous)");
+        query.bindValue(":combo", combo);
+        query.bindValue(":cmds", cmds.join(":://::"));
+        query.bindValue(":cycle", cycle);
+        query.bindValue(":cycletimeout", cycletimeout);
+        query.bindValue(":simultaneous", simultaneous);
+        if(!query.exec())
+            qWarning() << "SQL error:" << query.lastError().text();
+        query.clear();
+
+    }
+
+    readDB();
+
+    // done :-)
+
 }
 
 void PQCShortcuts::resetToDefault() {

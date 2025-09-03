@@ -238,6 +238,9 @@ PQSetting {
     property var defaultData: ({})
     property var currentData: ({})
 
+    onCurrentDataChanged:
+        checkForChanges()
+
     property list<string> duplicateCombos: []
 
     content: [
@@ -293,7 +296,8 @@ PQSetting {
             height: set_shcu.availableHeight - masterview.y
             clip: true
 
-            model: list_shortcuts.length
+            // this is adjusted in load()
+            model: 0
 
             // this ensures all entries are always set up
             cacheBuffer: list_shortcuts.length*60
@@ -507,6 +511,7 @@ PQSetting {
                                         set_shcu.currentData[deleg.cmd] = comboview.combos
                                         default_combos = combos
                                         set_shcu.calculateDuplicates()
+                                        set_shcu.currentDataChanged()
                                     }
                                 }
 
@@ -514,7 +519,7 @@ PQSetting {
 
                                 // we store two copies of it, one where we track all the changes and one where we store the original state
                                 Component.onCompleted: {
-                                    set_shcu.defaultData[deleg.cmd] = comboview.combos
+                                    set_shcu.defaultData[deleg.cmd] = comboview.default_combos
                                     set_shcu.currentData[deleg.cmd] = comboview.combos
                                 }
 
@@ -670,15 +675,20 @@ PQSetting {
             var combos = currentData[cmd]
             for(var i in combos) {
                 var c = combos[i]
-                if(allsh.indexOf(c) > -1) {
+                // if we also have an external command set for this combo then we have it at least twice (external and here, internal)
+                if(PQCShortcuts.getNumberExternalCommandsForShortcut(c) > 0) {
+                    allsh.push(c)
                     if(duplicateCombos.indexOf(c) == -1)
                         duplicateCombos.push(c)
-                } else
-                    allsh.push(c)
+                } else {
+                    if(allsh.indexOf(c) > -1) {
+                        if(duplicateCombos.indexOf(c) == -1)
+                            duplicateCombos.push(c)
+                    } else
+                        allsh.push(c)
+                }
             }
         }
-
-        console.warn(" >>> duplicateCombos =", duplicateCombos)
 
         duplicateCombosChanged()
 
@@ -697,13 +707,16 @@ PQSetting {
 
         if(!settingsLoaded) return
 
-        // PQCConstants.settingsManagerSettingChanged =
+        PQCConstants.settingsManagerSettingChanged = !PQF.areTwoDictofListsEqual(currentData, defaultData)
 
     }
 
     function load() {
 
         settingsLoaded = false
+
+        masterview.model = 0
+        masterview.model = list_shortcuts.length
 
         calculateDuplicates()
 
@@ -714,6 +727,12 @@ PQSetting {
 
     function applyChanges() {
 
+        var lst = []
+        for(var i in currentData) {
+            var cur = [i, currentData[i]]
+            lst.push(cur)
+        }
+        PQCShortcuts.saveInternalShortcutCombos(lst)
 
         PQCConstants.settingsManagerSettingChanged = false
 
