@@ -790,6 +790,8 @@ int PQCShortcuts::getNumberExternalCommandsForShortcut(QString combo) {
 
 void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
+    qDebug() << "args: lst";
+
     QMap<QString, QStringList> map;
 
     // first we need to create a map of: combo => all commands
@@ -838,7 +840,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
                 // first we copy over (in the old order) any commands that remained unchanged
                 // we include external commands as these are manipulated in a different place
                 for(const QString &c : oldcmds) {
-                    if(cmds.contains(c) || (c.at(0) != "_" && c.at(1) != "_"))
+                    if(cmds.contains(c) || !c.startsWith("__"))
                         newcmds.append(c);
                 }
 
@@ -882,11 +884,13 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
                     if(new_shortcuts.contains(combo)) {
 
-                        new_shortcuts[combo][0].toList().append(c);
+                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        oldcombos.append(c);
+                        new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 
                     } else {
 
-                        new_shortcuts.insert(combo, QVariantList() << c << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+                        new_shortcuts.insert(combo, QVariantList() << (QStringList() << c) << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 
                     }
 
@@ -902,6 +906,138 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
     // now we can write this new map to the database
 
+    writeNewShortcutsMapToDatabaseAndRead(new_shortcuts);
+
+}
+
+void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
+
+    qDebug() << "args: lst";
+
+    QMap<QString, QStringList> map;
+
+    // first we need to create a map of: combo => all commands
+    for(const QVariant &entry : lst) {
+
+        QVariantList l = entry.toList();
+        const QStringList combos = l[0].toStringList();
+        const QString exec = l[1].toString();
+        const QString flags = l[2].toString();
+        const int quit = l[3].toInt();
+
+        QString cmd = QString("%1:/:/:%2:/:/:%3").arg(exec, flags).arg(quit);
+
+        for(const QVariant &c : combos) {
+            if(map.contains(c.toString()))
+                map[c.toString()].append(cmd);
+            else
+                map.insert(c.toString(), (QStringList() << cmd));
+        }
+
+    }
+
+    QMap<QString, QVariantList> new_shortcuts;
+
+    // then we step through the new map and match it up with the existing map to add in any internal shortcuts and to preserve any potentially set order
+
+    QMapIterator<QString, QStringList> iter(map);
+    while(iter.hasNext()) {
+
+        iter.next();
+
+        QString combo = iter.key();
+        QStringList cmds = iter.value();
+
+        // case 1: shortcut exists in old map
+        if(shortcuts.contains(combo)) {
+
+            QStringList oldcmds = shortcuts[combo][0].toStringList();
+
+            // case a: commands are unchanged
+            if(oldcmds == cmds) {
+
+                new_shortcuts.insert(combo, QVariantList() << cmds << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+            // case b: commands are changed
+            } else {
+
+                QStringList newcmds;
+
+                // first we copy over (in the old order) any commands that remained unchanged
+                // we include external commands as these are manipulated in a different place
+                for(const QString &c : oldcmds) {
+                    if(cmds.contains(c) || c.startsWith("__"))
+                        newcmds.append(c);
+                }
+
+                // then we add at the end any new commands
+                for(const QString &c : cmds) {
+                    if(!newcmds.contains(c))
+                        newcmds.append(c);
+                }
+
+                new_shortcuts.insert(combo, QVariantList() << newcmds << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+            }
+
+            // case 2: shortcut does not exist in old map
+        } else {
+
+            new_shortcuts.insert(combo, QVariantList() << cmds << 1 << 0 << 0);
+
+        }
+
+    }
+
+    // then we step through the original map and check all the combos not in the new map yet that have internal shortcuts set
+    // (these would not show up in the passed-on list but need to be preserved)
+
+    QMapIterator<QString, QVariantList> iterInt(shortcuts);
+    while(iterInt.hasNext()) {
+
+        iterInt.next();
+
+        QString combo = iterInt.key();
+
+        // combo not in new map
+        if(!new_shortcuts.contains(combo)) {
+
+            QStringList oldcmds = shortcuts[combo][0].toStringList();
+
+            for(const QString &c : oldcmds) {
+
+                if(c.startsWith("__")) {
+
+                    if(new_shortcuts.contains(combo)) {
+
+                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        oldcombos.append(c);
+                        new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+                    } else {
+
+                        new_shortcuts.insert(combo, QVariantList() << (QStringList() << c) << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    }
+
+    /**************************************************/
+
+    // now we can write this new map to the database
+
+    writeNewShortcutsMapToDatabaseAndRead(new_shortcuts);
+
+}
+
+void PQCShortcuts::writeNewShortcutsMapToDatabaseAndRead(QMap<QString, QVariantList> newmap) {
+
     // remove old shortcuts
     QSqlQuery query(db);
     if(!query.exec("DELETE FROM 'shortcuts'")) {
@@ -910,7 +1046,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
     }
     query.clear();
 
-    QMapIterator<QString, QVariantList> iterEnter(new_shortcuts);
+    QMapIterator<QString, QVariantList> iterEnter(newmap);
 
     while(iterEnter.hasNext()) {
 
@@ -937,8 +1073,6 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
     }
 
     readDB();
-
-    // done :-)
 
 }
 

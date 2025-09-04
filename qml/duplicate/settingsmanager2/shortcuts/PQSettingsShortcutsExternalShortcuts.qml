@@ -58,14 +58,43 @@ PQSetting {
         },
 
         PQText {
-            id: introtxt
             width: set_exsh.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "In addition to a wide range of built-in shortcut actions, any external application, command, or script can be used as shortcut action. Note that relative file paths are not supported, however, you can use the following placeholders:") + "\n\n" +
-                              "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
-                              "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
-                              "%d = " + qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
-                              qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
+            text: qsTranslate("settingsmanager", "In addition to a wide range of built-in shortcut actions, any external application, command, or script can be used as shortcut action. Note that relative file paths are not supported, however, you can use the following placeholders:")
+        },
+
+        PQText {
+            width: set_exsh.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
+                  "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
+                  "%d = " + qsTranslate("settingsmanager", "directory containing file")
+        },
+
+        PQText {
+            width: set_exsh.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
+        },
+
+        Row {
+
+            spacing: 5
+
+            Image {
+                y: (parent.height-height)/2
+                width: 12
+                height: 12
+                sourceSize: Qt.size(width, height)
+                source: "image://svgcolor/green:://:::/light/zoomin.svg"
+            }
+
+            PQText {
+                width: set_exsh.contentWidth
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: "This symbol indicates a key or mouse combination that is set for more than one shortcut action."
+            }
+
         },
 
         Item {
@@ -301,12 +330,12 @@ PQSetting {
                                     x: 5
                                     y: (shdeleg.height-height)/2
                                     // opacity: 0.2
-                                    width: 8
-                                    height: 8
+                                    width: 10
+                                    height: 10
                                     sourceComponent:
                                     Image {
-                                        width: 8
-                                        height: 8
+                                        width: 10
+                                        height: 10
                                         sourceSize: Qt.size(width, height)
                                         source: "image://svgcolor/green:://:::/light/zoomin.svg"
                                     }
@@ -515,6 +544,11 @@ PQSetting {
 
     function applyChanges() {
 
+        var lst = []
+        for(var i in currentData) {
+            lst.push(currentData[i])
+        }
+        PQCShortcuts.saveExternalShortcutCombos(lst)
 
         PQCConstants.settingsManagerSettingChanged = false
 

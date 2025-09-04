@@ -569,12 +569,12 @@ PQSetting {
                                         x: 5
                                         y: (shdeleg.height-height)/2
                                         // opacity: 0.2
-                                        width: 8
-                                        height: 8
+                                        width: 10
+                                        height: 10
                                         sourceComponent:
                                         Image {
-                                            width: 8
-                                            height: 8
+                                            width: 10
+                                            height: 10
                                             sourceSize: Qt.size(width, height)
                                             source: "image://svgcolor/green:://:::/light/zoomin.svg"
                                         }
