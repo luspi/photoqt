@@ -60,6 +60,7 @@ public:
     Q_INVOKABLE void resetCommandCycle(QString combo);
 
     Q_INVOKABLE void saveInternalShortcutCombos(const QVariantList lst);
+    Q_INVOKABLE void saveExternalShortcutCombos(const QVariantList lst);
 
     Q_INVOKABLE bool migrate(QString oldversion = "");
 
@@ -76,6 +77,8 @@ public Q_SLOTS:
 private:
 
     int checkForUpdateOrNew();
+
+    void writeNewShortcutsMapToDatabaseAndRead(QMap<QString, QVariantList> newmap);
 
     QStringList shortcutsOrder;
     QMap<QString,QVariantList> shortcuts;
