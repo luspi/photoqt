@@ -323,11 +323,6 @@ PQSetting {
 
             id: masterview
 
-            // holds the current maximum header width to have all shortcuts start at the same spot
-            property int headerWidth: 100
-            // how wide the titles can be at most before wrapping
-            property int maxHeaderWidth: 500
-
             width: set_shcu.contentWidth
             height: set_shcu.availableHeight - masterview.y
             clip: true
@@ -477,37 +472,13 @@ PQSetting {
 
                                 id: header
                                 y: (entrycomp.height-height)/2
+                                width: Math.max(200, Math.min(entrycomp.width/2, 350))
 
                                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                                 font.weight: PQCLook.fontWeightBold
                                 font.pointSize: (PQCLook.fontSize+PQCLook.fontSizeS)/2
 
                                 text: deleg.desc
-
-                                // width changed? if not wider than limit width but wider than all others, record it
-                                onWidthChanged: {
-                                    if(width > masterview.maxHeaderWidth) {
-                                        width = masterview.maxHeaderWidth
-                                        masterview.headerWidth = masterview.maxHeaderWidth
-                                    } else if(width > masterview.headerWidth+5)
-                                        masterview.headerWidth = width
-                                }
-                                // max width changed? make sure we adopt it
-                                Connections {
-                                    target: masterview
-                                    function onHeaderWidthChanged() {
-                                        if(masterview.headerWidth > header.width)
-                                            header.width = masterview.headerWidth
-                                    }
-                                }
-                                // just created and some max width already set? adopt it
-                                Component.onCompleted: {
-                                    if(width > masterview.maxHeaderWidth) {
-                                        width = masterview.maxHeaderWidth
-                                        masterview.headerWidth = masterview.maxHeaderWidth
-                                    } else if(masterview.headerWidth > width)
-                                        header.width = masterview.headerWidth
-                                }
 
                             }
 
