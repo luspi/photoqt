@@ -239,9 +239,14 @@ PQTemplate {
                     height: parent.height
                     property string currentId: ""
 
+                    // This is needed so that when the variant is switched we do not run into warnings before a reboot happens
+                    Component.onCompleted: {
+                        entries = entries
+                    }
+
                     property list<var> entries: PQCSettings.generalInterfaceVariant==="modern" ? entries_modern : entries_integrated
                     property list<var> entries_modern: [
-                        ["lang", qsTranslate("settingsmanager", "Language")],
+                        ["ovin", qsTranslate("settingsmanager", "Overall Interface")],
                         ["wimo", qsTranslate("settingsmanager", "Window mode")],
                         ["wibu", qsTranslate("settingsmanager", "Window buttons")],
                         ["acco", qsTranslate("settingsmanager", "Accent color")],
@@ -254,7 +259,7 @@ PQTemplate {
                         ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
                     property list<var> entries_integrated: [
-                        ["lang", qsTranslate("settingsmanager", "Language")],
+                        ["ovin", qsTranslate("settingsmanager", "Overall Interface")],
                         ["fowe", qsTranslate("settingsmanager", "Font weight")],
                         ["back", qsTranslate("settingsmanager", "Background")],
                         ["noti", qsTranslate("settingsmanager", "Notification")],
@@ -262,7 +267,7 @@ PQTemplate {
                         ["stin", qsTranslate("settingsmanager", "Status Info")]
                     ]
 
-                    Component { id: int_lang; PQSettingsInterfaceLanguage { availableHeight: flickable.height } }
+                    Component { id: int_ovin; PQSettingsInterfaceOverallInterface { availableHeight: flickable.height } }
                     Component { id: int_wimo; PQSettingsInterfaceWindowMode { availableHeight: flickable.height } }
                     Component { id: int_wibu; PQSettingsInterfaceWindowButtons { availableHeight: flickable.height } }
                     Component { id: int_acco; PQSettingsInterfaceAccentColor { availableHeight: flickable.height } }
@@ -278,7 +283,7 @@ PQTemplate {
                         subtabbar_interface.currentId = entries[currentIndex][0]
 
                     onCurrentIdChanged: {
-                             if(currentId === "lang") settings_loader.sourceComponent = int_lang
+                             if(currentId === "ovin") settings_loader.sourceComponent = int_ovin
                         else if(currentId === "wimo") settings_loader.sourceComponent = int_wimo
                         else if(currentId === "wibu") settings_loader.sourceComponent = int_wibu
                         else if(currentId === "acco") settings_loader.sourceComponent = int_acco

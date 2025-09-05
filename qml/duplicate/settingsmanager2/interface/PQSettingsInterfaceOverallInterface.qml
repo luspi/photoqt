@@ -21,6 +21,7 @@
  **************************************************************************/
 
 import QtQuick
+import QtQuick.Controls
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
@@ -29,6 +30,8 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 PQSetting {
 
     id: set_lang
+
+    SystemPalette { id: pqtPalette }
 
     property int origIndex
 
@@ -115,9 +118,144 @@ PQSetting {
             visible: PQCSettings.generalCompactSettings
             // font.weight: PQCLook.fontWeightBold
             text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
+        },
+
+        /***********************************/
+
+        PQSettingSubtitle {
+
+            title: qsTranslate("settingsmanager", "Interface variant")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt provides two slightly different variants to its interface. The first one is a highly customized and customizable interface that has been part of PhotoQt since its beginning. The second one is an interface variant that is a little less customizable but instead integrated much better into the desktop environment. Both share a lot of underlying code and support most of the same features and the same support for file types. Which one to choose is mostly a matter of personal preference.")
+
+        },
+
+        PQText {
+            x: -set_lang.indentWidth
+            width: set_lang.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font.weight: PQCLook.fontWeightBold
+            text: qsTranslate("settingsmanager", "Note: A change to this setting requires a restart of PhotoQt!")
+        },
+
+        Rectangle {
+            x: (set_lang.contentWidth-width)/2
+            width: Math.min(set_lang.contentWidth, 400)
+            height: Math.max(modern_txt.height, integ_txt.height)+20
+            border.width: 1
+            border.color: modern_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
+            radius: 2
+            color: "transparent"
+            Rectangle {
+                anchors.fill: parent
+                opacity: 0.5
+                color: modern_mouse.containsPress ? pqtPalette.highlight : pqtPalette.button
+                radius: 2
+            }
+            PQText {
+                id: modern_txt
+                x: 10
+                y: (parent.height-height)/2
+                width: parent.width-20
+                enabled: PQCSettings.generalInterfaceVariant==="integrated"
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: qsTranslate("settingsmanager", "Switch to modern, more customizable interface")
+            }
+            PQMouseArea {
+                id: modern_mouse
+                enabled: PQCSettings.generalInterfaceVariant==="integrated"
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
+                        PQCSettings.generalInterfaceVariant = "modern"
+                        restartTimer.restart()
+                    }
+                }
+            }
+            Rectangle {
+                x: (parent.width-width)
+                y: (parent.height-height)
+                width: 25
+                height: 25
+                opacity: 0.4
+                visible: !modern_mouse.enabled
+                color: pqtPalette.base
+                border.width: 2
+                border.color: pqtPalette.text
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
+                }
+            }
+        },
+
+        Rectangle {
+            x: (set_lang.contentWidth-width)/2
+            width: Math.min(set_lang.contentWidth, 400)
+            height: Math.max(modern_txt.height, integ_txt.height)+20
+            border.width: 1
+            border.color: integ_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
+            radius: 2
+            color: "transparent"
+            Rectangle {
+                anchors.fill: parent
+                opacity: 0.5
+                color: integ_mouse.containsPress ? pqtPalette.highlight : pqtPalette.button
+                radius: 2
+            }
+            PQText {
+                id: integ_txt
+                x: 10
+                y: (parent.height-height)/2
+                width: parent.width-20
+                enabled: PQCSettings.generalInterfaceVariant==="modern"
+                horizontalAlignment: Text.AlignHCenter
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                text: qsTranslate("settingsmanager", "Switch to interface that integrates better into your desktop environment")
+            }
+            PQMouseArea {
+                id: integ_mouse
+                enabled: PQCSettings.generalInterfaceVariant==="modern"
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
+                        PQCSettings.generalInterfaceVariant = "integrated"
+                        restartTimer.restart()
+                    }
+                }
+            }
+            Rectangle {
+                x: (parent.width-width)
+                y: (parent.height-height)
+                width: 25
+                height: 25
+                opacity: 0.4
+                visible: !integ_mouse.enabled
+                color: pqtPalette.base
+                border.width: 2
+                border.color: pqtPalette.text
+                Image {
+                    anchors.fill: parent
+                    anchors.margins: 5
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
+                }
+            }
         }
 
     ]
+
+    Timer {
+        id: restartTimer
+        interval: 500
+        onTriggered:
+            PQCScriptsConfig.restartPhotoQt()
+    }
 
     onResetToDefaults: {
 
