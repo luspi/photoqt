@@ -37,6 +37,8 @@ Slider {
 
     property bool _horizontal: (orientation==Qt.Horizontal)
 
+    stepSize: 1.0
+
     property bool extraSmall: false
     property bool extraWide: false
 
@@ -51,7 +53,7 @@ Slider {
         delay: 500
         timeout: 5000
         visible: control.hovered && text !== ""
-        text: control.tooltip + control.suffix
+        text: (control.tooltip==="" ? control.value : control.tooltip) + control.suffix
     }
 
     property int _defaultValue

@@ -205,5 +205,7 @@
         <file>dark/mirrorver.svg</file>
         <file>light/select.svg</file>
         <file>dark/select.svg</file>
+        <file>dark/draghandler.svg</file>
+        <file>light/draghandler.svg</file>
     </qresource>
 </RCC>

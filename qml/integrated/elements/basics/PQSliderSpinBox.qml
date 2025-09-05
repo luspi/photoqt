@@ -54,6 +54,9 @@ Item {
     property alias value: spinbox.liveValue
     property string suffix: ""
 
+    property string overrideMinValText: ""
+    property string overrideMaxValText: ""
+
     property bool showSlider: true
     property bool sliderExtraSmall: true
 
@@ -93,7 +96,7 @@ Item {
             visible: control.showSlider
             PQText {
                 y: (parent.height-height)/2
-                text: control.minval+control.suffix
+                text: (overrideMinValText==="" ? control.minval+control.suffix : overrideMinValText)
             }
 
             PQSlider {
@@ -112,7 +115,7 @@ Item {
 
             PQText {
                 y: (parent.height-height)/2
-                text: control.maxval+control.suffix
+                text: (overrideMaxValText==="" ? control.maxval+control.suffix : overrideMaxValText)
             }
 
         }
@@ -143,7 +146,11 @@ Item {
                 id: txt
                 anchors.fill: parent
                 smallerVersion: true
-                text: spinbox.liveValue + control.suffix
+                text: (overrideMinValText!==""&&spinbox.liveValue==control.minval ?
+                           overrideMinValText :
+                           (overrideMaxValText!==""&&spinbox.liveValue==control.maxval ?
+                                overrideMaxValText :
+                                spinbox.liveValue + control.suffix))
                 //: Tooltip, used as in: Click to edit this value
                 tooltip: qsTranslate("settingsmanager", "Click to edit")
                 onClicked: {

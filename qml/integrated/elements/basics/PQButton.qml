@@ -56,9 +56,20 @@ Button {
     leftPadding: extraextraWide ? 300 : (extraWide ? 100 : 40)
     rightPadding: leftPadding
 
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     property bool smallerVersion: false
 
-    scale: smallerVersion ? 0.9 : 1
+    contentItem: Text {
+        text: control.text
+        font: control.font
+        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        elide: Text.ElideRight
+        renderType: Text.NativeRendering
+    }
 
     font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
     font.weight: smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold

@@ -1036,6 +1036,29 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
 }
 
+void PQCShortcuts::saveDuplicateShortcutsCommandOrder(const QVariantList lst) {
+
+    qDebug() << "args: lst";
+
+    QMap<QString, QVariantList> new_shortcuts = shortcuts;
+
+    for(const QVariant &entry : lst) {
+
+        QVariantList dat = entry.toList();
+
+        const QString combo = dat[0].toString();
+        const QStringList cmds = dat[1].toStringList();
+        const int cycle = dat[2].toInt();
+        const int cycletimeout = dat[3].toInt();
+
+        new_shortcuts.insert(combo, QVariantList() << cmds << cycle << cycletimeout << (cycle==1 ? 0 : 1));
+
+    }
+
+    writeNewShortcutsMapToDatabaseAndRead(new_shortcuts);
+
+}
+
 void PQCShortcuts::writeNewShortcutsMapToDatabaseAndRead(QMap<QString, QVariantList> newmap) {
 
     // remove old shortcuts
