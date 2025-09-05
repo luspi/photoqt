@@ -297,7 +297,9 @@ Item {
                 width: 300
 
                 property int visibleItems: 0
-                property int itemHeight: PQCSettings.generalInterfaceVariant==="modern" ? 38 : 31
+
+                // the binding on generalInterfaceVariant is removed in Component.onCompleted() below
+                property int itemHeight: PQCSettings.generalInterfaceVariant==="modern" ? 38 : 3
 
                 onAboutToShow: {
                     PQCConstants.addToWhichContextMenusOpen("filedialogtypes")
@@ -553,8 +555,15 @@ Item {
                     applyChanges.restart()
                 }
 
-                Component.onCompleted:
+
+                Component.onCompleted: {
                     applyChanges.triggered()
+
+                    // this removes the property binding on generalInterfaceVariant
+                    // this is done so that setting can be changed without messing up a running instance
+                    itemHeight = itemHeight
+
+                }
 
                 Timer {
                     id: applyChanges

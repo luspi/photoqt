@@ -31,8 +31,6 @@ PQSetting {
 
     id: set_meta
 
-    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
-
     property list<var> labels: [
         //: Part of the meta information about the current image.
         ["Filename", qsTranslate("settingsmanager", "file name")],

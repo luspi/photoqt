@@ -34,8 +34,6 @@ PQSetting {
 
     SystemPalette { id: pqtPalette }
 
-    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
-
     ButtonGroup {
         id: bggrp
     }
