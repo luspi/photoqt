@@ -141,50 +141,43 @@ PQTemplate {
 
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===0
                     text: qsTranslate("settingsmanager", "Interface")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===1
                     text: qsTranslate("settingsmanager", "Image view")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===2
                     text: qsTranslate("settingsmanager", "Thumbnails")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===3
                     text: qsTranslate("settingsmanager", "File types")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===4
                     text: qsTranslate("settingsmanager", "Keyboard & Mouse")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===5
                     text: qsTranslate("settingsmanager", "Manage")
                 }
                 PQTabButton {
                     width: maintabbar.width
-                    implicitHeight: maintabbar.height/maintabbar.count
-                    font.weight: PQCLook.fontWeightBold
+                    settingsManagerMainTab: true
                     isCurrentTab: maintabbar.currentIndex===6
                     text: qsTranslate("settingsmanager", "Other")
                 }

@@ -31,10 +31,12 @@ TabButton {
 
     SystemPalette { id: pqtPalette }
 
-    implicitHeight: 50
-
     property bool isCurrentTab: false
     property bool lineBelow: false
+
+    property bool settingsManagerMainTab: false
+    implicitHeight: settingsManagerMainTab ? parent.height/7 : 50
+    font.weight: settingsManagerMainTab ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
     contentItem: Text {
         leftPadding: 20
