@@ -235,6 +235,10 @@ PQSetting {
 
     ]
 
+    Component.onCompleted: {
+        PQCConstants.settingsManagerCacheShortcutNames = list_shortcuts
+    }
+
     property var defaultData: ({})
     property var currentData: ({})
 
@@ -261,12 +265,23 @@ PQSetting {
 
             spacing: 5
 
-            Image {
+            Item {
                 y: (parent.height-height)/2
-                width: 12
-                height: 12
-                sourceSize: Qt.size(width, height)
-                source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                width: 20
+                height: 20
+                Rectangle {
+                    anchors.fill: parent
+                    color: "green"
+                    opacity: 0.1
+                }
+                Image {
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    width: 12
+                    height: 12
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                }
             }
 
             PQText {
@@ -555,7 +570,7 @@ PQSetting {
                                     }
 
                                     width: combotxt.width + del_button.width +14 + (mult_loader.active ? mult_loader.width : 0)
-                                    height: parent.height
+                                    height: comboview.height
 
                                     border.width: 1
                                     border.color: PQCLook.baseBorder
@@ -563,12 +578,18 @@ PQSetting {
 
                                     color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
 
+                                    Rectangle {
+                                        anchors.fill: parent
+                                        color: "green"
+                                        opacity: 0.1
+                                        visible: mult_loader.active
+                                    }
+
                                     Loader {
                                         id: mult_loader
                                         active: set_shcu.duplicateCombos.indexOf(shdeleg.combo)>-1
                                         x: 5
                                         y: (shdeleg.height-height)/2
-                                        // opacity: 0.2
                                         width: 10
                                         height: 10
                                         sourceComponent:

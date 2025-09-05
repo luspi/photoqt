@@ -123,6 +123,7 @@ public:
         m_filedialogAddressEditVisible = false;
 
         m_settingsManagerSettingChanged = false;
+        m_settingsManagerCacheShortcutNames.clear();
 
         m_currentlyShowingVideo = false;
         m_currentlyShowingVideoPosition = 0;
@@ -274,6 +275,8 @@ public:
     Q_PROPERTY(bool filedialogAddressEditVisible MEMBER m_filedialogAddressEditVisible NOTIFY filedialogAddressEditVisibleChanged)
 
     Q_PROPERTY(bool settingsManagerSettingChanged MEMBER m_settingsManagerSettingChanged NOTIFY settingsManagerSettingChangedChanged)
+    // The following property can only be reliably used from all subtabs of Tab 4 (Shortcuts) of the settings manager
+    Q_PROPERTY(QVariantList settingsManagerCacheShortcutNames MEMBER m_settingsManagerCacheShortcutNames NOTIFY settingsManagerCacheShortcutNamesChanged)
 
 
     /******************************************************/
@@ -424,6 +427,7 @@ private:
     bool m_filedialogAddressEditVisible;
 
     bool m_settingsManagerSettingChanged;
+    QVariantList m_settingsManagerCacheShortcutNames;
 
     bool m_currentlyShowingVideo;
     bool m_currentlyShowingVideoHasAudio;
@@ -559,5 +563,6 @@ Q_SIGNALS:
     void filedialogFileviewWidthChanged();
     void filedialogAddressEditVisibleChanged();
     void settingsManagerSettingChangedChanged();
+    void settingsManagerCacheShortcutNamesChanged();
 
 };

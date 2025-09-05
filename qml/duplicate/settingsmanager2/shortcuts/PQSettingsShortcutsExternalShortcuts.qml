@@ -81,12 +81,23 @@ PQSetting {
 
             spacing: 5
 
-            Image {
+            Item {
                 y: (parent.height-height)/2
-                width: 12
-                height: 12
-                sourceSize: Qt.size(width, height)
-                source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                width: 20
+                height: 20
+                Rectangle {
+                    anchors.fill: parent
+                    color: "green"
+                    opacity: 0.1
+                }
+                Image {
+                    x: (parent.width-width)/2
+                    y: (parent.height-height)/2
+                    width: 12
+                    height: 12
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svgcolor/green:://:::/light/zoomin.svg"
+                }
             }
 
             PQText {
@@ -323,6 +334,13 @@ PQSetting {
                                 radius: 5
 
                                 color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    color: "green"
+                                    opacity: 0.1
+                                    visible: mult_loader.active
+                                }
 
                                 Loader {
                                     id: mult_loader

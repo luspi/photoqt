@@ -434,11 +434,10 @@ Item {
         // normal shortcut action
 
         var commands = data[0]
-        var cycle = data[1]*1
-        var cycletimeout = data[2]*1
-        var simultaneous = data[3]*1
+        var cycle = parseInt(data[1])
+        var cycletimeout = parseInt(data[2])
 
-        if(simultaneous == 1) {
+        if(cycle === 0) {
 
             for(var c in commands) {
                 var cmd = commands[c]

@@ -503,6 +503,8 @@ PQTemplate {
 
                     Component.onCompleted: {
                         settingsmanager_top.flickableNotInteractiveFor.push("4_0")
+                        settingsmanager_top.flickableNotInteractiveFor.push("4_1")
+                        settingsmanager_top.flickableNotInteractiveFor.push("4_2")
                     }
 
                     Component { id: sho_list; PQSettingsShortcutsList { availableHeight: flickable.height } }
