@@ -198,6 +198,7 @@ PQSetting {
                 if(PQCScriptsConfig.importConfigFrom("")) {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),
                                             qsTranslate("settingsmanager", "PhotoQt will now quit as it needs to be restarted for the changes to take effect."))
+                    // We need to QUIT and not do a soft restart here as some databases have been replaced.
                     PQCNotify.photoQtQuit()
                 } else {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Import failed"),

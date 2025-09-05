@@ -715,3 +715,7 @@ bool PQCScriptsConfig::askForConfirmation(QString title, QString text, QString i
     msg.setDefaultButton(QMessageBox::Yes);
     return (msg.exec() == QMessageBox::Yes);
 }
+
+void PQCScriptsConfig::restartPhotoQt() {
+    qApp->exit(-123456789);
+}
