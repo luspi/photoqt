@@ -52,9 +52,10 @@ PQSetting {
 
     content: [
 
-        Item {
-            width: 1
-            height: 5
+        PQTextXL {
+            text: qsTranslate("settingsmanager", "External shortcuts")
+            font.capitalization: Font.SmallCaps
+            font.weight: PQCLook.fontWeightBold
         },
 
         PQText {
@@ -103,7 +104,7 @@ PQSetting {
             PQText {
                 width: set_exsh.contentWidth
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: "This symbol indicates a key or mouse combination that is set for more than one shortcut action."
+                text: qsTranslate("settingsmanager", "This symbol indicates a key or mouse combination that is set for more than one shortcut action.")
             }
 
         },

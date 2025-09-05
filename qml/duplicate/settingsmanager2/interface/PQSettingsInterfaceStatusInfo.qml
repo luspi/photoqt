@@ -389,6 +389,23 @@ PQSetting {
 
         PQSettingSubtitle {
 
+            //: Settings title
+            title: qsTranslate("settingsmanager", "Position")
+
+            helptext: qsTranslate("settingsmanager",  "The status info is typically shown along the top left corner of the window. If preferred, it is also possible to show it centered along the top edge or in the top right corner.")
+
+        },
+
+        PQComboBox {
+            id: infoalignment
+            model: ["top left", "top center", "top right"]
+            onCurrentIndexChanged: set_stin.checkForChanges()
+        },
+
+        /*************************************/
+
+        PQSettingSubtitle {
+
             visible: set_stin.modernInterface
 
             //: Settings title
@@ -430,6 +447,9 @@ PQSetting {
         autohide_timeout.setValue(val_timeout)
         imgchange.checked = PQCSettings.getDefaultForInterfaceStatusInfoShowImageChange()
 
+        var opts = ["left", "center", "right"]
+        infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCSettings.getDefaultForInterfaceStatusInfoPosition()))
+
         managewindow.checked = PQCSettings.getDefaultForInterfaceStatusInfoManageWindow()
 
         PQCConstants.settingsManagerSettingChanged = false
@@ -450,7 +470,7 @@ PQSetting {
                                                       fontsize.hasChanged()) ||
                                                      (autohide_always.hasChanged() || autohide_topedge.hasChanged() ||
                                                      autohide_anymove.hasChanged() || autohide_timeout.hasChanged() ||
-                                                     imgchange.hasChanged()) ||
+                                                     imgchange.hasChanged()) || infoalignment.hasChanged() ||
                                                       managewindow.hasChanged()
 
     }
@@ -469,6 +489,8 @@ PQSetting {
         autohide_topedge.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTopEdge)
         autohide_timeout.loadAndSetDefault(PQCSettings.interfaceStatusInfoAutoHideTimeout/1000)
         imgchange.loadAndSetDefault(PQCSettings.interfaceStatusInfoShowImageChange)
+
+        infoalignment.loadAndSetDefault(PQCSettings.interfaceStatusInfoPosition==="center" ? 1 : (PQCSettings.interfaceStatusInfoPosition==="right" ? 2 : 0))
 
         managewindow.loadAndSetDefault(PQCSettings.interfaceStatusInfoManageWindow)
 
@@ -504,6 +526,11 @@ PQSetting {
 
         fontsize.saveDefault()
         status_show.saveDefault()
+
+        var opts2 = ["left", "center", "right"]
+        PQCSettings.interfaceStatusInfoPosition = ""
+        PQCSettings.interfaceStatusInfoPosition = opts2[infoalignment.currentIndex]
+        infoalignment.saveDefault()
 
         PQCSettings.interfaceStatusInfoManageWindow = managewindow.checked
         managewindow.saveDefault()

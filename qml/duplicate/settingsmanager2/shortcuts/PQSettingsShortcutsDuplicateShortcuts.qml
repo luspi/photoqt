@@ -46,9 +46,10 @@ PQSetting {
 
     content: [
 
-        Item {
-            width: 1
-            height: 5
+        PQTextXL {
+            text: qsTranslate("settingsmanager", "Duplicate shortcuts")
+            font.capitalization: Font.SmallCaps
+            font.weight: PQCLook.fontWeightBold
         },
 
         PQText {
@@ -146,7 +147,7 @@ PQSetting {
                                 id: cycle_check
                                 ButtonGroup { id: grpwhattodo }
                                 y: (parent.height-height)/2
-                                text: "cycle through actions one by one"
+                                text: qsTranslate("settingsmanager", "cycle through actions one by one")
                                 checked: deleg.cycle==1
                                 ButtonGroup.group: grpwhattodo
                                 onCheckedChanged: {
@@ -167,7 +168,7 @@ PQSetting {
                             minval: 0
                             maxval: 10
                             suffix: "s"
-                            title: "reset after:"
+                            title: qsTranslate("settingsmanager", "reset after:")
                             value: deleg.cycletimeout
                             overrideMinValText: "no timeout"
                             onValueChanged: {
@@ -180,7 +181,7 @@ PQSetting {
                     PQRadioButton {
                         x: 5
                         enforceMaxWidth: deleg.width-10
-                        text: "run all actions at once"
+                        text: qsTranslate("settingsmanager", "run all actions at once")
                         ButtonGroup.group: grpwhattodo
                         checked: deleg.cycle==0
                         // we don't need to listen for onCheckedChanged here as this is covered by cycle_check
@@ -263,7 +264,7 @@ PQSetting {
                                     id: mouseArea
                                     anchors.fill: parent
                                     acceptedButtons: Qt.RightButton|Qt.LeftButton
-                                    text: "click and drag to reorder"
+                                    text: qsTranslate("settingsmanager", "click and drag to reorder")
                                     drag.target: parent
                                     drag.axis: Drag.YAxis
                                     drag.onActiveChanged: {
