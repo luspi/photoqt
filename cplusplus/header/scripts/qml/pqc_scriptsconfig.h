@@ -59,7 +59,6 @@ public:
     Q_INVOKABLE QString getVersion();
     Q_INVOKABLE bool isBetaVersion();
     Q_INVOKABLE void callStartupSetupFresh();
-    Q_INVOKABLE void restartPhotoQt();
 
     // check for various supported features
     Q_INVOKABLE bool isChromecastEnabled();
