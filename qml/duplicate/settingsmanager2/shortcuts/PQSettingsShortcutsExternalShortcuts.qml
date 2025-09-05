@@ -78,18 +78,44 @@ PQSetting {
             text: qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
         },
 
+        PQText {
+            width: set_exsh.contentWidth
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            text: qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
+        },
+
         Row {
 
             spacing: 5
+            visible: set_exsh.duplicateCombos.length>0
 
             Item {
                 y: (parent.height-height)/2
                 width: 20
                 height: 20
                 Rectangle {
+                    id: greenbg_top
                     anchors.fill: parent
                     color: "green"
                     opacity: 0.1
+                    SequentialAnimation {
+                        running: true
+                        loops: SequentialAnimation.Infinite
+                        NumberAnimation {
+                            target: greenbg_top
+                            property: "opacity"
+                            duration: 750
+                            from: 0.1
+                            to: 0.3
+                        }
+                        NumberAnimation {
+                            target: greenbg_top
+                            property: "opacity"
+                            duration: 750
+                            from: 0.3
+                            to: 0.1
+                        }
+                    }
                 }
                 Image {
                     x: (parent.width-width)/2
@@ -104,7 +130,7 @@ PQSetting {
             PQText {
                 width: set_exsh.contentWidth
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                text: qsTranslate("settingsmanager", "This symbol indicates a key or mouse combination that is set for more than one shortcut action.")
+                text: qsTranslate("settingsmanager", "This symbol indicates a key or mouse combination that is set for more than one shortcut action (for internal and external actions combined).")
             }
 
         },
@@ -337,10 +363,29 @@ PQSetting {
                                 color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
 
                                 Rectangle {
+                                    id: greenbg
                                     anchors.fill: parent
                                     color: "green"
                                     opacity: 0.1
                                     visible: mult_loader.active
+                                    SequentialAnimation {
+                                        running: greenbg.visible
+                                        loops: SequentialAnimation.Infinite
+                                        NumberAnimation {
+                                            target: greenbg
+                                            property: "opacity"
+                                            duration: 750
+                                            from: 0.1
+                                            to: 0.3
+                                        }
+                                        NumberAnimation {
+                                            target: greenbg
+                                            property: "opacity"
+                                            duration: 750
+                                            from: 0.3
+                                            to: 0.1
+                                        }
+                                    }
                                 }
 
                                 Loader {
