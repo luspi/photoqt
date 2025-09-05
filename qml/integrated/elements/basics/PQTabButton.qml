@@ -33,6 +33,9 @@ TabButton {
     property bool isCurrentTab: false
     property bool lineBelow: false
 
+    property bool settingsManagerMainTab: false
+    font.weight: settingsManagerMainTab ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+
     SystemPalette { id: pqtPalette }
 
     contentItem: Text {
