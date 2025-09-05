@@ -47,6 +47,9 @@ Column {
     property bool settingsLoaded: false
     property bool thisSettingHasChanged: false
 
+    // the binding on generalInterfaceVariant is removed in Component.onCompleted() below
+    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
+
     signal resetToDefaults()
 
     spacing: 10
@@ -91,8 +94,10 @@ Column {
     //     }
     // }
 
-    Component.onCompleted:
+    Component.onCompleted: {
+        modernInterface = modernInterface
         load()
+    }
 
     Connections {
 

@@ -84,6 +84,10 @@ PQSetting {
 
     }
 
+    property string currentInterfaceVariant: "modern"
+    onCurrentInterfaceVariantChanged:
+        checkForChanges()
+
     content: [
 
         PQSettingSubtitle {
@@ -135,7 +139,7 @@ PQSetting {
             width: set_lang.contentWidth
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.weight: PQCLook.fontWeightBold
-            text: qsTranslate("settingsmanager", "Note: A change to this setting requires a restart of PhotoQt!")
+            text: qsTranslate("settingsmanager", "Note: Any change here will take effect next time PhotoQt is started.")
         },
 
         Rectangle {
@@ -146,6 +150,7 @@ PQSetting {
             border.color: modern_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
             radius: 2
             color: "transparent"
+            enabled: set_lang.currentInterfaceVariant==="integrated"
             Rectangle {
                 anchors.fill: parent
                 opacity: 0.5
@@ -157,21 +162,17 @@ PQSetting {
                 x: 10
                 y: (parent.height-height)/2
                 width: parent.width-20
-                enabled: PQCSettings.generalInterfaceVariant==="integrated"
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: qsTranslate("settingsmanager", "Switch to modern, more customizable interface")
             }
             PQMouseArea {
                 id: modern_mouse
-                enabled: PQCSettings.generalInterfaceVariant==="integrated"
                 anchors.fill: parent
                 hoverEnabled: true
+                enabled: set_lang.currentInterfaceVariant==="integrated"
                 onClicked: {
-                    if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
-                        PQCSettings.generalInterfaceVariant = "modern"
-                        reloadMainQMLTimer.restart()
-                    }
+                    set_lang.currentInterfaceVariant = "modern"
                 }
             }
             Rectangle {
@@ -180,7 +181,7 @@ PQSetting {
                 width: 25
                 height: 25
                 opacity: 0.4
-                visible: !modern_mouse.enabled
+                visible: set_lang.currentInterfaceVariant==="modern"
                 color: pqtPalette.base
                 border.width: 2
                 border.color: pqtPalette.text
@@ -201,6 +202,7 @@ PQSetting {
             border.color: integ_mouse.containsMouse ? pqtPalette.highlight : PQCLook.baseBorder
             radius: 2
             color: "transparent"
+            enabled: set_lang.currentInterfaceVariant==="modern"
             Rectangle {
                 anchors.fill: parent
                 opacity: 0.5
@@ -212,21 +214,17 @@ PQSetting {
                 x: 10
                 y: (parent.height-height)/2
                 width: parent.width-20
-                enabled: PQCSettings.generalInterfaceVariant==="modern"
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 text: qsTranslate("settingsmanager", "Switch to interface that integrates better into your desktop environment")
             }
             PQMouseArea {
                 id: integ_mouse
-                enabled: PQCSettings.generalInterfaceVariant==="modern"
                 anchors.fill: parent
                 hoverEnabled: true
+                enabled: set_lang.currentInterfaceVariant==="modern"
                 onClicked: {
-                    if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
-                        PQCSettings.generalInterfaceVariant = "integrated"
-                        reloadMainQMLTimer.restart()
-                    }
+                    set_lang.currentInterfaceVariant = "integrated"
                 }
             }
             Rectangle {
@@ -235,7 +233,7 @@ PQSetting {
                 width: 25
                 height: 25
                 opacity: 0.4
-                visible: !integ_mouse.enabled
+                visible: set_lang.currentInterfaceVariant==="integrated"
                 color: pqtPalette.base
                 border.width: 2
                 border.color: pqtPalette.text
@@ -249,14 +247,6 @@ PQSetting {
         }
 
     ]
-
-    Timer {
-        id: reloadMainQMLTimer
-        interval: 500
-        onTriggered: {
-            PQCNotify.reloadMainQMLFile(PQCSettings.generalInterfaceVariant)
-        }
-    }
 
     onResetToDefaults: {
 
@@ -280,7 +270,7 @@ PQSetting {
 
     function checkForChanges() {
         if(!settingsLoaded) return
-        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex)
+        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || (currentInterfaceVariant!==PQCSettings.generalInterfaceVariant))
     }
 
     function load() {
@@ -309,6 +299,8 @@ PQSetting {
         origIndex = setindex
         langcombo.currentIndex = setindex
 
+        currentInterfaceVariant = PQCSettings.generalInterfaceVariant
+
         PQCConstants.settingsManagerSettingChanged = false
 
         settingsLoaded = true
@@ -324,6 +316,8 @@ PQSetting {
         origIndex = langcombo.currentIndex
 
         PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
+
+        PQCSettings.generalInterfaceVariant = currentInterfaceVariant
 
         PQCConstants.settingsManagerSettingChanged = false
 

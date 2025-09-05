@@ -36,8 +36,6 @@ PQSetting {
 
     property list<string> curEntries: []
 
-    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
-
     content: [
 
         PQSettingSubtitle {

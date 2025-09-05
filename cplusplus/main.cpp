@@ -94,49 +94,6 @@
 #include <gio/gio.h>
 #endif
 
-/***************************************************/
-// Setup the QQmlApplicationEngine.
-// This is wrapped in a function because it is called during startup AND also when the interface variant changes
-void setupEngine(QQmlApplicationEngine *engine, PQCSingleInstance *app, bool useModernInterface) {
-
-    QObject::connect(engine, &QQmlApplicationEngine::objectCreationFailed, app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
-
-    engine->addImageProvider("icon", new PQCProviderIcon);
-    engine->addImageProvider("theme", new PQCProviderTheme);
-    engine->addImageProvider("thumb", new PQCAsyncImageProviderThumb);
-    engine->addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
-    engine->addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
-    engine->addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
-    engine->addImageProvider("full", new PQCProviderFull);
-    engine->addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
-    engine->addImageProvider("svg", new PQCProviderSVG);
-    engine->addImageProvider("svgcolor", new PQCProviderSVGColor);
-
-    // These only need to be imported where needed
-    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
-    qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
-    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
-    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
-
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    if(useModernInterface)
-        engine->loadFromModule("PhotoQt.Modern", "PQMainWindow");
-    else
-        engine->loadFromModule("PhotoQt.Integrated", "PQMainWindow");
-#else
-    // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
-    // We also cannot use loadFromModule() as that does not exist yet.
-    engine->addImportPath(":/");
-    if(useModernInterface)
-        engine->load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
-    else
-        engine->load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
-#endif
-
-}
-/***************************************************/
-
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN
@@ -359,22 +316,45 @@ int main(int argc, char *argv[]) {
 
     /***************************************/
 
-    QQmlApplicationEngine *engine = new QQmlApplicationEngine;
+    QQmlApplicationEngine engine;
 
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
+
+    engine.addImageProvider("icon", new PQCProviderIcon);
+    engine.addImageProvider("theme", new PQCProviderTheme);
+    engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
+    engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
+    engine.addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
+    engine.addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
+    engine.addImageProvider("full", new PQCProviderFull);
+    engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
+    engine.addImageProvider("svg", new PQCProviderSVG);
+    engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
+
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
+    qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     // the extension settings item
     qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 
-    // setup the engine
-    // this calls all the necessary addImageProvider() and qmlRegister*()
-    setupEngine(engine, &app, useModernInterface);
-
-    // This is called from the settings, reloading the QML file when the interface variant is changed
-    QObject::connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::reloadMainQMLFile, &app, [&](QString interfaceVariant) {
-        engine->deleteLater();
-        engine = new QQmlApplicationEngine;
-        setupEngine(engine, &app, interfaceVariant=="modern");
-    });
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    if(useModernInterface)
+        engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
+    else
+        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindow");
+#else
+    // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
+    // We also cannot use loadFromModule() as that does not exist yet.
+    engine.addImportPath(":/");
+    if(useModernInterface)
+        engine.load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
+    else
+        engine.load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
+#endif
 
     int currentExitCode = app.exec();
 
@@ -385,8 +365,6 @@ int main(int argc, char *argv[]) {
 #ifdef PQMLIBVIPS
     vips_shutdown();
 #endif
-
-    delete engine;
 
     return currentExitCode;
 
