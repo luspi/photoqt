@@ -35,11 +35,51 @@ PQSetting {
         PQSettingSubtitle {
 
             //: Settings title
+            title: qsTranslate("settingsmanager", "PDF")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt can show PDF and Postscript documents alongside your images, you can even enter a multi-page document and browse its pages as if they were images in a folder. The quality setting here - specified in dots per pixel (dpi) - affects the resolution and speed of loading such pages.")
+
+            showLineAbove: false
+
+        },
+
+        PQSliderSpinBox {
+            id: pdf_quality
+            width: set_docu.contentWidth
+            minval: 50
+            maxval: 300
+            title: qsTranslate("settingsmanager", "quality:")
+            suffix: " dpi"
+            onValueChanged:
+                set_docu.checkForChanges()
+        },
+
+        PQCheckBox {
+            id: pdf_escape
+            text: qsTranslate("settingsmanager", "Escape key leaves document viewer")
+            onCheckedChanged: set_docu.checkForChanges()
+        },
+
+        PQCheckBox {
+            id: pdf_exitbutton
+            text: qsTranslate("settingsmanager", "Show button to exit document viewer")
+            onCheckedChanged: set_docu.checkForChanges()
+        },
+
+        PQCheckBox {
+            id: pdf_autoenter
+            text: qsTranslate("settingsmanager", "Automatically enter document viewer")
+            onCheckedChanged: set_docu.checkForChanges()
+        },
+
+        /***************************************/
+
+        PQSettingSubtitle {
+
+            //: Settings title
             title: qsTranslate("settingsmanager", "Documents")
 
             helptext: qsTranslate("settingsmanager", "When a document is loaded it is possible to navigate through the pages of such a file either through floating controls that show up when the document contains more than one page, or by entering the viewer mode. When the viewer mode is activated all pages are loaded as thumbnails. The viewer mode can be activated by shortcut or through a small button located below the status info and as part of the floating navigation.")
-
-            showLineAbove: false
 
         },
 
@@ -61,6 +101,11 @@ PQSetting {
 
     onResetToDefaults: {
 
+        pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality())
+        pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
+        pdf_exitbutton.checked = PQCSettings.getDefaultForFiletypesDocumentViewerModeExitButton()
+        pdf_autoenter.checked = PQCSettings.getDefaultForFiletypesDocumentAlwaysEnterAutomatically()
+
         documentcontrols.checked = PQCSettings.getDefaultForFiletypesDocumentControls()
         documentleftright.checked = PQCSettings.getDefaultForFiletypesDocumentLeftRight()
 
@@ -68,13 +113,16 @@ PQSetting {
 
     }
 
-    function handleEscape() {}
+    function handleEscape() {
+        pdf_quality.acceptValue()
+    }
 
     function checkForChanges() {
 
         if(!settingsLoaded) return
 
-        PQCConstants.settingsManagerSettingChanged = (documentcontrols.hasChanged() || documentleftright.hasChanged())
+        PQCConstants.settingsManagerSettingChanged = (documentcontrols.hasChanged() || documentleftright.hasChanged() || pdf_quality.hasChanged() ||
+                                                      pdf_escape.hasChanged() || pdf_exitbutton.hasChanged() || pdf_autoenter.hasChanged())
 
     }
 
@@ -84,6 +132,11 @@ PQSetting {
 
         documentcontrols.loadAndSetDefault(PQCSettings.filetypesDocumentControls)
         documentleftright.loadAndSetDefault(PQCSettings.filetypesDocumentLeftRight)
+
+        pdf_quality.loadAndSetDefault(PQCSettings.filetypesPDFQuality)
+        pdf_escape.loadAndSetDefault(PQCSettings.imageviewEscapeExitDocument)
+        pdf_exitbutton.loadAndSetDefault(PQCSettings.filetypesDocumentViewerModeExitButton)
+        pdf_autoenter.loadAndSetDefault(PQCSettings.filetypesDocumentAlwaysEnterAutomatically)
 
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
@@ -96,6 +149,15 @@ PQSetting {
         PQCSettings.filetypesDocumentLeftRight = documentleftright.checked
         documentcontrols.saveDefault()
         documentleftright.saveDefault()
+
+        PQCSettings.filetypesPDFQuality = pdf_quality.value
+        PQCSettings.imageviewEscapeExitDocument = pdf_escape.checked
+        PQCSettings.filetypesDocumentViewerModeExitButton = pdf_exitbutton.checked
+        PQCSettings.filetypesDocumentAlwaysEnterAutomatically = pdf_autoenter.checked
+        pdf_quality.saveDefault()
+        pdf_escape.saveDefault()
+        pdf_exitbutton.saveDefault()
+        pdf_autoenter.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 
