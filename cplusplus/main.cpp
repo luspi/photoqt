@@ -94,6 +94,49 @@
 #include <gio/gio.h>
 #endif
 
+/***************************************************/
+// Setup the QQmlApplicationEngine.
+// This is wrapped in a function because it is called during startup AND also when the interface variant changes
+void setupEngine(QQmlApplicationEngine *engine, PQCSingleInstance *app, bool useModernInterface) {
+
+    QObject::connect(engine, &QQmlApplicationEngine::objectCreationFailed, app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
+
+    engine->addImageProvider("icon", new PQCProviderIcon);
+    engine->addImageProvider("theme", new PQCProviderTheme);
+    engine->addImageProvider("thumb", new PQCAsyncImageProviderThumb);
+    engine->addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
+    engine->addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
+    engine->addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
+    engine->addImageProvider("full", new PQCProviderFull);
+    engine->addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
+    engine->addImageProvider("svg", new PQCProviderSVG);
+    engine->addImageProvider("svgcolor", new PQCProviderSVGColor);
+
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
+    qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
+
+#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
+    if(useModernInterface)
+        engine->loadFromModule("PhotoQt.Modern", "PQMainWindow");
+    else
+        engine->loadFromModule("PhotoQt.Integrated", "PQMainWindow");
+#else
+    // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
+    // We also cannot use loadFromModule() as that does not exist yet.
+    engine->addImportPath(":/");
+    if(useModernInterface)
+        engine->load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
+    else
+        engine->load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
+#endif
+
+}
+/***************************************************/
+
 int main(int argc, char *argv[]) {
 
 #ifdef Q_OS_WIN
@@ -169,208 +212,181 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-    int currentExitCode = 0;
-
-    do {
-
-        // only a single instance
-        PQCSingleInstance app(argc, argv);
+    // only a single instance
+    PQCSingleInstance app(argc, argv);
 
 #ifdef PQMVIDEOMPV
-        // Qt sets the locale in the QGuiApplication constructor, but libmpv
-        // requires the LC_NUMERIC category to be set to "C", so change it back.
-        std::setlocale(LC_NUMERIC, "C");
+    // Qt sets the locale in the QGuiApplication constructor, but libmpv
+    // requires the LC_NUMERIC category to be set to "C", so change it back.
+    std::setlocale(LC_NUMERIC, "C");
 #endif
 
 #ifdef PQMEXIV2
-    #if EXIV2_TEST_VERSION(0, 28, 0)
-        // In this case Exiv2::enableBMFF() defaults to true
-        // and the call to it is deprecated
-    #else
-        #ifdef PQMEXIV2_ENABLE_BMFF
-            Exiv2::enableBMFF(true);
-        #endif
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    // In this case Exiv2::enableBMFF() defaults to true
+    // and the call to it is deprecated
+#else
+    #ifdef PQMEXIV2_ENABLE_BMFF
+        Exiv2::enableBMFF(true);
     #endif
+#endif
 #endif
 
 #ifdef PQMFLATPAKBUILD
-    #if !GLIB_CHECK_VERSION(2,35,0)
-        g_type_init();
-    #endif
+#if !GLIB_CHECK_VERSION(2,35,0)
+    g_type_init();
+#endif
 #endif
 
-        PQCStartup startup;
-        PQCValidate validate;
+    PQCStartup startup;
+    PQCValidate validate;
 
-        // handle export/import commands
-        if(app.exportAndQuit != "") {
-            startup.exportData(app.exportAndQuit);
-            std::exit(0);
-        } else if(app.importAndQuit != "") {
-            startup.importData(app.importAndQuit);
-            std::exit(0);
-        } else if(app.checkConfig) {
-            validate.validate();
-            std::exit(0);
-        } else if(app.resetConfig) {
-            startup.resetToDefaults();
-            std::exit(0);
-        } else if(app.showInfo) {
-            startup.showInfo();
-            std::exit(0);
+    // handle export/import commands
+    if(app.exportAndQuit != "") {
+        startup.exportData(app.exportAndQuit);
+        std::exit(0);
+    } else if(app.importAndQuit != "") {
+        startup.importData(app.importAndQuit);
+        std::exit(0);
+    } else if(app.checkConfig) {
+        validate.validate();
+        std::exit(0);
+    } else if(app.resetConfig) {
+        startup.resetToDefaults();
+        std::exit(0);
+    } else if(app.showInfo) {
+        startup.showInfo();
+        std::exit(0);
+    }
+
+    // perform some startup checks
+    // return 1 on updates and 2 on fresh installs
+    const int checker = startup.check();
+
+    // update or fresh install?
+    if(checker == 1)
+        validate.validate();
+
+
+    // Get screenshots for fake transparency
+    bool success = true;
+    for(int i = 0; i < QApplication::screens().count(); ++i) {
+        QScreen *screen = QApplication::screens().at(i);
+        QRect r = screen->geometry();
+        QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
+        if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
+            qDebug() << "Error taking screenshot for screen #" << i;
+            success = false;
+            break;
         }
+    }
+    PQCNotifyCPP::get().setHaveScreenshots(success);
 
-        // perform some startup checks
-        // return 1 on updates and 2 on fresh installs
-        const int checker = startup.check();
-
-        // update or fresh install?
-        if(checker == 1)
-            validate.validate();
-
-
-        // Get screenshots for fake transparency
-        bool success = true;
-        for(int i = 0; i < QApplication::screens().count(); ++i) {
-            QScreen *screen = QApplication::screens().at(i);
-            QRect r = screen->geometry();
-            QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
-            if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
-                qDebug() << "Error taking screenshot for screen #" << i;
-                success = false;
-                break;
-            }
-        }
-        PQCNotifyCPP::get().setHaveScreenshots(success);
-
-    // only one of them will be defined at a time
+// only one of them will be defined at a time
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
-        // Initialise Magick as early as possible
-        // this needs to happen BEFORE startup check as this might call into Magick
-        Magick::InitializeMagick(*argv);
+    // Initialise Magick as early as possible
+    // this needs to happen BEFORE startup check as this might call into Magick
+    Magick::InitializeMagick(*argv);
 #endif
 
 #ifdef PQMDEVIL
-        ilInit();
+    ilInit();
 #endif
 
 #ifdef PQMFREEIMAGE
-        FreeImage_Initialise();
+    FreeImage_Initialise();
 #endif
 
 #ifdef PQMLIBVIPS
-        VIPS_INIT(argv[0]);
+    VIPS_INIT(argv[0]);
 #endif
 
-        QQmlApplicationEngine engine;
-        QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
+    /***************************************/
+    // figure out modern vs integrated without use of PQCSettings
 
-        // These only need to be imported where needed
-        qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
-        qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-        qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
-        qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
-        qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
+    bool useModernInterface = true;
 
-        engine.addImageProvider("icon", new PQCProviderIcon);
-        engine.addImageProvider("theme", new PQCProviderTheme);
-        engine.addImageProvider("thumb", new PQCAsyncImageProviderThumb);
-        engine.addImageProvider("tooltipthumb", new PQCAsyncImageProviderTooltipThumb);
-        engine.addImageProvider("folderthumb", new PQCAsyncImageProviderFolderThumb);
-        engine.addImageProvider("dragthumb", new PQCAsyncImageProviderDragThumb);
-        engine.addImageProvider("full", new PQCProviderFull);
-        engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
-        engine.addImageProvider("svg", new PQCProviderSVG);
-        engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
-
-        // the extension settings item
-        qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
-
-        /***************************************/
-        // figure out modern vs integrated without use of PQCSettings
-
-        bool useModernInterface = true;
-
-        if(!app.forceModernInterface && !app.forceIntegratedInterface) {
-            if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-                QSqlDatabase dbtmp;
-                if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                    dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
-                else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                    dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
-                dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-                dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-                if(!dbtmp.open()) {
-                    qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
-                    qWarning() << "Assuming modern interface.";
-                } else {
-                    QSqlQuery query(dbtmp);
-                    if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
-                        qWarning() << "Unable to check for generalInterfaceVariant setting";
-                    else {
-                        if(query.next()) {
-                            const QString var = query.value(0).toString();
-                            useModernInterface = (var=="modern");
-                        }
+    if(!app.forceModernInterface && !app.forceIntegratedInterface) {
+        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+            QSqlDatabase dbtmp;
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
+            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+            if(!dbtmp.open()) {
+                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
+                qWarning() << "Assuming modern interface.";
+            } else {
+                QSqlQuery query(dbtmp);
+                if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
+                    qWarning() << "Unable to check for generalInterfaceVariant setting";
+                else {
+                    if(query.next()) {
+                        const QString var = query.value(0).toString();
+                        useModernInterface = (var=="modern");
                     }
-                    query.clear();
-                    dbtmp.close();
                 }
-            }
-        } else if(app.forceModernInterface || app.forceIntegratedInterface) {
-            useModernInterface = !app.forceIntegratedInterface;
-            // we need to update this value here as otherwise the styling in PQCLook might be wrong
-            if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-                QSqlDatabase dbtmp;
-                if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                    dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
-                else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                    dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
-                dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-                if(!dbtmp.open()) {
-                    qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
-                    qWarning() << "Assuming modern interface.";
-                } else {
-                    QSqlQuery query(dbtmp);
-                    query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
-                    query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
-                    if(!query.exec())
-                        qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
-                    query.clear();
-                    dbtmp.close();
-                }
+                query.clear();
+                dbtmp.close();
             }
         }
+    } else if(app.forceModernInterface || app.forceIntegratedInterface) {
+        useModernInterface = !app.forceIntegratedInterface;
+        // we need to update this value here as otherwise the styling in PQCLook might be wrong
+        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+            QSqlDatabase dbtmp;
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+            if(!dbtmp.open()) {
+                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
+                qWarning() << "Assuming modern interface.";
+            } else {
+                QSqlQuery query(dbtmp);
+                query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+                query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
+                if(!query.exec())
+                    qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
+                query.clear();
+                dbtmp.close();
+            }
+        }
+    }
 
-        /***************************************/
+    /***************************************/
 
-        // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
-#if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-        if(useModernInterface)
-            engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
-        else
-            engine.loadFromModule("PhotoQt.Integrated", "PQMainWindow");
-#else
-        // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
-        // We also cannot use loadFromModule() as that does not exist yet.
-        engine.addImportPath(":/");
-        if(useModernInterface)
-            engine.load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
-        else
-            engine.load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
-#endif
+    QQmlApplicationEngine *engine = new QQmlApplicationEngine;
 
-        currentExitCode = app.exec();
+
+    // the extension settings item
+    qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
+
+    // setup the engine
+    // this calls all the necessary addImageProvider() and qmlRegister*()
+    setupEngine(engine, &app, useModernInterface);
+
+    // This is called from the settings, reloading the QML file when the interface variant is changed
+    QObject::connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::reloadMainQMLFile, &app, [&](QString interfaceVariant) {
+        engine->deleteLater();
+        engine = new QQmlApplicationEngine;
+        setupEngine(engine, &app, interfaceVariant=="modern");
+    });
+
+    int currentExitCode = app.exec();
 
 #ifdef PQMFREEIMAGE
-        FreeImage_DeInitialise();
+    FreeImage_DeInitialise();
 #endif
 
 #ifdef PQMLIBVIPS
-        vips_shutdown();
+    vips_shutdown();
 #endif
 
-    } while(currentExitCode == -123456789);
+    delete engine;
 
     return currentExitCode;
 

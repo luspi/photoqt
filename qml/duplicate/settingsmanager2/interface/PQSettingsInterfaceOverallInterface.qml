@@ -170,7 +170,7 @@ PQSetting {
                 onClicked: {
                     if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
                         PQCSettings.generalInterfaceVariant = "modern"
-                        restartTimer.restart()
+                        reloadMainQMLTimer.restart()
                     }
                 }
             }
@@ -225,7 +225,7 @@ PQSetting {
                 onClicked: {
                     if(PQCScriptsConfig.askForConfirmation("Switch interface variant?", "Switching the interface variant requires a restart of PhotoQt.", "Continue?")) {
                         PQCSettings.generalInterfaceVariant = "integrated"
-                        restartTimer.restart()
+                        reloadMainQMLTimer.restart()
                     }
                 }
             }
@@ -251,10 +251,11 @@ PQSetting {
     ]
 
     Timer {
-        id: restartTimer
+        id: reloadMainQMLTimer
         interval: 500
-        onTriggered:
-            PQCScriptsConfig.restartPhotoQt()
+        onTriggered: {
+            PQCNotify.reloadMainQMLFile(PQCSettings.generalInterfaceVariant)
+        }
     }
 
     onResetToDefaults: {

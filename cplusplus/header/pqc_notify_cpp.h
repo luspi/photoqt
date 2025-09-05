@@ -107,6 +107,10 @@ Q_SIGNALS:
     void disableColorSpaceSupport();
 
     /*************************************************************/
+    // this is passed on from QML by PQCNotify
+    void reloadMainQMLFile(QString interfaceVariant);
+
+    /*************************************************************/
     // this are picked up by PQCNotifyQML and passed on to QML
 
     // command line signals
