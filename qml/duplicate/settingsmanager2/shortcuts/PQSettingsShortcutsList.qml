@@ -249,17 +249,15 @@ PQSetting {
 
     content: [
 
-        PQTextXL {
-            text: qsTranslate("settingsmanager", "Shortcuts")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
-        },
+        PQSettingSubtitle {
 
-        PQText {
-            id: introtxt
-            width: set_shcu.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. How this situation is handled can be adjusted from another subtab that can be found along the left side of the window.")
+            showLineAbove: false
+            noIndent: true
+
+            title: qsTranslate("settingsmanager", "Shortcuts")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt is highly customizable by shortcuts. Both key shortcuts and mouse gestures can be used. The list of all available actions is available below and can be filtered by keywords. A key shortcut or mouse gesture can be assigned to multiple actions. How this situation is handled can be adjusted from another subtab that can be found along the left side of the window.")
+
         },
 
         Row {

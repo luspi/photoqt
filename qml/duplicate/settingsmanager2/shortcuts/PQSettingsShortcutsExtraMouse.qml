@@ -95,22 +95,18 @@ PQSetting {
             onCheckedChanged: set_exmo.checkForChanges()
         },
 
-        Item {
-            width: scrollspeed_value.width
-            height: scrollspeed_value.enabled ? scrollspeed_value.height : 0
-            Behavior on height { NumberAnimation { duration: 200 } }
-            PQSliderSpinBox {
-                id: scrollspeed_value
-                width: set_exmo.contentWidth
-                minval: 1
-                maxval: 10
-                title: "Scaling factor"
-                suffix: ""
-                enabled: scrollspeed.checked
-                animateWidth: true
-                onValueChanged:
-                    set_exmo.checkForChanges()
-            }
+        PQSliderSpinBox {
+            id: scrollspeed_value
+            width: set_exmo.contentWidth
+            minval: 1
+            maxval: 10
+            title: "Scaling factor"
+            suffix: ""
+            enabled: scrollspeed.checked
+            animateWidth: false
+            onValueChanged:
+                set_exmo.checkForChanges()
+
         },
 
         /********************************/
@@ -139,7 +135,7 @@ PQSetting {
             title: ""
             suffix: " s"
             enabled: hidetimeout_check.checked
-            animateWidth: true
+            animateWidth: false
             onValueChanged:
                 set_exmo.checkForChanges()
         }

@@ -32,21 +32,46 @@ Column {
     id: settitle
 
     // this value needs to match the spacer width in PQSettingSpacer.qml
-    x: -20
+    x: noIndent ? 0 : -20
     width: parent.width-x
     spacing: 5
 
     property string title: ""
     property string helptext: ""
+    property bool noIndent: false
 
     property bool showLineAbove: true
 
     PQSettingsSeparator { visible: settitle.showLineAbove }
 
-    PQTextXL {
-        text: settitle.title
-        font.capitalization: Font.SmallCaps
-        font.weight: PQCLook.fontWeightBold
+    Row {
+        Item {
+            y: (title_txt.height-height)/2
+            height: title_txt.height*0.9
+            width: PQCSettings.generalCompactSettings&&settitle.title!=="" ? height : 0
+            Behavior on width { NumberAnimation { duration: 200 } }
+            clip: true
+            PQButtonIcon {
+                width: parent.width
+                height: parent.height
+                source: "image://svg/:/" + PQCLook.iconShade + "/help.svg"
+                tooltip: settitle.helptext.replace("\n", "<br>")
+                cursorShape: Qt.WhatsThisCursor
+                tooltipWidth: Math.min(500, settitle.width/2)
+            }
+        }
+        Item {
+            width: PQCSettings.generalCompactSettings ? 10 : 0
+            Behavior on width { NumberAnimation { duration: 200 } }
+            height: 1
+        }
+
+        PQTextXL {
+            id: title_txt
+            text: settitle.title
+            font.capitalization: Font.SmallCaps
+            font.weight: PQCLook.fontWeightBold
+        }
     }
 
     Item {
@@ -54,11 +79,18 @@ Column {
         height: 5
     }
 
-    PQText {
-        visible: text!==""
-        text: settitle.helptext
+    Item {
         width: parent.width
-        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        height: PQCSettings.generalCompactSettings ? 0 : desc_txt.height
+        Behavior on height { NumberAnimation { duration: 200 } }
+        clip: true
+        PQText {
+            id: desc_txt
+            visible: text!==""
+            text: settitle.helptext
+            width: parent.width
+            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        }
     }
 
 }
