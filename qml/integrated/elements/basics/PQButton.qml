@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+import QtQuick.Controls.Basic
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
@@ -62,13 +62,12 @@ Button {
     property bool smallerVersion: false
 
     contentItem: Text {
-        text: control.text
-        font: control.font
+        text: but_top.text
+        font: but_top.font
         color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
-        renderType: Text.NativeRendering
     }
 
     font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
