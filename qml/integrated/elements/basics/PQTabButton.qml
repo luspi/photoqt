@@ -32,9 +32,12 @@ TabButton {
 
     property bool isCurrentTab: false
     property bool lineBelow: false
+    property bool lineAbove: false
 
     property bool settingsManagerMainTab: false
     font.weight: settingsManagerMainTab ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
+
+    font.pointSize: settingsManagerMainTab ? PQCLook.fontSize : PQCLook.fontSize-2
 
     SystemPalette { id: pqtPalette }
 
@@ -46,12 +49,22 @@ TabButton {
         color: control.isCurrentTab ? pqtPalette.base : pqtPalette.text
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
     }
 
     background: Rectangle {
         opacity: enabled ? 1 : 0.3
         color: pqtPalette.base
+
+        Rectangle {
+            y: 0
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+            visible: control.lineAbove
+            opacity: 0.2
+        }
+
         Item {
             anchors.fill: parent
             anchors.margins: 5
@@ -77,7 +90,7 @@ TabButton {
             height: 1
             color: pqtPalette.text
             visible: control.lineBelow
-            opacity: 0.1
+            opacity: 0.2
         }
     }
 }

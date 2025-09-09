@@ -41,7 +41,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFaceTracker.qml ${d}/P
 
 
 SET(d "qml/duplicate/settingsmanager2")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager2.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager2.qml ${d}/PQSettingsTabs.qml)
 
 SET(d "qml/duplicate/settingsmanager2/elements")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSettingSubtitle.qml ${d}/PQSettingSpacer.qml)

@@ -357,9 +357,9 @@ PQSetting {
                 property list<string> dat: list_shortcuts[modelData]
                 property string cmd: dat[0]
                 property string desc: dat[1]
-                property string desc_en: dat[2]
-                property string cat: set_shcu.allcategories[dat[3]][0]
-                property string cat_en: set_shcu.allcategories[dat[3]][1]
+                property string desc_en: cmd==="-" ? "" : dat[2]
+                property string cat: cmd==="-" ? "" : set_shcu.allcategories[dat[3]][0]
+                property string cat_en: cmd==="-" ? "" : set_shcu.allcategories[dat[3]][1]
 
                 // this bool determines whether the current entry is supposed to be visible
                 // it gets adjusted based on what is entered in the filter box

@@ -33,9 +33,10 @@ TabButton {
 
     property bool isCurrentTab: false
     property bool lineBelow: false
+    property bool lineAbove: false
 
     property bool settingsManagerMainTab: false
-    implicitHeight: settingsManagerMainTab ? parent.height/7 : 50
+    implicitHeight: 50
     font.weight: settingsManagerMainTab ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
     contentItem: Text {
@@ -54,6 +55,14 @@ TabButton {
         implicitHeight: control.implicitHeight
         opacity: enabled ? ((control.down||control.isCurrentTab) ? 0.3 : 1) : 0.3
         color: (control.down||control.isCurrentTab) ? PQCLook.baseBorder : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button)
+        Rectangle {
+            y: 0
+            width: parent.width
+            height: 1
+            color: pqtPalette.text
+            opacity: 0.1
+            visible: control.lineAbove
+        }
         Rectangle {
             anchors.fill: parent
             color: "transparent"
