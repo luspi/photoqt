@@ -52,37 +52,60 @@ PQSetting {
 
     content: [
 
-        PQTextXL {
-            text: qsTranslate("settingsmanager", "External shortcuts")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
+        PQSettingSubtitle {
+
+            showLineAbove: false
+            noIndent: true
+
+            title: qsTranslate("settingsmanager", "External shortcuts")
+
+            helptext: qsTranslate("settingsmanager", "In addition to a wide range of built-in shortcut actions, any external application, command, or script can be used as shortcut action. Note that relative file paths are not supported, however, you can use the following placeholders:") + "\n\n" +
+                      "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
+                                                "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
+                                                "%d = " + qsTranslate("settingsmanager", "directory containing file") + "\n\n" +
+                      qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '\n\n" +
+                      qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
+
+
         },
 
-        PQText {
-            width: set_exsh.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "In addition to a wide range of built-in shortcut actions, any external application, command, or script can be used as shortcut action. Note that relative file paths are not supported, however, you can use the following placeholders:")
-        },
+        // Item {
 
-        PQText {
-            width: set_exsh.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
-                  "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
-                  "%d = " + qsTranslate("settingsmanager", "directory containing file")
-        },
+        //     width: subtext_col.width
+        //     height: PQCSettings.generalCompactSettings ? 0 : subtext_col.height
+        //     Behavior on height { NumberAnimation { duration: 200 } }
+        //     clip: true
+        //     visible: height>0
 
-        PQText {
-            width: set_exsh.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
-        },
+        //     Column {
 
-        PQText {
-            width: set_exsh.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
-        },
+        //         id: subtext_col
+
+        //         spacing: 10
+
+        //         PQText {
+        //             width: set_exsh.contentWidth
+        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        //             text: "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
+        //                   "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
+        //                   "%d = " + qsTranslate("settingsmanager", "directory containing file")
+        //         }
+
+        //         PQText {
+        //             width: set_exsh.contentWidth
+        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        //             text: qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
+        //         }
+
+        //         PQText {
+        //             width: set_exsh.contentWidth
+        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        //             text: qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
+        //         }
+
+        //     }
+
+        // },
 
         Row {
 

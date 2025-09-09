@@ -46,16 +46,15 @@ PQSetting {
 
     content: [
 
-        PQTextXL {
-            text: qsTranslate("settingsmanager", "Duplicate shortcuts")
-            font.capitalization: Font.SmallCaps
-            font.weight: PQCLook.fontWeightBold
-        },
+        PQSettingSubtitle {
 
-        PQText {
-            width: set_dush.contentWidth
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: qsTranslate("settingsmanager", "In PhotoQt, a key or mouse combination can be used for more than one shortcut action. In such a situation, PhotoQt by default loops through the actions one by one each time the shortcut is triggered. Alternatively, all shortcut actions can be executed at the same time each time the shortcut is triggered. That behavior, and the order of the shortcuts (drag-and-drop of the entries) can be configured here. If you want to edit the key or mouse combinations or the associated shortcut actions, you can do so by visiting the other tabs on the left.")
+            showLineAbove: false
+            noIndent: true
+
+            title: qsTranslate("settingsmanager", "Duplicate shortcuts")
+
+            helptext: qsTranslate("settingsmanager", "In PhotoQt, a key or mouse combination can be used for more than one shortcut action. In such a situation, PhotoQt by default loops through the actions one by one each time the shortcut is triggered. Alternatively, all shortcut actions can be executed at the same time each time the shortcut is triggered. That behavior, and the order of the shortcuts (drag-and-drop of the entries) can be configured here. If you want to edit the key or mouse combinations or the associated shortcut actions, you can do so by visiting the other tabs on the left.")
+
         },
 
         ListView {

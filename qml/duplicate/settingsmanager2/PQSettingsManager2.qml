@@ -84,6 +84,11 @@ PQTemplate {
     bottomLeftContent: [
         Row {
             y: (bottomLeft.height-height)/2
+            spacing: 10
+            Item {
+                width: 1
+                height: 1
+            }
             PQCheckBox {
                 text: qsTranslate("settingsmanager", "auto-save")
                 font.pointSize: PQCLook.fontSizeS

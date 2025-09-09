@@ -66,10 +66,7 @@ PQSetting {
                 radius: 5
                 clip: true
 
-                height: enabled ? (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0)) : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
-                opacity: enabled ? 1 : 0
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                height: (60+(scrollbar.size<1.0 ? (scrollbar.height+5) : 0))
 
                 color: PQCLook.baseBorder
                 ListView {
@@ -137,7 +134,6 @@ PQSetting {
                                 y: (parent.height-height)/2
                                 text: avail.disp[deleg.name]
                                 font.weight: PQCLook.fontWeightBold
-                                color: pqtPalette.text
                                 onWidthChanged: {
                                     avail.widths.push(width+20)
                                     avail.widthsChanged()
@@ -239,10 +235,7 @@ PQSetting {
                 enabled: status_show.checked
                 spacing: 10
 
-                height: enabled ? combo_add.height : 0
-                opacity: enabled ? 1 : 0
-                Behavior on height { NumberAnimation { duration: 200 } }
-                Behavior on opacity { NumberAnimation { duration: 150 } }
+                height: combo_add.height
 
                 PQComboBox {
                     id: combo_add

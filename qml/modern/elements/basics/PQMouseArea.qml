@@ -31,6 +31,7 @@ MouseArea {
     property alias text: control.text
     property alias tooltip: control.text
     property alias delay: control.delay
+    property alias tooltipWidth: control.width
 
     property bool hovered : false
 

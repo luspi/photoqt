@@ -37,6 +37,8 @@ Button {
     property string source: ""
     property alias tooltip: ttip.text
     property real iconScale: 1
+    property alias tooltipWidth: ttip.width
+    property alias cursorShape: mousearea.cursorShape
 
     flat: true
 
@@ -51,6 +53,7 @@ Button {
     }
 
     MouseArea {
+        id: mousearea
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
         onClicked: (mouse) => {

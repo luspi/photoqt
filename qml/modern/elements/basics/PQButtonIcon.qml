@@ -48,6 +48,8 @@ Rectangle {
     property bool enableContextMenu: true
     property var dragTarget: undefined
     property bool dragActive: mousearea.drag.active
+    property alias cursorShape: mousearea.cursorShape
+    property alias tooltipWidth: mousearea.tooltipWidth
 
     color: ((down||checked)&&enabled ? PQCLook.baseBorder : (hovered&&enabled ? pqtPalette.alternateBase : overrideBaseColor))
 
