@@ -22,15 +22,33 @@
 
 #include <cstddef>
 #include <pqc_loadimage_libsai.h>
+#include <pqc_configfiles.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>
+#include <QPainter>
+#include <QCryptographicHash>
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
 
 QSize PQCLoadImageLibsai::loadSize(QString filename) {
 
-    // TODO
+#ifdef PQMLIBSAI
+
+    sai::Document saidoc(filename.toStdString().c_str());
+
+    if(!saidoc.IsOpen()) {
+        QString err = "Error opening SAI file for reading.";
+        qWarning() << err;
+        return QSize();
+    }
+
+    int w = 0, h = 0;
+    std::tie(w, h) = saidoc.GetCanvasSize();
+
+    return QSize(w,h);
+
+#endif
 
     return QSize();
 }
@@ -41,6 +59,8 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
     qDebug() << "args: maxSize = " << maxSize;
 
 #ifdef PQMLIBSAI
+
+    QString hash = QCryptographicHash::hash(filename.toUtf8(), QCryptographicHash::Md5).toHex();
 
     sai::Document saidoc(filename.toStdString().c_str());
 
@@ -53,97 +73,89 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
     int w = 0, h = 0;
     std::tie(w, h) = saidoc.GetCanvasSize();
 
+    QString baseCache = PQCConfigFiles::get().CACHE_DIR() + "/sai/" + hash;
+
+    QDir d(baseCache);
+    if(!d.exists())
+        d.mkpath(baseCache);
+
     saidoc.IterateLayerFiles([=](sai::VirtualFileEntry& LayerFile) {
 
         const sai::LayerHeader LayerHeader = LayerFile.Read<sai::LayerHeader>();
 
-        std::printf("\t\033[1m- \033[93m\"%08x\"\033[0m\n", LayerHeader.Identifier);
-
-        char Name[256] = {};
-        std::snprintf(Name, 256, "%08x", LayerHeader.Identifier);
-
-        // std::printf(
-        //     "\t\tBlending: '%c%c%c%c'(0x%08x)\n", (LayerHeader.Blending >> 24) & 0xFF,
-        //     (LayerHeader.Blending >> 16) & 0xFF, (LayerHeader.Blending >> 8) & 0xFF,
-        //     (LayerHeader.Blending >> 0) & 0xFF, LayerHeader.Blending
-        //     );
+        char _name[256] = {};
+        std::snprintf(_name, 256, "%08x", LayerHeader.Identifier);
+        QString name = QString::fromStdString(std::string(_name));
 
         // Read serialization stream
         std::uint32_t CurTag;
         std::uint32_t CurTagSize;
-        while( LayerFile.Read<std::uint32_t>(CurTag) && CurTag )
-        {
+        while(LayerFile.Read<std::uint32_t>(CurTag) && CurTag) {
             LayerFile.Read<std::uint32_t>(CurTagSize);
-            switch( CurTag )
-            {
-            case sai::Tag("name"):
-            {
-                std::array<char, 256> LayerName = {};
-                LayerFile.Read(std::as_writable_bytes(std::span(LayerName)));
-                std::printf("\t\tName: %.256s\n", LayerName.data());
-                break;
-            }
-            case sai::Tag("lorg"):
-            case sai::Tag("pfid"):
-            case sai::Tag("plid"):
-            case sai::Tag("lmfl"):
-            case sai::Tag("fopn"):
-            case sai::Tag("texn"):
-            case sai::Tag("texp"):
-            case sai::Tag("peff"):
-            case sai::Tag("vmrk"):
-            default:
-            {
-                std::printf(
-                    "\t\tUnhandledTag: '%c%c%c%c'(0x%08x)\n", (CurTag >> 24) & 0xFF,
-                    (CurTag >> 16) & 0xFF, (CurTag >> 8) & 0xFF, (CurTag >> 0) & 0xFF, CurTag
-                    );
-                // for any streams that we do not handle,
-                // we just skip forward in the stream
-                LayerFile.Seek(LayerFile.Tell() + CurTagSize);
-                break;
-            }
-            }
+            LayerFile.Seek(LayerFile.Tell() + CurTagSize);
         }
 
-        switch( static_cast<sai::LayerType>(LayerHeader.Type) )
-        {
-        case sai::LayerType::Layer:
-        {
-            if( auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels )
-            {
+        if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer) {
 
+            if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
+
+                // this is the cached file name
+                QString fname = QString("%1/%2__%3x%4x%5x%6.ppm")
+                                    .arg(baseCache, name)
+                                    .arg(LayerHeader.Bounds.X).arg(LayerHeader.Bounds.Y)
+                                    .arg(LayerHeader.Bounds.Width).arg(LayerHeader.Bounds.Height);
+
+                // Load raw image file
                 QImage i(reinterpret_cast<uchar*>(LayerPixels.get()), LayerHeader.Bounds.Width, LayerHeader.Bounds.Height, 4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied);
-                i.save(QString::fromStdString(std::string(Name)) + ".png");
-                qWarning() << ">>>>>> SAVING TO:" << Name;
+
+                // remove any old files
+                if(QFile::exists(fname))
+                    QFile::remove(fname);
+
+                // construct proper file with all properties set
+                QImage i2(LayerHeader.Bounds.Width, LayerHeader.Bounds.Height, QImage::Format_ARGB32_Premultiplied);
+                i2.fill(Qt::transparent);
+
+                QPainter p(&i2);
+
+                // set the opacity level
+                p.setOpacity(1./static_cast<double>(LayerHeader.Opacity));
+
+                p.drawImage(0,0,i);
+                p.end();
+
+                i2.save(fname);
+
             }
-            break;
-        }
-        case sai::LayerType::Unknown4:
-        case sai::LayerType::Linework:
-        case sai::LayerType::Mask:
-        case sai::LayerType::Unknown7:
-        case sai::LayerType::Set:
-        default:
-            break;
         }
 
         return true;
     });
 
-    // QImage qimg(
-    //     buffer->data(),
-    //     Width,
-    //     Height,
-    //     Width * 4,
-    //     QImage::Format_ARGB32_Premultiplied,
-    //     [](void* info) {
-    //         // Clean up the shared_ptr when QImage is destroyed
-    //         delete static_cast<std::shared_ptr<std::vector<uint8_t>>*>(info);
-    //     },
-    //     new std::shared_ptr<std::vector<uint8_t>>(buffer)
-    //     );
+    img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
+    img.fill(Qt::transparent);
 
+    QPainter painter(&img);
+
+    QDir dir(baseCache);
+    const QFileInfoList lst = dir.entryInfoList(QDir::Files|QDir::NoDotAndDotDot);
+    for(const QFileInfo &entry : lst) {
+
+        qWarning() << " >>> NAME:" << entry.baseName();
+        if(!entry.baseName().contains("__"))
+            continue;
+
+        QStringList _rect = entry.baseName().split("__")[1].split("x");
+        QRect rect(_rect[0].toInt(), _rect[1].toInt(), _rect[2].toInt(), _rect[3].toInt());
+
+        // qWarning() << "reading:" << entry.absoluteFilePath();
+
+        QImage i(entry.absoluteFilePath());
+        painter.drawImage(rect, i);
+
+    }
+
+    painter.end();
 
     return "";
 
