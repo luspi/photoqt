@@ -155,6 +155,14 @@ public:
         return mimetypes_libmpv;
     }
 
+    Q_INVOKABLE QStringList getEnabledFormatsLibsai() {
+        return formats_libsai;
+    }
+
+    Q_INVOKABLE QStringList getEnabledMimeTypesLibsai() {
+        return mimetypes_libsai;
+    }
+
     Q_INVOKABLE QVariantHash getMagick() {
         return magick;
     }
@@ -174,8 +182,8 @@ public:
     Q_INVOKABLE int detectFormatId(QString filename);
     Q_INVOKABLE int getWriteStatus(int uniqueid);
 
-    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
-    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
     Q_INVOKABLE void closeDatabase();
     Q_INVOKABLE void reopenDatabase();
@@ -225,6 +233,8 @@ private:
     QStringList mimetypes_video;
     QStringList formats_libmpv;
     QStringList mimetypes_libmpv;
+    QStringList formats_libsai;
+    QStringList mimetypes_libsai;
 
     QVariantHash magick;
     QVariantHash magick_mimetype;

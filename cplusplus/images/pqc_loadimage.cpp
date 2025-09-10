@@ -32,6 +32,7 @@
 #include <pqc_loadimage_devil.h>
 #include <pqc_loadimage_freeimage.h>
 #include <pqc_loadimage_video.h>
+#include <pqc_loadimage_libsai.h>
 
 #include <pqc_loadimage.h>
 #include <pqc_settings.h>
@@ -103,6 +104,11 @@ QSize PQCLoadImage::load(QString filename) {
         sze = PQCLoadImageArchive::loadSize(filename);
 #endif
 
+#ifdef PQMLIBSAI
+    if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsLibsai().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsai().contains(suffix2)))
+        sze = PQCLoadImageLibsai::loadSize(filename);
+#endif
+
     if(sze.isNull() && (PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix2)))
         sze = PQCLoadImageXCF::loadSize(filename);
 
@@ -168,6 +174,11 @@ QSize PQCLoadImage::load(QString filename) {
 #ifdef PQMLIBARCHIVE
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
                 sze = PQCLoadImageArchive::loadSize(filename);
+#endif
+
+#ifdef PQMLIBSAI
+            if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibsai().contains(mimetype))
+                sze = PQCLoadImageLibsai::loadSize(filename);
 #endif
 
             if(sze.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
@@ -277,6 +288,11 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
         err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
 #endif
 
+#ifdef PQMLIBSAI
+    if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsLibsai().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsLibsai().contains(suffix2)))
+        err = PQCLoadImageLibsai::load(filename, requestedSize, origSize, img);
+#endif
+
     if(img.isNull() && (PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix1) || PQCImageFormats::get().getEnabledFormatsXCFTools().contains(suffix2)))
         err = PQCLoadImageXCF::load(filename, requestedSize, origSize, img);
 
@@ -342,6 +358,11 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 #ifdef PQMLIBARCHIVE
             if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibArchive().contains(mimetype))
                 err = PQCLoadImageArchive::load(filename, requestedSize, origSize, img);
+#endif
+
+#ifdef PQMLIBSAI
+            if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesLibsai().contains(mimetype))
+                err = PQCLoadImageLibsai::load(filename, requestedSize, origSize, img);
 #endif
 
             if(img.isNull() && PQCImageFormats::get().getEnabledMimeTypesXCFTools().contains(mimetype))
