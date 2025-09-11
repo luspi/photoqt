@@ -200,7 +200,7 @@ PQCSettings::PQCSettings() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
         QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
         PQCSettingsCPP::get().readDB();
@@ -267,7 +267,7 @@ PQCSettings::PQCSettings() {
                 qtdatatpe = "QSize"
 
             cont_SOURCE += f"""
-    connect(this, &PQCSettings::{tab}{name}Changed, this, [=]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
+    connect(this, &PQCSettings::{tab}{name}Changed, this, [=, this]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
 
 
 
@@ -275,7 +275,7 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=, this]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 

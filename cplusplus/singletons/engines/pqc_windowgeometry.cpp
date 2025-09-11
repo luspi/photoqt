@@ -157,115 +157,115 @@ PQCWindowGeometry::PQCWindowGeometry() {
     /******************************************************************/
 
 
-    connect(this, &PQCWindowGeometry::mainWindowGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainWindowPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainWindowMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainWindowForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainWindowGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainWindowPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainWindowMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainWindowForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::exportGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::exportPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::exportMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::exportForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::exportGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::exportPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::exportMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::exportForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::aboutGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::aboutPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::aboutMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::aboutForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::aboutGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::aboutPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::aboutMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::aboutForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::scaleGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::scalePopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::scaleMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::scaleForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::scaleGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::scalePopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::scaleMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::scaleForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::mainmenuGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainmenuPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainmenuMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mainmenuForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainmenuGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainmenuPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainmenuMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mainmenuForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::metadataGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::metadataPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::metadataMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::metadataForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::metadataGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::metadataPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::metadataMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::metadataForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::filedialogGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedialogPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedialogMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedialogForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedialogGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedialogPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedialogMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedialogForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::histogramGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::histogramPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::histogramMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::histogramForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::histogramGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::histogramPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::histogramMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::histogramForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::mapcurrentGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapcurrentPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapcurrentMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapcurrentForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapcurrentGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapcurrentPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapcurrentMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapcurrentForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::filedeleteGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedeletePopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedeleteMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filedeleteForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedeleteGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedeletePopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedeleteMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filedeleteForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::filerenameGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filerenamePopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filerenameMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filerenameForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filerenameGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filerenamePopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filerenameMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filerenameForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::filterGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filterPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filterMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::filterForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filterGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filterPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filterMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::filterForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::advancedsortGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::advancedsortPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::advancedsortMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::advancedsortForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::advancedsortGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::advancedsortPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::advancedsortMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::advancedsortForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::slideshowsetupGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowsetupPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowsetupMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowsetupForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowsetupGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowsetupPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowsetupMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowsetupForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::slideshowcontrolsGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowcontrolsPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowcontrolsMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::slideshowcontrolsForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowcontrolsGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowcontrolsPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowcontrolsMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::slideshowcontrolsForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::imgurGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::imgurForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::imgurGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::imgurPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::imgurMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::imgurForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::wallpaperGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::wallpaperForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::wallpaperGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::wallpaperPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::wallpaperMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::wallpaperForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::mapexplorerGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapexplorerPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapexplorerMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::mapexplorerForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapexplorerGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapexplorerPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapexplorerMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::mapexplorerForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::chromecastmanagerGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::chromecastmanagerPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::chromecastmanagerMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::chromecastmanagerForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::chromecastmanagerGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::chromecastmanagerPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::chromecastmanagerMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::chromecastmanagerForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::settingsmanagerGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::settingsmanagerPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::settingsmanagerMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::settingsmanagerForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::settingsmanagerGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::settingsmanagerPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::settingsmanagerMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::settingsmanagerForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::cropGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::cropPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::cropMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::cropForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::cropGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::cropPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::cropMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::cropForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
-    connect(this, &PQCWindowGeometry::quickactionsGeometryChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::quickactionsPopoutThresholdChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::quickactionsMaximizedChanged, this, [=]() { saveDelay->start(); });
-    connect(this, &PQCWindowGeometry::quickactionsForcePopoutChanged, this, [=]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::quickactionsGeometryChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::quickactionsPopoutThresholdChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::quickactionsMaximizedChanged, this, [=, this]() { saveDelay->start(); });
+    connect(this, &PQCWindowGeometry::quickactionsForcePopoutChanged, this, [=, this]() { saveDelay->start(); });
 
     /******************************************************************/
 
