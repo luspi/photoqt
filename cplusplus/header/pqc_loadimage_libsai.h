@@ -42,8 +42,8 @@ public:
 
 private:
 #ifdef PQMLIBSAI
-    static std::unique_ptr<std::uint32_t[]> ReadRasterLayer(const sai::LayerHeader& LayerHeader, sai::VirtualFileEntry& LayerFile);
-    static void RLEDecompressStride(std::byte* Destination, const std::byte* Source, std::size_t Stride, std::size_t StrideCount, std::size_t Channel);
+    static std::unique_ptr<std::uint32_t[]> ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile);
+    static void RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel);
 #endif
 
 };
