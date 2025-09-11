@@ -97,7 +97,7 @@ PQCShortcuts::PQCShortcuts() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())

@@ -90,7 +90,7 @@ PQCScriptsImages::PQCScriptsImages() {
     // colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     // if the formats changed then we can't rely on the archive cache anymore
-    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
+    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
 
     // loadColorProfileInfo();
 
@@ -195,7 +195,7 @@ void PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly)
         return;
     }
 
-    QFuture<void> f = QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=, this]() {
         Q_EMIT haveArchiveContentFor(path, PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey, insideFilenameOnly));
     });
 

@@ -374,7 +374,7 @@ void PQCExtensionsHandler::setup() {
     qDebug() << "Extension support has been disabled at compile time.";
 #endif
 
-    QFuture<void> future = QtConcurrent::run([=] {
+    QFuture<void> future = QtConcurrent::run([=, this] {
         loadSettingsInBGToLookForShortcuts();
     });
 
@@ -588,7 +588,7 @@ void PQCExtensionsHandler::removeShortcut(QString id) {
 
 void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id, QVariant additional) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    QFuture<void> future = QtConcurrent::run([=, this] {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
@@ -604,7 +604,7 @@ void PQCExtensionsHandler::requestCallActionWithImage1(const QString &id, QVaria
 
 void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id, QVariant additional) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    QFuture<void> future = QtConcurrent::run([=, this] {
         QImage img;
         QSize sze;
         PQCLoadImage::get().load(PQCFileFolderModelCPP::get().getCurrentFile(), QSize(-1,-1), sze, img);
@@ -620,7 +620,7 @@ void PQCExtensionsHandler::requestCallActionWithImage2(const QString &id, QVaria
 
 void PQCExtensionsHandler::requestCallAction1(const QString &id, QVariant additional) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    QFuture<void> future = QtConcurrent::run([=, this] {
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action1(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction1(id, ret);
@@ -633,7 +633,7 @@ void PQCExtensionsHandler::requestCallAction1(const QString &id, QVariant additi
 
 void PQCExtensionsHandler::requestCallAction2(const QString &id, QVariant additional) {
     qDebug() << "args: id =" << id;
-    QFuture<void> future = QtConcurrent::run([=] {
+    QFuture<void> future = QtConcurrent::run([=, this] {
         if(m_actions.contains(id)) {
             QVariant ret = m_actions[id]->action2(PQCFileFolderModelCPP::get().getCurrentFile(), additional);
             Q_EMIT replyForAction2(id, ret);
