@@ -155,6 +155,24 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                zoomspeed.setValue(PQCSettings.getDefaultForImageviewZoomSpeed())
+                zoom_rel.checked = PQCSettings.getDefaultForImageviewZoomSpeedRelative()
+                zoom_abs.checked = !PQCSettings.getDefaultForImageviewZoomSpeedRelative()
+                minzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMinEnabled()
+                minzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMin())
+                maxzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMaxEnabled()
+                maxzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMax())
+                zoom_mousepos.checked = !PQCSettings.getDefaultForImageviewZoomToCenter()
+                zoom_imcent.checked = PQCSettings.getDefaultForImageviewZoomToCenter()
+
+                set_inte.checkForChanges()
+
+            }
+        },
+
         /**************************************************/
 
         PQSettingSubtitle {
@@ -171,6 +189,16 @@ PQSetting {
             enforceMaxWidth: set_inte.contentWidth
             text: qsTranslate("settingsmanager", "Animate mirror/flip")
             onCheckedChanged: set_inte.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                mirroranim.checked = PQCSettings.getDefaultForImageviewMirrorAnimate()
+
+                set_inte.checkForChanges()
+
+            }
         },
 
         /**************************************************/
@@ -258,6 +286,18 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                anispeed_check.checked = (PQCSettings.getDefaultForImageviewAnimationDuration() > 0)
+                anicombo.currentIndex = 0
+                anispeed.setValue(PQCSettings.getDefaultForImageviewAnimationDuration())
+
+                set_inte.checkForChanges()
+
+            }
+        },
+
         /**************************************************/
 
         PQSettingSubtitle {
@@ -286,34 +326,20 @@ PQSetting {
             model: modeldata
             onCurrentIndexChanged:
                 set_inte.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                minimap.checked = PQCSettings.getDefaultForImageviewShowMinimap()
+                minimapsizelevel.currentIndex = PQCSettings.getDefaultForImageviewMinimapSizeLevel()
+
+                set_inte.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        anispeed_check.checked = (PQCSettings.getDefaultForImageviewAnimationDuration() > 0)
-        anicombo.currentIndex = 0
-        anispeed.setValue(PQCSettings.getDefaultForImageviewAnimationDuration())
-
-        zoomspeed.setValue(PQCSettings.getDefaultForImageviewZoomSpeed())
-        zoom_rel.checked = PQCSettings.getDefaultForImageviewZoomSpeedRelative()===1
-        zoom_abs.checked = PQCSettings.getDefaultForImageviewZoomSpeedRelative()===0
-        minzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMinEnabled()
-        minzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMin())
-        maxzoom_check.checked = PQCSettings.getDefaultForImageviewZoomMaxEnabled()
-        maxzoom_slider.setValue(PQCSettings.getDefaultForImageviewZoomMax())
-        zoom_mousepos.checked = PQCSettings.getDefaultForImageviewZoomToCenter()===0
-        zoom_imcent.checked = PQCSettings.getDefaultForImageviewZoomToCenter()===1
-
-        mirroranim.checked = PQCSettings.getDefaultForImageviewMirrorAnimate()
-
-        minimap.checked = PQCSettings.getDefaultForImageviewShowMinimap()
-        minimapsizelevel.currentIndex = PQCSettings.getDefaultForImageviewMinimapSizeLevel()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         anispeed.acceptValue()

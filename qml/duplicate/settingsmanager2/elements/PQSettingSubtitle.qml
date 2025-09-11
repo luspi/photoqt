@@ -81,7 +81,7 @@ Column {
 
     Item {
         width: parent.width
-        height: PQCSettings.generalCompactSettings ? 0 : desc_txt.height
+        height: PQCSettings.generalCompactSettings||!desc_txt.visible ? 0 : desc_txt.height
         Behavior on height { NumberAnimation { duration: 200 } }
         clip: true
         PQText {

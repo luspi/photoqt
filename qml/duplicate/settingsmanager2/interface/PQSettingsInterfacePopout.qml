@@ -321,6 +321,16 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                popoutResetToDefault()
+
+                set_popo.checkForChanges()
+
+            }
+        },
+
         /****************************************************/
 
         PQSettingSubtitle {
@@ -353,6 +363,18 @@ PQSetting {
                 set_popo.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                keepopen_fd_check.checked = PQCSettings.getDefaultForInterfacePopoutFileDialogNonModal()
+                keepopen_me_check.checked = PQCSettings.getDefaultForInterfacePopoutMapExplorerNonModal()
+                keepopen_sm_check.checked = PQCSettings.getDefaultForInterfacePopoutSettingsManagerNonModal()
+
+                set_popo.checkForChanges()
+
+            }
+        },
+
         /****************************************************/
 
         PQSettingSubtitle {
@@ -367,6 +389,16 @@ PQSetting {
             text: qsTranslate("settingsmanager",  "pop out when application window is small")
             onCheckedChanged:
                 set_popo.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                checksmall.checked = PQCSettings.getDefaultForInterfacePopoutWhenWindowIsSmall()
+
+                set_popo.checkForChanges()
+
+            }
         }
 
     ]
@@ -377,20 +409,6 @@ PQSetting {
         onTriggered: {
             set_popo._defaultCurrentCheckBoxStates = set_popo.currentCheckBoxStates.join("")
         }
-    }
-
-    onResetToDefaults: {
-
-        popoutResetToDefault()
-
-        keepopen_fd_check.checked = PQCSettings.getDefaultForInterfacePopoutFileDialogNonModal()
-        keepopen_me_check.checked = PQCSettings.getDefaultForInterfacePopoutMapExplorerNonModal()
-        keepopen_sm_check.checked = PQCSettings.getDefaultForInterfacePopoutSettingsManagerNonModal()
-
-        checksmall.checked = PQCSettings.getDefaultForInterfacePopoutWhenWindowIsSmall()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}

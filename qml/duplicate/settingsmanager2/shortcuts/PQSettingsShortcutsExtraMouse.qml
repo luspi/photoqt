@@ -57,6 +57,17 @@ PQSetting {
             onCheckedChanged: set_exmo.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                movewhl.checked = PQCSettings.getDefaultForImageviewUseMouseWheelForImageMove()
+                movebut.checked = PQCSettings.getDefaultForImageviewUseMouseLeftButtonForImageMove()
+
+                checkForChanges()
+
+            }
+        },
+
         /********************************/
 
         PQSettingSubtitle {
@@ -76,6 +87,16 @@ PQSetting {
             suffix: " ms"
             onValueChanged:
                 set_exmo.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                dblclk.setValue(PQCSettings.getDefaultForInterfaceDoubleClickThreshold())
+
+                set_exmo.checkForChanges()
+
+            }
         },
 
         /********************************/
@@ -109,6 +130,17 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                scrollspeed.checked = PQCSettings.getDefaultForInterfaceFlickAdjustSpeed()
+                scrollspeed_value.value = PQCSettings.getDefaultForInterfaceFlickAdjustSpeedSpeedup()
+
+                set_exmo.checkForChanges()
+
+            }
+        },
+
         /********************************/
 
         PQSettingSubtitle {
@@ -138,26 +170,20 @@ PQSetting {
             animateWidth: false
             onValueChanged:
                 set_exmo.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                hidetimeout_check.checked = (PQCSettings.getDefaultForImageviewHideCursorTimeout() > 0)
+                hidetimeout.setValue(PQCSettings.getDefaultForImageviewHideCursorTimeout())
+
+                set_exmo.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        movewhl.checked = PQCSettings.getDefaultForImageviewUseMouseWheelForImageMove()
-        movebut.checked = PQCSettings.getDefaultForImageviewUseMouseLeftButtonForImageMove()
-
-        dblclk.setValue(PQCSettings.getDefaultForInterfaceDoubleClickThreshold())
-
-        scrollspeed.checked = PQCSettings.getDefaultForInterfaceFlickAdjustSpeed()
-        scrollspeed_value.value = PQCSettings.getDefaultForInterfaceFlickAdjustSpeedSpeedup()
-
-        hidetimeout_check.checked = (PQCSettings.getDefaultForImageviewHideCursorTimeout() > 0)
-        hidetimeout.setValue(PQCSettings.getDefaultForImageviewHideCursorTimeout())
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         dblclk.acceptValue()

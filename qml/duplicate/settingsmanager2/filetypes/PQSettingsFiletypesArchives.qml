@@ -94,23 +94,25 @@ PQSetting {
             id: archive_comautoenter
             text: qsTranslate("settingsmanager", "Automatically enter comic book viewer")
             onCheckedChanged: set_arc.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                arc_extunrar.checked = PQCSettings.getDefaultForFiletypesExternalUnrar()
+                archivecontrols.checked = PQCSettings.getDefaultForFiletypesArchiveControls()
+                archiveleftright.checked = PQCSettings.getDefaultForFiletypesArchiveLeftRight()
+                archive_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
+                archive_exitbutton.checked = PQCSettings.getDefaultForFiletypesArchiveViewerModeExitButton()
+                archive_autoenter.checked = PQCSettings.getDefaultForFiletypesArchiveAlwaysEnterAutomatically()
+                archive_comautoenter.checked = PQCSettings.getDefaultForFiletypesComicBookAlwaysEnterAutomatically()
+
+                set_arc.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        arc_extunrar.checked = PQCSettings.getDefaultForFiletypesExternalUnrar()
-        archivecontrols.checked = PQCSettings.getDefaultForFiletypesArchiveControls()
-        archiveleftright.checked = PQCSettings.getDefaultForFiletypesArchiveLeftRight()
-        archive_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
-        archive_exitbutton.checked = PQCSettings.getDefaultForFiletypesArchiveViewerModeExitButton()
-        archive_autoenter.checked = PQCSettings.getDefaultForFiletypesArchiveAlwaysEnterAutomatically()
-        archive_comautoenter.checked = PQCSettings.getDefaultForFiletypesComicBookAlwaysEnterAutomatically()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

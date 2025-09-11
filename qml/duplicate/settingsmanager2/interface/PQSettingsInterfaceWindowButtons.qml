@@ -414,8 +414,6 @@ PQSetting {
 
         Column {
 
-            id: winbutcol
-
             width: set_windowbuttons.contentWidth
             spacing: 10
 
@@ -447,10 +445,37 @@ PQSetting {
                     set_windowbuttons.checkForChanges()
             }
 
-            PQSettingSubtitle {
-                x: -set_windowbuttons.indentWidth
-                title: qsTranslate("settingsmanager", "Visibility")
+            PQSettingsResetButton {
+                onResetToDefaults: {
+
+                    integbut_show.checked = PQCSettings.getDefaultForInterfaceWindowButtonsShow()
+                    butsize.setValue(PQCSettings.getDefaultForInterfaceWindowButtonsSize())
+                    set_windowbuttons.curEntries = PQCSettings.getDefaultForInterfaceWindowButtonsItems()
+                    populateModel()
+
+                    wb_followaccent.checked = PQCSettings.getDefaultForInterfaceWindowButtonsFollowAccentColor()
+
+                    set_windowbuttons.checkForChanges()
+
+                }
             }
+
+        },
+
+        /*******************************/
+
+        PQSettingSubtitle {
+            title: qsTranslate("settingsmanager", "Visibility")
+        },
+
+        Column {
+
+            width: set_windowbuttons.contentWidth
+            spacing: 10
+
+            enabled: integbut_show.checked
+            opacity: enabled ? 1 : 0.8
+            Behavior on opacity { NumberAnimation { duration: 150 } }
 
             PQRadioButton {
                 id: autohide_always
@@ -489,28 +514,29 @@ PQSetting {
                     set_windowbuttons.checkForChanges()
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var valAutoHide = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHide()
+                var valAutoHideTop = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTopEdge()
+                var valAutoHideTimeout = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTimeout()
+
+                console.warn(">>>", valAutoHide, valAutoHideTop, valAutoHideTimeout)
+
+                autohide_always.checked = (!valAutoHide && !valAutoHideTop)
+                autohide_anymove.checked = (valAutoHide && !valAutoHideTop)
+                autohide_topedge.checked = (valAutoHideTop)
+                autohide_timeout.setValue(valAutoHideTimeout/1000)
+
+                set_windowbuttons.checkForChanges()
+
+            }
         }
 
     ]
 
-    onResetToDefaults: {
-
-        integbut_show.checked = PQCSettings.getDefaultForInterfaceWindowButtonsShow()
-        butsize.setValue(PQCSettings.getDefaultForInterfaceWindowButtonsSize())
-        set_windowbuttons.curEntries = PQCSettings.getDefaultForInterfaceWindowButtonsItems()
-        populateModel()
-
-        wb_followaccent.checked = PQCSettings.getDefaultForInterfaceWindowButtonsFollowAccentColor()
-
-        var valAutoHide = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHide()
-        var valAutoHideTop = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTopEdge()
-        var valAutoHideTimeout = PQCSettings.getDefaultForInterfaceWindowButtonsAutoHideTimeout()
-        autohide_always.checked = (valAutoHide===0 && valAutoHideTop===0)
-        autohide_anymove.checked = (valAutoHide===1 && valAutoHideTop===0)
-        autohide_topedge.checked = (valAutoHideTop===1)
-        autohide_timeout.setValue(valAutoHideTimeout/1000)
-
-    }
 
     function handleEscape() {
         butsize.acceptValue()

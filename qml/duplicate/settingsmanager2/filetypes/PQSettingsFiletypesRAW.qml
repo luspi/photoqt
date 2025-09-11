@@ -48,17 +48,19 @@ PQSetting {
             enforceMaxWidth: set_raw.contentWidth
             text: qsTranslate("settingsmanager", "use embedded image if available")
             onCheckedChanged: set_raw.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                rawembed.checked = PQCSettings.getDefaultForFiletypesRAWUseEmbeddedIfAvailable()
+
+                set_raw.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        rawembed.checked = PQCSettings.getDefaultForFiletypesRAWUseEmbeddedIfAvailable()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

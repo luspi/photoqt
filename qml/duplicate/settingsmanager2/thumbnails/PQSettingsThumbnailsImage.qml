@@ -57,6 +57,16 @@ PQSetting {
                 set_thumb.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                thumb_size.setValue(PQCSettings.getDefaultForThumbnailsSize())
+
+                set_thumb.checkForChanges()
+
+            }
+        },
+
         /***********************************/
 
         PQSettingSubtitle {
@@ -107,6 +117,22 @@ PQSetting {
             onCheckedChanged: set_thumb.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var valCropToFit = PQCSettings.getDefaultForThumbnailsCropToFit()
+                var valSameHeight = PQCSettings.getDefaultForThumbnailsSameHeightVaryWidth()
+                var valKeepSmall = PQCSettings.getDefaultForThumbnailsSmallThumbnailsKeepSmall()
+                thumb_fit.checked = (!valCropToFit && !valSameHeight)
+                thumb_crop.checked = valCropToFit
+                thumb_sameheight.checked = valSameHeight
+                thumb_small.checked = valKeepSmall
+
+                set_thumb.checkForChanges()
+
+            }
+        },
+
         /***********************************/
 
         PQSettingSubtitle {
@@ -140,28 +166,20 @@ PQSetting {
                 ButtonGroup.group: grp_icon
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                thumb_actual.checked = PQCSettings.getDefaultForThumbnailsIconsOnly()
+                thumb_icon.checked = !thumb_actual.checked
+
+                set_thumb.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        thumb_size.setValue(PQCSettings.getDefaultForThumbnailsSize())
-
-        var valCropToFit = PQCSettings.getDefaultForThumbnailsCropToFit()
-        var valSameHeight = PQCSettings.getDefaultForThumbnailsSameHeightVaryWidth()
-        var valKeepSmall = PQCSettings.getDefaultForThumbnailsSmallThumbnailsKeepSmall()
-        thumb_fit.checked = (valCropToFit===0 && valSameHeight===0)
-        thumb_crop.checked = (valCropToFit===1)
-        thumb_sameheight.checked = (valSameHeight===1)
-        thumb_small.checked = (valKeepSmall===1)
-
-        thumb_actual.checked = PQCSettings.getDefaultForThumbnailsIconsOnly()
-        thumb_icon.checked = !thumb_actual.checked
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         thumb_size.acceptValue()

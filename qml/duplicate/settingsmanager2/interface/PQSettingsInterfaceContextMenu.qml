@@ -288,6 +288,17 @@ PQSetting {
             text: qsTranslate("settingsmanager", "Duplicate in main menu")
             onCheckedChanged:
                 set_come.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            visible: set_come.modernInterface
+            onResetToDefaults: {
+
+                check_dupl.checked = PQCSettings.getDefaultForMainmenuShowExternal()
+
+                set_come.checkForChanges()
+
+            }
         }
 
     ]
@@ -315,14 +326,6 @@ PQSetting {
             PQCConstants.settingsManagerSettingChanged = false
             set_come.settingsLoaded = true
         }
-    }
-
-    onResetToDefaults: {
-
-        check_dupl.checked = PQCSettings.getDefaultForMainmenuShowExternal()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}

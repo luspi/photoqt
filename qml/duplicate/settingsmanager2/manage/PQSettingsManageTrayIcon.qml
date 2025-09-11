@@ -67,6 +67,18 @@ PQSetting {
             onCheckedChanged: set_tric.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                trayicon_show.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
+                trayicon_hide.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
+                trayicon_mono.checked = PQCSettings.getDefaultForInterfaceTrayIconMonochrome()
+
+                set_tric.checkForChanges()
+
+            }
+        },
+
         /*************************************/
 
         PQSettingSubtitle {
@@ -83,21 +95,19 @@ PQSetting {
             enforceMaxWidth: set_tric.contentWidth
             text: qsTranslate("settingsmanager", "reset session when hiding")
             onCheckedChanged: set_tric.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                trayicon_reset.checked = PQCSettings.getDefaultForInterfaceTrayIconHideReset()
+
+                set_tric.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        trayicon_show.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
-        trayicon_hide.checked = PQCSettings.getDefaultForInterfaceTrayIcon()
-        trayicon_mono.checked = PQCSettings.getDefaultForInterfaceTrayIconMonochrome()
-
-        trayicon_reset.checked = PQCSettings.getDefaultForInterfaceTrayIconHideReset()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

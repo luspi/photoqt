@@ -61,6 +61,17 @@ PQSetting {
             ButtonGroup.group: grp_single
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                mult.checked = PQCSettings.getDefaultForInterfaceAllowMultipleInstances()
+                sing.checked = !mult.checked
+
+                set_seha.checkForChanges()
+
+            }
+        },
+
         /***************************************/
 
         PQSettingSubtitle {
@@ -87,6 +98,17 @@ PQSetting {
             text: qsTranslate("settingsmanager", "reopen last used image")
             onCheckedChanged: set_seha.checkForChanges()
             ButtonGroup.group: grp_reopen
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                reopenlast.checked = PQCSettings.getDefaultForInterfaceRememberLastImage()
+                blanksession.checked = !reopenlast.checked
+
+                set_seha.checkForChanges()
+
+            }
         },
 
         /***************************************/
@@ -145,29 +167,25 @@ PQSetting {
                 enabled: reuse.checked
                 onCheckedChanged: set_seha.checkForChanges()
             }
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                remember.checked = PQCSettings.getDefaultForImageviewRememberZoomRotationMirror()
+                forget.checked = !remember.checked
+
+                reuse_zoom.checked = PQCSettings.getDefaultForImageviewPreserveZoom()
+                reuse_rotation.checked = PQCSettings.getDefaultForImageviewPreserveRotation()
+                reuse_mirror.checked = PQCSettings.getDefaultForImageviewPreserveMirror()
+                reuse.checked = (reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
+
+                set_seha.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        mult.checked = PQCSettings.getDefaultForInterfaceAllowMultipleInstances()
-        sing.checked = !mult.checked
-
-        reopenlast.checked = PQCSettings.getDefaultForInterfaceRememberLastImage()
-        blanksession.checked = !reopenlast.checked
-
-        remember.checked = PQCSettings.getDefaultForImageviewRememberZoomRotationMirror()
-        forget.checked = !remember.checked
-
-        reuse_zoom.checked = PQCSettings.getDefaultForImageviewPreserveZoom()
-        reuse_rotation.checked = PQCSettings.getDefaultForImageviewPreserveRotation()
-        reuse_mirror.checked = PQCSettings.getDefaultForImageviewPreserveMirror()
-        reuse.checked = (reuse_zoom.checked||reuse_rotation.checked||reuse_mirror.checked)
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

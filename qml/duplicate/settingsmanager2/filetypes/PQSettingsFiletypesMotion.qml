@@ -82,20 +82,22 @@ PQSetting {
             enforceMaxWidth: set_moli.contentWidth
             text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
             onCheckedChanged: set_moli.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                applelive.checked = PQCSettings.getDefaultForFiletypesLoadAppleLivePhotos()
+                motionmicro.checked = PQCSettings.getDefaultForFiletypesLoadMotionPhotos()
+                motionplaypause.checked = PQCSettings.getDefaultForFiletypesMotionPhotoPlayPause()
+                motionspace.checked = PQCSettings.getDefaultForFiletypesMotionSpacePause()
+
+                set_moli.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        applelive.checked = PQCSettings.getDefaultForFiletypesLoadAppleLivePhotos()
-        motionmicro.checked = PQCSettings.getDefaultForFiletypesLoadMotionPhotos()
-        motionplaypause.checked = PQCSettings.getDefaultForFiletypesMotionPhotoPlayPause()
-        motionspace.checked = PQCSettings.getDefaultForFiletypesMotionSpacePause()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

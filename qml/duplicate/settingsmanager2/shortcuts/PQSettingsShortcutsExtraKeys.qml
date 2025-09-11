@@ -72,21 +72,23 @@ PQSetting {
             enforceMaxWidth: set_exke.contentWidth
             text: qsTranslate("settingsmanager", "leave photo sphere if any entered")
             onCheckedChanged: set_exke.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                escape_doc.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
+                escape_arc.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
+                escape_bar.checked = PQCSettings.getDefaultForImageviewEscapeExitBarcodes()
+                escape_flt.checked = PQCSettings.getDefaultForImageviewEscapeExitFilter()
+                escape_sph.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
+
+                set_exke.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        escape_doc.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
-        escape_arc.checked = PQCSettings.getDefaultForImageviewEscapeExitArchive()
-        escape_bar.checked = PQCSettings.getDefaultForImageviewEscapeExitBarcodes()
-        escape_flt.checked = PQCSettings.getDefaultForImageviewEscapeExitFilter()
-        escape_sph.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

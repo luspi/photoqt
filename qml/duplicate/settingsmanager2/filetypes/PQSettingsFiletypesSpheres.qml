@@ -104,25 +104,27 @@ PQSetting {
             enforceMaxWidth: set_phsp.contentWidth
             text: qsTranslate("settingsmanager", "perform short panning animation after loading photo spheres")
             onCheckedChanged: set_phsp.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                ps_entering.currentIndex = (PQCSettings.getDefaultForFiletypesPhotoSphereAutoLoad() ?
+                                                0 :
+                                                (PQCSettings.getDefaultForFiletypesPhotoSphereBigButton() ?
+                                                     1 :
+                                                     2))
+                ps_controls.checked = PQCSettings.getDefaultForFiletypesPhotoSphereControls()
+                ps_arrows.checked = PQCSettings.getDefaultForFiletypesPhotoSphereArrowKeys()
+                ps_pan.checked = PQCSettings.getDefaultForFiletypesPhotoSpherePanOnLoad()
+                ps_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
+
+                set_phsp.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        ps_entering.currentIndex = (PQCSettings.getDefaultForFiletypesPhotoSphereAutoLoad() ?
-                                        0 :
-                                        (PQCSettings.getDefaultForFiletypesPhotoSphereBigButton() ?
-                                             1 :
-                                             2))
-        ps_controls.checked = PQCSettings.getDefaultForFiletypesPhotoSphereControls()
-        ps_arrows.checked = PQCSettings.getDefaultForFiletypesPhotoSphereArrowKeys()
-        ps_pan.checked = PQCSettings.getDefaultForFiletypesPhotoSpherePanOnLoad()
-        ps_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitSphere()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 
