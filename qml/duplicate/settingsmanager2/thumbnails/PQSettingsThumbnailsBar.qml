@@ -57,6 +57,16 @@ PQSetting {
                 set_bar.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                spacing_slider.setValue(PQCSettings.getDefaultForThumbnailsSpacing())
+
+                set_bar.checkForChanges()
+
+            }
+        },
+
         /*****************************************/
 
         PQSettingSubtitle {
@@ -135,6 +145,22 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val = PQCSettings.getDefaultForThumbnailsHighlightAnimation()
+                highlight_invertbg.checked = (val.includes("invertbg"))
+                highlight_invertlabel.checked = (val.includes("invertlabel"))
+                highlight_line.checked = (val.includes("line"))
+                highlight_magnify.checked = (val.includes("magnify"))
+                highlight_liftup_check.checked = (val.includes("liftup"))
+                highlight_liftup_slider.setValue(PQCSettings.getDefaultForThumbnailsHighlightAnimationLiftUp())
+
+                set_bar.checkForChanges()
+
+            }
+        },
+
         /****************************************/
 
         PQSettingSubtitle {
@@ -151,6 +177,16 @@ PQSetting {
             enforceMaxWidth: set_bar.contentWidth
             text: qsTranslate("settingsmanager", "keep active thumbnail in center")
             onCheckedChanged: set_bar.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                thumb_center.checked = PQCSettings.getDefaultForThumbnailsCenterOnActive()
+
+                set_bar.checkForChanges()
+
+            }
         },
 
         /*****************************************/
@@ -192,32 +228,22 @@ PQSetting {
                 onCheckedChanged: set_bar.checkForChanges()
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val = PQCSettings.getDefaultForThumbnailsVisibility()
+                vis_needed.checked = (val===0)
+                vis_always.checked = (val===1)
+                vis_zoomed.checked = (val===2)
+
+                set_bar.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        spacing_slider.setValue(PQCSettings.getDefaultForThumbnailsSpacing())
-
-        var val = PQCSettings.getDefaultForThumbnailsHighlightAnimation()
-        highlight_invertbg.checked = (val.includes("invertbg"))
-        highlight_invertlabel.checked = (val.includes("invertlabel"))
-        highlight_line.checked = (val.includes("line"))
-        highlight_magnify.checked = (val.includes("magnify"))
-        highlight_liftup_check.checked = (val.includes("liftup"))
-        highlight_liftup_slider.setValue(PQCSettings.getDefaultForThumbnailsHighlightAnimationLiftUp())
-
-        thumb_center.checked = PQCSettings.getDefaultForThumbnailsCenterOnActive()
-
-        var val2 = PQCSettings.getDefaultForThumbnailsVisibility()
-        vis_needed.checked = (val2===0)
-        vis_always.checked = (val2===1)
-        vis_zoomed.checked = (val2===2)
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         spacing_slider.acceptValue()

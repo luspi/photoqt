@@ -45,6 +45,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager2.qml $
 
 SET(d "qml/duplicate/settingsmanager2/elements")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSettingSubtitle.qml ${d}/PQSettingSpacer.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsResetButton.qml)
 
 SET(d "qml/duplicate/settingsmanager2/interface")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceAccentColor.qml ${d}/PQSettingsInterfaceBackground.qml)

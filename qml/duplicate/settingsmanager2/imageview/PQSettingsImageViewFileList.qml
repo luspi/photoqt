@@ -94,6 +94,18 @@ PQSetting {
             }
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                sortcriteria.currentIndex = 0
+                sortasc.checked = PQCSettings.getDefaultForImageviewSortImagesAscending()
+                sortdesc.checked = !sortasc.checked
+
+                set_fili.checkForChanges()
+
+            }
+        },
+
         /********************************************/
 
         PQSettingSubtitle {
@@ -108,21 +120,19 @@ PQSetting {
             //: When reaching the end of the images in the folder whether to loop back around to the beginning or not
             text: qsTranslate("settingsmanager", "Loop around")
             onCheckedChanged: set_fili.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                loop.checked = PQCSettings.getDefaultForImageviewLoopThroughFolder()
+
+                set_fili.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        sortcriteria.currentIndex = 0
-        sortasc.checked = PQCSettings.getDefaultForImageviewSortImagesAscending()
-        sortdesc.checked = !sortasc.checked
-
-        loop.checked = PQCSettings.getDefaultForImageviewLoopThroughFolder()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

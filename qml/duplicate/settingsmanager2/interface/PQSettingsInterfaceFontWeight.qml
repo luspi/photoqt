@@ -114,18 +114,20 @@ PQSetting {
 
         PQText {
             text: qsTranslate("settingsmanager", "current weight:") + " " + fw_boldslider.value + " (" + set_fowe.values[Math.round(fw_boldslider.value/100)-1] + ")"
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                fw_normalslider.value = PQCSettings.getDefaultForInterfaceFontNormalWeight()
+                fw_boldslider.value = PQCSettings.getDefaultForInterfaceFontBoldWeight()
+
+                set_fowe.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        fw_normalslider.value = PQCSettings.getDefaultForInterfaceFontNormalWeight()
-        fw_boldslider.value = PQCSettings.getDefaultForInterfaceFontBoldWeight()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

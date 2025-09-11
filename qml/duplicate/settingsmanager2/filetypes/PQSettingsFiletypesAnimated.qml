@@ -62,19 +62,21 @@ PQSetting {
             enforceMaxWidth: set_anim.contentWidth
             text: qsTranslate("settingsmanager", "Always use space key to play/pause animation")
             onCheckedChanged: set_anim.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                animatedcontrol.checked = PQCSettings.getDefaultForFiletypesAnimatedControls()
+                animatedleftright.checked = PQCSettings.getDefaultForFiletypesAnimatedLeftRight()
+                animspace.checked = PQCSettings.getDefaultForFiletypesAnimatedSpacePause()
+
+                set_anim.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        animatedcontrol.checked = PQCSettings.getDefaultForFiletypesAnimatedControls()
-        animatedleftright.checked = PQCSettings.getDefaultForFiletypesAnimatedLeftRight()
-        animspace.checked = PQCSettings.getDefaultForFiletypesAnimatedSpacePause()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

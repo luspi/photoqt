@@ -212,6 +212,20 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                current["top"] = PQCSettings.getDefaultForInterfaceEdgeTopAction()
+                current["left"] = PQCSettings.getDefaultForInterfaceEdgeLeftAction()
+                current["right"] = PQCSettings.getDefaultForInterfaceEdgeRightAction()
+                current["bottom"] = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
+                currentChanged()
+
+                set_edge.checkForChanges()
+
+            }
+        },
+
         /*********************************/
 
         PQSettingSubtitle {
@@ -231,6 +245,16 @@ PQSetting {
             suffix: " px"
             onValueChanged:
                 set_edge.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                sensitivity.setValue(PQCSettings.getDefaultForInterfaceHotEdgeSize()*5)
+
+                set_edge.checkForChanges()
+
+            }
         }
 
     ]
@@ -279,20 +303,6 @@ PQSetting {
 
         menuedge = edge
         themenu.popup()
-
-    }
-
-    onResetToDefaults: {
-
-        current["top"] = PQCSettings.getDefaultForInterfaceEdgeTopAction()
-        current["left"] = PQCSettings.getDefaultForInterfaceEdgeLeftAction()
-        current["right"] = PQCSettings.getDefaultForInterfaceEdgeRightAction()
-        current["bottom"] = PQCSettings.getDefaultForInterfaceEdgeBottomAction()
-        currentChanged()
-
-        sensitivity.setValue(PQCSettings.getDefaultForInterfaceHotEdgeSize()*5)
-
-        PQCConstants.settingsManagerSettingChanged = false
 
     }
 

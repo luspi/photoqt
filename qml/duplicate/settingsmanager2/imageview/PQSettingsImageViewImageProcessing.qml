@@ -62,6 +62,16 @@ PQSetting {
             onCheckedChanged: set_copr.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                checkerboard.checked = PQCSettings.getDefaultForImageviewTransparencyMarker()
+
+                set_copr.checkForChanges()
+
+            }
+        },
+
         /**********************************/
 
         PQSettingSubtitle {
@@ -362,6 +372,28 @@ PQSetting {
 
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                colorprofiles_contextmenu_default = PQCSettings.getDefaultForImageviewColorSpaceContextMenu()
+                colorProfileLoadDefault()
+                colorProfilesSetDefaultAfterReset.restart()
+
+                color_enable.checked = PQCSettings.getDefaultForImageviewColorSpaceEnable()
+                color_embed.checked = PQCSettings.getDefaultForImageviewColorSpaceLoadEmbedded()
+                if(PQCSettings.getDefaultForImageviewColorSpaceDefault() === "") {
+                    color_defaultcombo.currentIndex = 0
+                    color_default.checked = false
+                } else {
+                    color_defaultcombo.currentIndex = (colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
+                    color_default.loadAndSetDefault(true)
+                }
+
+                set_copr.checkForChanges()
+
+            }
         }
 
     ]
@@ -373,28 +405,6 @@ PQSetting {
             set_copr.colorprofiles_contextmenu_default = PQCSettings.imageviewColorSpaceContextMenu
             set_copr.checkForChanges()
         }
-    }
-
-    onResetToDefaults: {
-
-        checkerboard.checked = PQCSettings.getDefaultForImageviewTransparencyMarker()
-
-        colorprofiles_contextmenu_default = PQCSettings.getDefaultForImageviewColorSpaceContextMenu()
-        colorProfileLoadDefault()
-        colorProfilesSetDefaultAfterReset.restart()
-
-        color_enable.checked = PQCSettings.getDefaultForImageviewColorSpaceEnable()
-        color_embed.checked = PQCSettings.getDefaultForImageviewColorSpaceLoadEmbedded()
-        if(PQCSettings.getDefaultForImageviewColorSpaceDefault() === "") {
-            color_defaultcombo.currentIndex = 0
-            color_default.checked = false
-        } else {
-            color_defaultcombo.currentIndex = (colorprofiles.indexOf(PQCSettings.imageviewColorSpaceDefault)+1)
-            color_default.loadAndSetDefault(true)
-        }
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}

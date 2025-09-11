@@ -315,6 +315,16 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                labelsResetDefault()
+
+                set_meta.checkForChanges()
+
+            }
+        },
+
         /************************************************/
 
         PQSettingSubtitle {
@@ -328,6 +338,16 @@ PQSetting {
             enforceMaxWidth: set_meta.contentWidth
             text: qsTranslate("settingsmanager", "Apply default rotation automatically")
             onCheckedChanged: set_meta.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                autorot.checked = PQCSettings.getDefaultForMetadataAutoRotation()
+
+                set_meta.checkForChanges()
+
+            }
         },
 
         /************************************************/
@@ -361,6 +381,19 @@ PQSetting {
             ButtonGroup.group: mapgroup
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val = PQCSettings.getDefaultForMetadataGpsMap()
+                google.checked = (val === "maps.google.com")
+                bing.checked = (val === "bing.com/maps")
+                osm.checked = (val === "openstreetmap.org" || (!google.checked && !bing.checked))
+
+                set_meta.checkForChanges()
+
+            }
+        },
+
         /************************************************/
 
         PQSettingSubtitle {
@@ -386,8 +419,18 @@ PQSetting {
             text: qsTranslate("settingsmanager", "use floating element")
             checked: PQCSettings.metadataElementFloating
             onCheckedChanged: set_meta.checkForChanges()
-        }
+        },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                screenegde.checked = PQCSettings.getDefaultForMetadataElementFloating()
+                floating.checked = PQCSettings.getDefaultForMetadataElementFloating()
+
+                set_meta.checkForChanges()
+
+            }
+        }
 
     ]
 
@@ -397,24 +440,6 @@ PQSetting {
         onTriggered: {
             set_meta._defaultCurrentCheckBoxStates = set_meta.currentCheckBoxStates.join("")
         }
-    }
-
-    onResetToDefaults: {
-
-        labelsResetDefault()
-
-        autorot.checked = PQCSettings.getDefaultForMetadataAutoRotation()
-
-        var val = PQCSettings.getDefaultForMetadataGpsMap()
-        google.checked = (val === "maps.google.com")
-        bing.checked = (val === "bing.com/maps")
-        osm.checked = (val === "openstreetmap.org" || (!google.checked && !bing.checked))
-
-        screenegde.checked = PQCSettings.getDefaultForMetadataElementFloating()
-        floating.checked = PQCSettings.getDefaultForMetadataElementFloating()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}

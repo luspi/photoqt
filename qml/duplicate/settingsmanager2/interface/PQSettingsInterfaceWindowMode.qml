@@ -96,27 +96,29 @@ PQSetting {
 
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var wmmode_val = PQCSettings.getDefaultForInterfaceWindowMode()
+                var keeptop_val = PQCSettings.getDefaultForInterfaceKeepWindowOnTop()
+                var rememgeo_val = PQCSettings.getDefaultForInterfaceSaveWindowGeometry()
+                var wmdeco_val = PQCSettings.getDefaultForInterfaceWindowDecoration()
+
+                fsmode.checked = !wmmode_val
+                wmmode.checked = wmmode_val
+
+                keeptop.checked = keeptop_val
+                rememgeo.checked = rememgeo_val
+                wmdeco_show.checked = wmdeco_val
+
+                set_windowmode.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        var wmmode_val = PQCSettings.getDefaultForInterfaceWindowMode()
-        var keeptop_val = PQCSettings.getDefaultForInterfaceKeepWindowOnTop()
-        var rememgeo_val = PQCSettings.getDefaultForInterfaceSaveWindowGeometry()
-        var wmdeco_val = PQCSettings.getDefaultForInterfaceWindowDecoration()
-
-        fsmode.checked = (wmmode_val===0)
-        wmmode.checked = (wmmode_val===1)
-
-        keeptop.checked = (keeptop_val===1)
-        rememgeo.checked = (rememgeo_val===1)
-        wmdeco_show.checked = (wmdeco_val===1)
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

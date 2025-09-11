@@ -103,6 +103,18 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                cache_enable.checked = PQCSettings.getDefaultForThumbnailsCache
+                cache_dir_default.checked = PQCSettings.getDefaultForThumbnailsCacheBaseDirDefault()
+                cache_dir_custom.customdir = PQCSettings.getDefaultForThumbnailsCacheBaseDirLocation()
+
+                set_mana.checkForChanges()
+
+            }
+        },
+
         /**************************************/
 
         PQSettingSubtitle {
@@ -203,6 +215,27 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                excludenetwork.checked = PQCSettings.getDefaultForThumbnailsExcludeNetworkShares()
+
+                nextcloud.folder = PQCScriptsFilesPaths.findNextcloudFolder()
+                nextcloud.checked = false
+
+                owncloud.folder = PQCScriptsFilesPaths.findOwnCloudFolder()
+                owncloud.checked = false
+
+                dropbox.folder = PQCScriptsFilesPaths.findDropBoxFolder()
+                dropbox.checked = false
+
+                exclude_folders.text = PQCSettings.getDefaultForThumbnailsExcludeFolders()
+
+                set_mana.checkForChanges()
+
+            }
+        },
+
         /********************************/
 
         PQSettingSubtitle {
@@ -223,36 +256,19 @@ PQSetting {
             suffix: " threads"
             onValueChanged:
                 set_mana.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                threads.setValue(PQCSettings.getDefaultForThumbnailsMaxNumberThreads())
+
+                set_mana.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        cache_enable.checked = PQCSettings.getDefaultForThumbnailsCache
-        cache_dir_default.checked = PQCSettings.getDefaultForThumbnailsCacheBaseDirDefault()
-        cache_dir_custom.customdir = PQCSettings.getDefaultForThumbnailsCacheBaseDirLocation()
-
-
-        excludenetwork.checked = PQCSettings.getDefaultForThumbnailsExcludeNetworkShares()
-
-        nextcloud.folder = PQCScriptsFilesPaths.findNextcloudFolder()
-        nextcloud.checked = false
-
-        owncloud.folder = PQCScriptsFilesPaths.findOwnCloudFolder()
-        owncloud.checked = false
-
-        dropbox.folder = PQCScriptsFilesPaths.findDropBoxFolder()
-        dropbox.checked = false
-
-        exclude_folders.text = PQCSettings.getDefaultForThumbnailsExcludeFolders()
-
-
-        threads.setValue(PQCSettings.getDefaultForThumbnailsMaxNumberThreads())
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         threads.acceptValue()

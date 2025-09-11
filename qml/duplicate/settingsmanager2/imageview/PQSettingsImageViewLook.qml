@@ -54,6 +54,16 @@ PQSetting {
                 set_look.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                marginslider.setValue(PQCSettings.getDefaultForImageviewMargin())
+
+                set_look.checkForChanges()
+
+            }
+        },
+
         /***********************************************/
 
         PQSettingSubtitle {
@@ -118,6 +128,20 @@ PQSetting {
             onCheckedChanged: set_look.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                large_fit.checked = !PQCSettings.getDefaultForImageviewAlwaysActualSize()
+                large_full.checked = PQCSettings.getDefaultForImageviewAlwaysActualSize()
+                small_fit.checked = PQCSettings.getDefaultForImageviewFitInWindow()
+                small_asis.checked = !PQCSettings.getDefaultForImageviewFitInWindow()
+                scale_check.checked = PQCSettings.getDefaultForImageviewRespectDevicePixelRatio()
+
+                set_look.checkForChanges()
+
+            }
+        },
+
         /***********************************************/
 
         PQSettingSubtitle {
@@ -146,25 +170,20 @@ PQSetting {
             enabled: interp_check.checked
             onValueChanged:
                 set_look.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                interp_check.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForSmallImages()
+                interp_spin.setValue(PQCSettings.getDefaultForImageviewInterpolationThreshold())
+
+                set_look.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        marginslider.setValue(PQCSettings.getDefaultForImageviewMargin())
-
-        large_fit.checked = (PQCSettings.getDefaultForImageviewAlwaysActualSize() === 0)
-        large_full.checked = (PQCSettings.getDefaultForImageviewAlwaysActualSize() === 1)
-        small_fit.checked = (PQCSettings.getDefaultForImageviewFitInWindow() === 1)
-        small_asis.checked = (PQCSettings.getDefaultForImageviewFitInWindow() === 0)
-        scale_check.checked = PQCSettings.getDefaultForImageviewRespectDevicePixelRatio()
-
-        interp_check.checked = PQCSettings.getDefaultForImageviewInterpolationDisableForSmallImages()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         marginslider.acceptValue()

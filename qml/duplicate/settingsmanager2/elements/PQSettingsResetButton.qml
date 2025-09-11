@@ -27,78 +27,28 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Column {
+Item {
 
-    id: setctrl
+    id: resetbutton
 
     width: parent.width
+    // a value of 1 is important to reduce the empty spacing added below and above the reset button
+    height: 1
 
-    property alias content: contcol.children
-    property int contentWidth: contcol.width
-    property int availableHeight: 0
-    property int contentSpacing: contcol.spacing
-    property int indentWidth: spacer.width
+    signal resetToDefaults()
 
-    property bool showResetButton: true
-
-    property bool disabledAutoIndentation: false
-    property bool addBlankSpaceBottom: true
-
-    property bool settingsLoaded: false
-    property bool thisSettingHasChanged: false
-
-    // the binding on generalInterfaceVariant is removed in Component.onCompleted() below
-    property bool modernInterface: PQCSettings.generalInterfaceVariant==="modern"
-
-    spacing: 10
-
-    Row {
-
-        PQSettingSpacer { id: spacer; disabledAutoIndentation: setctrl.disabledAutoIndentation }
-
-        Column {
-
-            id: contcol
-
-            spacing: 10
-
-            width: setctrl.width-spacer.width
-
-        }
-
-    }
-
-    Loader {
-        active: setctrl.addBlankSpaceBottom
-        sourceComponent:
-        Item {
-            width: 1
-            height: 40
+    PQButtonIcon {
+        id: btn
+        x: resetbutton.width - width - 10
+        width: 20
+        height: 20
+        opacity: hovered ? 1 : 0.5
+        Behavior on opacity { NumberAnimation { duration: 200 } }
+        source: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
+        tooltip: qsTranslate("settingsmanager", "reset to default values")
+        onClicked: (pos) => {
+            resetbutton.resetToDefaults()
         }
     }
-
-    Component.onCompleted: {
-        modernInterface = modernInterface
-        load()
-    }
-
-    Connections {
-
-        target: PQCNotify
-
-        function onSettingsmanagerSendCommand(what : string, args : list<var>) {
-            if(what === "applychanges")
-                setctrl.applyChanges()
-            else if(what === "loadcurrent")
-                setctrl.load()
-
-        }
-    }
-
-    function handleEscape() {}
-    function checkForChanges() {}
-    function load() {}
-    function applyChanges() {}
-
 
 }

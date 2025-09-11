@@ -72,6 +72,19 @@ PQSetting {
             onCheckedChanged: set_docu.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality())
+                pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
+                pdf_exitbutton.checked = PQCSettings.getDefaultForFiletypesDocumentViewerModeExitButton()
+                pdf_autoenter.checked = PQCSettings.getDefaultForFiletypesDocumentAlwaysEnterAutomatically()
+
+                set_docu.checkForChanges()
+
+            }
+        },
+
         /***************************************/
 
         PQSettingSubtitle {
@@ -95,23 +108,20 @@ PQSetting {
             enforceMaxWidth: set_docu.contentWidth
             text: qsTranslate("settingsmanager", "use left/right arrow to load previous/next page")
             onCheckedChanged: set_docu.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                documentcontrols.checked = PQCSettings.getDefaultForFiletypesDocumentControls()
+                documentleftright.checked = PQCSettings.getDefaultForFiletypesDocumentLeftRight()
+
+                set_docu.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        pdf_quality.setValue(PQCSettings.getDefaultForFiletypesPDFQuality())
-        pdf_escape.checked = PQCSettings.getDefaultForImageviewEscapeExitDocument()
-        pdf_exitbutton.checked = PQCSettings.getDefaultForFiletypesDocumentViewerModeExitButton()
-        pdf_autoenter.checked = PQCSettings.getDefaultForFiletypesDocumentAlwaysEnterAutomatically()
-
-        documentcontrols.checked = PQCSettings.getDefaultForFiletypesDocumentControls()
-        documentleftright.checked = PQCSettings.getDefaultForFiletypesDocumentLeftRight()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         pdf_quality.acceptValue()

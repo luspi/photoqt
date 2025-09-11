@@ -124,6 +124,26 @@ PQSetting {
             text: qsTranslate("settingsmanager", "Thank you to all who volunteered their time to help translate PhotoQt into other languages!")
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val = PQCSettings.getDefaultForInterfaceLanguage()
+
+                var setindex = availableLanguages.indexOf("en")
+                if(availableLanguages.indexOf(val) !== -1)
+                    setindex = availableLanguages.indexOf(val)
+                else {
+                    var c = val + "_" + val.toUpperCase()
+                    if(availableLanguages.indexOf(c) !== -1)
+                        setindex = availableLanguages.indexOf(c)
+                }
+                langcombo.currentIndex = setindex
+
+                set_lang.checkForChanges()
+
+            }
+        },
+
         /***********************************/
 
         PQSettingSubtitle {
@@ -247,24 +267,6 @@ PQSetting {
         }
 
     ]
-
-    onResetToDefaults: {
-
-        var val = PQCSettings.getDefaultForInterfaceLanguage()
-
-        var setindex = availableLanguages.indexOf("en")
-        if(availableLanguages.indexOf(val) !== -1)
-            setindex = availableLanguages.indexOf(val)
-        else {
-            var c = val + "_" + val.toUpperCase()
-            if(availableLanguages.indexOf(c) !== -1)
-                setindex = availableLanguages.indexOf(c)
-        }
-        langcombo.currentIndex = setindex
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

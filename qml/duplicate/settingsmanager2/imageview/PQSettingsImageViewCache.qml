@@ -54,6 +54,16 @@ PQSetting {
                 set_capr.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                cache_slider.setValue(PQCSettings.getDefaultForImageviewCache())
+
+                set_capr.checkForChanges()
+
+            }
+        },
+
         /*************************************/
 
         PQSettingSubtitle {
@@ -90,18 +100,19 @@ PQSetting {
 
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                preload.setValue(PQCSettings.getDefaultForImageviewPreloadInBackground())
+
+                set_capr.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        cache_slider.setValue(PQCSettings.getDefaultForImageviewCache())
-        preload.setValue(PQCSettings.getDefaultForImageviewPreloadInBackground())
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         cache_slider.acceptValue()

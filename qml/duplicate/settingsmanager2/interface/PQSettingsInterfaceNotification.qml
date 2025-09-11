@@ -304,19 +304,21 @@ PQSetting {
             text: qsTranslate("settingsmanager", "try to show native notification")
             onCheckedChanged:
                 set_noti.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                notif_grid.loc = PQCSettings.getDefaultForInterfaceNotificationLocation()
+                notif_external.checked = PQCSettings.getDefaultForInterfaceNotificationTryNative()
+                notif_dist.setValue(PQCSettings.getDefaultForInterfaceNotificationDistanceFromEdge())
+
+                set_noti.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        notif_grid.loc = PQCSettings.getDefaultForInterfaceNotificationLocation()
-        notif_external.checked = PQCSettings.getDefaultForInterfaceNotificationTryNative()
-        notif_dist.setValue(PQCSettings.getDefaultForInterfaceNotificationDistanceFromEdge())
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         notif_dist.acceptValue()

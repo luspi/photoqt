@@ -299,6 +299,19 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                status_show.checked = PQCSettings.getDefaultForInterfaceStatusInfoShow()
+                curEntries = PQCSettings.getDefaultForInterfaceStatusInfoList()
+                populateModel()
+                fontsize.setValue(PQCSettings.getDefaultForInterfaceStatusInfoFontSize())
+
+                set_stin.checkForChanges()
+
+            }
+        },
+
         /*************************************/
 
         PQSettingSubtitle {
@@ -376,6 +389,23 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val_hide = PQCSettings.getDefaultForInterfaceStatusInfoAutoHide()
+                var val_topedge = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTopEdge()
+                var val_timeout = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTimeout()/1000
+                autohide_always.checked = (!val_hide && !val_topedge)
+                autohide_anymove.checked = (val_hide && !val_topedge)
+                autohide_topedge.checked = val_topedge
+                autohide_timeout.setValue(val_timeout)
+                imgchange.checked = PQCSettings.getDefaultForInterfaceStatusInfoShowImageChange()
+
+                set_stin.checkForChanges()
+
+            }
+        },
+
         /*************************************/
 
         PQSettingSubtitle {
@@ -391,6 +421,17 @@ PQSetting {
             id: infoalignment
             model: ["top left", "top center", "top right"]
             onCurrentIndexChanged: set_stin.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var opts = ["left", "center", "right"]
+                infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCSettings.getDefaultForInterfaceStatusInfoPosition()))
+
+                set_stin.checkForChanges()
+
+            }
         },
 
         /*************************************/
@@ -412,6 +453,16 @@ PQSetting {
             enforceMaxWidth: set_stin.contentWidth
             text: qsTranslate("settingsmanager",  "manage window through status info")
             onCheckedChanged: set_stin.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                managewindow.checked = PQCSettings.getDefaultForInterfaceStatusInfoManageWindow()
+
+                set_stin.checkForChanges()
+
+            }
         }
 
     ]
@@ -420,31 +471,6 @@ PQSetting {
         themodel.clear()
         for(var j = 0; j < curEntries.length; ++j)
             themodel.append({"name": curEntries[j], "index": j})
-    }
-
-    onResetToDefaults: {
-
-        status_show.checked = PQCSettings.getDefaultForInterfaceStatusInfoShow()
-        curEntries = PQCSettings.getDefaultForInterfaceStatusInfoList()
-        populateModel()
-        fontsize.setValue(PQCSettings.getDefaultForInterfaceStatusInfoFontSize())
-
-        var val_hide = PQCSettings.getDefaultForInterfaceStatusInfoAutoHide()
-        var val_topedge = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTopEdge()
-        var val_timeout = PQCSettings.getDefaultForInterfaceStatusInfoAutoHideTimeout()/1000
-        autohide_always.checked = (val_hide === 0 && val_topedge === 0)
-        autohide_anymove.checked = (val_hide === 1 && val_topedge === 0)
-        autohide_topedge.checked = (val_topedge === 1)
-        autohide_timeout.setValue(val_timeout)
-        imgchange.checked = PQCSettings.getDefaultForInterfaceStatusInfoShowImageChange()
-
-        var opts = ["left", "center", "right"]
-        infoalignment.currentIndex = Math.max(0, opts.indexOf(PQCSettings.getDefaultForInterfaceStatusInfoPosition()))
-
-        managewindow.checked = PQCSettings.getDefaultForInterfaceStatusInfoManageWindow()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {

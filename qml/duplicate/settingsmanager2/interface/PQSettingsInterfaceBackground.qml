@@ -249,6 +249,31 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var valBIS = PQCSettings.getDefaultForInterfaceBackgroundImageScreenshot()
+                var valBISo = PQCSettings.getDefaultForInterfaceBackgroundSolid()
+                var valBIU = PQCSettings.getDefaultForInterfaceBackgroundImageUse()
+                var valBIT = PQCSettings.getDefaultForInterfaceBackgroundFullyTransparent()
+                radio_real.checked = (valBIS===0 && valBIU===0 && valBIT===0)
+                radio_fake.checked = valBIS
+                radio_solid.checked = valBISo
+                radio_nobg.checked = valBIT
+                radio_custom.checked = valBIU
+
+                previewimage.source = PQCSettings.getDefaultForInterfaceBackgroundImagePath()
+                radio_bg_scaletofit.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScale()
+                radio_bg_scaleandcrop.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScaleCrop()
+                radio_bg_stretch.checked = PQCSettings.getDefaultForInterfaceBackgroundImageStretch()
+                radio_bg_center.checked = PQCSettings.getDefaultForInterfaceBackgroundImageCenter()
+                radio_bg_tile.checked = PQCSettings.getDefaultForInterfaceBackgroundImageTile()
+
+                set_bg.checkForChanges()
+
+            }
+        },
+
         /**************************************************/
 
         PQSettingSubtitle {
@@ -306,6 +331,19 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var val = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
+                bgaccentusecheck.checked = !val
+                bgcustomusecheck.checked = val
+                bgcustomuse.setColor = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlayColor()
+
+                set_bg.checkForChanges()
+
+            }
+        },
+
         /**************************************************/
 
         PQSettingSubtitle {
@@ -355,6 +393,19 @@ PQSetting {
                 ButtonGroup.group: grp_conb
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                radio_closeclick.checked = PQCSettings.getDefaultForInterfaceCloseOnEmptyBackground()
+                radio_navclick.checked = PQCSettings.getDefaultForInterfaceNavigateOnEmptyBackground()
+                radio_toggledeco.checked = PQCSettings.getDefaultForInterfaceWindowDecorationOnEmptyBackground()
+                radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
+
+                set_bg.checkForChanges()
+
+            }
         }
 
     ]
@@ -365,39 +416,6 @@ PQSetting {
         onAccepted: {
             bgcustomuse.setColor = PQCScriptsOther.convertRgbToHex([255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b])
         }
-    }
-
-    onResetToDefaults: {
-
-        var valBIS = PQCSettings.getDefaultForInterfaceBackgroundImageScreenshot()
-        var valBISo = PQCSettings.getDefaultForInterfaceBackgroundSolid()
-        var valBIU = PQCSettings.getDefaultForInterfaceBackgroundImageUse()
-        var valBIT = PQCSettings.getDefaultForInterfaceBackgroundFullyTransparent()
-        radio_real.checked = (valBIS===0 && valBIU===0 && valBIT===0)
-        radio_fake.checked = valBIS
-        radio_solid.checked = valBISo
-        radio_nobg.checked = valBIT
-        radio_custom.checked = valBIU
-
-        var val = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
-        bgaccentusecheck.checked = (val === 0)
-        bgcustomusecheck.checked = (val === 1)
-        bgcustomuse.setColor = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlayColor()
-
-        previewimage.source = PQCSettings.getDefaultForInterfaceBackgroundImagePath()
-        radio_bg_scaletofit.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScale()
-        radio_bg_scaleandcrop.checked = PQCSettings.getDefaultForInterfaceBackgroundImageScaleCrop()
-        radio_bg_stretch.checked = PQCSettings.getDefaultForInterfaceBackgroundImageStretch()
-        radio_bg_center.checked = PQCSettings.getDefaultForInterfaceBackgroundImageCenter()
-        radio_bg_tile.checked = PQCSettings.getDefaultForInterfaceBackgroundImageTile()
-
-        radio_closeclick.checked = PQCSettings.getDefaultForInterfaceCloseOnEmptyBackground()
-        radio_navclick.checked = PQCSettings.getDefaultForInterfaceNavigateOnEmptyBackground()
-        radio_toggledeco.checked = PQCSettings.getDefaultForInterfaceWindowDecorationOnEmptyBackground()
-        radio_noaction.checked = (!radio_closeclick.checked && !radio_navclick.checked && !radio_toggledeco.checked)
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}

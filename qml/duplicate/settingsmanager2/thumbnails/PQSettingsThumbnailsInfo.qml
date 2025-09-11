@@ -85,6 +85,18 @@ PQSetting {
             onCheckedChanged: set_info.checkForChanges()
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                label_enable.checked = PQCSettings.getDefaultForThumbnailsFilename()
+                label_fontsize.setValue(PQCSettings.getDefaultForThumbnailsFontSize())
+                thumb_opaque.checked = PQCSettings.getDefaultForThumbnailsInactiveTransparent()
+
+                set_info.checkForChanges()
+
+            }
+        },
+
         /**************************************/
 
         PQSettingSubtitle {
@@ -101,21 +113,19 @@ PQSetting {
             enforceMaxWidth: set_info.contentWidth
             text: qsTranslate("settingsmanager", "show tooltips")
             onCheckedChanged: set_info.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                tooltips_show.checked = PQCSettings.getDefaultForThumbnailsTooltip()
+
+                set_info.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        label_enable.checked = PQCSettings.getDefaultForThumbnailsFilename()
-        label_fontsize.setValue(PQCSettings.getDefaultForThumbnailsFontSize())
-        thumb_opaque.checked = PQCSettings.getDefaultForThumbnailsInactiveTransparent()
-
-        tooltips_show.checked = PQCSettings.getDefaultForThumbnailsTooltip()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {
         label_fontsize.acceptValue()

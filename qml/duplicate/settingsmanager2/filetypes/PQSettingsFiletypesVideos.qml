@@ -107,23 +107,25 @@ PQSetting {
             spacing: 10
             text: qsTranslate("settingsmanager", "Always use space key to play/pause videos")
             onCheckedChanged: set_vide.checkForChanges()
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                vid_autoplay.checked = PQCSettings.getDefaultForFiletypesVideoAutoplay()
+                vid_loop.checked = PQCSettings.getDefaultForFiletypesVideoLoop()
+                vid_qtmult.checked = !PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
+                vid_libmpv.checked = PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
+                videothumb.currentIndex = (PQCSettings.getDefaultForFiletypesVideoThumbnailer()==="" ? 0 : 1)
+                videojump.checked = PQCSettings.getDefaultForFiletypesVideoLeftRightJumpVideo()
+                videospace.checked = PQCSettings.getDefaultForFiletypesVideoSpacePause()
+
+                set_vide.checkForChanges()
+
+            }
         }
 
     ]
-
-    onResetToDefaults: {
-
-        vid_autoplay.checked = PQCSettings.getDefaultForFiletypesVideoAutoplay()
-        vid_loop.checked = PQCSettings.getDefaultForFiletypesVideoLoop()
-        vid_qtmult.checked = !PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
-        vid_libmpv.checked = PQCSettings.getDefaultForFiletypesVideoPreferLibmpv()
-        videothumb.currentIndex = (PQCSettings.getDefaultForFiletypesVideoThumbnailer()==="" ? 0 : 1)
-        videojump.checked = PQCSettings.getDefaultForFiletypesVideoLeftRightJumpVideo()
-        videospace.checked = PQCSettings.getDefaultForFiletypesVideoSpacePause()
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
 
     function handleEscape() {}
 

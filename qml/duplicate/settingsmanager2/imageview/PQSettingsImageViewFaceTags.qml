@@ -90,6 +90,20 @@ PQSetting {
 
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                facetags_show.checked = PQCSettings.getDefaultForMetadataFaceTagsEnabled()
+                var val = PQCSettings.getDefaultForMetadataFaceTagsVisibility()
+                tags_always.checked = (val === 1)
+                tags_one.checked = (val === 2)
+                tags_all.checked = (val === 3)
+
+                set_fata.checkForChanges()
+
+            }
+        },
+
         /*************************************************/
 
         PQSettingSubtitle {
@@ -170,6 +184,19 @@ PQSetting {
 
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                fontsize.setValue(PQCSettings.getDefaultForMetadataFaceTagsFontSize())
+                border_show.checked = PQCSettings.getDefaultForMetadataFaceTagsBorder()
+                border_slider.setValue(PQCSettings.getDefaultForMetadataFaceTagsBorderWidth())
+                border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCSettings.getDefaultForMetadataFaceTagsBorderColor())
+
+                set_fata.checkForChanges()
+
+            }
         }
 
     ]
@@ -180,23 +207,6 @@ PQSetting {
         onAccepted: {
             border_color.rgba = [255*coldiag.currentColor.r, 255*coldiag.currentColor.g, 255*coldiag.currentColor.b, 255*coldiag.currentColor.a]
         }
-    }
-
-    onResetToDefaults: {
-
-        facetags_show.checked = PQCSettings.getDefaultForMetadataFaceTagsEnabled()
-        var val = PQCSettings.getDefaultForMetadataFaceTagsVisibility()
-        tags_always.checked = (val === 1)
-        tags_one.checked = (val === 2)
-        tags_all.checked = (val === 3)
-
-        fontsize.setValue(PQCSettings.getDefaultForMetadataFaceTagsFontSize())
-        border_show.checked = PQCSettings.getDefaultForMetadataFaceTagsBorder()
-        border_slider.setValue(PQCSettings.getDefaultForMetadataFaceTagsBorderWidth())
-        border_color.rgba = PQCScriptsOther.convertHexToRgba(PQCSettings.getDefaultForMetadataFaceTagsBorderColor())
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {

@@ -193,6 +193,21 @@ PQSetting {
             }
         },
 
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
+
+                set_accent.selectedColor = valCol
+                color_predefined.checked = set_accent.hexes.indexOf(set_accent.selectedColor)>-1
+                color_custom.checked = !color_predefined.checked
+                customrect.color = valCol
+
+                set_accent.checkForChanges()
+
+            }
+        },
+
         /*******************************************/
 
         PQSettingSubtitle {
@@ -241,6 +256,18 @@ PQSetting {
                 }
             }
 
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                var valOver = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
+                bgaccentusecheck.checked = !valOver
+                bgcustomusecheck.checked = valOver
+
+                set_accent.checkForChanges()
+
+            }
         }
 
     ]
@@ -257,23 +284,6 @@ PQSetting {
             } else
                 bgcustomuse.color = coldiag.currentColor
         }
-    }
-
-    onResetToDefaults: {
-
-        var valCol = PQCSettings.getDefaultForInterfaceAccentColor()
-
-        set_accent.selectedColor = valCol
-        color_predefined.checked = set_accent.hexes.indexOf(set_accent.selectedColor)>-1
-        color_custom.checked = !color_predefined.checked
-        customrect.color = valCol
-
-        var valOver = PQCSettings.getDefaultForInterfaceBackgroundCustomOverlay()
-        bgaccentusecheck.checked = (valOver === 0)
-        bgcustomusecheck.checked = (valOver === 1)
-
-        PQCConstants.settingsManagerSettingChanged = false
-
     }
 
     function handleEscape() {}
