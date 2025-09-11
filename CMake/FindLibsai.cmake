@@ -13,28 +13,31 @@ IF(PKG_CONFIG_FOUND)
 ENDIF()
 
 FIND_PATH(Libsai_INCLUDE_DIR sai.hpp
-          HINTS
-          ${PC_LIBSAI_INCLUDEDIR}
-          ${PC_Libsai_INCLUDE_DIRS}
-          PATH_SUFFIXES libsai
-         )
+   HINTS
+   ${PC_LIBSAI_INCLUDEDIR}
+   ${PC_Libsai_INCLUDE_DIRS}
+   PATH_SUFFIXES libsai
+   /usr/include
+   /usr/local/include
+)
 
 FIND_LIBRARY(Libsai_LIBRARY_RELEASE NAMES sai
-             HINTS
-             ${PC_LIBSAI_LIBDIR}
-             ${PC_LIBSAI_LIBRARY_DIRS}
-            )
+   HINTS
+   ${PC_LIBSAI_LIBDIR}
+   ${PC_LIBSAI_LIBRARY_DIRS}
+   /usr/lib
+   /usr/local/lib
+)
 
 include(SelectLibraryConfigurations)
 select_library_configurations(Libsai)
 
 INCLUDE(FindPackageHandleStandardArgs)
-FIND_PACKAGE_HANDLE_STANDARD_ARGS(Libsai
-                                  REQUIRED_VARS Libsai_LIBRARIES Libsai_INCLUDE_DIR
-                                 )
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(Libsai REQUIRED_VARS Libsai_LIBRARIES Libsai_INCLUDE_DIR)
 
-MARK_AS_ADVANCED(Libsai_VERSION_STRING
-                 Libsai_INCLUDE_DIR
-                 Libsai_LIBRARIES
-                 Libsai_DEFINITIONS
-                 )
+MARK_AS_ADVANCED(
+   Libsai_VERSION_STRING
+   Libsai_INCLUDE_DIR
+   Libsai_LIBRARIES
+   Libsai_DEFINITIONS
+)
