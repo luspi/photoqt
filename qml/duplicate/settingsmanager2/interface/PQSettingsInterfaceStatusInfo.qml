@@ -456,6 +456,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (status_show.hasChanged() ||
                                                       !PQF.areTwoListsEqual(set_stin.curEntries, PQCSettings.interfaceStatusInfoList) ||
                                                       fontsize.hasChanged()) ||

@@ -69,44 +69,6 @@ PQSetting {
 
         },
 
-        // Item {
-
-        //     width: subtext_col.width
-        //     height: PQCSettings.generalCompactSettings ? 0 : subtext_col.height
-        //     Behavior on height { NumberAnimation { duration: 200 } }
-        //     clip: true
-        //     visible: height>0
-
-        //     Column {
-
-        //         id: subtext_col
-
-        //         spacing: 10
-
-        //         PQText {
-        //             width: set_exsh.contentWidth
-        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        //             text: "%f = " + qsTranslate("settingsmanager", "filename including path") + "\n" +
-        //                   "%u = " + qsTranslate("settingsmanager", "filename without path") + "\n" +
-        //                   "%d = " + qsTranslate("settingsmanager", "directory containing file")
-        //         }
-
-        //         PQText {
-        //             width: set_exsh.contentWidth
-        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        //             text: qsTranslate("settingsmanager", "If you type out a path, make sure to escape spaces accordingly by prepending a backslash:") + " '\\ '"
-        //         }
-
-        //         PQText {
-        //             width: set_exsh.contentWidth
-        //             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        //             text: qsTranslate("settingsmanager", "Please note that any external shortcut action that doesnot have any mouse or key combination associated with it will not be saved.")
-        //         }
-
-        //     }
-
-        // },
-
         Row {
 
             spacing: 5
@@ -590,6 +552,11 @@ PQSetting {
     function checkForChanges() {
 
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
 
         PQCConstants.settingsManagerSettingChanged = !PQF.areTwoDictofListsEqual(currentData, defaultData)
 

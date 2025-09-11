@@ -130,8 +130,16 @@ PQSetting {
     function handleEscape() {}
 
     function checkForChanges() {
+
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (fw_normalslider.hasChanged() || fw_boldslider.hasChanged())
+
     }
 
     function load() {

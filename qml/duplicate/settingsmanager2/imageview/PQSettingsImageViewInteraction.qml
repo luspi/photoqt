@@ -326,6 +326,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (anispeed_check.hasChanged() || anispeed.hasChanged() || anicombo.hasChanged() ||
                                                       zoomspeed.hasChanged() || minzoom_check.hasChanged() || minzoom_slider.hasChanged() ||
                                                       zoom_rel.hasChanged() || zoom_abs.hasChanged() || maxzoom_check.hasChanged() ||

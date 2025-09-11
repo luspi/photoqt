@@ -399,6 +399,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("") ||
                                                       keepopen_fd_check.hasChanged() || keepopen_me_check.hasChanged() ||
                                                       keepopen_sm_check.hasChanged() || checksmall.hasChanged())

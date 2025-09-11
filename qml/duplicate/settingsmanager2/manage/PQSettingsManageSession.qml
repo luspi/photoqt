@@ -175,6 +175,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (mult.hasChanged() || sing.hasChanged() || blanksession.hasChanged() ||
                                                       reopenlast.hasChanged() || forget.hasChanged() || remember.hasChanged() ||
                                                       reuse.hasChanged() || reuse_zoom.hasChanged() || reuse_rotation.hasChanged() ||

@@ -173,25 +173,10 @@ PQSetting {
 
     function handleEscape() {}
 
-    function checkForChanges() {
-        if(!settingsLoaded) return
-    }
+    function checkForChanges() {}
 
-    function load() {
+    function load() {}
 
-        settingsLoaded = false
-
-
-        PQCConstants.settingsManagerSettingChanged = false
-        settingsLoaded = true
-
-    }
-
-    function applyChanges() {
-
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
+    function applyChanges() {}
 
 }

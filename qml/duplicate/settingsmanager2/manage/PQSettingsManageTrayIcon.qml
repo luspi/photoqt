@@ -105,6 +105,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (trayicon_show.hasChanged() || trayicon_mono.hasChanged() ||
                                                       trayicon_hide.hasChanged() || trayicon_reset.hasChanged())
 

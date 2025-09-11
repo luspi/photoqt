@@ -379,6 +379,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         for(var combo in currentData) {
 
             if(!PQF.areTwoListsEqual(currentData[combo][0], defaultData[combo][0]) ||

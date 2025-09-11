@@ -175,6 +175,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (marginslider.hasChanged() || large_fit.hasChanged() || large_full.hasChanged() ||
                                                       small_fit.hasChanged() || small_asis.hasChanged() || scale_check.hasChanged() ||
                                                       interp_check.hasChanged() || interp_spin.hasChanged())

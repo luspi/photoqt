@@ -269,8 +269,16 @@ PQSetting {
     function handleEscape() {}
 
     function checkForChanges() {
+
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || (currentInterfaceVariant!==PQCSettings.generalInterfaceVariant))
+
     }
 
     function load() {

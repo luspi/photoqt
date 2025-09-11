@@ -403,6 +403,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         var chg = false
         if(colorprofiles_contextmenu.length == colorprofiles_contextmenu_default.length) {
             colorprofiles_contextmenu_default.sort()

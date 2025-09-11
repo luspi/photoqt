@@ -94,6 +94,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (escape_doc.hasChanged() || escape_arc.hasChanged() || escape_bar.hasChanged() ||
                                                       escape_flt.hasChanged() || escape_sph.hasChanged())
 

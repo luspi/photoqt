@@ -305,6 +305,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (current["top"] !== PQCSettings.interfaceEdgeTopAction ||
                                                       current["left"] !== PQCSettings.interfaceEdgeLeftAction ||
                                                       current["right"] !== PQCSettings.interfaceEdgeRightAction ||

@@ -423,6 +423,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = ((_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) || autorot.hasChanged() ||
                                                       osm.hasChanged() || google.hasChanged() || bing.hasChanged() ||
                                                       screenegde.hasChanged() || floating.hasChanged())

@@ -168,6 +168,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (movewhl.hasChanged() || movebut.hasChanged() || dblclk.hasChanged() ||
                                                       scrollspeed.hasChanged() || scrollspeed_value.hasChanged() ||
                                                       hidetimeout.hasChanged() || hidetimeout_check.hasChanged())
