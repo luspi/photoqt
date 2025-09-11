@@ -118,6 +118,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (arc_extunrar.hasChanged() || archivecontrols.hasChanged() || archiveleftright.hasChanged() ||
                                                       archive_escape.hasChanged() || archive_exitbutton.hasChanged() || archive_autoenter.hasChanged() ||
                                                       archive_comautoenter.hasChanged())

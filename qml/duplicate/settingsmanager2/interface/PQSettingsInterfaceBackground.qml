@@ -406,6 +406,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         if(radio_real.hasChanged() || radio_fake.hasChanged() || radio_solid.hasChanged() || radio_custom.hasChanged() || radio_nobg.hasChanged()) {
             PQCConstants.settingsManagerSettingChanged = true
             return

@@ -112,6 +112,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = cache_slider.hasChanged() || preload.hasChanged()
 
     }

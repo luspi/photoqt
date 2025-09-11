@@ -262,6 +262,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (cache_enable.hasChanged() || cache_dir_default.hasChanged() ||
                                                       cache_dir_custom.customdir !== PQCSettings.thumbnailsCacheBaseDirLocation) ||
                                                      (nextcloud.hasChanged() || owncloud.hasChanged() || dropbox.hasChanged() ||

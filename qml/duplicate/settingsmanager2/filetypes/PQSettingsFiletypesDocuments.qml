@@ -121,6 +121,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (documentcontrols.hasChanged() || documentleftright.hasChanged() || pdf_quality.hasChanged() ||
                                                       pdf_escape.hasChanged() || pdf_exitbutton.hasChanged() || pdf_autoenter.hasChanged())
 

@@ -131,6 +131,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (vid_autoplay.hasChanged() || vid_loop.hasChanged() || vid_qtmult.hasChanged() ||
                                                       vid_libmpv.hasChanged() || videothumb.hasChanged() ||
                                                       videojump.hasChanged() || videospace.hasChanged())

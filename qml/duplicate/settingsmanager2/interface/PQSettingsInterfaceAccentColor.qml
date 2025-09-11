@@ -279,10 +279,18 @@ PQSetting {
     function handleEscape() {}
 
     function checkForChanges() {
+
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (selectedColor !== PQCSettings.interfaceAccentColor ||
                                                       bgaccentusecheck.hasChanged() || bgcustomusecheck.hasChanged() ||
                                                      (bgcustomusecheck.checked && bgcustomuse.color !== PQCSettings.interfaceBackgroundCustomOverlayColor))
+
     }
 
     function load() {

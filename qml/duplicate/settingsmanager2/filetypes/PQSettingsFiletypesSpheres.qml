@@ -130,6 +130,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (ps_escape.hasChanged() || ps_entering.hasChanged() || ps_controls.hasChanged() ||
                                                       ps_arrows.hasChanged() || ps_pan.hasChanged())
 

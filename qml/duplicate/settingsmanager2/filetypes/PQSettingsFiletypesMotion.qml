@@ -103,6 +103,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (applelive.hasChanged() || motionmicro.hasChanged() ||
                                                       motionplaypause.hasChanged() || motionspace.hasChanged())
 

@@ -125,6 +125,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (label_enable.hasChanged() || label_fontsize.hasChanged() || thumb_opaque.hasChanged() ||
                                                       tooltips_show.hasChanged())
 

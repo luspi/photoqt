@@ -391,6 +391,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         var chk = composeChecker()
         PQCConstants.settingsManagerSettingChanged = (chk !== defaultSettings)
 

@@ -121,8 +121,16 @@ PQSetting {
     function handleEscape() {}
 
     function checkForChanges() {
+
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (wmmode.hasChanged() || keeptop.hasChanged() || rememgeo.hasChanged() || wmdeco_show.hasChanged())
+
     }
 
     function load() {

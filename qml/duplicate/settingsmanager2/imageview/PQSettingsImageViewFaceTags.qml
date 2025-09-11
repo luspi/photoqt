@@ -208,6 +208,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         var colset = PQCScriptsOther.convertHexToRgba(PQCSettings.metadataFaceTagsBorderColor)
 
         PQCConstants.settingsManagerSettingChanged = (facetags_show.hasChanged() || tags_always.hasChanged() || tags_one.hasChanged() || tags_all.hasChanged() |

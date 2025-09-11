@@ -518,11 +518,19 @@ PQSetting {
     }
 
     function checkForChanges() {
+
         if(!settingsLoaded) return
+
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (integbut_show.hasChanged() || butsize.hasChanged() ||
                                                       !PQF.areTwoListsEqual(set_windowbuttons.curEntries, PQCSettings.interfaceWindowButtonsItems) ||
                                                       autohide_topedge.hasChanged() || autohide_anymove.hasChanged() || autohide_always.hasChanged() ||
                                                       autohide_timeout.hasChanged() || wb_followaccent.hasChanged())
+
     }
 
     function load() {

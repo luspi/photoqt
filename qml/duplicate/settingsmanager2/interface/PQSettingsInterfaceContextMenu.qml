@@ -331,6 +331,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (!PQF.areTwoListsEqual(entries, defaultentries) || check_dupl.hasChanged())
 
     }

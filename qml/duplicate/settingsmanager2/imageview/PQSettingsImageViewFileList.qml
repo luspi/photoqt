@@ -130,6 +130,11 @@ PQSetting {
 
         if(!settingsLoaded) return
 
+        if(PQCSettings.generalAutoSaveSettings) {
+            applyChanges()
+            return
+        }
+
         PQCConstants.settingsManagerSettingChanged = (sortcriteria.hasChanged() || sortasc.hasChanged() || sortdesc.hasChanged() || loop.hasChanged())
 
     }
