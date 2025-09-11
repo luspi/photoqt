@@ -63,7 +63,7 @@ Rectangle {
         source: control.source
         smooth: false
 
-        sourceSize: Qt.size(0.5*control.width*control.iconScale, 0.5*control.height*control.iconScale)
+        sourceSize: Qt.size(0.75*control.width*control.iconScale, 0.75*control.height*control.iconScale)
 
         x: (parent.width-width)/2
         y: (parent.height-height)/2
