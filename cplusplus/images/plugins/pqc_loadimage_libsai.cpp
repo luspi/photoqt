@@ -29,6 +29,8 @@
 #include <QPainter>
 #include <QCryptographicHash>
 
+static QImage composedImage;
+
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
 
 QSize PQCLoadImageLibsai::loadSize(QString filename) {
@@ -60,8 +62,6 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
 #ifdef PQMLIBSAI
 
-    QString hash = QCryptographicHash::hash(filename.toUtf8(), QCryptographicHash::Md5).toHex();
-
     sai::Document saidoc(filename.toStdString().c_str());
 
     if(!saidoc.IsOpen()) {
@@ -72,18 +72,37 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
     int w = 0, h = 0;
     std::tie(w, h) = saidoc.GetCanvasSize();
+    origSize = QSize(w, h);
 
-    QString baseCache = PQCConfigFiles::get().CACHE_DIR() + "/sai";
+    // Load thumbnail only
+    if(maxSize.width() > 0 && maxSize.height() > 0 && maxSize.width() <= 512 && maxSize.height() <= 512) {
 
-    QDir d(baseCache);
-    if(!d.exists())
-        d.mkpath(baseCache);
+        // Get the thumbnail data
+        uint32_t tw = 0, th = 0;
+        std::unique_ptr<std::byte[]> pixels;
+        std::tie(pixels, tw, th) = saidoc.GetThumbnail();
 
-    QString cachename = baseCache + "/" + hash + ".ppm";
+        // construct thumbnail image
+        img = QImage(reinterpret_cast<uchar*>(pixels.get()), tw, th, 4*tw, QImage::Format_ARGB32_Premultiplied);
 
-    QImage ret(w, h, QImage::Format_ARGB32);
-    ret.fill(Qt::transparent);
-    ret.save(cachename);
+        if(!img.isNull()) {
+
+            // make sure thumbnail is not larger than requested
+            QSize finalSize = origSize;
+
+            if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+                finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+
+            img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+            return "";
+
+        }
+
+    }
+
+    composedImage = QImage(w, h, QImage::Format_ARGB32);
+    composedImage.fill(Qt::transparent);
 
     saidoc.IterateLayerFiles([=](sai::VirtualFileEntry& LayerFile) {
 
@@ -101,12 +120,12 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
             LayerFile.Seek(LayerFile.Tell() + CurTagSize);
         }
 
-        if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer) {
+        if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer ||
+            static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
 
             if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
 
                 /********************/
-                // Visible
 
                 if(LayerHeader.Visible == 0)
                     return true;
@@ -114,35 +133,52 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
                 /********************/
 
                 // Load image from data
-                QImage i(reinterpret_cast<uchar*>(LayerPixels.get()), LayerHeader.Bounds.Width, LayerHeader.Bounds.Height, 4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied);
-
-                // load working image and start painter
-                QImage ret(cachename);
-                QPainter p(&ret);
-
-                /********************/
-                // Opacity
-
-                p.setOpacity(100./static_cast<double>(LayerHeader.Opacity));
-
-                /********************/
-                // PreserveOpacity
-
-                // TODO
+                QImage i(reinterpret_cast<uchar*>(LayerPixels.get()),
+                         LayerHeader.Bounds.Width, LayerHeader.Bounds.Height,
+                         4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied);
 
                 /********************/
                 // Blending
-
-                // TODO
-
+                //
+                // TODO?
+                //
                 /********************/
 
-                // add the current layer image with the given options
-                p.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
+                // Both PreserveOpacity and Clipping only apply the color if there is a non-transparent color below already
+                // The difference lies in that the former happens in the same layer whereas the latter happens in a seperate layer
+                // Since we are only interested in a flat rendered image we can treat them the same way.
+                if(LayerHeader.PreserveOpacity || LayerHeader.Clipping) {
 
-                // finish current step and write changes back to file
-                p.end();
-                ret.save(cachename);
+                    // value between 0 and 255
+                    int alpha = 2.55*LayerHeader.Opacity;
+
+                    for(int x = LayerHeader.Bounds.X; x < LayerHeader.Bounds.Width; ++x) {
+
+                        for(int y = LayerHeader.Bounds.Y; y < LayerHeader.Bounds.Height; ++y) {
+
+                            if(x < 0 || x > w-1 || y < 0 || y > h-1)
+                                continue;
+
+                            // not transparent -> set new pixel
+                            if(composedImage.pixelColor(x, y).alpha() != 0) {
+                                QColor col = i.pixelColor(x, y);
+                                col.setAlpha(alpha);
+                                composedImage.setPixelColor(x, y, col);
+                            }
+
+                        }
+
+                    }
+
+                } else {
+
+                    // simply draw image on top
+                    QPainter p(&composedImage);
+                    p.setOpacity(100./static_cast<double>(LayerHeader.Opacity));
+                    p.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
+                    p.end();
+
+                }
 
             }
         }
@@ -150,7 +186,25 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
         return true;
     });
 
-    img = QImage(cachename);
+    // make sure the background is all white
+    // we can't do it on the composedImage at the start as it would mess up the PreserveOpacity/Clipping option
+    img = QImage(w,h,QImage::Format_ARGB32);
+    img.fill(Qt::white);
+    QPainter p(&img);
+    p.drawImage(0, 0, composedImage);
+    p.end();
+
+    // make sure we fit the requested size
+    if(maxSize.width() != -1) {
+
+        QSize finalSize = origSize;
+
+        if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+            finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+
+        img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+
+    }
 
     return "";
 
@@ -165,22 +219,25 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
 #ifdef PQMLIBSAI
 
-std::unique_ptr<std::uint32_t[]>
-PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& LayerHeader, sai::VirtualFileEntry& LayerFile)
-{
-    const std::size_t TileSize    = 32u;
-    const std::size_t LayerTilesX = LayerHeader.Bounds.Width / TileSize;
-    const std::size_t LayerTilesY = LayerHeader.Bounds.Height / TileSize;
-    const auto Index2D = [](std::size_t X, std::size_t Y, std::size_t Stride) -> std::size_t {
+/*********************************************************************/
+// This function is based on ReadRasterLayer() function found in:
+// https://github.com/Wunkolo/libsai/blob/main/samples/Document.cpp
+std::unique_ptr<std::uint32_t[]> PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& layerHeader, sai::VirtualFileEntry& layerFile) {
+
+    const std::size_t tileSize    = 32u;
+    const std::size_t layerTilesX = layerHeader.Bounds.Width / tileSize;
+    const std::size_t layerTilesY = layerHeader.Bounds.Height / tileSize;
+    const auto index2D = [](std::size_t X, std::size_t Y, std::size_t Stride) -> std::size_t {
         return X + (Y * Stride);
     };
+
     // Do not use a std::vector<bool> as this is implemented as a specialized
     // type that does not implement individual bool values as bytes, but rather
     // as packed bits within a word.
 
     // Read TileMap
-    std::unique_ptr<std::byte[]> TileMap = std::make_unique<std::byte[]>(LayerTilesX * LayerTilesY);
-    LayerFile.Read({TileMap.get(), LayerTilesX * LayerTilesY});
+    std::unique_ptr<std::byte[]> tileMap = std::make_unique<std::byte[]>(layerTilesX * layerTilesY);
+    layerFile.Read({tileMap.get(), layerTilesX * layerTilesY});
 
     // The resulting raster image data for this layer, RGBA 32bpp interleaved
     // Use a vector to ensure that tiles with no data are still initialized
@@ -189,109 +246,112 @@ PQCLoadImageLibsai::ReadRasterLayer(const sai::LayerHeader& LayerHeader, sai::Vi
     // depth may actually only be true at run-time. All raster data found in
     // files are stored at 8bpc while only some run-time color arithmetic
     // converts to 16-bit
-    std::unique_ptr<std::uint32_t[]> LayerImage
-        = std::make_unique<std::uint32_t[]>(LayerHeader.Bounds.Width * LayerHeader.Bounds.Height);
+    std::unique_ptr<std::uint32_t[]> layerImage = std::make_unique<std::uint32_t[]>(layerHeader.Bounds.Width * layerHeader.Bounds.Height);
 
     // 32 x 32 Tile of B8G8R8A8 pixels
-    std::array<std::byte, 0x1000> CompressedTile   = {};
-    std::array<std::byte, 0x1000> DecompressedTile = {};
+    std::array<std::byte, 0x1000> compressedTile   = {};
+    std::array<std::byte, 0x1000> decompressedTile = {};
 
     // Iterate 32x32 tile chunks row by row
-    for( std::size_t y = 0; y < LayerTilesY; ++y )
-    {
-        for( std::size_t x = 0; x < LayerTilesX; ++x )
-        {
+    for(std::size_t y = 0; y < layerTilesY; ++y) {
+
+        for(std::size_t x = 0; x < layerTilesX; ++x) {
+
             // Process active Tiles
-            if( !std::to_integer<std::uint8_t>(TileMap[Index2D(x, y, LayerTilesX)]) )
+            if(!std::to_integer<std::uint8_t>(tileMap[index2D(x, y, layerTilesX)]))
                 continue;
 
-            std::uint8_t  CurChannel = 0;
+            std::uint8_t  curChannel = 0;
             std::uint16_t RLESize    = 0;
+
             // Iterate RLE streams for each channel
-            while( LayerFile.Read<std::uint16_t>(RLESize) == sizeof(std::uint16_t) )
-            {
-                assert(RLESize <= CompressedTile.size());
-                if( LayerFile.Read(std::span(CompressedTile).first(RLESize)) != RLESize )
-                {
+            while(layerFile.Read<std::uint16_t>(RLESize) == sizeof(std::uint16_t)) {
+
+                assert(RLESize <= compressedTile.size());
+
+                if(layerFile.Read(std::span(compressedTile).first(RLESize)) != RLESize) {
                     // Error reading RLE stream
                     break;
                 }
+
                 // Decompress and place into the appropriate interleaved channel
-                PQCLoadImageLibsai::RLEDecompressStride(
-                    DecompressedTile.data(), CompressedTile.data(), sizeof(std::uint32_t),
-                    0x1000 / sizeof(std::uint32_t), CurChannel
-                    );
-                ++CurChannel;
+                PQCLoadImageLibsai::RLEDecompressStride(decompressedTile.data(), compressedTile.data(),
+                                                        sizeof(std::uint32_t), 0x1000 / sizeof(std::uint32_t),
+                                                        curChannel);
+                ++curChannel;
+
                 // Skip all other channels besides the RGBA ones we care about
-                if( CurChannel >= 4 )
-                {
-                    for( std::size_t i = 0; i < 4; i++ )
-                    {
-                        RLESize = LayerFile.Read<std::uint16_t>();
-                        LayerFile.Seek(LayerFile.Tell() + RLESize);
+                if(curChannel >= 4) {
+
+                    for(std::size_t i = 0; i < 4; i++) {
+                        RLESize = layerFile.Read<std::uint16_t>();
+                        layerFile.Seek(layerFile.Tell() + RLESize);
                     }
+
                     break;
+
                 }
             }
 
             // Write 32x32 tile into final image
-            const std::uint32_t* ImageSource
-                = reinterpret_cast<const std::uint32_t*>(DecompressedTile.data());
+            const std::uint32_t* imageSource = reinterpret_cast<const std::uint32_t*>(decompressedTile.data());
+
             // Current 32x32 tile within final image
-            std::uint32_t* ImageDest
-                = LayerImage.get() + Index2D(x * TileSize, y * LayerHeader.Bounds.Width, TileSize);
-            for( std::size_t i = 0; i < (TileSize * TileSize); i++ )
-            {
-                std::uint32_t CurPixel = ImageSource[i];
-                ///
-                // Do any Per-Pixel processing you need to do here
-                ///
-                ImageDest[Index2D(i % TileSize, i / TileSize, LayerHeader.Bounds.Width)] = CurPixel;
+            std::uint32_t* imageDest = layerImage.get() + index2D(x * tileSize, y * layerHeader.Bounds.Width, tileSize);
+
+            for(std::size_t i = 0; i < (tileSize * tileSize); i++) {
+
+                std::uint32_t CurPixel = imageSource[i];
+                imageDest[index2D(i % tileSize, i / tileSize, layerHeader.Bounds.Width)] = CurPixel;
+
             }
         }
     }
-    return LayerImage;
+
+    return layerImage;
+
 }
 
-void PQCLoadImageLibsai::RLEDecompressStride(
-    std::byte* Destination, const std::byte* Source, std::size_t Stride, std::size_t StrideCount,
-    std::size_t Channel
-    )
-{
-    Destination += Channel;
-    std::size_t WriteCount = 0;
+/*********************************************************************/
+// This function is based on RLEDecompressStride() function found in:
+// https://github.com/Wunkolo/libsai/blob/main/samples/Document.cpp
+void PQCLoadImageLibsai::RLEDecompressStride(std::byte* destination, const std::byte* source, std::size_t stride, std::size_t strideCount, std::size_t channel) {
 
-    while( WriteCount < StrideCount )
-    {
-        std::uint8_t Length = std::to_integer<std::uint8_t>(*Source++);
-        if( Length == 128 ) // No-op
-        {
-        }
-        else if( Length < 128 ) // Copy
-        {
+    destination += channel;
+    std::size_t writeCount = 0;
+
+    while(writeCount < strideCount) {
+
+        std::uint8_t length = std::to_integer<std::uint8_t>(*source++);
+
+        // length == 128 is a no-op
+
+        if(length < 128) { // Copy
+
             // Copy the next Length+1 bytes
-            Length++;
-            WriteCount += Length;
-            while( Length )
-            {
-                *Destination = *Source++;
-                Destination += Stride;
-                Length--;
+            length++;
+            writeCount += length;
+
+            while(length) {
+                *destination = *source++;
+                destination += stride;
+                length--;
             }
-        }
-        else if( Length > 128 ) // Repeating byte
-        {
+
+        } else if(length > 128) { // Repeating byte
+
             // Repeat next byte exactly "-Length + 1" times
-            Length ^= 0xFF;
-            Length += 2;
-            WriteCount += Length;
-            std::byte Value = *Source++;
-            while( Length )
-            {
-                *Destination = Value;
-                Destination += Stride;
-                Length--;
+            length ^= 0xFF;
+            length += 2;
+            writeCount += length;
+            std::byte value = *source++;
+
+            while(length) {
+                *destination = value;
+                destination += stride;
+                length--;
             }
+
         }
     }
 }
