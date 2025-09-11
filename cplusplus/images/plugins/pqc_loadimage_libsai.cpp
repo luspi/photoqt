@@ -29,6 +29,8 @@
 #include <QPainter>
 #include <QCryptographicHash>
 
+// the iterator for the layers below treats all external variables as const
+// the only way to actually compose an image is to have it as a global static
 static QImage composedImage;
 
 PQCLoadImageLibsai::PQCLoadImageLibsai() {}
@@ -101,16 +103,16 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
     }
 
-    composedImage = QImage(w, h, QImage::Format_ARGB32);
+    composedImage = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
     composedImage.fill(Qt::transparent);
 
     saidoc.IterateLayerFiles([=](sai::VirtualFileEntry& LayerFile) {
 
         const sai::LayerHeader LayerHeader = LayerFile.Read<sai::LayerHeader>();
 
-        char _name[256] = {};
-        std::snprintf(_name, 256, "%08x", LayerHeader.Identifier);
-        QString name = QString::fromStdString(std::string(_name));
+        // If the current layer or the full current set is not visible, stop.
+        if(LayerHeader.Visible == 0)
+            return true;
 
         // Read serialization stream
         std::uint32_t CurTag;
@@ -120,17 +122,11 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
             LayerFile.Seek(LayerFile.Tell() + CurTagSize);
         }
 
+        // if this is a layer
         if(static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::Layer ||
-            static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
+           static_cast<sai::LayerType>(LayerHeader.Type) == sai::LayerType::RootLayer) {
 
             if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
-
-                /********************/
-
-                if(LayerHeader.Visible == 0)
-                    return true;
-
-                /********************/
 
                 // Load image from data
                 QImage i(reinterpret_cast<uchar*>(LayerPixels.get()),
