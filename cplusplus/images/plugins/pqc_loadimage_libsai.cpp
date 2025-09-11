@@ -73,11 +73,17 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
     int w = 0, h = 0;
     std::tie(w, h) = saidoc.GetCanvasSize();
 
-    QString baseCache = PQCConfigFiles::get().CACHE_DIR() + "/sai/" + hash;
+    QString baseCache = PQCConfigFiles::get().CACHE_DIR() + "/sai";
 
     QDir d(baseCache);
     if(!d.exists())
         d.mkpath(baseCache);
+
+    QString cachename = baseCache + "/" + hash + ".ppm";
+
+    QImage ret(w, h, QImage::Format_ARGB32);
+    ret.fill(Qt::transparent);
+    ret.save(cachename);
 
     saidoc.IterateLayerFiles([=](sai::VirtualFileEntry& LayerFile) {
 
@@ -99,32 +105,44 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
 
             if(auto LayerPixels = ReadRasterLayer(LayerHeader, LayerFile); LayerPixels) {
 
-                // this is the cached file name
-                QString fname = QString("%1/%2__%3x%4x%5x%6.ppm")
-                                    .arg(baseCache, name)
-                                    .arg(LayerHeader.Bounds.X).arg(LayerHeader.Bounds.Y)
-                                    .arg(LayerHeader.Bounds.Width).arg(LayerHeader.Bounds.Height);
+                /********************/
+                // Visible
 
-                // Load raw image file
+                if(LayerHeader.Visible == 0)
+                    return true;
+
+                /********************/
+
+                // Load image from data
                 QImage i(reinterpret_cast<uchar*>(LayerPixels.get()), LayerHeader.Bounds.Width, LayerHeader.Bounds.Height, 4*LayerHeader.Bounds.Width, QImage::Format_ARGB32_Premultiplied);
 
-                // remove any old files
-                if(QFile::exists(fname))
-                    QFile::remove(fname);
+                // load working image and start painter
+                QImage ret(cachename);
+                QPainter p(&ret);
 
-                // construct proper file with all properties set
-                QImage i2(LayerHeader.Bounds.Width, LayerHeader.Bounds.Height, QImage::Format_ARGB32_Premultiplied);
-                i2.fill(Qt::transparent);
+                /********************/
+                // Opacity
 
-                QPainter p(&i2);
+                p.setOpacity(100./static_cast<double>(LayerHeader.Opacity));
 
-                // set the opacity level
-                p.setOpacity(1./static_cast<double>(LayerHeader.Opacity));
+                /********************/
+                // PreserveOpacity
 
-                p.drawImage(0,0,i);
+                // TODO
+
+                /********************/
+                // Blending
+
+                // TODO
+
+                /********************/
+
+                // add the current layer image with the given options
+                p.drawImage(QRect(LayerHeader.Bounds.X, LayerHeader.Bounds.Y, LayerHeader.Bounds.Width, LayerHeader.Bounds.Height), i);
+
+                // finish current step and write changes back to file
                 p.end();
-
-                i2.save(fname);
+                ret.save(cachename);
 
             }
         }
@@ -132,30 +150,7 @@ QString PQCLoadImageLibsai::load(QString filename, QSize maxSize, QSize &origSiz
         return true;
     });
 
-    img = QImage(w, h, QImage::Format_ARGB32_Premultiplied);
-    img.fill(Qt::transparent);
-
-    QPainter painter(&img);
-
-    QDir dir(baseCache);
-    const QFileInfoList lst = dir.entryInfoList(QDir::Files|QDir::NoDotAndDotDot);
-    for(const QFileInfo &entry : lst) {
-
-        qWarning() << " >>> NAME:" << entry.baseName();
-        if(!entry.baseName().contains("__"))
-            continue;
-
-        QStringList _rect = entry.baseName().split("__")[1].split("x");
-        QRect rect(_rect[0].toInt(), _rect[1].toInt(), _rect[2].toInt(), _rect[3].toInt());
-
-        // qWarning() << "reading:" << entry.absoluteFilePath();
-
-        QImage i(entry.absoluteFilePath());
-        painter.drawImage(rect, i);
-
-    }
-
-    painter.end();
+    img = QImage(cachename);
 
     return "";
 
