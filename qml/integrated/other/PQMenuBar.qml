@@ -37,19 +37,17 @@ MenuBar {
         title: qsTr("&File")
 
         Action {
-            text: qsTr("&Open")
+            text: qsTr("&Open (browse images)")
             onTriggered: {
-                menu_file.close()
-                PQCNotify.loaderShow("filedialog")
+                PQCScriptsShortcuts.executeInternalCommand("__open")
             }
         }
 
         Action {
-            text: qsTr("&Rename")
-        }
-
-        Action {
-            text: qsTr("&Delete")
+            text: qsTr("&Settings manager")
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__settings")
+            }
         }
 
         MenuSeparator {}
@@ -57,7 +55,367 @@ MenuBar {
         Action {
             text: qsTr("&Quit")
             onTriggered: {
-                PQCNotify.photoQtQuit()
+                PQCScriptsShortcuts.executeInternalCommand("__quit")
+            }
+        }
+
+    }
+
+    Menu {
+
+        id: menu_navigation
+
+        title: qsTr("&Navigation")
+
+        MenuItem {
+            text: qsTr("&Next")
+            enabled: PQCFileFolderModel.countMainView>0
+            MouseArea{
+                anchors.fill: parent
+                onClicked:
+                    PQCScriptsShortcuts.executeInternalCommand("__next")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Previous")
+            enabled: PQCFileFolderModel.countMainView>0
+            MouseArea{
+                anchors.fill: parent
+                onClicked:
+                    PQCScriptsShortcuts.executeInternalCommand("__prev")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Last")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__goToLast")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&First")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__goToFirst")
+            }
+        }
+
+        MenuSeparator {}
+
+        MenuItem {
+            text: qsTr("&Open (browse images)")
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__open")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Map explorer")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
+            }
+        }
+
+    }
+
+    Menu {
+
+        id: menu_image
+
+        title: qsTr("&Image")
+
+        MenuItem {
+            text: qsTr("&Rename")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__rename")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Copy")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__copy")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Move")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__move")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Delete")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__delete")
+            }
+        }
+
+        MenuSeparator {}
+
+        Menu {
+            title: qsTr("&Zoom")
+            enabled: PQCFileFolderModel.countMainView>0
+            MenuItem {
+                id: zoomin
+                text: qsTr("&In")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__zoomIn")
+                }
+            }
+            MenuItem {
+                text: qsTr("&Out")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__zoomOut")
+                }
+            }
+            MenuItem {
+                text: qsTr("&100%")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__zoomActual")
+                }
+            }
+            MenuItem {
+                text: qsTr("&Reset")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__zoomReset")
+                }
+            }
+        }
+
+        Menu {
+            title: qsTr("&Rotate")
+            enabled: PQCFileFolderModel.countMainView>0
+            MenuItem {
+                text: qsTr("90° &clockwise")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__rotateR")
+                }
+            }
+            MenuItem {
+                text: qsTr("90° &anticlockwise")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__rotateL")
+                }
+            }
+            // MenuItem {
+            //     text: qsTr("&180°")
+            //     onTriggered: {
+            //         PQCScriptsShortcuts.executeInternalCommand("")
+            //     }
+            // }
+            MenuItem {
+                text: qsTr("&Reset")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__rotate0")
+                }
+            }
+        }
+
+        Menu {
+            title: qsTr("&Mirror")
+            enabled: PQCFileFolderModel.countMainView>0
+            MenuItem {
+                text: qsTr("Horizontal")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__flipH")
+                }
+            }
+            MenuItem {
+                text: qsTr("Vertical")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__flipV")
+                }
+            }
+            MenuItem {
+                text: qsTr("Reset")
+                enabled: PQCFileFolderModel.countMainView>0
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked:
+                        PQCScriptsShortcuts.executeInternalCommand("__flipReset")
+                }
+            }
+        }
+
+        MenuSeparator {}
+
+        // MenuItem {
+        //     text: qsTr("&Scale image")
+        //     onTriggered: {
+        //          // EXTENSION
+        //     }
+        // }
+
+        // MenuItem {
+        //     text: qsTr("&Crop image")
+        //     onTriggered: {
+        //          // EXTENSION
+        //     }
+        // }
+
+        MenuItem {
+            text: qsTr("&Tag faces")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__tagFaces")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Copy to clipboard")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__clipboard")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Detect QR/barcodes")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes")
+            }
+        }
+
+        // MenuItem {
+        //     text: qsTr("&Export to different format")
+        //     onTriggered: {
+        //         // EXTENSION
+        //     }
+        // }
+
+        // MenuItem {
+        //     text: qsTr("&Set as wallpaper")
+        //     onTriggered: {
+        //         // EXTENSION
+        //     }
+        // }
+
+        // MenuItem {
+        //     text: qsTr("&Histogram")
+        //     onTriggered: {
+        //         // EXTENSION
+        //     }
+        // }
+
+        // MenuItem {
+        //     text: qsTr("&Show on map")
+        //     onTriggered: {
+        //         // EXTENSION
+        //     }
+        // }
+
+    }
+
+    Menu {
+
+        id: menu_folder
+
+        title: qsTr("&Folder")
+
+        Menu {
+
+            title: "Slideshow"
+            enabled: PQCFileFolderModel.countMainView>0
+
+            MenuItem {
+                text: qsTr("&Setup")
+                enabled: PQCFileFolderModel.countMainView>0
+                onTriggered: {
+                    PQCScriptsShortcuts.executeInternalCommand("__slideshow")
+                }
+            }
+
+            MenuItem {
+                text: qsTr("&Quickstart")
+                enabled: PQCFileFolderModel.countMainView>0
+                onTriggered: {
+                    PQCScriptsShortcuts.executeInternalCommand("__slideshowQuick")
+                }
+            }
+
+        }
+
+        Menu {
+
+            title: "Advanced sort"
+            enabled: PQCFileFolderModel.countMainView>0
+
+            MenuItem {
+                text: qsTr("&Setup")
+                enabled: PQCFileFolderModel.countMainView>0
+                onTriggered: {
+                    PQCScriptsShortcuts.executeInternalCommand("__advancedSort")
+                }
+            }
+
+            MenuItem {
+                text: qsTr("&Quickstart")
+                enabled: PQCFileFolderModel.countMainView>0
+                onTriggered: {
+                    PQCScriptsShortcuts.executeInternalCommand("__advancedSortQuick")
+                }
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Filter images")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__filterImages")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Streaming (Chromecast)")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__chromecast")
+            }
+        }
+
+        MenuItem {
+            text: qsTr("&Open in default file manager")
+            enabled: PQCFileFolderModel.countMainView>0
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__defaultFileManager")
             }
         }
 
@@ -69,11 +427,17 @@ MenuBar {
 
         title: qsTr("&Help")
 
-        Action {
+        MenuItem {
+            text: qsTr("&Online help")
+            onTriggered: {
+                PQCScriptsShortcuts.executeInternalCommand("__onlineHelp")
+            }
+        }
+
+        MenuItem {
             text: qsTr("&About")
             onTriggered: {
-                PQCNotify.loaderShow("about")
-                menu_about.close()
+                PQCScriptsShortcuts.executeInternalCommand("__about")
             }
         }
 
