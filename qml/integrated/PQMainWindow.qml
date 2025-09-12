@@ -30,6 +30,11 @@ ApplicationWindow {
 
     id: toplevel
 
+    property string titleOverride: ""
+    title: titleOverride!="" ?
+               (titleOverride + " | PhotoQt") :
+               ((PQCFileFolderModel.currentFile==="" ? "" : (PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) + " | "))+ "PhotoQt")
+
     minimumWidth: 300
     minimumHeight: 200
 
@@ -65,7 +70,7 @@ ApplicationWindow {
         }
     }
 
-    // we store this with a delay to make sure the visibility properyt is properly updated
+    // we store this with a delay to make sure the visibility property is properly updated
     Timer {
         id: storeWindowGeometry
         interval: 200
@@ -361,9 +366,9 @@ ApplicationWindow {
             toplevel.close()
         }
 
-        // function onWindowTitleOverride(title : string) {
-        //     toplevel.titleOverride = title
-        // }
+        function onWindowTitleOverride(title : string) {
+            toplevel.titleOverride = title
+        }
 
         function onWindowStartSystemMove() {
             toplevel.startSystemMove()
