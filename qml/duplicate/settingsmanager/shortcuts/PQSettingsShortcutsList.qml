@@ -724,13 +724,6 @@ PQSetting {
 
     }
 
-    onResetToDefaults: {
-
-
-        PQCConstants.settingsManagerSettingChanged = false
-
-    }
-
     function handleEscape() {}
 
     function checkForChanges() {

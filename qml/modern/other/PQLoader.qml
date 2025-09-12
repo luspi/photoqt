@@ -56,7 +56,7 @@ Item {
             id: smmod
             onShowing: tmpl.showing()
             onHiding: tmpl.hiding()
-            content: PQSettingsManager2 {
+            content: PQSettingsManager {
                 id: tmpl
                 button1: smmod.button1
                 button2: smmod.button2
@@ -86,7 +86,7 @@ Item {
             onMaximizedUpdated: (m) => {
                 PQCWindowGeometry.settingsmanagerMaximized = m
             }
-            content: PQSettingsManager2 {
+            content: PQSettingsManager {
                 id: tmpl
                 button1: smpop.button1
                 button2: smpop.button2
