@@ -33,6 +33,8 @@ ToolBar {
     onHeightChanged:
         PQCConstants.footerHeight = height
 
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     RowLayout {
 
         anchors.fill: parent
@@ -44,14 +46,8 @@ ToolBar {
         }
 
         Label {
-            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
-            elide: Label.ElideMiddle
-            horizontalAlignment: Qt.AlignHCenter
-            verticalAlignment: Qt.AlignVCenter
-        }
-
-        Label {
-            text: "1920x1080"
+            id: statusinfo
+            visible: PQCFileFolderModel.countMainView>0
             elide: Label.ElideMiddle
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter
@@ -110,6 +106,130 @@ ToolBar {
             }
         }
 
+    }
+
+    Connections {
+
+        target: PQCFileFolderModel
+
+        function onCurrentIndexNoDelayChanged() {
+            ftr.craftString()
+        }
+
+        function onCountMainViewChanged() {
+            ftr.craftString()
+        }
+
+        function onCurrentFileNoDelayChanged() {
+            ftr.craftString()
+        }
+
+    }
+
+    Connections {
+
+        target: PQCConstants
+
+        function onCurrentImageResolutionChanged() {
+            ftr.craftString()
+        }
+
+        function onShowingPhotoSphereChanged() {
+            ftr.craftString()
+        }
+
+        function onDevicePixelRatioChanged() {
+            ftr.craftString()
+        }
+
+        function onCurrentImageScaleChanged() {
+            ftr.craftString()
+        }
+
+        function onCurrentImageRotationChanged() {
+            ftr.craftString()
+        }
+
+        function onColorProfileCacheChanged() {
+            ftr.craftString()
+        }
+
+    }
+
+    function craftString() {
+
+        if(PQCFileFolderModel.countMainView === 0) {
+            statusinfo.text = ""
+            return
+        }
+
+        console.warn(">>> PQCConstants.currentImageScale =", PQCConstants.currentImageScale)
+
+        if(isNaN(PQCConstants.currentImageScale)) {
+            retryForAdditionalInfo.restart()
+            return
+        }
+
+        var str = []
+
+        for(var i in PQCSettings.interfaceStatusInfoList) {
+
+            var cur = PQCSettings.interfaceStatusInfoList[i]
+
+            if(cur === "counter")
+                str.push((PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView)
+
+            else if(cur === "filename")
+                str.push(PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay))
+
+            else if(cur === "filepathname")
+                str.push(PQCFileFolderModel.currentFileNoDelay)
+
+            else if(cur === "resolution")
+                str.push(PQCConstants.currentImageResolution.width + " x " + PQCConstants.currentImageResolution.height)
+
+            else if(cur === "zoom") {
+                if(isNaN(PQCConstants.currentImageScale))
+                    str.push("---")
+                else
+                    str.push(Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" )
+            }
+
+            else if(cur === "rotation")
+                str.push((Math.round(PQCConstants.currentImageRotation)%360+360)%360 + "°")
+
+            else if(cur === "filesize")
+                str.push(PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay))
+
+            else if(cur === "colorprofile") {
+
+                var val = ""
+
+                if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) {
+                    val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay)
+                    if(val === "")
+                        val = qsTranslate("statusinfo", "unknown color profile")
+                } else
+                    val = PQCConstants.colorProfileCache[PQCFileFolderModel.currentFileNoDelay]
+
+                if(val !== undefined)
+                    str.push(val)
+                else
+                    str.push("<font color='"+pqtPaletteDisabled.text+"'>---</font>")
+
+            }
+
+        }
+
+        statusinfo.text = str.join("&nbsp;&nbsp;<font color='"+pqtPaletteDisabled.text+"'><b>|</b></font>&nbsp;&nbsp;")
+
+    }
+
+    Timer {
+        id: retryForAdditionalInfo
+        interval: 200
+        onTriggered:
+            ftr.craftString()
     }
 
     function checkFooterSpecialAction() {
