@@ -40,65 +40,36 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQPhotoSphereControls.qm
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFaceTracker.qml ${d}/PQFaceTagger.qml)
 
 
-SET(d "qml/duplicate/settingsmanager2")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager2.qml ${d}/PQSettingsTabs.qml)
+SET(d "qml/duplicate/settingsmanager")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager.qml ${d}/PQSettingsTabs.qml)
 
-SET(d "qml/duplicate/settingsmanager2/elements")
+SET(d "qml/duplicate/settingsmanager/elements")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsSeparator.qml ${d}/PQSetting.qml ${d}/PQSettingSubtitle.qml ${d}/PQSettingSpacer.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsResetButton.qml)
 
-SET(d "qml/duplicate/settingsmanager2/interface")
+SET(d "qml/duplicate/settingsmanager/interface")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceAccentColor.qml ${d}/PQSettingsInterfaceBackground.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceContextMenu.qml ${d}/PQSettingsInterfaceEdges.qml ${d}/PQSettingsInterfaceFontWeight.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceOverallInterface.qml ${d}/PQSettingsInterfaceNotification.qml ${d}/PQSettingsInterfacePopout.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsInterfaceStatusInfo.qml ${d}/PQSettingsInterfaceWindowButtons.qml ${d}/PQSettingsInterfaceWindowMode.qml)
 
-SET(d "qml/duplicate/settingsmanager2/imageview")
+SET(d "qml/duplicate/settingsmanager/imageview")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewCache.qml ${d}/PQSettingsImageViewImageProcessing.qml ${d}/PQSettingsImageViewMetadata.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewFaceTags.qml ${d}/PQSettingsImageViewFileList.qml ${d}/PQSettingsImageViewLook.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsImageViewShareOnline.qml ${d}/PQSettingsImageViewInteraction.qml)
 
-SET(d "qml/duplicate/settingsmanager2/thumbnails")
+SET(d "qml/duplicate/settingsmanager/thumbnails")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsThumbnailsBar.qml ${d}/PQSettingsThumbnailsImage.qml ${d}/PQSettingsThumbnailsInfo.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsThumbnailsManage.qml)
 
-SET(d "qml/duplicate/settingsmanager2/filetypes")
+SET(d "qml/duplicate/settingsmanager/filetypes")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesList.qml ${d}/PQSettingsFiletypesAnimated.qml ${d}/PQSettingsFiletypesArchives.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesDocuments.qml ${d}/PQSettingsFiletypesMotion.qml ${d}/PQSettingsFiletypesRAW.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsFiletypesSpheres.qml ${d}/PQSettingsFiletypesVideos.qml)
 
-SET(d "qml/duplicate/settingsmanager2/manage")
+SET(d "qml/duplicate/settingsmanager/manage")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.qml ${d}/PQSettingsManageTrayIcon.qml ${d}/PQSettingsManageManage.qml)
 
-SET(d "qml/duplicate/settingsmanager2/shortcuts")
+SET(d "qml/duplicate/settingsmanager/shortcuts")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsList.qml ${d}/PQSettingsShortcutsExtraMouse.qml ${d}/PQSettingsShortcutsExtraKeys.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsDetectNew.qml ${d}/PQSettingsShortcutsExternalShortcuts.qml ${d}/PQSettingsShortcutsDuplicateShortcuts.qml)
-
-
-SET(d "qml/duplicate/settingsmanager")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManager.qml ${d}/PQCategory.qml)
-
-SET(d "qml/duplicate/settingsmanager/popout")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManagerPopout.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/filetypes")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileTypesSettings.qml ${d}/PQBehaviorSettings.qml ${d}/PQAdvancedSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/imageview")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShareOnlineSettings.qml ${d}/PQImageSettings.qml ${d}/PQInteractionSettings.qml ${d}/PQFolderSettings.qml ${d}/PQMetadataSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/interface")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQBackgroundSettings.qml ${d}/PQContextMenuSettings.qml ${d}/PQPopoutSettings.qml ${d}/PQInterfaceSettings.qml)
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQStatusInfoSettings.qml ${d}/PQEdgesSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/shortcuts")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShortcutsSettings.qml ${d}/PQNewActionSettings.qml ${d}/PQNewShortcutSettings.qml ${d}/PQShortcutsBehaviorSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/thumbnails")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnailImageSettings.qml ${d}/PQAllThumbnailsSettings.qml ${d}/PQThumbnailManageSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/manage")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSessionSettings.qml ${d}/PQConfigurationSettings.qml)
-
-SET(d "qml/duplicate/settingsmanager/settings/other")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogSettings.qml ${d}/PQSlideshowSettings.qml ${d}/PQExtensionsSettings.qml)

@@ -1,5 +1,5 @@
 /**************************************************************************
- **                                                                      **
+ * *                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
@@ -19,44 +19,27 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
 import PQCImageFormats
-
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-// required top level properties for all settings:
-//
-// 1) property bool settingChanged
-// 2) property bool catchEscape
-// 3) function applyChanges()
-// 4) function revertChanges()
-// 5) function handleEscape()
+PQSetting {
 
-// settings in this file:
-// - all file types
+    id: set_fity
 
-Item {
-
-    id: setting_top
-
-    anchors.fill: parent
-    anchors.margins: 10
-
-    property bool settingsLoaded: false
-
-    property bool catchEscape: false
+    disabledAutoIndentation: true
+    addBlankSpaceBottom: false
 
     property string defaultSettings: ""
 
     SystemPalette { id: pqtPalette }
 
-    Column {
+    content: [
 
         Column {
 
@@ -70,7 +53,7 @@ Item {
 
                 spacing: 10
 
-                width: setting_top.width
+                width: set_fity.contentWidth
 
                 PQComboBox {
                     id: catCombo
@@ -102,13 +85,13 @@ Item {
 
                 function checkUncheck(checked : bool) {
                     if(catCombo.currentIndex === 0)
-                        setting_top.checkImg(checked)
+                        set_fity.checkImg(checked)
                     else if(catCombo.currentIndex === 1)
-                        setting_top.checkPac(checked)
+                        set_fity.checkPac(checked)
                     else if(catCombo.currentIndex === 2)
-                        setting_top.checkDoc(checked)
+                        set_fity.checkDoc(checked)
                     else if(catCombo.currentIndex === 3)
-                        setting_top.checkVid(checked)
+                        set_fity.checkVid(checked)
                     else
                         console.warn("Error: Unknown category selected:", catCombo.currentText)
                 }
@@ -123,7 +106,7 @@ Item {
                     //: As in "Enable every single file format PhotoQt can open in any category"
                     text: qsTranslate("settingsmanager", "Enable everything")
                     onClicked: {
-                        setting_top.checkAll()
+                        set_fity.checkAll()
                     }
                 }
 
@@ -161,49 +144,49 @@ Item {
 
                 PQLineEdit {
                     id: filter_desc
-                    width: setting_top.width/2
+                    width: set_fity.contentWidth/2 -5
                     placeholderText: qsTranslate("settingsmanager", "Search by description or file ending")
-                    Keys.onTabPressed: (event) => {
-                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
-                    }
-                    onPressed: (key, modifiers) => {
-                       if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                        else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                    }
+                    // Keys.onTabPressed: (event) => {
+                    //     PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
+                    // }
+                    // onPressed: (key, modifiers) => {
+                    //    if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
+                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                    //     else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
+                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                    // }
                 }
 
                 PQLineEdit {
                     id: filter_lib
-                    width: setting_top.width/2 -20
+                    width: set_fity.contentWidth/2 -5
                     placeholderText: qsTranslate("settingsmanager", "Search by image library or category")
-                    Keys.onTabPressed: (event) => {
-                        PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
-                    }
-                    onPressed: (key, modifiers) => {
-                        if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                        else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
-                            PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
-                    }
+                    // Keys.onTabPressed: (event) => {
+                    //     PQCNotify.loaderPassOn("keyEvent", [event.key, event.modifiers])
+                    // }
+                    // onPressed: (key, modifiers) => {
+                    //     if(key === Qt.Key_S && modifiers === Qt.ControlModifier)
+                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                    //     else if(key === Qt.Key_R && modifiers === Qt.ControlModifier)
+                    //         PQCNotify.loaderPassOn("keyEvent", [key, modifiers])
+                    // }
                 }
             }
 
-        }
+        },
 
-        PQSettingsSeparator {}
+        // // PQSettingsSeparator {}
 
         ListView {
 
             id: listview
 
-            width: setting_top.width
-            height: setting_top.height-topcol.height
+            width: set_fity.contentWidth
+            height: set_fity.availableHeight - topcol.height - set_fity.contentSpacing - 10
 
             property list<var> ft: []
             onFtChanged:
-                setting_top.checkDefault()
+                set_fity.checkForChanges()
 
             clip: true
 
@@ -227,7 +210,7 @@ Item {
 
                     required property int modelData
 
-                    width: setting_top.width
+                    width: set_fity.contentWidth
 
                     clip: true
 
@@ -338,12 +321,7 @@ Item {
 
         }
 
-    }
-
-    Component.onCompleted:
-        load()
-
-    function handleEscape() {}
+    ]
 
     function checkAll() {
         checkImg(true)
@@ -400,9 +378,12 @@ Item {
         return str
     }
 
-    function checkDefault() {
+    function handleEscape() {}
+
+    function checkForChanges() {
 
         if(!settingsLoaded) return
+
         if(PQCSettings.generalAutoSaveSettings) {
             applyChanges()
             return
@@ -410,23 +391,28 @@ Item {
 
         var chk = composeChecker()
         PQCConstants.settingsManagerSettingChanged = (chk !== defaultSettings)
+
     }
 
     function load() {
+
+        settingsLoaded = false
+
         listview.ft = PQCImageFormats.getAllFormats()
         defaultSettings = composeChecker()
+
         PQCConstants.settingsManagerSettingChanged = false
         settingsLoaded = true
+
     }
 
     function applyChanges() {
+
         PQCImageFormats.setAllFormats(listview.ft)
         defaultSettings = composeChecker()
-        PQCConstants.settingsManagerSettingChanged = false
-    }
 
-    function revertChanges() {
-        load()
+        PQCConstants.settingsManagerSettingChanged = false
+
     }
 
 }

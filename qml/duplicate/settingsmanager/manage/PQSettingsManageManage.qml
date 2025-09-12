@@ -208,8 +208,6 @@ PQSetting {
 
     ]
 
-    onResetToDefaults: {}
-
     function handleEscape() {}
 
     function checkForChanges() {}
