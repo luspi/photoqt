@@ -526,8 +526,8 @@ PQSetting {
         PQCSettings.interfaceStatusInfoShow = status_show.checked
 
         var opts = []
-        for(var i = 0; i < model.count; ++i)
-            opts.push(model.get(i).name)
+        for(var i = 0; i < themodel.count; ++i)
+            opts.push(themodel.get(i).name)
         // a line like this is needed. it seems like opts needs to be accessed for the value passed
         // on to PQCSettings to not be empty on older versions of Qt.
         console.log("new status info options:", opts)
