@@ -1942,11 +1942,24 @@ Loader {
                         onTriggered: {
                             if(PQCSettings.imageviewHideCursorTimeout === 0)
                                 return
-                            if(PQCConstants.isContextmenuOpen("globalcontextmenu"))
+                            if(PQCConstants.isContextmenuOpen("globalcontextmenu") || PQCConstants.idOfVisibleItem !== "")
                                 hidecursor.restart()
                             else
                                 imagemouse.cursorShape = Qt.BlankCursor
                         }
+                    }
+
+                    Connections {
+
+                        target: PQCConstants
+
+                        function onIdOfVisibleItemChanged() {
+                            if(PQCConstants.idOfVisibleItem !== "") {
+                                imagemouse.cursorShape = Qt.ArrowCursor
+                                hidecursor.restart()
+                            }
+                        }
+
                     }
 
                 }
