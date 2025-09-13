@@ -35,7 +35,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowH
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
 
 SET(d "qml/modern/ongoing/popout")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)

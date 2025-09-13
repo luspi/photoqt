@@ -99,6 +99,13 @@ Item {
         }
     }
 
+    Loader {
+        id: loader_notification
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQNotification {}
+    }
+
     Connections {
 
         target: PQCNotify
@@ -119,6 +126,12 @@ Item {
                 PQCConstants.idOfVisibleItem = "SettingsManager"
             }
 
+        }
+
+        function onShowNotificationMessage(title : string, msg : string) {
+            if(!loader_notification.active)
+                loader_notification.active = true
+            PQCNotify.loaderPassOn("show", ["notification", [title, msg]])
         }
 
         function onLoaderRegisterOpen(ele : string) {

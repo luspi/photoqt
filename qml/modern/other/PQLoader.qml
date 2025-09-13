@@ -444,6 +444,8 @@ Item {
         target: PQCNotify
 
         function onShowNotificationMessage(title : string, msg : string) {
+            if(!loader_notification.active)
+                loader_notification.active = true
             loader_top.show("notification", [title, msg])
         }
 
