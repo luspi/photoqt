@@ -22,7 +22,7 @@ SET(d "qml/duplicate/filedialog/popout")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/duplicate/ongoing")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnails.qml ${d}/PQTrayIcon.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnails.qml ${d}/PQTrayIcon.qml ${d}/PQContextMenu.qml)
 
 SET(d "qml/duplicate/other")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShortcuts.qml ${d}/PQMultiEffect.qml ${d}/PQShadowEffect.qml ${d}/PQWorking.qml)
