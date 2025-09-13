@@ -42,7 +42,6 @@ PQCLook::PQCLook() : QObject() {
 
     m_fontWeightNormal = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontNormalWeight()));
     m_fontWeightBold = std::min(900, std::max(100, PQCSettingsCPP::get().getInterfaceFontBoldWeight()));
-    qWarning() << ">>> m_fontWeightBold =" << m_fontWeightBold;
 
     lightness_threshold = 96;
 
@@ -124,11 +123,12 @@ PQCLook::~PQCLook() { }
 
 void PQCLook::calculateColors(QString name) {
 
+    qDebug() << "args: name =" << name;
+
     if(!m_interfaceModernVariant) {
 
         m_iconShade = "dark";
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-        qWarning() << ">>>" << qApp->styleHints()->colorScheme();
         if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Dark)
             m_iconShade = "light";
         else if(qApp->styleHints()->colorScheme() == Qt::ColorScheme::Unknown) {
