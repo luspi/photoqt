@@ -25,16 +25,16 @@ import QtQuick.Controls
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
-ApplicationWindow {
+PQTemplate {
 
     id: about_top
 
     title: "About PhotoQt"
 
+    elementId: "about"
+
     width: 640
     height: 640
-
-    modality: Qt.ApplicationModal
 
     property bool configShown: false
     signal showConfig()
@@ -42,107 +42,117 @@ ApplicationWindow {
 
     SystemPalette { id: pqtPalette }
 
-    Flickable {
+    Connections {
+        target: button1
+        function onClicked() {
+            about_top.hide()
+        }
+    }
 
-        anchors.fill: parent
-        anchors.bottomMargin: closebutton.height+25
-        contentHeight: about_col.height+20
+    content: [
 
-        clip: true
+        Flickable {
 
-        ScrollBar.vertical: ScrollBar {}
+            width: about_top.width
+            height: about_top.height
 
-        Column {
+            contentHeight: col.height
 
-            id: about_col
+            Column {
 
-            width: parent.width
+                id: col
 
-            spacing: 5
+                spacing: 5
 
-            Image {
-                x: (parent.width-width)/2
-                width: 400
-                height: 400
-                fillMode: Image.PreserveAspectFit
-                source: "image://svg/:/other/logo_full.svg"
-            }
-
-            PQTextL {
-                x: (parent.width-width)/2
-                property date currentDate: new Date()
-                text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
-                textFormat: Text.RichText
-            }
-
-            PQButton {
-                id: configbutton
-                x: (parent.width-width)/2
-                text: "PhotoQt v" + PQCScriptsConfig.getVersion()
-                //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
-                onClicked: {
-                    if(!configloader.active)
-                        configloader.active = true
-                    else
-                        about_top.showConfig()
-                }
-                property string txt: qsTranslate("about", "Show configuration overview")
-                onHoveredChanged: {
-                    if(hovered && txt !== "")
-                        ttip.showToolTip(txt, mapToGlobal(configbutton.width/2, 0))
-                    else
-                        ttip.hide()
+                Image {
+                    x: (about_top.width-width)/2
+                    width: 300
+                    height: 300
+                    fillMode: Image.PreserveAspectFit
+                    source: "image://svg/:/other/logo_full.svg"
                 }
 
-            }
-
-            PQText {
-                x: (parent.width-width)/2
-                text: qsTranslate("about", "License:") + " GPL 2+"
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("about", "Open license in browser")
-                    onClicked:
-                        Qt.openUrlExternally("http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
+                Item {
+                    width: 1
+                    height: -20
                 }
-            }
 
-            Item {
-                width: 1
-                height: 1
-            }
-
-            PQText {
-                x: (parent.width-width)/2
-                text: qsTranslate("about", "Website:") + " https://photoqt.org"
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("about", "Open website in browser")
-                    onClicked:
-                        Qt.openUrlExternally("https://photoqt.org")
+                PQTextL {
+                    x: (about_top.width-width)/2
+                    property date currentDate: new Date()
+                    text: "&copy; 2011-" + Qt.formatDateTime(new Date(), "yyyy") + " Lukas Spies"
+                    textFormat: Text.RichText
                 }
-            }
 
-            PQText {
-                x: (parent.width-width)/2
-                text: qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
-                PQMouseArea {
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: qsTranslate("about", "Send an email")
-                    onClicked:
-                        Qt.openUrlExternally("mailto:Lukas@photoqt.org")
+                PQButton {
+                    id: configbutton
+                    x: (about_top.width-width)/2
+                    text: "PhotoQt v" + PQCScriptsConfig.getVersion()
+                    //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
+                    onClicked: {
+                        if(!configloader.active)
+                            configloader.active = true
+                        else
+                            about_top.showConfig()
+                    }
+                    property string txt: qsTranslate("about", "Show configuration overview")
+                    onHoveredChanged: {
+                        if(hovered && txt !== "")
+                            ttip.showToolTip(txt, mapToGlobal(configbutton.width/2, 0))
+                        else
+                            ttip.hide()
+                    }
+
                 }
-            }
 
+                PQText {
+                    x: (about_top.width-width)/2
+                    text: qsTranslate("about", "License:") + " GPL 2+"
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("about", "Open license in browser")
+                        onClicked:
+                            Qt.openUrlExternally("http://www.gnu.org/licenses/old-licenses/gpl-2.0.txt")
+                    }
+                }
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                PQText {
+                    x: (about_top.width-width)/2
+                    text: qsTranslate("about", "Website:") + " https://photoqt.org"
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("about", "Open website in browser")
+                        onClicked:
+                            Qt.openUrlExternally("https://photoqt.org")
+                    }
+                }
+
+                PQText {
+                    x: (about_top.width-width)/2
+                    text: qsTranslate("about", "Contact:") + " Lukas@photoqt.org"
+                    PQMouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        text: qsTranslate("about", "Send an email")
+                        onClicked:
+                            Qt.openUrlExternally("mailto:Lukas@photoqt.org")
+                    }
+                }
+
+            }
         }
 
-    }
+    ]
 
     Loader {
         id: configloader
@@ -245,23 +255,6 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
-        y: closebutton.y-5
-        width: parent.width
-        height: 1
-        color: pqtPalette.text
-    }
-
-    PQButton {
-        id: closebutton
-        x: (parent.width-width)/2
-        y: (parent.height-height-10)
-        text: "Close"
-        onClicked: {
-            about_top.hide()
-        }
-    }
-
     PQToolTipDisplay { id: ttip }
 
     onVisibleChanged: {
@@ -271,18 +264,9 @@ ApplicationWindow {
             PQCConstants.idOfVisibleItem = ""
     }
 
-    Component.onCompleted:
-        about_top.show()
-
     Connections {
 
         target: PQCNotify
-
-        function onLoaderShow(ele : string) {
-            if(ele === "about") {
-                about_top.show()
-            }
-        }
 
         function onLoaderPassOn(what : string, param : list<var>) {
 

@@ -32,7 +32,36 @@ Item {
     Loader {
         id: loader_about
         active: false
-        sourceComponent: PQAbout {}
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.aboutGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.aboutMaximized = m
+            }
+            content: PQAbout {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
     }
 
     Loader {
