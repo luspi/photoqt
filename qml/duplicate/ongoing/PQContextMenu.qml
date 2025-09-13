@@ -22,8 +22,11 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
+
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
 
 Loader {
 
@@ -45,40 +48,40 @@ Loader {
 
             property list<string> availableColorProfiles: []
 
-            property var customentries: PQCScriptsContextMenu.getEntries() 
+            property var customentries: PQCScriptsContextMenu.getEntries()
 
         }
 
         PQMenuItem {
             id: renitem
-            iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg" 
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/rename.svg"
             text: qsTranslate("contextmenu", "Rename file")
             onTriggered:
-                PQCScriptsShortcuts.executeInternalCommand("__rename") 
+                PQCScriptsShortcuts.executeInternalCommand("__rename")
         }
 
         PQMenuItem {
             id: copitem
-            iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg" 
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/copy.svg"
             text: qsTranslate("contextmenu", "Copy file")
             onTriggered:
-                PQCScriptsShortcuts.executeInternalCommand("__copy") 
+                PQCScriptsShortcuts.executeInternalCommand("__copy")
         }
 
         PQMenuItem {
             id: movitem
-            iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg" 
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/move.svg"
             text: qsTranslate("contextmenu", "Move file")
             onTriggered:
-                PQCScriptsShortcuts.executeInternalCommand("__move") 
+                PQCScriptsShortcuts.executeInternalCommand("__move")
         }
 
         PQMenuItem {
             id: delitem
-            iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg" 
+            iconSource: "image://svg/:/" + PQCLook.iconShade + "/delete.svg"
             text: qsTranslate("contextmenu", "Delete file")
             onTriggered:
-                PQCScriptsShortcuts.executeInternalCommand("__deleteTrash") 
+                PQCScriptsShortcuts.executeInternalCommand("__deleteTrash")
         }
 
         PQMenuSeparator {}
@@ -90,27 +93,27 @@ Loader {
             title: qsTranslate("contextmenu", "Manipulate image")
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/scale.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/scale.svg"
                 text: qsTranslate("contextmenu", "Scale image")
-                enabled: !PQCConstants.showingPhotoSphere 
+                enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__scale") 
+                    PQCScriptsShortcuts.executeInternalCommand("__scale")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/crop.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/crop.svg"
                 text: qsTranslate("contextmenu", "Crop image")
-                enabled: !PQCConstants.showingPhotoSphere 
+                enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__crop") 
+                    PQCScriptsShortcuts.executeInternalCommand("__crop")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/faces.svg"
                 text: qsTranslate("contextmenu", "Tag faces")
-                enabled: !PQCConstants.showingPhotoSphere 
+                enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__tagFaces") 
+                    PQCScriptsShortcuts.executeInternalCommand("__tagFaces")
             }
 
         }
@@ -122,36 +125,36 @@ Loader {
             title: qsTranslate("contextmenu", "Use image")
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/clipboard.svg"
                 text: qsTranslate("contextmenu", "Copy to clipboard")
                 onTriggered: {
-                    PQCScriptsShortcuts.executeInternalCommand("__clipboard") 
+                    PQCScriptsShortcuts.executeInternalCommand("__clipboard")
                 }
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/convert.svg"
                 text: qsTranslate("contextmenu", "Export to different format")
-                enabled: !PQCConstants.showingPhotoSphere 
+                enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__export") 
+                    PQCScriptsShortcuts.executeInternalCommand("__export")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/wallpaper.svg"
                 text: qsTranslate("contextmenu", "Set as wallpaper")
-                enabled: !PQCConstants.showingPhotoSphere 
+                enabled: !PQCConstants.showingPhotoSphere
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__wallpaper") 
+                    PQCScriptsShortcuts.executeInternalCommand("__wallpaper")
             }
 
             Repeater {
-                model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0 
+                model: PQCScriptsConfig.isZXingSupportEnabled() ? 1 : 0
                 PQMenuItem {
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg" 
-                    text: PQCConstants.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes") 
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/qrcode.svg"
+                    text: PQCConstants.barcodeDisplayed ? qsTranslate("contextmenu", "Hide QR/barcodes") : qsTranslate("contextmenu", "Detect QR/barcodes")
                     onTriggered:
-                        PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes") 
+                        PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes")
                 }
             }
 
@@ -164,19 +167,19 @@ Loader {
             title: qsTranslate("contextmenu", "About image")
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/histogram.svg"
                 text: qsTranslate("contextmenu", "Show histogram")
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__histogram") 
+                    PQCScriptsShortcuts.executeInternalCommand("__histogram")
             }
 
             Repeater {
-                model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0 
+                model: PQCScriptsConfig.isLocationSupportEnabled() ? 1 : 0
                 PQMenuItem {
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" 
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg"
                     text: qsTranslate("contextmenu", "Show on map")
                     onTriggered:
-                        PQCScriptsShortcuts.executeInternalCommand("__showMapCurrent") 
+                        PQCScriptsShortcuts.executeInternalCommand("__showMapCurrent")
                 }
             }
 
@@ -194,13 +197,13 @@ Loader {
                 enabled: menutop.currentFileSupportsColorSpaces
                 title: qsTranslate("contextmenu", "Select color profile")
                 onAboutToShow: {
-                    cont.availableColorProfiles = PQCScriptsColorProfiles.getColorProfileDescriptions() 
+                    cont.availableColorProfiles = PQCScriptsColorProfiles.getColorProfileDescriptions()
                 }
                 PQMenuItem {
                     text: qsTranslate("contextmenu", "Default color profile")
                     font.bold: true
                     onTriggered: {
-                        PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1) 
+                        PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, -1)
                         PQCNotify.currentImageReload()
                         PQCFileFolderModel.currentFileChanged()
                     }
@@ -214,10 +217,10 @@ Loader {
                         id: deleg
                         required property int modelData
                         text: cont.availableColorProfiles[modelData]
-                        visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1 
+                        visible: PQCSettings.imageviewColorSpaceContextMenu.indexOf(PQCScriptsColorProfiles.getColorProfileID(modelData))>-1
                         height: visible ? 40 : 0
                         onTriggered: {
-                            PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData) 
+                            PQCScriptsColorProfiles.setColorProfile(PQCFileFolderModel.currentFile, deleg.modelData)
                             PQCNotify.currentImageReload()
                             PQCFileFolderModel.currentFileChanged()
                         }
@@ -243,31 +246,31 @@ Loader {
             title: qsTranslate("contextmenu", "Manage PhotoQt")
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/browse.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/browse.svg"
                 text: qsTranslate("contextmenu", "Browse images")
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__open") 
+                    PQCScriptsShortcuts.executeInternalCommand("__open")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/mapmarker.svg"
                 text: qsTranslate("contextmenu", "Map Explorer")
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer") 
+                    PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 text: qsTranslate("contextmenu", "Open settings manager")
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__settings") 
+                    PQCScriptsShortcuts.executeInternalCommand("__settings")
             }
 
             PQMenuItem {
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg" 
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/quit.svg"
                 text: qsTranslate("contextmenu", "Quit")
                 onTriggered:
-                    PQCScriptsShortcuts.executeInternalCommand("__quit") 
+                    PQCScriptsShortcuts.executeInternalCommand("__quit")
             }
         }
 
@@ -283,7 +286,7 @@ Loader {
                 parent: renitem.parent
                 // This needs to be a var and not a list<var> otherwise the entries will not load
                 property var entry: cont.customentries[modelData]
-                iconSource: entry[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + entry[0]) 
+                iconSource: entry[0]==="" ? ("image://svg/:/" + PQCLook.iconShade + "/application.svg") : ("data:image/png;base64," + entry[0])
                 text: entry[2]+""
                 onTriggered: {
                     if(entry[1].startsWith("__"))

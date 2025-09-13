@@ -126,12 +126,12 @@ Loader {
 
         /******************************************/
 
-        // Loader {
-        //     id: loader_contextmenu
-        //     active: masteritem.readyToContinueLoading
-        //     asynchronous: true
-        //     source: "../ongoing/PQContextMenu.qml"
-        // }
+        Loader {
+            id: loader_contextmenu
+            active: masteritem.readyToContinueLoading
+            asynchronous: true
+            sourceComponent: PQContextMenu {}
+        }
 
         /******************************************/
 

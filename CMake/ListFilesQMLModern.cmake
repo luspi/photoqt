@@ -33,7 +33,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindowBackground.qml ${d
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/modern/ongoing")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQContextMenu.qml ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQNotification.qml ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
 
