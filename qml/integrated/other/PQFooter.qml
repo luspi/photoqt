@@ -42,7 +42,7 @@ ToolBar {
 
         Label {
             visible: PQCFileFolderModel.countMainView===0
-            text: "Click anywhere to open a file"
+            text: qsTranslate("other", "Click anywhere to open a file")
         }
 
         Label {
@@ -163,8 +163,6 @@ ToolBar {
             return
         }
 
-        console.warn(">>> PQCConstants.currentImageScale =", PQCConstants.currentImageScale)
-
         if(isNaN(PQCConstants.currentImageScale)) {
             retryForAdditionalInfo.restart()
             return
@@ -239,19 +237,23 @@ ToolBar {
         if(PQCConstants.faceTaggingMode) {
 
             specialaction.whatisit = "facetagging"
-            specialaction.text = "Exit face tagging mode"
+            specialaction.text = qsTranslate("other", "Exit face tagging mode")
             specialaction.visible = true
 
         } else if(PQCConstants.currentImageIsPhotoSphere && !PQCSettings.filetypesPhotoSphereAutoLoad && !PQCConstants.slideshowRunning) {
 
             specialaction.whatisit = "photosphere"
-            specialaction.text = Qt.binding(function() { return (PQCConstants.showingPhotoSphere ? "Exit photo sphere" : "Enter photo sphere") })
+            specialaction.text = Qt.binding(function() { return (PQCConstants.showingPhotoSphere ?
+                                                                     qsTranslate("other", "Exit photo sphere") :
+                                                                     qsTranslate("other", "Enter photo sphere")) })
             specialaction.visible = true
 
         } else if(PQCConstants.currentImageIsArchive || PQCConstants.currentImageIsDocument) {
 
             specialaction.whatisit = "viewermode"
-            specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ? "Exit viewer mode" : "Enter viewer mode") })
+            specialaction.text = Qt.binding(function() { return (PQCFileFolderModel.activeViewerMode ?
+                                                                     qsTranslate("other", "Exit viewer mode") :
+                                                                     qsTranslate("other", "Enter viewer mode")) })
             specialaction.visible = true
 
         }
