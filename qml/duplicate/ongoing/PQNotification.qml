@@ -21,16 +21,19 @@
  **************************************************************************/
 
 import QtQuick
+
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
 
 Item {
 
     id: notification_top
 
     // we fall back to top right location if state is invalid
-    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge 
-    y: PQCSettings.interfaceNotificationDistanceFromEdge 
+    x: PQCConstants.windowWidth-width-PQCSettings.interfaceNotificationDistanceFromEdge
+    y: PQCSettings.interfaceNotificationDistanceFromEdge
 
     width: contcol.width+30
     height: contcol.height+30
@@ -116,6 +119,8 @@ Item {
     Rectangle {
         anchors.fill: parent
         color: pqtPalette.base
+        border.width: 2
+        border.color: PQCLook.baseBorder
         radius: 15
         opacity: 0.8
     }
@@ -130,13 +135,19 @@ Item {
         x: 15
         y: 15
 
+        // sometimes for no reason the top loses its property binding
+        onWidthChanged:
+            notification_top.width = Qt.binding(function() { return contcol.width+30 })
+        onHeightChanged:
+            notification_top.height = Qt.binding(function() { return contcol.height+30 })
+
         spacing: 5
 
         PQTextS {
             id: tit
             visible: text!==""
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold 
+            font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {
@@ -148,7 +159,7 @@ Item {
         PQText {
             id: txt
             width: Math.min(300, contentWidth)
-            font.weight: PQCLook.fontWeightBold 
+            font.weight: PQCLook.fontWeightBold
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: ""
             onTextChanged: {

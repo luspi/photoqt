@@ -150,6 +150,7 @@ ApplicationWindow {
 
     Loader {
         id: masterloader
+        anchors.fill: parent
         asynchronous: true
         sourceComponent: PQLoader {}
     }
