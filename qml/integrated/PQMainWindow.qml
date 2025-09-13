@@ -352,11 +352,6 @@ ApplicationWindow {
 
         }
 
-        // function onSetWindowState(state : int) {
-        //     setStateTimer.newstate = state
-        //     setStateTimer.restart()
-        // }
-
         function onWindowRaiseAndFocus() {
             toplevel.raise()
             toplevel.requestActivate()
