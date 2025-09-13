@@ -34,17 +34,17 @@ MenuBar {
 
         id: menu_file
 
-        title: qsTr("&File")
+        title: qsTranslate("other", "&File")
 
         Action {
-            text: qsTr("&Open (browse images)")
+            text: qsTranslate("other", "&Open (browse images)")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__open")
             }
         }
 
         Action {
-            text: qsTr("&Settings manager")
+            text: qsTranslate("other", "&Settings manager")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__settings")
             }
@@ -53,7 +53,7 @@ MenuBar {
         MenuSeparator {}
 
         Action {
-            text: qsTr("&Quit")
+            text: qsTranslate("other", "&Quit")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__quit")
             }
@@ -65,10 +65,10 @@ MenuBar {
 
         id: menu_navigation
 
-        title: qsTr("&Navigation")
+        title: qsTranslate("other", "&Navigation")
 
         MenuItem {
-            text: qsTr("&Next")
+            text: qsTranslate("other", "&Next")
             enabled: PQCFileFolderModel.countMainView>0
             MouseArea{
                 anchors.fill: parent
@@ -78,7 +78,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Previous")
+            text: qsTranslate("other", "&Previous")
             enabled: PQCFileFolderModel.countMainView>0
             MouseArea{
                 anchors.fill: parent
@@ -88,7 +88,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Last")
+            text: qsTranslate("other", "&Last")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__goToLast")
@@ -96,7 +96,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&First")
+            text: qsTranslate("other", "&First")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__goToFirst")
@@ -106,14 +106,14 @@ MenuBar {
         MenuSeparator {}
 
         MenuItem {
-            text: qsTr("&Open (browse images)")
+            text: qsTranslate("other", "&Open (browse images)")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__open")
             }
         }
 
         MenuItem {
-            text: qsTr("&Map explorer")
+            text: qsTranslate("other", "&Map explorer")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
@@ -126,10 +126,10 @@ MenuBar {
 
         id: menu_image
 
-        title: qsTr("&Image")
+        title: qsTranslate("other", "&Image")
 
         MenuItem {
-            text: qsTr("&Rename")
+            text: qsTranslate("other", "&Rename")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__rename")
@@ -137,7 +137,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Copy")
+            text: qsTranslate("other", "&Copy")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__copy")
@@ -145,7 +145,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Move")
+            text: qsTranslate("other", "&Move")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__move")
@@ -153,7 +153,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Delete")
+            text: qsTranslate("other", "&Delete")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__delete")
@@ -163,11 +163,11 @@ MenuBar {
         MenuSeparator {}
 
         Menu {
-            title: qsTr("&Zoom")
+            title: qsTranslate("other", "&Zoom")
             enabled: PQCFileFolderModel.countMainView>0
             MenuItem {
                 id: zoomin
-                text: qsTr("&In")
+                text: qsTranslate("other", "&In")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -176,7 +176,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("&Out")
+                text: qsTranslate("other", "&Out")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -185,7 +185,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("&100%")
+                text: qsTranslate("other", "&100%")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -194,7 +194,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("&Reset")
+                text: qsTranslate("other", "&Reset")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -205,10 +205,10 @@ MenuBar {
         }
 
         Menu {
-            title: qsTr("&Rotate")
+            title: qsTranslate("other", "&Rotate")
             enabled: PQCFileFolderModel.countMainView>0
             MenuItem {
-                text: qsTr("90° &clockwise")
+                text: qsTranslate("other", "90° &clockwise")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -217,7 +217,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("90° &anticlockwise")
+                text: qsTranslate("other", "90° &anticlockwise")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -226,13 +226,13 @@ MenuBar {
                 }
             }
             // MenuItem {
-            //     text: qsTr("&180°")
+            //     text: qsTranslate("other", "&180°")
             //     onTriggered: {
             //         PQCScriptsShortcuts.executeInternalCommand("")
             //     }
             // }
             MenuItem {
-                text: qsTr("&Reset")
+                text: qsTranslate("other", "&Reset")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -243,10 +243,10 @@ MenuBar {
         }
 
         Menu {
-            title: qsTr("&Mirror")
+            title: qsTranslate("other", "&Mirror")
             enabled: PQCFileFolderModel.countMainView>0
             MenuItem {
-                text: qsTr("Horizontal")
+                text: qsTranslate("other", "Horizontal")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -255,7 +255,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("Vertical")
+                text: qsTranslate("other", "Vertical")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -264,7 +264,7 @@ MenuBar {
                 }
             }
             MenuItem {
-                text: qsTr("Reset")
+                text: qsTranslate("other", "Reset")
                 enabled: PQCFileFolderModel.countMainView>0
                 MouseArea{
                     anchors.fill: parent
@@ -277,21 +277,21 @@ MenuBar {
         MenuSeparator {}
 
         // MenuItem {
-        //     text: qsTr("&Scale image")
+        //     text: qsTranslate("other", "&Scale image")
         //     onTriggered: {
         //          // EXTENSION
         //     }
         // }
 
         // MenuItem {
-        //     text: qsTr("&Crop image")
+        //     text: qsTranslate("other", "&Crop image")
         //     onTriggered: {
         //          // EXTENSION
         //     }
         // }
 
         MenuItem {
-            text: qsTr("&Tag faces")
+            text: qsTranslate("other", "&Tag faces")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__tagFaces")
@@ -299,7 +299,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Copy to clipboard")
+            text: qsTranslate("other", "&Copy to clipboard")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__clipboard")
@@ -307,7 +307,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Detect QR/barcodes")
+            text: qsTranslate("other", "&Detect QR/barcodes")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__detectBarCodes")
@@ -315,28 +315,28 @@ MenuBar {
         }
 
         // MenuItem {
-        //     text: qsTr("&Export to different format")
+        //     text: qsTranslate("other", "&Export to different format")
         //     onTriggered: {
         //         // EXTENSION
         //     }
         // }
 
         // MenuItem {
-        //     text: qsTr("&Set as wallpaper")
+        //     text: qsTranslate("other", "&Set as wallpaper")
         //     onTriggered: {
         //         // EXTENSION
         //     }
         // }
 
         // MenuItem {
-        //     text: qsTr("&Histogram")
+        //     text: qsTranslate("other", "&Histogram")
         //     onTriggered: {
         //         // EXTENSION
         //     }
         // }
 
         // MenuItem {
-        //     text: qsTr("&Show on map")
+        //     text: qsTranslate("other", "&Show on map")
         //     onTriggered: {
         //         // EXTENSION
         //     }
@@ -348,7 +348,7 @@ MenuBar {
 
         id: menu_folder
 
-        title: qsTr("&Folder")
+        title: qsTranslate("other", "&Folder")
 
         Menu {
 
@@ -356,7 +356,7 @@ MenuBar {
             enabled: PQCFileFolderModel.countMainView>0
 
             MenuItem {
-                text: qsTr("&Setup")
+                text: qsTranslate("other", "&Setup")
                 enabled: PQCFileFolderModel.countMainView>0
                 onTriggered: {
                     PQCScriptsShortcuts.executeInternalCommand("__slideshow")
@@ -364,7 +364,7 @@ MenuBar {
             }
 
             MenuItem {
-                text: qsTr("&Quickstart")
+                text: qsTranslate("other", "&Quickstart")
                 enabled: PQCFileFolderModel.countMainView>0
                 onTriggered: {
                     PQCScriptsShortcuts.executeInternalCommand("__slideshowQuick")
@@ -379,7 +379,7 @@ MenuBar {
             enabled: PQCFileFolderModel.countMainView>0
 
             MenuItem {
-                text: qsTr("&Setup")
+                text: qsTranslate("other", "&Setup")
                 enabled: PQCFileFolderModel.countMainView>0
                 onTriggered: {
                     PQCScriptsShortcuts.executeInternalCommand("__advancedSort")
@@ -387,7 +387,7 @@ MenuBar {
             }
 
             MenuItem {
-                text: qsTr("&Quickstart")
+                text: qsTranslate("other", "&Quickstart")
                 enabled: PQCFileFolderModel.countMainView>0
                 onTriggered: {
                     PQCScriptsShortcuts.executeInternalCommand("__advancedSortQuick")
@@ -396,7 +396,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Filter images")
+            text: qsTranslate("other", "&Filter images")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__filterImages")
@@ -404,7 +404,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Streaming (Chromecast)")
+            text: qsTranslate("other", "&Streaming (Chromecast)")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__chromecast")
@@ -412,7 +412,7 @@ MenuBar {
         }
 
         MenuItem {
-            text: qsTr("&Open in default file manager")
+            text: qsTranslate("other", "&Open in default file manager")
             enabled: PQCFileFolderModel.countMainView>0
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__defaultFileManager")
@@ -425,17 +425,17 @@ MenuBar {
 
         id: menu_about
 
-        title: qsTr("&Help")
+        title: qsTranslate("other", "&Help")
 
         MenuItem {
-            text: qsTr("&Online help")
+            text: qsTranslate("other", "&Online help")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__onlineHelp")
             }
         }
 
         MenuItem {
-            text: qsTr("&About")
+            text: qsTranslate("other", "&About")
             onTriggered: {
                 PQCScriptsShortcuts.executeInternalCommand("__about")
             }
