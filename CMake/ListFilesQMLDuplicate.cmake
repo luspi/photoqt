@@ -73,3 +73,9 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsManageSession.
 SET(d "qml/duplicate/settingsmanager/shortcuts")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsList.qml ${d}/PQSettingsShortcutsExtraMouse.qml ${d}/PQSettingsShortcutsExtraKeys.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSettingsShortcutsDetectNew.qml ${d}/PQSettingsShortcutsExternalShortcuts.qml ${d}/PQSettingsShortcutsDuplicateShortcuts.qml)
+
+SET(d "qml/duplicate/mapexplorer")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQMapExplorer.qml)
+
+SET(d "qml/duplicate/mapexplorer/parts")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)

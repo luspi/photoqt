@@ -42,6 +42,7 @@ Rectangle {
     property alias bottomLeftContent: bottomleftelement.children
     property alias popInOutButton: popinoutimage
 
+    property bool showTopBottom: true
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: element_top.height-toprowHeight-bottomrowHeight//-(noGapsAnywhere ? 0 : 20)
@@ -90,6 +91,8 @@ Rectangle {
         height: parent.height>500 ? 55 : Math.max(75-(500-parent.height), 30)
         color: pqtPalette.base
 
+        visible: element_top.showTopBottom
+
         PQTextXL {
             anchors.centerIn: parent
             text: element_top.title
@@ -110,9 +113,9 @@ Rectangle {
 
         id: cont
 
-        y: toprow.height
+        y: element_top.showTopBottom ? toprow.height : 0
         width: parent.width
-        height: parent.height-toprow.height-bottomrow.height
+        height: parent.height-(element_top.showTopBottom ? (toprow.height-bottomrow.height) : 0)
 
     }
 
@@ -125,6 +128,8 @@ Rectangle {
         width: parent.width
         height: 50
         color: pqtPalette.base
+
+        visible: element_top.showTopBottom
 
         Rectangle {
             x: 0

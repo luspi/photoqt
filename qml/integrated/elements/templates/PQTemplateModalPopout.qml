@@ -47,6 +47,7 @@ Window {
     property rect defaultPopoutGeometry: Qt.rect(0, 0, 150, 150)
     property bool defaultPopoutMaximized: false
 
+    property bool showTopBottom: true
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: element_top.height-toprowHeight-bottomrowHeight//-(noGapsAnywhere ? 0 : 20)
@@ -141,6 +142,8 @@ Window {
         height: parent.height>500 ? 75 : Math.max(75-(500-parent.height), 50)
         color: pqtPalette.base
 
+        visible: element_top.showTopBottom
+
         PQTextXL {
             anchors.centerIn: parent
             text: element_top.title
@@ -161,9 +164,9 @@ Window {
 
         id: cont
 
-        y: toprow.height
+        y: element_top.showTopBottom ? toprow.height : 0
         width: parent.width
-        height: parent.height-toprow.height-bottomrow.height
+        height: parent.height-(element_top.showTopBottom ? (toprow.height-bottomrow.height) : 0)
 
     }
 
@@ -176,6 +179,8 @@ Window {
         width: parent.width
         height: 50
         color: pqtPalette.base
+
+        visible: element_top.showTopBottom
 
         Rectangle {
             x: 0

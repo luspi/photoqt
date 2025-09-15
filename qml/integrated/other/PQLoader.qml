@@ -128,6 +128,42 @@ Item {
     }
 
     Loader {
+        id: loader_mapexplorer
+        active: false
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            showTopBottom: false
+            defaultPopoutGeometry: PQCWindowGeometry.settingsmanagerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.settingsmanagerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.settingsmanagerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.settingsmanagerMaximized = m
+            }
+            content: PQMapExplorer {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    Loader {
         id: loader_notification
         active: false
         anchors.fill: parent
@@ -172,6 +208,11 @@ Item {
                     loader_move.active = true
                 PQCConstants.idOfVisibleItem = "FileMove"
                 PQCNotify.loaderPassOn("show", ["FileMove"])
+            } else if(ele === "MapExplorer") {
+                if(!loader_mapexplorer.active)
+                    loader_mapexplorer.active = true
+                PQCConstants.idOfVisibleItem = "MapExplorer"
+                PQCNotify.loaderPassOn("show", ["MapExplorer"])
             }
 
         }

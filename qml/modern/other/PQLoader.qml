@@ -167,6 +167,69 @@ Item {
     /*********************************************************************/
 
     Loader {
+        id: loader_mapexplorer
+        active: false
+        anchors.fill: parent
+        sourceComponent: ((PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout) ? comp_mapexplorer_popout : comp_mapexplorer)
+    }
+    Component {
+        id: comp_mapexplorer
+        PQTemplateModal {
+            id: smmod
+            showTopBottom: false
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQMapExplorer {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_mapexplorer_popout
+        PQTemplateModalPopout {
+            id: smpop
+            showTopBottom: false
+            defaultPopoutGeometry: PQCWindowGeometry.mapexplorerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.mapexplorerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.mapexplorerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.mapexplorerMaximized = m
+            }
+            content: PQMapExplorer {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
         id: loader_about
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
@@ -278,16 +341,6 @@ Item {
     /*********************************************************************/
 
     Loader {
-        id: loader_mapexplorer
-        active: false
-        sourceComponent: ((PQCSettings.interfacePopoutMapExplorer || PQCWindowGeometry.mapexplorerForcePopout) ? comp_mapexplorer_popout : comp_mapexplorer)
-    }
-    Component { id: comp_mapexplorer; PQMapExplorer {} }
-    Component { id: comp_mapexplorer_popout; PQMapExplorerPopout {} }
-
-    /*********************************************************************/
-
-    Loader {
         id: loader_chromecastmanager
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutChromecast || PQCWindowGeometry.chromecastmanagerForcePopout) ? comp_chromecastmanager_popout : comp_chromecastmanager)
@@ -319,7 +372,7 @@ Item {
         "slideshowhandler" :    [loader_slideshowhandler,   true],
         "slideshowcontrols" :   [loader_slideshowcontrols,  false],
         "notification" :        [loader_notification,       false],
-        "mapexplorer" :         [loader_mapexplorer,        true],
+        "MapExplorer" :         [loader_mapexplorer,        true],
         "chromecastmanager" :   [loader_chromecastmanager,  true],
         "chromecast" :          [loader_chromecast,         false],
     }
@@ -337,7 +390,7 @@ Item {
         if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
             loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
             return
-        } else if(ele === "mapexplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
+        } else if(ele === "MapExplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
             loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
             return
         }
@@ -388,7 +441,7 @@ Item {
                 return
 
             if(config[1] &&
-                (ele !== "mapexplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
+                (ele !== "MapExplorer" || !PQCSettings.interfacePopoutMapExplorer || (PQCSettings.interfacePopoutMapExplorer && !PQCSettings.interfacePopoutMapExplorerNonModal)) &&
                 (ele !== "SettingsManager" || !PQCSettings.interfacePopoutSettingsManager || (PQCSettings.interfacePopoutSettingsManager && !PQCSettings.interfacePopoutSettingsManagerNonModal)))
                 PQCConstants.idOfVisibleItem = ele
 

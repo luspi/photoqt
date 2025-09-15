@@ -22,7 +22,9 @@
 
 import QtQuick
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
 
 Rectangle {
 

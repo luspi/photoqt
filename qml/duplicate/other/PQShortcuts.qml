@@ -500,7 +500,7 @@ Item {
                 PQCNotify.loaderShow("filedialog")
                 break
             case "__showMapExplorer":
-                PQCNotify.loaderShow("mapexplorer")
+                PQCNotify.loaderShow("MapExplorer")
                 break
             case "__settings":
                 PQCNotify.loaderShow("SettingsManager")

@@ -44,12 +44,9 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoggingPopout.qml ${d}/PQSli
 SET(d "qml/modern/actions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAbout.qml ${d}/PQDelete.qml ${d}/PQCopy.qml ${d}/PQMove.qml ${d}/PQRename.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAdvancedSort.qml ${d}/PQFilter.qml ${d}/PQSlideshowSetup.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManager.qml ${d}/PQMapExplorer.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManager.qml)
 
 SET(d "qml/modern/actions/popout")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAboutPopout.qml ${d}/PQDeletePopout.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQRenamePopout.qml ${d}/PQFilterPopout.qml ${d}/PQAdvancedSortPopout.qml ${d}/PQSlideshowSetupPopout.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManagerPopout.qml ${d}/PQMapExplorerPopout.qml)
-
-SET(d "qml/modern/actions/mapexplorerparts")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMapExplorerImages.qml ${d}/PQMapExplorerImagesTweaks.qml ${d}/PQMapExplorerMap.qml ${d}/PQMapExplorerMapTweaks.qml)
