@@ -24,60 +24,23 @@ import QtQuick
 import QtQuick.Controls
 import PQCLocation
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
-Item {
+/* :-)) <3 */
+
+PQTemplate {
 
     id: mapexplorer_top
 
-    width: parentWidth
-    height: parentHeight
-
-    property int parentWidth: PQCConstants.windowWidth
-    property int parentHeight: PQCConstants.windowHeight
-
-    // this is set to true/false by the popout window
-    // this is a way to reliably detect whether it is used
-    property bool popoutWindowUsed: false
-
-    opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
-    visible: opacity>0
-    enabled: visible
-
-    onOpacityChanged: {
-        if(opacity > 0 && !isPopout)
-            PQCNotify.windowTitleOverride(qsTranslate("actions", "Map Explorer"))
-        else if(opacity === 0)
-            PQCNotify.windowTitleOverride("")
-    }
+    elementId: "MapExplorer"
 
     SystemPalette { id: pqtPalette }
-
-    property bool finishShow: false
 
     property list<var> folderLoaded: []
 
     property real mapZoomLevel: 10
 
-    property bool isPopout: PQCSettings.interfacePopoutMapExplorer
-
     property int closebuttonWidth: closebutton.width
-
-    state: isPopout ?
-               "popout" :
-               ""
-
-    states: [
-        State {
-            name: "popout"
-            PropertyChanges {
-                mapexplorer_top.width: mapexplorer_top.parentWidth
-                mapexplorer_top.height: mapexplorer_top.parentHeight
-                mapexplorer_top.opacity: 0
-            }
-        }
-    ]
 
     MouseArea {
         anchors.fill: parent
@@ -94,13 +57,13 @@ Item {
             id: hndl
             implicitWidth: 8
             implicitHeight: 8
-            color: SplitHandle.hovered ? pqtPalette.alternateBase : PQCLook.baseBorder
+            color: SplitHandle.hovered ? pqtPalette.alternateBase : pqtPalette.button
             Behavior on color { ColorAnimation { duration: 200 } }
 
             Image {
                 y: (hndl.height-height)/2
-                width: parent.implicitWidth
-                height: parent.implicitHeight
+                width: 8
+                height: 8
                 sourceSize: Qt.size(width, height)
                 source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg"
             }
@@ -148,51 +111,6 @@ Item {
             }
 
             Item {
-
-                x: 0
-                y: 0
-                width: 25
-                height: 25
-
-                visible: !PQCWindowGeometry.mapexplorerForcePopout
-                enabled: visible
-
-                Rectangle {
-                    anchors.fill: parent
-                    color: pqtPalette.base
-                    opacity: 0.8
-                }
-
-                opacity: popinmouse.containsMouse ? 1 : 0.2
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-
-                Image {
-                    anchors.fill: parent
-                    anchors.margins: 5
-                    source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
-                    sourceSize: Qt.size(width, height)
-                }
-
-                PQMouseArea {
-                    id: popinmouse
-                    anchors.fill: parent
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                    text: PQCSettings.interfacePopoutMapExplorer ?
-                                 //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                                 qsTranslate("popinpopout", "Merge into main interface") :
-                                 //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                                 qsTranslate("popinpopout", "Move to its own window")
-                    onClicked: {
-                        mapexplorer_top.hideExplorer()
-                        PQCSettings.interfacePopoutMapExplorer = !PQCSettings.interfacePopoutMapExplorer
-                        PQCScriptsShortcuts.executeInternalCommand("__showMapExplorer")
-                    }
-                }
-
-            }
-
-            Item {
                 width: closebutton.width/2
                 height: 1
             }
@@ -229,12 +147,12 @@ Item {
 
     PQButtonElement {
         id: closebutton
-        // x: mapcont.width-width/2
+        x: mapcont.width-width/2
         y: parent.height-50 + 1
         height: 49
         text: genericStringClose
         onClicked:
-            mapexplorer_top.hideExplorer()
+            mapexplorer_top.hide()
     }
 
     Connections {
@@ -243,44 +161,25 @@ Item {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
+            console.log("args: what =", what)
+            console.log("args: param =", param)
 
-                if(param[0] === "mapexplorer")
-                    mapexplorer_top.showExplorer()
-
-            } else if(what === "hide") {
-
-                if(param[0] === "mapexplorer")
-                    mapexplorer_top.hideExplorer()
-
-            } else if(mapexplorer_top.opacity > 0) {
+            if(mapexplorer_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
-                    if(mapexplorer_top.closeAnyMenu())
-                        return
-
-                    if(mapexplorer_top.popoutWindowUsed && PQCSettings.interfacePopoutMapExplorerNonModal)
-                        return
-
                     if(param[0] === Qt.Key_Escape) {
 
-                        mapexplorer_top.hideExplorer()
+                        mapexplorer_top.hide()
 
                     }
+
                 }
 
             }
 
         }
 
-    }
-
-    NumberAnimation {
-        id: smoothWidth
-        // target: mapcont
-        property: "width"
-        duration: 200
     }
 
     Connections {
@@ -292,7 +191,7 @@ Item {
         }
 
         function onHideExplorer() {
-            mapexplorer_top.hideExplorer()
+            mapexplorer_top.hide()
         }
 
     }
@@ -366,22 +265,12 @@ Item {
 
     }
 
-    function showExplorer() {
+    onShowing:
+        loadExplorerData()
 
-        isPopout = PQCSettings.interfacePopoutMapExplorer||PQCWindowGeometry.mapexplorerForcePopout
-
-        opacity = 1
-        if(popoutWindowUsed)
-            mapexplorer_window.visible = true
-
-        showExplorerData()
-
-    }
-
-    function showExplorerData(forceReload=false) {
+    function loadExplorerData() {
 
         map.resetCurZ()
-        finishShow = true
 
         var path = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
         var mod = PQCScriptsFilesPaths.getFileModified(path).getTime()
@@ -392,8 +281,7 @@ Item {
             PQCLocation.processSummary(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile))
             loadImages()
 
-        } else if(forceReload)
-            loadImages()
+        }
 
         map.resetMap()
         map.computeDetailLevel()
@@ -403,23 +291,6 @@ Item {
         folderLoadedChanged()
 
         map.updateVisibleRegionNow()
-
-    }
-
-    function hideExplorer() {
-
-        closeAnyMenu()
-
-        if(PQCSettings.interfacePopoutMapExplorer && PQCSettings.interfacePopoutMapExplorerNonModal)
-            return
-
-        opacity = 0
-        if(popoutWindowUsed && mapexplorer_window.visible)
-            mapexplorer_window.visible = false
-
-        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutMapExplorer })
-
-        PQCNotify.loaderRegisterClose("mapexplorer")
 
     }
 
