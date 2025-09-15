@@ -40,22 +40,22 @@ Item {
 
             if(what === "show") {
 
-                if(param[0] === "filecopy") {
+                if(param[0] === "FileCopy") {
 
                     error.opacity = 0
                     if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileCopy")
                         return
                     }
 
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileCopy")
                     } else {
                         if(!PQCScriptsFileManagement.copyFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else
-                            PQCNotify.loaderRegisterClose("filecopy")
+                            PQCNotify.loaderRegisterClose("FileCopy")
                     }
 
                 }
@@ -70,7 +70,7 @@ Item {
 
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileCopy")
                     }
                 }
             }
@@ -104,7 +104,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    PQCNotify.loaderRegisterClose("filecopy") 
+                    PQCNotify.loaderRegisterClose("FileCopy")
                 }
             }
         }

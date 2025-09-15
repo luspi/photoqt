@@ -40,11 +40,11 @@ Item {
 
             if(what === "show") {
 
-                if(param[0] === "filemove") {
+                if(param[0] === "FileMove") {
 
                     error.opacity = 0
                     if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileMove")
                         return
                     }
 
@@ -52,13 +52,13 @@ Item {
 
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        PQCNotify.loaderRegisterClose("filemove")
+                        PQCNotify.loaderRegisterClose("FileMove")
                     } else {
                         if(!PQCScriptsFileManagement.moveFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else {
                             PQCFileFolderModel.removeEntryMainView(PQCFileFolderModel.currentIndex)
-                            PQCNotify.loaderRegisterClose("filemove")
+                            PQCNotify.loaderRegisterClose("FileMove")
                         }
                     }
 
@@ -70,7 +70,7 @@ Item {
                         errorbut.contextmenu.close()
                     else if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        PQCNotify.loaderRegisterClose("filemove")
+                        PQCNotify.loaderRegisterClose("FileMove")
                     }
                 }
             }
@@ -104,7 +104,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    PQCNotify.loaderRegisterClose("filemove") 
+                    PQCNotify.loaderRegisterClose("FileMove")
                 }
             }
         }

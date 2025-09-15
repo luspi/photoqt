@@ -714,13 +714,13 @@ Item {
                 PQCNotify.loaderShow("FileRename")
                 break
             case "__delete":
-                PQCNotify.loaderShow("filedelete")
+                PQCNotify.loaderShow("FileDelete")
                 break
             case "__copy":
-                PQCNotify.loaderShow("filecopy")
+                PQCNotify.loaderShow("FileCopy")
                 break
             case "__move":
-                PQCNotify.loaderShow("filemove")
+                PQCNotify.loaderShow("FileMove")
                 break
             case "__deletePermanent":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {

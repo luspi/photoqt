@@ -105,7 +105,8 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        show()
+        if(PQCFileFolderModel.currentFile !== "")
+            show()
     }
 
     Connections {
@@ -119,7 +120,8 @@ ApplicationWindow {
 
             if(what === "show" && args[0] === "FileRename") {
 
-                rename_top.show()
+                if(PQCFileFolderModel.currentFile !== "")
+                    rename_top.show()
 
             } else if(what === "hide" && args[0] === "FileRename") {
 

@@ -72,6 +72,27 @@ Item {
     }
 
     Loader {
+        id: loader_delete
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQDelete {}
+    }
+
+    Loader {
+        id: loader_copy
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQCopy {}
+    }
+
+    Loader {
+        id: loader_move
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQMove {}
+    }
+
+    Loader {
         id: loader_settingsmanager
         active: false
         anchors.fill: parent
@@ -124,18 +145,33 @@ Item {
             if(ele === "about") {
                 if(!loader_about.active)
                     loader_about.active = true
-                PQCNotify.loaderPassOn("show", ["about"])
                 PQCConstants.idOfVisibleItem = "about"
+                PQCNotify.loaderPassOn("show", ["about"])
             } else if(ele === "SettingsManager") {
                 if(!loader_settingsmanager.active)
                     loader_settingsmanager.active = true
-                PQCNotify.loaderPassOn("show", ["SettingsManager"])
                 PQCConstants.idOfVisibleItem = "SettingsManager"
+                PQCNotify.loaderPassOn("show", ["SettingsManager"])
             } else if(ele === "FileRename") {
                 if(!loader_rename.active)
                     loader_rename.active = true
-                PQCNotify.loaderPassOn("show", ["FileRename"])
                 PQCConstants.idOfVisibleItem = "FileRename"
+                PQCNotify.loaderPassOn("show", ["FileRename"])
+            } else if(ele === "FileDelete") {
+                if(!loader_delete.active)
+                    loader_delete.active = true
+                PQCConstants.idOfVisibleItem = "FileDelete"
+                PQCNotify.loaderPassOn("show", ["FileDelete"])
+            } else if(ele === "FileCopy") {
+                if(!loader_copy.active)
+                    loader_copy.active = true
+                PQCConstants.idOfVisibleItem = "FileCopy"
+                PQCNotify.loaderPassOn("show", ["FileCopy"])
+            } else if(ele === "FileMove") {
+                if(!loader_move.active)
+                    loader_move.active = true
+                PQCConstants.idOfVisibleItem = "FileMove"
+                PQCNotify.loaderPassOn("show", ["FileMove"])
             }
 
         }
