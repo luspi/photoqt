@@ -77,9 +77,6 @@ PQTemplate {
     onShowing: {
         PQCNotify.settingsmanagerSendCommand("loadcurrent", [])
     }
-    onHiding: {
-        PQCNotify.resetActiveFocus()
-    }
 
     bottomLeftContent: [
         Row {
