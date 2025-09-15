@@ -56,6 +56,10 @@ Rectangle {
 
     ///////////////////
 
+    function onHiding() {
+        PQCNotify.resetActiveFocus()
+    }
+
     MouseArea {
         anchors.fill: parent
         hoverEnabled: true
