@@ -533,6 +533,8 @@ PQSetting {
                                     target: PQCNotify
 
                                     function onSettingsmanagerSendCommand(what : string, args : list<var>) {
+                                        console.log("args: what =", what)
+                                        console.log("args: args =", args)
                                         if(what === "newShortcut") {
                                             if(deleg.modelData === args[0] && args[1] === -1) {
                                                 comboview.combos.push(args[2])
