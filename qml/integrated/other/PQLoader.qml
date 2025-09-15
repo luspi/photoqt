@@ -65,6 +65,13 @@ Item {
     }
 
     Loader {
+        id: loader_rename
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQRename {}
+    }
+
+    Loader {
         id: loader_settingsmanager
         active: false
         anchors.fill: parent
@@ -124,6 +131,11 @@ Item {
                     loader_settingsmanager.active = true
                 PQCNotify.loaderPassOn("show", ["SettingsManager"])
                 PQCConstants.idOfVisibleItem = "SettingsManager"
+            } else if(ele === "FileRename") {
+                if(!loader_rename.active)
+                    loader_rename.active = true
+                PQCNotify.loaderPassOn("show", ["FileRename"])
+                PQCConstants.idOfVisibleItem = "FileRename"
             }
 
         }

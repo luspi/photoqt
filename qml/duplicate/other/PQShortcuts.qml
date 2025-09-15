@@ -711,7 +711,7 @@ Item {
             // file actions
 
             case "__rename":
-                PQCNotify.loaderShow("filerename")
+                PQCNotify.loaderShow("FileRename")
                 break
             case "__delete":
                 PQCNotify.loaderShow("filedelete")

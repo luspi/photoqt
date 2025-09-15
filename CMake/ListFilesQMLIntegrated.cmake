@@ -24,4 +24,4 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQFooter.qml ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/integrated/actions")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml ${d}/PQRename.qml)
