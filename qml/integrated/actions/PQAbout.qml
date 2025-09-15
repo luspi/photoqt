@@ -257,13 +257,6 @@ PQTemplate {
 
     PQToolTipDisplay { id: ttip }
 
-    onVisibleChanged: {
-        if(visible)
-            PQCConstants.idOfVisibleItem = "about"
-        else
-            PQCConstants.idOfVisibleItem = ""
-    }
-
     Connections {
 
         target: PQCNotify
