@@ -427,6 +427,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
     const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
 
     QFileDialog diag;
+    diag.setWindowModality(Qt::ApplicationModal);
     diag.setLabelText(QFileDialog::Accept, buttonlabel);
     diag.setFileMode(QFileDialog::AnyFile);
     diag.setModal(true);

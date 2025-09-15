@@ -62,6 +62,8 @@ public:
     Q_INVOKABLE QString undoLastAction(QString action);
     void recordAction(QString actions, QVariantList args);
 
+    Q_INVOKABLE int askForDeletion();
+
 private:
     QString undoCurFolder;
     QList<QVariantList> undoTrash;

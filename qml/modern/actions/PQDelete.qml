@@ -28,7 +28,7 @@ PQTemplateFullscreen {
 
     id: delete_top
 
-    thisis: "filedelete"
+    thisis: "FileDelete"
     popout: PQCSettings.interfacePopoutFileDelete 
     forcePopout: PQCWindowGeometry.filedeleteForcePopout 
     shortcut: "__delete"
