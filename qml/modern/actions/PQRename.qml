@@ -24,128 +24,151 @@ import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 
-PQTemplateFullscreen {
+PQTemplate {
 
     id: rename_top
 
-    thisis: "filerename"
-    popout: PQCSettings.interfacePopoutFileRename 
-    forcePopout: PQCWindowGeometry.filerenameForcePopout 
-    shortcut: "__rename"
-
     title: qsTranslate("filemanagement", "Rename file")
+    elementId: "FileRename"
 
-    button1.enabled: filenameedit.text!==""&&!error_exists.visible
-    button1.text: qsTranslate("filemanagement", "Rename file")
+    Connections {
+        target: button1
+        function onClicked() {
+            rename_top.renameFile()
+        }
+    }
+    Connections {
+        target: button2
+        function onClicked() {
+            rename_top.hide()
+        }
+    }
 
-    button2.visible: true
-    button2.text: genericStringCancel
+    Component.onCompleted: {
+        button1.text = qsTranslate("filemanagement", "Rename file")
+        button1.enabled = Qt.binding(function() { return filenameedit.text!==""&&!error_exists.visible })
 
-    onPopoutChanged:
-        PQCSettings.interfacePopoutFileRename = popout 
+        button2.text = button2.genericStringCancel
+        button2.visible = true
 
-    button1.onClicked:
-        renameFile()
-
-    button2.onClicked:
-        hide()
+    }
 
     SystemPalette { id: pqtPalette }
 
     content: [
 
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("filemanagement", "old filename:")
-        },
+        Flickable {
 
-        PQTextL {
-            id: filename
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            text: "this_is_the_old_filename.jpg"
-        },
+            y: (rename_top.height-height)/2
 
-        Item {
-            width: 1
-            height: 1
-        },
+            width: rename_top.width
+            height: Math.min(rename_top.height, col.height)
 
-        Item {
-            width: 1
-            height: 1
-        },
+            contentHeight: col.height
 
-        PQText {
-            x: (parent.width-width)/2
-            text: qsTranslate("filemanagement", "new filename:")
-        },
+            Column {
 
-        Row {
+                id: col
 
-            x: (parent.width-width)/2
-            spacing: 5
+                spacing: 5
+                width: parent.width
 
-            PQLineEdit {
+                PQText {
+                    x: (parent.width-width)/2
+                    text: qsTranslate("filemanagement", "old filename:")
+                }
 
-                id: filenameedit
+                PQTextL {
+                    id: filename
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    text: "this_is_the_old_filename.jpg"
+                }
 
-                width: 400
-                height: 40
+                Item {
+                    width: 1
+                    height: 1
+                }
 
-                onTextChanged: {
-                    checkExistence.restart()
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                PQText {
+                    x: (parent.width-width)/2
+                    text: qsTranslate("filemanagement", "new filename:")
+                }
+
+                Row {
+
+                    x: (parent.width-width)/2
+                    spacing: 5
+
+                    PQLineEdit {
+
+                        id: filenameedit
+
+                        width: 400
+                        height: 40
+
+                        onTextChanged: {
+                            checkExistence.restart()
+                        }
+
+                    }
+
+                    Timer {
+                        id: checkExistence
+                        interval: 200
+                        onTriggered: {
+                            error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text))
+                        }
+                    }
+
+                    PQText {
+
+                        id: filesuffix
+
+                        y: (filenameedit.height-height)/2
+                        font.weight: PQCLook.fontWeightBold
+                        text: ".jpg"
+                    }
+                }
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                PQTextL {
+                    id: error
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    color: pqtPalette.text
+                    font.weight: PQCLook.fontWeightBold
+                    visible: false
+                    text: qsTranslate("filemanagement", "An error occured, file could not be renamed")
+                }
+
+                PQTextL {
+                    id: error_exists
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    horizontalAlignment: Text.AlignHCenter
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    color: pqtPalette.text
+                    font.weight: PQCLook.fontWeightBold
+                    visible: false
+                    text: qsTranslate("filemanagement", "A file with this filename already exists")
                 }
 
             }
 
-            Timer {
-                id: checkExistence
-                interval: 200
-                onTriggered: {
-                    error_exists.visible = (filenameedit.text+filesuffix.text!==filename.text && PQCScriptsFilesPaths.doesItExist(PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile) + "/" + filenameedit.text + filesuffix.text)) 
-                }
-            }
-
-            PQText {
-
-                id: filesuffix
-
-                y: (filenameedit.height-height)/2
-                font.weight: PQCLook.fontWeightBold
-                text: ".jpg"
-            }
-        },
-
-        Item {
-            width: 1
-            height: 1
-        },
-
-        PQTextL {
-            id: error
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: pqtPalette.text
-            font.weight: PQCLook.fontWeightBold
-            visible: false
-            text: qsTranslate("filemanagement", "An error occured, file could not be renamed")
-        },
-
-        PQTextL {
-            id: error_exists
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            horizontalAlignment: Text.AlignHCenter
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            color: pqtPalette.text
-            font.weight: PQCLook.fontWeightBold
-            visible: false
-            text: qsTranslate("filemanagement", "A file with this filename already exists")
         }
 
     ]
@@ -213,15 +236,7 @@ PQTemplateFullscreen {
 
     }
 
-    function show() {
-
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
-            hide()
-            return
-        }
-        opacity = 1
-        if(popoutWindowUsed)
-            filerename_popout.visible = true
+    onShowing: {
 
         filenameedit.text = PQCScriptsFilesPaths.getBasename(PQCFileFolderModel.currentFile)
         filesuffix.text = "." + PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
@@ -230,18 +245,6 @@ PQTemplateFullscreen {
         error_exists.visible = false
         filename.text = PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
 
-    }
-
-    function hide() {
-
-        if(rename_top.contextMenuOpen)
-            rename_top.closeContextMenus()
-
-        rename_top.opacity = 0
-        if(popoutWindowUsed && filerename_popout.visible)
-            filerename_popout.visible = false
-        else
-            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

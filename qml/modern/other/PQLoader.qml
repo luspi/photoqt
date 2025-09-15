@@ -106,6 +106,67 @@ Item {
     /*********************************************************************/
 
     Loader {
+        id: loader_filerename
+        active: false
+        anchors.fill: parent
+        sourceComponent: ((PQCSettings.interfacePopoutFileRename || PQCWindowGeometry.filerenameForcePopout) ? comp_filerename_popout : comp_filerename)
+    }
+    Component {
+        id: comp_filerename
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQRename {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_filerename_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.filerenameGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.filerenameMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.filerenameGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.filerenameMaximized = m
+            }
+            content: PQRename {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
         id: loader_about
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
@@ -133,16 +194,6 @@ Item {
     }
     Component { id: comp_filedelete; PQDelete {} }
     Component { id: comp_filedelete_popout; PQDeletePopout {} }
-
-    /*********************************************************************/
-
-    Loader {
-        id: loader_filerename
-        active: false
-        sourceComponent: ((PQCSettings.interfacePopoutFileRename || PQCWindowGeometry.filerenameForcePopout) ? comp_filerename_popout : comp_filerename)
-    }
-    Component { id: comp_filerename; PQRename {} }
-    Component { id: comp_filerename_popout; PQRenamePopout {} }
 
     /*********************************************************************/
 
@@ -258,7 +309,7 @@ Item {
         "mainmenu" :            [loader_mainmenu,           false],
         "SettingsManager" :     [loader_settingsmanager,    true],
         "filedelete" :          [loader_filedelete,         true],
-        "filerename" :          [loader_filerename,         true],
+        "FileRename" :          [loader_filerename,         true],
         "filecopy" :            [loader_filecopy,           true],
         "filemove" :            [loader_filemove,           true],
         "filter" :              [loader_filter,             true],
