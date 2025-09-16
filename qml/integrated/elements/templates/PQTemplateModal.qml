@@ -45,7 +45,7 @@ Rectangle {
     property bool showTopBottom: true
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
-    property int contentHeight: element_top.height-toprowHeight-bottomrowHeight//-(noGapsAnywhere ? 0 : 20)
+    property int contentHeight: element_top.height-(showTopBottom ? (toprowHeight-bottomrowHeight) : 0)
     property int contentWidth: cont.width
 
     signal button1Clicked()
@@ -70,11 +70,9 @@ Rectangle {
 
     onWidthChanged: {
         width = Qt.binding(function() { return PQCConstants.windowWidth })
-        console.warn(">>> w =", width, PQCConstants.windowWidth)
     }
     onHeightChanged: {
         height = Qt.binding(function() { return PQCConstants.windowHeight })
-        console.warn(">>> h =", height, PQCConstants.windowHeight)
     }
 
     PQMouseArea {

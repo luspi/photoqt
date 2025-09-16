@@ -42,108 +42,107 @@ PQTemplate {
 
     property int closebuttonWidth: closebutton.width
 
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-    }
+    content: [
 
-    SplitView {
+        SplitView {
 
-        width: mapexplorer_top.width
-        height: mapexplorer_top.height
-
-        // Show larger handle with triple dash
-        handle: Rectangle {
-            id: hndl
-            implicitWidth: 8
-            implicitHeight: 8
-            color: SplitHandle.hovered ? pqtPalette.alternateBase : pqtPalette.button
-            Behavior on color { ColorAnimation { duration: 200 } }
-
-            Image {
-                y: (hndl.height-height)/2
-                width: 8
-                height: 8
-                sourceSize: Qt.size(width, height)
-                source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg"
-            }
-
-        }
-
-        Item {
-
-            id: mapcont
-
-            width: mapexplorer_top.width/2
+            width: mapexplorer_top.width
             height: mapexplorer_top.height
-            SplitView.minimumWidth: 400
-            SplitView.minimumHeight: 300
-            SplitView.preferredWidth: mapexplorer_top.width/2
 
-            PQMapExplorerMap {
-                id: map
-                width: parent.width
-                height: parent.height-maptweaks.height
+            // Show larger handle with triple dash
+            handle: Rectangle {
+                id: hndl
+                implicitWidth: 8
+                implicitHeight: 8
+                color: SplitHandle.hovered ? pqtPalette.alternateBase : pqtPalette.button
+                Behavior on color { ColorAnimation { duration: 200 } }
 
-                onVisibleLatitudeLeftChanged:
-                    visibleimages.mapVisibleLatitudeLeft = map.visibleLatitudeLeft
-                onVisibleLatitudeRightChanged:
-                    visibleimages.mapVisibleLatitudeRight = map.visibleLatitudeRight
-                onVisibleLongitudeLeftChanged:
-                    visibleimages.mapVisibleLongitudeLeft = map.visibleLongitudeLeft
-                onVisibleLongitudeRightChanged:
-                    visibleimages.mapVisibleLongitudeRight = map.visibleLongitudeRight
-
-                Connections {
-                    target: visibleimages
-                    function onMapHideHighlightMarker() {
-                        map.hideHightlightMarker()
-                    }
+                Image {
+                    y: (hndl.height-height)/2
+                    width: 8
+                    height: 8
+                    sourceSize: Qt.size(width, height)
+                    source: "image://svg/:/" + PQCLook.iconShade + "/handle.svg"
                 }
 
             }
 
-            PQMapExplorerMapTweaks {
-                id: maptweaks
-                y: parent.height-height
-                width: map.width
-                height: 50
+            Item {
+
+                id: mapcont
+
+                width: mapexplorer_top.width/2
+                height: mapexplorer_top.height
+                SplitView.minimumWidth: 400
+                SplitView.minimumHeight: 300
+                SplitView.preferredWidth: mapexplorer_top.width/2
+
+                PQMapExplorerMap {
+                    id: map
+                    width: parent.width
+                    height: parent.height-maptweaks.height
+
+                    onVisibleLatitudeLeftChanged:
+                        visibleimages.mapVisibleLatitudeLeft = map.visibleLatitudeLeft
+                    onVisibleLatitudeRightChanged:
+                        visibleimages.mapVisibleLatitudeRight = map.visibleLatitudeRight
+                    onVisibleLongitudeLeftChanged:
+                        visibleimages.mapVisibleLongitudeLeft = map.visibleLongitudeLeft
+                    onVisibleLongitudeRightChanged:
+                        visibleimages.mapVisibleLongitudeRight = map.visibleLongitudeRight
+
+                    Connections {
+                        target: visibleimages
+                        function onMapHideHighlightMarker() {
+                            map.hideHightlightMarker()
+                        }
+                    }
+
+                }
+
+                PQMapExplorerMapTweaks {
+                    id: maptweaks
+                    y: parent.height-height
+                    width: map.width
+                    height: 50
+                }
+
+                Item {
+                    width: closebutton.width/2
+                    height: 1
+                }
+
             }
 
             Item {
-                width: closebutton.width/2
-                height: 1
+
+                id: imagestweaks
+
+                width: mapexplorer_top.width/2
+                height: mapexplorer_top.height
+
+                SplitView.minimumWidth: 400
+                SplitView.minimumHeight: 300
+                SplitView.preferredWidth: mapexplorer_top.width/2
+
+                PQMapExplorerImages {
+                    id: visibleimages
+                    width: parent.width
+                    height: parent.height-explorertweaks.height
+                }
+
+                PQMapExplorerImagesTweaks {
+                    id: explorertweaks
+                    y: parent.height-height
+                    width: visibleimages.width
+                    height: 50
+                }
+
             }
 
         }
 
-        Item {
-
-            id: imagestweaks
-
-            width: mapexplorer_top.width/2
-            height: mapexplorer_top.height
-
-            SplitView.minimumWidth: 400
-            SplitView.minimumHeight: 300
-            SplitView.preferredWidth: mapexplorer_top.width/2
-
-            PQMapExplorerImages {
-                id: visibleimages
-                width: parent.width
-                height: parent.height-explorertweaks.height
-            }
-
-            PQMapExplorerImagesTweaks {
-                id: explorertweaks
-                y: parent.height-height
-                width: visibleimages.width
-                height: 50
-            }
-
-        }
-
-    }
+    ]
 
     PQButtonElement {
         id: closebutton
