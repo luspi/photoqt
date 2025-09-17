@@ -30,8 +30,7 @@ ComboBox {
 
     id: control
 
-    property string prefix: ""
-    property string selectedPrefix: ""
+    property string mainEntryText: ""
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
@@ -48,39 +47,46 @@ ComboBox {
 
     property bool transparentBackground: false
 
-    delegate: ItemDelegate {
+    signal entryUpdated(var index)
 
+    delegate: Item {
         id: deleg
-
-        width: control.width
-        height: 40
-
-        required property var model
         required property int index
+        required property string txt
+        required property int checked
+        property bool highlighted: chk.hovered
+        width: parent.width
+        height: chk.height+4
 
-        contentItem: Text {
-            id: contitem
-            text: control.prefix+deleg.model[control.textRole]
-            color: delegate.highlighted ? pqtPalette.base : (enabled ? pqtPalette.text : pqtPaletteDisabled.text)
-            font: control.font
-            elide: control.elide
-            verticalAlignment: Text.AlignVCenter
-            style: deleg.highlighted ? Text.Sunken : Text.Normal
-            styleColor: pqtPaletteDisabled.text
-            PQToolTip {
-                visible: deleg.highlighted
-                text: contitem.text
-                timeout: 3000
-            }
-        }
-        background: Rectangle {
-            implicitWidth: 200
-            implicitHeight: 40
+        Rectangle {
+            anchors.fill: parent
             opacity: enabled ? 1 : 0.3
             color: (deleg.highlighted ? pqtPalette.base : (enabled ? pqtPalette.alternateBase : PQCLook.baseBorder))
         }
 
-        highlighted: control.highlightedIndex === deleg.index
+        Row {
+            spacing: 0
+            y: 2
+            width: parent.width
+            height: parent.height-4
+            PQCheckBox {
+                id: chk
+                checked: deleg.checked
+                width: parent.width
+                text: deleg.txt
+                elide: Text.ElideMiddle
+                onCheckedChanged: {
+                    control.model.get(deleg.index).checked = (checked ? 1 : 0)
+                    control.entryUpdated(deleg.index)
+                }
+            }
+        }
+
+    }
+
+    PQToolTip {
+        visible: control.hovered
+        text: control.mainEntryText==="" ? control.displayText : control.mainEntryText
     }
 
     indicator: Canvas {
@@ -111,7 +117,7 @@ ComboBox {
         leftPadding: 5
         rightPadding: control.indicator.width + control.spacing
 
-        text: control.selectedPrefix + control.displayText
+        text: control.mainEntryText==="" ? control.displayText : control.mainEntryText
         font: control.font
         color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
         style: control.highlighted ? Text.Sunken : Text.Normal

@@ -30,9 +30,12 @@ Button {
     id: control
 
     implicitHeight: 40
+    height: parent.height
 
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightBold
+
+    property string thetext: ""
 
     flat: true
     opacity: enabled ? 1 : 0.5
@@ -53,8 +56,14 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
+    Component.onCompleted: {
+        if(thetext === "" && text !== "")
+            thetext = text
+        text = ""
+    }
+
     contentItem: Text {
-        text: "  " + control.text + "  "
+        text: "  " + control.thetext + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: pqtPalette.text
@@ -89,10 +98,10 @@ Button {
         anchors.fill: parent
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
-        text: control.text
+        text: control.thetext
         acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
         onPressed: (mouse) => {
-            if(control.enableContextMenu && mouse.button == Qt.RightButton)
+            if(control.enableContextMenu && mouse.button === Qt.RightButton)
                 menu.popup()
             mouse.accepted = false
         }

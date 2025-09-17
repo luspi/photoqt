@@ -163,7 +163,6 @@ PQSetting {
         },
 
         Rectangle {
-            x: (set_lang.contentWidth-width)/2
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1
@@ -215,7 +214,6 @@ PQSetting {
         },
 
         Rectangle {
-            x: (set_lang.contentWidth-width)/2
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1
@@ -264,6 +262,18 @@ PQSetting {
                     source: "image://svg/:/" + PQCLook.iconShade + "/checkmark.svg"
                 }
             }
+        },
+
+        Item {
+            width: 1
+            height: 1
+        },
+
+        PQCheckBox {
+            id: native_fd
+            text: "Use native file dialog instead of PhotoQt's own file dialog for opening files."
+            onCheckedChanged:
+                set_lang.checkForChanges()
         }
 
     ]
@@ -279,7 +289,8 @@ PQSetting {
             return
         }
 
-        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || (currentInterfaceVariant!==PQCSettings.generalInterfaceVariant))
+        PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
+                                                      native_fd.hasChanged())
 
     }
 
@@ -291,7 +302,6 @@ PQSetting {
         for(var i in availableLanguages) {
             m.push(getLanguageName(availableLanguages[i]))
         }
-        console.warn(">>> m =", m)
         langcombo.model = m
 
         var code = PQCSettings.interfaceLanguage
@@ -311,6 +321,8 @@ PQSetting {
 
         currentInterfaceVariant = PQCSettings.generalInterfaceVariant
 
+        native_fd.loadAndSetDefault(PQCSettings.generalIntegratedUseNativeDialog)
+
         PQCConstants.settingsManagerSettingChanged = false
 
         settingsLoaded = true
@@ -328,6 +340,9 @@ PQSetting {
         PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
 
         PQCSettings.generalInterfaceVariant = currentInterfaceVariant
+
+        PQCSettings.generalIntegratedUseNativeDialog = native_fd.checked
+        native_fd.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

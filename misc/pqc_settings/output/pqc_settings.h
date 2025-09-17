@@ -133,6 +133,12 @@ public:
     Q_INVOKABLE const int getDefaultForFiledialogFolderContentThumbnailsSpeed();
     Q_INVOKABLE void setDefaultForFiledialogFolderContentThumbnailsSpeed();
 
+    Q_PROPERTY(bool filedialogIntegratedUseNativeDialog READ getFiledialogIntegratedUseNativeDialog WRITE setFiledialogIntegratedUseNativeDialog NOTIFY filedialogIntegratedUseNativeDialogChanged)
+    bool getFiledialogIntegratedUseNativeDialog();
+    void setFiledialogIntegratedUseNativeDialog(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogIntegratedUseNativeDialog();
+    Q_INVOKABLE void setDefaultForFiledialogIntegratedUseNativeDialog();
+
     Q_PROPERTY(bool filedialogKeepLastLocation READ getFiledialogKeepLastLocation WRITE setFiledialogKeepLastLocation NOTIFY filedialogKeepLastLocationChanged)
     bool getFiledialogKeepLastLocation();
     void setFiledialogKeepLastLocation(bool val);
@@ -456,6 +462,12 @@ public:
     void setGeneralEnabledExtensions(QStringList val);
     Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
     Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
+
+    Q_PROPERTY(bool generalIntegratedUseNativeDialog READ getGeneralIntegratedUseNativeDialog WRITE setGeneralIntegratedUseNativeDialog NOTIFY generalIntegratedUseNativeDialogChanged)
+    bool getGeneralIntegratedUseNativeDialog();
+    void setGeneralIntegratedUseNativeDialog(bool val);
+    Q_INVOKABLE const bool getDefaultForGeneralIntegratedUseNativeDialog();
+    Q_INVOKABLE void setDefaultForGeneralIntegratedUseNativeDialog();
 
     Q_PROPERTY(QString generalInterfaceVariant READ getGeneralInterfaceVariant WRITE setGeneralInterfaceVariant NOTIFY generalInterfaceVariantChanged)
     QString getGeneralInterfaceVariant();
@@ -1770,6 +1782,7 @@ private:
     bool m_filedialogFolderContentThumbnailsLoop;
     bool m_filedialogFolderContentThumbnailsScaleCrop;
     int m_filedialogFolderContentThumbnailsSpeed;
+    bool m_filedialogIntegratedUseNativeDialog;
     bool m_filedialogKeepLastLocation;
     bool m_filedialogLabelsShowGrid;
     bool m_filedialogLabelsShowMasonry;
@@ -1827,6 +1840,7 @@ private:
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
     QStringList m_generalEnabledExtensions;
+    bool m_generalIntegratedUseNativeDialog;
     QString m_generalInterfaceVariant;
     QStringList m_generalSetupFloatingExtensionsAtStartup;
     QString m_generalVersion;
@@ -2080,6 +2094,7 @@ Q_SIGNALS:
     void filedialogFolderContentThumbnailsLoopChanged();
     void filedialogFolderContentThumbnailsScaleCropChanged();
     void filedialogFolderContentThumbnailsSpeedChanged();
+    void filedialogIntegratedUseNativeDialogChanged();
     void filedialogKeepLastLocationChanged();
     void filedialogLabelsShowGridChanged();
     void filedialogLabelsShowMasonryChanged();
@@ -2137,6 +2152,7 @@ Q_SIGNALS:
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
     void generalEnabledExtensionsChanged();
+    void generalIntegratedUseNativeDialogChanged();
     void generalInterfaceVariantChanged();
     void generalSetupFloatingExtensionsAtStartupChanged();
     void generalVersionChanged();

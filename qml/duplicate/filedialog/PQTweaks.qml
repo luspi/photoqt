@@ -153,9 +153,9 @@ Item {
         Behavior on anchors.leftMargin { NumberAnimation { duration: 200; easing.type: Easing.OutBounce } }
         height: parent.height
 
-        PQFileDialogButtonElement {
+        PQButtonElement {
             id: cancelbutton
-            height: parent.height
+            // height: parent.height
             anchors.centerIn: parent
             text: genericStringCancel
             tooltip: qsTranslate("filedialog", "Cancel and close")
@@ -175,18 +175,20 @@ Item {
             id: rightcol
             y: (parent.height-height)/2
             spacing: 5
-            Label {
-                y: (parent.height-height)/2
-                text: qsTranslate("filedialog", "Sort by:")
-                font.pointSize: PQCLook.fontSize
-                color: pqtPalette.text
-            }
+            // Label {
+            //     y: (parent.height-height)/2
+            //     text: qsTranslate("filedialog", "Sort by:")
+            //     font.pointSize: PQCLook.fontSize
+            //     color: pqtPalette.text
+            // }
 
             PQComboBox {
 
                 id: rightcombo
 
                 y: (parent.height-height)/2
+
+                selectedPrefix: qsTranslate("filedialog", "Sort by: ")
 
                 property list<string> modeldata_wicu: [qsTranslate("filedialog", "Name"),
                                                        qsTranslate("filedialog", "Natural Name"),
@@ -204,6 +206,8 @@ Item {
                 property list<string> modeldata: PQCScriptsConfig.isICUSupportEnabled() ? modeldata_wicu : modeldata_woicu
 
                 model: modeldata
+
+                width: 250
 
                 Component.onCompleted: {
                     setCurrentIndex()
@@ -256,392 +260,181 @@ Item {
 
             }
 
-            PQFileDialogButton {
+            PQCheckableComboBox {
 
-                id: filetypes_button
+                id: ft_combo
 
-                y: (parent.height-height)/2
-                font.weight: PQCLook.fontWeightNormal
-                font.pointSize: PQCLook.fontSize
-                horizontalAlignment: Text.AlignLeft
-                width: 300
-                forceWidth: width
+                model: ListModel { id: mdl }
 
-                enableContextMenu: false
+                mainEntryText: "File types"
 
-                Connections {
-                    target: PQCConstants
-                    function onWhichContextMenusOpenChanged() {
-                        filetypes_button.forceHovered = PQCConstants.isContextmenuOpen("filedialogtypes")
-                    }
-                }
+                width: 250
+
                 Connections {
                     target: PQCNotify
-                    function onFiledialogTweaksSetFiletypesButtonText(txt : string) {
-                        filetypes_button.text = txt
+                    function onFiledialogTweaksSetFiletypesButtonText(txt) {
+                        ft_combo.mainEntryText = txt
                     }
                 }
 
-                text: qsTranslate("filedialog", "All supported images")
-
-                onClicked: {
-                    const diff = filetypes_menu.visibleItems*filetypes_menu.itemHeight
-                    filetypes_menu.popup(x, y-diff)
-                }
-
-            }
-
-            PQMenu {
-
-                id: filetypes_menu
-                width: 300
-
-                property int visibleItems: 0
-
-                // the binding on generalInterfaceVariant is removed in Component.onCompleted() below
-                property int itemHeight: PQCSettings.generalInterfaceVariant==="modern" ? 38 : 3
-
-                onAboutToShow: {
-                    PQCConstants.addToWhichContextMenusOpen("filedialogtypes")
-                }
-
-                onAboutToHide: {
-                    resetTypesMenu.restart()
-                }
-                Timer {
-                    id: resetTypesMenu
-                    interval: 300
-                    onTriggered:
-                        PQCConstants.removeFromWhichContextMenusOpen("filedialogtypes")
-                }
-
-                PQMenuItem {
-                    id: chk_all
-                    checkable: true
-                    checked: true
-                    text: qsTranslate("filedialog", "All supported images")
-                    onCheckedChanged: {
-                        if(checked)
-                            filetypes_menu.checkAll()
-                    }
-                    Component.onCompleted: filetypes_menu.visibleItems += 1
-                    onHeightChanged: {
-                        if(height > 20)
-                            filetypes_menu.itemHeight = height
-                    }
-                }
-
-                PQMenuSeparator {}
-
-                PQMenuItem {
-                    id: chk_qt
-                    checkable: true
-                    checked: true
-                    text: "Qt"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("qt")
-                    Component.onCompleted: filetypes_menu.visibleItems += 1
-                }
-
-                PQMenuItem {
-                    id: chk_magick
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isImageMagickSupportEnabled()||PQCScriptsConfig.isGraphicsMagickSupportEnabled()
-                    visible: isSupported
-                    text: (PQCScriptsConfig.isImageMagickSupportEnabled() ? "ImageMagick" : "GraphicsMagick")
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("magick")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_libraw
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isLibRawSupportEnabled()
-                    visible: isSupported
-                    text: "LibRaw"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("libraw")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_devil
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isDevILSupportEnabled()
-                    visible: isSupported
-                    text: "DevIL"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("devil")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_freeimage
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isFreeImageSupportEnabled()
-                    visible: isSupported
-                    text: "FreeImage"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("freeimage")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_libvips
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isLibVipsSupportEnabled()
-                    visible: isSupported
-                    text: "LibVips"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("libvips")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_libarchive
-                    checkable: true
-                    checked: true
-                    implicitHeight: isSupported ? 40 : 0
-                    property bool isSupported: PQCScriptsConfig.isLibArchiveSupportEnabled()
-                    visible: isSupported
-                    text: "LibArchive"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("libarchive")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_pdf
-                    checkable: true
-                    checked: true
-                    property bool isSupported: PQCScriptsConfig.isPDFSupportEnabled()
-                    visible: isSupported
-                    text: "PDF/PS"
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("pdf")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-                }
-
-                PQMenuItem {
-                    id: chk_video
-                    checkable: true
-                    checked: true
-                    property bool isSupported: PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled()
-                    visible: isSupported
-                    implicitHeight: isSupported ? 40 : 0
-                    text: qsTranslate("filedialog", "Video files")
-                    onCheckedChanged:
-                        filetypes_menu.checkChecked("video")
-                    onIsSupportedChanged: filetypes_menu.visibleItems += (isSupported ? 1 : 0)
-
-                }
-
-                function countChecked() {
-                    var ret = 0
-                    var maxchk = 0
-                    if(chk_qt.visible) {
-                        maxchk += 1
-                        if(chk_qt.checked)
-                            ret += 1
-                    }
-                    if(chk_magick.visible) {
-                        maxchk += 1
-                        if(chk_magick.checked)
-                            ret += 1
-                    }
-                    if(chk_libraw.visible) {
-                        maxchk += 1
-                        if(chk_libraw.checked)
-                            ret += 1
-                    }
-                    if(chk_devil.visible) {
-                        maxchk += 1
-                        if(chk_devil.checked)
-                            ret += 1
-                    }
-                    if(chk_freeimage.visible) {
-                        maxchk += 1
-                        if(chk_freeimage.checked)
-                            ret += 1
-                    }
-                    if(chk_libvips.visible) {
-                        maxchk += 1
-                        if(chk_libvips.checked)
-                            ret += 1
-                    }
-                    if(chk_libarchive.visible) {
-                        maxchk += 1
-                        if(chk_libarchive.checked)
-                            ret += 1
-                    }
-                    if(chk_pdf.visible) {
-                        maxchk += 1
-                        if(chk_pdf.checked)
-                            ret += 1
-                    }
-                    if(chk_video.visible) {
-                        maxchk += 1
-                        if(chk_video.checked)
-                            ret += 1
-                    }
-                    return [ret, maxchk]
-                }
-
-                function checkChecked(src : string) {
-
-                    var situation = countChecked()
-                    var numChecked = situation[0]
-                    var maxChecked = situation[1]
-
-                    if(numChecked === maxChecked)
-                        chk_all.checked = true
-                    else
-                        chk_all.checked = false
-
-                    if(numChecked === 0) {
-                        if(src === "qt")
-                            chk_qt.checked = true
-                        else if(src === "magick")
-                            chk_magick.checked = true
-                        else if(src === "libraw")
-                            chk_libraw.checked = true
-                        else if(src === "devil")
-                            chk_devil.checked = true
-                        else if(src === "freeimage")
-                            chk_freeimage.checked = true
-                        else if(src === "libvips")
-                            chk_libvips.checked = true
-                        else if(src === "libarchive")
-                            chk_libarchive.checked = true
-                        else if(src === "pdf")
-                            chk_pdf.checked = true
-                        else if(src === "video")
-                            chk_video.checked = true
-                    }
-
-                    applyChanges.restart()
-
-                }
-
-                function checkAll() {
-                    chk_qt.checked = true
-                    if(chk_magick.visible)
-                        chk_magick.checked = true
-                    if(chk_libraw.visible)
-                        chk_libraw.checked = true
-                    if(chk_devil.visible)
-                        chk_devil.checked = true
-                    if(chk_freeimage.visible)
-                        chk_freeimage.checked = true
-                    if(chk_libvips.visible)
-                        chk_libvips.checked = true
-                    if(chk_libarchive.visible)
-                        chk_libarchive.checked = true
-                    if(chk_pdf.visible)
-                        chk_pdf.checked = true
-                    if(chk_video.visible)
-                        chk_video.checked = true
-                    applyChanges.restart()
-                }
-
+                property int countEnabled: mdl.count
 
                 Component.onCompleted: {
-                    applyChanges.triggered()
+                    mdl.append({"txt" : "Qt", "checked" : 1})
+                    if(PQCScriptsConfig.isImageMagickSupportEnabled())
+                        mdl.append({"txt" : "ImageMagick", "checked" : 1})
+                    if(PQCScriptsConfig.isGraphicsMagickSupportEnabled())
+                        mdl.append({"txt" : "GraphicsMagick", "checked" : 1})
+                    if(PQCScriptsConfig.isLibRawSupportEnabled())
+                        mdl.append({"txt" : "LibRaw", "checked" : 1})
+                    if(PQCScriptsConfig.isDevILSupportEnabled())
+                        mdl.append({"txt" : "DevIL", "checked" : 1})
+                    if(PQCScriptsConfig.isFreeImageSupportEnabled())
+                        mdl.append({"txt" : "FreeImage", "checked" : 1})
+                    if(PQCScriptsConfig.isLibVipsSupportEnabled())
+                        mdl.append({"txt" : "LibVips", "checked" : 1})
+                    if(PQCScriptsConfig.isLibArchiveSupportEnabled())
+                        mdl.append({"txt" : "LibArchive", "checked" : 1})
+                    if(PQCScriptsConfig.isPDFSupportEnabled())
+                        mdl.append({"txt" : "PDF/PS", "checked" : 1})
+                    if(PQCScriptsConfig.isMPVSupportEnabled()||PQCScriptsConfig.isVideoQtSupportEnabled())
+                        mdl.append({"txt" : "Video", "checked" : 1})
+                }
 
-                    // this removes the property binding on generalInterfaceVariant
-                    // this is done so that setting can be changed without messing up a running instance
-                    itemHeight = itemHeight
-
+                onEntryUpdated: (index) => {
+                    var c = 0
+                    for(var i = 0; i < mdl.count; ++i) {
+                        if(mdl.get(i).checked)
+                            c += 1
+                    }
+                    countEnabled = c
+                    saveFiletypes.restart()
                 }
 
                 Timer {
-                    id: applyChanges
+                    id: saveFiletypes
                     interval: 50
                     onTriggered: {
 
-                        if(chk_all.checked) {
-
-                            PQCNotify.filedialogTweaksSetFiletypesButtonText(qsTranslate("filedialog", "All supported images"))
+                        if(ft_combo.countEnabled === mdl.count) {
 
                             PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormats()
                             PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypes()
 
+                            PQCNotify.filedialogTweaksSetFiletypesButtonText(qsTranslate("filedialog", "All supported images"))
+
                         } else {
+
+                            var runningIndex = 0
 
                             var txts = []
 
                             var suffixes = []
                             var mimetypes = []
 
-                            if(chk_qt.checked) {
+                            // Qt
+                            if(mdl.get(runningIndex).checked) {
                                 txts.push("Qt")
                                 suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsQt())
                                 mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesQt())
                                 suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsResvg())
                                 mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesResvg())
                             }
-                            if(chk_magick.checked) {
-                                if(PQCScriptsConfig.isImageMagickSupportEnabled())
+                            runningIndex += 1
+
+                            // ImageMagick
+                            if(PQCScriptsConfig.isImageMagickSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
                                     txts.push("ImageMagick")
-                                else
-                                    txts.push("GraphicsMagick")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
-                            }
-                            if(chk_libraw.checked) {
-                                txts.push("LibRaw")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibRaw())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibRaw())
-                            }
-                            if(chk_devil.checked) {
-                                txts.push("DevIL")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsDevIL())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesDevIL())
-                            }
-                            if(chk_freeimage.checked) {
-                                txts.push("FreeImage")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsFreeImage())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesFreeImage())
-                            }
-                            if(chk_libvips.checked) {
-                                txts.push("LibVips")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibVips())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibVips())
-                            }
-                            if(chk_libarchive.checked) {
-                                txts.push("LibArchive")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibArchive())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibArchive())
-                            }
-                            if(chk_pdf.checked) {
-                                txts.push("PDF/PS")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsPoppler())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesPoppler())
-                            }
-                            if(chk_video.checked) {
-                                txts.push("Video")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsVideo())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesVideo())
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibmpv())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibmpv())
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
+                                }
+                                runningIndex += 1
                             }
 
-                            var situation = filetypes_menu.countChecked()
-                            if(situation[0] === situation[1])
-                                PQCNotify.filedialogTweaksSetFiletypesButtonText(qsTranslate("filedialog", "All supported images"))
-                            else
-                                PQCNotify.filedialogTweaksSetFiletypesButtonText(txts.join(", "))
+                            // GraphicsMagick
+                            if(PQCScriptsConfig.isGraphicsMagickSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("GraphicsMagick")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // LibRaw
+                            if(PQCScriptsConfig.isLibRawSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("LibRaw")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibRaw())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibRaw())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // DevIL
+                            if(PQCScriptsConfig.isDevILSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("DevIL")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsDevIL())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesDevIL())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // FreeImage
+                            if(PQCScriptsConfig.isFreeImageSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("FreeImage")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsFreeImage())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesFreeImage())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // LibVips
+                            if(PQCScriptsConfig.isLibVipsSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("LibVips")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibVips())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibVips())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // LibArchive
+                            if(PQCScriptsConfig.isLibArchiveSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("LibArchive")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibArchive())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibArchive())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // Poppler
+                            if(PQCScriptsConfig.isPDFSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("PDF/PS")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsPoppler())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesPoppler())
+                                }
+                                runningIndex += 1
+                            }
+
+                            // Video
+                            if(PQCScriptsConfig.isMPVSupportEnabled() || PQCScriptsConfig.isVideoQtSupportEnabled()) {
+                                if(mdl.get(runningIndex).checked) {
+                                    txts.push("Video")
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsVideo())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesVideo())
+                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibmpv())
+                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibmpv())
+                                }
+                                runningIndex += 1
+                            }
+
+                            PQCNotify.filedialogTweaksSetFiletypesButtonText(txts.join(", "))
 
                             PQCFileFolderModel.restrictToSuffixes = suffixes
                             PQCFileFolderModel.restrictToMimeTypes = mimetypes
@@ -650,7 +443,6 @@ Item {
 
                     }
                 }
-
 
             }
 

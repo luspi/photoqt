@@ -63,6 +63,7 @@ PQTemplate {
 
     Component.onCompleted: {
         button1.text = qsTranslate("settingsmanager", "Apply changes")
+        button1.font.weight = PQCLook.fontWeightBold
         button1.enabled = Qt.binding(function() { return PQCConstants.settingsManagerSettingChanged })
 
         button2.text = qsTranslate("settingsmanager", "Revert changes")

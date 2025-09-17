@@ -109,7 +109,6 @@ Loader {
             sourceComponent: PQThumbnails {}
         }
 
-        // Loader { id: loader_notification }
         // Loader { id: loader_chromecast }
         // Loader { id: loader_slideshowcontrols }
         // Loader { id: loader_slideshowhandler }
@@ -133,35 +132,30 @@ Loader {
 
         /******************************************/
 
-        // Loader { id: loader_mapexplorer }
         // Loader { id: loader_advancedsort }
-        // Loader { id: loader_filedelete }
-        // Loader { id: loader_copy }
-        // Loader { id: loader_move }
-        // Loader { id: loader_filerename }
         // Loader { id: loader_filter }
         // Loader { id: loader_slideshowsetup }
         // Loader { id: loader_chromecastmanager }
-        // Loader { id: loader_filedialog }
-        // Loader { id: loader_settingsmanager }
 
         // this needs to be out here to be loaded faster if needed
         Loader {
             id: loader_filedialog
             anchors.fill: parent
             active: false//PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder
-            sourceComponent: PQFileDialog {}
+            sourceComponent: PQCSettings.generalIntegratedUseNativeDialog ? comp_filedialog_native : comp_filedialog
             Connections {
                 target: PQCNotify
                 function onLoaderShow(ele : string) {
                     if(ele === "filedialog") {
                         loader_filedialog.active = true
-                        PQCNotify.loaderPassOn("show", ["filedialog"])
                         PQCConstants.idOfVisibleItem = "filedialog"
+                        PQCNotify.loaderPassOn("show", ["filedialog"])
                     }
                 }
             }
         }
+        Component { id: comp_filedialog; PQFileDialog {} }
+        Component { id: comp_filedialog_native; PQFileDialogNative {} }
 
         Loader {
             active: masteritem.readyToContinueLoading

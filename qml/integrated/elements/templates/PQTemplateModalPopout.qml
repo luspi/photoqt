@@ -210,8 +210,7 @@ Window {
                 id: firstbutton
                 text: genericStringClose
                 font.weight: PQCLook.fontWeightBold
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button1Clicked()
             }
@@ -219,8 +218,7 @@ Window {
             PQButtonElement {
                 id: secondbutton
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button2Clicked()
             }
@@ -228,8 +226,7 @@ Window {
             PQButtonElement {
                 id: thirdbutton
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button3Clicked()
             }

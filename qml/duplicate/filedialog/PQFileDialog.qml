@@ -311,7 +311,10 @@ Rectangle {
 
         }
 
-        if(dontAnimateFirstStart || nothingHere) {
+        // PQCConstants.idOfVisibleItem might contain the settingsmanager id
+        // this happens when the type of file dialog for the integrated ui is changed there
+        // in that case we don't want to show the filedialog onCompleted()
+        if((dontAnimateFirstStart || nothingHere) && PQCConstants.idOfVisibleItem === "") {
 
             if(nothingHere) {
 

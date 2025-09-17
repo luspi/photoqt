@@ -34,7 +34,6 @@ Button {
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightBold
 
-    flat: true
     opacity: enabled ? 1 : 0.5
 
     SystemPalette { id: pqtPalette }
@@ -42,7 +41,9 @@ Button {
     property bool enableContextMenu: true
     property alias contextmenu: menu
 
-    property alias tooltip: mouseArea.text
+    property string tooltip: thetext
+
+    property string thetext: ""
 
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringOk: qsTranslate("buttongeneric", "Ok")
@@ -53,8 +54,14 @@ Button {
     //: This is a generic string written on clickable buttons - please keep short!
     property string genericStringClose: qsTranslate("buttongeneric", "Close")
 
+    Component.onCompleted: {
+        if(thetext === "" && text !== "")
+            thetext = text
+        text = ""
+    }
+
     contentItem: Text {
-        text: "  " + control.text + "  "
+        text: "  " + control.thetext + "  "
         font: control.font
         opacity: enabled ? 1.0 : 0.3
         color: pqtPalette.text
@@ -63,25 +70,12 @@ Button {
         elide: Text.ElideRight
     }
 
-    background: Rectangle {
-        implicitWidth: 100
-        implicitHeight: 40
-        opacity: enabled ? 1 : 0.3
-        color: (control.down ? PQCLook.baseBorder : (control.hovered ? pqtPalette.alternateBase : pqtPalette.button))
-    }
-
-    Rectangle {
-        x: 0
-        width: 1
-        height: parent.height
-        color: PQCLook.baseBorder
-    }
-
-    Rectangle {
-        x: parent.width-1
-        width: 1
-        height: parent.height
-        color: PQCLook.baseBorder
+    PQToolTip {
+        id: ttip
+        delay: 500
+        timeout: 5000
+        visible: control.hovered && text !== ""
+        text: control.tooltip
     }
 
     PQMouseArea {
@@ -90,9 +84,10 @@ Button {
         hoverEnabled: true
         cursorShape: Qt.PointingHandCursor
         text: control.text
-        acceptedButtons: control.enableContextMenu ? (Qt.LeftButton|Qt.RightButton) : Qt.LeftButton
+        enabled: control.enableContextMenu
+        acceptedButtons: Qt.RightButton
         onPressed: (mouse) => {
-            if(control.enableContextMenu && mouse.button == Qt.RightButton)
+            if(control.enableContextMenu && mouse.button === Qt.RightButton)
                 menu.popup()
             mouse.accepted = false
         }
@@ -103,7 +98,7 @@ Button {
         PQMenuItem {
             enabled: false
             font.italic: true
-            text: control.text
+            text: control.thetext
         }
         PQMenuItem {
             text: qsTranslate("buttongeneric", "Activate button")

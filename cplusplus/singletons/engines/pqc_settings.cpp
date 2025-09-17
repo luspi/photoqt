@@ -205,6 +205,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
     connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
+    connect(this, &PQCSettings::filedialogIntegratedUseNativeDialogChanged, this, [=, this]() { saveChangedValue("filedialogIntegratedUseNativeDialog", m_filedialogIntegratedUseNativeDialog); });
     connect(this, &PQCSettings::filedialogKeepLastLocationChanged, this, [=, this]() { saveChangedValue("filedialogKeepLastLocation", m_filedialogKeepLastLocation); });
     connect(this, &PQCSettings::filedialogLabelsShowGridChanged, this, [=, this]() { saveChangedValue("filedialogLabelsShowGrid", m_filedialogLabelsShowGrid); });
     connect(this, &PQCSettings::filedialogLabelsShowMasonryChanged, this, [=, this]() { saveChangedValue("filedialogLabelsShowMasonry", m_filedialogLabelsShowMasonry); });
@@ -260,6 +261,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=, this]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
     connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=, this]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
     connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=, this]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
+    connect(this, &PQCSettings::generalIntegratedUseNativeDialogChanged, this, [=, this]() { saveChangedValue("generalIntegratedUseNativeDialog", m_generalIntegratedUseNativeDialog); });
     connect(this, &PQCSettings::generalInterfaceVariantChanged, this, [=, this]() { saveChangedValue("generalInterfaceVariant", m_generalInterfaceVariant); });
     connect(this, &PQCSettings::generalSetupFloatingExtensionsAtStartupChanged, this, [=, this]() { saveChangedValue("generalSetupFloatingExtensionsAtStartup", m_generalSetupFloatingExtensionsAtStartup); });
     connect(this, &PQCSettings::generalVersionChanged, this, [=, this]() { saveChangedValue("generalVersion", m_generalVersion); });
@@ -772,6 +774,28 @@ const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
 void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSpeed() {
     if(2 != m_filedialogFolderContentThumbnailsSpeed) {
         m_filedialogFolderContentThumbnailsSpeed = 2;
+    }
+}
+
+bool PQCSettings::getFiledialogIntegratedUseNativeDialog() {
+    return m_filedialogIntegratedUseNativeDialog;
+}
+
+void PQCSettings::setFiledialogIntegratedUseNativeDialog(bool val) {
+    if(val != m_filedialogIntegratedUseNativeDialog) {
+        m_filedialogIntegratedUseNativeDialog = val;
+        Q_EMIT filedialogIntegratedUseNativeDialogChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogIntegratedUseNativeDialog() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogIntegratedUseNativeDialog() {
+    if(false != m_filedialogIntegratedUseNativeDialog) {
+        m_filedialogIntegratedUseNativeDialog = false;
+        Q_EMIT filedialogIntegratedUseNativeDialogChanged();
     }
 }
 
@@ -1934,6 +1958,28 @@ void PQCSettings::setDefaultForGeneralEnabledExtensions() {
     if(tmp != m_generalEnabledExtensions) {
         m_generalEnabledExtensions = tmp;
         Q_EMIT generalEnabledExtensionsChanged();
+    }
+}
+
+bool PQCSettings::getGeneralIntegratedUseNativeDialog() {
+    return m_generalIntegratedUseNativeDialog;
+}
+
+void PQCSettings::setGeneralIntegratedUseNativeDialog(bool val) {
+    if(val != m_generalIntegratedUseNativeDialog) {
+        m_generalIntegratedUseNativeDialog = val;
+        Q_EMIT generalIntegratedUseNativeDialogChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForGeneralIntegratedUseNativeDialog() {
+        return false;
+}
+
+void PQCSettings::setDefaultForGeneralIntegratedUseNativeDialog() {
+    if(false != m_generalIntegratedUseNativeDialog) {
+        m_generalIntegratedUseNativeDialog = false;
+        Q_EMIT generalIntegratedUseNativeDialogChanged();
     }
 }
 
@@ -6551,6 +6597,8 @@ void PQCSettings::readDB() {
                     m_filedialogFolderContentThumbnailsScaleCrop = value.toInt();
                 } else if(name == "FolderContentThumbnailsSpeed") {
                     m_filedialogFolderContentThumbnailsSpeed = value.toInt();
+                } else if(name == "IntegratedUseNativeDialog") {
+                    m_filedialogIntegratedUseNativeDialog = value.toInt();
                 } else if(name == "KeepLastLocation") {
                     m_filedialogKeepLastLocation = value.toInt();
                 } else if(name == "LabelsShowGrid") {
@@ -6669,6 +6717,8 @@ void PQCSettings::readDB() {
                         m_generalEnabledExtensions = QStringList() << val;
                     else
                         m_generalEnabledExtensions = QStringList();
+                } else if(name == "IntegratedUseNativeDialog") {
+                    m_generalIntegratedUseNativeDialog = value.toInt();
                 } else if(name == "InterfaceVariant") {
                     m_generalInterfaceVariant = value.toString();
                 } else if(name == "SetupFloatingExtensionsAtStartup") {
@@ -7912,6 +7962,7 @@ void PQCSettings::setupFresh() {
     m_filedialogFolderContentThumbnailsLoop = true;
     m_filedialogFolderContentThumbnailsScaleCrop = true;
     m_filedialogFolderContentThumbnailsSpeed = 2;
+    m_filedialogIntegratedUseNativeDialog = false;
     m_filedialogKeepLastLocation = true;
     m_filedialogLabelsShowGrid = true;
     m_filedialogLabelsShowMasonry = false;
@@ -7969,6 +8020,7 @@ void PQCSettings::setupFresh() {
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
     m_generalEnabledExtensions = QStringList();
+    m_generalIntegratedUseNativeDialog = false;
     m_generalInterfaceVariant = "modern";
     m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
@@ -8229,6 +8281,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogFolderContentThumbnailsLoop();
     setDefaultForFiledialogFolderContentThumbnailsScaleCrop();
     setDefaultForFiledialogFolderContentThumbnailsSpeed();
+    setDefaultForFiledialogIntegratedUseNativeDialog();
     setDefaultForFiledialogKeepLastLocation();
     setDefaultForFiledialogLabelsShowGrid();
     setDefaultForFiledialogLabelsShowMasonry();
@@ -8286,6 +8339,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
     setDefaultForGeneralEnabledExtensions();
+    setDefaultForGeneralIntegratedUseNativeDialog();
     setDefaultForGeneralInterfaceVariant();
     setDefaultForGeneralSetupFloatingExtensionsAtStartup();
     setDefaultForGeneralVersion();
@@ -8575,6 +8629,10 @@ void PQCSettings::updateFromCommandLine() {
         m_filedialogFolderContentThumbnailsSpeed = val.toInt();
         Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
+    if(key == "filedialogIntegratedUseNativeDialog") {
+        m_filedialogIntegratedUseNativeDialog = (val.toInt()==1);
+        Q_EMIT filedialogIntegratedUseNativeDialogChanged();
+    }
     if(key == "filedialogKeepLastLocation") {
         m_filedialogKeepLastLocation = (val.toInt()==1);
         Q_EMIT filedialogKeepLastLocationChanged();
@@ -8786,6 +8844,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "generalEnabledExtensions") {
         m_generalEnabledExtensions = val.split(":://::");
         Q_EMIT generalEnabledExtensionsChanged();
+    }
+    if(key == "generalIntegratedUseNativeDialog") {
+        m_generalIntegratedUseNativeDialog = (val.toInt()==1);
+        Q_EMIT generalIntegratedUseNativeDialogChanged();
     }
     if(key == "generalInterfaceVariant") {
         m_generalInterfaceVariant = val;
