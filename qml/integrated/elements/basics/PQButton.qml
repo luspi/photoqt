@@ -21,7 +21,7 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls.Basic
+import QtQuick.Controls
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
@@ -60,15 +60,6 @@ Button {
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     property bool smallerVersion: false
-
-    contentItem: Text {
-        text: but_top.text
-        font: but_top.font
-        color: enabled ? pqtPalette.text : pqtPaletteDisabled.text
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-    }
 
     font.pointSize: smallerVersion ? PQCLook.fontSize : PQCLook.fontSizeL
     font.weight: smallerVersion ? PQCLook.fontWeightNormal : PQCLook.fontWeightBold

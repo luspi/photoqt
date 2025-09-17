@@ -13,7 +13,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSlider.qml ${d}/PQComboBox.q
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMenuItem.qml ${d}/PQMenuSeparator.qml ${d}/PQButton.qml ${d}/PQCheckBox.qml ${d}/PQButtonIcon.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQToolTip.qml ${d}/PQHorizontalScrollBar.qml ${d}/PQTextXXL.qml ${d}/PQSliderSpinBox.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQSpinBox.qml ${d}/PQRadioButton.qml ${d}/PQTabBar.qml ${d}/PQTextArea.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMouseArea.qml ${d}/PQLineEdit.qml ${d}/PQTabButton.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMouseArea.qml ${d}/PQLineEdit.qml ${d}/PQTabButton.qml ${d}/PQCheckableComboBox.qml)
 
 SET(d "qml/modern/elements/compounds")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainMenuEntry.qml ${d}/PQMainMenuIcon.qml ${d}/PQMetaDataEntry.qml)

@@ -13,6 +13,7 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQText.qml ${d}/PQText
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQSlider.qml ${d}/PQComboBox.qml ${d}/PQButton.qml ${d}/PQButtonElement.qml ${d}/PQCheckBox.qml)
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQToolTip.qml ${d}/PQVerticalScrollBar.qml ${d}/PQHorizontalScrollBar.qml ${d}/PQRadioButton.qml)
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQSpinBox.qml ${d}/PQSliderSpinBox.qml ${d}/PQTextArea.qml ${d}/PQTabButton.qml ${d}/PQTabBar.qml ${d}/PQTabSeparator.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQCheckableComboBox.qml)
 
 SET(d "qml/integrated/elements/templates")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTemplate.qml ${d}/PQTemplateModal.qml ${d}/PQTemplateModalPopout.qml)
