@@ -163,6 +163,10 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
     txt += QString(" - %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
 #endif
 
+#ifdef PQMLIBSAI
+    txt += QString(" - %1LibSai%2%3").arg(bold1, bold2).arg(nl);
+#endif
+
 #ifdef PQMLOCATION
     txt += QString(" - %1Location%2%3").arg(bold1, bold2, nl);
 #endif
