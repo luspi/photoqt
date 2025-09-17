@@ -54,8 +54,10 @@ public:
     QString getUniquePlacesId();
 
     // last location
-    // this value is set in PQCFileFolderModel::setFolderFileDialog()
+    // this value is set in PQCFileFolderModel::setFolderFileDialog() when the custom filedialog is used
     Q_INVOKABLE QString getLastLocation();
+    // The following one ONLY needs to be called from the integrated ui IF the native filedialog is used!
+    Q_INVOKABLE void setLastLocation(QString fname);
 
     // count folder files
     unsigned int _getNumberOfFilesInFolder(QString path);

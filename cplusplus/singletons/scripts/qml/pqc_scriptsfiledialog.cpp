@@ -345,6 +345,20 @@ QString PQCScriptsFileDialog::getLastLocation() {
 
 }
 
+// The following one ONLY needs to be called from the integrated ui IF the native filedialog is used!
+void PQCScriptsFileDialog::setLastLocation(QString fname) {
+
+    qDebug() << "args: fname =" << fname;
+
+    QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << fname;
+        file.close();
+    }
+
+}
+
 void PQCScriptsFileDialog::movePlacesEntry(QString id, bool moveDown, int howmany) {
 
     qDebug() << "args: id = " << id;

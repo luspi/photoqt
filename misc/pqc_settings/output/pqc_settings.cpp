@@ -222,6 +222,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::filedialogSingleClickSelectChanged, this, [=, this]() { saveChangedValue("filedialogSingleClickSelect", m_filedialogSingleClickSelect); });
     connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [=, this]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
     connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [=, this]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
+    connect(this, &PQCSettings::filedialogUseNativeFileDialogChanged, this, [=, this]() { saveChangedValue("filedialogUseNativeFileDialog", m_filedialogUseNativeFileDialog); });
     connect(this, &PQCSettings::filedialogZoomChanged, this, [=, this]() { saveChangedValue("filedialogZoom", m_filedialogZoom); });
     // table: filetypes
     connect(this, &PQCSettings::filetypesAnimatedControlsChanged, this, [=, this]() { saveChangedValue("filetypesAnimatedControls", m_filetypesAnimatedControls); });
@@ -1144,6 +1145,28 @@ void PQCSettings::setDefaultForFiledialogThumbnailsScaleCrop() {
     if(true != m_filedialogThumbnailsScaleCrop) {
         m_filedialogThumbnailsScaleCrop = true;
         Q_EMIT filedialogThumbnailsScaleCropChanged();
+    }
+}
+
+bool PQCSettings::getFiledialogUseNativeFileDialog() {
+    return m_filedialogUseNativeFileDialog;
+}
+
+void PQCSettings::setFiledialogUseNativeFileDialog(bool val) {
+    if(val != m_filedialogUseNativeFileDialog) {
+        m_filedialogUseNativeFileDialog = val;
+        Q_EMIT filedialogUseNativeFileDialogChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogUseNativeFileDialog() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogUseNativeFileDialog() {
+    if(false != m_filedialogUseNativeFileDialog) {
+        m_filedialogUseNativeFileDialog = false;
+        Q_EMIT filedialogUseNativeFileDialogChanged();
     }
 }
 
@@ -6585,6 +6608,8 @@ void PQCSettings::readDB() {
                     m_filedialogThumbnails = value.toInt();
                 } else if(name == "ThumbnailsScaleCrop") {
                     m_filedialogThumbnailsScaleCrop = value.toInt();
+                } else if(name == "UseNativeFileDialog") {
+                    m_filedialogUseNativeFileDialog = value.toInt();
                 } else if(name == "Zoom") {
                     m_filedialogZoom = value.toInt();
                 }
@@ -7929,6 +7954,7 @@ void PQCSettings::setupFresh() {
     m_filedialogSingleClickSelect = false;
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
+    m_filedialogUseNativeFileDialog = false;
     m_filedialogZoom = 40;
 
     // table: filetypes
@@ -8246,6 +8272,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogSingleClickSelect();
     setDefaultForFiledialogThumbnails();
     setDefaultForFiledialogThumbnailsScaleCrop();
+    setDefaultForFiledialogUseNativeFileDialog();
     setDefaultForFiledialogZoom();
 
     // table: filetypes
@@ -8642,6 +8669,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogThumbnailsScaleCrop") {
         m_filedialogThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT filedialogThumbnailsScaleCropChanged();
+    }
+    if(key == "filedialogUseNativeFileDialog") {
+        m_filedialogUseNativeFileDialog = (val.toInt()==1);
+        Q_EMIT filedialogUseNativeFileDialogChanged();
     }
     if(key == "filedialogZoom") {
         m_filedialogZoom = val.toInt();

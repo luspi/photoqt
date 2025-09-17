@@ -25,4 +25,4 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQF
 
 SET(d "qml/integrated/actions")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml ${d}/PQRename.qml ${d}/PQDelete.qml ${d}/PQCopy.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMove.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMove.qml ${d}/PQFileDialogNative.qml)

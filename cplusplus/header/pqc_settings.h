@@ -235,6 +235,12 @@ public:
     Q_INVOKABLE const bool getDefaultForFiledialogThumbnailsScaleCrop();
     Q_INVOKABLE void setDefaultForFiledialogThumbnailsScaleCrop();
 
+    Q_PROPERTY(bool filedialogUseNativeFileDialog READ getFiledialogUseNativeFileDialog WRITE setFiledialogUseNativeFileDialog NOTIFY filedialogUseNativeFileDialogChanged)
+    bool getFiledialogUseNativeFileDialog();
+    void setFiledialogUseNativeFileDialog(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogUseNativeFileDialog();
+    Q_INVOKABLE void setDefaultForFiledialogUseNativeFileDialog();
+
     Q_PROPERTY(int filedialogZoom READ getFiledialogZoom WRITE setFiledialogZoom NOTIFY filedialogZoomChanged)
     int getFiledialogZoom();
     void setFiledialogZoom(int val);
@@ -1787,6 +1793,7 @@ private:
     bool m_filedialogSingleClickSelect;
     bool m_filedialogThumbnails;
     bool m_filedialogThumbnailsScaleCrop;
+    bool m_filedialogUseNativeFileDialog;
     int m_filedialogZoom;
 
     // table: filetypes
@@ -2097,6 +2104,7 @@ Q_SIGNALS:
     void filedialogSingleClickSelectChanged();
     void filedialogThumbnailsChanged();
     void filedialogThumbnailsScaleCropChanged();
+    void filedialogUseNativeFileDialogChanged();
     void filedialogZoomChanged();
 
     // table: filetypes
