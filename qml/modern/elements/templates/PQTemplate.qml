@@ -42,6 +42,8 @@ Rectangle {
     property list<Item> bottomLeftContent
     property Item popInOutButton
 
+    property int availableHeight
+
     signal showing()
     signal hiding()
 

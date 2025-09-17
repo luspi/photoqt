@@ -54,6 +54,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title
@@ -117,6 +118,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title
@@ -153,6 +155,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title

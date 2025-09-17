@@ -63,6 +63,7 @@ Item {
                 button3: smmod.button3
                 bottomLeft: smmod.bottomLeft
                 popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
                 Component.onCompleted: {
                     smmod.elementId = elementId
                     smmod.title = title
@@ -93,6 +94,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title
@@ -124,6 +126,7 @@ Item {
                 button3: smmod.button3
                 bottomLeft: smmod.bottomLeft
                 popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
                 Component.onCompleted: {
                     smmod.elementId = elementId
                     smmod.title = title
@@ -154,6 +157,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title
@@ -186,6 +190,7 @@ Item {
                 button3: smmod.button3
                 bottomLeft: smmod.bottomLeft
                 popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
                 Component.onCompleted: {
                     smmod.elementId = elementId
                     smmod.title = title
@@ -217,6 +222,7 @@ Item {
                 button3: smpop.button3
                 bottomLeft: smpop.bottomLeft
                 popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
                 Component.onCompleted: {
                     smpop.elementId = elementId
                     smpop.title = title

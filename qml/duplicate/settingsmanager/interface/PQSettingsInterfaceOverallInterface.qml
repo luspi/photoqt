@@ -163,7 +163,6 @@ PQSetting {
         },
 
         Rectangle {
-            x: (set_lang.contentWidth-width)/2
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1
@@ -215,7 +214,6 @@ PQSetting {
         },
 
         Rectangle {
-            x: (set_lang.contentWidth-width)/2
             width: Math.min(set_lang.contentWidth, 400)
             height: Math.max(modern_txt.height, integ_txt.height)+20
             border.width: 1

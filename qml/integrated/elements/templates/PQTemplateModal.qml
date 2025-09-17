@@ -113,7 +113,7 @@ Rectangle {
 
         y: element_top.showTopBottom ? toprow.height : 0
         width: parent.width
-        height: parent.height-(element_top.showTopBottom ? (toprow.height-bottomrow.height) : 0)
+        height: parent.height-(element_top.showTopBottom ? (toprow.height+bottomrow.height) : 0)
 
     }
 
@@ -157,8 +157,7 @@ Rectangle {
                 id: firstbutton
                 text: genericStringClose
                 font.weight: PQCLook.fontWeightBold
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button1Clicked()
             }
@@ -166,8 +165,7 @@ Rectangle {
             PQButtonElement {
                 id: secondbutton
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button2Clicked()
             }
@@ -175,8 +173,7 @@ Rectangle {
             PQButtonElement {
                 id: thirdbutton
                 visible: text!==""
-                y: 1
-                height: parent.height-1
+                y: (parent.height-height)/2
                 onClicked:
                     element_top.button3Clicked()
             }

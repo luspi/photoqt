@@ -112,7 +112,7 @@ PQTemplate {
             id: splitview
 
             width: settingsmanager_top.width
-            height: settingsmanager_top.height
+            height: settingsmanager_top.availableHeight
 
             PQSettingsTabs {
 

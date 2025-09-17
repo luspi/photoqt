@@ -109,7 +109,6 @@ Loader {
             sourceComponent: PQThumbnails {}
         }
 
-        // Loader { id: loader_notification }
         // Loader { id: loader_chromecast }
         // Loader { id: loader_slideshowcontrols }
         // Loader { id: loader_slideshowhandler }

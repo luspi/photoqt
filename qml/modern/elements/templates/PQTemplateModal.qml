@@ -45,7 +45,7 @@ Rectangle {
     property bool showTopBottom: true
     property int toprowHeight: toprow.height
     property int bottomrowHeight: bottomrow.height
-    property int contentHeight: element_top.height-(showTopBottom ? (toprowHeight-bottomrowHeight) : 0)
+    property int contentHeight: element_top.height-(showTopBottom ? (toprowHeight+bottomrowHeight) : 0)
     property int contentWidth: cont.width
 
     signal button1Clicked()
