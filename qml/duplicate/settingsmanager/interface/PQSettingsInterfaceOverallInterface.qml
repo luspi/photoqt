@@ -264,16 +264,29 @@ PQSetting {
             }
         },
 
-        Item {
-            width: 1
-            height: 1
+        /***********************************/
+
+        PQSettingSubtitle {
+
+            title: qsTranslate("settingsmanager", "Type of File Dialog")
+
+            helptext: qsTranslate("settingsmanager", "PhotoQt provides a custom dialog to browse the system for any file to open. It offers efficient generation of thumbnails for all file types supported by PhotoQt and various other helpful features. If a more traditional file dialog is desired (the same one that is used by most applications), then this can be configured here.")
+
         },
 
-        PQCheckBox {
-            id: native_fd
-            text: "Use native file dialog instead of PhotoQt's own file dialog for opening files."
-            onCheckedChanged:
-                set_lang.checkForChanges()
+        PQRadioButton {
+            ButtonGroup { id: grp_fd }
+            id: fd_custom
+            text: qsTranslate("settingsmanager", "Use custom file dialog (recommended)")
+            ButtonGroup.group: grp_fd
+            onCheckedChanged: set_lang.checkForChanges()
+        },
+
+        PQRadioButton {
+            id: fd_native
+            text: qsTranslate("settingsmanager", "Use native file dialog")
+            ButtonGroup.group: grp_fd
+            onCheckedChanged: set_lang.checkForChanges()
         }
 
     ]
@@ -290,7 +303,7 @@ PQSetting {
         }
 
         PQCConstants.settingsManagerSettingChanged = (origIndex !== langcombo.currentIndex || currentInterfaceVariant!==PQCSettings.generalInterfaceVariant ||
-                                                      native_fd.hasChanged())
+                                                      fd_native.hasChanged() || fd_custom.hasChanged())
 
     }
 
@@ -321,7 +334,8 @@ PQSetting {
 
         currentInterfaceVariant = PQCSettings.generalInterfaceVariant
 
-        native_fd.loadAndSetDefault(PQCSettings.filedialogUseNativeFileDialog)
+        fd_native.loadAndSetDefault(PQCSettings.filedialogUseNativeFileDialog)
+        fd_custom.loadAndSetDefault(!PQCSettings.filedialogUseNativeFileDialog)
 
         PQCConstants.settingsManagerSettingChanged = false
 
@@ -341,8 +355,9 @@ PQSetting {
 
         PQCSettings.generalInterfaceVariant = currentInterfaceVariant
 
-        PQCSettings.filedialogUseNativeFileDialog = native_fd.checked
-        native_fd.saveDefault()
+        PQCSettings.filedialogUseNativeFileDialog = fd_native.checked
+        fd_native.saveDefault()
+        fd_custom.saveDefault()
 
         PQCConstants.settingsManagerSettingChanged = false
 

@@ -23,8 +23,12 @@
 import QtQuick
 import QtQuick.Dialogs
 import PhotoQt.CPlusPlus
-import PhotoQt.Integrated
 import PQCImageFormats
+
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
 
 Item {
 

@@ -5,20 +5,23 @@
 SET(photoqt_duplicate_QML "")
 
 SET(d "qml/duplicate/filedialog")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialog.qml ${d}/PQPlaces.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialog.qml ${d}/PQFileDialogNative.qml)
+
+SET(d "qml/duplicate/filedialog/parts")
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQPlaces.qml ${d}/PQFileView.qml ${d}/PQTweaks.qml ${d}/PQPreview.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQPasteExistingConfirm.qml ${d}/PQFileDialogSettingsMenu.qml ${d}/PQBreadCrumbs.qml)
 
 SET(d "qml/duplicate/filedialog/elements")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogButtonElement.qml ${d}/PQFileDeleteConfirm.qml ${d}/PQFileDialogComboBox.qml ${d}/PQFileDialogButton.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogScrollBar.qml ${d}/PQFileDialogSlider.qml)
 
-SET(d "qml/duplicate/filedialog/fileviews")
+SET(d "qml/duplicate/filedialog/parts/fileviews")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileViewList.qml ${d}/PQFileViewGrid.qml ${d}/PQFileViewMasonry.qml)
 
-SET(d "qml/duplicate/filedialog/fileviews/parts")
+SET(d "qml/duplicate/filedialog/parts/fileviews/parts")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)
 
-SET(d "qml/duplicate/filedialog/popout")
+SET(d "qml/duplicate/filedialog/parts/popout")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/duplicate/ongoing")
