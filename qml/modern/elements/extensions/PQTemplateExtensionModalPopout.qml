@@ -146,7 +146,7 @@ Window {
 
         Loader {
             id: popout_loader
-            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/PQ" + element_top.extensionId + ".qml"
+            source: "file:/" + PQCExtensionsHandler.getExtensionLocation(element_top.extensionId) + "/qml/modern/PQ" + element_top.extensionId + ".qml"
         }
 
     }
