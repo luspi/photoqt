@@ -42,6 +42,8 @@ ApplicationWindow {
     width: 800
     height: 600
 
+    SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
+
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
@@ -104,6 +106,22 @@ ApplicationWindow {
 
         PQCConstants.windowFullScreen = (visibility === Window.FullScreen)
 
+    }
+
+    // divider between menubar and content
+    Rectangle {
+        width: parent.width
+        height: 1
+        color: pqtPaletteDisabled.text
+        opacity: 0.5
+    }
+    // divider between footer and content
+    Rectangle {
+        y: (parent.height-height)
+        width: parent.width
+        height: 1
+        color: pqtPaletteDisabled.text
+        opacity: 0.5
     }
 
     menuBar: PQMenuBar {}
