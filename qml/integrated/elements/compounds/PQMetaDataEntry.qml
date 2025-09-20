@@ -21,18 +21,62 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Controls
+import PhotoQt.CPlusPlus
+import PhotoQt.Integrated
 
-MenuItem {
+Column {
 
-    // not currently used but needed for compatibility with modern style
-    property bool keepOpenWhenCheckedChanges
-    property bool checkableLikeRadioButton
-    property bool moveToRightABit
+    id: entry
 
-    property string iconSource: ""
-    onIconSourceChanged:
-        icon.source = iconSource
-    Component.onCompleted:
-        icon.source = iconSource
+    property alias whichtxt: which.text
+    property string valtxt: ""
+
+    property bool fadeout: valtxt==""
+
+    property bool signalClicks: false
+    property string tooltip: qsTranslate("metadata", "Copy value to clipboard")
+    clip: true
+
+    property bool prop: true
+
+    height: prop ? childrenRect.height : 0
+    opacity: prop ? 1 : 0
+
+    signal clicked(var mouse)
+
+    PQText {
+        id: which
+        font.weight: PQCLook.fontWeightBold
+        enabled: !entry.fadeout
+        visible: PQCFileFolderModel.countMainView>0
+    }
+
+    Row {
+
+        spacing: 5
+
+        PQText {
+            id: val
+            text: "  " + (entry.valtxt=="" ? "--" : entry.valtxt)
+            enabled: !entry.fadeout
+            visible: PQCFileFolderModel.countMainView>0
+
+            PQMouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                enabled: !entry.fadeout
+                text: enabled ? entry.tooltip : ""
+                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+                onClicked: (mouse) => {
+                    if(entry.signalClicks)
+                        entry.clicked(mouse)
+                    else
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
+                }
+            }
+        }
+
+    }
+
 }
+

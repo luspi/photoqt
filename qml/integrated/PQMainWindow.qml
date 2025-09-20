@@ -45,7 +45,7 @@ ApplicationWindow {
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableWidth = width
+        PQCConstants.availableWidth = width - PQCSettings.metadataSideBarWidth
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -124,6 +124,7 @@ ApplicationWindow {
     Loader {
         asynchronous: (PQCConstants.startupFilePath!=="")
         sourceComponent: PQBackgroundMessage {
+            x: (PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
             width: PQCConstants.availableWidth
             height: PQCConstants.availableHeight
         }
@@ -132,11 +133,23 @@ ApplicationWindow {
     /****************************************************/
 
     Loader {
+        active: PQCSettings.metadataSideBarLocation==="left"
+        sourceComponent: PQMetaData {}
+    }
+
+    Loader {
         id: imageloader
         asynchronous: true
         active: false
         sourceComponent: PQImage {
             toplevelItem: fullscreenitem
+        }
+    }
+
+    Loader {
+        active: PQCSettings.metadataSideBarLocation==="right"
+        sourceComponent: PQMetaData {
+            x: toplevel.width-width
         }
     }
 

@@ -436,6 +436,8 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::metadataMakeChanged, this, [=, this]() { saveChangedValue("metadataMake", m_metadataMake); });
     connect(this, &PQCSettings::metadataModelChanged, this, [=, this]() { saveChangedValue("metadataModel", m_metadataModel); });
     connect(this, &PQCSettings::metadataSceneTypeChanged, this, [=, this]() { saveChangedValue("metadataSceneType", m_metadataSceneType); });
+    connect(this, &PQCSettings::metadataSideBarLocationChanged, this, [=, this]() { saveChangedValue("metadataSideBarLocation", m_metadataSideBarLocation); });
+    connect(this, &PQCSettings::metadataSideBarWidthChanged, this, [=, this]() { saveChangedValue("metadataSideBarWidth", m_metadataSideBarWidth); });
     connect(this, &PQCSettings::metadataSoftwareChanged, this, [=, this]() { saveChangedValue("metadataSoftware", m_metadataSoftware); });
     connect(this, &PQCSettings::metadataTimeChanged, this, [=, this]() { saveChangedValue("metadataTime", m_metadataTime); });
     // table: slideshow
@@ -5678,6 +5680,49 @@ void PQCSettings::setDefaultForMetadataSceneType() {
     }
 }
 
+QString PQCSettings::getMetadataSideBarLocation() {
+    return m_metadataSideBarLocation;
+}
+
+void PQCSettings::setMetadataSideBarLocation(QString val) {
+    if(val != m_metadataSideBarLocation) {
+        m_metadataSideBarLocation = val;
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForMetadataSideBarLocation() {
+        return "right";
+}
+
+void PQCSettings::setDefaultForMetadataSideBarLocation() {
+    if("right" != m_metadataSideBarLocation) {
+        m_metadataSideBarLocation = "right";
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+}
+
+int PQCSettings::getMetadataSideBarWidth() {
+    return m_metadataSideBarWidth;
+}
+
+void PQCSettings::setMetadataSideBarWidth(int val) {
+    if(val != m_metadataSideBarWidth) {
+        m_metadataSideBarWidth = val;
+        Q_EMIT metadataSideBarWidthChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForMetadataSideBarWidth() {
+        return 300;
+}
+
+void PQCSettings::setDefaultForMetadataSideBarWidth() {
+    if(300 != m_metadataSideBarWidth) {
+        m_metadataSideBarWidth = 300;
+    }
+}
+
 bool PQCSettings::getMetadataSoftware() {
     return m_metadataSoftware;
 }
@@ -7109,6 +7154,10 @@ void PQCSettings::readDB() {
                     m_metadataModel = value.toInt();
                 } else if(name == "SceneType") {
                     m_metadataSceneType = value.toInt();
+                } else if(name == "SideBarLocation") {
+                    m_metadataSideBarLocation = value.toString();
+                } else if(name == "SideBarWidth") {
+                    m_metadataSideBarWidth = value.toInt();
                 } else if(name == "Software") {
                     m_metadataSoftware = value.toInt();
                 } else if(name == "Time") {
@@ -8175,6 +8224,8 @@ void PQCSettings::setupFresh() {
     m_metadataMake = true;
     m_metadataModel = true;
     m_metadataSceneType = true;
+    m_metadataSideBarLocation = "right";
+    m_metadataSideBarWidth = 300;
     m_metadataSoftware = true;
     m_metadataTime = true;
 
@@ -8493,6 +8544,8 @@ void PQCSettings::resetToDefault() {
     setDefaultForMetadataMake();
     setDefaultForMetadataModel();
     setDefaultForMetadataSceneType();
+    setDefaultForMetadataSideBarLocation();
+    setDefaultForMetadataSideBarWidth();
     setDefaultForMetadataSoftware();
     setDefaultForMetadataTime();
 
@@ -9515,6 +9568,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "metadataSceneType") {
         m_metadataSceneType = (val.toInt()==1);
         Q_EMIT metadataSceneTypeChanged();
+    }
+    if(key == "metadataSideBarLocation") {
+        m_metadataSideBarLocation = val;
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+    if(key == "metadataSideBarWidth") {
+        m_metadataSideBarWidth = val.toInt();
+        Q_EMIT metadataSideBarWidthChanged();
     }
     if(key == "metadataSoftware") {
         m_metadataSoftware = (val.toInt()==1);

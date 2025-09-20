@@ -34,7 +34,7 @@ Item {
 
     id: image_top
 
-    x: extraX + PQCSettings.imageviewMargin
+    x: extraX + PQCSettings.imageviewMargin + integratedXOffset
     y: extraY + PQCSettings.imageviewMargin
     width: PQCConstants.availableWidth-2*PQCSettings.imageviewMargin - lessW
     height: PQCConstants.availableHeight-2*PQCSettings.imageviewMargin - lessH
@@ -52,6 +52,9 @@ Item {
     property int extraY: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeTopAction==="thumbnails") ? PQCConstants.thumbnailsBarHeight : 0
     property int lessW: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeRightAction==="thumbnails") ? PQCConstants.thumbnailsBarWidth : 0
     property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? PQCConstants.thumbnailsBarHeight : 0
+
+    property bool integratedInterface: PQCSettings.generalInterfaceVariant==="integrated"
+    property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
 
     property list<string> visibleSourcePrevCur: ["",""]
     Connections{
