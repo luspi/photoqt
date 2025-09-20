@@ -29,8 +29,8 @@ Item {
 
     id: bgmsg
 
-    width: PQCConstants.windowWidth
-    height: PQCConstants.windowHeight
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
     visible: PQCFileFolderModel.countMainView===0 && PQCConstants.startupFilePath===""
 
     SystemPalette { id: pqtPalette }
@@ -119,9 +119,9 @@ Item {
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
-                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80))
+                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.availableWidth+PQCConstants.availableHeight)/80))
                 font.weight: PQCLook.fontWeightBold
-                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
+                opacity: PQCConstants.availableWidth>750&&PQCConstants.availableHeight>500 ? 0.8 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 wrapMode: Text.WordWrap
@@ -150,7 +150,7 @@ Item {
             property int extraSpace: (PQCSettings.interfaceEdgeLeftAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
@@ -203,7 +203,7 @@ Item {
             }
             visible: arrleft.visible&&ltx.text!==""&&opacity>0
 
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
+            opacity: PQCConstants.availableWidth>750&&PQCConstants.availableHeight>500 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -261,7 +261,7 @@ Item {
             property int extraSpace: (PQCSettings.interfaceEdgeRightAction === "thumbnails" && PQCSettings.thumbnailsVisibility>0 ?
                                           PQCSettings.thumbnailsSize+20 : 0)
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on x {
@@ -273,8 +273,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-110-arrright.extraSpace
-                    to: PQCConstants.windowWidth-130-arrright.extraSpace
+                    from: PQCConstants.availableWidth-110-arrright.extraSpace
+                    to: PQCConstants.availableWidth-130-arrright.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -283,8 +283,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-130-arrright.extraSpace
-                    to: PQCConstants.windowWidth-110-arrright.extraSpace
+                    from: PQCConstants.availableWidth-130-arrright.extraSpace
+                    to: PQCConstants.availableWidth-110-arrright.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -313,7 +313,7 @@ Item {
                 radius: 5
             }
             visible: arrright.visible&&rtx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
+            opacity: PQCConstants.availableWidth>750&&PQCConstants.availableHeight>500 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -333,8 +333,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace
+                    from: PQCConstants.availableWidth-arrright.width-right_txt.width-20-arrright.extraSpace
+                    to: PQCConstants.availableWidth-arrright.width-right_txt.width-40-arrright.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -343,8 +343,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowWidth-arrright.width-right_txt.width-40-arrright.extraSpace
-                    to: PQCConstants.windowWidth-arrright.width-right_txt.width-20-arrright.extraSpace
+                    from: PQCConstants.availableWidth-arrright.width-right_txt.width-40-arrright.extraSpace
+                    to: PQCConstants.availableWidth-arrright.width-right_txt.width-20-arrright.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -373,7 +373,7 @@ Item {
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg"
             rotation: -90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
@@ -385,8 +385,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-110-arrdown.extraSpace
-                    to: PQCConstants.windowHeight-130-arrdown.extraSpace
+                    from: PQCConstants.availableHeight-110-arrdown.extraSpace
+                    to: PQCConstants.availableHeight-130-arrdown.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -395,8 +395,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-130-arrdown.extraSpace
-                    to: PQCConstants.windowHeight-110-arrdown.extraSpace
+                    from: PQCConstants.availableHeight-130-arrdown.extraSpace
+                    to: PQCConstants.availableHeight-110-arrdown.extraSpace
                     easing.type: Easing.OutBounce
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -425,7 +425,7 @@ Item {
                 radius: 5
             }
             visible: arrdown.visible&&btx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>625 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {
@@ -445,8 +445,8 @@ Item {
 
                 // move out quick
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
+                    from: PQCConstants.availableHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
+                    to: PQCConstants.availableHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
                     easing.type: Easing.OutExpo
                     duration: 500
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -455,8 +455,8 @@ Item {
 
                 // bounce back in
                 NumberAnimation {
-                    from: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
-                    to: PQCConstants.windowHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
+                    from: PQCConstants.availableHeight-arrdown.height-bottom_txt.height-40-arrdown.extraSpace
+                    to: PQCConstants.availableHeight-arrdown.height-bottom_txt.height-20-arrdown.extraSpace
                     easing.type: Easing.InQuad
                     duration: 1000
                     onFromChanged: bgmsg.restartAllAnimations()
@@ -484,7 +484,7 @@ Item {
             source: "image://svg/:/" + PQCLook.iconShade + "/leftarrow.svg"
             rotation: 90
 
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>500 ? 0.5 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>500 ? 0.5 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             SequentialAnimation on y {
@@ -536,7 +536,7 @@ Item {
                 radius: 5
             }
             visible: arrup.visible&&utx.text!==""&&opacity>0
-            opacity: PQCConstants.windowWidth>500&&PQCConstants.windowHeight>625 ? 0.8 : 0
+            opacity: PQCConstants.availableWidth>500&&PQCConstants.availableHeight>625 ? 0.8 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
 
             PQTextL {

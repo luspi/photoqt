@@ -44,8 +44,8 @@ Rectangle {
     visible: opacity>0
     enabled: visible
 
-    width: PQCConstants.windowWidth
-    height: PQCConstants.windowHeight
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
     color: pqtPalette.alternateBase
 
     PQMouseArea {
@@ -247,7 +247,7 @@ Rectangle {
         settings["ExtShow"] = true
 
         var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
-        if(PQCConstants.windowWidth < minsize.width || PQCConstants.windowHeight < minsize.height) {
+        if(PQCConstants.availableWidth < minsize.width || PQCConstants.availableHeight < minsize.height) {
             PQCNotify.loaderRegisterClose(extensionId)
             settings["ExtForcePopout"] = true
             settings["ExtPopout"] = true

@@ -36,8 +36,8 @@ Item {
 
     x: extraX + PQCSettings.imageviewMargin
     y: extraY + PQCSettings.imageviewMargin
-    width: toplevelItem.width-2*PQCSettings.imageviewMargin - lessW
-    height: toplevelItem.height-2*PQCSettings.imageviewMargin - lessH
+    width: PQCConstants.availableWidth-2*PQCSettings.imageviewMargin - lessW
+    height: PQCConstants.availableHeight-2*PQCSettings.imageviewMargin - lessH
 
     onWidthChanged:
         PQCConstants.imageDisplaySize.width = width+2*PQCSettings.imageviewMargin

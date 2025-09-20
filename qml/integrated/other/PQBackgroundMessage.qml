@@ -123,9 +123,9 @@ Item {
                 width: startmessage.width
                 //: Part of the message shown in the main view before any image is loaded
                 text: qsTranslate("other", "Open a file")
-                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.windowWidth+PQCConstants.windowHeight)/80))
+                font.pointSize: Math.min(40, Math.max(20, (PQCConstants.availableWidth+PQCConstants.availableHeight)/80))
                 font.weight: PQCLook.fontWeightBold
-                opacity: PQCConstants.windowWidth>750&&PQCConstants.windowHeight>500 ? 0.8 : 0
+                opacity: PQCConstants.availableWidth>750&&PQCConstants.availableHeight>500 ? 0.8 : 0
                 Behavior on opacity { NumberAnimation { duration: 200 } }
                 visible: opacity>0
                 wrapMode: Text.WordWrap

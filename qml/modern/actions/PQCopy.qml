@@ -27,8 +27,8 @@ import PhotoQt.Modern
 
 Item {
 
-    width: PQCConstants.windowWidth 
-    height: PQCConstants.windowHeight
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
 
     SystemPalette { id: pqtPalette }
 
@@ -43,7 +43,7 @@ Item {
                 if(param[0] === "FileCopy") {
 
                     error.opacity = 0
-                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { 
+                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
                         PQCNotify.loaderRegisterClose("FileCopy")
                         return
                     }
@@ -91,12 +91,12 @@ Item {
             PQTextXXL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "An error occured")
-                font.weight: PQCLook.fontWeightBold 
+                font.weight: PQCLook.fontWeightBold
             }
             PQTextL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "File could not be copied")
-                font.weight: PQCLook.fontWeightBold 
+                font.weight: PQCLook.fontWeightBold
             }
             PQButton {
                 id: errorbutton

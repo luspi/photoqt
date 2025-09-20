@@ -318,14 +318,14 @@ Item {
 
         target: PQCConstants
 
-        function onWindowWidthChanged() {
-            if(element_top.x+element_top.width > PQCConstants.windowWidth && element_top.width+50 < PQCConstants.windowWidth)
-                element_top.x = PQCConstants.windowWidth-element_top.width
+        function onAvailableWidthChanged() {
+            if(element_top.x+element_top.width > PQCConstants.availableWidth && element_top.width+50 < PQCConstants.availableWidth)
+                element_top.x = PQCConstants.availableWidth-element_top.width
         }
 
-        function onWindowHeightChanged() {
-            if(element_top.y+element_top.height> PQCConstants.windowHeight && element_top.height+50 < PQCConstants.windowHeight)
-                element_top.y = PQCConstants.windowHeight-element_top.height
+        function onAvailableHeightChanged() {
+            if(element_top.y+element_top.height> PQCConstants.availableHeight && element_top.height+50 < PQCConstants.availableHeight)
+                element_top.y = PQCConstants.availableHeight-element_top.height
         }
 
     }
@@ -361,50 +361,50 @@ Item {
         // top middle
         } else if(topos === 1) {
 
-            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
+            x = Qt.binding(function() { return (PQCConstants.availableWidth-width)/2 })
             y = dist
 
         // top right
         } else if(topos === 2) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
+            x = Qt.binding(function() { return PQCConstants.availableWidth-width-dist })
             y = dist
 
         // left
         } else if(topos === 3) {
 
             x = dist
-            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+            y = Qt.binding(function() { return (PQCConstants.availableHeight-height)/2 })
 
         // center
         } else if(topos === 4) {
 
-            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
-            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+            x = Qt.binding(function() { return (PQCConstants.availableWidth-width)/2 })
+            y = Qt.binding(function() { return (PQCConstants.availableHeight-height)/2 })
 
         // right
         } else if(topos === 5) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
-            y = Qt.binding(function() { return (PQCConstants.windowHeight-height)/2 })
+            x = Qt.binding(function() { return PQCConstants.availableWidth-width-dist })
+            y = Qt.binding(function() { return (PQCConstants.availableHeight-height)/2 })
 
         // bottom left
         } else if(topos === 6) {
 
             x = dist
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
+            y = Qt.binding(function() { return PQCConstants.availableHeight-height-dist })
 
         // bottom
         } else if(topos === 7) {
 
-            x = Qt.binding(function() { return (PQCConstants.windowWidth-width)/2 })
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
+            x = Qt.binding(function() { return (PQCConstants.availableWidth-width)/2 })
+            y = Qt.binding(function() { return PQCConstants.availableHeight-height-dist })
 
         // bottom right
         } else if(topos === 8) {
 
-            x = Qt.binding(function() { return PQCConstants.windowWidth-width-dist })
-            y = Qt.binding(function() { return PQCConstants.windowHeight-height-dist })
+            x = Qt.binding(function() { return PQCConstants.availableWidth-width-dist })
+            y = Qt.binding(function() { return PQCConstants.availableHeight-height-dist })
 
         }
 

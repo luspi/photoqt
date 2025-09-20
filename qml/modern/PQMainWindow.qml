@@ -49,13 +49,13 @@ Window {
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.windowWidth = width
+        PQCConstants.availableWidth = width
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
     onHeightChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.windowHeight = height
+        PQCConstants.availableHeight = height
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }

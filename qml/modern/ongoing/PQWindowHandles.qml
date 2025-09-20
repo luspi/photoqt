@@ -28,18 +28,18 @@ Item {
 
     id: handles_top
 
-    width: PQCConstants.windowWidth
-    height: PQCConstants.windowHeight
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
 
     property int thickness: 10
 
     // MOVE with TOP edge
     MouseArea {
-        x: PQCConstants.statusInfoCurrentRect.width 
+        x: PQCConstants.statusInfoCurrentRect.width
         y: 0
-        enabled: !PQCConstants.modalWindowOpen 
+        enabled: !PQCConstants.modalWindowOpen
         visible: enabled
-        width: parent.width - PQCConstants.statusInfoCurrentRect.width-20 - PQCConstants.windowButtonsCurrentRect.width-10 
+        width: parent.width - PQCConstants.statusInfoCurrentRect.width-20 - PQCConstants.windowButtonsCurrentRect.width-10
         height: 3*handles_top.thickness
         hoverEnabled: true
         cursorShape: Qt.SizeAllCursor

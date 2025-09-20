@@ -76,8 +76,8 @@ Rectangle {
     width: Math.max(300, PQCSettings.metadataElementSize.width)
     height: isPopout ? metadata_popout.height :
                 PQCSettings.metadataElementHeightDynamic ?
-                            PQCConstants.windowHeight-2*gap-statusinfoOffset :
-                            Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
+                            PQCConstants.availableHeight-2*gap-statusinfoOffset :
+                            Math.min(PQCConstants.availableHeight, PQCSettings.metadataElementSize.height)
 
     color: pqtPalette.base
 
@@ -92,7 +92,7 @@ Rectangle {
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
-    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.availableHeight-hotAreaSize, PQCConstants.availableWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
@@ -126,22 +126,22 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 metadata_top.visiblePos: [metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
                 metadata_top.invisiblePos: [-metadata_top.width,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
-                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,PQCConstants.availableHeight)
+                metadata_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                metadata_top.visiblePos: [PQCConstants.windowWidth-metadata_top.width-metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.invisiblePos: [PQCConstants.windowWidth,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(PQCConstants.windowWidth-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
-                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                metadata_top.visiblePos: [PQCConstants.availableWidth-metadata_top.width-metadata_top.gap,
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.invisiblePos: [PQCConstants.availableWidth,
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(PQCConstants.availableWidth-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,PQCConstants.availableHeight)
+                metadata_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
@@ -156,8 +156,8 @@ Rectangle {
             PropertyChanges {
                 metadata_top.hotArea: Qt.rect(0,0,0,0)
                 metadata_top.setVisible: PQCSettings.metadataElementVisible
-                metadata_top.visiblePos: [Math.max(0, Math.min(PQCConstants.windowWidth-metadata_top.width, PQCSettings.metadataElementPosition.x)),
-                                          Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y))]
+                metadata_top.visiblePos: [Math.max(0, Math.min(PQCConstants.availableWidth-metadata_top.width, PQCSettings.metadataElementPosition.x)),
+                                          Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y))]
                 metadata_top.invisiblePos: metadata_top.visiblePos
                 metadata_top.windowSizeOkay: true
             }
@@ -247,7 +247,7 @@ Rectangle {
             drag.target: metadata_top.isPopout ? undefined : metadata_top
             drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
             drag.minimumY: 0
-            drag.maximumY: PQCConstants.windowHeight-metadata_top.height
+            drag.maximumY: PQCConstants.availableHeight-metadata_top.height
         }
 
     }
@@ -518,7 +518,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -544,7 +544,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -683,7 +683,7 @@ Rectangle {
                     if(checked) {
                         metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         if(!metadata_top.isPopout)
-                            metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
+                            metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
                         PQCSettings.metadataElementHeightDynamic = true
                     } else {
                         metadata_top.y = metadata_top.y
@@ -707,7 +707,7 @@ Rectangle {
                     metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
                     if(!metadata_top.isPopout)
-                        metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
+                        metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true
                 }
             }
@@ -789,10 +789,10 @@ Rectangle {
 
     Connections {
         target: PQCConstants
-        function onWindowWidthChanged() {
+        function onAvailableWidthChanged() {
             metadata_top.setVisible = false
         }
-        function onWindowHeightChanged() {
+        function onAvailableHeightChanged() {
             metadata_top.setVisible = false
         }
     }

@@ -64,15 +64,15 @@ Rectangle {
     visible: opacity>0
     enabled: visible
 
-    width: PQCConstants.windowWidth
-    height: PQCConstants.windowHeight
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
     color: pqtPalette.alternateBase
 
     onWidthChanged: {
-        width = Qt.binding(function() { return PQCConstants.windowWidth })
+        width = Qt.binding(function() { return PQCConstants.availableWidth })
     }
     onHeightChanged: {
-        height = Qt.binding(function() { return PQCConstants.windowHeight })
+        height = Qt.binding(function() { return PQCConstants.availableHeight })
     }
 
     PQMouseArea {

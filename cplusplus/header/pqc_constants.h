@@ -52,8 +52,8 @@ public:
 
     explicit PQCConstants() : QObject() {
 
-        m_windowWidth = 0;
-        m_windowHeight = 0;
+        m_availableWidth = 0;
+        m_availableHeight = 0;
         m_menuBarHeight = 0;
         m_footerHeight = 0;
         m_mainWindowBeingResized = false;
@@ -235,8 +235,8 @@ public:
     /******************************************************/
     // some window properties
 
-    Q_PROPERTY(int windowWidth MEMBER m_windowWidth NOTIFY windowWidthChanged)
-    Q_PROPERTY(int windowHeight MEMBER m_windowHeight NOTIFY windowHeightChanged)
+    Q_PROPERTY(int availableWidth MEMBER m_availableWidth NOTIFY availableWidthChanged)
+    Q_PROPERTY(int availableHeight MEMBER m_availableHeight NOTIFY availableHeightChanged)
     Q_PROPERTY(int menuBarHeight MEMBER m_menuBarHeight NOTIFY menuBarHeightChanged)
     Q_PROPERTY(int footerHeight MEMBER m_footerHeight NOTIFY footerHeightChanged)
     Q_PROPERTY(bool mainWindowBeingResized MEMBER m_mainWindowBeingResized NOTIFY mainWindowBeingResizedChanged)
@@ -366,8 +366,8 @@ private:
     bool m_startupHaveScreenshots;
     bool m_startupHaveSettingUpdate;
 
-    int m_windowWidth;
-    int m_windowHeight;
+    int m_availableWidth;
+    int m_availableHeight;
     int m_menuBarHeight;
     int m_footerHeight;
     bool m_mainWindowBeingResized;
@@ -481,8 +481,8 @@ Q_SIGNALS:
     void startupHaveScreenshotsChanged();
     void startupHaveSettingUpdateChanged();
 
-    void windowWidthChanged();
-    void windowHeightChanged();
+    void availableWidthChanged();
+    void availableHeightChanged();
     void menuBarHeightChanged();
     void footerHeightChanged();
     void mainWindowBeingResizedChanged();

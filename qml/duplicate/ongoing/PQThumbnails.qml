@@ -70,7 +70,7 @@ Rectangle {
 
     // which area triggers the bar to be shown
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
-    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.availableHeight-hotAreaSize, PQCConstants.availableWidth, hotAreaSize)
 
     property int effectiveThumbnailLiftup: PQCSettings.thumbnailsHighlightAnimation.includes("liftup") ? PQCSettings.thumbnailsHighlightAnimationLiftUp : 0
     property int extraSpacing: Math.max(20,2*effectiveThumbnailLiftup)
@@ -95,12 +95,12 @@ Rectangle {
         State {
             name: "bottom"
             PropertyChanges {
-                thumbnails_top.visiblePos: [0,PQCConstants.windowHeight-thumbnails_top.height]
-                thumbnails_top.invisiblePos: [0, PQCConstants.windowHeight]
-                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.windowHeight-thumbnails_top.hotAreaSize, PQCConstants.windowWidth, thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.windowWidth
+                thumbnails_top.visiblePos: [0,PQCConstants.availableHeight-thumbnails_top.height]
+                thumbnails_top.invisiblePos: [0, PQCConstants.availableHeight]
+                thumbnails_top.hotArea: Qt.rect(0, PQCConstants.availableHeight-thumbnails_top.hotAreaSize, PQCConstants.availableWidth, thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.availableWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
+                thumbnails_top.windowSizeOkay: PQCConstants.availableHeight>500
             }
         },
         State {
@@ -108,21 +108,21 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [-thumbnails_top.width,0]
-                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
+                thumbnails_top.hotArea: Qt.rect(0,0,thumbnails_top.hotAreaSize,PQCConstants.availableHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.windowHeight
-                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
+                thumbnails_top.height: PQCConstants.availableHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.availableWidth>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                thumbnails_top.visiblePos: [PQCConstants.windowWidth-thumbnails_top.width,0]
-                thumbnails_top.invisiblePos: [PQCConstants.windowWidth,0]
-                thumbnails_top.hotArea: Qt.rect(PQCConstants.windowWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.windowHeight)
+                thumbnails_top.visiblePos: [PQCConstants.availableWidth-thumbnails_top.width,0]
+                thumbnails_top.invisiblePos: [PQCConstants.availableWidth,0]
+                thumbnails_top.hotArea: Qt.rect(PQCConstants.availableWidth-thumbnails_top.hotAreaSize,0,thumbnails_top.hotAreaSize,PQCConstants.availableHeight)
                 thumbnails_top.width: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.height: PQCConstants.windowHeight
-                thumbnails_top.windowSizeOkay: PQCConstants.windowWidth>500
+                thumbnails_top.height: PQCConstants.availableHeight
+                thumbnails_top.windowSizeOkay: PQCConstants.availableWidth>500
             }
         },
         State {
@@ -130,10 +130,10 @@ Rectangle {
             PropertyChanges {
                 thumbnails_top.visiblePos: [0,0]
                 thumbnails_top.invisiblePos: [0,-thumbnails_top.height]
-                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.windowWidth,thumbnails_top.hotAreaSize)
-                thumbnails_top.width: PQCConstants.windowWidth
+                thumbnails_top.hotArea: Qt.rect(0,0,PQCConstants.availableWidth,thumbnails_top.hotAreaSize)
+                thumbnails_top.width: PQCConstants.availableWidth
                 thumbnails_top.height: PQCSettings.thumbnailsSize+thumbnails_top.extraSpacing
-                thumbnails_top.windowSizeOkay: PQCConstants.windowHeight>500
+                thumbnails_top.windowSizeOkay: PQCConstants.availableHeight>500
             }
         },
         State {
@@ -993,10 +993,10 @@ Rectangle {
 
     Connections {
         target: PQCConstants
-        function onWindowWidthChanged() {
+        function onAvailableWidthChanged() {
             thumbnails_top.setVisible = false
         }
-        function onWindowHeightChanged() {
+        function onAvailableHeightChanged() {
             thumbnails_top.setVisible = false
         }
     }

@@ -28,10 +28,10 @@ Item {
 
     id: mastertouch_top
 
-    width: PQCConstants.windowWidth 
-    height: PQCConstants.windowHeight 
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
 
-    visible: PQCFileFolderModel.countMainView>0 
+    visible: PQCFileFolderModel.countMainView>0
 
     MultiPointTouchArea {
 

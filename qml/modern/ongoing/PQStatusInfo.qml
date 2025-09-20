@@ -35,9 +35,9 @@ Item {
 
     SystemPalette { id: pqtPalette }
 
-    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } } 
+    Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceStatusInfoAutoHide || PQCSettings.interfaceStatusInfoAutoHideTopEdge) ? 200 : 0 } }
 
-    opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0 
+    opacity: (!(PQCConstants.slideshowRunning && PQCSettings.slideshowHideLabels) && !PQCConstants.faceTaggingMode && PQCSettings.interfaceStatusInfoShow && !hideAtStartup) ? 1 : 0
     Behavior on opacity { NumberAnimation { duration: 200 } }
     visible: opacity>0
 
@@ -79,17 +79,17 @@ Item {
         acceptedButtons: Qt.AllButtons
         onPressed: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() 
+                menu.item.popup()
         }
     }
 
-    state: (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge && PQCSettings.interfaceStatusInfoShow) ? 
+    state: (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge && PQCSettings.interfaceStatusInfoShow) ?
                "visible" :
                "hidden"
 
     onStateChanged: {
         if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss() 
+            menu.item.dismiss()
     }
 
     states: [
@@ -122,7 +122,7 @@ Item {
             width: row.width+40
             height: row.height+20
 
-            radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 
+            radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
             Row {
 
@@ -135,7 +135,7 @@ Item {
 
                 Repeater {
 
-                    model: PQCFileFolderModel.countMainView===0 ? 1 : statusinfo_top.info.length 
+                    model: PQCFileFolderModel.countMainView===0 ? 1 : statusinfo_top.info.length
 
                     Item {
 
@@ -153,7 +153,7 @@ Item {
                             Loader {
                                 id: ldr
                                 property string t: statusinfo_top.info[deleg.modelData]
-                                sourceComponent: PQCFileFolderModel.countMainView===0 ? 
+                                sourceComponent: PQCFileFolderModel.countMainView===0 ?
                                                    rectNoImages :
                                                    t=="counter" ?
                                                        rectCounter :
@@ -179,7 +179,7 @@ Item {
                                 width: 1
                                 color: pqtPalette.text
                                 opacity: 0.8
-                                visible: deleg.modelData<statusinfo_top.info.length-1 && PQCFileFolderModel.countMainView>0 
+                                visible: deleg.modelData<statusinfo_top.info.length-1 && PQCFileFolderModel.countMainView>0
                             }
 
                         }
@@ -192,25 +192,25 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
                 drag.onActiveChanged: {
                     if(drag.active)
                         PQCConstants.statusInfoMovedManually = true
                 }
 
                 hoverEnabled: true
-                text: PQCSettings.interfaceStatusInfoManageWindow ? 
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
                           qsTranslate("statusinfo", "Click and drag to move window around") :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
                 onPressed: {
-                    if(PQCSettings.interfaceStatusInfoManageWindow) 
+                    if(PQCSettings.interfaceStatusInfoManageWindow)
                         PQCNotify.windowStartSystemMove()
                 }
                 onDoubleClicked: {
-                    if(PQCSettings.interfaceStatusInfoManageWindow) { 
+                    if(PQCSettings.interfaceStatusInfoManageWindow) {
                         if(PQCConstants.windowState === Window.Maximized)
                             PQCNotify.setWindowState(Window.Windowed)
                         else if(PQCConstants.windowState === Window.Windowed)
@@ -241,9 +241,9 @@ Item {
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
                 hoverEnabled: true
-                text: PQCSettings.interfaceStatusInfoManageWindow ? 
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
                           "" :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
@@ -268,7 +268,7 @@ Item {
                     y: (parent.height-height)/2
                     width: filtertxt.height/2
                     height: width
-                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg" 
+                    source: "image://svg/:/" + PQCLook.iconShade + "/x.svg"
                     sourceSize: Qt.size(width, height)
                     PQMouseArea {
                         anchors.fill: parent
@@ -276,7 +276,7 @@ Item {
                         cursorShape: Qt.PointingHandCursor
                         text: qsTranslate("statusinfo", "Click to remove filter")
                         onClicked: {
-                            PQCFileFolderModel.removeAllUserFilter() 
+                            PQCFileFolderModel.removeAllUserFilter()
                         }
                     }
                 }
@@ -285,7 +285,7 @@ Item {
                     id: filtertxt
 
                     Connections {
-                        target: PQCFileFolderModel 
+                        target: PQCFileFolderModel
                         function onFilenameFiltersChanged() {
                             filtertxt.composeText()
                         }
@@ -304,7 +304,7 @@ Item {
 
                         var txt = []
 
-                        var txt1 = PQCFileFolderModel.filenameFilters.join(" ") 
+                        var txt1 = PQCFileFolderModel.filenameFilters.join(" ")
                         if(txt1 !== "") txt.push(txt1)
 
                         var txt2 = ""
@@ -367,23 +367,23 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
                 sourceSize: Qt.size(width, height)
-                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? ("image://svg/:/" + PQCLook.iconShade + "/viewermode_off.svg") : ("image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg") 
+                source: (PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) ? ("image://svg/:/" + PQCLook.iconShade + "/viewermode_off.svg") : ("image://svg/:/" + PQCLook.iconShade + "/viewermode_on.svg")
                 mipmap: true
             }
 
             PQMouseArea {
                 anchors.fill: parent
-                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top 
+                drag.target: PQCSettings.interfaceStatusInfoManageWindow ? undefined : statusinfo_top
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-                text: PQCSettings.interfaceStatusInfoManageWindow ? 
+                text: PQCSettings.interfaceStatusInfoManageWindow ?
                           "" :
                           qsTranslate("statusinfo", "Click and drag to move status info around")
                 onWheel: (wheel) => {
                     wheel.accepted = true
                 }
                 onClicked: {
-                    if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC) 
+                    if(PQCFileFolderModel.isPDF || PQCFileFolderModel.isARC)
                         PQCFileFolderModel.disableViewerMode()
                     else {
                         PQCFileFolderModel.enableViewerMode(PQCConstants.currentFileInsideNum)
@@ -396,11 +396,11 @@ Item {
             }
 
             Connections {
-                target: PQCFileFolderModel 
+                target: PQCFileFolderModel
 
                 function onCurrentFileChanged() {
 
-                    viewermode.currentIsPDF = (PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) && 
+                    viewermode.currentIsPDF = (PQCScriptsImages.isPDFDocument(PQCFileFolderModel.currentFile) &&
                                                (PQCFileFolderModel.isPDF || PQCScriptsImages.getNumberDocumentPages(PQCFileFolderModel.currentFile)))
 
                     viewermode.currentIsARC = (PQCScriptsImages.isArchive(PQCFileFolderModel.currentFile))
@@ -417,7 +417,7 @@ Item {
         source: "image://svg/:/other/chromecastactive.svg"
         width: 32
         height: 32
-        opacity: PQCScriptsChromeCast.connected ? 1 : 0 
+        opacity: PQCScriptsChromeCast.connected ? 1 : 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
         sourceSize: Qt.size(width, height)
@@ -430,7 +430,7 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             //: Used in tooltip for the chromecast icon
-            text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName 
+            text: qsTranslate("statusinfo","Connected to:") + " " + PQCScriptsChromeCast.curDeviceName
             onClicked:
                 PQCNotify.loaderShowExtension("chromecastmanager")
         }
@@ -447,7 +447,7 @@ Item {
     Component {
         id: rectCounter
         PQText {
-            text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView 
+            text: (PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -455,7 +455,7 @@ Item {
     Component {
         id: rectFilename
         PQText {
-            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay) 
+            text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -463,7 +463,7 @@ Item {
     Component {
         id: rectFilepath
         PQText {
-            text: PQCFileFolderModel.currentFileNoDelay 
+            text: PQCFileFolderModel.currentFileNoDelay
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -471,7 +471,7 @@ Item {
     Component {
         id: rectZoom
         PQText {
-            text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%" 
+            text: Math.round((PQCConstants.showingPhotoSphere ? 1 : PQCConstants.devicePixelRatio) * PQCConstants.currentImageScale*100)+"%"
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -507,7 +507,7 @@ Item {
     Component {
         id: rectFilesize
         PQText {
-            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay) 
+            text: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFileNoDelay)
             font.pointSize: PQCSettings.interfaceStatusInfoFontSize
         }
     }
@@ -545,9 +545,9 @@ Item {
                 }
             }
             Connections {
-                target: PQCFileFolderModel 
+                target: PQCFileFolderModel
                 function onCurrentFileChanged() {
-                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) { 
+                    if(PQCScriptsImages.isMpvVideo(PQCFileFolderModel.currentFileNoDelay) || PQCScriptsImages.isQtVideo(PQCFileFolderModel.currentFileNoDelay)) {
                         csptxt.opacity = 0.5
                         loadVideoColorInfo.restart()
                     } else if(PQCScriptsImages.isItAnimated(PQCFileFolderModel.currentFileNoDelay)) {
@@ -569,7 +569,7 @@ Item {
                 id: loadVideoColorInfo
                 interval: 1
                 onTriggered: {
-                    var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay) 
+                    var val = PQCScriptsColorProfiles.detectVideoColorProfile(PQCFileFolderModel.currentFileNoDelay)
                     csptxt.opacity = 1
                     if(val === "")
                         val = qsTranslate("statusinfo", "unknown color profile")
@@ -645,9 +645,9 @@ Item {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "show")
-                    checked: PQCSettings.interfaceStatusInfoShow 
+                    checked: PQCSettings.interfaceStatusInfoShow
                     onCheckedChanged: {
-                        PQCSettings.interfaceStatusInfoShow = checked 
+                        PQCSettings.interfaceStatusInfoShow = checked
                         if(!checked)
                             menuitem.dismiss()
                     }
@@ -655,9 +655,9 @@ Item {
                 PQMenuItem {
                     checkable: true
                     text: qsTranslate("settingsmanager", "manage window")
-                    checked: PQCSettings.interfaceStatusInfoManageWindow 
+                    checked: PQCSettings.interfaceStatusInfoManageWindow
                     onCheckedChanged:
-                        PQCSettings.interfaceStatusInfoManageWindow = checked 
+                        PQCSettings.interfaceStatusInfoManageWindow = checked
                 }
 
                 PQMenu {
@@ -669,10 +669,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "always")
                         ButtonGroup.group: grp
-                        checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge 
+                        checked: !PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = false 
+                                PQCSettings.interfaceStatusInfoAutoHide = false
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
                             }
                         }
@@ -682,10 +682,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor move")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge 
+                        checked: PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = true 
+                                PQCSettings.interfaceStatusInfoAutoHide = true
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = false
                             }
                         }
@@ -695,10 +695,10 @@ Item {
                         checkableLikeRadioButton: true
                         text: qsTranslate("settingsmanager", "cursor near top edge")
                         ButtonGroup.group: grp
-                        checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge 
+                        checked: PQCSettings.interfaceStatusInfoAutoHideTopEdge
                         onCheckedChanged: {
                             if(checked) {
-                                PQCSettings.interfaceStatusInfoAutoHide = false 
+                                PQCSettings.interfaceStatusInfoAutoHide = false
                                 PQCSettings.interfaceStatusInfoAutoHideTopEdge = true
                             }
                         }
@@ -714,7 +714,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top left")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "left" 
+                            PQCSettings.interfaceStatusInfoPosition = "left"
                         }
                     }
 
@@ -722,7 +722,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top center")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "center" 
+                            PQCSettings.interfaceStatusInfoPosition = "center"
                         }
                     }
 
@@ -730,7 +730,7 @@ Item {
                         text: qsTranslate("settingsmanager", "top right")
                         onTriggered: {
                             PQCSettings.interfaceStatusInfoPosition = ""
-                            PQCSettings.interfaceStatusInfoPosition = "right" 
+                            PQCSettings.interfaceStatusInfoPosition = "right"
                         }
                     }
                 }
@@ -739,7 +739,7 @@ Item {
 
                 PQMenuItem {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
-                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" 
+                    iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     onTriggered: {
                         PQCNotify.openSettingsManagerAt("showSettings", ["statusinfo"])
                     }
@@ -748,14 +748,14 @@ Item {
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCConstants.addToWhichContextMenusOpen("statusinfo") 
+                    PQCConstants.addToWhichContextMenusOpen("statusinfo")
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menuitem.visible)
-                            PQCConstants.removeFromWhichContextMenusOpen("statusinfo") 
+                            PQCConstants.removeFromWhichContextMenusOpen("statusinfo")
                     }
                 }
             }
@@ -769,7 +769,7 @@ Item {
 
         function onMouseMove(posx : int, posy : int) {
 
-            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || PQCConstants.modalWindowOpen) { 
+            if((!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) || PQCConstants.modalWindowOpen) {
                 resetAutoHide.stop()
                 statusinfo_top.state = "visible"
                 statusinfo_top.nearTopEdge = true
@@ -791,7 +791,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() 
+            menu.item.dismiss()
         }
 
     }
@@ -810,11 +810,11 @@ Item {
 
     Connections {
 
-        target: PQCFileFolderModel 
+        target: PQCFileFolderModel
 
         function onCurrentIndexChanged() {
 
-            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 || 
+            if(PQCSettings.interfaceStatusInfoAutoHideTimeout === 0 ||
                     (!PQCSettings.interfaceStatusInfoAutoHide && !PQCSettings.interfaceStatusInfoAutoHideTopEdge) ||
                     !PQCSettings.interfaceStatusInfoShowImageChange)
                 return
@@ -828,23 +828,23 @@ Item {
 
     Connections {
 
-        target: PQCConstants 
+        target: PQCConstants
 
         function onModalWindowOpenChanged() {
-            if(PQCConstants.modalWindowOpen) 
+            if(PQCConstants.modalWindowOpen)
                 statusinfo_top.state = "visible"
         }
 
-        function onWindowWidthChanged() {
+        function onAvailableWidthChanged() {
             if(PQCConstants.statusInfoMovedManually) {
-                statusinfo_top.x = Math.min(PQCConstants.windowWidth-statusinfo_top.width, Math.max(0, statusinfo_top.x))
+                statusinfo_top.x = Math.min(PQCConstants.availableWidth-statusinfo_top.width, Math.max(0, statusinfo_top.x))
             } else
                 statusinfo_top.y = distanceFromEdge+computeYOffset()
         }
 
-        function onWindowHeightChanged() {
+        function onAvailableHeightChanged() {
             if(PQCConstants.statusInfoMovedManually) {
-                statusinfo_top.y = Math.min(PQCConstants.windowHeight-statusinfo_top.height, Math.max(0, statusinfo_top.y))
+                statusinfo_top.y = Math.min(PQCConstants.availableHeight-statusinfo_top.height, Math.max(0, statusinfo_top.y))
             }
         }
 
@@ -864,11 +864,11 @@ Item {
 
     Timer {
         id: resetAutoHide
-        interval:  500 + PQCSettings.interfaceStatusInfoAutoHideTimeout 
+        interval:  500 + PQCSettings.interfaceStatusInfoAutoHideTimeout
         repeat: false
         running: false
         onTriggered: {
-            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened) 
+            if((!statusinfo_top.nearTopEdge || !PQCSettings.interfaceStatusInfoAutoHideTopEdge) && !menu.item.opened)
                 statusinfo_top.state = "hidden"
         }
     }
@@ -895,9 +895,9 @@ Item {
 
     function computeDefaultX() {
         return (PQCSettings.interfaceStatusInfoPosition==="right"
-                ? (PQCConstants.windowWidth - width - 2*distanceFromEdge)
+                ? (PQCConstants.availableWidth - width - 2*distanceFromEdge)
                 : (PQCSettings.interfaceStatusInfoPosition === "center"
-                        ? (PQCConstants.windowWidth-width)/2
+                        ? (PQCConstants.availableWidth-width)/2
                         : 2*distanceFromEdge))
     }
 

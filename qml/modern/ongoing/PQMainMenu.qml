@@ -81,14 +81,14 @@ Rectangle {
     height: isPopout ?
                 mainmenu_popout.height :
                 PQCSettings.mainmenuElementHeightDynamic ?
-                    PQCConstants.windowHeight-2*gap-statusinfoOffset :
-                    Math.min(PQCConstants.windowHeight, PQCSettings.mainmenuElementSize.height)
+                    PQCConstants.availableHeight-2*gap-statusinfoOffset :
+                    Math.min(PQCConstants.availableHeight, PQCSettings.mainmenuElementSize.height)
 
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
     property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
-    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
+    property rect hotArea: Qt.rect(0, PQCConstants.availableHeight-hotAreaSize, PQCConstants.availableWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
@@ -121,22 +121,22 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 mainmenu_top.visiblePos: [mainmenu_top.gap,
-                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
                 mainmenu_top.invisiblePos: [-mainmenu_top.width,
-                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, PQCConstants.windowHeight)
-                mainmenu_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.hotArea: Qt.rect(0,0,mainmenu_top.hotAreaSize, PQCConstants.availableHeight)
+                mainmenu_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                mainmenu_top.visiblePos: [PQCConstants.windowWidth-mainmenu_top.width-mainmenu_top.gap,
-                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.invisiblePos: [PQCConstants.windowWidth,
-                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
-                mainmenu_top.hotArea: Qt.rect(PQCConstants.windowWidth-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, PQCConstants.windowHeight)
-                mainmenu_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                mainmenu_top.visiblePos: [PQCConstants.availableWidth-mainmenu_top.width-mainmenu_top.gap,
+                                          (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.invisiblePos: [PQCConstants.availableWidth,
+                                            (PQCSettings.mainmenuElementHeightDynamic ? mainmenu_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-mainmenu_top.height, PQCSettings.mainmenuElementPosition.y)))]
+                mainmenu_top.hotArea: Qt.rect(PQCConstants.availableWidth-mainmenu_top.hotAreaSize, 0, mainmenu_top.hotAreaSize, PQCConstants.availableHeight)
+                mainmenu_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
@@ -234,7 +234,7 @@ Rectangle {
         drag.target: mainmenu_top
         drag.axis: Drag.YAxis
         drag.minimumY: 0
-        drag.maximumY: PQCConstants.windowHeight-mainmenu_top.height
+        drag.maximumY: PQCConstants.availableHeight-mainmenu_top.height
     }
 
     Flickable {
@@ -952,7 +952,7 @@ Rectangle {
                     mainmenu_top.animateResize = true
                     if(checked) {
                         mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
-                        mainmenu_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
+                        mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
                         PQCSettings.mainmenuElementHeightDynamic = true
                     } else {
                         mainmenu_top.y = mainmenu_top.y
@@ -974,7 +974,7 @@ Rectangle {
                     mainmenu_top.animateResize = true
                     mainmenu_top.y = Qt.binding(function() { return (PQCSettings.mainmenuElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
-                    mainmenu_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
+                    mainmenu_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
                     PQCSettings.mainmenuElementHeightDynamic = true
                 }
             }
@@ -1019,7 +1019,7 @@ Rectangle {
             mainmenu_top.height = mainmenu_top.height
             mainmenu_top.y = mainmenu_top.y
             PQCSettings.mainmenuElementSize.height = mainmenu_top.height
-            mainmenu_top.height = Qt.binding(function() { return Math.min(PQCConstants.windowHeight, PQCSettings.mainmenuElementSize.height) } )
+            mainmenu_top.height = Qt.binding(function() { return Math.min(PQCConstants.availableHeight, PQCSettings.mainmenuElementSize.height) } )
             PQCSettings.mainmenuElementSize.height = Math.round(origHeight+diff)
             PQCSettings.mainmenuElementHeightDynamic = false
         }
@@ -1047,7 +1047,7 @@ Rectangle {
                 return
             var diff = mouse.x-clickStart
             mainmenu_top.width = mainmenu_top.width
-            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
             mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
@@ -1074,7 +1074,7 @@ Rectangle {
                 return
             var diff = clickStart-mouse.x
             mainmenu_top.width = mainmenu_top.width
-            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff)))
+            PQCSettings.mainmenuElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
             mainmenu_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.mainmenuElementSize.width) })
         }
 
@@ -1173,10 +1173,10 @@ Rectangle {
 
     Connections {
         target: PQCConstants
-        function onWindowWidthChanged() {
+        function onAvailableWidthChanged() {
             mainmenu_top.setVisible = false
         }
-        function onWindowHeightChanged() {
+        function onAvailableHeightChanged() {
             mainmenu_top.setVisible = false
         }
     }

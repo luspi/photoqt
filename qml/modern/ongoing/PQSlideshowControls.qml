@@ -28,15 +28,15 @@ Item {
 
     id: slideshowcontrols_top
 
-    x: (PQCConstants.windowWidth-width)/2  
-    y: PQCConstants.windowHeight-height-50 
+    x: (PQCConstants.availableWidth-width)/2
+    y: PQCConstants.availableHeight-height-50
     width: controlsrow.width
     height: 80
 
     property int parentWidth: 300
     property int parentHeight: 200
 
-    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout 
+    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -132,7 +132,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/slideshowprev.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/slideshowprev.svg"
 
             sourceSize: Qt.size(width, height)
 
@@ -142,7 +142,7 @@ Item {
                 hoverEnabled: true
                 text: qsTranslate("slideshow", "Click to go to the previous image")
                 onClicked:
-                    PQCNotify.slideshowPrevImage(true) 
+                    PQCNotify.slideshowPrevImage(true)
                 drag.target: slideshowcontrols_top.isPopout ? undefined : slideshowcontrols_top
                 property string myId: "111"
                 onEntered: {
@@ -165,7 +165,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: (PQCConstants.slideshowRunningAndPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg")) 
+            source: (PQCConstants.slideshowRunningAndPlaying ? ("image://svg/:/" + PQCLook.iconShade + "/pause.svg") : ("image://svg/:/" + PQCLook.iconShade + "/play.svg"))
 
             sourceSize: Qt.size(width, height)
 
@@ -173,7 +173,7 @@ Item {
                 anchors.fill: parent
                 cursorShape: Qt.PointingHandCursor
                 hoverEnabled: true
-                text: (PQCConstants.slideshowRunningAndPlaying ? 
+                text: (PQCConstants.slideshowRunningAndPlaying ?
                            qsTranslate("slideshow", "Click to pause slideshow") :
                            qsTranslate("slideshow", "Click to play slideshow"))
                 onClicked: {
@@ -202,7 +202,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/slideshownext.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/slideshownext.svg"
 
             sourceSize: Qt.size(width, height)
 
@@ -235,7 +235,7 @@ Item {
             width: slideshowcontrols_top.isPopout ? 80 : 40
             height: slideshowcontrols_top.isPopout ? 80 : 40
 
-            source: "image://svg/:/" + PQCLook.iconShade + "/exit.svg" 
+            source: "image://svg/:/" + PQCLook.iconShade + "/exit.svg"
             sourceSize: Qt.size(width, height)
 
             PQMouseArea {
@@ -278,7 +278,7 @@ Item {
             sourceSize: Qt.size(width, height)
 
             source: volumeslider.value<1 ?
-                        ("image://svg/:/" + PQCLook.iconShade + "/volume_mute.svg") : 
+                        ("image://svg/:/" + PQCLook.iconShade + "/volume_mute.svg") :
                         (volumeslider.value <= 40 ?
                              ("image://svg/:/" + PQCLook.iconShade + "/volume_low.svg") :
                              (volumeslider.value <= 80 ?
@@ -306,7 +306,7 @@ Item {
                 slideshowcontrols_top.mouseOverId = "555"
 
             onValueChanged: {
-                PQCConstants.slideshowVolume = value/100 
+                PQCConstants.slideshowVolume = value/100
             }
 
         }
@@ -323,9 +323,9 @@ Item {
         y: 4
         width: 15
         height: 15
-        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout 
+        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
         enabled: visible
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" 
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -334,13 +334,13 @@ Item {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutSlideshowControls ? 
+            text: PQCSettings.interfacePopoutSlideshowControls ?
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls 
+                PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls
                 slideshowcontrols_top.hide()
                 PQCNotify.loaderRegisterClose("slideshowcontrols")
             }
@@ -354,7 +354,7 @@ Item {
             return
         }
 
-        if(!PQCConstants.slideshowRunning) { 
+        if(!PQCConstants.slideshowRunning) {
             state = "hidden"
             return
         }
@@ -401,11 +401,11 @@ Item {
 
     Connections {
 
-        target: PQCConstants 
+        target: PQCConstants
 
         function onSlideshowRunningChanged() {
             slideshowcontrols_top.updateState()
-            if(PQCConstants.slideshowRunning) 
+            if(PQCConstants.slideshowRunning)
                 slideshowcontrols_top.show()
             else
                 slideshowcontrols_top.hide()
@@ -426,13 +426,13 @@ Item {
     function show() {
         opacity = 1
         if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = true 
+            slideshowcontrols_popout.visible = true
     }
 
     function hide() {
         opacity = 0
         if(popoutWindowUsed)
-            slideshowcontrols_popout.visible = false 
+            slideshowcontrols_popout.visible = false
         PQCNotify.loaderRegisterClose("slideshowcontrols")
     }
 

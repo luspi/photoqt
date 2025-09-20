@@ -33,8 +33,8 @@ Rectangle {
     width: parentWidth
     height: parentHeight
 
-    property int parentWidth: PQCConstants.windowWidth
-    property int parentHeight: PQCConstants.windowHeight
+    property int parentWidth: PQCConstants.availableWidth
+    property int parentHeight: PQCConstants.availableHeight
 
     // THESE ARE REQUIRED
     property string thisis

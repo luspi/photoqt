@@ -347,7 +347,7 @@ Window {
 
         if(settings["ExtForcePopout"]) {
             var minsize = PQCExtensionsHandler.getExtensionIntegratedMinimumRequiredWindowSize(extensionId)
-            if(PQCConstants.windowWidth > minsize.width && PQCConstants.windowHeight > minsize.height) {
+            if(PQCConstants.availableWidth > minsize.width && PQCConstants.availableHeight > minsize.height) {
                 PQCNotify.loaderRegisterClose(extensionId)
                 settings["ExtForcePopout"] = false
                 settings["ExtPopout"] = false
