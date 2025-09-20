@@ -40,6 +40,11 @@ Button {
     property alias tooltipWidth: ttip.width
     property alias cursorShape: mousearea.cursorShape
 
+    // TODO: NOT YET IMPLEMENTED
+    property bool enableContextMenu: false
+    property string overrideBaseColor: ""
+    property Item dragTarget: undefined
+
     flat: true
 
     signal rightClicked()
@@ -56,6 +61,7 @@ Button {
         id: mousearea
         anchors.fill: parent
         acceptedButtons: Qt.RightButton
+        drag.target: dragTarget
         onClicked: (mouse) => {
             control.rightClicked()
             mouse.accepted = true

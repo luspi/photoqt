@@ -21,7 +21,6 @@
  **************************************************************************/
 
 import QtQuick
-import PQCExtensionsHandler
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern
 

@@ -152,7 +152,11 @@ ApplicationWindow {
         id: masterloader
         anchors.fill: parent
         asynchronous: true
-        sourceComponent: PQLoader {}
+        sourceComponent: PQLoader {
+            onShowExtension: (ele) => {
+                masteritemattop.showExtension(ele)
+            }
+        }
     }
 
     /****************************************************/

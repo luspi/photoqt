@@ -24,10 +24,15 @@ import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 import PQCImageFormats
+import PQCExtensionsHandler
 
 Item {
 
+    id: loader_top
+
     anchors.fill: parent
+
+    signal showExtension(var ele)
 
     Loader {
         id: loader_about
@@ -181,6 +186,13 @@ Item {
 
             console.log("args: ele =", ele)
 
+            var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+            if(ind > -1) {
+                // we emit a signal that is picked up in PQMasterItem where the actual extensions are located
+                loader_top.showExtension(ele)
+                return
+            }
+
             if(ele === "about") {
                 if(!loader_about.active)
                     loader_about.active = true
@@ -233,6 +245,9 @@ Item {
         function onLoaderRegisterClose(ele : string) {
             PQCConstants.idOfVisibleItem = ""
         }
+
+        // onLoaderSetupExtension() and onLoaderShowExtension() are handled in PQMasterItem
+        // as we need access to the loader_extension repeater inside of a sourceComponent there
 
     }
 

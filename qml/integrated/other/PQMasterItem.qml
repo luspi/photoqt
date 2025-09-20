@@ -23,6 +23,7 @@
 import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
+import PQCExtensionsHandler
 
 Loader {
 
@@ -37,6 +38,8 @@ Loader {
     Component.onCompleted: {
         asynchronous = (PQCConstants.startupFilePath === "" || PQCConstants.startupFileIsFolder)
     }
+
+    signal showExtension(var ele)
 
     sourceComponent:
     Item {
@@ -60,44 +63,44 @@ Loader {
         /******************************************/
 
         // These are the extensions loader
-        // Repeater {
-        //     id: loader_extensions
-        //     model: PQCExtensionsHandler.numExtensions
-        //     Loader {
+        Repeater {
+            id: loader_extensions
+            model: PQCExtensionsHandler.numExtensions
+            Loader {
 
-        //         id: ldr
+                id: ldr
 
-        //         required property int modelData
+                required property int modelData
 
-        //         active: false
-        //         asynchronous: false
+                active: false
+                asynchronous: false
 
-        //         sourceComponent:
-        //         PQTemplateExtensionContainer {
+                sourceComponent:
+                PQTemplateExtensionContainer {
 
-        //             extensionId: PQCExtensionsHandler.getExtensions()[ldr.modelData]
+                    extensionId: PQCExtensionsHandler.getExtensions()[ldr.modelData]
 
-        //         }
+                }
 
-        //     }
+            }
 
-        // }
+        }
 
         // we check for this with a little delay to allow for other things to get ready first
-        // Timer {
-        //     id: waitForExtLoaderToBeReady
-        //     interval: 200
-        //     onTriggered: {
-        //         // set up extensions if necessary
-        //         var exts = PQCExtensionsHandler.getExtensions()
-        //         for(var iE in exts) {
-        //             var ext = exts[iE]
-        //             if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1 && PQCSettings.generalSetupFloatingExtensionsAtStartup.indexOf(ext) > -1) {
-        //                 PQCNotify.loaderSetupExtension(ext)
-        //             }
-        //         }
-        //     }
-        // }
+        Timer {
+            id: waitForExtLoaderToBeReady
+            interval: 200
+            onTriggered: {
+                // set up extensions if necessary
+                var exts = PQCExtensionsHandler.getExtensions()
+                for(var iE in exts) {
+                    var ext = exts[iE]
+                    if(PQCSettings.generalEnabledExtensions.indexOf(ext) > -1 && PQCSettings.generalSetupFloatingExtensionsAtStartup.indexOf(ext) > -1) {
+                        PQCNotify.loaderSetupExtension(ext)
+                    }
+                }
+            }
+        }
 
         /******************************************/
 
@@ -224,6 +227,38 @@ Loader {
             }
         }
 
+        Timer {
+            id: showExtensionWhenReady
+            property Loader theloader
+            property list<var> args: []
+            interval: 10
+            triggeredOnStart: true
+            onTriggered: {
+                if(theloader.status !== Loader.Ready) {
+                    showWhenReady.start()
+                    return
+                }
+                PQCNotify.loaderPassOn("show", args)
+                args = []
+            }
+        }
+
+        Timer {
+            id: showExtensionWhenReady2
+            property Loader theloader
+            property list<var> args: []
+            interval: 10
+            triggeredOnStart: true
+            onTriggered: {
+                if(theloader.status !== Loader.Ready) {
+                    showWhenReady2.start()
+                    return
+                }
+                PQCNotify.loaderPassOn("show", args)
+                args = []
+            }
+        }
+
         property int finishSetupCalled: 0
 
         function finishSetup() {
@@ -244,14 +279,78 @@ Loader {
             finishSetupCalled += 1
             PQCNotify.loaderSetup("thumbnails")
 
-            // PQCExtensionsHandler.setup()
+            PQCExtensionsHandler.setup()
 
-            // waitForExtLoaderToBeReady.start()
+            waitForExtLoaderToBeReady.start()
 
             if(PQCConstants.startupHaveSettingUpdate.length === 2)
                 PQCSettings.updateFromCommandLine();
 
             PQCSettings.generalInterfaceVariant = "integrated"
+
+        }
+
+        Connections {
+
+            target: masteritemloader
+
+            function onShowExtension(ele : string) {
+
+                console.log("args: ele =", ele)
+
+                var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+                if(ind === -1) {
+                    console.warn("Unknown extension requested:", ele)
+                    return
+                }
+
+                if(PQCExtensionsHandler.getExtensionModalMake(ele)) {
+                    if(PQCConstants.idOfVisibleItem !== "")
+                        return
+                    else
+                        PQCConstants.idOfVisibleItem = ele
+                }
+
+                loader_extensions.itemAt(ind).active = true
+
+                // modal elements need to be shown on top, above things like mainmenu or metadata
+                // The value should be high but lower than that of the window buttons that are shown on top (currently set to 999)
+                if(PQCExtensionsHandler.getExtensionModalMake(ele))
+                    loader_extensions.itemAt(ind).z = 888
+
+                if(!loader_extensions.itemAt(ind).item) {
+                    if(showExtensionWhenReady.args.length == 0) {
+                        showExtensionWhenReady.theloader = loader_extensions.itemAt(ind)
+                        showExtensionWhenReady.args = [ele]
+                        showExtensionWhenReady.start()
+                    } else if(showExtensionWhenReady2.args.length == 0) {
+                        showExtensionWhenReady2.theloader = loader_extensions.itemAt(ind)
+                        showExtensionWhenReady2.args = [ele]
+                        showExtensionWhenReady2.start()
+                    } else
+                        console.error("Unable to set up extension, too few timers available.")
+                } else {
+                    PQCNotify.loaderPassOn("show", [ele])
+                }
+
+            }
+
+        }
+
+        Connections {
+
+            target: PQCNotify
+
+            function onLoaderSetupExtension(ele : string) {
+                var ind = PQCExtensionsHandler.getExtensions().indexOf(ele)
+                loader_extensions.itemAt(ind).active = true
+                if(PQCExtensionsHandler.getExtensionModalMake(ele))
+                    loader_extensions.itemAt(ind).z = 888
+            }
+
+            function onLoaderShowExtension(ele : string) {
+                PQCNotify.loaderShow(ele)
+            }
 
         }
 
