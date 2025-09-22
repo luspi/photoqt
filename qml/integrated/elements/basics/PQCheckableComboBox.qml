@@ -56,30 +56,44 @@ ComboBox {
         required property int checked
         property bool highlighted: chk.hovered
         width: parent.width
-        height: chk.height+4
+        height: chk.height+8
 
         Rectangle {
             anchors.fill: parent
+            anchors.margins: 4
             opacity: enabled ? 1 : 0.3
-            color: (deleg.highlighted ? pqtPalette.base : (enabled ? pqtPalette.alternateBase : PQCLook.baseBorder))
+            visible: deleg.highlighted
+            color: pqtPalette.highlight
+            radius: 5
         }
-
         Row {
             spacing: 0
-            y: 2
-            width: parent.width
-            height: parent.height-4
+            x: 4
+            y: 4
+            width: parent.width-8
+            height: parent.height-8
             PQCheckBox {
                 id: chk
                 checked: deleg.checked
-                width: parent.width
-                text: deleg.txt
                 elide: Text.ElideMiddle
                 onCheckedChanged: {
                     control.model.get(deleg.index).checked = (checked ? 1 : 0)
                     control.entryUpdated(deleg.index)
                 }
             }
+            PQText {
+                y: (chk.height-height)/2
+                text: deleg.txt
+                font.pointSize: (PQCLook.fontSize+PQCLook.fontSizeS)/2
+                color: deleg.highlighted ? pqtPalette.highlightedText : pqtPalette.text
+            }
+        }
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            onContainsMouseChanged:
+                deleg.highlighted = containsMouse
+            onClicked: chk.checked = !chk.checked
         }
 
     }

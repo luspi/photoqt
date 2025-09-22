@@ -210,7 +210,7 @@ Item {
 
         id: viewcomponent
 
-        Rectangle {
+        Item {
 
             id: deleg
 
@@ -236,10 +236,13 @@ Item {
             }
 
             property bool currentContextMenu: false
-            color: markHovered||markDown
-                        ? (markDown ? PQCLook.baseBorder : pqtPalette.alternateBase)
-                        : (path===PQCFileFolderModel.folderFileDialog ? pqtPalette.alternateBase : pqtPalette.base)
 
+            PQHighlightMarker {
+                opacity: deleg.markDown||deleg.markHovered ? 1 : 0.2
+                visible: deleg.markCurrent||deleg.markHovered||deleg.markDown
+            }
+
+            property bool markCurrent: path===PQCFileFolderModel.folderFileDialog
             property bool markHovered: places_top.hoverIndex[part]===index||mouseArea.drag.active||currentContextMenu
             property bool markDown: places_top.pressedIndex[part]===index||mouseArea.drag.active||currentContextMenu
 

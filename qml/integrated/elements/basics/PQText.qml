@@ -27,7 +27,6 @@ import PhotoQt.Integrated
 
 Label {
 
-    Behavior on color { ColorAnimation { duration: animateColorChanged ? 200 : 0 } }
     font.pointSize: PQCLook.fontSize
     font.weight: PQCLook.fontWeightNormal
     property bool animateColorChanged: true
