@@ -119,11 +119,14 @@ PQSetting {
                     Row {
                         spacing: 5
                         Rectangle {
-                            color: notif_grid.loc==="topleft"||mouse_tl.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="topleft"||mouse_tl.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_tl
                                 anchors.fill: parent
@@ -136,11 +139,14 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="top"||mouse_t.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="top"||mouse_t.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_t
                                 anchors.fill: parent
@@ -153,11 +159,15 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="topright"||mouse_tr.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="topright"||mouse_tr.containsMouse
+                            }
+
                             PQMouseArea {
                                 id: mouse_tr
                                 anchors.fill: parent
@@ -173,11 +183,14 @@ PQSetting {
                     Row {
                         spacing: 5
                         Rectangle {
-                            color: notif_grid.loc==="centerleft"||mouse_ml.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="centerleft"||mouse_ml.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_ml
                                 anchors.fill: parent
@@ -190,11 +203,14 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="center"||mouse_m.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="center"||mouse_m.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_m
                                 anchors.fill: parent
@@ -207,11 +223,14 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="centerright"||mouse_mr.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="centerright"||mouse_mr.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_mr
                                 anchors.fill: parent
@@ -227,11 +246,14 @@ PQSetting {
                     Row {
                         spacing: 5
                         Rectangle {
-                            color: notif_grid.loc==="bottomleft"||mouse_bl.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="bottomleft"||mouse_bl.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_bl
                                 anchors.fill: parent
@@ -244,11 +266,14 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="bottom"||mouse_b.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="bottom"||mouse_b.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_b
                                 anchors.fill: parent
@@ -261,11 +286,14 @@ PQSetting {
                             }
                         }
                         Rectangle {
-                            color: notif_grid.loc==="bottomright"||mouse_br.containsMouse ? PQCLook.baseBorder : pqtPalette.base
+                            color: "transparent"
                             width: 100
                             height: 50
                             border.width: 1
                             border.color: PQCLook.baseBorder
+                            PQHighlightMarker {
+                                visible: notif_grid.loc==="bottomright"||mouse_br.containsMouse
+                            }
                             PQMouseArea {
                                 id: mouse_br
                                 anchors.fill: parent

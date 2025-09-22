@@ -168,7 +168,7 @@ void PQCLook::calculateColors(QString name) {
             m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.darker(150));
 
             QColor hightxt = coltxt;
-            hightxt.setAlpha(150);
+            hightxt.setAlpha(125);
             m_pal.setColor(QPalette::HighlightedText, coltxt);
             m_pal.setColor(QPalette::Highlight, hightxt);
 
@@ -194,7 +194,7 @@ void PQCLook::calculateColors(QString name) {
             m_pal.setColor(QPalette::Disabled, QPalette::WindowText, coltxt.lighter(150));
 
             QColor hightxt = coltxt;
-            hightxt.setAlpha(150);
+            hightxt.setAlpha(125);
             m_pal.setColor(QPalette::HighlightedText, coltxt);
             m_pal.setColor(QPalette::Highlight, hightxt);
 

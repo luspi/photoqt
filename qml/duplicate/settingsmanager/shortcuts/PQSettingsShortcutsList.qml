@@ -568,7 +568,7 @@ PQSetting {
                                     border.color: PQCLook.baseBorder
                                     radius: 5
 
-                                    color: changemouse.containsMouse ? PQCLook.baseBorder : pqtPalette.alternateBase
+                                    color: pqtPalette.alternateBase
 
                                     Rectangle {
                                         id: greenbg
@@ -594,6 +594,10 @@ PQSetting {
                                                 to: 0.1
                                             }
                                         }
+                                    }
+
+                                    PQHighlightMarker {
+                                        visible: changemouse.containsMouse
                                     }
 
                                     Loader {

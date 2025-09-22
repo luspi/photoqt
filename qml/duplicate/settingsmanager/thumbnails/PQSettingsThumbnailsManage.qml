@@ -57,45 +57,28 @@ PQSetting {
                 onCheckedChanged: set_mana.checkForChanges()
             }
 
-            Column {
+            PQCheckBox {
+                id: cache_dir_default
+                enforceMaxWidth: set_mana.contentWidth
+                enabled: cache_enable.checked
+                text: qsTranslate("settingsmanager", "use default cache directory")
+                onCheckedChanged: set_mana.checkForChanges()
+            }
 
-                spacing: 0
+            PQButton {
+                id: cache_dir_custom
+                y: 10
+                smallerVersion: true
+                enabled: cache_enable.checked && !cache_dir_default.checked
+                property string customdir: ""
+                text: customdir == "" ? "..." : customdir
+                tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
 
-                height: cache_dir_default.height+cache_dir_custom_container.height
-                Behavior on height { NumberAnimation { duration: 200 } }
-                clip: true
-
-                PQCheckBox {
-                    id: cache_dir_default
-                    enforceMaxWidth: set_mana.contentWidth
-                    enabled: cache_enable.checked
-                    text: qsTranslate("settingsmanager", "use default cache directory")
-                    onCheckedChanged: set_mana.checkForChanges()
-                }
-
-                Item {
-                    id: cache_dir_custom_container
-                    width: cache_dir_custom.width
-                    height: cache_dir_custom.height+10
-                    Behavior on height { NumberAnimation { duration: 200 } }
-                    clip: true
-                    PQButton {
-                        id: cache_dir_custom
-                        y: 10
-                        smallerVersion: true
-                        enabled: cache_enable.checked
-                        property string customdir: ""
-                        text: customdir == "" ? "..." : customdir
-                        tooltip: qsTranslate("settingsmanager", "Click to select custom base directory for thumbnail cache")
-
-                        onClicked: {
-                            var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
-                            if(path !== "") {
-                                cache_dir_custom.customdir = path
-                                set_mana.checkForChanges()
-                            }
-                        }
-
+                onClicked: {
+                    var path = PQCScriptsFilesPaths.selectFolderFromDialog("Select", (customdir == "" ? PQCScriptsFilesPaths.getHomeDir() : customdir))
+                    if(path !== "") {
+                        cache_dir_custom.customdir = path
+                        set_mana.checkForChanges()
                     }
                 }
 

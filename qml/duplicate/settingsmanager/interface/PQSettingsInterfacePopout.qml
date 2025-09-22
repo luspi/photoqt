@@ -133,7 +133,7 @@ PQSetting {
 
                         model: set_popo.pops.length
 
-                        Rectangle {
+                        Item {
 
                             id: deleg
 
@@ -144,15 +144,15 @@ PQSetting {
                             width: (popout_flickable.width - (popout_scroll.visible ? popout_scroll.width : 0))/3 - popout_col.spacing
                             height: matchesFilter ? 30 : 0
                             opacity: matchesFilter ? 1 : 0
-                            radius: 5
 
                             Behavior on height { NumberAnimation { duration: 200 } }
                             Behavior on opacity { NumberAnimation { duration: 150 } }
 
                             property bool hovered: false
 
-                            color: hovered||check.checked ? PQCLook.baseBorder : pqtPalette.base
-                            Behavior on color { ColorAnimation { duration: 200 } }
+                            PQHighlightMarker {
+                                visible: deleg.hovered||check.checked
+                            }
 
                             PQToolTip {
                                 delay: 500

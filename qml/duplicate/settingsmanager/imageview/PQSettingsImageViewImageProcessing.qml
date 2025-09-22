@@ -180,7 +180,7 @@ PQSetting {
 
                                 model: set_copr.colorprofiledescs.length
 
-                                Rectangle {
+                                Item {
 
                                     id: deleg
 
@@ -191,12 +191,13 @@ PQSetting {
                                     width: (color_flickable.width - (color_scroll.visible ? color_scroll.width : 0))/2 - color_grid.spacing
                                     height: matchesFilter ? 30 : 0
                                     opacity: matchesFilter ? 1 : 0
-                                    radius: 5
 
                                     Behavior on height { NumberAnimation { duration: 200 } }
                                     Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                                    color: (enabled&&(tilemouse.containsMouse||check.checked)) ? PQCLook.baseBorder : pqtPalette.base
+                                    PQHighlightMarker {
+                                        visible: (enabled&&(tilemouse.containsMouse||check.checked))
+                                    }
 
                                     property bool delegSetup: false
                                     Timer {

@@ -142,7 +142,7 @@ PQSetting {
 
                         model: set_meta.labels.length
 
-                        Rectangle {
+                        Item {
 
                             id: deleg
 
@@ -153,12 +153,13 @@ PQSetting {
                             width: (labels_flickable.width - (labels_scroll.visible ? labels_scroll.width : 0))/3 - labels_col.spacing
                             height: matchesFilter ? 30 : 0
                             opacity: matchesFilter ? 1 : 0
-                            radius: 5
 
                             Behavior on height { NumberAnimation { duration: 200 } }
                             Behavior on opacity { NumberAnimation { duration: 150 } }
 
-                            color: tilemouse.containsMouse||check.checked ? PQCLook.baseBorder : pqtPalette.base
+                            PQHighlightMarker {
+                                visible: tilemouse.containsMouse||check.checked
+                            }
 
                             property bool delegSetup: false
                             Timer {

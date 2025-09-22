@@ -85,7 +85,10 @@ PQSetting {
                     id: topedge
                     width: 200
                     height: 50
-                    color: topmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
+                    color: "transparent"
+                    PQHighlightMarker {
+                        visible: topmouse.hovered||(themenu.opened&&menuedge==="top")
+                    }
                     border.width: 1
                     border.color: PQCLook.baseBorder
                     PQText {
@@ -119,7 +122,10 @@ PQSetting {
                     id: leftedge
                     width: 50
                     height: 200
-                    color: leftmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
+                    color: "transparent"
+                    PQHighlightMarker {
+                        visible: leftmouse.hovered||(themenu.opened&&menuedge==="left")
+                    }
                     border.width: 1
                     border.color: PQCLook.baseBorder
                     PQText {
@@ -149,7 +155,10 @@ PQSetting {
                     id: rightedge
                     width: 50
                     height: 200
-                    color: rightmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
+                    color: "transparent"
+                    PQHighlightMarker {
+                        visible: rightmouse.hovered||(themenu.opened&&menuedge==="right")
+                    }
                     border.width: 1
                     border.color: PQCLook.baseBorder
                     PQText {
@@ -183,7 +192,10 @@ PQSetting {
                     id: botedge
                     width: 200
                     height: 50
-                    color: botmouse.hovered ? PQCLook.baseBorder : pqtPalette.base
+                    color: "transparent"
+                    PQHighlightMarker {
+                        visible: botmouse.hovered||(themenu.opened&&menuedge==="bottom")
+                    }
                     border.width: 1
                     border.color: PQCLook.baseBorder
                     PQText {

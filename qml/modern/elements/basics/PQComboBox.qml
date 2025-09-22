@@ -77,7 +77,11 @@ ComboBox {
             implicitWidth: 200
             implicitHeight: 40
             opacity: enabled ? 1 : 0.3
-            color: (deleg.highlighted ? pqtPalette.base : (enabled ? pqtPalette.alternateBase : PQCLook.baseBorder))
+            color: pqtPalette.alternateBase
+            PQHighlightMarker {
+                anchors.margins: 2
+                visible: deleg.highlighted
+            }
         }
 
         highlighted: control.highlightedIndex === deleg.index
