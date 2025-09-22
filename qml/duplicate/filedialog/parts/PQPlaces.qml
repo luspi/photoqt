@@ -238,7 +238,7 @@ Item {
             property bool currentContextMenu: false
 
             PQHighlightMarker {
-                opacity: deleg.markDown||deleg.markHovered ? 1 : 0.2
+                opacity: deleg.markDown||deleg.markHovered ? 1 : 0.8
                 visible: deleg.markCurrent||deleg.markHovered||deleg.markDown
             }
 

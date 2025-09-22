@@ -371,35 +371,6 @@ Flickable {
             }
 
             /************************************************************/
-            // HIGHLIGHT/SELECT
-
-            // hovering an item
-            Rectangle {
-
-                id: rect_hovering
-
-                anchors.fill: parent
-                color: pqtPalette.text
-                opacity: deleg.isHovered ? 0.35 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-
-            }
-
-            // selecting an item
-            Rectangle {
-
-                id: rect_selecting
-
-                anchors.fill: parent
-                color: pqtPalette.text
-                opacity: deleg.isSelected ? 0.6 : 0
-                Behavior on opacity { NumberAnimation { duration: 200 } }
-                visible: opacity>0
-
-            }
-
-            /************************************************************/
             // FILE NAME
 
             // the filename
@@ -431,7 +402,7 @@ Flickable {
                         elide: Text.ElideMiddle
                         text: deleg.currentFile
                         font.pointSize: PQCLook.fontSize
-                        color: deleg.isSelected ? pqtPalette.base : pqtPalette.text
+                        color: pqtPalette.text
                         Behavior on color { ColorAnimation { duration: 200 } }
                     }
 
@@ -448,6 +419,14 @@ Flickable {
 
                 }
 
+            }
+
+            /************************************************************/
+            // HIGHLIGHT/SELECT
+
+            PQHighlightMarker {
+                opacity: !deleg.isSelected ? 0.5 : 1
+                visible: deleg.isHovered || deleg.isSelected
             }
 
             /************************************************************/

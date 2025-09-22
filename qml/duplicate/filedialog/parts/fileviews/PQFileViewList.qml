@@ -167,33 +167,10 @@ ListView {
         /************************************************************/
         // HIGHLIGHT/SELECT
 
-        // hovering an item
-        Rectangle {
-
-            id: rect_hovering
-
-            anchors.fill: parent
+        PQHighlightMarker {
+            id: higlighselectmarker
             anchors.leftMargin: fileicon.width+2
-            color: pqtPalette.text
-            property bool toShow: listview.currentIndex===deleg.modelData
-            opacity: toShow ? 0.6 : 0
-            // Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: opacity>0
-
-        }
-
-        // selecting an item
-        Rectangle {
-
-            id: rect_selecting
-
-            anchors.fill: parent
-            color: pqtPalette.text
-            property bool toShow: !(PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)===-1)
-            opacity: toShow ? 0.8 : 0
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-            visible: opacity>0
-
+            visible: listview.currentIndex===deleg.modelData || !(PQCConstants.filedialogCurrentSelection.indexOf(deleg.modelData)===-1)
         }
 
         /************************************************************/
@@ -211,7 +188,7 @@ ListView {
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideMiddle
             text: deleg.currentFile
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? pqtPalette.text : pqtPalette.base
+            color: pqtPalette.text
         }
 
         // the file size/number of images
@@ -224,7 +201,7 @@ ListView {
             font.pointSize: PQCLook.fontSize
             verticalAlignment: Text.AlignVCenter
             text: ""
-            color: (!rect_hovering.toShow&&!rect_selecting.toShow) ? pqtPalette.text : pqtPalette.base
+            color: pqtPalette.text
         }
 
         /************************************************************/
