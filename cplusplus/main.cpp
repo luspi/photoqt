@@ -224,7 +224,6 @@ int main(int argc, char *argv[]) {
     if(checker == 1)
         validate.validate();
 
-
     // Get screenshots for fake transparency
     bool success = true;
     for(int i = 0; i < QApplication::screens().count(); ++i) {

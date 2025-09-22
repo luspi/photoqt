@@ -118,8 +118,8 @@ PQCPhotoSphere {
             onPositionChanged: (mouse) => {
                 var posDiff = Qt.point(mouse.x-mousearea.clickedPos.x , mouse.y-mousearea.clickedPos.y)
                 var curTan = Math.tan(thesphere.fieldOfView * ((0.5*Math.PI)/180));
-                thesphere.azimuth = clickedAzimuth - (((3*256)/PQCConstants.imageDisplaySize.height) * posDiff.x/6) * curTan
-                thesphere.elevation = clickedElevation + (((3*256)/PQCConstants.imageDisplaySize.height) * posDiff.y/6) * curTan
+                thesphere.azimuth = clickedAzimuth - (((3*256)/PQCConstants.availableHeight) * posDiff.x/6) * curTan
+                thesphere.elevation = clickedElevation + (((3*256)/PQCConstants.availableHeight) * posDiff.y/6) * curTan
             }
             onReleased: {
                 thesphere.aniDuration = 50

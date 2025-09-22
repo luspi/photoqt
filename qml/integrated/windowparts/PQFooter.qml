@@ -175,7 +175,7 @@ ToolBar {
             var cur = PQCSettings.interfaceStatusInfoList[i]
 
             if(cur === "counter")
-                str.push((PQCFileFolderModel.currentIndexNoDelay+1) + "/" + PQCFileFolderModel.countMainView)
+                str.push((PQCFileFolderModel.currentIndexNoDelay+1) + " / " + PQCFileFolderModel.countMainView)
 
             else if(cur === "filename")
                 str.push(PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFileNoDelay))

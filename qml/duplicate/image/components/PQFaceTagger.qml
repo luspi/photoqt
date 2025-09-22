@@ -451,10 +451,10 @@ Loader {
 
             adjustedScale = false
 
-            if(PQCConstants.currentImageResolution.width/PQCConstants.devicePixelRatio < PQCConstants.imageDisplaySize.width &&
-                    PQCConstants.currentImageResolution.height/PQCConstants.devicePixelRatio < PQCConstants.imageDisplaySize.height) {
-                var fact = Math.min(PQCConstants.imageDisplaySize.width/PQCConstants.currentImageResolution.width,
-                                    PQCConstants.imageDisplaySize.height/PQCConstants.currentImageResolution.height)
+            if(PQCConstants.currentImageResolution.width/PQCConstants.devicePixelRatio < PQCConstants.availableWidth &&
+                    PQCConstants.currentImageResolution.height/PQCConstants.devicePixelRatio < PQCConstants.availableHeight) {
+                var fact = Math.min(PQCConstants.availableWidth/PQCConstants.currentImageResolution.width,
+                                    PQCConstants.availableHeight/PQCConstants.currentImageResolution.height)
                 backupScale = ldr_top.parent.scale
                 ldr_top.parent.scale = fact
                 adjustedScale = true

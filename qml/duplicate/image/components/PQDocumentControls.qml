@@ -444,8 +444,8 @@ Loader {
                 if(!visible && resetPosAfterHide) {
                     resetPosAfterHide = false
                     controlitem.manuallyDragged = false
-                    controlitem.x = Qt.binding(function() { return (PQCConstants.imageDisplaySize.width-controlitem.width)/2 })
-                    controlitem.y = Qt.binding(function() { return (PQCConstants.imageDisplaySize.height-controlitem.height-20) })
+                    controlitem.x = Qt.binding(function() { return (PQCConstants.availableWidth-controlitem.width)/2 })
+                    controlitem.y = Qt.binding(function() { return (PQCConstants.availableHeight-controlitem.height-20) })
                     PQCConstants.extraControlsLocation = Qt.point(-1,-1)
                 }
             }

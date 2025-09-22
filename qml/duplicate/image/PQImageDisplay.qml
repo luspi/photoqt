@@ -1496,6 +1496,16 @@ Loader {
                             }
                             loader_top.defaultScale = val
                         }
+
+                    }
+
+                    Connections {
+                        target: PQCConstants
+                        function onAvailableWidthChanged() {
+                            if(Math.abs(loader_top.imageScale - loader_top.defaultScale) < 1e-12)
+                                loader_top.dontAnimateNextZoom = true
+                            resetDefaults.resetScale()
+                        }
                     }
 
                     PropertyAnimation {
@@ -1517,7 +1527,8 @@ Loader {
 
                         function onWidthChanged() {
 
-                            loader_top.dontAnimateNextZoom = true
+                            if(Math.abs(loader_top.imageScale - loader_top.defaultScale) < 1e-12)
+                                loader_top.dontAnimateNextZoom = true
                             resetDefaults.triggered()
 
                             // we do both, trigger the resize right away (for smoother scaling)
@@ -1531,7 +1542,8 @@ Loader {
 
                         function onHeightChanged() {
 
-                            loader_top.dontAnimateNextZoom = true
+                            if(Math.abs(loader_top.imageScale - loader_top.defaultScale) < 1e-12)
+                                loader_top.dontAnimateNextZoom = true
                             resetDefaults.triggered()
 
                             // we do both, trigger the resize right away (for smoother scaling)
@@ -1749,7 +1761,7 @@ Loader {
                             image_wrapper.rotation = 0
                             loader_top.imageRotation = 0
                             image_wrapper.scale = loader_top.defaultScale
-                            loader_top.imageScale = image_wrapper.scale
+                            loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale } )
 
                         }
 
@@ -1880,7 +1892,7 @@ Loader {
                                 var oldDefault = loader_top.defaultScale
                                 resetDefaults.resetScale()
                                 if(Math.abs(loader_top.imageScale-oldDefault) < 1e-6)
-                                    loader_top.imageScale = loader_top.defaultScale
+                                    loader_top.imageScale = Qt.binding(function() { return loader_top.defaultScale })
                                 PQCConstants.currentImageDefaultScale = loader_top.defaultScale
                             }
                         }
@@ -2422,11 +2434,6 @@ Loader {
             PQCConstants.currentlyShowingVideo = loader_top.videoLoaded
             PQCConstants.currentlyShowingVideoHasAudio = loader_top.videoHasAudio
 
-            PQCConstants.currentVisibleAreaX = flickable.visibleArea.xPosition
-            PQCConstants.currentVisibleAreaY = flickable.visibleArea.yPosition
-            PQCConstants.currentVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
-            PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
-
             PQCConstants.showingPhotoSphere = loader_top.thisIsAPhotoSphere && (loader_top.photoSphereManuallyEntered || PQCSettings.filetypesPhotoSphereAutoLoad)
             PQCConstants.currentImageIsAnimated = image_loader_ani.active
             PQCConstants.currentImageIsDocument = image_loader_pdf.active
@@ -2436,6 +2443,7 @@ Loader {
             PQCConstants.currentVisibleAreaY = flickable.visibleArea.yPosition
             PQCConstants.currentVisibleAreaWidthRatio = flickable.visibleArea.widthRatio
             PQCConstants.currentVisibleAreaHeightRatio = flickable.visibleArea.heightRatio
+
             PQCConstants.currentVisibleContentPos.x = flickable.contentX
             PQCConstants.currentVisibleContentPos.y = flickable.contentY
             PQCConstants.currentVisibleContentSize.width = flickable.contentWidth

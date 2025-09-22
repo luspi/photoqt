@@ -22,6 +22,7 @@
 
 import QtQuick
 import QtQuick.Controls
+import PQCImageFormats
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
@@ -31,6 +32,10 @@ Rectangle {
 
     width: PQCSettings.metadataSideBarWidth
     height: PQCConstants.availableHeight
+
+    onWidthChanged: {
+        PQCSettings.metadataSideBarWidth = width
+    }
 
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
@@ -65,41 +70,12 @@ Rectangle {
         visible: PQCFileFolderModel.countMainView===0
     }
 
-    Item {
-
-        id: heading
-
-        width: parent.width
-        height: head_txt.height+10
-
-        PQTextXL {
-            id: head_txt
-            y: 5
-            width: parent.width
-            horizontalAlignment: Text.AlignHCenter
-            //: The title of the floating element
-            text: qsTranslate("metadata", "Metadata")
-            font.weight: PQCLook.fontWeightBold
-            font.capitalization: Font.SmallCaps
-            opacity: 0.8
-        }
-
-        Rectangle {
-            y: (parent.height-height)
-            width: parent.width
-            height: 1
-            color: pqtPaletteDisabled.text
-        }
-
-    }
-
     Flickable {
 
         id: flickable
 
         anchors.fill: parent
         anchors.margins: 10
-        anchors.topMargin: heading.height+20
 
         contentHeight: flickable_col.height
 
@@ -111,12 +87,55 @@ Rectangle {
 
             id: flickable_col
 
+            width: parent.width
+
             spacing: 8
 
+            Item {
+                width: 1
+                height: 20
+            }
+
+            PQTextXL {
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+                font.weight: PQCLook.fontWeightBold
+                elide: Text.ElideMiddle
+                visible: PQCFileFolderModel.currentFile!==""
+                text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
+            }
+
+            Item {
+                width: 1
+                height: 10
+            }
+
+            Rectangle {
+                width: parent.width
+                height: 1
+                color: pqtPalette.text
+                visible: PQCFileFolderModel.currentFile!==""
+            }
+
+            Item {
+                width: 1
+                height: 10
+            }
+
             PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "File name")
-                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
-                prop: PQCSettings.metadataFilename
+                //: Type here refers to the file type
+                whichtxt: qsTranslate("metadata", "Type")
+                property string mimeType: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                property string mimeName: PQCScriptsImages.getNameFromMimetype(mimeType, PQCFileFolderModel.currentFile)
+                valtxt: mimeName + " (" + mimeType + ")"
+                prop: PQCSettings.metadataFileType
+            }
+
+            PQMetaDataEntry {
+                //: Size here is the filesize (in KB or MB)
+                whichtxt: qsTranslate("metadata", "Size")
+                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFileSize
             }
 
             PQMetaDataEntry {
@@ -126,21 +145,48 @@ Rectangle {
             }
 
             PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "Image")
-                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : ""
+                whichtxt: qsTranslate("metadata", "Image #")
+                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+" / "+PQCFileFolderModel.countMainView)) : ""
                 prop: PQCSettings.metadataImageNumber
             }
 
             PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "File size")
-                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
-                prop: PQCSettings.metadataFileSize
+                whichtxt: qsTranslate("metadata", "GPS Position")
+                valtxt: PQCMetaData.exifGPS
+                prop: PQCSettings.metadataGps
+                //: The location here is a GPS location
+                tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
+                signalClicks: true
+                onClicked: (mouse) => {
+                    if(mouse.modifiers === Qt.ControlModifier) {
+                       if(PQCSettings.metadataGpsMap === "bing.com/maps")
+                           Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + valtxt + "&obox=1")
+                       else if(PQCSettings.metadataGpsMap === "maps.google.com")
+                           Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + valtxt)
+                       else
+                           Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimalForOpenStreetMap(valtxt))
+                    } else
+                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
+                }
+            }
+
+            Item {
+                width: 1
+                height: 1
             }
 
             PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "File type")
-                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
-                prop: PQCSettings.metadataFileType
+                //: This refers to the time the file was created
+                whichtxt: qsTranslate("metadata", "Created")
+                valtxt: PQCMetaData.exifDateTimeOriginal
+                prop: PQCSettings.metadataTime
+            }
+
+            PQMetaDataEntry {
+                //: This refers to the time the file was last modified
+                whichtxt: qsTranslate("metadata", "Last modified")
+                valtxt: PQCMetaData.exifDateTimeOriginal
+                prop: PQCSettings.metadataTime
             }
 
             Item {
@@ -169,12 +215,6 @@ Rectangle {
             Item {
                 width: 1
                 height: 1
-            }
-
-            PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "Time Photo was Taken")
-                valtxt: PQCMetaData.exifDateTimeOriginal
-                prop: PQCSettings.metadataTime
             }
 
             PQMetaDataEntry {
@@ -231,7 +271,7 @@ Rectangle {
             }
 
             PQMetaDataEntry {
-                //: The location here is a GPS location
+                //: The location here is a location stored in the file meta information. This could be a GPS or a named location.
                 whichtxt: qsTranslate("metadata", "Location")
                 valtxt: PQCMetaData.iptcLocation
                 prop: PQCSettings.metadataLocation
@@ -246,26 +286,6 @@ Rectangle {
             Item {
                 width: 1
                 height: 1
-            }
-
-            PQMetaDataEntry {
-                whichtxt: qsTranslate("metadata", "GPS Position")
-                valtxt: PQCMetaData.exifGPS
-                prop: PQCSettings.metadataGps
-                //: The location here is a GPS location
-                tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
-                signalClicks: true
-                onClicked: (mouse) => {
-                    if(mouse.modifiers === Qt.ControlModifier) {
-                       if(PQCSettings.metadataGpsMap === "bing.com/maps")
-                           Qt.openUrlExternally("http://www.bing.com/maps/?sty=r&q=" + valtxt + "&obox=1")
-                       else if(PQCSettings.metadataGpsMap === "maps.google.com")
-                           Qt.openUrlExternally("http://maps.google.com/maps?t=h&q=" + valtxt)
-                       else
-                           Qt.openUrlExternally("https://www.openstreetmap.org/#map=15/" + PQCScriptsMetaData.convertGPSToDecimalForOpenStreetMap(valtxt))
-                    } else
-                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
-                }
             }
 
         }
@@ -412,7 +432,7 @@ Rectangle {
         onMouseXChanged: {
             if(pressStart != -1) {
                 var diff = mouseX-pressStart
-                PQCSettings.metadataSideBarWidth = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
+                metadata_top.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
             }
         }
         onReleased: {
@@ -434,8 +454,8 @@ Rectangle {
         }
         onMouseXChanged: {
             if(pressStart != -1) {
-                var diff = pressStart-mouse.x
-                PQCSettings.metadataSideBarWidth = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
+                var diff = pressStart-mouseX
+                metadata_top.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
             }
         }
         onReleased: {

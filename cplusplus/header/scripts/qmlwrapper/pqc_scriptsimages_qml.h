@@ -52,10 +52,11 @@ public:
     Q_INVOKABLE bool isNormalImage(QString path) { return PQCScriptsImages::get().isNormalImage(path); }
 
     // info about image
-    Q_INVOKABLE QSize  getCurrentImageResolution(QString filename)    { return PQCScriptsImages::get().getCurrentImageResolution(filename); }
-    Q_INVOKABLE bool   isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
-    Q_INVOKABLE bool   supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
-    Q_INVOKABLE double getPixelDensity()                              { return PQCScriptsImages::get().getPixelDensity(); }
+    Q_INVOKABLE QSize   getCurrentImageResolution(QString filename)    { return PQCScriptsImages::get().getCurrentImageResolution(filename); }
+    Q_INVOKABLE bool    isItAnimated(QString filename)                 { return PQCScriptsImages::get().isItAnimated(filename); }
+    Q_INVOKABLE bool    supportsTransparency(QString path)             { return PQCScriptsImages::get().supportsTransparency(path); }
+    Q_INVOKABLE double  getPixelDensity()                              { return PQCScriptsImages::get().getPixelDensity(); }
+    Q_INVOKABLE QString getNameFromMimetype(QString mimetype, QString filename) { return PQCScriptsImages::get().getNameFromMimetype(mimetype, filename); }
 
     // do with image
     Q_INVOKABLE QString      loadImageAndConvertToBase64(QString filename)      { return PQCScriptsImages::get().loadImageAndConvertToBase64(filename); }

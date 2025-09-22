@@ -66,7 +66,6 @@ public:
         m_lastExecutedShortcutCommand = "";
         m_ignoreFileFolderChangesTemporary = false;
         m_statusinfoIsVisible = true;
-        m_imageDisplaySize = QSize(0,0);
         m_shiftKeyPressed = false;
 
         m_slideshowRunning = false;
@@ -255,7 +254,6 @@ public:
     Q_PROPERTY(bool statusInfoMovedDown MEMBER m_statusInfoMovedDown NOTIFY statusInfoMovedDownChanged)
     Q_PROPERTY(bool faceTaggingMode MEMBER m_faceTaggingMode NOTIFY faceTaggingModeChanged)
     Q_PROPERTY(bool statusinfoIsVisible MEMBER m_statusinfoIsVisible NOTIFY statusinfoIsVisibleChanged)
-    Q_PROPERTY(QSize imageDisplaySize MEMBER m_imageDisplaySize NOTIFY imageDisplaySizeChanged)
     Q_PROPERTY(int thumbnailsBarWidth MEMBER m_thumbnailsBarWidth NOTIFY thumbnailsBarWidthChanged)
     Q_PROPERTY(int thumbnailsBarHeight MEMBER m_thumbnailsBarHeight NOTIFY thumbnailsBarHeightChanged)
     Q_PROPERTY(double thumbnailsBarOpacity MEMBER m_thumbnailsBarOpacity NOTIFY thumbnailsBarOpacityChanged)
@@ -384,7 +382,6 @@ private:
     bool m_touchGestureActive;
     bool m_ignoreFileFolderChangesTemporary;
     bool m_statusinfoIsVisible;
-    QSize m_imageDisplaySize;
     bool m_shiftKeyPressed;
 
     bool m_slideshowRunning;
@@ -525,7 +522,6 @@ Q_SIGNALS:
     void slideshowRunningAndPlayingChanged();
     void slideshowVolumeChanged();
     void statusinfoIsVisibleChanged();
-    void imageDisplaySizeChanged();
     void currentVisibleContentPosChanged();
     void currentVisibleContentSizeChanged();
     void currentVisibleAreaXChanged();

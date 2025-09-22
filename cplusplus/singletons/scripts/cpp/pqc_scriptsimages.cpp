@@ -1370,3 +1370,15 @@ double PQCScriptsImages::getPixelDensity() {
     return qApp->devicePixelRatio();
 
 }
+
+QString PQCScriptsImages::getNameFromMimetype(QString mimetype, QString filename) {
+
+    QMimeDatabase db;
+
+    QString val = db.mimeTypeForName(mimetype).comment();
+    if(val == "")
+        val = PQCImageFormats::get().getFormatName(PQCImageFormats::get().detectFormatId(filename));
+
+    return val;
+
+}

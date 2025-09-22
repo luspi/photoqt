@@ -64,6 +64,13 @@ ApplicationWindow {
         storeWindowGeometry.restart()
     }
 
+    Connections {
+        target: PQCSettings
+        function onMetadataSideBarWidthChanged() {
+            PQCConstants.availableWidth = toplevel.width - PQCSettings.metadataSideBarWidth
+        }
+    }
+
     Timer {
         id: resetResizing
         interval: 500

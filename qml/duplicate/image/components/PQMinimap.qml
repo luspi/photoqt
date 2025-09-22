@@ -43,8 +43,8 @@ Rectangle {
         height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     }
 
-    x: PQCConstants.imageDisplaySize.width-minimap_top.width-50
-    y: PQCConstants.imageDisplaySize.height-minimap_top.height-50
+    x: PQCConstants.availableWidth-minimap_top.width-50
+    y: PQCConstants.availableHeight-minimap_top.height-50
     // parent: parent
     width: img.width+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
     height: img.height+(PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 6)
@@ -59,7 +59,7 @@ Rectangle {
         z: PQCConstants.currentZValue
     }
 
-    property bool minimapNeeded: (PQCConstants.currentImageScale > PQCConstants.currentImageDefaultScale*1.01 && (PQCConstants.currentVisibleContentSize.width > PQCConstants.imageDisplaySize.width || PQCConstants.currentVisibleContentSize.height > PQCConstants.imageDisplaySize.height)) && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere
+    property bool minimapNeeded: (PQCConstants.currentImageScale > PQCConstants.currentImageDefaultScale*1.01 && (PQCConstants.currentVisibleContentSize.width > PQCConstants.availableWidth || PQCConstants.currentVisibleContentSize.height > PQCConstants.availableHeight)) && !PQCConstants.slideshowRunning && !PQCConstants.showingPhotoSphere
     property bool minimapActive: false
     property bool containsMouse: movemouse.containsMouse||minimapmouse.containsMouse||navmouse.containsMouse
 

@@ -25,12 +25,12 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTemplateExtensionFlo
 SET(d "qml/integrated/elements/templates")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQTemplate.qml ${d}/PQTemplateModal.qml ${d}/PQTemplateModalPopout.qml)
 
-SET(d "qml/integrated/ongoing")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMetaData.qml)
+SET(d "qml/integrated/windowparts")
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMetaData.qml ${d}/PQMenuBar.qml ${d}/PQFooter.qml)
 
 SET(d "qml/integrated/other")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/PQBackgroundMessage.qml ${d}/PQLoader.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMenuBar.qml ${d}/PQFooter.qml ${d}/PQToolTipDisplay.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/integrated/actions")
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml ${d}/PQRename.qml ${d}/PQDelete.qml ${d}/PQCopy.qml)

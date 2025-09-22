@@ -65,6 +65,7 @@ public:
     bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
     double getPixelDensity();
+    QString getNameFromMimetype(QString mimetype, QString filename);
 
     // do with image
     QString loadImageAndConvertToBase64(QString filename);

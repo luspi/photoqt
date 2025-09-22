@@ -24,11 +24,11 @@ import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
 
-Column {
+Row {
 
     id: entry
 
-    property alias whichtxt: which.text
+    property string whichtxt: ""
     property string valtxt: ""
 
     property bool fadeout: valtxt==""
@@ -44,38 +44,40 @@ Column {
 
     signal clicked(var mouse)
 
+    spacing: 10
+
     PQText {
         id: which
+        text: entry.whichtxt+":"
         font.weight: PQCLook.fontWeightBold
+        horizontalAlignment: Text.AlignRight
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        width: Math.max(100, Math.min(300, PQCSettings.metadataSideBarWidth*0.3))
         enabled: !entry.fadeout
         visible: PQCFileFolderModel.countMainView>0
     }
 
-    Row {
+    PQText {
+        id: val
+        text: (entry.valtxt=="" ? "--" : entry.valtxt)
+        enabled: !entry.fadeout
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        visible: PQCFileFolderModel.countMainView>0
+        width: PQCSettings.metadataSideBarWidth-which.width-5 - 20 // the 20 comes from the content margin
 
-        spacing: 5
-
-        PQText {
-            id: val
-            text: "  " + (entry.valtxt=="" ? "--" : entry.valtxt)
+        PQMouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
             enabled: !entry.fadeout
-            visible: PQCFileFolderModel.countMainView>0
-
-            PQMouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                enabled: !entry.fadeout
-                text: enabled ? entry.tooltip : ""
-                cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-                onClicked: (mouse) => {
-                    if(entry.signalClicks)
-                        entry.clicked(mouse)
-                    else
-                        PQCScriptsClipboard.copyTextToClipboard(valtxt)
-                }
+            text: enabled ? entry.tooltip : ""
+            cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
+            onClicked: (mouse) => {
+                if(entry.signalClicks)
+                    entry.clicked(mouse)
+                else
+                    PQCScriptsClipboard.copyTextToClipboard(valtxt)
             }
         }
-
     }
 
 }

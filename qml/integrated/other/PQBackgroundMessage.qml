@@ -37,7 +37,6 @@ Item {
     SystemPalette { id: pqtPalette }
 
     Component.onCompleted: {
-        PQCConstants.imageDisplaySize = Qt.size(width, height)
         if(PQCConstants.startupFilePath === "")
             bgmessage_top.opacity = 1
     }
