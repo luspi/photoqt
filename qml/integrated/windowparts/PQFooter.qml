@@ -30,6 +30,8 @@ ToolBar {
 
     id: ftr
 
+    visible: PQCConstants.idOfVisibleItem !== "filedialog"
+
     onHeightChanged:
         PQCConstants.footerHeight = height
 
