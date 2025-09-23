@@ -36,7 +36,7 @@ TabButton {
     property bool lineAbove: false
 
     property bool settingsManagerMainTab: false
-    implicitHeight: 50
+    implicitHeight: 40
     font.weight: settingsManagerMainTab ? PQCLook.fontWeightBold : PQCLook.fontWeightNormal
 
     contentItem: Text {
@@ -67,13 +67,6 @@ TabButton {
             color: pqtPalette.text
             opacity: 0.1
             visible: control.lineAbove
-        }
-        Rectangle {
-            anchors.fill: parent
-            color: "transparent"
-            opacity: (control.down||control.isCurrentTab) ? 0.5 : 0
-            border.color: PQCLook.highlight
-            border.width: 1
         }
         Rectangle {
             y: (parent.height-height)
