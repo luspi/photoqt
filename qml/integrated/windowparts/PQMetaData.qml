@@ -42,8 +42,12 @@ Rectangle {
 
     color: pqtPalette.window
 
-    border.width: 1
-    border.color: pqtPaletteDisabled.text
+    Rectangle {
+        x: (PQCSettings.metadataSideBarLocation==="left" ? metadata_top.width : 0)
+        width: 1
+        height: parent.height
+        color: pqtPaletteDisabled.text
+    }
 
     MouseArea {
         anchors.fill: parent
@@ -294,6 +298,38 @@ Rectangle {
 
     }
 
+    PQButtonIcon {
+        id: managebutton
+        y: 5
+        x: parent.width-width-5
+        implicitWidth: 25
+        implicitHeight: 25
+        source: "image://svg/:/" + PQCLook.iconShade + "/menu.svg"
+        onClicked: {
+            managemenu.popup(managebutton, 0, height)
+        }
+
+        PQMenu {
+            id: managemenu
+            PQMenuItem {
+                enabled: false
+                text: "manage sidebar"
+            }
+            PQMenuItem {
+                text: PQCSettings.metadataSideBarLocation==="left" ? "move to right edge" : "move to left edge"
+                onClicked: {
+                    PQCSettings.metadataSideBarLocation = (PQCSettings.metadataSideBarLocation === "left" ? "right" : "left")
+                }
+            }
+            PQMenuItem {
+                text: "close sidebar"
+                onClicked: {
+                    PQCSettings.metadataSideBarLocation = ""
+                }
+            }
+        }
+    }
+
     ButtonGroup { id: grp1 }
     ButtonGroup { id: grp2 }
 
@@ -427,7 +463,7 @@ Rectangle {
         hoverEnabled: true
         cursorShape: Qt.SizeHorCursor
         property int origWidth: metadata_top.width
-        property int pressStart
+        property int pressStart: -1
         onPressed: (mouse) => {
             pressStart = mouse.x
         }

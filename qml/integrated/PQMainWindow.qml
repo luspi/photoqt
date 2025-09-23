@@ -50,7 +50,7 @@ ApplicationWindow {
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableWidth = width - PQCSettings.metadataSideBarWidth
+        PQCConstants.availableWidth = width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -70,7 +70,10 @@ ApplicationWindow {
     Connections {
         target: PQCSettings
         function onMetadataSideBarWidthChanged() {
-            PQCConstants.availableWidth = toplevel.width - PQCSettings.metadataSideBarWidth
+            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
+        }
+        function onMetadataSideBarLocationChanged() {
+            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
         }
     }
 

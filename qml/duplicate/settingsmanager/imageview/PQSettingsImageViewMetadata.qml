@@ -330,6 +330,50 @@ PQSetting {
 
         PQSettingSubtitle {
             //: Settings title
+            title: qsTranslate("settingsmanager", "Sidebar")
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            helptext: qsTranslate("settingsmanager",  "Some information about the image can be shown in a side bar either along the left or the right edge of the window.")
+        },
+
+        PQCheckBox {
+            id: sidebarcheck
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            text: qsTranslate("settingsmanager", "Show information in sidebar")
+        },
+
+        Row {
+            visible: PQCSettings.generalInterfaceVariant==="integrated"
+            spacing: 10
+            PQRadioButton {
+                id: sidebarleft
+                enabled: sidebarcheck.checked
+                text: qsTranslate("settingsmanager", "left edge")
+                onCheckedChanged: set_meta.checkForChanges()
+            }
+            PQRadioButton {
+                id: sidebarright
+                enabled: sidebarcheck.checked
+                text: qsTranslate("settingsmanager", "right edge")
+                onCheckedChanged: set_meta.checkForChanges()
+            }
+        },
+
+        PQSettingsResetButton {
+            onResetToDefaults: {
+
+                sidebarcheck.checked = PQCSettings.getDefaultForMetadataSideBarLocation()!==""
+                sidebarleft.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="left")
+                sidebarright.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="right")
+
+                set_meta.checkForChanges()
+
+            }
+        },
+
+        /************************************************/
+
+        PQSettingSubtitle {
+            //: Settings title
             title: qsTranslate("settingsmanager", "Auto Rotation")
             helptext: qsTranslate("settingsmanager",  "When an image is taken with the camera turned on its side, some cameras store that rotation in the metadata. PhotoQt can use that information to display an image the way it was meant to be viewed. Disabling this will load all photos without any rotation applied by default.")
         },
@@ -456,7 +500,8 @@ PQSetting {
 
         PQCConstants.settingsManagerSettingChanged = ((_defaultCurrentCheckBoxStates !== currentCheckBoxStates.join("")) || autorot.hasChanged() ||
                                                       osm.hasChanged() || google.hasChanged() || bing.hasChanged() ||
-                                                      screenegde.hasChanged() || floating.hasChanged())
+                                                      screenegde.hasChanged() || floating.hasChanged() ||
+                                                      sidebarcheck.hasChanged() || sidebarleft.hasChanged() || sidebarright.hasChanged())
 
     }
 
@@ -466,6 +511,10 @@ PQSetting {
 
         labelsLoadDefault()
         saveDefaultCheckTimer.restart()
+
+        sidebarcheck.checked = PQCSettings.metadataSideBarLocation!==""
+        sidebarright.checked = PQCSettings.metadataSideBarLocation!=="left"
+        sidebarleft.checked = PQCSettings.metadataSideBarLocation==="left"
 
         autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
 
@@ -486,6 +535,15 @@ PQSetting {
 
         labelsSaveChanges()
         _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
+
+        if(!sidebarcheck.checked) {
+            PQCSettings.metadataSideBarLocation = ""
+        } else {
+            PQCSettings.metadataSideBarLocation = (sidebarleft.checked ? "left" : "right")
+        }
+        sidebarcheck.saveDefault()
+        sidebarleft.saveDefault()
+        sidebarright.saveDefault()
 
         PQCSettings.metadataAutoRotation = autorot.checked
         autorot.saveDefault()

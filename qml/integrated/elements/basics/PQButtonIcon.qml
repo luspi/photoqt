@@ -52,6 +52,8 @@ Button {
     Image {
         anchors.fill: parent
         anchors.margins: 5
+        smooth: true
+        mipmap: true
         sourceSize: Qt.size(width, height)
         source: control.source
         scale: control.iconScale
