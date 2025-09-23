@@ -97,10 +97,12 @@ Rectangle {
             }
 
             PQTextXL {
-                width: parent.width
+                x: 5
+                width: parent.width-10
                 horizontalAlignment: Text.AlignHCenter
                 font.weight: PQCLook.fontWeightBold
                 elide: Text.ElideMiddle
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 visible: PQCFileFolderModel.currentFile!==""
                 text: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
             }
