@@ -567,7 +567,7 @@ Item {
                         else {
                             PQCFileFolderModel.extraFoldersToLoad = []
                             PQCFileFolderModel.fileInFolderMainView = currentPath
-                            filedialog_top.hideFileDialog()
+                            filedialog_top.handleHiding(true)
                         }
 
                         PQCConstants.filedialogCurrentSelection = []
@@ -834,7 +834,7 @@ Item {
             PQCFileFolderModel.extraFoldersToLoad = []
             PQCFileFolderModel.fileInFolderMainView = PQCFileFolderModel.entriesFileDialog[index]
             if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
-                filedialog_top.hideFileDialog()
+                filedialog_top.handleHiding(true)
 
             if(!PQCSettings.filedialogRememberSelection)
                 PQCConstants.filedialogCurrentSelection = []

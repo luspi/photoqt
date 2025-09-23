@@ -83,7 +83,7 @@ Loader {
             visible: opacity>0
             opacity: PQCConstants.idOfVisibleItem!=="" ? 1 : 0
             Behavior on opacity { NumberAnimation { duration: 200 } }
-            z: PQCConstants.idOfVisibleItem!=="filedialog" ? 999 : 0
+            z: PQCConstants.idOfVisibleItem!=="FileDialog" ? 999 : 0
             onStatusChanged: {
                 if(windowbuttons_ontop.status == Loader.Ready)
                     windowbuttons_ontop.item.visibleAlways = true
@@ -176,29 +176,105 @@ Loader {
 
         /******************************************/
 
+        // Loader {
+        //     id: loader_filedialog
+        //     active: false
+        //     anchors.fill: parent
+        //     sourceComponent: PQCSettings.filedialogUseNativeFileDialog ? comp_filedialog_native :
+        //                         ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ?
+        //                              comp_filedialog_popout :
+        //                              comp_filedialog)
+        //     Connections {
+        //         target: PQCNotify
+        //         function onLoaderShow(ele : string) {
+        //             if(ele === "filedialog") {
+        //                 loader_filedialog.active = true
+        //                 if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
+        //                     PQCConstants.idOfVisibleItem = "filedialog"
+        //                 PQCNotify.loaderPassOn("show", ["filedialog"])
+        //             }
+        //         }
+        //     }
+        // }
+        // Component { id: comp_filedialog; PQFileDialog {} }
+        // Component { id: comp_filedialog_popout; PQFileDialogPopout {} }
+
         Loader {
             id: loader_filedialog
             active: false
             anchors.fill: parent
-            sourceComponent: PQCSettings.filedialogUseNativeFileDialog ? comp_filedialog_native :
-                                ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ?
-                                     comp_filedialog_popout :
-                                     comp_filedialog)
+            sourceComponent: PQCSettings.filedialogUseNativeFileDialog ?
+                                 comp_filedialog_native :
+                                 ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ? comp_filedialog_popout : comp_filedialog)
             Connections {
                 target: PQCNotify
                 function onLoaderShow(ele : string) {
-                    if(ele === "filedialog") {
+                    if(ele === "FileDialog") {
                         loader_filedialog.active = true
                         if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
-                            PQCConstants.idOfVisibleItem = "filedialog"
-                        PQCNotify.loaderPassOn("show", ["filedialog"])
+                            PQCConstants.idOfVisibleItem = "FileDialog"
+                        PQCNotify.loaderPassOn("show", ["FileDialog"])
                     }
                 }
             }
         }
-        Component { id: comp_filedialog; PQFileDialog {} }
         Component { id: comp_filedialog_native; PQFileDialogNative {} }
-        Component { id: comp_filedialog_popout; PQFileDialogPopout {} }
+        Component {
+            id: comp_filedialog
+            PQTemplateModal {
+                id: smmod
+                onShowing: tmpl.showing()
+                onHiding: tmpl.hiding()
+                showTopBottom: false
+                content: PQFileDialog {
+                    id: tmpl
+                    button1: smmod.button1
+                    button2: smmod.button2
+                    button3: smmod.button3
+                    bottomLeft: smmod.bottomLeft
+                    popInOutButton: smmod.popInOutButton
+                    availableHeight: smmod.contentHeight
+                    Component.onCompleted: {
+                        smmod.elementId = elementId
+                        smmod.title = title
+                        smmod.letElementHandleClosing = letMeHandleClosing
+                        smmod.bottomLeftContent = bottomLeftContent
+                    }
+                }
+            }
+        }
+        Component {
+            id: comp_filedialog_popout
+            PQTemplateModalPopout {
+                id: smpop
+                defaultPopoutGeometry: PQCWindowGeometry.filedialogGeometry
+                defaultPopoutMaximized: PQCWindowGeometry.filedialogMaximized
+                onShowing: tmpl.showing()
+                onHiding: tmpl.hiding()
+                showTopBottom: false
+                onRectUpdated: (r) => {
+                    PQCWindowGeometry.filedialogGeometry = r
+                }
+                onMaximizedUpdated: (m) => {
+                    PQCWindowGeometry.filedialogMaximized = m
+                }
+                content: PQFileDialog {
+                    id: tmpl
+                    button1: smpop.button1
+                    button2: smpop.button2
+                    button3: smpop.button3
+                    bottomLeft: smpop.bottomLeft
+                    popInOutButton: smpop.popInOutButton
+                    availableHeight: smpop.contentHeight
+                    Component.onCompleted: {
+                        smpop.elementId = elementId
+                        smpop.title = title
+                        smpop.letElementHandleClosing = letMeHandleClosing
+                        smpop.bottomLeftContent = bottomLeftContent
+                    }
+                }
+            }
+        }
 
         /******************************************/
 
@@ -231,7 +307,7 @@ Loader {
             }
 
             if(PQCConstants.startupFilePath === "" || (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)) {
-                // PQCNotify.loaderShow("filedialog")
+                // PQCNotify.loaderShow("FileDialog")
             }
 
         }

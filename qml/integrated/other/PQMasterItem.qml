@@ -140,25 +140,65 @@ Loader {
         // Loader { id: loader_slideshowsetup }
         // Loader { id: loader_chromecastmanager }
 
+        /*****************************************/
+
         // this needs to be out here to be loaded faster if needed
         Loader {
-            id: loader_filedialog
+            id: loader_filedialog_native
             anchors.fill: parent
-            active: false//PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder
-            sourceComponent: PQCSettings.filedialogUseNativeFileDialog ? comp_filedialog_native : comp_filedialog
-            Connections {
-                target: PQCNotify
-                function onLoaderShow(ele : string) {
-                    if(ele === "filedialog") {
-                        loader_filedialog.active = true
-                        PQCConstants.idOfVisibleItem = "filedialog"
-                        PQCNotify.loaderPassOn("show", ["filedialog"])
+            active: false//PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+            sourceComponent: PQFileDialogNative {}
+        }
+
+        Loader {
+            id: loader_filedialog
+            active: false//!PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+            anchors.fill: parent
+            sourceComponent:
+            PQTemplateModal {
+                id: smpop
+                width: PQCConstants.availableWidth+PQCSettings.metadataSideBarWidth
+                forceShow: (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+                onShowing: tmpl.showing()
+                onHiding: tmpl.hiding()
+                popInOutButton.visible: false
+                showTopBottom: false
+                customSizeSet: true
+                content: PQFileDialog {
+                    id: tmpl
+                    button1: smpop.button1
+                    button2: smpop.button2
+                    button3: smpop.button3
+                    bottomLeft: smpop.bottomLeft
+                    popInOutButton: smpop.popInOutButton
+                    availableHeight: PQCConstants.availableHeight
+                    Component.onCompleted: {
+                        smpop.elementId = elementId
+                        smpop.title = title
+                        smpop.letElementHandleClosing = letMeHandleClosing
+                        smpop.bottomLeftContent = bottomLeftContent
                     }
                 }
             }
+
+            Connections {
+                target: PQCNotify
+                function onLoaderShow(ele : string) {
+                    if(ele === "FileDialog") {
+                        if(PQCSettings.filedialogUseNativeFileDialog)
+                            loader_filedialog_native.active = true
+                        else {
+                            PQCConstants.idOfVisibleItem = "FileDialog"
+                            loader_filedialog.active = true
+                            PQCNotify.loaderPassOn("show", ["FileDialog"])
+                        }
+                    }
+                }
+            }
+
         }
-        Component { id: comp_filedialog; PQFileDialog {} }
-        Component { id: comp_filedialog_native; PQFileDialogNative {} }
+
+        /*****************************************/
 
         Loader {
             active: masteritem.readyToContinueLoading

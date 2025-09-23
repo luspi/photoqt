@@ -29,21 +29,13 @@ import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
 /* :-)) <3 */
 
-Rectangle {
+PQTemplate {
 
     id: filedialog_top
 
-    width: parentWidth
-    height: parentHeight
+    elementId: "FileDialog"
+    letMeHandleClosing: true
 
-    property int parentWidth: PQCConstants.availableWidth
-    property int parentHeight: PQCConstants.availableHeight
-
-    // this is set to true/false by the popout window
-    // this is a way to reliably detect whether it is used
-    property bool popoutWindowUsed: false
-
-    property string thisis: "filedialog"
     property alias placesWidth: fd_places.width
     property alias fileviewWidth: fd_fileview.width
     property alias splitview: fd_splitview
@@ -57,46 +49,9 @@ Rectangle {
 
     property bool splitDividerHovered: false
 
-    property bool isPopout: PQCSettings.interfacePopoutFileDialog
-
     SystemPalette { id: pqtPalette }
 
     color: pqtPalette.base
-
-    state: isPopout ?
-               "popout" :
-               ""
-
-    states: [
-        State {
-            name: "popout"
-            PropertyChanges {
-                filedialog_top.width: filedialog_top.parentWidth
-                filedialog_top.height: filedialog_top.parentHeight
-                filedialog_top.opacity: 0
-            }
-        }
-    ]
-
-    opacity: 0
-    visible: opacity>0
-    Behavior on opacity { NumberAnimation { duration: dontAnimateFirstStart ? 0 : 200 } }
-
-    onOpacityChanged: {
-        if(opacity > 0.99999)
-            dontAnimateFirstStart = false
-
-        if(opacity > 0 && !isPopout)
-            PQCNotify.windowTitleOverride(qsTranslate("actions", "File Dialog"))
-        else if(opacity === 0)
-            PQCNotify.windowTitleOverride("")
-
-    }
-
-    MouseArea {
-        anchors.fill: parent
-        hoverEnabled: true
-    }
 
     PQBreadCrumbs {
         id: fd_breadcrumbs
@@ -166,43 +121,17 @@ Rectangle {
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
-
-                if(param[0] === filedialog_top.thisis)
-                    filedialog_top.showFileDialog()
-
-            } else if(filedialog_top.opacity > 0) {
+            if(filedialog_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
-                    if(filedialog_top.popoutWindowUsed && PQCSettings.interfacePopoutFileDialogNonModal)
+                    if(PQCSettings.interfacePopoutFileDialogNonModal)
                         return
 
                     // close something
                     if(param[0] === Qt.Key_Escape) {
 
-                        // pasting existing files
-                        if(pasteExisting.visible)
-                            pasteExisting.hide()
-
-                        // modal confirmation popup
-                        else if(modal.visible)
-                            modal.hide()
-
-                        else if(PQCConstants.filedialogAddressEditVisible)
-                            PQCNotify.filedialogShowAddressEdit(false)
-
-                        // current selection
-                        else if(PQCConstants.filedialogCurrentSelection.length)
-                            PQCConstants.filedialogCurrentSelection = []
-
-                        // current cut
-                        else if(fd_fileview.currentCuts.length)
-                            fd_fileview.currentCuts = []
-
-                        // file dialog
-                        else
-                            filedialog_top.hideFileDialog()
+                        filedialog_top.handleHiding(false)
 
                     } else {
 
@@ -237,41 +166,9 @@ Rectangle {
         }
 
         function onFiledialogClose() {
-            filedialog_top.hideFileDialog()
+            filedialog_top.handleHiding(true)
         }
 
-    }
-
-    Image {
-        x: 5
-        y: 5
-        width: 15
-        height: 15
-        visible: !PQCWindowGeometry.filedialogForcePopout
-        enabled: visible
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
-        sourceSize: Qt.size(width, height)
-        opacity: popinmouse.containsMouse ? 1 : 0.4
-        Behavior on opacity { NumberAnimation { duration: 200 } }
-        PQMouseArea {
-            id: popinmouse
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            tooltip: PQCSettings.interfacePopoutFileDialog ?
-                         //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
-                         qsTranslate("popinpopout", "Merge into main interface") :
-                         //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
-                         qsTranslate("popinpopout", "Move to its own window")
-            onClicked: {
-                filedialog_top.hideFileDialog()
-                if(PQCSettings.interfacePopoutFileDialog)
-                    filedialog_window.close()
-                PQCSettings.interfacePopoutFileDialog = !PQCSettings.interfacePopoutFileDialog
-                filedialog_top.opacityChanged()
-                PQCScriptsShortcuts.executeInternalCommand("__open")
-            }
-        }
     }
 
     PQFileDeleteConfirm {
@@ -326,7 +223,7 @@ Rectangle {
 
             }
 
-            showFileDialog()
+            filedialog_top.handleShowing()
 
         }
 
@@ -338,7 +235,7 @@ Rectangle {
 
         function onFirstFolderMainViewLoadedChanged() {
             if(PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)
-                showFileDialog()
+                filedialog_top.handleShowing()
         }
 
     }
@@ -365,12 +262,9 @@ Rectangle {
         PQCFileFolderModel.folderFileDialog = PQCConstants.filedialogHistory[PQCConstants.filedialogHistoryIndex]
     }
 
-    function showFileDialog() {
+    function handleShowing() {
 
-        PQCConstants.idOfVisibleItem = "filedialog"
         fd_fileview.ignoreMouseEvents = true
-
-        isPopout = PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout
 
         // check that the correct folder is loaded
         if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "") {
@@ -382,36 +276,49 @@ Rectangle {
         if(PQCFileFolderModel.currentFile !== "")
             fd_fileview.setCurrentIndexToCurrentFile()
 
-        opacity = 1
-        if(popoutWindowUsed)
-            filedialog_window.visible = true
-
     }
 
-    function hideFileDialog() {
+    function handleHiding(forceHide : bool) {
 
-        if(pasteExisting.visible) {
+        if(forceHide) {
+
+            // it is possible that some element (slider/...) had key focus -> reset that
+            filedialog_top.forceActiveFocus()
+            PQCNotify.filedialogShowAddressEdit(false)
+            filedialog_top.hide()
+
+            return
+
+        }
+
+        // pasting existing files
+        if(pasteExisting.visible)
             pasteExisting.hide()
-            return
-        }
-        if(modal.visible) {
+
+        // modal confirmation popup
+        else if(modal.visible)
             modal.hide()
-            return
+
+        else if(PQCConstants.filedialogAddressEditVisible)
+            PQCNotify.filedialogShowAddressEdit(false)
+
+        // current selection
+        else if(PQCConstants.filedialogCurrentSelection.length)
+            PQCConstants.filedialogCurrentSelection = []
+
+        // current cut
+        else if(fd_fileview.currentCuts.length)
+            fd_fileview.currentCuts = []
+
+        // file dialog
+        else {
+
+            // it is possible that some element (slider/...) had key focus -> reset that
+            filedialog_top.forceActiveFocus()
+            PQCNotify.filedialogShowAddressEdit(false)
+            filedialog_top.hide()
+
         }
-
-        // it is possible that some element (slider/...) had key focus -> reset that
-        filedialog_top.forceActiveFocus()
-
-        PQCNotify.filedialogShowAddressEdit(false)
-        opacity = 0
-        if(popoutWindowUsed)
-            filedialog_window.visible = false
-
-        isPopout = Qt.binding(function() { return PQCSettings.interfacePopoutFileDialog })
-
-        // for the file dialog, setting the window.visible property to false is not sufficient, we still need to call this
-        PQCNotify.loaderRegisterClose(thisis)
-        PQCConstants.idOfVisibleItem = ""
 
     }
 

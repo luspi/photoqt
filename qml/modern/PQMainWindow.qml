@@ -130,7 +130,7 @@ Window {
         acceptedButtons: Qt.LeftButton
         enabled: !masteritemattop.backgroundMessageReady && PQCConstants.startupFilePath===""
         onClicked: {
-            PQCNotify.loaderShow("filedialog")
+            PQCNotify.loaderShow("FileDialog")
         }
     }
 
@@ -321,7 +321,7 @@ Window {
 
         function onCmdOpen() : void {
             console.log("")
-            PQCNotify.loaderShow("filedialog")
+            PQCNotify.loaderShow("FileDialog")
         }
 
         function onCmdShow() : void {

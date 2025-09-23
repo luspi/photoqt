@@ -40,7 +40,7 @@ Rectangle {
     SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
-    color: pqtPalette.base
+    color: pqtPalette.window
 
     border.width: 1
     border.color: pqtPaletteDisabled.text

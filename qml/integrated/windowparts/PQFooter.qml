@@ -30,8 +30,6 @@ ToolBar {
 
     id: ftr
 
-    visible: PQCConstants.idOfVisibleItem !== "filedialog"
-
     onHeightChanged:
         PQCConstants.footerHeight = height
 
@@ -43,13 +41,18 @@ ToolBar {
         spacing: 5
 
         Label {
-            visible: PQCFileFolderModel.countMainView===0
+            visible: PQCFileFolderModel.countMainView===0 && PQCConstants.idOfVisibleItem!=="FileDialog"
             text: qsTranslate("other", "Click anywhere to open a file")
         }
 
         Label {
+            visible: PQCConstants.idOfVisibleItem==="FileDialog"
+            text: qsTranslate("other", "Select a file")
+        }
+
+        Label {
             id: statusinfo
-            visible: PQCFileFolderModel.countMainView>0
+            visible: PQCFileFolderModel.countMainView>0 && PQCConstants.idOfVisibleItem!=="FileDialog"
             elide: Label.ElideMiddle
             horizontalAlignment: Qt.AlignHCenter
             verticalAlignment: Qt.AlignVCenter

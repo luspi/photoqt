@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Dialogs
-import PhotoQt.CPlusPlus
 import PQCImageFormats
 
 import PhotoQt.CPlusPlus
@@ -45,7 +44,7 @@ Item {
 
             if(what === "show") {
 
-                if(param[0] === "filedialog")
+                if(param[0] === "FileDialog")
                     filedialog_top.show()
 
             }

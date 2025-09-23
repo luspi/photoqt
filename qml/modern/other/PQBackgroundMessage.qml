@@ -638,7 +638,7 @@ Item {
             }
 
             if(mouse.button === Qt.LeftButton)
-                PQCNotify.loaderShow("filedialog")
+                PQCNotify.loaderShow("FileDialog")
             else {
                 var pos = imagemouse.mapToItem(fullscreenitem, mouse.x, mouse.y)
                 PQCNotify.mouseReleased(mouse.modifiers, mouse.button, pos)
@@ -768,7 +768,7 @@ Item {
                 hideElement("metadata")
                 hideElement("mainmenu")
                 hideElement("thumbnails")
-                PQCNotify.loaderShow("filedialog")
+                PQCNotify.loaderShow("FileDialog")
             }
 
             reEnableMouseWithDelay.start()

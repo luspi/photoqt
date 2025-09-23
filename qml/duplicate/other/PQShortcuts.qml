@@ -497,7 +497,7 @@ Item {
             // elements
 
             case "__open":
-                PQCNotify.loaderShow("filedialog")
+                PQCNotify.loaderShow("FileDialog")
                 break
             case "__showMapExplorer":
                 PQCNotify.loaderShow("MapExplorer")

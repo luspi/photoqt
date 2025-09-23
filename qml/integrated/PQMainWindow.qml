@@ -42,6 +42,9 @@ ApplicationWindow {
     width: 800
     height: 600
 
+    color: pqtPalette.base
+
+    SystemPalette { id: pqtPalette }
     SystemPalette { id: pqtPaletteDisabled; colorGroup: SystemPalette.Disabled }
 
     // this signals whether the window is currently being resized or not
@@ -327,7 +330,7 @@ ApplicationWindow {
 
         function onCmdOpen() : void {
             console.log("")
-            PQCNotify.loaderShow("filedialog")
+            PQCNotify.loaderShow("FileDialog")
         }
 
         function onCmdShow() : void {

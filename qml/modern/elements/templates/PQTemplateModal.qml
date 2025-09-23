@@ -248,6 +248,8 @@ Rectangle {
                     element_top._hide()
                 else if(what === "forceHide")
                     element_top._hideNoCheck()
+                else if(what === "show")
+                    element_top._show()
             }
         }
     }

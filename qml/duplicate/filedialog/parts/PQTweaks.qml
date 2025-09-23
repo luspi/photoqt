@@ -159,7 +159,7 @@ Item {
             text: genericStringCancel
             tooltip: qsTranslate("filedialog", "Cancel and close")
             onClicked:
-                filedialog_top.hideFileDialog()
+                filedialog_top.handleHiding(true)
         }
     }
 

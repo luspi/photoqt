@@ -47,6 +47,8 @@ Rectangle {
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: element_top.height-(showTopBottom ? (toprowHeight-bottomrowHeight) : 0)
     property int contentWidth: cont.width
+    property bool customSizeSet: false
+    property bool forceShow: false
 
     signal button1Clicked()
     signal button2Clicked()
@@ -60,19 +62,25 @@ Rectangle {
     SystemPalette { id: pqtPalette }
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: element_top.forceShow ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
+    onOpacityChanged: {
+        if(opacity > 0.99)
+            forceShow = false
+    }
 
     width: PQCConstants.availableWidth
     height: PQCConstants.availableHeight
     color: pqtPalette.alternateBase
 
     onWidthChanged: {
-        width = Qt.binding(function() { return PQCConstants.availableWidth })
+        if(!customSizeSet)
+            width = Qt.binding(function() { return PQCConstants.availableWidth })
     }
     onHeightChanged: {
-        height = Qt.binding(function() { return PQCConstants.availableHeight })
+        if(!customSizeSet)
+            height = Qt.binding(function() { return PQCConstants.availableHeight })
     }
 
     PQMouseArea {
@@ -217,7 +225,7 @@ Rectangle {
 
     Component.onCompleted: {
         // in this case the user switched the popped out state
-        if(PQCConstants.idOfVisibleItem === elementId)
+        if(PQCConstants.idOfVisibleItem === elementId || forceShow)
             _show()
     }
 
@@ -245,6 +253,8 @@ Rectangle {
                     element_top._hide()
                 else if(what === "forceHide")
                     element_top._hideNoCheck()
+                else if(what === "show")
+                    element_top._show()
             }
         }
     }

@@ -52,6 +52,7 @@ Window {
     property int bottomrowHeight: bottomrow.height
     property int contentHeight: element_top.height-(showTopBottom ? (toprowHeight+bottomrowHeight) : 0)
     property int contentWidth: cont.width
+    property bool forceShow: false
 
     signal button1Clicked()
     signal button2Clicked()
@@ -85,8 +86,10 @@ Window {
         setupCompleted.restart()
 
         // in this case the user switched the popped out state
-        if(PQCConstants.idOfVisibleItem === elementId)
+        if(PQCConstants.idOfVisibleItem === elementId || forceShow)
             _show()
+
+        forceShow = false
 
     }
 
@@ -309,6 +312,8 @@ Window {
                     element_top._hide()
                 else if(what === "forceHide")
                     element_top._hideNoCheck()
+                else if(what === "show")
+                    element_top._show()
             }
         }
     }

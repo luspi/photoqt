@@ -56,6 +56,10 @@ Rectangle {
             PQCNotify.elementSignal(action_top.elementId, "hide")
     }
 
+    function show() {
+        PQCNotify.elementSignal(action_top.elementId, "show")
+    }
+
     ///////////////////
 
     function onHiding() {
