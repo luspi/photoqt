@@ -79,7 +79,6 @@ ComboBox {
             opacity: enabled ? 1 : 0.3
             color: pqtPalette.alternateBase
             PQHighlightMarker {
-                anchors.margins: 2
                 visible: deleg.highlighted
             }
         }

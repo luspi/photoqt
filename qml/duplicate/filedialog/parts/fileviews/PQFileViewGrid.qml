@@ -231,6 +231,7 @@ GridView {
         // HIGHLIGHT/SELECT
 
         PQHighlightMarker {
+            anchors.margins: 0
             opacity: !deleg.isSelected ? 0.5 : 1
             visible: deleg.isHovered || deleg.isSelected
         }

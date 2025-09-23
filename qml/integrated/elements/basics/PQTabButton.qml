@@ -46,7 +46,7 @@ TabButton {
         text: control.text
         font: control.font
         opacity: enabled ? 1.0 : 0.3
-        color: control.isCurrentTab ? pqtPalette.base : pqtPalette.text
+        color: pqtPalette.text
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -65,23 +65,9 @@ TabButton {
             opacity: 0.2
         }
 
-        Item {
-            anchors.fill: parent
-            anchors.margins: 5
-            Rectangle {
-                anchors.fill: parent
-                color: pqtPalette.highlight
-                opacity: control.isCurrentTab ? 1 : (control.hovered ? 0.3 : 0)
-                radius: 5
-            }
-            Rectangle {
-                anchors.fill: parent
-                color: "transparent"
-                border.width: 1
-                border.color: pqtPalette.highlight
-                radius: 5
-                visible: control.isCurrentTab||control.hovered
-            }
+        PQHighlightMarker {
+            opacity: !control.isCurrentTab ? 0.5 : 1
+            visible: control.isCurrentTab||control.hovered
         }
 
         Rectangle {

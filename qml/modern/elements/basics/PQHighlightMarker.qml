@@ -27,6 +27,7 @@ Rectangle {
     SystemPalette { id: pqtPalette }
 
     anchors.fill: parent
+    anchors.margins: 3
     color: "transparent"
     border.width: 1
     border.color: pqtPalette.highlight
