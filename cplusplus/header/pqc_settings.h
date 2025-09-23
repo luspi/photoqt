@@ -1498,6 +1498,12 @@ public:
     Q_INVOKABLE const bool getDefaultForMetadataSceneType();
     Q_INVOKABLE void setDefaultForMetadataSceneType();
 
+    Q_PROPERTY(bool metadataSideBar READ getMetadataSideBar WRITE setMetadataSideBar NOTIFY metadataSideBarChanged)
+    bool getMetadataSideBar();
+    void setMetadataSideBar(bool val);
+    Q_INVOKABLE const bool getDefaultForMetadataSideBar();
+    Q_INVOKABLE void setDefaultForMetadataSideBar();
+
     Q_PROPERTY(QString metadataSideBarLocation READ getMetadataSideBarLocation WRITE setMetadataSideBarLocation NOTIFY metadataSideBarLocationChanged)
     QString getMetadataSideBarLocation();
     void setMetadataSideBarLocation(QString val);
@@ -2026,6 +2032,7 @@ private:
     bool m_metadataMake;
     bool m_metadataModel;
     bool m_metadataSceneType;
+    bool m_metadataSideBar;
     QString m_metadataSideBarLocation;
     int m_metadataSideBarWidth;
     bool m_metadataSoftware;
@@ -2339,6 +2346,7 @@ Q_SIGNALS:
     void metadataMakeChanged();
     void metadataModelChanged();
     void metadataSceneTypeChanged();
+    void metadataSideBarChanged();
     void metadataSideBarLocationChanged();
     void metadataSideBarWidthChanged();
     void metadataSoftwareChanged();

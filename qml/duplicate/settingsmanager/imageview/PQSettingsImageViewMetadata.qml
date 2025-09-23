@@ -339,6 +339,7 @@ PQSetting {
             id: sidebarcheck
             visible: PQCSettings.generalInterfaceVariant==="integrated"
             text: qsTranslate("settingsmanager", "Show information in sidebar")
+            onCheckedChanged: set_meta.checkForChanges()
         },
 
         Row {
@@ -361,7 +362,7 @@ PQSetting {
         PQSettingsResetButton {
             onResetToDefaults: {
 
-                sidebarcheck.checked = PQCSettings.getDefaultForMetadataSideBarLocation()!==""
+                sidebarcheck.checked = PQCSettings.getDefaultForMetadataSideBar()
                 sidebarleft.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="left")
                 sidebarright.checked = (PQCSettings.getDefaultForMetadataSideBarLocation()==="right")
 
@@ -512,9 +513,9 @@ PQSetting {
         labelsLoadDefault()
         saveDefaultCheckTimer.restart()
 
-        sidebarcheck.checked = PQCSettings.metadataSideBarLocation!==""
-        sidebarright.checked = PQCSettings.metadataSideBarLocation!=="left"
-        sidebarleft.checked = PQCSettings.metadataSideBarLocation==="left"
+        sidebarcheck.loadAndSetDefault(PQCSettings.metadataSideBar)
+        sidebarright.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="right")
+        sidebarleft.loadAndSetDefault(PQCSettings.metadataSideBarLocation==="left")
 
         autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
 
@@ -536,11 +537,9 @@ PQSetting {
         labelsSaveChanges()
         _defaultCurrentCheckBoxStates = currentCheckBoxStates.join("")
 
-        if(!sidebarcheck.checked) {
-            PQCSettings.metadataSideBarLocation = ""
-        } else {
-            PQCSettings.metadataSideBarLocation = (sidebarleft.checked ? "left" : "right")
-        }
+        PQCSettings.metadataSideBar = sidebarcheck.checked
+        PQCSettings.metadataSideBarLocation = (sidebarleft.checked ? "left" : "right")
+
         sidebarcheck.saveDefault()
         sidebarleft.saveDefault()
         sidebarright.saveDefault()

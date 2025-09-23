@@ -324,7 +324,7 @@ Rectangle {
             PQMenuItem {
                 text: "close sidebar"
                 onClicked: {
-                    PQCSettings.metadataSideBarLocation = ""
+                    PQCSettings.metadataSideBar = false
                 }
             }
         }

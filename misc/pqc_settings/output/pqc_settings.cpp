@@ -436,6 +436,7 @@ PQCSettings::PQCSettings() {
     connect(this, &PQCSettings::metadataMakeChanged, this, [=, this]() { saveChangedValue("metadataMake", m_metadataMake); });
     connect(this, &PQCSettings::metadataModelChanged, this, [=, this]() { saveChangedValue("metadataModel", m_metadataModel); });
     connect(this, &PQCSettings::metadataSceneTypeChanged, this, [=, this]() { saveChangedValue("metadataSceneType", m_metadataSceneType); });
+    connect(this, &PQCSettings::metadataSideBarChanged, this, [=, this]() { saveChangedValue("metadataSideBar", m_metadataSideBar); });
     connect(this, &PQCSettings::metadataSideBarLocationChanged, this, [=, this]() { saveChangedValue("metadataSideBarLocation", m_metadataSideBarLocation); });
     connect(this, &PQCSettings::metadataSideBarWidthChanged, this, [=, this]() { saveChangedValue("metadataSideBarWidth", m_metadataSideBarWidth); });
     connect(this, &PQCSettings::metadataSoftwareChanged, this, [=, this]() { saveChangedValue("metadataSoftware", m_metadataSoftware); });
@@ -5680,6 +5681,28 @@ void PQCSettings::setDefaultForMetadataSceneType() {
     }
 }
 
+bool PQCSettings::getMetadataSideBar() {
+    return m_metadataSideBar;
+}
+
+void PQCSettings::setMetadataSideBar(bool val) {
+    if(val != m_metadataSideBar) {
+        m_metadataSideBar = val;
+        Q_EMIT metadataSideBarChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForMetadataSideBar() {
+        return true;
+}
+
+void PQCSettings::setDefaultForMetadataSideBar() {
+    if(true != m_metadataSideBar) {
+        m_metadataSideBar = true;
+        Q_EMIT metadataSideBarChanged();
+    }
+}
+
 QString PQCSettings::getMetadataSideBarLocation() {
     return m_metadataSideBarLocation;
 }
@@ -7154,6 +7177,8 @@ void PQCSettings::readDB() {
                     m_metadataModel = value.toInt();
                 } else if(name == "SceneType") {
                     m_metadataSceneType = value.toInt();
+                } else if(name == "SideBar") {
+                    m_metadataSideBar = value.toInt();
                 } else if(name == "SideBarLocation") {
                     m_metadataSideBarLocation = value.toString();
                 } else if(name == "SideBarWidth") {
@@ -8224,6 +8249,7 @@ void PQCSettings::setupFresh() {
     m_metadataMake = true;
     m_metadataModel = true;
     m_metadataSceneType = true;
+    m_metadataSideBar = true;
     m_metadataSideBarLocation = "right";
     m_metadataSideBarWidth = 300;
     m_metadataSoftware = true;
@@ -8544,6 +8570,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForMetadataMake();
     setDefaultForMetadataModel();
     setDefaultForMetadataSceneType();
+    setDefaultForMetadataSideBar();
     setDefaultForMetadataSideBarLocation();
     setDefaultForMetadataSideBarWidth();
     setDefaultForMetadataSoftware();
@@ -9568,6 +9595,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "metadataSceneType") {
         m_metadataSceneType = (val.toInt()==1);
         Q_EMIT metadataSceneTypeChanged();
+    }
+    if(key == "metadataSideBar") {
+        m_metadataSideBar = (val.toInt()==1);
+        Q_EMIT metadataSideBarChanged();
     }
     if(key == "metadataSideBarLocation") {
         m_metadataSideBarLocation = val;

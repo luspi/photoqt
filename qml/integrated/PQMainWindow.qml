@@ -50,7 +50,7 @@ ApplicationWindow {
     // this signals whether the window is currently being resized or not
     onWidthChanged: {
         storeWindowGeometry.restart()
-        PQCConstants.availableWidth = width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
+        PQCConstants.availableWidth = width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
         PQCConstants.mainWindowBeingResized = true
         resetResizing.restart()
     }
@@ -70,10 +70,10 @@ ApplicationWindow {
     Connections {
         target: PQCSettings
         function onMetadataSideBarWidthChanged() {
-            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
+            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
         }
-        function onMetadataSideBarLocationChanged() {
-            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBarLocation==="" ? 0 : PQCSettings.metadataSideBarWidth)
+        function onMetadataSideBarChanged() {
+            PQCConstants.availableWidth = toplevel.width - (PQCSettings.metadataSideBar ? PQCSettings.metadataSideBarWidth : 0)
         }
     }
 
@@ -155,7 +155,7 @@ ApplicationWindow {
     Loader {
         asynchronous: (PQCConstants.startupFilePath!=="")
         sourceComponent: PQBackgroundMessage {
-            x: (PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
+            x: (PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left" ? PQCSettings.metadataSideBarWidth : 0)
             width: PQCConstants.availableWidth
             height: PQCConstants.availableHeight
         }
@@ -164,7 +164,7 @@ ApplicationWindow {
     /****************************************************/
 
     Loader {
-        active: PQCSettings.metadataSideBarLocation==="left"
+        active: PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left"
         sourceComponent: PQMetaData {}
     }
 
@@ -178,7 +178,7 @@ ApplicationWindow {
     }
 
     Loader {
-        active: PQCSettings.metadataSideBarLocation==="right"
+        active: PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="right"
         sourceComponent: PQMetaData {
             x: toplevel.width-width
         }
