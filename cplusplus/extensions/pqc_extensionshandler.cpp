@@ -33,10 +33,9 @@ void PQCExtensionsHandler::setup() {
 #ifdef PQMEXTENSIONS
 
 #ifdef Q_OS_UNIX
-    const QStringList checkDirs = {"/usr/lib/PhotoQt/extensions",
+    const QStringList checkDirs = {QString("%1/lib/PhotoQt/extensions").arg(PQMINSTALLPREFIX),
                                    PQCConfigFiles::get().DATA_DIR() + "/extensions",
-                                   // this one is for development in particular:
-                                   QDir::homePath()+"/.INSTALL/lib/PhotoQt/extensions/"};
+                                   QString("%1/extensions").arg(PQMBUILDDIR)};
 #else
     const QStringList checkDirs = {qgetenv("PHOTOQT_EXE_BASEDIR"),
                                    PQCConfigFiles::get().DATA_DIR() + "/extensions"};
@@ -354,6 +353,7 @@ void PQCExtensionsHandler::setup() {
             }
 
             // all good so far, we have what we need
+            qDebug() << "Successfully loaded extension" << id << "from location:" << baseDir;
 
             m_extensions.append(id);
             m_allextensions.insert(id, extinfo);
@@ -366,7 +366,7 @@ void PQCExtensionsHandler::setup() {
     Q_EMIT numExtensionsChanged();
 
     if(m_extensions.length())
-        qDebug() << "Successfully loaded the following extensions:" << m_extensions.join(", ");
+        qDebug() << "The following extensions have been enabled:" << m_extensions.join(", ");
     else
         qDebug() << "No extensions found.";
 

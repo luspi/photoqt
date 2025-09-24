@@ -519,7 +519,6 @@ PQSetting {
 
         autorot.loadAndSetDefault(PQCSettings.metadataAutoRotation)
 
-        console.warn(">>>", PQCSettings.metadataGpsMap, "->", PQCSettings.metadataGpsMap==="openstreetmap.org" || (!google.checked && !bing.checked))
         google.loadAndSetDefault(PQCSettings.metadataGpsMap==="maps.google.com")
         bing.loadAndSetDefault(PQCSettings.metadataGpsMap==="bing.com/maps")
         osm.loadAndSetDefault(PQCSettings.metadataGpsMap==="openstreetmap.org" || (!google.checked && !bing.checked))
