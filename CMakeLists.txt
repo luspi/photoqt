@@ -938,6 +938,10 @@ if(UNIX)
         TARGETS photoqt
         DESTINATION bin/
     )
+    install(
+        TARGETS photoqt-modern photoqt-integrated photoqt-cplusplus
+        DESTINATION lib/
+    )
 
     # Install desktop file
     install(
