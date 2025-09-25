@@ -749,6 +749,7 @@ endif()
 
 if(WITH_EXTENSIONS_SUPPORT)
     list(APPEND STATUS_ENABLED "Extensions (yaml-cpp)")
+    set(BUILD_EXTENSIONS_AS_PART_OF_PHOTOQT ON)
     add_subdirectory("extensions/")
     pqt_target_compile_definitions(PQMINSTALLPREFIX ${CMAKE_INSTALL_PREFIX})
     pqt_target_compile_definitions(PQMBUILDDIR ${CMAKE_BINARY_DIR})
