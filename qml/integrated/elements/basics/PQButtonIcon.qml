@@ -44,6 +44,7 @@ Button {
     property bool enableContextMenu: false
     property string overrideBaseColor: ""
     property Item dragTarget
+    property int radius
 
     flat: true
 

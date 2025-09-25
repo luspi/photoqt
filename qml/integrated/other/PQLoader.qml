@@ -34,6 +34,8 @@ Item {
 
     signal showExtension(var ele)
 
+    /*********************************************************************/
+
     Loader {
         id: loader_about
         active: false
@@ -70,6 +72,8 @@ Item {
         }
     }
 
+    /*********************************************************************/
+
     Loader {
         id: loader_rename
         active: false
@@ -97,6 +101,8 @@ Item {
         anchors.fill: parent
         sourceComponent: PQMove {}
     }
+
+    /*********************************************************************/
 
     Loader {
         id: loader_settingsmanager
@@ -133,6 +139,8 @@ Item {
             }
         }
     }
+
+    /*********************************************************************/
 
     Loader {
         id: loader_mapexplorer
@@ -171,6 +179,8 @@ Item {
         }
     }
 
+    /*********************************************************************/
+
     Loader {
         id: loader_filter
         active: false
@@ -207,12 +217,71 @@ Item {
         }
     }
 
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowsetup
+        active: false
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.slideshowsetupGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.slideshowsetupMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.slideshowsetupGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.slideshowsetupMaximized = m
+            }
+            content: PQSlideshowSetup {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowhandler
+        active: false
+        sourceComponent: PQSlideshowHandler {}
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_slideshowcontrols
+        active: false
+        sourceComponent: comp_slideshowcontrols
+    }
+    Component { id: comp_slideshowcontrols; PQSlideshowControls {} }
+
+    /*********************************************************************/
+
     Loader {
         id: loader_notification
         active: false
         anchors.fill: parent
         sourceComponent: PQNotification {}
     }
+
+    /*********************************************************************/
 
     Connections {
 
@@ -269,6 +338,21 @@ Item {
                     loader_filter.active = true
                 PQCConstants.idOfVisibleItem = "Filter"
                 PQCNotify.loaderPassOn("show", ["Filter"])
+            } else if(ele === "SlideshowSetup") {
+                if(!loader_slideshowsetup.active)
+                    loader_slideshowsetup.active = true
+                PQCConstants.idOfVisibleItem = "SlideshowSetup"
+                PQCNotify.loaderPassOn("show", ["SlideshowSetup"])
+            } else if(ele === "SlideshowControls") {
+                if(!loader_slideshowcontrols.active)
+                    loader_slideshowcontrols.active = true
+                PQCConstants.idOfVisibleItem = "SlideshowControls"
+                PQCNotify.loaderPassOn("show", ["SlideshowControls"])
+            } else if(ele === "SlideshowHandler") {
+                if(!loader_slideshowhandler.active)
+                    loader_slideshowhandler.active = true
+                PQCConstants.idOfVisibleItem = "SlideshowHandler"
+                PQCNotify.loaderPassOn("show", ["SlideshowHandler"])
             }
 
         }

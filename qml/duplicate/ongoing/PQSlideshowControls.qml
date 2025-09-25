@@ -22,7 +22,9 @@
 
 import QtQuick
 import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
 
 Item {
 
@@ -36,7 +38,8 @@ Item {
     property int parentWidth: 300
     property int parentHeight: 200
 
-    property bool isPopout: PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout
+    property bool isPopout: PQCSettings.generalInterfaceVariant==="modern" &&
+                            (PQCSettings.interfacePopoutSlideshowControls||PQCWindowGeometry.slideshowcontrolsForcePopout)
 
     // this is set to true/false by the popout window
     // this is a way to reliably detect whether it is used
@@ -323,7 +326,7 @@ Item {
         y: 4
         width: 15
         height: 15
-        visible: PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
+        visible: PQCSettings.generalInterfaceVariant==="modern" && PQCSettings.interfacePopoutSlideshowControls && !PQCWindowGeometry.slideshowcontrolsForcePopout
         enabled: visible
         source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
@@ -342,7 +345,7 @@ Item {
             onClicked: {
                 PQCSettings.interfacePopoutSlideshowControls = !PQCSettings.interfacePopoutSlideshowControls
                 slideshowcontrols_top.hide()
-                PQCNotify.loaderRegisterClose("slideshowcontrols")
+                PQCNotify.loaderRegisterClose("SlideshowControls")
             }
         }
     }
@@ -378,12 +381,12 @@ Item {
 
             if(what === "show") {
 
-                if(param[0] === "slideshowcontrols")
+                if(param[0] === "SlideshowControls")
                     slideshowcontrols_top.show()
 
             } else if(what === "hide") {
 
-                if(param[0] === "slideshowcontrols")
+                if(param[0] === "SlideshowControls")
                     slideshowcontrols_top.hide()
 
             } else if(what === "keyEvent") {
@@ -433,7 +436,7 @@ Item {
         opacity = 0
         if(popoutWindowUsed)
             slideshowcontrols_popout.visible = false
-        PQCNotify.loaderRegisterClose("slideshowcontrols")
+        PQCNotify.loaderRegisterClose("SlideshowControls")
     }
 
     Component.onCompleted: {

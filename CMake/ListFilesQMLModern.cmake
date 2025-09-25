@@ -31,12 +31,12 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQTemplate.qml ${d}/PQTemplate
 
 SET(d "qml/modern/other")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainWindowBackground.qml ${d}/PQBackgroundMessage.qml ${d}/PQMasterItem.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQSlideshowHandler.qml ${d}/PQGestureTouchAreas.qml ${d}/PQToolTipDisplay.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQGestureTouchAreas.qml ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCast.qml ${d}/PQSlideshowControls.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCast.qml)
 
 SET(d "qml/modern/ongoing/popout")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml)
@@ -44,7 +44,7 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoggingPopout.qml ${d}/PQSli
 
 SET(d "qml/modern/actions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAbout.qml ${d}/PQDelete.qml ${d}/PQCopy.qml ${d}/PQMove.qml ${d}/PQRename.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAdvancedSort.qml ${d}/PQSlideshowSetup.qml)
+SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAdvancedSort.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManager.qml)
 
 SET(d "qml/modern/actions/popout")

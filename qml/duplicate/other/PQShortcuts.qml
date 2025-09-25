@@ -509,12 +509,12 @@ Item {
                 PQCNotify.loaderShow("about")
                 break
             case "__slideshow":
-                PQCNotify.loaderShow("slideshowsetup")
+                PQCNotify.loaderShow("SlideshowSetup")
                 break
             case "__slideshowQuick":
                 PQCNotify.showNotificationMessage(qsTranslate("slideshow", "Slideshow started."), "")
-                PQCNotify.loaderShow("slideshowhandler")
-                PQCNotify.loaderShow("slideshowcontrols")
+                PQCNotify.loaderShow("SlideshowHandler")
+                PQCNotify.loaderShow("SlideshowControls")
                 break
             case "__filterImages":
                 PQCNotify.loaderShow("Filter")

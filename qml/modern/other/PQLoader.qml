@@ -299,6 +299,69 @@ Item {
     /*********************************************************************/
 
     Loader {
+        id: loader_slideshowsetup
+        active: false
+        anchors.fill: parent
+        sourceComponent: ((PQCSettings.interfacePopoutSlideshowSetup || PQCWindowGeometry.slideshowSetupForcePopout) ? comp_slideshowsetup_popout : comp_slideshowsetup)
+    }
+    Component {
+        id: comp_slideshowsetup
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQSlideshowSetup {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_slideshowsetup_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.slideshowsetupGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.slideshowsetupMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.filterGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.filterMaximized = m
+            }
+            content: PQSlideshowSetup {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
         id: loader_about
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
@@ -364,16 +427,6 @@ Item {
     /*********************************************************************/
 
     Loader {
-        id: loader_slideshowsetup
-        active: false
-        sourceComponent: ((PQCSettings.interfacePopoutSlideshowSetup || PQCWindowGeometry.slideshowsetupForcePopout) ? comp_slideshowsetup_popout : comp_slideshowsetup)
-    }
-    Component { id: comp_slideshowsetup; PQSlideshowSetup {} }
-    Component { id: comp_slideshowsetup_popout; PQSlideshowSetupPopout {} }
-
-    /*********************************************************************/
-
-    Loader {
         id: loader_slideshowhandler
         active: false
         sourceComponent: PQSlideshowHandler {}
@@ -427,9 +480,9 @@ Item {
         "Filter" :              [loader_filter,             true],
         "advancedsort" :        [loader_advancedsort,       true],
         "logging" :             [loader_logging,            false],
-        "slideshowsetup" :      [loader_slideshowsetup,     true],
-        "slideshowhandler" :    [loader_slideshowhandler,   true],
-        "slideshowcontrols" :   [loader_slideshowcontrols,  false],
+        "SlideshowSetup" :      [loader_slideshowsetup,     true],
+        "SlideshowHandler" :    [loader_slideshowhandler,   true],
+        "SlideshowControls" :   [loader_slideshowcontrols,  false],
         "notification" :        [loader_notification,       false],
         "MapExplorer" :         [loader_mapexplorer,        true],
         "chromecastmanager" :   [loader_chromecastmanager,  true],
