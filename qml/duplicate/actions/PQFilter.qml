@@ -25,6 +25,8 @@ import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
+/* :-)) <3 */
+
 PQTemplate {
 
     id: filter_top
