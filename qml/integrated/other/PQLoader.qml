@@ -172,6 +172,42 @@ Item {
     }
 
     Loader {
+        id: loader_filter
+        active: false
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.filterGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.filterMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.filterGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.filterMaximized = m
+            }
+            content: PQFilter {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    Loader {
         id: loader_notification
         active: false
         anchors.fill: parent
@@ -228,6 +264,11 @@ Item {
                     loader_mapexplorer.active = true
                 PQCConstants.idOfVisibleItem = "MapExplorer"
                 PQCNotify.loaderPassOn("show", ["MapExplorer"])
+            } else if(ele === "Filter") {
+                if(!loader_filter.active)
+                    loader_filter.active = true
+                PQCConstants.idOfVisibleItem = "Filter"
+                PQCNotify.loaderPassOn("show", ["Filter"])
             }
 
         }

@@ -102,8 +102,8 @@ Window {
         }
     }
 
-    minimumWidth: 300
-    minimumHeight: 500
+    minimumWidth: 400
+    minimumHeight: 400
 
     modality: Qt.ApplicationModal
 
@@ -169,7 +169,7 @@ Window {
 
         y: element_top.showTopBottom ? toprow.height : 0
         width: parent.width
-        height: parent.height-(element_top.showTopBottom ? (toprow.height-bottomrow.height) : 0)
+        height: parent.height-(element_top.showTopBottom ? (toprow.height+bottomrow.height) : 0)
 
     }
 

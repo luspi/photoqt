@@ -236,6 +236,69 @@ Item {
     /*********************************************************************/
 
     Loader {
+        id: loader_filter
+        active: false
+        anchors.fill: parent
+        sourceComponent: ((PQCSettings.interfacePopoutFilter || PQCWindowGeometry.filterForcePopout) ? comp_filter_popout : comp_filter)
+    }
+    Component {
+        id: comp_filter
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQFilter {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_filter_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.filterGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.filterMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.filterGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.filterMaximized = m
+            }
+            content: PQFilter {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
         id: loader_about
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
@@ -279,16 +342,6 @@ Item {
         active: false
         sourceComponent: PQMove {}
     }
-
-    /*********************************************************************/
-
-    Loader {
-        id: loader_filter
-        active: false
-        sourceComponent: ((PQCSettings.interfacePopoutFilter || PQCWindowGeometry.filterForcePopout) ? comp_filter_popout : comp_filter)
-    }
-    Component { id: comp_filter; PQFilter {} }
-    Component { id: comp_filter_popout; PQFilterPopout {} }
 
     /*********************************************************************/
 
@@ -371,7 +424,7 @@ Item {
         "FileRename" :          [loader_filerename,         true],
         "FileCopy" :            [loader_filecopy,           true],
         "FileMove" :            [loader_filemove,           true],
-        "filter" :              [loader_filter,             true],
+        "Filter" :              [loader_filter,             true],
         "advancedsort" :        [loader_advancedsort,       true],
         "logging" :             [loader_logging,            false],
         "slideshowsetup" :      [loader_slideshowsetup,     true],

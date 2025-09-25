@@ -91,7 +91,7 @@ PQCWindowGeometry::PQCWindowGeometry() {
     m_filerenameMaximized = false;
     m_filerenameForcePopout = false;
 
-    m_filterGeometry = QRectF((sw-800)/2.0, (sh-600)/2.0, 800, 600);
+    m_filterGeometry = QRectF((sw-600)/2.0, (sh-400)/2.0, 600, 400);
     m_filterPopoutThreshold = QSize(650, 450);
     m_filterMaximized = false;
     m_filterForcePopout = false;

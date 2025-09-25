@@ -517,7 +517,7 @@ Item {
                 PQCNotify.loaderShow("slideshowcontrols")
                 break
             case "__filterImages":
-                PQCNotify.loaderShow("filter")
+                PQCNotify.loaderShow("Filter")
                 break
             case "__tagFaces":
                 PQCNotify.loaderPassOn("tagFaces", [])
