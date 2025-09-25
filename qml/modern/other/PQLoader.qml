@@ -362,6 +362,69 @@ Item {
     /*********************************************************************/
 
     Loader {
+        id: loader_advancedsort
+        active: false
+        anchors.fill: parent
+        sourceComponent: ((PQCSettings.interfacePopoutAdvancedSort || PQCWindowGeometry.advancedsortForcePopout) ? comp_advancedsort_popout : comp_advancedsort)
+    }
+    Component {
+        id: comp_advancedsort
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQAdvancedSort {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_advancedsort_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.advancedsortGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.advancedsortMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.advancedsortGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.advancedsortMaximized = m
+            }
+            content: PQAdvancedSort {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
         id: loader_about
         active: false
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
@@ -405,16 +468,6 @@ Item {
         active: false
         sourceComponent: PQMove {}
     }
-
-    /*********************************************************************/
-
-    Loader {
-        id: loader_advancedsort
-        active: false
-        sourceComponent: ((PQCSettings.interfacePopoutAdvancedSort || PQCWindowGeometry.advancedsortForcePopout) ? comp_advancedsort_popout : comp_advancedsort)
-    }
-    Component { id: comp_advancedsort; PQAdvancedSort {} }
-    Component { id: comp_advancedsort_popout; PQAdvancedSortPopout {} }
 
     /*********************************************************************/
 
@@ -478,7 +531,7 @@ Item {
         "FileCopy" :            [loader_filecopy,           true],
         "FileMove" :            [loader_filemove,           true],
         "Filter" :              [loader_filter,             true],
-        "advancedsort" :        [loader_advancedsort,       true],
+        "AdvancedSort" :        [loader_advancedsort,       true],
         "logging" :             [loader_logging,            false],
         "SlideshowSetup" :      [loader_slideshowsetup,     true],
         "SlideshowHandler" :    [loader_slideshowhandler,   true],

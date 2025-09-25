@@ -530,11 +530,11 @@ Item {
                 break;
             case "__advancedSort":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1)
-                    PQCNotify.loaderShow("advancedsort")
+                    PQCNotify.loaderShow("AdvancedSort")
                 break
             case "__advancedSortQuick":
                 if(PQCFileFolderModel.countMainView > 0 && PQCFileFolderModel.currentIndex > -1) {
-                    PQCNotify.loaderShow("advancedsort")
+                    PQCNotify.loaderShow("AdvancedSort")
                     loader_advancedsort.item.doSorting()
                 }
                 break

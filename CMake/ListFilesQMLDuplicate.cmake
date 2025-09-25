@@ -25,7 +25,7 @@ SET(d "qml/duplicate/filedialog/parts/popout")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/duplicate/actions")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFilter.qml ${d}/PQSlideshowSetup.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFilter.qml ${d}/PQSlideshowSetup.qml ${d}/PQAdvancedSort.qml)
 
 SET(d "qml/duplicate/ongoing")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnails.qml ${d}/PQTrayIcon.qml ${d}/PQContextMenu.qml ${d}/PQNotification.qml)

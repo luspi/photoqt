@@ -44,7 +44,6 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoggingPopout.qml ${d}/PQSli
 
 SET(d "qml/modern/actions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAbout.qml ${d}/PQDelete.qml ${d}/PQCopy.qml ${d}/PQMove.qml ${d}/PQRename.qml)
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQAdvancedSort.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQChromeCastManager.qml)
 
 SET(d "qml/modern/actions/popout")
