@@ -322,6 +322,15 @@ Item {
 
     /*********************************************************************/
 
+    Loader {
+        id: loader_logging
+        active: false
+        anchors.fill: parent
+        sourceComponent: PQLogging {}
+    }
+
+    /*********************************************************************/
+
     Connections {
 
         target: PQCNotify
@@ -349,7 +358,8 @@ Item {
                 "SlideshowSetup" : loader_slideshowsetup,
                 "SlideshowControls" : loader_slideshowcontrols,
                 "SlideshowHandler" : loader_slideshowhandler,
-                "AdvancedSort" : loader_advancedsort
+                "AdvancedSort" : loader_advancedsort,
+                "Logging" : loader_logging
             }
 
             if(ele in allele) {

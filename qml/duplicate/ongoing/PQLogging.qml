@@ -21,11 +21,14 @@
  **************************************************************************/
 
 import QtQuick
-import QtQuick.Window
-import PhotoQt.CPlusPlus
-import PhotoQt.Modern
+import QtQuick.Controls
 
-Window {
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern   // will be adjusted accordingly by CMake
+
+/* :-)) <3 */
+
+ApplicationWindow {
 
     id: logging_top
 
@@ -92,7 +95,7 @@ Window {
         y: (parent.height-height)
 
         width: parent.width
-        height: 50
+        height: close.height
         color: pqtPalette.base
 
         Rectangle {
@@ -117,7 +120,6 @@ Window {
             id: close
             x: (parent.width-width)/2
             y: 1
-            height: parent.height-1
             text: genericStringClose
             font.weight: PQCLook.fontWeightBold
             onClicked:
@@ -129,11 +131,10 @@ Window {
             x: (parent.width-width)
             y: 1
             width: height
-            height: parent.height-1
             text: "..."
             font.weight: PQCLook.fontWeightBold
             onClicked:
-                actionsmenu.popup(parent.width-width, -actionsmenu.height)
+                actionsmenu.popup(actions, 0, 0)
         }
 
         PQMenu {
@@ -162,7 +163,7 @@ Window {
 
             if(what === "show") {
 
-                if(param[0] === "logging") {
+                if(param[0] === "Logging") {
 
                     if(PQCScriptsConfig.amIOnWindows())
                         logging_top.opacity = 0

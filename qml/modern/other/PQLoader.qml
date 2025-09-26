@@ -527,7 +527,7 @@ Item {
     Loader {
         id: loader_logging
         active: false
-        sourceComponent: PQLoggingPopout {}
+        sourceComponent: PQLogging {}
     }
 
     /*********************************************************************/
@@ -585,7 +585,7 @@ Item {
         "FileMove" :            [loader_filemove,           true],
         "Filter" :              [loader_filter,             true],
         "AdvancedSort" :        [loader_advancedsort,       true],
-        "logging" :             [loader_logging,            false],
+        "Logging" :             [loader_logging,            false],
         "SlideshowSetup" :      [loader_slideshowsetup,     true],
         "SlideshowHandler" :    [loader_slideshowhandler,   true],
         "SlideshowControls" :   [loader_slideshowcontrols,  false],

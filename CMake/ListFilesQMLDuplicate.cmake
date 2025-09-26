@@ -29,7 +29,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFilter.qml ${d}/PQSlid
 
 SET(d "qml/duplicate/ongoing")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnails.qml ${d}/PQTrayIcon.qml ${d}/PQContextMenu.qml ${d}/PQNotification.qml)
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSlideshowControls.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSlideshowControls.qml ${d}/PQLogging.qml)
 
 SET(d "qml/duplicate/other")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShortcuts.qml ${d}/PQMultiEffect.qml ${d}/PQShadowEffect.qml ${d}/PQWorking.qml)
