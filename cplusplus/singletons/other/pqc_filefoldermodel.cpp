@@ -457,16 +457,16 @@ int PQCFileFolderModel::getAdvancedSortDone() {
 
 /********************************************/
 
-void PQCFileFolderModel::advancedSortMainView() {
+void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advSortAscending, QString advSortQuality, QStringList advDateCriteria) {
 
     qDebug() << "";
 
     // if nothing changed, reload folder
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName
-        && PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == cacheAdvancedSortCriteria
+        && advSortCriteria == cacheAdvancedSortCriteria
         && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified
-        && PQCSettingsCPP::get().getImageviewAdvancedSortAscending() == cacheAdvancedSortAscending) {
+        && advSortAscending == cacheAdvancedSortAscending) {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
@@ -502,7 +502,7 @@ void PQCFileFolderModel::advancedSortMainView() {
             // depending on the criteria, it is computed in different ways
             qint64 key = 0;
 
-            if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "resolution") {
+            if(advSortCriteria == "resolution") {
 
                 QSize size = PQCResolutionCache::get().getResolution(fn);
                 if(!size.isValid()) {
@@ -513,12 +513,12 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = size.width()+size.height();
 
-            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "luminosity") {
+            } else if(advSortCriteria == "luminosity") {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
+                if(advSortQuality == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
+                else if(advSortQuality == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -552,15 +552,13 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = val;
 
-            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "exifdate") {
-
-                QStringList order = PQCSettingsCPP::get().getImageviewAdvancedSortDateCriteria();
+            } else if(advSortCriteria == "exifdate") {
 
                 bool foundvalue = false;
 
-                for(int j = 0; j < order.length(); ++j) {
+                for(int j = 0; j < advDateCriteria.length(); ++j) {
 
-                    QString item = order.at(j);
+                    QString item = advDateCriteria.at(j);
 
                     if(item == "exiforiginal" || item == "exifdigital") {
 
@@ -664,9 +662,9 @@ void PQCFileFolderModel::advancedSortMainView() {
             } else {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
+                if(advSortQuality == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
+                else if(advSortQuality == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -712,7 +710,7 @@ void PQCFileFolderModel::advancedSortMainView() {
                 qint64 green_val = 0;
                 qint64 blue_val = 0;
 
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "dominantcolor") {
+                if(advSortCriteria == "dominantcolor") {
 
                     QVector<qint64> redSteps(26);
                     QVector<qint64> greenSteps(26);
@@ -754,7 +752,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         if(!advancedSortKeepGoing) return;
 
         QList<qint64> allKeys = sortedWithKey.keys();
-        if(PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
+        if(advSortAscending)
             std::sort(allKeys.begin(), allKeys.end(), std::less<int>());
         else
             std::sort(allKeys.begin(), allKeys.end(), std::greater<int>());
@@ -763,7 +761,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         for(auto entry : std::as_const(allKeys)) {
             QStringList curVals = sortedWithKey[entry];
             curVals.sort(Qt::CaseInsensitive);
-            if(!PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
+            if(!advSortAscending)
                 std::reverse(curVals.begin(), curVals.end());
             for(const auto &e : std::as_const(curVals))
                 cacheAdvancedSortFolder << e;
@@ -789,8 +787,8 @@ void PQCFileFolderModel::advancedSortMainView() {
         QFileInfo info(m_fileInFolderMainView);
         cacheAdvancedSortFolderName = info.absolutePath();
         cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
-        cacheAdvancedSortCriteria = PQCSettingsCPP::get().getImageviewAdvancedSortCriteria();
-        cacheAdvancedSortAscending = PQCSettingsCPP::get().getImageviewAdvancedSortAscending();
+        cacheAdvancedSortCriteria = advSortCriteria;
+        cacheAdvancedSortAscending = advSortAscending;
 
     });
 
@@ -1028,7 +1026,10 @@ void PQCFileFolderModel::loadDataMainView() {
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName)
 
-        advancedSortMainView();
+        advancedSortMainView(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortAscending(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortQuality(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortDateCriteria());
 
     else {
 

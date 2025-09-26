@@ -180,7 +180,7 @@ public:
     /********************************************/
     /********************************************/
 
-    Q_INVOKABLE void advancedSortMainView();
+    Q_INVOKABLE void advancedSortMainView(QString advSortCriteria, bool advSortAscending, QString advSortQuality, QStringList advDateCriteria);
     Q_INVOKABLE void advancedSortMainViewCANCEL();
     Q_INVOKABLE void forceReloadMainView();
     Q_INVOKABLE void forceReloadFileDialog();

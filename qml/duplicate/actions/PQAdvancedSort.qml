@@ -64,6 +64,11 @@ PQTemplate {
     signal loadData()
     signal saveData()
 
+    onShowing: {
+        working.hide()
+        loadData()
+    }
+
     content: [
 
         Item {
@@ -797,17 +802,14 @@ PQTemplate {
     }
 
     function doSorting() : void {
-
         advancedsort_top.saveData()
-
-        PQCFileFolderModel.advancedSortMainView()
+        PQCFileFolderModel.advancedSortMainView(PQCSettings.imageviewAdvancedSortCriteria,
+                                                PQCSettings.imageviewAdvancedSortAscending,
+                                                PQCSettings.imageviewAdvancedSortQuality,
+                                                PQCSettings.imageviewAdvancedSortDateCriteria)
         working.showBusy()
-
     }
 
-    function onShowing() {
-        working.hide()
-    }
 
 }
 
