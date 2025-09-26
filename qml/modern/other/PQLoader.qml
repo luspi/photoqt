@@ -561,10 +561,65 @@ Item {
     Loader {
         id: loader_chromecastmanager
         active: false
+        anchors.fill: parent
         sourceComponent: ((PQCSettings.interfacePopoutChromecast || PQCWindowGeometry.chromecastmanagerForcePopout) ? comp_chromecastmanager_popout : comp_chromecastmanager)
     }
-    Component { id: comp_chromecastmanager; PQChromeCastManager {} }
-    Component { id: comp_chromecastmanager_popout; PQChromeCastManagerPopout {} }
+    Component {
+        id: comp_chromecastmanager
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQChromeCastManager {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_chromecastmanager_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.chromecastmanagerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.chromecastmanagerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.chromecastmanagerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.chromecastmanagerMaximized = m
+            }
+            content: PQChromeCastManager {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
 
     Loader {
         id: loader_chromecast
@@ -591,8 +646,8 @@ Item {
         "SlideshowControls" :   [loader_slideshowcontrols,  false],
         "notification" :        [loader_notification,       false],
         "MapExplorer" :         [loader_mapexplorer,        true],
-        "chromecastmanager" :   [loader_chromecastmanager,  true],
-        "chromecast" :          [loader_chromecast,         false],
+        "ChromecastManager" :   [loader_chromecastmanager,  true],
+        "Chromecast" :          [loader_chromecast,         false],
     }
 
     // source, loader id, modal, popout, force popout
@@ -600,15 +655,17 @@ Item {
 
     function show(ele : string, additional : list<var>) : void {
 
-        if(ele === "chromecast" && PQCConstants.idOfVisibleItem === "chromecastmanager") {
+        if(ele === "Chromecast" && PQCConstants.idOfVisibleItem === "ChromecastManager") {
             ensureItIsReady(ele)
             return
         }
 
-        if(ele === "chromecastmanager" && !PQCScriptsConfig.isChromecastEnabled()) {
+        if(ele === "ChromecastManager" && !PQCScriptsConfig.isChromecastEnabled()) {
+            console.log("Feature unavailable: The chromecast feature is not available in this build of PhotoQt.")
             loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
             return
         } else if(ele === "MapExplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
+            console.log("Feature unavailable: The location feature is not available in this build of PhotoQt.")
             loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
             return
         }

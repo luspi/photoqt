@@ -331,6 +331,52 @@ Item {
 
     /*********************************************************************/
 
+    Loader {
+        id: loader_chromecastmanager
+        active: false
+        anchors.fill: parent
+        sourceComponent:
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.chromecastmanagerGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.chromecastmanagerMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            popInOutButton.visible: false
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.chromecastmanagerGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.chromecastmanagerMaximized = m
+            }
+            content: PQChromeCastManager {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+
+    /*********************************************************************/
+
+    Loader {
+        id: loader_chromecast
+        active: false
+        sourceComponent: PQChromeCast {}
+    }
+
+    /*********************************************************************/
+
     Connections {
 
         target: PQCNotify
@@ -359,7 +405,9 @@ Item {
                 "SlideshowControls" : loader_slideshowcontrols,
                 "SlideshowHandler" : loader_slideshowhandler,
                 "AdvancedSort" : loader_advancedsort,
-                "Logging" : loader_logging
+                "Logging" : loader_logging,
+                "ChromecastManager" : loader_chromecastmanager,
+                "Chromecast" : loader_chromecast
             }
 
             if(ele in allele) {

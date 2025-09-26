@@ -26,10 +26,12 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogPopout.qml)
 
 SET(d "qml/duplicate/actions")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFilter.qml ${d}/PQSlideshowSetup.qml ${d}/PQAdvancedSort.qml ${d}/PQAbout.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQChromeCastManager.qml)
 
 SET(d "qml/duplicate/ongoing")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQThumbnails.qml ${d}/PQTrayIcon.qml ${d}/PQContextMenu.qml ${d}/PQNotification.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQSlideshowControls.qml ${d}/PQLogging.qml)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQChromeCast.qml)
 
 SET(d "qml/duplicate/other")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShortcuts.qml ${d}/PQMultiEffect.qml ${d}/PQShadowEffect.qml ${d}/PQWorking.qml)

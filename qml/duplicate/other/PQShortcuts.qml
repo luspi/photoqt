@@ -523,7 +523,7 @@ Item {
                 PQCNotify.loaderPassOn("tagFaces", [])
                 break
             case "__chromecast":
-                PQCNotify.loaderShow("chromecastmanager")
+                PQCNotify.loaderShow("ChromecastManager")
                 break
             case "__logging":
                 PQCNotify.loaderShow("Logging")
