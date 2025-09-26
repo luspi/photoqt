@@ -427,10 +427,63 @@ Item {
     Loader {
         id: loader_about
         active: false
+        anchors.fill: parent
         sourceComponent: ((PQCSettings.interfacePopoutAbout || PQCWindowGeometry.aboutForcePopout) ? comp_about_popout : comp_about)
     }
-    Component { id: comp_about; PQAbout {} }
-    Component { id: comp_about_popout; PQAboutPopout {} }
+    Component {
+        id: comp_about
+        PQTemplateModal {
+            id: smmod
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            content: PQAbout {
+                id: tmpl
+                button1: smmod.button1
+                button2: smmod.button2
+                button3: smmod.button3
+                bottomLeft: smmod.bottomLeft
+                popInOutButton: smmod.popInOutButton
+                availableHeight: smmod.contentHeight
+                Component.onCompleted: {
+                    smmod.elementId = elementId
+                    smmod.title = title
+                    smmod.letElementHandleClosing = letMeHandleClosing
+                    smmod.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
+    Component {
+        id: comp_about_popout
+        PQTemplateModalPopout {
+            id: smpop
+            defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
+            defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
+            onShowing: tmpl.showing()
+            onHiding: tmpl.hiding()
+            onRectUpdated: (r) => {
+                PQCWindowGeometry.aboutGeometry = r
+            }
+            onMaximizedUpdated: (m) => {
+                PQCWindowGeometry.aboutMaximized = m
+            }
+            content: PQAbout {
+                id: tmpl
+                button1: smpop.button1
+                button2: smpop.button2
+                button3: smpop.button3
+                bottomLeft: smpop.bottomLeft
+                popInOutButton: smpop.popInOutButton
+                availableHeight: smpop.contentHeight
+                Component.onCompleted: {
+                    smpop.elementId = elementId
+                    smpop.title = title
+                    smpop.letElementHandleClosing = letMeHandleClosing
+                    smpop.bottomLeftContent = bottomLeftContent
+                }
+            }
+        }
+    }
 
     /*********************************************************************/
 
@@ -522,7 +575,7 @@ Item {
     /*********************************************************************/
 
     property var idToLoader: {
-        "about" :               [loader_about,              true],
+        "About" :               [loader_about,              true],
         "metadata" :            [loader_metadata,           false],
         "mainmenu" :            [loader_mainmenu,           false],
         "SettingsManager" :     [loader_settingsmanager,    true],

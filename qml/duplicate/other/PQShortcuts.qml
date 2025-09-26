@@ -506,7 +506,7 @@ Item {
                 PQCNotify.loaderShow("SettingsManager")
                 break
             case "__about":
-                PQCNotify.loaderShow("about")
+                PQCNotify.loaderShow("About")
                 break
             case "__slideshow":
                 PQCNotify.loaderShow("SlideshowSetup")

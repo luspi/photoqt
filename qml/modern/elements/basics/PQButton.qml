@@ -37,9 +37,9 @@ Rectangle {
     SystemPalette { id: pqtPalette }
 
     border.color: PQCLook.baseBorder
-    border.width: 1
+    border.width: flat ? 0 : 1
 
-    color: (down ? PQCLook.baseBorder : ((hovered||forceHovered)&&enabled ? pqtPalette.alternateBase : pqtPalette.button))
+    color: flat ? "transparent" : (down ? PQCLook.baseBorder : ((hovered||forceHovered)&&enabled ? pqtPalette.alternateBase : pqtPalette.button))
 
     property string text: ""
     property alias font: txt.font
@@ -54,6 +54,7 @@ Rectangle {
 
     property bool contextmenuVisible: false
 
+    property bool flat: false
     property int forceWidth: 0
     property bool extraWide: false
     property bool extraextraWide: false

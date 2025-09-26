@@ -45,6 +45,7 @@ Item {
             id: smpop
             defaultPopoutGeometry: PQCWindowGeometry.aboutGeometry
             defaultPopoutMaximized: PQCWindowGeometry.aboutMaximized
+            showTopBottom: false
             onShowing: tmpl.showing()
             onHiding: tmpl.hiding()
             popInOutButton.visible: false
@@ -337,7 +338,7 @@ Item {
             }
 
             var allele = {
-                "about" : loader_about,
+                "About" : loader_about,
                 "SettingsManager" : loader_settingsmanager,
                 "FileRename" : loader_rename,
                 "FileDelete" : loader_delete,

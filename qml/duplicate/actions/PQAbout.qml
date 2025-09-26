@@ -31,7 +31,7 @@ PQTemplate {
 
     title: "About PhotoQt"
 
-    elementId: "about"
+    elementId: "About"
 
     width: 640
     height: 640
@@ -53,8 +53,10 @@ PQTemplate {
 
         Flickable {
 
+            y: (about_top.availableHeight-height)/2
+
             width: about_top.width
-            height: about_top.height
+            height: Math.min(about_top.availableHeight, contentHeight)
 
             contentHeight: col.height
 
@@ -86,7 +88,9 @@ PQTemplate {
 
                 PQButton {
                     id: configbutton
+                    flat: true
                     x: (about_top.width-width)/2
+                    font.weight: PQCLook.fontWeightBold
                     text: "PhotoQt v" + PQCScriptsConfig.getVersion()
                     //: The 'configuration' talked about here refers to the configuration at compile time, i.e., which image libraries were enabled and which versions
                     onClicked: {
@@ -95,13 +99,8 @@ PQTemplate {
                         else
                             about_top.showConfig()
                     }
-                    property string txt: qsTranslate("about", "Show configuration overview")
-                    onHoveredChanged: {
-                        if(hovered && txt !== "")
-                            ttip.showToolTip(txt, mapToGlobal(configbutton.width/2, 0))
-                        else
-                            ttip.hide()
-                    }
+                    tooltip: qsTranslate("about", "Show configuration overview")
+
 
                 }
 
@@ -149,6 +148,23 @@ PQTemplate {
                     }
                 }
 
+                Item {
+                    visible: closebut.visible
+                    width: 1
+                    height: 20
+                }
+
+                PQButton {
+                    id: closebut
+                    visible: PQCSettings.generalInterfaceVariant==="integrated"
+                    x: (about_top.width-width)/2
+                    text: genericStringClose
+                    Component.onCompleted:
+                        visible = visible   // don't have property binding in case setting changes at runtime
+                    onClicked:
+                        about_top.hide()
+                }
+
             }
         }
 
@@ -166,6 +182,7 @@ PQTemplate {
             height: 400
 
             modality: Qt.ApplicationModal
+            flags: Qt.Window|Qt.WindowStaysOnTopHint|Qt.WindowTitleHint|Qt.WindowMinMaxButtonsHint|Qt.WindowCloseButtonHint
 
             onVisibilityChanged: (visibility) => {
                 if(visibility === Window.Hidden)

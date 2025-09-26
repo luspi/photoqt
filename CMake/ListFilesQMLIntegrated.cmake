@@ -33,5 +33,4 @@ SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMasterItem.qml ${d}/
 SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQToolTipDisplay.qml)
 
 SET(d "qml/integrated/actions")
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQAbout.qml ${d}/PQRename.qml ${d}/PQDelete.qml ${d}/PQCopy.qml)
-SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQMove.qml)
+SET(photoqt_integrated_QML ${photoqt_integrated_QML} ${d}/PQRename.qml ${d}/PQDelete.qml ${d}/PQCopy.qml ${d}/PQMove.qml)
