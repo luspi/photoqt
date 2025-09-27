@@ -33,6 +33,13 @@ Item {
 
     visible: PQCFileFolderModel.countMainView>0
 
+    property var trans: {
+        "thumbnails" : "thumbnails",
+        "mainmenu" : "MainMenu",
+        "metadata" : "MetaData",
+        "" : ""
+    }
+
     MultiPointTouchArea {
 
         id: lefttouch
@@ -251,9 +258,9 @@ Item {
 
         console.log("args: item =", item)
 
-        if(item === "metadata")
+        if(item === "MetaData")
             return PQCConstants.metadataOpacity > 0
-        if(item === "mainmenu")
+        if(item === "MainMenu")
             return PQCConstants.mainmenuOpacity > 0
         if(item === "thumbnails")
             return PQCConstants.thumbnailsBarOpacity > 0
@@ -264,12 +271,12 @@ Item {
 
     function hideElement(item : string) {
         if(item === "") return
-        PQCNotify.loaderPassOn("forcehide", [item])
+        PQCNotify.loaderPassOn("forcehide", [trans[item]])
     }
 
     function showElement(item : string) {
         if(item === "") return
-        PQCNotify.loaderPassOn("forceshow", [item])
+        PQCNotify.loaderPassOn("forceshow", [trans[item]])
     }
 
 }

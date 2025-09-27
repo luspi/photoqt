@@ -552,11 +552,11 @@ Item {
                 break
             case "__showMetaData":
             case "__keepMetaData":
-                PQCNotify.loaderPassOn("toggle", ["metadata"])
+                PQCNotify.loaderPassOn("toggle", ["MetaData"])
                 break
             case "__showMainMenu":
             case "__toggleMainMenu":
-                PQCNotify.loaderPassOn("toggle", ["mainmenu"])
+                PQCNotify.loaderPassOn("toggle", ["MainMenu"])
                 break
             case "__showThumbnails":
                 PQCNotify.loaderShow("thumbnails")

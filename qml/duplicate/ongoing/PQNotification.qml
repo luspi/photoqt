@@ -187,7 +187,7 @@ Item {
 
             if(what === "show") {
 
-                if(param.length === 2 && param[0] === "notification") {
+                if(param.length === 2 && param[0] === "Notification") {
 
                     // only one iteration per 1s can be shown at a time
                     // otherwise the check for a native notification might fail

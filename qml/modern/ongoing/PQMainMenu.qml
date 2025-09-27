@@ -1188,18 +1188,18 @@ Rectangle {
         function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param[0] === "mainmenu") {
+                if(param[0] === "MainMenu") {
                     mainmenu_top.showMainMenu()
                 }
             } else if(what === "toggle") {
-                if(param[0] === "mainmenu") {
+                if(param[0] === "MainMenu") {
                     mainmenu_top.toggle()
                 }
-            } else if(what === "forceshow" && param[0] === "mainmenu") {
+            } else if(what === "forceshow" && param[0] === "MainMenu") {
                 mainmenu_top.ignoreMouseMoveShortly = true
                 mainmenu_top.setVisible = true
                 resetIgnoreMouseMoveShortly.restart()
-            } else if(what === "forcehide" && param[0] === "mainmenu") {
+            } else if(what === "forcehide" && param[0] === "MainMenu") {
                 mainmenu_top.ignoreMouseMoveShortly = true
                 mainmenu_top.setVisible = false
                 resetIgnoreMouseMoveShortly.restart()

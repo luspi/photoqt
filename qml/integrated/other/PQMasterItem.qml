@@ -112,18 +112,6 @@ Loader {
             sourceComponent: PQThumbnails {}
         }
 
-        // Loader { id: loader_chromecast }
-        // Loader { id: loader_slideshowcontrols }
-        // Loader { id: loader_slideshowhandler }
-        // Loader { id: loader_logging }
-
-        // Loader {
-        //     id: mastertouchareas
-        //     active: masteritem.readyToContinueLoading
-        //     asynchronous: true
-        //     source: "PQGestureTouchAreas.qml"
-        // }
-
         /******************************************/
 
         Loader {
@@ -132,13 +120,6 @@ Loader {
             asynchronous: true
             sourceComponent: PQContextMenu {}
         }
-
-        /******************************************/
-
-        // Loader { id: loader_advancedsort }
-        // Loader { id: loader_filter }
-        // Loader { id: loader_slideshowsetup }
-        // Loader { id: loader_chromecastmanager }
 
         /*****************************************/
 
@@ -311,8 +292,6 @@ Loader {
         function finishSetup_part1() {
             finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
-            PQCNotify.loaderSetup("mainmenu")
-            PQCNotify.loaderSetup("metadata")
         }
 
         function finishSetup_part2() {

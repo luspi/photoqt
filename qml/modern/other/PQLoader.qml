@@ -631,8 +631,8 @@ Item {
 
     property var idToLoader: {
         "About" :               [loader_about,              true],
-        "metadata" :            [loader_metadata,           false],
-        "mainmenu" :            [loader_mainmenu,           false],
+        "MetaData" :            [loader_metadata,           false],
+        "MainMenu" :            [loader_mainmenu,           false],
         "SettingsManager" :     [loader_settingsmanager,    true],
         "FileDelete" :          [loader_filedelete,         true],
         "FileRename" :          [loader_filerename,         true],
@@ -644,7 +644,7 @@ Item {
         "SlideshowSetup" :      [loader_slideshowsetup,     true],
         "SlideshowHandler" :    [loader_slideshowhandler,   true],
         "SlideshowControls" :   [loader_slideshowcontrols,  false],
-        "notification" :        [loader_notification,       false],
+        "Notification" :        [loader_notification,       false],
         "MapExplorer" :         [loader_mapexplorer,        true],
         "ChromecastManager" :   [loader_chromecastmanager,  true],
         "Chromecast" :          [loader_chromecast,         false],
@@ -662,11 +662,11 @@ Item {
 
         if(ele === "ChromecastManager" && !PQCScriptsConfig.isChromecastEnabled()) {
             console.log("Feature unavailable: The chromecast feature is not available in this build of PhotoQt.")
-            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt.")])
+            PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The chromecast feature is not available in this build of PhotoQt."))
             return
         } else if(ele === "MapExplorer" && !PQCScriptsConfig.isLocationSupportEnabled()) {
             console.log("Feature unavailable: The location feature is not available in this build of PhotoQt.")
-            loader_top.show("notification", [qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt.")])
+            PQCNotify.showNotificationMessage(qsTranslate("unavailable", "Feature unavailable"), qsTranslate("unavailable", "The location feature is not available in this build of PhotoQt."))
             return
         }
 
@@ -825,7 +825,7 @@ Item {
         function onShowNotificationMessage(title : string, msg : string) {
             if(!loader_notification.active)
                 loader_notification.active = true
-            loader_top.show("notification", [title, msg])
+            loader_top.show("Notification", [title, msg])
         }
 
     }

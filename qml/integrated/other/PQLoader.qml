@@ -392,6 +392,7 @@ Item {
                 return
             }
 
+            // Note: the file dialog is handled directly in PQMasterItem
             var allele = {
                 "About" : loader_about,
                 "SettingsManager" : loader_settingsmanager,
@@ -423,7 +424,7 @@ Item {
         function onShowNotificationMessage(title : string, msg : string) {
             if(!loader_notification.active)
                 loader_notification.active = true
-            PQCNotify.loaderPassOn("show", ["notification", [title, msg]])
+            PQCNotify.loaderPassOn("show", ["Notification", [title, msg]])
         }
 
         function onLoaderRegisterOpen(ele : string) {

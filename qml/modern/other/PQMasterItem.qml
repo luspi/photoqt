@@ -357,8 +357,8 @@ Loader {
         function finishSetup_part1() {
             finishSetupCalled += 1
             masteritem.readyToContinueLoading = true
-            PQCNotify.loaderSetup("mainmenu")
-            PQCNotify.loaderSetup("metadata")
+            PQCNotify.loaderSetup("MainMenu")
+            PQCNotify.loaderSetup("MetaData")
         }
 
         function finishSetup_part2() {

@@ -250,8 +250,8 @@ Window {
                 showFullScreen()
         }
 
-        PQCNotify.loaderShow("mainmenu")
-        PQCNotify.loaderShow("metadata")
+        PQCNotify.loaderShow("MainMenu")
+        PQCNotify.loaderShow("MetaData")
 
         if(PQCConstants.startupFilePath !== "") {
             // in the case of a FOLDER passed on we actually need to load the files first to get the first one:

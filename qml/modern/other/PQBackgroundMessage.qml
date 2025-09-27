@@ -45,6 +45,13 @@ Item {
         "" : ""
     }
 
+    property var trans: {
+        "thumbnails" : "thumbnails",
+        "mainmenu" : "MainMenu",
+        "metadata" : "MetaData",
+        "" : ""
+    }
+
     Item {
         id: startmessage
         anchors.fill: parent
@@ -755,12 +762,12 @@ Item {
 
         function hideElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forcehide", [item])
+            PQCNotify.loaderPassOn("forcehide", [trans[item]])
         }
 
         function showElement(item : string) {
             if(item === "") return
-            PQCNotify.loaderPassOn("forceshow", [item])
+            PQCNotify.loaderPassOn("forceshow", [trans[item]])
         }
 
         onReleased: (points) => {

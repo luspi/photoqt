@@ -804,20 +804,20 @@ Rectangle {
         function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
-                if(param[0] === "metadata") {
+                if(param[0] === "MetaData") {
                     if(!PQCSettings.metadataElementFloating)
                         metadata_top.setVisible = !metadata_top.setVisible
 
                     if(metadata_top.popoutWindowUsed)
                         metadata_popout.visible = true
                 }
-            } else if(what === "toggle" && param[0] === "metadata") {
+            } else if(what === "toggle" && param[0] === "MetaData") {
                 metadata_top.toggle()
-            } else if(what === "forceshow" && param[0] === "metadata") {
+            } else if(what === "forceshow" && param[0] === "MetaData") {
                 metadata_top.ignoreMouseMoveShortly = true
                 metadata_top.setVisible = true
                 resetIgnoreMouseMoveShortly.restart()
-            } else if(what === "forcehide" && param[0] === "metadata") {
+            } else if(what === "forcehide" && param[0] === "MetaData") {
                 metadata_top.ignoreMouseMoveShortly = true
                 metadata_top.setVisible = false
                 resetIgnoreMouseMoveShortly.restart()
