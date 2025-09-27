@@ -124,6 +124,7 @@ PQCLook::~PQCLook() { }
 void PQCLook::calculateColors(QString name) {
 
     qDebug() << "args: name =" << name;
+    qDebug() << "m_interfaceModernVariant =" << m_interfaceModernVariant;
 
     if(!m_interfaceModernVariant) {
 

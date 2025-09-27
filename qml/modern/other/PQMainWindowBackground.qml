@@ -47,6 +47,11 @@ Item {
     }
 
     function setBackground() {
+
+        // THIS CALL IS IMPORTANT!
+        // WITHOUT THIS THE PALETTE WILL NOT BE SET UP BEFORE THE BACKGROUND IS SET!
+        var iconShade = PQCLook.iconShade
+
         if(PQCSettings.interfaceBackgroundSolid) {
             bgimage.source = ""
             overlay.color = PQCSettings.interfaceBackgroundCustomOverlay ? PQCSettings.interfaceBackgroundCustomOverlayColor : pqtPalette.base
@@ -93,7 +98,7 @@ Item {
     }
 
     Connections {
-        target: PQCSettings 
+        target: PQCSettings
 
         function onInterfaceAccentColorChanged() {
             resetBG.restart()
