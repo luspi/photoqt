@@ -138,11 +138,9 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
-#ifndef PQMPORTABLETWEAKS
     // this is used, for exmaple, to add a directory for
     QFileInfo f(argv[0]);
     qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
-#endif
 
     // avoids warning for customizing native styles (observed in particular on Windows)
     qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
