@@ -21,37 +21,18 @@
  **************************************************************************/
 #pragma once
 
-#include <QObject>
+#include <QWizard>
+#include <QLabel>
 
-enum PQEUpdateCheck {
-    SameVersion,
-    FreshInstall,
-    Update
-};
-
-class PQCStartupHandler : public QObject {
+class PQCWizard : public QWizard {
 
     Q_OBJECT
 
 public:
-    PQCStartupHandler(QObject *parent = 0);
-
-    void performChecksAndUpdates();
-    QString getInterfaceVariant();
-
-    void exportData(QString path);
-    void importData(QString path);
-
-    void resetToDefaults();
-    void setupFresh();
-
-    void showInfo();
-
-    static void setupDatabases();
+    PQCWizard(QWidget *parent = 0);
 
 private:
-    QStringList m_allVersions;
-
-    void askForInterfaceVariant();
+    QWizardPage *createIntroPage();
+    QWizardPage *createInterfaceVariantPage();
 
 };

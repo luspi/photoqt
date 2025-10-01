@@ -5,6 +5,7 @@
 #include <pqc_validate.h>
 #include <pqc_migratesettings.h>
 #include <pqc_migrateshortcuts.h>
+#include <pqc_wizard.h>
 #include <QtDebug>
 #include <QMessageBox>
 #include <QCoreApplication>
@@ -157,6 +158,8 @@ void PQCStartupHandler::performChecksAndUpdates() {
         setupFresh();
         setupDatabases();   // ... again.
 
+        askForInterfaceVariant();
+
         // WE CAN STOP HERE!
         return;
 
@@ -166,6 +169,9 @@ void PQCStartupHandler::performChecksAndUpdates() {
         PQCMigrateSettings::migrate(oldSettingsVersion, m_allVersions);
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
+
+        if(oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3"))
+            askForInterfaceVariant();
 
     }
 
@@ -496,3 +502,12 @@ void PQCStartupHandler::showInfo() {
 
 /**************************************************************/
 /**************************************************************/
+
+void PQCStartupHandler::askForInterfaceVariant() {
+
+    qDebug() << "";
+
+    PQCWizard wizard;
+    wizard.exec();
+
+}
