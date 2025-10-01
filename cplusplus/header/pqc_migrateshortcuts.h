@@ -23,30 +23,11 @@
 
 #include <QObject>
 
-enum PQEUpdateCheck {
-    SameVersion,
-    FreshInstall,
-    Update
-};
-
-class PQCStartupHandler : public QObject {
+class PQCMigrateShortcuts : public QObject {
 
     Q_OBJECT
 
 public:
-    PQCStartupHandler(QObject *parent = 0);
-
-    void performChecksAndUpdates();
-    QString getInterfaceVariant();
-
-    void exportData(QString path);
-    void importData(QString path);
-
-    void resetToDefaults();
-    void setupFresh();
-
-    void showInfo();
-
-    static void setupDatabases();
+    static void migrate(QString oldVersion);
 
 };

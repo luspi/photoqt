@@ -4,6 +4,7 @@
 #include <scripts/qml/pqc_scriptsconfig.h>
 #include <pqc_validate.h>
 #include <pqc_migratesettings.h>
+#include <pqc_migrateshortcuts.h>
 #include <QtDebug>
 #include <QMessageBox>
 #include <QCoreApplication>
@@ -25,8 +26,6 @@ PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
         qApp->quit();
     }
 
-    oldVersion = "";
-
 }
 
 void PQCStartupHandler::setupDatabases() {
@@ -37,7 +36,7 @@ void PQCStartupHandler::setupDatabases() {
     // it is possible that a connection to the settings db already exists
 
     QSqlDatabase dbcontextmenu, dbimageformats, dbimgurhistory, dblocation, dbshortcuts, dbsettings;
-    QSqlDatabase dbsettingsRO;
+    QSqlDatabase dbsettingsRO, dbShortcutsRO;
 
     if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
 
@@ -51,6 +50,8 @@ void PQCStartupHandler::setupDatabases() {
 
         if(!QSqlDatabase::contains("settingsRO"))
             dbsettingsRO = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+        if(!QSqlDatabase::contains("shortcutsRO"))
+            dbShortcutsRO = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsRO");
 
     } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
 
@@ -75,7 +76,9 @@ void PQCStartupHandler::setupDatabases() {
     dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
 
     dbsettingsRO.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+    dbShortcutsRO.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
     dbsettingsRO.setConnectOptions("QSQLITE_OPEN_READONLY");
+    dbShortcutsRO.setConnectOptions("QSQLITE_OPEN_READONLY");
 
 }
 
@@ -83,23 +86,29 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     qDebug() << "";
 
-    oldVersion = "";
+    // first we validate the structure of folder, files, and databases
+    PQCValidate validate;
 
-    m_checker = PQEUpdateCheck::SameVersion;
+    /********************************************************************/
+    /********************************************************************/
+    // CHECK SETTINGS DB
+
+    QString oldSettingsVersion = "";
+    PQEUpdateCheck settingsChecker = PQEUpdateCheck::SameVersion;
 
     // if no settings db exist, then it is a fresh install
     if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
         if(!QFile::exists(PQCConfigFiles::get().OLDSETTINGS_DB()))
-            m_checker = PQEUpdateCheck::FreshInstall;
+            settingsChecker = PQEUpdateCheck::FreshInstall;
         else {
             if(QFile::copy(PQCConfigFiles::get().OLDSETTINGS_DB(), PQCConfigFiles::get().USERSETTINGS_DB()))
                 QFile::remove(PQCConfigFiles::get().OLDSETTINGS_DB());
-            oldVersion = "4.8.1";
-            m_checker = PQEUpdateCheck::Update;
+            oldSettingsVersion = "4.8.1";
+            settingsChecker = PQEUpdateCheck::Update;
         }
     }
 
-    if(m_checker == PQEUpdateCheck::SameVersion) {
+    if(settingsChecker == PQEUpdateCheck::SameVersion) {
 
         // last time a dev version was run
         // we need to figure this out WITHOUT using the PQCSettings class
@@ -123,13 +132,13 @@ void PQCStartupHandler::performChecksAndUpdates() {
                 qWarning() << "Unable to check for generalVersion setting";
             else {
                 if(query.next()) {
-                    oldVersion = query.value(0).toString();
+                    oldSettingsVersion = query.value(0).toString();
 #ifdef NDEBUG
-                    if(oldVersion != QString(PQMVERSION)) {
+                    if(oldSettingsVersion != QString(PQMVERSION)) {
 #endif
                         query.clear();
                         dbtmp.close();
-                        m_checker = PQEUpdateCheck::Update;
+                        settingsChecker = PQEUpdateCheck::Update;
 #ifdef NDEBUG
                     }
 #endif
@@ -141,27 +150,98 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     }
 
-    if(m_checker == PQEUpdateCheck::FreshInstall) {
+    if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
         setupFresh();
         setupDatabases();   // ... again.
 
-    } else if(m_checker == PQEUpdateCheck::Update) {
+        // WE CAN STOP HERE!
+        return;
 
-        // first we validate the structure of folder, files, and databases
-        PQCValidate validate;
-        validate.validate();
-
-        // then we do any possible migration from `oldVersion` to PQMVERSION
+    } else if(settingsChecker == PQEUpdateCheck::Update) {
 
         // do migrations
-        PQCMigrateSettings::migrate(oldVersion);
-
-
+        PQCMigrateSettings::migrate(oldSettingsVersion);
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
 
     }
+
+    /********************************************************************/
+    /********************************************************************/
+    // CHECK SHORTCUT DB
+
+    QString oldShortcutsVersion = "";
+    PQEUpdateCheck shortcutsChecker = PQEUpdateCheck::SameVersion;
+
+    // if no shortcuts db exist, then it is a fresh install
+    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
+
+        shortcutsChecker = PQEUpdateCheck::FreshInstall;
+
+    } else {
+
+        QSqlDatabase dbtmp;
+        if(QSqlDatabase::contains("shortcutsRO"))
+            dbtmp = QSqlDatabase::database("shortcutsRO");
+        else {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsRO");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "shortcutsRO");
+            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
+        }
+        if(!dbtmp.open()) {
+            qWarning() << "Unable to check old version number:" << dbtmp.lastError().text();
+            qWarning() << "Assuming we came from and are on the current version";
+        } else {
+            QSqlQuery query(dbtmp);
+            if(!query.exec("SELECT `value` FROM config WHERE `name`='Version'"))
+                qWarning() << "Unable to check for version value";
+            else {
+                if(query.next()) {
+                    oldShortcutsVersion = query.value(0).toString();
+#ifdef NDEBUG
+                    if(oldShortcutsVersion != QString(PQMVERSION)) {
+#endif
+                        query.clear();
+                        dbtmp.close();
+                        shortcutsChecker = PQEUpdateCheck::Update;
+#ifdef NDEBUG
+                    }
+#endif
+                }
+            }
+            query.clear();
+            dbtmp.close();
+        }
+
+    }
+
+    if(shortcutsChecker == PQEUpdateCheck::FreshInstall) {
+
+        if(QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB()))
+            QFile::remove(PQCConfigFiles::get().SHORTCUTS_DB());
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
+            qWarning() << "Unable to create shortcuts database";
+        else {
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+
+    } else if(shortcutsChecker == PQEUpdateCheck::Update) {
+
+        // do migrations
+        PQCMigrateShortcuts::migrate(oldShortcutsVersion);
+
+        validate.validateShortcutsDatabase();
+
+    }
+
+
+    /********************************************************************/
+    /********************************************************************/
 
 }
 

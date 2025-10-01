@@ -1,32 +1,40 @@
 #include <pqc_migratesettings.h>
+#include <pqc_configfiles.h>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QFile>
 
-int PQCMigrateSettings::migrate(QString oldversion) {
+void PQCMigrateSettings::migrate(QString oldVersion) {
 
-    qDebug() << "args: oldversion =" << oldversion;
+    qDebug() << "args: oldVersion =" << oldVersion;
 
     QSqlDatabase db = QSqlDatabase::database("settings");
-    db.transaction();
 
-    if(oldversion == "") {
-        // first we need to find the version in a database that has not yet been read
-        QSqlQuery query(db);
-        if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'")) {
-            qCritical() << "Unable to find previous version number:" << query.lastError().text();
-        } else {
-            query.next();
-            oldversion = query.value(0).toString();
-            qDebug() << "migrating from version" << oldversion << "to" << PQMVERSION;
+    // in this case we stop
+    if(oldVersion.startsWith("2") || oldVersion.startsWith("1")) {
+
+        qDebug() << "Old version number if" << oldVersion << " - too old to use migrations. Setting up fresh database.";
+
+        db.close();
+
+        // backup current database
+        QFile::remove(QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
+        QFile::copy(PQCConfigFiles::get().USERSETTINGS_DB(), QString("%1.bak").arg(PQCConfigFiles::get().USERSETTINGS_DB()));
+        QFile::remove(PQCConfigFiles::get().USERSETTINGS_DB());
+
+        // create new default database
+        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
+            qWarning() << "Unable to create settings database";
+        else {
+            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
-        query.clear();
+
+        return;
     }
 
-    // in this case we stop and return 1 meaning that we should simply set up fresh
-    if(oldversion.startsWith("2") || oldversion.startsWith("1")) {
-        return 1;
-    }
+    db.transaction();
 
     /*************************************************************************/
     /**************************** IMPORTANT NOTE *****************************/
@@ -42,16 +50,16 @@ int PQCMigrateSettings::migrate(QString oldversion) {
     // when removing the 'dev' value, check below for any if statement involving 'dev'!
 
     // this is a safety check to make sure we don't forget the above check
-    if(oldversion != "dev" && versions.indexOf(oldversion) == -1 && !oldversion.startsWith("3")) {
+    if(oldVersion != "dev" && versions.indexOf(oldVersion) == -1 && !oldVersion.startsWith("3")) {
         qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
     }
 
     int iVersion = 0;
-    if(oldversion == "dev")
+    if(oldVersion == "dev")
         iVersion = versions.length()-1;
-    else if(oldversion != "" && versions.contains(oldversion))
+    else if(oldVersion != "" && versions.contains(oldVersion))
         // we do a +1 as we are on the found version and don't need to migrate to it
-        iVersion = versions.indexOf(oldversion)+1;
+        iVersion = versions.indexOf(oldVersion)+1;
 
     // we iterate through all migrations one by one
 
@@ -279,8 +287,6 @@ int PQCMigrateSettings::migrate(QString oldversion) {
     }
 
     db.commit();
-
-    return 0;
 
 }
 

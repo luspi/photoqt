@@ -57,6 +57,12 @@ bool PQCValidate::validate() {
         success = false;
     }
 
+    ret = validateShortcutsDatabase();
+    if(!ret) {
+        std::cout << " >> Failed: shortcuts db" << std::endl;
+        success = false;
+    }
+
     ret = validateContextMenuDatabase();
     if(!ret) {
         std::cout << " >> Failed: context menu db" << std::endl;
@@ -93,6 +99,8 @@ bool PQCValidate::validate() {
 }
 
 bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
+
+    qDebug() << "args: thumb_cache_basedir =" << thumb_cache_basedir;
 
     QFileInfo userplaces_info(PQCConfigFiles::get().USER_PLACES_XBEL());
 
@@ -146,6 +154,8 @@ bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
 }
 
 bool PQCValidate::validateContextMenuDatabase() {
+
+    qDebug() << "";
 
     // the db does not exist -> create it and finish
     if(!QFile::exists(PQCConfigFiles::get().CONTEXTMENU_DB())) {
@@ -269,6 +279,8 @@ bool PQCValidate::validateContextMenuDatabase() {
 }
 
 bool PQCValidate::validateImageFormatsDatabase() {
+
+    qDebug() << "";
 
     // the db does not exist -> create it and finish
     if(!QFile::exists(PQCConfigFiles::get().IMAGEFORMATS_DB())) {
@@ -560,21 +572,9 @@ bool PQCValidate::validateImageFormatsDatabase() {
 
 }
 
-// bool PQCValidate::validateSettingsDatabase() {
-
-//     // PQCSettings set(true);
-//     return true;//set.validateSettingsDatabase();
-
-// }
-
-// bool PQCValidate::validateSettingsValues() {
-
-//     // PQCSettings set(true);
-//     return true;//set.validateSettingsValues();
-
-// }
-
 bool PQCValidate::validateLocationDatabase() {
+
+    qDebug() << "";
 
     // the db does not exist -> create it and finish
     if(!QFile::exists(PQCConfigFiles::get().LOCATION_DB())) {
@@ -591,6 +591,8 @@ bool PQCValidate::validateLocationDatabase() {
 }
 
 bool PQCValidate::validateImgurHistoryDatabase() {
+
+    qDebug() << "";
 
     // the db does not exist -> create it and finish
     if(!QFile::exists(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB())) {
@@ -804,6 +806,52 @@ bool PQCValidate::validateSettingsValues() {
     QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
     if(!file.remove())
         qWarning() << "ERROR: Unable to remove check db:" << file.errorString();
+
+    return true;
+
+}
+
+bool PQCValidate::validateShortcutsDatabase() {
+
+    qDebug() << "";
+
+    if(!QFile::exists(PQCConfigFiles::get().SHORTCUTS_DB())) {
+        if(!QFile::copy(":/shortcuts.db", PQCConfigFiles::get().SHORTCUTS_DB()))
+            qWarning() << "Unable to (re-)create default shortcuts database";
+        else {
+            QFile file(PQCConfigFiles::get().SHORTCUTS_DB());
+            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
+        }
+        return true;
+    }
+
+    QSqlDatabase db = QSqlDatabase::database("shortcuts");
+    if(!db.open()) {
+        qWarning() << "Error opening database:" << db.lastError().text();
+        return false;
+    }
+
+    // make sure that the config table exists and contains version number
+    QSqlQuery query(db);
+    // check if config table exists
+    if(!query.exec("SELECT name FROM sqlite_master WHERE type='table' AND name='config';")) {
+        qCritical() << "Unable to verify existince of config table";
+    } else {
+        // the table does not exist
+        if(!query.next()) {
+            QSqlQuery queryNew(db);
+            if(!queryNew.exec("CREATE TABLE 'config' ('name' TEXT UNIQUE, 'value' TEXT)")) {
+                qCritical() << "Unable to create config table";
+            } else {
+                QSqlQuery queryEnter(db);
+                // 4.9.1 was the last version with no version number in database, so this is the best we can do
+                queryEnter.prepare("INSERT INTO 'config' (`name`, `value`) VALUES ('version', '4.9.1')");
+                if(!queryEnter.exec()) {
+                    qCritical() << "Unable to enter version in new config table";
+                }
+            }
+        }
+    }
 
     return true;
 

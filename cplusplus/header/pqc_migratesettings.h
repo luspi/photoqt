@@ -28,7 +28,7 @@ class PQCMigrateSettings : public QObject {
     Q_OBJECT
 
 public:
-    static int migrate(QString oldVersion);
+    static void migrate(QString oldVersion);
 
 private:
     static void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);

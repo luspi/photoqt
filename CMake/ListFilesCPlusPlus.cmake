@@ -14,7 +14,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.cpp ${d}/pqc_photosp
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionsettings.cpp ${d}/pqc_startuphandler.cpp)
 
 SET(d "cplusplus/other/startuphandler")
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_migratesettings.cpp ${d}/pqc_validate.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_migratesettings.cpp ${d}/pqc_migrateshortcuts.cpp ${d}/pqc_validate.cpp)
 
 SET(d "cplusplus/other/wayland-specific")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_xdg-output-unstable-v1-protocol.c ${d}/pqc_get-wayland-device-pixel-ratio.cpp)
@@ -22,7 +22,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_xdg-output-unstable-v1-protocol.
 SET(d "cplusplus/header")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_commandlineparser.h ${d}/pqc_singleinstance.h ${d}/pqc_configfiles.h ${d}/pqc_startuphandler.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settingscpp.h ${d}/pqc_notify.h ${d}/pqc_constants.h ${d}/pqc_migratesettings.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_mpvobject.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_mpvobject.h ${d}/pqc_migrateshortcuts.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodelcache.h ${d}/pqc_providerfolderthumb.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_filefoldermodelCPP.h)

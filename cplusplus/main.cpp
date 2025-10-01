@@ -206,19 +206,21 @@ int main(int argc, char *argv[]) {
     // handle export/import commands
     if(app.exportAndQuit != "") {
         startupHandler.exportData(app.exportAndQuit);
-        std::exit(0);
+        return 0;
     } else if(app.importAndQuit != "") {
         startupHandler.importData(app.importAndQuit);
-        std::exit(0);
+        return 0;
     } else if(app.checkConfig) {
-        // validate.validate();
-        std::exit(0);
+        startupHandler.setupDatabases();
+        PQCValidate validate;
+        validate.validate();
+        return 0;
     } else if(app.resetConfig) {
         startupHandler.resetToDefaults();
-        std::exit(0);
+        return 0;
     } else if(app.showInfo) {
         startupHandler.showInfo();
-        std::exit(0);
+        return 0;
     }
 
     // setting up databases needs to happen here for the Release build

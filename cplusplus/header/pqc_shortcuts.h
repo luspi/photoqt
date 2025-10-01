@@ -63,8 +63,6 @@ public:
     Q_INVOKABLE void saveExternalShortcutCombos(const QVariantList lst);
     Q_INVOKABLE void saveDuplicateShortcutsCommandOrder(const QVariantList lst);
 
-    Q_INVOKABLE bool migrate(QString oldversion = "");
-
     bool backupDatabase();
     Q_INVOKABLE void closeDatabase();
     Q_INVOKABLE void reopenDatabase();
@@ -76,8 +74,6 @@ public Q_SLOTS:
     Q_INVOKABLE void resetToDefault();
 
 private:
-
-    int checkForUpdateOrNew();
 
     void writeNewShortcutsMapToDatabaseAndRead(QMap<QString, QVariantList> newmap);
 
