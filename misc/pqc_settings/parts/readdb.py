@@ -52,9 +52,13 @@ void PQCSettings::readDB() {
 
     qDebug() << "";
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
+    if(!db.isOpen()) return;
+
     for(const auto &table : std::as_const(dbtables)) {
 
-        QSqlQuery query(QSqlDatabase::database("settings"));
+        QSqlQuery query(db);
         query.prepare(QString("SELECT `name`,`value` FROM '%1'").arg(table));
         if(!query.exec())
             qCritical() << QString("SQL Query error (%1):").arg(table) << query.lastError().text();

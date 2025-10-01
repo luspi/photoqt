@@ -43,7 +43,6 @@
 
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
-#include <pqc_startup.h>
 #include <pqc_validate.h>
 #include <pqc_notify_cpp.h>
 #include <pqc_messagehandler.h>
@@ -64,6 +63,8 @@
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
 #include <pqc_look.h>
+#include <pqc_startuphandler.h>
+#include <pqc_settingscpp.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -167,8 +168,17 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    /******************************************/
+
     // only a single instance
     PQCSingleInstance app(argc, argv);
+
+    /******************************************/
+    // we take care of any startup checks and potential migrations
+
+    PQCStartupHandler startupHandler;
+
+    /******************************************/
 
 #ifdef PQMVIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
@@ -193,34 +203,47 @@ int main(int argc, char *argv[]) {
 #endif
 #endif
 
-    PQCStartup startup;
-    PQCValidate validate;
-
     // handle export/import commands
     if(app.exportAndQuit != "") {
-        startup.exportData(app.exportAndQuit);
+        startupHandler.exportData(app.exportAndQuit);
         std::exit(0);
     } else if(app.importAndQuit != "") {
-        startup.importData(app.importAndQuit);
+        startupHandler.importData(app.importAndQuit);
         std::exit(0);
     } else if(app.checkConfig) {
-        validate.validate();
+        // validate.validate();
         std::exit(0);
     } else if(app.resetConfig) {
-        startup.resetToDefaults();
+        startupHandler.resetToDefaults();
         std::exit(0);
     } else if(app.showInfo) {
-        startup.showInfo();
+        startupHandler.showInfo();
         std::exit(0);
     }
 
-    // perform some startup checks
-    // return 1 on updates and 2 on fresh installs
-    const int checker = startup.check();
+    // setting up databases needs to happen here for the Release build
+    startupHandler.setupDatabases();
+    startupHandler.performChecksAndUpdates();
 
-    // update or fresh install?
-    if(checker == 1)
-        validate.validate();
+    /***************************************/
+    // figure out modern vs integrated without use of PQCSettings
+
+    bool useModernInterface = (startupHandler.getInterfaceVariant()=="modern");
+
+    if(app.forceModernInterface || app.forceIntegratedInterface) {
+        useModernInterface = !app.forceIntegratedInterface;
+        QSqlDatabase dbtmp = QSqlDatabase::database("settings");
+        QSqlQuery query(dbtmp);
+        query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+        query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
+        if(!query.exec())
+            qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
+        query.clear();
+        dbtmp.close();
+        PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
+    }
+
+    /***************************************/
 
     // Get screenshots for fake transparency
     bool success = true;
@@ -235,6 +258,8 @@ int main(int argc, char *argv[]) {
         }
     }
     PQCNotifyCPP::get().setHaveScreenshots(success);
+
+    /***************************************/
 
 // only one of them will be defined at a time
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
@@ -254,62 +279,6 @@ int main(int argc, char *argv[]) {
 #ifdef PQMLIBVIPS
     VIPS_INIT(argv[0]);
 #endif
-
-    /***************************************/
-    // figure out modern vs integrated without use of PQCSettings
-
-    bool useModernInterface = true;
-
-    if(!app.forceModernInterface && !app.forceIntegratedInterface) {
-        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-            QSqlDatabase dbtmp;
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
-            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-            if(!dbtmp.open()) {
-                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
-                qWarning() << "Assuming modern interface.";
-            } else {
-                QSqlQuery query(dbtmp);
-                if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
-                    qWarning() << "Unable to check for generalInterfaceVariant setting";
-                else {
-                    if(query.next()) {
-                        const QString var = query.value(0).toString();
-                        useModernInterface = (var=="modern");
-                    }
-                }
-                query.clear();
-                dbtmp.close();
-            }
-        }
-    } else if(app.forceModernInterface || app.forceIntegratedInterface) {
-        useModernInterface = !app.forceIntegratedInterface;
-        // we need to update this value here as otherwise the styling in PQCLook might be wrong
-        if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-            QSqlDatabase dbtmp;
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsvariant2");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsvariant2");
-            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-            if(!dbtmp.open()) {
-                qWarning() << "Unable to check whether I should use the modern or integrated interface:" << dbtmp.lastError().text();
-                qWarning() << "Assuming modern interface.";
-            } else {
-                QSqlQuery query(dbtmp);
-                query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
-                query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
-                if(!query.exec())
-                    qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
-                query.clear();
-                dbtmp.close();
-            }
-        }
-    }
 
     /***************************************/
 

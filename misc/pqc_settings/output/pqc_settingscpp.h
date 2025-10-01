@@ -448,31 +448,6 @@ private:
         m_thumbnailsIconsOnly = false;
         m_thumbnailsMaxNumberThreads = 4;
 
-        QSqlDatabase db = QSqlDatabase::database("settings");
-
-        // connect to user database
-        if(!db.isValid()) {
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-
-            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-            // the db does not exist -> create it
-            if(!infodb.exists()) {
-                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                    qWarning() << "Unable to (re-)create default user settings database";
-                else {
-                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-                }
-            }
-
-            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        }
-
         readDB();
 
     }

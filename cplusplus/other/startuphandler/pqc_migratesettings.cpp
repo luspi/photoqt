@@ -1,23 +1,13 @@
-// return codes:
-// -1 := error
-//  0 := success
-//  1 := old, don't migrate, need to setup fresh
-int PQCSettings::migrate(QString oldversion) {
+#include <pqc_migratesettings.h>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+
+int PQCMigrateSettings::migrate(QString oldversion) {
 
     qDebug() << "args: oldversion =" << oldversion;
 
     QSqlDatabase db = QSqlDatabase::database("settings");
-
-    dbCommitTimer->stop();
-
-    if(dbIsTransaction) {
-        db.commit();
-        PQCSettingsCPP::get().readDB();
-        dbIsTransaction = false;
-        if(db.lastError().text().trimmed().length())
-            qWarning() << "ERROR committing database:" << db.lastError().text();
-    }
-
     db.transaction();
 
     if(oldversion == "") {
@@ -289,16 +279,12 @@ int PQCSettings::migrate(QString oldversion) {
     }
 
     db.commit();
-    PQCSettingsCPP::get().readDB();
-
-    validateSettingsDatabase(true);
-    validateSettingsValues(true);
 
     return 0;
 
 }
 
-void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer) {
+void PQCMigrateSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer) {
 
     qDebug() << "args: mig =" << mig;
     qDebug() << "args: curVer =" << curVer;
@@ -411,7 +397,7 @@ void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringL
 
 }
 
-QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting) {
+QVariant PQCMigrateSettings::migrationHelperGetOldValue(QString table, QString setting) {
 
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
@@ -434,7 +420,7 @@ QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting)
 
 }
 
-void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
+void PQCMigrateSettings::migrationHelperRemoveValue(QString table, QString setting) {
 
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
@@ -452,7 +438,7 @@ void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
 
 }
 
-void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVariantList value) {
+void PQCMigrateSettings::migrationHelperInsertValue(QString table, QString setting, QVariantList value) {
 
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;
@@ -473,7 +459,7 @@ void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVa
 
 }
 
-void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVariant value) {
+void PQCMigrateSettings::migrationHelperSetNewValue(QString table, QString setting, QVariant value) {
 
     qDebug() << "args: table =" << table;
     qDebug() << "args: setting =" << setting;

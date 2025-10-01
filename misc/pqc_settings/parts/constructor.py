@@ -96,10 +96,14 @@ PQCSettings::PQCSettings() {
     QSqlDatabase dbDefault;
 
     // create and connect to default database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    if(QSqlDatabase::contains("defaultsettings"))
+        dbDefault = QSqlDatabase::database("defaultsettings");
+    else {
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    }
     QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
@@ -111,16 +115,6 @@ PQCSettings::PQCSettings() {
     }
 
     QSqlDatabase db = QSqlDatabase::database("settings");
-
-    bool doSetupDb = false;
-    if(!db.isValid()) {
-        doSetupDb = true;
-        // connect to user database
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-    }
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -135,56 +129,12 @@ PQCSettings::PQCSettings() {
 
     readonly = false;
 
-    if(doSetupDb) {
-
-        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        // the db does not exist -> create it
-        if(!infodb.exists()) {
-            if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                qWarning() << "Unable to (re-)create default user settings database";
-            else {
-                QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-            }
-        }
-
-        db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-    }
-
     if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
-        qWarning() << "Will load read-only database of default settings";
+        qWarning() << "Will load read-only set of default settings";
 
         readonly = true;
-        db.setConnectOptions("QSQLITE_OPEN_READONLY");
-
-        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/usersettings.db";
-
-        if(QFile::exists(tmppath))
-            QFile::remove(tmppath);
-
-        if(!QFile::copy(":/usersettings.db", tmppath)) {
-            qCritical() << "ERROR copying read-only default database!";
-            //: This is the window title of an error message box
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR getting database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open even a read-only version of the settings database.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
-
-        QFile f(tmppath);
-        f.setPermissions(f.permissions()|QFileDevice::WriteOwner);
-
-        db.setDatabaseName(tmppath);
-
-        if(!db.open()) {
-            qCritical() << "ERROR opening read-only default database!";
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
 
     } else {
 
@@ -225,12 +175,8 @@ PQCSettings::PQCSettings() {
             QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
-    } else {
+    } else
         readDB();
-        QString curver = PQMVERSION;
-        if(curver != m_generalVersion)
-            migrate(m_generalVersion);
-    }
 
     /******************************************************/
     """

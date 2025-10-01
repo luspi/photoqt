@@ -32,10 +32,7 @@
 PQCShortcuts::PQCShortcuts() {
 
     // connect to database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
+    db = QSqlDatabase::database("shortcuts");
 
     readonly = false;
 
@@ -57,6 +54,11 @@ PQCShortcuts::PQCShortcuts() {
 
         qCritical() << "ERROR opening database:" << db.lastError().text();
         qCritical() << "Will load read-only database of default shortcuts";
+
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            db = QSqlDatabase::addDatabase("QSQLITE3", "shortcutsRO");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            db = QSqlDatabase::addDatabase("QSQLITE", "shortcutsRO");
 
         readonly = true;
         db.setConnectOptions("QSQLITE_OPEN_READONLY");

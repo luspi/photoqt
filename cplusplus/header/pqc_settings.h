@@ -1770,7 +1770,6 @@ public:
 
     bool validateSettingsDatabase(bool skipDBHandling = false);
     bool validateSettingsValues(bool skipDBHandling = false);
-    int migrate(QString oldversion = "");
     void setupFresh();
 
     void updateFromCommandLine();
@@ -2085,12 +2084,6 @@ private:
 
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
-
-    void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
-    QVariant migrationHelperGetOldValue(QString table, QString setting);
-    void migrationHelperRemoveValue(QString table, QString setting);
-    void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
-    void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
 

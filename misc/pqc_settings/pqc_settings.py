@@ -115,13 +115,10 @@ f = open("parts/backupdatabase.cpp", "r"); cont += f.read()
 cont += savechangedvalue.get()
 cont += setdefault.get()
 f = open("parts/closereopen.cpp", "r"); cont += f.read()
-f = open("parts/migrate.cpp", "r"); cont += f.read()
 f = open("parts/verifynameandgettype.cpp", "r"); cont += f.read()
 cont += setupfresh.get(duplicateSettings, duplicateSettingsSignal)
 cont += resettodefault.get()
 cont += updatefromcommandline.get(duplicateSettings, duplicateSettingsSignal)
-f = open("parts/validatesettingsdatabase.cpp", "r"); cont += f.read()
-f = open("parts/validatesettingsvalues.cpp", "r"); cont += f.read()
 
 
 f = open("output/pqc_settings.cpp", "w")

@@ -1,51 +1,19 @@
-/**************************************************************************
- **                                                                      **
- ** Copyright (C) 2011-2025 Lukas Spies                                  **
- ** Contact: https://photoqt.org                                         **
- **                                                                      **
- ** This file is part of PhotoQt.                                        **
- **                                                                      **
- ** PhotoQt is free software: you can redistribute it and/or modify      **
- ** it under the terms of the GNU General Public License as published by **
- ** the Free Software Foundation, either version 2 of the License, or    **
- ** (at your option) any later version.                                  **
- **                                                                      **
- ** PhotoQt is distributed in the hope that it will be useful,           **
- ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
- ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
- ** GNU General Public License for more details.                         **
- **                                                                      **
- ** You should have received a copy of the GNU General Public License    **
- ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
- **                                                                      **
- **************************************************************************/
-
-#include <QFile>
-#include <QSqlDatabase>
-#include <QSqlError>
-#include <QSqlQuery>
+#include <pqc_startuphandler.h>
+#include <pqc_configfiles.h>
+#include <pqc_settingscpp.h>
+#include <scripts/qml/pqc_scriptsconfig.h>
+#include <pqc_validate.h>
+#include <pqc_migratesettings.h>
+#include <QtDebug>
 #include <QMessageBox>
 #include <QCoreApplication>
+#include <QFile>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
 #include <iostream>
-#include <algorithm>
-#include <pqc_startup.h>
-#include <pqc_configfiles.h>
-#include <pqc_settings.h>
-#include <pqc_shortcuts.h>
-#include <pqc_validate.h>
 
-// this is an exception here:
-// This class is only used when PhotoQt exits right after, thus it's not messing anything up.
-#include <scripts/qml/pqc_scriptsconfig.h>
-
-PQCStartup::PQCStartup(QObject *parent) : QObject(parent) { }
-
-// 0: no update
-// 1: update
-// 2: fresh install
-int PQCStartup::check() {
-
-    qDebug() << "";
+PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
 
     // check if sqlite is available
     if(!QSqlDatabase::isDriverAvailable("QSQLITE3") && !QSqlDatabase::isDriverAvailable("QSQLITE")) {
@@ -57,45 +25,160 @@ int PQCStartup::check() {
         qApp->quit();
     }
 
-    // if no ettings db exist, then it is a fresh install
+    oldVersion = "";
+
+}
+
+void PQCStartupHandler::setupDatabases() {
+
+    /****************************************************************************************************/
+    // create all the databases used throughout PhotoQt that can be connected to from everywhere
+
+    // it is possible that a connection to the settings db already exists
+
+    QSqlDatabase dbcontextmenu, dbimageformats, dbimgurhistory, dblocation, dbshortcuts, dbsettings;
+    QSqlDatabase dbsettingsRO;
+
+    if(QSqlDatabase::isDriverAvailable("QSQLITE3")) {
+
+        if(!QSqlDatabase::contains("settings"))
+            dbsettings = QSqlDatabase::addDatabase("QSQLITE3", "settings");
+        dbshortcuts = QSqlDatabase::addDatabase("QSQLITE3", "shortcuts");
+        dblocation = QSqlDatabase::addDatabase("QSQLITE3", "location");
+        dbimgurhistory = QSqlDatabase::addDatabase("QSQLITE3", "imgurhistory");
+        dbimageformats = QSqlDatabase::addDatabase("QSQLITE3", "imageformats");
+        dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
+
+        if(!QSqlDatabase::contains("settingsRO"))
+            dbsettingsRO = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+
+    } else if(QSqlDatabase::isDriverAvailable("QSQLITE")) {
+
+        if(!QSqlDatabase::contains("settings"))
+            dbsettings = QSqlDatabase::addDatabase("QSQLITE", "settings");
+        dbshortcuts = QSqlDatabase::addDatabase("QSQLITE", "shortcuts");
+        dblocation = QSqlDatabase::addDatabase("QSQLITE", "location");
+        dbimgurhistory = QSqlDatabase::addDatabase("QSQLITE", "imgurhistory");
+        dbimageformats = QSqlDatabase::addDatabase("QSQLITE", "imageformats");
+        dbcontextmenu = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
+
+        if(!QSqlDatabase::contains("settingsRO"))
+            dbsettingsRO = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
+
+    }
+
+    dbsettings.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+    dbshortcuts.setDatabaseName(PQCConfigFiles::get().SHORTCUTS_DB());
+    dblocation.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
+    dbimgurhistory.setDatabaseName(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
+    dbimageformats.setDatabaseName(PQCConfigFiles::get().IMAGEFORMATS_DB());
+    dbcontextmenu.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
+
+    dbsettingsRO.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+    dbsettingsRO.setConnectOptions("QSQLITE_OPEN_READONLY");
+
+}
+
+void PQCStartupHandler::performChecksAndUpdates() {
+
+    qDebug() << "";
+
+    oldVersion = "";
+
+    m_checker = PQEUpdateCheck::SameVersion;
+
+    // if no settings db exist, then it is a fresh install
     if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
         if(!QFile::exists(PQCConfigFiles::get().OLDSETTINGS_DB()))
-            return 2;
+            m_checker = PQEUpdateCheck::FreshInstall;
         else {
             if(QFile::copy(PQCConfigFiles::get().OLDSETTINGS_DB(), PQCConfigFiles::get().USERSETTINGS_DB()))
                 QFile::remove(PQCConfigFiles::get().OLDSETTINGS_DB());
-            return 1;
+            oldVersion = "4.8.1";
+            m_checker = PQEUpdateCheck::Update;
         }
     }
 
-    // last time a dev version was run
-    // we need to figure this out WITHOUT using the PQCSettings class
-    QSqlDatabase dbtmp;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsversion");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsversion");
-    dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-    dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+    if(m_checker == PQEUpdateCheck::SameVersion) {
+
+        // last time a dev version was run
+        // we need to figure this out WITHOUT using the PQCSettings class
+        QSqlDatabase dbtmp;
+        if(QSqlDatabase::contains("settingsRO"))
+            dbtmp = QSqlDatabase::database("settingsRO");
+        else {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
+            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+        }
+        if(!dbtmp.open()) {
+            qWarning() << "Unable to check old version number:" << dbtmp.lastError().text();
+            qWarning() << "Assuming we came from and are on the current version";
+        } else {
+            QSqlQuery query(dbtmp);
+            if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'"))
+                qWarning() << "Unable to check for generalVersion setting";
+            else {
+                if(query.next()) {
+                    oldVersion = query.value(0).toString();
+#ifdef NDEBUG
+                    if(oldVersion != QString(PQMVERSION)) {
+#endif
+                        query.clear();
+                        dbtmp.close();
+                        m_checker = PQEUpdateCheck::Update;
+#ifdef NDEBUG
+                    }
+#endif
+                }
+            }
+            query.clear();
+            dbtmp.close();
+        }
+
+    }
+
+    if(m_checker == PQEUpdateCheck::FreshInstall) {
+
+        setupFresh();
+        setupDatabases();   // ... again.
+
+    } else if(m_checker == PQEUpdateCheck::Update) {
+
+        // first we validate the structure of folder, files, and databases
+        PQCValidate validate;
+        validate.validate();
+
+        // then we do any possible migration from `oldVersion` to PQMVERSION
+
+        // do migrations
+        PQCMigrateSettings::migrate(oldVersion);
+
+
+        validate.validateSettingsDatabase();
+        validate.validateSettingsValues();
+
+    }
+
+}
+
+QString PQCStartupHandler::getInterfaceVariant() {
+
+    QSqlDatabase dbtmp = QSqlDatabase::database("settingsRO");
     if(!dbtmp.open()) {
-        qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
-        qWarning() << "Assuming only a single instance is to be used";
+        qWarning() << "Unable to check what interface variant to use:" << dbtmp.lastError().text();
     } else {
         QSqlQuery query(dbtmp);
-        if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'"))
-            qWarning() << "Unable to check for generalVersion setting";
+        if(!query.exec("SELECT `value` FROM general WHERE `name`='InterfaceVariant'"))
+            qWarning() << "Unable to check for generalInterfaceVariant setting";
         else {
             if(query.next()) {
-                QString ver = query.value(0).toString();
-#ifndef NDEBUG
-                query.clear();
-                dbtmp.close();
-                return 3;
-#endif
-                if(ver != QString(PQMVERSION)) {
-                    query.clear();
-                    dbtmp.close();
-                    return 1;
+                const QString val = query.value(0).toString();
+                if(val == "modern" || val == "integrated") {
+                    return val;
                 }
             }
         }
@@ -103,12 +186,14 @@ int PQCStartup::check() {
         dbtmp.close();
     }
 
-    // nothing happened
-    return 0;
+    return PQCSettingsCPP::get().getGeneralInterfaceVariant();
 
 }
 
-void PQCStartup::exportData(QString path) {
+/**************************************************************/
+/**************************************************************/
+
+void PQCStartupHandler::exportData(QString path) {
 
     std::cout << std::endl
               << "PhotoQt v" << PQMVERSION << std::endl << std::endl;
@@ -143,7 +228,7 @@ void PQCStartup::exportData(QString path) {
 
 }
 
-void PQCStartup::importData(QString path) {
+void PQCStartupHandler::importData(QString path) {
 
     std::cout << std::endl
               << "PhotoQt v" << PQMVERSION << std::endl << std::endl;
@@ -187,7 +272,43 @@ void PQCStartup::importData(QString path) {
 
 }
 
-void PQCStartup::setupFresh() {
+/**************************************************************/
+/**************************************************************/
+
+void PQCStartupHandler::resetToDefaults() {
+
+    std::cout << std::endl
+              << "PhotoQt v" << PQMVERSION << std::endl << std::endl
+              << "> This will reset PhotoQt to its default state." << std::endl
+              << "> This step cannot be undone." << std::endl << std::endl
+              << "Continue? [yN] " << std::flush;
+
+    // request input
+    std::string choice;
+    std::getline(std::cin, choice);
+
+    // convert input to all lowercase
+    std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
+
+    if(choice == "y" || choice == "yes") {
+
+        std::cout << std::endl
+                  << " > Resetting to default configuration... " << std::flush;
+
+        setupFresh();
+
+        std::cout << "done! Goodbye." << std::endl << std::endl;
+
+        return;
+
+    }
+
+    std::cout << std::endl
+              << "> Cancelling request... Goodbye." << std::endl << std::endl;
+
+}
+
+void PQCStartupHandler::setupFresh() {
 
     qDebug() << "";
 
@@ -273,43 +394,10 @@ void PQCStartup::setupFresh() {
 
 }
 
-void PQCStartup::resetToDefaults() {
-
-    std::cout << std::endl
-              << "PhotoQt v" << PQMVERSION << std::endl << std::endl
-              << "> This will reset PhotoQt to its default state." << std::endl
-              << "> This step cannot be undone." << std::endl << std::endl
-              << "Continue? [yN] " << std::flush;
-
-    // request input
-    std::string choice;
-    std::getline(std::cin, choice);
-
-    // convert input to all lowercase
-    std::transform(choice.begin(), choice.end(), choice.begin(), tolower);
-
-    if(choice == "y" || choice == "yes") {
-
-        std::cout << std::endl
-                  << " > Resetting to default configuration... " << std::flush;
-
-        setupFresh();
-
-        std::cout << "done! Goodbye." << std::endl << std::endl;
-
-        return;
-
-    }
-
-    std::cout << std::endl
-              << "> Cancelling request... Goodbye." << std::endl << std::endl;
-
-}
-
 /**************************************************************/
 /**************************************************************/
 
-void PQCStartup::showInfo() {
+void PQCStartupHandler::showInfo() {
 
     PQCScriptsConfig scr;
 
@@ -320,3 +408,6 @@ void PQCStartup::showInfo() {
               << std::endl;
 
 }
+
+/**************************************************************/
+/**************************************************************/

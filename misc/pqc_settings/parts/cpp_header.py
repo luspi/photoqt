@@ -94,6 +94,8 @@ public:
     PQCSettingsCPP(PQCSettingsCPP const&) = delete;
     void operator=(PQCSettingsCPP const&) = delete;
 
+    void forceInterfaceVariant(QString var) { m_generalInterfaceVariant = var; }
+
     QVariant getExtensionValue(const QString &key) { return m_extensions.value(key, ""); }
     QVariant getExtensionDefaultValue(const QString &key) { return m_extensions_defaults.value(key, ""); }
 """
@@ -292,31 +294,6 @@ private:
                 cont += f"{valuestring};"
 
     cont += """
-
-        QSqlDatabase db = QSqlDatabase::database("settings");
-
-        // connect to user database
-        if(!db.isValid()) {
-            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-                db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-                db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-
-            QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-            // the db does not exist -> create it
-            if(!infodb.exists()) {
-                if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                    qWarning() << "Unable to (re-)create default user settings database";
-                else {
-                    QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                    file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-                }
-            }
-
-            db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        }
 
         readDB();
 

@@ -19,35 +19,22 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSTARTUP_H
-#define PQCSTARTUP_H
+#pragma once
 
 #include <QObject>
 
-class PQCStartup : public QObject {
+class PQCMigrateSettings : public QObject {
 
     Q_OBJECT
 
 public:
-    PQCStartup(QObject *parent = nullptr);
+    static int migrate(QString oldVersion);
 
-    // 0: no update
-    // 1: update
-    // 2: fresh install
-    int check();
-
-    Q_INVOKABLE void setupFresh();
-
-    void exportData(QString path);
-    void importData(QString path);
-
-    void resetToDefaults();
-
-    void showInfo();
+private:
+    static void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
+    static QVariant migrationHelperGetOldValue(QString table, QString setting);
+    static void migrationHelperRemoveValue(QString table, QString setting);
+    static void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
+    static void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 };
-
-
-
-#endif // PQCStartup_H

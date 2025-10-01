@@ -69,11 +69,7 @@ void PQCScriptsShareImgur::setup() {
     QDir dir;
     dir.mkpath(info.absolutePath());
 
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "imgurhistory");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "imgurhistory");
-    db.setDatabaseName(PQCConfigFiles::get().SHAREONLINE_IMGUR_HISTORY_DB());
+    db = QSqlDatabase::database("imgurhistory");
 
     if(!db.open()) {
         qWarning() << "ERROR opening database:" << db.lastError().text();

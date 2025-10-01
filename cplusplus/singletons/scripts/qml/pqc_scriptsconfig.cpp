@@ -35,7 +35,7 @@
 #include <pqc_imageformats.h>
 #include <scripts/qml/pqc_scriptsconfig.h>
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
-#include <pqc_startup.h>
+#include <pqc_startuphandler.h>
 #include <pqc_location.h>
 #include <pqc_notify_cpp.h>
 
@@ -705,7 +705,7 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
-    PQCStartup startup;
+    PQCStartupHandler startup;
     startup.setupFresh();
 
 }
