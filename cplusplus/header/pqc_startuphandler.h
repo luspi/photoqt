@@ -49,4 +49,7 @@ public:
 
     static void setupDatabases();
 
+private:
+    QStringList m_allVersions;
+
 };

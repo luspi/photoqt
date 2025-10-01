@@ -39,9 +39,9 @@ bool PQCValidate::validate() {
               << "PhotoQt v" << PQMVERSION << std::endl
               << " > Validating configuration... " << std::endl;
 
-    QString thumbnails_cache_basedir = "";
-    if(!PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault())
-        thumbnails_cache_basedir = PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation();
+    const QString thumbnails_cache_basedir = (PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault() ?
+                                                  "" :
+                                                  PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation());
 
     bool success = true;
 
@@ -98,7 +98,7 @@ bool PQCValidate::validate() {
 
 }
 
-bool PQCValidate::validateDirectories(QString thumb_cache_basedir) {
+bool PQCValidate::validateDirectories(const QString &thumb_cache_basedir) {
 
     qDebug() << "args: thumb_cache_basedir =" << thumb_cache_basedir;
 
@@ -173,14 +173,13 @@ bool PQCValidate::validateContextMenuDatabase() {
     if(!dbinstalled.open())
         qWarning() << "Error opening database:" << dbinstalled.lastError().text();
 
-    QStringList newcols;
-    newcols << "icon" << "TEXT"
-            << "arguments" << "TEXT";
+    const QStringList newcols = {"icon", "TEXT",
+                                 "arguments", "TEXT"};
 
     for(int i = 0; i < newcols.length()/2; ++i) {
 
-        QString col = newcols[2*i];
-        QString typ = newcols[2*i +1];
+        const QString col = newcols[2*i];
+        const QString typ = newcols[2*i +1];
 
         QSqlQuery query(dbinstalled);
         query.prepare("SELECT COUNT(*) AS count FROM pragma_table_info('entries') WHERE name=:col");
@@ -221,20 +220,19 @@ bool PQCValidate::validateContextMenuDatabase() {
 
                     QStringList parts = query3.value(0).toString().split(" ");
 
-                    QString cmd = parts[0];
+                    const QString cmd = parts[0];
                     parts.removeFirst();
-                    QString args = parts.join(" ");
+                    const QString args = parts.join(" ");
 
                     QString icn = PQCScriptsImages::get().getIconPathFromTheme(cmd);
                     if(icn != "")
                         icn = PQCScriptsImages::get().loadImageAndConvertToBase64(icn);
 
-                    QStringList cur;
-                    cur << cmd
-                        << args
-                        << query3.value(1).toString()
-                        << query3.value(2).toString()
-                        << icn;
+                    const QStringList cur = {cmd,
+                                             args,
+                                             query3.value(1).toString(),
+                                             query3.value(2).toString(),
+                                             icn};
 
                     lst.append(cur);
 
@@ -308,7 +306,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
         dbdefault = QSqlDatabase::addDatabase("QSQLITE", "imageformatsdefault");
 
     // open database
-    QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
+    const QString tmpfile = PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db";
     if(QFileInfo::exists(tmpfile) && !QFile::remove(tmpfile))
         qWarning() << "Error removing old tmp file";
     if(!QFile::copy(":/imageformats.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_tmp.db"))
@@ -334,8 +332,8 @@ bool PQCValidate::validateImageFormatsDatabase() {
 
     // loop over default columns and make sure they all exist in installed db
     while(query.next()) {
-        QString col = query.value(1).toString();
-        QString type = query.value(2).toString();
+        const QString col = query.value(1).toString();
+        const QString type = query.value(2).toString();
 
         QSqlQuery query2(dbinstalled);
         query2.prepare("SELECT COUNT(*) AS count FROM pragma_table_info('imageformats') WHERE name=:name");
@@ -348,7 +346,7 @@ bool PQCValidate::validateImageFormatsDatabase() {
             return false;
         }
         query2.next();
-        int c = query2.value(0).toInt();
+        const int c = query2.value(0).toInt();
 
         // if column does not exist, add it
         if(c == 0) {
@@ -782,7 +780,7 @@ bool PQCValidate::validateSettingsValues() {
     // update what needs fixing
     for(int i = 0; i < toUpdate.size(); ++i) {
 
-        QList<QVariant> lst = toUpdate.at(i);
+        const QList<QVariant> lst = toUpdate.at(i);
 
         QSqlQuery query(db);
 

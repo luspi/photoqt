@@ -28,13 +28,21 @@ class PQCMigrateSettings : public QObject {
     Q_OBJECT
 
 public:
-    static void migrate(QString oldVersion);
+    static void migrate(const QString &oldVersion, const QStringList allVersions);
 
 private:
-    static void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
-    static QVariant migrationHelperGetOldValue(QString table, QString setting);
-    static void migrationHelperRemoveValue(QString table, QString setting);
-    static void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
-    static void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
+    static void migrate491();
+    static void migrate490();
+    static void migrate480();
+    static void migrate470();
+    static void migrate450();
+    static void migrate440();
+    static void migrate400();
+
+    static void migrationHelperChangeSettingsName(const QList<QStringList> &mig);
+    static QVariant migrationHelperGetOldValue(const QString &table, const QString &setting);
+    static void migrationHelperRemoveValue(const QString &table, const QString &setting);
+    static void migrationHelperInsertValue(const QString &table, const QString &setting, const QVariantList &value);
+    static void migrationHelperSetNewValue(const QString &table, const QString &setting, const QVariant &value);
 
 };

@@ -26,6 +26,8 @@ PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
         qApp->quit();
     }
 
+    m_allVersions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2";
+
 }
 
 void PQCStartupHandler::setupDatabases() {
@@ -161,7 +163,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
     } else if(settingsChecker == PQEUpdateCheck::Update) {
 
         // do migrations
-        PQCMigrateSettings::migrate(oldSettingsVersion);
+        PQCMigrateSettings::migrate(oldSettingsVersion, m_allVersions);
         validate.validateSettingsDatabase();
         validate.validateSettingsValues();
 
@@ -233,7 +235,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
     } else if(shortcutsChecker == PQEUpdateCheck::Update) {
 
         // do migrations
-        PQCMigrateShortcuts::migrate(oldShortcutsVersion);
+        PQCMigrateShortcuts::migrate(oldShortcutsVersion, m_allVersions);
 
         validate.validateShortcutsDatabase();
 
@@ -296,6 +298,9 @@ void PQCStartupHandler::exportData(QString path) {
             return;
         }
     }
+
+    if(!path.endsWith(".pqt"))
+        path += ".pqt";
 
     // use plain cout as we don't want any log/debug info prepended
     std::cout << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;

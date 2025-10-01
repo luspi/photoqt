@@ -28,6 +28,12 @@ class PQCMigrateShortcuts : public QObject {
     Q_OBJECT
 
 public:
-    static void migrate(QString oldVersion);
+    static void migrate(const QString &oldVersion, const QStringList &allVersions);
+
+private:
+    static void migrate491();
+    static void migrate460();
+    static void migrate440();
+    static void migrate400();
 
 };
