@@ -7,6 +7,7 @@
 #include <QMessageBox>
 #include <QRadioButton>
 #include <QTimer>
+#include <QDesktopServices>
 
 // NOTE:
 // We use a Qt designer approach here (a .ui file) as this allows us to call retranslate() of the ui with ease
@@ -56,8 +57,21 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     storeTimer->setSingleShot(true);
     connect(storeTimer, &QTimer::timeout, this, &PQCWizard::storeCurrentInterface);
 
+    m_ui->radioModern->setChecked(!m_freshInstall);
+    m_ui->radioIntegrated->setChecked(m_freshInstall);
     connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "modern"; storeTimer->start(); });
     connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "integrated"; storeTimer->start(); });
+
+    m_ui->buttonWebsite->setStyleSheet("text-align:left;");
+    m_ui->buttonLicense->setStyleSheet("text-align:left;");
+    m_ui->buttonEmail->setStyleSheet("text-align:left;");
+
+    connect(m_ui->buttonWebsite, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("https://photoqt.org")); });
+    connect(m_ui->buttonLicense, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("https://www.gnu.org/licenses/old-licenses/gpl-2.0.html#SEC1")); });
+    connect(m_ui->buttonEmail, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("mailto:Lukas@PhotoQt.org?subject=Setup Wizard")); });
+
+    setButtonText(QWizard::CancelButton, QCoreApplication::translate("wizard", "Skip wizard"));
+    setButtonText(QWizard::FinishButton, QCoreApplication::translate("wizard", "Start PhotoQt"));
 
 }
 
