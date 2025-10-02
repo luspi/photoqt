@@ -51,8 +51,6 @@ Loader {
 
         property bool readyToContinueLoading: false
 
-        // PQLoader { id: masterloader }
-
         // The tray icon loads right away WITHOUT any delay.
         Loader {
             id: loader_trayicon
@@ -127,13 +125,13 @@ Loader {
         Loader {
             id: loader_filedialog_native
             anchors.fill: parent
-            active: false//PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+            active: PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
             sourceComponent: PQFileDialogNative {}
         }
 
         Loader {
             id: loader_filedialog
-            active: false//!PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+            active: !PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
             anchors.fill: parent
             sourceComponent:
             PQTemplateModal {

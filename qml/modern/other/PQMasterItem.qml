@@ -176,29 +176,6 @@ Loader {
 
         /******************************************/
 
-        // Loader {
-        //     id: loader_filedialog
-        //     active: false
-        //     anchors.fill: parent
-        //     sourceComponent: PQCSettings.filedialogUseNativeFileDialog ? comp_filedialog_native :
-        //                         ((PQCSettings.interfacePopoutFileDialog || PQCWindowGeometry.filedialogForcePopout) ?
-        //                              comp_filedialog_popout :
-        //                              comp_filedialog)
-        //     Connections {
-        //         target: PQCNotify
-        //         function onLoaderShow(ele : string) {
-        //             if(ele === "filedialog") {
-        //                 loader_filedialog.active = true
-        //                 if(!PQCSettings.interfacePopoutFileDialog || !PQCSettings.interfacePopoutFileDialogNonModal)
-        //                     PQCConstants.idOfVisibleItem = "filedialog"
-        //                 PQCNotify.loaderPassOn("show", ["filedialog"])
-        //             }
-        //         }
-        //     }
-        // }
-        // Component { id: comp_filedialog; PQFileDialog {} }
-        // Component { id: comp_filedialog_popout; PQFileDialogPopout {} }
-
         Loader {
             id: loader_filedialog
             active: false
@@ -307,7 +284,7 @@ Loader {
             }
 
             if(PQCConstants.startupFilePath === "" || (PQCFileFolderModel.firstFolderMainViewLoaded && PQCFileFolderModel.countMainView === 0)) {
-                // PQCNotify.loaderShow("FileDialog")
+                PQCNotify.loaderShow("FileDialog")
             }
 
         }
