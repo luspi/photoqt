@@ -160,7 +160,7 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout">
           <property name="spacing">
-           <number>6</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QLabel" name="label_6">
@@ -188,12 +188,12 @@
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <property name="spacing">
-           <number>6</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QPushButton" name="buttonWebsite">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -209,7 +209,7 @@
           <item>
            <widget class="QPushButton" name="buttonLicense">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -225,7 +225,7 @@
           <item>
            <widget class="QPushButton" name="buttonEmail">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Ignored">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>20</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>

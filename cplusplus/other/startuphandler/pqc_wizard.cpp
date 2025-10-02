@@ -62,6 +62,9 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "modern"; storeTimer->start(); });
     connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "integrated"; storeTimer->start(); });
 
+    m_ui->buttonWebsite->setFixedHeight(25);
+    m_ui->buttonLicense->setFixedHeight(25);
+    m_ui->buttonEmail->setFixedHeight(25);
     m_ui->buttonWebsite->setStyleSheet("text-align:left;");
     m_ui->buttonLicense->setStyleSheet("text-align:left;");
     m_ui->buttonEmail->setStyleSheet("text-align:left;");
