@@ -56,7 +56,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_location.cpp ${d}/pqc_windowgeom
 
 SET(d "cplusplus/singletons/scripts/cpp")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscolorprofiles.cpp ${d}/pqc_scriptsfilespaths.cpp ${d}/pqc_scriptsimages.cpp)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.cpp ${d}/pqc_scriptscrypt.cpp)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.cpp ${d}/pqc_scriptscrypt.cpp ${d}/pqc_scriptslocalization.cpp)
 
 SET(d "cplusplus/singletons/scripts/qml")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptschromecast.cpp ${d}/pqc_scriptsclipboard.cpp ${d}/pqc_scriptsfiledialog.cpp)
@@ -68,7 +68,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.cpp ${d}/pqc_s
 
 SET(d "cplusplus/header/scripts/cpp")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptscolorprofiles.h ${d}/pqc_scriptsfilespaths.h ${d}/pqc_scriptsimages.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptscrypt.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsmetadata.h ${d}/pqc_scriptscrypt.h ${d}/pqc_scriptslocalization.h)
 
 SET(d "cplusplus/header/scripts/qmlcpp")
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_scriptsshareimgur.h ${d}/pqc_scriptswallpaper.h)

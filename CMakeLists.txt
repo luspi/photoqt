@@ -482,11 +482,14 @@ qt_standard_project_setup(REQUIRES 6.4)
 
 qt_add_resources(photoqt_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
 
+# Add Qt Designer files (currently only one, not likely to change anytime soon)
+qt_wrap_ui(photoqt_HEADER_ui cplusplus/other/startuphandler/pqc_wizard.ui)
+set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_HEADER_ui})
+
 
 #############################
 #### Add the executable ####
 #############################
-
 
 if(WIN32)
     qt_add_executable(photoqt windowsicons.rc)
@@ -562,7 +565,6 @@ macro(pqt_target_link_libraries)
         target_link_libraries(photoqt            PRIVATE ${lnk} ${extra_lnk})
     endif()
 endmacro()
-
 
 # set the version number
 pqt_target_compile_definitions(PQMVERSION "${APPVERSION}")

@@ -153,7 +153,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     }
 
-    askForInterfaceVariant(true);
+    // askForInterfaceVariant(true);
     askForInterfaceVariant(false);
 
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {

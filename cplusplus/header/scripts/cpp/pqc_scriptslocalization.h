@@ -21,35 +21,41 @@
  **************************************************************************/
 #pragma once
 
-#include <QWizard>
-#include <QLabel>
+#include <QObject>
+#include <QMap>
 
-#include <ui_pqc_wizard.h>
+/*************************************************************/
+/*************************************************************/
+//
+// this class is used directly on from C++
+// from QML they are accessed through method in PQCScriptsConfig
+//
+/*************************************************************/
+/*************************************************************/
 
-class PQCWizard : public QWizard {
+class QTranslator;
+
+class PQCScriptsLocalization : public QObject {
 
     Q_OBJECT
 
 public:
-    PQCWizard(bool freshInstall, QWidget *parent = 0);
-    ~PQCWizard();
+    static PQCScriptsLocalization& get();
+    virtual ~PQCScriptsLocalization();
+
+    PQCScriptsLocalization(PQCScriptsLocalization const&)     = delete;
+    void operator=(PQCScriptsLocalization const&) = delete;
+
+    QStringList getAvailableTranslations();
+    void updateTranslation(QString code);
+    QString getNameForLocalizationCode(QString code);
+    QString getCurrentTranslation();
 
 private:
+    PQCScriptsLocalization();
 
-    Ui::Wizard *m_ui;
-
-    // QWizardPage *createIntroPage();
-    // QWizardPage *createInterfaceVariantPage();
-
-    QString m_selectedInterfaceVariant;
-    QStringList m_allAvailableLanguages;
-    QString m_selectedLanguage;
-
-    QTimer *storeTimer;
-    bool m_freshInstall;
-
-private Q_SLOTS:
-    void storeCurrentInterface();
-    void applyCurrentLanguage(int index);
+    QTranslator *trans;
+    QString currentTranslation;
+    QMap<QString,QString> langNames;
 
 };

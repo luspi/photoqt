@@ -81,8 +81,9 @@ public:
     Q_INVOKABLE bool isICUSupportEnabled();
 
     // other methods
-    Q_INVOKABLE QStringList getAvailableTranslations();
-    Q_INVOKABLE void updateTranslation(QString code);
+    Q_INVOKABLE QStringList getAvailableTranslations(); // passed on to PQCScriptsLocalization
+    Q_INVOKABLE void updateTranslation(QString code);   // passed on to PQCScriptsLocalization
+    Q_INVOKABLE QString getNameForLocalizationCode(QString code); // passed on to PQCScriptsLocalization
     Q_INVOKABLE QString getLastLoadedImage();
     Q_INVOKABLE void setLastLoadedImage(QString path);
     Q_INVOKABLE void deleteLastLoadedImage();
@@ -90,11 +91,6 @@ public:
     // pop up messagebox
     Q_INVOKABLE void inform(QString title, QString txt);
     Q_INVOKABLE bool askForConfirmation(QString title, QString text, QString informativeText);
-
-private:
-
-    QTranslator *trans;
-    QString currentTranslation;
 
 };
 

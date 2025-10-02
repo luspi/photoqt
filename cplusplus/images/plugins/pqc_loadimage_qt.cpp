@@ -233,7 +233,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         }
 
-        if(!imgAlreadyLoaded && reader.canRead()) {
+        if(!imgAlreadyLoaded && reader.canRead() && suffix != "jxl") {
             reader.read(&img);
             if(!img.isNull() && img.size() == origSize) {
                 colorProfileAlreadyApplied = true;

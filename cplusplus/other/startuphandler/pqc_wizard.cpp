@@ -1,90 +1,112 @@
 #include <pqc_wizard.h>
-#include <QVBoxLayout>
+#include <scripts/cpp/pqc_scriptslocalization.h>
+#include <ui_pqc_wizard.h>
+#include <QSqlQuery>
+#include <QSqlDatabase>
+#include <QSqlError>
+#include <QMessageBox>
 #include <QRadioButton>
+#include <QTimer>
 
-PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshInstall), QWizard(parent) {
+// NOTE:
+// We use a Qt designer approach here (a .ui file) as this allows us to call retranslate() of the ui with ease
+// without having to do a lot of manual legwork.
 
-    setWindowTitle("PhotoQt startup wizard");
-    setButtonText(QWizard::CancelButton, "Skip wizard");
-    setButtonText(QWizard::FinishButton, "Start PhotoQt");
+PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshInstall), QWizard(parent), m_ui(new Ui::Wizard) {
 
-    setWizardStyle(QWizard::ModernStyle);
+    m_ui->setupUi(this);
 
     QPixmap pix(":/other/logo.svg");
     setPixmap(QWizard::LogoPixmap, pix.scaledToWidth(50));
     QPixmap pixW(":/other/wizardwatermark.png");
     setPixmap(QWizard::WatermarkPixmap, pixW);
 
-    addPage(createIntroPage());
-    addPage(createInterfaceVariantPage());
+    m_allAvailableLanguages = PQCScriptsLocalization::get().getAvailableTranslations();
+    m_selectedLanguage = PQCScriptsLocalization::get().getCurrentTranslation();
+    PQCScriptsLocalization::get().updateTranslation(m_selectedLanguage);
+
+    // The combobox with all available languages
+    // The currently selected language will be pre-selected (English by default)
+    // a fresh install is easy -> we default to English
+    if(m_freshInstall) {
+        for(int i = 0; i < m_allAvailableLanguages.length(); ++i) {
+            m_ui->langCombo->addItem(PQCScriptsLocalization::get().getNameForLocalizationCode(m_allAvailableLanguages.at(i)));
+        }
+        m_ui->langCombo->setCurrentIndex(m_allAvailableLanguages.indexOf("en"));
+    // otherwise we try to load the current language and apply it.
+    } else {
+        int selectedIndex = -1;
+        for(int i = 0; i < m_allAvailableLanguages.length(); ++i) {
+            const QString l = m_allAvailableLanguages.at(i);
+            if(l == m_selectedLanguage)
+                selectedIndex = i;
+            else if(l == m_selectedLanguage.split("_").at(0))
+                selectedIndex = i;
+            m_ui->langCombo->addItem(PQCScriptsLocalization::get().getNameForLocalizationCode(l));
+        }
+        m_ui->langCombo->setCurrentIndex(selectedIndex);
+    }
+    connect(m_ui->langCombo, &QComboBox::currentIndexChanged, this, &PQCWizard::applyCurrentLanguage);
+    PQCScriptsLocalization::get().updateTranslation(m_selectedLanguage);
+    m_ui->retranslateUi(this);
+
+    m_selectedInterfaceVariant = (freshInstall ? "integrated" : "modern");
+    storeTimer = new QTimer;
+    storeTimer->setInterval(500);
+    storeTimer->setSingleShot(true);
+    connect(storeTimer, &QTimer::timeout, this, &PQCWizard::storeCurrentInterface);
+
+    connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "modern"; storeTimer->start(); });
+    connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "integrated"; storeTimer->start(); });
 
 }
 
-QWizardPage *PQCWizard::createIntroPage() {
+PQCWizard::~PQCWizard() {
+    if(storeTimer->isActive()) {
+        storeTimer->stop();
+        storeCurrentInterface();
+    }
+}
 
-    QWizardPage *page = new QWizardPage;
+void PQCWizard::storeCurrentInterface() {
 
-    if(m_freshInstall)
-        page->setTitle(tr("Welcome to PhotoQt"));
-    else
-        page->setTitle("Welcome to a new PhotoQt");
-    page->setSubTitle("PhotoQt is a simple yet powerful and good looking image viewer.");
+    QSqlQuery query(QSqlDatabase::database("settings"));
+    query.prepare("INSERT OR REPLACE INTO `general` (`name`, `value`, `datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+    query.bindValue(":val", m_selectedInterfaceVariant);
 
-    QLabel *headerLabel = new QLabel(tr("Welcome to PhotoQt. This wizard will guide you through some initial setup."));
-    QFont ft = headerLabel->font();
-    ft.setBold(true);
-    headerLabel->setFont(ft);
-    headerLabel->setWordWrap(true);
-    QLabel *topLabel = new QLabel(tr("If you don't know what to do, don't worry. Anything and everything in PhotoQt can be adjusted from its powerful settings manager at any point in time."));
-    topLabel->setWordWrap(true);
+    if(!query.exec()) {
+        qWarning() << "Unable to store interface selection:" << query.lastError().text();
+        QMessageBox::warning(this,
+                             QCoreApplication::translate("wizard", "Unable to store interface selection"),
+                             QCoreApplication::translate("wizard", "PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QCoreApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
+        return;
+    }
 
-    QLabel *txtLabel = new QLabel(tr("Thank you for using PhotoQt."));
-    txtLabel->setWordWrap(true);
-
-    QLabel *metaLabel = new QLabel(tr("Website:") + " https://photoqt.org<br>" +
-                                   tr("License:") + " GPLv2<br>" +
-                                   tr("Contact:") + " Lukas@PhotoQt.org");
-    QFont ftm = metaLabel->font();
-    ftm.setPointSize(ftm.pointSize()*0.9);
-    metaLabel->setFont(ftm);
-
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->setSpacing(10);
-    layout->addSpacing(20);
-    layout->addWidget(headerLabel);
-    layout->addWidget(topLabel);
-    layout->addWidget(txtLabel);
-    layout->addStretch();
-    layout->addWidget(metaLabel);
-    page->setLayout(layout);
-
-    return page;
+    query.clear();
 
 }
 
-QWizardPage *PQCWizard::createInterfaceVariantPage() {
+void PQCWizard::applyCurrentLanguage(int index) {
 
-    QWizardPage *page = new QWizardPage;
+    m_selectedLanguage = m_allAvailableLanguages.at(index);
 
-    page->setTitle(tr("Interface Variant"));
-    page->setSubTitle("The general type of look.");
+    QSqlQuery query(QSqlDatabase::database("settings"));
+    query.prepare("INSERT OR REPLACE INTO `interface` (`name`, `value`, `datatype`) VALUES ('Language', :val, 'string')");
+    query.bindValue(":val", m_selectedLanguage);
 
-    QLabel *topLabel = new QLabel("PhotoQt offers two types of graphical interfaces for you to choose from: You can either select a highly customizable interface that allows for a lot of styling and acts as more of a floating layer presenting your images. Or alternatively you can choose a more traditional interface that attempts to integrate nicely into whatever your system looks like.");
-    topLabel->setWordWrap(true);
+    if(!query.exec()) {
+        qWarning() << "Unable to store language:" << query.lastError().text();
+        // Don't localize the ones below as the language selection might be messed up
+        // This way we always have a usable error message in English
+        QMessageBox::warning(this,
+                             "Unable to store selected language",
+                             QString("PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QCoreApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
+        return;
+    }
 
-    QRadioButton *radioModern = new QRadioButton("customizable interface");
-    QRadioButton *radioIntegrated = new QRadioButton("integrated interface");
+    query.clear();
 
-    QLabel *botLabel = new QLabel("Note that any choice you make now is never final. You can switch the interface variant at any time from the settings manager.");
-    botLabel->setWordWrap(true);
-
-    QVBoxLayout *layout = new QVBoxLayout;
-    layout->addWidget(topLabel);
-    layout->addWidget(radioModern);
-    layout->addWidget(radioIntegrated);
-    layout->addWidget(botLabel);
-    page->setLayout(layout);
-
-    return page;
+    PQCScriptsLocalization::get().updateTranslation(m_selectedLanguage);
+    m_ui->retranslateUi(this);
 
 }

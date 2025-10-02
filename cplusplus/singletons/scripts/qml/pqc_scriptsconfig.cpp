@@ -29,12 +29,9 @@
 #include <QMessageBox>
 #include <QDirIterator>
 #include <pqc_configfiles.h>
-#include <pqc_settingscpp.h>
-#include <pqc_shortcuts.h>
-#include <pqc_validate.h>
-#include <pqc_imageformats.h>
 #include <scripts/qml/pqc_scriptsconfig.h>
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
+#include <scripts/cpp/pqc_scriptslocalization.h>
 #include <pqc_startuphandler.h>
 #include <pqc_location.h>
 #include <pqc_notify_cpp.h>
@@ -84,14 +81,9 @@
 #include <lcms2.h>
 #endif
 
-PQCScriptsConfig::PQCScriptsConfig() {
-    trans = new QTranslator;
-    currentTranslation = "en";
-}
+PQCScriptsConfig::PQCScriptsConfig() {}
 
-PQCScriptsConfig::~PQCScriptsConfig() {
-    delete trans;
-}
+PQCScriptsConfig::~PQCScriptsConfig() {}
 
 bool PQCScriptsConfig::amIOnWindows() {
 #ifdef Q_OS_WIN
@@ -560,28 +552,7 @@ QStringList PQCScriptsConfig::getAvailableTranslations() {
 
     qDebug() << "";
 
-    QStringList ret;
-
-    QStringList tmp;
-
-    // the non-translated language is English
-    tmp << "en";
-
-    QDirIterator it(":/lang");
-    while (it.hasNext()) {
-        QString file = it.next();
-        if(file.endsWith(".qm")) {
-            file = file.remove(0, 15);
-            file = file.remove(file.length()-3, file.length());
-            if(!ret.contains(file))
-                tmp.push_back(file);
-        }
-    }
-
-    tmp.sort();
-    ret.append(tmp);
-
-    return ret;
+    return PQCScriptsLocalization::get().getAvailableTranslations();
 
 }
 
@@ -589,70 +560,15 @@ void PQCScriptsConfig::updateTranslation(QString code) {
 
     qDebug() << "";
 
-    if(code == currentTranslation) {
-        qWarning() << ">>>" << code << "//" << currentTranslation;
-        return;
-    }
+    PQCScriptsLocalization::get().updateTranslation(code);
 
-    static QTranslator trans;
-    qApp->removeTranslator(&trans);
+}
 
-    const QStringList allcodes = code.split("/");
+QString PQCScriptsConfig::getNameForLocalizationCode(QString code) {
 
-    // we use this to detect whether a translation was found for the above language code
-    currentTranslation = "";
-    for(const QString &c : allcodes) {
+    qDebug() << "";
 
-        if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
-
-            qWarning() << ">>> LOADING:" << c;
-
-            if(trans.load(":/lang/photoqt_" + c)) {
-                currentTranslation = c;
-                qApp->installTranslator(&trans);
-            } else
-                qWarning() << "Unable to install translator for language code" << c;
-
-        } else if(c.contains("_")) {
-
-            const QString cc = c.split("_").at(0);
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                qWarning() << ">>> LOADING:" << cc;
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << cc;
-
-            }
-
-        } else {
-
-            const QString cc = QString("%1_%2").arg(c, c.toUpper());
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                qWarning() << ">>> LOADING:" << cc;
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << c;
-
-            }
-        }
-
-    }
-
-    // no translation found -> store selected code
-    if(currentTranslation == "")
-        currentTranslation = code;
-
-    QQmlEngine::contextForObject(this)->engine()->retranslate();
+    return PQCScriptsLocalization::get().getNameForLocalizationCode(code);
 
 }
 
