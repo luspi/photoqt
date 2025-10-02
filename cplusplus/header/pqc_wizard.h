@@ -29,10 +29,12 @@ class PQCWizard : public QWizard {
     Q_OBJECT
 
 public:
-    PQCWizard(QWidget *parent = 0);
+    PQCWizard(bool freshInstall, QWidget *parent = 0);
 
 private:
     QWizardPage *createIntroPage();
     QWizardPage *createInterfaceVariantPage();
+
+    bool m_freshInstall;
 
 };

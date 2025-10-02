@@ -52,6 +52,6 @@ public:
 private:
     QStringList m_allVersions;
 
-    void askForInterfaceVariant();
+    void askForInterfaceVariant(bool freshInstall);
 
 };

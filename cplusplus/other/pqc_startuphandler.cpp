@@ -153,12 +153,15 @@ void PQCStartupHandler::performChecksAndUpdates() {
 
     }
 
+    askForInterfaceVariant(true);
+    askForInterfaceVariant(false);
+
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
         setupFresh();
         setupDatabases();   // ... again.
 
-        askForInterfaceVariant();
+        askForInterfaceVariant(true);
 
         // WE CAN STOP HERE!
         return;
@@ -171,7 +174,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
         validate.validateSettingsValues();
 
         if(oldSettingsVersion.startsWith("4") || oldSettingsVersion.startsWith("3"))
-            askForInterfaceVariant();
+            askForInterfaceVariant(false);
 
     }
 
@@ -503,11 +506,11 @@ void PQCStartupHandler::showInfo() {
 /**************************************************************/
 /**************************************************************/
 
-void PQCStartupHandler::askForInterfaceVariant() {
+void PQCStartupHandler::askForInterfaceVariant(bool freshInstall) {
 
     qDebug() << "";
 
-    PQCWizard wizard;
+    PQCWizard wizard(freshInstall);
     wizard.exec();
 
 }

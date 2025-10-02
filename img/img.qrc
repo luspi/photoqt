@@ -207,5 +207,6 @@
         <file>dark/select.svg</file>
         <file>dark/draghandler.svg</file>
         <file>light/draghandler.svg</file>
+        <file>other/wizardwatermark.png</file>
     </qresource>
 </RCC>
