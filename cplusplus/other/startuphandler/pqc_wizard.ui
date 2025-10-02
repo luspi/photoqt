@@ -66,17 +66,7 @@
       <item>
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string comment="wizard">If you don't know what to do, don't worry. Anything and everything in PhotoQt can be adjusted from its powerful settings manager at any point in time.</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string comment="wizard">Thank you for using PhotoQt.</string>
+         <string comment="wizard">If you don't know what to do, don't worry. Anything and everything in PhotoQt can be adjusted from its powerful settings manager.</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
