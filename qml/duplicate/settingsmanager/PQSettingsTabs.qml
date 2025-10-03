@@ -621,7 +621,8 @@ Item {
                 }
 
                 property list<var> entries: [
-                    ["othe", qsTranslate("settingsmanager", "Other")],
+                    ["fidi", qsTranslate("settingsmanager", "File dialog")],
+                    ["slsh", qsTranslate("settingsmanager", "Slideshow")]
                 ]
 
                 Repeater {
