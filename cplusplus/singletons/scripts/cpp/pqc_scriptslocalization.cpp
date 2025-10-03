@@ -79,10 +79,10 @@ QStringList PQCScriptsLocalization::getAvailableTranslations() {
 
 void PQCScriptsLocalization::updateTranslation(QString code) {
 
-    qDebug() << "";
+    qDebug() << "args: code =" << code;
 
     if(code == currentTranslation) {
-        qWarning() << ">>>" << code << "//" << currentTranslation;
+        qDebug() << "Translation already set.";
         return;
     }
 
@@ -97,8 +97,6 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
 
         if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
 
-            qWarning() << ">>> LOADING:" << c;
-
             if(trans.load(":/lang/photoqt_" + c)) {
                 currentTranslation = c;
                 qApp->installTranslator(&trans);
@@ -110,8 +108,6 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
             const QString cc = c.split("_").at(0);
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                qWarning() << ">>> LOADING:" << cc;
 
                 if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;
@@ -126,8 +122,6 @@ void PQCScriptsLocalization::updateTranslation(QString code) {
             const QString cc = QString("%1_%2").arg(c, c.toUpper());
 
             if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                qWarning() << ">>> LOADING:" << cc;
 
                 if(trans.load(":/lang/photoqt_" + cc)) {
                     currentTranslation = cc;

@@ -17,7 +17,7 @@
    <enum>QWizard::WizardStyle::ModernStyle</enum>
   </property>
   <property name="options">
-   <set>QWizard::WizardOption::NoCancelButtonOnLastPage</set>
+   <set>QWizard::WizardOption::NoBackButtonOnStartPage</set>
   </property>
   <widget class="QWizardPage" name="wizardPage1">
    <property name="title">
@@ -332,6 +332,11 @@
         </item>
         <item>
          <widget class="QLabel" name="label_13">
+          <property name="font">
+           <font>
+            <bold>true</bold>
+           </font>
+          </property>
           <property name="text">
            <string>Note that any choice you make now is never final. You can switch the interface variant at any time from the settings manager.</string>
           </property>
