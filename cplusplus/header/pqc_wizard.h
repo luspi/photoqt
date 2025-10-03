@@ -38,18 +38,13 @@ private:
 
     Ui::Wizard *m_ui;
 
-    // QWizardPage *createIntroPage();
-    // QWizardPage *createInterfaceVariantPage();
-
-    QString m_selectedInterfaceVariant;
     QStringList m_allAvailableLanguages;
     QString m_selectedLanguage;
 
-    QTimer *storeTimer;
     bool m_freshInstall;
 
 private Q_SLOTS:
-    void storeCurrentInterface();
+    void storeCurrentInterface(QString variant);
     void applyCurrentLanguage(int index);
 
 };

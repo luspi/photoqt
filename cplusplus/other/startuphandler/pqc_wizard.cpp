@@ -51,16 +51,11 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     PQCScriptsLocalization::get().updateTranslation(m_selectedLanguage);
     m_ui->retranslateUi(this);
 
-    m_selectedInterfaceVariant = (freshInstall ? "integrated" : "modern");
-    storeTimer = new QTimer;
-    storeTimer->setInterval(500);
-    storeTimer->setSingleShot(true);
-    connect(storeTimer, &QTimer::timeout, this, &PQCWizard::storeCurrentInterface);
-
     m_ui->radioModern->setChecked(!m_freshInstall);
     m_ui->radioIntegrated->setChecked(m_freshInstall);
-    connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "modern"; storeTimer->start(); });
-    connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { m_selectedInterfaceVariant = "integrated"; storeTimer->start(); });
+    connect(m_ui->radioModern, &QRadioButton::toggled, [=](bool checked) { storeCurrentInterface("modern"); });
+    connect(m_ui->radioIntegrated, &QRadioButton::toggled, [=](bool checked) { storeCurrentInterface("integrated"); });
+    storeCurrentInterface(freshInstall ? "integrated" : "modern");
 
     m_ui->buttonWebsite->setFixedHeight(25);
     m_ui->buttonLicense->setFixedHeight(25);
@@ -78,18 +73,13 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
 
 }
 
-PQCWizard::~PQCWizard() {
-    if(storeTimer->isActive()) {
-        storeTimer->stop();
-        storeCurrentInterface();
-    }
-}
+PQCWizard::~PQCWizard() {}
 
-void PQCWizard::storeCurrentInterface() {
+void PQCWizard::storeCurrentInterface(QString variant) {
 
     QSqlQuery query(QSqlDatabase::database("settings"));
     query.prepare("INSERT OR REPLACE INTO `general` (`name`, `value`, `datatype`) VALUES ('InterfaceVariant', :val, 'string')");
-    query.bindValue(":val", m_selectedInterfaceVariant);
+    query.bindValue(":val", variant);
 
     if(!query.exec()) {
         qWarning() << "Unable to store interface selection:" << query.lastError().text();
