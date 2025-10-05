@@ -34,6 +34,7 @@ Rectangle {
     property alias content: cont.sourceComponent
 
     property bool letElementHandleClosing: false
+    property bool dontAnimateFirstShow: false
 
     property alias button1: firstbutton
     property alias button2: secondbutton
@@ -60,7 +61,7 @@ Rectangle {
     SystemPalette { id: pqtPalette }
 
     opacity: 0
-    Behavior on opacity { NumberAnimation { duration: 200 } }
+    Behavior on opacity { NumberAnimation { duration: dontAnimateFirstShow ? 0 : 200 } }
     visible: opacity>0
     enabled: visible
 
@@ -258,6 +259,7 @@ Rectangle {
         PQCNotify.loaderRegisterOpen(element_top.elementId)
         opacity = 1
         cont.item.showing()
+        dontAnimateFirstShow = false
     }
 
     function _hide() {

@@ -203,6 +203,7 @@ Loader {
                 onShowing: tmpl.showing()
                 onHiding: tmpl.hiding()
                 showTopBottom: false
+                dontAnimateFirstShow: true
                 content: PQFileDialog {
                     id: tmpl
                     button1: smmod.button1
