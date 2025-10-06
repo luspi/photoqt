@@ -46,6 +46,11 @@ class PQCScriptsChromeCastQML : public QObject {
 
 public:
     explicit PQCScriptsChromeCastQML() {
+
+        m_inDiscovery = false;
+        m_connected = false;
+        m_curDeviceName = "";
+
         connect(&PQCScriptsChromeCast::get(), &PQCScriptsChromeCast::availableDevicesChanged, this, [=]() {
             m_availableDevices = PQCScriptsChromeCast::get().getAvailableDevices();
             Q_EMIT availableDevicesChanged();
