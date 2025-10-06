@@ -24,7 +24,6 @@ import QtQuick
 import QtQuick.Dialogs
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
-import PQCImageFormats
 
 Item {
 

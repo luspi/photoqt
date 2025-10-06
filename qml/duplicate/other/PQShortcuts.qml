@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQml
-import PQCImageFormats
 import PQCExtensionsHandler
 import PQCLocation
 import PQCScriptsShareImgur

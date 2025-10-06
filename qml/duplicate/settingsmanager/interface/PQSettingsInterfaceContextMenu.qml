@@ -23,7 +23,6 @@
 import QtQuick
 import QtCore
 import PhotoQt.CPlusPlus
-import PQCImageFormats
 import "../../other/PQCommonFunctions.js" as PQF
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 

@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Dialogs
-import PQCImageFormats
 
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake

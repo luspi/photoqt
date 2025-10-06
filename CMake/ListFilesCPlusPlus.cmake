@@ -25,7 +25,7 @@ SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_settingscpp.h ${d}/pqc_notify.h 
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_validate.h ${d}/pqc_mpvobject.h ${d}/pqc_migrateshortcuts.h ${d}/pqc_wizard.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_filefoldermodelcache.h ${d}/pqc_providerfolderthumb.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_printtabimageoptions.h ${d}/pqc_printtabimagepositiontile.h ${d}/pqc_httpreplytimeout.h)
-SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_filefoldermodelCPP.h)
+SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_localhttpserver.h ${d}/pqc_filefoldermodelCPP.h ${d}/pqc_imageformats_qml.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_photosphere.h ${d}/pqc_photosphereitem.h ${d}/pqc_photosphererenderer.h)
 SET(photoqt_SOURCES ${photoqt_SOURCES} ${d}/pqc_extensionshandler.h ${d}/pqc_extensionsettings.h ${d}/pqc_notify_cpp.h)
 

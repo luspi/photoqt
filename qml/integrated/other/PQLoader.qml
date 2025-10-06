@@ -23,7 +23,6 @@
 import QtQuick
 import PhotoQt.CPlusPlus
 import PhotoQt.Integrated
-import PQCImageFormats
 import PQCExtensionsHandler
 
 Item {
