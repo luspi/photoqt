@@ -134,22 +134,29 @@ Item {
 
     Component.onCompleted: {
 
-        if(PQCConstants.startupFilePath !== "") {
+        var fpath = PQCConstants.startupFilePath
+        if(fpath === "")
+            fpath = PQCFileFolderModel.currentFile
+
+        if(fpath !== "") {
 
             var img = repeaterimage.itemAt(0)
 
-            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath) && PQCFileFolderModel.countMainView === 0)) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0)) {
                 loadFirstImage.counter = 0
                 loadFirstImage.start()
                 return
             }
 
-            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
-                PQCConstants.startupFilePath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+            if(PQCScriptsFilesPaths.isFolder(fpath))
+                fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
-            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFilePath).toLocaleString()
-            img.imageSource = PQCConstants.startupFilePath
+            if(PQCConstants.startupFilePath !== "")
+                PQCConstants.startupFilePath = fpath
+
+            img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
+            img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
+            img.imageSource = fpath
             img.thisIsStartupFile = true
 
         }
@@ -161,19 +168,27 @@ Item {
         interval: 10
         property int counter: 0
         onTriggered: {
+
+            var fpath = PQCConstants.startupFilePath
+            if(fpath === "")
+                fpath = PQCFileFolderModel.currentFile
+
             var img = repeaterimage.itemAt(0)
-            if(img === null || (PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
+            if(img === null || (PQCScriptsFilesPaths.isFolder(fpath) && PQCFileFolderModel.countMainView === 0 && counter < 50)) {
                 counter += 1
                 loadFirstImage.restart()
                 return
             }
 
-            if(PQCScriptsFilesPaths.isFolder(PQCConstants.startupFilePath))
-                PQCConstants.startupFilePath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
+            if(PQCScriptsFilesPaths.isFolder(fpath))
+                fpath = (PQCFileFolderModel.countMainView > 0 ? PQCFileFolderModel.entriesMainView[0] : "")
 
-            img.containingFolder = PQCScriptsFilesPaths.getDir(PQCConstants.startupFilePath)
-            img.lastModified = PQCScriptsFilesPaths.getFileModified(PQCConstants.startupFilePath).toLocaleString()
-            img.imageSource = PQCConstants.startupFilePath
+            if(PQCConstants.startupFilePath !== "")
+                PQCConstants.startupFilePath = fpath
+
+            img.containingFolder = PQCScriptsFilesPaths.getDir(fpath)
+            img.lastModified = PQCScriptsFilesPaths.getFileModified(fpath).toLocaleString()
+            img.imageSource = fpath
             img.thisIsStartupFile = true
 
         }
