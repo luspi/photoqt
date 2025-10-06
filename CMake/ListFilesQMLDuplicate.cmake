@@ -21,9 +21,6 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileViewList.qml ${d}/
 SET(d "qml/duplicate/filedialog/parts/fileviews/parts")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFolderThumb.qml ${d}/PQFileThumb.qml ${d}/PQFileIcon.qml)
 
-SET(d "qml/duplicate/filedialog/parts/popout")
-SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFileDialogPopout.qml)
-
 SET(d "qml/duplicate/actions")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQFilter.qml ${d}/PQSlideshowSetup.qml ${d}/PQAdvancedSort.qml ${d}/PQAbout.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQChromeCastManager.qml)

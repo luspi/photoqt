@@ -42,6 +42,3 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMe
 
 SET(d "qml/modern/actions")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQDelete.qml ${d}/PQCopy.qml ${d}/PQMove.qml ${d}/PQRename.qml)
-
-SET(d "qml/modern/actions/popout")
-SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQDeletePopout.qml ${d}/PQRenamePopout.qml)
