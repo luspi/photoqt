@@ -19,38 +19,34 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCONTEXTMENU_H
-#define PQCSCRIPTSCONTEXTMENU_H
+#pragma once
 
 #include <QSqlDatabase>
 #include <QObject>
-#include <QtQmlIntegration>
 
 class PQCScriptsContextMenu : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
     static PQCScriptsContextMenu& get() {
         static PQCScriptsContextMenu instance;
         return instance;
     }
-    ~PQCScriptsContextMenu();
 
-    PQCScriptsContextMenu(PQCScriptsContextMenu const&)     = delete;
+    PQCScriptsContextMenu(PQCScriptsContextMenu const&) = delete;
     void operator=(PQCScriptsContextMenu const&) = delete;
 
-    Q_INVOKABLE QVariantList getEntries();
-    Q_INVOKABLE void setEntries(QVariantList entries);
+    QVariantList getEntries();
+    void setEntries(QVariantList entries);
 
-    Q_INVOKABLE QVariantList detectSystemEntries();
+    QVariantList detectSystemEntries();
 
-    Q_INVOKABLE void closeDatabase();
+    void closeDatabase();
 
 private:
     PQCScriptsContextMenu();
+    ~PQCScriptsContextMenu();
 
     QSqlDatabase db;
 
@@ -58,5 +54,3 @@ Q_SIGNALS:
     void customEntriesChanged();
 
 };
-
-#endif

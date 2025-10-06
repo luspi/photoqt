@@ -33,13 +33,13 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-PQCScriptsMetaData::PQCScriptsMetaData() {
-
+PQCScriptsMetaData &PQCScriptsMetaData::get() {
+    static PQCScriptsMetaData instance;
+    return instance;
 }
 
-PQCScriptsMetaData::~PQCScriptsMetaData() {
-
-}
+PQCScriptsMetaData::PQCScriptsMetaData() {}
+PQCScriptsMetaData::~PQCScriptsMetaData() {}
 
 QString PQCScriptsMetaData::analyzeDateTimeOriginal(const QString val) {
 
@@ -487,7 +487,7 @@ QString PQCScriptsMetaData::convertGPSDecimalToDegree(double lat, double lon) {
     // find seconds
     double lat_sec = qRound((lat_min_full-lat_min)*60*1e3)/1e3;
     double lon_sec = qRound((lon_min_full-lon_min)*60*1e3)/1e3;
-    
+
     // assemble final string
     ret = QString("%1° %2' %3''%4, %5° %6' %7''%8").arg(lat_deg).arg(lat_min).arg(lat_sec).arg(lat_dir)
                                                    .arg(lon_deg).arg(lon_min).arg(lon_sec).arg(lon_dir);

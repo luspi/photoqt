@@ -24,15 +24,14 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Window
-import PQCFileFolderModel
-import PQCScriptsConfig
-import PhotoQt
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern
 
 Item {
 
     id: wb_top
 
-    x: PQCConstants.windowWidth-width-distanceFromEdge
+    x: PQCConstants.availableWidth-width-distanceFromEdge
 
     Behavior on y { NumberAnimation { duration: (PQCSettings.interfaceWindowButtonsAutoHide || PQCSettings.interfaceWindowButtonsAutoHideTopEdge || wb_top.movedByMouse) ? 200 : 0 } }
     Behavior on x { NumberAnimation { duration: (wb_top.movedByMouse) ? 200 : 0 } }
@@ -40,6 +39,8 @@ Item {
     property bool movedByMouse: false
     property int distanceFromEdge: 5
     property bool nearTopEdge: false
+
+    SystemPalette { id: pqtPalette }
 
     // this is set to false in a timer at the end to blend in the status info once properly positioned
     property bool hideAtStartup: true
@@ -52,7 +53,7 @@ Item {
     // this is needed in quite a few places
     // having it here once simplifies the code below quite a bit
     property string iconSourcePrefix: "image:/" + (PQCSettings.interfaceWindowButtonsFollowAccentColor ?
-                                                       ("/svgcolor/" + PQCLook.baseColor + ":://::") :
+                                                       ("/svgcolor/" + pqtPalette.base + ":://::") :
                                                        "/svg/")
 
     onXChanged: {
@@ -83,7 +84,7 @@ Item {
 
     onStateChanged: {
         if(state === "hidden" && menu.item !== null)
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss()
     }
 
     states: [
@@ -118,7 +119,7 @@ Item {
         acceptedButtons: Qt.AllButtons
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() // qmllint disable missing-property
+                menu.item.popup()
         }
     }
 
@@ -206,7 +207,7 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/" + "leftarrow.svg"
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+            enabled: PQCFileFolderModel.countMainView>0
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (left_mouse.containsMouse ? 1 : 0.8) : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0 && !PQCConstants.slideshowRunning
@@ -224,7 +225,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__prev") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__prev")
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -281,7 +282,7 @@ Item {
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
             source: wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/rightarrow.svg"
-            enabled: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+            enabled: PQCFileFolderModel.countMainView>0
             opacity: PQCConstants.modalWindowOpen||PQCConstants.slideshowRunning ? 0 : (enabled ? (right_mouse.containsMouse ? 1 : 0.8) : 0.5)
             Behavior on opacity { NumberAnimation { duration: 200 } }
             visible: opacity > 0
@@ -299,7 +300,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__next") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__next")
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -376,7 +377,7 @@ Item {
                 }
                 function executeClick(button : int) {
                     if(button === Qt.LeftButton)
-                        PQCNotify.executeInternalCommand("__toggleMainMenu") // qmllint disable unqualified
+                        PQCScriptsShortcuts.executeInternalCommand("__toggleMainMenu")
                     else if(button === Qt.RightButton)
                         menu.item.popup()
                 }
@@ -606,7 +607,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.setWindowState(Window.Minimized)
                     else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup()
                 }
             }
 
@@ -659,7 +660,7 @@ Item {
             width: 3*PQCSettings.interfaceWindowButtonsSize
             height: 3*PQCSettings.interfaceWindowButtonsSize
             sourceSize: Qt.size(width, height)
-            source: PQCScriptsConfig.amIOnWindows() ? // qmllint disable unqualified
+            source: PQCScriptsConfig.amIOnWindows() ?
                         (PQCConstants.windowState===Window.Windowed ?
                              (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-maximize.svg") :
                              (wb_top.iconSourcePrefix + ":/" + PQCLook.iconShade + "/windows-restore.svg")) :
@@ -691,7 +692,7 @@ Item {
                         else
                             PQCNotify.setWindowState(Window.Windowed)
                     } else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup()
                 }
             }
 
@@ -765,7 +766,7 @@ Item {
                     if(button === Qt.LeftButton)
                         PQCNotify.windowClose()
                     else if(button === Qt.RightButton)
-                        menu.item.popup() // qmllint disable missing-property
+                        menu.item.popup()
                 }
             }
 
@@ -897,21 +898,21 @@ Item {
                     text: qsTranslate("settingsmanager", "Manage in settings manager")
                     iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                     onTriggered: {
-                        PQCNotify.onOpenSettingsManagerAt("showSettings", "windowbuttons")
+                        PQCNotify.openSettingsManagerAt("showSettings", "windowbuttons")
                     }
                 }
 
                 onAboutToHide:
                     recordAsClosed.restart()
                 onAboutToShow:
-                    PQCConstants.addToWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                    PQCConstants.addToWhichContextMenusOpen("windowbuttons")
 
                 Timer {
                     id: recordAsClosed
                     interval: 200
                     onTriggered: {
                         if(!menucomponent.visible)
-                            PQCConstants.removeFromWhichContextMenusOpen("windowbuttons") // qmllint disable unqualified
+                            PQCConstants.removeFromWhichContextMenusOpen("windowbuttons")
                     }
                 }
             }
@@ -919,7 +920,7 @@ Item {
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotify
 
         function onMouseMove(posx, posy) {
 
@@ -945,7 +946,7 @@ Item {
         }
 
         function onCloseAllContextMenus() {
-            menu.item.dismiss() // qmllint disable missing-property
+            menu.item.dismiss()
         }
 
     }

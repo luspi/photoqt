@@ -18,9 +18,7 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
 
     settingname = name.last(name.size()-tablename.size());
 
-    QSqlQuery query(dbDefault);
-    if(name.startsWith("extensions"))
-        query = QSqlQuery(db);
+    QSqlQuery query(QSqlDatabase::database("defaultsettings"));
     query.prepare(QString("SELECT datatype FROM `%1` WHERE `name`=:nme").arg(tablename));
     query.bindValue(":nme", settingname);
     if(!query.exec()) {

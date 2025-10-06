@@ -27,6 +27,8 @@
 #include <QSettings>
 #include <QScreen>
 #include <clocale>
+#include <QSqlError>
+#include <QSqlQuery>
 
 #ifdef PQMEXIV2
 #ifdef PQMEXIV2_ENABLE_BMFF
@@ -41,9 +43,8 @@
 
 #include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
-#include <pqc_startup.h>
 #include <pqc_validate.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_messagehandler.h>
 #include <pqc_imageformats.h>
 #include <pqc_providericon.h>
@@ -56,20 +57,13 @@
 #include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
 #include <pqc_providersvgcolor.h>
-#include <pqc_filefoldermodel.h>
-#include <pqc_resolutioncache.h>
 #include <pqc_location.h>
-#include <pqc_photosphere.h>
-#include <scripts/pqc_scriptsconfig.h>
-#include <scripts/pqc_scriptsfilespaths.h>
-#include <scripts/pqc_scriptsimages.h>
-#include <scripts/pqc_scriptsmetadata.h>
-#include <scripts/pqc_scriptscontextmenu.h>
-#include <scripts/pqc_scriptscrypt.h>
-#include <scripts/pqc_scriptsshareimgur.h>
-#include <scripts/pqc_scriptsundo.h>
-#include <scripts/pqc_scriptscolorprofiles.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <pqc_extensionshandler.h>
+#include <pqc_extensionsettings.h>
+#include <pqc_look.h>
+#include <pqc_startuphandler.h>
+#include <pqc_settingscpp.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -82,8 +76,6 @@
 #ifdef PQMLIBVIPS
 #include <vips/vips8>
 #endif
-
-#include <pqc_mpvobject.h>
 
 #ifdef PQMEXIV2
 #include <exiv2/exiv2.hpp>
@@ -119,6 +111,11 @@ int main(int argc, char *argv[]) {
     // This allows for semi-transparent windows
     // By default Qt6 uses Direct3D which does not seem to support this
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
+#ifndef PQMPORTABLETWEAKS
+    // this is used, for exmaple, to add a directory for checking for extensions
+    QFileInfo f(argv[0]);
+    qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
+#endif
 #endif
 
 #ifdef PQMPORTABLETWEAKS
@@ -136,9 +133,14 @@ int main(int argc, char *argv[]) {
         dir.mkdir(folder);
 #endif
     } else {
+        QFileInfo f(argv[0]);
         qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
     }
 #endif
+
+    // this is used, for exmaple, to add a directory for
+    QFileInfo f(argv[0]);
+    qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
 
     // avoids warning for customizing native styles (observed in particular on Windows)
     qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
@@ -165,8 +167,17 @@ int main(int argc, char *argv[]) {
     }
 #endif
 
+    /******************************************/
+
     // only a single instance
     PQCSingleInstance app(argc, argv);
+
+    /******************************************/
+    // we take care of any startup checks and potential migrations
+
+    PQCStartupHandler startupHandler;
+
+    /******************************************/
 
 #ifdef PQMVIDEOMPV
     // Qt sets the locale in the QGuiApplication constructor, but libmpv
@@ -176,12 +187,12 @@ int main(int argc, char *argv[]) {
 
 #ifdef PQMEXIV2
 #if EXIV2_TEST_VERSION(0, 28, 0)
-        // In this case Exiv2::enableBMFF() defaults to true
-        // and the call to it is deprecated
+    // In this case Exiv2::enableBMFF() defaults to true
+    // and the call to it is deprecated
 #else
-#ifdef PQMEXIV2_ENABLE_BMFF
-    Exiv2::enableBMFF(true);
-#endif
+    #ifdef PQMEXIV2_ENABLE_BMFF
+        Exiv2::enableBMFF(true);
+    #endif
 #endif
 #endif
 
@@ -191,36 +202,49 @@ int main(int argc, char *argv[]) {
 #endif
 #endif
 
-    PQCStartup startup;
-    PQCValidate validate;
-
     // handle export/import commands
     if(app.exportAndQuit != "") {
-        startup.exportData(app.exportAndQuit);
-        std::exit(0);
+        startupHandler.exportData(app.exportAndQuit);
+        return 0;
     } else if(app.importAndQuit != "") {
-        startup.importData(app.importAndQuit);
-        std::exit(0);
+        startupHandler.importData(app.importAndQuit);
+        return 0;
     } else if(app.checkConfig) {
+        startupHandler.setupDatabases();
+        PQCValidate validate;
         validate.validate();
-        std::exit(0);
+        return 0;
     } else if(app.resetConfig) {
-        startup.resetToDefaults();
-        std::exit(0);
+        startupHandler.resetToDefaults();
+        return 0;
     } else if(app.showInfo) {
-        startup.showInfo();
-        std::exit(0);
+        startupHandler.showInfo();
+        return 0;
     }
 
-    // perform some startup checks
-    // return 1 on updates and 2 on fresh installs
-    const int checker = startup.check();
-    PQCNotify::get().setStartupCheck(checker);
+    // setting up databases needs to happen here for the Release build
+    startupHandler.setupDatabases();
+    startupHandler.performChecksAndUpdates();
 
-    // update or fresh install?
-    if(checker == 1)
-        validate.validate();
+    /***************************************/
+    // figure out modern vs integrated without use of PQCSettings
 
+    bool useModernInterface = (startupHandler.getInterfaceVariant()=="modern");
+
+    if(app.forceModernInterface || app.forceIntegratedInterface) {
+        useModernInterface = !app.forceIntegratedInterface;
+        QSqlDatabase dbtmp = QSqlDatabase::database("settings");
+        QSqlQuery query(dbtmp);
+        query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
+        query.bindValue(":val", (useModernInterface ? "modern" : "integrated"));
+        if(!query.exec())
+            qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
+        query.clear();
+        dbtmp.close();
+        PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
+    }
+
+    /***************************************/
 
     // Get screenshots for fake transparency
     bool success = true;
@@ -234,7 +258,9 @@ int main(int argc, char *argv[]) {
             break;
         }
     }
-    PQCNotify::get().setHaveScreenshots(success);
+    PQCNotifyCPP::get().setHaveScreenshots(success);
+
+    /***************************************/
 
 // only one of them will be defined at a time
 #if defined(PQMGRAPHICSMAGICK) || defined(PQMIMAGEMAGICK)
@@ -255,27 +281,11 @@ int main(int argc, char *argv[]) {
     VIPS_INIT(argv[0]);
 #endif
 
+    /***************************************/
+
     QQmlApplicationEngine engine;
+
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
-
-    // These only need to be imported where needed
-    qmlRegisterSingletonInstance("PQCImageFormats", 1, 0, "PQCImageFormats", &PQCImageFormats::get());
-    qmlRegisterSingletonInstance("PQCFileFolderModel", 1, 0, "PQCFileFolderModel", &PQCFileFolderModel::get());
-    qmlRegisterSingletonInstance("PQCScriptsConfig", 1, 0, "PQCScriptsConfig", &PQCScriptsConfig::get());
-    qmlRegisterSingletonInstance("PQCScriptsFilesPaths", 1, 0, "PQCScriptsFilesPaths", &PQCScriptsFilesPaths::get());
-    qmlRegisterSingletonInstance("PQCScriptsImages", 1, 0, "PQCScriptsImages", &PQCScriptsImages::get());
-    qmlRegisterSingletonInstance("PQCScriptsMetaData", 1, 0, "PQCScriptsMetaData", &PQCScriptsMetaData::get());
-    qmlRegisterSingletonInstance("PQCScriptsContextMenu", 1, 0, "PQCScriptsContextMenu", &PQCScriptsContextMenu::get());
-    qmlRegisterSingletonInstance("PQCResolutionCache", 1, 0, "PQCResolutionCache", &PQCResolutionCache::get());
-    qmlRegisterSingletonInstance("PQCScriptsCrypt", 1, 0, "PQCScriptsCrypt", &PQCScriptsCrypt::get());
-    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
-    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
-    qmlRegisterSingletonInstance("PQCScriptsUndo", 1, 0, "PQCScriptsUndo", &PQCScriptsUndo::get());
-    qmlRegisterSingletonInstance("PQCScriptsColorProfiles", 1, 0, "PQCScriptsColorProfiles", &PQCScriptsColorProfiles::get());
-    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
-
-    // these are used pretty much everywhere, this avoids having to import it everywhere
-    engine.rootContext()->setContextProperty("PQCNotify", &PQCNotify::get());
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);
@@ -288,23 +298,30 @@ int main(int argc, char *argv[]) {
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
 
-    // if PHOTOSPHERE support is disabled, then this is an empty object
-    qmlRegisterType<PQCPhotoSphere>("PQCPhotoSphere", 1, 0, "PQCPhotoSphere");
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
-    // if MPV support is disabled, then this is an empty object
-    qmlRegisterType<PQCMPVObject>("PQCMPVObject", 1, 0, "PQCMPVObject");
+    // the extension settings item
+    qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 
-    // we stick with load() instead of loadFromModule() as this keeps compatibility with Qt 6.4
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
-    engine.loadFromModule("PhotoQt", "PQMainWindowModern");
+    if(useModernInterface)
+        engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
+    else
+        engine.loadFromModule("PhotoQt.Integrated", "PQMainWindow");
 #else
     // In Qt 6.4 this path is not automatically added as import path meaning without this PhotoQt wont find any of its modules
     // We also cannot use loadFromModule() as that does not exist yet.
     engine.addImportPath(":/");
-    engine.load("qrc:/PhotoQt/qml/PQMainWindowModern.qml");
+    if(useModernInterface)
+        engine.load("qrc:/PhotoQt/Modern/qml/modern/PQMainWindow.qml");
+    else
+        engine.load("qrc:/PhotoQt/Integrated/qml/integrated/PQMainWindow.qml");
 #endif
 
-    int ret = app.exec();
+    int currentExitCode = app.exec();
 
 #ifdef PQMFREEIMAGE
     FreeImage_DeInitialise();
@@ -314,6 +331,6 @@ int main(int argc, char *argv[]) {
     vips_shutdown();
 #endif
 
-    return ret;
+    return currentExitCode;
 
 }

@@ -76,8 +76,11 @@ def get():
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 #include <QQmlPropertyMap>
+#include <QPoint>
+#include <QSize>
+#include <QTimer>
 
 class PQCSettings : public QObject {
 
@@ -88,10 +91,7 @@ class PQCSettings : public QObject {
 public:
     explicit PQCSettings(bool validateonly);
     explicit PQCSettings();
-    ~PQCSettings();
-
-    // extensions settings
-    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)"""
+    ~PQCSettings();"""
 
     cont_HEADER += "\n"
 
@@ -134,8 +134,6 @@ public:
         cont_HEADER += "\n"
 
     cont_HEADER += """
-    Q_INVOKABLE QVariant getDefaultForExtension(const QString &key);
-
     void setDefault();
     void setDefaultFor(QString key);
 
@@ -150,13 +148,12 @@ public:
 
     bool validateSettingsDatabase(bool skipDBHandling = false);
     bool validateSettingsValues(bool skipDBHandling = false);
-    int migrate(QString oldversion = "");
     void setupFresh();
 
     void updateFromCommandLine();
 
 public Q_SLOTS:
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:"""
 
@@ -195,26 +192,13 @@ private:"""
     cont_HEADER += """
 
     QStringList dbtables;
-    QSqlDatabase db;
-    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
-    QQmlPropertyMap *m_extensions;
-    QVariantHash m_extensions_defaults;
-
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
-    void saveChangedExtensionValue(const QString &key, const QVariant &value);
 
-    void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
-    QVariant migrationHelperGetOldValue(QString table, QString setting);
-    void migrationHelperRemoveValue(QString table, QString setting);
-    void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
-    void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
-
-Q_SIGNALS:
-    void extensionsChanged();"""
+Q_SIGNALS:"""
 
     for tab in dbtables:
 

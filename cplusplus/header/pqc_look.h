@@ -25,7 +25,8 @@
 
 #include <QObject>
 #include <QHash>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
+#include <QPalette>
 
 /*************************************************************/
 /*************************************************************/
@@ -52,44 +53,17 @@ public:
     QString getIconShade();
 
     /******************************************************/
-
-    Q_PROPERTY(QString baseColor READ getBaseColor WRITE setBaseColor NOTIFY baseColorChanged)
-    Q_PROPERTY(QString baseColorAccent MEMBER m_baseColorAccent NOTIFY baseColorAccentChanged)
-    Q_PROPERTY(QString baseColorHighlight MEMBER m_baseColorHighlight NOTIFY baseColorHighlightChanged)
-    Q_PROPERTY(QString baseColorActive MEMBER m_baseColorActive NOTIFY baseColorActiveChanged)
-    void setBaseColor(QString val);
-    QString getBaseColor();
-
     /******************************************************/
 
-    Q_PROPERTY(QString inverseColor MEMBER m_inverseColor NOTIFY inverseColorChanged)
-    Q_PROPERTY(QString inverseColorAccent MEMBER m_inverseColorAccent NOTIFY inverseColorAccentChanged)
-    Q_PROPERTY(QString inverseColorHighlight MEMBER m_inverseColorHighlight NOTIFY inverseColorHighlightChanged)
-    Q_PROPERTY(QString inverseColorActive MEMBER m_inverseColorActive NOTIFY inverseColorActiveChanged)
+    Q_PROPERTY(QString baseBorder MEMBER m_baseBorder NOTIFY baseBorderChanged)
+    Q_PROPERTY(QString highlightedText MEMBER m_highlightedText NOTIFY highlightedTextChanged)
+    Q_PROPERTY(QString highlight MEMBER m_highlight NOTIFY highlightChanged)
+    Q_PROPERTY(QString tooltipText MEMBER m_tooltipText NOTIFY tooltipTextChanged)
+    Q_PROPERTY(QString tooltipBase MEMBER m_tooltipBase NOTIFY tooltipBaseChanged)
+    Q_PROPERTY(QString tooltipBorder MEMBER m_tooltipBorder NOTIFY tooltipBorderChanged)
+    Q_PROPERTY(QString brightText MEMBER m_brightText NOTIFY brightTextChanged)
 
     /******************************************************/
-
-    Q_PROPERTY(QString faintColor MEMBER m_faintColor NOTIFY faintColorChanged)
-    Q_PROPERTY(QString transColor MEMBER m_transColor NOTIFY transColorChanged)
-    Q_PROPERTY(QString transColorAccent MEMBER m_transColorAccent NOTIFY transColorAccentChanged)
-    Q_PROPERTY(QString transColorHighlight MEMBER m_transColorHighlight NOTIFY transColorHighlightChanged)
-    Q_PROPERTY(QString transColorActive MEMBER m_transColorActive NOTIFY transColorActiveChanged)
-
-    /******************************************************/
-
-    Q_PROPERTY(QString transInverseColor MEMBER m_transInverseColor NOTIFY transInverseColorChanged)
-
-    /******************************************************/
-
-    Q_PROPERTY(QString textColor MEMBER m_textColor NOTIFY textColorChanged)
-    Q_PROPERTY(QString textColorDisabled MEMBER m_textColorDisabled NOTIFY textColorDisabledChanged)
-
-    /******************************************************/
-
-    Q_PROPERTY(QString textInverseColor MEMBER m_textInverseColor NOTIFY textInverseColorChanged)
-    Q_PROPERTY(QString textInverseColorHighlight MEMBER m_textInverseColorHighlight NOTIFY textInverseColorHighlightChanged)
-    Q_PROPERTY(QString textInverseColorActive MEMBER m_textInverseColorActive NOTIFY textInverseColorActiveChanged)
-
     /******************************************************/
 
     Q_PROPERTY(int fontSize READ getFontSize WRITE setFontSize NOTIFY fontSizeChanged)
@@ -110,36 +84,21 @@ public:
 
     Q_INVOKABLE QStringList getColorNames();
     Q_INVOKABLE QStringList getColorHexes();
+    Q_INVOKABLE void testColor(QString color);
 
 private:
     int lightness_threshold;
 
     QString m_iconShade;
+    QString m_highlightedText;
+    QString m_highlight;
+    QString m_baseBorder;
+    QString m_tooltipText;
+    QString m_tooltipBase;
+    QString m_tooltipBorder;
+    QString m_brightText;
 
-    QString m_baseColor;
-    QString m_baseColorAccent;
-    QString m_baseColorHighlight;
-    QString m_baseColorActive;
-
-    QString m_inverseColor;
-    QString m_inverseColorAccent;
-    QString m_inverseColorHighlight;
-    QString m_inverseColorActive;
-
-    QString m_faintColor;
-    QString m_transColor;
-    QString m_transColorAccent;
-    QString m_transColorHighlight;
-    QString m_transColorActive;
-
-    QString m_transInverseColor;
-
-    QString m_textColor;
-    QString m_textColorDisabled;
-
-    QString m_textInverseColor;
-    QString m_textInverseColorHighlight;
-    QString m_textInverseColorActive;
+    QPalette m_pal;
 
     int m_fontSize;
     int m_fontSizeS;
@@ -153,32 +112,9 @@ private:
     QStringList colorNames;
     QStringList colorHexes;
 
+    bool m_interfaceModernVariant;
+
 Q_SIGNALS:
-    void baseColorChanged();
-    void baseColorAccentChanged();
-    void baseColorHighlightChanged();
-    void baseColorActiveChanged();
-
-    void inverseColorChanged();
-    void inverseColorAccentChanged();
-    void inverseColorHighlightChanged();
-    void inverseColorActiveChanged();
-
-    void faintColorChanged();
-    void transColorChanged();
-    void transColorAccentChanged();
-    void transColorHighlightChanged();
-    void transColorActiveChanged();
-
-    void transInverseColorChanged();
-
-    void textColorChanged();
-    void textColorDisabledChanged();
-
-    void textInverseColorChanged();
-    void textInverseColorHighlightChanged();
-    void textInverseColorActiveChanged();
-
     void fontSizeChanged();
     void fontSizeSChanged();
     void fontSizeLChanged();
@@ -189,6 +125,13 @@ Q_SIGNALS:
     void fontWeightNormalChanged();
 
     void iconShadeChanged();
+    void highlightedTextChanged();
+    void highlightChanged();
+    void baseBorderChanged();
+    void tooltipTextChanged();
+    void tooltipBaseChanged();
+    void tooltipBorderChanged();
+    void brightTextChanged();
 
 };
 

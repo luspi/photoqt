@@ -19,144 +19,99 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCNOTIFY_H
-#define PQCNOTIFY_H
+#pragma once
 
 #include <QObject>
 #include <QMutex>
 #include <QMap>
 #include <QQmlEngine>
 
+#include <pqc_notify_cpp.h>
+
+/********************************************/
+//
+// This class is ONLY available from QML.
+// It is used for two things:
+//
+//  1) QML elements talking to each other
+//  2) signal from PQCNotify are picked up and emitted again from a pure QML context
+//
+// This approach allows for much better AOT compilation and much better performance
+//
+/********************************************/
+
 class PQCNotify : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCNotify& get();
+    PQCNotify() {
 
-    PQCNotify(PQCNotify const&)     = delete;
-    void operator=(PQCNotify const&) = delete;
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyPress, this, &PQCNotify::keyPress);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::keyRelease, this, &PQCNotify::keyRelease);
 
-    /******************************************************/
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::mouseWindowEnter, this, &PQCNotify::mouseWindowEnter);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::mouseWindowExit, this, &PQCNotify::mouseWindowExit);
 
-    Q_PROPERTY(QString filePath READ getFilePath WRITE setFilePath NOTIFY filePathChanged)
-    void setFilePath(QString val);
-    Q_INVOKABLE QString getFilePath();
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::showNotificationMessage, this, &PQCNotify::showNotificationMessage);
 
-    /******************************************************/
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdOpen, this, &PQCNotify::cmdOpen);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShow, this, &PQCNotify::cmdShow);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdHide, this, &PQCNotify::cmdHide);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdQuit, this, &PQCNotify::cmdQuit);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdToggle, this, &PQCNotify::cmdToggle);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShortcutSequence, this, &PQCNotify::cmdShortcutSequence);
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdTray, this, &PQCNotify::cmdTray);
 
-    Q_PROPERTY(bool debug READ getDebug WRITE setDebug NOTIFY debugChanged)
-    void setDebug(bool val);
-    Q_INVOKABLE bool getDebug();
+        connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
 
-    /******************************************************/
-
-    // used to show 'welcome' screen if this seems to be a new install
-    Q_PROPERTY(bool freshInstall READ getFreshInstall WRITE setFreshInstall NOTIFY freshInstallChanged)
-    void setFreshInstall(bool val);
-    Q_INVOKABLE bool getFreshInstall();
-
-    /******************************************************/
-
-    Q_PROPERTY(int thumbs READ getThumbs WRITE setThumbs NOTIFY thumbsChanged)
-    void setThumbs(int val);
-    Q_INVOKABLE int getThumbs();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool startInTray READ getStartInTray WRITE setStartInTray NOTIFY startInTrayChanged)
-    void setStartInTray(bool val);
-    Q_INVOKABLE bool getStartInTray();
-
-    /******************************************************/
-
-    Q_PROPERTY(bool modalFileDialogOpen READ getModalFileDialogOpen WRITE setModalFileDialogOpen NOTIFY modalFileDialogOpenChanged)
-    void setModalFileDialogOpen(bool val);
-    Q_INVOKABLE bool getModalFileDialogOpen();
-
-    /******************************************************/
-
-    Q_PROPERTY(QString debugLogMessages READ getDebugLogMessages WRITE setDebugLogMessages NOTIFY debugLogMessagesChanged)
-    void setDebugLogMessages(QString val);
-    Q_INVOKABLE QString getDebugLogMessages();
-    void addDebugLogMessages(QString val);
-
-    /******************************************************/
-
-    Q_PROPERTY(bool haveScreenshots READ getHaveScreenshots WRITE setHaveScreenshots NOTIFY haveScreenshotsChanged)
-    void setHaveScreenshots(bool val);
-    Q_INVOKABLE bool getHaveScreenshots();
-
-    /******************************************************/
-
-    Q_PROPERTY(QStringList settingUpdate READ getSettingUpdate WRITE setSettingUpdate NOTIFY settingUpdateChanged)
-    void setSettingUpdate(QStringList val);
-    Q_INVOKABLE QStringList getSettingUpdate();
-
-    /******************************************************/
-
-    Q_PROPERTY(int startupCheck READ getStartupCheck WRITE setStartupCheck NOTIFY startupCheckChanged)
-    void setStartupCheck(int val);
-    Q_INVOKABLE int getStartupCheck();
-
-    /******************************************************/
-
-    void setColorProfileFor(QString path, QString val);
-    Q_INVOKABLE QString getColorProfileFor(QString path);
-
-    /******************************************************/
-
-private:
-    PQCNotify(QObject *parent = 0) : QObject(parent) {
-        m_filepath = "";
-        m_debug = false;
-        m_freshInstall = false;
-        m_startInTray = false;
-        m_thumbs = 2;
-        m_modalFileDialogOpen = false;
-        m_debugLogMessages = "";
-        m_haveScreenshots = false;
-        m_settingUpdate.clear();
-        m_startupCheck = 0;
-        m_colorProfiles.clear();
     }
-    // these are used at startup
-    // afterwards we only listen to the signals
-    QString m_filepath;
-    bool m_debug;
-    bool m_freshInstall;
-    int m_thumbs;
-    bool m_startInTray;
 
-    QString m_debugLogMessages;
-    QMutex addDebugLogMessageMutex;
-
-    bool m_modalFileDialogOpen;
-
-    bool m_haveScreenshots;
-    QStringList m_settingUpdate;
-
-    int m_startupCheck;
-
-    QMap<QString, QString> m_colorProfiles;
+    ~PQCNotify() {}
 
 Q_SIGNALS:
 
-    // some c++ specific signals
-    void disableColorSpaceSupport();
+    // These signals are THE ONLY ONES that are passed from QML to C++
+    // Calling these triggers the respective call in PQCNotifyCPP.
+    void resetSessionData();
 
-    // startup properties changes
+    /**********************************************************/
+    // These signals are received from C++ via PQCNotify
+    // They are assumed to not to be called from QML.
+
+    // key/shortcuts related
+    void keyPress(int key, int modifiers);
+    void keyRelease(int key, int modifiers);
+
+    // enter/leave main window
+    void mouseWindowExit();
+    void mouseWindowEnter();
+
+    // command line signals, received from C++ via PQCNotify
+    void cmdOpen();
+    void cmdShow();
+    void cmdHide();
+    void cmdQuit();
+    void cmdToggle();
+    void cmdShortcutSequence(QString seq);
+    void cmdTray(bool tray);
+
+    // there are a few more indicated below that are picked up from PQCNotify
+    // but that also are called from QML to QML
+
+    /**********************************************************/
+
+    // Q_PROPERTY SIGNALS
     void filePathChanged();
     void debugChanged();
-    void freshInstallChanged();
-    void thumbsChanged();
+    void debugLogMessagesChanged();
     void startInTrayChanged();
-    void settingUpdateChanged();
-    void startupCheckChanged();
+    void haveScreenshotsChanged();
+    void haveSettingUpdateChanged();
 
     // some window states control from QML
-    void modalFileDialogOpenChanged();
     void setWindowState(int state);
     void windowRaiseAndFocus();
     void windowClose();
@@ -166,41 +121,35 @@ Q_SIGNALS:
     void photoQtQuit();
 
     // some image signals
-    void currentImageFinishedLoading(QString src);
     void enterPhotoSphere();
     void exitPhotoSphere();
     void currentViewFlick(QString direction);
     void currentViewMove(QString direction);
+    void currentFlickableSetContentX(int x);
+    void currentFlickableSetContentY(int y);
+    void currentFlickableReturnToBounds();
+    void currentFlickableAnimateContentPosChange(double propX, double propY);
     void currentImageDetectBarCodes();
     void currentArchiveCloseCombo();
     void currentVideoJump(int s);
+    void currentVideoToPos(int pos);
+    void currentVideoMuteUnmute();
+    void currentVideoControlsResetPosition();
     void currentAnimatedJump(int leftright);
     void currentDocumentJump(int leftright);
+    void currentDocumentControlsResetPosition();
     void currentArchiveJump(int leftright);
+    void currentArchiveJumpTo(int index);
     void currentImageReload();
+    void currentAnimatedSaveFrame();
+    void currentFaceTagsReload();
+    void stopFaceTagging();
+    void newImageHasBeenDisplayed();
 
     // context menu properties
     void closeAllContextMenus();
-
-    // command line signals
-    void cmdOpen();
-    void cmdShow();
-    void cmdHide();
-    void cmdQuit();
-    void cmdToggle();
-    void cmdShortcutSequence(QString seq);
-    void cmdTray(bool tray);
-
-    // reset methods
-    void resetSettingsToDefault();
-    void resetShortcutsToDefault();
-    void resetFormatsToDefault();
-    void resetSessionData();
-
-    // key/shortcuts related
-    void keyPress(int key, int modifiers);
-    void keyRelease(int key, int modifiers);
-    void executeInternalCommand(QString cmd);
+    void showMinimapContextMenu(bool vis);
+    void showVideoControlsContextMenu(bool vis);
 
     // these are called by various qml elements to trigger mouse shortcuts
     void mouseWheel(QPointF pos, QPointF angleDelta, int modifiers);
@@ -208,16 +157,33 @@ Q_SIGNALS:
     void mouseReleased(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
     void mouseMove(double x, double y);
     void mouseDoubleClicked(Qt::KeyboardModifiers modifiers, Qt::MouseButton button, QPointF pos);
-    void mouseWindowExit();
-    void mouseWindowEnter();
+
+    // file dialog methods
+    void filedialogReloadCurrentThumbnail();
+    void filedialogLoadNewPath(QString path);
+    void filedialogReloadPlaces();
+    void filedialogClose();
+    void filedialogSelectAll(bool sel);
+    void filedialogDeleteFiles();
+    void filedialogCutFiles(bool forceSelection);
+    void filedialogCopyFiles(bool forceSelection);
+    void filedialogPasteFiles();
+    void filedialogTweaksSetFiletypesButtonText(QString txt);
+    void filedialogGoBackInHistory();
+    void filedialogGoForwardsInHistory();
+    void filedialogShowAddressEdit(bool edit);
 
     // other
-    void showNotificationMessage(QString title, QString msg);
-    void haveScreenshotsChanged();
-    void debugLogMessagesChanged();
-    void colorProfilesChanged();
+    void showNotificationMessage(QString title, QString msg); // -> also picked up from PQCNotify
+    void currentImageLoadedAndDisplayed(QString filename);
     void openSettingsManagerAt(QString category, QString subcategory);
     void playPauseAnimationVideo();
+    void showToolTip(QString txt, QPoint mouseXY);
+    void hideToolTip(QString txt);
+    void thumbnailReloadImage(int index);
+    void elementSignal(QString elementId, QString what);
+    void resetActiveFocus();
+    void settingsmanagerSendCommand(QString what, QVariantList args);
 
     // slideshow
     void slideshowHideHandler();
@@ -231,11 +197,9 @@ Q_SIGNALS:
     void loaderSetup(QString ele);
     void loaderSetupExtension(QString ele);
     void loaderPassOn(QString what, QVariantList args);
+    void loaderRegisterOpen(QString ele);
     void loaderRegisterClose(QString ele);
     void loaderOverrideVisibleItem(QString ele);
     void loaderRestoreVisibleItem();
 
 };
-
-
-#endif // PQCNotify_H

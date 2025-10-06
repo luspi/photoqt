@@ -25,52 +25,50 @@
 
 #include <QObject>
 #include <QJSValue>
-#include <QtQmlIntegration>
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
+#include <QQmlEngine>
 
 class PQCScriptsOther : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    PQCScriptsOther();
-    ~PQCScriptsOther();
+    static PQCScriptsOther& get() {
+        static PQCScriptsOther instance;
+        return instance;
+    }
+
+    PQCScriptsOther(PQCScriptsOther const&)     = delete;
+    void operator=(PQCScriptsOther const&) = delete;
 
     // screenshot handling
-    Q_INVOKABLE void deleteScreenshots();
+    void deleteScreenshots();
 
     // get methods
-    Q_INVOKABLE qint64 getTimestamp();
-    Q_INVOKABLE QString getUniqueId();
-    Q_INVOKABLE int getCurrentScreen(QPoint pos);
+    qint64 getTimestamp();
+    QString getUniqueId();
+    int getCurrentScreen(QPoint pos);
 
     // print a file
-    Q_INVOKABLE void printFile(QString filename);
+    void printFile(QString filename);
 
     // color handling
-    Q_INVOKABLE QString addAlphaToColor(QString rgb, int alpha);
-    Q_INVOKABLE QVariantList convertHexToRgba(QString hex);
-    Q_INVOKABLE QString convertRgbaToHex(QVariantList rgba);
-    Q_INVOKABLE QString convertRgbToHex(QVariantList rgb);
-    Q_INVOKABLE QVariantList selectColor(QVariantList def);
+    QString addAlphaToColor(QString rgb, int alpha);
+    QVariantList convertHexToRgba(QString hex);
+    QString convertRgbaToHex(QVariantList rgba);
+    QString convertRgbToHex(QVariantList rgb);
+    QVariantList selectColor(QVariantList def);
 
     // global methods
-    Q_INVOKABLE void setPointingHandCursor();
-    Q_INVOKABLE void restoreOverrideCursor();
-    Q_INVOKABLE bool showDesktopNotification(QString summary, QString txt);
+    void setPointingHandCursor();
+    void restoreOverrideCursor();
+    bool showDesktopNotification(QString summary, QString txt);
 
     // QML convenience methods
-    Q_INVOKABLE QStringList convertJSArrayToStringList(QVariant val);
+    QStringList convertJSArrayToStringList(QVariant val);
+
+private:
+    PQCScriptsOther();
+    ~PQCScriptsOther();
 
 };
 

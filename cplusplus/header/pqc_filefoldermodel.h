@@ -28,7 +28,9 @@
 #include <QTimer>
 #include <QMimeDatabase>
 #include <QSize>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
+
+#include <pqc_filefoldermodelCPP.h>
 
 class QSize;
 class QFileSystemWatcher;
@@ -36,14 +38,11 @@ class QFileSystemWatcher;
 class PQCFileFolderModel : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
     QML_SINGLETON
 
 public:
-    static PQCFileFolderModel& get();
-
-    PQCFileFolderModel(PQCFileFolderModel const&)     = delete;
-    void operator=(PQCFileFolderModel const&) = delete;
-
+    PQCFileFolderModel(QObject *parent = 0);
     ~PQCFileFolderModel();
 
     /********************************************/
@@ -56,6 +55,10 @@ public:
     Q_PROPERTY(QString folderFileDialog READ getFolderFileDialog WRITE setFolderFileDialog NOTIFY folderFileDialogChanged)
     QString getFolderFileDialog();
     void setFolderFileDialog(QString val);
+
+    Q_PROPERTY(bool firstFolderMainViewLoaded READ getFirstFolderMainViewLoaded WRITE setFirstFolderMainViewLoaded NOTIFY firstFolderMainViewLoadedChanged)
+    bool getFirstFolderMainViewLoaded();
+    void setFirstFolderMainViewLoaded(bool val);
 
     /********************************************/
     /********************************************/
@@ -172,11 +175,12 @@ public:
     QString getArcFile();
 
     Q_PROPERTY(bool justLeftViewerMode MEMBER m_justLeftViewerMode NOTIFY justLeftViewerModeChanged)
+    Q_PROPERTY(bool activeViewerMode MEMBER m_activeViewerMode NOTIFY activeViewerModeChanged)
 
     /********************************************/
     /********************************************/
 
-    Q_INVOKABLE void advancedSortMainView();
+    Q_INVOKABLE void advancedSortMainView(QString advSortCriteria, bool advSortAscending, QString advSortQuality, QStringList advDateCriteria);
     Q_INVOKABLE void advancedSortMainViewCANCEL();
     Q_INVOKABLE void forceReloadMainView();
     Q_INVOKABLE void forceReloadFileDialog();
@@ -195,15 +199,15 @@ public:
     /********************************************/
 
 private:
-    PQCFileFolderModel(QObject *parent = 0);
-
     PQCFileFolderModelCache cache;
 
     QFileSystemWatcher *watcherMainView;
     QFileSystemWatcher *watcherFileDialog;
 
+
     QString m_fileInFolderMainView;
     QString m_folderFileDialog;
+    bool m_firstFolderMainViewLoaded;
     int m_countMainView;
     int m_countFoldersFileDialog;
     int m_countFilesFileDialog;
@@ -225,6 +229,7 @@ private:
     qint64 m_fileSizeFilter;
     bool m_filterCurrentlyActive;
     bool m_justLeftViewerMode;
+    bool m_activeViewerMode;
 
     int m_currentIndex;
     int m_currentIndexNoDelay;
@@ -282,6 +287,7 @@ Q_SIGNALS:
     void entriesMainViewChanged();
     void entriesFileDialogChanged();
     void fileInFolderMainViewChanged();
+    void firstFolderMainViewLoadedChanged();
     void folderFileDialogChanged();
     void nameFiltersChanged();
     void restrictToSuffixesChanged();
@@ -308,6 +314,7 @@ Q_SIGNALS:
     void arcNameChanged();
     void arcFileChanged();
     void justLeftViewerModeChanged();
+    void activeViewerModeChanged();
 
 };
 

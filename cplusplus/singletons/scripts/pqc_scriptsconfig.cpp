@@ -27,17 +27,14 @@
 #include <QImageReader>
 #include <QQmlContext>
 #include <QMessageBox>
+#include <QDirIterator>
 #include <pqc_configfiles.h>
-#include <pqc_settingscpp.h>
-#include <pqc_shortcuts.h>
-#include <pqc_validate.h>
-#include <pqc_imageformats.h>
 #include <scripts/pqc_scriptsconfig.h>
-#include <scripts/pqc_scriptscontextmenu.h>
-#include <scripts/pqc_scriptsshareimgur.h>
-#include <pqc_startup.h>
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
+#include <scripts/pqc_scriptslocalization.h>
+#include <pqc_startuphandler.h>
 #include <pqc_location.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 
 #ifdef WIN32
 #include <WinSock2.h>
@@ -84,14 +81,9 @@
 #include <lcms2.h>
 #endif
 
-PQCScriptsConfig::PQCScriptsConfig() {
-    trans = new QTranslator;
-    currentTranslation = "en";
-}
+PQCScriptsConfig::PQCScriptsConfig() {}
 
-PQCScriptsConfig::~PQCScriptsConfig() {
-    delete trans;
-}
+PQCScriptsConfig::~PQCScriptsConfig() {}
 
 bool PQCScriptsConfig::amIOnWindows() {
 #ifdef Q_OS_WIN
@@ -161,6 +153,10 @@ QString PQCScriptsConfig::getConfigInfo(bool formatHTML) {
 
 #ifdef PQMDEVIL
     txt += QString(" - %1DevIL%2: %3%4").arg(bold1, bold2).arg(IL_VERSION).arg(nl);
+#endif
+
+#ifdef PQMLIBSAI
+    txt += QString(" - %1LibSai%2%3").arg(bold1, bold2).arg(nl);
 #endif
 
 #ifdef PQMLOCATION
@@ -552,99 +548,6 @@ QString PQCScriptsConfig::getVersion() {
     return PQMVERSION;
 }
 
-QStringList PQCScriptsConfig::getAvailableTranslations() {
-
-    qDebug() << "";
-
-    QStringList ret;
-
-    QStringList tmp;
-
-    // the non-translated language is English
-    tmp << "en";
-
-    QDirIterator it(":/lang");
-    while (it.hasNext()) {
-        QString file = it.next();
-        if(file.endsWith(".qm")) {
-            file = file.remove(0, 15);
-            file = file.remove(file.length()-3, file.length());
-            if(!ret.contains(file))
-                tmp.push_back(file);
-        }
-    }
-
-    tmp.sort();
-    ret.append(tmp);
-
-    return ret;
-
-}
-
-void PQCScriptsConfig::updateTranslation() {
-
-    qDebug() << "";
-
-    QString code = PQCSettingsCPP::get().getInterfaceLanguage();
-    if(code == currentTranslation)
-        return;
-
-    static QTranslator trans;
-    qApp->removeTranslator(&trans);
-
-    const QStringList allcodes = code.split("/");
-
-    // we use this to detect whether a translation was found for the above language code
-    currentTranslation = "";
-    for(const QString &c : allcodes) {
-
-        if(QFile(":/lang/photoqt_" + c + ".qm").exists()) {
-
-            if(trans.load(":/lang/photoqt_" + c)) {
-                currentTranslation = c;
-                qApp->installTranslator(&trans);
-            } else
-                qWarning() << "Unable to install translator for language code" << c;
-
-        } else if(c.contains("_")) {
-
-            const QString cc = c.split("_").at(0);
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << cc;
-
-            }
-
-        } else {
-
-            const QString cc = QString("%1_%2").arg(c, c.toUpper());
-
-            if(QFile(":/lang/photoqt_" + cc + ".qm").exists()) {
-
-                if(trans.load(":/lang/photoqt_" + cc)) {
-                    currentTranslation = cc;
-                    qApp->installTranslator(&trans);
-                } else
-                    qWarning() << "Unable to install translator for language code" << c;
-
-            }
-        }
-
-    }
-
-    // no translation found -> store selected code
-    if(currentTranslation == "")
-        currentTranslation = code;
-
-    QQmlEngine::contextForObject(this)->engine()->retranslate();
-
-}
-
 bool PQCScriptsConfig::isBetaVersion() {
     return QString(PQMVERSION).contains("-beta");
 }
@@ -694,7 +597,7 @@ bool PQCScriptsConfig::isICUSupportEnabled() {
 
 void PQCScriptsConfig::callStartupSetupFresh() {
 
-    PQCStartup startup;
+    PQCStartupHandler startup;
     startup.setupFresh();
 
 }

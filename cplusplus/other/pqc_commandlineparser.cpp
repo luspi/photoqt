@@ -81,7 +81,11 @@ PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) :
                    //: Command line option
         {"reset-config", QApplication::translate("commandlineparser", "Reset default configuration.")},
                    //: Command line option
-        {"show-info", QApplication::translate("commandlineparser", "Show configuration overview.")}
+        {"show-info", QApplication::translate("commandlineparser", "Show configuration overview.")},
+                   //: Command line option
+        {"modern", QApplication::translate("commandlineparser", "Launch with modern interface.")},
+                   //: Command line option
+        {"integrated", QApplication::translate("commandlineparser", "Launch with integrated interface.")}
     });
 
     process(app);
@@ -158,6 +162,12 @@ PQCCommandLineResult PQCCommandLineParser::getResult() {
 
     if(isSet("show-info"))
         ret = ret|PQCCommandLineShowInfo;
+
+    if(isSet("modern"))
+        ret = ret|PQCCommandLineModernInterface;
+
+    if(isSet("integrated"))
+        ret = ret|PQCCommandLineIntegratedInterface;
 
     if(isSet("setting")) {
         const QStringList tmp = value("setting").split(":");

@@ -40,148 +40,156 @@ public:
     PQCImageFormats(PQCImageFormats const&)     = delete;
     void operator=(PQCImageFormats const&) = delete;
 
-    Q_INVOKABLE void readDatabase() {
+    void readDatabase() {
         readFromDatabase();
     }
 
-    Q_INVOKABLE QVariantList getAllFormats() {
+    QVariantList getAllFormats() {
         return formats;
     }
-    Q_INVOKABLE void setAllFormats(QVariantList f) {
+    void setAllFormats(QVariantList f) {
         writeToDatabase(f);
     }
 
-    Q_INVOKABLE QStringList getEnabledFormats() {
+    QStringList getEnabledFormats() {
         return formats_enabled;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypes() {
+    QStringList getEnabledMimeTypes() {
         return mimetypes_enabled;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsQt() {
+    QStringList getEnabledFormatsQt() {
         return formats_qt;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesQt() {
+    QStringList getEnabledMimeTypesQt() {
         return mimetypes_qt;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsResvg() {
+    QStringList getEnabledFormatsResvg() {
         return formats_resvg;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesResvg() {
+    QStringList getEnabledMimeTypesResvg() {
         return mimetypes_resvg;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsLibVips() {
+    QStringList getEnabledFormatsLibVips() {
         return formats_libvips;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesLibVips() {
+    QStringList getEnabledMimeTypesLibVips() {
         return mimetypes_libvips;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsMagick() {
+    QStringList getEnabledFormatsMagick() {
         return formats_magick;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesMagick() {
+    QStringList getEnabledMimeTypesMagick() {
         return mimetypes_magick;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsLibRaw() {
+    QStringList getEnabledFormatsLibRaw() {
         return formats_libraw;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesLibRaw() {
+    QStringList getEnabledMimeTypesLibRaw() {
         return mimetypes_libraw;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsPoppler() {
+    QStringList getEnabledFormatsPoppler() {
         return formats_poppler;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesPoppler() {
+    QStringList getEnabledMimeTypesPoppler() {
         return mimetypes_poppler;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsXCFTools() {
+    QStringList getEnabledFormatsXCFTools() {
         return formats_xcftools;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesXCFTools() {
+    QStringList getEnabledMimeTypesXCFTools() {
         return mimetypes_xcftools;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsDevIL() {
+    QStringList getEnabledFormatsDevIL() {
         return formats_devil;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesDevIL() {
+    QStringList getEnabledMimeTypesDevIL() {
         return mimetypes_devil;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsFreeImage() {
+    QStringList getEnabledFormatsFreeImage() {
         return formats_freeimage;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesFreeImage() {
+    QStringList getEnabledMimeTypesFreeImage() {
         return mimetypes_freeimage;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsLibArchive() {
+    QStringList getEnabledFormatsLibArchive() {
         return formats_archive;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesLibArchive() {
+    QStringList getEnabledMimeTypesLibArchive() {
         return mimetypes_archive;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsVideo() {
+    QStringList getEnabledFormatsVideo() {
         return formats_video;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesVideo() {
+    QStringList getEnabledMimeTypesVideo() {
         return mimetypes_video;
     }
 
-    Q_INVOKABLE QStringList getEnabledFormatsLibmpv() {
+    QStringList getEnabledFormatsLibmpv() {
         return formats_libmpv;
     }
 
-    Q_INVOKABLE QStringList getEnabledMimeTypesLibmpv() {
+    QStringList getEnabledMimeTypesLibmpv() {
         return mimetypes_libmpv;
     }
 
-    Q_INVOKABLE QVariantHash getMagick() {
+    QStringList getEnabledFormatsLibsai() {
+        return formats_libsai;
+    }
+
+    QStringList getEnabledMimeTypesLibsai() {
+        return mimetypes_libsai;
+    }
+
+    QVariantHash getMagick() {
         return magick;
     }
 
-    Q_INVOKABLE QVariantHash getMagickMimeType() {
+    QVariantHash getMagickMimeType() {
         return magick_mimetype;
     }
 
-    Q_INVOKABLE int getEnabledFormatsNum() {
+    int getEnabledFormatsNum() {
         return formats_enabled.count();
     }
 
-    Q_INVOKABLE QVariantList getWriteableFormats();
-    Q_INVOKABLE QString getFormatName(int uniqueid);
-    Q_INVOKABLE QStringList getFormatEndings(int uniqueid);
+    QVariantList getWriteableFormats();
+    QString getFormatName(int uniqueid);
+    QStringList getFormatEndings(int uniqueid);
     QVariantMap getFormatsInfo(int uniqueid);
-    Q_INVOKABLE int detectFormatId(QString filename);
-    Q_INVOKABLE int getWriteStatus(int uniqueid);
+    int detectFormatId(QString filename);
+    int getWriteStatus(int uniqueid);
 
-    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
-    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
+    bool updateFormatByEnding(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
 
-    Q_INVOKABLE void closeDatabase();
-    Q_INVOKABLE void reopenDatabase();
+    void closeDatabase();
+    void reopenDatabase();
 
 public Q_SLOTS:
-    Q_INVOKABLE void restoreDefaults();
+    void resetToDefault();
 
 Q_SIGNALS:
     void formatsUpdated();
@@ -225,6 +233,8 @@ private:
     QStringList mimetypes_video;
     QStringList formats_libmpv;
     QStringList mimetypes_libmpv;
+    QStringList formats_libsai;
+    QStringList mimetypes_libsai;
 
     QVariantHash magick;
     QVariantHash magick_mimetype;

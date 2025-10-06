@@ -114,7 +114,7 @@
     <releases>
         <release version="4.9.2" date="2025-06-26">
             <description>
-                On the way to 5.0, the existing code has undergone some significant restructuring and profiling. Instead of keeping all of these performance improvements and bug fixes for v5.0, another minor release, v4.9.2, provides access to these changes much earlier.
+                <p>On the way to 5.0, the existing code has undergone some significant restructuring and profiling. Instead of keeping all of these performance improvements and bug fixes for v5.0, another minor release, v4.9.2, provides access to these changes much earlier.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.9.2
@@ -122,7 +122,7 @@
         </release>
         <release version="4.9.1" date="2025-05-06">
             <description>
-                PhotoQt 4.9 had a lot of exciting changes and additions. Unfortunately there were also some bugs that slipped through. This release, v4.9.1, fixes a whole range of them making PhotoQt better than ever before.
+                <p>PhotoQt 4.9 had a lot of exciting changes and additions. Unfortunately there were also some bugs that slipped through. This release, v4.9.1, fixes a whole range of them making PhotoQt better than ever before.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.9.1
@@ -130,7 +130,7 @@
         </release>
         <release version="4.9" date="2025-04-23">
             <description>
-                A new release for PhotoQt is ready with a bunch of additions and improvements and several bug fixes. This is a very exciting release, as there are some very exciting changes packed in it. Looking ahead, some big changes are in the works for v5.0.
+                <p>A new release for PhotoQt is ready with a bunch of additions and improvements and several bug fixes. This is a very exciting release, as there are some very exciting changes packed in it. Looking ahead, some big changes are in the works for v5.0.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.9
@@ -138,7 +138,7 @@
         </release>
         <release version="4.8.1" date="2025-02-13">
             <description>
-                This new release of PhotoQt comes not long after the last one. It does not have any major additions, but comes with a bunch of small bug fixes, some smaller improvements, and a few small additions.
+                <p>This new release of PhotoQt comes not long after the last one. It does not have any major additions, but comes with a bunch of small bug fixes, some smaller improvements, and a few small additions.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.8.1
@@ -146,7 +146,7 @@
         </release>
         <release version="4.8" date="2025-01-25">
             <description>
-                Another release is ready, v4.9, once again packed with new features, improvements, and bug fixes. Some of the new features will make the experience of using PhotoQt noticeably better.
+                <p>Another release is ready, v4.9, once again packed with new features, improvements, and bug fixes. Some of the new features will make the experience of using PhotoQt noticeably better.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.8
@@ -154,7 +154,7 @@
         </release>
         <release version="4.7" date="2024-11-29">
             <description>
-                After a short break due to a big move across continents, PhotoQt is back with a new release full of exciting additions, many quality of life improvements, and also some bug fixes.
+                <p>After a short break due to a big move across continents, PhotoQt is back with a new release full of exciting additions, many quality of life improvements, and also some bug fixes.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.7
@@ -162,7 +162,7 @@
         </release>
         <release version="4.6" date="2024-08-01">
             <description>
-                PhotoQt 4.6 is ready with another round of additions, improvements, and bug fixes. Thank you to all who gave feedback and suggestions!
+                <p>PhotoQt 4.6 is ready with another round of additions, improvements, and bug fixes. Thank you to all who gave feedback and suggestions!</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.6
@@ -170,7 +170,7 @@
         </release>
         <release version="4.5" date="2024-05-13">
             <description>
-                PhotoQt v4.5 brings a few new additions, but mostly focuses on bug fixes, improvements, and generally a more polished user experience.
+                <p>PhotoQt v4.5 brings a few new additions, but mostly focuses on bug fixes, improvements, and generally a more polished user experience.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.5
@@ -178,7 +178,7 @@
         </release>
         <release version="4.4" date="2024-04-04">
             <description>
-                PhotoQt v4.4 brings a whole range of exciting new features, from support for color profiles, to accent colors, lossless zoom for vector graphics, and so much more - there is something for everybody.
+                <p>PhotoQt v4.4 brings a whole range of exciting new features, from support for color profiles, to accent colors, lossless zoom for vector graphics, and so much more - there is something for everybody.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.4
@@ -186,7 +186,7 @@
         </release>
         <release version="4.3" date="2024-02-29">
             <description>
-                PhotoQt v4.3 focusses to a large degree on quality improvement and bug fixes, but it also brings a few new features nonetheless.
+                <p>PhotoQt v4.3 focusses to a large degree on quality improvement and bug fixes, but it also brings a few new features nonetheless.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.3
@@ -194,7 +194,7 @@
         </release>
         <release version="4.2" date="2024-01-18">
             <description>
-                PhotoQt v4.2 brings, amongst many other improvements and bug fixes, support for some new types of images. If an image has an associated video file - either embedded as with Google Motion Photos or next to it as with Apple Live Photos - PhotoQt can look for them and, if found, they will automatically be played once whenever an image is loaded. Another new type of image that can be properly viewed now are photo spheres using equirectangular projection. PhotoQt now supports both partial photo spheres and full 360 degree panoramas.
+                <p>PhotoQt v4.2 brings, amongst many other improvements and bug fixes, support for some new types of images. If an image has an associated video file - either embedded as with Google Motion Photos or next to it as with Apple Live Photos - PhotoQt can look for them and, if found, they will automatically be played once whenever an image is loaded. Another new type of image that can be properly viewed now are photo spheres using equirectangular projection. PhotoQt now supports both partial photo spheres and full 360 degree panoramas.</p>
             </description>
             <url>
                 https://photoqt.org/news/photoqt-4.2

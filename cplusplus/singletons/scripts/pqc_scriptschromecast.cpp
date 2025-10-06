@@ -24,7 +24,7 @@
 #include <pqc_localhttpserver.h>
 #include <pqc_loadimage.h>
 #include <pqc_settingscpp.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 
 #include <QVariantList>
 #include <QFile>
@@ -131,8 +131,8 @@ bool PQCScriptsChromeCast::connectToDevice(int index) {
     m_connected = true;
     connectedChanged();
 
-    if(PQCFileFolderModel::get().getCountMainView() > 0 && PQCFileFolderModel::get().getCurrentIndex() > -1)
-        return castImage(PQCFileFolderModel::get().getCurrentFile());
+    if(PQCFileFolderModelCPP::get().getCountMainView() > 0 && PQCFileFolderModelCPP::get().getCurrentIndex() > -1)
+        return castImage(PQCFileFolderModelCPP::get().getCurrentFile());
     return castImage("");
 
 

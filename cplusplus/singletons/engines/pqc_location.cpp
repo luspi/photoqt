@@ -38,11 +38,7 @@
 PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
 
     // connect to database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "location");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "location");
-    db.setDatabaseName(PQCConfigFiles::get().LOCATION_DB());
+    db = QSqlDatabase::database("location");
 
     dbOpened = false;
 
@@ -69,7 +65,7 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
         db.commit();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())

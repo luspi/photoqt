@@ -19,57 +19,50 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSFILEDIALOG_H
-#define PQCSCRIPTSFILEDIALOG_H
+#pragma once
 
 #include <QObject>
 #include <QHash>
-#include <QtQmlIntegration>
 
 class QJSValue;
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
 
 class PQCScriptsFileDialog : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    PQCScriptsFileDialog();
-    ~PQCScriptsFileDialog();
+    static PQCScriptsFileDialog& get() {
+        static PQCScriptsFileDialog instance;
+        return instance;
+    }
+
+    PQCScriptsFileDialog(PQCScriptsFileDialog const&)     = delete;
+    void operator=(PQCScriptsFileDialog const&) = delete;
 
     // get data
-    Q_INVOKABLE QVariantList getDevices();
-    Q_INVOKABLE QVariantList getPlaces(bool performEmptyCheck = true);
+    QVariantList getDevices();
+    QVariantList getPlaces(bool performEmptyCheck = true);
     QString getUniquePlacesId();
 
     // last location
-    // this value is set in PQCFileFolderModel::setFolderFileDialog()
-    Q_INVOKABLE QString getLastLocation();
+    // this value is set in PQCFileFolderModel::setFolderFileDialog() when the custom filedialog is used
+    QString getLastLocation();
+    // The following one ONLY needs to be called from the integrated ui IF the native filedialog is used!
+    void setLastLocation(QString fname);
 
     // count folder files
-    unsigned int _getNumberOfFilesInFolder(QString path);
-    Q_INVOKABLE void getNumberOfFilesInFolder(QString path, const QJSValue &callback);
+    unsigned int getNumberOfFilesInFolder(const QString &path);
 
     // places methods
-    Q_INVOKABLE void movePlacesEntry(QString id, bool moveDown, int howmany);
-    Q_INVOKABLE void addPlacesEntry(QString path, int pos, QString titlestring = "", QString icon = "folder", bool isSystemItem = false);
-    Q_INVOKABLE void hidePlacesEntry(QString id, bool hidden);
-    Q_INVOKABLE void deletePlacesEntry(QString id);
+    void movePlacesEntry(QString id, bool moveDown, int howmany);
+    void addPlacesEntry(QString path, int pos, QString titlestring = "", QString icon = "folder", bool isSystemItem = false);
+    void hidePlacesEntry(QString id, bool hidden);
+    void deletePlacesEntry(QString id);
 
 private:
+    PQCScriptsFileDialog();
+    ~PQCScriptsFileDialog();
+
     QHash<QString,int> cacheNumberOfFilesInFolder;
 
 };
-
-#endif

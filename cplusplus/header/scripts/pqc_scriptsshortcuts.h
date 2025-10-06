@@ -24,43 +24,39 @@
 #define PQCSCRIPTSSHORTCUTS_H
 
 #include <QObject>
-#include <QMap>
-#include <QtQmlIntegration>
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
+#include <QHash>
 
 class PQCScriptsShortcuts : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
+    static PQCScriptsShortcuts& get() {
+        static PQCScriptsShortcuts instance;
+        return instance;
+    }
+
+    PQCScriptsShortcuts(PQCScriptsShortcuts const&)     = delete;
+    void operator=(PQCScriptsShortcuts const&) = delete;
+
+    void executeExternal(QString exe, QString args, QString currentfile);
+
+    QStringList analyzeModifier(Qt::KeyboardModifiers mods);
+    QString analyzeMouseWheel(QPoint angleDelta);
+    QString analyzeMouseButton(Qt::MouseButton button);
+    QString analyzeMouseDirection(QPoint prevPoint, QPoint curPoint);
+    QString analyzeKeyPress(Qt::Key key);
+
+    void setCurrentTimestamp();
+    int getCurrentTimestampDiffLessThan(int threshold);
+
+    QString translateShortcut(QString combo);
+    QString translateMouseDirection(QStringList combo);
+
+private:
     PQCScriptsShortcuts();
     ~PQCScriptsShortcuts();
 
-    Q_INVOKABLE void executeExternal(QString exe, QString args, QString currentfile);
-
-    Q_INVOKABLE QStringList analyzeModifier(Qt::KeyboardModifiers mods);
-    Q_INVOKABLE QString analyzeMouseWheel(QPoint angleDelta);
-    Q_INVOKABLE QString analyzeMouseButton(Qt::MouseButton button);
-    Q_INVOKABLE QString analyzeMouseDirection(QPoint prevPoint, QPoint curPoint);
-    Q_INVOKABLE QString analyzeKeyPress(Qt::Key key);
-
-    Q_INVOKABLE void setCurrentTimestamp();
-    Q_INVOKABLE int getCurrentTimestampDiffLessThan(int threshold);
-
-    Q_INVOKABLE QString translateShortcut(QString combo);
-    Q_INVOKABLE QString translateMouseDirection(QStringList combo);
-
-private:
     qint64 m_lastInternalShortcutExecuted;
 
     QHash<QString,QString> m_keyStrings;
@@ -70,6 +66,9 @@ Q_SIGNALS:
 
     void sendShortcutShowGlobalContextMenuAt(QPoint pos);
     void sendShortcutDismissGlobalContextMenu();
+
+    void executeInternalCommand(QString cmd);
+    void executeInternalCommandWithMousePos(QString cmd, QPoint pos);
 
     void sendShortcutShowNextImage();
     void sendShortcutShowPrevImage();

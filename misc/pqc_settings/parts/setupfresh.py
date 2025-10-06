@@ -26,9 +26,7 @@ import sqlite3
 
 def get(duplicateSettings, duplicateSettingsSignal):
 
-    duplicateSettingsNames = []
-    for i in duplicateSettings:
-        duplicateSettingsNames.append(i[1])
+    duplicateSettingsNames = duplicateSettings
 
     conn = sqlite3.connect('../defaultsettings.db')
 
@@ -105,73 +103,6 @@ void PQCSettings::setupFresh() {
 
             cont += valuestring
             cont += ";"
-
-            if f"{tab}{name}" in duplicateSettingsNames:
-                cont += f"""
-    /* duplicate */ PQCSettingsCPP::get().m_{tab}{name} = {valuestring};"""
-
-    if f"{tab}{name}" in duplicateSettingsSignal:
-        cont += f"""
-    /* duplicate */ Q_EMIT PQCSettingsCPP::get().{tab}{name}Changed();"""
-
-    cont += """
-
-    // enter default extensions settings
-    const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-    for(const QString &e : ext) {
-
-        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
-        for(const QStringList &s : sets) {
-
-            if(s[2] == "int") {
-                const int val = s[3].toInt();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "double") {
-                const int val = s[3].toDouble();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "bool") {
-                const int val = static_cast<bool>(s[3].toInt());
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "list") {
-                QStringList val;
-                if(s[3].contains(":://::"))
-                    val = s[3].split(":://::");
-                else if(s[3] != "")
-                    val = QStringList() << s[3];
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "point") {
-                const QStringList parts = s[3].split(",");
-                QPoint val(0,0);
-                if(parts.length() == 2)
-                    val = QPoint(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "size") {
-                const QStringList parts = s[3].split(",");
-                QSize val(0,0);
-                if(parts.length() == 2)
-                    val = QSize(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "string") {
-                m_extensions->insert(s[0], s[3]);
-                m_extensions_defaults.insert(s[0], s[3]);
-            } else if(s[2] != "")
-                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
-            else
-                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
-
-        }
-
-    }"""
 
     cont += """
 

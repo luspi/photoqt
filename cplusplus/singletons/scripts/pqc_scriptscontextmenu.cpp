@@ -35,11 +35,7 @@
 PQCScriptsContextMenu::PQCScriptsContextMenu() {
 
     // connect to database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "contextmenu");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "contextmenu");
-    db.setDatabaseName(PQCConfigFiles::get().CONTEXTMENU_DB());
+    db = QSqlDatabase::database("contextmenu");
 
     QFileInfo infodb(PQCConfigFiles::get().CONTEXTMENU_DB());
 

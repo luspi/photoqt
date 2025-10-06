@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCCOMMANDLINEPARSER_H
-#define PQCCOMMANDLINEPARSER_H
+#pragma once
 
 #include <QObject>
 #include <QCommandLineParser>
@@ -49,7 +47,9 @@ enum PQCCommandLineResult {
     PQCCommandLineResetConfig = 131072,
     PQCCommandLineShowInfo = 262144,
     PQCCommandLineSettingUpdate = 524288,
-    PQCCommandLineQuit = 1048576
+    PQCCommandLineQuit = 1048576,
+    PQCCommandLineModernInterface = 2097152,
+    PQCCommandLineIntegratedInterface = 4194304
 };
 inline PQCCommandLineResult operator|(PQCCommandLineResult a, PQCCommandLineResult b) {
     return static_cast<PQCCommandLineResult>(static_cast<int>(a) | static_cast<int>(b));
@@ -75,6 +75,3 @@ private:
     QTranslator trans;
 
 };
-
-
-#endif // PQCCommandLINEPARSER_H

@@ -19,46 +19,39 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCHROMECAST_H
-#define PQCSCRIPTSCHROMECAST_H
+#pragma once
 
 #include <QObject>
-#include <QtQmlIntegration>
 
 class PQCLocalHttpServer;
 class QProcess;
 
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
-
 class PQCScriptsChromeCast : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    explicit PQCScriptsChromeCast();
-    ~PQCScriptsChromeCast();
+    static PQCScriptsChromeCast& get() {
+        static PQCScriptsChromeCast instance;
+        return instance;
+    }
 
-    Q_PROPERTY(QVariantList availableDevices MEMBER m_availableDevices NOTIFY availableDevicesChanged)
-    Q_PROPERTY(QString curDeviceName MEMBER m_curDeviceName NOTIFY curDeviceNameChanged)
-    Q_PROPERTY(bool inDiscovery MEMBER m_inDiscovery NOTIFY inDiscoveryChanged)
-    Q_PROPERTY(bool connected MEMBER m_connected NOTIFY connectedChanged)
+    PQCScriptsChromeCast(PQCScriptsChromeCast const&) = delete;
+    void operator=(PQCScriptsChromeCast const&) = delete;
 
-    Q_INVOKABLE bool startDiscovery();
-    Q_INVOKABLE bool connectToDevice(int deviceId);
-    Q_INVOKABLE bool castImage(QString filename);
-    Q_INVOKABLE bool disconnect();
+    QVariantList getAvailableDevices() { return m_availableDevices; }
+    QString getCurDeviceName() { return m_curDeviceName; }
+    bool getInDiscovery() { return m_inDiscovery; }
+    bool getConnected() { return m_connected; }
+
+    bool startDiscovery();
+    bool connectToDevice(int deviceId);
+    bool castImage(QString filename);
+    bool disconnect();
 
 private:
+    explicit PQCScriptsChromeCast();
+    ~PQCScriptsChromeCast();
 
     QProcess *procDiscovery;
     QProcess *procCast;
@@ -80,11 +73,8 @@ private Q_SLOTS:
 
 Q_SIGNALS:
     void availableDevicesChanged();
-    void selectedDeviceChanged();
     void inDiscoveryChanged();
     void connectedChanged();
     void curDeviceNameChanged();
 
 };
-
-#endif

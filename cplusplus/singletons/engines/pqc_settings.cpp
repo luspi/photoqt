@@ -31,13 +31,14 @@
 #include <QJSValue>
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
+#include <QCoreApplication>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_extensionshandler.h>
-
-#include <scripts/pqc_scriptsother.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
     if(validateonly) {
@@ -49,11 +50,17 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
+    QSqlDatabase dbDefault;
+
     // create and connect to default database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    if(QSqlDatabase::contains("defaultsettings"))
+        dbDefault = QSqlDatabase::database("defaultsettings");
+    else {
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    }
     QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
@@ -64,11 +71,7 @@ PQCSettings::PQCSettings() {
         return;
     }
 
-    // connect to user database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -79,59 +82,20 @@ PQCSettings::PQCSettings() {
                             << "filetypes"
                             << "filedialog"
                             << "slideshow"
-                            << "mapview"
-                            << "extensions";
+                            << "mapview";
 
     readonly = false;
-
-    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-    // the db does not exist -> create it
-    if(!infodb.exists()) {
-        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-            qWarning() << "Unable to (re-)create default user settings database";
-        else {
-            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-    }
-
-    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
-        qWarning() << "Will load read-only database of default settings";
+        qWarning() << "Will load read-only set of default settings";
 
         readonly = true;
-        db.setConnectOptions("QSQLITE_OPEN_READONLY");
-
-        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/usersettings.db";
-
-        if(QFile::exists(tmppath))
-            QFile::remove(tmppath);
-
-        if(!QFile::copy(":/usersettings.db", tmppath)) {
-            qCritical() << "ERROR copying read-only default database!";
-            //: This is the window title of an error message box
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR getting database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open even a read-only version of the settings database.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
-
-        QFile f(tmppath);
-        f.setPermissions(f.permissions()|QFileDevice::WriteOwner);
-
-        db.setDatabaseName(tmppath);
-
-        if(!db.open()) {
-            qCritical() << "ERROR opening read-only default database!";
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
 
     } else {
+
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
         readonly = false;
         if(!infodb.permission(QFileDevice::WriteOwner))
@@ -143,16 +107,14 @@ PQCSettings::PQCSettings() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
+        QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
     });
-
-    /******************************************************/
-
-    m_extensions = new QQmlPropertyMap();
 
     /******************************************************/
 
@@ -170,314 +132,312 @@ PQCSettings::PQCSettings() {
             QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
-    } else {
+    } else
         readDB();
-        QString curver = PQMVERSION;
-        if(curver != m_generalVersion)
-            migrate(m_generalVersion);
-    }
 
     /******************************************************/
-    
+
     // table: filedialog
-    connect(this, &PQCSettings::filedialogDetailsTooltipChanged, this, [=]() { saveChangedValue("filedialogDetailsTooltip", m_filedialogDetailsTooltip); });
-    connect(this, &PQCSettings::filedialogDevicesChanged, this, [=]() { saveChangedValue("filedialogDevices", m_filedialogDevices); });
-    connect(this, &PQCSettings::filedialogDevicesShowTmpfsChanged, this, [=]() { saveChangedValue("filedialogDevicesShowTmpfs", m_filedialogDevicesShowTmpfs); });
-    connect(this, &PQCSettings::filedialogDragDropFileviewGridChanged, this, [=]() { saveChangedValue("filedialogDragDropFileviewGrid", m_filedialogDragDropFileviewGrid); });
-    connect(this, &PQCSettings::filedialogDragDropFileviewListChanged, this, [=]() { saveChangedValue("filedialogDragDropFileviewList", m_filedialogDragDropFileviewList); });
-    connect(this, &PQCSettings::filedialogDragDropFileviewMasonryChanged, this, [=]() { saveChangedValue("filedialogDragDropFileviewMasonry", m_filedialogDragDropFileviewMasonry); });
-    connect(this, &PQCSettings::filedialogDragDropPlacesChanged, this, [=]() { saveChangedValue("filedialogDragDropPlaces", m_filedialogDragDropPlaces); });
-    connect(this, &PQCSettings::filedialogElementPaddingChanged, this, [=]() { saveChangedValue("filedialogElementPadding", m_filedialogElementPadding); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnails", m_filedialogFolderContentThumbnails); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsAutoloadChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsAutoload", m_filedialogFolderContentThumbnailsAutoload); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
-    connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
-    connect(this, &PQCSettings::filedialogKeepLastLocationChanged, this, [=]() { saveChangedValue("filedialogKeepLastLocation", m_filedialogKeepLastLocation); });
-    connect(this, &PQCSettings::filedialogLabelsShowGridChanged, this, [=]() { saveChangedValue("filedialogLabelsShowGrid", m_filedialogLabelsShowGrid); });
-    connect(this, &PQCSettings::filedialogLabelsShowMasonryChanged, this, [=]() { saveChangedValue("filedialogLabelsShowMasonry", m_filedialogLabelsShowMasonry); });
-    connect(this, &PQCSettings::filedialogLayoutChanged, this, [=]() { saveChangedValue("filedialogLayout", m_filedialogLayout); });
-    connect(this, &PQCSettings::filedialogPlacesChanged, this, [=]() { saveChangedValue("filedialogPlaces", m_filedialogPlaces); });
-    connect(this, &PQCSettings::filedialogPlacesWidthChanged, this, [=]() { saveChangedValue("filedialogPlacesWidth", m_filedialogPlacesWidth); });
-    connect(this, &PQCSettings::filedialogPreviewChanged, this, [=]() { saveChangedValue("filedialogPreview", m_filedialogPreview); });
-    connect(this, &PQCSettings::filedialogPreviewBlurChanged, this, [=]() { saveChangedValue("filedialogPreviewBlur", m_filedialogPreviewBlur); });
-    connect(this, &PQCSettings::filedialogPreviewColorIntensityChanged, this, [=]() { saveChangedValue("filedialogPreviewColorIntensity", m_filedialogPreviewColorIntensity); });
-    connect(this, &PQCSettings::filedialogPreviewCropToFitChanged, this, [=]() { saveChangedValue("filedialogPreviewCropToFit", m_filedialogPreviewCropToFit); });
-    connect(this, &PQCSettings::filedialogPreviewHigherResolutionChanged, this, [=]() { saveChangedValue("filedialogPreviewHigherResolution", m_filedialogPreviewHigherResolution); });
-    connect(this, &PQCSettings::filedialogPreviewMutedChanged, this, [=]() { saveChangedValue("filedialogPreviewMuted", m_filedialogPreviewMuted); });
-    connect(this, &PQCSettings::filedialogRememberSelectionChanged, this, [=]() { saveChangedValue("filedialogRememberSelection", m_filedialogRememberSelection); });
-    connect(this, &PQCSettings::filedialogShowHiddenFilesFoldersChanged, this, [=]() { saveChangedValue("filedialogShowHiddenFilesFolders", m_filedialogShowHiddenFilesFolders); });
-    connect(this, &PQCSettings::filedialogSingleClickSelectChanged, this, [=]() { saveChangedValue("filedialogSingleClickSelect", m_filedialogSingleClickSelect); });
-    connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [=]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
-    connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
-    connect(this, &PQCSettings::filedialogZoomChanged, this, [=]() { saveChangedValue("filedialogZoom", m_filedialogZoom); });
+    connect(this, &PQCSettings::filedialogDetailsTooltipChanged, this, [=, this]() { saveChangedValue("filedialogDetailsTooltip", m_filedialogDetailsTooltip); });
+    connect(this, &PQCSettings::filedialogDevicesChanged, this, [=, this]() { saveChangedValue("filedialogDevices", m_filedialogDevices); });
+    connect(this, &PQCSettings::filedialogDevicesShowTmpfsChanged, this, [=, this]() { saveChangedValue("filedialogDevicesShowTmpfs", m_filedialogDevicesShowTmpfs); });
+    connect(this, &PQCSettings::filedialogDragDropFileviewGridChanged, this, [=, this]() { saveChangedValue("filedialogDragDropFileviewGrid", m_filedialogDragDropFileviewGrid); });
+    connect(this, &PQCSettings::filedialogDragDropFileviewListChanged, this, [=, this]() { saveChangedValue("filedialogDragDropFileviewList", m_filedialogDragDropFileviewList); });
+    connect(this, &PQCSettings::filedialogDragDropFileviewMasonryChanged, this, [=, this]() { saveChangedValue("filedialogDragDropFileviewMasonry", m_filedialogDragDropFileviewMasonry); });
+    connect(this, &PQCSettings::filedialogDragDropPlacesChanged, this, [=, this]() { saveChangedValue("filedialogDragDropPlaces", m_filedialogDragDropPlaces); });
+    connect(this, &PQCSettings::filedialogElementPaddingChanged, this, [=, this]() { saveChangedValue("filedialogElementPadding", m_filedialogElementPadding); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnails", m_filedialogFolderContentThumbnails); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsAutoloadChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsAutoload", m_filedialogFolderContentThumbnailsAutoload); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsLoopChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsLoop", m_filedialogFolderContentThumbnailsLoop); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsScaleCropChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsScaleCrop", m_filedialogFolderContentThumbnailsScaleCrop); });
+    connect(this, &PQCSettings::filedialogFolderContentThumbnailsSpeedChanged, this, [=, this]() { saveChangedValue("filedialogFolderContentThumbnailsSpeed", m_filedialogFolderContentThumbnailsSpeed); });
+    connect(this, &PQCSettings::filedialogKeepLastLocationChanged, this, [=, this]() { saveChangedValue("filedialogKeepLastLocation", m_filedialogKeepLastLocation); });
+    connect(this, &PQCSettings::filedialogLabelsShowGridChanged, this, [=, this]() { saveChangedValue("filedialogLabelsShowGrid", m_filedialogLabelsShowGrid); });
+    connect(this, &PQCSettings::filedialogLabelsShowMasonryChanged, this, [=, this]() { saveChangedValue("filedialogLabelsShowMasonry", m_filedialogLabelsShowMasonry); });
+    connect(this, &PQCSettings::filedialogLayoutChanged, this, [=, this]() { saveChangedValue("filedialogLayout", m_filedialogLayout); });
+    connect(this, &PQCSettings::filedialogPlacesChanged, this, [=, this]() { saveChangedValue("filedialogPlaces", m_filedialogPlaces); });
+    connect(this, &PQCSettings::filedialogPlacesWidthChanged, this, [=, this]() { saveChangedValue("filedialogPlacesWidth", m_filedialogPlacesWidth); });
+    connect(this, &PQCSettings::filedialogPreviewChanged, this, [=, this]() { saveChangedValue("filedialogPreview", m_filedialogPreview); });
+    connect(this, &PQCSettings::filedialogPreviewBlurChanged, this, [=, this]() { saveChangedValue("filedialogPreviewBlur", m_filedialogPreviewBlur); });
+    connect(this, &PQCSettings::filedialogPreviewColorIntensityChanged, this, [=, this]() { saveChangedValue("filedialogPreviewColorIntensity", m_filedialogPreviewColorIntensity); });
+    connect(this, &PQCSettings::filedialogPreviewCropToFitChanged, this, [=, this]() { saveChangedValue("filedialogPreviewCropToFit", m_filedialogPreviewCropToFit); });
+    connect(this, &PQCSettings::filedialogPreviewHigherResolutionChanged, this, [=, this]() { saveChangedValue("filedialogPreviewHigherResolution", m_filedialogPreviewHigherResolution); });
+    connect(this, &PQCSettings::filedialogPreviewMutedChanged, this, [=, this]() { saveChangedValue("filedialogPreviewMuted", m_filedialogPreviewMuted); });
+    connect(this, &PQCSettings::filedialogRememberSelectionChanged, this, [=, this]() { saveChangedValue("filedialogRememberSelection", m_filedialogRememberSelection); });
+    connect(this, &PQCSettings::filedialogShowHiddenFilesFoldersChanged, this, [=, this]() { saveChangedValue("filedialogShowHiddenFilesFolders", m_filedialogShowHiddenFilesFolders); });
+    connect(this, &PQCSettings::filedialogSingleClickSelectChanged, this, [=, this]() { saveChangedValue("filedialogSingleClickSelect", m_filedialogSingleClickSelect); });
+    connect(this, &PQCSettings::filedialogThumbnailsChanged, this, [=, this]() { saveChangedValue("filedialogThumbnails", m_filedialogThumbnails); });
+    connect(this, &PQCSettings::filedialogThumbnailsScaleCropChanged, this, [=, this]() { saveChangedValue("filedialogThumbnailsScaleCrop", m_filedialogThumbnailsScaleCrop); });
+    connect(this, &PQCSettings::filedialogUseNativeFileDialogChanged, this, [=, this]() { saveChangedValue("filedialogUseNativeFileDialog", m_filedialogUseNativeFileDialog); });
+    connect(this, &PQCSettings::filedialogZoomChanged, this, [=, this]() { saveChangedValue("filedialogZoom", m_filedialogZoom); });
     // table: filetypes
-    connect(this, &PQCSettings::filetypesAnimatedControlsChanged, this, [=]() { saveChangedValue("filetypesAnimatedControls", m_filetypesAnimatedControls); });
-    connect(this, &PQCSettings::filetypesAnimatedLeftRightChanged, this, [=]() { saveChangedValue("filetypesAnimatedLeftRight", m_filetypesAnimatedLeftRight); });
-    connect(this, &PQCSettings::filetypesAnimatedSpacePauseChanged, this, [=]() { saveChangedValue("filetypesAnimatedSpacePause", m_filetypesAnimatedSpacePause); });
-    connect(this, &PQCSettings::filetypesArchiveAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesArchiveAlwaysEnterAutomatically", m_filetypesArchiveAlwaysEnterAutomatically); });
-    connect(this, &PQCSettings::filetypesArchiveControlsChanged, this, [=]() { saveChangedValue("filetypesArchiveControls", m_filetypesArchiveControls); });
-    connect(this, &PQCSettings::filetypesArchiveLeftRightChanged, this, [=]() { saveChangedValue("filetypesArchiveLeftRight", m_filetypesArchiveLeftRight); });
-    connect(this, &PQCSettings::filetypesArchiveViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesArchiveViewerModeExitButton", m_filetypesArchiveViewerModeExitButton); });
-    connect(this, &PQCSettings::filetypesComicBookAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesComicBookAlwaysEnterAutomatically", m_filetypesComicBookAlwaysEnterAutomatically); });
-    connect(this, &PQCSettings::filetypesDocumentAlwaysEnterAutomaticallyChanged, this, [=]() { saveChangedValue("filetypesDocumentAlwaysEnterAutomatically", m_filetypesDocumentAlwaysEnterAutomatically); });
-    connect(this, &PQCSettings::filetypesDocumentControlsChanged, this, [=]() { saveChangedValue("filetypesDocumentControls", m_filetypesDocumentControls); });
-    connect(this, &PQCSettings::filetypesDocumentLeftRightChanged, this, [=]() { saveChangedValue("filetypesDocumentLeftRight", m_filetypesDocumentLeftRight); });
-    connect(this, &PQCSettings::filetypesDocumentViewerModeExitButtonChanged, this, [=]() { saveChangedValue("filetypesDocumentViewerModeExitButton", m_filetypesDocumentViewerModeExitButton); });
-    connect(this, &PQCSettings::filetypesExternalUnrarChanged, this, [=]() { saveChangedValue("filetypesExternalUnrar", m_filetypesExternalUnrar); });
-    connect(this, &PQCSettings::filetypesLoadAppleLivePhotosChanged, this, [=]() { saveChangedValue("filetypesLoadAppleLivePhotos", m_filetypesLoadAppleLivePhotos); });
-    connect(this, &PQCSettings::filetypesLoadMotionPhotosChanged, this, [=]() { saveChangedValue("filetypesLoadMotionPhotos", m_filetypesLoadMotionPhotos); });
-    connect(this, &PQCSettings::filetypesMotionAutoPlayChanged, this, [=]() { saveChangedValue("filetypesMotionAutoPlay", m_filetypesMotionAutoPlay); });
-    connect(this, &PQCSettings::filetypesMotionPhotoPlayPauseChanged, this, [=]() { saveChangedValue("filetypesMotionPhotoPlayPause", m_filetypesMotionPhotoPlayPause); });
-    connect(this, &PQCSettings::filetypesMotionSpacePauseChanged, this, [=]() { saveChangedValue("filetypesMotionSpacePause", m_filetypesMotionSpacePause); });
-    connect(this, &PQCSettings::filetypesPDFQualityChanged, this, [=]() { saveChangedValue("filetypesPDFQuality", m_filetypesPDFQuality); });
-    connect(this, &PQCSettings::filetypesPhotoSphereArrowKeysChanged, this, [=]() { saveChangedValue("filetypesPhotoSphereArrowKeys", m_filetypesPhotoSphereArrowKeys); });
-    connect(this, &PQCSettings::filetypesPhotoSphereAutoLoadChanged, this, [=]() { saveChangedValue("filetypesPhotoSphereAutoLoad", m_filetypesPhotoSphereAutoLoad); });
-    connect(this, &PQCSettings::filetypesPhotoSphereBigButtonChanged, this, [=]() { saveChangedValue("filetypesPhotoSphereBigButton", m_filetypesPhotoSphereBigButton); });
-    connect(this, &PQCSettings::filetypesPhotoSphereControlsChanged, this, [=]() { saveChangedValue("filetypesPhotoSphereControls", m_filetypesPhotoSphereControls); });
-    connect(this, &PQCSettings::filetypesPhotoSpherePanOnLoadChanged, this, [=]() { saveChangedValue("filetypesPhotoSpherePanOnLoad", m_filetypesPhotoSpherePanOnLoad); });
-    connect(this, &PQCSettings::filetypesRAWUseEmbeddedIfAvailableChanged, this, [=]() { saveChangedValue("filetypesRAWUseEmbeddedIfAvailable", m_filetypesRAWUseEmbeddedIfAvailable); });
-    connect(this, &PQCSettings::filetypesVideoAutoplayChanged, this, [=]() { saveChangedValue("filetypesVideoAutoplay", m_filetypesVideoAutoplay); });
-    connect(this, &PQCSettings::filetypesVideoLeftRightJumpVideoChanged, this, [=]() { saveChangedValue("filetypesVideoLeftRightJumpVideo", m_filetypesVideoLeftRightJumpVideo); });
-    connect(this, &PQCSettings::filetypesVideoLoopChanged, this, [=]() { saveChangedValue("filetypesVideoLoop", m_filetypesVideoLoop); });
-    connect(this, &PQCSettings::filetypesVideoPreferLibmpvChanged, this, [=]() { saveChangedValue("filetypesVideoPreferLibmpv", m_filetypesVideoPreferLibmpv); });
-    connect(this, &PQCSettings::filetypesVideoSpacePauseChanged, this, [=]() { saveChangedValue("filetypesVideoSpacePause", m_filetypesVideoSpacePause); });
-    connect(this, &PQCSettings::filetypesVideoThumbnailerChanged, this, [=]() { saveChangedValue("filetypesVideoThumbnailer", m_filetypesVideoThumbnailer); });
-    connect(this, &PQCSettings::filetypesVideoVolumeChanged, this, [=]() { saveChangedValue("filetypesVideoVolume", m_filetypesVideoVolume); });
+    connect(this, &PQCSettings::filetypesAnimatedControlsChanged, this, [=, this]() { saveChangedValue("filetypesAnimatedControls", m_filetypesAnimatedControls); });
+    connect(this, &PQCSettings::filetypesAnimatedLeftRightChanged, this, [=, this]() { saveChangedValue("filetypesAnimatedLeftRight", m_filetypesAnimatedLeftRight); });
+    connect(this, &PQCSettings::filetypesAnimatedSpacePauseChanged, this, [=, this]() { saveChangedValue("filetypesAnimatedSpacePause", m_filetypesAnimatedSpacePause); });
+    connect(this, &PQCSettings::filetypesArchiveAlwaysEnterAutomaticallyChanged, this, [=, this]() { saveChangedValue("filetypesArchiveAlwaysEnterAutomatically", m_filetypesArchiveAlwaysEnterAutomatically); });
+    connect(this, &PQCSettings::filetypesArchiveControlsChanged, this, [=, this]() { saveChangedValue("filetypesArchiveControls", m_filetypesArchiveControls); });
+    connect(this, &PQCSettings::filetypesArchiveLeftRightChanged, this, [=, this]() { saveChangedValue("filetypesArchiveLeftRight", m_filetypesArchiveLeftRight); });
+    connect(this, &PQCSettings::filetypesArchiveViewerModeExitButtonChanged, this, [=, this]() { saveChangedValue("filetypesArchiveViewerModeExitButton", m_filetypesArchiveViewerModeExitButton); });
+    connect(this, &PQCSettings::filetypesComicBookAlwaysEnterAutomaticallyChanged, this, [=, this]() { saveChangedValue("filetypesComicBookAlwaysEnterAutomatically", m_filetypesComicBookAlwaysEnterAutomatically); });
+    connect(this, &PQCSettings::filetypesDocumentAlwaysEnterAutomaticallyChanged, this, [=, this]() { saveChangedValue("filetypesDocumentAlwaysEnterAutomatically", m_filetypesDocumentAlwaysEnterAutomatically); });
+    connect(this, &PQCSettings::filetypesDocumentControlsChanged, this, [=, this]() { saveChangedValue("filetypesDocumentControls", m_filetypesDocumentControls); });
+    connect(this, &PQCSettings::filetypesDocumentLeftRightChanged, this, [=, this]() { saveChangedValue("filetypesDocumentLeftRight", m_filetypesDocumentLeftRight); });
+    connect(this, &PQCSettings::filetypesDocumentViewerModeExitButtonChanged, this, [=, this]() { saveChangedValue("filetypesDocumentViewerModeExitButton", m_filetypesDocumentViewerModeExitButton); });
+    connect(this, &PQCSettings::filetypesExternalUnrarChanged, this, [=, this]() { saveChangedValue("filetypesExternalUnrar", m_filetypesExternalUnrar); });
+    connect(this, &PQCSettings::filetypesLoadAppleLivePhotosChanged, this, [=, this]() { saveChangedValue("filetypesLoadAppleLivePhotos", m_filetypesLoadAppleLivePhotos); });
+    connect(this, &PQCSettings::filetypesLoadMotionPhotosChanged, this, [=, this]() { saveChangedValue("filetypesLoadMotionPhotos", m_filetypesLoadMotionPhotos); });
+    connect(this, &PQCSettings::filetypesMotionAutoPlayChanged, this, [=, this]() { saveChangedValue("filetypesMotionAutoPlay", m_filetypesMotionAutoPlay); });
+    connect(this, &PQCSettings::filetypesMotionPhotoPlayPauseChanged, this, [=, this]() { saveChangedValue("filetypesMotionPhotoPlayPause", m_filetypesMotionPhotoPlayPause); });
+    connect(this, &PQCSettings::filetypesMotionSpacePauseChanged, this, [=, this]() { saveChangedValue("filetypesMotionSpacePause", m_filetypesMotionSpacePause); });
+    connect(this, &PQCSettings::filetypesPDFQualityChanged, this, [=, this]() { saveChangedValue("filetypesPDFQuality", m_filetypesPDFQuality); });
+    connect(this, &PQCSettings::filetypesPhotoSphereArrowKeysChanged, this, [=, this]() { saveChangedValue("filetypesPhotoSphereArrowKeys", m_filetypesPhotoSphereArrowKeys); });
+    connect(this, &PQCSettings::filetypesPhotoSphereAutoLoadChanged, this, [=, this]() { saveChangedValue("filetypesPhotoSphereAutoLoad", m_filetypesPhotoSphereAutoLoad); });
+    connect(this, &PQCSettings::filetypesPhotoSphereBigButtonChanged, this, [=, this]() { saveChangedValue("filetypesPhotoSphereBigButton", m_filetypesPhotoSphereBigButton); });
+    connect(this, &PQCSettings::filetypesPhotoSphereControlsChanged, this, [=, this]() { saveChangedValue("filetypesPhotoSphereControls", m_filetypesPhotoSphereControls); });
+    connect(this, &PQCSettings::filetypesPhotoSpherePanOnLoadChanged, this, [=, this]() { saveChangedValue("filetypesPhotoSpherePanOnLoad", m_filetypesPhotoSpherePanOnLoad); });
+    connect(this, &PQCSettings::filetypesRAWUseEmbeddedIfAvailableChanged, this, [=, this]() { saveChangedValue("filetypesRAWUseEmbeddedIfAvailable", m_filetypesRAWUseEmbeddedIfAvailable); });
+    connect(this, &PQCSettings::filetypesVideoAutoplayChanged, this, [=, this]() { saveChangedValue("filetypesVideoAutoplay", m_filetypesVideoAutoplay); });
+    connect(this, &PQCSettings::filetypesVideoLeftRightJumpVideoChanged, this, [=, this]() { saveChangedValue("filetypesVideoLeftRightJumpVideo", m_filetypesVideoLeftRightJumpVideo); });
+    connect(this, &PQCSettings::filetypesVideoLoopChanged, this, [=, this]() { saveChangedValue("filetypesVideoLoop", m_filetypesVideoLoop); });
+    connect(this, &PQCSettings::filetypesVideoPreferLibmpvChanged, this, [=, this]() { saveChangedValue("filetypesVideoPreferLibmpv", m_filetypesVideoPreferLibmpv); });
+    connect(this, &PQCSettings::filetypesVideoSpacePauseChanged, this, [=, this]() { saveChangedValue("filetypesVideoSpacePause", m_filetypesVideoSpacePause); });
+    connect(this, &PQCSettings::filetypesVideoThumbnailerChanged, this, [=, this]() { saveChangedValue("filetypesVideoThumbnailer", m_filetypesVideoThumbnailer); });
+    connect(this, &PQCSettings::filetypesVideoVolumeChanged, this, [=, this]() { saveChangedValue("filetypesVideoVolume", m_filetypesVideoVolume); });
     // table: general
-    connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
-    connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
-    connect(this, &PQCSettings::generalVersionChanged, this, [=]() { saveChangedValue("generalVersion", m_generalVersion); });
+    connect(this, &PQCSettings::generalAutoSaveSettingsChanged, this, [=, this]() { saveChangedValue("generalAutoSaveSettings", m_generalAutoSaveSettings); });
+    connect(this, &PQCSettings::generalCompactSettingsChanged, this, [=, this]() { saveChangedValue("generalCompactSettings", m_generalCompactSettings); });
+    connect(this, &PQCSettings::generalEnabledExtensionsChanged, this, [=, this]() { saveChangedValue("generalEnabledExtensions", m_generalEnabledExtensions); });
+    connect(this, &PQCSettings::generalInterfaceVariantChanged, this, [=, this]() { saveChangedValue("generalInterfaceVariant", m_generalInterfaceVariant); });
+    connect(this, &PQCSettings::generalSetupFloatingExtensionsAtStartupChanged, this, [=, this]() { saveChangedValue("generalSetupFloatingExtensionsAtStartup", m_generalSetupFloatingExtensionsAtStartup); });
+    connect(this, &PQCSettings::generalVersionChanged, this, [=, this]() { saveChangedValue("generalVersion", m_generalVersion); });
     // table: imageview
-    connect(this, &PQCSettings::imageviewAdvancedSortAscendingChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortAscending", m_imageviewAdvancedSortAscending); });
-    connect(this, &PQCSettings::imageviewAdvancedSortCriteriaChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortCriteria", m_imageviewAdvancedSortCriteria); });
-    connect(this, &PQCSettings::imageviewAdvancedSortDateCriteriaChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortDateCriteria", m_imageviewAdvancedSortDateCriteria); });
-    connect(this, &PQCSettings::imageviewAdvancedSortQualityChanged, this, [=]() { saveChangedValue("imageviewAdvancedSortQuality", m_imageviewAdvancedSortQuality); });
-    connect(this, &PQCSettings::imageviewAlwaysActualSizeChanged, this, [=]() { saveChangedValue("imageviewAlwaysActualSize", m_imageviewAlwaysActualSize); });
-    connect(this, &PQCSettings::imageviewAnimationDurationChanged, this, [=]() { saveChangedValue("imageviewAnimationDuration", m_imageviewAnimationDuration); });
-    connect(this, &PQCSettings::imageviewAnimationTypeChanged, this, [=]() { saveChangedValue("imageviewAnimationType", m_imageviewAnimationType); });
-    connect(this, &PQCSettings::imageviewCacheChanged, this, [=]() { saveChangedValue("imageviewCache", m_imageviewCache); });
-    connect(this, &PQCSettings::imageviewColorSpaceContextMenuChanged, this, [=]() { saveChangedValue("imageviewColorSpaceContextMenu", m_imageviewColorSpaceContextMenu); });
-    connect(this, &PQCSettings::imageviewColorSpaceDefaultChanged, this, [=]() { saveChangedValue("imageviewColorSpaceDefault", m_imageviewColorSpaceDefault); });
-    connect(this, &PQCSettings::imageviewColorSpaceEnableChanged, this, [=]() { saveChangedValue("imageviewColorSpaceEnable", m_imageviewColorSpaceEnable); });
-    connect(this, &PQCSettings::imageviewColorSpaceLoadEmbeddedChanged, this, [=]() { saveChangedValue("imageviewColorSpaceLoadEmbedded", m_imageviewColorSpaceLoadEmbedded); });
-    connect(this, &PQCSettings::imageviewEscapeExitArchiveChanged, this, [=]() { saveChangedValue("imageviewEscapeExitArchive", m_imageviewEscapeExitArchive); });
-    connect(this, &PQCSettings::imageviewEscapeExitBarcodesChanged, this, [=]() { saveChangedValue("imageviewEscapeExitBarcodes", m_imageviewEscapeExitBarcodes); });
-    connect(this, &PQCSettings::imageviewEscapeExitDocumentChanged, this, [=]() { saveChangedValue("imageviewEscapeExitDocument", m_imageviewEscapeExitDocument); });
-    connect(this, &PQCSettings::imageviewEscapeExitFilterChanged, this, [=]() { saveChangedValue("imageviewEscapeExitFilter", m_imageviewEscapeExitFilter); });
-    connect(this, &PQCSettings::imageviewEscapeExitSphereChanged, this, [=]() { saveChangedValue("imageviewEscapeExitSphere", m_imageviewEscapeExitSphere); });
-    connect(this, &PQCSettings::imageviewFitInWindowChanged, this, [=]() { saveChangedValue("imageviewFitInWindow", m_imageviewFitInWindow); });
-    connect(this, &PQCSettings::imageviewHideCursorTimeoutChanged, this, [=]() { saveChangedValue("imageviewHideCursorTimeout", m_imageviewHideCursorTimeout); });
-    connect(this, &PQCSettings::imageviewInterpolationDisableForSmallImagesChanged, this, [=]() { saveChangedValue("imageviewInterpolationDisableForSmallImages", m_imageviewInterpolationDisableForSmallImages); });
-    connect(this, &PQCSettings::imageviewInterpolationThresholdChanged, this, [=]() { saveChangedValue("imageviewInterpolationThreshold", m_imageviewInterpolationThreshold); });
-    connect(this, &PQCSettings::imageviewLoopThroughFolderChanged, this, [=]() { saveChangedValue("imageviewLoopThroughFolder", m_imageviewLoopThroughFolder); });
-    connect(this, &PQCSettings::imageviewMarginChanged, this, [=]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
-    connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });
-    connect(this, &PQCSettings::imageviewMirrorAnimateChanged, this, [=]() { saveChangedValue("imageviewMirrorAnimate", m_imageviewMirrorAnimate); });
-    connect(this, &PQCSettings::imageviewPreloadInBackgroundChanged, this, [=]() { saveChangedValue("imageviewPreloadInBackground", m_imageviewPreloadInBackground); });
-    connect(this, &PQCSettings::imageviewPreserveMirrorChanged, this, [=]() { saveChangedValue("imageviewPreserveMirror", m_imageviewPreserveMirror); });
-    connect(this, &PQCSettings::imageviewPreserveRotationChanged, this, [=]() { saveChangedValue("imageviewPreserveRotation", m_imageviewPreserveRotation); });
-    connect(this, &PQCSettings::imageviewPreserveZoomChanged, this, [=]() { saveChangedValue("imageviewPreserveZoom", m_imageviewPreserveZoom); });
-    connect(this, &PQCSettings::imageviewRememberZoomRotationMirrorChanged, this, [=]() { saveChangedValue("imageviewRememberZoomRotationMirror", m_imageviewRememberZoomRotationMirror); });
-    connect(this, &PQCSettings::imageviewResetViewAutoHideTimeoutChanged, this, [=]() { saveChangedValue("imageviewResetViewAutoHideTimeout", m_imageviewResetViewAutoHideTimeout); });
-    connect(this, &PQCSettings::imageviewResetViewShowChanged, this, [=]() { saveChangedValue("imageviewResetViewShow", m_imageviewResetViewShow); });
-    connect(this, &PQCSettings::imageviewRespectDevicePixelRatioChanged, this, [=]() { saveChangedValue("imageviewRespectDevicePixelRatio", m_imageviewRespectDevicePixelRatio); });
-    connect(this, &PQCSettings::imageviewShowMinimapChanged, this, [=]() { saveChangedValue("imageviewShowMinimap", m_imageviewShowMinimap); });
-    connect(this, &PQCSettings::imageviewSortImagesAscendingChanged, this, [=]() { saveChangedValue("imageviewSortImagesAscending", m_imageviewSortImagesAscending); });
-    connect(this, &PQCSettings::imageviewSortImagesByChanged, this, [=]() { saveChangedValue("imageviewSortImagesBy", m_imageviewSortImagesBy); });
-    connect(this, &PQCSettings::imageviewTransparencyMarkerChanged, this, [=]() { saveChangedValue("imageviewTransparencyMarker", m_imageviewTransparencyMarker); });
-    connect(this, &PQCSettings::imageviewUseMouseLeftButtonForImageMoveChanged, this, [=]() { saveChangedValue("imageviewUseMouseLeftButtonForImageMove", m_imageviewUseMouseLeftButtonForImageMove); });
-    connect(this, &PQCSettings::imageviewUseMouseWheelForImageMoveChanged, this, [=]() { saveChangedValue("imageviewUseMouseWheelForImageMove", m_imageviewUseMouseWheelForImageMove); });
-    connect(this, &PQCSettings::imageviewZoomMaxChanged, this, [=]() { saveChangedValue("imageviewZoomMax", m_imageviewZoomMax); });
-    connect(this, &PQCSettings::imageviewZoomMaxEnabledChanged, this, [=]() { saveChangedValue("imageviewZoomMaxEnabled", m_imageviewZoomMaxEnabled); });
-    connect(this, &PQCSettings::imageviewZoomMinChanged, this, [=]() { saveChangedValue("imageviewZoomMin", m_imageviewZoomMin); });
-    connect(this, &PQCSettings::imageviewZoomMinEnabledChanged, this, [=]() { saveChangedValue("imageviewZoomMinEnabled", m_imageviewZoomMinEnabled); });
-    connect(this, &PQCSettings::imageviewZoomSpeedChanged, this, [=]() { saveChangedValue("imageviewZoomSpeed", m_imageviewZoomSpeed); });
-    connect(this, &PQCSettings::imageviewZoomSpeedRelativeChanged, this, [=]() { saveChangedValue("imageviewZoomSpeedRelative", m_imageviewZoomSpeedRelative); });
-    connect(this, &PQCSettings::imageviewZoomToCenterChanged, this, [=]() { saveChangedValue("imageviewZoomToCenter", m_imageviewZoomToCenter); });
+    connect(this, &PQCSettings::imageviewAdvancedSortAscendingChanged, this, [=, this]() { saveChangedValue("imageviewAdvancedSortAscending", m_imageviewAdvancedSortAscending); });
+    connect(this, &PQCSettings::imageviewAdvancedSortCriteriaChanged, this, [=, this]() { saveChangedValue("imageviewAdvancedSortCriteria", m_imageviewAdvancedSortCriteria); });
+    connect(this, &PQCSettings::imageviewAdvancedSortDateCriteriaChanged, this, [=, this]() { saveChangedValue("imageviewAdvancedSortDateCriteria", m_imageviewAdvancedSortDateCriteria); });
+    connect(this, &PQCSettings::imageviewAdvancedSortQualityChanged, this, [=, this]() { saveChangedValue("imageviewAdvancedSortQuality", m_imageviewAdvancedSortQuality); });
+    connect(this, &PQCSettings::imageviewAlwaysActualSizeChanged, this, [=, this]() { saveChangedValue("imageviewAlwaysActualSize", m_imageviewAlwaysActualSize); });
+    connect(this, &PQCSettings::imageviewAnimationDurationChanged, this, [=, this]() { saveChangedValue("imageviewAnimationDuration", m_imageviewAnimationDuration); });
+    connect(this, &PQCSettings::imageviewAnimationTypeChanged, this, [=, this]() { saveChangedValue("imageviewAnimationType", m_imageviewAnimationType); });
+    connect(this, &PQCSettings::imageviewCacheChanged, this, [=, this]() { saveChangedValue("imageviewCache", m_imageviewCache); });
+    connect(this, &PQCSettings::imageviewColorSpaceContextMenuChanged, this, [=, this]() { saveChangedValue("imageviewColorSpaceContextMenu", m_imageviewColorSpaceContextMenu); });
+    connect(this, &PQCSettings::imageviewColorSpaceDefaultChanged, this, [=, this]() { saveChangedValue("imageviewColorSpaceDefault", m_imageviewColorSpaceDefault); });
+    connect(this, &PQCSettings::imageviewColorSpaceEnableChanged, this, [=, this]() { saveChangedValue("imageviewColorSpaceEnable", m_imageviewColorSpaceEnable); });
+    connect(this, &PQCSettings::imageviewColorSpaceLoadEmbeddedChanged, this, [=, this]() { saveChangedValue("imageviewColorSpaceLoadEmbedded", m_imageviewColorSpaceLoadEmbedded); });
+    connect(this, &PQCSettings::imageviewEscapeExitArchiveChanged, this, [=, this]() { saveChangedValue("imageviewEscapeExitArchive", m_imageviewEscapeExitArchive); });
+    connect(this, &PQCSettings::imageviewEscapeExitBarcodesChanged, this, [=, this]() { saveChangedValue("imageviewEscapeExitBarcodes", m_imageviewEscapeExitBarcodes); });
+    connect(this, &PQCSettings::imageviewEscapeExitDocumentChanged, this, [=, this]() { saveChangedValue("imageviewEscapeExitDocument", m_imageviewEscapeExitDocument); });
+    connect(this, &PQCSettings::imageviewEscapeExitFilterChanged, this, [=, this]() { saveChangedValue("imageviewEscapeExitFilter", m_imageviewEscapeExitFilter); });
+    connect(this, &PQCSettings::imageviewEscapeExitSphereChanged, this, [=, this]() { saveChangedValue("imageviewEscapeExitSphere", m_imageviewEscapeExitSphere); });
+    connect(this, &PQCSettings::imageviewFitInWindowChanged, this, [=, this]() { saveChangedValue("imageviewFitInWindow", m_imageviewFitInWindow); });
+    connect(this, &PQCSettings::imageviewHideCursorTimeoutChanged, this, [=, this]() { saveChangedValue("imageviewHideCursorTimeout", m_imageviewHideCursorTimeout); });
+    connect(this, &PQCSettings::imageviewInterpolationDisableForSmallImagesChanged, this, [=, this]() { saveChangedValue("imageviewInterpolationDisableForSmallImages", m_imageviewInterpolationDisableForSmallImages); });
+    connect(this, &PQCSettings::imageviewInterpolationThresholdChanged, this, [=, this]() { saveChangedValue("imageviewInterpolationThreshold", m_imageviewInterpolationThreshold); });
+    connect(this, &PQCSettings::imageviewLoopThroughFolderChanged, this, [=, this]() { saveChangedValue("imageviewLoopThroughFolder", m_imageviewLoopThroughFolder); });
+    connect(this, &PQCSettings::imageviewMarginChanged, this, [=, this]() { saveChangedValue("imageviewMargin", m_imageviewMargin); });
+    connect(this, &PQCSettings::imageviewMinimapSizeLevelChanged, this, [=, this]() { saveChangedValue("imageviewMinimapSizeLevel", m_imageviewMinimapSizeLevel); });
+    connect(this, &PQCSettings::imageviewMirrorAnimateChanged, this, [=, this]() { saveChangedValue("imageviewMirrorAnimate", m_imageviewMirrorAnimate); });
+    connect(this, &PQCSettings::imageviewPreloadInBackgroundChanged, this, [=, this]() { saveChangedValue("imageviewPreloadInBackground", m_imageviewPreloadInBackground); });
+    connect(this, &PQCSettings::imageviewPreserveMirrorChanged, this, [=, this]() { saveChangedValue("imageviewPreserveMirror", m_imageviewPreserveMirror); });
+    connect(this, &PQCSettings::imageviewPreserveRotationChanged, this, [=, this]() { saveChangedValue("imageviewPreserveRotation", m_imageviewPreserveRotation); });
+    connect(this, &PQCSettings::imageviewPreserveZoomChanged, this, [=, this]() { saveChangedValue("imageviewPreserveZoom", m_imageviewPreserveZoom); });
+    connect(this, &PQCSettings::imageviewRememberZoomRotationMirrorChanged, this, [=, this]() { saveChangedValue("imageviewRememberZoomRotationMirror", m_imageviewRememberZoomRotationMirror); });
+    connect(this, &PQCSettings::imageviewResetViewAutoHideTimeoutChanged, this, [=, this]() { saveChangedValue("imageviewResetViewAutoHideTimeout", m_imageviewResetViewAutoHideTimeout); });
+    connect(this, &PQCSettings::imageviewResetViewShowChanged, this, [=, this]() { saveChangedValue("imageviewResetViewShow", m_imageviewResetViewShow); });
+    connect(this, &PQCSettings::imageviewRespectDevicePixelRatioChanged, this, [=, this]() { saveChangedValue("imageviewRespectDevicePixelRatio", m_imageviewRespectDevicePixelRatio); });
+    connect(this, &PQCSettings::imageviewShowMinimapChanged, this, [=, this]() { saveChangedValue("imageviewShowMinimap", m_imageviewShowMinimap); });
+    connect(this, &PQCSettings::imageviewSortImagesAscendingChanged, this, [=, this]() { saveChangedValue("imageviewSortImagesAscending", m_imageviewSortImagesAscending); });
+    connect(this, &PQCSettings::imageviewSortImagesByChanged, this, [=, this]() { saveChangedValue("imageviewSortImagesBy", m_imageviewSortImagesBy); });
+    connect(this, &PQCSettings::imageviewTransparencyMarkerChanged, this, [=, this]() { saveChangedValue("imageviewTransparencyMarker", m_imageviewTransparencyMarker); });
+    connect(this, &PQCSettings::imageviewUseMouseLeftButtonForImageMoveChanged, this, [=, this]() { saveChangedValue("imageviewUseMouseLeftButtonForImageMove", m_imageviewUseMouseLeftButtonForImageMove); });
+    connect(this, &PQCSettings::imageviewUseMouseWheelForImageMoveChanged, this, [=, this]() { saveChangedValue("imageviewUseMouseWheelForImageMove", m_imageviewUseMouseWheelForImageMove); });
+    connect(this, &PQCSettings::imageviewZoomMaxChanged, this, [=, this]() { saveChangedValue("imageviewZoomMax", m_imageviewZoomMax); });
+    connect(this, &PQCSettings::imageviewZoomMaxEnabledChanged, this, [=, this]() { saveChangedValue("imageviewZoomMaxEnabled", m_imageviewZoomMaxEnabled); });
+    connect(this, &PQCSettings::imageviewZoomMinChanged, this, [=, this]() { saveChangedValue("imageviewZoomMin", m_imageviewZoomMin); });
+    connect(this, &PQCSettings::imageviewZoomMinEnabledChanged, this, [=, this]() { saveChangedValue("imageviewZoomMinEnabled", m_imageviewZoomMinEnabled); });
+    connect(this, &PQCSettings::imageviewZoomSpeedChanged, this, [=, this]() { saveChangedValue("imageviewZoomSpeed", m_imageviewZoomSpeed); });
+    connect(this, &PQCSettings::imageviewZoomSpeedRelativeChanged, this, [=, this]() { saveChangedValue("imageviewZoomSpeedRelative", m_imageviewZoomSpeedRelative); });
+    connect(this, &PQCSettings::imageviewZoomToCenterChanged, this, [=, this]() { saveChangedValue("imageviewZoomToCenter", m_imageviewZoomToCenter); });
     // table: interface
-    connect(this, &PQCSettings::interfaceAccentColorChanged, this, [=]() { saveChangedValue("interfaceAccentColor", m_interfaceAccentColor); });
-    connect(this, &PQCSettings::interfaceAllowMultipleInstancesChanged, this, [=]() { saveChangedValue("interfaceAllowMultipleInstances", m_interfaceAllowMultipleInstances); });
-    connect(this, &PQCSettings::interfaceBackgroundCustomOverlayChanged, this, [=]() { saveChangedValue("interfaceBackgroundCustomOverlay", m_interfaceBackgroundCustomOverlay); });
-    connect(this, &PQCSettings::interfaceBackgroundCustomOverlayColorChanged, this, [=]() { saveChangedValue("interfaceBackgroundCustomOverlayColor", m_interfaceBackgroundCustomOverlayColor); });
-    connect(this, &PQCSettings::interfaceBackgroundFullyTransparentChanged, this, [=]() { saveChangedValue("interfaceBackgroundFullyTransparent", m_interfaceBackgroundFullyTransparent); });
-    connect(this, &PQCSettings::interfaceBackgroundImageCenterChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageCenter", m_interfaceBackgroundImageCenter); });
-    connect(this, &PQCSettings::interfaceBackgroundImagePathChanged, this, [=]() { saveChangedValue("interfaceBackgroundImagePath", m_interfaceBackgroundImagePath); });
-    connect(this, &PQCSettings::interfaceBackgroundImageScaleChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageScale", m_interfaceBackgroundImageScale); });
-    connect(this, &PQCSettings::interfaceBackgroundImageScaleCropChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageScaleCrop", m_interfaceBackgroundImageScaleCrop); });
-    connect(this, &PQCSettings::interfaceBackgroundImageScreenshotChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageScreenshot", m_interfaceBackgroundImageScreenshot); });
-    connect(this, &PQCSettings::interfaceBackgroundImageStretchChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageStretch", m_interfaceBackgroundImageStretch); });
-    connect(this, &PQCSettings::interfaceBackgroundImageTileChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageTile", m_interfaceBackgroundImageTile); });
-    connect(this, &PQCSettings::interfaceBackgroundImageUseChanged, this, [=]() { saveChangedValue("interfaceBackgroundImageUse", m_interfaceBackgroundImageUse); });
-    connect(this, &PQCSettings::interfaceBackgroundSolidChanged, this, [=]() { saveChangedValue("interfaceBackgroundSolid", m_interfaceBackgroundSolid); });
-    connect(this, &PQCSettings::interfaceBlurElementsInBackgroundChanged, this, [=]() { saveChangedValue("interfaceBlurElementsInBackground", m_interfaceBlurElementsInBackground); });
-    connect(this, &PQCSettings::interfaceCloseOnEmptyBackgroundChanged, this, [=]() { saveChangedValue("interfaceCloseOnEmptyBackground", m_interfaceCloseOnEmptyBackground); });
-    connect(this, &PQCSettings::interfaceDoubleClickThresholdChanged, this, [=]() { saveChangedValue("interfaceDoubleClickThreshold", m_interfaceDoubleClickThreshold); });
-    connect(this, &PQCSettings::interfaceEdgeBottomActionChanged, this, [=]() { saveChangedValue("interfaceEdgeBottomAction", m_interfaceEdgeBottomAction); });
-    connect(this, &PQCSettings::interfaceEdgeLeftActionChanged, this, [=]() { saveChangedValue("interfaceEdgeLeftAction", m_interfaceEdgeLeftAction); });
-    connect(this, &PQCSettings::interfaceEdgeRightActionChanged, this, [=]() { saveChangedValue("interfaceEdgeRightAction", m_interfaceEdgeRightAction); });
-    connect(this, &PQCSettings::interfaceEdgeTopActionChanged, this, [=]() { saveChangedValue("interfaceEdgeTopAction", m_interfaceEdgeTopAction); });
-    connect(this, &PQCSettings::interfaceFlickAdjustSpeedChanged, this, [=]() { saveChangedValue("interfaceFlickAdjustSpeed", m_interfaceFlickAdjustSpeed); });
-    connect(this, &PQCSettings::interfaceFlickAdjustSpeedSpeedupChanged, this, [=]() { saveChangedValue("interfaceFlickAdjustSpeedSpeedup", m_interfaceFlickAdjustSpeedSpeedup); });
-    connect(this, &PQCSettings::interfaceFontBoldWeightChanged, this, [=]() { saveChangedValue("interfaceFontBoldWeight", m_interfaceFontBoldWeight); });
-    connect(this, &PQCSettings::interfaceFontNormalWeightChanged, this, [=]() { saveChangedValue("interfaceFontNormalWeight", m_interfaceFontNormalWeight); });
-    connect(this, &PQCSettings::interfaceHotEdgeSizeChanged, this, [=]() { saveChangedValue("interfaceHotEdgeSize", m_interfaceHotEdgeSize); });
-    connect(this, &PQCSettings::interfaceKeepWindowOnTopChanged, this, [=]() { saveChangedValue("interfaceKeepWindowOnTop", m_interfaceKeepWindowOnTop); });
-    connect(this, &PQCSettings::interfaceLanguageChanged, this, [=]() { saveChangedValue("interfaceLanguage", m_interfaceLanguage); });
-    connect(this, &PQCSettings::interfaceMinimapPopoutChanged, this, [=]() { saveChangedValue("interfaceMinimapPopout", m_interfaceMinimapPopout); });
-    connect(this, &PQCSettings::interfaceNavigateOnEmptyBackgroundChanged, this, [=]() { saveChangedValue("interfaceNavigateOnEmptyBackground", m_interfaceNavigateOnEmptyBackground); });
-    connect(this, &PQCSettings::interfaceNavigationFloatingChanged, this, [=]() { saveChangedValue("interfaceNavigationFloating", m_interfaceNavigationFloating); });
-    connect(this, &PQCSettings::interfaceNotificationDistanceFromEdgeChanged, this, [=]() { saveChangedValue("interfaceNotificationDistanceFromEdge", m_interfaceNotificationDistanceFromEdge); });
-    connect(this, &PQCSettings::interfaceNotificationLocationChanged, this, [=]() { saveChangedValue("interfaceNotificationLocation", m_interfaceNotificationLocation); });
-    connect(this, &PQCSettings::interfaceNotificationTryNativeChanged, this, [=]() { saveChangedValue("interfaceNotificationTryNative", m_interfaceNotificationTryNative); });
-    connect(this, &PQCSettings::interfacePopoutAboutChanged, this, [=]() { saveChangedValue("interfacePopoutAbout", m_interfacePopoutAbout); });
-    connect(this, &PQCSettings::interfacePopoutAdvancedSortChanged, this, [=]() { saveChangedValue("interfacePopoutAdvancedSort", m_interfacePopoutAdvancedSort); });
-    connect(this, &PQCSettings::interfacePopoutChromecastChanged, this, [=]() { saveChangedValue("interfacePopoutChromecast", m_interfacePopoutChromecast); });
-    connect(this, &PQCSettings::interfacePopoutExportChanged, this, [=]() { saveChangedValue("interfacePopoutExport", m_interfacePopoutExport); });
-    connect(this, &PQCSettings::interfacePopoutFileDeleteChanged, this, [=]() { saveChangedValue("interfacePopoutFileDelete", m_interfacePopoutFileDelete); });
-    connect(this, &PQCSettings::interfacePopoutFileDialogChanged, this, [=]() { saveChangedValue("interfacePopoutFileDialog", m_interfacePopoutFileDialog); });
-    connect(this, &PQCSettings::interfacePopoutFileDialogNonModalChanged, this, [=]() { saveChangedValue("interfacePopoutFileDialogNonModal", m_interfacePopoutFileDialogNonModal); });
-    connect(this, &PQCSettings::interfacePopoutFileRenameChanged, this, [=]() { saveChangedValue("interfacePopoutFileRename", m_interfacePopoutFileRename); });
-    connect(this, &PQCSettings::interfacePopoutFilterChanged, this, [=]() { saveChangedValue("interfacePopoutFilter", m_interfacePopoutFilter); });
-    connect(this, &PQCSettings::interfacePopoutImgurChanged, this, [=]() { saveChangedValue("interfacePopoutImgur", m_interfacePopoutImgur); });
-    connect(this, &PQCSettings::interfacePopoutMainMenuChanged, this, [=]() { saveChangedValue("interfacePopoutMainMenu", m_interfacePopoutMainMenu); });
-    connect(this, &PQCSettings::interfacePopoutMapExplorerChanged, this, [=]() { saveChangedValue("interfacePopoutMapExplorer", m_interfacePopoutMapExplorer); });
-    connect(this, &PQCSettings::interfacePopoutMapExplorerNonModalChanged, this, [=]() { saveChangedValue("interfacePopoutMapExplorerNonModal", m_interfacePopoutMapExplorerNonModal); });
-    connect(this, &PQCSettings::interfacePopoutMetadataChanged, this, [=]() { saveChangedValue("interfacePopoutMetadata", m_interfacePopoutMetadata); });
-    connect(this, &PQCSettings::interfacePopoutSettingsManagerChanged, this, [=]() { saveChangedValue("interfacePopoutSettingsManager", m_interfacePopoutSettingsManager); });
-    connect(this, &PQCSettings::interfacePopoutSettingsManagerNonModalChanged, this, [=]() { saveChangedValue("interfacePopoutSettingsManagerNonModal", m_interfacePopoutSettingsManagerNonModal); });
-    connect(this, &PQCSettings::interfacePopoutSlideshowControlsChanged, this, [=]() { saveChangedValue("interfacePopoutSlideshowControls", m_interfacePopoutSlideshowControls); });
-    connect(this, &PQCSettings::interfacePopoutSlideshowSetupChanged, this, [=]() { saveChangedValue("interfacePopoutSlideshowSetup", m_interfacePopoutSlideshowSetup); });
-    connect(this, &PQCSettings::interfacePopoutWhenWindowIsSmallChanged, this, [=]() { saveChangedValue("interfacePopoutWhenWindowIsSmall", m_interfacePopoutWhenWindowIsSmall); });
-    connect(this, &PQCSettings::interfaceQuickActionsChanged, this, [=]() { saveChangedValue("interfaceQuickActions", m_interfaceQuickActions); });
-    connect(this, &PQCSettings::interfaceQuickActionsHeightChanged, this, [=]() { saveChangedValue("interfaceQuickActionsHeight", m_interfaceQuickActionsHeight); });
-    connect(this, &PQCSettings::interfaceQuickActionsItemsChanged, this, [=]() { saveChangedValue("interfaceQuickActionsItems", m_interfaceQuickActionsItems); });
-    connect(this, &PQCSettings::interfaceRememberLastImageChanged, this, [=]() { saveChangedValue("interfaceRememberLastImage", m_interfaceRememberLastImage); });
-    connect(this, &PQCSettings::interfaceSaveWindowGeometryChanged, this, [=]() { saveChangedValue("interfaceSaveWindowGeometry", m_interfaceSaveWindowGeometry); });
-    connect(this, &PQCSettings::interfaceStatusInfoAutoHideChanged, this, [=]() { saveChangedValue("interfaceStatusInfoAutoHide", m_interfaceStatusInfoAutoHide); });
-    connect(this, &PQCSettings::interfaceStatusInfoAutoHideTimeoutChanged, this, [=]() { saveChangedValue("interfaceStatusInfoAutoHideTimeout", m_interfaceStatusInfoAutoHideTimeout); });
-    connect(this, &PQCSettings::interfaceStatusInfoAutoHideTopEdgeChanged, this, [=]() { saveChangedValue("interfaceStatusInfoAutoHideTopEdge", m_interfaceStatusInfoAutoHideTopEdge); });
-    connect(this, &PQCSettings::interfaceStatusInfoFontSizeChanged, this, [=]() { saveChangedValue("interfaceStatusInfoFontSize", m_interfaceStatusInfoFontSize); });
-    connect(this, &PQCSettings::interfaceStatusInfoListChanged, this, [=]() { saveChangedValue("interfaceStatusInfoList", m_interfaceStatusInfoList); });
-    connect(this, &PQCSettings::interfaceStatusInfoManageWindowChanged, this, [=]() { saveChangedValue("interfaceStatusInfoManageWindow", m_interfaceStatusInfoManageWindow); });
-    connect(this, &PQCSettings::interfaceStatusInfoPositionChanged, this, [=]() { saveChangedValue("interfaceStatusInfoPosition", m_interfaceStatusInfoPosition); });
-    connect(this, &PQCSettings::interfaceStatusInfoShowChanged, this, [=]() { saveChangedValue("interfaceStatusInfoShow", m_interfaceStatusInfoShow); });
-    connect(this, &PQCSettings::interfaceStatusInfoShowImageChangeChanged, this, [=]() { saveChangedValue("interfaceStatusInfoShowImageChange", m_interfaceStatusInfoShowImageChange); });
-    connect(this, &PQCSettings::interfaceTrayIconChanged, this, [=]() { saveChangedValue("interfaceTrayIcon", m_interfaceTrayIcon); });
-    connect(this, &PQCSettings::interfaceTrayIconHideResetChanged, this, [=]() { saveChangedValue("interfaceTrayIconHideReset", m_interfaceTrayIconHideReset); });
-    connect(this, &PQCSettings::interfaceTrayIconMonochromeChanged, this, [=]() { saveChangedValue("interfaceTrayIconMonochrome", m_interfaceTrayIconMonochrome); });
-    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHide", m_interfaceWindowButtonsAutoHide); });
-    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTimeoutChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHideTimeout", m_interfaceWindowButtonsAutoHideTimeout); });
-    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTopEdgeChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsAutoHideTopEdge", m_interfaceWindowButtonsAutoHideTopEdge); });
-    connect(this, &PQCSettings::interfaceWindowButtonsFollowAccentColorChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsFollowAccentColor", m_interfaceWindowButtonsFollowAccentColor); });
-    connect(this, &PQCSettings::interfaceWindowButtonsItemsChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsItems", m_interfaceWindowButtonsItems); });
-    connect(this, &PQCSettings::interfaceWindowButtonsShowChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsShow", m_interfaceWindowButtonsShow); });
-    connect(this, &PQCSettings::interfaceWindowButtonsSizeChanged, this, [=]() { saveChangedValue("interfaceWindowButtonsSize", m_interfaceWindowButtonsSize); });
-    connect(this, &PQCSettings::interfaceWindowDecorationChanged, this, [=]() { saveChangedValue("interfaceWindowDecoration", m_interfaceWindowDecoration); });
-    connect(this, &PQCSettings::interfaceWindowDecorationOnEmptyBackgroundChanged, this, [=]() { saveChangedValue("interfaceWindowDecorationOnEmptyBackground", m_interfaceWindowDecorationOnEmptyBackground); });
-    connect(this, &PQCSettings::interfaceWindowModeChanged, this, [=]() { saveChangedValue("interfaceWindowMode", m_interfaceWindowMode); });
+    connect(this, &PQCSettings::interfaceAccentColorChanged, this, [=, this]() { saveChangedValue("interfaceAccentColor", m_interfaceAccentColor); });
+    connect(this, &PQCSettings::interfaceAllowMultipleInstancesChanged, this, [=, this]() { saveChangedValue("interfaceAllowMultipleInstances", m_interfaceAllowMultipleInstances); });
+    connect(this, &PQCSettings::interfaceBackgroundCustomOverlayChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundCustomOverlay", m_interfaceBackgroundCustomOverlay); });
+    connect(this, &PQCSettings::interfaceBackgroundCustomOverlayColorChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundCustomOverlayColor", m_interfaceBackgroundCustomOverlayColor); });
+    connect(this, &PQCSettings::interfaceBackgroundFullyTransparentChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundFullyTransparent", m_interfaceBackgroundFullyTransparent); });
+    connect(this, &PQCSettings::interfaceBackgroundImageCenterChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageCenter", m_interfaceBackgroundImageCenter); });
+    connect(this, &PQCSettings::interfaceBackgroundImagePathChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImagePath", m_interfaceBackgroundImagePath); });
+    connect(this, &PQCSettings::interfaceBackgroundImageScaleChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageScale", m_interfaceBackgroundImageScale); });
+    connect(this, &PQCSettings::interfaceBackgroundImageScaleCropChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageScaleCrop", m_interfaceBackgroundImageScaleCrop); });
+    connect(this, &PQCSettings::interfaceBackgroundImageScreenshotChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageScreenshot", m_interfaceBackgroundImageScreenshot); });
+    connect(this, &PQCSettings::interfaceBackgroundImageStretchChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageStretch", m_interfaceBackgroundImageStretch); });
+    connect(this, &PQCSettings::interfaceBackgroundImageTileChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageTile", m_interfaceBackgroundImageTile); });
+    connect(this, &PQCSettings::interfaceBackgroundImageUseChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundImageUse", m_interfaceBackgroundImageUse); });
+    connect(this, &PQCSettings::interfaceBackgroundSolidChanged, this, [=, this]() { saveChangedValue("interfaceBackgroundSolid", m_interfaceBackgroundSolid); });
+    connect(this, &PQCSettings::interfaceBlurElementsInBackgroundChanged, this, [=, this]() { saveChangedValue("interfaceBlurElementsInBackground", m_interfaceBlurElementsInBackground); });
+    connect(this, &PQCSettings::interfaceCloseOnEmptyBackgroundChanged, this, [=, this]() { saveChangedValue("interfaceCloseOnEmptyBackground", m_interfaceCloseOnEmptyBackground); });
+    connect(this, &PQCSettings::interfaceDoubleClickThresholdChanged, this, [=, this]() { saveChangedValue("interfaceDoubleClickThreshold", m_interfaceDoubleClickThreshold); });
+    connect(this, &PQCSettings::interfaceEdgeBottomActionChanged, this, [=, this]() { saveChangedValue("interfaceEdgeBottomAction", m_interfaceEdgeBottomAction); });
+    connect(this, &PQCSettings::interfaceEdgeLeftActionChanged, this, [=, this]() { saveChangedValue("interfaceEdgeLeftAction", m_interfaceEdgeLeftAction); });
+    connect(this, &PQCSettings::interfaceEdgeRightActionChanged, this, [=, this]() { saveChangedValue("interfaceEdgeRightAction", m_interfaceEdgeRightAction); });
+    connect(this, &PQCSettings::interfaceEdgeTopActionChanged, this, [=, this]() { saveChangedValue("interfaceEdgeTopAction", m_interfaceEdgeTopAction); });
+    connect(this, &PQCSettings::interfaceFlickAdjustSpeedChanged, this, [=, this]() { saveChangedValue("interfaceFlickAdjustSpeed", m_interfaceFlickAdjustSpeed); });
+    connect(this, &PQCSettings::interfaceFlickAdjustSpeedSpeedupChanged, this, [=, this]() { saveChangedValue("interfaceFlickAdjustSpeedSpeedup", m_interfaceFlickAdjustSpeedSpeedup); });
+    connect(this, &PQCSettings::interfaceFontBoldWeightChanged, this, [=, this]() { saveChangedValue("interfaceFontBoldWeight", m_interfaceFontBoldWeight); });
+    connect(this, &PQCSettings::interfaceFontNormalWeightChanged, this, [=, this]() { saveChangedValue("interfaceFontNormalWeight", m_interfaceFontNormalWeight); });
+    connect(this, &PQCSettings::interfaceHotEdgeSizeChanged, this, [=, this]() { saveChangedValue("interfaceHotEdgeSize", m_interfaceHotEdgeSize); });
+    connect(this, &PQCSettings::interfaceKeepWindowOnTopChanged, this, [=, this]() { saveChangedValue("interfaceKeepWindowOnTop", m_interfaceKeepWindowOnTop); });
+    connect(this, &PQCSettings::interfaceLanguageChanged, this, [=, this]() { saveChangedValue("interfaceLanguage", m_interfaceLanguage); });
+    connect(this, &PQCSettings::interfaceMinimapPopoutChanged, this, [=, this]() { saveChangedValue("interfaceMinimapPopout", m_interfaceMinimapPopout); });
+    connect(this, &PQCSettings::interfaceNavigateOnEmptyBackgroundChanged, this, [=, this]() { saveChangedValue("interfaceNavigateOnEmptyBackground", m_interfaceNavigateOnEmptyBackground); });
+    connect(this, &PQCSettings::interfaceNavigationFloatingChanged, this, [=, this]() { saveChangedValue("interfaceNavigationFloating", m_interfaceNavigationFloating); });
+    connect(this, &PQCSettings::interfaceNotificationDistanceFromEdgeChanged, this, [=, this]() { saveChangedValue("interfaceNotificationDistanceFromEdge", m_interfaceNotificationDistanceFromEdge); });
+    connect(this, &PQCSettings::interfaceNotificationLocationChanged, this, [=, this]() { saveChangedValue("interfaceNotificationLocation", m_interfaceNotificationLocation); });
+    connect(this, &PQCSettings::interfaceNotificationTryNativeChanged, this, [=, this]() { saveChangedValue("interfaceNotificationTryNative", m_interfaceNotificationTryNative); });
+    connect(this, &PQCSettings::interfacePopoutAboutChanged, this, [=, this]() { saveChangedValue("interfacePopoutAbout", m_interfacePopoutAbout); });
+    connect(this, &PQCSettings::interfacePopoutAdvancedSortChanged, this, [=, this]() { saveChangedValue("interfacePopoutAdvancedSort", m_interfacePopoutAdvancedSort); });
+    connect(this, &PQCSettings::interfacePopoutChromecastChanged, this, [=, this]() { saveChangedValue("interfacePopoutChromecast", m_interfacePopoutChromecast); });
+    connect(this, &PQCSettings::interfacePopoutExportChanged, this, [=, this]() { saveChangedValue("interfacePopoutExport", m_interfacePopoutExport); });
+    connect(this, &PQCSettings::interfacePopoutFileDeleteChanged, this, [=, this]() { saveChangedValue("interfacePopoutFileDelete", m_interfacePopoutFileDelete); });
+    connect(this, &PQCSettings::interfacePopoutFileDialogChanged, this, [=, this]() { saveChangedValue("interfacePopoutFileDialog", m_interfacePopoutFileDialog); });
+    connect(this, &PQCSettings::interfacePopoutFileDialogNonModalChanged, this, [=, this]() { saveChangedValue("interfacePopoutFileDialogNonModal", m_interfacePopoutFileDialogNonModal); });
+    connect(this, &PQCSettings::interfacePopoutFileRenameChanged, this, [=, this]() { saveChangedValue("interfacePopoutFileRename", m_interfacePopoutFileRename); });
+    connect(this, &PQCSettings::interfacePopoutFilterChanged, this, [=, this]() { saveChangedValue("interfacePopoutFilter", m_interfacePopoutFilter); });
+    connect(this, &PQCSettings::interfacePopoutImgurChanged, this, [=, this]() { saveChangedValue("interfacePopoutImgur", m_interfacePopoutImgur); });
+    connect(this, &PQCSettings::interfacePopoutMainMenuChanged, this, [=, this]() { saveChangedValue("interfacePopoutMainMenu", m_interfacePopoutMainMenu); });
+    connect(this, &PQCSettings::interfacePopoutMapExplorerChanged, this, [=, this]() { saveChangedValue("interfacePopoutMapExplorer", m_interfacePopoutMapExplorer); });
+    connect(this, &PQCSettings::interfacePopoutMapExplorerNonModalChanged, this, [=, this]() { saveChangedValue("interfacePopoutMapExplorerNonModal", m_interfacePopoutMapExplorerNonModal); });
+    connect(this, &PQCSettings::interfacePopoutMetadataChanged, this, [=, this]() { saveChangedValue("interfacePopoutMetadata", m_interfacePopoutMetadata); });
+    connect(this, &PQCSettings::interfacePopoutSettingsManagerChanged, this, [=, this]() { saveChangedValue("interfacePopoutSettingsManager", m_interfacePopoutSettingsManager); });
+    connect(this, &PQCSettings::interfacePopoutSettingsManagerNonModalChanged, this, [=, this]() { saveChangedValue("interfacePopoutSettingsManagerNonModal", m_interfacePopoutSettingsManagerNonModal); });
+    connect(this, &PQCSettings::interfacePopoutSlideshowControlsChanged, this, [=, this]() { saveChangedValue("interfacePopoutSlideshowControls", m_interfacePopoutSlideshowControls); });
+    connect(this, &PQCSettings::interfacePopoutSlideshowSetupChanged, this, [=, this]() { saveChangedValue("interfacePopoutSlideshowSetup", m_interfacePopoutSlideshowSetup); });
+    connect(this, &PQCSettings::interfacePopoutWhenWindowIsSmallChanged, this, [=, this]() { saveChangedValue("interfacePopoutWhenWindowIsSmall", m_interfacePopoutWhenWindowIsSmall); });
+    connect(this, &PQCSettings::interfaceQuickActionsChanged, this, [=, this]() { saveChangedValue("interfaceQuickActions", m_interfaceQuickActions); });
+    connect(this, &PQCSettings::interfaceQuickActionsHeightChanged, this, [=, this]() { saveChangedValue("interfaceQuickActionsHeight", m_interfaceQuickActionsHeight); });
+    connect(this, &PQCSettings::interfaceQuickActionsItemsChanged, this, [=, this]() { saveChangedValue("interfaceQuickActionsItems", m_interfaceQuickActionsItems); });
+    connect(this, &PQCSettings::interfaceRememberLastImageChanged, this, [=, this]() { saveChangedValue("interfaceRememberLastImage", m_interfaceRememberLastImage); });
+    connect(this, &PQCSettings::interfaceSaveWindowGeometryChanged, this, [=, this]() { saveChangedValue("interfaceSaveWindowGeometry", m_interfaceSaveWindowGeometry); });
+    connect(this, &PQCSettings::interfaceStatusInfoAutoHideChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoAutoHide", m_interfaceStatusInfoAutoHide); });
+    connect(this, &PQCSettings::interfaceStatusInfoAutoHideTimeoutChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoAutoHideTimeout", m_interfaceStatusInfoAutoHideTimeout); });
+    connect(this, &PQCSettings::interfaceStatusInfoAutoHideTopEdgeChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoAutoHideTopEdge", m_interfaceStatusInfoAutoHideTopEdge); });
+    connect(this, &PQCSettings::interfaceStatusInfoFontSizeChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoFontSize", m_interfaceStatusInfoFontSize); });
+    connect(this, &PQCSettings::interfaceStatusInfoListChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoList", m_interfaceStatusInfoList); });
+    connect(this, &PQCSettings::interfaceStatusInfoManageWindowChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoManageWindow", m_interfaceStatusInfoManageWindow); });
+    connect(this, &PQCSettings::interfaceStatusInfoPositionChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoPosition", m_interfaceStatusInfoPosition); });
+    connect(this, &PQCSettings::interfaceStatusInfoShowChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoShow", m_interfaceStatusInfoShow); });
+    connect(this, &PQCSettings::interfaceStatusInfoShowImageChangeChanged, this, [=, this]() { saveChangedValue("interfaceStatusInfoShowImageChange", m_interfaceStatusInfoShowImageChange); });
+    connect(this, &PQCSettings::interfaceTrayIconChanged, this, [=, this]() { saveChangedValue("interfaceTrayIcon", m_interfaceTrayIcon); });
+    connect(this, &PQCSettings::interfaceTrayIconHideResetChanged, this, [=, this]() { saveChangedValue("interfaceTrayIconHideReset", m_interfaceTrayIconHideReset); });
+    connect(this, &PQCSettings::interfaceTrayIconMonochromeChanged, this, [=, this]() { saveChangedValue("interfaceTrayIconMonochrome", m_interfaceTrayIconMonochrome); });
+    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsAutoHide", m_interfaceWindowButtonsAutoHide); });
+    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTimeoutChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsAutoHideTimeout", m_interfaceWindowButtonsAutoHideTimeout); });
+    connect(this, &PQCSettings::interfaceWindowButtonsAutoHideTopEdgeChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsAutoHideTopEdge", m_interfaceWindowButtonsAutoHideTopEdge); });
+    connect(this, &PQCSettings::interfaceWindowButtonsFollowAccentColorChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsFollowAccentColor", m_interfaceWindowButtonsFollowAccentColor); });
+    connect(this, &PQCSettings::interfaceWindowButtonsItemsChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsItems", m_interfaceWindowButtonsItems); });
+    connect(this, &PQCSettings::interfaceWindowButtonsShowChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsShow", m_interfaceWindowButtonsShow); });
+    connect(this, &PQCSettings::interfaceWindowButtonsSizeChanged, this, [=, this]() { saveChangedValue("interfaceWindowButtonsSize", m_interfaceWindowButtonsSize); });
+    connect(this, &PQCSettings::interfaceWindowDecorationChanged, this, [=, this]() { saveChangedValue("interfaceWindowDecoration", m_interfaceWindowDecoration); });
+    connect(this, &PQCSettings::interfaceWindowDecorationOnEmptyBackgroundChanged, this, [=, this]() { saveChangedValue("interfaceWindowDecorationOnEmptyBackground", m_interfaceWindowDecorationOnEmptyBackground); });
+    connect(this, &PQCSettings::interfaceWindowModeChanged, this, [=, this]() { saveChangedValue("interfaceWindowMode", m_interfaceWindowMode); });
     // table: mainmenu
-    connect(this, &PQCSettings::mainmenuElementHeightDynamicChanged, this, [=]() { saveChangedValue("mainmenuElementHeightDynamic", m_mainmenuElementHeightDynamic); });
-    connect(this, &PQCSettings::mainmenuElementPositionChanged, this, [=]() { saveChangedValue("mainmenuElementPosition", m_mainmenuElementPosition); });
-    connect(this, &PQCSettings::mainmenuElementSizeChanged, this, [=]() { saveChangedValue("mainmenuElementSize", m_mainmenuElementSize); });
-    connect(this, &PQCSettings::mainmenuElementWidthChanged, this, [=]() { saveChangedValue("mainmenuElementWidth", m_mainmenuElementWidth); });
-    connect(this, &PQCSettings::mainmenuShowExternalChanged, this, [=]() { saveChangedValue("mainmenuShowExternal", m_mainmenuShowExternal); });
+    connect(this, &PQCSettings::mainmenuElementHeightDynamicChanged, this, [=, this]() { saveChangedValue("mainmenuElementHeightDynamic", m_mainmenuElementHeightDynamic); });
+    connect(this, &PQCSettings::mainmenuElementPositionChanged, this, [=, this]() { saveChangedValue("mainmenuElementPosition", m_mainmenuElementPosition); });
+    connect(this, &PQCSettings::mainmenuElementSizeChanged, this, [=, this]() { saveChangedValue("mainmenuElementSize", m_mainmenuElementSize); });
+    connect(this, &PQCSettings::mainmenuElementWidthChanged, this, [=, this]() { saveChangedValue("mainmenuElementWidth", m_mainmenuElementWidth); });
+    connect(this, &PQCSettings::mainmenuShowExternalChanged, this, [=, this]() { saveChangedValue("mainmenuShowExternal", m_mainmenuShowExternal); });
     // table: mapview
-    connect(this, &PQCSettings::mapviewCurrentPositionChanged, this, [=]() { saveChangedValue("mapviewCurrentPosition", m_mapviewCurrentPosition); });
-    connect(this, &PQCSettings::mapviewCurrentSizeChanged, this, [=]() { saveChangedValue("mapviewCurrentSize", m_mapviewCurrentSize); });
-    connect(this, &PQCSettings::mapviewCurrentVisibleChanged, this, [=]() { saveChangedValue("mapviewCurrentVisible", m_mapviewCurrentVisible); });
-    connect(this, &PQCSettings::mapviewExplorerThumbnailsScaleCropChanged, this, [=]() { saveChangedValue("mapviewExplorerThumbnailsScaleCrop", m_mapviewExplorerThumbnailsScaleCrop); });
-    connect(this, &PQCSettings::mapviewExplorerThumbnailsZoomLevelChanged, this, [=]() { saveChangedValue("mapviewExplorerThumbnailsZoomLevel", m_mapviewExplorerThumbnailsZoomLevel); });
+    connect(this, &PQCSettings::mapviewCurrentPositionChanged, this, [=, this]() { saveChangedValue("mapviewCurrentPosition", m_mapviewCurrentPosition); });
+    connect(this, &PQCSettings::mapviewCurrentSizeChanged, this, [=, this]() { saveChangedValue("mapviewCurrentSize", m_mapviewCurrentSize); });
+    connect(this, &PQCSettings::mapviewCurrentVisibleChanged, this, [=, this]() { saveChangedValue("mapviewCurrentVisible", m_mapviewCurrentVisible); });
+    connect(this, &PQCSettings::mapviewExplorerThumbnailsScaleCropChanged, this, [=, this]() { saveChangedValue("mapviewExplorerThumbnailsScaleCrop", m_mapviewExplorerThumbnailsScaleCrop); });
+    connect(this, &PQCSettings::mapviewExplorerThumbnailsZoomLevelChanged, this, [=, this]() { saveChangedValue("mapviewExplorerThumbnailsZoomLevel", m_mapviewExplorerThumbnailsZoomLevel); });
     // table: metadata
-    connect(this, &PQCSettings::metadataAutoRotationChanged, this, [=]() { saveChangedValue("metadataAutoRotation", m_metadataAutoRotation); });
-    connect(this, &PQCSettings::metadataCopyrightChanged, this, [=]() { saveChangedValue("metadataCopyright", m_metadataCopyright); });
-    connect(this, &PQCSettings::metadataDimensionsChanged, this, [=]() { saveChangedValue("metadataDimensions", m_metadataDimensions); });
-    connect(this, &PQCSettings::metadataElementFloatingChanged, this, [=]() { saveChangedValue("metadataElementFloating", m_metadataElementFloating); });
-    connect(this, &PQCSettings::metadataElementHeightDynamicChanged, this, [=]() { saveChangedValue("metadataElementHeightDynamic", m_metadataElementHeightDynamic); });
-    connect(this, &PQCSettings::metadataElementPositionChanged, this, [=]() { saveChangedValue("metadataElementPosition", m_metadataElementPosition); });
-    connect(this, &PQCSettings::metadataElementSizeChanged, this, [=]() { saveChangedValue("metadataElementSize", m_metadataElementSize); });
-    connect(this, &PQCSettings::metadataElementVisibleChanged, this, [=]() { saveChangedValue("metadataElementVisible", m_metadataElementVisible); });
-    connect(this, &PQCSettings::metadataExposureTimeChanged, this, [=]() { saveChangedValue("metadataExposureTime", m_metadataExposureTime); });
-    connect(this, &PQCSettings::metadataFLengthChanged, this, [=]() { saveChangedValue("metadataFLength", m_metadataFLength); });
-    connect(this, &PQCSettings::metadataFNumberChanged, this, [=]() { saveChangedValue("metadataFNumber", m_metadataFNumber); });
-    connect(this, &PQCSettings::metadataFaceTagsBorderChanged, this, [=]() { saveChangedValue("metadataFaceTagsBorder", m_metadataFaceTagsBorder); });
-    connect(this, &PQCSettings::metadataFaceTagsBorderColorChanged, this, [=]() { saveChangedValue("metadataFaceTagsBorderColor", m_metadataFaceTagsBorderColor); });
-    connect(this, &PQCSettings::metadataFaceTagsBorderWidthChanged, this, [=]() { saveChangedValue("metadataFaceTagsBorderWidth", m_metadataFaceTagsBorderWidth); });
-    connect(this, &PQCSettings::metadataFaceTagsEnabledChanged, this, [=]() { saveChangedValue("metadataFaceTagsEnabled", m_metadataFaceTagsEnabled); });
-    connect(this, &PQCSettings::metadataFaceTagsFontSizeChanged, this, [=]() { saveChangedValue("metadataFaceTagsFontSize", m_metadataFaceTagsFontSize); });
-    connect(this, &PQCSettings::metadataFaceTagsVisibilityChanged, this, [=]() { saveChangedValue("metadataFaceTagsVisibility", m_metadataFaceTagsVisibility); });
-    connect(this, &PQCSettings::metadataFileSizeChanged, this, [=]() { saveChangedValue("metadataFileSize", m_metadataFileSize); });
-    connect(this, &PQCSettings::metadataFileTypeChanged, this, [=]() { saveChangedValue("metadataFileType", m_metadataFileType); });
-    connect(this, &PQCSettings::metadataFilenameChanged, this, [=]() { saveChangedValue("metadataFilename", m_metadataFilename); });
-    connect(this, &PQCSettings::metadataFlashChanged, this, [=]() { saveChangedValue("metadataFlash", m_metadataFlash); });
-    connect(this, &PQCSettings::metadataGpsChanged, this, [=]() { saveChangedValue("metadataGps", m_metadataGps); });
-    connect(this, &PQCSettings::metadataGpsMapChanged, this, [=]() { saveChangedValue("metadataGpsMap", m_metadataGpsMap); });
-    connect(this, &PQCSettings::metadataImageNumberChanged, this, [=]() { saveChangedValue("metadataImageNumber", m_metadataImageNumber); });
-    connect(this, &PQCSettings::metadataIsoChanged, this, [=]() { saveChangedValue("metadataIso", m_metadataIso); });
-    connect(this, &PQCSettings::metadataKeywordsChanged, this, [=]() { saveChangedValue("metadataKeywords", m_metadataKeywords); });
-    connect(this, &PQCSettings::metadataLightSourceChanged, this, [=]() { saveChangedValue("metadataLightSource", m_metadataLightSource); });
-    connect(this, &PQCSettings::metadataLocationChanged, this, [=]() { saveChangedValue("metadataLocation", m_metadataLocation); });
-    connect(this, &PQCSettings::metadataMakeChanged, this, [=]() { saveChangedValue("metadataMake", m_metadataMake); });
-    connect(this, &PQCSettings::metadataModelChanged, this, [=]() { saveChangedValue("metadataModel", m_metadataModel); });
-    connect(this, &PQCSettings::metadataSceneTypeChanged, this, [=]() { saveChangedValue("metadataSceneType", m_metadataSceneType); });
-    connect(this, &PQCSettings::metadataSoftwareChanged, this, [=]() { saveChangedValue("metadataSoftware", m_metadataSoftware); });
-    connect(this, &PQCSettings::metadataTimeChanged, this, [=]() { saveChangedValue("metadataTime", m_metadataTime); });
+    connect(this, &PQCSettings::metadataAutoRotationChanged, this, [=, this]() { saveChangedValue("metadataAutoRotation", m_metadataAutoRotation); });
+    connect(this, &PQCSettings::metadataCopyrightChanged, this, [=, this]() { saveChangedValue("metadataCopyright", m_metadataCopyright); });
+    connect(this, &PQCSettings::metadataDimensionsChanged, this, [=, this]() { saveChangedValue("metadataDimensions", m_metadataDimensions); });
+    connect(this, &PQCSettings::metadataElementFloatingChanged, this, [=, this]() { saveChangedValue("metadataElementFloating", m_metadataElementFloating); });
+    connect(this, &PQCSettings::metadataElementHeightDynamicChanged, this, [=, this]() { saveChangedValue("metadataElementHeightDynamic", m_metadataElementHeightDynamic); });
+    connect(this, &PQCSettings::metadataElementPositionChanged, this, [=, this]() { saveChangedValue("metadataElementPosition", m_metadataElementPosition); });
+    connect(this, &PQCSettings::metadataElementSizeChanged, this, [=, this]() { saveChangedValue("metadataElementSize", m_metadataElementSize); });
+    connect(this, &PQCSettings::metadataElementVisibleChanged, this, [=, this]() { saveChangedValue("metadataElementVisible", m_metadataElementVisible); });
+    connect(this, &PQCSettings::metadataExposureTimeChanged, this, [=, this]() { saveChangedValue("metadataExposureTime", m_metadataExposureTime); });
+    connect(this, &PQCSettings::metadataFLengthChanged, this, [=, this]() { saveChangedValue("metadataFLength", m_metadataFLength); });
+    connect(this, &PQCSettings::metadataFNumberChanged, this, [=, this]() { saveChangedValue("metadataFNumber", m_metadataFNumber); });
+    connect(this, &PQCSettings::metadataFaceTagsBorderChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsBorder", m_metadataFaceTagsBorder); });
+    connect(this, &PQCSettings::metadataFaceTagsBorderColorChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsBorderColor", m_metadataFaceTagsBorderColor); });
+    connect(this, &PQCSettings::metadataFaceTagsBorderWidthChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsBorderWidth", m_metadataFaceTagsBorderWidth); });
+    connect(this, &PQCSettings::metadataFaceTagsEnabledChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsEnabled", m_metadataFaceTagsEnabled); });
+    connect(this, &PQCSettings::metadataFaceTagsFontSizeChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsFontSize", m_metadataFaceTagsFontSize); });
+    connect(this, &PQCSettings::metadataFaceTagsVisibilityChanged, this, [=, this]() { saveChangedValue("metadataFaceTagsVisibility", m_metadataFaceTagsVisibility); });
+    connect(this, &PQCSettings::metadataFileSizeChanged, this, [=, this]() { saveChangedValue("metadataFileSize", m_metadataFileSize); });
+    connect(this, &PQCSettings::metadataFileTypeChanged, this, [=, this]() { saveChangedValue("metadataFileType", m_metadataFileType); });
+    connect(this, &PQCSettings::metadataFilenameChanged, this, [=, this]() { saveChangedValue("metadataFilename", m_metadataFilename); });
+    connect(this, &PQCSettings::metadataFlashChanged, this, [=, this]() { saveChangedValue("metadataFlash", m_metadataFlash); });
+    connect(this, &PQCSettings::metadataGpsChanged, this, [=, this]() { saveChangedValue("metadataGps", m_metadataGps); });
+    connect(this, &PQCSettings::metadataGpsMapChanged, this, [=, this]() { saveChangedValue("metadataGpsMap", m_metadataGpsMap); });
+    connect(this, &PQCSettings::metadataImageNumberChanged, this, [=, this]() { saveChangedValue("metadataImageNumber", m_metadataImageNumber); });
+    connect(this, &PQCSettings::metadataIsoChanged, this, [=, this]() { saveChangedValue("metadataIso", m_metadataIso); });
+    connect(this, &PQCSettings::metadataKeywordsChanged, this, [=, this]() { saveChangedValue("metadataKeywords", m_metadataKeywords); });
+    connect(this, &PQCSettings::metadataLightSourceChanged, this, [=, this]() { saveChangedValue("metadataLightSource", m_metadataLightSource); });
+    connect(this, &PQCSettings::metadataLocationChanged, this, [=, this]() { saveChangedValue("metadataLocation", m_metadataLocation); });
+    connect(this, &PQCSettings::metadataMakeChanged, this, [=, this]() { saveChangedValue("metadataMake", m_metadataMake); });
+    connect(this, &PQCSettings::metadataModelChanged, this, [=, this]() { saveChangedValue("metadataModel", m_metadataModel); });
+    connect(this, &PQCSettings::metadataSceneTypeChanged, this, [=, this]() { saveChangedValue("metadataSceneType", m_metadataSceneType); });
+    connect(this, &PQCSettings::metadataSideBarChanged, this, [=, this]() { saveChangedValue("metadataSideBar", m_metadataSideBar); });
+    connect(this, &PQCSettings::metadataSideBarLocationChanged, this, [=, this]() { saveChangedValue("metadataSideBarLocation", m_metadataSideBarLocation); });
+    connect(this, &PQCSettings::metadataSideBarWidthChanged, this, [=, this]() { saveChangedValue("metadataSideBarWidth", m_metadataSideBarWidth); });
+    connect(this, &PQCSettings::metadataSoftwareChanged, this, [=, this]() { saveChangedValue("metadataSoftware", m_metadataSoftware); });
+    connect(this, &PQCSettings::metadataTimeChanged, this, [=, this]() { saveChangedValue("metadataTime", m_metadataTime); });
     // table: slideshow
-    connect(this, &PQCSettings::slideshowHideLabelsChanged, this, [=]() { saveChangedValue("slideshowHideLabels", m_slideshowHideLabels); });
-    connect(this, &PQCSettings::slideshowHideWindowButtonsChanged, this, [=]() { saveChangedValue("slideshowHideWindowButtons", m_slideshowHideWindowButtons); });
-    connect(this, &PQCSettings::slideshowImageTransitionChanged, this, [=]() { saveChangedValue("slideshowImageTransition", m_slideshowImageTransition); });
-    connect(this, &PQCSettings::slideshowIncludeSubFoldersChanged, this, [=]() { saveChangedValue("slideshowIncludeSubFolders", m_slideshowIncludeSubFolders); });
-    connect(this, &PQCSettings::slideshowLoopChanged, this, [=]() { saveChangedValue("slideshowLoop", m_slideshowLoop); });
-    connect(this, &PQCSettings::slideshowMusicChanged, this, [=]() { saveChangedValue("slideshowMusic", m_slideshowMusic); });
-    connect(this, &PQCSettings::slideshowMusicFileChanged, this, [=]() { saveChangedValue("slideshowMusicFile", m_slideshowMusicFile); });
-    connect(this, &PQCSettings::slideshowMusicFilesChanged, this, [=]() { saveChangedValue("slideshowMusicFiles", m_slideshowMusicFiles); });
-    connect(this, &PQCSettings::slideshowMusicShuffleChanged, this, [=]() { saveChangedValue("slideshowMusicShuffle", m_slideshowMusicShuffle); });
-    connect(this, &PQCSettings::slideshowMusicVolumeVideosChanged, this, [=]() { saveChangedValue("slideshowMusicVolumeVideos", m_slideshowMusicVolumeVideos); });
-    connect(this, &PQCSettings::slideshowShuffleChanged, this, [=]() { saveChangedValue("slideshowShuffle", m_slideshowShuffle); });
-    connect(this, &PQCSettings::slideshowTimeChanged, this, [=]() { saveChangedValue("slideshowTime", m_slideshowTime); });
-    connect(this, &PQCSettings::slideshowTypeAnimationChanged, this, [=]() { saveChangedValue("slideshowTypeAnimation", m_slideshowTypeAnimation); });
+    connect(this, &PQCSettings::slideshowHideLabelsChanged, this, [=, this]() { saveChangedValue("slideshowHideLabels", m_slideshowHideLabels); });
+    connect(this, &PQCSettings::slideshowHideWindowButtonsChanged, this, [=, this]() { saveChangedValue("slideshowHideWindowButtons", m_slideshowHideWindowButtons); });
+    connect(this, &PQCSettings::slideshowImageTransitionChanged, this, [=, this]() { saveChangedValue("slideshowImageTransition", m_slideshowImageTransition); });
+    connect(this, &PQCSettings::slideshowIncludeSubFoldersChanged, this, [=, this]() { saveChangedValue("slideshowIncludeSubFolders", m_slideshowIncludeSubFolders); });
+    connect(this, &PQCSettings::slideshowLoopChanged, this, [=, this]() { saveChangedValue("slideshowLoop", m_slideshowLoop); });
+    connect(this, &PQCSettings::slideshowMusicChanged, this, [=, this]() { saveChangedValue("slideshowMusic", m_slideshowMusic); });
+    connect(this, &PQCSettings::slideshowMusicFileChanged, this, [=, this]() { saveChangedValue("slideshowMusicFile", m_slideshowMusicFile); });
+    connect(this, &PQCSettings::slideshowMusicFilesChanged, this, [=, this]() { saveChangedValue("slideshowMusicFiles", m_slideshowMusicFiles); });
+    connect(this, &PQCSettings::slideshowMusicShuffleChanged, this, [=, this]() { saveChangedValue("slideshowMusicShuffle", m_slideshowMusicShuffle); });
+    connect(this, &PQCSettings::slideshowMusicVolumeVideosChanged, this, [=, this]() { saveChangedValue("slideshowMusicVolumeVideos", m_slideshowMusicVolumeVideos); });
+    connect(this, &PQCSettings::slideshowShuffleChanged, this, [=, this]() { saveChangedValue("slideshowShuffle", m_slideshowShuffle); });
+    connect(this, &PQCSettings::slideshowTimeChanged, this, [=, this]() { saveChangedValue("slideshowTime", m_slideshowTime); });
+    connect(this, &PQCSettings::slideshowTypeAnimationChanged, this, [=, this]() { saveChangedValue("slideshowTypeAnimation", m_slideshowTypeAnimation); });
     // table: thumbnails
-    connect(this, &PQCSettings::thumbnailsCacheChanged, this, [=]() { saveChangedValue("thumbnailsCache", m_thumbnailsCache); });
-    connect(this, &PQCSettings::thumbnailsCacheBaseDirDefaultChanged, this, [=]() { saveChangedValue("thumbnailsCacheBaseDirDefault", m_thumbnailsCacheBaseDirDefault); });
-    connect(this, &PQCSettings::thumbnailsCacheBaseDirLocationChanged, this, [=]() { saveChangedValue("thumbnailsCacheBaseDirLocation", m_thumbnailsCacheBaseDirLocation); });
-    connect(this, &PQCSettings::thumbnailsCenterOnActiveChanged, this, [=]() { saveChangedValue("thumbnailsCenterOnActive", m_thumbnailsCenterOnActive); });
-    connect(this, &PQCSettings::thumbnailsCropToFitChanged, this, [=]() { saveChangedValue("thumbnailsCropToFit", m_thumbnailsCropToFit); });
-    connect(this, &PQCSettings::thumbnailsDisableChanged, this, [=]() { saveChangedValue("thumbnailsDisable", m_thumbnailsDisable); });
-    connect(this, &PQCSettings::thumbnailsExcludeDropBoxChanged, this, [=]() { saveChangedValue("thumbnailsExcludeDropBox", m_thumbnailsExcludeDropBox); });
-    connect(this, &PQCSettings::thumbnailsExcludeFoldersChanged, this, [=]() { saveChangedValue("thumbnailsExcludeFolders", m_thumbnailsExcludeFolders); });
-    connect(this, &PQCSettings::thumbnailsExcludeNetworkSharesChanged, this, [=]() { saveChangedValue("thumbnailsExcludeNetworkShares", m_thumbnailsExcludeNetworkShares); });
-    connect(this, &PQCSettings::thumbnailsExcludeNextcloudChanged, this, [=]() { saveChangedValue("thumbnailsExcludeNextcloud", m_thumbnailsExcludeNextcloud); });
-    connect(this, &PQCSettings::thumbnailsExcludeOwnCloudChanged, this, [=]() { saveChangedValue("thumbnailsExcludeOwnCloud", m_thumbnailsExcludeOwnCloud); });
-    connect(this, &PQCSettings::thumbnailsFilenameChanged, this, [=]() { saveChangedValue("thumbnailsFilename", m_thumbnailsFilename); });
-    connect(this, &PQCSettings::thumbnailsFontSizeChanged, this, [=]() { saveChangedValue("thumbnailsFontSize", m_thumbnailsFontSize); });
-    connect(this, &PQCSettings::thumbnailsHighlightAnimationChanged, this, [=]() { saveChangedValue("thumbnailsHighlightAnimation", m_thumbnailsHighlightAnimation); });
-    connect(this, &PQCSettings::thumbnailsHighlightAnimationLiftUpChanged, this, [=]() { saveChangedValue("thumbnailsHighlightAnimationLiftUp", m_thumbnailsHighlightAnimationLiftUp); });
-    connect(this, &PQCSettings::thumbnailsIconsOnlyChanged, this, [=]() { saveChangedValue("thumbnailsIconsOnly", m_thumbnailsIconsOnly); });
-    connect(this, &PQCSettings::thumbnailsInactiveTransparentChanged, this, [=]() { saveChangedValue("thumbnailsInactiveTransparent", m_thumbnailsInactiveTransparent); });
-    connect(this, &PQCSettings::thumbnailsMaxNumberThreadsChanged, this, [=]() { saveChangedValue("thumbnailsMaxNumberThreads", m_thumbnailsMaxNumberThreads); });
-    connect(this, &PQCSettings::thumbnailsSameHeightVaryWidthChanged, this, [=]() { saveChangedValue("thumbnailsSameHeightVaryWidth", m_thumbnailsSameHeightVaryWidth); });
-    connect(this, &PQCSettings::thumbnailsSizeChanged, this, [=]() { saveChangedValue("thumbnailsSize", m_thumbnailsSize); });
-    connect(this, &PQCSettings::thumbnailsSmallThumbnailsKeepSmallChanged, this, [=]() { saveChangedValue("thumbnailsSmallThumbnailsKeepSmall", m_thumbnailsSmallThumbnailsKeepSmall); });
-    connect(this, &PQCSettings::thumbnailsSpacingChanged, this, [=]() { saveChangedValue("thumbnailsSpacing", m_thumbnailsSpacing); });
-    connect(this, &PQCSettings::thumbnailsTooltipChanged, this, [=]() { saveChangedValue("thumbnailsTooltip", m_thumbnailsTooltip); });
-    connect(this, &PQCSettings::thumbnailsVisibilityChanged, this, [=]() { saveChangedValue("thumbnailsVisibility", m_thumbnailsVisibility); });
+    connect(this, &PQCSettings::thumbnailsCacheChanged, this, [=, this]() { saveChangedValue("thumbnailsCache", m_thumbnailsCache); });
+    connect(this, &PQCSettings::thumbnailsCacheBaseDirDefaultChanged, this, [=, this]() { saveChangedValue("thumbnailsCacheBaseDirDefault", m_thumbnailsCacheBaseDirDefault); });
+    connect(this, &PQCSettings::thumbnailsCacheBaseDirLocationChanged, this, [=, this]() { saveChangedValue("thumbnailsCacheBaseDirLocation", m_thumbnailsCacheBaseDirLocation); });
+    connect(this, &PQCSettings::thumbnailsCenterOnActiveChanged, this, [=, this]() { saveChangedValue("thumbnailsCenterOnActive", m_thumbnailsCenterOnActive); });
+    connect(this, &PQCSettings::thumbnailsCropToFitChanged, this, [=, this]() { saveChangedValue("thumbnailsCropToFit", m_thumbnailsCropToFit); });
+    connect(this, &PQCSettings::thumbnailsDisableChanged, this, [=, this]() { saveChangedValue("thumbnailsDisable", m_thumbnailsDisable); });
+    connect(this, &PQCSettings::thumbnailsExcludeDropBoxChanged, this, [=, this]() { saveChangedValue("thumbnailsExcludeDropBox", m_thumbnailsExcludeDropBox); });
+    connect(this, &PQCSettings::thumbnailsExcludeFoldersChanged, this, [=, this]() { saveChangedValue("thumbnailsExcludeFolders", m_thumbnailsExcludeFolders); });
+    connect(this, &PQCSettings::thumbnailsExcludeNetworkSharesChanged, this, [=, this]() { saveChangedValue("thumbnailsExcludeNetworkShares", m_thumbnailsExcludeNetworkShares); });
+    connect(this, &PQCSettings::thumbnailsExcludeNextcloudChanged, this, [=, this]() { saveChangedValue("thumbnailsExcludeNextcloud", m_thumbnailsExcludeNextcloud); });
+    connect(this, &PQCSettings::thumbnailsExcludeOwnCloudChanged, this, [=, this]() { saveChangedValue("thumbnailsExcludeOwnCloud", m_thumbnailsExcludeOwnCloud); });
+    connect(this, &PQCSettings::thumbnailsFilenameChanged, this, [=, this]() { saveChangedValue("thumbnailsFilename", m_thumbnailsFilename); });
+    connect(this, &PQCSettings::thumbnailsFontSizeChanged, this, [=, this]() { saveChangedValue("thumbnailsFontSize", m_thumbnailsFontSize); });
+    connect(this, &PQCSettings::thumbnailsHighlightAnimationChanged, this, [=, this]() { saveChangedValue("thumbnailsHighlightAnimation", m_thumbnailsHighlightAnimation); });
+    connect(this, &PQCSettings::thumbnailsHighlightAnimationLiftUpChanged, this, [=, this]() { saveChangedValue("thumbnailsHighlightAnimationLiftUp", m_thumbnailsHighlightAnimationLiftUp); });
+    connect(this, &PQCSettings::thumbnailsIconsOnlyChanged, this, [=, this]() { saveChangedValue("thumbnailsIconsOnly", m_thumbnailsIconsOnly); });
+    connect(this, &PQCSettings::thumbnailsInactiveTransparentChanged, this, [=, this]() { saveChangedValue("thumbnailsInactiveTransparent", m_thumbnailsInactiveTransparent); });
+    connect(this, &PQCSettings::thumbnailsMaxNumberThreadsChanged, this, [=, this]() { saveChangedValue("thumbnailsMaxNumberThreads", m_thumbnailsMaxNumberThreads); });
+    connect(this, &PQCSettings::thumbnailsSameHeightVaryWidthChanged, this, [=, this]() { saveChangedValue("thumbnailsSameHeightVaryWidth", m_thumbnailsSameHeightVaryWidth); });
+    connect(this, &PQCSettings::thumbnailsSizeChanged, this, [=, this]() { saveChangedValue("thumbnailsSize", m_thumbnailsSize); });
+    connect(this, &PQCSettings::thumbnailsSmallThumbnailsKeepSmallChanged, this, [=, this]() { saveChangedValue("thumbnailsSmallThumbnailsKeepSmall", m_thumbnailsSmallThumbnailsKeepSmall); });
+    connect(this, &PQCSettings::thumbnailsSpacingChanged, this, [=, this]() { saveChangedValue("thumbnailsSpacing", m_thumbnailsSpacing); });
+    connect(this, &PQCSettings::thumbnailsTooltipChanged, this, [=, this]() { saveChangedValue("thumbnailsTooltip", m_thumbnailsTooltip); });
+    connect(this, &PQCSettings::thumbnailsVisibilityChanged, this, [=, this]() { saveChangedValue("thumbnailsVisibility", m_thumbnailsVisibility); });
 
     /******************************************************/
 
-    connect(m_extensions, &QQmlPropertyMap::valueChanged, this, &PQCSettings::saveChangedExtensionValue);
-
-    /******************************************************/
-
-    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
-    connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
-    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=, this]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 
 PQCSettings::~PQCSettings() {{
+    QSqlDatabase::removeDatabase("defaultsettings");
+    QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
-        delete m_extensions;
     }}
 }}
 
@@ -533,7 +493,6 @@ void PQCSettings::setFiledialogDevicesShowTmpfs(bool val) {
     if(val != m_filedialogDevicesShowTmpfs) {
         m_filedialogDevicesShowTmpfs = val;
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = val;
     }
 }
 
@@ -545,7 +504,6 @@ void PQCSettings::setDefaultForFiledialogDevicesShowTmpfs() {
     if(false != m_filedialogDevicesShowTmpfs) {
         m_filedialogDevicesShowTmpfs = false;
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = false;
     }
 }
 
@@ -655,7 +613,6 @@ const int PQCSettings::getDefaultForFiledialogElementPadding() {
 void PQCSettings::setDefaultForFiledialogElementPadding() {
     if(1 != m_filedialogElementPadding) {
         m_filedialogElementPadding = 1;
-        Q_EMIT filedialogElementPaddingChanged();
     }
 }
 
@@ -765,7 +722,6 @@ const int PQCSettings::getDefaultForFiledialogFolderContentThumbnailsSpeed() {
 void PQCSettings::setDefaultForFiledialogFolderContentThumbnailsSpeed() {
     if(2 != m_filedialogFolderContentThumbnailsSpeed) {
         m_filedialogFolderContentThumbnailsSpeed = 2;
-        Q_EMIT filedialogFolderContentThumbnailsSpeedChanged();
     }
 }
 
@@ -897,7 +853,6 @@ const int PQCSettings::getDefaultForFiledialogPlacesWidth() {
 void PQCSettings::setDefaultForFiledialogPlacesWidth() {
     if(290 != m_filedialogPlacesWidth) {
         m_filedialogPlacesWidth = 290;
-        Q_EMIT filedialogPlacesWidthChanged();
     }
 }
 
@@ -963,7 +918,6 @@ const int PQCSettings::getDefaultForFiledialogPreviewColorIntensity() {
 void PQCSettings::setDefaultForFiledialogPreviewColorIntensity() {
     if(50 != m_filedialogPreviewColorIntensity) {
         m_filedialogPreviewColorIntensity = 50;
-        Q_EMIT filedialogPreviewColorIntensityChanged();
     }
 }
 
@@ -1063,8 +1017,6 @@ void PQCSettings::setFiledialogShowHiddenFilesFolders(bool val) {
     if(val != m_filedialogShowHiddenFilesFolders) {
         m_filedialogShowHiddenFilesFolders = val;
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
 }
 
@@ -1076,8 +1028,6 @@ void PQCSettings::setDefaultForFiledialogShowHiddenFilesFolders() {
     if(false != m_filedialogShowHiddenFilesFolders) {
         m_filedialogShowHiddenFilesFolders = false;
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = false;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
 }
 
@@ -1147,6 +1097,28 @@ void PQCSettings::setDefaultForFiledialogThumbnailsScaleCrop() {
     }
 }
 
+bool PQCSettings::getFiledialogUseNativeFileDialog() {
+    return m_filedialogUseNativeFileDialog;
+}
+
+void PQCSettings::setFiledialogUseNativeFileDialog(bool val) {
+    if(val != m_filedialogUseNativeFileDialog) {
+        m_filedialogUseNativeFileDialog = val;
+        Q_EMIT filedialogUseNativeFileDialogChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForFiledialogUseNativeFileDialog() {
+        return false;
+}
+
+void PQCSettings::setDefaultForFiledialogUseNativeFileDialog() {
+    if(false != m_filedialogUseNativeFileDialog) {
+        m_filedialogUseNativeFileDialog = false;
+        Q_EMIT filedialogUseNativeFileDialogChanged();
+    }
+}
+
 int PQCSettings::getFiledialogZoom() {
     return m_filedialogZoom;
 }
@@ -1165,7 +1137,6 @@ const int PQCSettings::getDefaultForFiledialogZoom() {
 void PQCSettings::setDefaultForFiledialogZoom() {
     if(40 != m_filedialogZoom) {
         m_filedialogZoom = 40;
-        Q_EMIT filedialogZoomChanged();
     }
 }
 
@@ -1243,7 +1214,6 @@ void PQCSettings::setFiletypesArchiveAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesArchiveAlwaysEnterAutomatically) {
         m_filetypesArchiveAlwaysEnterAutomatically = val;
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1255,7 +1225,6 @@ void PQCSettings::setDefaultForFiletypesArchiveAlwaysEnterAutomatically() {
     if(false != m_filetypesArchiveAlwaysEnterAutomatically) {
         m_filetypesArchiveAlwaysEnterAutomatically = false;
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1333,7 +1302,6 @@ void PQCSettings::setFiletypesComicBookAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesComicBookAlwaysEnterAutomatically) {
         m_filetypesComicBookAlwaysEnterAutomatically = val;
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1345,7 +1313,6 @@ void PQCSettings::setDefaultForFiletypesComicBookAlwaysEnterAutomatically() {
     if(false != m_filetypesComicBookAlwaysEnterAutomatically) {
         m_filetypesComicBookAlwaysEnterAutomatically = false;
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1357,7 +1324,6 @@ void PQCSettings::setFiletypesDocumentAlwaysEnterAutomatically(bool val) {
     if(val != m_filetypesDocumentAlwaysEnterAutomatically) {
         m_filetypesDocumentAlwaysEnterAutomatically = val;
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = val;
     }
 }
 
@@ -1369,7 +1335,6 @@ void PQCSettings::setDefaultForFiletypesDocumentAlwaysEnterAutomatically() {
     if(false != m_filetypesDocumentAlwaysEnterAutomatically) {
         m_filetypesDocumentAlwaysEnterAutomatically = false;
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     }
 }
 
@@ -1447,7 +1412,6 @@ void PQCSettings::setFiletypesExternalUnrar(bool val) {
     if(val != m_filetypesExternalUnrar) {
         m_filetypesExternalUnrar = val;
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = val;
     }
 }
 
@@ -1459,7 +1423,6 @@ void PQCSettings::setDefaultForFiletypesExternalUnrar() {
     if(false != m_filetypesExternalUnrar) {
         m_filetypesExternalUnrar = false;
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = false;
     }
 }
 
@@ -1471,7 +1434,6 @@ void PQCSettings::setFiletypesLoadAppleLivePhotos(bool val) {
     if(val != m_filetypesLoadAppleLivePhotos) {
         m_filetypesLoadAppleLivePhotos = val;
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = val;
     }
 }
 
@@ -1483,7 +1445,6 @@ void PQCSettings::setDefaultForFiletypesLoadAppleLivePhotos() {
     if(true != m_filetypesLoadAppleLivePhotos) {
         m_filetypesLoadAppleLivePhotos = true;
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = true;
     }
 }
 
@@ -1495,7 +1456,6 @@ void PQCSettings::setFiletypesLoadMotionPhotos(bool val) {
     if(val != m_filetypesLoadMotionPhotos) {
         m_filetypesLoadMotionPhotos = val;
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = val;
     }
 }
 
@@ -1507,7 +1467,6 @@ void PQCSettings::setDefaultForFiletypesLoadMotionPhotos() {
     if(true != m_filetypesLoadMotionPhotos) {
         m_filetypesLoadMotionPhotos = true;
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = true;
     }
 }
 
@@ -1585,7 +1544,6 @@ void PQCSettings::setFiletypesPDFQuality(int val) {
     if(val != m_filetypesPDFQuality) {
         m_filetypesPDFQuality = val;
         Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = val;
     }
 }
 
@@ -1596,8 +1554,6 @@ const int PQCSettings::getDefaultForFiletypesPDFQuality() {
 void PQCSettings::setDefaultForFiletypesPDFQuality() {
     if(150 != m_filetypesPDFQuality) {
         m_filetypesPDFQuality = 150;
-        Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = 150;
     }
 }
 
@@ -1719,7 +1675,6 @@ void PQCSettings::setFiletypesRAWUseEmbeddedIfAvailable(bool val) {
     if(val != m_filetypesRAWUseEmbeddedIfAvailable) {
         m_filetypesRAWUseEmbeddedIfAvailable = val;
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = val;
     }
 }
 
@@ -1731,7 +1686,6 @@ void PQCSettings::setDefaultForFiletypesRAWUseEmbeddedIfAvailable() {
     if(true != m_filetypesRAWUseEmbeddedIfAvailable) {
         m_filetypesRAWUseEmbeddedIfAvailable = true;
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = true;
     }
 }
 
@@ -1809,7 +1763,6 @@ void PQCSettings::setFiletypesVideoPreferLibmpv(bool val) {
     if(val != m_filetypesVideoPreferLibmpv) {
         m_filetypesVideoPreferLibmpv = val;
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = val;
     }
 }
 
@@ -1821,7 +1774,6 @@ void PQCSettings::setDefaultForFiletypesVideoPreferLibmpv() {
     if(true != m_filetypesVideoPreferLibmpv) {
         m_filetypesVideoPreferLibmpv = true;
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = true;
     }
 }
 
@@ -1855,7 +1807,6 @@ void PQCSettings::setFiletypesVideoThumbnailer(QString val) {
     if(val != m_filetypesVideoThumbnailer) {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = val;
     }
 }
 
@@ -1867,7 +1818,6 @@ void PQCSettings::setDefaultForFiletypesVideoThumbnailer() {
     if("ffmpegthumbnailer" != m_filetypesVideoThumbnailer) {
         m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
     }
 }
 
@@ -1889,7 +1839,6 @@ const int PQCSettings::getDefaultForFiletypesVideoVolume() {
 void PQCSettings::setDefaultForFiletypesVideoVolume() {
     if(100 != m_filetypesVideoVolume) {
         m_filetypesVideoVolume = 100;
-        Q_EMIT filetypesVideoVolumeChanged();
     }
 }
 
@@ -1937,6 +1886,74 @@ void PQCSettings::setDefaultForGeneralCompactSettings() {
     }
 }
 
+QStringList PQCSettings::getGeneralEnabledExtensions() {
+    return m_generalEnabledExtensions;
+}
+
+void PQCSettings::setGeneralEnabledExtensions(QStringList val) {
+    if(val != m_generalEnabledExtensions) {
+        m_generalEnabledExtensions = val;
+        Q_EMIT generalEnabledExtensionsChanged();
+    }
+}
+
+const QStringList PQCSettings::getDefaultForGeneralEnabledExtensions() {
+        return QStringList() << "";
+}
+
+void PQCSettings::setDefaultForGeneralEnabledExtensions() {
+    QStringList tmp = QStringList() << "";
+    if(tmp != m_generalEnabledExtensions) {
+        m_generalEnabledExtensions = tmp;
+        Q_EMIT generalEnabledExtensionsChanged();
+    }
+}
+
+QString PQCSettings::getGeneralInterfaceVariant() {
+    return m_generalInterfaceVariant;
+}
+
+void PQCSettings::setGeneralInterfaceVariant(QString val) {
+    if(val != m_generalInterfaceVariant) {
+        m_generalInterfaceVariant = val;
+        Q_EMIT generalInterfaceVariantChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForGeneralInterfaceVariant() {
+        return "modern";
+}
+
+void PQCSettings::setDefaultForGeneralInterfaceVariant() {
+    if("modern" != m_generalInterfaceVariant) {
+        m_generalInterfaceVariant = "modern";
+        Q_EMIT generalInterfaceVariantChanged();
+    }
+}
+
+QStringList PQCSettings::getGeneralSetupFloatingExtensionsAtStartup() {
+    return m_generalSetupFloatingExtensionsAtStartup;
+}
+
+void PQCSettings::setGeneralSetupFloatingExtensionsAtStartup(QStringList val) {
+    if(val != m_generalSetupFloatingExtensionsAtStartup) {
+        m_generalSetupFloatingExtensionsAtStartup = val;
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
+    }
+}
+
+const QStringList PQCSettings::getDefaultForGeneralSetupFloatingExtensionsAtStartup() {
+        return QStringList() << "";
+}
+
+void PQCSettings::setDefaultForGeneralSetupFloatingExtensionsAtStartup() {
+    QStringList tmp = QStringList() << "";
+    if(tmp != m_generalSetupFloatingExtensionsAtStartup) {
+        m_generalSetupFloatingExtensionsAtStartup = tmp;
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
+    }
+}
+
 QString PQCSettings::getGeneralVersion() {
     return m_generalVersion;
 }
@@ -1967,7 +1984,6 @@ void PQCSettings::setImageviewAdvancedSortAscending(bool val) {
     if(val != m_imageviewAdvancedSortAscending) {
         m_imageviewAdvancedSortAscending = val;
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = val;
     }
 }
 
@@ -1979,7 +1995,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortAscending() {
     if(true != m_imageviewAdvancedSortAscending) {
         m_imageviewAdvancedSortAscending = true;
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = true;
     }
 }
 
@@ -1991,7 +2006,6 @@ void PQCSettings::setImageviewAdvancedSortCriteria(QString val) {
     if(val != m_imageviewAdvancedSortCriteria) {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = val;
     }
 }
 
@@ -2003,7 +2017,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortCriteria() {
     if("resolution" != m_imageviewAdvancedSortCriteria) {
         m_imageviewAdvancedSortCriteria = "resolution";
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = "resolution";
     }
 }
 
@@ -2015,7 +2028,6 @@ void PQCSettings::setImageviewAdvancedSortDateCriteria(QStringList val) {
     if(val != m_imageviewAdvancedSortDateCriteria) {
         m_imageviewAdvancedSortDateCriteria = val;
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val;
     }
 }
 
@@ -2028,7 +2040,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortDateCriteria() {
     if(tmp != m_imageviewAdvancedSortDateCriteria) {
         m_imageviewAdvancedSortDateCriteria = tmp;
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = tmp;
     }
 }
 
@@ -2040,7 +2051,6 @@ void PQCSettings::setImageviewAdvancedSortQuality(QString val) {
     if(val != m_imageviewAdvancedSortQuality) {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = val;
     }
 }
 
@@ -2052,7 +2062,6 @@ void PQCSettings::setDefaultForImageviewAdvancedSortQuality() {
     if("medium" != m_imageviewAdvancedSortQuality) {
         m_imageviewAdvancedSortQuality = "medium";
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = "medium";
     }
 }
 
@@ -2096,7 +2105,6 @@ const int PQCSettings::getDefaultForImageviewAnimationDuration() {
 void PQCSettings::setDefaultForImageviewAnimationDuration() {
     if(3 != m_imageviewAnimationDuration) {
         m_imageviewAnimationDuration = 3;
-        Q_EMIT imageviewAnimationDurationChanged();
     }
 }
 
@@ -2130,7 +2138,6 @@ void PQCSettings::setImageviewCache(int val) {
     if(val != m_imageviewCache) {
         m_imageviewCache = val;
         Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = val;
     }
 }
 
@@ -2141,8 +2148,6 @@ const int PQCSettings::getDefaultForImageviewCache() {
 void PQCSettings::setDefaultForImageviewCache() {
     if(512 != m_imageviewCache) {
         m_imageviewCache = 512;
-        Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = 512;
     }
 }
 
@@ -2177,7 +2182,6 @@ void PQCSettings::setImageviewColorSpaceDefault(QString val) {
     if(val != m_imageviewColorSpaceDefault) {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = val;
     }
 }
 
@@ -2189,7 +2193,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceDefault() {
     if("" != m_imageviewColorSpaceDefault) {
         m_imageviewColorSpaceDefault = "";
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = "";
     }
 }
 
@@ -2201,7 +2204,6 @@ void PQCSettings::setImageviewColorSpaceEnable(bool val) {
     if(val != m_imageviewColorSpaceEnable) {
         m_imageviewColorSpaceEnable = val;
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = val;
     }
 }
 
@@ -2213,7 +2215,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceEnable() {
     if(true != m_imageviewColorSpaceEnable) {
         m_imageviewColorSpaceEnable = true;
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = true;
     }
 }
 
@@ -2225,7 +2226,6 @@ void PQCSettings::setImageviewColorSpaceLoadEmbedded(bool val) {
     if(val != m_imageviewColorSpaceLoadEmbedded) {
         m_imageviewColorSpaceLoadEmbedded = val;
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = val;
     }
 }
 
@@ -2237,7 +2237,6 @@ void PQCSettings::setDefaultForImageviewColorSpaceLoadEmbedded() {
     if(true != m_imageviewColorSpaceLoadEmbedded) {
         m_imageviewColorSpaceLoadEmbedded = true;
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = true;
     }
 }
 
@@ -2359,7 +2358,6 @@ void PQCSettings::setImageviewFitInWindow(bool val) {
     if(val != m_imageviewFitInWindow) {
         m_imageviewFitInWindow = val;
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = val;
     }
 }
 
@@ -2371,7 +2369,6 @@ void PQCSettings::setDefaultForImageviewFitInWindow() {
     if(false != m_imageviewFitInWindow) {
         m_imageviewFitInWindow = false;
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = false;
     }
 }
 
@@ -2393,7 +2390,6 @@ const int PQCSettings::getDefaultForImageviewHideCursorTimeout() {
 void PQCSettings::setDefaultForImageviewHideCursorTimeout() {
     if(1 != m_imageviewHideCursorTimeout) {
         m_imageviewHideCursorTimeout = 1;
-        Q_EMIT imageviewHideCursorTimeoutChanged();
     }
 }
 
@@ -2437,7 +2433,6 @@ const int PQCSettings::getDefaultForImageviewInterpolationThreshold() {
 void PQCSettings::setDefaultForImageviewInterpolationThreshold() {
     if(100 != m_imageviewInterpolationThreshold) {
         m_imageviewInterpolationThreshold = 100;
-        Q_EMIT imageviewInterpolationThresholdChanged();
     }
 }
 
@@ -2481,7 +2476,6 @@ const int PQCSettings::getDefaultForImageviewMargin() {
 void PQCSettings::setDefaultForImageviewMargin() {
     if(5 != m_imageviewMargin) {
         m_imageviewMargin = 5;
-        Q_EMIT imageviewMarginChanged();
     }
 }
 
@@ -2503,7 +2497,6 @@ const int PQCSettings::getDefaultForImageviewMinimapSizeLevel() {
 void PQCSettings::setDefaultForImageviewMinimapSizeLevel() {
     if(0 != m_imageviewMinimapSizeLevel) {
         m_imageviewMinimapSizeLevel = 0;
-        Q_EMIT imageviewMinimapSizeLevelChanged();
     }
 }
 
@@ -2547,7 +2540,6 @@ const int PQCSettings::getDefaultForImageviewPreloadInBackground() {
 void PQCSettings::setDefaultForImageviewPreloadInBackground() {
     if(1 != m_imageviewPreloadInBackground) {
         m_imageviewPreloadInBackground = 1;
-        Q_EMIT imageviewPreloadInBackgroundChanged();
     }
 }
 
@@ -2657,7 +2649,6 @@ const int PQCSettings::getDefaultForImageviewResetViewAutoHideTimeout() {
 void PQCSettings::setDefaultForImageviewResetViewAutoHideTimeout() {
     if(1000 != m_imageviewResetViewAutoHideTimeout) {
         m_imageviewResetViewAutoHideTimeout = 1000;
-        Q_EMIT imageviewResetViewAutoHideTimeoutChanged();
     }
 }
 
@@ -2691,7 +2682,6 @@ void PQCSettings::setImageviewRespectDevicePixelRatio(bool val) {
     if(val != m_imageviewRespectDevicePixelRatio) {
         m_imageviewRespectDevicePixelRatio = val;
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = val;
     }
 }
 
@@ -2703,7 +2693,6 @@ void PQCSettings::setDefaultForImageviewRespectDevicePixelRatio() {
     if(true != m_imageviewRespectDevicePixelRatio) {
         m_imageviewRespectDevicePixelRatio = true;
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = true;
     }
 }
 
@@ -2737,8 +2726,6 @@ void PQCSettings::setImageviewSortImagesAscending(bool val) {
     if(val != m_imageviewSortImagesAscending) {
         m_imageviewSortImagesAscending = val;
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
 }
 
@@ -2750,8 +2737,6 @@ void PQCSettings::setDefaultForImageviewSortImagesAscending() {
     if(true != m_imageviewSortImagesAscending) {
         m_imageviewSortImagesAscending = true;
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = true;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
 }
 
@@ -2763,8 +2748,6 @@ void PQCSettings::setImageviewSortImagesBy(QString val) {
     if(val != m_imageviewSortImagesBy) {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
 }
 
@@ -2776,8 +2759,6 @@ void PQCSettings::setDefaultForImageviewSortImagesBy() {
     if("naturalname" != m_imageviewSortImagesBy) {
         m_imageviewSortImagesBy = "naturalname";
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = "naturalname";
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
 }
 
@@ -2865,7 +2846,6 @@ const int PQCSettings::getDefaultForImageviewZoomMax() {
 void PQCSettings::setDefaultForImageviewZoomMax() {
     if(500 != m_imageviewZoomMax) {
         m_imageviewZoomMax = 500;
-        Q_EMIT imageviewZoomMaxChanged();
     }
 }
 
@@ -2909,7 +2889,6 @@ const int PQCSettings::getDefaultForImageviewZoomMin() {
 void PQCSettings::setDefaultForImageviewZoomMin() {
     if(20 != m_imageviewZoomMin) {
         m_imageviewZoomMin = 20;
-        Q_EMIT imageviewZoomMinChanged();
     }
 }
 
@@ -2953,7 +2932,6 @@ const int PQCSettings::getDefaultForImageviewZoomSpeed() {
 void PQCSettings::setDefaultForImageviewZoomSpeed() {
     if(20 != m_imageviewZoomSpeed) {
         m_imageviewZoomSpeed = 20;
-        Q_EMIT imageviewZoomSpeedChanged();
     }
 }
 
@@ -3009,8 +2987,6 @@ void PQCSettings::setInterfaceAccentColor(QString val) {
     if(val != m_interfaceAccentColor) {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
 }
 
@@ -3022,8 +2998,6 @@ void PQCSettings::setDefaultForInterfaceAccentColor() {
     if("#222222" != m_interfaceAccentColor) {
         m_interfaceAccentColor = "#222222";
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = "#222222";
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
 }
 
@@ -3375,7 +3349,6 @@ const int PQCSettings::getDefaultForInterfaceDoubleClickThreshold() {
 void PQCSettings::setDefaultForInterfaceDoubleClickThreshold() {
     if(300 != m_interfaceDoubleClickThreshold) {
         m_interfaceDoubleClickThreshold = 300;
-        Q_EMIT interfaceDoubleClickThresholdChanged();
     }
 }
 
@@ -3507,7 +3480,6 @@ const int PQCSettings::getDefaultForInterfaceFlickAdjustSpeedSpeedup() {
 void PQCSettings::setDefaultForInterfaceFlickAdjustSpeedSpeedup() {
     if(1 != m_interfaceFlickAdjustSpeedSpeedup) {
         m_interfaceFlickAdjustSpeedSpeedup = 1;
-        Q_EMIT interfaceFlickAdjustSpeedSpeedupChanged();
     }
 }
 
@@ -3519,8 +3491,6 @@ void PQCSettings::setInterfaceFontBoldWeight(int val) {
     if(val != m_interfaceFontBoldWeight) {
         m_interfaceFontBoldWeight = val;
         Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
 }
 
@@ -3531,9 +3501,6 @@ const int PQCSettings::getDefaultForInterfaceFontBoldWeight() {
 void PQCSettings::setDefaultForInterfaceFontBoldWeight() {
     if(700 != m_interfaceFontBoldWeight) {
         m_interfaceFontBoldWeight = 700;
-        Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
 }
 
@@ -3545,8 +3512,6 @@ void PQCSettings::setInterfaceFontNormalWeight(int val) {
     if(val != m_interfaceFontNormalWeight) {
         m_interfaceFontNormalWeight = val;
         Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
 }
 
@@ -3557,9 +3522,6 @@ const int PQCSettings::getDefaultForInterfaceFontNormalWeight() {
 void PQCSettings::setDefaultForInterfaceFontNormalWeight() {
     if(400 != m_interfaceFontNormalWeight) {
         m_interfaceFontNormalWeight = 400;
-        Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = 400;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
 }
 
@@ -3581,7 +3543,6 @@ const int PQCSettings::getDefaultForInterfaceHotEdgeSize() {
 void PQCSettings::setDefaultForInterfaceHotEdgeSize() {
     if(4 != m_interfaceHotEdgeSize) {
         m_interfaceHotEdgeSize = 4;
-        Q_EMIT interfaceHotEdgeSizeChanged();
     }
 }
 
@@ -3615,7 +3576,6 @@ void PQCSettings::setInterfaceLanguage(QString val) {
     if(val != m_interfaceLanguage) {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = val;
     }
 }
 
@@ -3627,7 +3587,6 @@ void PQCSettings::setDefaultForInterfaceLanguage() {
     if("en" != m_interfaceLanguage) {
         m_interfaceLanguage = "en";
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = "en";
     }
 }
 
@@ -3715,7 +3674,6 @@ const int PQCSettings::getDefaultForInterfaceNotificationDistanceFromEdge() {
 void PQCSettings::setDefaultForInterfaceNotificationDistanceFromEdge() {
     if(40 != m_interfaceNotificationDistanceFromEdge) {
         m_interfaceNotificationDistanceFromEdge = 40;
-        Q_EMIT interfaceNotificationDistanceFromEdgeChanged();
     }
 }
 
@@ -4167,7 +4125,6 @@ void PQCSettings::setInterfacePopoutWhenWindowIsSmall(bool val) {
     if(val != m_interfacePopoutWhenWindowIsSmall) {
         m_interfacePopoutWhenWindowIsSmall = val;
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = val;
     }
 }
 
@@ -4179,7 +4136,6 @@ void PQCSettings::setDefaultForInterfacePopoutWhenWindowIsSmall() {
     if(true != m_interfacePopoutWhenWindowIsSmall) {
         m_interfacePopoutWhenWindowIsSmall = true;
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = true;
     }
 }
 
@@ -4223,7 +4179,6 @@ const int PQCSettings::getDefaultForInterfaceQuickActionsHeight() {
 void PQCSettings::setDefaultForInterfaceQuickActionsHeight() {
     if(40 != m_interfaceQuickActionsHeight) {
         m_interfaceQuickActionsHeight = 40;
-        Q_EMIT interfaceQuickActionsHeightChanged();
     }
 }
 
@@ -4334,7 +4289,6 @@ const int PQCSettings::getDefaultForInterfaceStatusInfoAutoHideTimeout() {
 void PQCSettings::setDefaultForInterfaceStatusInfoAutoHideTimeout() {
     if(1000 != m_interfaceStatusInfoAutoHideTimeout) {
         m_interfaceStatusInfoAutoHideTimeout = 1000;
-        Q_EMIT interfaceStatusInfoAutoHideTimeoutChanged();
     }
 }
 
@@ -4378,7 +4332,6 @@ const int PQCSettings::getDefaultForInterfaceStatusInfoFontSize() {
 void PQCSettings::setDefaultForInterfaceStatusInfoFontSize() {
     if(10 != m_interfaceStatusInfoFontSize) {
         m_interfaceStatusInfoFontSize = 10;
-        Q_EMIT interfaceStatusInfoFontSizeChanged();
     }
 }
 
@@ -4511,7 +4464,6 @@ const int PQCSettings::getDefaultForInterfaceTrayIcon() {
 void PQCSettings::setDefaultForInterfaceTrayIcon() {
     if(0 != m_interfaceTrayIcon) {
         m_interfaceTrayIcon = 0;
-        Q_EMIT interfaceTrayIconChanged();
     }
 }
 
@@ -4599,7 +4551,6 @@ const int PQCSettings::getDefaultForInterfaceWindowButtonsAutoHideTimeout() {
 void PQCSettings::setDefaultForInterfaceWindowButtonsAutoHideTimeout() {
     if(1000 != m_interfaceWindowButtonsAutoHideTimeout) {
         m_interfaceWindowButtonsAutoHideTimeout = 1000;
-        Q_EMIT interfaceWindowButtonsAutoHideTimeoutChanged();
     }
 }
 
@@ -4710,7 +4661,6 @@ const int PQCSettings::getDefaultForInterfaceWindowButtonsSize() {
 void PQCSettings::setDefaultForInterfaceWindowButtonsSize() {
     if(10 != m_interfaceWindowButtonsSize) {
         m_interfaceWindowButtonsSize = 10;
-        Q_EMIT interfaceWindowButtonsSizeChanged();
     }
 }
 
@@ -4864,7 +4814,6 @@ const int PQCSettings::getDefaultForMainmenuElementWidth() {
 void PQCSettings::setDefaultForMainmenuElementWidth() {
     if(450 != m_mainmenuElementWidth) {
         m_mainmenuElementWidth = 450;
-        Q_EMIT mainmenuElementWidthChanged();
     }
 }
 
@@ -4996,7 +4945,6 @@ const int PQCSettings::getDefaultForMapviewExplorerThumbnailsZoomLevel() {
 void PQCSettings::setDefaultForMapviewExplorerThumbnailsZoomLevel() {
     if(20 != m_mapviewExplorerThumbnailsZoomLevel) {
         m_mapviewExplorerThumbnailsZoomLevel = 20;
-        Q_EMIT mapviewExplorerThumbnailsZoomLevelChanged();
     }
 }
 
@@ -5008,7 +4956,6 @@ void PQCSettings::setMetadataAutoRotation(bool val) {
     if(val != m_metadataAutoRotation) {
         m_metadataAutoRotation = val;
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = val;
     }
 }
 
@@ -5020,7 +4967,6 @@ void PQCSettings::setDefaultForMetadataAutoRotation() {
     if(true != m_metadataAutoRotation) {
         m_metadataAutoRotation = true;
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = true;
     }
 }
 
@@ -5306,7 +5252,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsBorderWidth() {
 void PQCSettings::setDefaultForMetadataFaceTagsBorderWidth() {
     if(3 != m_metadataFaceTagsBorderWidth) {
         m_metadataFaceTagsBorderWidth = 3;
-        Q_EMIT metadataFaceTagsBorderWidthChanged();
     }
 }
 
@@ -5350,7 +5295,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsFontSize() {
 void PQCSettings::setDefaultForMetadataFaceTagsFontSize() {
     if(10 != m_metadataFaceTagsFontSize) {
         m_metadataFaceTagsFontSize = 10;
-        Q_EMIT metadataFaceTagsFontSizeChanged();
     }
 }
 
@@ -5372,7 +5316,6 @@ const int PQCSettings::getDefaultForMetadataFaceTagsVisibility() {
 void PQCSettings::setDefaultForMetadataFaceTagsVisibility() {
     if(1 != m_metadataFaceTagsVisibility) {
         m_metadataFaceTagsVisibility = 1;
-        Q_EMIT metadataFaceTagsVisibilityChanged();
     }
 }
 
@@ -5684,6 +5627,71 @@ void PQCSettings::setDefaultForMetadataSceneType() {
     }
 }
 
+bool PQCSettings::getMetadataSideBar() {
+    return m_metadataSideBar;
+}
+
+void PQCSettings::setMetadataSideBar(bool val) {
+    if(val != m_metadataSideBar) {
+        m_metadataSideBar = val;
+        Q_EMIT metadataSideBarChanged();
+    }
+}
+
+const bool PQCSettings::getDefaultForMetadataSideBar() {
+        return true;
+}
+
+void PQCSettings::setDefaultForMetadataSideBar() {
+    if(true != m_metadataSideBar) {
+        m_metadataSideBar = true;
+        Q_EMIT metadataSideBarChanged();
+    }
+}
+
+QString PQCSettings::getMetadataSideBarLocation() {
+    return m_metadataSideBarLocation;
+}
+
+void PQCSettings::setMetadataSideBarLocation(QString val) {
+    if(val != m_metadataSideBarLocation) {
+        m_metadataSideBarLocation = val;
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+}
+
+const QString PQCSettings::getDefaultForMetadataSideBarLocation() {
+        return "right";
+}
+
+void PQCSettings::setDefaultForMetadataSideBarLocation() {
+    if("right" != m_metadataSideBarLocation) {
+        m_metadataSideBarLocation = "right";
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+}
+
+int PQCSettings::getMetadataSideBarWidth() {
+    return m_metadataSideBarWidth;
+}
+
+void PQCSettings::setMetadataSideBarWidth(int val) {
+    if(val != m_metadataSideBarWidth) {
+        m_metadataSideBarWidth = val;
+        Q_EMIT metadataSideBarWidthChanged();
+    }
+}
+
+const int PQCSettings::getDefaultForMetadataSideBarWidth() {
+        return 300;
+}
+
+void PQCSettings::setDefaultForMetadataSideBarWidth() {
+    if(300 != m_metadataSideBarWidth) {
+        m_metadataSideBarWidth = 300;
+    }
+}
+
 bool PQCSettings::getMetadataSoftware() {
     return m_metadataSoftware;
 }
@@ -5790,7 +5798,6 @@ const int PQCSettings::getDefaultForSlideshowImageTransition() {
 void PQCSettings::setDefaultForSlideshowImageTransition() {
     if(4 != m_slideshowImageTransition) {
         m_slideshowImageTransition = 4;
-        Q_EMIT slideshowImageTransitionChanged();
     }
 }
 
@@ -5945,7 +5952,6 @@ const int PQCSettings::getDefaultForSlideshowMusicVolumeVideos() {
 void PQCSettings::setDefaultForSlideshowMusicVolumeVideos() {
     if(1 != m_slideshowMusicVolumeVideos) {
         m_slideshowMusicVolumeVideos = 1;
-        Q_EMIT slideshowMusicVolumeVideosChanged();
     }
 }
 
@@ -5989,7 +5995,6 @@ const int PQCSettings::getDefaultForSlideshowTime() {
 void PQCSettings::setDefaultForSlideshowTime() {
     if(5 != m_slideshowTime) {
         m_slideshowTime = 5;
-        Q_EMIT slideshowTimeChanged();
     }
 }
 
@@ -6023,7 +6028,6 @@ void PQCSettings::setThumbnailsCache(bool val) {
     if(val != m_thumbnailsCache) {
         m_thumbnailsCache = val;
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = val;
     }
 }
 
@@ -6035,7 +6039,6 @@ void PQCSettings::setDefaultForThumbnailsCache() {
     if(true != m_thumbnailsCache) {
         m_thumbnailsCache = true;
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = true;
     }
 }
 
@@ -6047,7 +6050,6 @@ void PQCSettings::setThumbnailsCacheBaseDirDefault(bool val) {
     if(val != m_thumbnailsCacheBaseDirDefault) {
         m_thumbnailsCacheBaseDirDefault = val;
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = val;
     }
 }
 
@@ -6059,7 +6061,6 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirDefault() {
     if(true != m_thumbnailsCacheBaseDirDefault) {
         m_thumbnailsCacheBaseDirDefault = true;
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = true;
     }
 }
 
@@ -6071,7 +6072,6 @@ void PQCSettings::setThumbnailsCacheBaseDirLocation(QString val) {
     if(val != m_thumbnailsCacheBaseDirLocation) {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = val;
     }
 }
 
@@ -6083,7 +6083,6 @@ void PQCSettings::setDefaultForThumbnailsCacheBaseDirLocation() {
     if("" != m_thumbnailsCacheBaseDirLocation) {
         m_thumbnailsCacheBaseDirLocation = "";
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = "";
     }
 }
 
@@ -6161,7 +6160,6 @@ void PQCSettings::setThumbnailsExcludeDropBox(QString val) {
     if(val != m_thumbnailsExcludeDropBox) {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = val;
     }
 }
 
@@ -6173,7 +6171,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeDropBox() {
     if("" != m_thumbnailsExcludeDropBox) {
         m_thumbnailsExcludeDropBox = "";
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = "";
     }
 }
 
@@ -6185,7 +6182,6 @@ void PQCSettings::setThumbnailsExcludeFolders(QStringList val) {
     if(val != m_thumbnailsExcludeFolders) {
         m_thumbnailsExcludeFolders = val;
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val;
     }
 }
 
@@ -6198,7 +6194,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeFolders() {
     if(tmp != m_thumbnailsExcludeFolders) {
         m_thumbnailsExcludeFolders = tmp;
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = tmp;
     }
 }
 
@@ -6210,7 +6205,6 @@ void PQCSettings::setThumbnailsExcludeNetworkShares(bool val) {
     if(val != m_thumbnailsExcludeNetworkShares) {
         m_thumbnailsExcludeNetworkShares = val;
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = val;
     }
 }
 
@@ -6222,7 +6216,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeNetworkShares() {
     if(true != m_thumbnailsExcludeNetworkShares) {
         m_thumbnailsExcludeNetworkShares = true;
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = true;
     }
 }
 
@@ -6234,7 +6227,6 @@ void PQCSettings::setThumbnailsExcludeNextcloud(QString val) {
     if(val != m_thumbnailsExcludeNextcloud) {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = val;
     }
 }
 
@@ -6246,7 +6238,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeNextcloud() {
     if("" != m_thumbnailsExcludeNextcloud) {
         m_thumbnailsExcludeNextcloud = "";
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = "";
     }
 }
 
@@ -6258,7 +6249,6 @@ void PQCSettings::setThumbnailsExcludeOwnCloud(QString val) {
     if(val != m_thumbnailsExcludeOwnCloud) {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = val;
     }
 }
 
@@ -6270,7 +6260,6 @@ void PQCSettings::setDefaultForThumbnailsExcludeOwnCloud() {
     if("" != m_thumbnailsExcludeOwnCloud) {
         m_thumbnailsExcludeOwnCloud = "";
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = "";
     }
 }
 
@@ -6314,7 +6303,6 @@ const int PQCSettings::getDefaultForThumbnailsFontSize() {
 void PQCSettings::setDefaultForThumbnailsFontSize() {
     if(7 != m_thumbnailsFontSize) {
         m_thumbnailsFontSize = 7;
-        Q_EMIT thumbnailsFontSizeChanged();
     }
 }
 
@@ -6359,7 +6347,6 @@ const int PQCSettings::getDefaultForThumbnailsHighlightAnimationLiftUp() {
 void PQCSettings::setDefaultForThumbnailsHighlightAnimationLiftUp() {
     if(15 != m_thumbnailsHighlightAnimationLiftUp) {
         m_thumbnailsHighlightAnimationLiftUp = 15;
-        Q_EMIT thumbnailsHighlightAnimationLiftUpChanged();
     }
 }
 
@@ -6371,7 +6358,6 @@ void PQCSettings::setThumbnailsIconsOnly(bool val) {
     if(val != m_thumbnailsIconsOnly) {
         m_thumbnailsIconsOnly = val;
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = val;
     }
 }
 
@@ -6383,7 +6369,6 @@ void PQCSettings::setDefaultForThumbnailsIconsOnly() {
     if(false != m_thumbnailsIconsOnly) {
         m_thumbnailsIconsOnly = false;
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = false;
     }
 }
 
@@ -6417,7 +6402,6 @@ void PQCSettings::setThumbnailsMaxNumberThreads(int val) {
     if(val != m_thumbnailsMaxNumberThreads) {
         m_thumbnailsMaxNumberThreads = val;
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = val;
     }
 }
 
@@ -6428,8 +6412,6 @@ const int PQCSettings::getDefaultForThumbnailsMaxNumberThreads() {
 void PQCSettings::setDefaultForThumbnailsMaxNumberThreads() {
     if(4 != m_thumbnailsMaxNumberThreads) {
         m_thumbnailsMaxNumberThreads = 4;
-        Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = 4;
     }
 }
 
@@ -6473,7 +6455,6 @@ const int PQCSettings::getDefaultForThumbnailsSize() {
 void PQCSettings::setDefaultForThumbnailsSize() {
     if(120 != m_thumbnailsSize) {
         m_thumbnailsSize = 120;
-        Q_EMIT thumbnailsSizeChanged();
     }
 }
 
@@ -6517,7 +6498,6 @@ const int PQCSettings::getDefaultForThumbnailsSpacing() {
 void PQCSettings::setDefaultForThumbnailsSpacing() {
     if(2 != m_thumbnailsSpacing) {
         m_thumbnailsSpacing = 2;
-        Q_EMIT thumbnailsSpacingChanged();
     }
 }
 
@@ -6561,23 +6541,16 @@ const int PQCSettings::getDefaultForThumbnailsVisibility() {
 void PQCSettings::setDefaultForThumbnailsVisibility() {
     if(0 != m_thumbnailsVisibility) {
         m_thumbnailsVisibility = 0;
-        Q_EMIT thumbnailsVisibilityChanged();
     }
-}
-
-QVariant PQCSettings::getDefaultForExtension(const QString &key) {
-
-    if(m_extensions_defaults.contains(key))
-        return m_extensions_defaults.value(key, "");
-
-    qWarning() << "Extension setting with this key not found:" << key;
-    return "";
-
 }
 
 void PQCSettings::readDB() {
 
     qDebug() << "";
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
+    if(!db.isOpen()) return;
 
     for(const auto &table : std::as_const(dbtables)) {
 
@@ -6590,7 +6563,7 @@ void PQCSettings::readDB() {
 
             QString name = query.value(0).toString();
             QVariant value = query.value(1).toString();
-        
+
             // table: filedialog
             if(table == "filedialog") {
                 if(name == "DetailsTooltip") {
@@ -6599,7 +6572,6 @@ void PQCSettings::readDB() {
                     m_filedialogDevices = value.toInt();
                 } else if(name == "DevicesShowTmpfs") {
                     m_filedialogDevicesShowTmpfs = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = value.toInt();
                 } else if(name == "DragDropFileviewGrid") {
                     m_filedialogDragDropFileviewGrid = value.toInt();
                 } else if(name == "DragDropFileviewList") {
@@ -6648,14 +6620,14 @@ void PQCSettings::readDB() {
                     m_filedialogRememberSelection = value.toInt();
                 } else if(name == "ShowHiddenFilesFolders") {
                     m_filedialogShowHiddenFilesFolders = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
                 } else if(name == "SingleClickSelect") {
                     m_filedialogSingleClickSelect = value.toInt();
                 } else if(name == "Thumbnails") {
                     m_filedialogThumbnails = value.toInt();
                 } else if(name == "ThumbnailsScaleCrop") {
                     m_filedialogThumbnailsScaleCrop = value.toInt();
+                } else if(name == "UseNativeFileDialog") {
+                    m_filedialogUseNativeFileDialog = value.toInt();
                 } else if(name == "Zoom") {
                     m_filedialogZoom = value.toInt();
                 }
@@ -6669,7 +6641,6 @@ void PQCSettings::readDB() {
                     m_filetypesAnimatedSpacePause = value.toInt();
                 } else if(name == "ArchiveAlwaysEnterAutomatically") {
                     m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "ArchiveControls") {
                     m_filetypesArchiveControls = value.toInt();
                 } else if(name == "ArchiveLeftRight") {
@@ -6678,10 +6649,8 @@ void PQCSettings::readDB() {
                     m_filetypesArchiveViewerModeExitButton = value.toInt();
                 } else if(name == "ComicBookAlwaysEnterAutomatically") {
                     m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "DocumentAlwaysEnterAutomatically") {
                     m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = value.toInt();
                 } else if(name == "DocumentControls") {
                     m_filetypesDocumentControls = value.toInt();
                 } else if(name == "DocumentLeftRight") {
@@ -6690,13 +6659,10 @@ void PQCSettings::readDB() {
                     m_filetypesDocumentViewerModeExitButton = value.toInt();
                 } else if(name == "ExternalUnrar") {
                     m_filetypesExternalUnrar = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = value.toInt();
                 } else if(name == "LoadAppleLivePhotos") {
                     m_filetypesLoadAppleLivePhotos = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = value.toInt();
                 } else if(name == "LoadMotionPhotos") {
                     m_filetypesLoadMotionPhotos = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = value.toInt();
                 } else if(name == "MotionAutoPlay") {
                     m_filetypesMotionAutoPlay = value.toInt();
                 } else if(name == "MotionPhotoPlayPause") {
@@ -6705,7 +6671,6 @@ void PQCSettings::readDB() {
                     m_filetypesMotionSpacePause = value.toInt();
                 } else if(name == "PDFQuality") {
                     m_filetypesPDFQuality = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = value.toInt();
                 } else if(name == "PhotoSphereArrowKeys") {
                     m_filetypesPhotoSphereArrowKeys = value.toInt();
                 } else if(name == "PhotoSphereAutoLoad") {
@@ -6718,7 +6683,6 @@ void PQCSettings::readDB() {
                     m_filetypesPhotoSpherePanOnLoad = value.toInt();
                 } else if(name == "RAWUseEmbeddedIfAvailable") {
                     m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = value.toInt();
                 } else if(name == "VideoAutoplay") {
                     m_filetypesVideoAutoplay = value.toInt();
                 } else if(name == "VideoLeftRightJumpVideo") {
@@ -6727,12 +6691,10 @@ void PQCSettings::readDB() {
                     m_filetypesVideoLoop = value.toInt();
                 } else if(name == "VideoPreferLibmpv") {
                     m_filetypesVideoPreferLibmpv = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = value.toInt();
                 } else if(name == "VideoSpacePause") {
                     m_filetypesVideoSpacePause = value.toInt();
                 } else if(name == "VideoThumbnailer") {
                     m_filetypesVideoThumbnailer = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = value.toString();
                 } else if(name == "VideoVolume") {
                     m_filetypesVideoVolume = value.toInt();
                 }
@@ -6742,6 +6704,24 @@ void PQCSettings::readDB() {
                     m_generalAutoSaveSettings = value.toInt();
                 } else if(name == "CompactSettings") {
                     m_generalCompactSettings = value.toInt();
+                } else if(name == "EnabledExtensions") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_generalEnabledExtensions = val.split(":://::");
+                    else if(val != "")
+                        m_generalEnabledExtensions = QStringList() << val;
+                    else
+                        m_generalEnabledExtensions = QStringList();
+                } else if(name == "InterfaceVariant") {
+                    m_generalInterfaceVariant = value.toString();
+                } else if(name == "SetupFloatingExtensionsAtStartup") {
+                    QString val = value.toString();
+                    if(val.contains(":://::"))
+                        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
+                    else if(val != "")
+                        m_generalSetupFloatingExtensionsAtStartup = QStringList() << val;
+                    else
+                        m_generalSetupFloatingExtensionsAtStartup = QStringList();
                 } else if(name == "Version") {
                     m_generalVersion = value.toString();
                 }
@@ -6749,10 +6729,8 @@ void PQCSettings::readDB() {
             } else if(table == "imageview") {
                 if(name == "AdvancedSortAscending") {
                     m_imageviewAdvancedSortAscending = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = value.toInt();
                 } else if(name == "AdvancedSortCriteria") {
                     m_imageviewAdvancedSortCriteria = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = value.toString();
                 } else if(name == "AdvancedSortDateCriteria") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -6761,16 +6739,8 @@ void PQCSettings::readDB() {
                         m_imageviewAdvancedSortDateCriteria = QStringList() << val;
                     else
                         m_imageviewAdvancedSortDateCriteria = QStringList();
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList();
                 } else if(name == "AdvancedSortQuality") {
                     m_imageviewAdvancedSortQuality = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = value.toString();
                 } else if(name == "AlwaysActualSize") {
                     m_imageviewAlwaysActualSize = value.toInt();
                 } else if(name == "AnimationDuration") {
@@ -6779,7 +6749,6 @@ void PQCSettings::readDB() {
                     m_imageviewAnimationType = value.toString();
                 } else if(name == "Cache") {
                     m_imageviewCache = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = value.toInt();
                 } else if(name == "ColorSpaceContextMenu") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -6790,13 +6759,10 @@ void PQCSettings::readDB() {
                         m_imageviewColorSpaceContextMenu = QStringList();
                 } else if(name == "ColorSpaceDefault") {
                     m_imageviewColorSpaceDefault = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = value.toString();
                 } else if(name == "ColorSpaceEnable") {
                     m_imageviewColorSpaceEnable = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = value.toInt();
                 } else if(name == "ColorSpaceLoadEmbedded") {
                     m_imageviewColorSpaceLoadEmbedded = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = value.toInt();
                 } else if(name == "EscapeExitArchive") {
                     m_imageviewEscapeExitArchive = value.toInt();
                 } else if(name == "EscapeExitBarcodes") {
@@ -6809,7 +6775,6 @@ void PQCSettings::readDB() {
                     m_imageviewEscapeExitSphere = value.toInt();
                 } else if(name == "FitInWindow") {
                     m_imageviewFitInWindow = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = value.toInt();
                 } else if(name == "HideCursorTimeout") {
                     m_imageviewHideCursorTimeout = value.toInt();
                 } else if(name == "InterpolationDisableForSmallImages") {
@@ -6840,17 +6805,12 @@ void PQCSettings::readDB() {
                     m_imageviewResetViewShow = value.toInt();
                 } else if(name == "RespectDevicePixelRatio") {
                     m_imageviewRespectDevicePixelRatio = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = value.toInt();
                 } else if(name == "ShowMinimap") {
                     m_imageviewShowMinimap = value.toInt();
                 } else if(name == "SortImagesAscending") {
                     m_imageviewSortImagesAscending = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
                 } else if(name == "SortImagesBy") {
                     m_imageviewSortImagesBy = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = value.toString();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
                 } else if(name == "TransparencyMarker") {
                     m_imageviewTransparencyMarker = value.toInt();
                 } else if(name == "UseMouseLeftButtonForImageMove") {
@@ -6876,8 +6836,6 @@ void PQCSettings::readDB() {
             } else if(table == "interface") {
                 if(name == "AccentColor") {
                     m_interfaceAccentColor = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = value.toString();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
                 } else if(name == "AllowMultipleInstances") {
                     m_interfaceAllowMultipleInstances = value.toInt();
                 } else if(name == "BackgroundCustomOverlay") {
@@ -6924,19 +6882,14 @@ void PQCSettings::readDB() {
                     m_interfaceFlickAdjustSpeedSpeedup = value.toInt();
                 } else if(name == "FontBoldWeight") {
                     m_interfaceFontBoldWeight = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
                 } else if(name == "FontNormalWeight") {
                     m_interfaceFontNormalWeight = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = value.toInt();
-                    /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
                 } else if(name == "HotEdgeSize") {
                     m_interfaceHotEdgeSize = value.toInt();
                 } else if(name == "KeepWindowOnTop") {
                     m_interfaceKeepWindowOnTop = value.toInt();
                 } else if(name == "Language") {
                     m_interfaceLanguage = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = value.toString();
                 } else if(name == "MinimapPopout") {
                     m_interfaceMinimapPopout = value.toInt();
                 } else if(name == "NavigateOnEmptyBackground") {
@@ -6987,7 +6940,6 @@ void PQCSettings::readDB() {
                     m_interfacePopoutSlideshowSetup = value.toInt();
                 } else if(name == "PopoutWhenWindowIsSmall") {
                     m_interfacePopoutWhenWindowIsSmall = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = value.toInt();
                 } else if(name == "QuickActions") {
                     m_interfaceQuickActions = value.toInt();
                 } else if(name == "QuickActionsHeight") {
@@ -7068,13 +7020,13 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_mainmenuElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementPosition = QPoint(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mainmenuElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_mainmenuElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mainmenuElementSize = QSize(0,0);
                 } else if(name == "ElementWidth") {
@@ -7087,13 +7039,13 @@ void PQCSettings::readDB() {
                 if(name == "CurrentPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_mapviewCurrentPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentPosition = QPoint(0,0);
                 } else if(name == "CurrentSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_mapviewCurrentSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_mapviewCurrentSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_mapviewCurrentSize = QSize(0,0);
                 } else if(name == "CurrentVisible") {
@@ -7107,7 +7059,6 @@ void PQCSettings::readDB() {
             } else if(table == "metadata") {
                 if(name == "AutoRotation") {
                     m_metadataAutoRotation = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = value.toInt();
                 } else if(name == "Copyright") {
                     m_metadataCopyright = value.toInt();
                 } else if(name == "Dimensions") {
@@ -7119,13 +7070,13 @@ void PQCSettings::readDB() {
                 } else if(name == "ElementPosition") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementPosition = QPoint(parts[0].toInt(), parts[1].toInt());
+                        m_metadataElementPosition = QPoint(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementPosition = QPoint(0,0);
                 } else if(name == "ElementSize") {
                     const QStringList parts = value.toString().split(",");
                     if(parts.length() == 2)
-                        m_metadataElementSize = QSize(parts[0].toInt(), parts[1].toInt());
+                        m_metadataElementSize = QSize(parts[0].toDouble(), parts[1].toDouble());
                     else
                         m_metadataElementSize = QSize(0,0);
                 } else if(name == "ElementVisible") {
@@ -7176,6 +7127,12 @@ void PQCSettings::readDB() {
                     m_metadataModel = value.toInt();
                 } else if(name == "SceneType") {
                     m_metadataSceneType = value.toInt();
+                } else if(name == "SideBar") {
+                    m_metadataSideBar = value.toInt();
+                } else if(name == "SideBarLocation") {
+                    m_metadataSideBarLocation = value.toString();
+                } else if(name == "SideBarWidth") {
+                    m_metadataSideBarWidth = value.toInt();
                 } else if(name == "Software") {
                     m_metadataSoftware = value.toInt();
                 } else if(name == "Time") {
@@ -7220,13 +7177,10 @@ void PQCSettings::readDB() {
             } else if(table == "thumbnails") {
                 if(name == "Cache") {
                     m_thumbnailsCache = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = value.toInt();
                 } else if(name == "CacheBaseDirDefault") {
                     m_thumbnailsCacheBaseDirDefault = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = value.toInt();
                 } else if(name == "CacheBaseDirLocation") {
                     m_thumbnailsCacheBaseDirLocation = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = value.toString();
                 } else if(name == "CenterOnActive") {
                     m_thumbnailsCenterOnActive = value.toInt();
                 } else if(name == "CropToFit") {
@@ -7235,7 +7189,6 @@ void PQCSettings::readDB() {
                     m_thumbnailsDisable = value.toInt();
                 } else if(name == "ExcludeDropBox") {
                     m_thumbnailsExcludeDropBox = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = value.toString();
                 } else if(name == "ExcludeFolders") {
                     QString val = value.toString();
                     if(val.contains(":://::"))
@@ -7244,22 +7197,12 @@ void PQCSettings::readDB() {
                         m_thumbnailsExcludeFolders = QStringList() << val;
                     else
                         m_thumbnailsExcludeFolders = QStringList();
-                    /* duplicate */
-                    if(val.contains(":://::"))
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val.split(":://::");
-                    else if(val != "")
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList() << val;
-                    else
-                        PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList();
                 } else if(name == "ExcludeNetworkShares") {
                     m_thumbnailsExcludeNetworkShares = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = value.toInt();
                 } else if(name == "ExcludeNextcloud") {
                     m_thumbnailsExcludeNextcloud = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = value.toString();
                 } else if(name == "ExcludeOwnCloud") {
                     m_thumbnailsExcludeOwnCloud = value.toString();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = value.toString();
                 } else if(name == "Filename") {
                     m_thumbnailsFilename = value.toInt();
                 } else if(name == "FontSize") {
@@ -7276,12 +7219,10 @@ void PQCSettings::readDB() {
                     m_thumbnailsHighlightAnimationLiftUp = value.toInt();
                 } else if(name == "IconsOnly") {
                     m_thumbnailsIconsOnly = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = value.toInt();
                 } else if(name == "InactiveTransparent") {
                     m_thumbnailsInactiveTransparent = value.toInt();
                 } else if(name == "MaxNumberThreads") {
                     m_thumbnailsMaxNumberThreads = value.toInt();
-                    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = value.toInt();
                 } else if(name == "SameHeightVaryWidth") {
                     m_thumbnailsSameHeightVaryWidth = value.toInt();
                 } else if(name == "Size") {
@@ -7300,63 +7241,16 @@ void PQCSettings::readDB() {
 
     }
 
-    QSqlQuery queryEXT(db);
-    queryEXT.prepare("SELECT `name`,`value`,`datatype` FROM 'extensions'");
-    if(!queryEXT.exec())
-        qCritical() << "SQL Query error (extensions):" << queryEXT.lastError().text();
-
-    while(queryEXT.next()) {
-
-        QString name = queryEXT.value(0).toString();
-        QString value = queryEXT.value(1).toString();
-        QString datatype = queryEXT.value(2).toString();
-
-        if(datatype == "int")
-            m_extensions->insert(name, value.toInt());
-        else if(datatype == "double")
-            m_extensions->insert(name, value.toDouble());
-        else if(datatype == "bool")
-            m_extensions->insert(name, static_cast<bool>(value.toInt()));
-        else if(datatype == "list") {
-            if(value.contains(":://::"))
-                m_extensions->insert(name, value.split(":://::"));
-            else if(value != "")
-                m_extensions->insert(name, QStringList() << value);
-            else
-                m_extensions->insert(name, QStringList());
-        } else if(datatype == "point") {
-            const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QPoint(parts[0].toInt(), parts[1].toInt()));
-            else {
-                qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(name, value);
-                m_extensions->insert(name, QPoint(0,0));
-            }
-        } else if(datatype == "size") {
-            const QStringList parts = value.split(",");
-            if(parts.length() == 2)
-                m_extensions->insert(name, QSize(parts[0].toInt(), parts[1].toInt()));
-            else {
-                qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(name, value);
-                m_extensions->insert(name, QSize(0,0));
-            }
-        } else if(datatype == "string")
-            m_extensions->insert(name, value);
-        else if(datatype != "")
-            qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(name) << datatype;
-        else
-            qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(name);
-
-    }
-
 }
 
 bool PQCSettings::backupDatabase() {
 
     // make sure all changes are written to db
     if(dbIsTransaction) {
+        QSqlDatabase db = QSqlDatabase::database("settings");
         dbCommitTimer->stop();
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7377,6 +7271,8 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbCommitTimer->stop();
 
@@ -7417,6 +7313,9 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
     } else if(value.typeId() == QMetaType::Int) {
         val = QString::number(value.toInt());
         query.bindValue(":dat", "int");
+    } else if(value.typeId() == QMetaType::Double) {
+        val = QString::number(value.toDouble());
+        query.bindValue(":dat", "double");
     } else if(value.typeId() == QMetaType::QStringList) {
         val = value.toStringList().join(":://::");
         query.bindValue(":dat", "list");
@@ -7459,83 +7358,13 @@ void PQCSettings::saveChangedValue(const QString &_key, const QVariant &value) {
 
 }
 
-void PQCSettings::saveChangedExtensionValue(const QString &key, const QVariant &value) {
-
-    qDebug() << "args: key =" << key;
-    qDebug() << "args: value =" << value;
-    qDebug() << "readonly =" << readonly;
-
-    if(readonly) return;
-
-    dbCommitTimer->stop();
-
-    QSqlQuery query(db);
-
-    if(!dbIsTransaction) {
-        db.transaction();
-        dbIsTransaction = true;
-    }
-
-    // Using a placeholder also for table name causes an sqlite 'parameter count mismatch' error
-    // the 'on conflict' cause performs an update if the value already exists and the insert thus failed
-    query.prepare("INSERT INTO 'extensions' (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT (`name`) DO UPDATE SET `value`=:valupdate");
-
-    query.bindValue(":nme", key);
-
-    // we convert the value to a string
-    QString val = "";
-    if(value.typeId() == QMetaType::Bool) {
-        val = QString::number(value.toInt());
-        query.bindValue(":dat", "bool");
-    } else if(value.typeId() == QMetaType::Int) {
-        val = QString::number(value.toInt());
-        query.bindValue(":dat", "int");
-    } else if(value.typeId() == QMetaType::QStringList) {
-        val = value.toStringList().join(":://::");
-        query.bindValue(":dat", "list");
-    } else if(value.typeId() == QMetaType::QPoint) {
-        val = QString("%1,%2").arg(value.toPoint().x()).arg(value.toPoint().y());
-        query.bindValue(":dat", "point");
-    } else if(value.typeId() == QMetaType::QPointF) {
-        val = QString("%1,%2").arg(value.toPointF().x()).arg(value.toPointF().y());
-        query.bindValue(":dat", "point");
-    } else if(value.typeId() == QMetaType::QSize) {
-        val = QString("%1,%2").arg(value.toSize().width()).arg(value.toSize().height());
-        query.bindValue(":dat", "size");
-    } else if(value.typeId() == QMetaType::QSizeF) {
-        val = QString("%1,%2").arg(value.toSizeF().width()).arg(value.toSizeF().height());
-        query.bindValue(":dat", "size");
-    } else if(value.canConvert<QJSValue>() && value.value<QJSValue>().isArray()) {
-        QStringList ret;
-        QJSValue _val = value.value<QJSValue>();
-        const int length = _val.property("length").toInt();
-        for(int i = 0; i < length; ++i)
-            ret << _val.property(i).toString();
-        val = ret.join(":://::");
-        query.bindValue(":dat", "list");
-    } else {
-        val = value.toString();
-        query.bindValue(":dat", "string");
-    }
-
-    query.bindValue(":val", val);
-    query.bindValue(":valupdate", val);
-
-    // and update database
-    if(!query.exec()) {
-        qWarning() << "SQL Error:" << query.lastError().text();
-        qWarning() << "Executed query:" << query.lastQuery();
-    }
-
-    dbCommitTimer->start();
-
-}
-
 void PQCSettings::setDefault() {
 
     qDebug() << "readonly =" << readonly;
 
     if(readonly) return;
+
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     backupDatabase();
 
@@ -7560,10 +7389,13 @@ void PQCSettings::closeDatabase() {
 
     qDebug() << "";
 
+    QSqlDatabase db = QSqlDatabase::database("settings");
+
     dbCommitTimer->stop();
 
     if(dbIsTransaction) {
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
@@ -7577,555 +7409,11 @@ void PQCSettings::reopenDatabase() {
 
     qDebug() << "";
 
-    if(!db.open())
+    if(!QSqlDatabase::database("settings").open())
         qWarning() << "Unable to reopen database";
 
 }
 
-// return codes:
-// -1 := error
-//  0 := success
-//  1 := old, don't migrate, need to setup fresh
-int PQCSettings::migrate(QString oldversion) {
-
-    qDebug() << "args: oldversion =" << oldversion;
-
-    dbCommitTimer->stop();
-
-    if(dbIsTransaction) {
-        db.commit();
-        dbIsTransaction = false;
-        if(db.lastError().text().trimmed().length())
-            qWarning() << "ERROR committing database:" << db.lastError().text();
-    }
-
-    db.transaction();
-
-    if(oldversion == "") {
-        // first we need to find the version in a database that has not yet been read
-        QSqlQuery query(db);
-        if(!query.exec("SELECT `value` FROM general WHERE `name`='Version'")) {
-            qCritical() << "Unable to find previous version number:" << query.lastError().text();
-        } else {
-            query.next();
-            oldversion = query.value(0).toString();
-            qDebug() << "migrating from version" << oldversion << "to" << PQMVERSION;
-        }
-        query.clear();
-    }
-
-    // in this case we stop and return 1 meaning that we should simply set up fresh
-    if(oldversion.startsWith("2") || oldversion.startsWith("1")) {
-        return 1;
-    }
-
-    /*************************************************************************/
-    /**************************** IMPORTANT NOTE *****************************/
-    /*************************************************************************/
-    //                                                                       //
-    // BEFORE EVERY NEW RELEASE THE NEW VERSION NUMBER HAS TO BE ADDED BELOW //
-    //                                                                       //
-    // and the same needs to be done in pqc_shortcuts.cpp:migrate()          //
-    /*************************************************************************/
-
-    QStringList versions;
-    versions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2";
-    // when removing the 'dev' value, check below for any if statement involving 'dev'!
-
-    // this is a safety check to make sure we don't forget the above check
-    if(oldversion != "dev" && versions.indexOf(oldversion) == -1 && !oldversion.startsWith("3")) {
-        qCritical() << "WARNING: The current version number needs to be added to the migrate() functions";
-    }
-
-    int iVersion = 0;
-    if(oldversion == "dev")
-        iVersion = versions.length()-1;
-    else if(oldversion != "" && versions.contains(oldversion))
-        // we do a +1 as we are on the found version and don't need to migrate to it
-        iVersion = versions.indexOf(oldversion)+1;
-
-    // we iterate through all migrations one by one
-
-    for(int iV = iVersion; iV < versions.length(); ++iV) {
-
-        QString curVer = versions[iV];
-
-        ////////////////////////////////////
-        // first do any more complicated migrations
-
-        // update to v4.0
-        if(curVer == "4.0") {
-
-            /******************************************************/
-            // change table name 'openfile' to 'filedialog'
-
-            QSqlQuery query(db);
-
-            if(!query.exec("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='filedialog'"))
-                qCritical() << "Unable to check if table named 'filedialog' exists:" << query.lastError().text();
-            else {
-
-                query.next();
-                if(query.value(0).toInt() == 0) {
-
-                    QSqlQuery queryUpdate(db);
-                    if(!queryUpdate.exec("ALTER TABLE 'openfile' RENAME TO 'filedialog'"))
-                        qCritical() << "ERROR renaming 'openfile' to 'filedialog':" << queryUpdate.lastError().text();
-                    queryUpdate.clear();
-
-                }
-
-                query.clear();
-
-            }
-
-            /******************************************************/
-            // adjust ZoomLevel value
-
-            QVariant oldValue = migrationHelperGetOldValue("filedialog", "ZoomLevel");
-            if(oldValue.isValid() && !oldValue.isNull()) {
-                migrationHelperSetNewValue("filedialog", "Zoom", (oldValue.toInt()-9)*2.5);
-                migrationHelperRemoveValue("filedialog", "ZoomLevel");
-            }
-
-            /******************************************************/
-            // adjust list for AdvancedSortDateCriteria
-
-            QVariant oldSort = migrationHelperGetOldValue("imageview", "AdvancedSortDateCriteria");
-            if(oldSort.isValid() && !oldSort.isNull()) {
-                const QStringList oldSortVal = oldSort.toString().split(":://::");
-                QStringList newSortVal;
-                for(const auto &v : oldSortVal) {
-                    if(v == "1" || v == "0")
-                        continue;
-                    newSortVal << v;
-                }
-                migrationHelperSetNewValue("imageview", "AdvancedSortDateCriteria", newSortVal);
-            }
-
-        } else if(curVer == "4.4") {
-
-            /******************************************************/
-            // adjust value of 'PreviewColorIntensity' in 'filedialog'
-
-            QVariant oldValue = migrationHelperGetOldValue("filedialog", "PreviewColorIntensity");
-            if(!oldValue.isNull() && oldValue.isValid()) {
-                int val = oldValue.toInt();
-                if(val <= 10)
-                    migrationHelperSetNewValue("filedialog", "PreviewColorIntensity", 10*val);
-            }
-
-        } else if(curVer == "4.7") {
-
-            /******************************************************/
-            // convert color names
-
-            QString oldValue = migrationHelperGetOldValue("interface", "AccentColor").toString();
-
-            QMap<QString,QString> mapping;
-            mapping.insert("gray",   "#222222");
-            mapping.insert("red",    "#110505");
-            mapping.insert("green" , "#051105");
-            mapping.insert("blue",   "#050b11");
-            mapping.insert("purple", "#0b0211");
-            mapping.insert("orange", "#110b02");
-            mapping.insert("pink",   "#110511");
-
-            if(mapping.contains(oldValue))
-                migrationHelperSetNewValue("interface", "AccentColor", mapping.value(oldValue));
-
-            /******************************************************/
-            // make sure cache is set to at least 256
-
-            QVariant oldCache = migrationHelperGetOldValue("imageview", "Cache");
-            if(oldCache.isValid() && !oldCache.isNull() && oldCache.toInt() < 256)
-                migrationHelperSetNewValue("interface", "AccentColor", 256);
-
-        } else if(curVer == "4.8") {
-
-            migrationHelperSetNewValue("imageview", "ZoomToCenter", 0);
-
-        } else if(curVer == "4.9") {
-
-            // first make sure all tables have UNIQUE constraint set for name column
-            // it is not possible to add such a constraint to an existing table in sqlite
-            // Thus we first create a new table with the proper structure, then copy all data
-            // over, delete the old table, and then rename the new table to the old name.
-
-            const QStringList tbls = {"filedialog", "filetypes", "general", "imageview", "interface",
-                                      "mainmenu", "mapview", "metadata", "slideshow", "thumbnails"};
-
-            for(const QString &t : tbls) {
-
-                QSqlQuery queryUnq(db);
-
-                if(!queryUnq.exec(QString("CREATE TABLE '%1_new' ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)").arg(t))) {
-                    qWarning() << "ERROR: Unable to create new table:" << t;
-                    qWarning() << "SQL error:" << queryUnq.lastError().text();
-                    qWarning() << "SQL query:" << queryUnq.lastQuery();
-                    queryUnq.clear();
-                    continue;
-                }
-
-                queryUnq.clear();
-
-                if(!queryUnq.exec(QString("INSERT INTO `%1_new` (`name`,`value`,`datatype`) SELECT `name`,`value`,`datatype` FROM `%2`").arg(t,t))) {
-                    qWarning() << "ERROR copying over data for table:" << t;
-                    qWarning() << "SQL error:" << queryUnq.lastError().text();
-                    qWarning() << "SQL query:" << queryUnq.lastQuery();
-                    continue;
-                }
-
-                queryUnq.clear();
-
-                if(!queryUnq.exec(QString("DROP TABLE `%1`").arg(t))) {
-                    qWarning() << "ERROR: Unable to drop old table:" << t;
-                    qWarning() << "SQL error:" << queryUnq.lastError().text();
-                    qWarning() << "SQL query:" << queryUnq.lastQuery();
-                    continue;
-                }
-
-                queryUnq.clear();
-
-                if(!queryUnq.exec(QString("ALTER TABLE `%1_new` RENAME TO `%2`").arg(t, t))) {
-                    qWarning() << "ERROR: Unable to rename new table:" << t;
-                    qWarning() << "SQL error:" << queryUnq.lastError().text();
-                    qWarning() << "SQL query:" << queryUnq.lastQuery();
-                    continue;
-                }
-
-                queryUnq.clear();
-
-            }
-
-            // Update settings names
-
-            QVariant oldDup = migrationHelperGetOldValue("interface", "WindowButtonsDuplicateDecorationButtons");
-
-            QString newValue = "ontop_0|0|1:://::fullscreen_0|0|1";
-            if(oldDup.isValid() && !oldDup.isNull() && oldDup.toInt() == 1)
-                newValue = "ontop_0|1|1:://::minimize_0|1|1:://::maximize_0|1|1:://::fullscreen_0|0|1:://::close_0|0|1";
-
-            QVariant oldNav = migrationHelperGetOldValue("interface", "NavigationTopRight");
-            QVariant oldNavAlw = migrationHelperGetOldValue("interface", "NavigationTopRightAlways");
-            QVariant oldNavPos = migrationHelperGetOldValue("interface", "NavigationTopRightLeftRight");
-
-            if(oldNav.isValid() && oldNav.toInt() == 1) {
-                if(oldNavPos.isValid() && oldNavPos.toString() == "right") {
-                    if(oldNavAlw.isValid() && oldNavAlw.toInt() == 1)
-                        newValue = QString("%1:://::left_0|0|0:://::right_0|0|0:://::menu_0|0|0").arg(newValue);
-                    else
-                        newValue = QString("%1:://::left_1|0|0:://::right_1|0|0:://::menu_1|0|0").arg(newValue);
-                } else {
-                    if(oldNavAlw.isValid() && oldNavAlw.toInt() == 1)
-                        newValue = QString("left_0|0|0:://::right_0|0|0:://::menu_0|0|0:://::%1").arg(newValue);
-                    else
-                        newValue = QString("left_1|0|0:://::right_1|0|0:://::menu_1|0|0:://::%1").arg(newValue);
-                }
-            }
-
-            migrationHelperInsertValue("interface", "WindowButtonsItems",
-                                       {newValue, "left_0|0|0:://::right_0|0|0:://::menu_0|0|0:://::ontop_0|0|1:://::fullscreen_0|0|1", "list"});
-
-            migrationHelperRemoveValue("interface", "WindowButtonsDuplicateDecorationButtons");
-            migrationHelperRemoveValue("interface", "NavigationTopRight");
-            migrationHelperRemoveValue("interface", "NavigationTopRightAlways");
-            migrationHelperRemoveValue("interface", "NavigationTopRightLeftRight");
-
-            QString oldLayout = migrationHelperGetOldValue("filedialog", "Layout").toString();
-            if(oldLayout == "icons")
-                migrationHelperSetNewValue("filedialog", "Layout", "grid");
-
-        } else if(curVer == "4.9.1") {
-
-            // a bug in 4.9.1 might have reduced the thumbnails size down to 1px
-            int oldVal = migrationHelperGetOldValue("thumbnails", "Size").toInt();
-            if(oldVal < 32)
-                migrationHelperSetNewValue("thumbnails", "Size", 32);
-
-        }
-
-        ////////////////////////////////////
-        // then rename any settings
-
-        QMap<QString, QList<QStringList> > migrateNames = {
-            {"4.0", {{"ZoomLevel", "filedialog", "Zoom", "filedialog"},
-                     {"UserPlacesUser", "filedialog", "Places", "filedialog"},
-                     {"UserPlacesVolumes", "filedialog", "Devices", "filedialog"},
-                     {"UserPlacesWidth", "filedialog", "PlacesWidth", "filedialog"},
-                     {"DefaultView", "filedialog", "Layout", "filedialog"},
-                     {"PopoutFileSaveAs", "interface", "PopoutExport", "interface"},
-                     {"AdvancedSortExifDateCriteria", "imageview", "AdvancedSortDateCriteria", "imageview"},
-                     {"PopoutSlideShowSettings", "imageview", "PopoutSlideshowSetup", "interface"},
-                     {"PopoutSlideShowControls", "imageview", "PopoutSlideshowControls", "interface"}}},
-            {"4.5", {{"MusicFile", "slideshow", "MusicFiles", "slideshow"},
-                     {"PopoutFileDialogKeepOpen", "interface", "PopoutFileDialogNonModal", "interface"},
-                     {"PopoutMapExplorerKeepOpen", "interface", "PopoutMapExplorerNonModal", "interface"},
-                     {"CheckForPhotoSphere", "filetypes", "PhotoSphereAutoLoad", "filetypes"}}},
-            {"4.9", {{"InterpolationThreshold", "imageview", "", ""}}}
-        };
-
-        migrationHelperChangeSettingsName(migrateNames, curVer);
-
-
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        /// EXTENSIONS
-
-        /////////////////////////////////////////////////////
-        // make sure extensions table exists
-
-        QSqlQuery queryTabIns(db);
-        if(!queryTabIns.exec("CREATE TABLE IF NOT EXISTS extensions ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)"))
-            qWarning() << "ERROR adding missing table extensions:" << queryTabIns.lastError().text();
-        queryTabIns.clear();
-
-        /////////////////////////////////////////////////////
-        // check for migrations for extensions
-
-        const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-        for(const QString &e : ext)
-            migrationHelperChangeSettingsName(PQCExtensionsHandler::get().getMigrateSettings(e), curVer);
-
-        /////////////////////////////////////////////////////
-        // check for existence of settings for extensions
-
-        // ext is already defined ahead of the for loop above
-        for(const QString &e : ext) {
-
-            const QList<QStringList> set = PQCExtensionsHandler::get().getSettings(e);
-
-            qDebug() << QString("Entering settings for extension %1:").arg(e) << set;
-
-            for(const QStringList &entry : set) {
-
-                if(entry.length() != 4) {
-                    qWarning() << "Wrong settings value length of" << entry.length();
-                    qWarning() << "Faulty settings entry:" << entry;
-                    continue;
-                }
-
-                QSqlQuery query(db);
-                query.prepare(QString("INSERT OR IGNORE INTO '%1' (`name`, `value`, `datatype`) VALUES (:nme, :val, :dat)").arg(entry[1]));
-                query.bindValue(":nme", entry[0]);
-                query.bindValue(":val", entry[3]);
-                query.bindValue(":dat", entry[2]);
-                if(!query.exec()) {
-                    qWarning() << "ERROR: Failed to enter required setting for extension" << e << ":" << query.lastError().text();
-                    continue;
-                }
-
-                query.clear();
-
-            }
-
-        }
-
-        /// END EXTENSIONS
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-        ///////////////////////////////////////////////////////////
-
-    }
-
-    db.commit();
-
-    validateSettingsDatabase(true);
-    validateSettingsValues(true);
-
-    return 0;
-
-}
-
-void PQCSettings::migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer) {
-
-    qDebug() << "args: mig =" << mig;
-    qDebug() << "args: curVer =" << curVer;
-
-    for(auto i = mig.cbegin(), end = mig.cend(); i != end; ++i) {
-
-        const QString v = i.key();
-        if(v == curVer) {
-
-            const QList<QStringList> vals = i.value();
-            for(const QStringList &entry : vals) {
-
-                if(entry.length() != 4) {
-                    qWarning() << "Invalid settings migration:" << entry;
-                    continue;
-                }
-
-                // special case: delete table
-                if(entry[0] == "" && entry[2] == "" && entry[3] == "") {
-                    QSqlQuery query(db);
-                    query.prepare(QString("DROP TABLE IF EXISTS `%1`").arg(entry[1]));
-                    if(!query.exec()) {
-                        qWarning() << "ERROR: Failed to drop table:" << entry[1];
-                    }
-                    continue;
-                }
-
-                // check if old table still exists
-                QSqlQuery queryTableOld(db);
-                if(!queryTableOld.exec(QString("SELECT COUNT(name) FROM sqlite_master WHERE type='table' AND name='%1'").arg(entry[1]))) {
-                    qCritical() << "Unable to check if table named " << entry[1] << " exists:" << queryTableOld.lastError().text();
-                    continue;
-                } else {
-                    queryTableOld.next();
-                    if(queryTableOld.value(0).toInt() == 0) {
-                        qDebug() << "Old table" << entry[1] << "no longer exists - was it migrated away already?";
-                        continue;
-                    }
-                }
-
-                QSqlQuery query(db);
-
-                // check old key exists
-                // if not then no migration needs to be done
-                // we check for existence of all settings later
-                query.prepare(QString("SELECT `value`,`datatype` FROM '%1' WHERE `name`=:nme").arg(entry[1]));
-                query.bindValue(":nme", entry[0]);
-                if(!query.exec()) {
-                    qWarning() << "Query failed to execute:" << query.lastError().text();
-                    continue;
-                }
-
-                // read data if an entry was found (due to unique constraint this is either zero or one)
-                bool foundEntry = false;
-                QString old_value = "";
-                QString old_datatype = "";
-                if(query.next()) {
-                    foundEntry = true;
-                    old_value = query.value(0).toString();
-                    old_datatype = query.value(1).toString();
-                }
-                query.clear();
-
-                // found an old entry
-                if(foundEntry) {
-
-                    // If there is a new entry to be added
-                    if(entry[2] != "") {
-
-                        QSqlQuery query2(db);
-                        // enter new values if they don't exist already
-                        query2.prepare(QString("INSERT INTO %1 (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat) ON CONFLICT(`name`) DO UPDATE SET `value`=:val2,`datatype`=:dat2").arg(entry[3]));
-                        query2.bindValue(":nme", entry[2]);
-                        query2.bindValue(":val", old_value);
-                        query2.bindValue(":dat", old_datatype);
-                        query2.bindValue(":val2", old_value);
-                        query2.bindValue(":dat2", old_datatype);
-                        if(!query2.exec()) {
-                            qWarning() << "Unable to migrate setting:" << query2.lastError().text();
-                            qWarning() << "Failed query:" << query2.lastQuery();
-                            qWarning() << "Failed migration:" << entry << "//" << old_value << "/" << old_datatype;
-                            continue;
-                        }
-
-                        query2.clear();
-
-                    }
-
-                    // delete old entry
-                    query.prepare(QString("DELETE FROM '%1' WHERE `name`=:nme").arg(entry[1]));
-                    query.bindValue(":nme", entry[0]);
-                    if(!query.exec()) {
-                        qWarning() << "Failed to delete old entry:" << query.lastError().text();
-                        qWarning() << "Failed migration:" << entry;
-                    }
-
-                    query.clear();
-
-                }
-
-            }
-
-            break;
-
-        }
-
-    }
-
-}
-
-QVariant PQCSettings::migrationHelperGetOldValue(QString table, QString setting) {
-
-    qDebug() << "args: table =" << table;
-    qDebug() << "args: setting =" << setting;
-
-    QSqlQuery query(db);
-
-    query.prepare(QString("SELECT `value` FROM `%1` WHERE `name`=:nme").arg(table));
-    query.bindValue(":nme", setting);
-
-    if(!query.exec())
-        qCritical() << "Unable to get current" << setting << "value:" << query.lastError().text();
-    else {
-
-        if(query.next())
-            return query.value(0);
-
-    }
-
-    return QVariant();
-
-}
-
-void PQCSettings::migrationHelperRemoveValue(QString table, QString setting) {
-
-    qDebug() << "args: table =" << table;
-    qDebug() << "args: setting =" << setting;
-
-    QSqlQuery query(db);
-
-    query.prepare(QString("DELETE FROM `%1` WHERE `name`=:nme").arg(table));
-    query.bindValue(":nme", setting);
-    if(!query.exec()) {
-        qWarning() << "Failed to delete old entry:" << query.lastError().text();
-        qWarning() << "Failed migration:" << setting;
-    }
-
-    query.clear();
-
-}
-
-void PQCSettings::migrationHelperInsertValue(QString table, QString setting, QVariantList value) {
-
-    qDebug() << "args: table =" << table;
-    qDebug() << "args: setting =" << setting;
-    qDebug() << "args: value =" << value;
-
-    QSqlQuery query(db);
-
-    query.prepare(QString("INSERT OR IGNORE INTO `%1` (`name`,`value`,`datatype`) VALUES (:nme, :val, :dat)").arg(table));
-    query.bindValue(":nme", setting);
-    query.bindValue(":val", value[0]);
-    query.bindValue(":dat", value[2]);
-    if(!query.exec()) {
-        qWarning() << "Failed to insert new entry:" << query.lastError().text();
-        qWarning() << "Failed setting:" << setting;
-    }
-
-    query.clear();
-
-}
-
-void PQCSettings::migrationHelperSetNewValue(QString table, QString setting, QVariant value) {
-
-    qDebug() << "args: table =" << table;
-    qDebug() << "args: setting =" << setting;
-    qDebug() << "args: value =" << value;
-
-    QSqlQuery query(db);
-    query.prepare(QString("UPDATE `%1` SET `value`=:val WHERE `name`=:nme").arg(table));
-    query.bindValue(":nme", setting);
-    query.bindValue(":val", value);
-    if(!query.exec())
-        qCritical() << "ERROR updating" << setting << "value:" << query.lastError().text();
-    query.clear();
-
-}
 QString PQCSettings::verifyNameAndGetType(QString name) {
 
     QString tablename = "";
@@ -8146,9 +7434,7 @@ QString PQCSettings::verifyNameAndGetType(QString name) {
 
     settingname = name.last(name.size()-tablename.size());
 
-    QSqlQuery query(dbDefault);
-    if(name.startsWith("extensions"))
-        query = QSqlQuery(db);
+    QSqlQuery query(QSqlDatabase::database("defaultsettings"));
     query.prepare(QString("SELECT datatype FROM `%1` WHERE `name`=:nme").arg(tablename));
     query.bindValue(":nme", settingname);
     if(!query.exec()) {
@@ -8175,7 +7461,6 @@ void PQCSettings::setupFresh() {
     m_filedialogDetailsTooltip = true;
     m_filedialogDevices = false;
     m_filedialogDevicesShowTmpfs = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = false;
     m_filedialogDragDropFileviewGrid = false;
     m_filedialogDragDropFileviewList = true;
     m_filedialogDragDropFileviewMasonry = false;
@@ -8200,10 +7485,10 @@ void PQCSettings::setupFresh() {
     m_filedialogPreviewMuted = false;
     m_filedialogRememberSelection = false;
     m_filedialogShowHiddenFilesFolders = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = false;
     m_filedialogSingleClickSelect = false;
     m_filedialogThumbnails = true;
     m_filedialogThumbnailsScaleCrop = true;
+    m_filedialogUseNativeFileDialog = false;
     m_filedialogZoom = 40;
 
     // table: filetypes
@@ -8211,78 +7496,62 @@ void PQCSettings::setupFresh() {
     m_filetypesAnimatedLeftRight = false;
     m_filetypesAnimatedSpacePause = true;
     m_filetypesArchiveAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = false;
     m_filetypesArchiveControls = true;
     m_filetypesArchiveLeftRight = false;
     m_filetypesArchiveViewerModeExitButton = true;
     m_filetypesComicBookAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = false;
     m_filetypesDocumentAlwaysEnterAutomatically = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = false;
     m_filetypesDocumentControls = true;
     m_filetypesDocumentLeftRight = false;
     m_filetypesDocumentViewerModeExitButton = true;
     m_filetypesExternalUnrar = false;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = false;
     m_filetypesLoadAppleLivePhotos = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = true;
     m_filetypesLoadMotionPhotos = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = true;
     m_filetypesMotionAutoPlay = true;
     m_filetypesMotionPhotoPlayPause = true;
     m_filetypesMotionSpacePause = true;
     m_filetypesPDFQuality = 150;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = 150;
     m_filetypesPhotoSphereArrowKeys = false;
     m_filetypesPhotoSphereAutoLoad = true;
     m_filetypesPhotoSphereBigButton = false;
     m_filetypesPhotoSphereControls = false;
     m_filetypesPhotoSpherePanOnLoad = true;
     m_filetypesRAWUseEmbeddedIfAvailable = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = true;
     m_filetypesVideoAutoplay = true;
     m_filetypesVideoLeftRightJumpVideo = false;
     m_filetypesVideoLoop = false;
     m_filetypesVideoPreferLibmpv = true;
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = true;
     m_filetypesVideoSpacePause = true;
     m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
-    /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = "ffmpegthumbnailer";
     m_filetypesVideoVolume = 100;
 
     // table: general
     m_generalAutoSaveSettings = false;
     m_generalCompactSettings = false;
+    m_generalEnabledExtensions = QStringList();
+    m_generalInterfaceVariant = "modern";
+    m_generalSetupFloatingExtensionsAtStartup = QStringList();
     m_generalVersion = PQMVERSION;
 
     // table: imageview
     m_imageviewAdvancedSortAscending = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = true;
     m_imageviewAdvancedSortCriteria = "resolution";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = "resolution";
     m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = QStringList() << "exiforiginal" << "exifdigital" << "filecreation" << "filemodification";
     m_imageviewAdvancedSortQuality = "medium";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = "medium";
     m_imageviewAlwaysActualSize = false;
     m_imageviewAnimationDuration = 3;
     m_imageviewAnimationType = "opacity";
     m_imageviewCache = 512;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = 512;
     m_imageviewColorSpaceContextMenu = QStringList() << "::0" << "::1" << "::2" << "::3" << "::4";
     m_imageviewColorSpaceDefault = "";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = "";
     m_imageviewColorSpaceEnable = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = true;
     m_imageviewColorSpaceLoadEmbedded = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = true;
     m_imageviewEscapeExitArchive = true;
     m_imageviewEscapeExitBarcodes = true;
     m_imageviewEscapeExitDocument = true;
     m_imageviewEscapeExitFilter = true;
     m_imageviewEscapeExitSphere = true;
     m_imageviewFitInWindow = false;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = false;
     m_imageviewHideCursorTimeout = 1;
     m_imageviewInterpolationDisableForSmallImages = true;
     m_imageviewInterpolationThreshold = 100;
@@ -8298,12 +7567,9 @@ void PQCSettings::setupFresh() {
     m_imageviewResetViewAutoHideTimeout = 1000;
     m_imageviewResetViewShow = false;
     m_imageviewRespectDevicePixelRatio = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = true;
     m_imageviewShowMinimap = true;
     m_imageviewSortImagesAscending = true;
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = true;
     m_imageviewSortImagesBy = "naturalname";
-    /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = "naturalname";
     m_imageviewTransparencyMarker = false;
     m_imageviewUseMouseLeftButtonForImageMove = true;
     m_imageviewUseMouseWheelForImageMove = false;
@@ -8317,7 +7583,6 @@ void PQCSettings::setupFresh() {
 
     // table: interface
     m_interfaceAccentColor = "#222222";
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = "#222222";
     m_interfaceAllowMultipleInstances = false;
     m_interfaceBackgroundCustomOverlay = false;
     m_interfaceBackgroundCustomOverlayColor = "";
@@ -8341,13 +7606,10 @@ void PQCSettings::setupFresh() {
     m_interfaceFlickAdjustSpeed = true;
     m_interfaceFlickAdjustSpeedSpeedup = 1;
     m_interfaceFontBoldWeight = 700;
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = 700;
     m_interfaceFontNormalWeight = 400;
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = 400;
     m_interfaceHotEdgeSize = 4;
     m_interfaceKeepWindowOnTop = false;
     m_interfaceLanguage = "en";
-    /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = "en";
     m_interfaceMinimapPopout = false;
     m_interfaceNavigateOnEmptyBackground = false;
     m_interfaceNavigationFloating = false;
@@ -8373,7 +7635,6 @@ void PQCSettings::setupFresh() {
     m_interfacePopoutSlideshowControls = false;
     m_interfacePopoutSlideshowSetup = true;
     m_interfacePopoutWhenWindowIsSmall = true;
-    /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = true;
     m_interfaceQuickActions = true;
     m_interfaceQuickActionsHeight = 40;
     m_interfaceQuickActionsItems = QStringList() << "rename" << "delete" << "|" << "rotateleft" << "rotateright" << "mirrorhor" << "mirrorver" << "|" << "crop" << "scale" << "|" << "close";
@@ -8418,7 +7679,6 @@ void PQCSettings::setupFresh() {
 
     // table: metadata
     m_metadataAutoRotation = true;
-    /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = true;
     m_metadataCopyright = false;
     m_metadataDimensions = true;
     m_metadataElementFloating = false;
@@ -8449,6 +7709,9 @@ void PQCSettings::setupFresh() {
     m_metadataMake = true;
     m_metadataModel = true;
     m_metadataSceneType = true;
+    m_metadataSideBar = true;
+    m_metadataSideBarLocation = "right";
+    m_metadataSideBarWidth = 300;
     m_metadataSoftware = true;
     m_metadataTime = true;
 
@@ -8469,96 +7732,29 @@ void PQCSettings::setupFresh() {
 
     // table: thumbnails
     m_thumbnailsCache = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = true;
     m_thumbnailsCacheBaseDirDefault = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = true;
     m_thumbnailsCacheBaseDirLocation = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = "";
     m_thumbnailsCenterOnActive = false;
     m_thumbnailsCropToFit = true;
     m_thumbnailsDisable = false;
     m_thumbnailsExcludeDropBox = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = "";
     m_thumbnailsExcludeFolders = QStringList();
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = QStringList();
     m_thumbnailsExcludeNetworkShares = true;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = true;
     m_thumbnailsExcludeNextcloud = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = "";
     m_thumbnailsExcludeOwnCloud = "";
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = "";
     m_thumbnailsFilename = true;
     m_thumbnailsFontSize = 7;
     m_thumbnailsHighlightAnimation = QStringList() << "liftup";
     m_thumbnailsHighlightAnimationLiftUp = 15;
     m_thumbnailsIconsOnly = false;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = false;
     m_thumbnailsInactiveTransparent = true;
     m_thumbnailsMaxNumberThreads = 4;
-    /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = 4;
     m_thumbnailsSameHeightVaryWidth = false;
     m_thumbnailsSize = 120;
     m_thumbnailsSmallThumbnailsKeepSmall = true;
     m_thumbnailsSpacing = 2;
     m_thumbnailsTooltip = true;
     m_thumbnailsVisibility = 0;
-
-    // enter default extensions settings
-    const QStringList ext = PQCExtensionsHandler::get().getExtensions();
-    for(const QString &e : ext) {
-
-        const QList<QStringList> sets = PQCExtensionsHandler::get().getSettings(e);
-        for(const QStringList &s : sets) {
-
-            if(s[2] == "int") {
-                const int val = s[3].toInt();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "double") {
-                const int val = s[3].toDouble();
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "bool") {
-                const int val = static_cast<bool>(s[3].toInt());
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "list") {
-                QStringList val;
-                if(s[3].contains(":://::"))
-                    val = s[3].split(":://::");
-                else if(s[3] != "")
-                    val = QStringList() << s[3];
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "point") {
-                const QStringList parts = s[3].split(",");
-                QPoint val(0,0);
-                if(parts.length() == 2)
-                    val = QPoint(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QPoint for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "size") {
-                const QStringList parts = s[3].split(",");
-                QSize val(0,0);
-                if(parts.length() == 2)
-                    val = QSize(parts[0].toInt(), parts[1].toInt());
-                else
-                    qWarning() << QString("ERROR: invalid format of QSize for setting '%1': '%2'").arg(s[0], s[3]);
-                m_extensions->insert(s[0], val);
-                m_extensions_defaults.insert(s[0], val);
-            } else if(s[2] == "string") {
-                m_extensions->insert(s[0], s[3]);
-                m_extensions_defaults.insert(s[0], s[3]);
-            } else if(s[2] != "")
-                qCritical() << QString("ERROR: datatype not handled for setting '%1':").arg(s[0]) << s[2];
-            else
-                qDebug() << QString("empty datatype found for setting '%1' -> ignoring").arg(s[0]);
-
-        }
-
-    }
 
 #ifdef Q_OS_WIN
     // these defaults are different on Windows as on Linux
@@ -8613,6 +7809,7 @@ void PQCSettings::resetToDefault() {
     setDefaultForFiledialogSingleClickSelect();
     setDefaultForFiledialogThumbnails();
     setDefaultForFiledialogThumbnailsScaleCrop();
+    setDefaultForFiledialogUseNativeFileDialog();
     setDefaultForFiledialogZoom();
 
     // table: filetypes
@@ -8652,6 +7849,9 @@ void PQCSettings::resetToDefault() {
     // table: general
     setDefaultForGeneralAutoSaveSettings();
     setDefaultForGeneralCompactSettings();
+    setDefaultForGeneralEnabledExtensions();
+    setDefaultForGeneralInterfaceVariant();
+    setDefaultForGeneralSetupFloatingExtensionsAtStartup();
     setDefaultForGeneralVersion();
 
     // table: imageview
@@ -8830,6 +8030,9 @@ void PQCSettings::resetToDefault() {
     setDefaultForMetadataMake();
     setDefaultForMetadataModel();
     setDefaultForMetadataSceneType();
+    setDefaultForMetadataSideBar();
+    setDefaultForMetadataSideBarLocation();
+    setDefaultForMetadataSideBarWidth();
     setDefaultForMetadataSoftware();
     setDefaultForMetadataTime();
 
@@ -8878,7 +8081,7 @@ void PQCSettings::resetToDefault() {
 
 void PQCSettings::updateFromCommandLine() {
 
-    const QStringList update = PQCNotify::get().getSettingUpdate();
+    const QStringList update = PQCNotifyCPP::get().getSettingUpdate();
     qDebug() << "update =" << update;
 
     if(update.length() != 2)
@@ -8898,7 +8101,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogDevicesShowTmpfs") {
         m_filedialogDevicesShowTmpfs = (val.toInt()==1);
         Q_EMIT filedialogDevicesShowTmpfsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogDevicesShowTmpfs = (val.toInt()==1);
     }
     if(key == "filedialogDragDropFileviewGrid") {
         m_filedialogDragDropFileviewGrid = (val.toInt()==1);
@@ -8995,8 +8197,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogShowHiddenFilesFolders") {
         m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
         Q_EMIT filedialogShowHiddenFilesFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filedialogShowHiddenFilesFolders = (val.toInt()==1);
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().filedialogShowHiddenFilesFoldersChanged();
     }
     if(key == "filedialogSingleClickSelect") {
         m_filedialogSingleClickSelect = (val.toInt()==1);
@@ -9009,6 +8209,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filedialogThumbnailsScaleCrop") {
         m_filedialogThumbnailsScaleCrop = (val.toInt()==1);
         Q_EMIT filedialogThumbnailsScaleCropChanged();
+    }
+    if(key == "filedialogUseNativeFileDialog") {
+        m_filedialogUseNativeFileDialog = (val.toInt()==1);
+        Q_EMIT filedialogUseNativeFileDialogChanged();
     }
     if(key == "filedialogZoom") {
         m_filedialogZoom = val.toInt();
@@ -9029,7 +8233,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesArchiveAlwaysEnterAutomatically") {
         m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesArchiveAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesArchiveAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesArchiveControls") {
         m_filetypesArchiveControls = (val.toInt()==1);
@@ -9046,12 +8249,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesComicBookAlwaysEnterAutomatically") {
         m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesComicBookAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesComicBookAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesDocumentAlwaysEnterAutomatically") {
         m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
         Q_EMIT filetypesDocumentAlwaysEnterAutomaticallyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesDocumentAlwaysEnterAutomatically = (val.toInt()==1);
     }
     if(key == "filetypesDocumentControls") {
         m_filetypesDocumentControls = (val.toInt()==1);
@@ -9068,17 +8269,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesExternalUnrar") {
         m_filetypesExternalUnrar = (val.toInt()==1);
         Q_EMIT filetypesExternalUnrarChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesExternalUnrar = (val.toInt()==1);
     }
     if(key == "filetypesLoadAppleLivePhotos") {
         m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadAppleLivePhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadAppleLivePhotos = (val.toInt()==1);
     }
     if(key == "filetypesLoadMotionPhotos") {
         m_filetypesLoadMotionPhotos = (val.toInt()==1);
         Q_EMIT filetypesLoadMotionPhotosChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesLoadMotionPhotos = (val.toInt()==1);
     }
     if(key == "filetypesMotionAutoPlay") {
         m_filetypesMotionAutoPlay = (val.toInt()==1);
@@ -9095,7 +8293,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesPDFQuality") {
         m_filetypesPDFQuality = val.toInt();
         Q_EMIT filetypesPDFQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesPDFQuality = val.toInt();
     }
     if(key == "filetypesPhotoSphereArrowKeys") {
         m_filetypesPhotoSphereArrowKeys = (val.toInt()==1);
@@ -9120,7 +8317,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesRAWUseEmbeddedIfAvailable") {
         m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
         Q_EMIT filetypesRAWUseEmbeddedIfAvailableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesRAWUseEmbeddedIfAvailable = (val.toInt()==1);
     }
     if(key == "filetypesVideoAutoplay") {
         m_filetypesVideoAutoplay = (val.toInt()==1);
@@ -9137,7 +8333,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesVideoPreferLibmpv") {
         m_filetypesVideoPreferLibmpv = (val.toInt()==1);
         Q_EMIT filetypesVideoPreferLibmpvChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoPreferLibmpv = (val.toInt()==1);
     }
     if(key == "filetypesVideoSpacePause") {
         m_filetypesVideoSpacePause = (val.toInt()==1);
@@ -9146,7 +8341,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "filetypesVideoThumbnailer") {
         m_filetypesVideoThumbnailer = val;
         Q_EMIT filetypesVideoThumbnailerChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_filetypesVideoThumbnailer = val;
     }
     if(key == "filetypesVideoVolume") {
         m_filetypesVideoVolume = val.toInt();
@@ -9160,6 +8354,18 @@ void PQCSettings::updateFromCommandLine() {
         m_generalCompactSettings = (val.toInt()==1);
         Q_EMIT generalCompactSettingsChanged();
     }
+    if(key == "generalEnabledExtensions") {
+        m_generalEnabledExtensions = val.split(":://::");
+        Q_EMIT generalEnabledExtensionsChanged();
+    }
+    if(key == "generalInterfaceVariant") {
+        m_generalInterfaceVariant = val;
+        Q_EMIT generalInterfaceVariantChanged();
+    }
+    if(key == "generalSetupFloatingExtensionsAtStartup") {
+        m_generalSetupFloatingExtensionsAtStartup = val.split(":://::");
+        Q_EMIT generalSetupFloatingExtensionsAtStartupChanged();
+    }
     if(key == "generalVersion") {
         m_generalVersion = val;
         Q_EMIT generalVersionChanged();
@@ -9167,22 +8373,18 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewAdvancedSortAscending") {
         m_imageviewAdvancedSortAscending = (val.toInt()==1);
         Q_EMIT imageviewAdvancedSortAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortAscending = (val.toInt()==1);
     }
     if(key == "imageviewAdvancedSortCriteria") {
         m_imageviewAdvancedSortCriteria = val;
         Q_EMIT imageviewAdvancedSortCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortCriteria = val;
     }
     if(key == "imageviewAdvancedSortDateCriteria") {
         m_imageviewAdvancedSortDateCriteria = val.split(":://::");
         Q_EMIT imageviewAdvancedSortDateCriteriaChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortDateCriteria = val.split(":://::");
     }
     if(key == "imageviewAdvancedSortQuality") {
         m_imageviewAdvancedSortQuality = val;
         Q_EMIT imageviewAdvancedSortQualityChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewAdvancedSortQuality = val;
     }
     if(key == "imageviewAlwaysActualSize") {
         m_imageviewAlwaysActualSize = (val.toInt()==1);
@@ -9199,7 +8401,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewCache") {
         m_imageviewCache = val.toInt();
         Q_EMIT imageviewCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewCache = val.toInt();
     }
     if(key == "imageviewColorSpaceContextMenu") {
         m_imageviewColorSpaceContextMenu = val.split(":://::");
@@ -9208,17 +8409,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewColorSpaceDefault") {
         m_imageviewColorSpaceDefault = val;
         Q_EMIT imageviewColorSpaceDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceDefault = val;
     }
     if(key == "imageviewColorSpaceEnable") {
         m_imageviewColorSpaceEnable = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceEnableChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceEnable = (val.toInt()==1);
     }
     if(key == "imageviewColorSpaceLoadEmbedded") {
         m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
         Q_EMIT imageviewColorSpaceLoadEmbeddedChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewColorSpaceLoadEmbedded = (val.toInt()==1);
     }
     if(key == "imageviewEscapeExitArchive") {
         m_imageviewEscapeExitArchive = (val.toInt()==1);
@@ -9243,7 +8441,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewFitInWindow") {
         m_imageviewFitInWindow = (val.toInt()==1);
         Q_EMIT imageviewFitInWindowChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewFitInWindow = (val.toInt()==1);
     }
     if(key == "imageviewHideCursorTimeout") {
         m_imageviewHideCursorTimeout = val.toInt();
@@ -9304,7 +8501,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewRespectDevicePixelRatio") {
         m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
         Q_EMIT imageviewRespectDevicePixelRatioChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewRespectDevicePixelRatio = (val.toInt()==1);
     }
     if(key == "imageviewShowMinimap") {
         m_imageviewShowMinimap = (val.toInt()==1);
@@ -9313,14 +8509,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "imageviewSortImagesAscending") {
         m_imageviewSortImagesAscending = (val.toInt()==1);
         Q_EMIT imageviewSortImagesAscendingChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesAscending = (val.toInt()==1);
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesAscendingChanged();
     }
     if(key == "imageviewSortImagesBy") {
         m_imageviewSortImagesBy = val;
         Q_EMIT imageviewSortImagesByChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_imageviewSortImagesBy = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().imageviewSortImagesByChanged();
     }
     if(key == "imageviewTransparencyMarker") {
         m_imageviewTransparencyMarker = (val.toInt()==1);
@@ -9365,8 +8557,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceAccentColor") {
         m_interfaceAccentColor = val;
         Q_EMIT interfaceAccentColorChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceAccentColor = val;
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceAccentColorChanged();
     }
     if(key == "interfaceAllowMultipleInstances") {
         m_interfaceAllowMultipleInstances = (val.toInt()==1);
@@ -9459,14 +8649,10 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceFontBoldWeight") {
         m_interfaceFontBoldWeight = val.toInt();
         Q_EMIT interfaceFontBoldWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontBoldWeight = val.toInt();
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontBoldWeightChanged();
     }
     if(key == "interfaceFontNormalWeight") {
         m_interfaceFontNormalWeight = val.toInt();
         Q_EMIT interfaceFontNormalWeightChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceFontNormalWeight = val.toInt();
-        /* duplicate */ Q_EMIT PQCSettingsCPP::get().interfaceFontNormalWeightChanged();
     }
     if(key == "interfaceHotEdgeSize") {
         m_interfaceHotEdgeSize = val.toInt();
@@ -9479,7 +8665,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfaceLanguage") {
         m_interfaceLanguage = val;
         Q_EMIT interfaceLanguageChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfaceLanguage = val;
     }
     if(key == "interfaceMinimapPopout") {
         m_interfaceMinimapPopout = (val.toInt()==1);
@@ -9580,7 +8765,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "interfacePopoutWhenWindowIsSmall") {
         m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
         Q_EMIT interfacePopoutWhenWindowIsSmallChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_interfacePopoutWhenWindowIsSmall = (val.toInt()==1);
     }
     if(key == "interfaceQuickActions") {
         m_interfaceQuickActions = (val.toInt()==1);
@@ -9745,7 +8929,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "metadataAutoRotation") {
         m_metadataAutoRotation = (val.toInt()==1);
         Q_EMIT metadataAutoRotationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_metadataAutoRotation = (val.toInt()==1);
     }
     if(key == "metadataCopyright") {
         m_metadataCopyright = (val.toInt()==1);
@@ -9873,6 +9056,18 @@ void PQCSettings::updateFromCommandLine() {
         m_metadataSceneType = (val.toInt()==1);
         Q_EMIT metadataSceneTypeChanged();
     }
+    if(key == "metadataSideBar") {
+        m_metadataSideBar = (val.toInt()==1);
+        Q_EMIT metadataSideBarChanged();
+    }
+    if(key == "metadataSideBarLocation") {
+        m_metadataSideBarLocation = val;
+        Q_EMIT metadataSideBarLocationChanged();
+    }
+    if(key == "metadataSideBarWidth") {
+        m_metadataSideBarWidth = val.toInt();
+        Q_EMIT metadataSideBarWidthChanged();
+    }
     if(key == "metadataSoftware") {
         m_metadataSoftware = (val.toInt()==1);
         Q_EMIT metadataSoftwareChanged();
@@ -9936,17 +9131,14 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsCache") {
         m_thumbnailsCache = (val.toInt()==1);
         Q_EMIT thumbnailsCacheChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCache = (val.toInt()==1);
     }
     if(key == "thumbnailsCacheBaseDirDefault") {
         m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
         Q_EMIT thumbnailsCacheBaseDirDefaultChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirDefault = (val.toInt()==1);
     }
     if(key == "thumbnailsCacheBaseDirLocation") {
         m_thumbnailsCacheBaseDirLocation = val;
         Q_EMIT thumbnailsCacheBaseDirLocationChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsCacheBaseDirLocation = val;
     }
     if(key == "thumbnailsCenterOnActive") {
         m_thumbnailsCenterOnActive = (val.toInt()==1);
@@ -9963,27 +9155,22 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsExcludeDropBox") {
         m_thumbnailsExcludeDropBox = val;
         Q_EMIT thumbnailsExcludeDropBoxChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeDropBox = val;
     }
     if(key == "thumbnailsExcludeFolders") {
         m_thumbnailsExcludeFolders = val.split(":://::");
         Q_EMIT thumbnailsExcludeFoldersChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeFolders = val.split(":://::");
     }
     if(key == "thumbnailsExcludeNetworkShares") {
         m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
         Q_EMIT thumbnailsExcludeNetworkSharesChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNetworkShares = (val.toInt()==1);
     }
     if(key == "thumbnailsExcludeNextcloud") {
         m_thumbnailsExcludeNextcloud = val;
         Q_EMIT thumbnailsExcludeNextcloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeNextcloud = val;
     }
     if(key == "thumbnailsExcludeOwnCloud") {
         m_thumbnailsExcludeOwnCloud = val;
         Q_EMIT thumbnailsExcludeOwnCloudChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsExcludeOwnCloud = val;
     }
     if(key == "thumbnailsFilename") {
         m_thumbnailsFilename = (val.toInt()==1);
@@ -10004,7 +9191,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsIconsOnly") {
         m_thumbnailsIconsOnly = (val.toInt()==1);
         Q_EMIT thumbnailsIconsOnlyChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsIconsOnly = (val.toInt()==1);
     }
     if(key == "thumbnailsInactiveTransparent") {
         m_thumbnailsInactiveTransparent = (val.toInt()==1);
@@ -10013,7 +9199,6 @@ void PQCSettings::updateFromCommandLine() {
     if(key == "thumbnailsMaxNumberThreads") {
         m_thumbnailsMaxNumberThreads = val.toInt();
         Q_EMIT thumbnailsMaxNumberThreadsChanged();
-        /* duplicate */ PQCSettingsCPP::get().m_thumbnailsMaxNumberThreads = val.toInt();
     }
     if(key == "thumbnailsSameHeightVaryWidth") {
         m_thumbnailsSameHeightVaryWidth = (val.toInt()==1);
@@ -10039,232 +9224,5 @@ void PQCSettings::updateFromCommandLine() {
         m_thumbnailsVisibility = val.toInt();
         Q_EMIT thumbnailsVisibilityChanged();
     }
-
-}
-// THIS FUNCTION IS NOT TO BE CALLED FROM INSIDE PQCSETTINGS!!
-// It is only to be called whenever the class has been set up
-// specifically for validating (see constructor).
-bool PQCSettings::validateSettingsDatabase(bool skipDBHandling) {
-
-    qDebug() << "";
-
-    if(!skipDBHandling) {
-
-        // the db does not exist -> create it and finish
-        if(!QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
-            if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-                qWarning() << "Unable to (re-)create default settings database";
-            else {
-                QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-                file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-            }
-            return true;
-        }
-
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            db = QSqlDatabase::addDatabase("QSQLITE", "settings");
-        db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        if(!db.open()) {
-            qWarning() << "Error opening database:" << db.lastError().text();
-            return false;
-        }
-
-
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
-        QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
-        QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
-        dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
-        if(!dbDefault.open()) {
-            qWarning() << "ERROR opening default database:" << dbDefault.lastError().text();
-            return false;
-        }
-
-    }
-
-    // read the list of all tables from the default database
-    QStringList tables;
-
-    QSqlQuery queryTables("SELECT name FROM sqlite_master WHERE type IN ('table','view') AND name NOT LIKE 'sqlite_%' ORDER BY 1;", dbDefault);
-    if(!queryTables.exec()) {
-        qWarning() << "Error getting list of tables:" << queryTables.lastError().text();
-        queryTables.clear();
-        return false;
-    }
-
-    QStringList whichTablesToAdd;
-
-    // iterate over all tables
-    while(queryTables.next()) {
-
-        const QString tab = queryTables.value(0).toString();
-        tables << tab;
-
-        // make sure all tables exist in installed db
-
-        QSqlQuery queryTabIns(db);
-        if(!queryTabIns.exec(QString("SELECT COUNT(name) as cnt FROM sqlite_master WHERE type='table' AND name='%1'").arg(tab))) {
-            qWarning() << QString("Error checking table '%1' existence:").arg(tab) << queryTabIns.lastError().text();
-            continue;
-        }
-
-        queryTabIns.next();
-
-        int cnt = queryTabIns.value(0).toInt();
-        if(cnt == 0)
-            whichTablesToAdd << tab;
-
-        queryTabIns.clear();
-    }
-
-    queryTables.clear();
-
-    // add missing tables
-    if(whichTablesToAdd.length() > 0) {
-
-        for(const QString &tab : std::as_const(whichTablesToAdd)) {
-
-            QSqlQuery queryTabIns(db);
-            if(!queryTabIns.exec(QString("CREATE TABLE %1 ('name' TEXT UNIQUE, 'value' TEXT, 'datatype' TEXT)").arg(tab)))
-                qWarning() << QString("ERROR adding missing table '%1':").arg(tab) << queryTabIns.lastError().text();
-            queryTabIns.clear();
-        }
-
-    }
-
-    if(!skipDBHandling) {
-        dbDefault.close();
-        db.close();
-    }
-
-    return true;
-
-}
-// THIS FUNCTION IS NOT TO BE CALLED FROM INSIDE PQCSETTINGS!!
-// It is only to be called whenever the class has been set up
-// specifically for validating (see constructor).
-bool PQCSettings::validateSettingsValues(bool skipDBHandling) {
-
-    qDebug() << "";
-
-    if(!skipDBHandling) {
-
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            db = QSqlDatabase::addDatabase("QSQLITE3", "validatesettingsvalues");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            db = QSqlDatabase::addDatabase("QSQLITE", "validatesettingsvalues");
-        db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
-
-        if(!db.open())
-            qWarning() << "Error opening database:" << db.lastError().text();
-
-    }
-
-    QSqlDatabase dbcheck;
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbcheck = QSqlDatabase::addDatabase("QSQLITE3", "checksettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbcheck = QSqlDatabase::addDatabase("QSQLITE", "checksettings");
-    else {
-        qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
-        qCritical() << "PhotoQt cannot function without SQLite available.";
-        qApp->quit();
-        return false;
-    }
-
-    QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    QFile::copy(":/checksettings.db", PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    QFile::setPermissions(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db",
-                          QFileDevice::WriteOwner|QFileDevice::ReadOwner |
-                          QFileDevice::ReadGroup);
-    dbcheck.setDatabaseName(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-
-    if(!dbcheck.open())
-        qWarning() << "Error opening default database:" << dbcheck.lastError().text();
-
-    QSqlQuery queryCheck(dbcheck);
-    queryCheck.prepare("SELECT tablename,setting,minvalue,maxvalue FROM 'entries'");
-
-    if(!queryCheck.exec()) {
-        qWarning() << "Error getting default data:" << queryCheck.lastError().text();
-        queryCheck.clear();
-        QFile::remove(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-        return false;
-    }
-
-    QList<QList<QVariant> > toUpdate;
-
-    // loop over check data
-    while(queryCheck.next()) {
-
-        const QString table = queryCheck.value(0).toString();
-        const QString setting = queryCheck.value(1).toString();
-        const double minValue = queryCheck.value(2).toDouble();
-        const double maxValue = queryCheck.value(3).toDouble();
-
-        QSqlQuery check(db);
-        check.prepare(QString("SELECT value,datatype FROM '%1' WHERE name=:name").arg(table));
-        check.bindValue(":name", setting);
-        if(!check.exec()) {
-            qWarning() << QString("Error checking entry '%1':").arg(setting) << check.lastError().text();
-            continue;
-        }
-        if(check.next()) {
-
-            const QString dt = check.value(1).toString();
-            const double value = check.value(0).toDouble();
-
-            if(value < minValue)
-                toUpdate << (QList<QVariant>() << table << setting << dt << minValue);
-            else if(value > maxValue)
-                toUpdate << (QList<QVariant>() << table << setting << dt << maxValue);
-
-        }
-
-        check.clear();
-
-    }
-
-    queryCheck.clear();
-
-    // update what needs fixing
-    for(int i = 0; i < toUpdate.size(); ++i) {
-
-        QList<QVariant> lst = toUpdate.at(i);
-
-        QSqlQuery query(db);
-
-        query.prepare(QString("UPDATE %1 SET value=:val WHERE name=:name").arg(lst.at(0).toString()));
-        query.bindValue(":name", lst.at(1).toString());
-        if(lst.at(2).toString() == "double")
-            query.bindValue(":val", lst.at(3).toDouble());
-        if(lst.at(2).toString() == "int")
-            query.bindValue(":val", static_cast<int>(lst.at(3).toDouble()));
-
-        if(!query.exec()) {
-            qWarning() << QString("Error updating entry '%1':").arg(lst.at(1).toString()) << query.lastError().text();
-            continue;
-        }
-
-        query.clear();
-
-    }
-
-    dbcheck.close();
-
-    if(!skipDBHandling) {
-        db.close();
-    }
-
-    QFile file(PQCConfigFiles::get().CACHE_DIR()+"/photoqt_check.db");
-    if(!file.remove())
-        qWarning() << "ERROR: Unable to remove check db:" << file.errorString();
-
-    return true;
 
 }

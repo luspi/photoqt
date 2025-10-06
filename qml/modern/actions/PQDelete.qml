@@ -21,114 +21,133 @@
  **************************************************************************/
 
 import QtQuick
-import PQCFileFolderModel
-import PQCScriptsFilesPaths
-import PQCScriptsConfig
-import PhotoQt
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern
 
-PQTemplateFullscreen {
+PQTemplate {
 
     id: delete_top
 
-    thisis: "filedelete"
-    popout: PQCSettings.interfacePopoutFileDelete // qmllint disable unqualified
-    forcePopout: PQCWindowGeometry.filedeleteForcePopout // qmllint disable unqualified
-    shortcut: "__delete"
-
     title: qsTranslate("filemanagement", "Delete file?")
+    elementId: "FileDelete"
 
-    button1.text: qsTranslate("filemanagement", "Move to trash")
+    Component.onCompleted: {
 
-    button2.visible: true
-    button2.font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    button2.text: qsTranslate("filemanagement", "Delete permanently")
-    button2.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+        button1.text = qsTranslate("filemanagement", "Move to trash")
 
-    button3.visible: true
-    button3.font.pointSize: PQCLook.fontSize // qmllint disable unqualified
-    button3.text: genericStringCancel
-    button3.font.weight: PQCLook.fontWeightNormal // qmllint disable unqualified
+        button2.visible = true
+        button2.font.pointSize = PQCLook.fontSize
+        button2.text = qsTranslate("filemanagement", "Delete permanently")
+        button2.font.weight = PQCLook.fontWeightNormal
 
+        button3.visible = true
+        button3.font.pointSize = PQCLook.fontSize
+        button3.text = button3.genericStringCancel
+        button3.font.weight = PQCLook.fontWeightNormal
 
-    onPopoutChanged:
-        PQCSettings.interfacePopoutFileDelete = popout // qmllint disable unqualified
+    }
 
-    button1.onClicked:
-        moveToTrash()
+    SystemPalette { id: pqtPalette }
+    SystemPalette { id: pqtPaletteDisabled }
 
-    button2.onClicked:
-        deletePermanently()
+    Connections {
+        target: button1
+        function onClicked() {
+            delete_top.moveToTrash()
+        }
+    }
 
-    button3.onClicked:
-        hide()
+    Connections {
+        target: button2
+        function onClicked() {
+            delete_top.deletePermanently()
+        }
+    }
+
+    Connections {
+        target: button3
+        function onClicked() {
+            delete_top.hide()
+        }
+    }
 
     content: [
 
-        PQTextXL {
-            id: heading
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-            text: qsTranslate("filemanagement", "Are you sure you want to delete this file?")
-        },
+        Flickable {
 
-        PQTextL {
-            id: filename
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            color: PQCLook.textColorDisabled // qmllint disable unqualified
-            text: "this_is_the_filename.jpg"
-        },
+            y: (delete_top.height-height)/2
 
-        PQTextL {
-            id: error
-            x: (parent.width-width)/2
-            width: Math.min(600, parent.width-100)
-            wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            horizontalAlignment: Text.AlignHCenter
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-            visible: false
-            text: qsTranslate("filemanagement", "An error occured, file could not be deleted!")
-        },
+            width: delete_top.width
+            height: Math.min(delete_top.height, col.height)
 
-        Item {
-            width: 1
-            height: 1
-        },
+            contentHeight: col.height
 
-        PQText {
-            x: (parent.width-width)/2
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
-            textFormat: Text.RichText
-            text: "<table><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Enter") + // qmllint disable unqualified
-                  "</td><td>=</td><td>" + qsTranslate("filemanagement", "Move to trash") +
-                  "</td</tr><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Shift+Enter") +
-                  "</td><td>=</td><td>" + qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
+            Column {
+
+                id: col
+
+                spacing: 5
+                width: parent.width
+
+                PQTextXL {
+                    id: heading
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.weight: PQCLook.fontWeightBold
+                    text: qsTranslate("filemanagement", "Are you sure you want to delete this file?")
+                }
+
+                PQTextL {
+                    id: filename
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    color: pqtPaletteDisabled.text
+                    text: "this_is_the_filename.jpg"
+                }
+
+                PQTextL {
+                    id: error
+                    x: (parent.width-width)/2
+                    width: Math.min(600, parent.width-100)
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    horizontalAlignment: Text.AlignHCenter
+                    font.weight: PQCLook.fontWeightBold
+                    visible: false
+                    text: qsTranslate("filemanagement", "An error occured, file could not be deleted!")
+                }
+
+                Item {
+                    width: 1
+                    height: 1
+                }
+
+                PQText {
+                    x: (parent.width-width)/2
+                    font.weight: PQCLook.fontWeightBold
+                    textFormat: Text.RichText
+                    text: "<table><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Enter") +
+                          "</td><td>=</td><td>" + qsTranslate("filemanagement", "Move to trash") +
+                          "</td</tr><tr><td align=right>" + PQCScriptsShortcuts.translateShortcut("Shift+Enter") +
+                          "</td><td>=</td><td>" + qsTranslate("filemanagement", "Delete permanently") + "</td></tr></table>"
+                }
+
+            }
+
         }
 
     ]
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
-            if(what === "show") {
-
-                if(param[0] === delete_top.thisis)
-                    delete_top.show()
-
-            } else if(what === "hide") {
-
-                if(param[0] === delete_top.thisis)
-                    delete_top.hide()
-
-            } else if(delete_top.opacity > 0) {
+            if(delete_top.opacity > 0) {
 
                 if(what === "keyEvent") {
 
@@ -157,7 +176,7 @@ PQTemplateFullscreen {
 
         PQCConstants.ignoreFileFolderChangesTemporary = true
 
-        if(!PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) { // qmllint disable unqualified
+        if(!PQCScriptsFileManagement.moveFileToTrash(PQCFileFolderModel.currentFile)) {
             error.visible = true
             PQCConstants.ignoreFileFolderChangesTemporary = false
             return
@@ -174,7 +193,7 @@ PQTemplateFullscreen {
 
         PQCConstants.ignoreFileFolderChangesTemporary = true
 
-        if(!PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) { // qmllint disable unqualified
+        if(!PQCScriptsFileManagement.deletePermanent(PQCFileFolderModel.currentFile)) {
             error.visible = true
             PQCConstants.ignoreFileFolderChangesTemporary = false
             return
@@ -187,30 +206,11 @@ PQTemplateFullscreen {
 
     }
 
-    function show() {
+    onShowing: {
 
-        if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
-            hide()
-            return
-        }
-        opacity = 1
-        if(popoutWindowUsed)
-            filedelete_popout.visible = true
         error.visible = false
         filename.text = PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
 
-    }
-
-    function hide() {
-
-        if(delete_top.contextMenuOpen)
-            delete_top.closeContextMenus()
-
-        delete_top.opacity = 0
-        if(popoutWindowUsed && filedelete_popout.visible)
-            filedelete_popout.visible = false // qmllint disable unqualified
-        else
-            PQCNotify.loaderRegisterClose(thisis)
     }
 
 }

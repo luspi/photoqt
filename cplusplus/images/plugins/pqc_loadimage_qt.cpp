@@ -25,7 +25,7 @@
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>
@@ -33,6 +33,7 @@
 #include <QImageReader>
 #include <QPainter>
 #include <QtDebug>
+#include <QMimeDatabase>
 
 PQCLoadImageQt::PQCLoadImageQt() {
 }
@@ -232,7 +233,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
 
         }
 
-        if(!imgAlreadyLoaded && reader.canRead()) {
+        if(!imgAlreadyLoaded && reader.canRead() && suffix != "jxl") {
             reader.read(&img);
             if(!img.isNull() && img.size() == origSize) {
                 colorProfileAlreadyApplied = true;

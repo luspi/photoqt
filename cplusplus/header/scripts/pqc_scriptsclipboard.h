@@ -19,41 +19,33 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCLIPBOARD_H
-#define PQCSCRIPTSCLIPBOARD_H
+#pragma once
 
 #include <QObject>
-#include <QtQmlIntegration>
 
 class QClipboard;
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
 
 class PQCScriptsClipboard : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    PQCScriptsClipboard();
-    ~PQCScriptsClipboard();
+    static PQCScriptsClipboard& get() {
+        static PQCScriptsClipboard instance;
+        return instance;
+    }
 
-    Q_INVOKABLE bool areFilesInClipboard();
-    Q_INVOKABLE void copyFilesToClipboard(QStringList files);
-    Q_INVOKABLE QStringList getListOfFilesInClipboard();
-    Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false);
-    Q_INVOKABLE QString getTextFromClipboard();
+    PQCScriptsClipboard(PQCScriptsClipboard const&) = delete;
+    void operator=(PQCScriptsClipboard const&) = delete;
+
+    bool areFilesInClipboard();
+    void copyFilesToClipboard(QStringList files);
+    QStringList getListOfFilesInClipboard();
+    void copyTextToClipboard(QString txt, bool removeHTML= false);
+    QString getTextFromClipboard();
 
 private:
+    PQCScriptsClipboard();
 
     QClipboard *clipboard;
 
@@ -61,5 +53,3 @@ Q_SIGNALS:
     void clipboardUpdated();
 
 };
-
-#endif

@@ -28,19 +28,23 @@
 
 #include <QObject>
 #include <QRandomGenerator>
-#include <QtQmlIntegration>
+
+/*************************************************************/
+/*************************************************************/
+//
+// this class is ONLY used by C++ at the moment
+// if this ever changes then a qml wrapper might have to be created
+//
+/*************************************************************/
+/*************************************************************/
 
 class PQCScriptsCrypt : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
-    static PQCScriptsCrypt& get() {
-        static PQCScriptsCrypt instance;
-        return instance;
-    }
-    ~PQCScriptsCrypt();
+    static PQCScriptsCrypt& get();
+    virtual ~PQCScriptsCrypt();
 
     PQCScriptsCrypt(PQCScriptsCrypt const&)     = delete;
     void operator=(PQCScriptsCrypt const&) = delete;

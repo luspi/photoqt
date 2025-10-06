@@ -66,6 +66,9 @@ public:
     bool resetConfig;
     bool showInfo;
 
+    bool forceModernInterface;
+    bool forceIntegratedInterface;
+
     QQmlApplicationEngine *qmlEngine;
     QVector<void*> qmlWindowAddresses;
 

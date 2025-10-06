@@ -21,40 +21,40 @@
  **************************************************************************/
 
 import QtQuick
-import PQCFileFolderModel
-import PQCImageFormats
-import PQCScriptsFilesPaths
-import PhotoQt
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern
 
 Item {
 
-    width: PQCConstants.windowWidth // qmllint disable unqualified
-    height: PQCConstants.windowHeight // qmllint disable unqualified
+    width: PQCConstants.availableWidth
+    height: PQCConstants.availableHeight
+
+    SystemPalette { id: pqtPalette }
 
     Connections {
 
-        target: PQCNotify // qmllint disable unqualified
+        target: PQCNotify
 
         function onLoaderPassOn(what : string, param : list<var>) {
 
             if(what === "show") {
 
-                if(param[0] === "filecopy") {
+                if(param[0] === "FileCopy") {
 
                     error.opacity = 0
-                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) { // qmllint disable unqualified
-                        PQCNotify.loaderRegisterClose("filecopy")
+                    if(PQCFileFolderModel.currentIndex === -1 || PQCFileFolderModel.countMainView === 0) {
+                        PQCNotify.loaderRegisterClose("FileCopy")
                         return
                     }
 
                     var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
                     if(targetfile === "") {
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileCopy")
                     } else {
                         if(!PQCScriptsFileManagement.copyFile(PQCFileFolderModel.currentFile, targetfile))
                             error.opacity = 1
                         else
-                            PQCNotify.loaderRegisterClose("filecopy")
+                            PQCNotify.loaderRegisterClose("FileCopy")
                     }
 
                 }
@@ -69,7 +69,7 @@ Item {
 
                     if(param[0] === Qt.Key_Escape || param[0] === Qt.Key_Return || param[0] === Qt.Key_Enter) {
                         error.opacity = 0
-                        PQCNotify.loaderRegisterClose("filecopy")
+                        PQCNotify.loaderRegisterClose("FileCopy")
                     }
                 }
             }
@@ -79,7 +79,7 @@ Item {
     Rectangle {
         id: error
         anchors.fill: parent
-        color: PQCLook.baseColor // qmllint disable unqualified
+        color: pqtPalette.base
         opacity: 0
         Behavior on opacity { NumberAnimation { duration: 200 } }
         visible: opacity>0
@@ -90,12 +90,12 @@ Item {
             PQTextXXL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "An error occured")
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold
             }
             PQTextL {
                 x: (parent.width-width)/2
                 text: qsTranslate("filemanagement", "File could not be copied")
-                font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+                font.weight: PQCLook.fontWeightBold
             }
             PQButton {
                 id: errorbutton
@@ -103,7 +103,7 @@ Item {
                 text: genericStringClose
                 onClicked: {
                     error.opacity = 0
-                    PQCNotify.loaderRegisterClose("filecopy") // qmllint disable unqualified
+                    PQCNotify.loaderRegisterClose("FileCopy")
                 }
             }
         }

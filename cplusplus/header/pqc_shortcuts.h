@@ -25,7 +25,7 @@
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 
 class QTimer;
 
@@ -52,11 +52,16 @@ public:
 
     Q_INVOKABLE QVariantList getCommandsForShortcut(QString combo);
     Q_INVOKABLE QVariantList getAllCurrentShortcuts();
-    Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list);
+    Q_INVOKABLE QVariantList getShortcutsForCommand(QString cmd);
+    Q_INVOKABLE int getNumberInternalCommandsForShortcut(QString combo);
+    Q_INVOKABLE int getNumberExternalCommandsForShortcut(QString combo);
+    Q_INVOKABLE void saveAllCurrentShortcuts(QVariantList list); // used?
     Q_INVOKABLE int getNextCommandInCycle(QString combo, int timeout, int maxCmd);
     Q_INVOKABLE void resetCommandCycle(QString combo);
 
-    Q_INVOKABLE bool migrate(QString oldversion = "");
+    Q_INVOKABLE void saveInternalShortcutCombos(const QVariantList lst);
+    Q_INVOKABLE void saveExternalShortcutCombos(const QVariantList lst);
+    Q_INVOKABLE void saveDuplicateShortcutsCommandOrder(const QVariantList lst);
 
     bool backupDatabase();
     Q_INVOKABLE void closeDatabase();
@@ -66,14 +71,15 @@ public:
 
 public Q_SLOTS:
     void readDB();
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:
 
-    int checkForUpdateOrNew();
+    void writeNewShortcutsMapToDatabaseAndRead(QMap<QString, QVariantList> newmap);
 
     QStringList shortcutsOrder;
     QMap<QString,QVariantList> shortcuts;
+    QMap<QString,QVariantList> m_commands;
     QMap<QString, QList<qint64>> commandCycle;
 
     QSqlDatabase db;

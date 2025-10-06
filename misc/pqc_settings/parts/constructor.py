@@ -74,13 +74,14 @@ def get():
 #include <QJSValue>
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
+#include <QCoreApplication>
+#include <QtSql/QSqlError>
+#include <QtSql/QSqlQuery>
 #include <pqc_settings.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_extensionshandler.h>
-
-#include <scripts/pqc_scriptsother.h>
 
 PQCSettings::PQCSettings(bool validateonly) {
     if(validateonly) {
@@ -92,11 +93,17 @@ PQCSettings::PQCSettings(bool validateonly) {
 
 PQCSettings::PQCSettings() {
 
+    QSqlDatabase dbDefault;
+
     // create and connect to default database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    if(QSqlDatabase::contains("defaultsettings"))
+        dbDefault = QSqlDatabase::database("defaultsettings");
+    else {
+        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE3", "defaultsettings");
+        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+            dbDefault = QSqlDatabase::addDatabase("QSQLITE", "defaultsettings");
+    }
     QFile::remove(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     QFile::copy(":/defaultsettings.db", PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
@@ -107,11 +114,7 @@ PQCSettings::PQCSettings() {
         return;
     }
 
-    // connect to user database
-    if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-        db = QSqlDatabase::addDatabase("QSQLITE3", "settings");
-    else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-        db = QSqlDatabase::addDatabase("QSQLITE", "settings");
+    QSqlDatabase db = QSqlDatabase::database("settings");
 
     dbtables = QStringList() << "general"
                             << "interface"
@@ -122,59 +125,20 @@ PQCSettings::PQCSettings() {
                             << "filetypes"
                             << "filedialog"
                             << "slideshow"
-                            << "mapview"
-                            << "extensions";
+                            << "mapview";
 
     readonly = false;
-
-    QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
-
-    // the db does not exist -> create it
-    if(!infodb.exists()) {
-        if(!QFile::copy(":/usersettings.db", PQCConfigFiles::get().USERSETTINGS_DB()))
-            qWarning() << "Unable to (re-)create default user settings database";
-        else {
-            QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
-            file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
-        }
-    }
-
-    db.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
 
     if(!db.open()) {
 
         qWarning() << "ERROR opening database:" << db.lastError().text();
-        qWarning() << "Will load read-only database of default settings";
+        qWarning() << "Will load read-only set of default settings";
 
         readonly = true;
-        db.setConnectOptions("QSQLITE_OPEN_READONLY");
-
-        QString tmppath = QStandardPaths::writableLocation(QStandardPaths::TempLocation)+"/usersettings.db";
-
-        if(QFile::exists(tmppath))
-            QFile::remove(tmppath);
-
-        if(!QFile::copy(":/usersettings.db", tmppath)) {
-            qCritical() << "ERROR copying read-only default database!";
-            //: This is the window title of an error message box
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR getting database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open even a read-only version of the settings database.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
-
-        QFile f(tmppath);
-        f.setPermissions(f.permissions()|QFileDevice::WriteOwner);
-
-        db.setDatabaseName(tmppath);
-
-        if(!db.open()) {
-            qCritical() << "ERROR opening read-only default database!";
-            QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
-                                    QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
-            return;
-        }
 
     } else {
+
+        QFileInfo infodb(PQCConfigFiles::get().USERSETTINGS_DB());
 
         readonly = false;
         if(!infodb.permission(QFileDevice::WriteOwner))
@@ -186,16 +150,14 @@ PQCSettings::PQCSettings() {
     dbCommitTimer = new QTimer();
     dbCommitTimer->setSingleShot(true);
     dbCommitTimer->setInterval(400);
-    connect(dbCommitTimer, &QTimer::timeout, this, [=](){
+    connect(dbCommitTimer, &QTimer::timeout, this, [=, this](){
+        QSqlDatabase db = QSqlDatabase::database("settings");
         db.commit();
+        PQCSettingsCPP::get().readDB();
         dbIsTransaction = false;
         if(db.lastError().text().trimmed().length())
             qWarning() << "ERROR committing database:" << db.lastError().text();
     });
-
-    /******************************************************/
-
-    m_extensions = new QQmlPropertyMap();
 
     /******************************************************/
 
@@ -213,12 +175,8 @@ PQCSettings::PQCSettings() {
             QFile file(PQCConfigFiles::get().USERSETTINGS_DB());
             file.setPermissions(file.permissions()|QFileDevice::WriteOwner);
         }
-    } else {
+    } else
         readDB();
-        QString curver = PQMVERSION;
-        if(curver != m_generalVersion)
-            migrate(m_generalVersion);
-    }
 
     /******************************************************/
     """
@@ -255,7 +213,7 @@ PQCSettings::PQCSettings() {
                 qtdatatpe = "QSize"
 
             cont_SOURCE += f"""
-    connect(this, &PQCSettings::{tab}{name}Changed, this, [=]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
+    connect(this, &PQCSettings::{tab}{name}Changed, this, [=, this]() {{ saveChangedValue(\"{tab}{name}\", m_{tab}{name}); }});"""
 
 
 
@@ -263,20 +221,15 @@ PQCSettings::PQCSettings() {
 
     /******************************************************/
 
-    connect(m_extensions, &QQmlPropertyMap::valueChanged, this, &PQCSettings::saveChangedExtensionValue);
-
-    /******************************************************/
-
-    connect(&PQCNotify::get(), &PQCNotify::settingUpdateChanged, this, &PQCSettings::updateFromCommandLine);
-    connect(&PQCNotify::get(), &PQCNotify::resetSettingsToDefault, this, &PQCSettings::resetToDefault);
-    connect(&PQCNotify::get(), &PQCNotify::disableColorSpaceSupport, this, [=]() {{ setImageviewColorSpaceEnable(false); }});
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::disableColorSpaceSupport, this, [=, this]() {{ setImageviewColorSpaceEnable(false); }});
 
 }
 
 PQCSettings::~PQCSettings() {{
+    QSqlDatabase::removeDatabase("defaultsettings");
+    QSqlDatabase::removeDatabase("settings");
     if(dbCommitTimer != nullptr) {{
         delete dbCommitTimer;
-        delete m_extensions;
     }}
 }}
 """

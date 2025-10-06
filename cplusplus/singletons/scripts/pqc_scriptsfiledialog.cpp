@@ -29,7 +29,7 @@
 #include <QFutureWatcher>
 #include <QJSValue>
 #include <QJSEngine>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <pqc_settingscpp.h>
 
 #ifdef PQMPUGIXML
@@ -282,9 +282,7 @@ QString PQCScriptsFileDialog::getUniquePlacesId() {
 
 }
 
-unsigned int PQCScriptsFileDialog::_getNumberOfFilesInFolder(QString path) {
-
-    // no debug statement here, this function is only and always called by the next function with the same name
+unsigned int PQCScriptsFileDialog::getNumberOfFilesInFolder(const QString &path) {
 
     // cache key
     const QString key = QString("%1%2").arg(path,QFileInfo(path).lastModified().toString());
@@ -311,22 +309,6 @@ unsigned int PQCScriptsFileDialog::_getNumberOfFilesInFolder(QString path) {
 
 }
 
-void PQCScriptsFileDialog::getNumberOfFilesInFolder(QString path, const QJSValue &callback) {
-
-    qDebug() << "args: path =" << path;
-
-    auto *watcher = new QFutureWatcher<unsigned int>(this);
-    QObject::connect(watcher, &QFutureWatcher<unsigned int>::finished,
-                     this, [this,watcher,callback]() {
-                         unsigned int count = watcher->result();
-                         QJSValue cbCopy(callback); // needed as callback is captured as const
-                         QJSEngine *engine = qjsEngine(this);
-                         cbCopy.call(QJSValueList { engine->toScriptValue(count) });
-                         watcher->deleteLater();
-                     });
-    watcher->setFuture(QtConcurrent::run(&PQCScriptsFileDialog::_getNumberOfFilesInFolder, this, path));
-}
-
 QString PQCScriptsFileDialog::getLastLocation() {
 
     qDebug() << "";
@@ -342,6 +324,20 @@ QString PQCScriptsFileDialog::getLastLocation() {
     if(folder.exists())
         return ret;
     return QDir::homePath();
+
+}
+
+// The following one ONLY needs to be called from the integrated ui IF the native filedialog is used!
+void PQCScriptsFileDialog::setLastLocation(QString fname) {
+
+    qDebug() << "args: fname =" << fname;
+
+    QFile file(PQCConfigFiles::get().FILEDIALOG_LAST_LOCATION());
+    if(file.open(QIODevice::WriteOnly | QIODevice::Truncate)) {
+        QTextStream out(&file);
+        out << fname;
+        file.close();
+    }
 
 }
 

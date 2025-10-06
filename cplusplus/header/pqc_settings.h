@@ -35,8 +35,11 @@
 
 #include <QObject>
 #include <QSqlDatabase>
-#include <QtQmlIntegration>
+#include <QQmlEngine>
 #include <QQmlPropertyMap>
+#include <QPoint>
+#include <QSize>
+#include <QTimer>
 
 class PQCSettings : public QObject {
 
@@ -48,9 +51,6 @@ public:
     explicit PQCSettings(bool validateonly);
     explicit PQCSettings();
     ~PQCSettings();
-
-    // extensions settings
-    Q_PROPERTY(QQmlPropertyMap* extensions MEMBER m_extensions NOTIFY extensionsChanged)
 
     /**************************************/
     // table: filedialog
@@ -234,6 +234,12 @@ public:
     void setFiledialogThumbnailsScaleCrop(bool val);
     Q_INVOKABLE const bool getDefaultForFiledialogThumbnailsScaleCrop();
     Q_INVOKABLE void setDefaultForFiledialogThumbnailsScaleCrop();
+
+    Q_PROPERTY(bool filedialogUseNativeFileDialog READ getFiledialogUseNativeFileDialog WRITE setFiledialogUseNativeFileDialog NOTIFY filedialogUseNativeFileDialogChanged)
+    bool getFiledialogUseNativeFileDialog();
+    void setFiledialogUseNativeFileDialog(bool val);
+    Q_INVOKABLE const bool getDefaultForFiledialogUseNativeFileDialog();
+    Q_INVOKABLE void setDefaultForFiledialogUseNativeFileDialog();
 
     Q_PROPERTY(int filedialogZoom READ getFiledialogZoom WRITE setFiledialogZoom NOTIFY filedialogZoomChanged)
     int getFiledialogZoom();
@@ -450,6 +456,24 @@ public:
     void setGeneralCompactSettings(bool val);
     Q_INVOKABLE const bool getDefaultForGeneralCompactSettings();
     Q_INVOKABLE void setDefaultForGeneralCompactSettings();
+
+    Q_PROPERTY(QStringList generalEnabledExtensions READ getGeneralEnabledExtensions WRITE setGeneralEnabledExtensions NOTIFY generalEnabledExtensionsChanged)
+    QStringList getGeneralEnabledExtensions();
+    void setGeneralEnabledExtensions(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralEnabledExtensions();
+    Q_INVOKABLE void setDefaultForGeneralEnabledExtensions();
+
+    Q_PROPERTY(QString generalInterfaceVariant READ getGeneralInterfaceVariant WRITE setGeneralInterfaceVariant NOTIFY generalInterfaceVariantChanged)
+    QString getGeneralInterfaceVariant();
+    void setGeneralInterfaceVariant(QString val);
+    Q_INVOKABLE const QString getDefaultForGeneralInterfaceVariant();
+    Q_INVOKABLE void setDefaultForGeneralInterfaceVariant();
+
+    Q_PROPERTY(QStringList generalSetupFloatingExtensionsAtStartup READ getGeneralSetupFloatingExtensionsAtStartup WRITE setGeneralSetupFloatingExtensionsAtStartup NOTIFY generalSetupFloatingExtensionsAtStartupChanged)
+    QStringList getGeneralSetupFloatingExtensionsAtStartup();
+    void setGeneralSetupFloatingExtensionsAtStartup(QStringList val);
+    Q_INVOKABLE const QStringList getDefaultForGeneralSetupFloatingExtensionsAtStartup();
+    Q_INVOKABLE void setDefaultForGeneralSetupFloatingExtensionsAtStartup();
 
     Q_PROPERTY(QString generalVersion READ getGeneralVersion WRITE setGeneralVersion NOTIFY generalVersionChanged)
     QString getGeneralVersion();
@@ -1474,6 +1498,24 @@ public:
     Q_INVOKABLE const bool getDefaultForMetadataSceneType();
     Q_INVOKABLE void setDefaultForMetadataSceneType();
 
+    Q_PROPERTY(bool metadataSideBar READ getMetadataSideBar WRITE setMetadataSideBar NOTIFY metadataSideBarChanged)
+    bool getMetadataSideBar();
+    void setMetadataSideBar(bool val);
+    Q_INVOKABLE const bool getDefaultForMetadataSideBar();
+    Q_INVOKABLE void setDefaultForMetadataSideBar();
+
+    Q_PROPERTY(QString metadataSideBarLocation READ getMetadataSideBarLocation WRITE setMetadataSideBarLocation NOTIFY metadataSideBarLocationChanged)
+    QString getMetadataSideBarLocation();
+    void setMetadataSideBarLocation(QString val);
+    Q_INVOKABLE const QString getDefaultForMetadataSideBarLocation();
+    Q_INVOKABLE void setDefaultForMetadataSideBarLocation();
+
+    Q_PROPERTY(int metadataSideBarWidth READ getMetadataSideBarWidth WRITE setMetadataSideBarWidth NOTIFY metadataSideBarWidthChanged)
+    int getMetadataSideBarWidth();
+    void setMetadataSideBarWidth(int val);
+    Q_INVOKABLE const int getDefaultForMetadataSideBarWidth();
+    Q_INVOKABLE void setDefaultForMetadataSideBarWidth();
+
     Q_PROPERTY(bool metadataSoftware READ getMetadataSoftware WRITE setMetadataSoftware NOTIFY metadataSoftwareChanged)
     bool getMetadataSoftware();
     void setMetadataSoftware(bool val);
@@ -1714,8 +1756,6 @@ public:
     Q_INVOKABLE const int getDefaultForThumbnailsVisibility();
     Q_INVOKABLE void setDefaultForThumbnailsVisibility();
 
-    Q_INVOKABLE QVariant getDefaultForExtension(const QString &key);
-
     void setDefault();
     void setDefaultFor(QString key);
 
@@ -1730,13 +1770,12 @@ public:
 
     bool validateSettingsDatabase(bool skipDBHandling = false);
     bool validateSettingsValues(bool skipDBHandling = false);
-    int migrate(QString oldversion = "");
     void setupFresh();
 
     void updateFromCommandLine();
 
 public Q_SLOTS:
-    void resetToDefault();
+    Q_INVOKABLE void resetToDefault();
 
 private:
 
@@ -1771,6 +1810,7 @@ private:
     bool m_filedialogSingleClickSelect;
     bool m_filedialogThumbnails;
     bool m_filedialogThumbnailsScaleCrop;
+    bool m_filedialogUseNativeFileDialog;
     int m_filedialogZoom;
 
     // table: filetypes
@@ -1810,6 +1850,9 @@ private:
     // table: general
     bool m_generalAutoSaveSettings;
     bool m_generalCompactSettings;
+    QStringList m_generalEnabledExtensions;
+    QString m_generalInterfaceVariant;
+    QStringList m_generalSetupFloatingExtensionsAtStartup;
     QString m_generalVersion;
 
     // table: imageview
@@ -1988,6 +2031,9 @@ private:
     bool m_metadataMake;
     bool m_metadataModel;
     bool m_metadataSceneType;
+    bool m_metadataSideBar;
+    QString m_metadataSideBarLocation;
+    int m_metadataSideBarWidth;
     bool m_metadataSoftware;
     bool m_metadataTime;
 
@@ -2033,26 +2079,13 @@ private:
     int m_thumbnailsVisibility;
 
     QStringList dbtables;
-    QSqlDatabase db;
-    QSqlDatabase dbDefault;
     bool dbIsTransaction;
     QTimer *dbCommitTimer;
 
-    QQmlPropertyMap *m_extensions;
-    QVariantHash m_extensions_defaults;
-
     bool readonly;
     void saveChangedValue(const QString &key, const QVariant &value);
-    void saveChangedExtensionValue(const QString &key, const QVariant &value);
-
-    void migrationHelperChangeSettingsName(QMap<QString, QList<QStringList> > mig, QString curVer);
-    QVariant migrationHelperGetOldValue(QString table, QString setting);
-    void migrationHelperRemoveValue(QString table, QString setting);
-    void migrationHelperInsertValue(QString table, QString setting, QVariantList value);
-    void migrationHelperSetNewValue(QString table, QString setting, QVariant value);
 
 Q_SIGNALS:
-    void extensionsChanged();
 
     // table: filedialog
     void filedialogDetailsTooltipChanged();
@@ -2085,6 +2118,7 @@ Q_SIGNALS:
     void filedialogSingleClickSelectChanged();
     void filedialogThumbnailsChanged();
     void filedialogThumbnailsScaleCropChanged();
+    void filedialogUseNativeFileDialogChanged();
     void filedialogZoomChanged();
 
     // table: filetypes
@@ -2124,6 +2158,9 @@ Q_SIGNALS:
     // table: general
     void generalAutoSaveSettingsChanged();
     void generalCompactSettingsChanged();
+    void generalEnabledExtensionsChanged();
+    void generalInterfaceVariantChanged();
+    void generalSetupFloatingExtensionsAtStartupChanged();
     void generalVersionChanged();
 
     // table: imageview
@@ -2302,6 +2339,9 @@ Q_SIGNALS:
     void metadataMakeChanged();
     void metadataModelChanged();
     void metadataSceneTypeChanged();
+    void metadataSideBarChanged();
+    void metadataSideBarLocationChanged();
+    void metadataSideBarWidthChanged();
     void metadataSoftwareChanged();
     void metadataTimeChanged();
 

@@ -23,18 +23,15 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 import QtQuick.Controls
-import PQCFileFolderModel
-import PQCScriptsConfig
-import PQCScriptsFilesPaths
-import PQCScriptsMetaData
-import PhotoQt
+import PhotoQt.CPlusPlus
+import PhotoQt.Modern
 
 Rectangle {
 
     id: metadata_top
 
     x: (setVisible ? visiblePos[0] : invisiblePos[0])
-    y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) // qmllint disable unqualified
+    y: (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1])
     Behavior on x { NumberAnimation { duration: dragrightMouse.enabled&&dragrightMouse.clickStart!=-1&&!animateResize ? 0 : 200 } }
 
     property bool animateResize: false
@@ -42,6 +39,8 @@ Rectangle {
         if(animateResize)
             resetAnimateResize.restart()
     }
+
+    SystemPalette { id: pqtPalette }
 
     Timer {
         id: resetAnimateResize
@@ -69,20 +68,20 @@ Rectangle {
         id: saveXY
         interval: 200
         onTriggered:
-            PQCSettings.metadataElementPosition = Qt.point(Math.round(metadata_top.x),Math.round(metadata_top.y)) // qmllint disable unqualified
+            PQCSettings.metadataElementPosition = Qt.point(Math.round(metadata_top.x),Math.round(metadata_top.y))
     }
 
     property int parentWidth
     property int parentHeight
-    width: Math.max(300, PQCSettings.metadataElementSize.width) // qmllint disable unqualified
+    width: Math.max(300, PQCSettings.metadataElementSize.width)
     height: isPopout ? metadata_popout.height :
-                PQCSettings.metadataElementHeightDynamic ? // qmllint disable unqualified
-                            PQCConstants.windowHeight-2*gap-statusinfoOffset :
-                            Math.min(PQCConstants.windowHeight, PQCSettings.metadataElementSize.height)
+                PQCSettings.metadataElementHeightDynamic ?
+                            PQCConstants.availableHeight-2*gap-statusinfoOffset :
+                            Math.min(PQCConstants.availableHeight, PQCSettings.metadataElementSize.height)
 
-    color: PQCLook.baseColor // qmllint disable unqualified
+    color: pqtPalette.base
 
-    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5 // qmllint disable unqualified
+    radius: PQCScriptsConfig.isQtAtLeast6_5() ? 0 : 5
 
     // visibility status
     opacity: setVisible&&windowSizeOkay ? 1 : 0
@@ -92,8 +91,8 @@ Rectangle {
     property bool setVisible: false
     property var visiblePos: [0,0]
     property var invisiblePos: [0, 0]
-    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5 // qmllint disable unqualified
-    property rect hotArea: Qt.rect(0, PQCConstants.windowHeight-hotAreaSize, PQCConstants.windowWidth, hotAreaSize)
+    property int hotAreaSize: PQCSettings.interfaceHotEdgeSize*5
+    property rect hotArea: Qt.rect(0, PQCConstants.availableHeight-hotAreaSize, PQCConstants.availableWidth, hotAreaSize)
     property bool windowSizeOkay: true
 
     // this is set to true/false by the popout window
@@ -101,13 +100,13 @@ Rectangle {
     property bool popoutWindowUsed: false
 
     onSetVisibleChanged: {
-        if(!setVisible && menu.item !== null) // qmllint disable missing-property
+        if(!setVisible && menu.item !== null)
             menu.item.dismiss()
     }
 
     PQShadowEffect { masterItem: metadata_top }
 
-    property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout // qmllint disable unqualified
+    property bool isPopout: PQCSettings.interfacePopoutMetadata||PQCWindowGeometry.metadataForcePopout
     state: isPopout ?
                "popout" :
                PQCSettings.metadataElementFloating ?
@@ -119,7 +118,7 @@ Rectangle {
                              "disabled" ))
 
     property int gap: 40
-    property int statusinfoOffset: statusinfo.item.visible&&state=="left" ? (statusinfo.item.height+statusinfo.item.y) : 0 // qmllint disable unqualified
+    property int statusinfoOffset: PQCConstants.statusinfoIsVisible&&state==="left" ? (PQCConstants.statusInfoCurrentRect.height+PQCConstants.statusInfoCurrentRect.y) : 0
 
     // the four states corresponding to screen edges
     states: [
@@ -127,22 +126,22 @@ Rectangle {
             name: "left"
             PropertyChanges {
                 metadata_top.visiblePos: [metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
                 metadata_top.invisiblePos: [-metadata_top.width,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
-                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(0,0,metadata_top.hotAreaSize,PQCConstants.availableHeight)
+                metadata_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
             name: "right"
             PropertyChanges {
-                metadata_top.visiblePos: [PQCConstants.windowWidth-metadata_top.width-metadata_top.gap,
-                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.invisiblePos: [PQCConstants.windowWidth,
-                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
-                metadata_top.hotArea: Qt.rect(PQCConstants.windowWidth-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,PQCConstants.windowHeight)
-                metadata_top.windowSizeOkay: PQCConstants.windowWidth>500 && PQCConstants.windowHeight>500
+                metadata_top.visiblePos: [PQCConstants.availableWidth-metadata_top.width-metadata_top.gap,
+                                          (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.invisiblePos: [PQCConstants.availableWidth,
+                                            (PQCSettings.metadataElementHeightDynamic ? metadata_top.gap : Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y)))]
+                metadata_top.hotArea: Qt.rect(PQCConstants.availableWidth-metadata_top.hotAreaSize,0,metadata_top.hotAreaSize,PQCConstants.availableHeight)
+                metadata_top.windowSizeOkay: PQCConstants.availableWidth>500 && PQCConstants.availableHeight>500
             }
         },
         State {
@@ -157,8 +156,8 @@ Rectangle {
             PropertyChanges {
                 metadata_top.hotArea: Qt.rect(0,0,0,0)
                 metadata_top.setVisible: PQCSettings.metadataElementVisible
-                metadata_top.visiblePos: [Math.max(0, Math.min(PQCConstants.windowWidth-metadata_top.width, PQCSettings.metadataElementPosition.x)),
-                                          Math.max(0, Math.min(PQCConstants.windowHeight-metadata_top.height, PQCSettings.metadataElementPosition.y))]
+                metadata_top.visiblePos: [Math.max(0, Math.min(PQCConstants.availableWidth-metadata_top.width, PQCSettings.metadataElementPosition.x)),
+                                          Math.max(0, Math.min(PQCConstants.availableHeight-metadata_top.height, PQCSettings.metadataElementPosition.y))]
                 metadata_top.invisiblePos: metadata_top.visiblePos
                 metadata_top.windowSizeOkay: true
             }
@@ -177,7 +176,7 @@ Rectangle {
     ]
 
     Component.onCompleted: {
-        if(PQCSettings.interfacePopoutMetadata) { // qmllint disable unqualified
+        if(PQCSettings.interfacePopoutMetadata) {
             metadata_top.opacity = 1
         }
     }
@@ -191,11 +190,11 @@ Rectangle {
         }
         onClicked: (mouse) => {
             if(mouse.button === Qt.RightButton)
-                menu.item.popup() // qmllint disable missing-property
+                menu.item.popup()
         }
     }
 
-    property bool anythingLoaded: PQCFileFolderModel.countMainView>0 // qmllint disable unqualified
+    property bool anythingLoaded: PQCFileFolderModel.countMainView>0
 
     property int colwidth: width-2*flickable.anchors.margins
 
@@ -207,12 +206,12 @@ Rectangle {
         verticalAlignment: Qt.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
         text: qsTranslate("metadata", "No file loaded")
-        font.bold: PQCLook.fontWeightBold // qmllint disable unqualified
-        color: PQCLook.textColorDisabled // qmllint disable unqualified
-        visible: PQCFileFolderModel.countMainView===0 // qmllint disable unqualified
+        font.bold: PQCLook.fontWeightBold
+        enabled: false
+        visible: PQCFileFolderModel.countMainView===0
     }
 
-    Rectangle {
+    Item {
 
         id: heading
 
@@ -220,8 +219,12 @@ Rectangle {
         y: 10
         width: flickable.width
         height: head_txt.height+10
-        color: PQCLook.transColorHighlight // qmllint disable unqualified
-        radius: 5
+        Rectangle {
+            anchors.fill: parent
+            color: pqtPalette.alternateBase
+            opacity: 0.8
+            radius: 5
+        }
 
         PQTextXL {
             id: head_txt
@@ -229,7 +232,7 @@ Rectangle {
             y: 5
             //: The title of the floating element
             text: qsTranslate("metadata", "Metadata")
-            font.weight: PQCLook.fontWeightBold // qmllint disable unqualified
+            font.weight: PQCLook.fontWeightBold
             opacity: 0.8
         }
 
@@ -244,7 +247,7 @@ Rectangle {
             drag.target: metadata_top.isPopout ? undefined : metadata_top
             drag.axis: metadata_top.state==="floating" ? Drag.XAndYAxis : Drag.YAxis
             drag.minimumY: 0
-            drag.maximumY: PQCConstants.windowHeight-metadata_top.height
+            drag.maximumY: PQCConstants.availableHeight-metadata_top.height
         }
 
     }
@@ -271,32 +274,32 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File name")
-                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile) // qmllint disable unqualified
-                prop: PQCSettings.metadataFilename // qmllint disable unqualified
+                valtxt: PQCScriptsFilesPaths.getFilename(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFilename
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Dimensions")
-                valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(PQCConstants.currentImageResolution.width).arg(PQCConstants.currentImageResolution.height)) : "" // qmllint disable unqualified
-                prop: PQCSettings.metadataDimensions // qmllint disable unqualified
+                valtxt: PQCFileFolderModel.countMainView>0 ? ("%1 x %2".arg(PQCConstants.currentImageResolution.width).arg(PQCConstants.currentImageResolution.height)) : ""
+                prop: PQCSettings.metadataDimensions
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Image")
-                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : "" // qmllint disable unqualified
-                prop: PQCSettings.metadataImageNumber // qmllint disable unqualified
+                valtxt: PQCFileFolderModel.countMainView>0 ? (((PQCFileFolderModel.currentIndex+1)+"/"+PQCFileFolderModel.countMainView)) : ""
+                prop: PQCSettings.metadataImageNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File size")
-                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile) // qmllint disable unqualified
-                prop: PQCSettings.metadataFileSize // qmllint disable unqualified
+                valtxt: PQCScriptsFilesPaths.getFileSizeHumanReadable(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFileSize
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "File type")
-                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile) // qmllint disable unqualified
-                prop: PQCSettings.metadataFileType // qmllint disable unqualified
+                valtxt: PQCScriptsFilesPaths.getFileType(PQCFileFolderModel.currentFile)
+                prop: PQCSettings.metadataFileType
             }
 
             Item {
@@ -306,20 +309,20 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Make")
-                valtxt: PQCMetaData.exifMake // qmllint disable unqualified
-                prop: PQCSettings.metadataMake // qmllint disable unqualified
+                valtxt: PQCMetaData.exifMake
+                prop: PQCSettings.metadataMake
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Model")
-                valtxt: PQCMetaData.exifModel // qmllint disable unqualified
-                prop: PQCSettings.metadataModel // qmllint disable unqualified
+                valtxt: PQCMetaData.exifModel
+                prop: PQCSettings.metadataModel
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Software")
-                valtxt: PQCMetaData.exifSoftware // qmllint disable unqualified
-                prop: PQCSettings.metadataSoftware // qmllint disable unqualified
+                valtxt: PQCMetaData.exifSoftware
+                prop: PQCSettings.metadataSoftware
             }
 
             Item {
@@ -329,50 +332,50 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Time Photo was Taken")
-                valtxt: PQCMetaData.exifDateTimeOriginal // qmllint disable unqualified
-                prop: PQCSettings.metadataTime // qmllint disable unqualified
+                valtxt: PQCMetaData.exifDateTimeOriginal
+                prop: PQCSettings.metadataTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Exposure Time")
-                valtxt: PQCMetaData.exifExposureTime // qmllint disable unqualified
-                prop: PQCSettings.metadataExposureTime // qmllint disable unqualified
+                valtxt: PQCMetaData.exifExposureTime
+                prop: PQCSettings.metadataExposureTime
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Flash")
-                valtxt: PQCMetaData.exifFlash // qmllint disable unqualified
-                prop: PQCSettings.metadataFlash // qmllint disable unqualified
+                valtxt: PQCMetaData.exifFlash
+                prop: PQCSettings.metadataFlash
             }
 
             PQMetaDataEntry {
                 whichtxt: "ISO"
-                valtxt: PQCMetaData.exifISOSpeedRatings // qmllint disable unqualified
-                prop: PQCSettings.metadataIso // qmllint disable unqualified
+                valtxt: PQCMetaData.exifISOSpeedRatings
+                prop: PQCSettings.metadataIso
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Scene Type")
-                valtxt: PQCMetaData.exifSceneCaptureType // qmllint disable unqualified
-                prop: PQCSettings.metadataSceneType // qmllint disable unqualified
+                valtxt: PQCMetaData.exifSceneCaptureType
+                prop: PQCSettings.metadataSceneType
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Focal Length")
-                valtxt: PQCMetaData.exifFocalLength // qmllint disable unqualified
-                prop: PQCSettings.metadataFLength // qmllint disable unqualified
+                valtxt: PQCMetaData.exifFocalLength
+                prop: PQCSettings.metadataFLength
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "F Number")
-                valtxt: PQCMetaData.exifFNumber // qmllint disable unqualified
-                prop: PQCSettings.metadataFNumber // qmllint disable unqualified
+                valtxt: PQCMetaData.exifFNumber
+                prop: PQCSettings.metadataFNumber
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Light Source")
-                valtxt: PQCMetaData.exifLightSource // qmllint disable unqualified
-                prop: PQCSettings.metadataLightSource // qmllint disable unqualified
+                valtxt: PQCMetaData.exifLightSource
+                prop: PQCSettings.metadataLightSource
             }
 
             Item {
@@ -382,21 +385,21 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Keywords")
-                valtxt: PQCMetaData.iptcKeywords // qmllint disable unqualified
-                prop: PQCSettings.metadataKeywords // qmllint disable unqualified
+                valtxt: PQCMetaData.iptcKeywords
+                prop: PQCSettings.metadataKeywords
             }
 
             PQMetaDataEntry {
                 //: The location here is a GPS location
                 whichtxt: qsTranslate("metadata", "Location")
-                valtxt: PQCMetaData.iptcLocation // qmllint disable unqualified
-                prop: PQCSettings.metadataLocation // qmllint disable unqualified
+                valtxt: PQCMetaData.iptcLocation
+                prop: PQCSettings.metadataLocation
             }
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "Copyright")
-                valtxt: PQCMetaData.iptcCopyright // qmllint disable unqualified
-                prop: PQCSettings.metadataCopyright // qmllint disable unqualified
+                valtxt: PQCMetaData.iptcCopyright
+                prop: PQCSettings.metadataCopyright
             }
 
             Item {
@@ -406,8 +409,8 @@ Rectangle {
 
             PQMetaDataEntry {
                 whichtxt: qsTranslate("metadata", "GPS Position")
-                valtxt: PQCMetaData.exifGPS // qmllint disable unqualified
-                prop: PQCSettings.metadataGps // qmllint disable unqualified
+                valtxt: PQCMetaData.exifGPS
+                prop: PQCSettings.metadataGps
                 //: The location here is a GPS location
                 tooltip: qsTranslate("metadata", "Click to copy value to clipboard, Ctrl+Click to open location in online map service")
                 signalClicks: true
@@ -473,7 +476,7 @@ Rectangle {
         enabled: parent.state!=="popout"
 
         property int clickStart: -1
-        property int origHeight: PQCSettings.metadataElementSize.height // qmllint disable unqualified
+        property int origHeight: PQCSettings.metadataElementSize.height
         onPressed: (mouse) => {
             clickStart = mouse.y
         }
@@ -487,7 +490,7 @@ Rectangle {
             metadata_top.y = metadata_top.y
             if(!metadata_top.isPopout)
                 metadata_top.height = metadata_top.height
-            PQCSettings.metadataElementPosition.y = metadata_top.y // qmllint disable unqualified
+            PQCSettings.metadataElementPosition.y = metadata_top.y
             PQCSettings.metadataElementSize.height = metadata_top.height
             PQCSettings.metadataElementSize.height = Math.round(origHeight+diff)
             metadata_top.height = Qt.binding(function() { return PQCSettings.metadataElementSize.height })
@@ -515,7 +518,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = mouse.x-clickStart
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -541,7 +544,7 @@ Rectangle {
             if(clickStart == -1)
                 return
             var diff = clickStart-mouse.x
-            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.windowWidth/2, Math.max(200, origWidth+diff))) // qmllint disable unqualified
+            PQCSettings.metadataElementSize.width = Math.round(Math.min(PQCConstants.availableWidth/2, Math.max(200, origWidth+diff)))
 
         }
 
@@ -603,9 +606,9 @@ Rectangle {
                         required property int modelData
                         checkable: true
                         text: metadata_top.labels[modelData][1]
-                        checked: PQCSettings["metadata"+metadata_top.labels[modelData][0]] // qmllint disable unqualified
+                        checked: PQCSettings["metadata"+metadata_top.labels[modelData][0]]
                         onCheckedChanged: {
-                            PQCSettings["metadata"+metadata_top.labels[modelData][0]] = checked // qmllint disable unqualified
+                            PQCSettings["metadata"+metadata_top.labels[modelData][0]] = checked
                         }
                     }
 
@@ -620,27 +623,27 @@ Rectangle {
                     checkableLikeRadioButton: true
                     text: "openstreetmap.org"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="openstreetmap.org" // qmllint disable unqualified
+                    checked: PQCSettings.metadataGpsMap==="openstreetmap.org"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "openstreetmap.org" // qmllint disable unqualified
+                        PQCSettings.metadataGpsMap = "openstreetmap.org"
                 }
                 PQMenuItem {
                     checkable: true
                     checkableLikeRadioButton: true
                     text: "maps.google.com"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="maps.google.com" // qmllint disable unqualified
+                    checked: PQCSettings.metadataGpsMap==="maps.google.com"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "maps.google.com" // qmllint disable unqualified
+                        PQCSettings.metadataGpsMap = "maps.google.com"
                 }
                 PQMenuItem {
                     checkable: true
                     checkableLikeRadioButton: true
                     text: "bing.com/maps"
                     ButtonGroup.group: grp2
-                    checked: PQCSettings.metadataGpsMap==="bing.com/maps" // qmllint disable unqualified
+                    checked: PQCSettings.metadataGpsMap==="bing.com/maps"
                     onCheckedChanged:
-                        PQCSettings.metadataGpsMap = "bing.com/maps" // qmllint disable unqualified
+                        PQCSettings.metadataGpsMap = "bing.com/maps"
                 }
             }
 
@@ -651,9 +654,9 @@ Rectangle {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "hide behind screen edge")
                 ButtonGroup.group: grp1
-                checked: !PQCSettings.metadataElementFloating // qmllint disable unqualified
+                checked: !PQCSettings.metadataElementFloating
                 onCheckedChanged:
-                    PQCSettings.metadataElementFloating = !checked // qmllint disable unqualified
+                    PQCSettings.metadataElementFloating = !checked
             }
 
             PQMenuItem {
@@ -661,9 +664,9 @@ Rectangle {
                 checkableLikeRadioButton: true
                 text: qsTranslate("settingsmanager", "use floating element")
                 ButtonGroup.group: grp1
-                checked: PQCSettings.metadataElementFloating // qmllint disable unqualified
+                checked: PQCSettings.metadataElementFloating
                 onCheckedChanged: {
-                    PQCSettings.metadataElementFloating = checked // qmllint disable unqualified
+                    PQCSettings.metadataElementFloating = checked
                     if(checked)
                         metadata_top.setVisible = true
                 }
@@ -673,22 +676,22 @@ Rectangle {
 
             PQMenuItem {
                 checkable: true
-                checked: PQCSettings.metadataElementHeightDynamic // qmllint disable unqualified
+                checked: PQCSettings.metadataElementHeightDynamic
                 text: qsTranslate("metadata", "Adjust height dynamically")
                 onCheckedChanged: {
                     metadata_top.animateResize = true
                     if(checked) {
                         metadata_top.y = Qt.binding(function() { return statusinfoOffset + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                         if(!metadata_top.isPopout)
-                            metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
-                        PQCSettings.metadataElementHeightDynamic = true // qmllint disable unqualified
+                            metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
+                        PQCSettings.metadataElementHeightDynamic = true
                     } else {
                         metadata_top.y = metadata_top.y
                         if(!metadata_top.isPopout)
                             metadata_top.height = metadata_top.height
                         PQCSettings.metadataElementPosition.y = metadata_top.y
                         PQCSettings.metadataElementSize.height = metadata_top.height
-                        PQCSettings.metadataElementHeightDynamic = false // qmllint disable unqualified
+                        PQCSettings.metadataElementHeightDynamic = false
                     }
                     checked = Qt.binding(function() { return PQCSettings.metadataElementHeightDynamic })
                 }
@@ -696,7 +699,7 @@ Rectangle {
 
             PQMenuItem {
                 text: qsTranslate("metadata", "Reset size to default")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg" // qmllint disable unqualified
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/reset.svg"
                 onTriggered: {
                     PQCSettings.setDefaultForMetadataElementSize()
                     PQCSettings.setDefaultForMetadataElementPosition()
@@ -704,7 +707,7 @@ Rectangle {
                     metadata_top.y = Qt.binding(function() { return (PQCSettings.metadataElementHeightDynamic ? statusinfoOffset : 0) + (setVisible ? visiblePos[1] : invisiblePos[1]) })
                     metadata_top.width = Qt.binding(function() { return Math.max(400, PQCSettings.metadataElementSize.width) })
                     if(!metadata_top.isPopout)
-                        metadata_top.height = Qt.binding(function() { return PQCConstants.windowHeight-2*gap-statusinfoOffset })
+                        metadata_top.height = Qt.binding(function() { return PQCConstants.availableHeight-2*gap-statusinfoOffset })
                     PQCSettings.metadataElementHeightDynamic = true
                 }
             }
@@ -713,7 +716,7 @@ Rectangle {
 
             PQMenuItem {
                 text: qsTranslate("settingsmanager", "Manage in settings manager")
-                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg" // qmllint disable unqualified
+                iconSource: "image://svg/:/" + PQCLook.iconShade + "/settings.svg"
                 onTriggered: {
                     PQCNotify.openSettingsManagerAt("showSettings", ["metadata"])
                 }
@@ -722,14 +725,14 @@ Rectangle {
             onAboutToHide:
                 recordAsClosed.restart()
             onAboutToShow:
-                PQCConstants.addToWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                PQCConstants.addToWhichContextMenusOpen("metadata")
 
             Timer {
                 id: recordAsClosed
                 interval: 200
                 onTriggered: {
                     if(!themenu.visible)
-                        PQCConstants.removeFromWhichContextMenusOpen("metadata") // qmllint disable unqualified
+                        PQCConstants.removeFromWhichContextMenusOpen("metadata")
                 }
             }
 
@@ -742,9 +745,9 @@ Rectangle {
         y: 5
         width: 15
         height: 15
-        visible: !PQCWindowGeometry.metadataForcePopout // qmllint disable unqualified
+        visible: !PQCWindowGeometry.metadataForcePopout
         enabled: visible
-        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg" // qmllint disable unqualified
+        source: "image://svg/:/" + PQCLook.iconShade + "/popinpopout.svg"
         sourceSize: Qt.size(width, height)
         opacity: popinmouse.containsMouse ? 1 : 0.4
         Behavior on opacity { NumberAnimation { duration: 200 } }
@@ -753,19 +756,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
-            text: PQCSettings.interfacePopoutMetadata ? // qmllint disable unqualified
+            text: PQCSettings.interfacePopoutMetadata ?
                       //: Tooltip of small button to merge a popped out element (i.e., one in its own window) into the main interface
                       qsTranslate("popinpopout", "Merge into main interface") :
                       //: Tooltip of small button to show an element in its own window (i.e., not merged into main interface)
                       qsTranslate("popinpopout", "Move to its own window")
             onClicked: {
-                if(!PQCSettings.interfacePopoutMetadata) // qmllint disable unqualified
-                    PQCSettings.interfacePopoutMetadata = true
-                else {
-                    PQCSettings.interfacePopoutMetadata = false
-                    metadata_popout.close()
-                }
-                PQCNotify.executeInternalCommand("__showMetaData")
+                PQCSettings.interfacePopoutMetadata = !PQCSettings.interfacePopoutMetadata
             }
         }
     }
@@ -781,13 +778,59 @@ Rectangle {
     property bool ignoreMouseMoveShortly: false
 
     Connections {
-        target: PQCNotify // qmllint disable unqualified
+
+        target: PQCNotify
+
+        function onCloseAllContextMenus() {
+            menu.item.dismiss()
+        }
+
+    }
+
+    Connections {
+        target: PQCConstants
+        function onAvailableWidthChanged() {
+            metadata_top.setVisible = false
+        }
+        function onAvailableHeightChanged() {
+            metadata_top.setVisible = false
+        }
+    }
+
+    Connections {
+
+        target: PQCNotify
+
+        function onLoaderPassOn(what : string, param : list<var>) {
+
+            if(what === "show") {
+                if(param[0] === "MetaData") {
+                    if(!PQCSettings.metadataElementFloating)
+                        metadata_top.setVisible = !metadata_top.setVisible
+
+                    if(metadata_top.popoutWindowUsed)
+                        metadata_popout.visible = true
+                }
+            } else if(what === "toggle" && param[0] === "MetaData") {
+                metadata_top.toggle()
+            } else if(what === "forceshow" && param[0] === "MetaData") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = true
+                resetIgnoreMouseMoveShortly.restart()
+            } else if(what === "forcehide" && param[0] === "MetaData") {
+                metadata_top.ignoreMouseMoveShortly = true
+                metadata_top.setVisible = false
+                resetIgnoreMouseMoveShortly.restart()
+            }
+
+        }
+
         function onMouseMove(posx : int, posy : int) {
 
-            if(ignoreMouseMoveShortly)
+            if(ignoreMouseMoveShortly || PQCConstants.modalWindowOpen)
                 return
 
-            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) { // qmllint disable unqualified
+            if(PQCConstants.slideshowRunning || PQCConstants.faceTaggingMode) {
                 metadata_top.setVisible = false
                 return
             }
@@ -817,50 +860,6 @@ Rectangle {
             hideElementWithDelay.stop()
         }
 
-        function onCloseAllContextMenus() {
-            menu.item.dismiss() // qmllint disable missing-property
-        }
-
-    }
-
-    Connections {
-        target: PQCConstants
-        function onWindowWidthChanged() {
-            metadata_top.setVisible = false
-        }
-        function onWindowHeightChanged() {
-            metadata_top.setVisible = false
-        }
-    }
-
-    Connections {
-
-        target: PQCNotify // qmllint disable unqualified
-
-        function onLoaderPassOn(what : string, param : list<var>) {
-
-            if(what === "show") {
-                if(param[0] === "metadata") {
-                    if(!PQCSettings.metadataElementFloating) // qmllint disable unqualified
-                        metadata_top.setVisible = !metadata_top.setVisible
-
-                    if(metadata_top.popoutWindowUsed)
-                        metadata_popout.visible = true
-                }
-            } else if(what === "toggle" && param[0] === "metadata") {
-                metadata_top.toggle()
-            } else if(what === "forceshow" && param[0] === "metadata") {
-                metadata_top.ignoreMouseMoveShortly = true
-                metadata_top.setVisible = true
-                resetIgnoreMouseMoveShortly.restart()
-            } else if(what === "forcehide" && param[0] === "metadata") {
-                metadata_top.ignoreMouseMoveShortly = true
-                metadata_top.setVisible = false
-                resetIgnoreMouseMoveShortly.restart()
-            }
-
-        }
-
     }
 
     Timer {
@@ -873,7 +872,7 @@ Rectangle {
 
     function hideMetaData() {
         if(popoutWindowUsed)
-            metadata_popout.visible = false // qmllint disable unqualified
+            metadata_popout.visible = false
         metadata_top.setVisible = false
     }
 

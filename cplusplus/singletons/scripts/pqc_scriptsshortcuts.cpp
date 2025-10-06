@@ -513,8 +513,6 @@ int PQCScriptsShortcuts::getCurrentTimestampDiffLessThan(int threshold) {
 
 QString PQCScriptsShortcuts::translateShortcut(QString combo) {
 
-    qDebug() << "args: combo =" << combo;
-
     if(combo == "")
         return "";
 

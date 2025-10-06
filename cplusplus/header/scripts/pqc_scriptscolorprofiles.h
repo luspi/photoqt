@@ -27,41 +27,39 @@
 #include <QList>
 #include <QColorSpace>
 #include <QImage>
-#include <QQmlEngine>
 
 #ifdef PQMLCMS2
 #include <lcms2.h>
 #endif
+
+/*************************************************************/
+/*************************************************************/
+//
+// this class is used in both C++ and QML code
+// thus there is a WRAPPER for QML available
+//
+/*************************************************************/
+/*************************************************************/
 
 class QFile;
 
 class PQCScriptsColorProfiles : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
-    static PQCScriptsColorProfiles& get() {
-        static PQCScriptsColorProfiles instance;
-        return instance;
-    }
-    ~PQCScriptsColorProfiles();
+    static PQCScriptsColorProfiles& get();
+    virtual ~PQCScriptsColorProfiles();
 
     PQCScriptsColorProfiles(PQCScriptsColorProfiles const&)     = delete;
     void operator=(PQCScriptsColorProfiles const&) = delete;
 
-    QList<QColorSpace::NamedColorSpace> getIntegratedColorProfiles();
-    QStringList getExternalColorProfiles();
-    QStringList getExternalColorProfileDescriptions();
     Q_INVOKABLE QStringList getImportedColorProfiles();
-    QStringList getImportedColorProfileDescriptions();
     Q_INVOKABLE QStringList getColorProfiles();
     Q_INVOKABLE QStringList getColorProfileDescriptions();
     Q_INVOKABLE QString getColorProfileID(int index);
     Q_INVOKABLE void setColorProfile(QString path, int index);
     Q_INVOKABLE QString getColorProfileFor(QString path);
-    Q_INVOKABLE QString getDescriptionForColorSpace(QString path);
-    Q_INVOKABLE int getIndexForColorProfile(QString desc);
     Q_INVOKABLE bool importColorProfile();
     Q_INVOKABLE bool removeImportedColorProfile(int index);
     Q_INVOKABLE QString detectVideoColorProfile(QString path);
@@ -75,23 +73,23 @@ public:
 private:
     PQCScriptsColorProfiles();
 
-    int lcms2CountFailedApplications;
+    int m_lcms2CountFailedApplications;
 
-    QList<QColorSpace::NamedColorSpace> integratedColorProfiles;
-    QStringList integratedColorProfileDescriptions;
-    QStringList externalColorProfiles;
-    QStringList externalColorProfileDescriptions;
-    QStringList importedColorProfiles;
-    QStringList importedColorProfileDescriptions;
-    QMap<QString, QString> iccColorProfiles;
+    QList<QColorSpace::NamedColorSpace> m_integratedColorProfiles;
+    QStringList m_integratedColorProfileDescriptions;
+    QStringList m_externalColorProfiles;
+    QStringList m_externalColorProfileDescriptions;
+    QStringList m_importedColorProfiles;
+    QStringList m_importedColorProfileDescriptions;
+    QMap<QString, QString> m_iccColorProfiles;
 
-    qint64 importedICCLastMod;
+    qint64 m_importedICCLastMod;
 
-    QFile *colorlastlocation;
+    QFile *m_colorlastlocation;
 
-    bool applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
+    bool _applyColorSpaceQt(QImage &img, QString filename, QColorSpace sp);
 #ifdef PQMLCMS2
-    bool applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
+    bool _applyColorSpaceLCMS2(QImage &img, QString filename, cmsHPROFILE targetProfile);
 #endif
 
 

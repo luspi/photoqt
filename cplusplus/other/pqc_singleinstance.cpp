@@ -34,10 +34,9 @@
 
 #include <pqc_commandlineparser.h>
 #include <pqc_singleinstance.h>
-#include <pqc_notify.h>
-#include <pqc_settings.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_configfiles.h>
-#include <pqc_filefoldermodel.h>
+#include <pqc_filefoldermodelCPP.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 
@@ -52,6 +51,9 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     socket = nullptr;
     server = nullptr;
+
+    forceModernInterface = false;
+    forceIntegratedInterface = false;
 
     if(result & PQCCommandLineFile) {
         for(const auto &f : std::as_const(parser.filenames)) {
@@ -102,6 +104,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     if(result & PQCCommandLineNoDebug)
         msg << Actions::NoDebug;
+
+    if(result & PQCCommandLineModernInterface)
+        forceModernInterface = true;
+
+    if(result & PQCCommandLineIntegratedInterface)
+        forceIntegratedInterface = true;
 
     if(result & PQCCommandLineSettingUpdate) {
         receivedSetting[0] = parser.settingUpdate[0];
@@ -156,13 +164,20 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
     // we need to figure out if multiple instances are allowed here WITHOUT using the PQCSettings class
     if(QFile::exists(PQCConfigFiles::get().USERSETTINGS_DB())) {
+
+        // This database connection happens before the general setup in PQCStartupManager
         QSqlDatabase dbtmp;
-        if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsmultiple");
-        else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
-            dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsmultiple");
-        dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
-        dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+        if(QSqlDatabase::contains("settingsRO"))
+            dbtmp = QSqlDatabase::database("settingsRO");
+        else {
+            if(QSqlDatabase::isDriverAvailable("QSQLITE3"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE3", "settingsRO");
+            else if(QSqlDatabase::isDriverAvailable("QSQLITE"))
+                dbtmp = QSqlDatabase::addDatabase("QSQLITE", "settingsRO");
+            dbtmp.setDatabaseName(PQCConfigFiles::get().USERSETTINGS_DB());
+            dbtmp.setConnectOptions("QSQLITE_OPEN_READONLY");
+        }
+
         if(!dbtmp.open()) {
             qWarning() << "Unable to check how to handle multiple instances:" << dbtmp.lastError().text();
             qWarning() << "Assuming only a single instance is to be used";
@@ -210,20 +225,32 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         if(msg.size() == 0)
             msg << Actions::Show;
 
-        QStringList _strings;
-        _strings.reserve(msg.size());
+        QList<QByteArray> writeMessage;
+
+        if(qApp->platformName() == "wayland") {
+
+            writeMessage.reserve(msg.size()+1);
+
+            QString token = qgetenv("XDG_ACTIVATION_TOKEN");
+            if(!token.isEmpty())
+                writeMessage.append(QStringLiteral("_T_O_K_E_N_%1\n").arg(token).toUtf8());
+
+        } else
+            writeMessage.reserve(msg.size());
+
         for(const Actions &i : std::as_const(msg)) {
-            _strings.append(QString::number(static_cast<int>(i)));
+            writeMessage.append(QString::number(static_cast<int>(i)).toUtf8());
         }
 
         // Send composed message string
         if(receivedFile != "")
-            socket->write(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
+            writeMessage.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
         if(receivedShortcut != "")
-            socket->write(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
+            writeMessage.append(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
         if(receivedSetting[0] != "")
-            socket->write(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
-        socket->write(QStringLiteral("%1\n").arg(_strings.join('/')).toUtf8());
+            writeMessage.append(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
+
+        socket->write(writeMessage.join('\n'));
         socket->flush();
 
         // Inform user
@@ -255,27 +282,30 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 void PQCSingleInstance::newConnection() {
     QLocalSocket *socket = server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {
-        QByteArray rep = socket->readAll().split('\n')[0];
-        if(rep.startsWith("_F_I_L_E_")) {
-            m_receivedFile = rep.last(rep.length()-9);
-            handleMessage({Actions::File});
-        } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
-            m_receivedShortcut = rep.last(rep.length()-17);
-            handleMessage({Actions::Shortcut});
-        } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
-            const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
-            m_receivedSetting[0] = tmp[0];
-            m_receivedSetting[1] = tmp[1];
-            handleMessage({Actions::Setting});
-        } else {
-            QList<Actions> _ints;
-            const QList<QByteArray> _reps = rep.split('/');
-            _ints.reserve(_reps.size());
-            for(const QByteArray &r : _reps) {
-                _ints << static_cast<Actions>(r.toInt());
+        const QList<QByteArray> reply = socket->readAll().split('\n');
+        QList<Actions> handleAll;
+        for(const QByteArray &rep : reply) {
+            if(rep.startsWith("_T_O_K_E_N_")) {
+                qputenv("XDG_ACTIVATION_TOKEN", rep.last(rep.length()-11));
+            } else if(rep.startsWith("_F_I_L_E_")) {
+                m_receivedFile = rep.last(rep.length()-9);
+                handleAll.append(Actions::File);
+            } else if(rep.startsWith("_S_H_O_R_T_C_U_T_")) {
+                m_receivedShortcut = rep.last(rep.length()-17);
+                handleAll.append(Actions::Shortcut);
+            } else if(rep.startsWith("_S_E_T_T_I_N_G_")) {
+                const QList<QByteArray> tmp = rep.last(rep.length()-15).split(':');
+                m_receivedSetting[0] = tmp[0];
+                m_receivedSetting[1] = tmp[1];
+                handleAll.append(Actions::Setting);
+            } else {
+                const QList<QByteArray> _reps = rep.split('/');
+                for(const QByteArray &r : _reps) {
+                    handleAll.append(static_cast<Actions>(r.toInt()));
+                }
             }
-            handleMessage(_ints);
         }
+        handleMessage(handleAll);
     }
     socket->close();
     delete socket;
@@ -308,62 +338,62 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
 
         case Actions::Open:
 
-            Q_EMIT PQCNotify::get().cmdOpen();
+            Q_EMIT PQCNotifyCPP::get().cmdOpen();
             break;
 
         case Actions::Show:
 
-            Q_EMIT PQCNotify::get().cmdShow();
+            Q_EMIT PQCNotifyCPP::get().cmdShow();
             break;
 
         case Actions::Hide:
 
-            Q_EMIT PQCNotify::get().cmdHide();
+            Q_EMIT PQCNotifyCPP::get().cmdHide();
             break;
 
         case Actions::Quit:
 
-            Q_EMIT PQCNotify::get().cmdQuit();
+            Q_EMIT PQCNotifyCPP::get().cmdQuit();
             break;
 
         case Actions::Toggle:
 
-            Q_EMIT PQCNotify::get().cmdToggle();
+            Q_EMIT PQCNotifyCPP::get().cmdToggle();
             break;
 
         case Actions::StartInTray:
 
-            PQCNotify::get().setStartInTray(true);
+            PQCNotifyCPP::get().setStartInTray(true);
             break;
 
         case Actions::Tray:
 
-            Q_EMIT PQCNotify::get().cmdTray(true);
+            Q_EMIT PQCNotifyCPP::get().cmdTray(true);
             break;
 
         case Actions::NoTray:
 
-            Q_EMIT PQCNotify::get().cmdTray(false);
+            Q_EMIT PQCNotifyCPP::get().cmdTray(false);
             break;
 
         case Actions::Shortcut:
 
-            Q_EMIT PQCNotify::get().cmdShortcutSequence(m_receivedShortcut);
+            Q_EMIT PQCNotifyCPP::get().cmdShortcutSequence(m_receivedShortcut);
             break;
 
         case Actions::Debug:
 
-            PQCNotify::get().setDebug(true);
+            PQCNotifyCPP::get().debugChanged(true);
             break;
 
         case Actions::NoDebug:
 
-            PQCNotify::get().setDebug(false);
+            PQCNotifyCPP::get().debugChanged(false);
             break;
 
         case Actions::Setting:
 
-            PQCNotify::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
+            PQCNotifyCPP::get().setSettingUpdate({m_receivedSetting[0], m_receivedSetting[1]});
             break;
 
         default:
@@ -377,10 +407,10 @@ void PQCSingleInstance::handleMessage(const QList<Actions> msg) {
     if(allfiles.length() > 0 || allfolders.length() > 0) {
         allfiles.append(allfolders);
         if(allfiles.length() > 1)
-            PQCFileFolderModel::get().setExtraFoldersToLoad(allfiles.mid(1));
+            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad(allfiles.mid(1));
         else
-            PQCFileFolderModel::get().setExtraFoldersToLoad({});
-        PQCNotify::get().setFilePath(allfiles[0]);
+            Q_EMIT PQCFileFolderModelCPP::get().setExtraFoldersToLoad({});
+        PQCNotifyCPP::get().setFilePath(allfiles[0]);
     }
 
 }
@@ -391,16 +421,16 @@ bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
     if(cn == "QQuickRootItem") {
         if(e->type() == QEvent::KeyPress) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            Q_EMIT PQCNotify::get().keyPress(ev->key(), ev->modifiers());
+            Q_EMIT PQCNotifyCPP::get().keyPress(ev->key(), ev->modifiers());
         } else if(e->type() == QEvent::KeyRelease) {
             QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
-            Q_EMIT PQCNotify::get().keyRelease(ev->key(), ev->modifiers());
+            Q_EMIT PQCNotifyCPP::get().keyRelease(ev->key(), ev->modifiers());
         }
     } else if(cn.startsWith("PQMainWindow")) {
         if(e->type() == QEvent::Leave) {
-            Q_EMIT PQCNotify::get().mouseWindowExit();
+            Q_EMIT PQCNotifyCPP::get().mouseWindowExit();
         } else if(e->type() == QEvent::Enter)
-            Q_EMIT PQCNotify::get().mouseWindowEnter();
+            Q_EMIT PQCNotifyCPP::get().mouseWindowEnter();
     }
 
     return QApplication::notify(obj, e);

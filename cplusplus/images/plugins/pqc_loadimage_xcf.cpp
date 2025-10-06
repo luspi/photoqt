@@ -24,7 +24,7 @@
 #include <pqc_imagecache.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <QProcess>
 #include <QDir>
 #include <QImageReader>

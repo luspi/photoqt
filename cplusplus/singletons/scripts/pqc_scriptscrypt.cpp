@@ -25,6 +25,11 @@
 #include <QDateTime>
 #include <QIODevice>
 
+PQCScriptsCrypt &PQCScriptsCrypt::get() {
+    static PQCScriptsCrypt instance;
+    return instance;
+}
+
 PQCScriptsCrypt::PQCScriptsCrypt() {
 
     // Generate a default encryption key based on the current machine name
@@ -56,9 +61,7 @@ PQCScriptsCrypt::PQCScriptsCrypt() {
 
 }
 
-PQCScriptsCrypt::~PQCScriptsCrypt() {
-
-}
+PQCScriptsCrypt::~PQCScriptsCrypt() {}
 
 QString PQCScriptsCrypt::encryptString(QString plaintext) {
 

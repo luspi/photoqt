@@ -27,16 +27,17 @@
 #include <QMimeDatabase>
 #include <QSize>
 #include <QTimer>
-#include <QtConcurrent>
+#include <QtConcurrent/QtConcurrentRun>
 #include <QtDebug>
+#include <QImage>
+#include <QDirIterator>
 #include <pqc_configfiles.h>
 #include <pqc_filefoldermodel.h>
 #include <pqc_imageformats.h>
 #include <pqc_loadimage.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_settingscpp.h>
-#include <scripts/pqc_scriptsfiledialog.h>
 #include <scripts/pqc_scriptsimages.h>
 
 #ifdef PQMLIBARCHIVE
@@ -56,12 +57,9 @@
 #include <exiv2/exiv2.hpp>
 #endif
 
-PQCFileFolderModel &PQCFileFolderModel::get() {
-    static PQCFileFolderModel instance;
-    return instance;
-}
-
 PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
+
+    m_firstFolderMainViewLoaded = false;
 
     m_fileInFolderMainView = "";
     m_folderFileDialog = "";
@@ -72,6 +70,9 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_readDocumentOnly = false;
     m_readArchiveOnly = false;
     m_includeFilesInSubFolders = false;
+    m_isARC = false;
+    m_isPDF = false;
+    m_activeViewerMode = false;
 
     m_entriesMainView.clear();
     m_entriesFileDialog.clear();
@@ -100,7 +101,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerNotifyCurrentIndexChanged = new QTimer;
     timerNotifyCurrentIndexChanged->setInterval(100);
     timerNotifyCurrentIndexChanged->setSingleShot(true);
-    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=]() {
+    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=, this]() {
 
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
@@ -135,14 +136,14 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerResetJustLeftViewerMode = new QTimer;
     timerResetJustLeftViewerMode->setInterval(100);
     timerResetJustLeftViewerMode->setSingleShot(true);
-    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=]() {
+    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=, this]() {
         m_justLeftViewerMode = false;
     });
 
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { loadDelayFileDialog->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=, this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=, this]() { loadDelayFileDialog->start(); });
 
     m_advancedSortDone = 0;
 
@@ -155,7 +156,18 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataFileDialog);
     connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::filedialogShowHiddenFilesFoldersChanged, this, &PQCFileFolderModel::loadDataMainView);
 
-    connect(&PQCNotify::get(), &PQCNotify::resetSessionData, this, &PQCFileFolderModel::resetModel);
+    connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData, this, &PQCFileFolderModel::resetModel);
+
+    /********************************************/
+    /********************************************/
+
+    // these are READ FROM PQCFileFolderModelCPP
+
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=, this](QString val) { setFileInFolderMainView(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=, this](QStringList val) { setExtraFoldersToLoad(val); });
+
+    /********************************************/
+    /********************************************/
 
 }
 
@@ -186,6 +198,7 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
     QFileInfo newfile(val);
     if(oldfile.dir() == newfile.dir() && m_fileInFolderMainView != "") {
         m_currentFile = val;
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentFileNoDelay = m_currentFile;
         m_currentIndex = m_entriesMainView.indexOf(val);
         m_currentIndexNoDelay = m_currentIndex;
@@ -223,6 +236,16 @@ void PQCFileFolderModel::setFolderFileDialog(QString val) {
 
 }
 
+bool PQCFileFolderModel::getFirstFolderMainViewLoaded() {
+    return m_firstFolderMainViewLoaded;
+}
+void PQCFileFolderModel::setFirstFolderMainViewLoaded(bool val) {
+    if(val != m_firstFolderMainViewLoaded) {
+        m_firstFolderMainViewLoaded = val;
+        Q_EMIT firstFolderMainViewLoadedChanged();
+    }
+}
+
 /********************************************/
 /********************************************/
 
@@ -230,6 +253,9 @@ int PQCFileFolderModel::getCountMainView() {
     return m_countMainView;
 }
 void PQCFileFolderModel::setCountMainView(int c) {
+
+    PQCFileFolderModelCPP::get().setCountMainView(c);
+
     if(m_countMainView == c)
         return;
     m_countMainView = c;
@@ -431,16 +457,16 @@ int PQCFileFolderModel::getAdvancedSortDone() {
 
 /********************************************/
 
-void PQCFileFolderModel::advancedSortMainView() {
+void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advSortAscending, QString advSortQuality, QStringList advDateCriteria) {
 
     qDebug() << "";
 
     // if nothing changed, reload folder
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName
-        && PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == cacheAdvancedSortCriteria
+        && advSortCriteria == cacheAdvancedSortCriteria
         && info.lastModified().toMSecsSinceEpoch() == cacheAdvancedSortLastModified
-        && PQCSettingsCPP::get().getImageviewAdvancedSortAscending() == cacheAdvancedSortAscending) {
+        && advSortAscending == cacheAdvancedSortAscending) {
 
         // we first make sure the count is set to 0
         // to force a refresh of the folder
@@ -449,6 +475,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         setCountMainView(tmp);
 
         m_entriesMainView = cacheAdvancedSortFolder;
+        PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
         Q_EMIT newDataLoadedMainView();
         Q_EMIT advancedSortingComplete();
         return;
@@ -459,7 +486,7 @@ void PQCFileFolderModel::advancedSortMainView() {
     m_advancedSortDone = 0;
     Q_EMIT advancedSortDoneChanged();
 
-    QFuture<void> f = QtConcurrent::run([=]() {
+    QFuture<void> f = QtConcurrent::run([=, this]() {
 
         QMap<qint64, QStringList> sortedWithKey;
 
@@ -475,7 +502,7 @@ void PQCFileFolderModel::advancedSortMainView() {
             // depending on the criteria, it is computed in different ways
             qint64 key = 0;
 
-            if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "resolution") {
+            if(advSortCriteria == "resolution") {
 
                 QSize size = PQCResolutionCache::get().getResolution(fn);
                 if(!size.isValid()) {
@@ -486,12 +513,12 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = size.width()+size.height();
 
-            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "luminosity") {
+            } else if(advSortCriteria == "luminosity") {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
+                if(advSortQuality == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
+                else if(advSortQuality == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -525,15 +552,13 @@ void PQCFileFolderModel::advancedSortMainView() {
 
                 key = val;
 
-            } else if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "exifdate") {
-
-                QStringList order = PQCSettingsCPP::get().getImageviewAdvancedSortDateCriteria();
+            } else if(advSortCriteria == "exifdate") {
 
                 bool foundvalue = false;
 
-                for(int j = 0; j < order.length(); ++j) {
+                for(int j = 0; j < advDateCriteria.length(); ++j) {
 
-                    QString item = order.at(j);
+                    QString item = advDateCriteria.at(j);
 
                     if(item == "exiforiginal" || item == "exifdigital") {
 
@@ -637,9 +662,9 @@ void PQCFileFolderModel::advancedSortMainView() {
             } else {
 
                 QSize requestedSize = QSize(512,512);
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "medium")
+                if(advSortQuality == "medium")
                     requestedSize = QSize(1024,1024);
-                else if(PQCSettingsCPP::get().getImageviewAdvancedSortQuality() == "high")
+                else if(advSortQuality == "high")
                     requestedSize = QSize(-1,-1);
 
                 QSize origSize;
@@ -685,7 +710,7 @@ void PQCFileFolderModel::advancedSortMainView() {
                 qint64 green_val = 0;
                 qint64 blue_val = 0;
 
-                if(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria() == "dominantcolor") {
+                if(advSortCriteria == "dominantcolor") {
 
                     QVector<qint64> redSteps(26);
                     QVector<qint64> greenSteps(26);
@@ -727,7 +752,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         if(!advancedSortKeepGoing) return;
 
         QList<qint64> allKeys = sortedWithKey.keys();
-        if(PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
+        if(advSortAscending)
             std::sort(allKeys.begin(), allKeys.end(), std::less<int>());
         else
             std::sort(allKeys.begin(), allKeys.end(), std::greater<int>());
@@ -736,7 +761,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         for(auto entry : std::as_const(allKeys)) {
             QStringList curVals = sortedWithKey[entry];
             curVals.sort(Qt::CaseInsensitive);
-            if(!PQCSettingsCPP::get().getImageviewAdvancedSortAscending())
+            if(!advSortAscending)
                 std::reverse(curVals.begin(), curVals.end());
             for(const auto &e : std::as_const(curVals))
                 cacheAdvancedSortFolder << e;
@@ -752,6 +777,7 @@ void PQCFileFolderModel::advancedSortMainView() {
         m_currentIndexNoDelay = m_currentIndex;
 
         m_entriesMainView = cacheAdvancedSortFolder;
+        PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
         Q_EMIT currentIndexChanged();
         Q_EMIT currentIndexNoDelayChanged();
         Q_EMIT newDataLoadedMainView();
@@ -761,8 +787,8 @@ void PQCFileFolderModel::advancedSortMainView() {
         QFileInfo info(m_fileInFolderMainView);
         cacheAdvancedSortFolderName = info.absolutePath();
         cacheAdvancedSortLastModified = info.lastModified().toMSecsSinceEpoch();
-        cacheAdvancedSortCriteria = PQCSettingsCPP::get().getImageviewAdvancedSortCriteria();
-        cacheAdvancedSortAscending = PQCSettingsCPP::get().getImageviewAdvancedSortAscending();
+        cacheAdvancedSortCriteria = advSortCriteria;
+        cacheAdvancedSortAscending = advSortAscending;
 
     });
 
@@ -818,6 +844,7 @@ void PQCFileFolderModel::resetModel() {
     delete watcherMainView;
     watcherMainView = new QFileSystemWatcher;
     m_entriesMainView.clear();
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
 
     setFileInFolderMainView("");
     setCountMainView(0);
@@ -827,6 +854,7 @@ void PQCFileFolderModel::resetModel() {
     m_includeFilesInSubFolders = false;
 
     m_entriesMainView.clear();
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
 
     cache.resetData();
 
@@ -848,12 +876,15 @@ int PQCFileFolderModel::getCurrentIndexNoDelay() {
 
 void PQCFileFolderModel::setCurrentIndex(int val) {
 
+    PQCFileFolderModelCPP::get().setCurrentIndex(val);
+
     if(m_currentIndex != val) {
         m_currentIndex = val;
         if(m_currentIndex == -1)
             m_currentFile = "";
         else
             m_currentFile = m_entriesMainView[m_currentIndex];
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
 
         m_currentIndexNoDelay = m_currentIndex;
         m_currentFileNoDelay = m_currentFile;
@@ -916,6 +947,7 @@ void PQCFileFolderModel::loadDataMainView() {
     // clear old entries
 
     m_entriesMainView.clear();
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
     if(watcherMainView->directories().length())
         watcherMainView->removePaths(watcherMainView->directories());
     if(watcherMainView->files().length())
@@ -927,6 +959,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
     if(m_fileInFolderMainView.isEmpty()) {
         m_currentFile = "";
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentIndex = -1;
         m_currentIndexNoDelay = -1;
         m_currentFileNoDelay = "";
@@ -936,6 +969,8 @@ void PQCFileFolderModel::loadDataMainView() {
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileNoDelayChanged();
         Q_EMIT currentIndexNoDelayChanged();
+        if(!m_firstFolderMainViewLoaded)
+            setFirstFolderMainViewLoaded(true);
         return;
     }
 
@@ -956,11 +991,12 @@ void PQCFileFolderModel::loadDataMainView() {
     const bool isFolder = !QFileInfo(m_fileInFolderMainView).isFile();
 
     watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=, this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
     if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         m_entriesMainView = listPDFPages(m_fileInFolderMainView);
+        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
         setCountMainView(m_entriesMainView.length());
         m_readDocumentOnly = false;
         setCurrentIndex(numberPageDocument);
@@ -969,6 +1005,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
         if(archiveContentPreloaded.length() > 0) {
             m_entriesMainView = archiveContentPreloaded;
+            PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
             archiveContentPreloaded.clear();
         }
         setCountMainView(m_entriesMainView.length());
@@ -978,6 +1015,7 @@ void PQCFileFolderModel::loadDataMainView() {
     } else {
 
         m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
+        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
         setCountMainView(m_entriesMainView.length());
 
         if(isFolder && m_entriesMainView.length())
@@ -988,7 +1026,10 @@ void PQCFileFolderModel::loadDataMainView() {
     QFileInfo info(m_fileInFolderMainView);
     if(info.absolutePath() == cacheAdvancedSortFolderName)
 
-        advancedSortMainView();
+        advancedSortMainView(PQCSettingsCPP::get().getImageviewAdvancedSortCriteria(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortAscending(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortQuality(),
+                             PQCSettingsCPP::get().getImageviewAdvancedSortDateCriteria());
 
     else {
 
@@ -1002,6 +1043,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
         m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
         m_currentFile = m_fileInFolderMainView;
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
 
         m_currentIndexNoDelay = m_currentIndex;
         m_currentFileNoDelay = m_currentFile;
@@ -1013,6 +1055,9 @@ void PQCFileFolderModel::loadDataMainView() {
         Q_EMIT currentFileNoDelayChanged();
 
     }
+
+    if(!m_firstFolderMainViewLoaded)
+        setFirstFolderMainViewLoaded(true);
 
 }
 
@@ -1408,10 +1453,13 @@ void PQCFileFolderModel::enableViewerMode(int page) {
 
     qDebug() << "args: page =" << page;
 
+    m_activeViewerMode = true;
+    Q_EMIT activeViewerModeChanged();
+
     if(PQCScriptsImages::get().isPDFDocument(getCurrentFile()))
         setFileInFolderMainView(QString("%1::PDF::%2").arg(page).arg(getCurrentFile()));
     else {
-        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContent(getCurrentFile());
+        archiveContentPreloaded = PQCScriptsImages::get().listArchiveContentWithoutThread(getCurrentFile());
         setFileInFolderMainView(QString("%1::ARC::%2").arg(archiveContentPreloaded[page], getCurrentFile()));
     }
     forceReloadMainView();
@@ -1421,6 +1469,9 @@ void PQCFileFolderModel::enableViewerMode(int page) {
 void PQCFileFolderModel::disableViewerMode(bool bufferDisabling) {
 
     qDebug() << "";
+
+    m_activeViewerMode = false;
+    Q_EMIT activeViewerModeChanged();
 
     if(bufferDisabling)
         m_justLeftViewerMode = true;

@@ -20,76 +20,70 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCSCRIPTS_H
-#define PQCSCRIPTS_H
+#ifndef PQCSCRIPTSCONFIG_H
+#define PQCSCRIPTSCONFIG_H
 
 #include <QObject>
 #include <QTranslator>
-#include <QQmlEngine>
-#include <QtQmlIntegration>
 
 class PQCScriptsConfig : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
     static PQCScriptsConfig& get() {
         static PQCScriptsConfig instance;
         return instance;
     }
-    ~PQCScriptsConfig();
 
-    PQCScriptsConfig(PQCScriptsConfig const&)     = delete;
+    PQCScriptsConfig(PQCScriptsConfig const&) = delete;
     void operator=(PQCScriptsConfig const&) = delete;
 
-    Q_INVOKABLE static QString getConfigInfo(bool formatHTML = false);
-    Q_INVOKABLE static bool exportConfigTo(QString path);
-    Q_INVOKABLE static bool importConfigFrom(QString path);
+    // these are also called from C++, BUT only when PhotoQt exists right after
+    // thus in those few spots we create a local instance of this class as we exit right after
+    static QString getConfigInfo(bool formatHTML = false);
+    static bool exportConfigTo(QString path);
+    static bool importConfigFrom(QString path);
 
     // some general properties
-    Q_INVOKABLE bool amIOnWindows();
-    Q_INVOKABLE bool isQtAtLeast6_5();
-    Q_INVOKABLE QString getVersion();
-    Q_INVOKABLE bool isBetaVersion();
-    Q_INVOKABLE void callStartupSetupFresh();
+    bool amIOnWindows();
+    bool isQtAtLeast6_5();
+    QString getVersion();
+    bool isBetaVersion();
+    void callStartupSetupFresh();
 
     // check for various supported features
-    Q_INVOKABLE bool isChromecastEnabled();
-    Q_INVOKABLE bool isLocationSupportEnabled();
-    Q_INVOKABLE bool isGraphicsMagickSupportEnabled();
-    Q_INVOKABLE bool isImageMagickSupportEnabled();
-    Q_INVOKABLE bool isPugixmlSupportEnabled();
-    Q_INVOKABLE bool isLibRawSupportEnabled();
-    Q_INVOKABLE bool isDevILSupportEnabled();
-    Q_INVOKABLE bool isFreeImageSupportEnabled();
-    Q_INVOKABLE bool isPDFSupportEnabled();
-    Q_INVOKABLE bool isLibVipsSupportEnabled();
-    Q_INVOKABLE bool isLibArchiveSupportEnabled();
-    Q_INVOKABLE bool isMPVSupportEnabled();
-    Q_INVOKABLE bool isVideoQtSupportEnabled();
-    Q_INVOKABLE bool isMotionPhotoSupportEnabled();
-    Q_INVOKABLE bool isPhotoSphereSupportEnabled();
-    Q_INVOKABLE bool isZXingSupportEnabled();
-    Q_INVOKABLE bool isLCMS2SupportEnabled();
-    Q_INVOKABLE bool isICUSupportEnabled();
+    bool isChromecastEnabled();
+    bool isLocationSupportEnabled();
+    bool isGraphicsMagickSupportEnabled();
+    bool isImageMagickSupportEnabled();
+    bool isPugixmlSupportEnabled();
+    bool isLibRawSupportEnabled();
+    bool isDevILSupportEnabled();
+    bool isFreeImageSupportEnabled();
+    bool isPDFSupportEnabled();
+    bool isLibVipsSupportEnabled();
+    bool isLibArchiveSupportEnabled();
+    bool isMPVSupportEnabled();
+    bool isVideoQtSupportEnabled();
+    bool isMotionPhotoSupportEnabled();
+    bool isPhotoSphereSupportEnabled();
+    bool isZXingSupportEnabled();
+    bool isLCMS2SupportEnabled();
+    bool isICUSupportEnabled();
 
     // other methods
-    Q_INVOKABLE QStringList getAvailableTranslations();
-    Q_INVOKABLE void updateTranslation();
-    Q_INVOKABLE QString getLastLoadedImage();
-    Q_INVOKABLE void setLastLoadedImage(QString path);
-    Q_INVOKABLE void deleteLastLoadedImage();
+    QString getLastLoadedImage();
+    void setLastLoadedImage(QString path);
+    void deleteLastLoadedImage();
 
     // pop up messagebox
-    Q_INVOKABLE void inform(QString title, QString txt);
-    Q_INVOKABLE bool askForConfirmation(QString title, QString text, QString informativeText);
+    void inform(QString title, QString txt);
+    bool askForConfirmation(QString title, QString text, QString informativeText);
 
 private:
     PQCScriptsConfig();
-
-    QTranslator *trans;
-    QString currentTranslation;
+    ~PQCScriptsConfig();
 
 };
 

@@ -25,64 +25,68 @@
 
 #include <QObject>
 #include <QMap>
-#include <QQmlEngine>
+
+/*************************************************************/
+/*************************************************************/
+//
+// this class is used in both C++ and QML code
+// thus there is a WRAPPER for QML available
+//
+/*************************************************************/
+/*************************************************************/
 
 class QFile;
 
 class PQCScriptsImages : public QObject {
 
     Q_OBJECT
-    QML_SINGLETON
 
 public:
-    static PQCScriptsImages& get() {
-        static PQCScriptsImages instance;
-        return instance;
-    }
-    ~PQCScriptsImages();
+    static PQCScriptsImages& get();
+    virtual ~PQCScriptsImages();
 
     PQCScriptsImages(PQCScriptsImages const&)     = delete;
     void operator=(PQCScriptsImages const&) = delete;
 
     // check for what kind of image this is
-    Q_INVOKABLE bool isMpvVideo(QString path);
-    Q_INVOKABLE bool isQtVideo(QString path);
-    Q_INVOKABLE bool isPDFDocument(QString path);
-    Q_INVOKABLE bool isArchive(QString path);
-    Q_INVOKABLE int isMotionPhoto(QString path);
-    Q_INVOKABLE bool isPhotoSphere(QString path);
-    Q_INVOKABLE bool isComicBook(QString path);
-    Q_INVOKABLE bool isSVG(QString path);
-    Q_INVOKABLE bool isNormalImage(QString path);
+    bool isMpvVideo(QString path);
+    bool isQtVideo(QString path);
+    bool isPDFDocument(QString path);
+    bool isArchive(QString path);
+    int isMotionPhoto(QString path);
+    bool isPhotoSphere(QString path);
+    bool isComicBook(QString path);
+    bool isSVG(QString path);
+    bool isNormalImage(QString path);
 
     // info about image
-    Q_INVOKABLE QSize getCurrentImageResolution(QString filename);
-    Q_INVOKABLE bool isItAnimated(QString filename);
-    Q_INVOKABLE void loadHistogramData(QString filepath, int index);
-    void _loadHistogramData(QString filepath, int index);
-    Q_INVOKABLE bool supportsTransparency(QString path);
+    QSize getCurrentImageResolution(QString filename);
+    bool isItAnimated(QString filename);
+    bool supportsTransparency(QString path);
     void setSupportsTransparency(QString path, bool alpha);
-    Q_INVOKABLE double getPixelDensity();
+    double getPixelDensity();
+    QString getNameFromMimetype(QString mimetype, QString filename);
 
     // do with image
-    Q_INVOKABLE QString loadImageAndConvertToBase64(QString filename);
-    Q_INVOKABLE QString extractMotionPhoto(QString path);
-    Q_INVOKABLE QVariantList getZXingData(QString path);
-    Q_INVOKABLE bool extractFrameAndSave(QString path, int frameNumber);
+    QString loadImageAndConvertToBase64(QString filename);
+    QString extractMotionPhoto(QString path);
+    QVariantList getZXingData(QString path);
+    bool extractFrameAndSave(QString path, int frameNumber);
 
     // archive/document methods
-    Q_INVOKABLE QStringList listArchiveContent(QString path, bool insideFilenameOnly = false);
-    Q_INVOKABLE int getNumberDocumentPages(QString path);
-    Q_INVOKABLE int getDocumentPageCount(QString path);
-    Q_INVOKABLE QString extractArchiveFileToTempLocation(QString path);
-    Q_INVOKABLE QString extractDocumentPageToTempLocation(QString path);
+    void listArchiveContent(QString path, bool insideFilenameOnly = false);
+    QStringList listArchiveContentWithoutThread(QString path, QString cacheKey = "", bool insideFilenameOnly = false);
+    int getNumberDocumentPages(QString path);
+    int getDocumentPageCount(QString path);
+    QString extractArchiveFileToTempLocation(QString path);
+    QString extractDocumentPageToTempLocation(QString path);
 
     // icon and thumbnail methods
-    Q_INVOKABLE QString getIconPathFromTheme(QString binary);
-    Q_INVOKABLE void removeThumbnailFor(QString path);
+    QString getIconPathFromTheme(QString binary);
+    void removeThumbnailFor(QString path);
 
     // video methods
-    Q_INVOKABLE QString convertSecondsToPosition(int t);
+    QString convertSecondsToPosition(int t);
 
 private:
     PQCScriptsImages();
@@ -96,8 +100,7 @@ private:
     qint64 devicePixelRatioCachedWhen;
 
 Q_SIGNALS:
-    void histogramDataLoaded(QVariantList data, int index);
-    void histogramDataLoadedFailed(int index);
+    void haveArchiveContentFor(QString filename, QStringList content);
 
 };
 

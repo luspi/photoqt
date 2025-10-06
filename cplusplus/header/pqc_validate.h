@@ -38,7 +38,8 @@ public:
     bool validateImageFormatsDatabase();
     bool validateSettingsDatabase();
     bool validateSettingsValues();
-    bool validateDirectories(QString thumb_cache_basedir);
+    bool validateShortcutsDatabase();
+    bool validateDirectories(const QString &thumb_cache_basedir);
     bool validateLocationDatabase();
     bool validateImgurHistoryDatabase();
 

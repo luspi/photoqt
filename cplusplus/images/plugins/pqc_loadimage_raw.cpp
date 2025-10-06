@@ -25,7 +25,7 @@
 #include <pqc_settingscpp.h>
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
-#include <pqc_notify.h>
+#include <pqc_notify_cpp.h>
 #include <QSize>
 #include <QImage>
 #include <QtDebug>

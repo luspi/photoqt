@@ -20,7 +20,6 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsclipboard.h>
 #include <QMimeData>
 #include <QApplication>
 #include <QClipboard>
@@ -28,15 +27,13 @@
 #include <QTextDocumentFragment>
 #include <pqc_loadimage_archive.h>
 #include <pqc_configfiles.h>
-#include <scripts/pqc_scriptsother.h>
+#include <scripts/pqc_scriptsclipboard.h>
 #include <scripts/pqc_scriptsimages.h>
 
 PQCScriptsClipboard::PQCScriptsClipboard() {
     clipboard = qApp->clipboard();
     connect(clipboard, &QClipboard::dataChanged, this, &PQCScriptsClipboard::clipboardUpdated);
 }
-
-PQCScriptsClipboard::~PQCScriptsClipboard() {}
 
 bool PQCScriptsClipboard::areFilesInClipboard() {
 
