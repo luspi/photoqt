@@ -1,7 +1,29 @@
+/**************************************************************************
+ **                                                                      **
+ ** Copyright (C) 2011-2025 Lukas Spies                                  **
+ ** Contact: https://photoqt.org                                         **
+ **                                                                      **
+ ** This file is part of PhotoQt.                                        **
+ **                                                                      **
+ ** PhotoQt is free software: you can redistribute it and/or modify      **
+ ** it under the terms of the GNU General Public License as published by **
+ ** the Free Software Foundation, either version 2 of the License, or    **
+ ** (at your option) any later version.                                  **
+ **                                                                      **
+ ** PhotoQt is distributed in the hope that it will be useful,           **
+ ** but WITHOUT ANY WARRANTY; without even the implied warranty of       **
+ ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        **
+ ** GNU General Public License for more details.                         **
+ **                                                                      **
+ ** You should have received a copy of the GNU General Public License    **
+ ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
+ **                                                                      **
+ **************************************************************************/
+
 #include <pqc_startuphandler.h>
 #include <pqc_configfiles.h>
 #include <pqc_settingscpp.h>
-#include <scripts/qml/pqc_scriptsconfig.h>
+#include <scripts/pqc_scriptsconfig.h>
 #include <pqc_validate.h>
 #include <pqc_migratesettings.h>
 #include <pqc_migrateshortcuts.h>
@@ -154,7 +176,7 @@ void PQCStartupHandler::performChecksAndUpdates() {
     }
 
     // askForInterfaceVariant(true);
-    askForInterfaceVariant(false);
+    // askForInterfaceVariant(false);
 
     if(settingsChecker == PQEUpdateCheck::FreshInstall) {
 
@@ -314,8 +336,7 @@ void PQCStartupHandler::exportData(QString path) {
     // use plain cout as we don't want any log/debug info prepended
     std::cout << " > Exporting configuration to " << path.toStdString() << "... " << std::flush;
 
-    PQCScriptsConfig scr;
-    if(scr.exportConfigTo(path))
+    if(PQCScriptsConfig::get().exportConfigTo(path))
         std::cout << "done! Goodbye." << std::endl << std::endl;
     else
         std::cout << "failed! Goodbye." << std::endl << std::endl;
@@ -351,8 +372,7 @@ void PQCStartupHandler::importData(QString path) {
         std::cout << std::endl
                   << " > Importing configuration from " << path.toStdString() << "... " << std::flush;
 
-        PQCScriptsConfig scr;
-        if(scr.importConfigFrom(path))
+        if(PQCScriptsConfig::get().importConfigFrom(path))
             std::cout << "done! Goodbye." << std::endl << std::endl;
         else
             std::cout << "failed! Goodbye." << std::endl << std::endl;
@@ -493,12 +513,10 @@ void PQCStartupHandler::setupFresh() {
 
 void PQCStartupHandler::showInfo() {
 
-    PQCScriptsConfig scr;
-
     std::cout << std::endl
               << " ** PhotoQt configuration:"
               << std::endl << std::endl
-              << scr.getConfigInfo().toStdString()
+              << PQCScriptsConfig::get().getConfigInfo().toStdString()
               << std::endl;
 
 }

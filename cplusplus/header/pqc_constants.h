@@ -21,7 +21,7 @@
  **************************************************************************/
 #pragma once
 
-#include <scripts/cpp/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptsimages.h>
 #include <pqc_settingscpp.h>
 #include <pqc_resolutioncache.h>
 #include <pqc_filefoldermodelCPP.h>

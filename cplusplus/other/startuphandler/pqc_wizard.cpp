@@ -1,5 +1,5 @@
 #include <pqc_wizard.h>
-#include <scripts/cpp/pqc_scriptslocalization.h>
+#include <scripts/pqc_scriptslocalization.h>
 #include <ui_pqc_wizard.h>
 #include <QSqlQuery>
 #include <QSqlDatabase>

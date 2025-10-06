@@ -22,8 +22,8 @@
 
 #include <pqc_loadimage_libvips.h>
 #include <pqc_imagecache.h>
-#include <scripts/cpp/pqc_scriptsimages.h>
-#include <scripts/cpp/pqc_scriptscolorprofiles.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify_cpp.h>
 #include <QCoreApplication>
 #include <QSize>

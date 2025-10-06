@@ -249,7 +249,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
-        PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
+        PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0

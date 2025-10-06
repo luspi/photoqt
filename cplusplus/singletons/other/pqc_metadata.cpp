@@ -24,7 +24,7 @@
 
 #include <pqc_filefoldermodelCPP.h>
 #include <pqc_location.h>
-#include <scripts/cpp/pqc_scriptsmetadata.h>
+#include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
 
 #include <QFileInfo>

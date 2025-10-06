@@ -61,7 +61,7 @@ PQSetting {
         "zh_TW" : "Chinese (traditional)"
     }
 
-    property list<string> availableLanguages: PQCScriptsConfig.getAvailableTranslations()
+    property list<string> availableLanguages: PQCScriptsLocalization.getAvailableTranslations()
 
     property list<string> langkeys: Object.keys(languages)
 
@@ -351,7 +351,7 @@ PQSetting {
             PQCSettings.interfaceLanguage = availableLanguages[langcombo.currentIndex]
         origIndex = langcombo.currentIndex
 
-        PQCScriptsConfig.updateTranslation(PQCSettings.interfaceLanguage)
+        PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
         PQCSettings.generalInterfaceVariant = currentInterfaceVariant
 

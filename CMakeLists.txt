@@ -572,9 +572,7 @@ pqt_target_compile_definitions(PQMVERSION "${APPVERSION}")
 # set header files as include files
 pqt_target_include_directories("cplusplus/header")
 pqt_target_include_directories("cplusplus/header/scripts")
-pqt_target_include_directories("cplusplus/header/scripts/qml")
 pqt_target_include_directories("cplusplus/header/scripts/qmlcpp")
-pqt_target_include_directories("cplusplus/header/scripts/qmlwrapper")
 pqt_target_include_directories("cplusplus/extensions")
 
 # set some properties for executable

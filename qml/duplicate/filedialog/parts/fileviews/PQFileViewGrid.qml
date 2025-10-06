@@ -287,32 +287,6 @@ GridView {
             }
         }
 
-        // load async for files
-        Timer {
-            running: !deleg.isFolder
-            interval: 1
-            onTriggered: {
-                fileinfo.text = PQCScriptsFilesPaths.getFileSizeHumanReadable(deleg.currentPath)
-            }
-        }
-
-        // load async for folders
-        Timer {
-            running: deleg.isFolder
-            interval: 1
-            onTriggered: {
-                PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath, function(count) {
-                    if(count > 0) {
-                        deleg.numberFilesInsideFolder = count
-                        fileinfo.text = (count===1 ? qsTranslate("filedialog", "%1 image").arg(count) : qsTranslate("filedialog", "%1 images").arg(count))
-                        if(count === 1)
-                            fileinfo.text = qsTranslate("filedialog", "%1 image").arg(count)
-                        else
-                            fileinfo.text = qsTranslate("filedialog", "%1 images").arg(count)
-                    }
-                })
-            }
-        }
         /************************************************************/
 
         // mouse area handling general mouse events
@@ -461,6 +435,21 @@ GridView {
         // this avoid loading all drag thumbnails at the start
         property string dragImageSource: ""
         Drag.imageSource: dragImageSource
+
+        Component.onCompleted: {
+            PQCScriptsFileDialog.getNumberOfFilesInFolder(deleg.currentPath)
+        }
+
+        Connections {
+            target: PQCScriptsFileDialog
+            function onFiguredOutNumberOfFilesInFolder(path : string, num : int) {
+                if(deleg.currentPath !== path) return
+                if(num > 0) {
+                    deleg.numberFilesInsideFolder = num
+                    fileinfo.text = (num===1 ? qsTranslate("filedialog", "%1 image").arg(num) : qsTranslate("filedialog", "%1 images").arg(num))
+                }
+            }
+        }
 
     }
 

@@ -36,8 +36,6 @@ SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQLoader.qml ${d}/PQGestureTou
 SET(d "qml/modern/ongoing")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQStatusInfo.qml ${d}/PQMainMenu.qml ${d}/PQMetaData.qml)
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQWindowButtons.qml ${d}/PQWindowHandles.qml)
-
-SET(d "qml/modern/ongoing/popout")
 SET(photoqt_modern_QML ${photoqt_modern_QML} ${d}/PQMainMenuPopout.qml ${d}/PQMetaDataPopout.qml ${d}/PQSlideshowControlsPopout.qml)
 
 SET(d "qml/modern/actions")

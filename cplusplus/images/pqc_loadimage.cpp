@@ -37,8 +37,8 @@
 #include <pqc_loadimage.h>
 #include <pqc_settings.h>
 #include <pqc_imageformats.h>
-#include <scripts/cpp/pqc_scriptsimages.h>
-#include <scripts/cpp/pqc_scriptscolorprofiles.h>
+#include <scripts/pqc_scriptsimages.h>
+#include <scripts/pqc_scriptscolorprofiles.h>
 
 #include <QSize>
 #include <QImage>
