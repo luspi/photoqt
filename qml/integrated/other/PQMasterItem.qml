@@ -131,7 +131,7 @@ Loader {
 
         Loader {
             id: loader_filedialog
-            active: !PQCSettings.filedialogUseNativeFileDialog && (PQCConstants.startupFilePath===""||PQCConstants.startupFileIsFolder)
+            active: false
             anchors.fill: parent
             sourceComponent:
             PQTemplateModal {
@@ -143,6 +143,7 @@ Loader {
                 popInOutButton.visible: false
                 showTopBottom: false
                 customSizeSet: true
+                dontAnimateFirstShow: true
                 content: PQFileDialog {
                     id: tmpl
                     button1: smpop.button1
@@ -205,6 +206,9 @@ Loader {
                 } else
                     checkForFileFinished.restart()
             } else {
+                if(!PQCSettings.filedialogUseNativeFileDialog || PQCConstants.startupFileIsFolder) {
+                    PQCNotify.loaderShow("FileDialog")
+                }
                 masteritem.readyToContinueLoading = true
                 finishSetup()
             }
