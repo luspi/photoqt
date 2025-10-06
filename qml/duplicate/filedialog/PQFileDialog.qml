@@ -57,6 +57,14 @@ PQTemplate {
         id: fd_breadcrumbs
     }
 
+    property bool finishedSetup: false
+    Timer {
+        interval: 500
+        running: true
+        onTriggered:
+            filedialog_top.finishedSetup = true
+    }
+
     SplitView {
 
         id: fd_splitview
@@ -92,7 +100,8 @@ PQTemplate {
             SplitView.minimumWidth: (PQCSettings.filedialogPlaces || PQCSettings.filedialogDevices) ? 100 : 5
             SplitView.preferredWidth: PQCSettings.filedialogPlacesWidth
             onWidthChanged: {
-                PQCSettings.filedialogPlacesWidth = Math.round(width)
+                if(filedialog_top.finishedSetup)
+                    PQCSettings.filedialogPlacesWidth = Math.round(width)
             }
         }
 
