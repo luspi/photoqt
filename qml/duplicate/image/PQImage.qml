@@ -22,8 +22,6 @@
 pragma ComponentBehavior: Bound
 
 import QtQuick
-import PQCResolutionCache
-
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 
