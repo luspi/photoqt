@@ -78,6 +78,10 @@ PQTemplate {
         PQCNotify.settingsmanagerSendCommand("loadcurrent", [])
     }
 
+    onHiding: {
+        button3.clicked()
+    }
+
     bottomLeftContent: [
         Row {
             y: (bottomLeft.height-height)/2

@@ -74,6 +74,15 @@ Window {
     width: 100
     height: 100
 
+    onClosing: (event) => {
+        if(letElementHandleClosing && PQCConstants.idOfVisibleItem !== "") {
+            _hide()
+            event.accepted = false
+        } else
+            _hideNoCheck()
+        cont.item.hiding()
+    }
+
     Component.onCompleted: {
 
         element_top.setX(defaultPopoutGeometry.x)

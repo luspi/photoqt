@@ -75,6 +75,11 @@ Window {
     width: 100
     height: 100
 
+    onClosing: {
+        _hideNoCheck()
+        cont.item.hiding()
+    }
+
     Component.onCompleted: {
 
         element_top.setX(defaultPopoutGeometry.x)
