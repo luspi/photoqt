@@ -46,7 +46,7 @@ Item {
     property int lessH: (thumbnailsHoldVisible && PQCSettings.interfaceEdgeBottomAction==="thumbnails") ? PQCConstants.thumbnailsBarHeight : 0
 
     property bool integratedInterface: PQCSettings.generalInterfaceVariant==="integrated"
-    property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
+    property int integratedXOffset: ((integratedInterface&&PQCSettings.metadataSideBar&&PQCSettings.metadataSideBarLocation==="left") ? PQCSettings.metadataSideBarWidth : 0)
 
     property list<string> visibleSourcePrevCur: ["",""]
     Connections{
