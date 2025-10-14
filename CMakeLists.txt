@@ -169,8 +169,6 @@ if(WITH_VIDEO_MPV)
     if(NOT ${Libmpv_FOUND})
         message("** libmpv not found. Disabling.")
         SET(WITH_VIDEO_MPV OFF)
-    else()
-        set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_libmpv_SOURCES})
     endif()
 endif()
 
@@ -480,11 +478,12 @@ endif()
 
 qt_standard_project_setup(REQUIRES 6.4)
 
-qt_add_resources(photoqt_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+qt_add_resources(photoqt_4CPP_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+qt_add_resources(photoqt_4QML_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
 
 # Add Qt Designer files (currently only one, not likely to change anytime soon)
 qt_wrap_ui(photoqt_HEADER_ui cplusplus/other/startuphandler/pqc_wizard.ui)
-set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_HEADER_ui})
+set(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${photoqt_HEADER_ui})
 
 
 #############################
@@ -492,9 +491,9 @@ set(photoqt_SOURCES ${photoqt_SOURCES} ${photoqt_HEADER_ui})
 #############################
 
 if(WIN32)
-    qt_add_executable(photoqt windowsicons.rc)
+    qt_add_executable(photoqt ${photoqt_4CPP_SOURCES} windowsicons.rc)
 else()
-    qt_add_executable(photoqt)
+    qt_add_executable(photoqt ${photoqt_4CPP_SOURCES})
 endif()
 
 # ensure that the QTP0001 policy is set to NEW otherwise the QML files will not be found on import (on Qt 6.8+)
@@ -522,7 +521,7 @@ qt_add_qml_module(photoqt-integrated
 qt_add_qml_module(photoqt-cplusplus
     URI PhotoQt.CPlusPlus
     VERSION 1.0
-    SOURCES ${photoqt_SOURCES} ${ALLHEADERS}
+    SOURCES ${photoqt_4QML_SOURCES}
     OUTPUT_DIRECTORY PhotoQt/CPlusPlus)
 
 ###########################
