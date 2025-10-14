@@ -60,7 +60,7 @@ PQCShortcuts::PQCShortcuts() {
             qCritical() << "ERROR copying read-only default database!";
             //: This is the window title of an error message box
             QMessageBox::critical(0, QApplication::translate("PQShortcuts", "ERROR getting database with default shortcuts"),
-                                     QApplication::translate("PQShortcuts", "I tried hard, but I just cannot open even a read-only version of the shortcuts database.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
+                                     QApplication::translate("PQShortcuts", "I tried hard, but I just cannot open even a read-only version of the shortcuts database.") + QApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
             return;
         }
 
@@ -71,8 +71,8 @@ PQCShortcuts::PQCShortcuts() {
 
         if(!db.open()) {
             qCritical() << "ERROR opening read-only default database!";
-            QMessageBox::critical(0, QCoreApplication::translate("PQShortcuts", "ERROR opening database with default settings"),
-                                     QCoreApplication::translate("PQShortcuts", "I tried hard, but I just cannot open the database of default shortcuts.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
+            QMessageBox::critical(0, QApplication::translate("PQShortcuts", "ERROR opening database with default settings"),
+                                     QApplication::translate("PQShortcuts", "I tried hard, but I just cannot open the database of default shortcuts.") + QApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
             return;
         }
 

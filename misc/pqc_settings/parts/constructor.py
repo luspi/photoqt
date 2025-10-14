@@ -74,7 +74,7 @@ def get():
 #include <QJSValue>
 #include <QMessageBox>
 #include <qlogging.h>   // needed in this form to compile with Qt 6.2
-#include <QCoreApplication>
+#include <QApplication>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <pqc_settings.h>
@@ -109,8 +109,8 @@ PQCSettings::PQCSettings() {
     dbDefault.setDatabaseName(PQCConfigFiles::get().DEFAULTSETTINGS_DB());
     if(!dbDefault.open()) {
         qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().DEFAULTSETTINGS_DB());
-        QMessageBox::critical(0, QCoreApplication::translate("PQSettings", "ERROR opening database with default settings"),
-                            QCoreApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+        QMessageBox::critical(0, QApplication::translate("PQSettings", "ERROR opening database with default settings"),
+                            QApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
         return;
     }
 

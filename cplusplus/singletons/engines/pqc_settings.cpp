@@ -67,7 +67,7 @@ PQCSettings::PQCSettings() {
     if(!dbDefault.open()) {
         qCritical() << "ERROR opening default database:" << (PQCConfigFiles::get().DEFAULTSETTINGS_DB());
         QMessageBox::critical(0, QApplication::translate("PQSettings", "ERROR opening database with default settings"),
-                            QApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QCoreApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
+                            QApplication::translate("PQSettings", "I tried hard, but I just cannot open the database of default settings.") + QApplication::translate("PQSettings", "Something went terribly wrong somewhere!"));
         return;
     }
 
@@ -136,7 +136,7 @@ PQCSettings::PQCSettings() {
         readDB();
 
     /******************************************************/
-    
+
     // table: filedialog
     connect(this, &PQCSettings::filedialogDetailsTooltipChanged, this, [=]() { saveChangedValue("filedialogDetailsTooltip", m_filedialogDetailsTooltip); });
     connect(this, &PQCSettings::filedialogDevicesChanged, this, [=]() { saveChangedValue("filedialogDevices", m_filedialogDevices); });
@@ -6563,7 +6563,7 @@ void PQCSettings::readDB() {
 
             QString name = query.value(0).toString();
             QVariant value = query.value(1).toString();
-        
+
             // table: filedialog
             if(table == "filedialog") {
                 if(name == "DetailsTooltip") {

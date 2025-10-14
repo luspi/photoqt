@@ -31,7 +31,6 @@
 #include <QObject>
 #include <QtGlobal>
 #include <QOpenGLContext>
-#include <QGuiApplication>
 
 #include <QOpenGLFramebufferObject>
 

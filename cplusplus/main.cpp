@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
     /******************************************/
 
 #ifdef PQMVIDEOMPV
-    // Qt sets the locale in the QGuiApplication constructor, but libmpv
+    // Qt sets the locale in the QApplication constructor, but libmpv
     // requires the LC_NUMERIC category to be set to "C", so change it back.
     std::setlocale(LC_NUMERIC, "C");
 #endif
