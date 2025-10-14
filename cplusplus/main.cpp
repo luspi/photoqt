@@ -57,7 +57,6 @@
 #include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
 #include <pqc_providersvgcolor.h>
-#include <pqc_location.h>
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <pqc_extensionshandler.h>
 #include <pqc_extensionsettings.h>
@@ -300,7 +299,6 @@ int main(int argc, char *argv[]) {
 
     // These only need to be imported where needed
     qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
-    qmlRegisterSingletonInstance("PQCLocation", 1, 0, "PQCLocation", &PQCLocation::get());
     qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
 
     // the extension settings item

@@ -103,7 +103,8 @@ PQTemplate {
                 font.pointSize: PQCLook.fontSizeS
                 checked: PQCSettings.generalCompactSettings
                 onCheckedChanged: {
-                    PQCSettings.generalCompactSettings = checked
+                    if(PQCSettings.generalCompactSettings !== checked)
+                        PQCSettings.generalCompactSettings = checked
                 }
             }
         }

@@ -88,8 +88,6 @@ PQCLocation::PQCLocation(QObject *parent) : QObject(parent) {
 
 }
 
-PQCLocation::~PQCLocation() {}
-
 void PQCLocation::storeLocation(const QString path, const QPointF gps) {
 
     QFileInfo info(path);

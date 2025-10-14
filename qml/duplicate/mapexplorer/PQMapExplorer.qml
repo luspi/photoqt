@@ -22,7 +22,6 @@
 
 import QtQuick
 import QtQuick.Controls
-import PQCLocation
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 

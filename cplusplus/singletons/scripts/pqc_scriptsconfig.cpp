@@ -33,7 +33,6 @@
 #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 #include <scripts/pqc_scriptslocalization.h>
 #include <pqc_startuphandler.h>
-#include <pqc_location.h>
 #include <pqc_notify_cpp.h>
 
 #ifdef WIN32

@@ -27,22 +27,18 @@
 #include <QSqlDatabase>
 #include <QPointF>
 #include <QVariantMap>
+#include <QQmlEngine>
 
 class QTimer;
 
 class PQCLocation : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    static PQCLocation& get() {
-        static PQCLocation instance;
-        return instance;
-    }
-    ~PQCLocation();
-
-    PQCLocation(PQCLocation const&)    = delete;
-    void operator=(PQCLocation const&) = delete;
+    PQCLocation(QObject *parent = nullptr);
 
     Q_INVOKABLE void storeLocation(const QString path, const QPointF gps);
     Q_INVOKABLE void scanForLocations(QStringList files);
@@ -92,8 +88,6 @@ public:
     Q_INVOKABLE void closeDatabase();
 
 private:
-    PQCLocation(QObject *parent = nullptr);
-
     QSqlDatabase db;
     bool dbOpened;
     bool dbIsTransaction;

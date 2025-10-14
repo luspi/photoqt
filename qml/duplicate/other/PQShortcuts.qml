@@ -23,7 +23,6 @@
 import QtQuick
 import QtQml
 import PQCExtensionsHandler
-import PQCLocation
 import PQCScriptsShareImgur
 
 import PhotoQt.CPlusPlus

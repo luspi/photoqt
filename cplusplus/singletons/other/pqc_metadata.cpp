@@ -23,9 +23,9 @@
 #include <pqc_metadata.h>
 
 #include <pqc_filefoldermodelCPP.h>
-#include <pqc_location.h>
 #include <scripts/pqc_scriptsmetadata.h>
 #include <pqc_configfiles.h>
+#include <pqc_notify_cpp.h>
 
 #include <QFileInfo>
 #include <QtDebug>
@@ -229,7 +229,7 @@ void PQCMetaData::updateMetadata() {
     }
 
     if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
-        PQCLocation::get().storeLocation(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
+        PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
 

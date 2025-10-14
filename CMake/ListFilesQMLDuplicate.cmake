@@ -33,6 +33,7 @@ SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQChromeCast.qml)
 SET(d "qml/duplicate/other")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQShortcuts.qml ${d}/PQMultiEffect.qml ${d}/PQShadowEffect.qml ${d}/PQWorking.qml)
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQScrollManager.qml ${d}/PQSlideshowHandler.qml ${d}/PQCommonFunctions.js)
+SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQGenericStuff.qml)
 
 SET(d "qml/duplicate/image")
 SET(photoqt_duplicate_QML ${photoqt_duplicate_QML} ${d}/PQImage.qml ${d}/PQImageDisplay.qml)

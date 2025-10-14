@@ -127,4 +127,6 @@ Q_SIGNALS:
 
     void showNotificationMessage(QString title, QString msg);
 
+    void storeLocationToDatabase(QString path, QPointF location);
+
 };

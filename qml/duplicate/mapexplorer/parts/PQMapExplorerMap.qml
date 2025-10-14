@@ -24,7 +24,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtLocation
 import QtPositioning
-import PQCLocation
 import PhotoQt.CPlusPlus
 import PhotoQt.Modern   // will be adjusted accordingly by CMake
 

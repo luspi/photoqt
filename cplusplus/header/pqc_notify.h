@@ -65,6 +65,8 @@ public:
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdShortcutSequence, this, &PQCNotify::cmdShortcutSequence);
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::cmdTray, this, &PQCNotify::cmdTray);
 
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::storeLocationToDatabase, this, &PQCNotify::storeLocationToDatabase);
+
         connect(this, &PQCNotify::resetSessionData, &PQCNotifyCPP::get(), &PQCNotifyCPP::resetSessionData);
 
     }
@@ -184,6 +186,7 @@ Q_SIGNALS:
     void elementSignal(QString elementId, QString what);
     void resetActiveFocus();
     void settingsmanagerSendCommand(QString what, QVariantList args);
+    void storeLocationToDatabase(QString path, QPointF location);
 
     // slideshow
     void slideshowHideHandler();
