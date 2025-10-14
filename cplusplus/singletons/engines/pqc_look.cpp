@@ -69,7 +69,7 @@ PQCLook::PQCLook() : QObject() {
 
         calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
 
-        connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=, this]() {
+        connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceAccentColorChanged, this, [=]() {
 
             const QString val = PQCSettingsCPP::get().getInterfaceAccentColor();
             calculateColors(val.startsWith("#") ? val : QColor(val).name(QColor::HexArgb));
@@ -84,13 +84,13 @@ PQCLook::PQCLook() : QObject() {
 
     }
 
-    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontBoldWeightChanged, this, [=, this]() {
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontBoldWeightChanged, this, [=]() {
 
         m_fontWeightBold = PQCSettingsCPP::get().getInterfaceFontBoldWeight();
         Q_EMIT fontWeightBoldChanged();
 
     });
-    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontNormalWeightChanged, this, [=, this]() {
+    connect(&PQCSettingsCPP::get(), &PQCSettingsCPP::interfaceFontNormalWeightChanged, this, [=]() {
 
         m_fontWeightNormal = PQCSettingsCPP::get().getInterfaceFontNormalWeight();
         Q_EMIT fontWeightNormalChanged();

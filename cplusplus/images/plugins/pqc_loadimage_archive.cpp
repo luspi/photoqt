@@ -132,7 +132,10 @@ QSize PQCLoadImageArchive::loadSize(QString filename) {
                 dir.mkpath(info.absolutePath());
 
             // write buffer to file
-            file.open(QIODevice::WriteOnly);
+            if(!file.open(QIODevice::WriteOnly)) {
+                qWarning() << "Unable to load archive file to buffer.";
+                return QSize();
+            }
             QDataStream out(&file);   // we will serialize the data into the file
             out.writeRawData((const char*) buff,size);
             file.close();
@@ -311,7 +314,11 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
                 dir.mkpath(info.absolutePath());
 
             // write buffer to file
-            file.open(QIODevice::WriteOnly);
+            if(!file.open(QIODevice::WriteOnly)) {
+                const QString err = "Unable to load archive file to buffer.";
+                qWarning() << err;
+                return err;
+            }
             QDataStream out(&file);   // we will serialize the data into the file
             out.writeRawData((const char*) buff,size);
             file.close();

@@ -131,7 +131,7 @@ public:
         m_currentlyShowingVideoPlaying = false;
 
         // cache any possible resolution change
-        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=, this]{
+        connect(this, &PQCConstants::currentImageResolutionChanged, this, [=]{
             if(m_currentImageResolution.height() > 0 && m_currentImageResolution.width() > 0)
                 PQCResolutionCache::get().saveResolution(PQCFileFolderModelCPP::get().getCurrentFile(), m_currentImageResolution);
         });
@@ -152,7 +152,7 @@ public:
         m_updateDevicePixelRatio = new QTimer;
         m_updateDevicePixelRatio->setInterval(1000*60*5);
         m_updateDevicePixelRatio->setSingleShot(false);
-        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=, this]() {
+        connect(m_updateDevicePixelRatio, &QTimer::timeout, this, [=]() {
             m_devicePixelRatio = 1.0;
             if(PQCSettingsCPP::get().getImageviewRespectDevicePixelRatio())
                 m_devicePixelRatio = PQCScriptsImages::get().getPixelDensity();
@@ -168,7 +168,7 @@ public:
 
         // anything picked up from PQCNotify
 
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=, this](QString path, QString val) {
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::setColorProfileFor, this, [=](QString path, QString val) {
             m_colorProfileCache[path] = val;
             Q_EMIT colorProfileCacheChanged();
         });
@@ -189,7 +189,7 @@ public:
         m_startupHaveScreenshots = PQCNotifyCPP::get().getHaveScreenshots();
         m_startupHaveSettingUpdate = (PQCNotifyCPP::get().getSettingUpdate().length() > 0);
 
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=, this](QString val) {
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::filePathChanged, this, [=](QString val) {
             m_startupFilePath = val;
             if(m_startupFilePath != "") {
                 QFileInfo info(m_startupFilePath);
@@ -199,11 +199,11 @@ public:
             Q_EMIT startupFilePathChanged();
             Q_EMIT startupFileIsFolderChanged();
         });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged, this, [=, this](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged, this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
         connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=, this](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged, this, [=, this](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
-        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=, this](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::haveScreenshotsChanged, this, [=](bool val) { m_startupHaveScreenshots = val; Q_EMIT startupHaveScreenshotsChanged(); });
+        connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
 
     }
 

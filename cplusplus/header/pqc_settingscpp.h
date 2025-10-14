@@ -129,7 +129,7 @@ public:
 
                 QString name = query.value(0).toString();
                 QVariant value = query.value(1).toString();
-
+            
                 if(table == "filedialog" && name == "DevicesShowTmpfs") {
                     const bool val = value.toInt();
                     if(m_filedialogDevicesShowTmpfs != val) {

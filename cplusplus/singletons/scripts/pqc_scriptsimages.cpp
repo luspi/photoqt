@@ -90,7 +90,7 @@ PQCScriptsImages::PQCScriptsImages() {
     // colorlastlocation = new QFile(QString("%1/%2").arg(PQCConfigFiles::get().CACHE_DIR(), "colorlastlocation"));
 
     // if the formats changed then we can't rely on the archive cache anymore
-    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=, this]() {archiveContentCache.clear();});
+    connect(&PQCImageFormats::get(), &PQCImageFormats::formatsUpdated, this, [=]() {archiveContentCache.clear();});
 
     // loadColorProfileInfo();
 
@@ -195,7 +195,7 @@ void PQCScriptsImages::listArchiveContent(QString path, bool insideFilenameOnly)
         return;
     }
 
-    QFuture<void> f = QtConcurrent::run([=, this]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
         Q_EMIT haveArchiveContentFor(path, PQCScriptsImages::listArchiveContentWithoutThread(path, cacheKey, insideFilenameOnly));
     });
 
@@ -663,7 +663,11 @@ QString PQCScriptsImages::extractMotionPhoto(QString path) {
 
                 // write video to temporary file
                 QFile outfile(videofilename);
-                outfile.open(QIODevice::WriteOnly);
+                if(!outfile.open(QIODevice::WriteOnly)) {
+                    delete[] data;
+                    qWarning() << "ERROR extracting motion photo.";
+                    return "";
+                }
                 QDataStream out(&outfile);
                 out.writeRawData(videodata, info.size()-i);
                 outfile.close();
@@ -976,7 +980,10 @@ QString PQCScriptsImages::extractArchiveFileToTempLocation(QString path) {
                 dir.mkpath(info.absolutePath());
 
             // write buffer to file
-            file.open(QIODevice::WriteOnly);
+            if(!file.open(QIODevice::WriteOnly)) {
+                qWarning() << "Unable to extract file to temporary location.";
+                return "";
+            }
             QDataStream out(&file);   // we will serialize the data into the file
             out.writeRawData((const char*) buff,size);
             file.close();

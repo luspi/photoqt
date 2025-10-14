@@ -61,7 +61,7 @@ PQCScriptsFileManagement::PQCScriptsFileManagement() {
     undoCurFolder = "";
     undoTrash.clear();
 
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=, this]() {
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentFileChanged, this, [=]() {
         QString newFolder = PQCScriptsFilesPaths::get().getDir(PQCFileFolderModelCPP::get().getCurrentFile());
         if(undoCurFolder != newFolder) {
             undoCurFolder = newFolder;
@@ -195,7 +195,7 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
     qDebug() << "args: targetSize = " << targetSize;
     qDebug() << "args: targetQuality = " << targetQuality;
 
-    QFuture<void> f = QtConcurrent::run([=, this]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
 
@@ -465,7 +465,7 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
     qDebug() << "args: topLeft =" << topLeft;
     qDebug() << "args: botRight =" << botRight;
 
-    QFuture<void> f = QtConcurrent::run([=, this]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
 

@@ -66,8 +66,8 @@ PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
     m_iptcLocation = "";
     m_iptcCopyright = "";
 
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentIndexChanged, loadDelay, [=, this](){loadDelay->start(); });
-    connect(loadDelay, &QTimer::timeout, this, [=, this]() { updateMetadata(); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
+    connect(loadDelay, &QTimer::timeout, this, [=]() { updateMetadata(); });
 
 }
 

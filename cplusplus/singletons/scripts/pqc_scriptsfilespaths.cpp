@@ -492,7 +492,10 @@ void PQCScriptsFilesPaths::saveLogToFile(QString txt) {
     }
 
     QFile file(newfile);
-    file.open(QIODevice::WriteOnly|QIODevice::Truncate);
+    if(!file.open(QIODevice::WriteOnly|QIODevice::Truncate)) {
+        qWarning() << "ERROR opening file for saving log.";
+        return;
+    }
     QTextStream out(&file);
     out << txt;
     file.close();
@@ -632,8 +635,7 @@ QString PQCScriptsFilesPaths::findDropBoxFolder() {
 #else
     QFile f(QString("%1/Dropbox/host.db").arg(QStandardPaths::AppDataLocation));
 #endif
-    if(f.exists()) {
-        f.open(QIODevice::ReadOnly);
+    if(f.exists() && f.open(QIODevice::ReadOnly)) {
         QTextStream in(&f);
         QStringList txt = in.readAll().split("\n");
         if(txt.length() > 1) {
@@ -657,8 +659,7 @@ QString PQCScriptsFilesPaths::findNextcloudFolder() {
 #elif defined Q_OS_WIN
     QFile f(QString("%1/Nextcloud/nextcloud.cfg").arg(QStandardPaths::AppDataLocation));
 #endif
-    if(f.exists()) {
-        f.open(QIODevice::ReadOnly);
+    if(f.exists() && f.open(QIODevice::ReadOnly)) {
         QTextStream in(&f);
         QString txt = in.readAll();
         if(txt.contains("0\\Folders\\1\\localPath=")) {
@@ -682,8 +683,7 @@ QString PQCScriptsFilesPaths::findOwnCloudFolder() {
 #elif defined Q_OS_WIN
     QFile f(QString("%1/ownCloud/owncloud.cfg").arg(QStandardPaths::AppDataLocation));
 #endif
-    if(f.exists()) {
-        f.open(QIODevice::ReadOnly);
+    if(f.exists() && f.open(QIODevice::ReadOnly)) {
         QTextStream in(&f);
         QString txt = in.readAll();
         if(txt.contains("0\\Folders\\1\\localPath=")) {

@@ -101,7 +101,7 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerNotifyCurrentIndexChanged = new QTimer;
     timerNotifyCurrentIndexChanged->setInterval(100);
     timerNotifyCurrentIndexChanged->setSingleShot(true);
-    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=, this]() {
+    connect(timerNotifyCurrentIndexChanged, &QTimer::timeout, this, [=]() {
 
         Q_EMIT currentIndexChanged();
         Q_EMIT currentFileChanged();
@@ -136,14 +136,14 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     timerResetJustLeftViewerMode = new QTimer;
     timerResetJustLeftViewerMode->setInterval(100);
     timerResetJustLeftViewerMode->setSingleShot(true);
-    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=, this]() {
+    connect(timerResetJustLeftViewerMode, &QTimer::timeout, this, [=]() {
         m_justLeftViewerMode = false;
     });
 
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=, this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=, this]() { loadDelayFileDialog->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { if(m_ignoreWatcherTemporarily) return; m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { if(m_ignoreWatcherTemporarily) return;  loadDelayFileDialog->start(); });
 
     m_advancedSortDone = 0;
 
@@ -163,8 +163,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     // these are READ FROM PQCFileFolderModelCPP
 
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=, this](QString val) { setFileInFolderMainView(val); });
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=, this](QStringList val) { setExtraFoldersToLoad(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=](QStringList val) { setExtraFoldersToLoad(val); });
 
     /********************************************/
     /********************************************/
@@ -486,7 +486,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
     m_advancedSortDone = 0;
     Q_EMIT advancedSortDoneChanged();
 
-    QFuture<void> f = QtConcurrent::run([=, this]() {
+    QFuture<void> f = QtConcurrent::run([=]() {
 
         QMap<qint64, QStringList> sortedWithKey;
 
@@ -991,7 +991,7 @@ void PQCFileFolderModel::loadDataMainView() {
     const bool isFolder = !QFileInfo(m_fileInFolderMainView).isFile();
 
     watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=, this]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
     if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
