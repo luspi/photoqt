@@ -26,7 +26,7 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <pqc_settings.h>
 #include <QFileInfo>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QColorSpace>
 #include <pqc_notify_cpp.h>
 
@@ -52,7 +52,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
         filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
     if(!QFileInfo::exists(filenameForChecking)) {
-        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it does not exist!");
+        QString err = QApplication::translate("imageprovider", "File failed to load, it does not exist!");
         qWarning() << "ERROR:" << err;
         qWarning() << "Filename:" << filenameForChecking;
         return QImage();

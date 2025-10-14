@@ -24,7 +24,7 @@
 #include <QFileInfo>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
-#include <QCoreApplication>
+#include <QApplication>
 #include <pqc_shortcuts.h>
 #include <pqc_configfiles.h>
 #include <pqc_notify_cpp.h>
@@ -59,8 +59,8 @@ PQCShortcuts::PQCShortcuts() {
         if(!QFile::copy(":/shortcuts.db", tmppath)) {
             qCritical() << "ERROR copying read-only default database!";
             //: This is the window title of an error message box
-            QMessageBox::critical(0, QCoreApplication::translate("PQShortcuts", "ERROR getting database with default shortcuts"),
-                                     QCoreApplication::translate("PQShortcuts", "I tried hard, but I just cannot open even a read-only version of the shortcuts database.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
+            QMessageBox::critical(0, QApplication::translate("PQShortcuts", "ERROR getting database with default shortcuts"),
+                                     QApplication::translate("PQShortcuts", "I tried hard, but I just cannot open even a read-only version of the shortcuts database.") + QCoreApplication::translate("PQShortcuts", "Something went terribly wrong somewhere!"));
             return;
         }
 

@@ -26,7 +26,6 @@
 #include <scripts/pqc_scriptsimages.h>
 #include <scripts/pqc_scriptscolorprofiles.h>
 #include <pqc_notify_cpp.h>
-#include <QCoreApplication>
 #include <QSize>
 #include <QImage>
 #include <QFileInfo>

@@ -93,7 +93,7 @@
 #include <gio/gio.h>
 #endif
 
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
 
     QFileInfo info_exe(argv[0]);
 
@@ -151,7 +151,7 @@ int main(int argc, char *argv[]) {
     QApplication::setQuitOnLastWindowClosed(true);
 
     // Set the desktop filename. On Wayland this is necessary to set the icon in the window title and panel
-    QGuiApplication::setDesktopFileName("org.photoqt.PhotoQt");
+    QApplication::setDesktopFileName("org.photoqt.PhotoQt");
 
     // custom message handler for qDebug/qLog/qInfo/etc.
     qInstallMessageHandler(pqcMessageHandler);
@@ -283,7 +283,7 @@ int main(int argc, char *argv[]) {
 
     QQmlApplicationEngine engine;
 
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QCoreApplication::exit(-1); }, Qt::QueuedConnection);
+    QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, []() { QApplication::exit(-1); }, Qt::QueuedConnection);
 
     engine.addImageProvider("icon", new PQCProviderIcon);
     engine.addImageProvider("theme", new PQCProviderTheme);

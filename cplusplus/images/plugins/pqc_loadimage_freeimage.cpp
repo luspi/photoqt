@@ -30,7 +30,6 @@
 #include <QImage>
 #include <QSize>
 #include <QtDebug>
-#include <QCoreApplication>
 
 #ifdef PQMFREEIMAGE
 #include <FreeImage.h>

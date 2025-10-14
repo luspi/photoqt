@@ -6,7 +6,7 @@
 
 #include <QFile>
 #include <QFileDialog>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QProcess>
 
 PQCScriptsColorProfiles &PQCScriptsColorProfiles::get() {
@@ -556,10 +556,10 @@ bool PQCScriptsColorProfiles::applyColorProfile(QString filename, QImage &img) {
 
         if(m_lcms2CountFailedApplications > 5) {
             Q_EMIT PQCNotifyCPP::get().disableColorSpaceSupport();
-            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
-            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."), "");
         } else {
-            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QCoreApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
+            Q_EMIT PQCNotifyCPP::get().showNotificationMessage(QApplication::translate("imageprovider", "Application of color profile failed."), PQCScriptsFilesPaths::get().getFilename(filename));
         }
 
     }

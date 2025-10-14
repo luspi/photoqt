@@ -29,7 +29,7 @@
 #include <QSvgRenderer>
 #include <QPainter>
 #include <QCryptographicHash>
-#include <QCoreApplication>
+#include <QApplication>
 
 #ifdef WIN32
 #include <Windows.h>
@@ -203,7 +203,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
     // We create a temporary pointer, so that we can delete it properly afterwards
     if(!QFileInfo::exists(filenameForChecking)) {
-        QString err = QCoreApplication::translate("imageprovider", "File failed to load, it does not exist!");
+        QString err = QApplication::translate("imageprovider", "File failed to load, it does not exist!");
         qWarning() << "ERROR:" << err;
         qWarning() << "Filename:" << filenameForChecking;
         m_image = QImage();

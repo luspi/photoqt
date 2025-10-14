@@ -30,7 +30,6 @@
 #include <QtDebug>
 #include <QFileInfo>
 #include <QProcess>
-#include <QCoreApplication>
 
 PQCLoadImageUNRAR::PQCLoadImageUNRAR() {}
 

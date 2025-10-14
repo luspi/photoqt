@@ -142,8 +142,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     // we add a tiny delay to this signal to make sure that when the directory has changed all files are fully written
     // not having this delay can cause faulty thumbnails to be loaded
-    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { if(m_ignoreWatcherTemporarily) return; m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
-    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { if(m_ignoreWatcherTemporarily) return;  loadDelayFileDialog->start(); });
+    connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { /*if(m_ignoreWatcherTemporarily) return;*/ m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
+    connect(watcherFileDialog, &QFileSystemWatcher::directoryChanged, this, [=]() { /*if(m_ignoreWatcherTemporarily) return;*/  loadDelayFileDialog->start(); });
 
     m_advancedSortDone = 0;
 

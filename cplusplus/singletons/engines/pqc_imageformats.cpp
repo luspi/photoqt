@@ -22,6 +22,7 @@
 
 #include <QImageReader>
 #include <QFileInfo>
+#include <QApplication>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <QtSql/QSqlRecord>
@@ -69,8 +70,8 @@ PQCImageFormats::PQCImageFormats() {
 
         if(!QFile::copy(":/imageformats.db", tmppath)) {
             //: This is the window title of an error message box
-            QMessageBox::critical(0, QCoreApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
-                                  QCoreApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
+            QMessageBox::critical(0, QApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
+                                  QApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
             qCritical() << "ERROR copying read-only default database!";
             qApp->quit();
             return;
@@ -82,8 +83,8 @@ PQCImageFormats::PQCImageFormats() {
         db.setDatabaseName(tmppath);
 
         if(!db.open()) {
-            QMessageBox::critical(0, QCoreApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
-                                  QCoreApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
+            QMessageBox::critical(0, QApplication::translate("PQCImageFormats", "ERROR getting default image formats"),
+                                  QApplication::translate("PQCImageFormats", "Not even a read-only version of the database of default image formats could be opened.") + QCoreApplication::translate("PQCImageFormats", "Something went terribly wrong somewhere!"));
             qCritical() << "ERROR opening read-only default database!";
             qApp->quit();
             return;

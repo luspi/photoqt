@@ -68,8 +68,8 @@ PQCWizard::PQCWizard(bool freshInstall, QWidget *parent) : m_freshInstall(freshI
     connect(m_ui->buttonLicense, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("https://www.gnu.org/licenses/old-licenses/gpl-2.0.html#SEC1")); });
     connect(m_ui->buttonEmail, &QPushButton::clicked, this, [=]() { QDesktopServices::openUrl(QUrl("mailto:Lukas@PhotoQt.org?subject=Setup Wizard")); });
 
-    setButtonText(QWizard::CancelButton, QCoreApplication::translate("wizard", "Skip wizard"));
-    setButtonText(QWizard::FinishButton, QCoreApplication::translate("wizard", "Start PhotoQt"));
+    setButtonText(QWizard::CancelButton, QApplication::translate("wizard", "Skip wizard"));
+    setButtonText(QWizard::FinishButton, QApplication::translate("wizard", "Start PhotoQt"));
 
 }
 
@@ -84,8 +84,8 @@ void PQCWizard::storeCurrentInterface(QString variant) {
     if(!query.exec()) {
         qWarning() << "Unable to store interface selection:" << query.lastError().text();
         QMessageBox::warning(this,
-                             QCoreApplication::translate("wizard", "Unable to store interface selection"),
-                             QCoreApplication::translate("wizard", "PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QCoreApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
+                             QApplication::translate("wizard", "Unable to store interface selection"),
+                             QApplication::translate("wizard", "PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
         return;
     }
 
@@ -107,7 +107,7 @@ void PQCWizard::applyCurrentLanguage(int index) {
         // This way we always have a usable error message in English
         QMessageBox::warning(this,
                              "Unable to store selected language",
-                             QString("PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QCoreApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
+                             QString("PhotoQt was unable to store your interface selection. If this issue persists, try changing it later from the settings manager.")+"<br><br>"+QApplication::translate("wizard", "Error:")+QString(" %1").arg(query.lastError().text()));
         return;
     }
 

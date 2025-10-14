@@ -23,7 +23,6 @@
 #include <pqc_look.h>
 #include <pqc_settingscpp.h>
 #include <pqc_configfiles.h>
-#include <QCoreApplication>
 #include <QColor>
 #include <QFont>
 #include <QtDebug>
@@ -56,16 +55,16 @@ PQCLook::PQCLook() : QObject() {
                       "#110505", "#051105", "#050b11", "#110b02",
                       "#dddddd",
                       "#ff8080", "#a4c4a4", "#a4a4ff", "#ffd7c0"};
-        colorNames = {QCoreApplication::translate("settingsmanager", "dark gray"),
-                      QCoreApplication::translate("settingsmanager", "dark red"),
-                      QCoreApplication::translate("settingsmanager", "dark green"),
-                      QCoreApplication::translate("settingsmanager", "dark blue"),
-                      QCoreApplication::translate("settingsmanager", "dark orange"),
-                      QCoreApplication::translate("settingsmanager", "light gray"),
-                      QCoreApplication::translate("settingsmanager", "light red"),
-                      QCoreApplication::translate("settingsmanager", "light green"),
-                      QCoreApplication::translate("settingsmanager", "light blue"),
-                      QCoreApplication::translate("settingsmanager", "light orange")};
+        colorNames = {QApplication::translate("settingsmanager", "dark gray"),
+                      QApplication::translate("settingsmanager", "dark red"),
+                      QApplication::translate("settingsmanager", "dark green"),
+                      QApplication::translate("settingsmanager", "dark blue"),
+                      QApplication::translate("settingsmanager", "dark orange"),
+                      QApplication::translate("settingsmanager", "light gray"),
+                      QApplication::translate("settingsmanager", "light red"),
+                      QApplication::translate("settingsmanager", "light green"),
+                      QApplication::translate("settingsmanager", "light blue"),
+                      QApplication::translate("settingsmanager", "light orange")};
 
         calculateColors(PQCSettingsCPP::get().getInterfaceAccentColor());
 

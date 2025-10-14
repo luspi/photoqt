@@ -30,7 +30,7 @@
 #include <pqc_wizard.h>
 #include <QtDebug>
 #include <QMessageBox>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QFile>
 #include <QSqlDatabase>
 #include <QSqlQuery>
@@ -42,8 +42,8 @@ PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
     // check if sqlite is available
     if(!QSqlDatabase::isDriverAvailable("QSQLITE3") && !QSqlDatabase::isDriverAvailable("QSQLITE")) {
         //: This is the window title of an error message box
-        QMessageBox::critical(0, QCoreApplication::translate("PQCStartup", "SQLite error"),
-                              QCoreApplication::translate("PQCStartup", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!"));
+        QMessageBox::critical(0, QApplication::translate("PQCStartup", "SQLite error"),
+                              QApplication::translate("PQCStartup", "You seem to be missing the SQLite driver for Qt. This is needed though for a few different things, like reading and writing the settings. Without it, PhotoQt cannot function!"));
         qCritical() << "ERROR: SQLite driver not available. Available drivers are:" << QSqlDatabase::drivers().join(",");
         qCritical() << "PhotoQt cannot function without SQLite available.";
         qApp->quit();
