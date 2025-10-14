@@ -95,6 +95,8 @@
 
 int main(int argc, char *argv[]) {
 
+    QFileInfo info_exe(argv[0]);
+
 #ifdef Q_OS_WIN
 
 #ifdef PQMEXIV2
@@ -102,18 +104,16 @@ int main(int argc, char *argv[]) {
     setlocale(LC_ALL, ".UTF8");
 #endif
 
-    QFileInfo f(argv[0]);
-    qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),f.absolutePath().replace("/", "\\")).toLocal8Bit());
-    qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
-    qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(f.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
+    qputenv("PATH", QString("%1;%2").arg(qgetenv("PATH"),info_exe.absolutePath().replace("/", "\\")).toLocal8Bit());
+    qputenv("MAGICK_CODER_MODULE_PATH", QString("%1").arg(info_exe.absolutePath().replace("/", "\\") + "\\imagemagick\\coders").toLocal8Bit());
+    qputenv("MAGICK_FILTER_MODULE_PATH", QString("%1").arg(info_exe.absolutePath().replace("/", "\\") + "\\imagemagick\\filters").toLocal8Bit());
 
     // This allows for semi-transparent windows
     // By default Qt6 uses Direct3D which does not seem to support this
     QQuickWindow::setGraphicsApi(QSGRendererInterface::OpenGL);
 #ifndef PQMPORTABLETWEAKS
     // this is used, for exmaple, to add a directory for checking for extensions
-    QFileInfo f(argv[0]);
-    qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
+    qputenv("PHOTOQT_EXE_BASEDIR", info_exe.absolutePath().toLocal8Bit());
 #endif
 #endif
 
@@ -138,8 +138,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     // this is used, for exmaple, to add a directory for
-    QFileInfo f(argv[0]);
-    qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
+    qputenv("PHOTOQT_EXE_BASEDIR", info_exe.absolutePath().toLocal8Bit());
 
     // avoids warning for customizing native styles (observed in particular on Windows)
     qputenv("QT_QUICK_CONTROLS_IGNORE_CUSTOMIZATION_WARNINGS", "1");
