@@ -60,10 +60,12 @@ appimage:
     - ./linuxdeploy-x86_64.AppImage --appimage-extract
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for the next run to succeed
-    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
+    - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
+    - export EXTRA_QT_MODULES="waylandcompositor"
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - rm -r ./appdir/usr/qml/QtCharts/designer  # Not needed
-    - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage. building it twice might also be necessary for location to work properly
+    - LD_LIBRARY_PATH=appdir/usr/lib QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage # rebuild appimage. building it twice might also be necessary for location to work properly
     - mv ./PhotoQt*.AppImage PhotoQt-nightly.AppImage
 
   artifacts:
@@ -107,6 +109,8 @@ releaseappimage:
     - ./linuxdeploy-x86_64.AppImage --appimage-extract
     - rm ./linuxdeploy-plugin-qt-x86_64.AppImage
     - cp /usr/bin/qmake6 /usr/bin/qmake # This file is needed for the next run to succeed
+    - export EXTRA_PLATFORM_PLUGINS=libqwayland-generic.so
+    - export EXTRA_QT_MODULES="waylandcompositor"
     - QML_SOURCES_PATHS=./qml ./squashfs-root/AppRun --appdir ./appdir/ --plugin=qt --output appimage
     - cp -r /usr/lib/x86_64-linux-gnu/qt6/qml/QtCharts/ ./appdir/usr/qml/   # This makes sure that QtCharts is available
     - rm -r ./appdir/usr/qml/QtCharts/designer  # Not needed
