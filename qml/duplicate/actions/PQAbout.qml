@@ -43,7 +43,7 @@ PQTemplate {
     SystemPalette { id: pqtPalette }
 
     Connections {
-        target: button1
+        target: about_top.button1
         function onClicked() {
             about_top.hide()
         }
