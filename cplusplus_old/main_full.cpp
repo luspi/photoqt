@@ -21,18 +21,32 @@
  **************************************************************************/
 
 #include <QApplication>
-#include <QFileInfo>
-#include <QSqlDatabase>
-#include <QSqlQuery>
-#include <QSqlError>
-#include <QScreen>
 #include <QQmlApplicationEngine>
+#include <QQmlContext>
+#include <QFileInfo>
+#include <QSettings>
+#include <QScreen>
+#include <clocale>
+#include <QSqlError>
+#include <QSqlQuery>
 
-#include <pqc_outputhandler.h>
+#ifdef PQMEXIV2
+#ifdef PQMEXIV2_ENABLE_BMFF
+#define EXV_ENABLE_BMFF
+#endif
+#endif
+
+// This needs to come early (in particular before the FreImage header)
+#ifdef Q_OS_WIN
+#include <windows.h>
+#endif
+
+#include <pqc_configfiles.h>
 #include <pqc_singleinstance.h>
-#include <pqc_startuphandler.h>
 #include <pqc_validate.h>
-
+#include <pqc_notify_cpp.h>
+#include <pqc_messagehandler.h>
+#include <pqc_imageformats.h>
 #include <pqc_providericon.h>
 #include <pqc_providertheme.h>
 #include <pqc_providerthumb.h>
@@ -43,17 +57,12 @@
 #include <pqc_providerimgurhistory.h>
 #include <pqc_providersvg.h>
 #include <pqc_providersvgcolor.h>
-
-#ifdef PQMEXIV2
-    #ifdef PQMEXIV2_ENABLE_BMFF
-        #define EXV_ENABLE_BMFF
-    #endif
-#endif
-
-// This needs to come early (in particular before the FreImage header)
-#ifdef Q_OS_WIN
-    #include <windows.h>
-#endif
+#include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
+#include <pqc_extensionshandler.h>
+#include <pqc_extensionsettings.h>
+#include <pqc_look.h>
+#include <pqc_startuphandler.h>
+#include <pqc_settingscpp.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++.h>
@@ -84,14 +93,14 @@
 #include <gio/gio.h>
 #endif
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 
     QFileInfo info_exe(argv[0]);
 
 #ifdef Q_OS_WIN
 
 #ifdef PQMEXIV2
-        // Exiv2 0.28.x and above needs this locale in order to support proper unicode (e.g., CJK characters) in file names/paths
+    // Exiv2 0.28.x and above needs this locale in order to support proper unicode (e.g., CJK characters) in file names/paths
     setlocale(LC_ALL, ".UTF8");
 #endif
 
@@ -123,7 +132,8 @@ int main(int argc, char** argv) {
         dir.mkdir(folder);
 #endif
     } else {
-        qputenv("PHOTOQT_EXE_BASEDIR", info_exe.absolutePath().toLocal8Bit());
+        QFileInfo f(argv[0]);
+        qputenv("PHOTOQT_EXE_BASEDIR", f.absolutePath().toLocal8Bit());
     }
 #endif
 
@@ -144,7 +154,7 @@ int main(int argc, char** argv) {
     QApplication::setDesktopFileName("org.photoqt.PhotoQt");
 
     // custom message handler for qDebug/qLog/qInfo/etc.
-    qInstallMessageHandler(pqcOutputHandler);
+    qInstallMessageHandler(pqcMessageHandler);
 
 #ifdef PQMPORTABLETWEAKS
     if(argc > 1) {
@@ -174,37 +184,38 @@ int main(int argc, char** argv) {
 #endif
 
 #ifdef PQMEXIV2
-    #if EXIV2_TEST_VERSION(0, 28, 0)
-        // In this case Exiv2::enableBMFF() defaults to true
-        // and the call to it is deprecated
-    #else
-        #ifdef PQMEXIV2_ENABLE_BMFF
-            Exiv2::enableBMFF(true);
-        #endif
+#if EXIV2_TEST_VERSION(0, 28, 0)
+    // In this case Exiv2::enableBMFF() defaults to true
+    // and the call to it is deprecated
+#else
+    #ifdef PQMEXIV2_ENABLE_BMFF
+        Exiv2::enableBMFF(true);
     #endif
+#endif
 #endif
 
 #ifdef PQMFLATPAKBUILD
-    #if !GLIB_CHECK_VERSION(2,35,0)
-        g_type_init();
-    #endif
+#if !GLIB_CHECK_VERSION(2,35,0)
+    g_type_init();
+#endif
 #endif
 
     // handle export/import commands
-    if(app.getExportAndQuit() != "") {
-            startupHandler.exportData(app.getExportAndQuit());
+    if(app.exportAndQuit != "") {
+        startupHandler.exportData(app.exportAndQuit);
         return 0;
-    } else if(app.getImportAndQuit() != "") {
-        startupHandler.importData(app.getImportAndQuit());
+    } else if(app.importAndQuit != "") {
+        startupHandler.importData(app.importAndQuit);
         return 0;
-    } else if(app.getCheckConfig()) {
+    } else if(app.checkConfig) {
         startupHandler.setupDatabases();
-        PQCValidate::validate();
+        PQCValidate validate;
+        validate.validate();
         return 0;
-    } else if(app.getResetConfig()) {
+    } else if(app.resetConfig) {
         startupHandler.resetToDefaults();
         return 0;
-    } else if(app.getShowInfo()) {
+    } else if(app.showInfo) {
         startupHandler.showInfo();
         return 0;
     }
@@ -218,8 +229,8 @@ int main(int argc, char** argv) {
 
     bool useModernInterface = (startupHandler.getInterfaceVariant()=="modern");
 
-    if(app.getForceModernInterface() || app.getForceIntegratedInterface()) {
-        useModernInterface = !app.getForceIntegratedInterface();
+    if(app.forceModernInterface || app.forceIntegratedInterface) {
+        useModernInterface = !app.forceIntegratedInterface;
         QSqlDatabase dbtmp = QSqlDatabase::database("settings");
         QSqlQuery query(dbtmp);
         query.prepare("INSERT OR REPLACE INTO `general` (`name`,`value`,`datatype`) VALUES ('InterfaceVariant', :val, 'string')");
@@ -228,23 +239,24 @@ int main(int argc, char** argv) {
             qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
         query.clear();
         dbtmp.close();
-        // TODO!!!
-        // PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
+        PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
     }
 
     /***************************************/
 
     // Get screenshots for fake transparency
+    bool success = true;
     for(int i = 0; i < QApplication::screens().count(); ++i) {
-        QFile::remove(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i));
         QScreen *screen = QApplication::screens().at(i);
         QRect r = screen->geometry();
         QPixmap pix = screen->grabWindow(0,r.x(),r.y(),r.width(),r.height());
         if(!pix.save(QDir::tempPath() + QString("/photoqt_screenshot_%1.jpg").arg(i))) {
             qDebug() << "Error taking screenshot for screen #" << i;
+            success = false;
             break;
         }
     }
+    PQCNotifyCPP::get().setHaveScreenshots(success);
 
     /***************************************/
 
@@ -284,6 +296,13 @@ int main(int argc, char** argv) {
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
 
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
+
+    // the extension settings item
+    qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
+
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     if(useModernInterface)
         engine.loadFromModule("PhotoQt.Modern", "PQMainWindow");
@@ -310,7 +329,5 @@ int main(int argc, char** argv) {
 #endif
 
     return currentExitCode;
-
-    return 0;
 
 }

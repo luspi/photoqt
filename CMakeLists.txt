@@ -478,12 +478,12 @@ endif()
 
 qt_standard_project_setup(REQUIRES 6.4)
 
-qt_add_resources(photoqt_4CPP_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
-qt_add_resources(photoqt_4QML_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+qt_add_resources(photoqt_CPP_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
+qt_add_resources(photoqt_QML_SOURCES misc/misc.qrc img/img.qrc img/filetypes.qrc python/python.qrc)
 
 # Add Qt Designer files (currently only one, not likely to change anytime soon)
 qt_wrap_ui(photoqt_HEADER_ui cplusplus/other/startuphandler/pqc_wizard.ui)
-set(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${photoqt_HEADER_ui})
+set(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} ${photoqt_HEADER_ui})
 
 
 #############################
@@ -491,9 +491,9 @@ set(photoqt_4CPP_SOURCES ${photoqt_4CPP_SOURCES} ${photoqt_HEADER_ui})
 #############################
 
 if(WIN32)
-    qt_add_executable(photoqt ${photoqt_4CPP_SOURCES} windowsicons.rc)
+    qt_add_executable(photoqt ${photoqt_CPP_SOURCES} ${photoqt_CPPQML_SOURCES} windowsicons.rc)
 else()
-    qt_add_executable(photoqt ${photoqt_4CPP_SOURCES})
+    qt_add_executable(photoqt ${photoqt_CPP_SOURCES} ${photoqt_CPPQML_SOURCES})
 endif()
 
 # ensure that the QTP0001 policy is set to NEW otherwise the QML files will not be found on import (on Qt 6.8+)
@@ -521,7 +521,7 @@ qt_add_qml_module(photoqt-integrated
 qt_add_qml_module(photoqt-cplusplus
     URI PhotoQt.CPlusPlus
     VERSION 1.0
-    SOURCES ${photoqt_4QML_SOURCES}
+    SOURCES ${photoqt_QML_SOURCES} ${photoqt_CPPQML_SOURCES}
     OUTPUT_DIRECTORY PhotoQt/CPlusPlus)
 
 ###########################
@@ -569,10 +569,9 @@ endmacro()
 pqt_target_compile_definitions(PQMVERSION "${APPVERSION}")
 
 # set header files as include files
-pqt_target_include_directories("cplusplus/header")
-pqt_target_include_directories("cplusplus/header/scripts")
-pqt_target_include_directories("cplusplus/header/scripts/qmlcpp")
-pqt_target_include_directories("cplusplus/extensions")
+pqt_target_include_directories("cplusplus/cpp/header")
+pqt_target_include_directories("cplusplus/shared/header")
+pqt_target_include_directories("cplusplus/qml/header")
 
 # set some properties for executable
 set_target_properties(photoqt PROPERTIES
