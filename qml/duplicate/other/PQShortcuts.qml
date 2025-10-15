@@ -59,11 +59,17 @@ Item {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCReceiveMessages
 
         function onCmdShortcutSequence(seq : string) {
             keyshortcuts_top.checkComboForShortcut(seq, Qt.point(-1,-1), Qt.point(0,0))
         }
+
+    }
+
+    Connections {
+
+        target: PQCNotify
 
         function onKeyPress(key : int, modifiers : int) {
 

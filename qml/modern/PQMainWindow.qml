@@ -306,18 +306,7 @@ Window {
 
     Connections {
 
-        target: PQCNotify
-
-        function onStartInTrayChanged() : void {
-
-            console.log("")
-
-            if(PQCConstants.startupStartInTray)
-                PQCSettings.interfaceTrayIcon = 1
-            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
-                PQCSettings.interfaceTrayIcon = 0
-
-        }
+        target: PQCReceiveMessages
 
         function onCmdOpen() : void {
             console.log("")
@@ -388,6 +377,23 @@ Window {
             }
 
         }
+
+        function onCmdSetStartInTray() : void {
+
+            console.log("")
+
+            if(PQCConstants.startupStartInTray)
+                PQCSettings.interfaceTrayIcon = 1
+            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                PQCSettings.interfaceTrayIcon = 0
+
+        }
+
+    }
+
+    Connections {
+
+        target: PQCNotify
 
         function onSetWindowState(state : int) {
             setStateTimer.newstate = state

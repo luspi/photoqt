@@ -26,6 +26,24 @@ import PhotoQt.CPlusPlus
 Item {
 
     Connections {
+
+        target: PQCReceiveMessages
+
+        function onCmdSetDebugMode(dbg : bool) {
+            PQCConstants.debugMode = dbg
+        }
+
+        function onCmdSettingUpdate(val : list<string>) {
+            PQCSettings.updateFromCommandLine(val)
+        }
+
+        // connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::debugChanged, this, [=](bool val) { m_debugMode = val; Q_EMIT debugModeChanged(); });
+        // connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::addDebugLogMessages, this, &PQCConstants::addDebugLogMessages);
+        // connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::startInTrayChanged, this, [=](bool val) { m_startupStartInTray = val; Q_EMIT startupStartInTrayChanged(); });
+        // connect(&PQCNotifyCPP::get(), &PQCNotifyCPP::settingUpdateChanged, this, [=](QStringList val) { m_startupHaveSettingUpdate = (val.length()>0); Q_EMIT startupHaveSettingUpdateChanged(); });
+    }
+
+    Connections {
         target: PQCNotify
 
         function onStoreLocationToDatabase(path : string, location : point) {

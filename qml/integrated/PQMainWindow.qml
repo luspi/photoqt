@@ -318,9 +318,9 @@ ApplicationWindow {
 
     Connections {
 
-        target: PQCNotify
+        target: PQCReceiveMessages
 
-        function onStartInTrayChanged() : void {
+        function onCmdSetStartInTray() : void {
 
             console.log("")
 
@@ -400,6 +400,12 @@ ApplicationWindow {
             }
 
         }
+
+    }
+
+    Connections {
+
+        target: PQCNotify
 
         function onWindowRaiseAndFocus() {
             toplevel.raise()
