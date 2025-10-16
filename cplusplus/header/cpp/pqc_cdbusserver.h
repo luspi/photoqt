@@ -25,21 +25,22 @@
 
 class QLocalServer;
 
-class PQCQMLMessageHandler : public QObject {
+class PQCCDbusServer : public QObject {
 
     Q_OBJECT
 
 public:
-    static PQCQMLMessageHandler& get() {
-        static PQCQMLMessageHandler instance;
+    static PQCCDbusServer& get() {
+        static PQCCDbusServer instance;
         return instance;
     }
 
-    PQCQMLMessageHandler(PQCQMLMessageHandler const&) = delete;
-    void operator=(PQCQMLMessageHandler const&) = delete;
+    PQCCDbusServer(PQCCDbusServer const&) = delete;
+    void operator=(PQCCDbusServer const&) = delete;
 
 private:
-    PQCQMLMessageHandler();
+    PQCCDbusServer();
+    ~PQCCDbusServer();
 
     QLocalServer *m_server;
 

@@ -32,6 +32,7 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/main.cpp
                                                cplusplus/cpp/singletons/pqc_cscriptslocalization.cpp
                                                cplusplus/cpp/singletons/pqc_cscriptscolorprofiles.cpp
                                                cplusplus/cpp/singletons/pqc_imageformats.cpp
+                                               cplusplus/cpp/singletons/pqc_cdbusserver.cpp
 
                                                cplusplus/cpp/images/pqc_imagecache.cpp
                                                cplusplus/cpp/images/pqc_loadimage.cpp
@@ -154,7 +155,7 @@ SET(photoqt_CPPQML_SOURCES ${photoqt_CPPQML_SOURCES} cplusplus/header/shared/pqc
 
 SET(photoqt_QML_SOURCES "")
 
-SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/other/pqc_qmlmessagehandler.cpp)
+SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/singletons/pqc_qdbusserver.cpp)
 
 SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusserver.h)
 
