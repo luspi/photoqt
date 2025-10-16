@@ -64,53 +64,54 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/main.cpp
 
                                            )
 
-SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/cpp/header/pqc_cppconstants.h
-                                               cplusplus/cpp/header/pqc_outputhandler.h
-                                               cplusplus/cpp/header/pqc_saveoutput.h
-                                               cplusplus/cpp/header/pqc_commandlineparser.h
-                                               cplusplus/cpp/header/pqc_singleinstance.h
-                                               cplusplus/cpp/header/pqc_startuphandler.h
-                                               cplusplus/cpp/header/pqc_migratesettings.h
-                                               cplusplus/cpp/header/pqc_migrateshortcuts.h
-                                               cplusplus/cpp/header/pqc_validate.h
+SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/header/cpp/pqc_cppconstants.h
+                                               cplusplus/header/cpp/pqc_outputhandler.h
+                                               cplusplus/header/cpp/pqc_saveoutput.h
+                                               cplusplus/header/cpp/pqc_commandlineparser.h
+                                               cplusplus/header/cpp/pqc_singleinstance.h
+                                               cplusplus/header/cpp/pqc_startuphandler.h
+                                               cplusplus/header/cpp/pqc_migratesettings.h
+                                               cplusplus/header/cpp/pqc_migrateshortcuts.h
+                                               cplusplus/header/cpp/pqc_validate.h
+                                               cplusplus/header/cpp/pqc_cdbusserver.h
 
-                                               cplusplus/cpp/header/pqc_wizard.h
-                                               cplusplus/cpp/header/pqc_xdg-output-unstable-v1-client-protocol.h
+                                               cplusplus/header/cpp/pqc_wizard.h
+                                               cplusplus/header/cpp/pqc_xdg-output-unstable-v1-client-protocol.h
 
-                                               cplusplus/cpp/header/pqc_cscriptsconfig.h
-                                               cplusplus/cpp/header/pqc_cscriptsimages.h
-                                               cplusplus/cpp/header/pqc_cscriptslocalization.h
-                                               cplusplus/cpp/header/pqc_cscriptscolorprofiles.h
-                                               cplusplus/cpp/header/pqc_imageformats.h
+                                               cplusplus/header/cpp/pqc_cscriptsconfig.h
+                                               cplusplus/header/cpp/pqc_cscriptsimages.h
+                                               cplusplus/header/cpp/pqc_cscriptslocalization.h
+                                               cplusplus/header/cpp/pqc_cscriptscolorprofiles.h
+                                               cplusplus/header/cpp/pqc_imageformats.h
 
-                                               cplusplus/cpp/header/pqc_imagecache.h
-                                               cplusplus/cpp/header/pqc_loadimage.h
+                                               cplusplus/header/cpp/pqc_imagecache.h
+                                               cplusplus/header/cpp/pqc_loadimage.h
 
-                                               cplusplus/cpp/header/pqc_providerdragthumb.h
-                                               cplusplus/cpp/header/pqc_providerfolderthumb.h
-                                               cplusplus/cpp/header/pqc_providerfull.h
-                                               cplusplus/cpp/header/pqc_providericon.h
-                                               cplusplus/cpp/header/pqc_providerimgurhistory.h
-                                               cplusplus/cpp/header/pqc_providersvg.h
-                                               cplusplus/cpp/header/pqc_providersvgcolor.h
-                                               cplusplus/cpp/header/pqc_providertheme.h
-                                               cplusplus/cpp/header/pqc_providerthumb.h
-                                               cplusplus/cpp/header/pqc_providertooltipthumb.h
+                                               cplusplus/header/cpp/pqc_providerdragthumb.h
+                                               cplusplus/header/cpp/pqc_providerfolderthumb.h
+                                               cplusplus/header/cpp/pqc_providerfull.h
+                                               cplusplus/header/cpp/pqc_providericon.h
+                                               cplusplus/header/cpp/pqc_providerimgurhistory.h
+                                               cplusplus/header/cpp/pqc_providersvg.h
+                                               cplusplus/header/cpp/pqc_providersvgcolor.h
+                                               cplusplus/header/cpp/pqc_providertheme.h
+                                               cplusplus/header/cpp/pqc_providerthumb.h
+                                               cplusplus/header/cpp/pqc_providertooltipthumb.h
 
-                                               cplusplus/cpp/header/pqc_loadimage_archive.h
-                                               cplusplus/cpp/header/pqc_loadimage_devil.h
-                                               cplusplus/cpp/header/pqc_loadimage_freeimage.h
-                                               cplusplus/cpp/header/pqc_loadimage_libsai.h
-                                               cplusplus/cpp/header/pqc_loadimage_libvips.h
-                                               cplusplus/cpp/header/pqc_loadimage_magick.h
-                                               cplusplus/cpp/header/pqc_loadimage_poppler.h
-                                               cplusplus/cpp/header/pqc_loadimage_qt.h
-                                               cplusplus/cpp/header/pqc_loadimage_qtpdf.h
-                                               cplusplus/cpp/header/pqc_loadimage_raw.h
-                                               cplusplus/cpp/header/pqc_loadimage_resvg.h
-                                               cplusplus/cpp/header/pqc_loadimage_unrar.h
-                                               cplusplus/cpp/header/pqc_loadimage_video.h
-                                               cplusplus/cpp/header/pqc_loadimage_xcf.h
+                                               cplusplus/header/cpp/pqc_loadimage_archive.h
+                                               cplusplus/header/cpp/pqc_loadimage_devil.h
+                                               cplusplus/header/cpp/pqc_loadimage_freeimage.h
+                                               cplusplus/header/cpp/pqc_loadimage_libsai.h
+                                               cplusplus/header/cpp/pqc_loadimage_libvips.h
+                                               cplusplus/header/cpp/pqc_loadimage_magick.h
+                                               cplusplus/header/cpp/pqc_loadimage_poppler.h
+                                               cplusplus/header/cpp/pqc_loadimage_qt.h
+                                               cplusplus/header/cpp/pqc_loadimage_qtpdf.h
+                                               cplusplus/header/cpp/pqc_loadimage_raw.h
+                                               cplusplus/header/cpp/pqc_loadimage_resvg.h
+                                               cplusplus/header/cpp/pqc_loadimage_unrar.h
+                                               cplusplus/header/cpp/pqc_loadimage_video.h
+                                               cplusplus/header/cpp/pqc_loadimage_xcf.h
                                            )
 
 # SET(d "cplusplus/singletons")
@@ -146,7 +147,7 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/cpp/header/pqc_cppconst
 SET(photoqt_CPPQML_SOURCES "")
 
 SET(d "cplusplus/header")
-SET(photoqt_CPPQML_SOURCES ${photoqt_CPPQML_SOURCES} cplusplus/shared/header/pqc_configfiles.h)
+SET(photoqt_CPPQML_SOURCES ${photoqt_CPPQML_SOURCES} cplusplus/header/shared/pqc_configfiles.h)
 
 ####################################
 ####################################
@@ -155,7 +156,7 @@ SET(photoqt_QML_SOURCES "")
 
 SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/other/pqc_qmlmessagehandler.cpp)
 
-SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/header/pqc_qmlmessagehandler.h)
+SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusserver.h)
 
 # SET(d "cplusplus/qml/other")
 # SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)

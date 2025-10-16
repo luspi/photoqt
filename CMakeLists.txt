@@ -569,9 +569,8 @@ endmacro()
 pqt_target_compile_definitions(PQMVERSION "${APPVERSION}")
 
 # set header files as include files
-pqt_target_include_directories("cplusplus/cpp/header")
-pqt_target_include_directories("cplusplus/shared/header")
-pqt_target_include_directories("cplusplus/qml/header")
+pqt_target_include_directories("cplusplus/header")
+pqt_target_include_directories("cplusplus/header/qml")  # this is needed for the qml processor to find all the singletons
 
 # set some properties for executable
 set_target_properties(photoqt PROPERTIES
