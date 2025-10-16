@@ -22,24 +22,34 @@
 #pragma once
 
 #include <QObject>
-#include <QQmlEngine>
 
 class QLocalServer;
 
 class PQCQDbusServer : public QObject {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
 
 public:
-    explicit PQCQDbusServer();
-    ~PQCQDbusServer();
+    static PQCQDbusServer& get() {
+        static PQCQDbusServer instance;
+        return instance;
+    }
+
+    PQCQDbusServer(PQCQDbusServer const&) = delete;
+    void operator=(PQCQDbusServer const&) = delete;
+
+    void sendMessage(QString message);
 
 private:
+    PQCQDbusServer();
+    ~PQCQDbusServer();
+
     QLocalServer *m_server;
 
 private Q_SLOTS:
     void handleConnection();
+
+Q_SIGNALS:
+    void performAction(QString what, QStringList args);
 
 };

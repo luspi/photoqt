@@ -38,6 +38,8 @@ public:
     PQCCDbusServer(PQCCDbusServer const&) = delete;
     void operator=(PQCCDbusServer const&) = delete;
 
+    void sendMessage(QString message);
+
 private:
     PQCCDbusServer();
     ~PQCCDbusServer();
@@ -47,5 +49,7 @@ private:
 private Q_SLOTS:
     void handleConnection();
 
+Q_SIGNALS:
+    void performAction(QString what, QStringList args);
 
 };
