@@ -23,6 +23,7 @@
 #include <cpp/pqc_loadimage_qtpdf.h>
 #include <cpp/pqc_imagecache.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QSize>
 #include <QImage>
@@ -55,8 +56,7 @@ QSize PQCLoadImageQtPDF::loadSize(QString filename) {
         return QSize();
     }
 
-    // TODO!!!
-    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*1;//(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
+    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCCSettings::get().getFiletypesPDFQuality()/72.0);
 
     return _pageSize.toSize();
 
@@ -93,8 +93,7 @@ QString PQCLoadImageQtPDF::load(QString filename, QSize maxSize, QSize &origSize
         return errormsg;
     }
 
-    // TODO!!!
-    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*1;//(PQCSettingsCPP::get().getFiletypesPDFQuality()/72.0);
+    QSizeF _pageSize = (doc.pagePointSize(page)/72.0*qApp->primaryScreen()->physicalDotsPerInch())*(PQCCSettings::get().getFiletypesPDFQuality()/72.0);
     origSize = QSize(_pageSize.width(), _pageSize.height());
 
     QImage p = doc.render(page, origSize);

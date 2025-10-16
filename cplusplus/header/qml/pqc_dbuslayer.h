@@ -4,6 +4,7 @@
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
+ ** Adapted from: https://github.com/mpv-player/mpv-examples/            **
  **                                                                      **
  ** PhotoQt is free software: you can redistribute it and/or modify      **
  ** it under the terms of the GNU General Public License as published by **
@@ -21,39 +22,25 @@
  **************************************************************************/
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <qml/pqc_qdbusserver.h>
 
-class PQCAsyncImageResponseThumb;
+#include <QObject>
+#include <QQmlEngine>
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+class PQDbusLayer : public QObject {
 
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
-
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+    Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    explicit PQDbusLayer() {
+        connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, &PQDbusLayer::performAction);
+    }
 
-    QQuickTextureFactory *textureFactory() const override;
+    Q_INVOKABLE void setup() { PQCQDbusServer::get().setup(); }
 
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
-
-private:
-    PQCAsyncImageResponseThumb *loader;
+Q_SIGNALS:
+    void performAction(QString what, QStringList args);
 
 };

@@ -165,8 +165,9 @@ Window {
     Timer {
         id: loadAppInBackgroundTimer
         interval: 100
-        onTriggered:
+        onTriggered: {
             masteritemattop.active = true
+        }
     }
 
     Connections {
@@ -214,7 +215,18 @@ Window {
         toplevel.height = geo.height
     }
 
+    Connections {
+        target: PQDbusLayer
+        function onPerformAction(what, args) {
+            console.warn(">>> QML MSG:", what, args)
+        }
+    }
+
     Component.onCompleted: {
+
+        console.warn(">>>>> 111")
+        PQDbusLayer.setup()
+        console.warn(">>>>> 222")
 
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 

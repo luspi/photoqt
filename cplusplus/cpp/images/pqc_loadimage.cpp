@@ -37,6 +37,7 @@
 
 #include <cpp/pqc_imageformats.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_cdbusserver.h>
 
 #include <QSize>
 #include <QImage>
@@ -410,8 +411,7 @@ QString PQCLoadImage::load(QString filename, QSize requestedSize, QSize &origSiz
 
     if(!img.isNull()) {
         err = "";
-        // TODO!!!
-        // PQCScriptsImages::get().setSupportsTransparency(filename, img.hasAlphaChannel());
+        PQCCDbusServer::get().sendMessage("transparency", QString("%1\n%2").arg(filename, (img.hasAlphaChannel() ? 1 : 0)));
     }
 
     return err;

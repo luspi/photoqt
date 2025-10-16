@@ -23,6 +23,7 @@
 #include <cpp/pqc_loadimage_raw.h>
 #include <cpp/pqc_imagecache.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QSize>
 #include <QImage>
@@ -118,8 +119,7 @@ QString PQCLoadImageRAW::load(QString filename, QSize maxSize, QSize &origSize, 
     // sometimes the embedded thumb is as large as the actual raw image
     // if that's the case we can simply load the embedded thumbnail
     // we only do this if the raw image is larger than 1000x1000 pixels
-    // TODO!!!
-    if(!thumb && //PQCSettingsCPP::get().getFiletypesRAWUseEmbeddedIfAvailable() &&
+    if(!thumb && PQCCSettings::get().getFiletypesRAWUseEmbeddedIfAvailable() &&
         raw.imgdata.sizes.width > 1000 && raw.imgdata.sizes.height > 1000 &&
         raw.imgdata.thumbnail.twidth > 0 && raw.imgdata.thumbnail.theight > 0) {
 

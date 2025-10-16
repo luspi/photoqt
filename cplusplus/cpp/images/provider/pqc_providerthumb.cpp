@@ -23,6 +23,8 @@
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_providericon.h>
 #include <cpp/pqc_loadimage.h>
+#include <cpp/pqc_csettings.h>
+#include <cpp/pqc_cscriptsfilespaths.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QSvgRenderer>
@@ -40,8 +42,7 @@
 QQuickImageResponse *PQCAsyncImageProviderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseThumb *response = new PQCAsyncImageResponseThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
-    // TODO!!!
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,9));//PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCCSettings::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
     return response;
 }
@@ -51,9 +52,8 @@ PQCAsyncImageResponseThumb::PQCAsyncImageResponseThumb(const QString &url, const
     setAutoDelete(false);
     providerIcon = new PQCProviderIcon;
 
-    // TODO!!!
-    // if(!PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault())
-        // PQCConfigFiles::get().setThumbnailCacheBaseDir(PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation());
+    if(!PQCCSettings::get().getThumbnailsCacheBaseDirDefault())
+        PQCConfigFiles::get().setThumbnailCacheBaseDir(PQCCSettings::get().getThumbnailsCacheBaseDirLocation());
 
 }
 
@@ -82,13 +82,12 @@ void PQCAsyncImageResponseThumb::loadImage() {
     if(filenameForChecking.contains("::ARC::"))
         filenameForChecking = filenameForChecking.split("::ARC::").at(1);
 
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getThumbnailsIconsOnly() || PQCScriptsFilesPaths::get().isExcludeDirFromCaching(filenameForChecking)) {
-    //     QSize origSize;
-    //     m_image = providerIcon->requestImage(QFileInfo(filename).suffix(), &origSize, m_requestedSize);
-    //     Q_EMIT finished();
-    //     return;
-    // }
+    if(PQCCSettings::get().getThumbnailsIconsOnly() || PQCCScriptsFilesPaths::get().isExcludeDirFromCaching(filenameForChecking)) {
+        QSize origSize;
+        m_image = providerIcon->requestImage(QFileInfo(filename).suffix(), &origSize, m_requestedSize);
+        Q_EMIT finished();
+        return;
+    }
 
     // Prepare the return QImage
     QImage p;
@@ -179,8 +178,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
     const QString thumbcachepath = PQCConfigFiles::get().THUMBNAIL_CACHE_DIR() + "/" + cachedir + "/" + md5 + ".png";
 
     // If files in XDG_CACHE_HOME/thumbnails/ shall be used, then do use them
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getThumbnailsCache()) {
+    if(PQCCSettings::get().getThumbnailsCache()) {
 
         // If there exists a thumbnail of the current file already
         if(QFile(thumbcachepath).exists()) {
@@ -198,7 +196,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
         }
 
-    // }
+    }
 
     /**********************************************************/
 
@@ -254,8 +252,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
         p = p.scaled(m_requestedSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     // Create file cache thumbnail
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getThumbnailsCache()) {
+    if(PQCCSettings::get().getThumbnailsCache()) {
 
         // If the file itself wasn't read from the thumbnails folder, is not a temporary file, and if the original file isn't at thumbnail size itself
         if(!filename.startsWith(QString(PQCConfigFiles::get().THUMBNAIL_CACHE_DIR()).toUtf8()) && !filename.startsWith(QDir::tempPath().toUtf8())) {
@@ -284,7 +281,7 @@ void PQCAsyncImageResponseThumb::loadImage() {
 
         }
 
-    // }
+    }
 
     m_image = p;
 

@@ -38,13 +38,19 @@ public:
     PQCQDbusServer(PQCQDbusServer const&) = delete;
     void operator=(PQCQDbusServer const&) = delete;
 
-    void sendMessage(QString message);
+    void sendMessage(QString what, QString message);
+    bool hasExistingServer() { return m_existingServer; }
+
+    QImage getImage(QString path);
+
+    void setup() {}
 
 private:
     PQCQDbusServer();
     ~PQCQDbusServer();
 
     QLocalServer *m_server;
+    bool m_existingServer;
 
 private Q_SLOTS:
     void handleConnection();

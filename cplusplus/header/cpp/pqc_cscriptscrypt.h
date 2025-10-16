@@ -1,4 +1,7 @@
 /**************************************************************************
+ ** Inspired by SimpleCrypt:                                             **
+ ** Copyright (c) 2011, Andre Somers                                     **
+ ** All rights reserved.                                                 **
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
@@ -21,39 +24,38 @@
  **************************************************************************/
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <QObject>
+#include <QRandomGenerator>
 
-class PQCAsyncImageResponseThumb;
+/*************************************************************/
+/*************************************************************/
+//
+// this class is ONLY used by C++ at the moment
+// if this ever changes then a qml wrapper might have to be created
+//
+/*************************************************************/
+/*************************************************************/
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+class PQCCScriptsCrypt : public QObject {
+
+    Q_OBJECT
 
 public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
+    static PQCCScriptsCrypt& get();
+    virtual ~PQCCScriptsCrypt();
+
+    PQCCScriptsCrypt(PQCCScriptsCrypt const&)     = delete;
+    void operator=(PQCCScriptsCrypt const&) = delete;
+
+    Q_INVOKABLE QString encryptString(QString plaintext);
+    Q_INVOKABLE QString decryptString(QString str);
 
 private:
-    QThreadPool pool;
-};
+    PQCCScriptsCrypt();
 
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+    quint64 cryptKey;
+    QVector<char> cryptKeyParts;
 
-public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
-
-    QQuickTextureFactory *textureFactory() const override;
-
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
-
-private:
-    PQCAsyncImageResponseThumb *loader;
+    QRandomGenerator randgen;
 
 };

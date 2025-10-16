@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCVALIDATE_H
-#define PQCVALIDATE_H
+#pragma once
 
 #include <QObject>
 
@@ -44,5 +42,3 @@ public:
     static bool validateImgurHistoryDatabase();
 
 };
-
-#endif // PQVALIDATE_H

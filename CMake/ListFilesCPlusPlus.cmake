@@ -31,6 +31,9 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/main.cpp
                                                cplusplus/cpp/singletons/pqc_cscriptsimages.cpp
                                                cplusplus/cpp/singletons/pqc_cscriptslocalization.cpp
                                                cplusplus/cpp/singletons/pqc_cscriptscolorprofiles.cpp
+                                               cplusplus/cpp/singletons/pqc_cscriptsfilespaths.cpp
+                                               cplusplus/cpp/singletons/pqc_cscriptsshareimgur.cpp
+                                               cplusplus/cpp/singletons/pqc_cscriptscrypt.cpp
                                                cplusplus/cpp/singletons/pqc_imageformats.cpp
                                                cplusplus/cpp/singletons/pqc_cdbusserver.cpp
 
@@ -63,6 +66,10 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/main.cpp
                                                cplusplus/cpp/images/plugins/pqc_loadimage_video.cpp
                                                cplusplus/cpp/images/plugins/pqc_loadimage_xcf.cpp
 
+                                               cplusplus/cpp/extensions/pqc_extensionactions.h
+                                               cplusplus/cpp/extensions/pqc_extensionshandler.cpp
+                                               cplusplus/cpp/extensions/pqc_extensionsettings.cpp
+
                                            )
 
 SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/header/cpp/pqc_cppconstants.h
@@ -83,10 +90,15 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/header/cpp/pqc_cppconst
                                                cplusplus/header/cpp/pqc_cscriptsimages.h
                                                cplusplus/header/cpp/pqc_cscriptslocalization.h
                                                cplusplus/header/cpp/pqc_cscriptscolorprofiles.h
+                                               cplusplus/header/cpp/pqc_cscriptsfilespaths.h
+                                               cplusplus/header/cpp/pqc_cscriptsshareimgur.h
+                                               cplusplus/header/cpp/pqc_cscriptscrypt.h
+                                               cplusplus/header/cpp/pqc_httpreplytimeout.h
                                                cplusplus/header/cpp/pqc_imageformats.h
 
                                                cplusplus/header/cpp/pqc_imagecache.h
                                                cplusplus/header/cpp/pqc_loadimage.h
+                                               cplusplus/header/cpp/pqc_csettings.h
 
                                                cplusplus/header/cpp/pqc_providerdragthumb.h
                                                cplusplus/header/cpp/pqc_providerfolderthumb.h
@@ -113,6 +125,9 @@ SET(photoqt_CPP_SOURCES ${photoqt_CPP_SOURCES} cplusplus/header/cpp/pqc_cppconst
                                                cplusplus/header/cpp/pqc_loadimage_unrar.h
                                                cplusplus/header/cpp/pqc_loadimage_video.h
                                                cplusplus/header/cpp/pqc_loadimage_xcf.h
+
+                                               cplusplus/header/cpp/pqc_extensionshandler.h
+                                               cplusplus/header/cpp/pqc_extensionsettings.h
                                            )
 
 # SET(d "cplusplus/singletons")
@@ -155,9 +170,21 @@ SET(photoqt_CPPQML_SOURCES ${photoqt_CPPQML_SOURCES} cplusplus/header/shared/pqc
 
 SET(photoqt_QML_SOURCES "")
 
-SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/singletons/pqc_qdbusserver.cpp)
+SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/singletons/pqc_qdbusserver.cpp
 
-SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusserver.h)
+                                               cplusplus/qml/qmlitems/pqc_mpvobject.cpp
+                                               cplusplus/qml/qmlitems/pqc_photosphere.cpp
+                                               cplusplus/qml/qmlitems/pqc_photosphereitem.cpp
+                                               cplusplus/qml/qmlitems/pqc_photosphererenderer.cpp)
+
+SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusserver.h
+                                               cplusplus/header/qml/pqc_dbuslayer.h
+
+                                               cplusplus/header/qml/pqc_mpvobject.h
+                                               cplusplus/header/qml/pqc_mpvqthelper.h
+                                               cplusplus/header/qml/pqc_photosphere.h
+                                               cplusplus/header/qml/pqc_photosphereitem.h
+                                               cplusplus/header/qml/pqc_photosphererenderer.h)
 
 # SET(d "cplusplus/qml/other")
 # SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} ${d}/pqc_printtabimageoptions.cpp ${d}/pqc_printtabimagepositiontile.cpp ${d}/pqc_localhttpserver.cpp)

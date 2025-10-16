@@ -21,39 +21,30 @@
  **************************************************************************/
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <QObject>
+#include <QTimerEvent>
+#include <QBasicTimer>
+#include <QNetworkReply>
 
-class PQCAsyncImageResponseThumb;
-
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
-
+class PQCHTTPReplyTimeout : public QObject {
+    Q_OBJECT
+    QBasicTimer m_timer;
 public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
-
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
-
-public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
-
-    QQuickTextureFactory *textureFactory() const override;
-
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
-
-private:
-    PQCAsyncImageResponseThumb *loader;
-
+    PQCHTTPReplyTimeout(QNetworkReply* reply, const int timeout) : QObject(reply) {
+        Q_ASSERT(reply);
+        if (reply && reply->isRunning())
+            m_timer.start(timeout, this);
+    }
+    static void set(QNetworkReply* reply, const int timeout) {
+        new PQCHTTPReplyTimeout(reply, timeout);
+    }
+protected:
+    void timerEvent(QTimerEvent * ev) {
+        if (!m_timer.isActive() || ev->timerId() != m_timer.timerId())
+            return;
+        auto reply = static_cast<QNetworkReply*>(parent());
+        if (reply->isRunning())
+            reply->close();
+        m_timer.stop();
+    }
 };

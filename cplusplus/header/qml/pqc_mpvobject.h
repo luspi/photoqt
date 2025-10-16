@@ -4,6 +4,7 @@
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
+ ** Adapted from: https://github.com/mpv-player/mpv-examples/            **
  **                                                                      **
  ** PhotoQt is free software: you can redistribute it and/or modify      **
  ** it under the terms of the GNU General Public License as published by **
@@ -19,41 +20,69 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#ifndef MPVRENDERER_H_
+#define MPVRENDERER_H_
 
-class PQCAsyncImageResponseThumb;
+#ifdef PQMVIDEOMPV
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+#include <QtQuick/QQuickFramebufferObject>
+
+#include <mpv/client.h>
+#include <mpv/render_gl.h>
+#include <qml/pqc_mpvqthelper.h>
+
+class PQCMPVRenderer;
+
+class PQCMPVObject : public QQuickFramebufferObject {
+
+    Q_OBJECT
+    QML_ELEMENT
+
+    mpv_handle *mpv;
+    mpv_render_context *mpv_gl;
+
+    friend class PQCMPVRenderer;
 
 public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
+    static void on_update(void *ctx);
 
-private:
-    QThreadPool pool;
+    PQCMPVObject(QQuickItem * parent = 0);
+    virtual ~PQCMPVObject();
+    virtual Renderer *createRenderer() const;
+
+public Q_SLOTS:
+    void command(const QVariant& params);
+    void setProperty(const QString& name, const QVariant& value);
+    QVariant getProperty(const QString& name);
+
+Q_SIGNALS:
+    void onUpdate();
+
+private Q_SLOTS:
+    void doUpdate();
 };
 
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+#else
+
+#include <QObject>
+
+class PQCMPVObject : public QObject {
+
+    Q_OBJECT
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    PQCMPVObject(QObject *parent = nullptr) : QObject(parent) {}
 
-    QQuickTextureFactory *textureFactory() const override;
-
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
+    Q_PROPERTY(int width MEMBER m_w);
+    Q_PROPERTY(int height MEMBER m_h);
 
 private:
-    PQCAsyncImageResponseThumb *loader;
+    int m_w;
+    int m_h;
 
 };
+
+#endif
+
+#endif

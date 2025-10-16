@@ -23,6 +23,7 @@
 #include <cpp/pqc_loadimage_qt.h>
 #include <cpp/pqc_imagecache.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QSize>
 #include <QImage>
@@ -77,8 +78,7 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
         if(mime.size() == 2 && mime.at(0) == "image")
             reader.setFormat(mime.at(1).toUtf8());
 
-        // TODO!!!
-        // reader.setAutoTransform(PQCSettingsCPP::get().getMetadataAutoRotation());
+        reader.setAutoTransform(PQCCSettings::get().getMetadataAutoRotation());
 
         bool imgAlreadyLoaded = false;
 
@@ -92,21 +92,20 @@ QSize PQCLoadImageQt::loadSize(QString filename) {
         }
 
         // the reported size is not rotated automatically, we need to take care of this ourselves
-        // TODO!!!
-        // if(PQCSettingsCPP::get().getMetadataAutoRotation()) {
-        //     QImageIOHandler::Transformations trans = reader.transformation();
-        //     switch(trans) {
-        //         case QImageIOHandler::TransformationRotate90:
-        //         case QImageIOHandler::TransformationRotate270:
-        //         case QImageIOHandler::TransformationFlipAndRotate90:
-        //         case QImageIOHandler::TransformationMirrorAndRotate90: {
-        //             origSize = QSize(origSize.height(), origSize.width());
-        //             break;
-        //         }
-        //         default:
-        //             break;
-        //     }
-        // }
+        if(PQCCSettings::get().getMetadataAutoRotation()) {
+            QImageIOHandler::Transformations trans = reader.transformation();
+            switch(trans) {
+                case QImageIOHandler::TransformationRotate90:
+                case QImageIOHandler::TransformationRotate270:
+                case QImageIOHandler::TransformationFlipAndRotate90:
+                case QImageIOHandler::TransformationMirrorAndRotate90: {
+                    origSize = QSize(origSize.height(), origSize.width());
+                    break;
+                }
+                default:
+                    break;
+            }
+        }
 
         return origSize;
 
@@ -175,8 +174,7 @@ QString PQCLoadImageQt::load(QString filename, QSize maxSize, QSize &origSize, Q
         if(mime.size() == 2 && mime.at(0) == "image")
             reader.setFormat(mime.at(1).toUtf8());
 
-        // TODO!!!
-        // reader.setAutoTransform(PQCSettingsCPP::get().getMetadataAutoRotation());
+        reader.setAutoTransform(PQCCSettings::get().getMetadataAutoRotation());
 
         bool imgAlreadyLoaded = false;
 

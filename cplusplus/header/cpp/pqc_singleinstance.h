@@ -28,8 +28,6 @@
 #include <cpp/pqc_commandlineparser.h>
 
 class QQmlApplicationEngine;
-class QLocalServer;
-class QLocalSocket;
 
 // Makes sure only one instance of PhotoQt is running, and enables remote communication
 class PQCSingleInstance : public QApplication {
@@ -57,13 +55,6 @@ private:
 
     bool m_forceModernInterface;
     bool m_forceIntegratedInterface;
-
-    QLocalSocket *m_socket;
-
-    QByteArray composeMessage(QList<CMDActions> msg,
-                           QString receivedFile,
-                           QString receivedShortcut,
-                           QString *receivedSetting);
 
 };
 

@@ -27,6 +27,7 @@
 #include <cpp/pqc_cscriptsimages.h>
 #include <cpp/pqc_loadimage.h>
 #include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QSize>
@@ -194,58 +195,57 @@ QString PQCLoadImageArchive::load(QString filename, QSize maxSize, QSize &origSi
     const QString suffix = info.suffix().toLower();
 
 #ifndef Q_OS_WIN
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
+    if(PQCCSettings::get().getFiletypesExternalUnrar() && (suffix == "cbr" || suffix == "rar")) {
 
-    //     QProcess which;
-    //     which.setStandardOutputFile(QProcess::nullDevice());
-    //     which.start("which", QStringList() << "unrar");
-    //     which.waitForFinished();
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which", QStringList() << "unrar");
+        which.waitForFinished();
 
-    //     if(!which.exitCode()) {
+        if(!which.exitCode()) {
 
-    //         qDebug() << "loading archive with unrar";
+            qDebug() << "loading archive with unrar";
 
-    //         const QString tmpDir = PQCConfigFiles::get().CACHE_DIR()+"/unrar/";
+            const QString tmpDir = PQCConfigFiles::get().CACHE_DIR()+"/unrar/";
 
-    //         QDir dir;
-    //         if(dir.mkpath(tmpDir)) {
+            QDir dir;
+            if(dir.mkpath(tmpDir)) {
 
-    //             QProcess p;
-    //             p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tmpDir);
-    //             p.waitForFinished(15000);
+                QProcess p;
+                p.start("unrar", QStringList() << "x" << "-y" << archivefile << compressedFilename << tmpDir);
+                p.waitForFinished(15000);
 
-    //             PQCLoadImage::get().load(tmpDir + compressedFilename, QSize(-1,-1), origSize, img);
-    //             QDir dir(tmpDir);
-    //             dir.removeRecursively();
+                PQCLoadImage::get().load(tmpDir + compressedFilename, QSize(-1,-1), origSize, img);
+                QDir dir(tmpDir);
+                dir.removeRecursively();
 
-    //             // cache image before potentially scaling it
-    //             if(!img.isNull()) {
-    //                 PQCScriptsColorProfiles::get().applyColorProfile(filename, img);
-    //                 PQCImageCache::get().saveImageToCache(filename, PQCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
-    //             }
+                // cache image before potentially scaling it
+                if(!img.isNull()) {
+                    PQCCScriptsColorProfiles::get().applyColorProfile(filename, img);
+                    PQCImageCache::get().saveImageToCache(filename, PQCCScriptsColorProfiles::get().getColorProfileFor(filename), &img);
+                }
 
-    //             // Scale image if necessary
-    //             if(maxSize.width() != -1) {
+                // Scale image if necessary
+                if(maxSize.width() != -1) {
 
-    //                 QSize finalSize = origSize;
+                    QSize finalSize = origSize;
 
-    //                 if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
-    //                     finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
+                    if(finalSize.width() > maxSize.width() || finalSize.height() > maxSize.height())
+                        finalSize = finalSize.scaled(maxSize, Qt::KeepAspectRatio);
 
-    //                 img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                    img = img.scaled(finalSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
-    //             }
+                }
 
-    //             return "";
+                return "";
 
-    //         } else
-    //             qWarning() << "unable to create temporary folder for unrar target:" << tmpDir;
+            } else
+                qWarning() << "unable to create temporary folder for unrar target:" << tmpDir;
 
-    //     } else
-    //         qWarning() << "unrar was not found in system path";
+        } else
+            qWarning() << "unrar was not found in system path";
 
-    // }
+    }
 #endif
 
     // Create new archive handler

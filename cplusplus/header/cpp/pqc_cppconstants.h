@@ -55,6 +55,9 @@ public:
     void setDebugMode(bool dbg) { m_debugMode = dbg; }
     bool getDebugMode() { return m_debugMode; }
 
+    void setCurrentFile(QString fle) { m_currentFile = fle; }
+    QString getCurrentFile() { return m_currentFile; }
+
     void setStartupMessage(QByteArray msg) { m_startupMessage = msg; }
     QByteArray getStartupMessage() { return m_startupMessage; }
 
@@ -64,10 +67,12 @@ private:
         m_startupMessage = "";
 
         m_debugMode = false;
+        m_currentFile = "";
     }
 
     QByteArray m_startupMessage;
 
     bool m_debugMode;
+    QString m_currentFile;
 
 };

@@ -19,41 +19,47 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#ifndef PQC_PHOTOSPHERERENDERER
+#define PQC_PHOTOSPHERERENDERER
 
-class PQCAsyncImageResponseThumb;
+#ifdef PQMPHOTOSPHERE
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+#include <QQuickFramebufferObject>
+#include <QMatrix4x4>
 
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
+#include <qml/pqc_photosphere.h>
+#include <qml/pqc_photosphereitem.h>
 
-private:
-    QThreadPool pool;
-};
+class QOpenGLShaderProgram;
+class QOpenGLTexture;
 
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+class PQCPhotoSphereRenderer : public QQuickFramebufferObject::Renderer {
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    PQCPhotoSphereRenderer();
+    ~PQCPhotoSphereRenderer();
 
-    QQuickTextureFactory *textureFactory() const override;
+    QOpenGLFramebufferObject *createFramebufferObject(const QSize &size) override;
 
-    void run() override;
-    void loadImage();
+    void render() override;
 
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
+    void synchronize(QQuickFramebufferObject *item) override;
 
-    QMimeDatabase mimedb;
+    QOpenGLShaderProgram *shader;
+    QQuickWindow* window;
 
-private:
-    PQCAsyncImageResponseThumb *loader;
+    QByteArray source;
+    QByteArray oldSource;
+
+    QOpenGLFramebufferObject *frameBufferObject;
+    QMatrix4x4 theMatrix;
+
+    PQCPhotoSphereItem sphere;
+    QOpenGLTexture *texturePhotoSphere;
 
 };
+
+#endif
+
+#endif

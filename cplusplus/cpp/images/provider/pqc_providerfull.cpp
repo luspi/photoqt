@@ -22,6 +22,7 @@
 
 #include <cpp/pqc_providerfull.h>
 #include <cpp/pqc_loadimage.h>
+#include <cpp/pqc_cscriptsfilespaths.h>
 
 #include <QFileInfo>
 #include <QApplication>
@@ -40,8 +41,7 @@ QImage PQCProviderFull::requestImage(const QString &url, QSize *origSize, const 
     qDebug() << "args: url =" << url;
     qDebug() << "args: requestedSize =" << requestedSize;
 
-    // TODO!!!
-    QString filename = url;//PQCScriptsFilesPaths::get().cleanPath(QByteArray::fromPercentEncoding(url.toUtf8()));
+    QString filename = PQCCScriptsFilesPaths::get().cleanPath(QByteArray::fromPercentEncoding(url.toUtf8()));
 
     QString filenameForChecking = filename;
     if(filenameForChecking.contains("::PDF::"))

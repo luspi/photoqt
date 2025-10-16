@@ -21,39 +21,26 @@
  **************************************************************************/
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <QObject>
+#include <QVariant>
 
-class PQCAsyncImageResponseThumb;
-
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+class PQCExtensionActions {
 
 public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
+    virtual ~PQCExtensionActions() = default;
 
-private:
-    QThreadPool pool;
-};
+    /////////////////////////////////////////
 
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+    // do something, but the actual image is not needed
+    virtual QVariant action1(QString filepath, QVariant additional = QVariant()) = 0;
+    virtual QVariant action2(QString filepath, QVariant additional = QVariant()) = 0;
 
-public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    // do something and also provide me with the image
+    virtual QVariant actionWithImage1(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
+    virtual QVariant actionWithImage2(QString filepath, QImage &img, QVariant additional = QVariant()) = 0;
 
-    QQuickTextureFactory *textureFactory() const override;
-
-    void run() override;
-    void loadImage();
-
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
-
-private:
-    PQCAsyncImageResponseThumb *loader;
 
 };
+
+#define PhotoQt_IID "org.photoqt.PhotoQt"
+Q_DECLARE_INTERFACE(PQCExtensionActions, PhotoQt_IID)

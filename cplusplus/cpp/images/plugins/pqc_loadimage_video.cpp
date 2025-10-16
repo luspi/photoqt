@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <cpp/pqc_loadimage_video.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QImage>
 #include <QImageReader>
@@ -35,8 +36,7 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
 
 #ifdef Q_OS_LINUX
 
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
+    if(PQCCSettings::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
 
         // the temp image thumbnail path (incl random int)
         QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
@@ -59,18 +59,17 @@ QSize PQCLoadImageVideo::loadSize(QString filename) {
         // store in return variable
         return orig;
 
-    // } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
+    } else if(PQCCSettings::get().getFiletypesVideoThumbnailer() == "") {
 
 #endif
 
-        // return QSize();
+        return QSize();
 
 #ifdef Q_OS_LINUX
 
-    // }
+    }
 
-        // TODO!!!
-        qWarning() << "Unknown video thumbnailer used:" << "";//PQCSettingsCPP::get().getFiletypesVideoThumbnailer();;
+    qWarning() << "Unknown video thumbnailer used:" << PQCCSettings::get().getFiletypesVideoThumbnailer();;
     return QSize();
 
 #endif
@@ -86,8 +85,7 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
 #ifdef Q_OS_LINUX
 
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
+    if(PQCCSettings::get().getFiletypesVideoThumbnailer() == "ffmpegthumbnailer") {
 
         // the temp image thumbnail path (incl random int)
         QString tmp_path = QString("%1/photoqt_videothumb_%2.jpg").arg(QDir::tempPath()).arg(rand());
@@ -127,8 +125,7 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
         // store in return variable
         return "";
 
-    // TODO!!!
-    // } else if(PQCSettingsCPP::get().getFiletypesVideoThumbnailer() == "") {
+    } else if(PQCCSettings::get().getFiletypesVideoThumbnailer() == "") {
 
 #endif
 
@@ -138,10 +135,9 @@ QString PQCLoadImageVideo::load(QString filename, QSize maxSize, QSize &origSize
 
 #ifdef Q_OS_LINUX
 
-    // }
+    }
 
-    // TODO!!!
-    errormsg = "Unknown video thumbnailer used: ";// + PQCSettingsCPP::get().getFiletypesVideoThumbnailer();
+    errormsg = "Unknown video thumbnailer used: " + PQCCSettings::get().getFiletypesVideoThumbnailer();
     qWarning() << errormsg;
     return errormsg;
 

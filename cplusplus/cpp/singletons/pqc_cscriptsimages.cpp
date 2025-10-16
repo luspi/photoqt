@@ -1,5 +1,6 @@
 #include <cpp/pqc_cscriptsimages.h>
 #include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QtDebug>
 #include <QIcon>
@@ -7,6 +8,7 @@
 #include <QBuffer>
 #include <QFileInfo>
 #include <QCollator>
+#include <QProcess>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -87,56 +89,53 @@ QStringList PQCCScriptsImages::listArchiveContentWithoutThread(QString path, QSt
     if(cacheKey == "") {
         cacheKey = QString("%1::%2::%3::%4").arg(info.lastModified().toMSecsSinceEpoch())
                                             .arg(path)
-                                            .arg(true)
-                                            // TODO!!!
-                                            // .arg(PQCSettingsCPP::get().getImageviewSortImagesAscending())
+                                            .arg(PQCCSettings::get().getImageviewSortImagesAscending())
                                             .arg(insideFilenameOnly);
     }
 
 #ifndef Q_OS_WIN
 
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getFiletypesExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
+    if(PQCCSettings::get().getFiletypesExternalUnrar() && (info.suffix() == "cbr" || info.suffix() == "rar")) {
 
-    //     QProcess which;
-    //     which.setStandardOutputFile(QProcess::nullDevice());
-    //     which.start("which", QStringList() << "unrar");
-    //     which.waitForFinished();
+        QProcess which;
+        which.setStandardOutputFile(QProcess::nullDevice());
+        which.start("which", QStringList() << "unrar");
+        which.waitForFinished();
 
-    //     if(!which.exitCode()) {
+        if(!which.exitCode()) {
 
-    //         QProcess p;
-    //         p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
+            QProcess p;
+            p.start("unrar", QStringList() << "lb" << info.absoluteFilePath());
 
-    //         if(p.waitForStarted()) {
+            if(p.waitForStarted()) {
 
-    //             QByteArray outdata = "";
+                QByteArray outdata = "";
 
-    //             while(p.waitForReadyRead())
-    //                 outdata.append(p.readAll());
+                while(p.waitForReadyRead())
+                    outdata.append(p.readAll());
 
-    //             auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
-    //             QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
+                auto toUtf16 = QStringDecoder(QStringDecoder::Utf8);
+                QStringList allfiles = QString(toUtf16(outdata)).split('\n', Qt::SkipEmptyParts);
 
-    //             allfiles.sort();
+                allfiles.sort();
 
-    //             if(insideFilenameOnly) {
-    //                 for(const QString &f : std::as_const(allfiles)) {
-    //                     if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
-    //                         ret.append(f);
-    //                 }
-    //             } else {
-    //                 for(const QString &f : std::as_const(allfiles)) {
-    //                     if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
-    //                         ret.append(QString("%1::ARC::%2").arg(f, path));
-    //                 }
-    //             }
+                if(insideFilenameOnly) {
+                    for(const QString &f : std::as_const(allfiles)) {
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
+                            ret.append(f);
+                    }
+                } else {
+                    for(const QString &f : std::as_const(allfiles)) {
+                        if(PQCImageFormats::get().getEnabledFormats().contains(QFileInfo(f).suffix().toLower()))
+                            ret.append(QString("%1::ARC::%2").arg(f, path));
+                    }
+                }
 
-    //         }
+            }
 
-    //     }
+        }
 
-    // }
+    }
 
     // this either means there is nothing in that archive
     // or something went wrong above with unrar
@@ -211,11 +210,10 @@ QStringList PQCCScriptsImages::listArchiveContentWithoutThread(QString path, QSt
     collator.setNumericMode(true);
 #endif
 
-    // TODO!!!
-    // if(PQCSettingsCPP::get().getImageviewSortImagesAscending())
+    if(PQCCSettings::get().getImageviewSortImagesAscending())
         std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file1, file2) < 0; });
-    // else
-        // std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
+    else
+        std::sort(ret.begin(), ret.end(), [&collator](const QString &file1, const QString &file2) { return collator.compare(file2, file1) < 0; });
 
     archiveContentCache.insert(cacheKey, ret);
 

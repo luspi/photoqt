@@ -32,6 +32,11 @@
 #include <cpp/pqc_singleinstance.h>
 #include <cpp/pqc_startuphandler.h>
 #include <cpp/pqc_validate.h>
+#include <cpp/pqc_csettings.h>
+#include <cpp/pqc_cscriptsshareimgur.h>
+
+#include <cpp/pqc_extensionsettings.h>
+#include <cpp/pqc_extensionshandler.h>
 
 #include <cpp/pqc_providericon.h>
 #include <cpp/pqc_providertheme.h>
@@ -228,8 +233,7 @@ int main(int argc, char** argv) {
             qWarning() << "Unable to update value generalInterfaceVariant:" << query.lastError().text();
         query.clear();
         dbtmp.close();
-        // TODO!!!
-        // PQCSettingsCPP::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
+        PQCCSettings::get().forceInterfaceVariant((useModernInterface ? "modern" : "integrated"));
     }
 
     /***************************************/
@@ -283,6 +287,12 @@ int main(int argc, char** argv) {
     engine.addImageProvider("imgurhistory", new PQCAsyncImageProviderImgurHistory);
     engine.addImageProvider("svg", new PQCProviderSVG);
     engine.addImageProvider("svgcolor", new PQCProviderSVGColor);
+
+    // These only need to be imported where needed
+    qmlRegisterSingletonInstance("PQCScriptsShareImgur", 1, 0, "PQCScriptsShareImgur", &PQCCScriptsShareImgur::get());
+    qmlRegisterSingletonInstance("PQCExtensionsHandler", 1, 0, "PQCExtensionsHandler", &PQCExtensionsHandler::get());
+    // the extension settings item
+    qmlRegisterType<ExtensionSettings>("ExtensionSettings", 1, 0, "ExtensionSettings");
 
 #if QT_VERSION >= QT_VERSION_CHECK(6, 5, 0)
     if(useModernInterface)

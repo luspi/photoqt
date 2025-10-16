@@ -24,6 +24,9 @@
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_providericon.h>
 #include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_csettings.h>
+#include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_cscriptsfilespaths.h>
 
 #include <QPainter>
 #include <QPainterPath>
@@ -32,8 +35,7 @@
 QQuickImageResponse *PQCAsyncImageProviderDragThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseDragThumb *response = new PQCAsyncImageResponseDragThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
-    // TODO!!!
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,8));//PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCCSettings::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
     return response;
 }
@@ -60,11 +62,10 @@ void PQCAsyncImageResponseDragThumb::run() {
         PQCProviderIcon provider;
         m_image = provider.requestImage("folder_listicon", new QSize, QSize(128,128));
 
-    // TODO!!!
-    // } else if(PQCScriptsFilesPaths::get().isExcludeDirFromCaching(m_path)) {
+    } else if(PQCCScriptsFilesPaths::get().isExcludeDirFromCaching(m_path)) {
 
-    //     PQCProviderIcon provider;
-    //     m_image = provider.requestImage(m_path, new QSize, QSize(128,128));
+        PQCProviderIcon provider;
+        m_image = provider.requestImage(m_path, new QSize, QSize(128,128));
 
     } else {
 

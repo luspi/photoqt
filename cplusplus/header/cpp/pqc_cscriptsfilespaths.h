@@ -21,39 +21,36 @@
  **************************************************************************/
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <QObject>
+#include <QTimer>
 
-class PQCAsyncImageResponseThumb;
+class PQCCScriptsFilesPaths : public QObject {
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
-
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
-
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+    Q_OBJECT
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    static PQCCScriptsFilesPaths& get() {
+        static PQCCScriptsFilesPaths instance;
+        return instance;
+    }
 
-    QQuickTextureFactory *textureFactory() const override;
+    PQCCScriptsFilesPaths(PQCCScriptsFilesPaths const&) = delete;
+    void operator=(PQCCScriptsFilesPaths const&) = delete;
 
-    void run() override;
-    void loadImage();
+    QString cleanPath(QString path);
+    QString cleanPath_windows(QString path);
 
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
+    bool isExcludeDirFromCaching(QString filename);
+    bool doesItExist(QString path);
+    bool isOnNetwork(QString filename);
 
 private:
-    PQCAsyncImageResponseThumb *loader;
+    PQCCScriptsFilesPaths();
+
+    QTimer m_networkSharesTimer;
+    QStringList m_networkshares;
+
+private Q_SLOTS:
+    void detectNetworkShares();
 
 };

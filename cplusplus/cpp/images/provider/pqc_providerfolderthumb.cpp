@@ -23,6 +23,8 @@
 #include <cpp/pqc_providerfolderthumb.h>
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_csettings.h>
+#include <cpp/pqc_cscriptsfilespaths.h>
 
 #include <QPainter>
 #include <QImage>
@@ -32,8 +34,7 @@
 QQuickImageResponse *PQCAsyncImageProviderFolderThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {
 
     PQCAsyncImageResponseFolderThumb *response = new PQCAsyncImageResponseFolderThumb(url, ((requestedSize.isValid() && !requestedSize.isNull()) ? requestedSize : QSize(256,256)));
-    // TODO!!!
-    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,9));//PQCSettingsCPP::get().getThumbnailsMaxNumberThreads()));
+    QThreadPool::globalInstance()->setMaxThreadCount(qMax(1,PQCCSettings::get().getThumbnailsMaxNumberThreads()));
     pool.start(response);
     return response;
 }
@@ -81,8 +82,7 @@ QQuickTextureFactory *PQCAsyncImageResponseFolderThumb::textureFactory() const {
 
 void PQCAsyncImageResponseFolderThumb::run() {
 
-    // TODO!!!
-    if(m_index == 0) {// || PQCScriptsFilesPaths::get().isExcludeDirFromCaching(m_folder)) {
+    if(m_index == 0 || PQCCScriptsFilesPaths::get().isExcludeDirFromCaching(m_folder)) {
         m_image = QImage(QSize(1,1), QImage::Format_ARGB32);
         Q_EMIT finished();
         return;

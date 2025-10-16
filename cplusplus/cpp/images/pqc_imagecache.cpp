@@ -21,6 +21,7 @@
  **************************************************************************/
 
 #include <cpp/pqc_imagecache.h>
+#include <cpp/pqc_csettings.h>
 
 #include <QCache>
 #include <QCryptographicHash>
@@ -33,8 +34,7 @@ PQCImageCache &PQCImageCache::get() {
 }
 
 PQCImageCache::PQCImageCache(QObject *parent) : QObject(parent) {
-    // TODO!!!
-    maxcost = 1000;//PQCSettingsCPP::get().getImageviewCache();
+    maxcost = PQCCSettings::get().getImageviewCache();
     cache = new QCache<QString,QImage>;
     cache->setMaxCost(maxcost);
     // TODO!!!

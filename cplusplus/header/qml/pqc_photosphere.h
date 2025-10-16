@@ -19,39 +19,75 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QObject>
+#ifndef PQPHOTOSPHERE_H
+#define PQPHOTOSPHERE_H
 
-class QLocalServer;
+// This is the QML type
 
-class PQCCDbusServer : public QObject {
+#ifdef PQMPHOTOSPHERE
+#include <QQuickFramebufferObject>
+
+class PQCPhotoSphere : public QQuickFramebufferObject {
+#else
+#include <QQuickItem>
+
+class PQCPhotoSphere : public QQuickItem {
+#endif
 
     Q_OBJECT
+    QML_ELEMENT
 
 public:
-    static PQCCDbusServer& get() {
-        static PQCCDbusServer instance;
-        return instance;
-    }
+    PQCPhotoSphere(QQuickItem *parent = nullptr);
 
-    PQCCDbusServer(PQCCDbusServer const&) = delete;
-    void operator=(PQCCDbusServer const&) = delete;
+    Q_PROPERTY(double azimuth READ getAzimuth WRITE setAzimuth NOTIFY azimuthChanged)
+    double getAzimuth();
+    void setAzimuth(double azimuth);
 
-    void sendMessage(QString what, QString message);
-    bool hasExistingServer() { return m_existingServer; }
+    Q_PROPERTY(double elevation READ getElevation WRITE setElevation NOTIFY elevationChanged)
+    double getElevation();
+    void setElevation(double elevation);
 
-private:
-    PQCCDbusServer();
-    ~PQCCDbusServer();
+    Q_PROPERTY(double fieldOfView READ getFieldOfView WRITE setFieldOfView NOTIFY fieldOfViewChanged)
+    double getFieldOfView();
+    void setFieldOfView(double fieldOfView);
 
-    QLocalServer *m_server;
-    bool m_existingServer;
+    Q_PROPERTY(QString source READ getSource WRITE setSource NOTIFY sourceChanged)
+    QString getSource();
+    void setSource(QString path);
 
-private Q_SLOTS:
-    void handleConnection();
+    QByteArray getImage();
+    bool getPartial();
+    QSize getCroppedSize();
+    QSize getFullSize();
 
 Q_SIGNALS:
-    void performAction(QString what, QStringList args);
+    void azimuthChanged();
+    void elevationChanged();
+    void fieldOfViewChanged();
+    void sourceChanged();
+
+protected:
+#ifdef PQMPHOTOSPHERE
+    QSGNode *updatePaintNode(QSGNode *oldNode, UpdatePaintNodeData *data) override;
+    Renderer *createRenderer() const override;
+    void updateSphere();
+#endif
+
+private:
+    QByteArray image;
+    bool partial;
+    QSize croppedSize;
+    QSize fullSize;
+
+    double m_azimuth;
+    double m_elevation;
+    double m_fieldOfView;
+    QString m_imageUrl;
+
+    bool recreateRenderer = false;
 
 };
+
+#endif // PQPHOTOSPHERE_H

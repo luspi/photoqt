@@ -22,6 +22,7 @@
 
 #include <cpp/pqc_commandlineparser.h>
 #include <cpp/pqc_singleinstance.h>
+#include <cpp/pqc_cdbusserver.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QKeyEvent>
@@ -30,8 +31,6 @@
 #include <thread>
 
 #include <QQmlApplicationEngine>
-#include <QLocalSocket>
-#include <QLocalServer>
 #include <QSqlError>
 #include <QSqlQuery>
 
@@ -41,12 +40,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     PQCCommandLineParser parser(*this);
     PQCCommandLineResult result = parser.getResult();
 
-    QList<CMDActions> msg;
-    QString receivedFile = "";
-    QString receivedShortcut = "";
-    QString receivedSetting[2] = {"", ""};
-
-    m_socket = nullptr;
+    QStringList msg;
 
     m_forceModernInterface = false;
     m_forceIntegratedInterface = false;
@@ -56,50 +50,50 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             QString ff = f;
             if(!QFileInfo(ff).isAbsolute())
                 ff = QDir::currentPath() + "/" + ff;
-            msg << CMDActions::File;
-            receivedFile = QFileInfo(ff).canonicalFilePath();
+            msg << ":::FILE:::";
+            msg << QFileInfo(ff).canonicalFilePath();
         }
     }
 
     if(result & PQCCommandLineOpen) {
-        msg << CMDActions::Open;
+        msg << ":::OPEN:::";
     }
 
     if(result & PQCCommandLineShow) {
-        msg << CMDActions::Show;
+        msg << ":::SHOW:::";
     }
 
     if(result & PQCCommandLineHide) {
-        msg << CMDActions::Hide;
+        msg << ":::HIDE:::";
     }
 
     if(result & PQCCommandLineQuit) {
-        msg << CMDActions::Quit;
+        msg << ":::QUIT:::";
     }
 
     if(result & PQCCommandLineToggle) {
-        msg << CMDActions::Toggle;
+        msg << ":::TOGGLE:::";
     }
 
     if(result & PQShortcutSequence) {
-        msg << CMDActions::Shortcut;
-        receivedShortcut = parser.shortcutSequence;
+        msg << ":::SHORTCUT:::";
+        msg << parser.shortcutSequence;
     }
 
     if(result & PQCCommandLineStartInTray)
-        msg << CMDActions::StartInTray;
+        msg << ":::STARTINTRAY:::";
 
     if(result & PQCCommandLineEnableTray)
-        msg << CMDActions::Tray;
+        msg << ":::TRAY:::";
 
     if(result & PQCCommandLineDisableTray)
-        msg << CMDActions::NoTray;
+        msg << ":::NOTRAY:::";
 
     if(result & PQCCommandLineDebug)
-        msg << CMDActions::Debug;
+        msg << ":::DEBUG:::";
 
     if(result & PQCCommandLineNoDebug)
-        msg << CMDActions::NoDebug;
+        msg << ":::NODEBUG:::";
 
     if(result & PQCCommandLineModernInterface)
         m_forceModernInterface = true;
@@ -108,16 +102,15 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         m_forceIntegratedInterface = true;
 
     if(result & PQCCommandLineSettingUpdate) {
-        receivedSetting[0] = parser.settingUpdate[0];
-        receivedSetting[1] = parser.settingUpdate[1];
-        msg << CMDActions::Setting;
+        msg << ":::SETTING:::";
+        msg << parser.settingUpdate[0];
+        msg << parser.settingUpdate[1];
     }
 
     // validation requested
     m_checkConfig = false;
     if(result & PQCCommandLineCheckConfig) {
         m_checkConfig = true;
-        m_socket = new QLocalSocket();
         return;
     }
 
@@ -125,7 +118,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     m_resetConfig = false;
     if(result & PQCCommandLineResetConfig) {
         m_resetConfig = true;
-        m_socket = new QLocalSocket();
         return;
     }
 
@@ -133,7 +125,6 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     m_showInfo = false;
     if(result & PQCCommandLineShowInfo) {
         m_showInfo = true;
-        m_socket = new QLocalSocket();
         return;
     }
 
@@ -142,14 +133,12 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     m_exportAndQuit = "";
     if(result & PQCCommandLineExport) {
         m_exportAndQuit = parser.exportFileName;
-        m_socket = new QLocalSocket();
         return;
     }
 
     m_importAndQuit = "";
     if(result & PQCCommandLineImport) {
         m_importAndQuit = parser.importFileName;
-        m_socket = new QLocalSocket();
         return;
     }
 
@@ -179,7 +168,7 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
             else {
                 if(query.next()) {
                     if(query.value(0).toBool()) {
-                        PQCCPPConstants::get().setStartupMessage(composeMessage(msg, receivedFile, receivedShortcut, receivedSetting));
+                        PQCCPPConstants::get().setStartupMessage(msg.join("\n").toUtf8());
                         query.clear();
                         dbtmp.close();
                         return;
@@ -195,21 +184,21 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
     /* Server/Socket */
     /*****************/
 
-    // Create server name
-    QString server_str = "org.photoqt.PhotoQt.QML";
-
-    // Connect to a Local Server (if available)
-    m_socket = new QLocalSocket();
-    m_socket->connectToServer(server_str);
-
-    // If this is successful, then an instance is already running
-    if(m_socket->waitForConnected(100)) {
+    if(PQCCDbusServer::get().hasExistingServer()) {
 
         if(msg.size() == 0)
-            msg << CMDActions::Show;
+            msg << ":::SHOW:::";
 
-        m_socket->write(composeMessage(msg, receivedFile, receivedShortcut, receivedSetting));
-        m_socket->flush();
+        if(qApp->platformName() == "wayland") {
+
+            QString token = qgetenv("XDG_ACTIVATION_TOKEN");
+            if(!token.isEmpty()) {
+                msg << ":::TOKEN:::";
+                msg << token;
+            }
+        }
+
+        PQCCDbusServer::get().sendMessage("startup", msg.join("\n"));
 
         // Inform user
         std::cout << "Running instance of PhotoQt detected, connecting to existing instance." << std::endl;
@@ -218,46 +207,25 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
         // We wait 100ms as otherwise this instance might return as a crash (even though it doesn't really)
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
         std::exit(0);
+        return;
 
-    } else
-        PQCCPPConstants::get().setStartupMessage(composeMessage(msg, receivedFile, receivedShortcut, receivedSetting));
+    } else {
 
-}
+        if(qApp->platformName() == "wayland") {
 
-QByteArray PQCSingleInstance::composeMessage(QList<CMDActions> msg, QString receivedFile, QString receivedShortcut, QString *receivedSetting) {
+            QString token = qgetenv("XDG_ACTIVATION_TOKEN");
+            if(!token.isEmpty()) {
+                msg << ":::TOKEN:::";
+                msg << token;
+            }
+        }
 
-    if(msg.size() == 0)
-        msg << CMDActions::Show;
+        PQCCDbusServer::get().sendMessage("startup", msg.join("\n"));
+        // TODO!!! Is this still needed?
+        // PQCCPPConstants::get().setStartupMessage(composeMessage(msg, receivedFile, receivedShortcut, receivedSetting));
 
-    QList<QByteArray> retMsg;
-
-    if(qApp->platformName() == "wayland") {
-
-        retMsg.reserve(msg.size()+1);
-
-        QString token = qgetenv("XDG_ACTIVATION_TOKEN");
-        if(!token.isEmpty())
-            retMsg.append(QStringLiteral("_T_O_K_E_N_%1\n").arg(token).toUtf8());
-
-    } else
-        retMsg.reserve(msg.size());
-
-    for(const CMDActions &i : std::as_const(msg)) {
-        retMsg.append(QString::number(static_cast<int>(i)).toUtf8());
     }
 
-    if(receivedFile != "")
-        retMsg.append(QStringLiteral("_F_I_L_E_%1\n").arg(receivedFile).toUtf8());
-    if(receivedShortcut != "")
-        retMsg.append(QStringLiteral("_S_H_O_R_T_C_U_T_%1\n").arg(receivedShortcut).toUtf8());
-    if(receivedSetting[0] != "")
-        retMsg.append(QStringLiteral("_S_E_T_T_I_N_G_%1:%2\n").arg(receivedSetting[0], receivedSetting[1]).toUtf8());
-
-    return retMsg.join('\n');
-
 }
 
-PQCSingleInstance::~PQCSingleInstance() {
-    if(m_socket != nullptr)
-        delete m_socket;
-}
+PQCSingleInstance::~PQCSingleInstance() {}

@@ -569,6 +569,7 @@ endmacro()
 pqt_target_compile_definitions(PQMVERSION "${APPVERSION}")
 
 # set header files as include files
+pqt_target_include_directories("cplusplus/")
 pqt_target_include_directories("cplusplus/header")
 pqt_target_include_directories("cplusplus/header/qml")  # this is needed for the qml processor to find all the singletons
 

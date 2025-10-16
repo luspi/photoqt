@@ -19,41 +19,54 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+
 #pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#include <QSettings>
+#include <QQmlEngine>
+#include <QQmlPropertyMap>
 
-class PQCAsyncImageResponseThumb;
+class QFileSystemWatcher;
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+class ExtensionSettings : public QQmlPropertyMap {
 
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
-
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+    Q_OBJECT
+    QML_ELEMENT
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
+    ExtensionSettings(QObject *parent = nullptr);
+    ExtensionSettings(QString extensionId, QObject *parent = nullptr);
+    ~ExtensionSettings();
 
-    QQuickTextureFactory *textureFactory() const override;
+    Q_PROPERTY(QString extensionId MEMBER m_extensionId NOTIFY extensionIdChanged)
+    Q_INVOKABLE QVariant getDefaultFor(const QString &key);
 
-    void run() override;
-    void loadImage();
+    Q_PROPERTY(int status MEMBER m_status NOTIFY statusChanged)
+    Q_PROPERTY(int Ready READ getReady CONSTANT)
+    Q_PROPERTY(int Loading READ getLoading CONSTANT)
+    const int getReady() { return 1; }
+    const int getLoading() { return 0; }
 
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
+    QMap<QString, QVariant> defaultValues;
 
 private:
-    PQCAsyncImageResponseThumb *loader;
+    QString m_extensionId;
+
+    QSettings *set;
+    QString m_setPath;
+    int m_status;
+    int m_Ready;
+    int m_Loading;
+
+    QFileSystemWatcher *watcher;
+    void readFile();
+
+private Q_SLOTS:
+    void setup();
+    void saveExtensionValue(const QString &key, const QVariant &value);
+
+Q_SIGNALS:
+    void extensionIdChanged();
+    void statusChanged();
 
 };

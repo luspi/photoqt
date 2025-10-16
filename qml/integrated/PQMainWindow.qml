@@ -249,6 +249,10 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
+        console.warn(">>>>> 111")
+        PQDbusLayer.setup()
+        console.warn(">>>>> 222")
+
         PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)

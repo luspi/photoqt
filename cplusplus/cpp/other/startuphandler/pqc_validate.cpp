@@ -22,6 +22,7 @@
 
 #include <cpp/pqc_validate.h>
 #include <cpp/pqc_cscriptsimages.h>
+#include <cpp/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QtSql/QSqlDatabase>
@@ -37,11 +38,9 @@ bool PQCValidate::validate() {
               << "PhotoQt v" << PQMVERSION << std::endl
               << " > Validating configuration... " << std::endl;
 
-    // TODO!!!
-    const QString thumbnails_cache_basedir = "";
-    // const QString thumbnails_cache_basedir = (PQCSettingsCPP::get().getThumbnailsCacheBaseDirDefault() ?
-    //                                               "" :
-    //                                               PQCSettingsCPP::get().getThumbnailsCacheBaseDirLocation());
+    const QString thumbnails_cache_basedir = (PQCCSettings::get().getThumbnailsCacheBaseDirDefault() ?
+                                                  "" :
+                                                  PQCCSettings::get().getThumbnailsCacheBaseDirLocation());
 
     bool success = true;
 

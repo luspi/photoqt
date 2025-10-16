@@ -19,41 +19,37 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QQuickAsyncImageProvider>
-#include <QThreadPool>
-#include <QMimeDatabase>
+#ifndef PQC_PHOTOSPHERE
+#define PQC_PHOTOSPHERE
 
-class PQCAsyncImageResponseThumb;
+#ifdef PQMPHOTOSPHERE
 
-class PQCAsyncImageProviderTooltipThumb : public QQuickAsyncImageProvider {
+#include <QVector3D>
+#include <QOpenGLBuffer>
+#include <QOpenGLVertexArrayObject>
 
-public:
-    QQuickImageResponse *requestImageResponse(const QString &url, const QSize &requestedSize) override;
-
-private:
-    QThreadPool pool;
-};
-
-class PQCAsyncImageResponseTooltipThumb : public QQuickImageResponse, public QRunnable {
+class PQCPhotoSphereItem {
 
 public:
-    PQCAsyncImageResponseTooltipThumb(const QString &url, const QSize &requestedSize);
-    ~PQCAsyncImageResponseTooltipThumb();
 
-    QQuickTextureFactory *textureFactory() const override;
+    PQCPhotoSphereItem();
 
-    void run() override;
-    void loadImage();
+    void setup();
+    void drawSphere();
 
-    QString m_url;
-    QSize m_requestedSize;
-    QImage m_image;
-
-    QMimeDatabase mimedb;
+    QOpenGLVertexArrayObject vertexArrowObject;
+    QOpenGLBuffer vertexDataBuffer;
+    QOpenGLBuffer textureCoordinateBuffer;
+    QVector<QVector3D> sphereVertices;
+    QVector<QVector2D> textureCoords;
 
 private:
-    PQCAsyncImageResponseThumb *loader;
+    bool isSetup = false;
 
 };
+
+#endif
+
+#endif
+
