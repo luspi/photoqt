@@ -20,10 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage_unrar.h>
-#include <pqc_imagecache.h>
-#include <pqc_cscriptscolorprofiles.h>
-#include <pqc_cscriptsimages.h>
+#include <cpp/pqc_loadimage_unrar.h>
+#include <cpp/pqc_imagecache.h>
+#include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_cscriptsimages.h>
+
 #include <QSize>
 #include <QImage>
 #include <QtDebug>

@@ -1,5 +1,6 @@
-#include <pqc_cscriptscolorprofiles.h>
-#include <pqc_configfiles.h>
+#include <cpp/pqc_cscriptscolorprofiles.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QtDebug>
 
 PQCCScriptsColorProfiles::PQCCScriptsColorProfiles() {

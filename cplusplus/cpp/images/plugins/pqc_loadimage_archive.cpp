@@ -20,14 +20,14 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage.h>
-#include <pqc_loadimage_archive.h>
-#include <pqc_imagecache.h>
-#include <pqc_cscriptscolorprofiles.h>
-#include <pqc_cscriptsimages.h>
-#include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
-#include <pqc_imageformats.h>
+#include <cpp/pqc_loadimage.h>
+#include <cpp/pqc_loadimage_archive.h>
+#include <cpp/pqc_imagecache.h>
+#include <cpp/pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_cscriptsimages.h>
+#include <cpp/pqc_loadimage.h>
+#include <cpp/pqc_imageformats.h>
+#include <shared/pqc_configfiles.h>
 
 #include <QSize>
 #include <QtDebug>

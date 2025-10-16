@@ -20,11 +20,12 @@
  **                                                                      **
  **************************************************************************/
 
+#include <cpp/pqc_imagecache.h>
+
 #include <QCache>
 #include <QCryptographicHash>
 #include <QFileInfo>
 #include <QImage>
-#include <pqc_imagecache.h>
 
 PQCImageCache &PQCImageCache::get() {
     static PQCImageCache instance;

@@ -20,8 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providerfull.h>
-#include <pqc_loadimage.h>
+#include <cpp/pqc_providerfull.h>
+#include <cpp/pqc_loadimage.h>
+
 #include <QFileInfo>
 #include <QApplication>
 #include <QColorSpace>

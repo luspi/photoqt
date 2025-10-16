@@ -20,7 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage_resvg.h>
+#include <cpp/pqc_loadimage_resvg.h>
+
 #include <QSize>
 #include <QImage>
 #include <QtDebug>

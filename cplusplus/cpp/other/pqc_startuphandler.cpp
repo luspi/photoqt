@@ -20,13 +20,13 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_startuphandler.h>
-#include <pqc_configfiles.h>
-#include <pqc_validate.h>
-#include <pqc_migratesettings.h>
-#include <pqc_migrateshortcuts.h>
-#include <pqc_wizard.h>
-#include <pqc_cscriptsconfig.h>
+#include <cpp/pqc_startuphandler.h>
+#include <cpp/pqc_validate.h>
+#include <cpp/pqc_migratesettings.h>
+#include <cpp/pqc_migrateshortcuts.h>
+#include <cpp/pqc_wizard.h>
+#include <cpp/pqc_cscriptsconfig.h>
+#include <shared/pqc_configfiles.h>
 
 #include <QtDebug>
 #include <QMessageBox>

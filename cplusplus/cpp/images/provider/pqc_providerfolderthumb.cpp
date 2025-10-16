@@ -20,9 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providerfolderthumb.h>
-#include <pqc_providerthumb.h>
-#include <pqc_imageformats.h>
+#include <cpp/pqc_providerfolderthumb.h>
+#include <cpp/pqc_providerthumb.h>
+#include <cpp/pqc_imageformats.h>
+
 #include <QPainter>
 #include <QImage>
 #include <QCollator>

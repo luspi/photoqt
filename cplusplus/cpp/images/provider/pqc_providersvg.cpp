@@ -20,10 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providersvg.h>
+#include <cpp/pqc_providersvg.h>
 #ifdef PQMRESVG
-#include <pqc_loadimage_resvg.h>
-#else
+#include <cpp/pqc_loadimage_resvg.h>
 #endif
 #include <QSvgRenderer>
 #include <QPainter>

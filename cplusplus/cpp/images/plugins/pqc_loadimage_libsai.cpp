@@ -20,9 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <cstddef>
-#include <pqc_loadimage_libsai.h>
-#include <pqc_configfiles.h>
+#include <cpp/pqc_loadimage_libsai.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QSize>
 #include <QImage>
 #include <QtDebug>

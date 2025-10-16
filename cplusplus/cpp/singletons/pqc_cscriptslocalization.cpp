@@ -1,4 +1,5 @@
-#include <pqc_cscriptslocalization.h>
+#include <cpp/pqc_cscriptslocalization.h>
+
 #include <QtDebug>
 #include <QDirIterator>
 #include <QTranslator>

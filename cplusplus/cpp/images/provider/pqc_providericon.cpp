@@ -20,8 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providericon.h>
-#include <pqc_providersvg.h>
+#include <cpp/pqc_providericon.h>
+#include <cpp/pqc_providersvg.h>
+
 #include <QIcon>
 #include <QFile>
 #include <QPainter>

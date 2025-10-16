@@ -20,7 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage_video.h>
+#include <cpp/pqc_loadimage_video.h>
+
 #include <QImage>
 #include <QImageReader>
 #include <QProcess>

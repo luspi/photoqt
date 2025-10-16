@@ -20,10 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providerdragthumb.h>
-#include <pqc_providerthumb.h>
-#include <pqc_providericon.h>
-#include <pqc_imageformats.h>
+#include <cpp/pqc_providerdragthumb.h>
+#include <cpp/pqc_providerthumb.h>
+#include <cpp/pqc_providericon.h>
+#include <cpp/pqc_imageformats.h>
+
 #include <QPainter>
 #include <QPainterPath>
 #include <QImage>

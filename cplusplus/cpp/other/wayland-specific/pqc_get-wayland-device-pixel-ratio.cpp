@@ -35,7 +35,7 @@
 #ifdef PQMWAYLANDSPECIFIC
 
 // the implementation of the respective class is at the end of this file
-#include <pqc_wayland.h>
+#include <cpp/pqc_wayland.h>
 #include <QtDebug>
 
 #include <cerrno>

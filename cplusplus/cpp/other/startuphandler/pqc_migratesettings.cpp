@@ -1,5 +1,6 @@
-#include <pqc_migratesettings.h>
-#include <pqc_configfiles.h>
+#include <cpp/pqc_migratesettings.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>

@@ -20,9 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage_freeimage.h>
-#include <pqc_imagecache.h>
-#include <pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_loadimage_freeimage.h>
+#include <cpp/pqc_imagecache.h>
+#include <cpp/pqc_cscriptscolorprofiles.h>
 
 #include <QString>
 #include <QImage>

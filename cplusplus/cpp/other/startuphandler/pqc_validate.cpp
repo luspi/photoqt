@@ -20,13 +20,14 @@
  **                                                                      **
  **************************************************************************/
 
+#include <cpp/pqc_validate.h>
+#include <cpp/pqc_cscriptsimages.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QtSql/QSqlDatabase>
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <iostream>
-#include <pqc_validate.h>
-#include <pqc_configfiles.h>
-#include <pqc_cscriptsimages.h>
 
 PQCValidate::PQCValidate(QObject *parent) : QObject(parent) {}
 

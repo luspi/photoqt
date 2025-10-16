@@ -20,8 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providersvgcolor.h>
-#include <pqc_providersvg.h>
+#include <cpp/pqc_providersvgcolor.h>
+#include <cpp/pqc_providersvg.h>
 
 PQCProviderSVGColor::PQCProviderSVGColor() : QQuickImageProvider(QQuickImageProvider::Image) {}
 

@@ -21,7 +21,7 @@
  **************************************************************************/
 #pragma once
 
-#include <pqc_configfiles.h>
+#include <shared/pqc_configfiles.h>
 #include <QObject>
 #include <QFile>
 #include <QMutex>

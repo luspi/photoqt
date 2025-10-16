@@ -20,9 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
+#include <cpp/pqc_commandlineparser.h>
+
 #include <QtDebug>
 #include <QFileInfo>
-#include <pqc_commandlineparser.h>
 
 PQCCommandLineParser::PQCCommandLineParser(QApplication &app, QObject *parent) : QObject(parent), QCommandLineParser() {
 

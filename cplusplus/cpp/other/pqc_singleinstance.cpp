@@ -20,6 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
+#include <cpp/pqc_commandlineparser.h>
+#include <cpp/pqc_singleinstance.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QKeyEvent>
 #include <QFileInfo>
 #include <QDir>
@@ -30,10 +34,6 @@
 #include <QLocalServer>
 #include <QSqlError>
 #include <QSqlQuery>
-
-#include <pqc_commandlineparser.h>
-#include <pqc_singleinstance.h>
-#include <pqc_configfiles.h>
 
 PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(argc, argv) {
 

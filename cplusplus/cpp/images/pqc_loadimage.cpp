@@ -20,23 +20,23 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_loadimage_qt.h>
-#include <pqc_loadimage_resvg.h>
-#include <pqc_loadimage_raw.h>
-#include <pqc_loadimage_poppler.h>
-#include <pqc_loadimage_qtpdf.h>
-#include <pqc_loadimage_xcf.h>
-#include <pqc_loadimage_magick.h>
-#include <pqc_loadimage_libvips.h>
-#include <pqc_loadimage_archive.h>
-#include <pqc_loadimage_devil.h>
-#include <pqc_loadimage_freeimage.h>
-#include <pqc_loadimage_video.h>
-#include <pqc_loadimage_libsai.h>
-#include <pqc_loadimage.h>
+#include <cpp/pqc_loadimage_qt.h>
+#include <cpp/pqc_loadimage_resvg.h>
+#include <cpp/pqc_loadimage_raw.h>
+#include <cpp/pqc_loadimage_poppler.h>
+#include <cpp/pqc_loadimage_qtpdf.h>
+#include <cpp/pqc_loadimage_xcf.h>
+#include <cpp/pqc_loadimage_magick.h>
+#include <cpp/pqc_loadimage_libvips.h>
+#include <cpp/pqc_loadimage_archive.h>
+#include <cpp/pqc_loadimage_devil.h>
+#include <cpp/pqc_loadimage_freeimage.h>
+#include <cpp/pqc_loadimage_video.h>
+#include <cpp/pqc_loadimage_libsai.h>
+#include <cpp/pqc_loadimage.h>
 
-#include <pqc_imageformats.h>
-#include <pqc_cscriptscolorprofiles.h>
+#include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_cscriptscolorprofiles.h>
 
 #include <QSize>
 #include <QImage>

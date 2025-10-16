@@ -20,10 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providertooltipthumb.h>
-#include <pqc_configfiles.h>
-#include <pqc_loadimage.h>
-#include <pqc_providerthumb.h>
+#include <cpp/pqc_providertooltipthumb.h>
+#include <cpp/pqc_loadimage.h>
+#include <cpp/pqc_providerthumb.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QPainter>
 
 QQuickImageResponse *PQCAsyncImageProviderTooltipThumb::requestImageResponse(const QString &url, const QSize &requestedSize) {

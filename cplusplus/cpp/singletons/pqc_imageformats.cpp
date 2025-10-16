@@ -30,9 +30,9 @@
 #include <QImageWriter>
 #include <QMimeDatabase>
 
-#include <pqc_imageformats.h>
-#include <pqc_configfiles.h>
-#include <pqc_validate.h>
+#include <cpp/pqc_imageformats.h>
+#include <cpp/pqc_validate.h>
+#include <shared/pqc_configfiles.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>

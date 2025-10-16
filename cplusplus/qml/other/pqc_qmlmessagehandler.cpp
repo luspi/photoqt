@@ -1,4 +1,4 @@
-#include <pqc_qmlmessagehandler.h>
+#include <qml/pqc_qmlmessagehandler.h>
 #include <QLocalServer>
 
 PQCQMLMessageHandler::PQCQMLMessageHandler() {

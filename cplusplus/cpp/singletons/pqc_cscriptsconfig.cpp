@@ -1,5 +1,6 @@
-#include <pqc_cscriptsconfig.h>
-#include <pqc_configfiles.h>
+#include <cpp/pqc_cscriptsconfig.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QtDebug>
 #include <QImageReader>
 #include <QFileDialog>

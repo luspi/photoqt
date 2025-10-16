@@ -28,21 +28,21 @@
 #include <QScreen>
 #include <QQmlApplicationEngine>
 
-#include <pqc_outputhandler.h>
-#include <pqc_singleinstance.h>
-#include <pqc_startuphandler.h>
-#include <pqc_validate.h>
+#include <cpp/pqc_outputhandler.h>
+#include <cpp/pqc_singleinstance.h>
+#include <cpp/pqc_startuphandler.h>
+#include <cpp/pqc_validate.h>
 
-#include <pqc_providericon.h>
-#include <pqc_providertheme.h>
-#include <pqc_providerthumb.h>
-#include <pqc_providertooltipthumb.h>
-#include <pqc_providerfolderthumb.h>
-#include <pqc_providerdragthumb.h>
-#include <pqc_providerfull.h>
-#include <pqc_providerimgurhistory.h>
-#include <pqc_providersvg.h>
-#include <pqc_providersvgcolor.h>
+#include <cpp/pqc_providericon.h>
+#include <cpp/pqc_providertheme.h>
+#include <cpp/pqc_providerthumb.h>
+#include <cpp/pqc_providertooltipthumb.h>
+#include <cpp/pqc_providerfolderthumb.h>
+#include <cpp/pqc_providerdragthumb.h>
+#include <cpp/pqc_providerfull.h>
+#include <cpp/pqc_providerimgurhistory.h>
+#include <cpp/pqc_providersvg.h>
+#include <cpp/pqc_providersvgcolor.h>
 
 #ifdef PQMEXIV2
     #ifdef PQMEXIV2_ENABLE_BMFF

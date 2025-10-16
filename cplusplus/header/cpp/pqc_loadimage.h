@@ -20,51 +20,28 @@
  **                                                                      **
  **************************************************************************/
 
-#ifndef PQCSINGLEINSTANCE_H
-#define PQCSINGLEINSTANCE_H
+#ifndef PQCLOADIMAGE_H
+#define PQCLOADIMAGE_H
 
-#include <QApplication>
-#include <pqc_cppconstants.h>
-#include <pqc_commandlineparser.h>
+#include <cpp/pqc_imagecache.h>
 
-class QQmlApplicationEngine;
-class QLocalServer;
-class QLocalSocket;
+class QSize;
+class QImage;
 
-// Makes sure only one instance of PhotoQt is running, and enables remote communication
-class PQCSingleInstance : public QApplication {
-
-    Q_OBJECT
+class PQCLoadImage {
 
 public:
-    explicit PQCSingleInstance(int&, char *[]);
-    ~PQCSingleInstance();
+    static PQCLoadImage& get() {
+        static PQCLoadImage instance;
+        return instance;
+    }
+    ~PQCLoadImage();
 
-    QString getExportAndQuit() { return m_exportAndQuit; }
-    QString getImportAndQuit() { return m_importAndQuit; }
-    bool getCheckConfig() { return m_checkConfig; }
-    bool getResetConfig() { return m_resetConfig; }
-    bool getShowInfo() { return m_showInfo; }
-    bool getForceModernInterface() { return m_forceModernInterface; }
-    bool getForceIntegratedInterface() { return m_forceIntegratedInterface; }
+    QString load(QString filename, QSize requestedSize, QSize &origSize, QImage &img);
+    QSize load(QString filename);
 
 private:
-    QString m_exportAndQuit;
-    QString m_importAndQuit;
-    bool m_checkConfig;
-    bool m_resetConfig;
-    bool m_showInfo;
-
-    bool m_forceModernInterface;
-    bool m_forceIntegratedInterface;
-
-    QLocalSocket *m_socket;
-
-    QByteArray composeMessage(QList<CMDActions> msg,
-                           QString receivedFile,
-                           QString receivedShortcut,
-                           QString *receivedSetting);
-
+    PQCLoadImage();
 };
 
-#endif // PQSINGLEINSTANCE_H
+#endif // PQCLOADIMAGE_H

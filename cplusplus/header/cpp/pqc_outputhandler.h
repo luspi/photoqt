@@ -22,8 +22,8 @@
 
 // This file is included in main.cpp
 // and this function is installed as message handler
-#include <pqc_cppconstants.h>
-#include <pqc_saveoutput.h>
+#include <cpp/pqc_cppconstants.h>
+#include <cpp/pqc_saveoutput.h>
 
 void pqcOutputHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
 

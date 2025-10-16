@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_providerimgurhistory.h>
+#include <cpp/pqc_providerimgurhistory.h>
 // TODO!!!
 // #include <scripts/qmlcpp/pqc_scriptsshareimgur.h>
 
