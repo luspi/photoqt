@@ -22,7 +22,7 @@
 
 #include <cpp/pqc_validate.h>
 #include <cpp/pqc_cscriptsimages.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QtSql/QSqlDatabase>

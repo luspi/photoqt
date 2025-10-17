@@ -23,7 +23,7 @@
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_providericon.h>
 #include <cpp/pqc_loadimage.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 #include <cpp/pqc_cscriptsfilespaths.h>
 #include <shared/pqc_configfiles.h>
 

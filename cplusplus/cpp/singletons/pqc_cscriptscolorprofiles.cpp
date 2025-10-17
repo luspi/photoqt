@@ -1,7 +1,7 @@
 #include <cpp/pqc_cscriptscolorprofiles.h>
-#include <cpp/pqc_csettings.h>
 #include <cpp/pqc_cdbusserver.h>
 #include <cpp/pqc_cdbusserver.h>
+#include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QtDebug>
@@ -390,7 +390,7 @@ QString PQCCScriptsColorProfiles::applyColorProfile(QString filename, QImage &im
         PQCCDbusServer::get().sendMessage("notification", QString("%1\n\n%2").arg(QApplication::translate("imageprovider", "Application of color profile failed."), QFileInfo(filename).fileName()));
 
         if(m_lcms2CountFailedApplications > 5) {
-            PQCCDbusServer::get().sendMessage("colorspace", "disable");
+            PQCCDbusServer::get().sendMessage("colorspace", ":disable");
             PQCCDbusServer::get().sendMessage("notification", QApplication::translate("imageprovider", "Application of color profiles failed repeatedly. Support for color spaces will be disabled, but can be enabled again in the settings manager."));
         }
 

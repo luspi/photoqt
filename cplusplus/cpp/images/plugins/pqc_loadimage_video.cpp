@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <cpp/pqc_loadimage_video.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 
 #include <QImage>
 #include <QImageReader>

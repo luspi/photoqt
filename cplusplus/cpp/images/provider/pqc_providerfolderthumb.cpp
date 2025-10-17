@@ -23,8 +23,8 @@
 #include <cpp/pqc_providerfolderthumb.h>
 #include <cpp/pqc_providerthumb.h>
 #include <cpp/pqc_imageformats.h>
-#include <cpp/pqc_csettings.h>
 #include <cpp/pqc_cscriptsfilespaths.h>
+#include <shared/pqc_csettings.h>
 
 #include <QPainter>
 #include <QImage>

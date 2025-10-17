@@ -1,6 +1,6 @@
 #include <cpp/pqc_cscriptsimages.h>
 #include <cpp/pqc_imageformats.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 
 #include <QtDebug>
 #include <QIcon>

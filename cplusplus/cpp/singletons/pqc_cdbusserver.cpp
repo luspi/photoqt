@@ -1,4 +1,6 @@
 #include <cpp/pqc_cdbusserver.h>
+#include <cpp/pqc_cscriptslocalization.h>
+#include <shared/pqc_csettings.h>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QtDebug>
@@ -49,6 +51,27 @@ void PQCCDbusServer::sendMessage(QString what, QString message) {
 
 void PQCCDbusServer::handleConnection() {
 
-    // current filename
+    QLocalSocket *socket = m_server->nextPendingConnection();
+    if(socket->waitForReadyRead(2000)) {
+
+        QString txt = socket->readAll();
+        QStringList args = txt.split('\n');
+
+        QString what = args[0];
+        args.removeFirst();
+
+        if(what == "settings" && args.length() > 0 && args[0] == "readdb") {
+
+            PQCCSettings::get().readDB();
+
+        } else if(what == "updateTranslation" && args.length() > 0) {
+
+            PQCCScriptsLocalization::get().updateTranslation(args[0]);
+
+        }
+
+        Q_EMIT performAction(what, args);
+
+    }
 
 }

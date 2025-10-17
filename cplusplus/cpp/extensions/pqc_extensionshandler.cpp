@@ -6,7 +6,7 @@
 #include <cpp/pqc_extensionshandler.h>
 // #include <pqc_notify_cpp.h>
 // #include <pqc_filefoldermodelCPP.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 #include <cpp/pqc_loadimage.h>
 #include <cpp/pqc_extensionsettings.h>
 #include <cpp/pqc_cppconstants.h>

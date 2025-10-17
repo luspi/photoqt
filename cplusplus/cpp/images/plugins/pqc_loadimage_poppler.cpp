@@ -22,7 +22,7 @@
 
 #include <cpp/pqc_loadimage_poppler.h>
 #include <cpp/pqc_imagecache.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
 
 #include <QSize>

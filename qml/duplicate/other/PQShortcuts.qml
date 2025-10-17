@@ -59,10 +59,21 @@ Item {
 
     Connections {
 
-        target: PQCReceiveMessages
+        target: PQDbusLayer
 
-        function onCmdShortcutSequence(seq : string) {
-            keyshortcuts_top.checkComboForShortcut(seq, Qt.point(-1,-1), Qt.point(0,0))
+        function onPerformAction(what : string, args : list<string>) {
+
+            if(what === "startup") {
+
+                for(var i = 0; i < args.length; ++i) {
+
+                    if(args[i] === ":::SHORTCUT:::" && i < args.length-1)
+                        keyshortcuts_top.checkComboForShortcut(args[i+1], Qt.point(-1,-1), Qt.point(0,0))
+
+                }
+
+            }
+
         }
 
     }

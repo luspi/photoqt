@@ -21,7 +21,7 @@
  **************************************************************************/
 
 #include <cpp/pqc_imagecache.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 
 #include <QCache>
 #include <QCryptographicHash>

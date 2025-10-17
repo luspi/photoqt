@@ -32,7 +32,6 @@
 #include <cpp/pqc_singleinstance.h>
 #include <cpp/pqc_startuphandler.h>
 #include <cpp/pqc_validate.h>
-#include <cpp/pqc_csettings.h>
 #include <cpp/pqc_cscriptsshareimgur.h>
 
 #include <cpp/pqc_extensionsettings.h>
@@ -48,6 +47,8 @@
 #include <cpp/pqc_providerimgurhistory.h>
 #include <cpp/pqc_providersvg.h>
 #include <cpp/pqc_providersvgcolor.h>
+
+#include <shared/pqc_csettings.h>
 
 #ifdef PQMEXIV2
     #ifdef PQMEXIV2_ENABLE_BMFF

@@ -26,6 +26,7 @@
 #include <cpp/pqc_migrateshortcuts.h>
 #include <cpp/pqc_wizard.h>
 #include <cpp/pqc_cscriptsconfig.h>
+#include <cpp/pqc_cdbusserver.h>
 #include <shared/pqc_configfiles.h>
 
 #include <QtDebug>
@@ -50,6 +51,11 @@ PQCStartupHandler::PQCStartupHandler(QObject *parent) : QObject(parent) {
     }
 
     m_allVersions << "4.0" << "4.1" << "4.2" << "4.3" << "4.4" << "4.5" << "4.6" << "4.7" << "4.8" << "4.8.1" << "4.9" << "4.9.1" << "4.9.2";
+
+    connect(&PQCCDbusServer::get(), &PQCCDbusServer::performAction, this, [=](QString what, QStringList args) {
+        if(what == "setupFresh")
+            setupFresh();
+    });
 
 }
 

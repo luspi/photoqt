@@ -1,5 +1,5 @@
 #include <cpp/pqc_cscriptsfilespaths.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 #include <QStorageInfo>
 
 PQCCScriptsFilesPaths::PQCCScriptsFilesPaths() {

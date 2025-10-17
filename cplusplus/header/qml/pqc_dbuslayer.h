@@ -38,7 +38,12 @@ public:
         connect(&PQCQDbusServer::get(), &PQCQDbusServer::performAction, this, &PQDbusLayer::performAction);
     }
 
-    Q_INVOKABLE void setup() { PQCQDbusServer::get().setup(); }
+    Q_INVOKABLE void setup() {
+        PQCQDbusServer::get().setup();
+    }
+    Q_INVOKABLE void sendMessage(QString what, QString message) {
+        PQCQDbusServer::get().sendMessage(what, message);
+    }
 
 Q_SIGNALS:
     void performAction(QString what, QStringList args);

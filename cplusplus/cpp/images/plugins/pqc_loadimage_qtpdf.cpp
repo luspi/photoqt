@@ -23,7 +23,7 @@
 #include <cpp/pqc_loadimage_qtpdf.h>
 #include <cpp/pqc_imagecache.h>
 #include <cpp/pqc_cscriptscolorprofiles.h>
-#include <cpp/pqc_csettings.h>
+#include <shared/pqc_csettings.h>
 
 #include <QSize>
 #include <QImage>

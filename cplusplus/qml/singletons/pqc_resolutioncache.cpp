@@ -19,28 +19,27 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-#pragma once
 
-#include <QObject>
+#include <qml/pqc_resolutioncache.h>
 
-class PQCCScriptsConfig : public QObject {
+#include <QFileInfo>
+#include <QCryptographicHash>
+#include <QSize>
 
-    Q_OBJECT
+PQCResolutionCache::PQCResolutionCache(QObject *parent) : QObject(parent) {}
+PQCResolutionCache::~PQCResolutionCache() {}
 
-public:
-    static PQCCScriptsConfig& get() {
-        static PQCCScriptsConfig instance;
-        return instance;
-    }
+void PQCResolutionCache::saveResolution(QString filename, QSize res) {
+    qDebug() << "args: filename =" << filename;
+    qDebug() << "args: res =" << res;
+    resolution[getKey(filename)] = res;
+}
 
-    PQCCScriptsConfig(PQCCScriptsConfig const&) = delete;
-    void operator=(PQCCScriptsConfig const&) = delete;
+QSize PQCResolutionCache::getResolution(QString filename) {
+    return resolution[getKey(filename)];
+}
 
-    QString getConfigInfo(bool formatHTML = false); // duplicated in PQCScriptsConfig
-    bool exportConfigTo(QString path);              // duplicated in PQCScriptsConfig
-    bool importConfigFrom(QString path);            // duplicated in PQCScriptsConfig
-
-private:
-    PQCCScriptsConfig();
-
-};
+QString PQCResolutionCache::getKey(QString filename) {
+    QFileInfo info(filename);
+    return QCryptographicHash::hash(QString("%1%2").arg(filename).arg(info.size()).toUtf8(),QCryptographicHash::Md5).toHex();
+}
