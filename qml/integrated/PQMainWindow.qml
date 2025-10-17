@@ -249,11 +249,9 @@ ApplicationWindow {
 
     Component.onCompleted: {
 
-        console.warn(">>>>> 111")
         PQDbusLayer.setup()
-        console.warn(">>>>> 222")
 
-        PQCScriptsLocalization.updateTranslation(PQCSettings.interfaceLanguage)
+        PQDbusLayer.sendMessage("updateTranslation", PQCSettings.interfaceLanguage)
 
         if(PQCScriptsConfig.amIOnWindows() && !PQCConstants.startupStartInTray)
             toplevel.opacity = 0
@@ -322,85 +320,85 @@ ApplicationWindow {
 
     Connections {
 
-        target: PQCReceiveMessages
+        target: PQDbusLayer
 
-        function onCmdSetStartInTray() : void {
+        function onPerformAction(what : string, args : list<string>) {
 
-            console.log("")
+            if(what === "startup") {
 
-            if(PQCConstants.startupStartInTray)
-                PQCSettings.interfaceTrayIcon = 1
-            else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
-                PQCSettings.interfaceTrayIcon = 0
+                console.log("args: what =", what)
+                console.log("args: args =", args)
 
-        }
+                for(var i = 0; i < args.length; ++i) {
 
-        function onCmdOpen() : void {
-            console.log("")
-            PQCNotify.loaderShow("FileDialog")
-        }
+                    var cmd = args[i];
 
-        function onCmdShow() : void {
+                    if(cmd === ":::OPEN:::") {
 
-            console.log("")
+                        PQCNotify.loaderShow("FileDialog")
 
-            if(toplevel.visible) {
-                toplevel.raise()
-                toplevel.requestActivate()
-                return
-            }
+                    } else if(cmd === ":::SHOW:::") {
 
-            toplevel.visible = true
-            if(toplevel.visibility === Window.Minimized)
-                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-            toplevel.raise()
-            toplevel.requestActivate()
+                        if(toplevel.visible) {
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                            return
+                        }
 
-        }
+                        toplevel.visible = true
+                        if(toplevel.visibility === Window.Minimized)
+                            toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                        toplevel.raise()
+                        toplevel.requestActivate()
 
-        function onCmdHide() : void {
-            console.log("")
-            PQCSettings.interfaceTrayIcon = 1
-            toplevel.close()
-        }
+                    } else if(cmd === ":::HIDE:::") {
 
-        function onCmdQuit() : void {
-            console.log("")
-            toplevel.quitPhotoQt()
-        }
+                        PQCSettings.interfaceTrayIcon = 1
+                        toplevel.close()
 
-        function onCmdToggle() : void {
+                    } else if(cmd === ":::QUIT:::") {
 
-            console.log("")
+                        toplevel.quitPhotoQt()
 
-            if(toplevel.visible) {
-                PQCSettings.interfaceTrayIcon = 1
-                toplevel.close()
-            } else {
-                toplevel.visible = true
-                if(toplevel.visibility === Window.Minimized)
-                    toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-                toplevel.raise()
-                toplevel.requestActivate()
-            }
+                    } else if(cmd === ":::TOGGLE:::") {
 
-        }
+                        if(toplevel.visible) {
+                            PQCSettings.interfaceTrayIcon = 1
+                            toplevel.close()
+                        } else {
+                            toplevel.visible = true
+                            if(toplevel.visibility === Window.Minimized)
+                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                        }
 
-        function onCmdTray(enabled : bool) : void {
+                    } else if(cmd === ":::TRAY:::") {
 
-            console.log("args: enabled =", enabled)
+                        PQCSettings.interfaceTrayIcon = 2
 
-            if(enabled && PQCSettings.interfaceTrayIcon === 0)
-                PQCSettings.interfaceTrayIcon = 2
-            else if(!enabled) {
-                PQCSettings.interfaceTrayIcon = 0
-                if(!toplevel.visible) {
-                    toplevel.visible = true
-                    if(toplevel.visibility === Window.Minimized)
-                        toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
-                    toplevel.raise()
-                    toplevel.requestActivate()
+                    } else if(cmd === ":::NOTRAY:::") {
+
+                        PQCSettings.interfaceTrayIcon = 0
+                        if(!toplevel.visible) {
+                            toplevel.visible = true
+                            if(toplevel.visibility === Window.Minimized)
+                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                        }
+
+                    } else if(cmd === ":::STARTINTRAY:::") {
+
+                        if(PQCConstants.startupStartInTray)
+                            PQCSettings.interfaceTrayIcon = 1
+                        else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                            PQCSettings.interfaceTrayIcon = 0
+
+                    }
+
                 }
+
             }
 
         }

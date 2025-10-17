@@ -20,12 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_settingscpp.h>
-#include <pqc_notify_cpp.h>
-#include <pqc_imageformats.h>
-#include <pqc_configfiles.h>
-#include <qlogging.h>   // needed in this form to compile with Qt 6.2
+#include <qml/pqc_scriptsfilespaths.h>
+#include <shared/pqc_csettings.h>
+#include <shared/pqc_configfiles.h>
+
 #include <QtDebug>
 #include <QDir>
 #include <QMimeDatabase>
@@ -309,28 +307,28 @@ bool PQCScriptsFilesPaths::isExcludeDirFromCaching(QString filename) {
 
     qDebug() << "args: filename =" << filename;
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeDropBox() != "") {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeDropBox())== 0)
+    if(PQCCSettings::get().getThumbnailsExcludeDropBox() != "") {
+        if(filename.indexOf(PQCCSettings::get().getThumbnailsExcludeDropBox())== 0)
             return true;
     }
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud() != "") {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeNextcloud())== 0)
+    if(PQCCSettings::get().getThumbnailsExcludeNextcloud() != "") {
+        if(filename.indexOf(PQCCSettings::get().getThumbnailsExcludeNextcloud())== 0)
             return true;
     }
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud() != "") {
-        if(filename.indexOf(PQCSettingsCPP::get().getThumbnailsExcludeOwnCloud())== 0)
+    if(PQCCSettings::get().getThumbnailsExcludeOwnCloud() != "") {
+        if(filename.indexOf(PQCCSettings::get().getThumbnailsExcludeOwnCloud())== 0)
             return true;
     }
 
-    const QStringList str = PQCSettingsCPP::get().getThumbnailsExcludeFolders();
+    const QStringList str = PQCCSettings::get().getThumbnailsExcludeFolders();
     for(const QString &dir: str) {
         if(dir != "" && filename.indexOf(dir) == 0)
             return true;
     }
 
-    if(PQCSettingsCPP::get().getThumbnailsExcludeNetworkShares()) {
+    if(PQCCSettings::get().getThumbnailsExcludeNetworkShares()) {
         return isOnNetwork(filename);
     }
 
@@ -424,7 +422,8 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
 
     QFileInfo info(preselectFile);
 
-    const QStringList endings = PQCImageFormats::get().getFormatEndings(formatId);
+    //TODO!!!
+    const QStringList endings = {};//PQCImageFormats::get().getFormatEndings(formatId);
 
     QFileDialog diag;
     diag.setWindowModality(Qt::ApplicationModal);

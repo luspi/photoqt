@@ -175,10 +175,13 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/singletons/pqc_qdbu
                                                cplusplus/qml/singletons/pqc_scriptsimages.cpp
                                                cplusplus/qml/singletons/pqc_scriptsshortcuts.cpp
                                                cplusplus/qml/singletons/pqc_scriptsconfig.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsmetadata.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsfilespaths.cpp
                                                cplusplus/qml/singletons/pqc_filefoldermodel.cpp
 
                                                cplusplus/qml/qmlsingletons/pqc_look.cpp
                                                cplusplus/qml/qmlsingletons/pqc_settings.cpp
+                                               cplusplus/qml/qmlsingletons/pqc_metadata.cpp
 
                                                cplusplus/qml/other/pqc_filefoldermodelcache.cpp
 
@@ -197,6 +200,7 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusser
 
                                                cplusplus/header/qml/pqc_filefoldermodel.h
                                                cplusplus/header/qml/pqc_filefoldermodelcache.h
+                                               cplusplus/header/qml/pqc_metadata.h
 
                                                cplusplus/header/qml/pqc_scriptsimages.h
                                                cplusplus/header/qml/pqc_qscriptsimages.h
@@ -204,6 +208,10 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusser
                                                cplusplus/header/qml/pqc_qscriptsshortcuts.h
                                                cplusplus/header/qml/pqc_scriptsconfig.h
                                                cplusplus/header/qml/pqc_qscriptsconfig.h
+                                               cplusplus/header/qml/pqc_scriptsmetadata.h
+                                               cplusplus/header/qml/pqc_scriptsmetadata_qml.h
+                                               cplusplus/header/qml/pqc_scriptsfilespaths.h
+                                               cplusplus/header/qml/pqc_scriptsfilespaths_qml.h
 
                                                cplusplus/header/qml/pqc_mpvobject.h
                                                cplusplus/header/qml/pqc_mpvqthelper.h

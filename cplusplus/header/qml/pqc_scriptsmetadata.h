@@ -19,20 +19,9 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSMETADATA_H
-#define PQCSCRIPTSMETADATA_H
+#pragma once
 
 #include <QObject>
-
-/*************************************************************/
-/*************************************************************/
-//
-// this class is used in both C++ and QML code
-// thus there is a WRAPPER for QML available
-//
-/*************************************************************/
-/*************************************************************/
 
 class PQCScriptsMetaData : public QObject {
 
@@ -72,5 +61,3 @@ private:
     PQCScriptsMetaData();
 
 };
-
-#endif

@@ -20,12 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_metadata.h>
+#include <qml/pqc_metadata.h>
 
-#include <pqc_filefoldermodelCPP.h>
-#include <scripts/pqc_scriptsmetadata.h>
-#include <pqc_configfiles.h>
-#include <pqc_notify_cpp.h>
+// #include <pqc_filefoldermodelCPP.h>
+#include <qml/pqc_scriptsmetadata.h>
+#include <shared/pqc_configfiles.h>
 
 #include <QFileInfo>
 #include <QtDebug>
@@ -66,7 +65,8 @@ PQCMetaData::PQCMetaData(QObject *parent) : QObject(parent) {
     m_iptcLocation = "";
     m_iptcCopyright = "";
 
-    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
+    //TODO!!!
+    // connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::currentIndexChanged, loadDelay, [=](){loadDelay->start(); });
     connect(loadDelay, &QTimer::timeout, this, [=]() { updateMetadata(); });
 
 }
@@ -101,10 +101,12 @@ void PQCMetaData::updateMetadata() {
     setEmptyData();
 
     // make sure a currentIndex is set
-    if(PQCFileFolderModelCPP::get().getCurrentIndex() == -1)
-        return;
+    //TODO!!!
+    // if(PQCFileFolderModelCPP::get().getCurrentIndex() == -1)
+        // return;
 
-    QString path = PQCFileFolderModelCPP::get().getEntriesMainView()[PQCFileFolderModelCPP::get().getCurrentIndex()];
+    //TODO!!!
+    QString path = "";//PQCFileFolderModelCPP::get().getEntriesMainView()[PQCFileFolderModelCPP::get().getCurrentIndex()];
 
     if(path == "") {
         setValidFile(true);
@@ -229,7 +231,8 @@ void PQCMetaData::updateMetadata() {
     }
 
     if(gpsLatRef != "" && gpsLat != "" && gpsLonRef != "" && gpsLon != "") {
-        PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
+        //TODO!!!
+        // PQCNotifyCPP::get().storeLocationToDatabase(path, PQCScriptsMetaData::get().convertGPSToDecimal(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
         setExifGPS(PQCScriptsMetaData::get().analyzeGPS(gpsLatRef, gpsLat, gpsLonRef, gpsLon));
     }
 

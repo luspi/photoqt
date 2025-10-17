@@ -25,15 +25,6 @@
 #include <QDir>
 #include <QTimer>
 
-/*************************************************************/
-/*************************************************************/
-//
-// this class is heavily used in both C++ and QML code
-// thus there is a WRAPPER for QML available
-//
-/*************************************************************/
-/*************************************************************/
-
 class PQCScriptsFilesPaths : public QObject {
 
     Q_OBJECT

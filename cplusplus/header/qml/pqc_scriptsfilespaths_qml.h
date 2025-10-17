@@ -23,10 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptsfilespaths.h>
-
-// this class is heavily used in both C++ and QML code
-// thus there is a wrapper for QML available
+#include <qml/pqc_scriptsfilespaths.h>
 
 class PQCScriptsFilesPathsQML : public QObject {
 
