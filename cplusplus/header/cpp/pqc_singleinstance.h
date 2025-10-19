@@ -56,6 +56,13 @@ private:
     bool m_forceModernInterface;
     bool m_forceIntegratedInterface;
 
+    QQmlApplicationEngine *qmlEngine;
+    QVector<void*> qmlWindowAddresses;
+
+protected:
+    virtual bool notify(QObject *obj, QEvent *e) override;
+
+
 };
 
 #endif // PQSINGLEINSTANCE_H

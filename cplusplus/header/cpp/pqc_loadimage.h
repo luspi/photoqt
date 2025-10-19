@@ -28,7 +28,9 @@
 class QSize;
 class QImage;
 
-class PQCLoadImage {
+class PQCLoadImage : QObject {
+
+    Q_OBJECT
 
 public:
     static PQCLoadImage& get() {

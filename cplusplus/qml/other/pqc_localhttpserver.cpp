@@ -20,7 +20,8 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_localhttpserver.h>
+#include <qml/pqc_localhttpserver.h>
+
 #include <QImage>
 #include <QBuffer>
 #include <thread>

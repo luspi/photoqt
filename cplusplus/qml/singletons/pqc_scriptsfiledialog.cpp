@@ -20,9 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_configfiles.h>
-#include <scripts/pqc_scriptsfiledialog.h>
-#include <pqc_imageformats.h>
+#include <qml/pqc_scriptsfiledialog.h>
+#include <shared/pqc_configfiles.h>
+#include <shared/pqc_csettings.h>
+#include <shared/pqc_sharedconstants.h>
+
 #include <QtDebug>
 #include <QStorageInfo>
 #include <QUrl>
@@ -30,7 +32,6 @@
 #include <QJSValue>
 #include <QJSEngine>
 #include <QtConcurrent/QtConcurrentRun>
-#include <pqc_settingscpp.h>
 
 #ifdef PQMPUGIXML
 #include <pugixml.hpp>
@@ -56,7 +57,7 @@ QVariantList PQCScriptsFileDialog::getDevices() {
 
             const QString tpe = QString(s.fileSystemType());
 
-            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs") && !PQCSettingsCPP::get().getFiledialogDevicesShowTmpfs())
+            if((tpe.toLower() == "tmpfs" || tpe.toLower() == "squashfs") && !PQCCSettings::get().getFiledialogDevicesShowTmpfs())
                 continue;
 
             QString name = s.name();
@@ -295,7 +296,7 @@ unsigned int PQCScriptsFileDialog::getNumberOfFilesInFolder(const QString &path)
 
     QDir dir(path);
     QStringList checkForTheseFormats;
-    const QStringList lst = PQCImageFormats::get().getEnabledFormats();
+    const QStringList lst = PQCSharedMemory::get().getImageFormats("enabled");
     for(const QString &c : lst)
         checkForTheseFormats << QString("*.%1").arg(c);
 
@@ -446,7 +447,7 @@ void PQCScriptsFileDialog::addPlacesEntry(QString path, int pos, QString titlest
 
     }
 
-    QString newid_base = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+    QString newid_base = QString::number(QDateTime::currentMSecsSinceEpoch());
 
     int counter = 0;
     while(allIds.contains(QString("%1/%2").arg(newid_base).arg(counter)))

@@ -20,11 +20,11 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptschromecast.h>
-#include <pqc_localhttpserver.h>
-#include <pqc_loadimage.h>
-#include <pqc_settingscpp.h>
-#include <pqc_filefoldermodelCPP.h>
+#include <qml/pqc_scriptschromecast.h>
+#include <qml/pqc_localhttpserver.h>
+#include <qml/pqc_filefoldermodel_cpp.h>
+// #include <pqc_loadimage.h>
+#include <shared/pqc_csettings.h>
 
 #include <QVariantList>
 #include <QFile>
@@ -184,13 +184,14 @@ bool PQCScriptsChromeCast::castImage(QString filename) {
 
         QImage img;
         QSize orig;
-        PQCLoadImage::get().load(filename, QSize(1920,1080), orig, img);
+        //TODO!!!
+        // PQCLoadImage::get().load(filename, QSize(1920,1080), orig, img);
 
         if(img.height() > 1080)
             img = img.scaledToHeight(1080);
 
         // if image is smaller than display and is not to be fit to window size
-        if(!PQCSettingsCPP::get().getImageviewFitInWindow() && (img.width() < 1920 || img.height() < 1080)) {
+        if(!PQCCSettings::get().getImageviewFitInWindow() && (img.width() < 1920 || img.height() < 1080)) {
             QImage ret(1920, 1080, QImage::Format_ARGB32);
             ret.fill(Qt::black);
             QPainter painter(&ret);

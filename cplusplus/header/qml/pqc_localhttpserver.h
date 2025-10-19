@@ -19,46 +19,36 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-#ifndef TABIMAGEPOSITIONTILE_H
-#define TABIMAGEPOSITIONTILE_H
+#include <QtGlobal>
 
-#include <QLabel>
+#ifdef Q_OS_WIN
+#undef WIN32_LEAN_AND_MEAN
+#include <winsock2.h>
+#endif
 
-class PQCPrintTabImagePositionTile : public QLabel {
+#include <QObject>
+
+class QTcpSocket;
+class QTcpServer;
+
+class PQCLocalHttpServer : public QObject {
 
     Q_OBJECT
 
 public:
-    PQCPrintTabImagePositionTile(int id, bool selected);
-
-    void setHovered();
-    void setNotHovered();
-    void setSelected();
-
-    QString getBorder();
+    explicit PQCLocalHttpServer(QObject *parent = 0);
+    ~PQCLocalHttpServer();
+    QTcpSocket *socket ;
+    bool isRunning();
 
 public Q_SLOTS:
-    void checkIfIAmStillSelected(int newid);
+    void serve();
+    int start();
+    void stop();
 
 private:
-    int id;
-    bool selected;
-
-protected:
-    void enterEvent(QEvent *) {
-        setHovered();
-    }
-    void leaveEvent(QEvent *) {
-        setNotHovered();
-    }
-    void mousePressEvent(QMouseEvent *) {
-        setSelected();
-    }
-
-Q_SIGNALS:
-    void newPosSelected(int id);
-
+    qint64 bytesAvailable() const;
+    QTcpServer *server;
 };
-
-#endif // TABIMAGEPOSITIONTILE_H

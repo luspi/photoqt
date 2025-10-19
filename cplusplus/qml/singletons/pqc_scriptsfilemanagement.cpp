@@ -20,12 +20,13 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsfilemanagement.h>
-#include <scripts/pqc_scriptsfilespaths.h>
-#include <pqc_filefoldermodelCPP.h>
-#include <pqc_configfiles.h>
-#include <pqc_imageformats.h>
-#include <pqc_loadimage.h>
+#include <qml/pqc_scriptsfilemanagement.h>
+#include <qml/pqc_scriptsfilespaths.h>
+#include <qml/pqc_filefoldermodel_cpp.h>
+#include <qml/pqc_qdbusserver.h>
+#include <shared/pqc_configfiles.h>
+#include <shared/pqc_sharedconstants.h>
+
 #include <QtDebug>
 #include <QFileInfo>
 #include <QDir>
@@ -38,6 +39,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QPushButton>
+#include <thread>
 #ifdef WIN32
 #include <thread>
 #else
@@ -182,8 +184,8 @@ bool PQCScriptsFileManagement::canThisBeScaled(QString filename) {
 
     qDebug() << "args: filename = " << filename;
 
-    int uniqueid = PQCImageFormats::get().detectFormatId(filename);
-    return (PQCImageFormats::get().getWriteStatus(uniqueid) > 0);
+    const QString suffix = QFileInfo(filename).suffix().toLower();
+    return (PQCSharedMemory::get().getImageFormatsEnding2QtName().contains(suffix) || PQCSharedMemory::get().getImageFormatsEnding2MagickName().contains(suffix));
 
 }
 
@@ -197,15 +199,15 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
 
     QFuture<void> f = QtConcurrent::run([=]() {
 
-        int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
+        const QString suffix = QFileInfo(sourceFilename).suffix().toLower();
+        bool canWriteQt = PQCSharedMemory::get().getImageFormatsEnding2QtName().contains(suffix);
+        bool canWriteMagick = PQCSharedMemory::get().getImageFormatsEnding2MagickName().contains(suffix);
 
-        if(writeStatus == 0) {
+        if(!canWriteQt && !canWriteMagick) {
             qWarning() << "ERROR: file not supported for scaling:" << sourceFilename;
             Q_EMIT scaleCompleted(false);
             return;
         }
-
-        QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
 
     #ifdef PQMEXIV2
 
@@ -261,85 +263,84 @@ void PQCScriptsFileManagement::scaleImage(QString sourceFilename, QString target
         // since we might be scaling the image in place and thus would overwrite old exif data
         bool success = false;
 
-        QSize s;
         QImage img;
-        PQCLoadImage::get().load(sourceFilename, targetSize, s, img);
+        PQCSharedMemory::get().setImage(QImage());
+        PQCQDbusServer::get().sendMessage("requestImage", QString("%1\n%2\n%3").arg(sourceFilename).arg(targetSize.width()).arg(targetSize.height()));
+        int counter = 0;
+        while(img.isNull() && counter < 100) {
+            img = PQCSharedMemory::get().getImage();
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            counter += 1;
+        }
 
-        if(writeStatus == 1 || writeStatus == 2) {
+        if(canWriteQt) {
 
             // we don't stop if this fails as we might be able to try again with Magick
-            if(img.save(targetFilename, databaseinfo.value("qt_formatname").toString().toStdString().c_str(), targetQuality))
+            if(img.save(targetFilename, PQCSharedMemory::get().getImageFormatsEnding2QtName().value(suffix).toStdString().c_str(), targetQuality))
                 success = true;
             else
                 qWarning() << "Scaling image with Qt failed";
 
         }
 
-        if(!success && (writeStatus == 1 || writeStatus == 3)) {
+        if(!success && canWriteMagick) {
 
     // imagemagick/graphicsmagick might support it
     #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-    #ifdef PQMIMAGEMAGICK
-            if(databaseinfo.value("imagemagick").toInt() == 1) {
-    #else
-            if(databaseinfo.value("graphicsmagick").toInt() == 1) {
-    #endif
 
-                // first check whether ImageMagick/GraphicsMagick supports writing this filetype
-                bool canproceed = false;
+            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+            bool canproceed = false;
+            try {
+                QString magick = PQCSharedMemory::get().getImageFormatsEnding2MagickName().value(suffix).at(0);
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isWritable())
+                    canproceed = true;
+            } catch(...) {
+                // do nothing here
+            }
+
+            // yes, it's supported
+            if(canproceed) {
+
+                // we scale the image to this tmeporary file and then copy it to the right location
+                // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+                QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforscale" + "." + suffix;
+                if(QFile::exists(tmpImagePath))
+                    QFile::remove(tmpImagePath);
+
                 try {
-                    QString magick = databaseinfo.value("im_gm_magick").toString();
-                    Magick::CoderInfo magickCoderInfo(magick.toStdString());
-                    if(magickCoderInfo.isWritable())
-                        canproceed = true;
-                } catch(...) {
-                    // do nothing here
-                }
 
-                // yes, it's supported
-                if(canproceed) {
+                    // first we write the QImage to a temporary file
+                    // then we load it into magick and write it to the target file
 
-                    // we scale the image to this tmeporary file and then copy it to the right location
-                    // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                    QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforscale" + "." + databaseinfo.value("endings").toString().split(",")[0];
-                    if(QFile::exists(tmpImagePath))
-                        QFile::remove(tmpImagePath);
-
-                    try {
-
-                        // first we write the QImage to a temporary file
-                        // then we load it into magick and write it to the target file
-
-                        // find unique temporary path
-                        QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
-                        if(QFile::exists(tmppath))
-                            QFile::remove(tmppath);
-
-                        img.save(tmppath);
-
-                        // load image and write to target file
-                        Magick::Image image;
-                        image.magick("PPM");
-                        image.read(tmppath.toStdString());
-
-                        image.resize(Magick::Geometry(targetSize.width(), targetSize.height()));
-
-                        image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
-                        image.write(tmpImagePath.toStdString());
-
-                        // remove temporary file
+                    // find unique temporary path
+                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
+                    if(QFile::exists(tmppath))
                         QFile::remove(tmppath);
 
-                        // copy result to target destination
-                        QFile::copy(tmpImagePath, targetFilename);
-                        QFile::remove(tmpImagePath);
+                    img.save(tmppath);
 
-                        // success!
-                        success = true;
+                    // load image and write to target file
+                    Magick::Image image;
+                    image.magick("PPM");
+                    image.read(tmppath.toStdString());
 
-                    } catch(Magick::Exception &) { }
+                    image.resize(Magick::Geometry(targetSize.width(), targetSize.height()));
 
-                }
+                    image.magick(PQCSharedMemory::get().getImageFormatsEnding2MagickName().value(suffix).at(0).toStdString());
+                    image.write(tmpImagePath.toStdString());
+
+                    // remove temporary file
+                    QFile::remove(tmppath);
+
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+
+                    // success!
+                    success = true;
+
+                } catch(Magick::Exception &) { }
 
             }
 
@@ -467,11 +468,11 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
 
     QFuture<void> f = QtConcurrent::run([=]() {
 
-        int writeStatus = PQCImageFormats::get().getWriteStatus(uniqueid);
+        const QString suffix = QFileInfo(sourceFilename).suffix().toLower();
+        bool canWriteQt = PQCSharedMemory::get().getImageFormatsEnding2QtName().contains(suffix);
+        bool canWriteMagick = PQCSharedMemory::get().getImageFormatsEnding2MagickName().contains(suffix);
 
-        QVariantMap databaseinfo = PQCImageFormats::get().getFormatsInfo(uniqueid);
-
-        if(writeStatus == 0) {
+        if(!canWriteQt && !canWriteMagick) {
             qWarning() << "ERROR: file not supported for cropping:" << sourceFilename;
             Q_EMIT cropCompleted(false);
             return;
@@ -481,89 +482,88 @@ void PQCScriptsFileManagement::cropImage(QString sourceFilename, QString targetF
 
         // create cropped QImage
         QImage img;
-        QSize origSize;
-        PQCLoadImage::get().load(sourceFilename, QSize(), origSize, img);
+        PQCSharedMemory::get().setImage(QImage());
+        PQCQDbusServer::get().sendMessage("requestImage", QString("%1\n-1\n-1").arg(sourceFilename));
+        int counter = 0;
+        while(img.isNull() && counter < 100) {
+            img = PQCSharedMemory::get().getImage();
+            std::this_thread::sleep_for(std::chrono::milliseconds(10));
+            counter += 1;
+        }
 
         QRect rect(img.width()*topLeft.x(), img.height()*topLeft.y(),
                    img.width()*(botRight.x()-topLeft.x()), img.height()*(botRight.y()-topLeft.y()));
         QImage croppedImg = img.copy(rect);
 
-        if(writeStatus == 1 || writeStatus == 2) {
+        if(canWriteQt) {
 
             // we don't stop if this fails as we might be able to try again with Magick
-            if(croppedImg.save(targetFilename, databaseinfo.value("qt_formatname").toString().toStdString().c_str(), -1))
+            if(croppedImg.save(targetFilename, PQCSharedMemory::get().getImageFormatsEnding2QtName().value(suffix).toStdString().c_str(), -1))
                 success = true;
             else
                 qWarning() << "Cropping image with Qt failed";
 
         }
 
-        if(!success) {// && (writeStatus == 1 || writeStatus == 3)) {
+        if(!success && canWriteMagick) {
 
             // imagemagick/graphicsmagick might support it
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
-#ifdef PQMIMAGEMAGICK
-            if(databaseinfo.value("imagemagick").toInt() == 1) {
-#else
-            if(databaseinfo.value("graphicsmagick").toInt() == 1) {
-#endif
 
-                // first check whether ImageMagick/GraphicsMagick supports writing this filetype
-                bool canproceed = false;
+            // first check whether ImageMagick/GraphicsMagick supports writing this filetype
+            bool canproceed = false;
+            try {
+                QString magick = PQCSharedMemory::get().getImageFormatsEnding2MagickName().value(suffix).at(0);
+                Magick::CoderInfo magickCoderInfo(magick.toStdString());
+                if(magickCoderInfo.isWritable())
+                    canproceed = true;
+            } catch(...) {
+                // do nothing here
+            }
+
+            // yes, it's supported
+            if(canproceed) {
+
+                // we scale the image to this tmeporary file and then copy it to the right location
+                // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
+                QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforcrop" + "." + suffix;
+                if(QFile::exists(tmpImagePath))
+                    QFile::remove(tmpImagePath);
+
                 try {
-                    QString magick = databaseinfo.value("im_gm_magick").toString();
-                    Magick::CoderInfo magickCoderInfo(magick.toStdString());
-                    if(magickCoderInfo.isWritable())
-                        canproceed = true;
-                } catch(...) {
-                    // do nothing here
-                }
 
-                // yes, it's supported
-                if(canproceed) {
+                    // first we write the QImage to a temporary file
+                    // then we load it into magick and write it to the target file
 
-                    // we scale the image to this tmeporary file and then copy it to the right location
-                    // converting it straight to the right location can lead to corrupted thumbnails if target folder is the same as source folder
-                    QString tmpImagePath = PQCConfigFiles::get().CACHE_DIR() + "/temporaryfileforcrop" + "." + databaseinfo.value("endings").toString().split(",")[0];
-                    if(QFile::exists(tmpImagePath))
-                        QFile::remove(tmpImagePath);
-
-                    try {
-
-                        // first we write the QImage to a temporary file
-                        // then we load it into magick and write it to the target file
-
-                        // find unique temporary path
-                        QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
-                        if(QFile::exists(tmppath))
-                            QFile::remove(tmppath);
-
-                        croppedImg.save(tmppath);
-
-                        // load image and write to target file
-                        Magick::Image image;
-                        image.magick("PPM");
-                        image.read(tmppath.toStdString());
-
-                        image.magick(databaseinfo.value("im_gm_magick").toString().toStdString());
-                        image.write(tmpImagePath.toStdString());
-
-                        // remove temporary file
+                    // find unique temporary path
+                    QString tmppath = PQCConfigFiles::get().CACHE_DIR() + "/converttmp.ppm";
+                    if(QFile::exists(tmppath))
                         QFile::remove(tmppath);
 
-                        // copy result to target destination
-                        QFile::copy(tmpImagePath, targetFilename);
-                        QFile::remove(tmpImagePath);
+                    croppedImg.save(tmppath);
 
-                        // success!
-                        success = true;
+                    // load image and write to target file
+                    Magick::Image image;
+                    image.magick("PPM");
+                    image.read(tmppath.toStdString());
 
-                    } catch(Magick::Exception &) { }
+                    image.magick(PQCSharedMemory::get().getImageFormatsEnding2MagickName().value(suffix).at(0).toStdString());
+                    image.write(tmpImagePath.toStdString());
 
-                } else
-                    qDebug() << "Writing format not supported by Magick";
+                    // remove temporary file
+                    QFile::remove(tmppath);
 
-            }
+                    // copy result to target destination
+                    QFile::copy(tmpImagePath, targetFilename);
+                    QFile::remove(tmpImagePath);
+
+                    // success!
+                    success = true;
+
+                } catch(Magick::Exception &) { }
+
+            } else
+                qDebug() << "Writing format not supported by Magick";
 
 #endif
 

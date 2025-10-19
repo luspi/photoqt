@@ -1,7 +1,4 @@
 /**************************************************************************
- ** Inspired by SimpleCrypt:                                             **
- ** Copyright (c) 2011, Andre Somers                                     **
- ** All rights reserved.                                                 **
  **                                                                      **
  ** Copyright (C) 2011-2025 Lukas Spies                                  **
  ** Contact: https://photoqt.org                                         **
@@ -22,44 +19,49 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSCRIPTSCRYPT_H
-#define PQCSCRIPTSCRYPT_H
+#pragma once
 
 #include <QObject>
-#include <QRandomGenerator>
+#include <QQmlEngine>
+#include <qml/pqc_scriptscontextmenu.h>
 
 /*************************************************************/
 /*************************************************************/
 //
-// this class is ONLY used by C++ at the moment
-// if this ever changes then a qml wrapper might have to be created
+//      NOTE: This singleton is a wrapper for the C++ class
+//            This class here can ONLY be used from QML!
 //
 /*************************************************************/
 /*************************************************************/
 
-class PQCScriptsCrypt : public QObject {
+class PQCScriptsContextMenuQML : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+    QML_NAMED_ELEMENT(PQCScriptsContextMenu)
 
 public:
-    static PQCScriptsCrypt& get();
-    virtual ~PQCScriptsCrypt();
+    PQCScriptsContextMenuQML() {
+        connect(&PQCScriptsContextMenu::get(), &PQCScriptsContextMenu::customEntriesChanged, this, &PQCScriptsContextMenuQML::customEntriesChanged);
+    }
 
-    PQCScriptsCrypt(PQCScriptsCrypt const&)     = delete;
-    void operator=(PQCScriptsCrypt const&) = delete;
+    Q_INVOKABLE QVariantList getEntries() {
+        return PQCScriptsContextMenu::get().getEntries();
+    }
+    Q_INVOKABLE void setEntries(QVariantList entries) {
+        PQCScriptsContextMenu::get().setEntries(entries);
+    }
 
-    Q_INVOKABLE QString encryptString(QString plaintext);
-    Q_INVOKABLE QString decryptString(QString str);
+    Q_INVOKABLE QVariantList detectSystemEntries() {
+        return PQCScriptsContextMenu::get().detectSystemEntries();
+    }
 
-private:
-    PQCScriptsCrypt();
+    Q_INVOKABLE void closeDatabase() {
+        PQCScriptsContextMenu::get().closeDatabase();
+    }
 
-    quint64 cryptKey;
-    QVector<char> cryptKeyParts;
-
-    QRandomGenerator randgen;
+Q_SIGNALS:
+    void customEntriesChanged();
 
 };
-
-#endif

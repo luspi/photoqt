@@ -31,7 +31,7 @@ Item {
 
     function moveFile() {
 
-        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
+        var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, true);
         if(targetfile === "" || targetfile === PQCFileFolderModel.currentFile) {
             PQCNotify.loaderRegisterClose("FileMove")
         } else {

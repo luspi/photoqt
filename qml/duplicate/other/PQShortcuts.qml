@@ -238,10 +238,10 @@ Item {
 
                 PQCSettings.closeDatabase()
                 PQCShortcuts.closeDatabase()
-                PQCImageFormats.closeDatabase()
                 PQCLocation.closeDatabase()
                 PQCScriptsContextMenu.closeDatabase()
                 PQCScriptsShareImgur.closeDatabase()
+                PQDbusLayer.sendMessage("imageformats", "::closeDatabase")
 
                 PQCScriptsConfig.callStartupSetupFresh()
 
@@ -306,8 +306,8 @@ Item {
 
             var suffix = PQCScriptsFilesPaths.getSuffix(PQCFileFolderModel.currentFile)
 
-            var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() && PQCImageFormats.getEnabledFormatsLibmpv().indexOf(suffix)>-1) ||
-                                (PQCScriptsConfig.isVideoQtSupportEnabled() && PQCImageFormats.getEnabledFormatsVideo().indexOf(suffix)>-1)
+            var isVideo = (PQCScriptsConfig.isMPVSupportEnabled() && PQSharedMemoryLayer.getImageFormats("libmpv").indexOf(suffix)>-1) ||
+                                (PQCScriptsConfig.isVideoQtSupportEnabled() && PQSharedMemoryLayer.getImageFormats("video").indexOf(suffix)>-1)
 
             if(isVideo) {
 

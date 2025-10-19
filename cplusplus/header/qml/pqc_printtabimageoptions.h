@@ -21,41 +21,67 @@
  **************************************************************************/
 #pragma once
 
-#include <QObject>
-#include <QMap>
+#include <qml/pqc_printtabimagepositiontile.h>
+#include <QWidget>
+#include <QSettings>
 
-/*************************************************************/
-/*************************************************************/
-//
-// this class is used directly on from C++
-// from QML they are accessed through method in PQCScriptsConfig
-//
-/*************************************************************/
-/*************************************************************/
+class QHBoxLayout;
+class QVBoxLayout;
+class QGridLayout;
+class QRadioButton;
+class QCheckBox;
+class QDoubleSpinBox;
+class QComboBox;
 
-class QTranslator;
-
-class PQCScriptsLocalization : public QObject {
+class PQCPrintTabImageOptions : public QWidget {
 
     Q_OBJECT
 
 public:
-    static PQCScriptsLocalization& get();
-    virtual ~PQCScriptsLocalization();
+    PQCPrintTabImageOptions(QSizeF pixmapsize, QWidget *parent = nullptr);
+    ~PQCPrintTabImageOptions();
 
-    PQCScriptsLocalization(PQCScriptsLocalization const&)     = delete;
-    void operator=(PQCScriptsLocalization const&) = delete;
-
-    QStringList getAvailableTranslations();
-    void updateTranslation(QString code);
-    QString getNameForLocalizationCode(QString code);
-    QString getCurrentTranslation();
+    int getImagePosition();
+    bool getScalingNone();
+    bool getScalingFitToPage();
+    bool getScalingEnlargeSmaller();
+    bool getScalingScaleTo();
+    QSizeF getScalingScaleToSize();
+    bool getScalingKeepRatio();
+    void storeNewSettings();
 
 private:
-    PQCScriptsLocalization();
+    int posSelected;
 
-    QTranslator *trans;
-    QString currentTranslation;
-    QMap<QString,QString> langNames;
+    QHBoxLayout *mainhorlay;
+    QFrame *posFrame;
+    QVBoxLayout *posLayout;
+    QLabel *posTitle;
+    std::vector<PQCPrintTabImagePositionTile*> posGridTiles;
+    QGridLayout *posGrid;
+
+    QFrame *scaFrame;
+    QVBoxLayout *scaLayout;
+    QLabel *scaTitle;
+    QRadioButton *scaNone;
+    QRadioButton *scaPage;
+    QCheckBox *scaInc;
+    QHBoxLayout *scaIncLayout;
+    QRadioButton *scaSize;
+    QDoubleSpinBox *scaWid;
+    QLabel *scaX;
+    QDoubleSpinBox *scaHei;
+    QComboBox *scaUni;
+    QHBoxLayout *scaSizeLayout;
+    QCheckBox *scaRat;
+    QHBoxLayout *scaRatLayout;
+
+    QSettings set;
+
+private Q_SLOTS:
+    void newPosSelected(int id);
+
+Q_SIGNALS:
+    void notifyNewPosSelected(int id);
 
 };

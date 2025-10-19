@@ -24,16 +24,7 @@
 #include <QObject>
 #include <QQmlEngine>
 #include <QPoint>
-#include <scripts/pqc_scriptsother.h>
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton is a wrapper for the C++ class
-//            This class here can ONLY be used from QML!
-//
-/*************************************************************/
-/*************************************************************/
+#include <qml/pqc_scriptsother.h>
 
 class PQCScriptsOtherQML : public QObject {
 

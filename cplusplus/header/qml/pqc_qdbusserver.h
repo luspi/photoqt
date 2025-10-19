@@ -38,6 +38,7 @@ public:
     PQCQDbusServer(PQCQDbusServer const&) = delete;
     void operator=(PQCQDbusServer const&) = delete;
 
+    QString requestData(QString what, QString message);
     void sendMessage(QString what, QString message);
     bool hasExistingServer() { return m_existingServer; }
 
@@ -51,6 +52,8 @@ private:
 
     QLocalServer *m_server;
     bool m_existingServer;
+
+    bool m_waitingForData;
 
 private Q_SLOTS:
     void handleConnection();

@@ -163,7 +163,8 @@ SET(photoqt_CPPQML_SOURCES "")
 
 SET(d "cplusplus/header")
 SET(photoqt_CPPQML_SOURCES ${photoqt_CPPQML_SOURCES} cplusplus/header/shared/pqc_configfiles.h
-                                                     cplusplus/header/shared/pqc_csettings.h)
+                                                     cplusplus/header/shared/pqc_csettings.h
+                                                     cplusplus/header/shared/pqc_sharedconstants.h)
 
 ####################################
 ####################################
@@ -177,13 +178,24 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/qml/singletons/pqc_qdbu
                                                cplusplus/qml/singletons/pqc_scriptsconfig.cpp
                                                cplusplus/qml/singletons/pqc_scriptsmetadata.cpp
                                                cplusplus/qml/singletons/pqc_scriptsfilespaths.cpp
+                                               cplusplus/qml/singletons/pqc_scriptscontextmenu.cpp
+                                               cplusplus/qml/singletons/pqc_scriptschromecast.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsfiledialog.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsother.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsclipboard.cpp
+                                               cplusplus/qml/singletons/pqc_scriptsfilemanagement.cpp
                                                cplusplus/qml/singletons/pqc_filefoldermodel.cpp
 
                                                cplusplus/qml/qmlsingletons/pqc_look.cpp
                                                cplusplus/qml/qmlsingletons/pqc_settings.cpp
                                                cplusplus/qml/qmlsingletons/pqc_metadata.cpp
+                                               cplusplus/qml/qmlsingletons/pqc_windowgeometry.cpp
+                                               cplusplus/qml/qmlsingletons/pqc_shortcuts.cpp
 
                                                cplusplus/qml/other/pqc_filefoldermodelcache.cpp
+                                               cplusplus/qml/other/pqc_localhttpserver.cpp
+                                               cplusplus/qml/other/pqc_printtabimageoptions.cpp
+                                               cplusplus/qml/other/pqc_printtabimagepositiontile.cpp
 
                                                cplusplus/qml/qmlitems/pqc_mpvobject.cpp
                                                cplusplus/qml/qmlitems/pqc_photosphere.cpp
@@ -197,10 +209,16 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusser
                                                cplusplus/header/qml/pqc_constants.h
                                                cplusplus/header/qml/pqc_notify.h
                                                cplusplus/header/qml/pqc_resolutioncache.h
-
                                                cplusplus/header/qml/pqc_filefoldermodel.h
+                                               cplusplus/header/qml/pqc_filefoldermodel_cpp.h
                                                cplusplus/header/qml/pqc_filefoldermodelcache.h
                                                cplusplus/header/qml/pqc_metadata.h
+                                               cplusplus/header/qml/pqc_localhttpserver.h
+                                               cplusplus/header/qml/pqc_windowgeometry.h
+                                               cplusplus/header/qml/pqc_sharedmemorylayer.h
+                                               cplusplus/header/qml/pqc_shortcuts.h
+                                               cplusplus/header/qml/pqc_printtabimageoptions.h
+                                               cplusplus/header/qml/pqc_printtabimagepositiontile.h
 
                                                cplusplus/header/qml/pqc_scriptsimages.h
                                                cplusplus/header/qml/pqc_qscriptsimages.h
@@ -212,6 +230,18 @@ SET(photoqt_QML_SOURCES ${photoqt_QML_SOURCES} cplusplus/header/qml/pqc_qdbusser
                                                cplusplus/header/qml/pqc_scriptsmetadata_qml.h
                                                cplusplus/header/qml/pqc_scriptsfilespaths.h
                                                cplusplus/header/qml/pqc_scriptsfilespaths_qml.h
+                                               cplusplus/header/qml/pqc_scriptscontextmenu.h
+                                               cplusplus/header/qml/pqc_scriptscontextmenu_qml.h
+                                               cplusplus/header/qml/pqc_scriptschromecast.h
+                                               cplusplus/header/qml/pqc_scriptschromecast_qml.h
+                                               cplusplus/header/qml/pqc_scriptsfiledialog.h
+                                               cplusplus/header/qml/pqc_scriptsfiledialog_qml.h
+                                               cplusplus/header/qml/pqc_scriptsother.h
+                                               cplusplus/header/qml/pqc_scriptsother_qml.h
+                                               cplusplus/header/qml/pqc_scriptsclipboard.h
+                                               cplusplus/header/qml/pqc_scriptsclipboard_qml.h
+                                               cplusplus/header/qml/pqc_scriptsfilemanagement.h
+                                               cplusplus/header/qml/pqc_scriptsfilemanagement_qml.h
 
                                                cplusplus/header/qml/pqc_mpvobject.h
                                                cplusplus/header/qml/pqc_mpvqthelper.h

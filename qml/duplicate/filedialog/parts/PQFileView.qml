@@ -662,12 +662,17 @@ Item {
     }
 
     Connections {
-        target: PQCImageFormats
-        function onFormatsUpdated() {
-            view_top.getCurrentViewId().model = 0
-            PQCFileFolderModel.forceReloadFileDialog()
-            view_top.getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+
+        target: PQDbusLayer
+
+        function onPerformAction(what : string, message : list<string>) {
+            if(what === "imageformats" && message.length > 0 && message[0] === "::formatsUpdated") {
+                view_top.getCurrentViewId().model = 0
+                PQCFileFolderModel.forceReloadFileDialog()
+                view_top.getCurrentViewId().model = PQCFileFolderModel.countAllFileDialog
+            }
         }
+
     }
 
     clip: true

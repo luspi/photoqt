@@ -41,8 +41,13 @@ public:
     Q_INVOKABLE void setup() {
         PQCQDbusServer::get().setup();
     }
+
     Q_INVOKABLE void sendMessage(QString what, QString message) {
         PQCQDbusServer::get().sendMessage(what, message);
+    }
+
+    Q_INVOKABLE QString requestData(QString what, QString message) {
+        return PQCQDbusServer::get().requestData(what, message);
     }
 
 Q_SIGNALS:

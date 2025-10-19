@@ -78,6 +78,7 @@ public:
     QString getWindowsDriveLetter(QString path);
 
     // externally related
+    QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite);
     QString     selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite);
     QString     selectFolderFromDialog(QString buttonlabel, QString preselectFolder);
     void        saveLogToFile(QString txt);

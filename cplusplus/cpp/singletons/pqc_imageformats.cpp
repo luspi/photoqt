@@ -29,10 +29,13 @@
 #include <QMessageBox>
 #include <QImageWriter>
 #include <QMimeDatabase>
+#include <QTimer>
 
 #include <cpp/pqc_imageformats.h>
 #include <cpp/pqc_validate.h>
+#include <cpp/pqc_cdbusserver.h>
 #include <shared/pqc_configfiles.h>
+#include <shared/pqc_sharedconstants.h>
 
 #if defined(PQMIMAGEMAGICK) || defined(PQMGRAPHICSMAGICK)
 #include <Magick++/CoderInfo.h>
@@ -104,6 +107,30 @@ PQCImageFormats::PQCImageFormats() {
         PQCValidate::validateImageFormatsDatabase();
     }
     readFromDatabase();
+
+    connect(&PQCCDbusServer::get(), &PQCCDbusServer::performAction, this, &PQCImageFormats::handleSocketMessage);
+
+}
+
+void PQCImageFormats::handleSocketMessage(QString what, QStringList message) {
+
+    if(what == "imageformats" && message.length() > 0) {
+
+        if(message.at(0) == "getEnabledFormats") {
+            PQCCDbusServer::get().sendMessage("imageformats", QString(":::enabled:::\n%1").arg(getEnabledFormats().join(",")));
+        } else if(message.at(0) == "::closeDatabase") {
+            closeDatabase();
+        } else if(message.at(0) == "::reopenDatabase") {
+            reopenDatabase();
+        } else if(message.at(0) == "::resetToDefault") {
+            resetToDefault();
+        } else if(message.at(0) == "::setFormats") {
+            for(int i = 1; i < message.length(); ++i) {
+                // TODO!!!
+            }
+        }
+
+    }
 
 }
 
@@ -228,18 +255,26 @@ void PQCImageFormats::readFromDatabase() {
     mimetypes_video.clear();    mimetypes_video.reserve(25);
     mimetypes_libmpv.clear();   mimetypes_libmpv.reserve(25);
 
+    m_id2Endings.clear();
+    m_endings2Id.clear();
+    m_id2Description.clear();
+
+    m_ending2QtFormatName.clear(); m_ending2Magick.clear();
+
     magick.clear();
     magick_mimetype.clear();
 
     const QList<QByteArray> qtSupported = QImageReader::supportedImageFormats();
 
-    QSqlQuery query("SELECT endings,mimetypes,description,category,enabled,qt,resvg,"
+    QSqlQuery query("SELECT endings,uniqueid,mimetypes,description,category,enabled,qt,resvg,"
                     "libvips,imagemagick,graphicsmagick,im_gm_magick,libraw,poppler,"
-                    "xcftools,devil,freeimage,archive,video,libmpv,libsai,qt_formatname FROM imageformats ORDER BY description ASC", db);
+                    "xcftools,devil,freeimage,archive,video,libmpv,libsai,qt_formatname,im_gm_magick"
+                    " FROM imageformats ORDER BY description ASC", db);
 
     while(query.next()) {
 
         const QString endings = query.record().value("endings").toString();
+        const int uniqueid = query.record().value("uniqueid").toInt();
         const QString mimetypes = query.record().value("mimetypes").toString();
         const QString desc = query.record().value("description").toString();
         const QString cat = query.record().value("category").toString();
@@ -257,15 +292,23 @@ void PQCImageFormats::readFromDatabase() {
         const QStringList endingsList = endings.split(",");
         const QStringList mimetypesList = mimetypes.split(",");
 
+        m_id2Endings.insert(uniqueid, endingsList);
+        m_id2Description.insert(uniqueid, desc);
+        for(const QString &e : endingsList)
+            m_endings2Id.insert(e, uniqueid);
+
         if(query.record().value("qt").toInt()) {
             // we check the formats against the list of supported image formats
             // this list can vary depending on which plugins are installed
-            if(qtSupported.contains(query.record().value("qt_formatname").toString().toUtf8())) {
+            const QString qtFormatName = query.record().value("qt_formatname").toString();
+            if(qtSupported.contains(qtFormatName.toUtf8())) {
                 supportedByAnyLibrary = true;
                 all << "Qt";
                 formats_qt << endingsList;
                 if(mimetypes != "")
                     mimetypes_qt << mimetypesList;
+                for(const QString &e : endingsList)
+                    m_ending2QtFormatName.insert(e, qtFormatName);
             }
         }
 
@@ -306,6 +349,11 @@ void PQCImageFormats::readFromDatabase() {
             formats_magick << endingsList;
             if(mimetypes != "")
                 mimetypes_magick << mimetypesList;
+            const QStringList imGmMagick = query.record().value("im_gm_magick").toString().split(",",Qt::SkipEmptyParts);
+            if(imGmMagick.length() > 0) {
+                for(const QString &e : endingsList)
+                    m_ending2Magick.insert(e, imGmMagick);
+            }
         }
 #endif
 #ifdef PQMRAW
@@ -416,6 +464,45 @@ void PQCImageFormats::readFromDatabase() {
         }
     }
 
+    QTimer::singleShot(10, [=]() {
+
+        PQCSharedMemory::get().setImageFormatsAllFormats(formats);
+        PQCSharedMemory::get().setImageFormats("enabled", formats_enabled);
+        PQCSharedMemory::get().setImageFormats("poppler", formats_poppler);
+        PQCSharedMemory::get().setImageFormats("libarchive", formats_archive);
+        PQCSharedMemory::get().setImageFormats("qt", formats_qt);
+        PQCSharedMemory::get().setImageFormats("resvg", formats_resvg);
+        PQCSharedMemory::get().setImageFormats("magick", formats_magick);
+        PQCSharedMemory::get().setImageFormats("libmpv", formats_libmpv);
+        PQCSharedMemory::get().setImageFormats("video", formats_video);
+        PQCSharedMemory::get().setImageFormats("libraw", formats_libraw);
+        PQCSharedMemory::get().setImageFormats("libvips", formats_libvips);
+        PQCSharedMemory::get().setImageFormats("devil", formats_devil);
+        PQCSharedMemory::get().setImageFormats("freeimage", formats_freeimage);
+
+        PQCSharedMemory::get().setImageFormatsMimeTypes("poppler", mimetypes_poppler);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("libarchive", mimetypes_archive);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("qt", mimetypes_qt);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("resvg", mimetypes_resvg);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("magick", mimetypes_magick);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("libmpv", mimetypes_libmpv);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("video", mimetypes_video);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("libraw", mimetypes_libraw);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("libvips", mimetypes_libvips);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("devil", mimetypes_devil);
+        PQCSharedMemory::get().setImageFormatsMimeTypes("freeimage", mimetypes_freeimage);
+
+        PQCSharedMemory::get().setImageFormatsEnding2QtName(m_ending2QtFormatName);
+        PQCSharedMemory::get().setImageFormatsEnding2MagickName(m_ending2Magick);
+
+        PQCSharedMemory::get().setImageFormatsId2Endings(m_id2Endings);
+        PQCSharedMemory::get().setImageFormatsId2Description(m_id2Description);
+        PQCSharedMemory::get().setImageFormatsEndings2Id(m_endings2Id);
+
+        PQCCDbusServer::get().sendMessage("imageformats", "::formatsUpdated");
+
+    });
+
     Q_EMIT formatsUpdated();
 
 }
@@ -514,27 +601,6 @@ QString PQCImageFormats::getFormatName(int uniqueid) {
 
 }
 
-QStringList PQCImageFormats::getFormatEndings(int uniqueid) {
-
-    qDebug() << "args: uniqueid =" << uniqueid;
-
-    QSqlQuery query(db);
-    query.prepare("SELECT endings FROM imageformats WHERE uniqueid=:uniqueid");
-    query.bindValue(":uniqueid", uniqueid);
-    if(!query.exec()) {
-        qWarning() << "SQL Query error:" << query.lastError().text();
-        return QStringList();
-    }
-
-    if(!query.next()) {
-        qWarning() << "No SQL results returned";
-        return QStringList();
-    }
-
-    return query.value(0).toString().split(",");
-
-}
-
 QVariantMap PQCImageFormats::getFormatsInfo(int uniqueid) {
 
     qDebug() << "args: uniqueid =" << uniqueid;
@@ -578,43 +644,6 @@ QVariantMap PQCImageFormats::getFormatsInfo(int uniqueid) {
     ret.insert("qt_formatname", query.record().value("qt_formatname"));
 
     return ret;
-
-}
-
-int PQCImageFormats::detectFormatId(QString filename) {
-
-    QFileInfo info(filename);
-    QString suffix = info.suffix();
-
-    QMimeDatabase mimedb;
-    QString mimetype = mimedb.mimeTypeForFile(filename).name();
-
-    if(mimetype != "") {
-
-        QSqlQuery query(db);
-        query.prepare("SELECT uniqueid FROM imageformats WHERE mimetypes LIKE :mimetype");
-        query.bindValue(":mimetype", QString("%%%1%%").arg(mimetype));
-        if(query.exec()) {
-            if(query.next())
-                return query.record().value(0).toInt();
-        } else
-            qDebug() << "SQL error:" << query.lastError().text();
-
-    }
-
-    QSqlQuery query(db);
-    query.prepare("SELECT uniqueid FROM imageformats WHERE endings LIKE :endings1 OR endings LIKE :endings2 OR endings LIKE :endings3 or endings=:endings4");
-    query.bindValue(":endings1", QString("%1,%%").arg(suffix));
-    query.bindValue(":endings2", QString("%%,%1,%%").arg(suffix));
-    query.bindValue(":endings3", QString("%%,%1").arg(suffix));
-    query.bindValue(":endings4", suffix);
-    if(query.exec()) {
-        if(query.next())
-            return query.record().value(0).toInt();
-    } else
-        qDebug() << "SQL error:" << query.lastError().text();
-
-    return -1;
 
 }
 

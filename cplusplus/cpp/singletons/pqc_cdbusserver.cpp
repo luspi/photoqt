@@ -1,5 +1,6 @@
 #include <cpp/pqc_cdbusserver.h>
 #include <cpp/pqc_cscriptslocalization.h>
+#include <cpp/pqc_imageformats.h>
 #include <shared/pqc_csettings.h>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -68,9 +69,16 @@ void PQCCDbusServer::handleConnection() {
 
             PQCCScriptsLocalization::get().updateTranslation(args[0]);
 
-        }
+        } else {
 
-        Q_EMIT performAction(what, args);
+            if(what == "imageformats")
+                PQCImageFormats::get().setup();
+
+            qWarning() << ">>>>>>" << what << "//" << args;
+
+            Q_EMIT performAction(what, args);
+
+        }
 
     }
 

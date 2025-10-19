@@ -32,10 +32,12 @@
 #include <QImage>
 #include <QDirIterator>
 #include <qml/pqc_filefoldermodel.h>
+#include <qml/pqc_filefoldermodel_cpp.h>
 #include <qml/pqc_resolutioncache.h>
 #include <qml/pqc_scriptsimages.h>
 #include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
+#include <shared/pqc_sharedconstants.h>
 
 #ifdef PQMLIBARCHIVE
 #include <archive.h>
@@ -75,11 +77,9 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
     m_entriesFileDialog.clear();
 
     m_nameFilters = QStringList();
-    //TODO!!!
-    m_restrictToSuffixes = QStringList(); //PQCImageFormats::get().getEnabledFormats();
+    m_restrictToSuffixes = PQCSharedMemory::get().getImageFormats("enabled");
     m_filenameFilters = QStringList();
-    //TODO!!!
-    m_restrictToMimeTypes = QStringList();//PQCImageFormats::get().getEnabledMimeTypes();
+    m_restrictToMimeTypes = PQCSharedMemory::get().getImageFormatsMimeTypes("enabled");
     m_imageResolutionFilter = QSize(0,0);
     m_fileSizeFilter = 0;
     m_justLeftViewerMode = false;
@@ -163,9 +163,8 @@ PQCFileFolderModel::PQCFileFolderModel(QObject *parent) : QObject(parent) {
 
     // these are READ FROM PQCFileFolderModelCPP
 
-    //TODO!!!
-    // connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
-    // connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=](QStringList val) { setExtraFoldersToLoad(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setFileInFolderMainView, this, [=](QString val) { setFileInFolderMainView(val); });
+    connect(&PQCFileFolderModelCPP::get(), &PQCFileFolderModelCPP::setExtraFoldersToLoad, this, [=](QStringList val) { setExtraFoldersToLoad(val); });
 
     /********************************************/
     /********************************************/
@@ -199,8 +198,7 @@ void PQCFileFolderModel::setFileInFolderMainView(QString val) {
     QFileInfo newfile(val);
     if(oldfile.dir() == newfile.dir() && m_fileInFolderMainView != "") {
         m_currentFile = val;
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentFileNoDelay = m_currentFile;
         m_currentIndex = m_entriesMainView.indexOf(val);
         m_currentIndexNoDelay = m_currentIndex;
@@ -256,8 +254,7 @@ int PQCFileFolderModel::getCountMainView() {
 }
 void PQCFileFolderModel::setCountMainView(int c) {
 
-    //TODO!!!
-    // PQCFileFolderModelCPP::get().setCountMainView(c);
+    PQCFileFolderModelCPP::get().setCountMainView(c);
 
     if(m_countMainView == c)
         return;
@@ -478,8 +475,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
         setCountMainView(tmp);
 
         m_entriesMainView = cacheAdvancedSortFolder;
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
+        PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
         Q_EMIT newDataLoadedMainView();
         Q_EMIT advancedSortingComplete();
         return;
@@ -784,8 +780,7 @@ void PQCFileFolderModel::advancedSortMainView(QString advSortCriteria, bool advS
         m_currentIndexNoDelay = m_currentIndex;
 
         m_entriesMainView = cacheAdvancedSortFolder;
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
+        PQCFileFolderModelCPP::get().setEntriesMainView(cacheAdvancedSortFolder);
         Q_EMIT currentIndexChanged();
         Q_EMIT currentIndexNoDelayChanged();
         Q_EMIT newDataLoadedMainView();
@@ -852,8 +847,7 @@ void PQCFileFolderModel::resetModel() {
     delete watcherMainView;
     watcherMainView = new QFileSystemWatcher;
     m_entriesMainView.clear();
-    //TODO!!!
-    // PQCFileFolderModelCPP::get().setEntriesMainView({});
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
 
     setFileInFolderMainView("");
     setCountMainView(0);
@@ -863,8 +857,7 @@ void PQCFileFolderModel::resetModel() {
     m_includeFilesInSubFolders = false;
 
     m_entriesMainView.clear();
-    //TODO!!!
-    // PQCFileFolderModelCPP::get().setEntriesMainView({});
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
 
     cache.resetData();
 
@@ -886,8 +879,7 @@ int PQCFileFolderModel::getCurrentIndexNoDelay() {
 
 void PQCFileFolderModel::setCurrentIndex(int val) {
 
-    //TODO!!!
-    // PQCFileFolderModelCPP::get().setCurrentIndex(val);
+    PQCFileFolderModelCPP::get().setCurrentIndex(val);
 
     if(m_currentIndex != val) {
         m_currentIndex = val;
@@ -895,8 +887,7 @@ void PQCFileFolderModel::setCurrentIndex(int val) {
             m_currentFile = "";
         else
             m_currentFile = m_entriesMainView[m_currentIndex];
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
 
         m_currentIndexNoDelay = m_currentIndex;
         m_currentFileNoDelay = m_currentFile;
@@ -959,8 +950,7 @@ void PQCFileFolderModel::loadDataMainView() {
     // clear old entries
 
     m_entriesMainView.clear();
-    //TODO!!!
-    // PQCFileFolderModelCPP::get().setEntriesMainView({});
+    PQCFileFolderModelCPP::get().setEntriesMainView({});
     if(watcherMainView->directories().length())
         watcherMainView->removePaths(watcherMainView->directories());
     if(watcherMainView->files().length())
@@ -972,8 +962,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
     if(m_fileInFolderMainView.isEmpty()) {
         m_currentFile = "";
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
         m_currentIndex = -1;
         m_currentIndexNoDelay = -1;
         m_currentFileNoDelay = "";
@@ -1007,21 +996,19 @@ void PQCFileFolderModel::loadDataMainView() {
     watcherMainView->addPath(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
     connect(watcherMainView, &QFileSystemWatcher::directoryChanged, this, [=]() { m_fileInFolderMainView = m_currentFile; loadDelayMainView->start(); });
 
-    if(m_readDocumentOnly) {// && PQCImageFormats::get().getEnabledFormatsPoppler().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+    if(m_readDocumentOnly && PQCSharedMemory::get().getImageFormats("poppler").contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         m_entriesMainView = listPDFPages(m_fileInFolderMainView);
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
         setCountMainView(m_entriesMainView.length());
         m_readDocumentOnly = false;
         setCurrentIndex(numberPageDocument);
 
-    } else if(m_readArchiveOnly) {// && PQCImageFormats::get().getEnabledFormatsLibArchive().contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
+    } else if(m_readArchiveOnly && PQCSharedMemory::get().getImageFormats("libarchive").contains(QFileInfo(m_fileInFolderMainView).suffix().toLower())) {
 
         if(archiveContentPreloaded.length() > 0) {
             m_entriesMainView = archiveContentPreloaded;
-            //TODO!!!
-            // PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+            PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
             archiveContentPreloaded.clear();
         }
         setCountMainView(m_entriesMainView.length());
@@ -1031,8 +1018,7 @@ void PQCFileFolderModel::loadDataMainView() {
     } else {
 
         m_entriesMainView = getAllFiles(isFolder ? m_fileInFolderMainView : QFileInfo(m_fileInFolderMainView).absolutePath());
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
+        PQCFileFolderModelCPP::get().setEntriesMainView(m_entriesMainView);
         setCountMainView(m_entriesMainView.length());
 
         if(isFolder && m_entriesMainView.length())
@@ -1060,8 +1046,7 @@ void PQCFileFolderModel::loadDataMainView() {
 
         m_currentIndex = m_entriesMainView.indexOf(m_fileInFolderMainView);
         m_currentFile = m_fileInFolderMainView;
-        //TODO!!!
-        // PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
+        PQCFileFolderModelCPP::get().setCurrentFile(m_currentFile);
 
         m_currentIndexNoDelay = m_currentIndex;
         m_currentFileNoDelay = m_currentFile;
@@ -1255,8 +1240,7 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
 
     for(const QString &f : std::as_const(foldersToScan)) {
 
-        //TODO!!!
-        // if(!cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret)) {
+        if(!cache.loadFilesFromCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCSharedMemory::get().getImageFormats("enabled").count(), ret)) {
 
             QStringList ret_cur;
 
@@ -1382,12 +1366,11 @@ QStringList PQCFileFolderModel::getAllFiles(QString folder, bool ignoreFiltersEx
             // add current list, sorted, to global result list
             ret << ret_cur;
 
-            //TODO!!!
-            // cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCImageFormats::get().getEnabledFormatsNum(), ret_cur);
+            cache.saveFilesToCache(f, showHidden, sortReversed, sortBy, m_restrictToSuffixes, m_nameFilters, m_filenameFilters, m_restrictToMimeTypes, m_imageResolutionFilter, m_fileSizeFilter, ignoreFiltersExceptDefault, PQCSharedMemory::get().getImageFormats("enabled").count(), ret_cur);
 
         }
 
-    // }
+    }
 
     return ret;
 

@@ -19,9 +19,7 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCPOPUPGEOMETRY_H
-#define PQCPOPUPGEOMETRY_H
+#pragma once
 
 #include <QQmlPropertyMap>
 #include <QRectF>
@@ -414,5 +412,3 @@ Q_SIGNALS:
     void quickactionsForcePopoutChanged();
 
 };
-
-#endif

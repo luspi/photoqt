@@ -22,10 +22,12 @@
 #pragma once
 
 #include <QObject>
+#include <QHash>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptsclipboard.h>
+#include <QThreadPool>
+#include <qml/pqc_scriptsfiledialog.h>
 
-class QClipboard;
+class QJSValue;
 
 /*************************************************************/
 /*************************************************************/
@@ -36,35 +38,57 @@ class QClipboard;
 /*************************************************************/
 /*************************************************************/
 
-class PQCScriptsClipboardQML : public QObject {
+class PQCScriptsFileDialogQML : public QObject {
 
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
-    QML_NAMED_ELEMENT(PQCScriptsClipboard)
+    QML_NAMED_ELEMENT(PQCScriptsFileDialog)
 
 public:
-    PQCScriptsClipboardQML() {
-        connect(&PQCScriptsClipboard::get(), &PQCScriptsClipboard::clipboardUpdated, this, &PQCScriptsClipboardQML::clipboardUpdated);
+    PQCScriptsFileDialogQML() {}
+
+    // get data
+    Q_INVOKABLE QVariantList getDevices() {
+        return PQCScriptsFileDialog::get().getDevices();
+    }
+    Q_INVOKABLE QVariantList getPlaces(bool performEmptyCheck = true) {
+        return PQCScriptsFileDialog::get().getPlaces(performEmptyCheck);
     }
 
-    Q_INVOKABLE bool areFilesInClipboard() {
-        return PQCScriptsClipboard::get().areFilesInClipboard();
+    // last location
+    // this value is set in PQCFileFolderModel::setFolderFileDialog() when the custom filedialog is used
+    Q_INVOKABLE QString getLastLocation() {
+        return PQCScriptsFileDialog::get().getLastLocation();
     }
-    Q_INVOKABLE void copyFilesToClipboard(QStringList files) {
-        PQCScriptsClipboard::get().copyFilesToClipboard(files);
+    // The following one ONLY needs to be called from the integrated ui IF the native filedialog is used!
+    Q_INVOKABLE void setLastLocation(QString fname) {
+        PQCScriptsFileDialog::get().setLastLocation(fname);
     }
-    Q_INVOKABLE QStringList getListOfFilesInClipboard() {
-        return PQCScriptsClipboard::get().getListOfFilesInClipboard();
+
+    // count folder files
+    Q_INVOKABLE void getNumberOfFilesInFolder(QString path) {
+        QThreadPool::globalInstance()->start([=]() {
+            unsigned int ret = PQCScriptsFileDialog::get().getNumberOfFilesInFolder(path);
+            Q_EMIT figuredOutNumberOfFilesInFolder(path, ret);
+        });
     }
-    Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false) {
-        PQCScriptsClipboard::get().copyTextToClipboard(txt, removeHTML);
+
+    // places methods
+    Q_INVOKABLE void movePlacesEntry(QString id, bool moveDown, int howmany) {
+        PQCScriptsFileDialog::get().movePlacesEntry(id, moveDown, howmany);
     }
-    Q_INVOKABLE QString getTextFromClipboard() {
-        return PQCScriptsClipboard::get().getTextFromClipboard();
+    Q_INVOKABLE void addPlacesEntry(QString path, int pos, QString titlestring = "", QString icon = "folder", bool isSystemItem = false) {
+        PQCScriptsFileDialog::get().addPlacesEntry(path, pos, titlestring, icon, isSystemItem);
+    }
+    Q_INVOKABLE void hidePlacesEntry(QString id, bool hidden) {
+        PQCScriptsFileDialog::get().hidePlacesEntry(id, hidden);
+    }
+    Q_INVOKABLE void deletePlacesEntry(QString id) {
+        PQCScriptsFileDialog::get().deletePlacesEntry(id);
     }
 
 Q_SIGNALS:
-    void clipboardUpdated();
+    void figuredOutNumberOfFilesInFolder(const QString &path, const unsigned int &num);
 
 };

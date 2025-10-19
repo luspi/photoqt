@@ -397,7 +397,7 @@ PQSetting {
 
         settingsLoaded = false
 
-        listview.ft = PQCImageFormats.getAllFormats()
+        listview.ft = PQSharedMemoryLayer.getImageFormatsAllFormats()
         defaultSettings = composeChecker()
 
         PQCConstants.settingsManagerSettingChanged = false
@@ -407,7 +407,7 @@ PQSetting {
 
     function applyChanges() {
 
-        PQCImageFormats.setAllFormats(listview.ft)
+        PQDbusLayer.sendMessage("imageformats", "::setFormats\n"+listview.ft.join("\n"))
         defaultSettings = composeChecker()
 
         PQCConstants.settingsManagerSettingChanged = false

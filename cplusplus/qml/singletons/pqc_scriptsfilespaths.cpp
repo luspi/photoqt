@@ -23,6 +23,7 @@
 #include <qml/pqc_scriptsfilespaths.h>
 #include <shared/pqc_csettings.h>
 #include <shared/pqc_configfiles.h>
+#include <shared/pqc_sharedconstants.h>
 
 #include <QtDebug>
 #include <QDir>
@@ -413,6 +414,12 @@ void PQCScriptsFilesPaths::openInDefaultFileManager(QString filename) {
 
 }
 
+QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, bool confirmOverwrite) {
+
+    return selectFileFromDialog(buttonlabel, preselectFile, PQCSharedMemory::get().getImageFormatsEndings2Id().value(QFileInfo(preselectFile).suffix().toLower()), confirmOverwrite);
+
+}
+
 QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString preselectFile, int formatId, bool confirmOverwrite) {
 
     qDebug() << "args: buttonlabel" << buttonlabel;
@@ -422,8 +429,7 @@ QString PQCScriptsFilesPaths::selectFileFromDialog(QString buttonlabel, QString 
 
     QFileInfo info(preselectFile);
 
-    //TODO!!!
-    const QStringList endings = {};//PQCImageFormats::get().getFormatEndings(formatId);
+    const QStringList endings = PQCSharedMemory::get().getImageFormatsId2Endings().value(formatId);
 
     QFileDialog diag;
     diag.setWindowModality(Qt::ApplicationModal);

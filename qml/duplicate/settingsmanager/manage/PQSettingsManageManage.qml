@@ -131,7 +131,7 @@ PQSetting {
                         else if(cancel.action === "shortcuts")
                             PQCShortcuts.resetToDefault()
                         else if(cancel.action === "formats")
-                            PQCImageFormats.resetToDefault()
+                            PQDbusLayer.sendMessage("imageformats", "::resetToDefault")
 
                         cancel.action = ""
 
@@ -173,13 +173,13 @@ PQSetting {
 
                 PQCShortcuts.closeDatabase()
                 PQCSettings.closeDatabase()
-                PQCImageFormats.closeDatabase()
+                PQDbusLayer.sendMessage("imageformats", "::closeDatabase")
 
                 PQCScriptsConfig.exportConfigTo("")
 
                 PQCShortcuts.reopenDatabase()
                 PQCSettings.reopenDatabase()
-                PQCImageFormats.reopenDatabase()
+                PQDbusLayer.sendMessage("imageformats", "::reopenDatabase")
 
             }
         },
@@ -192,7 +192,7 @@ PQSetting {
 
                 PQCShortcuts.closeDatabase()
                 PQCSettings.closeDatabase()
-                PQCImageFormats.closeDatabase()
+                PQDbusLayer.sendMessage("imageformats", "::closeDatabase")
 
                 if(PQCScriptsConfig.importConfigFrom("")) {
                     PQCScriptsConfig.inform(qsTranslate("settingsmanager", "Restart required"),

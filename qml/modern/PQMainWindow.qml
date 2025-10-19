@@ -218,7 +218,84 @@ Window {
     Connections {
         target: PQDbusLayer
         function onPerformAction(what, args) {
-            console.warn(">>> QML MSG:", what, args)
+
+            if(what === "startup") {
+
+                console.log("args: what =", what)
+                console.log("args: args =", args)
+
+                for(var i = 0; i < args.length; ++i) {
+
+                    var cmd = args[i];
+
+                    if(cmd === ":::OPEN:::") {
+
+                        PQCNotify.loaderShow("FileDialog")
+
+                    } else if(cmd === ":::SHOW:::") {
+
+                        if(toplevel.visible) {
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                            return
+                        }
+
+                        toplevel.visible = true
+                        if(toplevel.visibility === Window.Minimized)
+                            toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                        toplevel.raise()
+                        toplevel.requestActivate()
+
+                    } else if(cmd === ":::HIDE:::") {
+
+                        PQCSettings.interfaceTrayIcon = 1
+                        toplevel.close()
+
+                    } else if(cmd === ":::QUIT:::") {
+
+                        toplevel.quitPhotoQt()
+
+                    } else if(cmd === ":::TOGGLE:::") {
+
+                        if(toplevel.visible) {
+                            PQCSettings.interfaceTrayIcon = 1
+                            toplevel.close()
+                        } else {
+                            toplevel.visible = true
+                            if(toplevel.visibility === Window.Minimized)
+                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                        }
+
+                    } else if(cmd === ":::TRAY:::") {
+
+                        PQCSettings.interfaceTrayIcon = 2
+
+                    } else if(cmd === ":::NOTRAY:::") {
+
+                        PQCSettings.interfaceTrayIcon = 0
+                        if(!toplevel.visible) {
+                            toplevel.visible = true
+                            if(toplevel.visibility === Window.Minimized)
+                                toplevel.visibility = (PQCConstants.windowMaxAndNotWindowed ? Window.Maximized : Window.Windowed)
+                            toplevel.raise()
+                            toplevel.requestActivate()
+                        }
+
+                    } else if(cmd === ":::STARTINTRAY:::") {
+
+                        if(PQCConstants.startupStartInTray)
+                            PQCSettings.interfaceTrayIcon = 1
+                        else if(!PQCConstants.startupStartInTray && PQCSettings.interfaceTrayIcon === 1)
+                            PQCSettings.interfaceTrayIcon = 0
+
+                    }
+
+                }
+
+            }
+
         }
     }
 

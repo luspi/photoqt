@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptschromecast.h>
+#include <qml/pqc_scriptschromecast.h>
 
 class PQCLocalHttpServer;
 class QProcess;

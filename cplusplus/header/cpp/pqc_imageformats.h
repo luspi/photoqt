@@ -40,6 +40,8 @@ public:
     PQCImageFormats(PQCImageFormats const&)     = delete;
     void operator=(PQCImageFormats const&) = delete;
 
+    void setup() {}
+
     void readDatabase() {
         readFromDatabase();
     }
@@ -177,9 +179,7 @@ public:
 
     QVariantList getWriteableFormats();
     QString getFormatName(int uniqueid);
-    QStringList getFormatEndings(int uniqueid);
     QVariantMap getFormatsInfo(int uniqueid);
-    int detectFormatId(QString filename);
     int getWriteStatus(int uniqueid);
 
     bool enterNewFormat(QString endings, QString mimetypes, QString description, QString category, int enabled, int qt, int resvg, int libvips, int imagemagick, int graphicsmagick, int libraw, int poppler, int xcftools, int devil, int freeimage, int archive, int video, int libmpv, int libsai, QString im_gm_magick, QString qt_formatname, bool silentIfExists);
@@ -193,6 +193,9 @@ public Q_SLOTS:
 
 Q_SIGNALS:
     void formatsUpdated();
+
+private Q_SLOTS:
+    void handleSocketMessage(QString what, QStringList message);
 
 private:
     PQCImageFormats();
@@ -238,6 +241,12 @@ private:
 
     QVariantHash magick;
     QVariantHash magick_mimetype;
+
+    QHash<int, QStringList> m_id2Endings;
+    QHash<QString, int> m_endings2Id;
+    QHash<int, QString> m_id2Description;
+    QHash<QString,QString> m_ending2QtFormatName;
+    QHash<QString,QStringList> m_ending2Magick;
 
     // this is true if reading from the permanent database failed
     // in that case we load the built-in default database but read-only

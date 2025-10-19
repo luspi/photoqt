@@ -47,7 +47,7 @@ Item {
                         return
                     }
 
-                    var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
+                    var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Copy here"), PQCFileFolderModel.currentFile, true);
                     if(targetfile === "") {
                         PQCNotify.loaderRegisterClose("FileCopy")
                     } else {

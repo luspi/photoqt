@@ -101,7 +101,7 @@ PQSetting {
                                     set_come.checkForChanges()
                                 onClicked: {
                                                                                         //: written on button for selecting a file from the file dialog
-                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQCImageFormats.getEnabledFormatsQt());
+                                    var newicn = PQCScriptsFilesPaths.openFileFromDialog(qsTranslate("settingsmanager", "Select"), (PQCScriptsConfig.amIOnWindows() ? PQCScriptsFilesPaths.getHomeDir() : "/usr/share/icons/hicolor/32x32/apps"), PQSharedMemoryLayer.getImageFormats("qt"));
                                     if(newicn !== "")
                                         deleg.curData[0] = PQCScriptsImages.loadImageAndConvertToBase64(newicn)
                                     else

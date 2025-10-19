@@ -25,9 +25,8 @@
 #include <QtSql/QSqlError>
 #include <QtSql/QSqlQuery>
 #include <QApplication>
-#include <pqc_shortcuts.h>
-#include <pqc_configfiles.h>
-#include <pqc_notify_cpp.h>
+#include <qml/pqc_shortcuts.h>
+#include <shared/pqc_configfiles.h>
 
 PQCShortcuts::PQCShortcuts() {
 
@@ -483,13 +482,13 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
         iter.next();
 
-        QString combo = iter.key();
-        QStringList cmds = iter.value();
+        const QString combo = iter.key();
+        const QStringList cmds = iter.value();
 
         // case 1: shortcut exists in old map
         if(shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             // case a: commands are unchanged
             if(oldcmds == cmds) {
@@ -540,7 +539,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
         // combo not in new map
         if(!new_shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             for(const QString &c : oldcmds) {
 
@@ -548,7 +547,7 @@ void PQCShortcuts::saveInternalShortcutCombos(const QVariantList lst) {
 
                     if(new_shortcuts.contains(combo)) {
 
-                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        QStringList oldcombos = new_shortcuts.value(combo).at(0).toStringList();
                         oldcombos.append(c);
                         new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 
@@ -609,13 +608,13 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
         iter.next();
 
-        QString combo = iter.key();
-        QStringList cmds = iter.value();
+        const QString combo = iter.key();
+        const QStringList cmds = iter.value();
 
         // case 1: shortcut exists in old map
         if(shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             // case a: commands are unchanged
             if(oldcmds == cmds) {
@@ -666,7 +665,7 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
         // combo not in new map
         if(!new_shortcuts.contains(combo)) {
 
-            QStringList oldcmds = shortcuts[combo][0].toStringList();
+            const QStringList oldcmds = shortcuts[combo][0].toStringList();
 
             for(const QString &c : oldcmds) {
 
@@ -674,7 +673,7 @@ void PQCShortcuts::saveExternalShortcutCombos(const QVariantList lst) {
 
                     if(new_shortcuts.contains(combo)) {
 
-                        QStringList oldcombos = new_shortcuts.value(combo)[0].toStringList();
+                        QStringList oldcombos = new_shortcuts.value(combo).at(0).toStringList();
                         oldcombos.append(c);
                         new_shortcuts.insert(combo, QVariantList() << oldcombos << shortcuts[combo][1] << shortcuts[combo][2] << shortcuts[combo][3]);
 

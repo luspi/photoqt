@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_printtabimagepositiontile.h>
+#include <qml/pqc_printtabimagepositiontile.h>
 
 PQCPrintTabImagePositionTile::PQCPrintTabImagePositionTile(int id, bool selected) : QLabel() {
     this->setFixedSize(40,40);

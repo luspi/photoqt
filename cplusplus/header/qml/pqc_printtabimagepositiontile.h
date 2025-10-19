@@ -21,40 +21,40 @@
  **************************************************************************/
 #pragma once
 
-#include <QObject>
-#include <QQmlEngine>
-#include <scripts/pqc_scriptslocalization.h>
+#include <QLabel>
 
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton is a wrapper for the C++ class
-//            This class here can ONLY be used from QML!
-//
-/*************************************************************/
-/*************************************************************/
-
-class PQCScriptsLocalizationQML : public QObject {
+class PQCPrintTabImagePositionTile : public QLabel {
 
     Q_OBJECT
-    QML_ELEMENT
-    QML_SINGLETON
-    QML_NAMED_ELEMENT(PQCScriptsLocalization)
 
 public:
-    PQCScriptsLocalizationQML() {}
+    PQCPrintTabImagePositionTile(int id, bool selected);
 
-    Q_INVOKABLE QStringList getAvailableTranslations() {
-        return PQCScriptsLocalization::get().getAvailableTranslations();
+    void setHovered();
+    void setNotHovered();
+    void setSelected();
+
+    QString getBorder();
+
+public Q_SLOTS:
+    void checkIfIAmStillSelected(int newid);
+
+private:
+    int id;
+    bool selected;
+
+protected:
+    void enterEvent(QEvent *) {
+        setHovered();
     }
-    Q_INVOKABLE void updateTranslation(QString code) {
-        PQCScriptsLocalization::get().updateTranslation(code);
+    void leaveEvent(QEvent *) {
+        setNotHovered();
     }
-    Q_INVOKABLE QString getNameForLocalizationCode(QString code) {
-        return PQCScriptsLocalization::get().getNameForLocalizationCode(code);
+    void mousePressEvent(QMouseEvent *) {
+        setSelected();
     }
-    Q_INVOKABLE QString getCurrentTranslation() {
-        return PQCScriptsLocalization::get().getCurrentTranslation();
-    }
+
+Q_SIGNALS:
+    void newPosSelected(int id);
 
 };

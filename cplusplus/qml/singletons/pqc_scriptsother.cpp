@@ -20,12 +20,10 @@
  **                                                                      **
  **************************************************************************/
 
-#include <scripts/pqc_scriptsother.h>
-#include <pqc_notify_cpp.h>
-#include <pqc_printtabimageoptions.h>
-#include <pqc_printtabimagepositiontile.h>
-#include <pqc_loadimage.h>
-#include <pqc_settings.h>
+#include <qml/pqc_scriptsother.h>
+#include <qml/pqc_printtabimageoptions.h>
+#include <qml/pqc_printtabimagepositiontile.h>
+#include <shared/pqc_csettings.h>
 
 #include <QMessageBox>
 #include <QDateTime>
@@ -73,7 +71,8 @@ void PQCScriptsOther::printFile(QString filename) {
     // Get the image
     QImage img;
     QSize orig;
-    PQCLoadImage::get().load(filename, QSize(), orig, img);
+    //TODO!!!
+    // PQCLoadImage::get().load(filename, QSize(), orig, img);
 
     // show the printer dialog with additional options tab
     QPrinter printer(QPrinter::HighResolution);

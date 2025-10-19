@@ -1,9 +1,11 @@
 #include <qml/pqc_qdbusserver.h>
+#include <shared/pqc_sharedconstants.h>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QtDebug>
 #include <QImage>
 #include <thread>
+#include <QApplication>
 
 PQCQDbusServer::PQCQDbusServer() : QObject() {
 
@@ -19,6 +21,8 @@ PQCQDbusServer::PQCQDbusServer() : QObject() {
         m_server = nullptr;
         return;
     }
+
+    m_waitingForData = false;
 
     m_server = new QLocalServer;
     m_server->removeServer(server_str);
@@ -48,12 +52,52 @@ void PQCQDbusServer::sendMessage(QString what, QString message) {
 
 }
 
+QString PQCQDbusServer::requestData(QString what, QString message) {
+
+    if(what == "imageformats") {
+        return PQCSharedMemory::get().getImageFormats("enabled").join(",");
+    }
+
+    QLocalSocket socket;
+    socket.connectToServer("org.photoqt.PhotoQtCPP");
+
+    if(!socket.waitForConnected(1000)) {
+        qCritical() << "ERROR: Timeout connecting to CPP DBUS server";
+        return "";
+    }
+
+    m_waitingForData = true;
+
+    socket.write(QString("%1\n%2").arg(what, message).toUtf8());
+    socket.flush();
+
+    QString ret = "";
+
+    int counter = 0;
+    while(!socket.waitForReadyRead(10)) {
+        counter += 1;
+        qApp->processEvents();
+        if(counter == 100)
+            break;
+    }
+
+    if(socket.waitForReadyRead(10))
+        ret = socket.readAll();
+
+    m_waitingForData = false;
+
+    return ret;
+
+}
+
 void PQCQDbusServer::handleConnection() {
 
     // startup
     // save colorspace
     // disable colorspace support
     // show notification
+
+    if(m_waitingForData) return;
 
     QLocalSocket *socket = m_server->nextPendingConnection();
     if(socket->waitForReadyRead(2000)) {

@@ -49,7 +49,7 @@ Item {
 
                     error.opacity = 0
 
-                    var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, PQCImageFormats.detectFormatId(PQCFileFolderModel.currentFile), true);
+                    var targetfile = PQCScriptsFilesPaths.selectFileFromDialog(qsTranslate("filemanagement", "Move here"), PQCFileFolderModel.currentFile, true);
                     if(targetfile === "") {
                         PQCNotify.loaderRegisterClose("FileMove")
                     } else {

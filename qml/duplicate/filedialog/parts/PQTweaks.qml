@@ -313,8 +313,8 @@ Item {
 
                         if(ft_combo.countEnabled === mdl.count) {
 
-                            PQCFileFolderModel.restrictToSuffixes = PQCImageFormats.getEnabledFormats()
-                            PQCFileFolderModel.restrictToMimeTypes = PQCImageFormats.getEnabledMimeTypes()
+                            PQCFileFolderModel.restrictToSuffixes = PQSharedMemoryLayer.getImageFormats("enabled")
+                            PQCFileFolderModel.restrictToMimeTypes = PQSharedMemoryLayer.getImageFormatsMimeTypes("enabled")
 
                             PQCNotify.filedialogTweaksSetFiletypesButtonText(qsTranslate("filedialog", "All supported images"))
 
@@ -330,10 +330,10 @@ Item {
                             // Qt
                             if(mdl.get(runningIndex).checked) {
                                 txts.push("Qt")
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsQt())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesQt())
-                                suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsResvg())
-                                mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesResvg())
+                                suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("qt"))
+                                mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("qt"))
+                                suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("resvg"))
+                                mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("resvg"))
                             }
                             runningIndex += 1
 
@@ -341,8 +341,8 @@ Item {
                             if(PQCScriptsConfig.isImageMagickSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("ImageMagick")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("magick"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("magick"))
                                 }
                                 runningIndex += 1
                             }
@@ -351,8 +351,8 @@ Item {
                             if(PQCScriptsConfig.isGraphicsMagickSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("GraphicsMagick")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsMagick())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesMagick())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("magick"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("magick"))
                                 }
                                 runningIndex += 1
                             }
@@ -361,8 +361,8 @@ Item {
                             if(PQCScriptsConfig.isLibRawSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("LibRaw")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibRaw())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibRaw())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("libraw"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("libraw"))
                                 }
                                 runningIndex += 1
                             }
@@ -371,8 +371,8 @@ Item {
                             if(PQCScriptsConfig.isDevILSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("DevIL")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsDevIL())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesDevIL())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("devil"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("devil"))
                                 }
                                 runningIndex += 1
                             }
@@ -381,8 +381,8 @@ Item {
                             if(PQCScriptsConfig.isFreeImageSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("FreeImage")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsFreeImage())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesFreeImage())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("freeimage"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("freeimage"))
                                 }
                                 runningIndex += 1
                             }
@@ -391,8 +391,8 @@ Item {
                             if(PQCScriptsConfig.isLibVipsSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("LibVips")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibVips())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibVips())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("libvips"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("libvips"))
                                 }
                                 runningIndex += 1
                             }
@@ -401,8 +401,8 @@ Item {
                             if(PQCScriptsConfig.isLibArchiveSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("LibArchive")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibArchive())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibArchive())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("libarchive"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("libarchive"))
                                 }
                                 runningIndex += 1
                             }
@@ -411,8 +411,8 @@ Item {
                             if(PQCScriptsConfig.isPDFSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("PDF/PS")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsPoppler())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesPoppler())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("poppler"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("poppler"))
                                 }
                                 runningIndex += 1
                             }
@@ -421,10 +421,10 @@ Item {
                             if(PQCScriptsConfig.isMPVSupportEnabled() || PQCScriptsConfig.isVideoQtSupportEnabled()) {
                                 if(mdl.get(runningIndex).checked) {
                                     txts.push("Video")
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsVideo())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesVideo())
-                                    suffixes = suffixes.concat(PQCImageFormats.getEnabledFormatsLibmpv())
-                                    mimetypes = mimetypes.concat(PQCImageFormats.getEnabledMimeTypesLibmpv())
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("video"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("video"))
+                                    suffixes = suffixes.concat(PQSharedMemoryLayer.getImageFormats("libmpv"))
+                                    mimetypes = mimetypes.concat(PQSharedMemoryLayer.getImageFormatsMimeTypes("libmpv"))
                                 }
                                 runningIndex += 1
                             }

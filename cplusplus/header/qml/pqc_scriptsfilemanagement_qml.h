@@ -25,16 +25,7 @@
 #include <QQmlEngine>
 #include <QSize>
 #include <QPointF>
-#include <scripts/pqc_scriptsfilemanagement.h>
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton is a wrapper for the C++ class
-//            This class here can ONLY be used from QML!
-//
-/*************************************************************/
-/*************************************************************/
+#include <qml/pqc_scriptsfilemanagement.h>
 
 class PQCScriptsFileManagementQML : public QObject {
 

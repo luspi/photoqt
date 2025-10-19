@@ -48,6 +48,8 @@
 #include <cpp/pqc_providersvg.h>
 #include <cpp/pqc_providersvgcolor.h>
 
+#include <cpp/pqc_imageformats.h>
+
 #include <shared/pqc_csettings.h>
 
 #ifdef PQMEXIV2
@@ -273,6 +275,9 @@ int main(int argc, char** argv) {
 #endif
 
     /***************************************/
+
+    // a null operation to make sure this object is set up
+    PQCImageFormats::get().setup();
 
     QQmlApplicationEngine engine;
 

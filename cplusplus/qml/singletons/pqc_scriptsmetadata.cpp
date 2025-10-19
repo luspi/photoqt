@@ -22,7 +22,7 @@
 
 #include <qml/pqc_scriptsmetadata.h>
 #include <shared/pqc_configfiles.h>
-// #include <pqc_imageformats.h>
+#include <shared/pqc_sharedconstants.h>
 
 #include <QtDebug>
 #include <QPointF>
@@ -784,11 +784,10 @@ bool PQCScriptsMetaData::areFaceTagsSupported(QString filename) {
         return false;
 
     const QString suffix = QFileInfo(filename).suffix().toLower();
-    //TODO!!!
-    // if(!PQCImageFormats::get().getEnabledFormatsQt().contains(suffix) &&
-        // !PQCImageFormats::get().getEnabledFormatsMagick().contains(suffix)) {
-        // return false;
-    // }
+    if(!PQCSharedMemory::get().getImageFormats("qt").contains(suffix) &&
+       !PQCSharedMemory::get().getImageFormats("magick").contains(suffix)) {
+        return false;
+    }
 
 #if EXIV2_TEST_VERSION(0, 28, 0)
     Exiv2::Image::UniquePtr image;

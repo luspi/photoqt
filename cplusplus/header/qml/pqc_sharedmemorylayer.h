@@ -4,6 +4,7 @@
  ** Contact: https://photoqt.org                                         **
  **                                                                      **
  ** This file is part of PhotoQt.                                        **
+ ** Adapted from: https://github.com/mpv-player/mpv-examples/            **
  **                                                                      **
  ** PhotoQt is free software: you can redistribute it and/or modify      **
  ** it under the terms of the GNU General Public License as published by **
@@ -21,47 +22,22 @@
  **************************************************************************/
 #pragma once
 
+#include <shared/pqc_sharedconstants.h>
+
 #include <QObject>
 #include <QQmlEngine>
-#include <scripts/pqc_scriptscontextmenu.h>
 
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton is a wrapper for the C++ class
-//            This class here can ONLY be used from QML!
-//
-/*************************************************************/
-/*************************************************************/
-
-class PQCScriptsContextMenuQML : public QObject {
+class PQSharedMemoryLayer : public QObject {
 
     Q_OBJECT
     QML_ELEMENT
     QML_SINGLETON
-    QML_NAMED_ELEMENT(PQCScriptsContextMenu)
 
 public:
-    PQCScriptsContextMenuQML() {
-        connect(&PQCScriptsContextMenu::get(), &PQCScriptsContextMenu::customEntriesChanged, this, &PQCScriptsContextMenuQML::customEntriesChanged);
-    }
+    explicit PQSharedMemoryLayer() {}
 
-    Q_INVOKABLE QVariantList getEntries() {
-        return PQCScriptsContextMenu::get().getEntries();
-    }
-    Q_INVOKABLE void setEntries(QVariantList entries) {
-        PQCScriptsContextMenu::get().setEntries(entries);
-    }
-
-    Q_INVOKABLE QVariantList detectSystemEntries() {
-        return PQCScriptsContextMenu::get().detectSystemEntries();
-    }
-
-    Q_INVOKABLE void closeDatabase() {
-        PQCScriptsContextMenu::get().closeDatabase();
-    }
-
-Q_SIGNALS:
-    void customEntriesChanged();
+    Q_INVOKABLE QStringList getImageFormats(QString cat) { return PQCSharedMemory::get().getImageFormats(cat); }
+    Q_INVOKABLE QStringList getImageFormatsMimeTypes(QString cat) { return PQCSharedMemory::get().getImageFormatsMimeTypes(cat); }
+    Q_INVOKABLE QVariantList getImageFormatsAllFormats() { return PQCSharedMemory::get().getImageFormatsAllFormats(); }
 
 };

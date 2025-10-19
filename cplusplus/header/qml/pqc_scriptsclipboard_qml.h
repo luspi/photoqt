@@ -19,76 +19,43 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
+#pragma once
 
-#ifndef TABIMAGEOPTIONS_H
-#define TABIMAGEOPTIONS_H
+#include <QObject>
+#include <QQmlEngine>
+#include <qml/pqc_scriptsclipboard.h>
 
-#include <pqc_printtabimagepositiontile.h>
-#include <QWidget>
-#include <QSettings>
+class QClipboard;
 
-class QHBoxLayout;
-class QVBoxLayout;
-class QGridLayout;
-class QRadioButton;
-class QCheckBox;
-class QDoubleSpinBox;
-class QComboBox;
-
-class PQCPrintTabImageOptions : public QWidget {
+class PQCScriptsClipboardQML : public QObject {
 
     Q_OBJECT
+    QML_ELEMENT
+    QML_SINGLETON
+    QML_NAMED_ELEMENT(PQCScriptsClipboard)
 
 public:
-    PQCPrintTabImageOptions(QSizeF pixmapsize, QWidget *parent = nullptr);
-    ~PQCPrintTabImageOptions();
+    PQCScriptsClipboardQML() {
+        connect(&PQCScriptsClipboard::get(), &PQCScriptsClipboard::clipboardUpdated, this, &PQCScriptsClipboardQML::clipboardUpdated);
+    }
 
-    int getImagePosition();
-    bool getScalingNone();
-    bool getScalingFitToPage();
-    bool getScalingEnlargeSmaller();
-    bool getScalingScaleTo();
-    QSizeF getScalingScaleToSize();
-    bool getScalingKeepRatio();
-    void storeNewSettings();
-
-private:
-    int posSelected;
-
-    QHBoxLayout *mainhorlay;
-    QFrame *posFrame;
-    QVBoxLayout *posLayout;
-    QLabel *posTitle;
-    std::vector<PQCPrintTabImagePositionTile*> posGridTiles;
-    QGridLayout *posGrid;
-
-    QFrame *scaFrame;
-    QVBoxLayout *scaLayout;
-    QLabel *scaTitle;
-    QRadioButton *scaNone;
-    QRadioButton *scaPage;
-    QCheckBox *scaInc;
-    QHBoxLayout *scaIncLayout;
-    QRadioButton *scaSize;
-    QDoubleSpinBox *scaWid;
-    QLabel *scaX;
-    QDoubleSpinBox *scaHei;
-    QComboBox *scaUni;
-    QHBoxLayout *scaSizeLayout;
-    QCheckBox *scaRat;
-    QHBoxLayout *scaRatLayout;
-
-    QSettings set;
-
-private Q_SLOTS:
-    void newPosSelected(int id);
+    Q_INVOKABLE bool areFilesInClipboard() {
+        return PQCScriptsClipboard::get().areFilesInClipboard();
+    }
+    Q_INVOKABLE void copyFilesToClipboard(QStringList files) {
+        PQCScriptsClipboard::get().copyFilesToClipboard(files);
+    }
+    Q_INVOKABLE QStringList getListOfFilesInClipboard() {
+        return PQCScriptsClipboard::get().getListOfFilesInClipboard();
+    }
+    Q_INVOKABLE void copyTextToClipboard(QString txt, bool removeHTML= false) {
+        PQCScriptsClipboard::get().copyTextToClipboard(txt, removeHTML);
+    }
+    Q_INVOKABLE QString getTextFromClipboard() {
+        return PQCScriptsClipboard::get().getTextFromClipboard();
+    }
 
 Q_SIGNALS:
-    void notifyNewPosSelected(int id);
+    void clipboardUpdated();
 
 };
-
-
-
-
-#endif // TABIMAGEOPTIONS_H

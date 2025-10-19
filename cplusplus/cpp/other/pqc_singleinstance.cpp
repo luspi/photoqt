@@ -228,4 +228,26 @@ PQCSingleInstance::PQCSingleInstance(int &argc, char *argv[]) : QApplication(arg
 
 }
 
+bool PQCSingleInstance::notify(QObject *obj, QEvent *e) {
+
+    const QString cn = obj->metaObject()->className();
+    if(cn == "QQuickRootItem") {
+        if(e->type() == QEvent::KeyPress) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            PQCCDbusServer::get().sendMessage("eventKeyPress", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
+        } else if(e->type() == QEvent::KeyRelease) {
+            QKeyEvent *ev = reinterpret_cast<QKeyEvent*>(e);
+            PQCCDbusServer::get().sendMessage("eventKeyRelease", QString("%1\n%2").arg(ev->key()).arg(ev->modifiers()));
+        }
+    } else if(cn.startsWith("PQMainWindow")) {
+        if(e->type() == QEvent::Leave)
+            PQCCDbusServer::get().sendMessage("eventMouseWindowExit", "");
+        else if(e->type() == QEvent::Enter)
+            PQCCDbusServer::get().sendMessage("eventMouseWindowEnter", "");
+    }
+
+    return QApplication::notify(obj, e);
+
+}
+
 PQCSingleInstance::~PQCSingleInstance() {}

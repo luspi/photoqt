@@ -19,24 +19,13 @@
  ** along with PhotoQt. If not, see <http://www.gnu.org/licenses/>.      **
  **                                                                      **
  **************************************************************************/
-
-#ifndef PQCSHORTCUTS_H
-#define PQCSHORTCUTS_H
+#pragma once
 
 #include <QObject>
 #include <QtSql/QSqlDatabase>
 #include <QQmlEngine>
 
 class QTimer;
-
-/*************************************************************/
-/*************************************************************/
-//
-//      NOTE: This singleton CANNOT be used from C++.
-//            It can ONLY be used from QML.
-//
-/*************************************************************/
-/*************************************************************/
 
 class PQCShortcuts : public QObject {
 
@@ -93,5 +82,3 @@ Q_SIGNALS:
     void aboutChanged();
 
 };
-
-#endif // PQCSHORTCUTS_H

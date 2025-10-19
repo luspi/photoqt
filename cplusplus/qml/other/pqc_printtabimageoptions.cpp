@@ -20,7 +20,7 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_printtabimageoptions.h>
+#include <qml/pqc_printtabimageoptions.h>
 
 #include <QLabel>
 #include <QHBoxLayout>

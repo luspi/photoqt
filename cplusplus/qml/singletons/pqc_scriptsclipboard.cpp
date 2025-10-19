@@ -25,10 +25,9 @@
 #include <QClipboard>
 #include <QUrl>
 #include <QTextDocumentFragment>
-#include <pqc_loadimage_archive.h>
-#include <pqc_configfiles.h>
-#include <scripts/pqc_scriptsclipboard.h>
-#include <scripts/pqc_scriptsimages.h>
+#include <shared/pqc_configfiles.h>
+#include <qml/pqc_scriptsclipboard.h>
+#include <qml/pqc_scriptsimages.h>
 
 PQCScriptsClipboard::PQCScriptsClipboard() {
     clipboard = qApp->clipboard();

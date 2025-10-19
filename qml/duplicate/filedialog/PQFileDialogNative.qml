@@ -65,7 +65,7 @@ Item {
         if(PQCFileFolderModel.currentIndex !== -1 && PQCFileFolderModel.currentFile !== "")
             startname = PQCScriptsFilesPaths.getDir(PQCFileFolderModel.currentFile)
 
-        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQCImageFormats.getEnabledFormats())
+        var fname = PQCScriptsFilesPaths.openFileFromDialog("Open", startname, PQSharedMemoryLayer.getImageFormats("enabled"))
 
         if(fname !== "") {
             PQCScriptsFileDialog.setLastLocation(PQCScriptsFilesPaths.getDir(fname))

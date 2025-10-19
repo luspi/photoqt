@@ -20,9 +20,9 @@
  **                                                                      **
  **************************************************************************/
 
-#include <pqc_windowgeometry.h>
-#include <pqc_configfiles.h>
-#include <pqc_settingscpp.h>
+#include <qml/pqc_windowgeometry.h>
+#include <shared/pqc_configfiles.h>
+#include <shared/pqc_csettings.h>
 
 #include <QApplication>
 #include <QSettings>
@@ -478,7 +478,7 @@ void PQCWindowGeometry::computeSmallSizeBehavior() {
     const int w = m_mainWindowGeometry.width();
     const int h = m_mainWindowGeometry.height();
     // store setting
-    bool dontForce = !PQCSettingsCPP::get().getInterfacePopoutWhenWindowIsSmall();
+    bool dontForce = !PQCCSettings::get().getInterfacePopoutWhenWindowIsSmall();
 
     {
         const int tw = m_mainWindowGeometry.width();

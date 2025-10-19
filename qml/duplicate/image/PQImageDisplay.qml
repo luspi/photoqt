@@ -2392,8 +2392,8 @@ Loader {
 
             var comicbookSuffix = ["cbt", "cbr", "cbz", "cb7"]
             if((PQCSettings.filetypesComicBookAlwaysEnterAutomatically && comicbookSuffix.indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
-               (PQCSettings.filetypesArchiveAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsLibArchive().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
-               (PQCSettings.filetypesDocumentAlwaysEnterAutomatically && PQCImageFormats.getEnabledFormatsPoppler().indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
+               (PQCSettings.filetypesArchiveAlwaysEnterAutomatically && PQSharedMemoryLayer.getImageFormats("libarchive").indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::ARC::")) ||
+               (PQCSettings.filetypesDocumentAlwaysEnterAutomatically && PQSharedMemoryLayer.getImageFormats("poppler").indexOf(suffix) > -1 && !PQCFileFolderModel.currentFile.includes("::PDF::"))) {
                 return true
             }
 
